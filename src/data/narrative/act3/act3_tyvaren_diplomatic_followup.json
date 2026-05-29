@@ -1,0 +1,102 @@
+{
+  "id": "act3_tyvaren_diplomatic_followup",
+  "title": "The Diplomatic Channel",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Ashenmere Palace, 21:30",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The reply from Volkov's ambassador arrived at 19:45, delivered by diplomatic courier rather than telegram — a choice that told you everything about the Tyvaren desire to keep this channel off the record before you had even broken the seal. The envelope is heavy cream stock, the handwriting on the address line is human rather than typed, and the overall impression is of a communication that wants to be treated as a confidence between reasonable people rather than an official exchange between hostile governments. You read the letter alone in your private study, the desk lamp the only light, the palace quiet around you. The ambassador signals willingness to open formal talks. The conditions are enumerated in five numbered paragraphs written in precise but not hostile language. The language is polite. The content is not."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor arrives twenty minutes after you summon him. He has been at the Ministry since six this morning and looks like a man who has been at the Ministry since six this morning — his tie is loosened by exactly the same amount it always is at this hour, a detail you have come to recognize as the physical manifestation of a mind that has been processing classified documents for too many consecutive hours to care about presentation. He reads the letter standing up. He does not sit until he has read it twice."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Five preconditions. One: the negotiations take place at Strevna, neutral ground, under Tyvaren chairmanship of procedural matters. Two: the Gravenmark Pass remains on the agenda as a 'territorial matter requiring resolution' — which means they are not treating it as non-negotiable Veltrian territory. Three: no international observers or mediators in the first round of talks. Four: a mutual moratorium on military reinforcements at the border for the duration of negotiations — which is disadvantageous to us, since our reinforcement cycle is behind schedule and theirs is complete. Five: a public statement from your office characterizing the talks as 'constructive discussions between neighbors' rather than 'negotiations under duress.' The fifth condition is the most revealing. They want you to frame the talks as voluntary. They want the appearance of consent."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Volkov is not asking for negotiations. He is asking for a stage on which Veltria appears to be participating willingly in its own dismemberment. Every precondition is designed to produce one thing: a photograph of the Chancellor of Veltria sitting at a table in Strevna, under Tyvaren chairmanship, discussing the Gravenmark Pass as though its status were genuinely in question. The photograph will be published. The photograph will be used. The photograph will become the evidence that Veltria accepted the legitimacy of Tyvaren's territorial claims before a single sentence of the treaty was written. And yet — if you refuse the preconditions, you will be the Chancellor who wouldn't even talk. Who chose pride over peace. Who couldn't stomach a photograph while soldiers were preparing to die. The trap is elegant. Volkov has been setting traps like this for nineteen years. You have been Chancellor for a fraction of that time. You can see the trap. Seeing it and escaping it are different operations."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Intelligence assessment on the timing. Volkov's ambassador delivered this letter three days after the border skirmish — not immediately, which would have looked eager, and not after a week, which would have looked indifferent. Three days is the diplomatic interval that suggests considered response rather than impulse. They want us to think they have been deliberating. They have not been deliberating. These preconditions were drafted before the skirmish. The skirmish was designed to increase pressure. The letter was waiting for the right moment to be delivered. The sequence is coordinated. This is a single operation with multiple phases. We are in phase two."
+    },
+    {
+      "type": "description",
+      "text": "He places the letter back on your desk, precisely aligned with the edge, the way he places all documents — a habit from years of handling papers that could not be allowed to fall into the wrong hands, or perhaps simply a habit, the distinction no longer relevant. Outside the window, Ashenmere is dark and quiet. The city does not know about the letter yet. The city is going about its evening as though the country's diplomatic future were not being decided in a study with one desk lamp and two people who have not eaten dinner."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "diplofollow_accept_preconditions",
+      "text": "\"Accept preconditions one through four. On condition five — we will not call these 'constructive discussions between neighbors.' We will call them 'preliminary talks aimed at de-escalation.' That is accurate, defensible, and does not concede the frame. Volkov gets his photograph of me at the table, but the caption will be mine. And Vyktor — I want you in that room as our chief negotiator. Not a diplomat. Not a minister. You. Because you will see things no diplomat will see, and you will tell me the truth no minister will tell me.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_diplomatic_negotiation", "delayWeeks": 1 }
+      ],
+      "flags": ["preconditions_accepted_modified", "vyktor_chief_negotiator", "strevna_talks_scheduled", "diplomatic_track_active"],
+      "codexUnlocks": ["codex_strevna_preconditions", "codex_tyvaren_diplomatic_technique"]
+    },
+    {
+      "id": "diplofollow_reject_preconditions",
+      "text": "\"Reject the preconditions in full. Reply that the Chancellor of Veltria will negotiate without preconditions, at a venue determined by mutual agreement, with international observers present from the first session, on the basis that the Gravenmark Pass is sovereign Veltrian territory and not a 'territorial matter requiring resolution.' If Volkov is serious about peace, he'll come to the table on those terms. If he's not serious — and he's not — then the world will have seen us offer talks and seen him refuse. Let him explain that refusal to the Forum.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 1 }
+      ],
+      "flags": ["preconditions_rejected", "unconditional_talks_demanded", "tyvaren_exposed_rejection", "diplomatic_track_failed"],
+      "codexUnlocks": ["codex_strevna_preconditions", "codex_veltrian_sovereignty_doctrine"]
+    },
+    {
+      "id": "diplofollow_superpower_mediators",
+      "text": "\"I will not negotiate under Tyvaren chairmanship on neutral ground that Tyvaren chooses. But I will negotiate — with international mediation. Contact Stellamere. Ask for a Forum-appointed mediator with full authority to set the agenda, choose the venue, and enforce procedural fairness. If Volkov wants a table, he can sit at one that the international community sets. I am not afraid of talks. I am afraid of talks that are designed to produce a surrender dressed up as an agreement. A mediator prevents that. A mediator also makes it much harder for Vukov to walk away without looking like the aggressor he is.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_cooldown", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 5 }
+      ],
+      "flags": ["mediation_requested", "forum_involvement", "international_mediation_track", "diplomatic_track_active"],
+      "codexUnlocks": ["codex_forum_mediation", "codex_diplomatic_mediation_protocol"]
+    }
+  ]
+}

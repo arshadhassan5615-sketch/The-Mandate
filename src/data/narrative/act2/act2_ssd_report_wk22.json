@@ -1,0 +1,93 @@
+{
+  "id": "act2_ssd_report_wk22",
+  "title": "SSD Operations: First Report",
+  "act": 2,
+  "weekAvailable": 22,
+  "weekDeadline": 25,
+  "type": "briefing",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "State Security Directorate — Secure Briefing Room",
+  "characters": ["viktor_dorne"],
+  "prerequisites": [
+    { "type": "flag", "flag": "ssd_funded", "value": true },
+    { "type": "flag", "flag": "law_enforcement_choice_made", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The SSD's secure briefing room is three floors below street level in a building that does not appear on any public directory. Viktor Dorne chose the location himself — a former BNI records annex that was scheduled for demolition after the transition. He had it renovated instead, quietly, using funds from a discretionary account that predates your government. The room is windowless, soundproofed, and lit by a single overhead fixture that casts shadows in inconvenient directions."
+    },
+    {
+      "type": "dialogue",
+      "character": "viktor_dorne",
+      "text": "Chancellor. I will be direct, as I believe you prefer. In the six months since the Directorate became operational, we have identified and neutralized eleven active threats to your government. I will not describe the nature of the neutralization. I will tell you what the threats were. Three were former BNI officers planning a coordinated campaign of intimidation against reformist parliamentarians — we disrupted their communications and they have since abandoned the effort. Five were financial networks funneling Halvek-era assets to opposition campaigns through intermediaries in Lytheira — we froze the accounts. The remaining three were individuals plotting direct action against government officials. They are no longer a concern."
+    },
+    {
+      "type": "description",
+      "text": "He does not elaborate on 'no longer a concern.' He does not need to. His eyes are steady, unreadable, the color of still water over deep ground."
+    },
+    {
+      "type": "dialogue",
+      "character": "viktor_dorne",
+      "text": "There is a twelfth matter that requires your attention. Colonel Alexei Branek — former Deputy Director of the BNI under Halvek, currently living in comfortable retirement on an estate in the Thornfeld Valley. He knows the location of fifteen mass graves from the 1940s purges. He also knows which current government officials collaborated with the BNI between 1960 and 1963. He has indicated, through intermediaries, that he is willing to share the first set of information in exchange for immunity from prosecution. He has not offered the second set of information, but it is available — if we are willing to negotiate on terms he would find acceptable. I am presenting this to you because the decision is political. It is not an operational matter."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Branek. I know the name. My father knew the name. The man who supervised the interrogation unit that processed dissidents before their executions. He is offering us the location of mass graves — the bones of people like my father — in exchange for living out his retirement in peace. And he is hinting that he knows which of my colleagues collaborated with the regime. Dorne is presenting this as information. It is not. It is a test — of how far I am willing to go, of what I am willing to trade, of whether I am the kind of Chancellor who makes deals with monsters."
+    }
+  ],
+
+  "monologue": "Branek. The man who supervised the interrogation unit that processed dissidents before their executions. He is offering the location of fifteen mass graves — the bones of people like Father — in exchange for immunity. Dorne is presenting this as information. It is not. It is a test of whether I am the kind of Chancellor who makes deals with monsters. Father would have had an answer to this question. Would have known it immediately.",
+
+  "choices": [
+    {
+      "id": "ssd_prosecute_branek",
+      "text": "\"No deal. Arrest Branek and prosecute him for his crimes. The mass graves will be found by forensic investigation, not by bargaining with the man who helped fill them. And as for which government officials collaborated — I do not want that information purchased with immunity. I want it obtained through investigation, corroborated with evidence, and presented in court. Tell Branek that the new Veltria does not negotiate with the architects of the old one. If he wants to confess, he can do it from a prison cell.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 10  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -12 },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 12  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -3  }
+      ],
+      "flags": ["ssd_branek_prosecuted", "ssd_first_report_complete"],
+      "codexUnlocks": ["codex_branek_case"],
+      "reactions": [{ "character": "viktor_dorne", "type": "silence", "text": "Dorne nods once. He does not argue. He simply writes arrest warrant on his notepad and underlines it. The silence is the sound of a man who has been given an order and will execute it." }]
+    },
+    {
+      "id": "ssd_secret_negotiation",
+      "text": "\"Negotiate. Quietly. I want the location of the mass graves — those families deserve to bury their dead. And I want the names of the collaborators. In exchange, Branek gets immunity from prosecution in Veltria, but he leaves the country within thirty days and never returns. Dorne, handle this personally. I do not want a written record of the negotiation. When we have what we need, Branek disappears — not from the earth, from Veltria. Let him spend the rest of his life looking over his shoulder in Lytheira. That is more punishment than a prison cell.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 4   },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -5  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 5   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -5  },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 8   }
+      ],
+      "flags": ["ssd_branek_deal", "mass_graves_located", "collaborator_list_obtained", "ssd_first_report_complete"],
+      "codexUnlocks": ["codex_branek_case", "codex_mass_graves"],
+      "reactions": [{ "character": "viktor_dorne", "type": "silence", "text": "He writes the terms on his pad — immunity, thirty days, no record. His pen does not hesitate. He does not judge the decision. Dorne never judges. He simply executes." }]
+    },
+    {
+      "id": "ssd_silence_branek",
+      "text": "\"Branek goes quiet. Permanently. Dorne, I understand what I am authorizing and I am authorizing it anyway. The information he has about collaborators could destabilize this government at a moment when stability is the only thing standing between reform and collapse. The mass graves will be found eventually — by historians, by archaeologists, by the children of the disappeared — and they will be found without Branek's help. But the names of collaborators, released now, would trigger a purge that this government cannot survive. I am not protecting murderers. I am protecting the fragile political coalition that is the only thing preventing murderers from returning to power.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.halvekists",          "operation": "add", "value": 3   },
+        { "stat": "factions.reformists",          "operation": "add", "value": -12 },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 6   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -18 },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 12  }
+      ],
+      "flags": ["ssd_branek_silenced", "extrajudicial_action_authorized", "ssd_first_report_complete"],
+      "codexUnlocks": ["codex_branek_case"],
+      "reactions": [{ "character": "viktor_dorne", "type": "silence", "text": "Dorne looks at you for a long moment. Then he writes something on his pad that you cannot see — he has angled it away. He does not comment. He does not need to. The silence is the sound of Viktor Dorne being given an order he did not expect and accepting it without question." }]
+    }
+  ]
+}

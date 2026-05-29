@@ -1,0 +1,79 @@
+{
+  "id": "act3_no_confidence_survived",
+  "title": "The Motion Fails — Government Survives",
+  "act": 3,
+  "weekAvailable": 1,
+  "weekDeadline": 52,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Parliament Chamber — Ashenmere",
+  "characters": ["vyktor_reznik", "drazen_kolvar"],
+  "prerequisites": [
+    { "stat": "flags.no_confidence_failed", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Speaker reads the tally. The motion fails. The number is on the board in front of everyone in the chamber, and everyone in the press gallery, and the reporters standing outside in the cold who have been filing dispatches for four hours. The government survives. The mathematics of parliamentary democracy have, this time, worked in your favor."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "It holds. Not comfortably — you saw those numbers — but it holds. Kolvar's bloc is going to spend the next three weeks blaming each other for the nineteen defections. The business-class members who voted with us are going to want something in return. The Dravenni bloc held because they decided Kolvar would be worse for them than you. None of these are commitments. They're temporary calculations that need to be maintained."
+    },
+    {
+      "type": "description",
+      "text": "Drazen Kolvar is already leaving the chamber without speaking to the press. This is how a man looks when he has lost something he believed was certain. You have seen it before, on the faces of people who had counted the votes and come up short at the last moment. It is the face of someone revising their entire model of what is possible."
+    },
+    {
+      "type": "internal_thought",
+      "text": "We survived. That is the full extent of what happened today — we survived a vote that existed because a referendum we staked everything on did not succeed. The government continues. The work continues. The opposition will file again in three months if they can count to 108 again, and next time they may count differently. The margin buys time. It does not buy safety."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "no_confidence_survived_consolidate",
+      "text": "\"Vyktor, I want a meeting with the business-class members within the week. And the Dravenni bloc the week after. We won on borrowed votes — I'd prefer to own some of them before the next vote. What do they need from this government?\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 6 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -2 },
+        { "stat": "nation.corruption",        "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["no_confidence_consolidated_coalition"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "no_confidence_survived_address",
+      "text": "\"I want to address the nation tonight. Not to celebrate — to acknowledge that this is what parliamentary democracy looks like when it works under pressure. The Assembly voted. The result is the result. Now we govern. That's the speech.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",     "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 5 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["no_confidence_national_address"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "no_confidence_survived_quiet",
+      "text": "\"We don't celebrate this. We don't announce it. We go back to work and we do not give Kolvar a single quote, a single image, a single moment he can use to build his next filing. The story of today is not that we won. The story of today is that there is nothing to see here.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 3 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["no_confidence_survived_quietly"],
+      "codexUnlocks": []
+    }
+  ]
+}

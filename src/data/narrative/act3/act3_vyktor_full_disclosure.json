@@ -1,0 +1,101 @@
+{
+  "id": "act3_vyktor_full_disclosure",
+  "title": "What He Knows",
+  "act": 3,
+  "weekAvailable": 29,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Late Evening, No Staff",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "She has sent everyone home. The outer office is dark. Vyktor sits across from her in the chair he has occupied for three years — not the guest chair, the working chair, the one pulled close to the desk — and the familiarity of it is its own kind of accusation. There is no recorder running. She checked."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You want a debrief."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Not a tribunal. Not an apology. A debrief."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Yes. That is exactly what I want. The man reads rooms the way other people breathe."
+    },
+    {
+      "type": "description",
+      "text": "She sets a glass of water in front of him. Nothing else on the desk. She wants him to feel that there is space here — that the space is real, and that it will close the moment he starts lying."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Ask me what you need to know. I'll tell you where the edges are."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Where the edges are. The man does not promise complete truth. He promises to show me the shape of what he's withholding. That's more honesty than most people manage."
+    },
+    {
+      "type": "description",
+      "text": "Through the tall windows, Ashenmere is a scatter of lights — government ministries, the press quarter, the housing blocks of the Laeven district. Three million people who do not know this conversation is happening. Vyktor watches her the way he has always watched her: precisely, and without sentiment."
+    }
+  ],
+  "choices": [
+    {
+      "id": "push_complete_picture",
+      "text": "\"I need all of it, Vyktor. Names, dates, every operation you ran that touched this government. I'm not interested in what you think I can handle — I'm asking you to give me the complete picture before I decide anything.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -3 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "nation.corruption", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 1 },
+        { "targetNodeId": "act3_vyktor_departure", "delayWeeks": 0 }
+      ],
+      "flags": ["vyktor_full_disclosure_demanded"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "accept_partial_disclosure",
+      "text": "\"Tell me what you're willing to tell me. I'll make my decisions based on that — and on what I already know about you.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+        { "stat": "nation.corruption", "operation": "add", "value": -2 },
+        { "stat": "factions.reformists", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 1 },
+        { "targetNodeId": "act3_vyktor_departure", "delayWeeks": 0 }
+      ],
+      "flags": ["vyktor_partial_disclosure_accepted"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "narrow_scope",
+      "text": "\"I don't need your history. I need to know what is currently active — what touches this government's security right now. Anything that will matter in the next six weeks.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "nation.corruption", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vyktor_departure", "delayWeeks": 0 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["vyktor_security_scope_only"],
+      "codexUnlocks": []
+    }
+  ]
+}

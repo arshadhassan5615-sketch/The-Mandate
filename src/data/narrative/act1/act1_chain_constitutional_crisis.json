@@ -1,0 +1,133 @@
+{
+  "id": "act1_chain_constitutional_crisis",
+  "title": "The Committee's Answer",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["aldric_theron", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Theron arrives at quarter past ten with his coat still on, which means he did not plan to stay. He sets the committee's written ruling on your desk — a single folder, thinner than anything important should be — and remains standing."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "They rejected it. Not amended — rejected outright, on fourteen procedural grounds. Kolvar's bloc and the Iron Covenant voted together, which one might have anticipated. Three of our own reformist representatives abstained, which I consider... the more significant fact. The ruling is final under committee procedure. The draft cannot be reintroduced in the same form for ninety days."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not angry, which is worse than anger. Theron spent eleven years writing reform proposals under Halvek when putting them in writing was itself an act of courage. He expected this. The question is whether he expected me to fold."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Three options. First: withdraw formally, control the narrative, reintroduce a revised version after the cooling period. We lose momentum but keep the principle. Second: bypass the committee under Article 74 and take it directly to a national referendum. Constitutionally questionable — Kolvar will challenge in the Constitutional Court — but six weeks of litigation is six weeks of campaigning, and the optics are ours. Third: strip the draft to four provisions — independent judiciary, press guarantee, detention warrants, multi-party election protection — and bring the stripped version back for a committee vote within the week."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I will support whichever path one chooses. But I need one to understand what each choice costs — not just politically. The law is... a record of what kind of country we decided to be. It is one of the few things in politics that outlives the people who wrote it. Tonight, that record changes. The decision should be made knowing that."
+    }
+  ],
+
+  "monologue": "Three of my own reformists abstained. That's not just a procedural setback — it's a fracture. Theron isn't angry because he expected this. He's been writing reform proposals longer than Kolvar has been blocking them. Whether I preserve the full reform and lose the moment, or accept a partial reform and preserve the possibility of more later. Neither answer is the one I ran on.",
+
+  "choices": [
+    {
+      "id": "constitutional_crisis_withdraw",
+      "text": "\"We withdraw the draft. On our terms, tonight — I'll make a statement framing this as revisions in progress, not defeat. Theron, use the ninety days to harden the four core provisions against the specific objections raised. We lose the momentum. We keep the principle intact.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": -5  },
+        { "stat": "factions.halvekists",        "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week14_convention_opens", "delayWeeks": 4 }
+      ],
+      "flags": ["constitutional_draft_withdrawn", "reform_regrouping"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Withdrawn. Ninety days to harden the core provisions. I will... use the time. The specific objections raised today were procedural — addressable. The draft that returns will be... more difficult to reject. Rejection requires a reason. I will remove the reasons."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He makes a note: 'STATEMENT TONIGHT — REVISIONS IN PROGRESS, NOT DEFEAT.' The framing matters. The ninety-day clock starts now. He is already calculating the political calendar."
+        }
+      ]
+    },
+    {
+      "id": "constitutional_crisis_referendum",
+      "text": "\"Article 74. We take it directly to the people. Kolvar goes to the Constitutional Court — let him. The Court will take six weeks to rule, and in those six weeks every voter in Veltria will know that the Halvekists blocked reform through a committee they packed. I'll use those six weeks to campaign. The reform belongs to the people, not to the committee.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": 9   },
+        { "stat": "factions.halvekists",        "operation": "add", "value": -12 },
+        { "stat": "factions.ironCovenant",      "operation": "add", "value": -6  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": -3  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 10 }
+      ],
+      "flags": ["referendum_triggered_early", "constitutional_bypass_attempted"],
+      "codexUnlocks": ["codex_article_74"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... He does not speak. Article 74 was designed for national emergencies — invasions, insurrections, not committee defeats. He is weighing the precedent against the principle and the scale is not yet balanced. The silence is the deliberation."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Article 74. The Constitutional Court will challenge. Six weeks of litigation is six weeks of campaigning. I will coordinate the public messaging — 'Kolvar blocked reform, the Chancellor took it to the people.' The story writes itself."
+        }
+      ]
+    },
+    {
+      "id": "constitutional_crisis_stripped",
+      "text": "\"Four provisions: independent judiciary, press guarantee, detention warrants, multi-party elections. Strip everything else. It is not what I ran on. It is not what Veltria deserves. But a constitution that actually passes is worth more than a perfect one that doesn't exist. Theron — I need you to present it. If it comes from you, it can't be called a retreat.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": -4  },
+        { "stat": "factions.halvekists",        "operation": "add", "value": 7   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -7  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week15_theron_compromise", "delayWeeks": 2 }
+      ],
+      "flags": ["constitutional_draft_stripped", "minimal_reform_passed"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "He picks up the draft — three hundred pages reduced to four provisions. He holds it for a moment. Then he sets it down and opens his briefcase. The briefcase contains the longer draft. It will stay in the briefcase. For now."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Four provisions. Independent judiciary, press guarantee, detention warrants, multi-party elections. It is not... what one ran on. It is not what Veltria deserves. But a constitution that passes is worth more than a perfect one that... does not. I will present it. If it comes from me, it cannot be called a retreat."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not comment. The stripped version will pass. That is what matters. What was lost — and three hundred pages of what was lost — is noted, filed, and prepared for reintroduction at a more favorable moment. Vyktor does not forget. He reschedules."
+        }
+      ]
+    }
+  ]
+}

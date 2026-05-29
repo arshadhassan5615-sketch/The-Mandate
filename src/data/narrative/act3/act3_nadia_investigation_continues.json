@@ -1,0 +1,92 @@
+{
+  "id": "act3_nadia_investigation_continues",
+  "title": "The Journalist Persists",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Morning Briefing",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Nadia has not stopped. You gave her limited access — the investigation was allowed to continue, but under conditions. She has been working within those conditions with the precision of someone who knows exactly how far she can push before the conditions become a prohibition. The result is a series of articles, each more uncomfortable than the last. The most recent one connects military procurement irregularities to current members of the Defense Ministry. It does not name Brenner. It comes very close."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Nadia's latest article identifies three procurement contracts from the 1958-1960 period that involved significant overpayment to suppliers with connections to Halvek-era military officials. The article does not name any current official as directly responsible. It uses the phrase 'institutional patterns of procurement irregularities' seven times. The implication is that the patterns continued after the transition. Brenner's office has issued a statement calling the article 'unsubstantiated speculation.' The statement does not specifically deny any of the allegations. That is interesting, because a full denial would be easy to issue if the allegations were baseless. The absence of a full denial suggests the allegations have substance."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Nadia is investigating the military. The military that is currently mobilized against the Tyvaren threat, under the command of a general whose loyalty to civilian government is conditional at best. The military whose procurement contracts funded the same patronage networks that sustained the Halvek regime. The military that has already demonstrated — through Brenner's careful, conditional language, his strategic silences, his cultivation of the officer corps — that it considers itself a separate institution with separate interests. Nadia is exposing the military's institutional corruption during the exact period when you need the military to defend the country. The timing is terrible. The truth is necessary. The tension between terrible timing and necessary truth is the central tension of governance during crisis. You cannot ask Nadia to stop telling the truth because the truth is inconvenient. You also cannot pretend that inconvenient truth has no consequences for national security. You are trapped between the principles you fought for and the crisis you are managing."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have obtained — through channels I will not describe — a preliminary list of Nadia's next three investigations. One: the relationship between the Iron Covenant's parliamentary leadership and the Dravenni insurgency, including financial connections. Two: the Chancellor's Office's use of executive orders since the Tyvaren crisis began, with a focus on orders that bypassed parliamentary review. Three: the economic impact of IMA compliance on Kravenstal's working-class communities, with case studies of individual families. The first will damage the Iron Covenant. The second will damage you. The third will damage the argument for IMA compliance. Nadia is not targeting any particular faction. She is targeting power itself, wherever it resides. That is what journalists are supposed to do. It is also — from the perspective of governance — deeply inconvenient."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "nadia_investigation_full_access",
+      "text": "\"Give her everything. Every document she requests, every interview she wants, every procurement record and Defense Ministry memo and executive order justification. If Nadia Voss wants to investigate the military's institutional corruption during a national security crisis, the military will survive the investigation or it does not deserve to survive the crisis. If she wants to investigate my use of executive orders, I will provide the legal justifications for every order I have signed and let the public judge whether the justifications hold. If she wants to document the human cost of IMA compliance, the country should understand what survival is costing its people. The truth is not a threat to democracy. Secrecy is the threat. I am choosing truth. Let the consequences fall where they fall.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 14 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 16 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week36_nadia_publishes", "delayWeeks": 3 }
+      ],
+      "flags": ["nadia_full_access", "investigation_unrestricted", "truth_chosen", "press_freedom_championed"],
+      "codexUnlocks": ["codex_nadia_voss", "codex_investigative_journalism"]
+    },
+    {
+      "id": "nadia_investigation_maintain_limits",
+      "text": "\"Maintain the current arrangement. Nadia has access to the documents she has requested within the existing framework. The procurement investigation proceeds with redactions for genuinely sensitive operational details. The executive orders investigation proceeds with classified annexes remaining classified. The IMA impact investigation proceeds because it does not directly affect national security — it affects political popularity, which is a different category. The framework is not perfect. It is a functional compromise between disclosure and security. I am not suppressing journalism. I am managing risk. Nadia can publish her investigations, and she will, and the country will be better informed for them. The limits are real, they are minimal, and they are justified by an actual military crisis. That is my position. It will not satisfy purists. Purists are not governing during a military crisis.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week36_nadia_publishes", "delayWeeks": 4 }
+      ],
+      "flags": ["nadia_limited_access", "investigation_managed", "risk_managed", "functional_compromise"],
+      "codexUnlocks": ["codex_nadia_voss", "codex_managed_disclosure"]
+    },
+    {
+      "id": "nadia_investigation_restrict",
+      "text": "\"Suspend Nadia's access. The procurement investigation — shelved until the Tyvaren crisis is resolved. The executive orders investigation — classified on national security grounds. The Dravenni insurgency connections — those are active security matters that cannot be reported on while investigations are ongoing. Nadia will publish regardless — she has proven that. But she will publish without official documents, without access to government sources, without the imprimatur of government cooperation. Her reporting will be thinner, more speculative, easier to contest. I am not shutting down the Independent. I am withdrawing the government's active facilitation of investigations that undermine the government's ability to manage a military crisis. The distinction matters constitutionally. It will not matter to Nadia. It matters to me.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -12 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8   },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_military_rally", "delayWeeks": 2 }
+      ],
+      "flags": ["nadia_access_restricted", "investigation_suspended", "security_prioritized", "press_access_denied"],
+      "codexUnlocks": ["codex_nadia_voss", "codex_press_restrictions"]
+    }
+  ]
+}

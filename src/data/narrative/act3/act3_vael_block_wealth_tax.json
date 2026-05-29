@@ -1,0 +1,100 @@
+{
+  "id": "act3_vael_block_wealth_tax",
+  "title": "The Line in the Sand",
+  "act": 3,
+  "weekAvailable": 30,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Vael Estate — Private Study, Thornfeld Valley",
+  "characters": ["lucan_vael", "elara_vostane"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The wealth tax proposal is Elara Vostane's work — a two percent annual levy on net worth above five million Krone, designed to fund the universal healthcare program and reduce the structural deficit. It would affect approximately nine hundred families in all of Veltria. Lucan Vael is one of them. He has summoned you to Thornfeld for the first time since the dinner. This time, there is no pretense of social occasion. You are shown directly to his private study."
+    },
+    {
+      "type": "description",
+      "text": "The study is all dark wood and old books and the kind of quiet that wealthy people use as furniture. Vael is standing at the window with his back to you, which he has never done before. He always faces people — it is part of the technique. The fact that he is not facing you now tells you something about what is coming."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Two percent of net worth above five million. Vostane is a competent economist and an honest civil servant and I have nothing but respect for the woman. She has designed a tax that is mathematically elegant and politically catastrophic. It will raise — generously — two hundred million Krone per year. In exchange, it will drive nine hundred families to move their assets out of Veltria within eighteen months. The capital flight will cost the economy more than the tax raises. The healthcare program will have a funding source and no economy to support it. I am not asking you to withdraw the proposal because it hurts me. I am telling you it will hurt the country. I am prepared to help you find alternative revenue. I am not prepared to watch you destroy the economy out of fiscal desperation."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Margrave, with respect — the capital flight argument has been made against every progressive tax proposal in Veltrian history going back to the land reform of 1912. In every case, the predicted flight did not materialize at the scale claimed. Ninety percent of the affected families have their wealth in assets that cannot be moved — property, industrial holdings, domestic equity. The remaining ten percent can certainly relocate liquid capital, but the proposal includes an exit tax provision that captures forty percent of relocated assets. The math accounts for flight. The projection is conservative. I am happy to share the modeling."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "You have modeled the economy, Minister. You have not modeled the psychology. The nine hundred families affected by this tax are the nine hundred families who employ the auditors, sit on the boards, fund the political campaigns, and decide whether Veltria is a country worth investing in or a country worth abandoning. If you make them adversaries, they will behave like adversaries. I am trying to prevent that outcome. I am the only person in this room who can talk to them — really talk to them — and I am telling you that this tax, as written, will trigger a confrontation you cannot win. Amend it. Exempt domestic industrial assets. Phase it in over five years. Add a sunset clause. Show them you are willing to negotiate. Show me that my counsel still matters in this government."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is the moment. This is the line Vael has been drawing since the first meeting — the boundary between what he will tolerate and what will trigger open conflict. The wealth tax crosses that line. Everything before this has been negotiation, positioning, the careful dance of influence and resistance. This is an ultimatum. Block the tax or face capital strike. He has not used those words, but he has placed his entire relationship with my government on the table and asked me to value it. The question is what that relationship is worth — and what it costs."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "vael_wealth_tax_block",
+      "text": "\"The wealth tax is withdrawn. Vostane, draft the announcement — frame it as a postponement for further consultation, not a retreat. Margrave, you promised alternative revenue proposals. I want them on my desk within two weeks. If the consortium wants to be partners in fiscal policy rather than obstacles to it, this is their opportunity to prove it. The healthcare program will be funded. The question is whether the funding comes from a tax you hate or from proposals you helped design.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": 15 },
+        { "stat": "factions.businessClass",    "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -12 },
+        { "stat": "factions.reformists",       "operation": "add", "value": -8  },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vael_minister_demand", "delayWeeks": 5 }
+      ],
+      "flags": ["vael_wealth_tax_blocked", "healthcare_funding_pending", "vael_influence_high", "vael_relationship_warm"],
+      "codexUnlocks": ["codex_vael_alliance"]
+    },
+    {
+      "id": "vael_wealth_tax_compromise",
+      "text": "\"The wealth tax proceeds — amended. Two percent only on net worth above ten million, not five. Exemption for domestic industrial assets held for more than a decade. Exit tax provision stays. The tax raises less but it preserves the principle that wealth contributes to the society that enables it. Margrave, I have moved significantly in your direction. I am asking you to accept a compromise that still asks something of your peers. If you cannot accept that, you were never negotiating — you were demanding.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": 0   },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -5  },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4   },
+        { "stat": "factions.reformists",       "operation": "add", "value": 6   },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": 2   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vael_minister_demand", "delayWeeks": 5 }
+      ],
+      "flags": ["vael_wealth_tax_compromised", "healthcare_compromise", "vael_relationship_neutral"],
+      "codexUnlocks": ["codex_vael_negotiation"]
+    },
+    {
+      "id": "vael_wealth_tax_push",
+      "text": "\"The wealth tax proceeds as written. Margrave, I have listened to you for two years. I have taken your money, attended your dinners, considered your counsel, and compromised more often than my own cabinet is comfortable with. The wealth tax is not a negotiation. It is the mechanism by which the wealthiest nine hundred families in this country contribute to a healthcare system that the other twelve million Veltrians rely on to survive. That is the principle. If nine hundred families want to leave Veltria rather than pay two percent on wealth above five million — let them leave. The exit tax will fund the healthcare system either way.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": -20 },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -18 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 12  },
+        { "stat": "factions.reformists",       "operation": "add", "value": 10  },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": -5  },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 12  },
+        { "stat": "personal.publicImage",      "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vael_minister_demand", "delayWeeks": 5 }
+      ],
+      "flags": ["vael_wealth_tax_advanced", "capital_confrontation", "vael_relationship_broken"],
+      "codexUnlocks": ["codex_vael_confrontation"]
+    }
+  ]
+}

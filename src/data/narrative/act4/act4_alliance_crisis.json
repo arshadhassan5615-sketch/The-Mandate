@@ -1,0 +1,91 @@
+{
+  "id": "act4_alliance_crisis",
+  "title": "The Allies Falter",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Foreign Affairs — Crisis Communications Room, Afternoon",
+  "characters": ["vyktor_reznik", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.war_path_chosen", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The crisis communications room at the Ministry of Foreign Affairs was built in 1959 after the Arcturian-Orythian standoff over the Morivask Straits made Veltria's diplomatic corps realize they had no secure facility for coordinating with allies during a genuine crisis. The irony is palpable. The room was built for exactly this moment and the room is revealing that the allies it was built to coordinate with may not, in fact, be allies. The teletype from Stellamere chatters intermittently. The diplomatic cable from Orythia sits on the table. The Forum resolution is being drafted in a committee room eight hundred kilometers from here by diplomats who have never visited Veltria and whose governments have interests that do not align with Veltria's survival. Vyktor has been reading cables for four hours. His expression at hour four is worse than his expression at hour one."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Arcturian Commonwealth is debating. Not acting — debating. The Stellamere government has introduced a military assistance bill in their parliament, but the parliamentary arithmetic is complicated and the opposition is arguing that foreign military commitments require a national referendum. The Orythian government has made its support conditional on Veltria granting them permanent basing rights in the Amber Coast and exclusive access to the Kravenstal mineral deposits for a period of twenty-five years. That is not an alliance. That is a protection racket. The Forum resolution will pass — condemnation of Tyvaren aggression is easy — but the binding security guarantees we requested? The language has been weakened to 'urgent consideration of appropriate measures.' In diplomatic language, that means 'nothing that costs anything.' The allies we were counting on are counting the cost. And the cost is higher than they expected."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Military assessment. Without Arcturian naval support, we lose the ability to protect our supply lines in the Asturien Sea. Tyvaren submarines are already operating in international waters. Without Orythian material support, we have approximately four weeks of artillery ammunition at current expenditure rates. After four weeks, our artillery units are limited to what they can manufacture domestically, which is approximately fifteen percent of what they need. I do not have a military solution to an alliance crisis. I have math. The math is not good."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You knew this was possible. In your most honest moments — the ones at 3 AM in the residence when Jonas is asleep and the palace is quiet and you are alone with the accounting of what you have done and what it has cost — you knew that the international community might not come. The Arcturians have their own politics. The Orythians have their own ambitions. The Forum has its own inertia. Promises made in diplomatic communiques are not treaties. Statements of solidarity are not divisions. The world is not coming to save Veltria. The world is watching to see if Veltria is worth saving. And 'worth saving' is not a moral category. It is a strategic one. You have to make Veltria strategically worth saving, or you have to win without being saved. Both paths are possible. Neither is easy."
+    },
+    {
+      "type": "description",
+      "text": "The clock on the wall of the crisis room shows 14:37. The teletype from Stellamere is silent. The Orythian cable sits unanswered. The Forum committee room in a foreign capital is drafting language that will express deep concern and resolve nothing. The war is happening. The diplomatic support that was supposed to accompany the war is still — deliberating. You have to decide what to do about the gap between what was promised and what is being delivered."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "alliance_publicly_shame",
+      "text": "\"I am calling a press conference. I will read the Arcturian government's statement from Week Thirty-Four — the one where they pledged to 'stand with Veltria against any threat to its sovereignty.' I will read it aloud, and then I will say that the Arcturian people deserve to know whether their government intended those words to mean anything. I will read the Orythian basing demands and ask the Orythian public whether that is what their government means by 'solidarity.' I am going to shame them. Publicly. Comprehensibly. If they will not act from principle, perhaps they will act from embarrassment.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["allies_publicly_shamed", "diplomatic_confrontation", "alliance_crisis_resolved"],
+      "codexUnlocks": ["codex_diplomatic_hardball", "codex_public_diplomacy"]
+    },
+    {
+      "id": "alliance_accept_limited_support",
+      "text": "\"We adapt. The Arcturian debate will resolve eventually — it is a democracy, and democracies take time we do not have, but the outcome is not predetermined. The Orythians are negotiating, and negotiating means they want something rather than nothing. Dusek, I want a revised war plan that assumes limited external support. What can we do with what we have? What can we produce domestically that we are currently importing? We planned for a war with allies. We may fight a war without them. The difference is not defeat — it is a different kind of victory. I need you to find it. And Vyktor — keep the channels open. Embarrassing the people we are asking for help is satisfying. Satisfying does not win wars.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["limited_support_accepted", "self_reliance_strategy", "alliance_crisis_resolved"],
+      "codexUnlocks": ["codex_domestic_war_production", "codex_self_reliance_doctrine"]
+    },
+    {
+      "id": "alliance_diplomatic_concessions",
+      "text": "\"Give the Orythians what they want. Not the basing rights or the mineral access — but something. A trade agreement. A commitment to purchase Orythian industrial goods for reconstruction after the war. A seat at the table when the postwar settlement is negotiated. Make them stakeholders in Veltria's survival rather than speculators on its collapse. The Arcturians need something different — they need to see that Veltria is willing to be a reliable ally, not a desperate supplicant. Send Ambassador Cole a draft mutual defense treaty for the postwar period. Give them a reason to want Veltria to exist. Nations help nations they need, not nations that need them.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "nation.corruption", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["diplomatic_concessions_made", "future_partnerships_offered", "alliance_crisis_resolved"],
+      "codexUnlocks": ["codex_diplomatic_leverage", "codex_postwar_alliance_framework"]
+    }
+  ]
+}

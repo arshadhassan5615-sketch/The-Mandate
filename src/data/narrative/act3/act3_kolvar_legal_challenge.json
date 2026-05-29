@@ -1,0 +1,98 @@
+{
+  "id": "act3_kolvar_legal_challenge",
+  "title": "The Legitimate Objection",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Week Twenty-Eight",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+  "prerequisites": [
+    { "stat": "flags.referendum_challenge_coming", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Kolvar filed at nine in the morning. By noon, the Electoral Commission had acknowledged receipt and scheduled a preliminary review for Thursday. By two o'clock, Theron was in your office with a folder containing the specific procedural grounds: alleged turnout irregularities in two Ashenmere precincts — a total of four hundred and twelve votes — and a broader allegation that the government's mobilization of the Dravenni community in Dravenhollow constituted unlawful interference in the referendum process. The legal merit of the challenge, Theron says, is close to zero. The political merit of the challenge is considerable."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I have spoken to three constitutional lawyers, two of them people I trust entirely and one of whom argued the Halvek dissolution case in 1958. Their assessment is uniform: the challenge has no legal foundation. Four hundred votes in two precincts does not change a fifty-one point eight percent result. The Dravenhollow mobilization was lawful civic engagement — there is no statute that prohibits a government from encouraging participation by underrepresented communities. Kolvar knows this. His lawyers know this. The Electoral Commission knows this. The challenge will fail."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The problem is not the outcome. The problem is the timeline. A preliminary review takes five days. If they find any questions worth examining — and they will find procedural questions worth examining because procedure always has questions — a full review takes fourteen to twenty-one days. During those days, the constitution cannot be certified. Cannot take legal effect. Every provision, every reform, every institutional change we spent twenty-six weeks fighting for sits in legal limbo while Kolvar's lawyers file motions and the international press asks whether Veltria's constitutional process is legitimate."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Two to three weeks of uncertainty. Every day the Tyvaren situation continues. Every day the economy waits for the constitutional framework that was supposed to provide stability. Every day Brenner and his officers look at the uncertainty and recalculate. The challenge has no legal merit. It has extraordinary political leverage, because uncertainty is its own kind of power — it freezes the people who should be moving and emboldens the people who should be deterred. Kolvar knows this. He has built an entire career on knowing this."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Archbishop has not issued a statement. Neither has the Iron Covenant's parliamentary leadership. That silence is interesting. It suggests they are waiting to see how we respond before deciding whether to join the challenge or distance themselves from it. Our response in the next forty-eight hours will determine whether Kolvar's challenge stays isolated or becomes the catalyst for a broader legitimacy crisis. We need to decide now, not Thursday."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "kolvar_challenge_defend_firmly",
+      "text": "\"Issue a statement tonight. The referendum result is certified by the counting authority, verified by independent observers, and consistent with every polling model before it. The Electoral Commission will review and dismiss Kolvar's challenge in the proper time. Until they do, the government will proceed with constitutional implementation on schedule. If the Commission finds an irregularity — which they will not — we will address it then. We do not postpone democracy for procedural theater.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["kolvar_challenge_contested", "constitution_implementation_proceeding"],
+      "codexUnlocks": ["codex_electoral_commission"]
+    },
+    {
+      "id": "kolvar_challenge_engage_commission",
+      "text": "\"Cooperate fully with the Commission review. Open every polling station record, every mobilization communication, every document they request. If Kolvar wants a full accounting, he will get a full accounting — one that exonerates us completely and takes three weeks to do so, during which time his challenge is the story rather than any actual irregularity. We use the process he invoked against him. Let him explain to the country why he is delaying their constitution.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 3 }
+      ],
+      "flags": ["kolvar_challenge_full_cooperation", "commission_review_transparent"],
+      "codexUnlocks": ["codex_electoral_commission"]
+    },
+    {
+      "id": "kolvar_challenge_seek_mediation",
+      "text": "\"Contact Kolvar privately. Not to concede — to propose that if the Commission review finds nothing in ten days, he withdraws the challenge and we invite him to participate formally in the constitutional implementation committee. Give him a role in the process he is trying to delay. If he refuses, the offer becomes a press story. If he accepts, the crisis ends. Either way, I am in a better position than if I simply wait for the Commission to act.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -2 },
+        { "stat": "nation.corruption",        "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["kolvar_invited_to_process", "challenge_mediation_offered"],
+      "codexUnlocks": ["codex_electoral_commission"]
+    }
+  ]
+}

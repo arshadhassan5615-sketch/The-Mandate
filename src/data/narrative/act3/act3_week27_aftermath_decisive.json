@@ -1,0 +1,113 @@
+{
+  "id": "act3_week27_aftermath_decisive",
+  "title": "The First Morning",
+  "act": 3,
+  "weekAvailable": 27,
+  "weekDeadline": 28,
+  "type": "event",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Notarial Authority — Certification Chamber, Parliament Annex, 9:04am",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.referendum_won_decisive", "operator": "==", "value": true }
+  ],
+  "exclusive": ["act3_week27_aftermath_narrow", "act3_week27_aftermath_rejected"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The text of the new constitution was read into the official record at nine-oh-two by the Acting Notarial Secretary. It took four minutes and thirty-seven seconds. The preamble alone ran to eleven paragraphs — Theron spent three weeks on the preamble. The reading was flat and procedural and entirely without ceremony, which was appropriate. What replaces a constitution does not need to be dramatic. It needs to be permanent."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Sixty point seven percent. The number has been in your head since two in the morning. Sixty point seven percent of this country looked at the document and chose it. Thirty-nine point three percent looked at it and chose against it. You govern all of them now. You governed all of them yesterday. That relationship has not changed. What has changed is the legal instrument under which you do it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Kolvar issued a statement at eight-thirty. 'The Halvek Constitution has been superseded by democratic means. The Halvekist Progressive Alliance will serve as principled opposition under the terms of the new constitutional framework.' He used the phrase 'principled opposition.' He has not used that language about any government in twenty-six years of parliamentary service. I note that without drawing any conclusions from it."
+    },
+    {
+      "type": "description",
+      "text": "Theron is not here. He sent a handwritten note — two sentences — saying that certification is a matter for officials and he would be at home if he was needed. You understand why he chose to be absent. He has represented things in official rooms for thirty years. He wanted, once, to be somewhere a thing happened without having to represent it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Brenner sent a formal congratulatory note through official channels. Standard language — the same form he sends for inaugurations, updated for this occasion. He used the word 'stability' four times. Not 'democracy.' Not 'rights.' 'Stability.' I have been watching his word choices since we started this process and they are consistent."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The new constitution is law. It has an independent judiciary. It has term limits that will eventually bind you. It has rights provisions that Halvek's twenty-six years of governance refused to acknowledge. You spent twenty-seven weeks making this possible. What you feel, standing here under the fluorescent lights of a certification chamber that smells like the paper documents were copied on, is not triumph. It is something quieter. The specific relief of having done what you came here to do."
+    },
+    {
+      "type": "description",
+      "text": "Forty-seven newspapers. Seventeen provincial organs. The international wires in four languages. All of them have sixty point seven percent above the fold this morning. The new constitution will be reprinted in full in the Ashenmere Gazette this afternoon — twelve pages, they told Vyktor, which means twelve pages that weren't the law of this republic yesterday and now are. Whatever happens from this morning forward happens under different terms than everything that preceded it."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "aftermath_decisive_first_appointments",
+      "text": "\"I want the first round of independent judicial appointments announced this afternoon. We use the window. The new constitution creates those positions and I want names in them before anyone can frame the next forty-eight hours as uncertainty.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 5  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_judicial_independence", "delayWeeks": 4 }
+      ],
+      "flags": ["constitution_in_force", "first_judicial_appointments"],
+      "codexUnlocks": ["codex_new_constitution"]
+    },
+    {
+      "id": "aftermath_decisive_reach_kolvar",
+      "text": "\"Send Vyktor to Kolvar with an invitation for a meeting next week. 'Principled opposition' is language I can work with. I want to understand what it means in practice before he defines it without me.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -3 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kolvar_negotiation", "delayWeeks": 2 }
+      ],
+      "flags": ["constitution_in_force", "decisive_win_outreach"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "aftermath_decisive_call_theron",
+      "text": "Ask Vyktor to clear the morning. Call Theron — not Vyktor's line, his home number. Tell him what you told yourself last night when the number stopped moving and you couldn't sleep.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [],
+      "flags": ["constitution_in_force", "theron_called_morning_after"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "aftermath_decisive_message_brenner",
+      "text": "\"Draft a response to Brenner's note. I want it sent today, not through the protocol office — through my direct line. I want him to know I read his four uses of 'stability' carefully and I'd like to have a conversation about what the word means to both of us.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_brenner_response", "delayWeeks": 2 }
+      ],
+      "flags": ["constitution_in_force", "brenner_contacted_act3"],
+      "codexUnlocks": []
+    }
+  ]
+}

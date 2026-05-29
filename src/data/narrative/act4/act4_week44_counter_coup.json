@@ -1,0 +1,112 @@
+{
+  "id": "act4_week44_counter_coup",
+  "title": "The Return",
+  "act": 4,
+  "weekAvailable": 44,
+  "weekDeadline": 46,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Southern Veltria — Loyalist Headquarters, Week Forty-Four",
+  "characters": ["colonel_dusek", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.exile_strategy_set", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You are back on Veltrian soil. The crossing was arranged by Dusek's network — a fishing vessel from Stellamere to a cove on the Amber Coast, then four hours in the back of a produce truck through military checkpoints where the guards were loyalists in junta uniforms. The headquarters is a former textile mill outside a town you cannot name, because operational security requires that you not know the name. The loyalist officers who greet you salute with the particular precision of people who have been waiting a long time for someone to salute. They have not given up. They have been waiting for you. The waiting is over."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The situation has evolved. Brenner's junta is consolidating in the north and center, but their control is thinner than it appears. Civil servants are obeying because they have mortgages and families, not because they support the regime. Three provincial governors in the south have privately signaled that they would switch allegiance if a legitimate authority returned to Veltrian territory. The international pressure is working — the Orythians have not recognized the junta, which means Brenner is isolated diplomatically. He has perhaps six months before his position becomes untenable. The question is whether we wait six months, or whether we accelerate the timeline."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You are back. The soil under your feet is Veltrian soil. The air smells like the Amber Coast — salt and pine and the particular industrial tang of the textile mill that is now your headquarters. You are a Chancellor governing from a converted factory in a province whose name you are not supposed to know because if you are captured, you cannot reveal what you do not know. This is absurd. This is also governance. The absurdity and the reality of it exist simultaneously, the way everything in this office has existed simultaneously for forty-four weeks. The difference is that now you are not in an office. You are in a textile mill. And you are going to take your country back from here."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "counter_coup_military_operation",
+      "text": "\"We move now. Dusek, I want an operational plan for retaking Ashenmere within two weeks. Coordinate with the provincial governors who have signaled support. Hit the junta's communication centers first — if their commanders can't talk to each other, their numerical advantage becomes a liability. I will be at the front — not commanding, I am not a general, but present. Visible. The soldiers need to see their Chancellor on Veltrian soil, fighting for Veltrian soil. Brenner's soldiers need to see me too. Some of them will remember their oath. Give them a reason to honor it.\"",
+      "internalTag": "authoritarian",
+      "conditions": [
+        { "stat": "nation.militaryReadiness", "operator": ">=", "value": 20 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -12 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_war_outcome", "delayWeeks": 4 }
+      ],
+      "flags": ["counter_coup_military", "ashenmere_operation", "coup_resolution_begun"],
+      "codexUnlocks": ["codex_operation_restoration", "codex_loyalist_forces"]
+    },
+    {
+      "id": "counter_coup_political_solution",
+      "text": "\"We go through the provinces, not through Ashenmere. I want the three governors who offered support to publicly declare for the legitimate government. Build a territorial base in the south. Establish parallel institutions — a provisional parliament, a civil administration, a functioning government on Veltrian soil that contrasts with the junta's rule. We make Brenner's government irrelevant before we challenge it militarily. When soldiers start deserting to a government that actually governs, the military option becomes easier — and less bloody.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_war_outcome", "delayWeeks": 4 }
+      ],
+      "flags": ["counter_coup_political", "provisional_government_south", "coup_resolution_begun"],
+      "codexUnlocks": ["codex_provisional_government", "codex_southern_provinces"]
+    },
+    {
+      "id": "counter_coup_brenner_deal",
+      "text": "\"The back-channel produced something. Brenner is willing to discuss a transitional arrangement — he steps down, the junta dissolves, a unity government takes power for an interim period until new elections can be held. He wants immunity from prosecution for himself and the senior junta officers. He wants a guaranteed military pension. He wants a public statement that the constitutional government 'acknowledges the legitimate concerns' that led to military intervention. I am willing to give him the first two. The third — I cannot call a coup legitimate. But I can call it understandable. I can acknowledge that our government made mistakes. That may be enough to end this without a single additional death.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 },
+        { "stat": "nation.corruption", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_war_outcome", "delayWeeks": 4 }
+      ],
+      "flags": ["brenner_deal_accepted", "junta_dissolved_peacefully", "coup_resolution_begun", "immunity_granted"],
+      "codexUnlocks": ["codex_transitional_government", "codex_brenner_immunity_deal"]
+    },
+    {
+      "id": "counter_coup_international_intervention",
+      "text": "\"We need more than recognition — we need intervention. I want a formal request to the Arcturian government for peacekeeping forces under the International Forum mandate. Brenner cannot claim to be defending Veltrian sovereignty against foreign intervention if the intervention is explicitly to restore the legitimate government. Frame it as 'international support for democratic restoration,' not 'foreign intervention.' Language matters. The Arcturians have been looking for a way to help without committing to a war — this gives them a way. A limited, authorized, internationally legitimate way. And it ends the junta without Veltrians having to kill Veltrians to do it.\"",
+      "internalTag": "reformist",
+      "conditions": [
+        { "stat": "nation.internationalStanding", "operator": ">=", "value": 35 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_war_outcome", "delayWeeks": 4 }
+      ],
+      "flags": ["international_intervention_requested", "peacekeeping_mission", "coup_resolution_begun"],
+      "codexUnlocks": ["codex_international_peacekeeping", "codex_forum_mandate"]
+    }
+  ]
+}

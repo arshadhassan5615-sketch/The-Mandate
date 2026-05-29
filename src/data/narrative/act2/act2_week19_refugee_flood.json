@@ -1,0 +1,164 @@
+{
+  "id": "act2_week19_refugee_flood",
+  "title": "The Weight of Ten Thousand",
+  "act": 2,
+  "weekAvailable": 19,
+  "weekDeadline": 20,
+  "type": "emergency",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Situation Room — Sub-Level Two, Ashenmere Palace",
+  "characters": ["vyktor_reznik", "irina_dusek", "gregor_maric"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The call from Sevagrad's governor came in at four in the morning. By six, Vyktor had assembled the emergency cabinet. By seven-thirty, the numbers were on the wall."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Ten thousand, two hundred and forty refugees crossed the Ondra River into Sevagrad Province in the past seven days. That's a fourteen-fold increase over the previous weekly average. Something happened in eastern Morivask — we don't have confirmed intelligence on what, but the pattern suggests a large-scale displacement event. A city, probably. Ethnic cleansing accelerating, or a Morivask military operation against civilian populations. Maybe both."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Current situation in Sevagrad: four tent camps established, all beyond designed capacity. The main reception facility at Korengal Crossing was built for eight hundred simultaneous crossings. It is currently processing eleven hundred people per day. Governor Kasic has been on the phone with the Interior Ministry every four hours since Tuesday. He is not a panicking man. He is panicking."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "The military assessment is straightforward. We cannot screen ten thousand people per week for security threats with current staffing. We cannot. Morivask has armed militias operating in the displacement zones. Some portion of any large population crossing will include combatants, intelligence assets, or people whose information can be exploited by Tyvaren. General Brenner's position — and I am relaying it, not advocating for it — is that the border should be closed and existing arrivals processed before any new crossings are permitted. He believes this is a national security obligation, not an ideological position."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Brenner's position is never just a position. It comes attached to a calculation about what happens to his approval rating, and yours, if it is or is not followed. Still. He is not wrong that ten thousand people in seven days is a screening problem. He is wrong about what you do with that problem."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I want to say something before we talk about numbers, because I was in those camps six months ago, before the surge, and I have not forgotten what I saw. These are not statistics. These are families — Dravenni families, mostly, who look like the people from Dravenhollow who are Veltrian citizens, who speak a language our own citizens speak, who are running from a man who is killing them for exactly that reason. And we are sitting in a room four hundred kilometers away debating capacity projections."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I understand Irina's concern. I do. But closing the border sends a message to our own Dravenni population about whether this government considers them Veltrian citizens or a problem to be managed. You cannot separate those two things. Close the border for Morivask Dravenni today and ask the Dravenhollow Dravenni tomorrow to vote for your constitution. They will ask you what the difference is between them and the people you turned back at the river."
+    },
+    {
+      "type": "description",
+      "text": "Outside the situation room, somewhere above ground, it is a grey November morning. The heating in the sub-level is adequate but the air is old and the fluorescent lights hum at a frequency that becomes audible in moments of silence. The wall maps show the Ondra River in blue, the refugee crossing points as red pins, and the border with Morivask as a thick line that was drawn by an international forum in 1947 and has meant very little in practice ever since."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Budget context. Emergency refugee support through the end of the year costs approximately twelve million Krone at current capacity. At double current capacity, that rises to twenty-two million, which is not a line item that currently exists in the allocation. It would require a budget amendment or a drawdown of the infrastructure reserve. Neither is fast. The governor is asking for an answer today — not a framework, not a process. Today."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "There are workers in Kravenstal who would take employment in Sevagrad processing camps if we paid them decently. There are empty factory buildings in three provinces that could be converted faster than you'd think. What we lack is not capacity — we lack the decision. We have been waiting for someone to make the decision for three weeks and the numbers kept rising while we waited. Make the decision."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "I want it on record that I am not recommending abandoning these people. I am recommending a pause. Two weeks to set up processing infrastructure, train additional border staff, establish proper screening protocols. Then reopen with managed intake. Two weeks. That is what the military is asking for."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Two weeks. And what do the people at the river do for two weeks while we build better paperwork systems. There is a version of this where Irina's caution is reasonable and a version where it is a bureaucratic hedge that kills people at the water's edge. She is probably not thinking about either version specifically. She is thinking about Brenner, and about what happens to her career if a Morivask militant crosses the Ondra and does something."
+    }
+  ],
+  "monologue": "Ten thousand people in seven days. The reception center was built for eight hundred. Maric says close the border and you lose Dravenni votes. Dusek says keep it open and you risk a security incident. Brenner wants a two-week pause — which sounds reasonable until you picture what two weeks looks like at the river's edge in November. There is a version of every argument in this room that is correct. The question is which version I can enforce.",
+
+  "choices": [
+    {
+      "id": "refugee_open_border",
+      "text": "\"Open the border. Expand the camp capacity in Sevagrad with emergency federal funding, bring in the Red Cross and the Asturien humanitarian agencies, and process everyone we receive. We can screen while we shelter — we don't have to choose between the two.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 14 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 18 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -15 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -12 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": -4  },
+        { "stat": "nation.publicOrder",       "operation": "add", "value": -4  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [],
+      "flags": ["refugee_policy_open", "sevagrad_camps_expanded"],
+      "codexUnlocks": ["codex_morivask_crisis"],
+      "reactions": [{ "character": "gregor_maric", "type": "action", "text": "He releases the breath he has been holding since the meeting began. Then he stands — not to leave, but to get to work. He is already calling the camp coordinator, already asking about the water supply, already being the version of Gregor Maric that makes him indispensable." }, { "character": "irina_dusek", "type": "silence", "text": "Dusek says nothing for a long moment. Then she writes screening while sheltering on her notepad and underlines it twice. She does not argue. The decision has been made. She will execute it to the highest standard, and she will note the operational risks for the record. Both things are true simultaneously." }]
+    },
+    {
+      "id": "refugee_managed_intake",
+      "text": "\"Managed intake. We process a maximum of fifteen hundred people per week through proper screening — no border closure, but a queue that gives us time to do this correctly. Emergency funds to Sevagrad immediately for capacity building.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 4  },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 5  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 5  },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -5 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder",       "operation": "add", "value": -2 },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["refugee_policy_managed", "sevagrad_camps_expanded"],
+      "codexUnlocks": ["codex_morivask_crisis"],
+      "reactions": [{ "character": "irina_dusek", "type": "action", "text": "Dusek nods — the nod of a soldier who has been given an order she can execute. She is already annotating the screening protocols, the staffing requirements, the timeline. Two weeks to build the infrastructure. Then managed intake." }, { "character": "gregor_maric", "type": "silence", "text": "Maric says nothing. The silence is not agreement. It is the particular quiet of a man who understands the operational logic but cannot stop thinking about the families waiting at the river. He will accept fifteen hundred per week. He will not pretend to like it." }]
+    },
+    {
+      "id": "refugee_border_closure",
+      "text": "\"Close the border. Two weeks, as Irina recommends. Build the processing infrastructure first, then reopen with proper screening. I will not risk a security incident that hands the Iron Covenant a political justification for everything they've been asking for.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 16 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -10 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": -18 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -12 },
+        { "stat": "nation.publicOrder",       "operation": "add", "value": 3  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -8 },
+        { "stat": "nation.internationalStanding","operation": "add", "value": -8 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -14 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_dravenni_radicalization",
+          "delayWeeks": 10,
+          "conditions": [{ "stat": "factions.dravenni", "operator": "<", "value": 35 }]
+        }
+      ],
+      "flags": ["refugee_policy_closed", "border_sealed"],
+      "codexUnlocks": ["codex_morivask_crisis"],
+      "reactions": [{ "character": "irina_dusek", "type": "silence", "text": "Dusek writes the border closure order on her pad. Her handwriting is the same as always — precise, professional, unhesitating. She does not celebrate. She simply implements." }, { "character": "gregor_maric", "type": "silence", "text": "Maric looks at you. Not with anger — with something worse. Disappointment. He does not speak. He stands and walks to the door. He pauses with his hand on the frame. Then he leaves. The silence is the sound of Gregor Maric realizing something about the government he serves that he had hoped was not true." }]
+    },
+    {
+      "id": "refugee_international_appeal",
+      "text": "\"Take this to the Asturien Forum immediately. Formally request an international humanitarian mission and emergency burden-sharing — other nations must absorb some portion of this displacement or the entire burden falls on Veltria's border alone. Buy two weeks for the infrastructure while the diplomacy runs.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["refugee_policy_international", "asturien_forum_engaged"],
+      "codexUnlocks": ["codex_morivask_crisis", "codex_asturien_forum"],
+      "reactions": [{ "character": "vyktor_reznik", "type": "action", "text": "He is already drafting the Forum communication — the formal request, the burden-sharing language, the diplomatic phrasing that will sound like cooperation while actually demanding action. Vyktor is very good at making demands sound like requests." }, { "character": "gregor_maric", "type": "dialogue", "text": "The international community. He tastes the words. They have been promising aid for six months, Chancellor. What makes you think the Forum will respond differently this time? He pauses. I hope you are right. I genuinely hope you are right." }]
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "id": "act1_chain_tyvaren_propaganda_war",
+  "title": "The Marshal's Language",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The transcript is waiting on your desk when you arrive. Vyktor has underlined the relevant passage in red ink — he uses red ink only when something is both important and difficult to discuss."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Marshal Vukov gave a state address last night. The relevant portion: 'Veltria has abandoned the discipline that made it a serious nation. It is now governed by a hysteric woman who mistakes provocation for strength and weakness for virtue.' That is the polite part. Tyvaren state television ran it on a loop for six hours. The Ashenmere Herald has 17 interview requests in for your response. The Press Bureau is holding them pending your guidance."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Hysteric. He chose the word carefully — it is a word that is supposed to make me respond emotionally, because an emotional response confirms the accusation. He knows how the word lands. He has been doing this for thirty years. The question is not whether I respond. I will respond. The question is whether the response is mine or his."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Orythian ambassador contacted us this morning. Commissar Stahl is offering to issue a joint statement condemning Vukov's language. He described it as 'solidarity between progressive nations' — which is his way of asking for something in return without specifying what. The Arcturian position, through Cole's office, is that we should 'exercise restraint and allow diplomatic channels to operate.' That is their way of asking us to say nothing."
+    },
+    {
+      "type": "description",
+      "text": "Two superpowers, both offering help, both meaning something different by the word. The Herald is waiting. The Iron Covenant representatives in parliament released a statement this morning calling Vukov's speech 'an insult requiring a firm answer.' Soraya Khaled's coalition released a statement calling it 'a provocation designed to destabilize a government that is finally working for ordinary people.' Everyone has an opinion about how you should feel."
+    }
+  ],
+  "monologue": "\"Hysteric.\" He chose the word because he wants me to respond to the word rather than to the policy behind it. An emotional response confirms the accusation. A cold one makes me look like I'm performing coldness. Vukov has been doing this for thirty years. Whether my response is mine or his — and whether I can make a statement about his military repositioning that the press will print instead of the headline he handed them.",
+  "choices": [
+    {
+      "id": "propaganda_war_direct_response",
+      "text": "\"Give me a press conference. This afternoon — no prepared statement, no spin. I will address the Herald and every other outlet that wants to be there, and I will say the following: Marshal Vukov can call me whatever he likes. The Veltrian people elected me. The Veltrian people will evaluate my record. The Marshal's opinion of my temperament is not a subject I intend to discuss at length, but I am happy to discuss his military repositioning near the Gravenmark Pass, which I notice he has not addressed.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": -4
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "vukov_directly_confronted",
+        "tyvaren_propaganda_answered"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Noted."
+        }
+      ]
+    },
+    {
+      "id": "propaganda_war_orythian_support",
+      "text": "\"Accept Stahl's offer. A joint condemnation from Veltria and Orythia puts Tyvaren on the defensive diplomatically and signals that their isolation policy isn't working. Yes, it costs us something — Stahl will invoice it eventually. But right now I need the optics of not standing alone, and I need Vukov to understand that personal attacks on my leadership have geopolitical consequences for him.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week21_superpower_choice",
+          "delayWeeks": 7
+        }
+      ],
+      "flags": [
+        "orythian_solidarity_accepted",
+        "tyvaren_multilateral_response"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He writes something in his notebook."
+        }
+      ]
+    },
+    {
+      "id": "propaganda_war_de_escalate",
+      "text": "\"Issue a single written statement through Vyktor's office — measured, factual, no personal engagement with Vukov's language. Then take Cole's advice: allow diplomatic channels to operate. A Chancellor who gets drawn into a war of words with a foreign demagogue looks like she is fighting on his terms. I will not. My response to Vukov is competence. I govern. He talks.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -7
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "tyvaren_propaganda_deescalated",
+        "arcturian_guidance_followed"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He says nothing. He writes something down."
+        }
+      ]
+    }
+  ]
+}

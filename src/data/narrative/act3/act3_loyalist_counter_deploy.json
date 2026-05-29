@@ -1,0 +1,95 @@
+{
+  "id": "act3_loyalist_counter_deploy",
+  "title": "The Counter-March",
+  "act": 3,
+  "weekAvailable": 37,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Operations Center, 04:30, Night of the Coup",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Ministry of Defense operations center at four-thirty in the morning has the particular fluorescent brightness of a room that was not designed for human occupancy at this hour but has been occupied anyway by people who understand that the next four hours will determine whether their country still has a civilian government at dawn. The wall map has been updated. Red markers for the 3rd Armored — twelve vehicles, estimated three hundred personnel, current position approximately eight kilometers from the city center and closing. Blue markers for the 1st Infantry Division — eighteen hundred soldiers, currently at barracks, commander Captain Rennick has acknowledged the Chancellor's counter-order and is awaiting deployment instructions. Yellow markers for units whose commanders have not responded to communication — approximately forty percent of the capital region's military assets, the most dangerous markers on the board because their absence is itself a choice. Dusek is standing at the map with a telephone receiver in one hand and a grease pencil in the other. She has not sat down in three hours."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Chancellor, I have confirmation from the 1st Infantry commander. He has acknowledged the constitutional order and is mobilizing his regiment. That gives us approximately eighteen hundred soldiers against Brenner's three hundred, but I must caution you that numerical advantage is not the same as operational advantage. The 3rd Armored has twelve armored vehicles. The 1st Infantry has none. In an urban engagement, infantry without armor support is at a severe tactical disadvantage. More importantly, I have not yet received confirmation from the 7th Artillery or the 4th Support Battalion. Those units are currently unaccounted for. Until I know which way they are facing, I cannot guarantee that any deployment order I issue will not result in Veltrian soldiers firing on Veltrian soldiers. That is not a hypothetical scenario. It is the most likely outcome of the next two hours unless we are very careful about which orders we give to which commanders."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Eighteen hundred against three hundred. The numbers are on your side. The armor is not. The unaccounted units could tip the balance in either direction or in no direction — a three-way fracture is worse than a two-way one, because three-way fractures do not resolve into surrender, they dissolve into chaos that lasts for weeks. You are not a military strategist. You are a constitutional lawyer holding a telephone at four-thirty in the morning, and the person on the other end of the telephone is asking you to make a tactical decision that will determine whether the civil war starts tonight or doesn't. The Constitution does not have a section on armored vehicle deployment in urban environments. The Constitution assumes that the decisions it does not cover will be made by people who are qualified to make them. You are now that person. The qualification is happening in real time."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I have three operational options prepared. I will present them without recommendation because the recommendation depends on factors I cannot assess from this room — specifically, what you want the country to look like at dawn. Option one: deploy the 1st Infantry to secure the government district, the parliament building, and the broadcast center. Defensive posture, designed to deny Brenner the symbolic targets he needs to claim control. Option two: contact every uncommitted unit commander directly — I have their personal telephone numbers, or I can get them — and attempt to bring them to our side before Brenner's people reach them. Option three: deploy the 1st Infantry to secure critical infrastructure — the power station, the water treatment plant, the rail junction. The capital can survive a political crisis. It cannot survive without electricity and water. I await your decision."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "counter_deploy_secure_capital",
+      "text": "\"Secure the government district. The parliament, the palace, the broadcast center. Brenner needs symbolic control to claim legitimacy. Deny him the symbols and he has nothing to show the country at dawn except tanks parked in front of buildings he cannot enter. Deploy the 1st Infantry in a perimeter around the government district — I want every constitutional institution physically held by soldiers who swore an oath to the Republic. If Brenner wants the capital, he is going to have to attack the institutions he claims to be defending. Let him explain that to the country.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Defend the symbols of civilian government. Makes Brenner's coup visible as an attack on institutions. Risks a direct military clash in the city center.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ashenmere_standoff", "delayWeeks": 0 }
+      ],
+      "flags": ["capital_secured", "government_district_held", "constitutional_defense_ordered", "loyalist_deployed"],
+      "codexUnlocks": ["codex_government_district", "codex_first_infantry_division"]
+    },
+    {
+      "id": "counter_deploy_negotiate_units",
+      "text": "\"Get every uncommitted commander on the line. Now. I want to speak to them myself if possible — my voice, not an aide's voice, not a written order. These are Veltrian officers who trained under the same constitution their soldiers swore to defend. They are not waiting because they support Brenner. They are waiting because they do not know which side is the legitimate one. I am going to tell them. Direct appeal to every commander who has not committed — I am the Chancellor, the orders from the General Staff are illegal, and every soldier who follows those orders is violating the oath they swore to the Republic, not to a general.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Win the uncommitted units through direct personal appeal. Prevents a shooting war by peeling off Brenner's potential reinforcements.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ashenmere_standoff", "delayWeeks": 0, "probability": 0.4 }
+      ],
+      "flags": ["units_negotiated", "commanders_contacted", "loyalist_deployed", "wavering_units_secured"],
+      "codexUnlocks": ["codex_unit_commanders", "codex_military_oath_enforcement"]
+    },
+    {
+      "id": "counter_deploy_protect_infrastructure",
+      "text": "\"Secure the infrastructure. Power, water, rail, communications. If Brenner takes the government district, I can govern from a basement. If the power goes out and the water stops running, there will be no city to govern by the end of the week. The civilian population must survive this crisis regardless of its political outcome. Deploy the 1st Infantry to protect the systems that keep Ashenmere functioning. Send engineers, not riflemen, to the power station — I want the lights to stay on while we resolve this. The political crisis will be resolved politically or it will be resolved militarily, but the humanitarian crisis that follows infrastructure failure will not be resolved by either.\"",
+      "internalTag": "reformist",
+      "tooltip": "Protect civilian infrastructure first. Prioritizes the population over political symbolism. May cede the political narrative to Brenner.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ashenmere_standoff", "delayWeeks": 0, "probability": 0.3 }
+      ],
+      "flags": ["infrastructure_secured", "civilian_protection_priority", "loyalist_deployed", "city_functions_maintained"],
+      "codexUnlocks": ["codex_critical_infrastructure", "codex_ashenmere_utilities"]
+    }
+  ]
+}

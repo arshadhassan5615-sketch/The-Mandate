@@ -1,0 +1,122 @@
+{
+  "id": "act1_chain_bni_press",
+  "title": "The Morning Editions",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor is waiting when you arrive at your desk. He has arranged the morning papers in a line across the blotter — four of them, which means he wants you to understand something about the range of reaction before he says a word."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Herald is calling it the most significant civil liberties decision in 30 years. The Covenant Gazette is calling it a national security catastrophe. The Workers' Tribune ran 'At Last' in letters three inches tall. The Halvek Standard has not run anything. That is their way of indicating they are deciding between outrage and strategy."
+    },
+    {
+      "type": "description",
+      "text": "He sets down his coffee. He does not drink coffee at this hour unless he has been awake since the previous night."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "We've received 47 interview requests. Sixteen of them are from foreign press — mostly Arcturian and Orythian outlets. They want to know if this is a policy shift or a campaign promise we're actually keeping. I told them both."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He's right to be cautious. The decision is made and it was the right one — or it was the necessary one, which isn't always the same thing. What matters now is how we carry it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There's also a letter from General Brenner. He describes the Bureau decision as — quoting — 'a gift to our enemies.' He did not specify which enemies. I consider that meaningful."
+    }
+  ],
+
+  "monologue": "Four newspapers, four audiences, four versions of what I did. The Herald sees reform. The Gazette sees catastrophe. The Standard sees absence. Vyktor is right about the foreign press — Cole will use whatever I say to nudge the frame toward Arcturia's interests. Brenner's letter is the real variable. A general who won't name his enemies is more dangerous than one who will.",
+
+  "choices": [
+    {
+      "id": "bni_press_engage",
+      "text": "\"Schedule the interviews. All of them. We don't hide from this — we explain it. Democracy needs to be argued for, not just practiced.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",           "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding",    "operation": "add", "value": 5  },
+        { "stat": "factions.reformists",             "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",           "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["bni_press_engaged"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "All 47. Understood. I will schedule in blocks of six. Your voice will last approximately four hours. After that I will take the remaining questions. Press strategy will be: reform is governance, not ideology."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He opens his scheduling book — a leather folio worn at the corners from years of use before you inherited it. The next six hours fill with names and outlets. He does not pause between entries. This is what he is built for."
+        }
+      ]
+    },
+    {
+      "id": "bni_press_selective",
+      "text": "\"Domestic press only. No foreign interviews yet — we don't know what the Arcturian angle is and I won't hand them a talking point about our intelligence gap.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",           "operation": "add", "value": 2  },
+        { "stat": "nation.internationalStanding",    "operation": "add", "value": -2 },
+        { "stat": "factions.reformists",             "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["bni_press_selective"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Domestic only. Understood. Foreign press will interpret exclusion as secrecy. I will prepare a separate foreign press briefing with limited scope — enough to satisfy without exposing the intelligence gap."
+        }
+      ]
+    },
+    {
+      "id": "bni_press_conference",
+      "text": "\"Clear my schedule for this afternoon. I'll address the press myself — one statement, every camera in the country, no prepared questions. We made this decision because it was right, and I will stand in front of Veltria and say exactly that. Vyktor, draft nothing. I will speak from what I believe.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",           "operation": "add", "value": 10 },
+        { "stat": "nation.pressFreedom",             "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",             "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",             "operation": "add", "value": -5 },
+        { "stat": "factions.ironCovenant",           "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week22_nadia_investigation", "delayWeeks": 10 }
+      ],
+      "flags": ["bni_press_open_statement", "chancellor_direct_press"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not object. 'Draft nothing. Speak from what I believe.' He has served Chancellors who never said that. He has served Chancellors for whom every word was scripted. This is new. He does not know yet whether it is brave or reckless. He will find out with everyone else."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Afternoon. No prepared questions. I will brief the press corps on format. They will test you — not because they are hostile, because you have given them nothing prepared to work from. That is either the most honest press conference in Veltrian history or the most dangerous one. Both possibilities accounted for."
+        }
+      ]
+    }
+  ]
+}

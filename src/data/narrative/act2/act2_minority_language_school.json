@@ -1,0 +1,87 @@
+{
+  "id": "act2_minority_language_school",
+  "title": "The Language of Home",
+  "act": 2,
+  "weekAvailable": 20,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Education Ministry — Committee Room, Ashenmere",
+  "characters": ["idris_kaelen", "stanislov_renek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Dravenni Cultural Council has submitted a formal application to establish the first state-funded Dravenni-language primary school in the Dravenhollow district. Currently, all state schools teach exclusively in Veltrian — a policy inherited from the Halvek administration, which viewed linguistic uniformity as a tool of national cohesion. Dravenni children learn in a language that is not their mother tongue, and their parents have been petitioning for mother-tongue education since 1947. The application has gathered dust in the Education Ministry for sixteen years. You are the first Chancellor to actually read it."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "Chancellor, this is not about separatism. It is about whether a Dravenni child can learn arithmetic in the language she speaks at home, or whether she must learn it in a language that her parents barely understand. The research is clear — children taught in their mother tongue perform better in every subject, including the national language when it is taught as a second language. This is not ideology. This is pedagogy. The Halvek administration denied this application six times on the grounds that Dravenni-language education would 'undermine national unity.' I am asking you to make a different judgment."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor, I want to be clear — the Church does not oppose Dravenni language education in principle. What concerns me is precedent. If the state funds a Dravenni-language school, what prevents every linguistic minority from demanding the same? Veltrian is the language of law, of commerce, of civic life. A child educated primarily in Dravenni will enter adulthood at a disadvantage in the national economy. That is not discrimination — it is demographic reality. The Church proposes instead that Dravenni be offered as an optional second-language course within existing Veltrian-language schools. Cultural preservation without educational separation."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The Archbishop is making a reasonable-sounding argument that is, at its core, an argument for cultural assimilation. He is not wrong about the economic disadvantage of Dravenni-only education — but no one is proposing Dravenni-only education. They are proposing one school where Dravenni children can learn in their own language. One school out of three hundred. Sixteen years of denial. The 'national unity' argument has been used to suppress Dravenni culture for my entire adult life. But the Archbishop's compromise — Dravenni as a second language — would actually teach Veltrian children something about their countrymen. That is not nothing."
+    }
+  ],
+
+  "monologue": "Sixteen years. This application has been sitting in the Education Ministry since 1947 — before I entered politics, before my children were born, before the Halvek regime began its systematic suppression. One school out of three hundred. The Archbishop calls it a precedent problem. Kaelen calls it pedagogy. Sixteen years of denial says it is neither — it is a choice about who gets to be heard in their own tongue.",
+
+  "choices": [
+    {
+      "id": "language_school_approve",
+      "text": "\"The Dravenni-language school is approved. One school, state-funded, with Dravenni as the primary language of instruction and Veltrian taught as a mandatory second language from the first year. The Archbishop's concern about precedent is noted — but one Dravenni school in a country with three hundred Veltrian schools is not a threat to national unity. It is a correction of a sixteen-year injustice. If other linguistic minorities apply, we will evaluate each application on its merits. That is what equal treatment looks like.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 15 },
+        { "stat": "factions.church", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["dravenni_school_approved", "mother_tongue_education"],
+      "codexUnlocks": ["codex_dravenni_culture"],
+      "reactions": [{ "character": "idris_kaelen", "type": "action", "text": "He does not speak for several seconds. Then he nods — the nod of a man who has been waiting sixteen years for someone in power to read the application. He does not thank you. With Kaelen, gratitude is expressed through continued work." }, { "character": "stanislov_renek", "type": "silence", "text": "The Archbishop writes something in his small leather notebook. He does not argue. He has lost this round and he knows it. The silence is the sound of Stanislov Renek filing a grievance he will raise again at a more opportune moment." }]
+    },
+    {
+      "id": "language_school_deny",
+      "text": "\"The application is respectfully denied. The state will invest instead in improving Dravenni-language support within existing Veltrian-language schools — tutoring, translation resources, cultural programming. But a separate school system organized around language threatens to create parallel educational tracks that would divide Veltrian children from Dravenni children at the age when they are most capable of learning to see each other as countrymen.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": -15 },
+        { "stat": "factions.church", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["dravenni_school_denied", "linguistic_uniformity"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "idris_kaelen", "type": "silence", "text": "Kaelen closes his notebook. The motion is slow and deliberate — the motion of a man who has just been told that sixteen years of waiting has produced the same answer as the first year. He does not argue. The silence is worse than any argument." }]
+    },
+    {
+      "id": "language_school_dual",
+      "text": "\"A revised model: Dravenni as a second-language program in all Dravenhollow schools, and Dravenni as the primary medium of instruction for the first two years in one pilot school, transitioning to bilingual instruction thereafter. The Archbishop's second-language proposal and Kaelen's primary-language proposal are both incorporated. This is not a compromise of principle — it is an educational program that serves both linguistic preservation and economic integration.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 8 },
+        { "stat": "factions.church", "operation": "add", "value": -3 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["dravenni_school_dual", "bilingual_education"],
+      "codexUnlocks": ["codex_dravenni_culture"],
+      "reactions": [{ "character": "idris_kaelen", "type": "dialogue", "text": "Kaelen considers the dual model. Two years of primary instruction, transitioning to bilingual. It is not everything he asked for. It is more than anyone has given him in sixteen years. He nods. It is a beginning, he says. It is a genuine beginning." }, { "character": "stanislov_renek", "type": "silence", "text": "The Archbishop makes a note in his leather notebook. The compromise incorporates his second-language proposal. He cannot object without appearing unreasonable. The silence is the sound of a man who has been partially accommodated and cannot decide whether to be satisfied." }]
+    }
+  ]
+}

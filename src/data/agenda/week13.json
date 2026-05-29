@@ -1,0 +1,80 @@
+[
+  {
+    "id": "agenda_w13_lobbying",
+    "title": "Assembly Whip Count — No Confidence",
+    "description": "Vyktor has been working the Assembly floor all morning. He has the projected whip count for Kolvar's motion of no confidence — and a list of MPs whose votes can be swayed with the right resources.",
+    "category": "crisis",
+    "sceneId": "__vote__",
+    "slotCost": 1,
+    "executionOrder": -2,
+    "weekAvailable": 13,
+    "weekDeadline": 14,
+    "isUrgent": true,
+    "voteConfig": {
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "successFlags": ["no_confidence_defeated", "act1_climax_resolved", "transition_to_act2"],
+      "failureFlags": ["no_confidence_passed", "government_fallen"],
+      "corruptionRisk": "medium",
+      "lobbyingEnabled": true,
+      "narrativeSceneId": "act1_week13_no_confidence"
+    }
+  },
+  {
+    "id": "agenda_w13_no_confidence",
+    "title": "The Vote",
+    "description": "Drazen Kolvar has introduced a motion of no confidence. The parliament is divided. Every MP is watching. Your speech — whatever you say when the Speaker recognizes you — will determine whether your government survives its first existential test.",
+    "category": "crisis",
+    "sceneId": "act1_week13_no_confidence",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 13,
+    "weekDeadline": 14,
+    "isUrgent": true
+  },
+  {
+    "id": "agenda_w13_budget",
+    "title": "Budget Allocation — Post-Vote Framework",
+    "description": "Whatever happens in the vote, the budget must continue. Prepare the fiscal framework for the next quarter before the political uncertainty freezes the treasury.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 0,
+    "weekAvailable": 13,
+    "weekDeadline": 16
+  },
+  {
+    "id": "agenda_w13_nadia_followup",
+    "title": "The Journalist's Investigation",
+    "description": "Nadia Voss's story is in final draft. She called to say she'd found something else — something she wasn't looking for. She thinks you should know before it prints.",
+    "category": "cabinet",
+    "sceneId": "act1_week12_nadia_voss",
+    "slotCost": 1,
+    "executionOrder": 1,
+    "weekAvailable": 13,
+    "weekDeadline": 16
+  },
+  {
+    "id": "agenda_w13_kravenstal_conditions",
+    "title": "Kravenstal — Conditions Report",
+    "description": "The Kravenstal steel collective is voting on a general strike. Foundry Square has been occupied for three days. The police commissioner wants instructions.",
+    "category": "crisis",
+    "sceneId": "act1_week11_kravenstal_powderkeg",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 13,
+    "weekDeadline": 17
+  },
+  {
+    "id": "agenda_w13_cabinet_confidence",
+    "title": "Cabinet Session — Government Continuity",
+    "description": "The cabinet needs to hear from you before the vote. Some of them are already getting calls from Kolvar's people about retaining their posts 'in the next government.'",
+    "category": "cabinet",
+    "sceneId": "act1_week4_first_month",
+    "slotCost": 1,
+    "executionOrder": 3,
+    "weekAvailable": 13,
+    "weekDeadline": 15
+  }
+]

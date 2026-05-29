@@ -1,0 +1,196 @@
+{
+  "id": "act1_chain_tyvaren_border_standoff",
+  "title": "The Second Week",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Operations Room",
+  "characters": [
+    "irina_dusek",
+    "vyktor_reznik"
+  ],
+  "prerequisites": [
+    {
+      "stat": "flags.tyvaren_mobilization",
+      "operator": "==",
+      "value": true
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The operations room map has not changed in nine days. The positions are the same. The flags are the same. Dusek briefs you standing, which she does when she believes the situation requires you to feel the same discomfort the troops do."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "The standoff enters its second week. Veltrian and Tyvaren infantry remain within visual range at the Gravenmark Pass — three hundred meters of frozen ground between the forward positions. Incident at 0340 this morning: a private at Observation Post Seven fired a warning shot at movement perceived as a Tyvaren patrol crossing the demarcation line. The movement was a shepherd with fifteen sheep. No injuries. The private followed standing orders for unidentified movement within fifty meters of the line. His judgment was incorrect. His discipline was correct."
+    },
+    {
+      "type": "internal_thought",
+      "text": "A shepherd. A warning shot. In different circumstances this would almost be absurd. In these circumstances it is the wire that detonates the bomb — not the bomb itself, but the thing no one planned for, the thing that happens at 0340 when a twenty-year-old soldier is exhausted and cold and the demarcation line is not marked with anything more official than memory and standing orders."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Tyvaren's deputy foreign minister formally described the incident as 'unprovoked aggression against civilian populations in a disputed zone.' The phrase 'disputed zone' is new. They demand an apology. The troops are exhausted. Rotation schedules cannot sustain this posture beyond another ten days without logistics we do not currently possess. Two facts and one question: fact one — holding the deployment degrades readiness at a rate of three percent per week. Fact two — drawing down signals to Vukov that probing the pass carries no sustained cost. The Chancellor must decide whether to hold, rotate, or withdraw."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The phrase 'disputed zone' is new. Previously they did not describe the Gravenmark Pass as disputed. I consider that meaningful."
+    }
+  ],
+  "monologue": "A shepherd. A warning shot. The thing that breaks the standoff won't be a military operation — it'll be a twenty-year-old private at 3:40 in the morning, exhausted and cold, making a decision in half a second that the rest of us will spend weeks trying to contain. Dusek says the deployment is unsustainable. Vyktor says 'disputed zone' is new language. They're both telling me Vukov is looking for the line. I have to decide where to draw it.",
+  "choices": [
+    {
+      "id": "border_standoff_apologize",
+      "text": "\"Issue a formal apology through the Tyvaren embassy — express regret for the incident involving the shepherd, specify that the warning shot was not directed at Tyvaren military personnel, and propose a bilateral meeting of border commanders to establish clearer demarcation protocols. We lose nothing by apologizing for an incident that genuinely was a mistake. We lose something significant if this escalates because I was too proud to say so.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -9
+        },
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": 2
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "tyvaren_apology_issued",
+        "border_standoff_deescalated"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "irina_dusek",
+          "type": "action",
+          "text": "She does not sit. She never sits during operational discussions."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He watches. Not with judgment. With attention."
+        }
+      ]
+    },
+    {
+      "id": "border_standoff_hold",
+      "text": "\"We do not apologize. The shepherd was in the demarcation zone at 0340 — that is a risk the Tyvaren side accepted when they chose to station troops within visual range of our positions. We express regret that a civilian was frightened, and we note that the Tyvaren military's presence at this range is itself the cause of the tension. We hold the deployment. Rotate the troops on a forty-eight-hour cycle and find the logistics for it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 4
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_week32_tyvaren_ultimatum",
+          "delayWeeks": 18
+        }
+      ],
+      "flags": [
+        "tyvaren_apology_refused",
+        "border_standoff_hardened"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He watches. Not with judgment. With attention."
+        },
+        {
+          "character": "irina_dusek",
+          "type": "action",
+          "text": "She reaches for her radio."
+        }
+      ]
+    },
+    {
+      "id": "border_standoff_propose_commission",
+      "text": "\"Propose a neutral border demarcation commission — three Veltrian officers, three Tyvaren officers, a civilian observer from the Asturien Forum. No apology, no admission of wrongdoing from either side. The commission's job is to mark the demarcation line in a way that a twenty-year-old soldier can actually see at 0340. Give both governments a face-saving exit and a structure that prevents the next shepherd from becoming a casus belli.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_week32_tyvaren_ultimatum",
+          "delayWeeks": 20
+        }
+      ],
+      "flags": [
+        "border_commission_proposed",
+        "tyvaren_face_saving_offered"
+      ],
+      "codexUnlocks": [
+        "codex_asturien_forum"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He says nothing. He writes something down."
+        },
+        {
+          "character": "irina_dusek",
+          "type": "dialogue",
+          "text": "I will keep forces on standby."
+        }
+      ]
+    }
+  ]
+}

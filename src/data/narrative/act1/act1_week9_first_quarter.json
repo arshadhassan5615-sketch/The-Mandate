@@ -1,0 +1,147 @@
+{
+  "id": "act1_week9_first_quarter",
+  "title": "The First Quarter",
+  "act": 1,
+  "weekAvailable": 9,
+  "weekDeadline": 11,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Quarterly Economic Review",
+  "characters": ["elara_vostane", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Elara Vostane arrives with three binders, a junior economist who does not speak, and the particular tightness around her mouth that you have learned means the numbers are worse than she expected. The junior economist sets up an easel with charts. Vostane dismisses her with a nod. Whatever she is about to tell you, she does not want witnesses."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The first quarter numbers are in. GDP contracted by 1.8 percent. That is better than the 2.4 I projected, which is the only good news I have. Unemployment is unchanged at 19 percent nationally but has risen to 28 percent in Kravenstal and 23 percent in the Thornfeld district. Inflation is at 6.1 percent and accelerating — the Krone's depreciation is feeding through to import prices faster than our models predicted. The IMA disbursement is keeping the currency from collapsing but the structural conditions — the privatization timeline, the job cuts — have not yet begun. When they do, unemployment will rise further before it falls. The country is not in freefall. It is in controlled descent. The question is whether we can maintain control for the duration of the descent."
+    },
+    {
+      "type": "description",
+      "text": "She turns the chart to a new page. It shows the deficit projection under three scenarios: baseline, accelerated reform, and delayed reform. The accelerated reform scenario shows the deficit closing in eighteen months but unemployment spiking to twenty-four percent. The delayed scenario shows unemployment stabilizing but the deficit widening to seventy-eight million. The baseline is somewhere in between — an arrow pointing downward at a forty-five-degree angle, labeled simply: STATUS QUO."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political calendar makes this more urgent than the numbers alone suggest. If the IMA job cuts begin as scheduled next quarter, 60,000 public sector workers will receive dismissal notices in weeks 10 through 14. That is 60,000 families — roughly 200,000 people — who will experience your government as the thing that took away their livelihood. The Halvekists are already preparing a parliamentary response. Kolvar's opposition motion from the first month has been slowly gaining signatures. If the dismissal notices coincide with a vote of no confidence, the political calculus becomes very complicated."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Two hundred thousand people. That is the number that will define the next quarter. Not GDP. Not the deficit. Two hundred thousand people who will wake up one morning and find that their government has made them poorer. Some of them voted for me. Most of them did not vote for this. I can explain the necessity — I have explained it, in briefings and cabinet meetings and budget documents — but explanation is not the same thing as acceptance, and acceptance is not the same thing as forgiveness. The first quarter of my government is ending. The second quarter will be measured in dinner tables where there is less food and school gates where children are pulled out because the fees can no longer be paid. Those are the numbers that matter. The binders do not contain them."
+    }
+  ],
+
+  "monologue": "Two hundred thousand people. That's the number that will define the next quarter — not GDP, not the deficit. Sixty thousand dismissal notices multiplied by families. Some of them voted for me. Most didn't vote for this. The binders don't capture what happens at dinner tables where there's less food, at school gates where children are pulled out because fees can't be paid. Vostane says the country is in controlled descent. Whether we can maintain control — and whether the people we're descending toward will still believe we're steering.",
+
+  "choices": [
+    {
+      "id": "quarterly_double_down_reform",
+      "text": "\"Accelerate the reform timeline. If the medicine is going to taste bad, let it work faster. Implement the IMA conditions on schedule — all of them. The sixty thousand job cuts, the privatization timeline, the structural adjustments. Yes, it will hurt. Yes, we will take the political damage. But the worst thing we can do is stretch the pain over five years when we can compress it into eighteen months and start the recovery while we still have political capital to spend.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 6   },
+        { "stat": "nation.unemployment",        "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 8   },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": -12 },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_no_confidence_prep",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": ["accelerated_reform", "ima_full_speed", "first_quarter_complete"],
+      "codexUnlocks": ["codex_economic_reform", "codex_ima_timeline"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "Accelerated. The IMA disbursement schedule can be brought forward. Eighteen months of pain. The recovery trajectory steepens after month fourteen. The baseline projection holds."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not write anything down. Accelerated reform means sixty thousand dismissal notices in a single quarter. The political cost is calculable and enormous. He is already running the numbers on what the no-confidence motion looks like when those notices hit the mail."
+        }
+      ]
+    },
+    {
+      "id": "quarterly_slow_reform",
+      "text": "\"Slow the implementation. I will not throw sixty thousand families into unemployment in a single quarter. Spread the job cuts over two years. Use attrition — early retirement, hiring freezes, voluntary separation — before we touch layoffs. The IMA will complain. Let them. They need Veltria to succeed as much as we need their money. A government that destroys its own social fabric to satisfy foreign creditors is not a government — it is a liquidation committee.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 2   },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",        "operation": "add", "value": 6   },
+        { "stat": "factions.businessClass",     "operation": "add", "value": -6  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 10  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_ima_confrontation",
+          "delayWeeks": 5
+        }
+      ],
+      "flags": ["slow_reform", "ima_resistance", "first_quarter_complete"],
+      "codexUnlocks": ["codex_social_safety_net", "codex_ima_negotiation"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She closes the accelerated-reform scenario chart. The motion is precise — a mathematical alternative being archived. She does not argue. The argument is in the charts. The charts will wait."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "Slowed implementation. Attrition over layoffs. The IMA will object — formally, in writing. I will prepare the counter-argument: social stability is a fiscal condition. They will accept it or they will lose the disbursement leverage. Neither outcome is optimal."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Two-year timeline. The no-confidence motion loses its immediate trigger — 60,000 notices in one quarter becomes 8,000 per quarter over eight quarters. Kolvar will adjust. I will prepare the parliamentary defense."
+        }
+      ]
+    },
+    {
+      "id": "quarterly_emergency_jobs",
+      "text": "\"We need a jobs program before the IMA cuts begin. Not instead of the cuts — alongside them. Redirect the infrastructure budget, fast-track public works in Kravenstal and Thornfeld, offer tax incentives for private hiring in the affected districts. If sixty thousand people are going to lose public sector jobs, we need to show them something on the other side — not a promise, a payroll. Find the money. This is not optional.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "nation.unemployment",        "operation": "add", "value": -4  },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 3   },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 8   },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 3   },
+        { "stat": "nation.nationalDebt",        "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [],
+      "flags": ["jobs_program_created", "infrastructure_push", "first_quarter_complete"],
+      "codexUnlocks": ["codex_public_works_program", "codex_emergency_employment"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She opens a fourth binder — the one labeled 'EMERGENCY EMPLOYMENT — CONTINGENCY.' It was at the bottom of the stack. She did not expect it to be needed. She brought it anyway. That is what competence looks like."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "Infrastructure budget redirection. Six hundred million Krone available for reallocation. The projects can be tendered within thirty days. Kravenstal and Thornfeld as priority districts. I will have the analysis by end of week."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Jobs program. This will sell. Public works are the most visible form of government — people see the crane before they see the reform. I will coordinate the announcement with local press in the affected districts."
+        }
+      ]
+    }
+  ]
+}

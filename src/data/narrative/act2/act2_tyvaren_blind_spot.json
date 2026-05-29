@@ -1,0 +1,124 @@
+{
+  "id": "act2_tyvaren_blind_spot",
+  "title": "The Airfield We Did Not See",
+  "act": 2,
+  "weekAvailable": 18,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Secure Briefing Room",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.bni_dissolved", "operator": "==", "value": true },
+    { "stat": "nation.militaryReadiness", "operator": "<", "value": 35 }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The briefing folder contains twelve satellite photographs. They were taken over a five-month period. In the first photograph, the location — sixty kilometers northwest of the Gravenmark Pass, in the Tyvaren foothills — is empty farmland. In the last photograph, it is a military airfield with two paved runways, six hardened aircraft shelters, and what Dusek's analysts have identified as a forward fuel depot. Construction began in February. It was completed in July. Veltria learned about it this morning."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Five months. They built a military airfield sixty kilometers from our border in five months, and we did not detect it. The BNI's signals station at Watchtower Three would have caught the procurement communications within the first four weeks of construction — they would have known about the concrete shipments, the equipment leases, the labor contracts. That station has been dark since we disbanded the Bureau. I am not saying this to assign blame. I am saying it because you need to understand the operational reality."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The photographs are Arcturian. Ambassador Cole delivered them personally this morning, which means Cole wanted you to know that Cole gave them to you, which means there is a price for having them. His office followed up within the hour. The Arcturian Commonwealth would like to discuss the formalization of a mutual defense and intelligence framework — his language. He suggested the meeting could take place at any level of formality you prefer, up to and including a summit with the Commonwealth Secretary of State. He noted that the new airfield significantly changes the regional balance of power, and that nations with formal intelligence partnerships are better positioned to respond to such changes."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Cole waited until the airfield was finished before sharing the photographs. He has had them for some portion of those five months — the Arcturian surveillance program is continuous. He chose this moment. He is not offering intelligence. He is offering the experience of not having intelligence, so that the next offer of intelligence is received differently. It is a very sophisticated form of persuasion and I resent how well it is working."
+    }
+  ],
+  "monologue": "Five months. They built a military airfield sixty kilometers from our border in five months, and we did not detect it. Cole delivered the photographs personally — waited until the airfield was finished, then handed them over like a gift that had already cost us the thing we needed it to prevent. He is not offering intelligence. He is offering the experience of not having intelligence, so that the next offer of intelligence is received differently. Effective. And infuriating.",
+
+  "choices": [
+    {
+      "id": "act2_tyvaren_blind_spot_alliance",
+      "text": "\"Accept Cole's meeting. Formal intelligence framework — I want our team to negotiate terms before I sit down with anyone at the Commonwealth level. The terms must include: no military basing rights, no formal treaty obligations, a defined scope for shared intelligence limited to Tyvaren military movements. We are not joining their alliance. We are buying information we cannot produce ourselves, at a price we choose, with limits we define.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",    "operation": "add", "value": 10  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -5  },
+        { "stat": "factions.ironCovenant",       "operation": "add", "value": 8   },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week21_superpower_choice", "delayWeeks": 2 }
+      ],
+      "flags": ["arcturian_intel_partnership", "formal_intelligence_framework"],
+      "codexUnlocks": ["codex_arcturian_commonwealth"],
+      "reactions": [
+        {
+          "character": "irina_dusek",
+          "type": "silence",
+          "text": "Dusek looks at the photographs one more time before closing the folder. She does not argue — she understands the arithmetic of capability better than anyone in this room. Her silence is not agreement. It is the silence of a soldier who knows the cost of being right when being right means being unarmed."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "I will draft the negotiating terms. No basing rights, no treaty obligations, scope limited to Tyvaren military movements. He pauses. Cole will want more. He always wants more. The question is whether he wants access to the Gravenmark corridor badly enough to accept what we are offering. I believe he does."
+        }
+      ]
+    },
+    {
+      "id": "act2_tyvaren_blind_spot_rebuild",
+      "text": "\"We are not buying Cole's intelligence at Cole's price. Reactivate Watchtower Three under military command. Begin drafting a charter for a civilian intelligence agency — small, judicially overseen, specifically scoped to foreign military surveillance. Dusek, I want the Gravenmark observation posts upgraded and staffed on a continuous rather than rotating basis. It takes three months to rebuild what we lost. We spend three months.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",    "operation": "add", "value": 5   },
+        { "stat": "nation.civilLiberties",       "operation": "add", "value": 3   },
+        { "stat": "factions.reformists",         "operation": "add", "value": 5   },
+        { "stat": "nation.economyHealth",        "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 10 }
+      ],
+      "flags": ["civilian_intel_rebuild_started", "watchtower_reactivated", "intelligence_independence_restored"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "irina_dusek",
+          "type": "action",
+          "text": "Dusek is already reaching for the deployment map. Watchtower Three can be operational in six weeks with existing personnel. She traces the Gravenmark observation posts with her finger — upgrading, reinforcing, staffing continuously. She does not say thank you. She does not need to. The speed of her response is the gratitude."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor says nothing, but he writes something on his notepad that you cannot see. Later, you notice he has drafted a preliminary charter for a civilian oversight body — not because you asked him to, but because he anticipated that you would. He is always three steps ahead. This time you are walking in the same direction."
+        }
+      ]
+    },
+    {
+      "id": "act2_tyvaren_blind_spot_orythian",
+      "text": "\"Tell Stahl we want a meeting. If Cole is going to use intelligence as leverage, I want to understand what Orythia is willing to offer on the same subject — and I want Cole to know I had that meeting, because the best way to reduce the price of Arcturian intelligence is to have credible alternatives. I am not choosing Orythia. I am creating a negotiating position. There is a difference.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",    "operation": "add", "value": 6   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 3   },
+        { "stat": "factions.halvekists",         "operation": "add", "value": -5  },
+        { "stat": "factions.ironCovenant",       "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week21_superpower_choice", "delayWeeks": 2 }
+      ],
+      "flags": ["orythian_intel_explored", "superpower_played_against_each_other"],
+      "codexUnlocks": ["codex_orythian_dominion"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Stahl's office will respond within the hour. I will brief Cole's office afterward — casually, incidentally. He will hear about the meeting whether we tell him or not. The difference is whether he hears it from us or from his own intelligence. He pauses. The former is cheaper."
+        },
+        {
+          "character": "irina_dusek",
+          "type": "silence",
+          "text": "Dusek looks at you with an expression you cannot read — respect, concern, the particular awareness of a soldier watching her civilian commander play a game that militaries usually lose. She does not object. But she files the moment away, and Dusek's files are more permanent than any document in the national archive."
+        }
+      ]
+    }
+  ]
+}

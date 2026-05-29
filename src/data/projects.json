@@ -1,0 +1,277 @@
+[
+  {
+    "id": "kravenstal_steel",
+    "title": "Kravenstal Steel Modernization",
+    "description": "Modernize the state-owned Kravenstal Steel Processing Facility with new blast furnaces, continuous casting equipment, and emission controls. The facility employs twelve thousand workers and processes sixty percent of Veltria's domestic steel output.",
+    "cost": 50,
+    "durationWeeks": 12,
+    "category": "industry",
+    "effects": [
+      { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
+      { "stat": "factions.workersCoalition", "operation": "add", "value": 20 }
+    ],
+    "midpointWeek": 6,
+    "midpointChoices": [
+      {
+        "id": "steel_state_owned",
+        "text": "Keep the facility fully state-owned. The modernization is funded through a combination of budget reallocation and a low-interest loan from the National Development Bank. Workers retain full ownership stake and the state controls steel pricing for domestic infrastructure projects.",
+        "effects": [
+          { "stat": "nation.nationalDebt", "operation": "add", "value": 15 },
+          { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
+          { "stat": "factions.businessClass", "operation": "add", "value": -5 }
+        ],
+        "flags": ["steel_state_owned"]
+      },
+      {
+        "id": "steel_partial_privatize",
+        "text": "Sell a forty percent stake to private investors — the Vael Foundation has expressed interest. The capital infusion funds the modernization without adding to the national debt. Workers retain majority ownership through a trust, but Vael gains board seats and influence over pricing decisions.",
+        "effects": [
+          { "stat": "vaelInfluence", "operation": "add", "value": 15 },
+          { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+          { "stat": "factions.businessClass", "operation": "add", "value": 10 },
+          { "stat": "factions.workersCoalition", "operation": "add", "value": -10 },
+          { "stat": "nation.corruption", "operation": "add", "value": 5 }
+        ],
+        "flags": ["steel_privatized", "vael_steel_stake"]
+      },
+      {
+        "id": "steel_investment_fund",
+        "text": "Create a public investment fund — sell bonds to Veltrian citizens, not institutions. The modernization is funded by the people who will benefit from it. Lower returns than private capital but no loss of sovereignty. Requires a public campaign to sell the bonds.",
+        "effects": [
+          { "stat": "nation.economyHealth", "operation": "add", "value": 3 },
+          { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+          { "stat": "factions.reformists", "operation": "add", "value": 8 },
+          { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+          { "stat": "factions.businessClass", "operation": "add", "value": -8 }
+        ],
+        "flags": ["steel_public_fund", "citizen_bonds"]
+      }
+    ],
+    "flags": ["project_steel_modernization"],
+    "codexUnlocks": ["codex_kravenstal"]
+  },
+  {
+    "id": "amber_coast_highway",
+    "title": "The Amber Coast Highway",
+    "description": "Construct a two-hundred-kilometer highway connecting Aldenmoor to Ashenmere through the Amber Coast region. The road will reduce travel time from seven hours to three, open coastal towns to trade, and create an estimated eight thousand construction jobs.",
+    "cost": 35,
+    "durationWeeks": 8,
+    "category": "infrastructure",
+    "effects": [
+      { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+      { "stat": "factions.businessClass", "operation": "add", "value": 10 }
+    ],
+    "midpointWeek": 4,
+    "midpointChoices": [
+      {
+        "id": "highway_reroute",
+        "text": "Reroute the highway around the archaeological site. The additional fourteen kilometers adds five million VK to the cost and extends construction by two weeks, but the ruins are preserved and the Dravenni heritage community is grateful.",
+        "effects": [
+          { "stat": "factions.dravenni", "operation": "add", "value": 12 },
+          { "stat": "factions.reformists", "operation": "add", "value": 6 },
+          { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+        ],
+        "costChange": 5,
+        "flags": ["highway_rerouted", "ruins_preserved"]
+      },
+      {
+        "id": "highway_bulldoze",
+        "text": "The ruins are pre-Veltrian — technically significant but not culturally Veltrian. The highway proceeds on schedule and on budget. The archaeological community will protest, but infrastructure serves the living, not the dead.",
+        "effects": [
+          { "stat": "factions.dravenni", "operation": "add", "value": -12 },
+          { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
+          { "stat": "personal.publicImage", "operation": "add", "value": -8 },
+          { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+          { "stat": "nation.civilLiberties", "operation": "add", "value": -3 }
+        ],
+        "flags": ["highway_bulldozed", "ruins_destroyed"]
+      }
+    ],
+    "flags": ["project_amber_highway"],
+    "codexUnlocks": []
+  },
+  {
+    "id": "university_expansion",
+    "title": "National University Expansion",
+    "description": "Expand the University of Ashenmere and establish two new regional colleges in Kravenstal and Thornfeld. The expansion will double tertiary enrollment capacity from twelve thousand to twenty-four thousand students over five years.",
+    "cost": 25,
+    "durationWeeks": 10,
+    "category": "education",
+    "effects": [
+      { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+      { "stat": "factions.reformists", "operation": "add", "value": 10 },
+      { "stat": "nation.internationalStanding", "operation": "add", "value": 3 }
+    ],
+    "midpointWeek": 5,
+    "midpointChoices": [
+      {
+        "id": "university_merit_only",
+        "text": "Admission by academic merit only — standardized examination scores, no quotas, no preferences. The best students regardless of background. Critics argue this perpetuates existing inequality since wealthier families can afford better preparation.",
+        "effects": [
+          { "stat": "factions.businessClass", "operation": "add", "value": 8 },
+          { "stat": "factions.dravenni", "operation": "add", "value": -8 },
+          { "stat": "factions.reformists", "operation": "add", "value": -3 }
+        ],
+        "flags": ["university_merit_only"]
+      },
+      {
+        "id": "university_regional_quotas",
+        "text": "Establish regional and minority admission quotas — twenty percent of seats reserved for Dravenni applicants and students from underdeveloped provinces. The elite universities in Arcturia have done this for decades with measurable success in reducing regional inequality.",
+        "effects": [
+          { "stat": "factions.dravenni", "operation": "add", "value": 15 },
+          { "stat": "factions.businessClass", "operation": "add", "value": -10 },
+          { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+          { "stat": "nation.civilLiberties", "operation": "add", "value": 5 }
+        ],
+        "flags": ["university_quotas", "affirmative_admission"]
+      },
+      {
+        "id": "university_hybrid",
+        "text": "A hybrid model: merit-based admission with need-based scholarships and a one-year preparatory program for students from underperforming schools. No quotas, but genuine investment in leveling the playing field before admission.",
+        "effects": [
+          { "stat": "factions.dravenni", "operation": "add", "value": 8 },
+          { "stat": "factions.reformists", "operation": "add", "value": 8 },
+          { "stat": "factions.businessClass", "operation": "add", "value": 3 },
+          { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+        ],
+        "costChange": 3,
+        "flags": ["university_hybrid", "preparatory_program"]
+      }
+    ],
+    "flags": ["project_university_expansion"],
+    "codexUnlocks": ["codex_education"]
+  },
+  {
+    "id": "sevagrad_fortification",
+    "title": "Sevagrad Border Fortification",
+    "description": "Construct fortified defensive positions along the Tyvaren border near Sevagrad — bunkers, anti-tank ditches, artillery emplacements, and a forward observation network. The fortification would make a Tyvaren armored advance through the Sevagrad corridor significantly more costly.",
+    "cost": 40,
+    "durationWeeks": 6,
+    "category": "military",
+    "effects": [
+      { "stat": "nation.militaryReadiness", "operation": "add", "value": 20 },
+      { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
+      { "stat": "nation.internationalStanding", "operation": "add", "value": -5 }
+    ],
+    "midpointWeek": 3,
+    "midpointChoices": [
+      {
+        "id": "fortification_full",
+        "text": "Full fortification — hardened bunkers, minefields in designated zones, artillery pre-registered on all approach corridors. This will be seen by Tyvaren as a provocation and by the international community as escalation, but it will make the border genuinely defensible.",
+        "effects": [
+          { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+          { "stat": "nation.internationalStanding", "operation": "add", "value": -8 },
+          { "stat": "factions.ironCovenant", "operation": "add", "value": 5 }
+        ],
+        "flags": ["fortification_full", "border_militarized"]
+      },
+      {
+        "id": "fortification_defensive",
+        "text": "Limited defensive emplacements — observation posts, reinforced fallback positions, no minefields. Sufficient to slow an advance without being an overt provocation. Frame it as border security infrastructure, not militarization.",
+        "effects": [
+          { "stat": "nation.internationalStanding", "operation": "add", "value": 2 },
+          { "stat": "factions.reformists", "operation": "add", "value": 3 }
+        ],
+        "flags": ["fortification_defensive", "border_reinforced"]
+      }
+    ],
+    "flags": ["project_sevagrad_fortification"],
+    "codexUnlocks": ["codex_military"]
+  },
+  {
+    "id": "rural_electrification",
+    "title": "Rural Electrification Program",
+    "description": "Extend the electrical grid to rural communities in Thornfeld province and the eastern agricultural regions. An estimated forty thousand households currently lack reliable electricity. The program involves constructing power lines, substations, and providing connection subsidies for low-income families.",
+    "cost": 30,
+    "durationWeeks": 14,
+    "category": "welfare",
+    "effects": [
+      { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+      { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
+      { "stat": "factions.church", "operation": "add", "value": 5 }
+    ],
+    "midpointWeek": 7,
+    "midpointChoices": [
+      {
+        "id": "electrification_farmers_first",
+        "text": "Prioritize agricultural communities — connect farms and food processing facilities first. The economic return is faster, food production increases, and the agricultural lobby is powerful. Church villages will be connected in phase two.",
+        "effects": [
+          { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+          { "stat": "factions.businessClass", "operation": "add", "value": 8 },
+          { "stat": "factions.church", "operation": "add", "value": -5 }
+        ],
+        "flags": ["electrification_farmers", "agriculture_first"]
+      },
+      {
+        "id": "electrification_church_first",
+        "text": "Prioritize villages with Church facilities — the Church runs schools and clinics that need power for lighting, refrigeration, and medical equipment. This strengthens rural healthcare and education infrastructure while building goodwill with the Archbishop.",
+        "effects": [
+          { "stat": "factions.church", "operation": "add", "value": 12 },
+          { "stat": "religiousAdherence", "operation": "add", "value": 3 },
+          { "stat": "factions.reformists", "operation": "add", "value": -5 }
+        ],
+        "flags": ["electrification_church", "church_first"]
+      },
+      {
+        "id": "electrification_balanced",
+        "text": "Balanced rollout — no priority system. Communities are connected based on geographic efficiency, minimizing construction costs. Farmers and Church villages are treated equally. This is administratively neutral but politically disappointing to both sides.",
+        "effects": [
+          { "stat": "factions.reformists", "operation": "add", "value": 4 },
+          { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+        ],
+        "flags": ["electrification_balanced"]
+      }
+    ],
+    "flags": ["project_rural_electrification"],
+    "codexUnlocks": []
+  },
+  {
+    "id": "ashenmere_metro",
+    "title": "Ashenmere Metro System",
+    "description": "Build an underground metro system in the capital — three lines, eighteen stations, connecting the government district, industrial zones, and residential quarters. The project is the largest urban infrastructure investment in Veltrian history and will transform the capital's economy.",
+    "cost": 45,
+    "durationWeeks": 16,
+    "category": "urban",
+    "effects": [
+      { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+      { "stat": "personal.publicImage", "operation": "add", "value": 10 }
+    ],
+    "midpointWeek": 8,
+    "midpointChoices": [
+      {
+        "id": "metro_competitive_bid",
+        "text": "Open competitive international bidding. The contract goes to the best qualified bidder regardless of nationality. This ensures quality and cost control but means foreign companies may profit from Veltrian infrastructure.",
+        "effects": [
+          { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+          { "stat": "factions.businessClass", "operation": "add", "value": -5 },
+          { "stat": "nation.corruption", "operation": "add", "value": -5 }
+        ],
+        "flags": ["metro_competitive", "transparent_bidding"]
+      },
+      {
+        "id": "metro_vael_contract",
+        "text": "Award the primary construction contract to the Thornfeld Valley Development Corporation — Lucan Vael's company. They have the experience, the equipment, and the workforce. The project will be completed faster, but the appearance of favoritism will be impossible to avoid.",
+        "effects": [
+          { "stat": "vaelInfluence", "operation": "add", "value": 15 },
+          { "stat": "nation.corruption", "operation": "add", "value": 8 },
+          { "stat": "factions.businessClass", "operation": "add", "value": 10 },
+          { "stat": "factions.reformists", "operation": "add", "value": -10 },
+          { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+        ],
+        "flags": ["metro_vael", "vael_infrastructure"]
+      },
+      {
+        "id": "metro_veltrian_consortium",
+        "text": "Form a Veltrian construction consortium — multiple domestic firms, no single company dominates. This keeps the money in Veltria, spreads the contracts across the business community, and avoids concentrating too much influence in Vael's hands.",
+        "effects": [
+          { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+          { "stat": "factions.reformists", "operation": "add", "value": 3 },
+          { "stat": "vaelInfluence", "operation": "add", "value": -5 }
+        ],
+        "flags": ["metro_domestic", "veltrian_consortium"]
+      }
+    ],
+    "flags": ["project_ashenmere_metro"],
+    "codexUnlocks": ["codex_ashenmere"]
+  }
+]

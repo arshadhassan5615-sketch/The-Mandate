@@ -1,0 +1,246 @@
+{
+  "id": "family_bni_night",
+  "title": "The Night After the Vote",
+  "act": 1,
+  "weekAvailable": 5,
+  "weekDeadline": 5,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "isFamilyScene": true,
+  "location": "The Private Quarters — Chancellor's Residence, Late",
+  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+  "prerequisites": [
+    { "stat": "flags.bni_crisis_resolved", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The residence is quiet. The kind of quiet that comes after a long day of noise — briefings, arguments, decisions that will be printed in tomorrow's papers. You climb the stairs to the private quarters. Your feet know the way. Your mind is still downstairs, still in the briefing room, still watching Danika's face as she delivered the WATCHTOWER file to your desk."
+    },
+    {
+      "type": "description",
+      "text": "Tomas is sitting in the hallway. He is eight years old. He has your father's eyes — the same grey-blue, the same way of looking at things as though he intends to understand them completely before he speaks. He is holding a newspaper. You had not realized they delivered papers to the residence. Of course they did."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "Mama. Is this true?"
+    },
+    {
+      "type": "description",
+      "text": "He holds up the paper. You can see the headline from where you stand. The words are different depending on what you decided today — but the look on his face is the same. An eight-year-old is trying to reconcile what he reads about his mother with the woman who reads him bedtime stories. The two pictures have never been the same picture. They are less the same tonight than they were yesterday."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is eight. I was thirty-six before I understood that newspapers are not mirrors — they are weapons wielded by people who want something. He is trying to understand the weapon without knowing there is someone holding it. What do I tell him? The truth? Which version? There are at least four versions of what happened today and I was in the room for all of them."
+    }
+  ],
+
+  "monologue": "He brought me the paper. Eight years old and he's already holding the world's opinion of me in his hands. He wants to know if it's true. The headline says either I saved the nation or endangered it — depending on which paper he found. What do I tell him? He doesn't need the political analysis. He needs his mother. Start there.",
+
+  "choices": [
+    {
+      "id": "family_bni_explain",
+      "text": "\"Come inside. I'll explain.\"",
+      "internalTag": "personal",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "tomas_ashavel",
+          "text": "He takes your hand. His hand is small and warm and trusts you completely. You sit with him on the edge of his bed for twenty minutes. You explain as much as you can explain to an eight-year-old about institutions and trust and why sometimes the same decision looks different depending on who is writing about it. He listens. He is good at listening. He got that from Jonas.",
+          "type": "narrative"
+        },
+        {
+          "character": "tomas_ashavel",
+          "text": "Did you do the right thing?",
+          "type": "dialogue"
+        }
+      ]
+    },
+    {
+      "id": "family_bni_where",
+      "text": "\"Where did you get that?\"",
+      "internalTag": "personal",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "tomas_ashavel",
+          "text": "Liora showed me. She cried.",
+          "type": "dialogue"
+        },
+        {
+          "character": "tomas_ashavel",
+          "text": "Of course she did. Liora is twelve. She cries at things that are unjust and she is not wrong to.",
+          "type": "narrative"
+        }
+      ]
+    },
+    {
+      "id": "family_bni_silent",
+      "text": "Take the paper from him gently. Do not answer yet.",
+      "internalTag": "personal",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "tomas_ashavel",
+          "text": "He lets you take it. He watches you fold it. He says nothing.",
+          "type": "narrative"
+        }
+      ]
+    }
+  ],
+
+  "socialInteractions": [
+    {
+      "id": "family_bni_explain_answer",
+      "title": "Does she tell him she was right?",
+      "character": "tomas_ashavel",
+      "location": "Tomas's bedroom",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "tomas_ashavel",
+          "text": "Did you do the right thing?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "family_bni_believe",
+          "text": "\"I believe so.\"",
+          "internalTag": "personal",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "family_bni_uncertain",
+          "text": "\"I don't know yet. I'll tell you when I do.\"",
+          "internalTag": "personal",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": []
+        }
+      ],
+      "reactions": [
+        {
+          "character": "tomas_ashavel",
+          "text": "He nods. Just once. He seems satisfied with either answer in the way that children sometimes are — not because they fully understand, but because the honesty is its own kind of answer. He trusts you to tell him the truth. He trusts you even when the truth is that you do not know.",
+          "type": "narrative"
+        }
+      ]
+    },
+    {
+      "id": "family_bni_liora",
+      "title": "She finds Liora in her room",
+      "character": "liora_ashavel",
+      "location": "Liora's bedroom",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You find Liora in her room. She pretends to be asleep — the way she has pretended since she was small, with the covers pulled up too high and her breathing too deliberate. You sit on the edge of her bed anyway. After a moment she speaks into her pillow."
+        },
+        {
+          "type": "dialogue",
+          "character": "liora_ashavel",
+          "text": "They said you took away something that protected people. They also said you protected people by taking it away. How can both be true?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "family_bni_answer_liora",
+          "text": "\"Because the people writing those sentences wanted different things from me. And I couldn't give both of them what they wanted.\"",
+          "internalTag": "personal",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": []
+        }
+      ],
+      "reactions": [
+        {
+          "character": "liora_ashavel",
+          "text": "She turns over. Her eyes are dry now — the cry she was hiding has passed. That's not a good answer, she says. No, you say. It isn't.",
+          "type": "narrative"
+        }
+      ]
+    },
+    {
+      "id": "family_bni_jonas",
+      "title": "Jonas in the doorway",
+      "character": "jonas_ashavel",
+      "location": "The hallway",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Jonas is in the doorway. He has been there for a while — you do not know how long. Long enough. He doesn't say anything. He doesn't need to. The look on his face is not judgment. It is recognition. He knows what this costs you. He always has."
+        },
+        {
+          "type": "description",
+          "text": "He looks at Tomas. At the folded newspaper. At you. The three of you in the hallway of a residence that still feels borrowed, at the end of a day that felt like a year. He says nothing. His silence is the loudest thing you have heard all day — and the only thing you have heard all day that was not asking you for something."
+        }
+      ]
+    },
+    {
+      "id": "family_bni_silent_jonas",
+      "title": "After Tomas has gone",
+      "character": "jonas_ashavel",
+      "location": "The hallway after Tomas has left",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "Come on, buddy. Back to bed."
+        },
+        {
+          "type": "description",
+          "text": "Tomas goes. He glances back once — just once, over his shoulder, checking that you are still there. You are. Jonas stays in the doorway after Tomas has gone. He speaks very quietly."
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "He'll have more questions tomorrow."
+        }
+      ],
+      "choices": [
+        {
+          "id": "family_bni_i_know",
+          "text": "\"I know.\"",
+          "internalTag": "personal",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": []
+        }
+      ],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "text": "He should.",
+          "type": "dialogue"
+        },
+        {
+          "character": "jonas_ashavel",
+          "text": "He reaches out — not for your hand, but for your shoulder. A brief touch. The kind that says: I am still here. I am still on your side. I do not need you to be anything other than what you are right now. Then he follows Tomas down the hall toward bed.",
+          "type": "narrative"
+        }
+      ]
+    }
+  ]
+}

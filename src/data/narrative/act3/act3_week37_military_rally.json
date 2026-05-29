@@ -1,0 +1,141 @@
+{
+  "id": "act3_week37_military_rally",
+  "title": "The Banners Unfurl",
+  "act": 3,
+  "weekAvailable": 37,
+  "weekDeadline": 38,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Parade Ground, 09:00, Week Thirty-Seven",
+  "characters": ["general_brenner", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "factions.ironCovenant", "operator": ">=", "value": 25 }
+  ],
+  "exclusive": ["act3_week37_coup_attempt"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The parade ground at the Ministry of Defense is not built for civilian audiences. The reviewing stand is positioned for maximum visibility of the drill formations, the flagpoles are arranged by protocol seniority, and the stonework is the particular grey that military architects have favored in every country in every century — sober, enduring, deliberately unreceptive to weather. But this morning the civilians are here anyway. Journalists, parliamentary observers, the families of senior officers, an assortment of people who received invitations through channels they didn't know existed. A military rally in support of a civilian government is not an ordinary event. It required inventing."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "Chancellor. Thank you for coming. I thought it was important that the country see this. Not just the military leadership in a closed briefing room — the military itself, the soldiers, the formation. They need to see you, and the country needs to see them seeing you."
+    },
+    {
+      "type": "description",
+      "text": "Brenner is in full dress uniform, something you have never seen him wear. The decorations on his chest represent forty-one years of service across three governments and two wars. He wears them with the particular discomfort of a man who earned them in combat and now has to wear them for politics. He is making an effort. The effort itself is the message."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I received an intelligence briefing at 06:00 this morning that I want to share with you before the formation begins. Tyvaren forces have completed their forward deployment. Three armored divisions, support elements, an estimated forty thousand troops within striking distance of the Gravenmark. They are no longer posturing. They are positioned. If Vukov intends to follow through on his ultimatum — and I now believe, based on the logistics pattern, that he does — we are looking at an invasion within seven to ten days. Possibly sooner if the Strevna negotiations collapse."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Seven to ten days. The deadline you have been living under since Week Thirty-Two is no longer a diplomatic abstraction. It has a specific timetable based on fuel consumption rates and ammunition stockpiles and the distance between forward staging areas. Brenner delivered this information in the same tone he uses for weather reports, which you have learned means he considers it operational rather than political. He is telling you the military facts. What you do with them is your job. The distinction has, over the months, become a form of respect."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The formations are ready. Three thousand soldiers representing twelve regiments. Every unit that could be rotated to the capital on short notice. The regimental commanders have all confirmed their readiness to — I will use their language — 'defend the constitutional order against all threats, foreign and domestic.' The 'domestic' part was added at my insistence. Every commander on this parade ground has been directly informed that the military's loyalty is to the Republic, not to any individual, and that the test of that loyalty may come from within the institution itself. They understood what I was saying. They are here anyway."
+    },
+    {
+      "type": "description",
+      "text": "The formation stretches the length of the parade ground. Three thousand soldiers at attention. The banners of twelve regiments snapping in a wind that has the particular sharpness of late autumn in Ashenmere — cold without being cruel, the last season before winter imposes its own priorities. Brenner steps back to give you the reviewing stand. Dusek follows at precisely the regulation distance. You are about to address a military formation that has chosen, against the instincts of its own institution, to stand with the civilian government. The speech you give will be carried on every radio station in the country. It will be heard in Tyvaren. It will be heard in Stellamere and Orythia. It will be heard by your children."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Three thousand soldiers. If the Iron Covenant had gone the other way — if Brenner had decided the constitutional process was a threat rather than an obligation — those three thousand would be facing a different direction. You know this because you have seen the numbers, because Dusek warned you in Week Thirty, because every week you governed without the military's full confidence carried the possibility of this parade ground being empty or hostile. The soldiers are here because you kept the military close enough to trust but at enough distance to govern. That balance cost you things — reformist credibility, international approval at times, moral clarity on several specific occasions. This morning, the parade ground suggests the cost was worth paying. Or at minimum, that the alternative would have been worse."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "rally_inspire_unity",
+      "text": "\"Soldiers of the Republic. You stand here today not as instruments of any government but as defenders of a constitution that belongs to every Veltrian. The threat we face is not merely a foreign army at our border — it is the idea, held by our enemies and whispered by our fears, that a democracy cannot defend itself. You are the answer to that idea. When the history of this crisis is written, it will record that the Veltrian armed forces chose the Republic — not because they were ordered to, but because the Republic was worth choosing.\"",
+      "internalTag": "reformist",
+      "tooltip": "A unifying speech framing the military as defenders of democracy. Lifts national morale. May alienate hardline officers who preferred a more authoritarian tone.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 12 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_military_democracy_bond", "delayWeeks": 3 }
+      ],
+      "flags": ["military_rallied_reformist", "democratic_defense_speech", "military_loyalty_public"],
+      "codexUnlocks": ["codex_veltrian_military_oath", "codex_constitutional_defense_doctrine"]
+    },
+    {
+      "id": "rally_steeled_resolve",
+      "text": "\"I am not going to give you a speech about democracy. I am going to give you the truth. There are forty thousand Tyvaren soldiers on our border. They are better equipped, they are deeply motivated, and they have been planning this for months. But they have never fought a Veltrian army that believed in what it was defending. You do. I know you do because you are standing here, on a cold morning, when you could have chosen otherwise. We will fight. We may lose. But we will not be remembered as the generation that surrendered the Gravenmark without a battle. That is the speech. That is all of it. Now go prepare.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "A hard, honest speech about the coming war. The military respects directness. Civilians may find it alarming.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 14 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -2 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_military_resolve_hardened", "delayWeeks": 2 }
+      ],
+      "flags": ["military_rallied_authoritarian", "steeled_for_war", "military_loyalty_public", "hard_truth_speech"],
+      "codexUnlocks": ["codex_tyvaren_invasion_estimate", "codex_veltrian_defensive_capability"]
+    },
+    {
+      "id": "rally_personal_gratitude",
+      "text": "\"I want to speak not as your Chancellor but as a Veltrian citizen. My father was executed by the regime that came before. My children have grown up in the shadow of things that happened before they were born. The promise of this Republic — the promise I ran on, the promise you defend — is that the past does not own the future. You are standing here, three thousand strong, because you believe that promise is worth defending. I am standing here because you do. That is not a political relationship. It is a human one. I am grateful. Now let us do the work that gratitude requires.\"",
+      "internalTag": "personal",
+      "tooltip": "A personal, vulnerable address. Connects emotionally with soldiers and civilians alike. Genuine — which means it reveals something.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["military_rallied_personal", "father_referenced_publicly", "military_loyalty_public", "personal_gratitude_speech"],
+      "codexUnlocks": ["codex_mikhael_ashavel_public", "codex_veltrian_military_oath"]
+    },
+    {
+      "id": "rally_strategic_preview",
+      "text": "\"Thank you for this formation — it sends a message that needs sending. But I want to speak plainly about what comes next. The intelligence assessment is that Tyvaren forces will move within the week. Every soldier on this parade ground will be in the field within days. Some of you will not come home. I am not going to stand here and tell you that victory is certain — you are professionals, and professionals don't need reassuring lies. What I will tell you is that your government has prepared for this, that your commanders have a plan, and that every diplomatic and military resource available to the Republic has been committed to your support. The rest is in your hands, and in the hands of the country that is watching you this morning.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "A sober, strategic address. Prepares the military and the public for war without sugar-coating. Honest, but may frighten the markets.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_military_deployment", "delayWeeks": 1 }
+      ],
+      "flags": ["military_rallied_pragmatist", "war_imminent_acknowledged", "military_loyalty_public", "strategic_transparency"],
+      "codexUnlocks": ["codex_tyvaren_invasion_estimate", "codex_veltrian_order_of_battle"]
+    }
+  ]
+}

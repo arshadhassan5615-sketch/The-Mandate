@@ -1,0 +1,87 @@
+{
+  "id": "act2_religious_hospital_threat",
+  "title": "The Hospital Ultimatum",
+  "act": 2,
+  "weekAvailable": 17,
+  "type": "emergency",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Emergency Command Center — Ashenmere Palace",
+  "characters": ["stanislov_renek", "elara_vostane"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Archbishop's letter is delivered by a monsignor in full vestments at seven in the morning — a deliberate choice of hour and messenger. It is four pages long, handwritten in Renek's careful ecclesiastical script, and it contains an ultimatum. If the education secularization bill proceeds to a vote, the Church of Veltria will close all fourteen of its hospitals within six months. Those hospitals serve thirty percent of Veltria's rural population. In some districts, they are the only healthcare facility within a day's travel. Renek has not sent a letter. He has sent a threat. And he has sent it in a form that can be denied later — 'a statement of institutional concern,' he will call it, 'not a threat.' He is too skilled to leave evidence of coercion."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Fourteen hospitals. Approximately twelve thousand beds. If the Church follows through, we lose thirty percent of rural healthcare capacity overnight. The state hospital system cannot absorb that — we have been underfunding rural health for twenty years. The Church stepped in because the state failed. The Archbishop knows this. He is holding the health of rural Veltrians hostage to the education bill because he knows we cannot call his bluff without killing people."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor, I resent the word 'ultimatum.' The Church has provided healthcare to Veltrians for centuries — long before the state took an interest in the subject. If the state now wishes to exclude the Church from the education of Veltria's children, the Church must reconsider whether its resources are best deployed in partnership with a government that views it as an obstacle rather than an ally. The hospitals are not being 'closed as a threat.' They are being re-evaluated in light of a deteriorating institutional relationship. If the education bill is withdrawn, the re-evaluation becomes unnecessary. That is not a threat. That is cause and effect."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is lying, and he knows I know he is lying, and the lie is part of the performance. The hospitals are absolutely a threat — a lethal one, calibrated to the exact pressure point where my reform agenda meets rural Veltrians' need to not die of treatable illnesses. If I proceed with secularization, fourteen hospitals close and people suffer. If I fold, the Church demonstrates that it can veto any policy it dislikes by threatening its institutional assets. I can negotiate — find a way to keep the hospitals open while proceeding with some form of education reform. Or I can call his bluff and bet that he values his moral authority more than his political leverage. Or I can fold and admit that the Church is more powerful than the government."
+    }
+  ],
+
+  "monologue": "Fourteen hospitals. Twelve thousand beds. Delivered by a monsignor at seven in the morning. Renek calls it a re-evaluation of institutional resources. We both know it is a threat. The education bill is the target. Rural healthcare is the hostage. If I refuse to fold, people suffer. If I fold, the Church learns that threatening hospitals is an effective veto on any policy. The education bill would be the first. It would not be the last.",
+
+  "choices": [
+    {
+      "id": "hospital_negotiate",
+      "text": "\"Archbishop, here is the reality: you are threatening to close hospitals that serve people who have never read the education bill and will never know what was in it. They will only know that the Church abandoned them. I am prepared to negotiate a dual system — the state funds the hospitals jointly with the Church, the Church retains operational control, and the education bill proceeds with an exemption for Church-run schools that meet state curriculum standards. You keep your hospitals. I keep my reform. Neither of us uses the sick as leverage again.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -3 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["hospital_compromise", "joint_healthcare", "church_hospital_saved"],
+      "codexUnlocks": ["codex_church_healthcare"],
+      "reactions": [{ "character": "stanislov_renek", "type": "silence", "text": "The Archbishop makes a note in his leather notebook. Joint funding. Church operational control. Education bill proceeds with exemption. He weighs each component. He did not get everything. He got enough. The silence is the sound of a man calculating whether this compromise strengthens or weakens his position." }, { "character": "elara_vostane", "type": "silence", "text": "Vostane writes joint funding framework on her notepad and begins sketching the budget model. The silence is the sound of Elara Vostane being told to design a system that has never existed before and beginning to do it anyway." }]
+    },
+    {
+      "id": "hospital_secularize",
+      "text": "\"Close them. The state will absorb the capacity — Vostane, begin emergency planning for rural health infrastructure. The Church does not get to hold Veltrian healthcare hostage to its political preferences. If the bishops believe their moral duty includes letting rural Veltrians die to make a political point, let them explain that to the congregations who trusted them. The education bill proceeds. The hospitals will be replaced — not overnight, but within eighteen months. This is the price of a secular state.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -20 },
+        { "stat": "religiousAdherence", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_hospitals_closed", "secularization_enforced", "rural_health_crisis"],
+      "codexUnlocks": ["codex_church_healthcare"],
+      "reactions": [{ "character": "stanislov_renek", "type": "silence", "text": "The Archbishop closes his notebook. The motion is slow and deliberate. He does not argue. He has just been told that his threat has been called, and called successfully. The silence is the sound of a man realizing that his most powerful weapon has just been neutralized." }, { "character": "elara_vostane", "type": "silence", "text": "Vostane writes fourteen hospitals and twelve thousand beds on her notepad. Then she draws a line underneath — the budget line, the one that will have to absorb the gap. She does not look up. The silence is the sound of a woman beginning an impossible calculation." }]
+    },
+    {
+      "id": "hospital_fold",
+      "text": "\"The education bill is withdrawn — for now. Archbishop, you have made your point: the Church is an indispensable partner in Veltrian social infrastructure, and I cannot govern as though it is not. The hospitals stay open. The schools stay Church-run. The reform agenda will find other vehicles. I am not conceding the principle of secular education. I am acknowledging the reality of institutional power. There is a difference, and I hope you understand it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 15 },
+        { "stat": "religiousAdherence", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["hospital_folded", "church_veto", "education_bill_withdrawn"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "stanislov_renek", "type": "action", "text": "The Archbishop nods — the slow, deliberate nod of a man who has just received exactly what he wanted. He does not celebrate. Professionals at this level do not celebrate. He simply closes his notebook and offers a small inclining of the head. It is not gratitude. It is acknowledgment." }, { "character": "elara_vostane", "type": "silence", "text": "Vostane writes education bill withdrawn on her notepad. Her penmanship is as precise as ever. She does not comment. The silence is the sound of a woman who has just watched the reform agenda lose to institutional power." }]
+    }
+  ]
+}

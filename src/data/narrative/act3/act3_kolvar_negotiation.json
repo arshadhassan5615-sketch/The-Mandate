@@ -1,0 +1,96 @@
+{
+  "id": "act3_kolvar_negotiation",
+  "title": "Dealing with Kolvar",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Private Meeting, Afternoon",
+  "characters": ["drazen_kolvar", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Drazen Kolvar arrives precisely on time. He is not late because lateness concedes a small power — the power to make someone wait — and Kolvar does not concede powers, even small ones. He is wearing a gray suit of the kind that has been standard issue for Veltrian parliamentarians since the Halvek era: well-made, unobtrusive, expensive in ways that are visible only to people who know what to look for. He takes the chair across from your desk without waiting to be invited. This is also a negotiation tactic. You let it pass. You are not going to win this meeting by contesting chair protocol."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Chancellor. You asked for this meeting. I assume you have a proposal. I am prepared to listen to it. I am not prepared to accept that the constitutional crisis can be resolved by an appeal to shared patriotism or democratic commitment or any other rhetorical abstraction. I am a parliamentarian. I deal in procedure, not sentiment. If your proposal is procedural, I will consider it seriously. If it is sentimental, I will thank you for the tea and return to the parliament building where my colleagues are waiting to resume debate on the Electoral Commission inquiry."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not hostile. Hostility would require emotional investment. Kolvar is clinical — the particular clinical demeanor of a man who has spent decades in parliamentary combat and has learned that passion is a liability. He will listen to your proposal. He will evaluate it against his interests — not the country's interests, not the constitution's interests, his interests as the leader of the Halvekist faction and the guardian of the institutional continuity he represents. If the proposal serves those interests, he will accept it, or negotiate toward acceptance. If it does not, he will leave and resume the legal war he has been waging. The key is understanding what Kolvar actually wants. It is not what he says he wants. It is never what he says he wants."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have been analyzing Kolvar's parliamentary record — fourteen years of committee votes, procedural motions, budget amendments. There is a pattern. He consistently supports measures that preserve institutional continuity and consistently opposes measures that create institutional disruption. He voted against Halvek's judicial purge in 1953 — the only Budget Committee member to do so. He protected the civil service merit system against political interference four times between 1951 and 1960. He is not a democrat, but he is also not an authoritarian. He is an institutionalist. He believes in systems, not in people. If you want to reach him, you do not appeal to his patriotism or his conscience. You appeal to his belief that institutions should survive the people who occupy them."
+    },
+    {
+      "type": "description",
+      "text": "Kolvar listens to Vyktor's summary of his own record with the faintest expression of — what? Amusement. Respect. The particular respect of a chess player who has just watched an opponent demonstrate that they have studied his previous games. He does not interrupt. He does not confirm or deny. He waits. This is Kolvar's superpower: the ability to wait longer than anyone else in the room. The silence is a vacuum he expects you to fill. You have learned not to fill silences. The silence stretches. Finally, Kolvar inclines his head slightly — a concession, the smallest possible concession, an acknowledgment that you have not fallen into the first trap."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "kolvar_negotiation_substantive_concessions",
+      "text": "\"I have a proposal. Not sentimental. Procedural. You have four objections to the constitutional process — the voting irregularities, the Dravenhollow mobilization, the margin question, the implementation timeline. I am prepared to address each with a specific institutional response. First: an independent review of the precinct returns by a panel of three retired judges, one of whom you nominate. Second: a formal inquiry into the Dravenhollow mobilization with published findings and recommendations for future referendum conduct. Third: a constitutional amendment requiring sixty-percent parliamentary approval for any future constitutional changes — meaning single-party constitutional revision becomes impossible. Fourth: your party receives the chairmanship of the Budget Oversight Committee, with expanded authority to review executive spending. In exchange: you withdraw all five challenges, the constitution proceeds to certification, and you make a public statement acknowledging the legitimacy of the implementation process. That is not a rhetorical appeal. That is an offer.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",           "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -8  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 6   },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6   },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["kolvar_deal_made", "halvekist_concessions", "constitution_proceeding", "kolvar_neutralized"],
+      "codexUnlocks": ["codex_kolvar_accommodation"]
+    },
+    {
+      "id": "kolvar_negotiation_bypass_threat",
+      "text": "\"Kolvar — you are a proceduralist. You understand leverage. So let me explain my leverage. If you continue this legal war, I have three options. Option one: I proceed with constitutional implementation regardless of your challenges, forcing you to seek injunctions from courts whose legitimacy you are simultaneously contesting — a procedural contradiction that will damage your credibility. Option two: I invoke emergency constitutional powers — which the Halvek constitution you helped draft explicitly provides for situations of 'constitutional paralysis' — and implement the reforms by decree, bypassing the legal challenges entirely. Option three: I take this to the public. I explain that Drazen Kolvar is using procedural mechanisms to block a democratically approved constitution, and I let the political pressure do what legal argument cannot. I am offering you an alternative to all three: withdraw the challenges, make a statement accepting the referendum result, and I will ensure your institutional role in the transition is preserved. Not rewarded. Preserved. You leave with your reputation and your influence intact. The alternative is that you leave with neither.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.halvekists",           "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6   },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4   },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_halvekist_legal_war", "delayWeeks": 2 }
+      ],
+      "flags": ["kolvar_threatened", "emergency_powers_threatened", "kolvar_confrontation_escalated"],
+      "codexUnlocks": ["codex_emergency_constitutional_powers"]
+    },
+    {
+      "id": "kolvar_negotiation_genuine_common_ground",
+      "text": "\"Vyktor's analysis identified something I had not understood before this morning. Your record — the votes against the judicial purge, the civil service protections, the institutional continuity measures. You are not an obstructionist. You are an institutionalist who has spent fourteen years trying to preserve what could be preserved under a regime that made preservation a form of resistance. I am not offering you a deal. I am offering you a role. The constitution you are challenging is an attempt to build the institutions you spent fourteen years trying to protect — independent courts, professional civil service, procedural constraints on executive power. You have more experience with institutional design than anyone in this government, including me. I am asking you to help build what you have been trying to preserve. The challenges are a defense of the old system. The system is changing whether you defend it or not. The question is whether you want to shape the new system or be shaped by it. I think you want to shape it. I am giving you that chance.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["kolvar_redeemed", "common_ground_found", "institutionalist_alliance", "kolvar_converted"],
+      "codexUnlocks": ["codex_kolvar_institutionalist", "codex_constitutional_alliance"]
+    }
+  ]
+}

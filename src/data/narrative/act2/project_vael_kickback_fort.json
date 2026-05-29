@@ -1,0 +1,49 @@
+{
+  "id": "project_vael_kickback_fort",
+  "title": "A Private Conversation",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Vael Estates — Private Study",
+  "characters": ["lucan_vael"],
+  "prerequisites": [{ "stat": "flags.contractor_fort_vael", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Vael's gratitude for the fortification contract is expressed in his study, with the door closed. The whiskey is the same vintage as always." },
+    { "type": "dialogue", "character": "lucan_vael", "text": "Military construction is new territory for my consortium. I am grateful for the opportunity. As a gesture of professional appreciation, I have arranged a 4,000 VK consulting retainer. Paid quarterly. Off the books. You will find the first payment has already been deposited." }
+  ],
+  "monologue": "Four thousand VK. Military construction. Vael is not offering me money — he is offering me a chain, wrapped in gratitude and labeled 'consulting fees.' Taking military kickbacks is not the same as taking highway kickbacks. One is corruption. The other is corruption that also looks like treason if anyone finds out.",
+  "choices": [
+    {
+      "id": "kickback_fort_accept",
+      "text": "\"I... see. Thank you.\" (Accept. This is the largest kickback. Corruption deepens.)",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": 4000 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -20 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 20 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+        { "stat": "nation.corruption", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kickback_accepted_fort", "corruption_vael_fort"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "lucan_vael", "type": "action", "text": "He pours another whiskey — one for himself, one for you. Military construction. He savors the words. The ledger entry is the largest he has made today." }]
+    },
+    {
+      "id": "kickback_fort_refuse",
+      "text": "\"Vael. This is military construction. Taking money from a defense contractor is not corruption — it is treason dressed in nicer clothes. Withdraw the payment. Now. Or I will withdraw the contract.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kickback_refused_fort"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "lucan_vael", "type": "silence", "text": "He closes his ledger very slowly. He has been called many things in his career. Treason is a new one. The silence is the sound of Lucan Vael deciding that this Chancellor is different." }]
+    }
+  ]
+}

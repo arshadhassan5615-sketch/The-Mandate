@@ -1,0 +1,215 @@
+{
+  "id": "act2_week16_kolvar_deal",
+  "title": "The Devil's Mathematics",
+  "act": 2,
+  "weekAvailable": 16,
+  "weekDeadline": 20,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Parliament Building — Kolvar's Private Office",
+  "characters": ["drazen_kolvar", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dražen Kolvar's parliamentary office is the office of a man who has survived four changes of government and expects to survive several more. The bookshelves are organized by the year of political crisis, not by subject — 1934, 1952, 1960 each with their own row. A photograph of Edvard Halvek hangs on the wall beside a photograph of Kolvar's father, a minister in the transition government, who resigned rather than serve under the new constitution. Family history as political manifesto."
+    },
+    {
+      "type": "description",
+      "text": "He contacted you through Vyktor three days ago: a private meeting, no official agenda, no staff in the room. You understood what he was offering before he said a word. Kolvar does not request private meetings to discuss the weather. He requests private meetings when he has something to trade, and when the trade is large enough that he does not want it on paper."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Thank you for coming, Chancellor. I'll keep this brief because I think you prefer efficiency to theater, which is one of the things I respect about you. We disagree on almost everything. We agree on arithmetic."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "You need fifty-seven votes for the parliamentary recommendation. You have forty-one reliable votes. You are sixteen short. I have thirty-eight members in my bloc. I can deliver thirty of them — the moderates, the ones who voted for Halvek in 1952 because they believed in stability, not because they believed in brutality. They are persuadable. They want to see the numbers, not the ideology."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is telling the truth. That is the most unsettling thing about Kolvar in private. In public he is a demagogue. In private he is a pragmatist who happens to hold reprehensible positions with complete intellectual sincerity."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "I want one thing. One provision. Emergency powers. The clause stays in the constitution — modified, I accept the thirty-day parliamentary reauthorization language your professor proposed — but it stays. My members will not vote for a document that strips the executive of the ability to act in a national emergency. Not while Tyvaren is running exercises at Gravenmark. Not while Morivask is producing ten thousand refugees a month. The world your constitution was written for does not exist yet. The world we are actually in requires tools you are trying to throw away."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Remove emergency powers entirely — as your professor recommends, as your reformist base demands — and I deliver nothing. Zero votes. You lose the referendum, the Halvek constitution remains, and in five years someone else runs on your platform and either wins or doesn't. That is the alternative I am offering you, so you understand the full scope of the choice."
+    },
+    {
+      "type": "description",
+      "text": "He folds his hands on the desk. He is not threatening. He is presenting an analysis. He has the affect of a man who finds the negotiation genuinely interesting and the outcome genuinely uncertain, which is either a sign of his intellectual honesty or the most sophisticated form of political theater you have ever encountered."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Emergency powers with a 30-day reauthorization. Thirty votes for the referendum. Think about what you're actually buying and selling, Chancellor, not what it looks like you're buying and selling."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There it is. The devil is always a reasonable man who makes reasonable points in a quiet room. The problem is that his point is not entirely unreasonable, and you know it, and he knows that you know it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "For reference. If this meeting becomes public, you lose Soraya's coalition. If it stays private and you accept, you win the referendum but you own the clause. Permanently."
+    },
+    {
+      "type": "description",
+      "text": "Kolvar glances at Vyktor with something that might be professional appreciation. Outside the narrow window, the parliament courtyard is empty — it is past seven o'clock. The building is mostly dark. This conversation exists in the specific silence of rooms where consequential things are decided without witnesses."
+    }
+  ],
+  "monologue": "He keeps his political crises arranged by year on the bookshelf. 1934. 1952. 1960. A photograph of Halvek beside his father — family loyalty as political doctrine. He is offering thirty votes for one clause. Emergency powers with reauthorization. 'Think about what you're actually buying and selling, Chancellor, not what it looks like you're buying and selling.' The devil is always a reasonable man making reasonable points in a quiet room. He knows this. He is counting on it.",
+
+  "choices": [
+    {
+      "id": "kolvar_accept_modified_powers",
+      "text": "\"Emergency powers with 30-day parliamentary reauthorization and mandatory judicial review of any declaration. That is the version I can agree to. If your moderates accept those conditions, you have your deal.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 18 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -16 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -6 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_reformist_fracture",
+          "delayWeeks": 2,
+          "conditions": [{ "stat": "factions.reformists", "operator": "<", "value": 45 }]
+        },
+        {
+          "targetNodeId": "act4_emergency_powers_invoked",
+          "delayWeeks": 30,
+          "conditions": [{ "stat": "personal.moralCompass", "operator": "<", "value": -20 }]
+        }
+      ],
+      "flags": ["kolvar_deal_accepted", "constitution_retained_emergency_powers", "halvekist_votes_secured"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "action",
+          "text": "Kolvar extends his hand across the desk. It is the first time all evening he has offered a physical gesture. He does not smile — Kolvar does not smile at moments of political significance, he saves smiling for moments that do not matter. The handshake is firm and brief and contains more meaning than any speech he has ever given."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes the terms on his notepad — 30-day reauthorization, judicial review, thirty votes. He looks at the page for a long moment. Then he closes the notepad. He does not comment. The silence is the sound of a man who has just watched his Chancellor make a deal with the devil and is calculating what it will cost in the weeks to come."
+        }
+      ]
+    },
+    {
+      "id": "kolvar_full_capitulation",
+      "text": "\"Emergency powers, unmodified. Done. You deliver thirty votes and I deliver the clause. We don't need to discuss this further.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 28 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -25 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -12 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": -14 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -20 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_reformist_fracture",
+          "delayWeeks": 2
+        },
+        {
+          "targetNodeId": "act4_emergency_powers_invoked",
+          "delayWeeks": 25,
+          "probability": 0.7
+        }
+      ],
+      "flags": ["kolvar_deal_accepted", "kolvar_deal_full_capitulation", "constitution_retained_emergency_powers_unmodified", "halvekist_votes_secured"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "silence",
+          "text": "Kolvar does not respond immediately. He had prepared for negotiation. He had prepared for refusal. He had not prepared for capitulation. The surprise is visible for exactly one second before he recovers. Then he nods — the nod of a man who has just won more than he expected and is wondering why."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor looks at you. Not the way he usually looks at you — the way someone looks at a person they thought they understood and are suddenly unsure they do. He writes nothing on his notepad. For the first time in two years, he has no notation to make. The silence is the sound of Vyktor Reznik being genuinely worried."
+        }
+      ]
+    },
+    {
+      "id": "kolvar_reject_deal",
+      "text": "\"The emergency powers clause is coming out. That is not a bargaining position — it is the reason we are having this convention. If you find something else to offer, I am available. But not this.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 8  },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 14 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week26_referendum_decisive",
+          "delayWeeks": 10,
+          "conditions": [{ "stat": "factions.halvekists", "operator": "<", "value": 35 }]
+        }
+      ],
+      "flags": ["kolvar_deal_rejected", "kolvar_relationship_broken"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "silence",
+          "text": "Kolvar leans back in his chair. His expression does not change — he is too disciplined for that. But the temperature in the room drops perceptibly. He has just been told that the one thing he was willing to trade for is not available, and he is recalculating. With Kolvar, recalculation is never idle."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "In the corridor, he falls into step beside you. You just lost thirty votes. They were not going to be free — they were never going to be free. But we need to find sixteen votes somewhere else now, and the somewhere-else is not obvious. He pauses. I will find them. That is what I do."
+        }
+      ]
+    },
+    {
+      "id": "kolvar_public_transparency",
+      "text": "\"I appreciate the offer. But I intend to publish a summary of this meeting. The people of Veltria should know what is being traded for their constitution. If your moderates can live with that, bring them to me directly.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": -18 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6  },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kolvar_deal_rejected", "kolvar_meeting_published", "press_freedom_demonstrated"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "dialogue",
+          "text": "Kolvar's expression shifts — not to anger, but to something more complicated. Respect, perhaps. Or the recognition of a worthy opponent. You are either very confident or very principled, Chancellor. I am looking forward to finding out which. He stands. The meeting is over. He has lost this round and he is already planning the next one."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The press summary will run in this evening's editions. I have already contacted the Dispatch. He pauses. Kolvar will respond — he always responds — but he cannot respond by denying the meeting. He can only respond by explaining why his offer was reasonable. That is a much harder argument to make in public than it was in this room."
+        }
+      ]
+    }
+  ]
+}

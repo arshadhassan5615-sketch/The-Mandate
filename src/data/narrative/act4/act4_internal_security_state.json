@@ -1,0 +1,110 @@
+{
+  "id": "act4_internal_security_state",
+  "title": "The Secure State",
+  "act": 4,
+  "weekAvailable": 42,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Internal Security — New Headquarters, Week Forty-Two",
+  "characters": ["colonel_dusek", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Ministry of Internal Security did not exist before the coup. It was created in the weeks after — a new institution, assembled from pieces of the old intelligence services, the military police, and the civilian security apparatus, tasked with a single mission: ensuring that what happened in Week Thirty-Seven never happens again. The building is a former postal sorting facility that was converted in eleven days. The conversion is functional rather than aesthetic — concrete walls, security checkpoints, the particular fluorescent lighting of spaces that were designed for machinery and are now occupied by people who are themselves part of the machinery. The new Minister of Internal Security — a Dusek appointment, a former military intelligence colonel named Renhaldt — has prepared a briefing on the state of the security apparatus. The briefing is thorough. The implications of the briefing are the subject of today's decision."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The security apparatus is functional. That is the good news. The concerning news is that 'functional' in this context means we now have the capacity to monitor communications, track financial transactions, and conduct surveillance on individuals and organizations deemed potential threats to constitutional order. The same tools that protect the Republic from another coup attempt can also protect an authoritarian government from its political opponents. The distinction between 'security' and 'repression' is not technical. It is political. The tools are neutral. The people who use them are not. I am bringing this to you because the security state we are building will outlast this crisis and possibly this government, and I need to know what kind of security state you want it to be."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I will be blunt. The Iron Covenant is ascendant. The coup attempt — even the failed coup attempt, even the negotiated coup attempt — has empowered the faction that argues for security over liberty, order over debate, strength over process. Every security measure we implement strengthens that faction's argument. Every security measure we decline strengthens their accusation that the civilian government is unwilling to protect itself. There is no path that avoids empowering someone. The question is who you want to empower and what limits you want to place on their power. The limits matter more than the power. Limits are what distinguish a democracy with security from a security state without democracy."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vyktor is talking about you. The security state you are building — even the carefully limited version, even the version with oversight and sunset clauses and judicial review — is an extension of executive power that the constitution did not anticipate. You are the executive. The power flows through you. The question is not whether you trust yourself with that power — you trust your own intentions, or you would not be making these decisions. The question is whether the person who holds this office after you can be trusted. The institutions you build today will be inherited by someone whose face you cannot see and whose character you cannot assess. The security apparatus that protects the Republic from coups is the same security apparatus that could enable a future Chancellor to neutralize political opposition without ever needing tanks. You are building a tool. You have to decide what kind of tool, and who gets to hold it, and what happens when they do."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor places one final document on your desk — a financial intelligence report from Orythia, obtained through the mutual legal assistance treaty. The report shows unexplained deposits to an account in Morivask. The deposits correspond to dates matching known intelligence leaks. The name on the account matches one of your remaining suspects. Vyktor does not say the name. He does not need to. You read it. You close the file. You know who the mole is."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "security_regulate",
+      "text": "\"The security apparatus is necessary. I accept that. What I will not accept is an unaccountable security apparatus. Every surveillance authority requires judicial warrant. Every monitoring program is subject to parliamentary oversight through a classified committee with representation from all major parties. Every security measure has a sunset clause — two years, renewable only by explicit legislative vote. The security state exists to protect democracy, not to replace it. The limits are not obstacles to security. They are the definition of security in a democratic state. A secure state without limits is not a secure state. It is a different kind of threat.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Maintain security measures with strong democratic oversight and sunset clauses. Balanced approach. Security professionals will complain about constraints.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week41_reform_implementation", "delayWeeks": 2 }
+      ],
+      "flags": ["security_regulated", "judicial_oversight", "sunset_clauses", "parliamentary_review"],
+      "codexUnlocks": ["codex_security_oversight", "codex_democratic_security_doctrine"]
+    },
+    {
+      "id": "security_expand",
+      "text": "\"The threat is real, Dusek. The coup almost succeeded. The Tyvaren invasion is imminent. The time for constitutional niceties about surveillance warrants and parliamentary oversight committees is not now — it is after the existential threats have been neutralized. I am authorizing expanded monitoring authority, expedited threat assessment protocols, and preventive detention authority for individuals with direct links to coup plotters or foreign intelligence. These are emergency measures. They will be reviewed quarterly. They will not be permanent. But I will not let the Republic be destroyed because I was too concerned with process to protect it. Security first. Process second. The Republic must survive in order to have the luxury of debating how it survived.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Maximum security measures, minimal limits. Effective against immediate threats. Concentrates dangerous levels of power in the executive. Reformists will be alarmed.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 12 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -10 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_emergency_powers_invoked", "delayWeeks": 1 }
+      ],
+      "flags": ["security_expanded", "preventive_detention", "emergency_measures", "maximal_security"],
+      "codexUnlocks": ["codex_emergency_security_powers", "codex_preventive_detention"]
+    },
+    {
+      "id": "security_rollback",
+      "text": "\"The emergency security measures were necessary in the immediate aftermath of the coup. The moment for emergency measures is passing. I want a phased rollback — surveillance authorities reduced, monitoring programs scaled to pre-crisis levels, preventive detention authority allowed to expire. The Republic cannot live permanently in the posture of a state that has just survived an attack. It has to return to normal governance, and normal governance means a security apparatus that is strong enough to detect threats but not strong enough to become one. The Iron Covenant will object. Let them object. The purpose of the security measures was to protect democracy, not to provide the Iron Covenant with a permanent institutional platform. That purpose has been served. Now we return to the democracy we protected.\"",
+      "internalTag": "reformist",
+      "tooltip": "Begin rolling back security measures as stability returns. Restores civil liberties. Risks appearing complacent if another threat emerges.",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_reform_backlash", "delayWeeks": 2 }
+      ],
+      "flags": ["security_rolled_back", "emergency_measures_expired", "democratic_normalization", "iron_covenant_opposed"],
+      "codexUnlocks": ["codex_security_rollback", "codex_democratic_normalization"]
+    },
+    {
+      "id": "security_identify_mole",
+      "text": "\"I know who it is. I have suspected for weeks. Vyktor, prepare the arrest warrant — but do not execute it until I have spoken to them personally. This ends tonight. And then we rebuild the security apparatus around the truth of what happened, not the paranoia of what might happen.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_clue_8_found", "ready_to_confront_mole"],
+      "codexUnlocks": ["codex_mole_investigation"]
+    }
+  ]
+}

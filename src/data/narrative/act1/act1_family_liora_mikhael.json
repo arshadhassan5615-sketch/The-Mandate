@@ -1,0 +1,117 @@
+{
+  "id": "act1_family_liora_mikhael",
+  "title": "What They Did to Grandfather",
+  "act": 1,
+  "weekAvailable": 3,
+  "weekDeadline": 10,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Liora's Room",
+  "characters": ["liora_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Liora's room at the residence is small by design — she insisted. The bookshelves are already overflowing with university texts and political pamphlets, three languages mixed together without apology. She is sitting on the floor when you knock. A photocopied newspaper page is spread across her knees."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "The Halvek Era Crimes Archive opened last month. Did you know? Anyone can submit a records request now. I filed one.\" She doesn't look up yet. \"For Grandfather."
+    },
+    {
+      "type": "description",
+      "text": "The photocopy is from the Veltrian State Gazette, Issue 1,847, dated March 14th, 1947. The headline reads: MIKHAEL ASHAVEL — CONVICTED OF SEDITION AND TREASON AGAINST THE REPUBLIC. The execution date is listed beneath it in bureaucratic type, clean and impersonal. Liora has circled it in red pen."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "They called him a traitor. It says he passed state secrets. It says he acted in the interest of a foreign power.\" She finally looks up. Her eyes are steady in the way that means she has already done her crying somewhere private. \"So which is it, Mama? Was he a dissident they smeared, or did he actually—\" She stops. Swallows. \"I need you to tell me what you know. Not the official story. What you actually know."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is nineteen and she has her grandfather's eyes and she is asking me the question I have been carrying for twelve years. I don't fully know the answer. That is the honest truth. But honesty is not always the same thing as the whole truth, and I am not yet sure which of those she can carry."
+    }
+  ],
+
+  "monologue": "March 14, 1947. The date is printed in bureaucratic type, clean and impersonal. She circled it in red pen. She is nineteen and she has her grandfather's eyes and she's asking me the question I've been carrying since I was thirty-two. I don't fully know the answer. Honesty is not the same thing as the whole truth, and I am not sure which of those she can carry.",
+
+  "choices": [
+    {
+      "id": "liora_mikhael_official",
+      "text": "\"He was a dissident. He spoke against Halvek when it was dangerous to do so. Whatever else they accused him of, that much is true — and it's what got him killed. He was brave. That's what you need to know.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 3  },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["mikhael_official_story_told"],
+      "codexUnlocks": ["codex_mikhael_official"]
+    },
+    {
+      "id": "liora_mikhael_investigating",
+      "text": "\"I don't know everything yet. I'm still investigating — through the BNI archive, through channels I can access now that I couldn't before. When I know, I'll tell you. That's a promise.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 8  },
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_liora_archive",
+          "delayWeeks": 5
+        }
+      ],
+      "flags": ["mikhael_investigation_liora_knows", "liora_truth_seeker"],
+      "codexUnlocks": ["codex_mikhael_investigation"]
+    },
+    {
+      "id": "liora_mikhael_complicated",
+      "text": "Sit down on the floor beside her. \"It's complicated. He was a dissident and that's real. But there are also records that suggest he may have had contact with Orythian intelligence. I don't know if that makes him a traitor or a pragmatist trying to survive. I honestly don't know, Liora.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 12 },
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": 5  },
+        { "stat": "factions.reformists",         "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_liora_archive",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": ["mikhael_complicated_told", "liora_truth_seeker", "orythia_connection_known"],
+      "codexUnlocks": ["codex_mikhael_complicated", "codex_orythia_connection"]
+    },
+    {
+      "id": "liora_mikhael_silence",
+      "text": "\"Leave it, Liora. Some questions lead somewhere you can't come back from. I need you to trust that I have reasons for asking you to stop.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": -15 },
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": -5  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -10 },
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": -4  },
+        { "stat": "factions.reformists",         "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_liora_radicalized",
+          "delayWeeks": 6,
+          "conditions": [
+            { "stat": "personal.lioraRelationship", "operator": "<", "value": 35 }
+          ]
+        }
+      ],
+      "flags": ["mikhael_suppressed_liora"],
+      "codexUnlocks": []
+    }
+  ]
+}

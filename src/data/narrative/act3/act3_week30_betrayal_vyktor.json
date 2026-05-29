@@ -1,0 +1,113 @@
+{
+  "id": "act3_week30_betrayal_vyktor",
+  "title": "The Folder on the Desk",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 32,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — 7:43pm",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "personal.moralCompass", "operator": "<=", "value": 20 }
+  ],
+  "exclusive": ["act3_week30_betrayal_dusek", "act3_week30_betrayal_vostane"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "He is still in the building at seven-forty-three, which is not unusual. What is unusual is that he is in your office, not his own. The lights are low. He has a folder on the desk — the kind he carries, the kind with a ribbon tie rather than clasps, the ones he uses for things that require a certain formality. The folder is facing you."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I wanted to tell you directly. Before you found out through other channels. I have been speaking with elements of the constitutional opposition about an arrangement. I am not proud of these conversations. I want you to understand that I am not proud of them, because I think the distinction matters."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There is a version of this conversation where you are surprised. You are not entirely surprised. There have been three weeks of small signals — a parliamentary briefing document that arrived late, an answer to a question about the confidence vote timing that contained one degree too much precision, the night he was not in the building when he should have been. You noted them. You did not act on them. That is its own kind of information about what you have been willing to know."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The arrangement involves materials from the period before the transition. Documents from the BNI years — not the ones the Dispatch published, if they published anything. Other documents. I have been holding them for reasons that made sense at the time and that I can explain if you want the explanation. They were not intended as weapons. They were intended as insurance — for myself, for the people around me. The opposition has indicated they would value access. I told them I would speak with you first."
+    },
+    {
+      "type": "description",
+      "text": "He is very still. He has been in rooms with powerful people his entire career and he knows how to occupy space without claiming it. The stillness tonight is professional but not cold — there is something under it, visible in the way he keeps his eyes on you rather than the folder. Something that might be shame. Or might be the specific relief of finally saying a thing you have been carrying alone for too long."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Thirty weeks. He ran every logistics operation, every parliamentary maneuver, every crisis you gave him. He is the most capable operator you have worked with. He has also just told you that he has been in contact with your political opposition about materials from a surveillance apparatus you spent your career trying to dismantle. Both of these things are true. They will not become one thing. You have to decide what to do with both of them simultaneously."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I am prepared to resign. I am also prepared to stay and spend whatever time remains explaining myself, if that is what you need from me. My honest assessment is that you should not keep me — the political cost of keeping me now is significant. But that is not my decision to make. I am placing it with you."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "betrayal_vyktor_dismiss",
+      "text": "\"You're finished. Tonight. Collect whatever you need and go. I'll issue a statement tomorrow and it will be the truth — all of it — because that is the only version of this that I can live with.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 16 },
+        { "stat": "nation.corruption",            "operation": "add", "value": -12},
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vyktor_departure", "delayWeeks": 1 }
+      ],
+      "flags": ["vyktor_dismissed", "vyktor_gone", "betrayal_clean_break"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_vyktor_use_leverage",
+      "text": "\"Open the folder. Tell me what's in it. All of it. Then we decide together what to do with the information — because if you have it and they want it, I want to understand what it's worth before anyone else gets to decide that.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -12},
+        { "stat": "nation.corruption",            "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_leverage_operation", "delayWeeks": 2 }
+      ],
+      "flags": ["vyktor_stays_leverage", "bni_leverage_active"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_vyktor_ask_why",
+      "text": "\"Why didn't you come to me when you first started thinking about this? Not tonight — three weeks ago, when you were still in the stage of having conversations rather than arrangements. Why didn't you come to me then?\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vyktor_reconciliation", "delayWeeks": 2 }
+      ],
+      "flags": ["vyktor_confronted_intimately"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_vyktor_sleep_on_it",
+      "text": "Tell him to go home. You'll give him an answer in the morning. Sit with the folder on the desk, in the empty office, until the building staff have gone home. Let the night be the night.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 6  },
+        { "stat": "personal.marriageHealth",      "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["vyktor_decision_deferred", "night_vigil_taken"],
+      "codexUnlocks": []
+    }
+  ]
+}

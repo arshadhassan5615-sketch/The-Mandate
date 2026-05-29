@@ -1,0 +1,182 @@
+{
+  "id": "vyktor_press_briefing",
+  "title": "The Morning Papers",
+  "act": 1,
+  "weekAvailable": 4,
+  "weekDeadline": 6,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Morning",
+  "characters": [
+    "vyktor_reznik"
+  ],
+  "prerequisites": [
+    {
+      "stat": "currentWeek",
+      "operator": ">=",
+      "value": 4
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Morning. The papers are stacked on your desk the way they always are — Herald on top, then the Times, the Standard, the Worker, the Gazette underneath. You have been reading all of them lately. Not just skimming. Reading. Comparing. Noticing things. Vyktor has noticed you noticing."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You have been reading the papers."
+    },
+    {
+      "type": "description",
+      "text": "It is not a question. Vyktor rarely asks questions that can be answered with yes or no. He states observations and waits to see what you do with them."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Not everyone does. Read across the papers. Most people read one. The one that already agrees with them. Therefore they learn nothing. You are reading all five. Therefore you are learning something. I have been watching what you learn."
+    },
+    {
+      "type": "description",
+      "text": "He produces a single sheet of paper — not from a folder, from his jacket pocket. The paper has three names written on it. Three journalists. One from the Herald, one from the Standard, one from the Times. Beneath each name: a brief note about what they actually believe, as opposed to what their editors require them to write."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Viktor Halik at the Herald. Consistently anti-union. Not because he is anti-worker — because his wife owns land in Thornfeld and the agricultural collectives compete with her labor pool. The Herald publishes his union coverage. His union coverage is wrong. But knowingly wrong. Adjust your reading accordingly."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Mira Stokov at the Standard. Genuinely believes everything she writes. Also genuinely believes things that contradict each other. She has not noticed. She will not notice. The Standard is not a newspaper. It is a belief system with a printing press."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Nadia Voss at the Times. Actually independent. Actually dangerous. Will defend you when you are right. Will destroy you when you are wrong. Will do both with equal professional precision. The only person in Veltrian journalism whose opinion I track before making a recommendation. Because her opinion predicts the middle of public opinion. By exactly two days."
+    },
+    {
+      "type": "description",
+      "text": "He puts the paper back in his pocket. The names are still there. You will remember them."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vyktor has been tracking the journalists the way he tracks everything — quietly, thoroughly, without ever explaining why until the information becomes useful. He knew I was reading all the papers. He waited to see what I would learn. And now he is telling me: you learned the right thing. The papers are not windows onto the truth. They are weapons wielded by people with specific interests. The skill is not reading them. The skill is reading what is behind them."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Keep reading. It is not a waste of time. Most of what passes for intelligence in this city is available in the papers. The trick is reading all of them and knowing who wrote which part and why. You are doing that. So. What have you learned?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "vyktor_press_herald_conservative",
+      "text": "\"The Herald is consistently hostile to labor. Not because the facts support it, but because the editor is protecting a class interest. Everything they print about the Workers' Coalition is reframed as a threat to stability rather than a legitimate political demand. They want me to govern like a conservative. They are not subtle about it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [
+        "press_intelligence_herald",
+        "vyktor_press_briefing_complete"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He adjusts his glasses."
+        }
+      ]
+    },
+    {
+      "id": "vyktor_press_standard_wages",
+      "text": "\"The Standard prints what workers feel rather than what is verifiably true. Their wage statistics are consistently higher than the Finance Ministry's, their unemployment numbers consistently lower. They are not lying — they are reporting what workers told them. But that's not the same as reporting what is happening.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [
+        "press_intelligence_standard",
+        "vyktor_press_briefing_complete"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He adjusts his glasses."
+        }
+      ]
+    },
+    {
+      "id": "vyktor_press_times_independent",
+      "text": "\"The Times is the only paper that consistently surprises me. They are independent in a way the others are not — they will defend a decision and criticize its implementation in the same editorial. Nadia Voss is not on my side, but she is not on anyone else's either. That makes her the most useful journalist in the country, and the most dangerous.\"",
+      "internalTag": "reformist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [
+        "press_intelligence_times",
+        "vyktor_press_briefing_complete"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The opposition will take note."
+        }
+      ]
+    },
+    {
+      "id": "vyktor_press_gazette_local",
+      "text": "\"The Gazette doesn't care about national politics. They care about Thornfeld. Every national story they cover is reframed as a local story — how does this affect the Church schools, the agricultural subsidies, the border communities. That makes them seem parochial. It also makes them the only paper that consistently gets the regional impact of my decisions right.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [
+        "press_intelligence_gazette",
+        "vyktor_press_briefing_complete"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "That changes several things."
+        }
+      ]
+    },
+    {
+      "id": "vyktor_press_worker_sellout",
+      "text": "\"The Worker is already calling me a sellout and I have been in office for four weeks. They will oppose everything I do, not because it is wrong, but because they are ideologically committed to opposition. The strange thing is: that makes them predictable. And predictability, in politics, is a kind of usefulness.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [
+        "press_intelligence_worker",
+        "vyktor_press_briefing_complete"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He adjusts his glasses."
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "character": "vyktor_reznik",
+      "text": "He makes a mark on the back of the sheet — the one with the names. He does not show you what he writes. He is adding something to his notes based on your answer. You are not sure whether you passed a test or merely took one.",
+      "type": "narrative"
+    },
+    {
+      "character": "vyktor_reznik",
+      "text": "Keep reading. Most Chancellors stop after the first month. The papers start to say the same thing — or seem to. The ones who keep reading are the ones who notice when something changes. I recommend being one of those.",
+      "type": "dialogue"
+    }
+  ]
+}

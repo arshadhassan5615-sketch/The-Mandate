@@ -1,0 +1,184 @@
+{
+  "id": "act1_week3_economic_direction",
+  "title": "The Economic Briefing",
+  "act": 1,
+  "weekAvailable": 3,
+  "weekDeadline": 5,
+  "type": "meeting",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Cabinet Room — Ashenmere Palace",
+  "characters": ["elara_vostane", "gregor_maric", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The cabinet table is covered with economic reports that tell two completely different stories. On one side: Vostane's projections — charts showing Veltrian industry at 40% below Arcturian efficiency, trade deficits widening, foreign reserves shrinking. On the other side: Marić's ledgers — factory closures, layoff notices, communities hollowed out by the last decade of 'efficiency' reforms. Both sets of numbers are correct. They are drawing opposite conclusions from the same data."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Chancellor, the numbers are determinative. Veltrian industry operates at 40 percent below Arcturian efficiency. Our factories use Halvek-era equipment — obsolete at installation 20 years ago. We need market opening, foreign investment, and competition-driven efficiency. Privatize state industries operating at negative margins. Deregulate to enable business expansion. Liberalize trade for access to Arcturian technology and capital. The alternative is managed decline — subsidizing 40 percent inefficiency while competitors absorb our markets."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "Efficiency. There is that word again — efficiency. Listen. Do you know what 'efficiency' means to the workers of Kravenstal? It means the foundry where my father poured steel for thirty years was sold to an Arcturian conglomerate that shuttered the furnaces within eighteen months because it was more efficient to produce steel in their home country and ship it here. My father poured steel for thirty years, Elara. Thirty years. Ten thousand workers lost their livelihoods to that word — efficiency — in the last decade. Ten thousand families. What we need is state investment in our industries — our industries, our foundries, our steel. Modernize them with government funds. Keep ownership in Veltrian hands and keep the profits in Veltrian pockets. Open markets? That's a fine phrase for letting foreign capital buy our country at a discount and call it progress."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Diplomatic dimensions also apply. Free-market approach attracts Arcturian investment — trade minister has indicated interest. But it will cool relations with Orythia, which prefers state-directed economies. Planned economy brings Orythian development loans and technical assistance. But it alarms Arcturia and international markets. Mixed approach keeps both doors partially open, satisfies neither side completely. No purely economic decision exists. Every economic choice is also geopolitical."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Two futures. Vostane's — open, competitive, foreign investment flowing in, but workers displaced and industries sold. Marić's — protected, state-funded, Veltrian-owned, but slower growth and international isolation. I campaigned on reform. I did not say what kind. Now I have to choose — not just for the economy, but for what kind of Veltria emerges from this transition. A Veltria that competes with the world, or one that protects itself from it? A Veltria where capital decides, or one where labor has a seat at the table? The numbers do not answer this. Only I can."
+    }
+  ],
+
+  "monologue": "Two sets of numbers from the same data. Vostane's charts show Veltrian industry at forty percent below Arcturian efficiency. Maric's ledgers show communities hollowed out by the last decade of 'efficiency' reforms. Both are correct. They're drawing opposite conclusions. I campaigned on reform. I didn't say what kind. Now I have to choose — not just for the economy, but for what kind of Veltria emerges. A country that competes with the world, or one that protects itself from it. The numbers don't answer this.",
+
+  "choices": [
+    {
+      "id": "econ_free_market",
+      "text": "\"We will pursue a free market economy. Open our markets. Attract foreign investment. Privatize where the state is inefficient and let competition drive growth. Vostane is right — we cannot subsidize failure forever. The world will not wait for Veltria to catch up. We will catch up by joining it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 15 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -15 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+        { "stat": "nation.unemployment", "operation": "add", "value": 2 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_econ_vael_approach", "delayWeeks": 8, "conditions": [{ "stat": "flags.economy_free_market", "operator": "==", "value": true }] },
+        { "targetNodeId": "act2_econ_marić_confrontation", "delayWeeks": 12, "conditions": [{ "stat": "flags.economy_free_market", "operator": "==", "value": true }] }
+      ],
+      "flags": ["economy_free_market", "economic_direction_chosen"],
+      "codexUnlocks": ["codex_economic_direction"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She does not smile. Vostane never smiles at policy victories. She removes her charts from the table and begins reorganizing them by implementation sequence — privatization timeline, trade liberalization order, deregulation phases."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Free market. Open markets. Listen. When the factories close — and they will close — and the workers come to the palace gates — and they will come — I want you to remember this room. I will be there with them. I am their Minister. That means something."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not look at Marić. He makes a note in the binder — one word, probably 'Kravenstal.' The word is a placeholder for the political cost of worker displacement he will need to calculate before the next quarter."
+        }
+      ]
+    },
+    {
+      "id": "econ_planned",
+      "text": "\"We will pursue a planned economy. State investment. National ownership. Protect our industries from foreign acquisition and modernize them ourselves. Marić is right — the workers of Veltria did not survive Halvek to be sold off to Arcturian conglomerates. The state will lead. The people will benefit.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 15 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -15 },
+        { "stat": "factions.church", "operation": "add", "value": -5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -3 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -3 },
+        { "stat": "nation.unemployment", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_econ_vostane_confrontation", "delayWeeks": 10, "conditions": [{ "stat": "flags.economy_planned", "operator": "==", "value": true }] },
+        { "targetNodeId": "act2_econ_orythian_loan_offer", "delayWeeks": 6, "conditions": [{ "stat": "flags.economy_planned", "operator": "==", "value": true }] }
+      ],
+      "flags": ["economy_planned", "economic_direction_chosen"],
+      "codexUnlocks": ["codex_economic_direction"],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He stands. Marić is not a man who stands easily — his frame carries the weight of foundry work and late nights — but he stands now. It is a gesture of recognition that has no words because words are inadequate."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She does not close her charts. She does not need to. The numbers are already being recalculated — state investment replaces market forces, protectionism replaces liberalization. Her expression has not changed. The ice is professional. What's beneath it is not."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Planned economy. Orythian development loans become viable. Arcturian investment recedes. I will contact the Orythian trade delegation within the week."
+        }
+      ]
+    },
+    {
+      "id": "econ_mixed",
+      "text": "\"We will pursue a mixed approach. Privatize where the market can deliver better outcomes — but invest state funds where the market fails. Some industries stay in Veltrian hands. Some open to foreign capital. This is not ideological. It is practical. Every sector will be evaluated on its own terms.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 3 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_econ_mixed_challenges", "delayWeeks": 10, "conditions": [{ "stat": "flags.economy_mixed", "operator": "==", "value": true }] }
+      ],
+      "flags": ["economy_mixed", "economic_direction_chosen"],
+      "codexUnlocks": ["codex_economic_direction"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "Mixed approach. Sectoral evaluation. The implementation timeline will be... complex. I will need additional staff for the analysis framework."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "He does not stand. He does not object. 'Mixed approach' is neither the protection he demanded nor the liquidation he feared. He is withholding judgment — and withholding is a negotiation posture Marić rarely adopts. That makes it significant."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He begins drafting the communiqué before anyone has left the room. The word 'mixed' appears in the first sentence, carefully weighted. It will be the most scrutinized word in the press release."
+        }
+      ]
+    },
+    {
+      "id": "econ_pragmatic",
+      "text": "\"I will decide sector by sector. No blanket ideology — no five-year plan and no market fundamentalism. Each industry, each state enterprise, each trade negotiation will be evaluated on its merits. This will take more work. It will produce more conflict. But it will produce better decisions.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "advisorTrust.theron", "operation": "add", "value": 5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_econ_pragmatic_strain", "delayWeeks": 10, "conditions": [{ "stat": "flags.economy_pragmatic", "operator": "==", "value": true }] }
+      ],
+      "flags": ["economy_pragmatic", "economic_direction_chosen"],
+      "codexUnlocks": ["codex_economic_direction"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She closes her binder and opens a different one — the one labeled 'Sector-by-Sector Analysis.' It is thicker than the ideology binders. She has apparently prepared for this outcome. Her preparation is a form of approval."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Sector by sector. Listen. That means every factory gets its own fight. I will make sure the workers are at the table for every single one. Every. Single. One."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He says nothing. The approach is more work — vastly more work — and work is Vyktor's native language. The silence is not disapproval. It is the sound of a man beginning to allocate staff resources in his head."
+        }
+      ]
+    }
+  ]
+}

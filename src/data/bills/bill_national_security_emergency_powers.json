@@ -1,0 +1,25 @@
+{
+  "id": "bill_national_security_emergency_powers",
+  "title": "National Security Emergency Powers Act",
+  "shortName": "N.S.E.P.A.",
+  "proposer": "Iron Covenant allied MPs",
+  "faction": "ironCovenant",
+  "weekPresented": 28,
+  "fullText": "Section 1. Upon declaration of a national security emergency by the Chancellor, the executive shall possess authority to detain without charge any individual reasonably suspected of posing a threat to national security, for a period not exceeding ninety days, renewable upon review.\n\nSection 2. The Chancellor may deploy elements of the Armed Forces of the Republic within national borders to maintain public order, secure critical infrastructure, and suppress insurrection, without prior authorization from the National Assembly.\n\nSection 3. Communications surveillance of foreign nationals and organizations operating within Veltrian territory may be conducted without judicial warrant when the Minister of Defense certifies an urgent threat to national security.",
+  "budgetCost": 0,
+  "signEffects": [
+    { "stat": "factions.ironCovenant", "operation": "add", "value": 20 },
+    { "stat": "nation.militaryReadiness", "operation": "add", "value": 15 },
+    { "stat": "nation.civilLiberties", "operation": "add", "value": -20 },
+    { "stat": "factions.reformists", "operation": "add", "value": -15 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+    { "stat": "nation.militaryReadiness", "operation": "add", "value": -10 },
+    { "stat": "nation.civilLiberties", "operation": "add", "value": 10 },
+    { "stat": "factions.reformists", "operation": "add", "value": 10 }
+  ],
+  "signFlags": ["emergency_powers"],
+  "vetoFlags": ["emergency_powers_vetoed"],
+  "isVetoable": true
+}

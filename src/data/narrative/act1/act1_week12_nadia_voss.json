@@ -1,0 +1,144 @@
+{
+  "id": "act1_week12_nadia_voss",
+  "title": "The Journalist",
+  "act": 1,
+  "weekAvailable": 12,
+  "weekDeadline": 14,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["nadia_voss", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Nadia Voss is twenty-six years old and she has been the political correspondent for the Veltrian Herald for fourteen months. In that time she has broken three stories that the Halvek regime would have killed to suppress and one — the BNI surveillance of trade unionists — that your own government might have preferred stayed buried. Vyktor describes her as 'the most dangerous reporter in Ashenmere, which is to say the most useful one.' He has arranged this meeting at her request, which means she has something she wants before she gives you something she has."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "I'm working on a story about the budget process. Not the numbers — the process. Who gets heard. Who doesn't. I've interviewed fourteen former Finance Ministry officials. Twelve of them describe a system where the real decisions were made before the public consultations began, in meetings that were not minuted and with people who were not elected. They say this happened under Halvek. They say it is continuing under your government. I'm not asking for a comment. I'm asking whether you want to show me that it's different now — before I publish."
+    },
+    {
+      "type": "description",
+      "text": "She has a notebook open. She has not written anything in it yet. She is waiting to see whether you understand what she is actually offering: a chance to shape the story before it becomes a story, to be the Chancellor who opened the doors rather than the Chancellor who inherited the closed ones. Her expression is neutral in the particular way of a reporter who has learned that neutrality makes sources nervous enough to fill the silence."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Ms. Voss's previous reporting on the BNI was — accurate. Uncomfortably so. She has sources inside the civil service that we have not been able to identify. Whatever she publishes about the budget process will be similarly accurate, I consider it likely. The question is not whether this story appears. The question is what it says about this government when it does."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is testing me. The budget process IS opaque — I inherited an opaque system and twelve weeks is not long enough to make it transparent. She knows this. What she is offering is a version of the story that acknowledges the difficulty of reform alongside the failure to achieve it. What she wants in return is access — real access, the kind that lets her write stories that no other journalist can write. It is an arrangement. Every Chancellor makes arrangements with the press. The question is whether this one makes me more accountable or just more managed."
+    }
+  ],
+
+  "monologue": "She has sources inside the civil service we haven't identified. Whatever she publishes about the budget process will be accurate. Vyktor says it's not a question of whether the story appears but what it says about this government when it does. She's offering a version that acknowledges the difficulty of reform alongside the failure to achieve it. In exchange: access. Every Chancellor makes arrangements with the press. Whether this one makes me more accountable or just more managed.",
+
+  "choices": [
+    {
+      "id": "nadia_full_access",
+      "text": "\"You want to see how the budget is actually made? Fine. I'll give you access to the next budget working group session. Not a press briefing — the actual meeting, with the actual arguments, with the actual people who make the actual decisions. One condition: you report what you see, all of it, including the parts where we get it wrong and the parts where there are no good options. The country deserves to know what governance actually looks like. Show them.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": 10  },
+        { "stat": "nation.corruption",           "operation": "add", "value": -4  },
+        { "stat": "factions.reformists",         "operation": "add", "value": 6   },
+        { "stat": "factions.halvekists",         "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [],
+      "flags": ["nadia_granted_access", "transparency_precedent", "nadia_introduced"],
+      "codexUnlocks": ["codex_press_freedom", "codex_nadia_voss"],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "action",
+          "text": "She writes something in her notebook for the first time. It is three words. You cannot see what they are. The pen moves with the particular speed of a reporter who has just been given the story she was hoping for and is already writing the lead."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not object. Full access to the budget working group is unprecedented — and dangerous — but Vyktor has learned to recognize when a decision is principled rather than strategic. He files the distinction for future reference."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The working group meets Thursday at 09:00. I will brief the ministers. They will not be pleased. I will tell them the Chancellor has decided that transparency includes the uncomfortable parts. That will need to be true."
+        }
+      ]
+    },
+    {
+      "id": "nadia_managed_relationship",
+      "text": "\"I'll give you an exclusive interview — on the record, no questions off limits. You can ask me anything about the budget process and I will answer. But the working group sessions themselves stay closed. Governance requires space for disagreement — space where ministers can be wrong without reading about it the next morning. The transparency comes in the outcomes, not the process. That's the line I'm drawing. I'd rather have you on the right side of it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": 2   },
+        { "stat": "factions.reformists",         "operation": "add", "value": 2   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 4   },
+        { "stat": "factions.halvekists",         "operation": "add", "value": -3  },
+        { "stat": "nation.corruption",           "operation": "add", "value": 1   }
+      ],
+      "chainTriggers": [],
+      "flags": ["nadia_exclusive_interview", "managed_transparency", "nadia_introduced"],
+      "codexUnlocks": ["codex_press_relations"],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "silence",
+          "text": "She closes her notebook. The interview is something. It is not what she asked for. She is calculating whether 'something' is enough to hold the story — or whether the story now changes to include the fact that the Chancellor offered an interview instead of access."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Exclusive interview. I will prepare the briefing materials. The questions will be on the record. Some of them will be uncomfortable. I recommend answering the uncomfortable ones first — they will dominate the coverage regardless. Control the sequence."
+        }
+      ]
+    },
+    {
+      "id": "nadia_deflect_threat",
+      "text": "\"The budget process is the same process that existed when the Halvekists were running it and you did not write that story then. You are writing it now because this government is new and vulnerable and a story about 'unchanged processes' sells more papers than a story about difficult reforms that take time. If you want to write that story, write it. But do not pretend you are offering me a favor. You are offering me a threat dressed as an opportunity. I have survived harder threats than a newspaper article.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": -6  },
+        { "stat": "factions.halvekists",         "operation": "add", "value": 4   },
+        { "stat": "factions.reformists",         "operation": "add", "value": -5  },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_nadia_investigation",
+          "delayWeeks": 8,
+          "conditions": [
+            { "stat": "nation.pressFreedom", "operator": "<", "value": 30 }
+          ]
+        }
+      ],
+      "flags": ["nadia_rebuffed", "adversarial_press", "nadia_introduced"],
+      "codexUnlocks": ["codex_press_confrontation"],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "dialogue",
+          "text": "That's a quote. All of it. 'Threat dressed as an opportunity.' I'll make sure that runs in the lede. The readers can decide whether it sounds like a Chancellor defending her government or a politician who just confirmed every source I have."
+        },
+        {
+          "character": "nadia_voss",
+          "type": "action",
+          "text": "She stands. She does not close the notebook. She leaves it open, in her hand, walking backward toward the door. The notebook is still recording. The interview is not over. It has just become adversarial."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not react. The story will run. It will be damaging. Vyktor has already factored that into tomorrow's press strategy. The silence is not approval or disapproval — it is the sound of a man recalculating the next six months of media relations from a worse starting position."
+        }
+      ]
+    }
+  ]
+}

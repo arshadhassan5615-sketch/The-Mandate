@@ -1,0 +1,93 @@
+{
+  "id": "act4_arcturian_intervention",
+  "title": "The Arcturian Arrival",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Port of Ashenmere — Naval Docks, Dawn",
+  "characters": ["colonel_dusek", "general_brenner"],
+  "prerequisites": [
+    { "stat": "flags.arcturian_alliance_full", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Arcturian fleet arrived at 05:47 this morning. Three destroyers, two cruisers, and a carrier group that had been transiting the Asturien Sea under what the Arcturian admiralty described as 'routine patrol operations.' The patrol is not routine. The timing is not coincidental. The warships now anchored in Ashenmere's harbor are the largest military vessels ever to enter Veltrian territorial waters, and their presence transforms the strategic calculus of the Tyvaren crisis in ways that are still being calculated. On the dock, in the grey light before sunrise, an honor guard of Veltrian marines stands at attention while the Arcturian delegation disembarks. The delegation is led by General William Brenner — no relation to the Veltrian general, a coincidence that has caused three separate diplomatic awkwardnesses in the past hour. He is sixty-two years old, career Arcturian military, and has the particular posture of a man who has never in his adult life been told that he cannot have something he wants. What he wants, he will make clear in the next twenty minutes."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "The deployment represents a significant escalation of the strategic situation. Three destroyer groups with air support represent more naval power than the entire Orythian fleet in this theater. The Arcturians are not sending advisors. They are sending a statement. The question is whether the statement reads as 'Veltria has allies who will fight beside it' or 'Veltria has patrons who will decide its strategy for it.' The Arcturian general — the other Brenner — will request operational coordination. What 'coordination' means depends on what we are willing to give him. The military reality is that Arcturian naval power gives us capabilities we do not possess and cannot acquire in time to matter. The political reality is that accepting their command structure means accepting that Veltrian forces will take orders from Stellamere. The two realities are both true. They do not resolve."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I have received the Arcturian's proposed command framework. He wants integrated operational command — Arcturian officers in Veltrian command posts, Veltrian forces subordinated to Arcturian operational control in joint operations, and a unified logistics chain managed by Arcturian quartermasters. The tactical argument is compelling. Arcturian forces have fought in two wars in the past decade. They have doctrine for everything. Our officers have not fought in a war since 1939. The institutional knowledge gap is real and it matters. But the framework also gives General Brenner authority to veto Veltrian operational decisions, to redirect Veltrian units under his command, and to prioritize Arcturian strategic objectives over Veltrian ones if he determines a conflict exists. That is not coordination. That is command. The difference is everything."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is the price of the alliance you sought. You went to Stellamere. You made the case that Veltria needed Arcturian protection. You knew there would be conditions. You knew the conditions would be steep. You did not know they would come in the form of a general who shares a name with the man who might betray you, asking for command authority over your country's armed forces while warships paint your harbor grey. Salvation comes with strings. The strings are visible from the dock. Three destroyers, two cruisers, one carrier group, and one general who wants to run your war. The question is not whether you need the help. You need the help. The question is whether the help costs more than the defeat it is meant to prevent. You have roughly twenty minutes before the meeting starts to decide what you can live with."
+    },
+    {
+      "type": "description",
+      "text": "The Arcturian honor guard is disembarking now — twenty marines in dress uniforms that make the Veltrian honor guard look underdressed. The symbolism is not subtle. Everything about the Arcturian presence communicates power: the size of the ships, the precision of the formations, the fact that the delegation arrived with its own flag to plant on Veltrian soil. The flag is ceremonial. The message is not. You are being saved, and you are being reminded who is doing the saving. The reminder is not gratuitous. It is strategic. General Brenner — the Arcturian one — is establishing the terms of the conversation before a word is spoken."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "arcturian_full_operational",
+      "text": "\"Accept General Brenner's framework. Full operational coordination, integrated command, Arcturian officers in our command posts. The military reality is that we need their capabilities more than we need our pride. If giving a foreign general operational control over our forces is the price of not losing this war, we pay that price. But I want something in return: a written commitment that Arcturian forces will remain until Tyvaren withdrawal is complete, not until Stellamere decides the intervention is no longer convenient. If they want command authority, they commit to the outcome. That is the deal. That is the only deal I will sign.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["arcturian_intervention_active", "full_command_integration", "arcturian_operational_control"],
+      "codexUnlocks": ["codex_arcturian_command_framework", "codex_joint_military_operations"]
+    },
+    {
+      "id": "arcturian_veltrian_command",
+      "text": "\"Thank General Brenner for his offer and tell him we accept Arcturian support under Veltrian command authority. Our officers will command their units. Arcturian forces will coordinate with — not command — Veltrian forces. Joint operations will be planned by joint staff with Veltrian officers in lead planning roles. If the Arcturians are here to help Veltria defend itself, they need to accept that Veltria is capable of directing its own defense. If they are here because they think we need management — they are here for the wrong reasons. I did not spend forty-plus weeks building a sovereign government to surrender sovereignty the moment the warships arrived.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 4 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["arcturian_intervention_active", "veltrian_command_retained", "sovereignty_maintained"],
+      "codexUnlocks": ["codex_veltrian_military_sovereignty", "codex_coalition_warfare"]
+    },
+    {
+      "id": "arcturian_defensive_only",
+      "text": "\"The Arcturian fleet provides an extraordinary defensive capability. Let us use it for what it does best. General Brenner, I am authorizing Arcturian naval and air forces to establish a defensive perimeter — protect our territorial waters, secure our airspace, prevent Tyvaren forces from approaching our coast. But offensive operations remain under Veltrian command. The Arcturian forces are a shield, not a sword. The sword belongs to Veltria. We will fight our own war. We will ask the Arcturians to make sure we are not attacked while we fight it. That is a legitimate ask. That is also as far as I am willing to go without a broader parliamentary mandate for foreign military integration.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["arcturian_intervention_active", "defensive_support_only", "sovereignty_preserved_partially"],
+      "codexUnlocks": ["codex_defensive_perimeter", "codex_naval_doctrine"]
+    }
+  ]
+}

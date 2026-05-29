@@ -1,0 +1,96 @@
+{
+  "id": "act4_exile_arc",
+  "title": "The Exile's Path",
+  "act": 4,
+  "weekAvailable": 40,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Stellamere — Provisional Chancellery, Week Forty",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The provisional Chancellery has been upgraded from three rooms to five. The Arcturian foreign ministry, having decided that your government-in-exile is likely to persist for more than a few weeks, has allocated additional space in the diplomatic annex — an office with a window that faces the Stellamere skyline rather than the internal courtyard, a conference room that can accommodate visiting delegations, and a small room that Vyktor has converted into a communications center with shortwave equipment and a teleprinter that connects to the international wire services. Five rooms. This is the territorial extent of the legitimate government of the Republic of Veltria. Five rooms in a borrowed building in a foreign capital, recognized by the international community but controlling not one square meter of Veltrian soil. You have been in exile for three weeks. It has felt like three months. It has also felt like thirty minutes, because crisis compresses time, and the crisis is still unfolding whether you are in Ashenmere or Stellamere."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have three updates. One: the Arcturian government has agreed to formally sponsor a resolution at the International Forum declaring the Brenner junta illegitimate and imposing comprehensive sanctions. The vote is scheduled for next week. The Orythians are wavering — their trade delegation has been meeting with junta representatives, which suggests they are considering hedging. Two: Dusek's network reports that approximately thirty percent of the mid-level officer corps has refused to serve under the junta. Some have gone underground. Some are attempting to reach us here. The network is functional but fragile — every communication with Veltria increases the risk of detection by junta counterintelligence. Three: the frozen Veltrian state assets, approximately eighty million VK, remain under our control. The funds are sufficient to sustain the government-in-exile for approximately eighteen months at current expenditure levels. After that, we would need either a return to Veltria or direct financial support from Arcturian allies."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Eighteen months. The number is helpful because it gives shape to the indefinite — a horizon, a deadline, a container for the particular anxiety of exile, which is the anxiety of waiting without knowing how long you will be waiting. Eighteen months is also terrifying, because it implies that the junta could persist for eighteen months, and eighteen months is long enough for a de facto government to become a de jure one, for international recognition to shift, for the people of Veltria to adapt to military rule and stop imagining alternatives. Exile is a race against normalization. Every day the junta governs is a day it becomes harder to unseat. Every day you are in Stellamere is a day the memory of your government fades from the daily experience of Veltrian citizens. You have to reverse both trends simultaneously, from five rooms in a borrowed building, with eighteen months of funding and a communications network that could be compromised at any moment. This is not impossible. It is merely very, very difficult."
+    },
+    {
+      "type": "description",
+      "text": "Outside the window, Stellamere is going about its business. The diplomatic annex is in a quiet neighborhood of embassies and consulates, the kind of neighborhood where important things are discussed in quiet voices behind soundproofed windows. The Arcturian Commonwealth has been generous — more than generous, given that you arrived through a service entrance with your family and your chief of staff and nothing else. But generosity has limits, and the limits are approaching. The Arcturian foreign minister wants to know your strategy. The international press wants to know your timeline. The loyalists in Veltria want to know when you are coming back. Everyone wants a plan. You have to give them one."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "exile_arc_international",
+      "text": "\"We make the international campaign our primary front. The sanctions resolution is the foundation — I want diplomatic recognition of the junta treated as a hostile act by every democracy on the continent. I will address the Arcturian parliament, the International Forum, the Orythian trade commission, every body that has influence over economic and diplomatic relations with Veltria. Brenner can control the streets of Ashenmere. He cannot control the international banking system or the trade routes or the diplomatic recognition that transforms a junta from a temporary aberration into an accepted government. We strangle the junta internationally, and we wait. Regimes that cannot trade, cannot borrow, and cannot travel do not survive. They collapse from the inside. We will be ready when it does.\"",
+      "internalTag": "reformist",
+      "tooltip": "Full diplomatic offensive. Maximizes international pressure on the junta. Slow but steady. Depends on sustained international support.",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 16 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 4 },
+        { "targetNodeId": "act4_underground_radio", "delayWeeks": 2 }
+      ],
+      "flags": ["exile_arc_international", "sanctions_campaign", "diplomatic_offensive", "exile_path_chosen"],
+      "codexUnlocks": ["codex_international_sanctions_regime", "codex_exile_diplomacy"]
+    },
+    {
+      "id": "exile_arc_resistance",
+      "text": "\"The international campaign matters, but it cannot be our primary front. Brenner controls the ground. We need to contest him on the ground. I want Dusek's network expanded — not just communication, but organization. Safe houses. Supply caches. A distributed command structure that can survive attrition. The resistance is not going to defeat the junta militarily — not yet. What it is going to do is make governing impossible. Civil servants who know the legitimate government is watching will slow-walk junta directives. Officers who know their names are on a list will think twice before enforcing junta orders. We make the junta's control a fiction by making resistance ubiquitous. Every Veltrian who refuses to cooperate with the junta is a citizen of the Republic exercising their constitutional duty. Organize them. Support them. Make the resistance the story of Veltria under occupation.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Build the internal resistance network. Makes the junta's life difficult from within. Risks civilian casualties from junta reprisals.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 4 }
+      ],
+      "flags": ["exile_arc_resistance", "underground_network_expanded", "internal_resistance", "exile_path_chosen"],
+      "codexUnlocks": ["codex_resistance_organization", "codex_junta_repression"]
+    },
+    {
+      "id": "exile_arc_negotiate_return",
+      "text": "\"Before we commit to a long exile strategy — I want to explore whether there is a negotiated path back. Brenner did not want to be a dictator. He wanted to save the country from what he perceived as a threat. The threat was his perception, not reality, but the perception was genuine. If I can reach him through a backchannel — a neutral intermediary, perhaps the Orythians or the Church — and offer him an exit that preserves his dignity and his freedom, he may take it. Amnesty for junior officers. Retirement with pension for Brenner. A transitional arrangement that allows the military to claim it acted in good faith and the civilian government to claim it never stopped governing. I am not offering to legitimize the coup. I am offering to end it without a civil war. The distinction matters. Explore it.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Negotiate terms for return. May end the crisis without bloodshed. Requires concessions that demoralize your reformist base. Brenner may not be willing to deal.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 6 },
+        { "targetNodeId": "act4_week48_collapse_endgame", "delayWeeks": 8, "probability": 0.5 }
+      ],
+      "flags": ["exile_arc_negotiation", "brenner_backchannel_exile", "negotiated_return_explored", "exile_path_chosen"],
+      "codexUnlocks": ["codex_negotiated_transition", "codex_brenner_exit_terms"]
+    }
+  ]
+}

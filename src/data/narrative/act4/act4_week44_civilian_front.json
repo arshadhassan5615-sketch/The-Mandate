@@ -1,0 +1,118 @@
+{
+  "id": "act4_week44_civilian_front",
+  "title": "The Home Front",
+  "act": 4,
+  "weekAvailable": 44,
+  "weekDeadline": 46,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Kravenstal — Emergency Civil Administration Center, Week Forty-Four",
+  "characters": ["vyktor_reznik", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.war_strategy_set", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "War does not stay at the front. It leaks. It leaks into the railway stations where families sleep on platforms waiting for evacuation trains that may or may not come. It leaks into the markets where bread prices have doubled because the grain shipments from Thornfeld cannot get through the military checkpoints. It leaks into the schools that have been converted to field hospitals, into the radio broadcasts that begin every hour with the names of the dead, into the particular silence of a city at night under blackout orders. Kravenstal is not under siege, but it is under war. The distinction is academic to the people living it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Civilian situation report. Approximately sixty thousand displaced persons from the border regions are now in Kravenstal. The city's population has increased by twelve percent in four weeks. Housing is — I will use the word 'improvised.' Food distribution is functioning but strained. The Grain Authority reports that unless military traffic is subordinated to civilian supply priorities on the northern rail line, we will face shortages in three to four weeks. Separately, the Workers' Unity Coalition has called for a 'patriotic production drive' — they want factories converted to war production with worker councils managing the transition. Soraya Khaled is framing this as national unity. The business class is framing it as syndicalism. Both framings are correct."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Military supplement. The civilian population in the combat zone is — I will be direct — a military problem. Civilians who remain in contested areas become hostages, intelligence assets for whichever side controls their village, or casualties. I am not recommending forced evacuation — that is a political decision with consequences I cannot fully assess. I am telling you that every civilian still in the forward zone complicates military operations. I need a policy. I need it soon."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Sixty thousand displaced people. Bread shortages in three weeks. Factories that need to be converted to war production but also need to keep producing civilian goods or the economy stops. Civilians in the combat zone who are the people you govern, the people you swore an oath to protect, the people whose votes put you in this office. They are also, from a military perspective, complications. You have to hold both truths simultaneously: every civilian is a Veltrian life that matters, and every civilian in the combat zone makes it harder to win the war that will determine whether Veltria continues to exist. These truths do not resolve. They require you to act anyway."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "civilian_war_economy_total",
+      "text": "\"Full war economy. Convert the factories, commandeer the railways for military supply, implement rationing nationwide. I will ask the Workers' Coalition to lead the production councils — channel their energy into winning the war rather than fighting the class war. Khaled will understand that this is both a genuine partnership and a political necessity. Anyone who hoards or profiteers will be prosecuted. We survive together or we don't survive at all. That is the policy. That is all of it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -14 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 2 }
+      ],
+      "flags": ["war_economy_implemented", "worker_councils_formed", "rationing_begun", "civilian_front_managed"],
+      "codexUnlocks": ["codex_war_economy", "codex_worker_production_councils"]
+    },
+    {
+      "id": "civilian_forced_evacuation",
+      "text": "\"Dusek, you have authorization for mandatory evacuation of civilians within twenty kilometers of the front. I will issue the order publicly and take responsibility for it. It will be brutal. It will be politically damaging. It is also necessary — I will not leave Veltrian civilians in the path of an advancing army when we have the capacity to move them. Prioritize children, elderly, and the injured. I want the evacuation convoys to have military escorts and I want the international press to document it. If we are going to empty our border villages, the world is going to watch us do it with as much humanity as war allows.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 2 }
+      ],
+      "flags": ["mandatory_evacuation_ordered", "civilian_zone_cleared", "civilian_front_managed"],
+      "codexUnlocks": ["codex_wartime_evacuation", "codex_civilian_protection_zone"]
+    },
+    {
+      "id": "civilian_aid_public_morale",
+      "text": "\"I want three things. One: a national relief program for the displaced — shelter, food, medical care, organized through the Church and the Workers' Coalition jointly. Two: a daily radio broadcast from this office — not military news, human news, the stories of Veltrians helping each other, the names of the brave, the evidence that the country is still a country. Three: I am going to visit the refugee shelters myself, today, without military escort. The country needs to see that their Chancellor is not hiding in a bunker. Fear is Tyvaren's weapon. I will not let them deploy it against my own people.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 16 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.church", "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 2 }
+      ],
+      "flags": ["civilian_relief_program", "daily_radio_address", "chancellor_visited_shelters", "civilian_front_managed"],
+      "codexUnlocks": ["codex_national_relief_program", "codex_wartime_broadcasting"]
+    },
+    {
+      "id": "civilian_emergency_powers",
+      "text": "\"I am activating emergency executive powers for the duration of the crisis. Civilian supply chains will be subordinated to military authority. Price controls and rationing implemented immediately. Travel between provinces restricted without authorization. Public gatherings of more than twenty people prohibited. I do not want to govern this way. I will govern this way because the alternative is losing the war, and losing the war means there is no country left to have civil liberties in. I will answer for this after the war, to the parliament and to the people. For now, I answer to the necessity of survival.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 12 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -16 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 2 },
+        { "targetNodeId": "act4_emergency_powers_invoked", "delayWeeks": 1 }
+      ],
+      "flags": ["emergency_powers_activated", "martial_law_light", "civilian_front_managed", "civil_liberties_suspended_war"],
+      "codexUnlocks": ["codex_emergency_war_powers", "codex_martial_law_provisions"]
+    }
+  ]
+}

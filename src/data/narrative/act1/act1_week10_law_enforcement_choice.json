@@ -1,0 +1,231 @@
+{
+  "id": "act1_week10_law_enforcement_choice",
+  "title": "The Law Enforcement Question",
+  "act": 1,
+  "weekAvailable": 10,
+  "weekDeadline": 12,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Office — The Ashenmere Palace",
+  "characters": ["danika_oberlin", "aldric_theron", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The morning briefing has barely ended when Danika Oberlin sets a thick folder on your desk. The folder is labeled 'Bureau of Civic Accountability — Proposal for Establishment.' Underneath it, Vyktor has placed a thinner folder with a single typed sheet on top: 'State Security Directorate — Operational Mandate.' The two proposals could not be more different. They could not be more consequential. And you can only afford to do one of them properly."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Chancellor. For seven years I documented what the BNI did to this country from exile in Lytheira. Extrajudicial detention. Torture. Political opponents whose bodies were never recovered. The BNI was not a security agency — it was a terror apparatus. If we abolish it and replace it with nothing, we leave a vacuum. [She waits.] Do you know what fills vacuums? The same people who created them. The Bureau of Civic Accountability I am proposing is something Veltria has never had: a law enforcement body with investigative independence, statutory limits on its powers, and a mandate to fight corruption wherever it exists — including within the government itself, if the evidence leads there."
+    },
+    {
+      "type": "description",
+      "text": "She opens the folder. The proposal runs to eighty pages. Organizational charts. Oversight mechanisms. Budget allocations. Recruitment criteria. She has been working on this for months without telling anyone."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "I have a candidate to lead it. Maren Tovik. She prosecuted twelve Halvek-era officials and won every case. That is not a coincidence. She is incorruptible, methodical, and incapable of looking the other way. [She waits.] Can this office say the same about every person in this building? The BCA under her leadership would be independent — independent of parliament, independent of the Interior Ministry, and independent of this office. It would investigate corruption wherever the evidence leads."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor Reznik, who has been silent until now, clears his throat. His expression is the particular blankness he wears when he is about to say something you will not like."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Danika's proposal is admirable. It is also naive. The people who ran the BNI are still in this country. Some are still in this building. They know where the bodies are buried because they buried them. If we create an agency with the power to investigate them and we do not also create an agency with the power to protect us from what they will do when cornered, we are bringing a warrant to a gunfight. The State Security Directorate would have a different mandate. It would not investigate corruption. It would neutralize threats — quickly, quietly, without procedural constraints that will prevent the BCA from acting until too late. I have someone in mind to run it. Viktor Dorne. Twenty-two years in the BNI. He knows every name, every network, every buried body. He is not a good man. But he is competent. Right now competence is what we need."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "If I may — and I suspect one will not be thanked for this — there is a third consideration that neither proposal has addressed. Danika's BCA would have the power to investigate this government. Vyktor's SSD would have the power to protect this government from its enemies. Both proposals create institutions with significant power, and history teaches us that institutions... tend to outlive the governments that create them. The question is not only which agency one funds. The question is what kind of Chancellor one intends to be — one who builds institutions that can hold power accountable, or one who builds institutions that can protect power from accountability. I am not suggesting there is an easy answer. I am suggesting that... pretending the question is merely administrative would be a consequential mistake."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Theron has done it again — stated the moral calculus so clearly that I cannot pretend not to see it. Danika is offering me a weapon against corruption that could, in theory, be turned against me. Vyktor is offering me a shield against enemies who would destroy this government — and who would not hesitate to use methods I would prefer not to know about. The budget can stretch to fund one of them properly. I could try to fund both at reduced capacity, which would make neither effective. Or I could fund neither and hope the existing institutions are sufficient. Hope is not a governance strategy. But neither is building institutions I cannot control — or institutions I should not control."
+    }
+  ],
+
+  "monologue": "Danika is offering me a weapon against corruption that could, in theory, be turned against me. Vyktor is offering me a shield against enemies who would not hesitate to use methods I would prefer not to know about. Theron is offering me the moral framing I can't pretend not to see. The budget can fund one properly. I could split the difference and make both weak. I could build neither and hope. Hope is not a governance strategy. Neither is building institutions I cannot control — or should not control.",
+
+  "choices": [
+    {
+      "id": "fund_bca",
+      "text": "\"Fund the Bureau of Civic Accountability. Fully. Danika, give Maren Tovik whatever resources she needs to build an agency that can actually investigate corruption — including, if it comes to it, corruption in this government. I did not campaign on fighting corruption only to protect myself from being investigated. If the BCA finds evidence of wrongdoing in my administration, I will cooperate with its investigation. If that leads to consequences for people in this government, those consequences are the price of accountability — and I am willing to pay it. Vyktor, I understand your concerns. But I will not build a new BNI to protect myself from the old one. That is not what I was elected to do.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 15  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -12 },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -6  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 10  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 15  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 5   },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": 12  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_bca_investigation",
+          "delayWeeks": 1
+        }
+      ],
+      "flags": ["bca_funded", "law_enforcement_choice_made"],
+      "codexUnlocks": ["character_maren_tovik", "codex_bca"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She does not smile. She closes the proposal folder — eighty pages, months of work — with the particular care of someone who has just been told the work was worth it. Her hand rests on the cover for a moment. Then she stands. She is already thinking about recruitment."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "The BCA will be independent. If it finds evidence of wrongdoing in this government — including by people in this room — I will not bury it. [She waits.] I want that on the record before we begin."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not argue. The SSD folder slides back into his briefcase — rejected, not destroyed. Vyktor does not destroy contingency plans. He refiles them under 'alternative futures.'"
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "The BCA. One has chosen accountability over protection. History will... note that choice. I will help Danika draft the oversight provisions so that the independence she describes is structural, not merely promised."
+        }
+      ]
+    },
+    {
+      "id": "fund_ssd",
+      "text": "\"Fund the State Security Directorate. Vyktor is right — there are people in this country who buried bodies for Halvek, and they will not quietly accept a government that wants to exhume them. Viktor Dorne knows who they are and what they are capable of. Give him the resources to neutralize those threats before they become crises. I do not need to know every operational detail. I need to know that this government survives long enough to accomplish its reforms. Danika, your proposal is the right one for a stable democracy. We are not a stable democracy yet. We are a fragile transitional government sitting atop twenty-six years of authoritarian infrastructure. We fund the agency that keeps us alive long enough to become the kind of country where a BCA can exist without being immediately subverted.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.halvekists",          "operation": "add", "value": 8   },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 12  },
+        { "stat": "factions.reformists",          "operation": "add", "value": -10 },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -4  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 8   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -12 },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 10  },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": 14  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_ssd_operations",
+          "delayWeeks": 1
+        }
+      ],
+      "flags": ["ssd_funded", "law_enforcement_choice_made"],
+      "codexUnlocks": ["character_viktor_dorne", "codex_ssd"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She picks up her proposal folder. The motion is precise — the motion of someone removing evidence from a crime scene. Eighty pages. Months of work. She tucks it under her arm. She does not look at Vyktor. She looks at you. The look is a question you will be answering for the rest of your Chancellorship."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "[She waits. The wait is longer than usual.] You just funded the thing we abolished. I want that on the record. I want my objection on the record. And I want you to remember this conversation when Dorne's people do something this government cannot explain."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... He opens his mouth. Closes it. The argument he had prepared — about institutions outliving governments — is already on the record. Repeating it would be... redundant. The silence is a judgment on the decision and on himself for not finding a more persuasive way to deliver it."
+        }
+      ]
+    },
+    {
+      "id": "fund_both_weakened",
+      "text": "\"Fund both. Split the allocation evenly. I understand that this means neither agency will be as effective as it could be — but I will not choose between accountability and security when this country needs both. Maren Tovik gets half the resources to begin building investigative capacity, with a mandate to pursue the most significant corruption cases first. Viktor Dorne gets half the resources to monitor and contain the most immediate security threats. Both will be frustrated. Both will be constrained. Both will have to prove they can do more with less before I allocate more. This is not the bold choice. It is the choice that keeps options open — including the option to change course if one agency proves more necessary than the other.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 4   },
+        { "stat": "factions.halvekists",          "operation": "add", "value": 2   },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 3   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 3   },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 4   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 2   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 3   },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 7   },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": 22  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_both_agencies_conflict",
+          "delayWeeks": 1
+        }
+      ],
+      "flags": ["bca_funded", "ssd_funded", "both_agencies_weakened", "law_enforcement_choice_made"],
+      "codexUnlocks": ["character_maren_tovik", "character_viktor_dorne", "codex_both_agencies"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "She does not smile. She does not frown. Half of what she asked for is not what she asked for. Half of what she opposed now exists. She is calculating which half will prove more consequential."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Both. Underfunded means neither is fully effective. But both exist. The BCA provides legitimacy. The SSD provides teeth. The tension between them will define the next year. I will manage it."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Both. One has chosen... complexity. History suggests that institutions designed to check each other require very careful calibration. I will... draft the jurisdictional boundaries. They must be precise. Ambiguity in this area produces exactly the kind of conflict one is hoping to avoid."
+        }
+      ]
+    },
+    {
+      "id": "fund_neither",
+      "text": "\"Fund neither. The budget cannot sustain new institutions right now — not when unemployment is at twenty-eight percent and the deficit is already alarming. Danika, fold the anti-corruption functions into the existing Interior Ministry structures. Vyktor, have the regular security apparatus handle threat assessment within current resource constraints. I am not saying accountability does not matter. I am saying we cannot afford to build new institutions from scratch when existing ones — imperfect as they are — can be reformed and redirected. If circumstances change in the next budget cycle, we can revisit this. But right now, fiscal discipline has to come first. We govern within our means, or we do not govern at all.\"",
+      "internalTag": "conservative",
+      "stateChanges": [
+        { "stat": "factions.businessClass",       "operation": "add", "value": 10  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": 5   },
+        { "stat": "factions.reformists",          "operation": "add", "value": -12 },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 2   },
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 4   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -4  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -3  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -6  },
+        { "stat": "personal.fiscalRestraint",     "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_no_agency_vacuum",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": ["neither_agency_funded", "law_enforcement_choice_made"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She picks up the folder and walks to the door. She pauses with her hand on the frame. She does not turn around. What she says next, she says to the door."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "You just told the country that accountability is a line item you cannot afford. [She waits.] I hope the deficit numbers look better next quarter. The corruption numbers will not."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He makes a single note: 'REVISIT Q2.' The note is penciled — impermanent, contingent. But it exists. Vyktor does not discard his own recommendations. He archives them. This one is archived, not buried."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... The historical precedent he wanted to cite stays in his mind. It was from the Heraldi Republic, 1903 — a government that deferred law enforcement reform for fiscal reasons and collapsed within eighteen months. He does not share it. The lesson does not need to be spoken to be true."
+        }
+      ]
+    }
+  ]
+}

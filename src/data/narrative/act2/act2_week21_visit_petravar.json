@@ -1,0 +1,203 @@
+{
+  "id": "act2_week21_visit_petravar",
+  "title": "The Ministry of Fraternal Relations",
+  "act": 2,
+  "weekAvailable": 21,
+  "weekDeadline": 26,
+  "type": "diplomacy",
+  "agendaCost": 2,
+  "isMandatory": false,
+  "location": "Ministry of State Relations — Petravar, Orythian Dominion",
+  "characters": ["yevgeni_stahl", "vyktor_reznik"],
+
+  "prerequisites": [
+    { "stat": "flags.superpower_choice_orythian", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Petravar does not try to impress you the way Stellamere does. The airport is functional and grey. The motorcade route is lined at intervals with state flags, but the lining is precise rather than decorative — an organizational expression of welcome rather than an aesthetic one. The Ministry of State Relations is a building that was designed in 1938 and has been maintained to the exact standard of its original specification ever since, which gives it a quality of determined permanence. The murals in the entrance hall show workers and farmers in idealized labor, faces turned upward. They are very good murals."
+    },
+    {
+      "type": "description",
+      "text": "Stahl is waiting in the main reception corridor, not at the entrance. This is not the same calculation Cole made — Stahl's greeting is the greeting of a man who operates from a position of security rather than salesmanship. He does not need the photograph. He needs you to understand that this building and everything it represents has been here for fifty years and expects to be here for fifty more."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "Chancellor. The General Secretary sends his personal regards and his regret that a domestic matter prevents him from receiving you himself this visit. I am authorized to speak for the Dominion with full authority. Please. The discussion room is prepared."
+    },
+    {
+      "type": "description",
+      "text": "The discussion room is smaller than you expected — a round table, six chairs, a samovar of tea that is genuinely excellent. No prepared documents. Stahl does not use documents in the way Cole uses them. He uses silence and directness, and he uses them with the precision of a man who has learned that the Commonwealth style of negotiation is theater, and has decided that his own theater will simply be the absence of theater."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "I want to start with something honest. The Dominion's interest in Veltria is not altruistic. We are adjacent powers in a complicated strategic situation, and what happens in Ashenmere matters to Petravar the way weather upstream matters to people who live downstream. I will not pretend we are acting purely in your interest. But I will tell you that what we want from Veltria is not your territory, your resources, or your people. What we want is stability — specifically, the kind of stability that does not require a Tyvaren client state on our western border or an Arcturian base on our doorstep."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "The Orythian Economic Development Facility: one hundred and fifty million Krone, available immediately upon signature of a Mutual Development Framework. Interest at three point two percent, a fifteen-year repayment schedule, the first three years interest-only. No IMA involvement. No structural adjustment requirements. Military hardware from the current Dominion inventory — primarily anti-armor and air defense systems that are relevant to your Tyvaren exposure. And technical advisors — I want to be specific about this, because the Commonwealth will tell you 'advisors' means occupation, and they are not entirely wrong about what 'advisors' has meant historically."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "In this case, advisors means forty to sixty specialists in industrial planning, energy infrastructure, and agricultural collective organization. They come with the hardware. They serve at your discretion and leave when you ask them to leave. What they will do while they are there is make the case — professionally, persistently — that Orythian industrial models are applicable to Veltrian conditions. They will be right about some of it and wrong about some of it. You will have to decide which is which."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is the most honest negotiator you have met since taking office, which may be the most suspicious thing about him. Honesty at this level is either a sign that he does not need to deceive you because the offer itself is sufficient, or a sign that the deception is too deep to be visible. Or possibly both."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "What the Dominion asks: a nationalization framework for the industrial sector — not immediate, but a constitutional commitment to public ownership of strategic industries within five years. Voting alignment at the Asturien Forum on the six specific resolution categories I will give you in writing. And a public statement of solidarity with Dominion positions on the Morivask situation. That last one is political, I know. I know what it costs you domestically to say it. I'm asking anyway."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Morivask solidarity statement. That ties us to the Dominion position, which is that Morivask's internal affairs are not subject to international oversight. Which means we are endorsing the ethnic cleansing that is producing the refugee crisis we spent the previous two weeks managing."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "I understand how it reads. The Dominion's position on Morivask is complicated and I will not defend every dimension of it today. What I can tell you is that the alternative — Arcturian-backed intervention in Morivask — produces a different outcome that is also not good, and that the Dominion's presence in the region is currently the only thing preventing a full Tyvaren-Morivask military coordination that would make your northern border situation significantly worse. This is the world as it is. I did not design it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He did not design it. Neither did you. You are both operating inside a structure built by men who are dead or old, and the structure is what it is, and the question is what you do inside it with the options that actually exist."
+    },
+    {
+      "type": "description",
+      "text": "The samovar has been refilled. Outside the window, Petravar in late afternoon light: broad avenues, trolleybuses, a city of three million people living under an ideology that has built something that functions at the cost of things that don't appear in the economic statistics. Stahl is watching you with the patience of a man who has conducted this conversation before and knows that the pause before the response is where the real decision happens."
+    }
+  ],
+  "monologue": "Stahl does not use documents the way Cole does. He uses silence and directness. 'What we want is not your resources. What we want is stability.' He said it like the truth because it probably is the truth — and also because a truth that serves his interests is the most effective kind of lie. The Morivask statement is the poison: endorse Orythian non-interference and I lose every Dravenni voter who believed I was different from the governments before me.",
+
+  "choices": [
+    {
+      "id": "petravar_full_alignment",
+      "text": "\"The full framework. The loan, the hardware, the advisors, the nationalization pathway, the Forum alignment. On the Morivask statement — I will make a statement of support for 'Veltrian and Dominion shared commitment to regional stability.' I am not endorsing ethnic cleansing, but I understand the diplomatic language.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 18 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -20 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -8  },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 10  },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8   },
+        { "stat": "nation.nationalDebt",      "operation": "add", "value": 18  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_orythian_advisor_friction",
+          "delayWeeks": 12
+        },
+        {
+          "targetNodeId": "act3_arcturian_sanctions",
+          "delayWeeks": 8
+        }
+      ],
+      "flags": ["orythian_alliance_full", "superpower_aligned_orythian"],
+      "codexUnlocks": ["codex_orythian_dominion"],
+      "reactions": [
+        {
+          "character": "yevgeni_stahl",
+          "type": "action",
+          "text": "Stahl nods — not the nod of a man who has won, but the nod of a man who has been understood. He pushes a document across the table — the Mutual Development Framework, already prepared, already dated, waiting only for a signature. He had it ready. He was confident but not certain. Now he is certain."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor collects the document and places it in his portfolio. He does not comment. He does not need to. He has already calculated what this will cost with the Dravenni caucus, with the reformist press, with every citizen who remembers what 'Orythian advisors' meant in the countries that said yes before us. He will present the calculation tomorrow. Tonight, he simply files the paper."
+        }
+      ]
+    },
+    {
+      "id": "petravar_loan_only",
+      "text": "\"The loan and the hardware — yes. The advisors at a reduced number and with clear limitations on their role. The nationalization framework and the Forum alignment — I need to bring those home for parliamentary discussion. The Morivask statement I cannot sign.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 10 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -10 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 6  },
+        { "stat": "nation.nationalDebt",      "operation": "add", "value": 18 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["orythian_loan_only", "superpower_partial_orythian"],
+      "codexUnlocks": ["codex_orythian_dominion"],
+      "reactions": [
+        {
+          "character": "yevgeni_stahl",
+          "type": "silence",
+          "text": "Stahl considers this. The loan and hardware — accepted. The nationalization framework and Forum alignment — deferred. The Morivask statement — refused. He weighs each component. Then he nods. Not the nod of a man who is satisfied, but the nod of a man who understands that partial acceptance now is better than no acceptance later. He will take what he can get. He always does."
+        }
+      ]
+    },
+    {
+      "id": "petravar_challenge_morivask",
+      "text": "\"I can accept economic cooperation and I can accept security cooperation. What I cannot do is sign a statement that implies endorsement of what is happening to Dravenni people in Morivask. I will tell you why: because my country is half composed of Dravenni citizens, and what I sign in Petravar will be read in Dravenhollow tomorrow morning.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",        "operation": "add", "value": 18 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 14 }
+      ],
+      "chainTriggers": [],
+      "flags": ["orythian_morivask_refused", "superpower_partial_orythian"],
+      "codexUnlocks": ["codex_orythian_dominion"],
+      "reactions": [
+        {
+          "character": "yevgeni_stahl",
+          "type": "silence",
+          "text": "Stahl looks at you for a long moment. The Dravenni citizens. Dravenhollow tomorrow morning. He repeats the words as though memorizing coordinates on a map. Then he nods — slowly, with the particular gravity of a man who has just been told something true and inconvenient. I understand, he says. I do not agree. But I understand. He does not push further. He is too strategic for that."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "On the plane home, he waits until the cabin pressure stabilizes. The Dravenni caucus will hear about this before we land. He pauses. They will hear the right version — the version where their Chancellor, in a room in Petravar, told the Dominion that she would not sign away her Dravenni citizens. That version will travel faster than any correction the Dominion might issue."
+        }
+      ]
+    },
+    {
+      "id": "petravar_decline_return_home",
+      "text": "\"I appreciate the Dominion's candor. I can't accept this framework today. The nationalization pathway requires a constitutional process that I do not control. I'll return home and continue discussions through proper channels.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": -4 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 5  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": -3 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 5  }
+      ],
+      "chainTriggers": [],
+      "flags": ["orythian_declined", "superpower_noncommittal"],
+      "codexUnlocks": ["codex_orythian_dominion"],
+      "reactions": [
+        {
+          "character": "yevgeni_stahl",
+          "type": "silence",
+          "text": "Stahl does not respond immediately. He refills the samovar — his own cup, not yours — and takes a sip before speaking. The silence is not anger. It is the particular pause of a negotiator who has just been told that the meeting is over and is deciding whether it actually is. When he finally speaks, his tone is unchanged. The offer remains open, Chancellor. It will remain open. The economics do not change because one meeting ends without a signature."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "On the plane, he opens his portfolio. The offer stays on the table. Which means we can return to it. Which means we did not lose anything today except time. He pauses. Time, in the current fiscal situation, is not nothing. But it is also not everything."
+        }
+      ]
+    }
+  ]
+}

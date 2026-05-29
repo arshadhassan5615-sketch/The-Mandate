@@ -1,0 +1,90 @@
+{
+  "id": "act3_dravenni_divided_response",
+  "title": "A People Divided",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Dravenhollow Community Hall — Evening, Week Thirty-Two",
+  "characters": ["idris_kaelen"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The community hall in Lower Dravenhollow is a converted grain warehouse whose walls still smell faintly of barley and the particular damp of mountain buildings that have never been properly heated. Three hundred Dravenni have gathered here — farmers from the eastern valleys, shopkeepers from the provincial town, former DLF fighters in civilian clothes, elders in traditional woven shawls, young men in the cheap factory jackets that have become the unofficial uniform of the hardliner faction. The crowd is not united. You can see the divisions in where people choose to sit — the elders near Kaelen's table at the front, the young men clustered near the back exit, the farmers in the middle, waiting to be convinced by whoever makes the better argument."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "My people are asking me questions I cannot answer alone. Has the Chancellor delivered the language recognition she promised during the campaign? She has — partially, in one province, with exceptions carved out by Kolvar's committee. Has she delivered autonomy? She has promised it. Promises from Ashenmere are a currency that has been devalued by thirty-seven years of inflation. Some of you — and I see you in the back, I know who you are — say that Tyvaren offers are more concrete. Vukov promises us self-governance under Tyvaren protection. Vukov also promises the Morivask that their border disputes will be resolved under Tyvaren protection, and the Morivask are currently discovering that 'Tyvaren protection' means Tyvaren administration and Tyvaren taxation and Tyvaren conscription of Morivask youth into Tyvaren military units. A promise from a fascist is a weapon disguised as a gift. But the Chancellor's promises must also be tested. I am here to test them."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The crowd is listening to Kaelen, but the young men at the back are not nodding. They are waiting. They want Kaelen to fail — not because they dislike him, but because his failure would prove their argument correct. The elders want Kaelen to succeed because they remember the Silent Clearances and do not want to live through another round of government atrocity. The farmers in the middle want whatever will keep their farms safe and their children out of uniforms — any uniforms, ours or Tyvaren's. I am watching a community negotiate with itself about whether to trust me, and the negotiation is happening in a language I do not speak, in a building that smells like grain, in a province that has been promised too much and delivered too little for too many years."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "I am walking a tightrope, Chancellor. I am telling my people to trust a government that has failed them. I am doing it because the alternative — the Tyvaren alternative — is worse. But 'worse than the alternative' is not a political program. It is a threat. People who are motivated only by threats eventually stop listening to the person delivering them. I need something to offer that is not a warning. I need proof that the promises made in Ashenmere have weight. Can you give me that proof, or are my people right to look toward the mountains?"
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dravenni_divided_fast_track",
+      "text": "\"Here is your proof. I am issuing an executive order tonight granting Dravenni official language status in all Veltrian provinces where Dravenni speakers constitute more than five percent of the population. It takes effect immediately. No parliamentary approval required. No committee review. No exceptions. And I am authorizing the release of federal funds for Dravenhollow infrastructure — schools, roads, the hospital you have been requesting for fifteen years. Tell your people the promises have weight because I am delivering them weight. Tonight.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 18 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kolvar_legal_challenge", "delayWeeks": 2 }
+      ],
+      "flags": ["dravenni_language_executive_order", "infrastructure_funds_released", "fast_track_delivery"],
+      "codexUnlocks": ["codex_dravenni_language_act", "codex_executive_order_powers"]
+    },
+    {
+      "id": "dravenni_divided_incremental",
+      "text": "\"I cannot issue executive orders that the constitutional court will strike down before the ink is dry — that does not help your people, Kaelen, it helps Kolvar. What I can deliver is this: the language recognition legislation passes committee next week. The infrastructure funds are included in the next budget supplemental. The autonomy commission reports within sixty days. These are dates on a calendar, not promises without timelines. When your people ask for proof, give them the calendar. And hold me to it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 2  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_autonomy_commission", "delayWeeks": 4 }
+      ],
+      "flags": ["dravenni_legislative_path", "calendar_commitments", "incremental_delivery"],
+      "codexUnlocks": ["codex_dravenni_legislative_timeline"]
+    },
+    {
+      "id": "dravenni_divided_security",
+      "text": "\"I will give you proof, but the proof goes both ways. I need Kaelen to identify which members of his community are in contact with Tyvaren agents. Publicly. Not through back channels — in front of this assembly, so the farmers in the middle can see who is trying to sell them to a foreign power. I will deliver language recognition and infrastructure funds for every community that publicly rejects Tyvaren overtures. Cooperation is a two-way street. I have shown mine. Now show me yours.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_insurgency", "delayWeeks": 4 }
+      ],
+      "flags": ["dravenni_condition_cooperation", "tyvaren_contacts_demanded", "quid_pro_quo_security"],
+      "codexUnlocks": ["codex_dravenni_security_bargain"]
+    }
+  ]
+}

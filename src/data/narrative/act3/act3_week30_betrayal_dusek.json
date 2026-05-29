@@ -1,0 +1,113 @@
+{
+  "id": "act3_week30_betrayal_dusek",
+  "title": "The Memorandum",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 32,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ministry of Defense — Colonel Dusek's Office, 14:32",
+  "characters": ["colonel_dusek"],
+  "prerequisites": [
+    { "stat": "factions.ironCovenant",  "operator": "<=", "value": 45 },
+    { "stat": "personal.moralCompass",  "operator": ">=", "value": 21 },
+    { "stat": "factions.businessClass", "operator": ">=", "value": 29 }
+  ],
+  "exclusive": ["act3_week30_betrayal_vostane", "act3_week30_betrayal_vyktor"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dusek requested the meeting through Brenner's aide, not his own. Brenner is not present, which is the first thing you notice. The second is that Dusek is in civilian clothes — a grey jacket, no insignia — wearing them with the imprecision of a man who put them on for a specific reason rather than out of habit."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Thank you for coming directly, Chancellor. I want to begin by being clear: this conversation did not originate from General Brenner. He does not know I am having it. I came to you first because I believe you should hear this before it reaches him with endorsements already on it."
+    },
+    {
+      "type": "description",
+      "text": "He takes a folder from his desk drawer and opens it toward you without reading it himself. He knows what it says. He has been living with it for several days."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "A memorandum has circulated informally among elements of the General Staff. It outlines what the authors call 'conditional security protocols' for scenarios they describe as constitutional instability. The scenarios include: a confidence vote resulting in government dissolution; a constitutional challenge upheld by a foreign-aligned authority; and — this is the exact language — 'executive overreach that compromises national security prerogatives.' Each scenario has a described military response. None of these protocols have been authorized. None have been formally submitted. They circulated informally, which means they do not officially exist — and also means they have been read by thirty to forty officers."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Conditional protocols. You know what that language means in military planning. It means someone in this building has written down what the army does when it decides the government has failed. They have given it structure. They have given it language. They have made it thinkable, and the difference between a thing that has been thought and a thing that has not been thought is a much shorter distance than it appears from the outside."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I want to be clear about why I am telling you this. I do not believe the officers who drafted this document are planning a coup. I believe they are frightened men who think they are patriots. I also believe that frightened men who think they are patriots and have a written protocol in a drawer are a very specific kind of danger. I am bringing this to you because I believe you can solve it without the kind of solution that makes it worse."
+    },
+    {
+      "type": "description",
+      "text": "He closes the folder. He did not need to open it — he wanted you to see that the document has weight, is real, exists on paper in a building you are legally responsible for. He watches you with the careful expression of a man who has committed an act of loyalty and is not certain it will be received as such."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "betrayal_dusek_demand_names",
+      "text": "\"I need the names in that memorandum. All of them. This is a matter for the Justice Ministry and the parliamentary oversight committee, not the General Staff. I want those names on my desk by tomorrow morning.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -14},
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": -8 },
+        { "stat": "nation.corruption",            "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["dusek_names_demanded", "military_purge_initiated"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_dusek_call_brenner",
+      "text": "\"Tell Brenner I want a meeting tomorrow morning — not requested, expected. And tell him I know what the memorandum says. I want him to understand before we sit down that I have been informed and that I expect the document retracted by close of business today.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [],
+      "flags": ["brenner_confronted_direct", "dusek_warning_acted_on"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_dusek_monitor",
+      "text": "\"I want you to do nothing — officially. Continue your normal duties. But I want you to continue briefing me on how this develops. I need to understand the full scope before I act. A purge that misses the root doesn't solve anything.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 4  },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 2  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dusek_intelligence", "delayWeeks": 3 }
+      ],
+      "flags": ["dusek_informant_retained", "military_monitored"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_dusek_question_loyalty",
+      "text": "\"Before I decide anything — why did you come to me instead of Brenner? He's your superior officer. This is precisely the kind of matter you're supposed to route through him.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dusek_loyalty_arc", "delayWeeks": 2 }
+      ],
+      "flags": ["dusek_loyalty_probed"],
+      "codexUnlocks": []
+    }
+  ]
+}

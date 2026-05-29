@@ -1,0 +1,90 @@
+{
+  "id": "act3_new_cabinet_figures",
+  "title": "Fresh Faces",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Cabinet Room — Ashenmere Palace, 09:30",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The cabinet table has new faces around it — three of them, filling chairs that have been empty since the betrayals of Week Thirty. The reshuffle was necessary for political reasons, but the political reasons have produced actual human beings who are now sitting at the table where you make decisions that will determine whether Veltria survives the next six months. They are nervous, which they are trying to hide. They are ambitious, which they are also trying to hide. They are watching you to see what kind of Chancellor they have agreed to serve — the kind who empowers her ministers or the kind who uses them as human shields for unpopular decisions."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The new appointments: Minister of Trade — Sera Halbrek, forty-six, economist, served in the Finance Ministry under three administrations but never in a political role. Competent, apolitical, cautious. Minister of Interior — Arwin Tessek, fifty-two, former provincial governor from the southern region, reformist credentials, no enemies and no close allies, which is either independence or isolation depending on the political environment. Minister without portfolio for Dravenni Affairs — Revan Kolm, thirty-nine, Dravenni community organizer, appointed at Kaelen's recommendation. The old guard — the ministers who survived the reshuffle — are watching the new arrivals with what I would describe as professional skepticism. They want to know whether these appointments represent a new direction or a temporary adjustment."
+    },
+    {
+      "type": "description",
+      "text": "The new ministers are seated together, which was not arranged but happened naturally — the psychological clustering of people who do not yet know where they belong in the room's political geography. Halbrek is reading her briefing papers with the focused attention of someone who expects to be tested on them. Tessek is watching the room with the practiced stillness of a former governor who learned that information is gathered by observation, not interrogation. Kolm is the only one who looks comfortable — Dravenni community politics are at least as brutal as cabinet politics, and he has survived worse rooms than this one."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The question is not whether these people are competent — Vyktor would not have put them on the shortlist if they were not. The question is whether I trust them with power, and how much. Every one of them represents a constituency that is watching to see whether their appointment was substantive or decorative. Halbrek's appointment signals to the business class that economic competence matters. Tessek's signals to the provinces that Kravenstal is not the entire country. Kolm's signals to the Dravenni community — and to Kaelen, and to the hardliners who think the government will never deliver — that there is now a Dravenni voice in the room where decisions are made. The signals will only be believed if the ministers actually have power. Otherwise they are just furniture."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "new_cabinet_empower",
+      "text": "\"I want each of you to understand something. You were not appointed to be managed. You were appointed to govern. Halbrek, the trade negotiations with Stellamere are yours — full authority, report to me weekly but make decisions daily. Tessek, the provincial security review is your mandate — design it, staff it, present me with recommendations. Kolm, the Dravenni language implementation is your portfolio — and I expect you to tell me when the implementation is falling short, because the Dravenni community will tell you before they tell me. This government does not work if ministers wait for permission. Govern.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.dravenni",             "operation": "add", "value": 8  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 4  },
+        { "stat": "nation.corruption",             "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["new_ministers_empowered", "reformist_cabinet", "dravenni_voice_in_government"],
+      "codexUnlocks": ["codex_cabinet_reshuffle"]
+    },
+    {
+      "id": "new_cabinet_balance",
+      "text": "\"You have your portfolios. You have your briefing papers. You also have colleagues who have been in this room for thirty-one weeks and know which decisions are survivable and which are not. I expect you to learn from them as well as to challenge them. Halbrek, coordinate with the Finance Minister on trade implications. Tessek, the Interior Ministry has institutional knowledge you will need — use it. Kolm, your relationship with Kaelen is your strength and your complication. Manage both. This is a cabinet of collaboration, not individual portfolios.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 5 }
+      ],
+      "flags": ["new_ministers_balanced", "continuity_maintained", "gradual_integration"],
+      "codexUnlocks": ["codex_cabinet_reshuffle"]
+    },
+    {
+      "id": "new_cabinet_short_leash",
+      "text": "\"You are here because the previous occupants of your offices were either compromised or departed. Your primary function is to restore institutional stability. Decisions of strategic significance will continue to be made in this office and communicated through Vyktor. Your ministries are implementing bodies, not policy-making bodies. I expect competence. I do not expect initiative. If you have policy recommendations, they come through Vyktor's office before they reach this table. Are we clear?\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "factions.dravenni",             "operation": "add", "value": -4 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 4 }
+      ],
+      "flags": ["new_ministers_constrained", "executive_centralization", "decorative_appointments_risk"],
+      "codexUnlocks": ["codex_cabinet_reshuffle"]
+    }
+  ]
+}

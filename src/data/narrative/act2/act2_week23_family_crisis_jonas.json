@@ -1,0 +1,170 @@
+{
+  "id": "act2_week23_family_crisis_jonas",
+  "title": "The Blueprint",
+  "act": 2,
+  "weekAvailable": 23,
+  "weekDeadline": 26,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Study, Late Evening",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [
+    { "stat": "personal.marriageHealth", "operator": "<", "value": 40 }
+  ],
+  "exclusive": ["act2_week23_family_crisis_liora", "act2_week23_family_crisis_tomas"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You find the paper on your desk when you return from the Constitutional Convention session at twenty past nine. Jonas has placed it precisely in the center, weighted with the small carved-stone paperweight he found at a market in Aldenmoor on your fifth anniversary. The paper is graph paper — his kind, the kind architects use — and he has made a list."
+    },
+    {
+      "type": "description",
+      "text": "The list is dated. Each entry is a specific day: the family dinner you cancelled in Week 4, Tomas's school presentation you were briefed about but couldn't attend in Week 8, the weekend at the lake house that was postponed and then postponed again and then simply never rescheduled. There are seventeen entries. He has not written any annotations. He has not drawn any conclusions. He has given you the facts and let them arrange themselves."
+    },
+    {
+      "type": "description",
+      "text": "He is in the chair by the window when you look up. He has been sitting there in the dark, waiting for you to read it. He does not turn on the lamp when you look at him."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I wasn't going to say anything about the list. I made it for myself, actually. To see whether the pattern was real or whether I was constructing a grievance. It's real."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I understand what you're doing. I understood it when you ran. I believed in it when you won — I still believe in it, I want to be clear about that. I went to a dinner last week where someone told me I must be so proud, and I said yes because I am. But I drove home afterward and I sat in the car in front of the house for twenty minutes because I didn't know what I was going to find inside it, and that is not — that is not a way to live in your own house."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He has never said something like this before. Not in all the years. He processes things the way he processes structural problems: slowly, thoroughly, not until he understands all the load-bearing elements. The list is the conclusion of months of processing. He has arrived."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I'm not asking you to be a different person. I'm asking you to tell me honestly whether I am still a person you are choosing. Not whether you love me — that's not what I'm asking. I know you love me in the way you love things, which is with a great deal of intensity and not very much time. I'm asking whether you are choosing this. Because I need to know, so I can decide what I'm doing."
+    },
+    {
+      "type": "description",
+      "text": "The city outside the window makes its nighttime sounds: the tram three streets over, a car alarm that begins and stops, the particular silence of a city that never fully sleeps but periodically pauses. Jonas is watching you without anger, which is the most difficult thing to look at. Anger you could respond to. This is something else — the specific weight of a person who has already accepted several possible outcomes and is simply waiting to learn which one you'll choose."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The referendum is in three weeks. Brenner requested a meeting. The budget situation is unresolved. The list on the desk is seventeen items long. All of these things exist simultaneously and none of them can be made to wait by the act of focusing on another one."
+    }
+  ],
+  "monologue": "Seventeen entries. Each one a specific day. He used graph paper — his paper, the architect's paper — and he did not annotate. No conclusions. Just the facts, arranged to speak for themselves. He sat in the dark waiting for me to read it. He said he sat in the car for twenty minutes in front of the house because he did not know what he would find inside. He has never said anything like this before. The list is the conclusion of months of processing. He has arrived at a question I do not know how to answer.",
+
+  "choices": [
+    {
+      "id": "jonas_cancel_tomorrow",
+      "text": "\"Tomorrow is yours. I'm cancelling the morning schedule. Whatever is on the calendar, Vyktor will handle it. I want to be with you and with Tomas and Liora and I'm telling you that before I've checked whether it's possible, because if I check first I'll find a reason.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 18 },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": 6  },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",        "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_confrontation_resolved", "family_day_taken"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "action",
+          "text": "He does not move for several seconds. Then he reaches across the space between you and puts his hand over yours — the same gesture as always, the one that means he is still here. He does not say anything. He doesn't need to. The list is still on the desk. But it is no longer the only thing on the desk."
+        }
+      ]
+    },
+    {
+      "id": "jonas_honest_vulnerable",
+      "text": "\"I'm frightened. I don't say that publicly — I can't — but I am. I'm frightened every morning when I wake up and there are already seventeen things that need decisions and I don't always know if I'm making the right ones. The reason I don't come home is that when I'm here I'm still making decisions and I can't stop and I don't know how to be your wife the way I used to be.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 22 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_jonas_partner_arc",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": ["jonas_confrontation_vulnerable", "jonas_knows_the_fear"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "silence",
+          "text": "He absorbs what you said the way he absorbs everything: completely, silently, without breaking eye contact. Then he stands up and walks to the window. He is not retreating. He is processing. The silence lasts twenty seconds and contains more communication than any conversation you have had in months."
+        },
+        {
+          "character": "jonas_ashavel",
+          "type": "dialogue",
+          "text": "He turns from the window. I didn't know you were frightened. I should have known. He comes back to the chair and sits down. His voice is different — quieter, but also lighter. As though naming the fear has taken some of its weight from both of you. I should have known, he says again. And then: I'm sorry I didn't know."
+        }
+      ]
+    },
+    {
+      "id": "jonas_structural_promise",
+      "text": "\"You're right about the pattern. I want to make a structural change — one evening a week that is ours, not to be scheduled over for anything below a national crisis, and a real conversation each month about how you and the children are. Not a calendar item. A commitment.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_jonas_promise_kept_or_broken",
+          "delayWeeks": 6,
+          "probability": 0.6
+        }
+      ],
+      "flags": ["jonas_structural_promise", "jonas_confrontation_managed"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "action",
+          "text": "He nods. Not a big nod — the nod of an architect who has been handed a structural plan and is assessing whether the load-bearing calculations are realistic. He is not entirely convinced. But he is willing to test it. With Jonas, that is as close to yes as disappointment gets."
+        },
+        {
+          "character": "jonas_ashavel",
+          "type": "dialogue",
+          "text": "One evening a week. He considers this. Thursday. He said it the way he says everything important: quietly, after a pause, as though he has already built the whole structure in his head and is now presenting the foundation. Thursday evening. The children are home. The schedule is usually lighter. I am holding you to this. I'm not angry. I'm just holding you to it."
+        }
+      ]
+    },
+    {
+      "id": "jonas_cannot_stop_now",
+      "text": "\"I hear you. I do. But the referendum is in three weeks and if it fails everything we've been through this year fails with it. I cannot stop now. I am asking you to hold on for three more weeks and then we will have this conversation properly.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_jonas_separation",
+          "delayWeeks": 5,
+          "conditions": [{ "stat": "personal.marriageHealth", "operator": "<", "value": 28 }]
+        }
+      ],
+      "flags": ["jonas_confrontation_deferred", "jonas_crisis_unresolved"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "silence",
+          "text": "He looks at you for a long moment. Not with anger — with the particular expression of someone who has just been told that the thing they most need is the one thing you cannot give them right now. He does not argue. He does not respond. He simply picks up the list from the desk, folds it precisely, and puts it in his pocket. The gesture is worse than any argument would have been."
+        }
+      ]
+    }
+  ]
+}

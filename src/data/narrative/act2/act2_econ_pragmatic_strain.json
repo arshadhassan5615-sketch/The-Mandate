@@ -1,0 +1,59 @@
+{
+  "id": "act2_econ_pragmatic_strain",
+  "title": "Decision Fatigue",
+  "act": 2,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Private Office — Late Evening",
+  "characters": ["vyktor_reznik", "elara_vostane"],
+  "prerequisites": [{ "stat": "flags.economy_pragmatic", "operator": "==", "value": true }],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "It is past eleven. Your desk is covered with sector-by-sector analysis documents — steel, textiles, agriculture, mining, shipping, manufacturing. Each one requires a separate decision. Each decision requires reading a report, consulting stakeholders, weighing trade-offs. You have made eleven sector decisions this week alone. There are forty-three sectors in the Veltrian economy."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The case-by-case approach is consuming your administration's bandwidth. Cabinet ministers are spending more time preparing sector analyses than governing. Foreign investors are frustrated by the uncertainty — they cannot predict which sectors will open and when. The Arcturians have put their trade negotiations on hold until we 'clarify our economic framework.' The Orythians have done the same. Everyone is waiting for you to decide everything, and you cannot decide everything fast enough."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I have prepared a framework document. It groups the forty-three sectors into five categories based on strategic importance, competitiveness, and employment impact. If you approve the framework, I can make sector decisions within the framework without requiring your personal approval each time. It delegates authority while maintaining your strategic direction. It is not as flexible as your current approach. It is faster."
+    }
+  ],
+  "monologue": "Eleven sector decisions this week. Forty-three sectors total. The pragmatic approach is consuming the government the way water consumes limestone — slowly, invisibly, and then the ceiling caves in. Vostane's framework is delegation disguised as efficiency. The question is whether delegation is trust or abdication.",
+  "choices": [
+    {
+      "id": "pragmatic_delegate",
+      "text": "\"Approve the framework. Delegate sector decisions to Vostane within the strategic categories. I cannot govern every industry personally — that was never the point of the pragmatic approach. The point was that ideology should not make decisions. Trusted people should. I will trust you.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 3 },
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["pragmatic_delegated", "economic_framework_established"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elara_vostane", "type": "action", "text": "She opens the framework document — five categories, forty-three sectors, one signature. She does not celebrate. She simply begins executing. Vostane has been waiting to execute for weeks." }, { "character": "vyktor_reznik", "type": "silence", "text": "He writes delegation approved on his notepad. He does not comment. The silence is the sound of Vyktor noting that you have just transferred significant power to the Finance Ministry." }]
+    },
+    {
+      "id": "pragmatic_keep_control",
+      "text": "\"I will not delegate. The point of the pragmatic approach was that every decision matters because every sector is different. I will make the decisions — all of them. It will take longer. It will cost more. But no one will be able to say that this government governed on autopilot.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["pragmatic_manual_control", "economic_fatigue"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elara_vostane", "type": "silence", "text": "She closes the framework document. The motion is very precise — the precision of someone who has been told her solution is rejected and is filing it for later." }]
+    }
+  ]
+}

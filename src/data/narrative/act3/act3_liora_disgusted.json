@@ -1,0 +1,89 @@
+{
+  "id": "act3_liora_disgusted",
+  "title": "What She Found",
+  "act": 3,
+  "weekAvailable": 30,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Living Room, Unscheduled Visit",
+  "characters": ["liora_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "She did not call ahead. The residence staff let her in because she is the Chancellor's daughter, and because the residence staff have learned to recognize the expressions that mean there will be an incident if they don't. She is standing in the living room when you come down from the study, still in her coat, and she has a printed copy of Nadia's reporting in her hand — not the published version, an earlier draft, the kind that circulates among editors before publication. She has contacts at the Herald now. She has had them for longer than you knew."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "The Karenov files. The suppression in the fourth week. The back-channel to the IMA that you never disclosed publicly. I recognized three of these things, Mum. I recognized them because they happened while I was watching and I thought I had misread the situation. I thought I was being uncharitable. I gave you the benefit of the doubt on things I actually already knew. And then I read this and I realized I wasn't being uncharitable — I was being a daughter, and a daughter is not the same as an honest observer. I want to know: is it true? Not the IMA thing — I don't have enough context for that yet. The Karenov files. Did you instruct Reznik to delay their release?"
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is not catastrophizing. This is what makes it harder to dismiss. She has picked specific things — the Karenov files, the early suppression, the IMA negotiation that you have told yourself was procedurally justified every time you thought about it at three in the morning. She has the instincts of a journalist now, her father's precision crossed with the specific fury of a daughter who has had to revise downward her understanding of her mother. You raised her to believe that honesty was the only form of loyalty worth having. She has read that in your history and now she is applying it to you."
+    },
+    {
+      "type": "description",
+      "text": "The living room feels very large and very quiet. Liora has not sat down. She is twenty-two years old and she is standing in the inherited furniture of the Veltrian state with her coat still buttoned and she is looking at you without the deference that daughters are supposed to carry toward mothers. She has read your governing record the way a journalist reads a document — not looking for what confirms her existing opinion, looking for the shape of the thing as it actually is. You are the shape of the thing as it actually is. She has come here because she loves you enough to confront you rather than simply condemn you in print. You understand this. It does not make it easier to sit across from."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "liora_disgusted_defend",
+      "text": "\"Yes — and here's the context you don't have: the Karenov files contained information about ongoing informants that, if released in week four, would have resulted in three people being exposed to organizations that would have killed them. Reznik's delay was operational, not political. I know how it looks in Nadia's account. I know what it would have looked like to me before I was in this office. The IMA is more complicated and I'm not going to apologize for the negotiation strategy in a conversation that started without context.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -2  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 6   },
+        { "stat": "factions.reformists",        "operation": "add", "value": -4  },
+        { "stat": "nation.pressFreedom",        "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 6 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 12 }
+      ],
+      "flags": ["liora_disgusted_defended", "liora_relations_strained"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "liora_disgusted_apologize",
+      "text": "\"The Karenov files — yes. The delay was partly operational and partly because I knew the contents were embarrassing and I told myself the first reason was enough. That's the honest answer. The suppression in week four was a mistake I knew was a mistake when I made it. The IMA back-channel I believe I can defend, but you're right that it should have been public. You're right about the specific things you've named. I'm sorry I let you find out this way.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 14  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 18  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -4  },
+        { "stat": "factions.reformists",        "operation": "add", "value": 6   },
+        { "stat": "nation.pressFreedom",        "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 6 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 12 }
+      ],
+      "flags": ["liora_disgusted_apologized", "liora_partial_reconciliation"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "liora_disgusted_ask_her",
+      "text": "\"Before I respond — what did you need me to do differently? In the specific decisions you've named. Not in the abstract, not 'more transparency in general.' What would the decision have looked like if I'd made it right?\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 14  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -2  },
+        { "stat": "factions.reformists",        "operation": "add", "value": 4   },
+        { "stat": "nation.pressFreedom",        "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 5 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 11 }
+      ],
+      "flags": ["liora_disgusted_asked", "liora_dialogue_opened"],
+      "codexUnlocks": []
+    }
+  ]
+}

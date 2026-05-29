@@ -1,0 +1,146 @@
+{
+  "id": "act3_week38_soren_trial",
+  "title": "The Trial Decision",
+  "act": 3,
+  "weekAvailable": 38,
+  "weekDeadline": 40,
+  "type": "crisis",
+  "agendaCost": 3,
+  "isMandatory": true,
+  "prerequisiteFlags": ["soren_immunity_revoked"],
+  "location": "Ashenmere Palace — Cabinet Room, Midnight Session",
+  "characters": ["vyktor_reznik", "aldric_theron", "danika_oberlin", "irina_dusek", "oskar_brenner", "drazen_kolvar"],
+  "prerequisites": [
+    { "stat": "flags.soren_trial_imminent", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "It is past midnight. The cabinet room is lit by a single chandelier and the glow of the emergency briefing screens. Every relevant minister is present — Oberlin with the evidence, Theron with the legal framework, Dusek with the military assessment, Vyktor with the political calculus. Kolvar has been invited as an observer, representing the Halvekist caucus. Brenner is present as a reminder of what this decision will cost. The evidence against Soren is irrefutable. The decision about what to do with that evidence is yours alone."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The evidence package is complete. We have Soren's signature on forty-seven execution orders, including Mikhael Ashavel. We have the Silent Clearance authorizations — his name on every page. We have the financial records showing the diverted funds. We have witness statements from survivors. We have testimony from former BNI officers who carried out the orders. The case is airtight. If this goes to trial, Soren will be convicted. The question is whether it goes to trial — and what happens to this government if it does."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Legally, you have five options. First: arrest and public trial. Maximum accountability, maximum risk. Second: a quiet plea deal — Soren confesses privately in exchange for a reduced sentence. Less public spectacle, less risk to stability. Third: leave Soren alone — no prosecution, the files remain classified. Fourth: release the files to the public but do not arrest — let history judge. Fifth: use the threat of prosecution as political leverage — make Soren publicly endorse your government in exchange for immunity. Each option has legal precedent. Each option has moral weight. You must choose which Veltria you are building."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "I will speak plainly. If you arrest Marshal Soren and put him on public trial, the officer corps will view it as an act of war against the military institution. I cannot guarantee that every commander will remain loyal. I am not threatening a coup — I am telling you that a coup may become inevitable regardless of what I order. The men I command served under Soren. They loved him. They will not watch him paraded through a courtroom like a common criminal. If you choose the trial, you choose the risk."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "The Halvekist caucus will not support a public trial. We will not support a plea deal that extracts a confession under duress. What we will support is stability. Leave Soren alone, Madam Chancellor. The nation needs to heal, not to re-open wounds that have been closing for fifteen years. Justice is important. Peace is more important. You cannot have both."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He signed the paper. My father's name is on that order — written in Soren's hand. Twenty-five years I have waited for this moment. And now that it has arrived, I do not know what I want. Justice? Revenge? Peace? The three are not the same. The Chancellor in me knows that stability is fragile and this trial could break it. The daughter in me knows that the man who killed her father is still free, still honored, still living in comfort while her mother died of grief. The reformer in me knows that a nation that does not confront its past is doomed to repeat it. I am all three people. I have to choose as all three."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "soren_trial_public",
+      "text": "\"ARREST SOREN. Public trial. Let the world see what he did and let Veltria see that no one — no matter how powerful, how connected, how revered by the old guard — is above the law. This is what the new constitution was written for. This is what my father died for. The trial will be difficult. The military will be shaken. But Veltria will be free — not just of Halvek's policies, but of Halvek's shadow.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 25 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 20 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 15 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -30 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -25 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -20 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_soren_trial_aftermath", "delayWeeks": 4 }
+      ],
+      "flags": ["soren_trial_public", "soren_arrested"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "soren_trial_plea_deal",
+      "text": "\"Offer Soren a deal. He confesses — privately, in writing — to the Silent Clearances, the executions, the embezzlement. In exchange, he serves a reduced sentence in comfortable confinement. No public trial. No spectacle. The truth is recorded for history but not weaponized in the present. Justice, but not revenge.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_soren_plea_aftermath", "delayWeeks": 3 }
+      ],
+      "flags": ["soren_trial_plea", "soren_confessed_privately"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "soren_trial_leave_alone",
+      "text": "\"No. We leave Soren alone. The nation has spent fifteen years healing from the Halvek era. I will not re-open those wounds to prosecute one old man — even if he deserves it. The constitution protects him. The peace agreement protects him. Stability protects Veltria. Justice delayed is painful. Civil war would be worse.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": -15 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -15 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soren_left_alone", "accountability_abandoned"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "soren_trial_release_files",
+      "text": "\"Release the files to the public. Every document — the execution orders, the Clearance authorizations, the financial records. Let the press publish them. Let the historians analyze them. Let the people of Veltria read for themselves what was done in their name. I will not arrest Soren — but I will not protect his reputation either. Let history judge. Let the truth be the punishment.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -3 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_soren_files_aftermath", "delayWeeks": 4 }
+      ],
+      "flags": ["soren_files_public", "soren_reputation_destroyed"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "soren_trial_leverage",
+      "text": "\"I am going to visit Soren personally. I will show him the files. I will tell him that I can either prosecute him or protect him — and the choice is his. If he publicly endorses my government — appears at a press conference, praises the new constitution, calls on the Halvekists to cooperate — his immunity stands. If he refuses, the trial proceeds. I am not doing this for justice. I am doing this because Soren's endorsement will fracture the Halvekist opposition and bring the old guard into line. This is not noble. This is effective.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -20 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_soren_leverage_aftermath", "delayWeeks": 2 }
+      ],
+      "flags": ["soren_leveraged", "soren_endorsed_government", "justice_weaponized"],
+      "codexUnlocks": []
+    }
+  ]
+}

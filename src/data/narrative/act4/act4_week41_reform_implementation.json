@@ -1,0 +1,104 @@
+{
+  "id": "act4_week41_reform_implementation",
+  "title": "The Constitution Takes Root",
+  "act": 4,
+  "weekAvailable": 41,
+  "weekDeadline": 43,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Parliament Building — Constitutional Implementation Committee, Week Forty-One",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.constitution_in_force", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Constitution of the Republic of Veltria is no longer a document being debated — it is a document being implemented. Parliamentary committees are drafting enabling legislation. The new Constitutional Court has received its first cases and is establishing the precedents that will define what the constitution actually means, as opposed to what its authors intended. The BNI has been formally dissolved under the BNI Dissolution Clause — or reformed, or retained, depending on choices made in the first weeks of your government. The Dravenni language has legal status — or doesn't. The Church's constitutional role has been redefined — or preserved. Every provision you fought for, every compromise you accepted, every clause you reluctantly included to secure a vote, is now becoming reality. Implementation is where ideals meet the machinery of government. The machinery always wins unless someone fights for the ideals."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The implementation timeline has forty-seven separate legislative actions required within the first year. We have completed twelve. The remaining thirty-five include the difficult ones — judicial reform, civil service restructuring, the parliamentary oversight framework for the military. The Halvekist bloc in parliament has discovered that while they could not stop the constitution from passing, they can slow its implementation to a pace that makes the word 'glacial' seem optimistic. They have introduced four hundred and twelve amendments to the enabling legislation. Most of them are designed to be withdrawn in exchange for concessions on other bills. This is not obstructionism — it is the parliamentary equivalent of a siege. They are trying to run out the clock on your political capital."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-seven legislative actions. Twelve done. Thirty-five to go. Every one of them requires coalition management, faction negotiation, the grinding work of converting constitutional language into operational reality. This is not the work that gets statues built. This is the work that determines whether the statues people build in fifty years will commemorate a democracy that lasted or an experiment that failed. You have spent forty-one weeks learning that the space between a principle and a policy is where governments succeed or fail. You are still in that space. You will be in it for the rest of your term. The question is whether you can hold the coalition together long enough to finish the work."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "reform_push_aggressively",
+      "text": "\"I want the judicial reform bill passed within the month. Use every procedural tool available. Limit debate, call emergency sessions, make the Halvekists filibuster until they're sleeping in the chamber and the newspapers are showing the country what obstruction actually looks like. Frame every delay as an attack on democracy itself. I am done being patient with people whose strategy is to wait for this government to collapse. Push. Hard. Let them explain to the voters why the constitution they ratified isn't being implemented.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_reform_backlash", "delayWeeks": 3 }
+      ],
+      "flags": ["reform_aggressive_push", "judicial_reform_priority", "reform_implementation_begun"],
+      "codexUnlocks": ["codex_judicial_reform_bill", "codex_parliamentary_procedure"]
+    },
+    {
+      "id": "reform_build_coalition",
+      "text": "\"I am not going to force anything through that doesn't have at least a working coalition behind it. The constitution will last longer than this government — if we ram provisions through on narrow majorities, the next government will ram them back out. I want genuine cross-faction negotiation. Bring in Khaled, Theron, even the moderate Halvekists. Find the provisions that can get broad support and pass those first. Build momentum. The hard provisions will be easier to pass when everyone has already voted for the popular ones.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_reform_backlash", "delayWeeks": 3 }
+      ],
+      "flags": ["reform_coalition_building", "bipartisan_implementation", "reform_implementation_begun"],
+      "codexUnlocks": ["codex_constitutional_implementation", "codex_coalition_governance"]
+    },
+    {
+      "id": "reform_public_mandate",
+      "text": "\"The parliament will do what parliaments do. I am going to go directly to the people again. Town halls in every province. Radio addresses explaining exactly what the constitution says and what the implementation means and why the delays are happening and who is causing them. The Halvekists can block legislation in committee — they cannot block the Veltrian people from understanding what is being done to the constitution they voted for. I will make implementation a public issue, not a procedural one. Let the obstructionists explain to their constituents why the reforms they voted for are being delayed.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_reform_backlash", "delayWeeks": 3 }
+      ],
+      "flags": ["reform_public_campaign", "town_halls_begun", "reform_implementation_begun"],
+      "codexUnlocks": ["codex_constitutional_education", "codex_public_consultation"]
+    },
+    {
+      "id": "reform_selective_priorities",
+      "text": "\"We cannot do all thirty-five. Not in this parliament, not with this coalition math. So we choose. Which five provisions would do the most to change how Veltria is actually governed? Pass those. The rest — let them take the years they will take. The constitution is not a deadline. It is a direction. We have set the direction. The speed is determined by political reality, and pretending otherwise is how governments exhaust themselves on symbolic battles while the real work goes undone.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_reform_backlash", "delayWeeks": 3 }
+      ],
+      "flags": ["reform_selective", "five_provisions_priority", "reform_implementation_begun"],
+      "codexUnlocks": ["codex_constitutional_prioritization"]
+    }
+  ]
+}

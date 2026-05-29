@@ -1,0 +1,93 @@
+{
+  "id": "act3_coalition_stabilization",
+  "title": "The Morning Count",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 35,
+  "type": "event",
+  "agendaCost": 2,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Map Room, 06:30",
+  "characters": ["vyktor_reznik", "gregor_maric"],
+  "prerequisites": [
+    { "stat": "flags.referendum_failed", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Map Room was originally used by Halvek's war cabinet for tracking troop movements during the unification period. The walls still have the mounting brackets where the operational maps hung. Vyktor has repurposed the room for a different kind of mapping: the parliamentary arithmetic of government survival. On the wall where the Northern Front campaign map once hung is a seating chart of the assembly with every name color-coded — green for committed, yellow for leaning, red for opposition, and a fourth color, blue, for the ones who haven't responded to any communication in seventy-two hours. There are seventeen blue squares. You need nine of them."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Current confirmed: forty-one seats. Opposition confirmed: forty-seven seats. Uncommitted: seventeen seats. The confidence vote requires a simple majority — currently fifty-seven seats. If all seventeen uncommitted members vote with the opposition, the government falls. If six vote with us, we survive one more week. If nine vote with us, we survive the month and have room to negotiate. Every uncommitted member has been contacted. Their staffs have been contacted. Their provincial party chairs have been contacted. Their spouses, in five cases, have been contacted by people who are not us but who owe us favors."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "The Workers' Coalition is solid — all twelve seats. I spent the last three days on the phone with every district chair personally. Some of them wanted to bolt. Some of them still might. But they know that if this government falls, the austerity legislation Kolvar has been drafting for six months gets voted on within a week. I didn't have to convince them of anything. I just had to make sure they understood what comes next."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Seventeen people hold your government in their hands. Some of them are principled — they are waiting to see what you offer. Some of them are frightened — they are waiting to see which way the wind blows. Some of them are transactional — they are waiting to be bought, and the price is probably a ministry or a budget allocation or a piece of legislation they've been trying to pass for three terms. You have spent your entire career believing governance was about principle. You are now discovering that principle requires votes, and votes sometimes require things that principle does not comfortably accommodate."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The timeline is this: the confidence vote will be scheduled for Thursday. That gives us four days. In four days, we need to convert nine of seventeen uncommitted members. I have prepared a briefing document on each of the seventeen, including their voting history, their public statements about the referendum, their private statements to our whips, their known priorities, and their vulnerabilities. The document is on your desk. It is thirty-one pages. I recommend you read it before breakfast."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "coalition_stabilization_campaign",
+      "text": "\"I'll meet with every uncommitted member personally. Not through whips, not through staff — me, in my office, one at a time. I want them to know that the Chancellor is asking for their support directly. Some of them will want things. Some of them will just want to be asked. I'm willing to do the first and I'm not above the second.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 1 }
+      ],
+      "flags": ["coalition_stabilized", "chancellor_personal_outreach", "vote_secured_phase1"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "coalition_stabilization_deals",
+      "text": "\"Vyktor, I want you to run the numbers on what each of the seventeen wants. A ministry appointment, a budget allocation, a piece of legislation. I don't want a moral analysis. I want a cost assessment. I'm not going to promise anything I can't deliver, but I am going to deliver what I can. Governing is not the same as campaigning, and survival is not the same as governance, and right now the priority is survival.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "nation.corruption", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 1 }
+      ],
+      "flags": ["coalition_stabilized", "deals_made", "pragmatic_survival"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "coalition_stabilization_public_appeal",
+      "text": "\"I'm going public. No more closed-door meetings. I want a national address tonight laying out exactly what happens if this government falls — the austerity package, the repeal of the welfare provisions, the rollback of every reform we've passed. The seventeen uncommitted members can vote how they want, but I want their constituents to know what they're voting for. Let the pressure come from below. It's messier, but it's cleaner.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 2 }
+      ],
+      "flags": ["coalition_stabilized", "public_appeal_made", "constituency_pressure"],
+      "codexUnlocks": []
+    }
+  ]
+}

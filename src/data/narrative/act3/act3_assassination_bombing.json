@@ -1,0 +1,59 @@
+{
+  "id": "act3_assassination_bombing",
+  "title": "The Ashenmere Incident — The Bombing",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 36,
+  "type": "emergency",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of the Interior — Ruined Briefing Room",
+  "characters": ["vyktor_reznik", "danika_oberlin", "irina_dusek", "serida_valk"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The bomb was in a municipal delivery van parked in the loading bay beneath the Ministry's east wing. The explosives were industrial-grade — the kind used in quarrying operations. Whoever built the device knew exactly where the cabinet briefing room was located. They knew what time the meeting started. They knew, which means someone on the inside told them."
+    },
+    {
+      "type": "description",
+      "text": "Serida was in the corridor outside the briefing room, reviewing the afternoon itinerary, when the van detonated. The blast threw her through a doorframe. She pulled herself up, ears ringing, and saw that the briefing room door had been blown inward. She went in. You were pinned under a collapsed ceiling beam. She pulled you free — a woman who had never lifted anything heavier than a stack of graded papers, pulling her Chancellor out of the rubble while her own ribs were broken — and then the second device, the one hidden in the filing room next door, detonated."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Twenty-seven casualties confirmed. Eleven critically injured. One fatality — Serida Valk, your personal aide, died of her injuries twenty minutes ago in the field hospital they set up in the Ministry courtyard. She was conscious until the end. Her last words were to ask if you were safe. The bombmaker used military-grade Semtex — it was stolen from the Thornfeld armory. This is the same armory that lost a batch of rifles six weeks ago. The pattern is undeniable. Someone inside the military supply chain has been feeding weapons and explosives to extremists."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "We have identified the driver. Emil Torvec, age forty-one, former municipal employee fired during the first round of civil service reforms. He had no criminal record. No political affiliation anyone can identify. His wife says he had been despondent since losing his job. Someone gave him a van, a bomb, a target, and a reason. We do not know who that someone was — but given the complexity of the device and the accuracy of the targeting, this was not a lone actor. This was an operation."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor. I need you to hear me. Serida is dead. The Ministry is a crime scene. The capital is in shock and the country will be within the hour. I have already drafted a statement for you. But the statement is not the question. The question is: what happens now? Because whatever you decide in the next hour will define the rest of this government. If you declare an emergency, the Assembly will not stop you — they are terrified. If you keep the institutions running normally, they will call it weakness. If you retaliate without evidence, you start a chain of events that no one can control. We need a decision. Now."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Serida's daughter is seven years old. Her name is Mina. She likes to draw. Last week Serida showed me a drawing Mina had made of the palace — a child's sketch of towers and flags. I asked if it was for a school project. Serida said no, Mina just wanted to know what her mother's workplace looked like. She drew it from the description Serida gave her each evening when she came home. The drawing is still on Serida's desk. I cannot look at it. I cannot stop looking at it."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "bombing_go_to_cabinet",
+      "text": "\"I understand. Get me to the palace — we convene the emergency cabinet in one hour. Every minister, every security chief, every intelligence director. We make no statements until we have a plan. Vyktor, find out where Serida's husband works and send someone to tell him before the news does. Someone who knew her. Not a courier.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["assassination_survived", "assassination_attempted", "serida_died_bombing", "ashenmere_incident", "met_serida"],
+      "nextNodeId": "act3_assassination_cabinet",
+      "codexUnlocks": ["codex_ashenmere_incident"]
+    }
+  ]
+}

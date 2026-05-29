@@ -1,0 +1,92 @@
+{
+  "id": "act3_ima_negotiation",
+  "title": "The Negotiating Table",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Finance — Private Office, Late Evening",
+  "characters": ["elara_vostane"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You accepted partial IMA terms — the fiscal targets and workforce reductions, not the full privatization package. Now you are negotiating the specifics with the IMA resident representative, a man named Callen who has been doing this work for seventeen years and whose face reveals nothing. Vostane has been your lead negotiator. She is very good at this. You are not entirely comfortable with how good she is at this."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The IMA has accepted our counter-proposal in principle. The fiscal surplus target remains at one point eight percent. The workforce reduction target is still twenty percent. What we gained: the Grain Authority and the Broadcasting Corporation remain under state control, at least for the duration of the current disbursement period. The trade-off: a higher interest rate on the next tranche — seven point two percent instead of six point two — and an accelerated timeline on the Northern Rail privatization. Six months instead of eighteen. I consider this an acceptable outcome. The state retains control of food security and public broadcasting. The cost is higher debt service and a faster sale of an asset that was always going to be sold. I recommend we accept."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Acceptable outcome. Vostane means something specific by those words: the numbers work. The fiscal arithmetic holds. The IMA will disburse the next tranche. What she does not mean, and would not claim to mean, is that the outcome is just or fair or aligned with the promises you made during the campaign. You promised to protect the Grain Authority. You promised to defend press freedom. You are keeping those promises — for now, conditionally, at a higher cost. The Northern Rail sale is accelerated. The debt service is higher. The room for policy maneuver is narrower. You won the negotiation. The negotiation was about how much of your platform you could salvage while still receiving the money you need to prevent collapse. You salvaged more than you expected and less than you hoped. That is what winning looks like in a currency crisis."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I should tell you something I have not told you before. The IMA resident representative — Callen — he told me after the last session that he was surprised by our negotiating position. He said most governments in our position accept the full package without negotiation. They are too afraid of the IMA to push back. He said the fact that we pushed back, and pushed back effectively, changed his assessment of our government's viability. He said the IMA respects governments that negotiate. It does not respect governments that capitulate. I am telling you this because I think you should know that the negotiation was not just about the terms. It was a demonstration of sovereign competence. We demonstrated it. I am not often proud of this government's performance. I am proud of this."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "ima_negotiation_accept",
+      "text": "\"Accept the terms. The Grain Authority and Broadcasting Corporation stay under state control — that was the red line and we held it. The higher interest rate is unpleasant but manageable. The Northern Rail was always going to be a difficult privatization whether it happened in six months or eighteen. We won what we needed to win. Tell Callen we agree. And Elara — the fact that you extracted a concession from the IMA that surprised its own resident representative — that is exceptional work. I do not say that often. I mean it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 12 },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -40 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -8  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 4   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ima_compliance_year", "delayWeeks": 10 }
+      ],
+      "flags": ["ima_negotiation_succeeded", "partial_ima_accepted", "vostane_commendation"],
+      "codexUnlocks": ["codex_ima_negotiation_tactics"]
+    },
+    {
+      "id": "ima_negotiation_push_further",
+      "text": "\"The offer is better than full compliance. It is not good enough. I want you to go back to Callen with one more round: we accept the higher interest rate and the Northern Rail timeline, but we want the Broadcasting Corporation protected in the formal agreement — not just in the current disbursement period, but for the life of the program. I want it in writing. The press freedom provisions in the constitution are worth nothing if we sell the state broadcaster to commercial interests who will turn it into a propaganda arm for whoever can afford the advertising. If Callen resists — remind him that a government that surrenders its ability to communicate with its citizens cannot maintain the social consent required for austerity compliance. Press freedom is not a luxury. It is an implementation requirement.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4  },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 8  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ima_compliance_year", "delayWeeks": 12 }
+      ],
+      "flags": ["ima_negotiation_extended", "broadcasting_protected", "press_freedom_preserved"],
+      "codexUnlocks": ["codex_ima_negotiation_tactics", "codex_press_freedom_ima"]
+    },
+    {
+      "id": "ima_negotiation_leverage_threat",
+      "text": "\"Callen respects governments that negotiate. Let's give him something to respect. Go back with this message: we accept the framework — the interest rate, the Northern Rail timeline — but we want an additional six months on the fiscal surplus target. Eighteen months instead of twelve. The extra time will allow us to meet the target through growth rather than cuts, which is better for everyone, including the IMA's repayment prospects. If he refuses — inform him that we have received preliminary expressions of interest from Orythian financial institutions regarding an alternative credit facility. I do not want to use the Orythian option. Neither does Callen. The fact that it exists — whether or not I would actually use it — changes his calculation. Let it change it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -4  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -4  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 2   },
+        { "stat": "factions.halvekists",          "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ima_compliance_year", "delayWeeks": 10 }
+      ],
+      "flags": ["ima_negotiation_hardball", "orythian_leverage_used", "timeline_extended"],
+      "codexUnlocks": ["codex_ima_negotiation_tactics", "codex_orythian_alternative"]
+    }
+  ]
+}

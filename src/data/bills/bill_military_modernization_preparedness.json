@@ -1,0 +1,23 @@
+{
+  "id": "bill_military_modernization_preparedness",
+  "title": "Military Modernization and Preparedness Act",
+  "shortName": "M.M.P.A.",
+  "proposer": "Dusek via defense committee",
+  "faction": "ironCovenant",
+  "weekPresented": 38,
+  "fullText": "Section 1. The Ministry of Defense is authorized to expend forty million Krone over the next two fiscal years for the procurement of modern armored vehicles, artillery systems, and communications equipment, prioritizing interoperability with allied forces and defensive fortification of the Gravenmark border region.\n\nSection 2. Conscription intake shall be increased by twenty percent for a period of three years, with expanded training facilities to be constructed at Fort Aldric and Camp Brenner, and a dedicated officer training program established at the War College.\n\nSection 3. The Minister of Defense shall report quarterly to the National Assembly on procurement progress and readiness metrics, maintaining legislative oversight of all expenditures under this Act.",
+  "budgetCost": -40,
+  "signEffects": [
+    { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
+    { "stat": "nation.militaryReadiness", "operation": "add", "value": 20 },
+    { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+    { "stat": "nation.nationalDebt", "operation": "add", "value": 40 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+    { "stat": "nation.militaryReadiness", "operation": "add", "value": -20 }
+  ],
+  "signFlags": ["military_modernization_signed"],
+  "vetoFlags": ["military_modernization_vetoed", "coup_risk_elevated"],
+  "isVetoable": true
+}

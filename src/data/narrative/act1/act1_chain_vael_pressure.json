@@ -1,0 +1,269 @@
+{
+  "id": "act1_chain_vael_pressure",
+  "title": "The Margrave's Invitation",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Vael Estate — Thornfeld Valley",
+  "characters": [
+    "lucan_vael"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The invitation arrives on heavy cream stock with a Thornfeld postmark and no return address — only the Vael crest, a stylized silver hawk above a mountain peak, embossed in the corner. Margrave Lucan Vael requests the pleasure of your company at his estate 'at your earliest convenience, which I trust will be soon.' Vyktor calls it a summons dressed as courtesy. He is not wrong. The Vael estate occupies four hundred acres of the Thornfeld Valley and the Margrave has not hosted a Chancellor at his private residence since 1952, when Halvek himself spent a weekend here and emerged with a revised tax exemption for agricultural land holdings worth approximately twelve million Krone."
+    },
+    {
+      "type": "description",
+      "text": "The estate is exactly what you expected and somehow still disorienting. The house is stone and glass, old money made modern without apology. The drive from the gate takes four minutes. The lawns are immaculate and empty. It is the emptiness that registers — the deliberate absence of people in a place that requires dozens of them to maintain. The staff has been made invisible for your arrival. You understand this is a message before Vael has said a word."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Chancellor. I am so pleased you accepted. Most of your predecessors found the journey inconvenient — though I suspect they found the conversation more so. Shall we walk? The grounds are at their best this time of year, and I find that difficult conversations are easier when one is moving. The body has something to do with its discomfort."
+    },
+    {
+      "type": "description",
+      "text": "Lucan Vael is sixty-one years old and dresses like a man who has never needed to impress anyone. His suit is excellent but not new. His manner is warm in a way that suggests warmth is a technique he has refined. He speaks about the weather, the garden, the history of the estate — a minor Halvek-era official was born in the east wing, did you know, a curious footnote — and the entire time you understand that he is waiting for the right moment to tell you what this meeting is actually about."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "I have been watching your government with considerable interest, Chancellor. The inaugural address was — invigorating. The cabinet appointments were instructive. The budget direction was clarifying. You are governing as though you intend to change things. I respect that. I also worry about it. Not for myself — I am too old and too comfortable to be threatened by policy adjustments. I worry about the consortium. The business community. The people who employ the people who vote for you. They are nervous. Nervous capital does not invest. It does not build. It waits. And while it waits, the economy does not grow. I would like to help you make them less nervous. That is what this meeting is about."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is offering me something. He has not named it yet — the price, the condition, the thing he wants in exchange for making 'the consortium' calm down. He is very good at this. He has made his threat sound like concern and his concern sound like generosity and by the time I identify what he is actually doing I have already nodded along with three things he said that I do not agree with. This is how Halvek governed. This is what the inaugural address was supposed to end. And yet — Vael is not wrong about nervous capital. He employs forty thousand people. If he tells the consortium to freeze investment, they will freeze investment. The Krone will not survive a capital strike."
+    }
+  ],
+  "monologue": "The lawns are immaculate and empty. The staff has been made invisible. Vael is showing me what power looks like when it doesn't need to announce itself. He speaks about the weather while arranging the furniture of the conversation so that by the time he gets to the point, I'm already sitting in a chair he placed. Forty thousand people work for him. If he tells the consortium to freeze investment, they freeze. The Krone won't survive a capital strike.",
+  "choices": [
+    {
+      "id": "vael_refuse_politely",
+      "text": "\"Margrave, I appreciate your concern and your hospitality. I did not run for this office to make the consortium comfortable. I ran to govern. If nervous capital is the price of accountable government, I will live with nervous capital. When the consortium sees that the rule of law applies equally — to them as much as to workers — they will discover that predictability is better for business than preferential treatment. I am offering predictability. That is my counter-offer.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 5
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_capital_strike",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "vael_rebuffed",
+        "consortium_hostile",
+        "vael_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_vael_confrontation"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "dialogue",
+          "text": "The markets will respond favorably."
+        }
+      ]
+    },
+    {
+      "id": "vael_negotiate_selective",
+      "text": "\"Tell me what 'less nervous' looks like in practical terms. If the consortium needs stability, I can offer stability — regulatory predictability, consultation before major tax changes, a seat at the table. What I cannot offer is immunity from the law or from taxation. Tell me if there is a version of 'less nervous' that fits within those parameters. I am willing to find it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "vael_negotiated",
+        "consortium_moderate",
+        "vael_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_vael_negotiation"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "dialogue",
+          "text": "We should discuss the details privately."
+        }
+      ]
+    },
+    {
+      "id": "vael_charm_counter",
+      "text": "Match his tone. Warm, intelligent, entirely unserious about anything except the power. \"You're not worried about the consortium, Margrave. You're worried about whether your access survives the reform. It will. I need someone who can tell me when I'm wrong — someone who knows the economy from the inside, not from a ministry briefing. Be that person. The consortium will follow where you lead them. They always have.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -4
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "vael_coopted",
+        "vael_advisor",
+        "vael_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_vael_alliance"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "dialogue",
+          "text": "We should discuss the details privately."
+        }
+      ]
+    },
+    {
+      "id": "vael_threaten_back",
+      "text": "\"Margrave, let me be equally direct. I have access to the BNI archives now. I know exactly how the tax exemptions of 1952 were negotiated and what was promised in return. I have not made that public because I do not want a war with the business community in my first month. But if the consortium freezes investment — if the Krone collapses because you told it to — I will open every file. The consortium's nervousness will be the least of anyone's concerns.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -12
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "vael_threatened",
+        "consortium_hostile",
+        "bni_files_weaponized",
+        "vael_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_vael_confrontation",
+        "codex_bni_intelligence"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "He is silent. The Margrave's silences are investments."
+        }
+      ]
+    }
+  ]
+}

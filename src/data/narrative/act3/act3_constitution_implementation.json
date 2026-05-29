@@ -1,0 +1,96 @@
+{
+  "id": "act3_constitution_implementation",
+  "title": "The Constitution Becomes Real",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Constitutional Implementation Briefing",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The constitution passed. However it passed — decisively, narrowly, in a manner that Kolvar is contesting through every legal channel available to him — the document exists. It is now the supreme law of Veltria, at least on paper. The question that occupied the campaign, the early weeks, the parliamentary battles, the referendum — all of it was about whether the constitution would exist. That question is answered. The new question is whether the constitution will matter. A constitution that exists on paper but not in practice is worse than no constitution at all. It is a lie dressed in legal language. You are not going to let it become a lie."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The implementation requires four parallel workstreams. First: a Constitutional Court — nine justices, appointed through a process that balances executive nomination with parliamentary confirmation and judicial peer review. Second: new criminal procedure codes replacing the Halvek-era security statutes that allowed detention without charge and trial without defense. Third: an independent Judicial Appointments Commission to break the executive's control over the judiciary — a power the Halvek regime used to imprison its opponents. Fourth: a Human Rights Commission with statutory authority to investigate government conduct, including the conduct of this government. These institutions will constrain your power, Chancellor. That is their purpose. I want you to understand that before you decide how to proceed."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Theron is being deliberate. He is telling you that the constitution he helped draft will make it harder for you to govern — deliberately, intentionally, by design. The Constitutional Court will be able to strike down executive orders. The Judicial Appointments Commission will remove your ability to appoint friendly judges. The Human Rights Commission will be able to investigate your government's conduct, including the decisions you are making right now about the economy, the military, the Tyvaren situation. Every one of these institutions is a check on the power you wield. Theron believes this is the point. He is not wrong. The question is whether you can govern effectively while building institutions designed to constrain governance. The Halvek regime governed without constraint and destroyed the country. You are trying to govern with constraint and save it. No one has ever done this before, at least not in Veltria. The path is unmapped."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political dimension: Kolvar will oppose the Constitutional Court appointments process on the grounds that a constitution whose legitimacy is being legally challenged cannot create legitimate courts. Brenner will object to the criminal procedure reforms because they will make it harder to prosecute national security cases — which is precisely what they are designed to do. The Halvekist bloc in parliament will oppose the Judicial Appointments Commission because it eliminates the patronage networks that sustained their party for fourteen years. Every institution you create will have enemies. The enemies are organized and funded and know how to use procedure against reform. I am not counseling caution. I am cataloging opposition so you know what you are walking into."
+    },
+    {
+      "type": "description",
+      "text": "Theron has prepared a timeline. The Constitutional Court can be established within six weeks — the judges must be nominated, confirmed, and sworn. The criminal procedure codes will take three months to draft and another two to pass through parliament. The Judicial Appointments Commission requires enabling legislation that will face a filibuster from the Halvekists. The Human Rights Commission needs a chairperson who commands respect across the political spectrum — a rare category of person in Veltrian public life. The implementation is years of work. You have months before the Tyvaren situation forces a decision that may make constitutional governance impossible. The clock is not on your side."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "constitution_court_first",
+      "text": "\"Establish the Constitutional Court first. Theron — I want nine nominees on my desk by Monday. Prioritize jurists with experience in constitutional law and reputations that cross political lines. If Kolvar's legal challenge succeeds on procedural grounds, the Court needs to be in place to adjudicate the legitimacy of its own creation — otherwise we have a constitutional vacuum. The Court is the keystone. Once it exists, the other institutions can be challenged and defended through constitutional process rather than political combat. I am building the referee before I play the game. That is the order that makes sense.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 14 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 12 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 4 }
+      ],
+      "flags": ["constitution_in_force", "court_established_first", "judicial_independence"],
+      "codexUnlocks": ["codex_constitutional_court", "codex_judicial_reform"]
+    },
+    {
+      "id": "constitution_gradual_implementation",
+      "text": "\"Implement in phases. The Constitutional Court and the criminal procedure reforms go first — they address the most urgent vulnerabilities in the current system. The Judicial Appointments Commission and the Human Rights Commission wait until the second phase, after the economy has stabilized and the Tyvaren situation is clearer. I am not abandoning reform. I am sequencing it so that we survive long enough to complete it. A constitution implemented in an emergency can be suspended in an emergency. I want the institutions to be built during a period of relative stability so they are strong enough to survive the periods of crisis. That means waiting — not indefinitely, but strategically.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 4 }
+      ],
+      "flags": ["constitution_in_force", "phased_implementation", "gradual_reform"],
+      "codexUnlocks": ["codex_constitutional_implementation_phased"]
+    },
+    {
+      "id": "constitution_maximum_mandate",
+      "text": "\"All four institutions, simultaneously, beginning this week. The constitution gave us a mandate for comprehensive reform — I am using that mandate before it expires. If Kolvar challenges, we fight the challenge while building the institutions he is challenging. If the Halvekists filibuster, we use procedural mechanisms to break the filibuster. If Brenner objects to the criminal procedure reforms, I remind him that civilian control of the military is itself a constitutional principle — one he is sworn to uphold. This is the window. The Tyvaren situation will close it. I am pushing through as much reform as possible before the crisis forces me to govern through emergency powers that make reform impossible. The order is not careful. It is not cautious. It is necessary.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_coup_attempt", "delayWeeks": 4 }
+      ],
+      "flags": ["constitution_in_force", "maximum_implementation", "reform_blitz", "opposition_provoked"],
+      "codexUnlocks": ["codex_constitutional_implementation_urgent"]
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "act3_dravenhollow_crackdown",
+  "title": "The Mountain Under Curfew",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "BNI Regional Headquarters — Dravenhollow Province, 04:30",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The BNI regional headquarters occupies a converted textile mill at the edge of Dravenhollow town — high windows that were designed for daylight manufacturing and now admit the thin grey light of a mountain dawn onto a room full of maps and radio equipment and exhausted officers who have been awake for two shifts. The curfew has been in effect for six days. BNI detention figures are kept on a chalkboard behind the duty officer's desk — names and locations, updated hourly, a running tally that has grown from twelve to sixty-eight since the operation began."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Situation report. Sixty-eight individuals detained under the emergency security provisions. Twelve have been released after screening — no connections to separatist networks. The remaining fifty-six include six DLF political committee members, fourteen identified Tyvaren contacts, and thirty-six individuals whose affiliations are still being determined. The DLF political wing has formally protested the detentions and announced that their operations will 'transition to non-public structures' — which in their terminology means going underground. Kaelen has not been seen publicly for four days. His last communication, through an intermediary, stated that the crackdown has made dialogue impossible and that his moderate faction 'cannot maintain credibility with the Dravenni community while the BNI is detaining community leaders.'"
+    },
+    {
+      "type": "internal_thought",
+      "text": "The crackdown was supposed to separate separatists from moderates. Instead it has merged them — the moderate leaders who wanted to work with us are now either detained or in hiding, and the hardliners who wanted to fight us have exactly the proof they needed to recruit. I am achieving the opposite of what I intended. The question is whether I can admit that before the opposite becomes irreversible. The security operation has its own momentum now — officers making arrests, filling detention cells, generating intelligence reports that justify more arrests. Stopping it will look like weakness. Continuing it will produce exactly the insurgency it was designed to prevent. There is no good way out of a bad policy except through the admission that it was bad."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I will add an operational assessment that I did not include in the written briefing. The intelligence we are generating from detainee interviews is tactical, not strategic — we are identifying individuals but we are not disrupting networks. The separatist infrastructure is adapting faster than our operations are expanding. In military terminology, we are winning the interrogations and losing the campaign. I do not believe this trajectory is sustainable beyond another ten days before the Dravenni community's cooperation with federal authorities collapses entirely."
+    },
+    {
+      "type": "description",
+      "text": "Dusek delivers this assessment in her usual tone — calm, precise, professional — but the word 'collapses' hangs in the air of the converted mill room longer than her other words. She is telling you the operation is failing. She is telling you in the language of military assessment because it is the language she knows you will receive without shooting the messenger. The messenger is standing at attention, waiting to see which version of the Chancellor receives the message."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dravenhollow_crackdown_continue",
+      "text": "\"Continue the operation to full pacification. If the separatist networks are adapting, we adapt faster. Double BNI resources, expand the detention capacity, issue warrants for the DLF leadership who have gone underground. Kaelen made his choice when he told his people to disappear. I will not negotiate with a movement that responds to law enforcement by becoming a criminal conspiracy.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -22 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_insurgency", "delayWeeks": 3 }
+      ],
+      "flags": ["full_pacification_ordered", "dlf_criminalized", "dravenni_detention_expanded", "crackdown_continued"],
+      "codexUnlocks": ["codex_bni_dravenhollow_operations"]
+    },
+    {
+      "id": "dravenhollow_crackdown_calibrate",
+      "text": "\"Release anyone detained for affiliation rather than action. I want the BNI focused specifically on individuals with confirmed Tyvaren contacts — not community leaders, not political organizers, not people who attend DLF meetings. If Kaelen needs credibility with his community, give it to him: show them that cooperating with the government does not get you arrested. The security operation continues, but the net tightens — only the proven separatists remain in custody.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dlf_coordination", "delayWeeks": 3 }
+      ],
+      "flags": ["crackdown_calibrated", "detainees_released", "targeted_operations_only", "kaelen_credibility_preserved"],
+      "codexUnlocks": ["codex_bni_targeted_operations"]
+    },
+    {
+      "id": "dravenhollow_crackdown_halt",
+      "text": "\"Halt the security operations. Release all detainees charged only with affiliation offenses. Dusek, I want you to issue a public statement that the government made an error in the scope of the security response and that civil liberties will be restored effective immediately. Then get me a direct line to Kaelen — wherever he is. I am going to tell him I was wrong about the crackdown, and I am going to ask him to come back to the table before the people I drove underground decide they prefer it there.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kaelen_response", "delayWeeks": 2 }
+      ],
+      "flags": ["crackdown_halted", "error_admitted_publicly", "detainees_released_all", "kaelen_sought"],
+      "codexUnlocks": ["codex_civil_liberties_restoration"]
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "act2_chain_kravenstal_unrest",
+  "title": "The Furnaces Go Cold",
+  "act": 2,
+  "weekAvailable": 20,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Kravenstal — Factory District, via Situation Room",
+  "characters": ["gregor_maric", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Kravenstal Steel Collective went cold on Tuesday morning. Not the plant itself — the furnaces cannot be shut off in a single shift without structural risk, so the workers shut down the automation and stood at the gate instead, three hundred of them in the pre-dawn dark, in the November temperature, with handwritten signs that the night crew's children had helped make. By Thursday, two more plants had joined them. The provincial governor sent a report that arrived on your desk Friday morning with the phrase 'controlled escalation,' which is the kind of phrase that means the person writing it does not know what to call what they are seeing."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I want to tell you what this is before you hear a version of it that isn't accurate. This is not agitation. The Workers' Coalition leadership in Kravenstal did not organize this — it emerged from the shop floors when the welfare supplement announcement came through. Three families in the Collective district lost the heating supplement two weeks before the first frost. Those workers are not political in the way that gets analyzed. They are political in the way that people are when something that was promised to them has been taken away."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I know those men at that gate. I worked alongside their fathers. They are not radicals. They are workers who understood a bargain this government made with them and are now watching that bargain be undone and they have no other tool available to them except their presence. That is what a strike is. It is the presence of people who have nothing left to offer but themselves."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The industrial output from Kravenstal's steel sector is seventeen percent of national manufacturing. A two-week rolling strike costs the economy between eight and twelve million Krone in production. But that is the economist's frame. Gregor's frame is different and not wrong: these are people who believed you, and responding to their belief with a back-to-work order is a specific kind of answer about who this government is for."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Iron Covenant is already in Kravenstal. Aldric Stenn — Halvek's former provincial organizer — arrived yesterday and has been speaking to workers outside the gate about 'the failure of the new order to protect Veltrian workers.' His presence is tactical. He is not there to help the workers. He is there to be photographed with them when the situation deteriorates, so that the deterioration is attributed to your government's incompetence rather than his party's policy history."
+    }
+  ],
+  "monologue": "Three hundred workers at the gate in the pre-dawn dark. Handwritten signs made by children. Gregor says this did not come from the union leadership — it came from the shop floors when the heating supplement was cut. Three families lost the supplement two weeks before the first frost. They are not ideological. They are cold. And Stenn is already there with photographers, waiting for it to get worse.",
+
+  "choices": [
+    {
+      "id": "kravenstal_maric_negotiates",
+      "text": "\"Gregor goes to Kravenstal personally — not as a minister, as himself, as the man from the Kravenstal district who represents these workers in cabinet. He opens negotiations directly with the shop stewards. No preconditions, no back-to-work requirement before talks begin. We treat this as a legitimate labor dispute, which is what it is.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 12 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -6 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 8 },
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 10, "conditions": [{ "stat": "nation.economyHealth", "operator": "<", "value": 25 }] }
+      ],
+      "flags": ["kravenstal_maric_negotiation", "strike_treated_as_legitimate"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He is already standing. He does not wait for the car. He calls the Kravenstal shop stewards from the phone in the corridor, his voice carrying through the open door — not a minister's voice, a worker's voice, asking about the children who made the signs."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Maric on the ground in Kravenstal will either end the strike or give the Iron Covenant the photograph they want. He pauses. I believe it will end the strike. I believe that because I have watched Gregor Maric talk to workers for two years. They believe him. He has earned that."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_relief_package",
+      "text": "\"Emergency economic relief package — restore the heating supplement in full, add a one-time winter hardship payment, and announce a review of all social program reductions in industrial districts. Fund it from the defense discretionary reserve. We cannot let this become a defining image of what this government does.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 16 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -6 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": -3 },
+        { "stat": "nation.nationalDebt",      "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 8 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 9 }
+      ],
+      "flags": ["kravenstal_relief_package", "welfare_supplement_restored"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "Maric does not speak for several seconds. He simply looks at you — the look of a man who has spent weeks arguing against the tide and has just watched it turn. Then he nods, once, and reaches for the phone. He is calling Kravenstal. Not to announce the package — to tell the workers at the gate that someone heard them."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The defense discretionary reserve will cover the cost for approximately eight weeks. After that, we need a permanent funding source. He writes something on his pad. I am not saying this to discourage you. I am saying it so you know when the next battle begins."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_back_to_work",
+      "text": "\"The provincial governor issues back-to-work orders under the industrial continuity provisions. I announce that we are reviewing the social program cuts and invite union leadership to formal talks — but the plants reopen first. I cannot allow seventeen percent of national manufacturing to be held hostage, whatever the cause.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": -20 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder",       "operation": "add", "value": -10 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -12 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -14 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act1_chain_kravenstal_escalation", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 7 }
+      ],
+      "flags": ["kravenstal_back_to_work_order", "workers_coalition_fractured"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "Maric says nothing. The silence is the heaviest thing in the room — heavier than any argument he has made all day. He stands. He walks to the door. He pauses with his hand on the frame. He does not look back. Then he leaves. The door does not slam. It closes with the particular softness of someone who is being very careful not to betray the depth of what they are feeling."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The governor will issue the order within the hour. He pauses. Gregor will not resign tonight. He will go home and think about it. He will decide in the morning. He pauses again. You should be prepared for what he decides."
+        }
+      ]
+    }
+  ]
+}

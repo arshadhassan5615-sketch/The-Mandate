@@ -1,0 +1,89 @@
+{
+  "id": "act3_jonas_partner_arc",
+  "title": "Husband, Not Spouse",
+  "act": 3,
+  "weekAvailable": 27,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Kitchen, Early Morning",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Jonas is already making coffee when you come downstairs at five-forty, which means he did not sleep well either or he woke early on purpose, and you have learned — across seventeen years of marriage — to recognize the difference. He is wearing the grey wool cardigan with the frayed left cuff that he has refused to throw away since the early years in Aldenmoor, before the government, before any of this. He bought it with money from his first independent commission. He has kept it the way people keep specific objects that belong to a version of themselves they're not ready to retire. He hears you on the stairs and doesn't turn around."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "There's a reception at the Aldenmeer Cultural Hall Thursday evening. The Miravec Prize. I read in the briefing digest that you're scheduled to attend. I would like — I want to come with you. Not as your political spouse. Not for the photographers. As your husband. To stand next to you in a room full of people because I want to stand next to you. I haven't wanted to want that for a while, and now I do. I thought I should say it while I did."
+    },
+    {
+      "type": "description",
+      "text": "He has turned around now. He is holding two cups and he sets yours on the counter between you. The kitchen is the one room in the residence that still feels like a room people actually live in — the window faces east, there are Tomas's school schedules still pinned to the board beside the refrigerator, a small architectural sketch Jonas did of the new Kravenstal housing project propped against the backsplash because there was nowhere else to put it. He is looking at you the way he looked at you before the election — directly, without the guard he has been carrying for months. The offer is real. The vulnerability of it is real. He is not asking you to pretend anything. He is asking you to come to a cultural prize ceremony with your husband."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not asking for a conversation about the marriage. He is not asking you to account for the cancellations or the late nights or the month last spring when you forgot his birthday until Vyktor reminded you in a briefing note. He is asking for Thursday evening. For the specific, simple, enormous thing of standing beside each other in public and meaning it. The political implications are manageable. The personal ones are not. You know what you look like in public together now — stiff, careful, the practiced warmth of two people who have agreed not to make a scene. He is asking you to set that down and try something different. You do not know if you still know how."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "jonas_yes_fully",
+      "text": "\"I want you there. Not the architect, not the Chancellor's husband — you. Jonas. Come Thursday and don't worry about what it looks like or how to stand or what to say to whom. Just come because I want you next to me. That's a thing I should have been saying more often and haven't been. I'm saying it now.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 4  },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",        "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 8 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 14 }
+      ],
+      "flags": ["jonas_invited_fully", "jonas_partner_arc_open"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_yes_carefully",
+      "text": "\"Yes — and I want it to be real, so let me be honest with you first: there will be press, and they'll read into it, and I'd rather you know that before Thursday than be caught off guard. But I want you there. If you can come knowing that context and still want to come — I want you there.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 2  },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 8 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 14 }
+      ],
+      "flags": ["jonas_invited_carefully", "jonas_partner_arc_managed"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_not_yet",
+      "text": "\"I want to say yes. I want to mean it when I do. And right now — if I brought you Thursday, I'd be performing something I'm not actually certain is true yet, and you'd be able to tell, and it would be worse than not coming at all. I need a little more time to be honest about where we actually are before I can show it to a room of three hundred people.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -2 },
+        { "stat": "factions.reformists",        "operation": "add", "value": -1 },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 8 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 14 }
+      ],
+      "flags": ["jonas_not_yet_honest", "jonas_partner_arc_deferred"],
+      "codexUnlocks": []
+    }
+  ]
+}

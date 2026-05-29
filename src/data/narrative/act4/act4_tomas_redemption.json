@@ -1,0 +1,103 @@
+{
+  "id": "act4_tomas_redemption",
+  "title": "The Son Returns",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Tomas's Room, Afternoon",
+  "characters": ["tomas_ashavel", "jonas_ashavel"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You reached Tomas through shared experience — the particular burden of being a political child. You told him about your father's execution, about the years after when people looked at you as either victim or threat, about your mother treating you like a person even when you made choices that scared her. You told him you were not going to forbid the Ironborn — you were going to ask him to talk to you about what he found there. He heard you. That was the first time he had heard you, really heard you, in months. And then he started talking. The talking has not stopped. It is the best thing that has happened in your family since before the campaign."
+    },
+    {
+      "type": "description",
+      "text": "Tomas's room has changed. The Ironborn pamphlets that were stacked on his desk — gone. Not hidden. Gone. In their place: history books. A journal with actual writing in it. A letter from his history tutor, praising his engagement. The walls still have the same posters — a Veltrian football club, a map of the northern provinces, a sketch he did of the river from the residence window — but the room feels different. The boy in it feels different. He is sitting on the edge of his bed, not in the corner where he used to retreat, and he is looking at you. Eye contact. After months of floors and walls and anywhere but your face, he is looking at you. It is a small thing. It is everything."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "I've been reading about grandfather. Mikhael. Not the stuff in the official biographies — the stuff Liora found in his papers. The letters he wrote from prison. The notes he made before the trial. He knew what was coming. He kept writing anyway. He wrote about you — about how you were seven years old and asked him why the bad men were angry at him, and he told you the truth because he thought lying to children was a form of cowardice. He said you were the bravest person he knew and you were seven. I've been trying to figure out what that means — being brave when you know what's coming. I think it means doing the thing even when you know the cost. Not pretending there's no cost. Doing it anyway."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Your father. Mikhael Ashavel. Executed in the Halvek purges of 1947, when you were too young to understand the politics and old enough to understand the loss. You have not read those letters — not all of them. You sealed some of them because they contained things about the Halvek regime's internal operations that were too sensitive for publication. Liora found a way around the seals. You were angry about that once. Now your son is reading your father's prison letters and learning about courage from a grandfather he never met. There is something circular about it — something that feels like inheritance. Mikhael's legacy, passed through you, reaching Tomas in a bedroom in the Chancellor's residence, sixty-two years after the regime that killed him collapsed. History does not repeat. It rhymes, and sometimes the rhyme is a boy finding his grandfather in letters written on prison paper."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "The Ironborn — I want to explain what it was. It wasn't the ideology. I didn't believe the stuff about blood and soil and Veltrian destiny. I still don't. It was that they had answers. Simple ones. Wrong ones, probably, but simple. When you're fourteen and everyone at school either hates you because of who your mother is or expects you to be brilliant because of who your mother is — simple answers feel like shelter. They gave me a way to understand the world that didn't involve being the Chancellor's son. I know now that it was a false way. I think I knew it then, too. I just didn't have anything else. Now I have — this. Grandfather. The history. You, actually talking to me instead of through a briefing folder. I'm not saying I'm fixed. I'm saying I have something to hold onto that isn't false."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I've been listening from the doorway. I didn't want to interrupt. Tomas — what you just said about simple answers being shelter — that's the most honest description of adolescence I've ever heard. I wish I'd understood that earlier. I wish I'd been less afraid of the Ironborn and more curious about what they were giving you that we weren't. Your mother carried that weight. I want you to know that. She was the one who realized you needed a person, not a policy. I was too busy being angry at the Ironborn for targeting my son to see that my son was reaching for something because he was drowning. She saw it. She reached back. That's why you're here, talking instead of retreating. Not because of anything I did. Because she refused to give up on you even when you were giving up on yourself."
+    },
+    {
+      "type": "description",
+      "text": "Jonas's voice is rough — the roughness of a man who is saying something he should have said months ago, something that costs him to say now. He is giving you credit for reaching Tomas when he could not. The gesture is generous and also painful, because it acknowledges a division of labor in your marriage that neither of you wanted: you saved the son, he held the household together, and somewhere in the process the marriage got lost. Or maybe it didn't. Maybe the marriage is finding its way back through the son — the child you both love, the reason you kept trying even when trying felt impossible. Families are not linear. They loop. Sometimes the loop brings you back to each other through the person you were both trying to save."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "tomas_redemption_constructive_institutions",
+      "text": "\"Tomas — the Ironborn gave you belonging. False belonging, built on ideas that would have asked terrible things of you eventually, but belonging. Now you need something true. I want to help you find that. There is a youth parliament program — young people from across Veltria, learning governance, debating policy, understanding how institutions actually work. It is not glamorous. It is not revolutionary. It is the slow, difficult work of building a country through argument and compromise. Your grandfather believed in that work. He died for it. If you want to understand what he believed — not just read about it, but live it — this is a way. I will make the introduction. The rest is yours.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 18 },
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 8  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["tomas_redeemed", "mikhael_legacy_shared", "youth_parliament", "constructive_belonging"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_mikhael_ashavel_legacy"]
+    },
+    {
+      "id": "tomas_redemption_bring_close",
+      "text": "\"Tomas — you said simple answers felt like shelter because you were drowning. I understand drowning. I have been drowning in the Chancellorship since the day I took the oath. The only thing that kept me afloat was remembering why I was doing it. Not the policies. Not the legacy. The people. You. Liora. Dad. The country is an abstraction. The people you love are not. I want you closer to that — to the actual work, the actual reasons. Come to the Chancellery on weekends. Not as an intern. As my son. See the people I work with. Understand the decisions I'm making. When you understand the work, you will understand why the Ironborn's simple answers are not just wrong but dangerous — because they offer shelter without asking you to build anything. This family builds. We have always built. I want you to build with us.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 16 },
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["tomas_redeemed", "mikhael_legacy_shared", "chancellery_weekends", "building_together"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_mikhael_ashavel_legacy"]
+    },
+    {
+      "id": "tomas_redemption_firm_boundaries",
+      "text": "\"Tomas — I am glad you are reading your grandfather's letters. I am glad you are thinking about courage. I am also going to be honest with you: the Ironborn are not a philosophical experiment. They are a nationalist movement that has attempted to undermine this government through legal challenges, parliamentary obstruction, and in some cases implicit threats of violence. I am not forbidding you from thinking about the ideas. I am forbidding you — explicitly, as your mother and as your Chancellor — from associating with the organization. It is not safe. It is not healthy. And it gives my political opponents a lever against me that I cannot afford. I am glad you are talking to me. Keep talking. But the Ironborn are not negotiable. You are fourteen. You do not get to make decisions that affect national security because you are looking for belonging. I will help you find belonging somewhere else. This door is closed.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 8  },
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["tomas_redeemed", "ironborn_forbidden", "boundaries_set", "mikhael_legacy_shared"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_mikhael_ashavel_legacy"]
+    }
+  ]
+}

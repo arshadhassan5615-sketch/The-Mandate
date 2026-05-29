@@ -1,0 +1,63 @@
+{
+  "id": "act3_investigation_results",
+  "title": "Investigation: Six Weeks Later",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Interior Ministry — Investigation Command Center",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Danika Oberlin's investigation has run for six weeks. Her forensic teams have reconstructed the attack from ballistics reports, armory inventories, and witness interviews. The report sitting on your desk is three hundred pages. The summary is three sentences. The attack was coordinated by a network of former BNI operatives working with mid-level military officers who opposed the transition. The money came from a Halvekist businessman who fled to Tyvaren after the election. The conspirators are identified. The evidence is sufficient for prosecution. The question of whether to prosecute them publicly — or handle them quietly — is now yours."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "We have enough to indict twelve people. Eight are in custody — they were picked up in the weeks after the attack based on intelligence leads that we kept quiet while we built the cases. Four are in Tyvaren, beyond our reach. The trials will be public — that was your promise, and I have kept it. The evidence is solid enough that even Halvek-appointed judges would have difficulty dismissing the charges. This will take months. It will be messy. Some of what comes out in court will be politically damaging — to the military, to the security services, possibly to members of your own government who knew more than they admitted about the armory thefts. But it will be the truth."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The trials will dominate the news cycle for the rest of the year. Every revelation will be a crisis for someone. But if you do not prosecute — if you handle this quietly — the conspiracy remains partially intact, the public never gets answers, and the precedent is that attacks on the government are resolved through backroom deals rather than courts. Six weeks ago you chose to respond through legal channels. This is what legal channels look like. It is not clean. It is not quick. It is the law."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "investigation_public_trials",
+      "text": "\"Proceed with the prosecutions. Public trials, full transparency. The people of Veltria deserve to know who tried to kill their government and why. Whatever comes out — about the military, the security services, my own government — comes out. The truth is not a threat to democracy. Secrecy is.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "nation.corruption", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["attack_investigation_complete", "public_trials_begin"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "investigation_quiet_handling",
+      "text": "\"Prosecute the ones we have quietly. No press conferences, no public spectacle. The trials proceed but we do not make a national event out of them. The country needs stability more than it needs catharsis. The truth will be known by those who need to know it — the courts, the defendants, the victims' families. The public can read about it in the court transcripts if they choose to.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 3 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 },
+        { "stat": "factions.reformists", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["attack_investigation_complete", "quiet_prosecutions"],
+      "codexUnlocks": []
+    }
+  ]
+}

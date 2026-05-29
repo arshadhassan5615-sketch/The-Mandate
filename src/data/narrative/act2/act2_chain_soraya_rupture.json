@@ -1,0 +1,130 @@
+{
+  "id": "act2_chain_soraya_rupture",
+  "title": "The Statement She Meant",
+  "act": 2,
+  "weekAvailable": 16,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Khaled's Office, District 7 Community Center",
+  "characters": ["soraya_khaled", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The statement was released at six-fifteen in the morning, which means Soraya Khaled wrote it the night before and made a deliberate choice about the time. Six-fifteen reaches the early radio programs. It is in every newspaper headline before the cabinet morning briefing. By the time Vyktor puts the transcript on your desk, half the republic has already heard it in Khaled's own voice — she read it herself, live, into a microphone at the community center where she has held her constituency office for eleven years. She did not use a spokesperson. She wanted the words to be hers."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The relevant passage: 'Chancellor Ashavel came to office promising to dismantle the architecture of accommodation that has made Veltrian politics safe for those who already have power. What we have witnessed in the past weeks is not reform. It is the accommodation made respectable by the presence of a reformer. I will not lend my name, my constituency, or the movement that trusted me with their votes to the management of the existing system. The Chancellor is competent. She is not, in any meaningful sense, a reformer anymore.' End quote."
+    },
+    {
+      "type": "internal_thought",
+      "text": "It is not a lie. That is the thing you have to sit with before you decide how to respond. It is a version of the truth that selects certain facts and ignores others — the constraints she did not inherit, the votes she does not have to find, the mathematics she does not have to perform. But the core of it is not false, and responding as if it were false would be its own kind of dishonesty."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Her base is approximately forty thousand voters concentrated in the capital's third and seventh districts, with significant secondary influence in the trade union movement. She is not a vote bloc. She is a credibility source. When Khaled calls something corrupt, it becomes corrupt in the minds of people who do not follow the details. That is her actual power, and she has just used it against you."
+    },
+    {
+      "type": "description",
+      "text": "The community center in District 7 is visible from the window of the car — a converted textile workshop with a hand-lettered sign that has been repainted twice in the decade you have known her. The lights are on. She is there. She has not gone anywhere, which is part of the message: she is not fleeing the consequences of what she said. She is exactly where she has always been, waiting to see whether you have anything to offer that is worth her time."
+    }
+  ],
+  "monologue": "She released it at six-fifteen in the morning. Into a microphone, in her own voice, from the community center she has occupied for eleven years. 'She is not, in any meaningful sense, a reformer anymore.' It is not a lie. It selects certain facts and ignores others — the votes she does not have to find, the mathematics she does not have to perform. But the core is not false. Responding as if it were would be its own dishonesty.",
+
+  "choices": [
+    {
+      "id": "soraya_respond_with_dignity",
+      "text": "\"We release a statement acknowledging the break directly. 'Soraya Khaled has been a conscience of this reform project. If she believes I have failed that project, her judgment deserves to be taken seriously rather than dismissed. I will not argue with her in public. I will try to earn a different verdict.' No more, no less.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 6 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 8 },
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 6 }
+      ],
+      "flags": ["soraya_rupture_acknowledged", "soraya_break_public"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes the statement without comment. When he finishes, he reads it twice. The second reading is slower than the first — he is checking for something beyond grammar. He slides it across the desk. He does not endorse it. He does not oppose it. He presents it the way he presents everything: as a document whose consequences you will bear."
+        },
+        {
+          "character": "soraya_khaled",
+          "type": "silence",
+          "text": "The statement reaches her at the community center within the hour. Her aide later reports that she read it twice, set it down, and said nothing for several minutes. Then she nodded — once, to herself — and went back to her constituency work. It is not forgiveness. It is not reconciliation. It is the particular silence of someone who has been seen and is deciding whether being seen is enough."
+        }
+      ]
+    },
+    {
+      "id": "soraya_reach_privately",
+      "text": "\"I'm going to the community center. Not with a delegation, not with a plan — just me, this evening, to have the conversation she and I have not had in three months. If she throws me out, she throws me out.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 4 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week22_nadia_investigation", "delayWeeks": 3 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 9 }
+      ],
+      "flags": ["soraya_private_outreach", "soraya_meeting_attempted"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He does not argue. He simply picks up the phone and calls the motor pool. Five minutes, he says to the driver. No flags. No escort. This is not a Chancellor's visit. This is something else. He understands the difference, and for once he is not trying to bridge it."
+        },
+        {
+          "character": "soraya_khaled",
+          "type": "dialogue",
+          "text": "When you arrive at the community center, she is in the doorway — she was expecting you. You came, she says. She does not sound surprised. She sounds like someone who wanted to be wrong about you and is willing to be proven so. Come in. The light is bad and the coffee is worse. She steps aside. The door stays open."
+        }
+      ]
+    },
+    {
+      "id": "soraya_counter_narrative",
+      "text": "\"We respond publicly — not personally against Soraya, but with specifics. The legislation she voted for. The reforms we have passed. The things that exist in Veltria today that did not exist before this government. Make the record visible and let voters compare it to a statement.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": -4 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -6 },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 5 },
+        { "targetNodeId": "act2_week22_nadia_investigation", "delayWeeks": 4 }
+      ],
+      "flags": ["soraya_counter_narrative_launched", "soraya_relationship_damaged"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The legislative record is being compiled. Twelve pieces of legislation. Six executive orders. I will have the summary for press distribution within two hours. He pauses. Khaled will respond. She always responds. The question is whether we are ready for what she responds with."
+        },
+        {
+          "character": "soraya_khaled",
+          "type": "silence",
+          "text": "She does not issue a counter-statement. Not immediately. The silence is more effective than anything she could have said — it allows your list of achievements to hang in the air next to her accusation, and it allows the public to compare them without her interruption. It is the silence of someone who understands that she has already made her case and yours will be judged on its own merits."
+        }
+      ]
+    }
+  ]
+}

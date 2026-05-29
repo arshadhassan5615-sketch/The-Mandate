@@ -1,0 +1,20 @@
+{
+  "id": "letter_response_kolvar",
+  "title": "A Letter from Kolvar",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Drazen Kolvar's Parliamentary Office",
+  "characters": ["drazen_kolvar"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Kolvar's reply is on heavy stationery, his name embossed at the top in dark ink. The letter is brief — Kolvar does not waste words. But it is not hostile. It is the letter of a man who has been invited to negotiate and is considering the invitation." },
+    { "type": "dialogue", "character": "drazen_kolvar", "text": "Chancellor. Your letter was... unexpected. I have grown accustomed to public confrontation with your government. A private communication suggests a different approach. I am willing to discuss terms. Not because I trust you — but because I believe you have finally understood that governing requires more than conviction. It requires the ability to make deals with people you would rather not share a room with. My parliamentary secretary will arrange the details." }
+  ],
+  "monologue": "He used the word 'unexpected.' From Kolvar, that is practically a compliment. He is offering a ceasefire, not an alliance. But a ceasefire is more than I had this morning. The constitution needs his votes. The question is what he wants in return — and whether I can afford to give it.",
+  "choices": [
+    { "id": "letter_kolvar_response", "text": "\"He is willing to talk. That is more than I expected. It is not peace — Kolvar and I will never have peace. But it is a ceasefire. For now, that may be enough to keep the government alive.\"", "internalTag": "pragmatist", "stateChanges": [{ "stat": "factions.halvekists", "operation": "add", "value": 8 }, { "stat": "factions.reformists", "operation": "add", "value": -3 }], "chainTriggers": [], "flags": ["letter_kolvar_replied", "kolvar_backchannel_open"], "codexUnlocks": [], "reactions": [{ "character": "drazen_kolvar", "type": "silence", "text": "He does not respond — the letter was his message. But his parliamentary secretary calls within the hour. The meeting will be scheduled. In his office. On his terms. He understands the concession." }] }
+  ]
+}

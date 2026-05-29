@@ -1,0 +1,217 @@
+{
+  "id": "family_referendum_night",
+  "title": "The Night the Numbers Came In",
+  "act": 2,
+  "weekAvailable": 26,
+  "weekDeadline": 26,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "isFamilyScene": true,
+  "location": "The Private Quarters — Chancellor's Residence, Late",
+  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The private quarters are warm. Someone has lit the fireplace — Jonas, probably, he is always cold in the evenings. The radio on the side table is tuned to the national broadcast. The operator's voice is methodical, province by province, precinct by precinct: Kravenstal reporting at sixty-two percent turnout, Dravenhollow at seventy-one, Thornfeld at fifty-eight. The numbers are not final. They will not be final for hours. But the shape of the result is visible now, the way a photograph develops in chemicals — not yet clear, but clear enough."
+    },
+    {
+      "type": "description",
+      "text": "Liora is curled on the sofa with a blanket. She is thirteen now — old enough to understand what a referendum means, old enough to be afraid of what happens if it fails. She has been listening to the radio for two hours without speaking. Tomas is on the floor, building something with blocks — a bridge, a fortress, you cannot tell. He is building because he cannot sit still when his parents are nervous. He has been that way since he was small."
+    },
+    {
+      "type": "description",
+      "text": "Jonas is in the armchair near the window. He has not moved in an hour. He is watching you more than the radio. He has always been better at reading you than reading election returns."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "Thornfeld is coming in low. That's not a surprise. The Church did not endorse. The Gazette ran three editorials against the judiciary clause. The numbers are the numbers."
+    },
+    {
+      "type": "description",
+      "text": "He is not asking anything. He is reciting facts to fill the silence. Twenty years of marriage — you know when he is talking to keep from saying what he is actually thinking."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Jonas is reciting numbers to fill the silence. He does that when he's worried. Liora is old enough to understand what this means — maybe older than I think, maybe old enough to be afraid. Tomas is building something out of blocks because he can't sit still when his parents are nervous. They are all here. All three of them. Watching me watch a country decide whether the work of this year survives the night."
+    }
+  ],
+
+  "monologue": "They're all here. Jonas in the armchair, reciting poll numbers to keep from saying what he's thinking. Liora on the sofa — thirteen now, old enough to understand. Tomas building something out of blocks because he can't sit still when his parents are nervous. The radio is still counting. The numbers are not final. But the shape of the result is visible now, and whatever happens in the next hour, they will remember this night. They will remember whether I was present or just physically here.",
+
+  "choices": [
+    {
+      "id": "family_referendum_stay",
+      "text": "Stay with them. Turn off the radio. Whatever happens, you want to be here — not in the counting center, not in the briefing room, not on the phone with Vyktor. Here.",
+      "internalTag": "personal",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "text": "He watches you cross the room and sit down beside Liora on the sofa. You pull Tomas onto your lap — he is too big for it now, nearly nine, but he does not resist. Jonas does not say anything. He just reaches over and turns off the radio. The silence that follows is not the silence of waiting. It is the silence of home.",
+          "type": "narrative"
+        },
+        {
+          "character": "jonas_ashavel",
+          "text": "You know what I thought about tonight, watching those numbers come in? He pauses. Not for effect. Because he is choosing his words carefully — Jonas always chooses his words carefully when they matter most. I thought — she's going to win or she's going to lose and either way she's still her. That's the only thing I was sure of.",
+          "type": "dialogue"
+        }
+      ]
+    },
+    {
+      "id": "family_referendum_watch",
+      "text": "Keep the radio on. Watch together. They deserve to see this — whatever happens, they should see their mother face it.",
+      "internalTag": "personal",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "liora_ashavel",
+          "text": "She shifts on the sofa, making room for you. Not asking — just making room. It is the most generous thing anyone has done for you all day, and she did not even think about it. She just did it.",
+          "type": "narrative"
+        },
+        {
+          "character": "jonas_ashavel",
+          "text": "Ashenmere coming in now. He does not look at the radio. He is looking at you. You know what I thought about tonight, watching those numbers come in? I thought — she's going to win or she's going to lose and either way she's still her. That's the only thing I was sure of.",
+          "type": "dialogue"
+        }
+      ]
+    }
+  ],
+
+  "socialInteractions": [
+    {
+      "id": "family_referendum_liora",
+      "title": "Liora asks the question",
+      "character": "liora_ashavel",
+      "location": "The sofa, private quarters",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Liora puts down the blanket. She looks at you — really looks, the way she has started doing since she turned thirteen, the way that makes you feel more seen than any television camera."
+        },
+        {
+          "type": "dialogue",
+          "character": "liora_ashavel",
+          "text": "If it fails. The referendum. If they vote against it. What happens? Not to the country — to us. To you. What happens to you?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "family_referendum_answer_truth",
+          "text": "\"Then we lost an argument. You don't stop existing because you lost an argument.\"",
+          "internalTag": "personal",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": []
+        }
+      ],
+      "reactions": [
+        {
+          "character": "liora_ashavel",
+          "text": "She considers this. Her expression does not change — she is, in this moment, more like you than you have ever seen her. She processes the answer. She weighs it. She decides whether it is enough. Then she pulls the blanket back up and curls into your side. Okay, she says. She says it like it actually is okay. Like your word is still something she can trust.",
+          "type": "narrative"
+        }
+      ]
+    },
+    {
+      "id": "family_referendum_tomas",
+      "title": "Tomas builds something",
+      "character": "tomas_ashavel",
+      "location": "The floor, private quarters",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Tomas has finished building. The blocks form a recognizable shape now — not a bridge, not a fortress. A building. The Assembly building. You did not realize he knew what it looked like. He looks up at you with your father's eyes."
+        },
+        {
+          "type": "dialogue",
+          "character": "tomas_ashavel",
+          "text": "Is that where you work?"
+        },
+        {
+          "type": "description",
+          "text": "Yes."
+        },
+        {
+          "type": "dialogue",
+          "character": "tomas_ashavel",
+          "text": "Is it a good place?"
+        },
+        {
+          "type": "description",
+          "text": "Nine years old. He wants to know if the building where his mother spends her days is a good place. He does not ask about the constitution. He does not ask about the referendum. He asks if the building is good."
+        }
+      ],
+      "choices": [
+        {
+          "id": "family_referendum_tomas_answer",
+          "text": "\"It's trying to be.\"",
+          "internalTag": "personal",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": []
+        }
+      ],
+      "reactions": [
+        {
+          "character": "tomas_ashavel",
+          "text": "He nods. He seems to accept this as an answer — maybe because he is nine and does not understand what it means for a building to try to be good, or maybe because he understands exactly and accepts it anyway. He adds one more block to the top of the Assembly. A flag. A small one. He made it out of a piece of paper he found somewhere. He colored it himself.",
+          "type": "narrative"
+        }
+      ]
+    },
+    {
+      "id": "family_referendum_close",
+      "title": "The quiet after",
+      "character": "jonas_ashavel",
+      "location": "The private quarters, late",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The children are asleep. Liora on the sofa, one hand still holding the edge of the blanket. Tomas in his bed, the block Assembly still standing on his nightstand. The radio is off. The house is quiet."
+        },
+        {
+          "type": "description",
+          "text": "Jonas is still in his armchair. He has not moved. When he finally speaks, his voice is very quiet — the voice he uses for things that are true but not easy to say."
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "You know what I thought about tonight, watching those numbers come in? I thought — she's going to win or she's going to lose and either way she's still her. That's the only thing I was sure of."
+        }
+      ],
+      "choices": [
+        {
+          "id": "family_referendum_close_silence",
+          "text": "Say nothing. Let the silence hold what words cannot.",
+          "internalTag": "personal",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": []
+        }
+      ],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "text": "He does not wait for an answer. He does not need one. He stands. He crosses the room. He puts his hand on your shoulder — the same gesture as always, the one that means: I am here, and I will be here tomorrow, and nothing that happened tonight changes that. He says goodnight. He goes to bed. You stay in the quiet for a little longer. The block Assembly is still standing on Tomas's nightstand. The flag is still there. Everything is still there.",
+          "type": "narrative"
+        }
+      ]
+    }
+  ]
+}

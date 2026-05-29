@@ -1,0 +1,47 @@
+{
+  "id": "project_mid_crisis_highway",
+  "title": "The Ruins Under the Road",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Amber Coast — Highway Construction Site",
+  "characters": ["danika_oberlin", "aldric_theron"],
+  "prerequisites": [{ "stat": "flags.project_highway_started", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Construction on the Amber Coast Highway has uncovered something. Not rock. Not soil. Stone foundations. Pottery fragments. The remains of a Dravenni settlement — pre-Halvek, possibly pre-Veltrian. Archaeologists from Ashenmere University are demanding that construction halt while the site is studied." },
+    { "type": "dialogue", "character": "danika_oberlin", "text": "The site is significant. The Dravenni community considers it sacred — a settlement that predates the Veltrian arrival in the region by six centuries. The archaeologists estimate it will take three weeks to properly document the site before construction can continue. The Dravenni caucus is demanding we reroute the highway entirely to preserve the ruins. That would cost an additional ten million VK and add three weeks." },
+    { "type": "dialogue", "character": "aldric_theron", "text": "I have consulted the archaeological assessment. The ruins are genuine and historically significant. But they are also located exactly where the highway must go — the coastal terrain offers no alternative route. The question is not whether to preserve them. The question is how we balance preservation with progress." }
+  ],
+  "choices": [
+    {
+      "id": "highway_reroute",
+      "text": "\"Reroute the highway. Preserve the ruins. The Dravenni people have lost enough of their heritage to Halvek's bulldozers. This government will not add to that loss. Find the ten million. Find the three weeks.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 15 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["highway_reroute", "dravenni_heritage_preserved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "highway_bulldoze",
+      "text": "\"Document what you can in one week. Then continue construction. Veltria needs this highway more than it needs a museum under a road. The ruins will not be destroyed — they will be recorded and moved. Progress cannot wait for archaeology.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": -15 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["highway_bulldozed", "dravenni_heritage_lost"],
+      "codexUnlocks": []
+    }
+  ]
+}

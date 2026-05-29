@@ -1,0 +1,83 @@
+[
+  {
+    "id": "agenda_w40_war_begins",
+    "title": "The Invasion Begins",
+    "description": "Tyvaren forces have crossed the border at three points — Gravenmark, the Korven Forest, Dravenhollow. The war has started. What you do in the first seventy-two hours determines everything that follows.",
+    "category": "crisis",
+    "sceneId": "act4_week40_war_begins",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 40,
+    "weekDeadline": 42,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.war_path_chosen", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w40_exile_government",
+    "title": "The Government in Exile",
+    "description": "Brenner's junta controls Ashenmere. You are in Stellamere, in a borrowed diplomatic annex. The question is not whether you govern — it is how you govern from outside.",
+    "category": "crisis",
+    "sceneId": "act4_week40_exile",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 40,
+    "weekDeadline": 42,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.coup_succeeded", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w40_reform_consolidation",
+    "title": "The Reform Consolidation",
+    "description": "With the constitution in force and the country at peace — however uneasy — the task now is implementation. Thirty-five legislative actions. Twelve completed. The rest will define whether the new order holds.",
+    "category": "parliament",
+    "sceneId": "act4_week41_reform_implementation",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 40,
+    "weekDeadline": 44,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.constitution_in_force", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w40_budget_allocation",
+    "title": "Budget Allocation — Emergency Framework",
+    "description": "The situation demands resources. Adjust the budget for whatever comes next — war, exile, or reform.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 0,
+    "weekAvailable": 40,
+    "weekDeadline": 42
+  },
+  {
+    "id": "agenda_w40_exile_begin",
+    "title": "Exile — First Days",
+    "description": "Three rooms in the Stellamere diplomatic annex. A head of state without a state. A military that exists on paper. Shortwave contact with loyalist elements still inside Veltria. The resistance begins here.",
+    "category": "crisis",
+    "sceneId": "act4_exile_arc",
+    "slotCost": 1,
+    "executionOrder": 1,
+    "weekAvailable": 40,
+    "weekDeadline": 46,
+    "prerequisites": [
+      { "stat": "flags.coup_succeeded", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w40_civil_conflict",
+    "title": "Civil Conflict — Internal Security Assessment",
+    "description": "The coup has divided the military, the parliament, and the streets. Loyalist and junta forces are maneuvering for position. The International Forum is watching. Neither side has a clear advantage yet.",
+    "category": "security",
+    "sceneId": "act4_civil_conflict_arc",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 40,
+    "weekDeadline": 46
+  }
+]

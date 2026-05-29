@@ -1,0 +1,54 @@
+{
+  "id": "act2_econ_vostane_confrontation",
+  "title": "Vostane's Objection",
+  "act": 2,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ministry of Finance — Vostane's Office",
+  "characters": ["elara_vostane"],
+  "prerequisites": [{ "stat": "flags.economy_planned", "operator": "==", "value": true }],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Elara Vostane's office is immaculate — organized, efficient, every spreadsheet aligned. She has prepared a briefing document titled 'Projected Economic Impact of State-Directed Industrial Policy.' The projections are not optimistic."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Chancellor, the Arcturian trade ministry has withdrawn from negotiations on the technology transfer agreement. They will not share advanced manufacturing equipment with a state-directed economy that might reverse-engineer it. Orythia has offered loans — at four percent above market rate, with conditions attached. And the International Monetary Association is expressing concern about 'uncompetitive state subsidies.' The planned economy is already costing us foreign partnerships we spent years cultivating. I supported your government because I believed you would govern with data, not ideology. The data is clear. I need to know whether you are still listening to it."
+    }
+  ],
+  "monologue": "The Arcturians withdrew. The Orythians offered loans at four percent above market. The IMA is concerned. Vostane presented the data without editorializing — which is her way of letting the numbers carry the argument she knows I will resist. She is telling me the planned economy is bleeding international partnerships. She is also telling me she still believes I listen to data. The question is whether I still do.",
+  "choices": [
+    {
+      "id": "vostane_compromise",
+      "text": "\"Elara, I am listening. The state-directed approach is our foundation — but I will authorize limited private partnerships in sectors where foreign technology is essential. A planned economy does not mean a closed one. Help me design the balance.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["vostane_compromise", "planned_with_openings"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elara_vostane", "type": "action", "text": "She writes limited private partnerships on her pad and begins sketching the structure. Planned economy with openings. She does not smile. She simply begins designing the balance." }]
+    },
+    {
+      "id": "vostane_hold_firm",
+      "text": "\"I appreciate your analysis, Vostane. But the Arcturians were never going to share their best technology — planned or free market. They protect their advantage. The Orythian loans are expensive but they come with technical assistance we cannot get elsewhere. The IMA has been wrong about every developing economy for forty years. I am not changing course.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [{ "targetNodeId": "act3_econ_vostane_resignation", "delayWeeks": 12, "probability": 0.4 }],
+      "flags": ["vostane_overruled"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elara_vostane", "type": "silence", "text": "She closes the briefing document with deliberate care. The Arcturians were never going to share. She repeats the words. She does not argue. The silence is the sound of Elara Vostane deciding something." }]
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "id": "act1_week2_cabinet_appointments",
+  "title": "The Ministers",
+  "act": 1,
+  "weekAvailable": 2,
+  "weekDeadline": 2,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Cabinet Room — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The cabinet room table seats twenty-two. Today there are two chairs occupied: yours, and Vyktor Reznik's across the table. Eleven manila folders are arranged in a row between you, each labeled with a ministerial title in the neat, impersonal hand of someone who has done this before."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The coalition agreement locks in six appointments. The party leadership won't accept substitutions there without a fight you don't want in week two. The remaining five positions are your discretion. I've prepared candidate pairs for each. Decision needed today — parliament is watching the cabinet list like a weather report."
+    },
+    {
+      "type": "description",
+      "text": "He opens the first folder: Finance. Two photographs, two biographies, two sets of economic projections that lead to different futures."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Finance. Elara Vostane — Arcturian Institute trained, free-market orthodoxy, austerity before stimulus. She'll cut the deficit. She'll also cut everything attached to it. The workers' movement despises her on principle; the business community will calm down the moment they hear her name. The alternative is Mirko Selenko — solid technocrat, believes the deficit can be grown out of with targeted investment. Less ideological, more risk. He won't alarm anyone in either direction. Means he also won't move anyone."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Interior. Danika Oberlin — former investigative journalist, BNI surveillance discovered by her personally, morally committed to abolishing it. She will be effective and she will be a problem whenever security considerations require something she considers a compromise with the past. The alternative is General-Adjutant Tomek Perov — career security official, technically non-partisan, former deputy director of counterintelligence. He was Halvek-era but not Halvek-aligned. The distinction matters, though your reform base will not accept it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Every pair is the same argument wearing different clothes: principle versus maneuver, conviction versus competence. The people who will suffer the consequences of these choices are not in this room."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I've prepared four configurations that build internal coherence. Mixed cabinets can work — but they tend to spend their first year resolving disagreements the cabinet was designed to adjudicate. Pick a direction and staff for it. The country needs a government that knows what it's trying to do, even if it's the wrong thing."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The four options. I'll describe them plainly: the reform coalition, the technocrat slate, the broad coalition, or the loyalist configuration. Each has a logic. Each has a cost."
+    },
+    {
+      "type": "description",
+      "text": "He sets a single sheet of paper in front of you. Four columns, four sets of names, four different governments. Outside the tall windows, Ashenmere is carrying on its business. It has not yet asked you to deliver anything. That begins the moment you sign."
+    }
+  ],
+
+  "monologue": "Every pair is the same argument wearing different clothes: principle versus maneuver, conviction versus competence. Vostane will cut the deficit and everything attached to it. Oberlin will be effective and she will be a problem whenever security requires compromise. The people who will suffer the consequences of these choices are not in this room. Vyktor says pick a direction and staff for it — even if it's the wrong thing. The country needs a government that knows what it's trying to do.",
+
+  "choices": [
+    {
+      "id": "cabinet_reform",
+      "text": "\"The reform coalition. Vostane at Finance, Oberlin at Interior, Marić at Labor, Theron at Justice, Dusek at Defense. We govern from our platform and we accept the fight that comes with it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 8   },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6   },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -5  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [{ "targetNodeId": "mole_week2_plant", "delayWeeks": 0 }],
+      "flags": ["cabinet_appointed", "cabinet_reform", "minister_vostane", "minister_oberlin", "minister_maric", "minister_dusek", "minister_theron"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He closes the folder. Not with finality — with transition. One government defined. The other three configurations go back into his briefcase."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Reform coalition. Every appointment carries a political cost. The cabinet will define the first year. I will notify the ministers-designate by noon."
+        }
+      ]
+    },
+    {
+      "id": "cabinet_technocrat",
+      "text": "\"The technocrat slate. Vostane at Finance. Perov at Interior with a civilian oversight mandate — he manages the security apparatus, Danika runs an independent review board above him. Competence in the key ministries, ideology in the supporting roles.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 10  },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 2   },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -6  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [{ "targetNodeId": "mole_week2_plant", "delayWeeks": 0 }],
+      "flags": ["cabinet_appointed", "cabinet_technocrat", "minister_vostane", "minister_perov", "minister_maric", "minister_dusek", "minister_theron"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not react. The technocrat slate was the configuration he would have recommended if asked. He was not asked. He is noting that."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Perov will need a civilian oversight mandate in writing. Oberlin will need independence. The tension between them will be productive if managed. It will be destructive if ignored."
+        }
+      ]
+    },
+    {
+      "id": "cabinet_coalition",
+      "text": "\"The broad coalition. We bring in one ex-VUF technocrat at an economic portfolio — not Interior, not Justice, but enough to signal we're a government of the whole nation. It costs us credibility with our base. It buys us parliamentary breathing room.\"",
+      "internalTag": "compromise",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 8   },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 5   },
+        { "stat": "factions.reformists",      "operation": "add", "value": -10 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -3  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [{ "targetNodeId": "mole_week2_plant", "delayWeeks": 0 }],
+      "flags": ["cabinet_appointed", "cabinet_coalition", "minister_vostane", "minister_oberlin", "minister_dusek", "minister_theron", "vuf_integrated"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He opens a different folder — one that has clearly been waiting for this specific decision. The VUF integration file. It contains four pages of contingency notes that are about to become policy."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Broad coalition. Your reform base will be angry. The ex-VUF technocrat will be watched by both sides. Parliamentary breathing room is purchased at the cost of party unity. I will manage the press."
+        }
+      ]
+    },
+    {
+      "id": "cabinet_loyalist",
+      "text": "\"The loyalist configuration. Everyone on the list comes from the movement. I want a Deputy Finance from the Workers' Coalition. I want Oberlin at Interior. I want Theron at Justice with full independence. We govern as what we said we were.\"",
+      "internalTag": "radical",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 14  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 12  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -12 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -6  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 12  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_vael_pressure",
+          "delayWeeks": 4
+        },
+        { "targetNodeId": "mole_week2_plant", "delayWeeks": 0 }
+      ],
+      "flags": ["cabinet_appointed", "cabinet_loyalist", "minister_vostane", "minister_oberlin", "minister_maric", "minister_dusek", "minister_theron", "workers_coalition_deputy"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not close the binder. He looks at the loyalist column for a measured three seconds. The silence is an audit — he is calculating the governance cost of ideological purity and deciding whether to voice it. He does not."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Loyalist configuration. Maximum mandate. Minimum external trust. The business class will respond within the week. I recommend a public statement by day's end — something about competence over connections."
+        }
+      ]
+    }
+  ]
+}

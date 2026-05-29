@@ -1,0 +1,92 @@
+{
+  "id": "act3_press_freedom_crackdown",
+  "title": "The Tightening",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Late Evening",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The National Stability Act was passed six days ago. It is officially a temporary measure — twelve months, renewable — designed to address the security dimensions of the Tyvaren crisis. Unofficially, it is the most significant restriction on press freedom since the Halvek era. Section 14 authorizes the government to review and suppress publication of material deemed 'prejudicial to national security or public order.' Section 18 establishes a Media Oversight Board with the power to suspend publication licenses. The language is deliberately broad. It was drafted that way by people who know that broad language is the first step toward broad application. Nadia Voss's newspaper, The Ashenmere Independent, has been targeted under Section 14 three times in six days."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Media Oversight Board has reviewed four articles from the Independent this week. Three were referred for suppression. One — Nadia's piece on the military's mobilization irregularities — was blocked entirely. The Board's formal justification was that the article contained 'operational details that could compromise military readiness.' The actual justification, which no one will state publicly, is that Nadia's reporting on General Brenner's mobilization decisions is revealing the extent to which the military is not under civilian control. The Board is doing what it was designed to do: suppressing information that undermines public confidence in the government's ability to manage the crisis. I am telling you this because you need to know what your Act is being used for. Not what it says it does. What it actually does."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You signed the National Stability Act because Brenner told you — and Vyktor confirmed — that without enhanced security powers, the military could not respond effectively to the Tyvaren mobilization. You signed it knowing Section 14 was dangerous. You told yourself it was temporary. You told yourself the oversight mechanisms would prevent abuse. You told yourself the crisis justified extraordinary measures. All of these things were true. None of them change the fact that your government is now suppressing journalism — suppressing Nadia, the journalist who broke the Halvek-era corruption stories, the journalist your daughter works for, the journalist who has been one of the few voices holding power to account during a crisis that has concentrated enormous power in your hands. You told yourself this was about national security. It is also about press freedom. The two are not mutually exclusive. They are mutually reinforcing in ways you did not fully consider when you signed the Act."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Nadia has filed a legal challenge. She is arguing that Section 14 violates the press freedom provisions in the draft constitution that is currently in legal limbo — an interesting argument, because it claims constitutional protection from a document that has not yet taken legal effect. She is also preparing a piece about the Media Oversight Board's suppression of her military reporting. She will publish it regardless of whether the Board approves it. She is betting that the government will not arrest a journalist for reporting on government suppression of journalism — the optics are terrible and she knows it. She is using the press freedom crisis as the story. It is tactically brilliant. It is also a direct challenge to your authority. You need to decide how to respond before she publishes."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "press_crackdown_repeal_section",
+      "text": "\"I am issuing an executive order repealing Section 14. The National Stability Act remains in force for its security provisions — military coordination, border controls, intelligence sharing. The press censorship provisions are revoked effective immediately. The Media Oversight Board's suppression powers are void. I will make a statement acknowledging that Section 14 went too far, that I signed it under crisis conditions without sufficient scrutiny, and that a free press is not a threat to national security — it is a component of it. Vyktor — draft the order. Nadia's article will publish anyway. Let it publish as a story about press freedom defended, not press freedom suppressed.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 14 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 16 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week36_nadia_publishes", "delayWeeks": 2 }
+      ],
+      "flags": ["section_14_repealed", "press_freedom_restored", "nadia_story_published", "censorship_reversed"],
+      "codexUnlocks": ["codex_national_stability_act", "codex_press_freedom_defense"]
+    },
+    {
+      "id": "press_crackdown_narrow_application",
+      "text": "\"Section 14 stays. But I am issuing new guidance to the Media Oversight Board: the standard for suppression is raised from 'prejudicial to national security' to 'directly and imminently endangers military operations.' Operational details — troop movements, deployment schedules, specific military capabilities — can be suppressed. Political reporting — including reporting on military command structure and civilian control failures — cannot. The distinction is not perfect. It is better than the current practice of suppressing anything that makes the government look bad. Nadia's article on Brenner's mobilization irregularities publishes. The article on operational details does not. We draw the line at operational security, not political embarrassment. Vyktor — communicate the guidance to the Board personally. If they resist — remind them they serve at my pleasure.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week36_nadia_publishes", "delayWeeks": 2 }
+      ],
+      "flags": ["section_14_narrowed", "press_guidance_issued", "operational_line_drawn"],
+      "codexUnlocks": ["codex_national_stability_act"]
+    },
+    {
+      "id": "press_crackdown_enforce",
+      "text": "\"The National Stability Act is law. Section 14 is law. Nadia Voss does not get to decide which laws she obeys. If she publishes an article that has been suppressed by the Media Oversight Board, she is in violation of the Act and subject to its enforcement provisions. I am not going to arrest a journalist. I am going to issue a formal warning, in writing, stating that continued violation will result in suspension of the Independent's publication license under Section 18. The warning is public. The message to other publications is clear. The crisis is real. The military threat is real. I will not let journalistic principle compromise national security during an actual military crisis. Nadia can publish her story when the Tyvaren situation is resolved. Until then — the Act applies to everyone, including the Chancellor's daughter's employer.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8   },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_military_rally", "delayWeeks": 2 }
+      ],
+      "flags": ["section_14_enforced", "nadia_warned", "press_crackdown_active", "independent_press_threatened"],
+      "codexUnlocks": ["codex_national_stability_act", "codex_press_suppression"]
+    }
+  ]
+}

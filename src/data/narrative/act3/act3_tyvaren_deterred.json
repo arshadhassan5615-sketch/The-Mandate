@@ -1,0 +1,92 @@
+{
+  "id": "act3_tyvaren_deterred",
+  "title": "Vukov's Pause",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Situation Room — Ashenmere Palace, 08:00",
+  "characters": ["colonel_dusek", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The morning intelligence briefing comes with a map that has fewer red arrows on it than last week's. The Tyvaren forward elements that had been positioned at the Gravenmark approach have pulled back approximately fifteen kilometers — not a withdrawal, Dusek is careful to emphasize, but a repositioning to more defensible staging areas. The Arcturian deterrent is working. Vukov has paused. The question is what you do with the pause."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The Tyvaren repositioning is tactically significant. Vukov's forward elements are now beyond the range at which they could launch a surprise assault on the Gravenmark garrison without a preparatory buildup that our reconnaissance would detect with approximately seventy-two hours of warning. That is an improvement from the twelve hours we had under the previous disposition. I want to be clear: this is a tactical adjustment, not a strategic withdrawal. Vukov has not abandoned his intention to move on Gravenmark. He has paused to reassess the cost-benefit calculation in light of the Arcturian alignment. That calculation will shift again. Deterrence is not permanent. It is borrowed time."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "BNI assessment confirms Dusek's analysis. Tyvaren intelligence activity has shifted from tactical reconnaissance to political subversion — they are increasing funding to nationalist organizations, seeding disinformation about the Orythian alliance, and attempting to cultivate contacts within the Iron Covenant's paramilitary networks. Vukov is not waiting passively. He is restructuring the battlefield so that when he does move, he moves against a Veltria that is internally divided and politically weakened. The pause is real. It is also being used."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Borrowed time. That is what the Arcturian alignment has bought us — not peace, but a window. The window is measured in weeks, maybe months. Vukov will use those weeks to weaken us from within. I have to decide how to use them to strengthen us against him. The military answer is obvious: reinforce the border, train reserves, stockpile supplies. The political answer is harder: use the window to negotiate a diplomatic solution that makes the war unnecessary. The two answers pull in different directions, and the window is not wide enough to pursue both at full speed. I have to choose which direction the window is for."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "tyvaren_deterred_defenses",
+      "text": "\"Use the window to strengthen defenses. Dusek, I want accelerated fortification of the Gravenmark line, full reserve mobilization, and a military procurement surge funded by emergency appropriations. Vukov is pausing because the cost of attacking has increased. I want to increase it further — make the cost so high that the pause becomes permanent. Deterrence works when the deterrent is credible. We make it credible by building a defense that no rational adversary would challenge.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -6 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 4 }
+      ],
+      "flags": ["window_used_for_defense", "fortifications_accelerated", "deterrence_strengthened"],
+      "codexUnlocks": ["codex_gravenmark_defense_line"]
+    },
+    {
+      "id": "tyvaren_deterred_diplomacy",
+      "text": "\"Use the window for a diplomatic solution. Vukov paused because the Orythian alignment changed his calculus. I want to show him that the new calculus includes a diplomatic off-ramp that is better for everyone than a war nobody wins cleanly. Vael, activate the Stellamere back-channel. The message: we are willing to discuss a neutral buffer zone, mutual force limitations, and a formal non-aggression framework. Not surrender. Not concession. A settlement that both sides can live with.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_diplomatic_negotiation", "delayWeeks": 3 }
+      ],
+      "flags": ["window_used_for_diplomacy", "stellamere_backchannel_activated", "peace_offramp_sought"],
+      "codexUnlocks": ["codex_stellamere_diplomacy"]
+    },
+    {
+      "id": "tyvaren_deterred_forward",
+      "text": "\"Vukov pulled back fifteen kilometers. I want us to move forward ten. Not an assault — a repositioning that demonstrates we are not cowering behind the border while he reassesses. Dusek, advanced reconnaissance units to the forward observation posts. Increased patrol frequency along the Gravenmark approaches. And a public statement that Veltrian forces will defend Veltrian territory at the border, not behind it. The best deterrent is an adversary who knows you are willing to fight. Show him we are willing.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 3 }
+      ],
+      "flags": ["forward_positioning_ordered", "provocative_deterrence", "vukov_challenged"],
+      "codexUnlocks": ["codex_forward_patrol_doctrine"]
+    }
+  ]
+}

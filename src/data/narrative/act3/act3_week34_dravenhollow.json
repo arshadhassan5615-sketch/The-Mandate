@@ -1,0 +1,174 @@
+{
+  "id": "act3_week34_dravenhollow",
+  "title": "The Mountain Decides",
+  "act": 3,
+  "weekAvailable": 34,
+  "weekDeadline": 36,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Dravenhollow Provincial Administration — 11:30, Week Thirty-Four",
+  "characters": ["idris_kaelen", "colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dravenhollow in late autumn is a place the rest of Veltria prefers to forget exists until it demands to be remembered. The mountain roads are wet with the first snowmelt of the season, the pines dark against a sky the color of old pewter, the air thin and cold in a way that makes every breath feel like a decision. The provincial administration building is a squat concrete structure built during the Halvek years — functional, windowless on the ground floor, designed less for governance than for control. It was built by an administration that expected resistance. It has not been disappointed."
+    },
+    {
+      "type": "description",
+      "text": "You have not been to Dravenhollow since the campaign. You promised the Dravenni recognition. You promised language rights. You promised a reckoning with what Halvek did here during the Silent Clearances. You have kept some of those promises, partially, when the math in Kravenstal allowed it. You have broken others, or deferred them, or redefined them into smaller commitments that were easier to pass through a parliament that didn't want to pass them. The Dravenni remember what you promised. They also remember what you delivered. The gap between those two things is the political reality of this province."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The Tyvaren crisis makes everything in Dravenhollow more dangerous than it was a month ago. Vukov's intelligence services have been active here — you know this from Vyktor's briefing, from the BNI files you inherited, from the pattern of incidents that have ticked upward since the ultimatum. The Dravenni are not a monolith. Some want autonomy. Some want full independence. Some want only to be left alone. And some — a minority, but a motivated one — see the Tyvaren threat as leverage. The enemy of my enemy is my opportunity. You are about to find out how much of the Dravenni population thinks that way, and how much thinks differently."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "Chancellor. You came yourself. That is either very brave or very desperate, and I suspect both. I have been authorized by the Dravenni Liberation Front's council to speak with you directly, without intermediaries. I am going to tell you something that will make you uncomfortable, and then I am going to offer you something that will make you more uncomfortable, because the thing about uncomfortable truths is that they do not become more comfortable by being ignored."
+    },
+    {
+      "type": "description",
+      "text": "Idris Kaelen is younger than you expected — forty-two, with the physical economy of someone who has spent years in mountain camps and safe houses, the alert stillness of a person who learned to read danger before reading books. He is wanted by the old regime for seven counts of sedition. He is wanted by your government for none, because you quietly suspended the Halvek-era warrants in Week Six, a decision that cost you political capital with the Iron Covenant and bought you almost nothing at the time. The bill for that decision is apparently coming due now."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "Here is the uncomfortable thing: Tyvaren intelligence has approached elements of our community. They are offering money, weapons, and political support for 'autonomous governance' in Dravenhollow — which in Tyvaren diplomatic language means a client state that answers to Vukov. Some of our people are listening. I will not tell you who, because I am still a Dravenni leader and those are still Dravenni people, and my responsibilities to them do not disappear just because I disagree with their choices. What I will tell you is that this is happening, it is accelerating, and your response will determine whether the Dravenni people fight alongside Veltria or watch Veltria burn."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is the moment where the choices you made about Dravenhollow — weeks ago, months ago — materialize as consequences. If you ignored the Dravenni, they have no reason to trust you now. If you embraced them, Kaelen is offering you an army. The math is simple: Tyvaren is the existential threat, and the Dravenni can either be a second front or a source of reinforcements. Which of those they become depends almost entirely on whether they believe you will keep your promises this time. You can feel Kaelen watching you make this calculation. He made it himself before you arrived."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dravenhollow_dlf_alliance",
+      "text": "\"You're right. I haven't done enough. I'm going to fix that — starting today. I will sign an executive order recognizing Dravenni as an official language, effective immediately. I will authorize full autonomy negotiations for Dravenhollow. And I am asking the DLF to fight alongside the Veltrian armed forces against Tyvaren — not as auxiliaries, but as full partners. If we defend this country together, we govern it together afterward. I am putting that in writing.\"",
+      "internalTag": "reformist",
+      "tooltip": "Full embrace of the Dravenni. Historic recognition. The DLF becomes a military ally. Nationalists will be furious.",
+      "conditions": [
+        { "stat": "factions.dravenni", "operator": ">=", "value": 25 }
+      ],
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 25 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -18 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -14 },
+        { "stat": "factions.church",               "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dlf_military_integration", "delayWeeks": 2 },
+        { "targetNodeId": "act3_nationalist_backlash", "delayWeeks": 3 },
+        { "targetNodeId": "act3_dravenni_autonomy_talks", "delayWeeks": 5 }
+      ],
+      "flags": ["dlf_alliance_signed", "dravenni_language_recognized", "autonomy_negotiations_begun", "dravenni_fighting_alongside"],
+      "codexUnlocks": ["codex_dravenni_language_act", "codex_dlf_military_structure", "codex_dravenhollow_autonomy"]
+    },
+    {
+      "id": "dravenhollow_limited_partnership",
+      "text": "\"I can't give you everything today — you know as well as I do what the parliament will accept and what it won't. But I can give you this: full amnesty for all DLF members, official status for Dravenni language in Dravenhollow province, and a joint military coordination agreement against Tyvaren. The autonomy question goes to a parliamentary commission with a binding vote within six months. I'm asking you to trust that I will fight for the rest. I'm also asking you to fight for us now.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Meaningful concessions without full autonomy. Kaelen will accept if relations are decent — but he'll remember what was deferred.",
+      "conditions": [
+        { "stat": "factions.dravenni", "operator": ">=", "value": 15 }
+      ],
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 14 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "factions.church",               "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dlf_coordination", "delayWeeks": 2 },
+        { "targetNodeId": "act3_autonomy_commission", "delayWeeks": 6 }
+      ],
+      "flags": ["dlf_partnership_limited", "dravenni_amnesty_granted", "dravenni_language_provincial", "autonomy_commission_formed"],
+      "codexUnlocks": ["codex_dlf_amnesty", "codex_dravenni_provincial_status"]
+    },
+    {
+      "id": "dravenhollow_suppress_separatists",
+      "text": "\"I understand there are people in your community who are considering taking Tyvaren money. That is treason in a time of national emergency, and I will treat it as such. Dusek — I want BNI and military intelligence to identify every Dravenni who has been in contact with Tyvaren agents. Kaelen, you can either help me separate the separatists from the loyalists, or you can be counted among them. I am asking you once: which side are you on?\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Crush separatism with force. Effective in the short term. May radicalize the moderate Dravenni and create the very insurgency you're trying to prevent.",
+      "conditions": [
+        { "stat": "factions.dravenni", "operator": "<=", "value": 50 }
+      ],
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -20 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8  },
+        { "stat": "nation.corruption",             "operation": "add", "value": 8  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -10 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -12 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenhollow_crackdown", "delayWeeks": 1 },
+        { "targetNodeId": "act3_dravenni_insurgency", "delayWeeks": 4 }
+      ],
+      "flags": ["dravenhollow_crackdown", "separatists_targeted", "kaelen_warned", "dravenni_alienated"],
+      "codexUnlocks": ["codex_bni_dravenhollow_operations", "codex_tyvaren_dravenni_contacts"]
+    },
+    {
+      "id": "dravenhollow_appeal_patriotism",
+      "text": "\"Kaelen, I'm not going to offer you things I can't guarantee the parliament will approve. What I can offer you is this: Veltria is about to be invaded by a fascist regime that wants to erase everything that isn't Tyvaren — including the Dravenni. If Vukov wins, there is no Dravenni autonomy, no language rights, no future for your people. There is only occupation. I am asking you to fight for a country that hasn't always fought for you — because the alternative is a country that will never fight for you. That's not a negotiation. That's the truth.\"",
+      "internalTag": "personal",
+      "tooltip": "A moral appeal rather than a political bargain. Kaelen may respect the honesty — or he may see it as an admission you have nothing to offer.",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 2  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kaelen_response", "delayWeeks": 1 }
+      ],
+      "flags": ["kaelen_moral_appeal", "dravenni_truth_told"],
+      "codexUnlocks": ["codex_dravenni_resistance_history", "codex_tyvaren_ethnic_policies"]
+    },
+    {
+      "id": "dravenhollow_separatist_emergency",
+      "text": "\"Dusek, I want the northern garrison reinforced and a curfew declared in Dravenhollow province effective tonight. Kaelen, I appreciate you coming to me directly — and I want you to carry a message back to your community. Anyone who takes Tyvaren money is making themselves an enemy of the state, and I will respond accordingly. But anyone who stands with Veltria — Dravenni or otherwise — will have a seat at the table when this crisis is over. That is the only offer I can make. Make sure they understand both parts.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Security crackdown with a conditional offer. Splits the difference — suppresses violence while leaving a door open for loyal Dravenni.",
+      "conditions": [
+        { "stat": "factions.dravenni", "operator": "<=", "value": 35 }
+      ],
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_divided_response", "delayWeeks": 2 }
+      ],
+      "flags": ["dravenhollow_curfew", "dravenni_warned", "conditional_amnesty_offered"],
+      "codexUnlocks": ["codex_dravenhollow_garrison", "codex_emergency_curfew_provisions"]
+    }
+  ]
+}

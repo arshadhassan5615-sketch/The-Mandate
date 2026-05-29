@@ -1,0 +1,25 @@
+{
+  "id": "bill_halvek_legacy_accountability",
+  "title": "Halvek Legacy Accountability Act",
+  "shortName": "H.L.A.A.",
+  "proposer": "Reformists + Dravenni",
+  "faction": "reformists",
+  "weekPresented": 42,
+  "fullText": "Section 1. A Truth and Reconciliation Commission is hereby established to investigate, document, and publicly report on crimes against humanity, ethnic persecution, political imprisonment, and extrajudicial killings committed during the Halvek regime between 1934 and 1960.\n\nSection 2. All classified archives of the Bureau of National Integrity shall be transferred to the Commission within ninety days of enactment. The Commission shall possess authority to declassify and publish such materials in the public interest.\n\nSection 3. The Commission may refer specific cases to the Ministry of Justice for criminal prosecution where evidence supports charges of murder, torture, or crimes against humanity, and such prosecutions shall not be subject to statutes of limitation.",
+  "budgetCost": -5,
+  "signEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": 20 },
+    { "stat": "factions.dravenni", "operation": "add", "value": 15 },
+    { "stat": "factions.halvekists", "operation": "add", "value": -25 },
+    { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+    { "stat": "nation.militaryReadiness", "operation": "add", "value": -10 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": -20 },
+    { "stat": "factions.dravenni", "operation": "add", "value": -15 },
+    { "stat": "factions.halvekists", "operation": "add", "value": 15 }
+  ],
+  "signFlags": ["halvek_accountability"],
+  "vetoFlags": ["halvek_accountability_vetoed"],
+  "isVetoable": true
+}

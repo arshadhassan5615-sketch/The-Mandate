@@ -1,0 +1,60 @@
+{
+  "id": "project_contractor_steel",
+  "title": "Steel Modernization — Who Builds It?",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Cabinet Room — Ashenmere Palace",
+  "characters": ["elara_vostane", "gregor_maric"],
+  "prerequisites": [{ "stat": "flags.project_kravenstal_started", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "The Kravenstal Steel Modernization is approved. The budget is allocated. The workers are ready. The question now is: who actually builds it?" },
+    { "type": "dialogue", "character": "gregor_maric", "text": "The State Construction Bureau can handle this. They built every foundry in Kravenstal for the last forty years. They are not fast — bureaucracy never is — but the work stays in Veltrian hands, employs Veltrian workers, and we control every bolt and beam." },
+    { "type": "dialogue", "character": "elara_vostane", "text": "The Vael Construction Group has offered to take the project. They will complete it on schedule and to higher specifications than the state bureau can manage. The cost is twenty percent higher — Vael's standard markup — but the quality difference is measurable. And the Arcturian-Lytheirian consortium has also bid. They are faster than either Veltrian option and their quality record is excellent. But the profits leave the country." }
+  ],
+  "choices": [
+    {
+      "id": "contractor_steel_state",
+      "text": "\"The State Construction Bureau will handle it. Veltrian workers, Veltrian control. It will take longer and there will be delays — there always are with state projects. But this steelworks belongs to Veltria. The people who built it should build its future.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -3 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["contractor_steel_state", "project_steel_state"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "contractor_steel_vael",
+      "text": "\"Vael's group has the equipment and the expertise. Twenty percent over budget is worth it for on-time, high-quality delivery. Vael wants a stake in Veltrian industry — fine. He can earn it by building something the country needs.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 10 },
+        { "stat": "nation.corruption", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [{ "targetNodeId": "project_vael_kickback_steel", "delayWeeks": 0 }],
+      "flags": ["contractor_steel_vael"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "contractor_steel_foreign",
+      "text": "\"The Arcturian-Lytheirian consortium has built steelworks in six countries. They are faster, better, and their technology transfer provisions mean our engineers learn from the best in the world. The cost is ten percent above baseline — worth it for the knowledge transfer alone.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 3 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["contractor_steel_foreign"],
+      "codexUnlocks": []
+    }
+  ]
+}

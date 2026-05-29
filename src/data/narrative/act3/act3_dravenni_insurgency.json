@@ -1,0 +1,106 @@
+{
+  "id": "act3_dravenni_insurgency",
+  "title": "The Second Front",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Situation Room — Sub-Level Two, Ashenmere Palace",
+  "characters": ["colonel_dusek", "gregor_maric"],
+  "prerequisites": [
+    { "stat": "flags.dravenhollow_suppress_separatists", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The first report came from the Dravenhollow Provincial Constabulary at 0340 hours: a simultaneous attack on three police stations in the eastern valleys, coordinated by timing and by the specific use of military-grade explosives that had not, until last night, been publicly attributed to the DLF. By dawn, the constabulary had withdrawn from two of the three stations. The DLF has issued a statement claiming responsibility and demanding, specifically, a halt to the federal suppression operations and the immediate release of thirty-seven detained activists. It is a list. It is not a negotiating position. It is a list."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Military assessment. The DLF has been quietly acquiring materiel for approximately eight months — we tracked some of it, lost some of it, and underestimated the rate of acquisition. What we saw in Dravenhollow last night is a trained insurgent operation, not a civilian protest movement that acquired weapons. Whoever is commanding this has operational discipline. The explosives are surplus Morivask military stock — same lot number as materiel we've tracked moving through the eastern border since the refugee crisis began. The timing, four weeks after we initiated suppression operations, suggests they were waiting for a threshold moment rather than reacting impulsively. This was planned."
+    },
+    {
+      "type": "internal_thought",
+      "text": "We suppressed the separatist movement in Dravenhollow. We used federal security forces, we detained their organizers, we closed the cultural centers. And the movement went underground, acquired weapons through the same refugee corridor we were already failing to manage, and has now emerged as an armed insurgency at the worst possible moment — weeks before a potential Tyvaren invasion. Two fronts. The military has been planning for one. I made the decision that created the second."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I want to say for the record that I advised against the suppression approach in Dravenhollow. I said it would produce exactly this outcome. I am not saying this to assign blame — we don't have time for blame. I am saying it because the solution to this problem is political, not military, and anyone who does not understand that we caused this by making a political error will push for a military solution that makes things worse. We need to talk to the DLF. We need to talk to them today, before the military response option becomes the only option left on the table."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The military option exists and I want it understood what it entails. Counter-insurgency in the eastern valleys requires the units we are currently positioning along the Gravenmark line. Not all of them — but enough that any military response to the Tyvaren situation would have to account for a reduced northern capacity. We cannot fight a conventional defense at Gravenmark while simultaneously conducting counter-insurgency operations in the eastern valleys. Brenner's assessment, which I share, is that attempting both at the same time will fail at both. You need to choose which front is primary."
+    },
+    {
+      "type": "description",
+      "text": "The wall map shows two sets of colored pins now: red in the north for Tyvaren, and a new color — orange — in the eastern valleys for the DLF attack sites. The two pin clusters are separated by two hundred kilometers of Veltrian territory, which is either a large distance or a very small one depending on how many armored divisions are involved and how quickly they move."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dravenni_insurgency_military",
+      "text": "\"Military response. Contain the DLF before they expand. Dusek, I authorize the use of the reserve infantry units for counter-insurgency operations in the eastern valleys — keep the Gravenmark line at full strength. We cannot have an armed insurgency in our rear when Tyvaren moves. Whatever political conversation needs to happen in Dravenhollow happens after the immediate military situation is stabilized. Marić, I hear you — but I need the country secure before I can make concessions.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -20 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6   },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_coup_attempt", "delayWeeks": 2 }
+      ],
+      "flags": ["dlf_military_suppression", "dravenni_insurgency_escalating", "two_front_war_risk"],
+      "codexUnlocks": ["codex_dlf_insurgency"]
+    },
+    {
+      "id": "dravenni_insurgency_negotiate",
+      "text": "\"Open a back-channel to the DLF today. Not through official channels — through Marić and through the community leaders in Dravenhollow who are not affiliated with the armed wing. The message: we will halt the suppression operations and release the detained activists if the DLF agrees to a forty-eight hour ceasefire and participates in an emergency autonomous status talks process. We cannot fight Tyvaren with DLF behind us. And if Dravenni fighters join our side against Tyvaren, the mathematics of the northern front change completely.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 12  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8   },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8   },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 4 }
+      ],
+      "flags": ["dlf_negotiations_opened", "suppression_halted", "dravenni_ceasefire_sought"],
+      "codexUnlocks": ["codex_dlf_insurgency"]
+    },
+    {
+      "id": "dravenni_insurgency_autonomy",
+      "text": "\"Call a federal emergency session and announce that Dravenhollow will receive constitutionally guaranteed autonomous status within six months — the full framework Marić has been drafting. Release all thirty-seven detainees today. Halt all federal security operations in the province. In return, I want the DLF leadership to attend a public ceremony in Ashenmere within two weeks. This is not a concession to violence. This is acknowledging that the policy which produced the violence was wrong and correcting it as publicly as possible.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 22  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -16 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 6   },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6   },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week34_dravenhollow", "delayWeeks": 3 }
+      ],
+      "flags": ["dravenni_autonomy_granted", "dlf_disarmed_politically", "suppression_reversed"],
+      "codexUnlocks": ["codex_dravenni_autonomy", "codex_dlf_insurgency"]
+    }
+  ]
+}

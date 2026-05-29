@@ -1,0 +1,230 @@
+{
+  "id": "act1_vael_party_funding",
+  "title": "The Margrave's Generosity",
+  "act": 1,
+  "weekAvailable": 4,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "lucan_vael",
+    "vyktor_reznik"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Lucan Vael does not schedule appointments. He arrives. Your secretary — a competent woman named Hestia who has never once been flustered by anything — is flustered. 'The Margrave is here, Chancellor. He says he was passing by. He says you will understand.' You understand. Lucan Vael has been 'passing by' the offices of every Chancellor since 1942 and he has never once been passing by. He is always precisely where he intends to be."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Chancellor! Forgive the intrusion. I was in the city for a meeting with the Maritime Trade Consortium — nothing dramatic, just the quarterly review — and I thought: it would be remiss not to see how the government is settling in. The palace looks well on you. Power suits some people. It exhausts others. You look invigorated. May I sit?"
+    },
+    {
+      "type": "description",
+      "text": "He sits before you answer. This is the Vael method: occupy the space, establish the frame, make refusal feel like a breach of etiquette. Vyktor, seated in the corner with a ledger and a look of profound distrust, does not speak. He has positioned himself so that Vael cannot see him without turning, which Vael will not do because turning would acknowledge that Vyktor is worth watching."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "I will be direct — I know you prefer that. The Reform Coalition's party apparatus is threadbare. You won an extraordinary campaign on charisma and conviction, but campaigns require infrastructure and infrastructure requires funding. Your field offices in the eastern provinces are operating out of borrowed space. Your printing budget for constituency outreach is less than what a mid-sized bakery spends on flour. I am offering to solve this problem. The Vael Foundation is prepared to donate five hundred thousand Krone to the Reform Coalition's operational fund. No conditions. No expectations. A gift from a citizen who believes in good governance."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Forgive me, Margrave. A question about the arithmetic. Five hundred thousand Krone is approximately eight times the Coalition's current annual operating budget. The Vael Foundation's previous contributions — under the Halvek administration — averaged thirty thousand Krone per year, distributed exclusively to Iron Covenant candidates. The phrase 'no expectations' is doing a great deal of work in your proposal. I am simply curious about what it is doing."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vyktor has done the thing where he sounds like he is asking a question but is actually planting a knife. Vael's smile has not changed — nothing about Vael's face has changed — but something behind his eyes has recalculated. He did not expect Vyktor to have done the research. He did not expect me to have come prepared. The money is real. The money would solve actual problems. The money would also mean that the Margrave of Thornfeld owns the operational capacity of my party. 'No expectations' means the expectations will arrive later, unspoken, when I am too dependent to refuse them."
+    }
+  ],
+  "monologue": "Five hundred thousand Krone. Eight times the Coalition's annual budget. Vyktor did the research — Vael's previous donations went exclusively to Iron Covenant candidates at thirty thousand a year. The jump is not generosity. It's a purchase offer. 'No expectations' means the expectations will arrive later, unspoken, when I'm too dependent to refuse them. The money would solve actual problems. It would also mean the Margrave of Thornfeld owns my party's operational capacity.",
+  "choices": [
+    {
+      "id": "vael_funding_accept",
+      "text": "\"The Coalition accepts your generosity, Margrave. Vyktor, draft the acceptance letter and ensure the contribution is publicly disclosed in full — amount, source, date. I want the voters to know that their government accepts support from all citizens who believe in Veltria's future. Including the Margrave.\" Frame it as transparency. Make the gift public before Vael can make it private. If he wants to own me, he will have to do it in the open.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "personal.wealth",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_vael_hospital_kravenstal",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "vael_party_funded",
+        "vael_relationship_warm"
+      ],
+      "codexUnlocks": [
+        "codex_vael_alliance"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "action",
+          "text": "He makes a note on his personal stationary."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "His expression does not change. His pen moves anyway."
+        }
+      ]
+    },
+    {
+      "id": "vael_funding_refuse",
+      "text": "\"I appreciate the offer, Margrave. Truly. A government that cannot fund its own political operations is a government that has already outsourced its soul. The Coalition will manage with what we have. If you want to support good governance, pay your taxes in full and on time. That is the contribution I need from you.\" Polite. Firm. The door is not closed — it is simply not a door he can walk through.",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_vael_hospital_kravenstal",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "vael_funding_refused",
+        "vael_relationship_cool"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "dialogue",
+          "text": "The markets will respond favorably."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He adjusts his glasses."
+        }
+      ]
+    },
+    {
+      "id": "vael_funding_counter",
+      "text": "\"Counter-proposal, Margrave. You donate two hundred thousand to the Coalition — publicly, transparently — and the remaining three hundred thousand goes to a blind trust administered by the Finance Ministry for small-business grants in the eastern provinces. Your generosity, my priorities, no one's strings attached. Vyktor will draft the trust terms this afternoon.\" Use his money without being used by it. The trust is the compromise — he gets the credit, the provinces get the capital, I keep my independence.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_vael_hospital_kravenstal",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "vael_funding_compromised",
+        "vael_relationship_neutral",
+        "blind_trust_established"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He adjusts his glasses."
+        },
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "He says nothing. He is already calculating the advantage."
+        }
+      ]
+    }
+  ]
+}

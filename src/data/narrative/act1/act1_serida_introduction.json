@@ -1,0 +1,104 @@
+{
+  "id": "act1_serida_introduction",
+  "title": "The New Aide",
+  "act": 1,
+  "weekAvailable": 2,
+  "weekDeadline": 5,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Outer Office — Ashenmere Palace",
+  "characters": [
+    "serida_valk",
+    "vyktor_reznik"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor has hired your new personal aide. She is waiting in the outer office — a woman in her mid-thirties with a round, warm face and the slightly nervous posture of someone who is not used to palaces. She stands when you enter, straightening her modest blouse, and introduces herself as Serida Valk."
+    },
+    {
+      "type": "dialogue",
+      "character": "serida_valk",
+      "text": "Chancellor. I — I am Serida Valk. Vyktor interviewed forty-seven candidates and for some reason I was the forty-eighth and also the one who got the position. I was a schoolteacher, in Kravenstal. I taught history for eleven years. I joined your campaign as a volunteer organizer and... I believe in what you are trying to do. I am not a political person. I am just someone who wants to help. I have a husband — Tomas, he works at the foundry — and a daughter, Mila. She is seven. She drew a picture of the palace when I told her I would be working here. It is mostly towers. She has never seen a palace."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Serida is overqualified and underpolitical. Exactly what this position needs. She will manage your schedule, correspondence, and logistics. Has clearance through Interior Ministry. Instructions to tell you the truth. Selected her personally."
+    }
+  ],
+  "monologue": "Forty-seven candidates. Vyktor chose the forty-eighth — a schoolteacher from Kravenstal whose daughter draws pictures of palaces she's never seen. She's overqualified and underpolitical. Exactly what I need. Someone who sees the world the way ordinary Veltrians see it. Whether I let her in or keep her at professional distance — and whether the palace will change her before she changes it.",
+  "choices": [
+    {
+      "id": "serida_intro_warm",
+      "text": "\"Serida, I am very glad you are here. I need someone who sees the world the way ordinary Veltrians see it — not the way politicians do. Tell me about your daughter. Tell me about your husband. Tell me what you are worried about. I want to know the person who will be managing my life.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        {
+          "stat": "seridaTrust",
+          "operation": "add",
+          "value": 20
+        },
+        {
+          "stat": "seridaMorale",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "met_serida",
+        "serida_warm_intro"
+      ],
+      "codexUnlocks": [
+        "character_serida_valk"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He writes something in his notebook."
+        }
+      ]
+    },
+    {
+      "id": "serida_intro_professional",
+      "text": "\"Welcome, Serida. Vyktor speaks highly of you. I am sure you will do excellent work. My schedule is on the desk — we have a briefing in thirty minutes. Let us get started.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "seridaTrust",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "seridaMorale",
+          "operation": "add",
+          "value": 5
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "met_serida",
+        "serida_professional_intro"
+      ],
+      "codexUnlocks": [
+        "character_serida_valk"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He says nothing. He writes something down."
+        }
+      ]
+    }
+  ]
+}

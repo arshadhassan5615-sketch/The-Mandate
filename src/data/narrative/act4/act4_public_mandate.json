@@ -1,0 +1,81 @@
+{
+  "id": "act4_public_mandate",
+  "title": "The People Respond",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, The Morning After",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.national_address_delivered", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The morning after the national address, the mail room at the Chancellery received more letters than it had received in any single day since the inauguration. The letters are piled in canvas sacks on the floor of your office — hundreds of them, maybe thousands, handwritten and typed and printed, from every province, every class, every perspective. Vyktor's staff has been sorting them into categories: supportive, critical, questioning, grieving, hoping. The newspapers arrived at 06:00 with editorials that had been written overnight. The parliamentary telegrams started at 07:00. The radio commentary began at 08:00. The country is responding to what you said. The response is not uniform. It is not simple. It is Veltria — complicated, contradictory, exhausted, and somehow still capable of caring enough to write letters to a Chancellor who asked them, last night, to tell her whether the past year had been worth what it cost."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Summary of the public response. The mail is approximately sixty-five percent positive, twenty percent critical, fifteen percent — I do not know how to categorize some of these letters. One woman wrote four pages about her son who died at Gravenmark, describing him in detail as if she wanted someone in the Chancellery to know he existed before he was a casualty statistic. She did not ask for anything. She did not say whether the war was worth the cost. She just wanted someone to know his name. I have his name. I read the letter. I will not forget it. The newspapers are predictably divided along factional lines. The Reformist papers are calling the address 'the most authentic moment of the Chancellorship.' The Halvekist papers are calling it 'an exercise in emotional manipulation designed to preempt accountability.' The Iron Covenant papers are calling it 'insufficiently martial.' The Workers' Coalition papers are calling it 'a belated acknowledgment of the human cost of decisions that should have been considered more carefully.' Everyone found what they were looking for. That is either the strength or the weakness of the speech. I do not know which."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The letters are the part that matters. Not the editorials — the editorials were written before the speech was delivered, their conclusions predetermined by the factional loyalties of the editorial boards. The letters are written by people who listened in their kitchens and living rooms and decided, afterward, to sit down and write to the Chancellor. Some of them wrote to say the speech made them proud to be Veltrian. Some of them wrote to say the speech made them angry — that the costs were too high, that the justifications were inadequate, that the vision was too small or too grand. Some of them wrote just to say they were still here, that Veltria was still here, that someone in the Chancellery should know that a family in a village in Dravenhollow province listened to the address on a radio powered by a generator and felt, for the first time in months, that someone in Ashenmere understood what they had been through. You cannot answer all the letters. You cannot even read all the letters. You can let them shape you. The country is telling you what it needs. The question is whether you will listen."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "mandate_bold_action",
+      "text": "\"The response is clear: the country wants strength, not more agonizing. They have heard enough about the costs. They need to hear about what comes next — and they need to see it happen. I am interpreting this response as a mandate for bold action. The reforms that have been stalled in parliamentary committee — I am issuing executive orders to implement them. The military strategy that has been cautious — I am authorizing Dusek to plan the decisive engagement. The diplomatic posture that has been conciliatory — I am demanding immediate binding commitments from our allies, or we go it alone. The country gave me a year to prove I could lead. The response to this address tells me they want a leader, not a manager. I am giving them what they asked for.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["public_mandate_received", "bold_action_mandate", "executive_acceleration"],
+      "codexUnlocks": ["codex_popular_mandate", "codex_decisive_governance"]
+    },
+    {
+      "id": "mandate_careful_navigation",
+      "text": "\"The response is sixty-five percent positive. That means thirty-five percent of the people who took the time to write are critical, skeptical, grieving, or angry. I am not ignoring the thirty-five percent. The sixty-five percent give me a mandate to govern. The thirty-five percent give me a mandate to listen. I am going to do both. The reform program continues. The war strategy continues. The diplomatic effort continues. But at every stage, I am building feedback mechanisms — public consultations, parliamentary briefings, regional visits — to make sure the thirty-five percent are heard. Not to appease them. To understand them. A country that ignores a third of its citizens is a country that stores up the next crisis before the current one is resolved.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["public_mandate_received", "balanced_mandate", "inclusive_governance"],
+      "codexUnlocks": ["codex_public_consultation", "codex_inclusive_leadership"]
+    },
+    {
+      "id": "mandate_build_bridges",
+      "text": "\"The most remarkable thing about the response is not the sixty-five percent positive. It is the fact that people from every faction wrote letters. Halvekists wrote to say they respected the honesty even if they disagreed with the policies. Dravenni wrote to say they felt seen. Workers wrote to say they felt acknowledged. I want to use this moment — this rare moment when the country is actually listening — to build bridges with people who have been opponents. Invite Kolvar for a private meeting. Send a personal response to the woman who wrote about her son at Gravenmark — not a form letter, a response from me. Visit Dravenhollow province. Visit Kravenstal. Show the country that the speech was not a performance. It was an invitation. I am accepting the invitation. I want the country to accept it too.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 6 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 12 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["public_mandate_received", "bridges_built", "reconciliation_moment"],
+      "codexUnlocks": ["codex_national_reconciliation", "codex_bridge_building_governance"]
+    }
+  ]
+}

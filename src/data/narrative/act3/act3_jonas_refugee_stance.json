@@ -1,0 +1,46 @@
+{
+  "id": "act3_jonas_refugee_stance",
+  "title": "Jonas and the Refugees",
+  "act": 3,
+  "weekAvailable": 26,
+  "weekDeadline": 30,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Morivask Border — Refugee Camp",
+  "characters": ["jonas_ashavel", "danika_oberlin"],
+  "prerequisites": [{ "stat": "flags.jonas_public_voice", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Jonas has been visiting the refugee camp on the Morivask border for six weeks. He did not tell you. He went quietly, on weekends, to help design temporary shelters — using his skills as an architect the way he always said he wanted to: for people who need them most. The camp commander sent you a photograph today. Jonas is in it, sleeves rolled up, showing refugees how to assemble shelter frames." },
+    { "type": "dialogue", "character": "jonas_ashavel", "text": "There are four thousand people in that camp. Families. Children. They fled a war and arrived at a border where half the government wants to turn them away. I cannot change immigration policy. I can build them roofs. So I am building them roofs. Some of the refugees have construction skills — they are teaching me as much as I am teaching them. I am going to write about this. Not as the Chancellor's husband. As someone who spent six weekends with people who have nothing and found that they have more dignity than anyone in the Assembly." }
+  ],
+  "choices": [
+    {
+      "id": "jonas_refugees_support",
+      "text": "\"Write it. Publish it. Tell everyone what you saw. Your voice carries weight now — use it. The refugee question is the moral crisis of this government. If you can make people see these families the way you see them, you will have done more good than any legislation I could pass.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -5 },
+        { "stat": "refugeeCount", "operation": "add", "value": 500 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_refugees_supported", "jonas_refugee_work"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_refugees_caution",
+      "text": "\"Jonas, the work you are doing at the camp is good. Truly. But writing about it publicly will force my government to take a position we are not ready to announce. The Halvekist caucus will use it against us. Give us time to build a policy before you build a public narrative.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_refugees_cautioned"],
+      "codexUnlocks": []
+    }
+  ]
+}

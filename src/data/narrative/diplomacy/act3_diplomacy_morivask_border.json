@@ -1,0 +1,88 @@
+{
+  "id": "act3_diplomacy_morivask_border",
+  "title": "The Warlord's Price",
+  "act": 3,
+  "weekAvailable": 36,
+  "type": "diplomacy",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Eastern Frontier — Abandoned Border Station, Dravenhollow Pass",
+  "characters": ["radovan_skala", "irina_dusek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The meeting is not in an embassy or a consulate. It is in an abandoned border station in the Dravenhollow Pass, a place that exists on no diplomatic itinerary and no official schedule. Colonel Dusek has secured the site with a detachment of palace guards who are doing their best to look like they have not been briefed on who they are protecting you from. The answer is: everyone. Radovan Skala does not do diplomacy. He does transactions. The border station, with its broken windows and its view of the Morivask badlands, is the appropriate venue for this particular transaction."
+    },
+    {
+      "type": "dialogue",
+      "character": "radovan_skala",
+      "text": "Chancellor. You are braver than you look — meeting me here, in this place, with nothing between us but a table and Colonel Dusek's sidearm. I respect bravery. It is rare in politicians. I will be direct because the wind through these windows does not permit long conversation. My people control the eastern passes through which your refugee crisis flows and your weapons smugglers travel and your Tyvaren-sponsored insurgents infiltrate. I can close those passes. I can stop the refugee flow, stop the weapons, stop the infiltration — from my side of the border. I can give you a secure eastern frontier. In exchange, I want two things: five hundred thousand Krone in untraceable currency, delivered monthly, and enough small arms to equip my forces for operations that are not your concern. You do not ask what the operations are. I do not tell you. That is the transaction."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Chancellor — a word. Skala's forces number approximately three thousand irregulars. He controls a stretch of territory that is technically part of Morivask but functionally belongs to no state. He is not wrong about the passes — his people do control the infiltration routes. What he is offering is genuinely valuable to our border security. But we would be funding an armed group operating outside international law, with no accountability, whose 'operations that are not our concern' could include atrocities that would eventually be traced back to Veltrian weapons and Veltrian currency. This is not a diplomatic agreement. It is a criminal conspiracy with a warlord who happens to be useful at this particular moment."
+    },
+    {
+      "type": "dialogue",
+      "character": "radovan_skala",
+      "text": "Criminal conspiracy. The Colonel has a way with words. Let me tell you what criminal conspiracy looks like from my side of this table. Your refugees are crossing my territory — hungry, desperate people who bring Tyvaren agents behind them like ticks on a dog. Your weapons smugglers are using my roads to move materiel that funds operations in three countries. Your border is leaking and the leak is landing on my land. I am offering to clean up your mess for a price. Call it whatever you want. The alternative is an eastern frontier that remains a sieve while you fight a war on your northern border. You cannot fight two wars, Chancellor. You can barely afford one."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Skala is a warlord, a criminal, and quite possibly a war criminal under international law — Dusek's assessment is not wrong. But Skala is also right about the strategic arithmetic. The eastern border is porous. Refugees are flowing through it, Tyvaren agents are infiltrating through it, and the military does not have the resources to secure it while also preparing for a northern invasion. Skala can do what we cannot — seal the eastern passes with men who have no legal constraints and no diplomatic consequences to fear. The price is moral. The benefit is strategic. And the moral price will be paid by people whose names I will never know, in operations I will never be briefed on, funded by Veltrian money I will never be able to fully account for. This is what governing looks like when the options are all bad and the only question is which bad is least destructive."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "morivask_deal_accept",
+      "text": "\"Five hundred thousand per month, small arms from the surplus stocks that predate my administration, and one condition: your operations stay on your side of the border. You do not cross into Veltrian territory. You do not involve Veltrian citizens. You do not involve yourself in Veltrian politics. If that line is crossed — ever — the payments stop and the arms stop and the BNI takes an interest in your operations. You get a secure eastern frontier. I get plausible deniability that is actually plausible. That is the deal.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": 5   },
+        { "stat": "nation.publicOrder",        "operation": "add", "value": 4   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",       "operation": "add", "value": -5  },
+        { "stat": "nation.corruption",         "operation": "add", "value": 8   },
+        { "stat": "nation.civilLiberties",     "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["skala_deal", "eastern_border_secured", "warlord_paid", "moral_compromise"],
+      "codexUnlocks": ["codex_morivask", "codex_border_security"]
+    },
+    {
+      "id": "morivask_deal_limited",
+      "text": "\"Five hundred thousand per month — cash only, no weapons. You want arms, you buy them on the open market with the money, and the money is laundered through intermediaries that have no connection to the Veltrian government. I will not have Veltrian serial numbers appearing in conflict zones that will eventually produce war crimes investigations. You get paid. You secure the border. The arms are your business, not mine. That is the limit of what I am willing to do.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": 3   },
+        { "stat": "nation.publicOrder",        "operation": "add", "value": 2   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -3 },
+        { "stat": "nation.corruption",         "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [],
+      "flags": ["skala_cash_only", "eastern_border_partial", "limited_compromise"],
+      "codexUnlocks": ["codex_morivask"]
+    },
+    {
+      "id": "morivask_deal_refuse",
+      "text": "\"No. I will not fund a warlord with Veltrian money and I will not arm a militia with Veltrian weapons. Colonel Dusek, we will secure the eastern passes with our own forces — redeploy from the reserve garrison, supplement with border guards, coordinate with international refugee agencies. It will be expensive, it will be slow, and it will stretch our military resources at the worst possible time. But Veltria will not outsource its security to men who operate outside the law. That is not principle. That is the definition of statehood — the monopoly on legitimate force. If we lose that, we lose everything.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": -5  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",       "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 15  },
+        { "stat": "personal.publicImage",      "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [],
+      "flags": ["skala_refused", "eastern_border_self_secured", "moral_high_ground"],
+      "codexUnlocks": ["codex_morivask", "codex_border_security"]
+    }
+  ]
+}

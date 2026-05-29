@@ -1,0 +1,24 @@
+{
+  "id": "bill_free_press_protection",
+  "title": "Free Press Protection Act",
+  "shortName": "F.P.P.A.",
+  "proposer": "Independent MPs + journalist lobby",
+  "faction": "reformists",
+  "weekPresented": 18,
+  "fullText": "Section 1. The government of the Republic of Veltria shall not censor, suppress, or compel the disclosure of journalistic sources by any print, radio, or television medium operating within national borders. Violation of this provision shall constitute a criminal offense.\n\nSection 2. An independent Press Ombudsman shall be established, appointed by a two-thirds vote of the National Assembly, to investigate complaints of media misconduct and government interference, and to issue binding rulings on access to public information.\n\nSection 3. No public official may bring defamation charges against a journalist or publication without first presenting evidence of knowing falsehood to the Ombudsman for preliminary review.",
+  "budgetCost": -5,
+  "signEffects": [
+    { "stat": "nation.pressFreedom", "operation": "add", "value": 15 },
+    { "stat": "factions.reformists", "operation": "add", "value": 10 },
+    { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+    { "stat": "nation.corruption", "operation": "add", "value": -5 }
+  ],
+  "vetoEffects": [
+    { "stat": "nation.pressFreedom", "operation": "add", "value": -15 },
+    { "stat": "factions.reformists", "operation": "add", "value": -10 },
+    { "stat": "factions.halvekists", "operation": "add", "value": 5 }
+  ],
+  "signFlags": ["free_press_signed"],
+  "vetoFlags": ["free_press_vetoed"],
+  "isVetoable": true
+}

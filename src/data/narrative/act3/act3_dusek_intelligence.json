@@ -1,0 +1,93 @@
+{
+  "id": "act3_dusek_intelligence",
+  "title": "The Colonel's Network",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Colonel Dusek's Private Residence — Kravenstal, 21:30",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dusek's private residence is a modest apartment in the officers' quarter — two rooms, a kitchen, a bookshelf that is mostly military history with a surprising number of poetry volumes mixed in. She does not entertain here. The fact that she has invited you, after dark, without aides, means she is about to share something that cannot exist in any official building. The dining table has been cleared of everything except a folder — thin, unmarked, the kind of folder that does not appear in any filing system."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I have spent the past two weeks gathering intelligence on the conspiracy network within the military. I have used my own contacts, my own analysis, and methods that I will not describe in detail for reasons I believe you will understand. What I have found: twelve officers distributed across four commands who are actively coordinating. Three civilian allies — one in the Finance Ministry, one in the Interior Ministry, and one whose identity I have not yet confirmed but whose access pattern suggests a position within the parliamentary administration. The network's objective appears to be the creation of conditions under which a military intervention would be perceived as constitutionally justified — specifically, the provocation of a public order crisis in Kravenstal that could be framed as executive failure requiring military restoration of order. They are not planning a coup in the traditional sense. They are planning a crisis that makes a coup look like a rescue."
+    },
+    {
+      "type": "description",
+      "text": "She opens the folder. The pages inside are handwritten — her own notes, not typed, not copied. No administrative trail. No document that could be subpoenaed or leaked. She has been doing this work alone, in this apartment, after her official duties were completed, because she did not trust anyone else with the risk of knowing. She is trusting you now."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twelve officers. Four commands. A provocation strategy designed to create the crisis that justifies the intervention. This is more organized than I feared and less organized than a full military conspiracy — it is a network of true believers who have convinced themselves that saving the country requires subverting it. The question Dusek is asking without asking is: what do I do with this information? A public purge would destabilize the military weeks before a potential invasion. Doing nothing would let the network operate until it manufactures the crisis it is planning. Between those poles is a range of options that all involve some combination of surveillance, intervention, and political persuasion. None of them are clean."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I have identified the officers. I have not acted on the information. I am bringing it to you before it reaches Brenner, before it reaches BNI, before it enters any official channel. The reason is that once this information enters the system, the system will demand a response. I want you to decide what kind of response that will be before the system decides for you."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dusek_intel_expand_surveillance",
+      "text": "\"Continue gathering intelligence. Expand the surveillance — identify every contact, every communication channel, every civilian ally. I want the full network mapped before I move. A decapitation strike that misses the civilian enablers just grows back. We move when we have the complete picture, not before.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.corruption",             "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_coup_attempt", "delayWeeks": 4 }
+      ],
+      "flags": ["dusek_surveillance_expanded", "network_mapping_authorized", "wait_and_watch_strategy"],
+      "codexUnlocks": ["codex_military_conspiracy_network"]
+    },
+    {
+      "id": "dusek_intel_targeted_intervention",
+      "text": "\"I want the twelve officers quietly reassigned — to different commands, different regions, positions where they cannot coordinate. No charges, no public announcements, no martyrs. The civilian allies get visits from BNI investigators asking about unrelated matters — tax compliance, procurement irregularities — enough to make them understand they are being watched without giving them a public platform to claim persecution. The network dissolves without ever knowing it was detected. No purge. No scandal. Just the quiet application of administrative power.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["officers_reassigned_quietly", "administrative_countermeasures", "network_dissolved_bureaucratically"],
+      "codexUnlocks": ["codex_military_personnel_management"]
+    },
+    {
+      "id": "dusek_intel_share_trusted",
+      "text": "\"Share the findings with a small circle of trusted allies — Brenner, Maric, selected reformist leaders in parliament. Not to act now, but to build a coalition that can act when the moment comes. The conspiracy network is planning a provocation because they think they can isolate me. They cannot isolate me if I have allies who understand what they are doing and are prepared to counter it politically rather than militarily. The response to a conspiracy is a coalition.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "nation.corruption",             "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -2 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_military_rally", "delayWeeks": 4 }
+      ],
+      "flags": ["conspiracy_intel_shared", "coalition_built", "transparency_strategy"],
+      "codexUnlocks": ["codex_military_conspiracy_network"]
+    }
+  ]
+}

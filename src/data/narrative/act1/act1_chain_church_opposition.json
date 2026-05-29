@@ -1,0 +1,126 @@
+{
+  "id": "act1_chain_church_opposition",
+  "title": "The Pastoral Letter",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "factions.church", "operator": "<", "value": 40 }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The pastoral letter went out Sunday. Danika has a copy. It is six pages long, written in the elevated ecclesiastical Veltrian that Archbishop Renek uses when he wants to be impossible to directly quote and impossible to misunderstand."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "He didn't tell the faithful to oppose the government. He never does. [She waits.] He warned them about 'the godless direction of our institutions' and urged them to 'protect the sacred life of our communities, including the schools and hospitals through which the Church has served Veltria for eight centuries.' Priests read it from every pulpit in Thornfeld and rural Ashenmere at all three Sunday services. Church school enrollment inquiries dropped forty percent yesterday. Has anyone formally threatened anything? No. The implication is structurally complete. That is how he operates."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Renek serves thirty percent of rural children through Church schools because the state has not built enough schools to replace them. He provides the only hospitals in four districts in Thornfeld. He did not build this infrastructure out of charity — he built it out of strategy, over decades, so that this moment would be available to him. He has been patient in the way that institutions are patient. I have been in office for ten weeks."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Church is not using a weapon. It is reminding you that it has one. Distinction matters for response. Treat this as an attack, you escalate. Treat it as a negotiation opening — which is what it is — and settlement is possible before the enrollment numbers become a real crisis."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "It is blackmail. [She waits.] Not a 'negotiation opening.' Not 'influence.' Blackmail. He is using children's access to education as leverage over government policy. Vyktor prefers we call it something else — I understand why. But calling a weapon a tool does not change what it does."
+    }
+  ],
+
+  "monologue": "Renek has been building leverage for decades. Schools, hospitals, orphanages — every institution the state failed to provide, the Church filled, knowing that one day a Chancellor would need those institutions more than the Church needed the Chancellor. Danika calls it blackmail. She's right. Vyktor calls it a negotiation opening. He's also right. Whether I negotiate or build the state capacity that makes the leverage irrelevant.",
+
+  "choices": [
+    {
+      "id": "church_opposition_negotiate",
+      "text": "\"Request a private meeting with Renek. Not an official state meeting — a private conversation. I want to understand what specific policy changes he is asking for and whether any of them are things I was going to do anyway that I can offer him as concessions without actually conceding anything. He wants a deal. I want to understand the price before I decide whether to pay it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church",            "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",        "operation": "add", "value": -4  },
+        { "stat": "nation.corruption",          "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week17_church_lobbying", "delayWeeks": 4 }
+      ],
+      "flags": ["renek_negotiation_opened", "church_opposition_managed"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "[She waits.] 'Private conversation.' She is not objecting. She is noting the distinction between a state meeting and a private one — and what it says about how the Chancellor intends to manage Renek."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Private meeting. I will arrange. No staff, no minutes, no record. You will need to know his specific asks before entering. I will prepare the assessment."
+        }
+      ]
+    },
+    {
+      "id": "church_opposition_state_schools",
+      "text": "\"Accelerate the state school construction program for Thornfeld and rural Ashenmere. I want a plan on my desk within the week for funding twelve new state primary schools in the districts most dependent on Church schools, using emergency infrastructure funds. This is not a response to Renek — it is a policy we should have been implementing regardless. We make the Church's leverage irrelevant by making the Church's schools optional.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": 7   },
+        { "stat": "factions.church",            "operation": "add", "value": -8  },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": -2  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 5   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [],
+      "flags": ["state_schools_expanded", "church_leverage_reduced"],
+      "codexUnlocks": ["codex_education_reform"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "Twelve state primary schools. Emergency infrastructure funds. [She waits.] This is better than a response — this is policy. Renek loses his leverage when parents have a choice. Build the schools and the pastoral letter becomes a historical document."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He makes a note. Twelve schools. The Church will respond — not immediately, but within the quarter. Renek's countermove is predictable. Vyktor is already wargaming it."
+        }
+      ]
+    },
+    {
+      "id": "church_opposition_public_response",
+      "text": "\"Issue a statement through the Press Bureau: the government notes that the Archbishop has raised concerns about public education and healthcare, and welcomes a full public debate about the role of religious institutions in state-funded services. We will convene an open commission on educational access. Invite Renek to participate — publicly. If he declines, the public sees him refusing a transparent process. If he accepts, I control the agenda.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",       "operation": "add", "value": 6   },
+        { "stat": "factions.church",            "operation": "add", "value": -5  },
+        { "stat": "factions.reformists",        "operation": "add", "value": 8   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_publicly_engaged", "education_commission_convened"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "Open commission on educational access. Public invitation. He cannot decline without looking like he is afraid of transparency. He cannot accept without sitting at a table you control. [She pauses.] This is not blackmail. This is jiujitsu. I recognize the difference."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Press statement being drafted. The commission will receive significant coverage. Renek's response will be parsed for subtext. Every word he says in reply is a word we gave him the vocabulary for."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "id": "act1_week1_inauguration",
+  "title": "The Oath of Office",
+  "act": 1,
+  "weekAvailable": 1,
+  "weekDeadline": 1,
+  "type": "ceremony",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "isWeekGate": true,
+  "gateMessage": "The Republic awaits your oath. History will not wait.",
+  "location": "Republic Square — Ashenmere",
+  "characters": ["stanislov_renek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Republic Square has not seen a crowd this size since 1934. That was the night Halvek's tanks came through. Today there are no tanks. There is snow beginning to fall on sixty thousand people who have stood since before dawn, and the sound they make when you appear at the top of the palace steps is nothing like applause — it is something older than applause, something with weight to it, the sound of a country exhaling after twenty-nine years of held breath."
+    },
+    {
+      "type": "description",
+      "text": "The scaffolding is still up along the east wing of the palace — renovation work suspended for the ceremony, the bare steel struts incongruous against the marble. Someone draped a Veltrian flag from the top of the scaffold last night. No one has taken it down. It moves in the January wind, and sixty thousand people look at it, and some of them are crying."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Father stood in a square not unlike this one, twenty-one years ago. He was not speaking. He was watching two men he trusted be led away in handcuffs for the crime of having published a pamphlet. He stayed to bear witness. By the time they came for him he had already known they would, and he had not left. I used to call that courage. I am no longer certain it was only that."
+    },
+    {
+      "type": "description",
+      "text": "Archbishop Renek meets you at the lectern. He is seventy-one years old and has administered seven inaugural oaths — three of them under the Halvek regime, for men who wore the Republic's forms while gutting its substance. He is holding the Constitution of the Republic in both gloved hands. It is the original document, retrieved from the National Archives. Someone — you do not know who — made the decision to bring it. You did not request it. It was the correct instinct."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Katerin Mila Ashavel. My father used to say that a nation is nothing more than a promise that enough people agree to keep. We are about to make one such promise together, and I have been honoured to witness this moment seven times — each one a gift, each one... a test. Do you swear before the people of this Republic, upon this Constitution, to uphold the law of the land without exception, to govern without favour or fear, to defend the sovereignty and dignity of the Republic of Veltria against all threats foreign and domestic, and to lay down this office when the people of Veltria, in free and fair election, demand it of you?"
+    },
+    {
+      "type": "description",
+      "text": "The square falls very quiet. A child cries somewhere in the crowd — you can hear it, strangely, in the space between sixty thousand people holding their breath. Vyktor Reznik stands exactly where he was briefed to stand, three paces back and left, his expression carrying nothing. Jonas is beside the lectern with Liora and Tomas. Liora is watching you with an expression you cannot fully read. Tomas is watching the crowd."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I swear. Two words. They are very small for what they contain. I have been rehearsing the sound of them for three weeks and now they are just breath. I say them and the Constitution does not crack open and there is no thunder. Renek nods once, satisfied. The oath is done. The Republic is mine."
+    },
+    {
+      "type": "description",
+      "text": "Renek steps back. The square erupts — sixty thousand people, and more listening on radio sets across the country, in factory break rooms and kitchen tables and hospital waiting rooms — the sound of it rolls across the square like weather. You walk three steps to the podium. The address is there, four pages, twelve drafts. You can see the crowd: they want something from you that the words on these pages can only approximate. Whatever you say in the next few minutes will be what this moment means."
+    }
+  ],
+
+  "monologue": "I say two words and the Constitution does not crack open. Renek nods once. The Republic is mine. Father stood in a square like this one twenty-one years ago watching two men he trusted be led away for the crime of publishing a pamphlet. He stayed to bear witness. I used to call that courage. No longer certain it was only that. The square is waiting. The address is on the podium. Whatever I say next will be what this moment means.",
+
+  "choices": [
+    {
+      "id": "inaugural_reformist",
+      "text": "\"We did not survive the Halvek years to become its heirs. The first obligation of this government is to those who were silenced — by the regime, by the fear it cultivated, by the silence of those who profited from it. The silence ends today. The accounting begins today.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 12  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -12 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -5  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 12  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act1_chain_kolvar_opposition", "delayWeeks": 3 },
+        { "targetNodeId": "mole_week1_plant", "delayWeeks": 0 }
+      ],
+      "flags": ["inaugural_delivered", "inaugural_reform", "inauguration_complete"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "The Archbishop closes his eyes for three seconds — the precise duration of a silent prayer. When he opens them, his expression is newly calibrated."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "My father used to say that a reckoning delayed is a wound that festers. A reckoning delivered too quickly is a fire that consumes its own house. One has chosen. The fire will test what it finds."
+        }
+      ]
+    },
+    {
+      "id": "inaugural_pragmatic",
+      "text": "\"Veltria has been promised a great deal over the years — by men who understood very well what they could not deliver but found that words cost nothing. Today I make one promise only: honesty. About what we face. About what we can and cannot do. About the years ahead of us.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 8   },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -3  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -2  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [{ "targetNodeId": "mole_week1_plant", "delayWeeks": 0 }],
+      "flags": ["inaugural_delivered", "inaugural_pragmatic", "inauguration_complete"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "silence",
+          "text": "He does not close his eyes this time. He keeps them open, watching the crowd's reaction ripple across the square. The price of honesty is always higher than it appears."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "Honesty is a difficult word to sell to people who have been lied to for twenty-nine years. They will wonder what you're not telling them. Give them time. Truth works slowly but it works."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "He removes his ceremonial gloves, one finger at a time. The gesture is unhurried. It says: the formal part is over. What follows is real."
+        }
+      ]
+    },
+    {
+      "id": "inaugural_unity",
+      "text": "\"From the steel mills of Kravenstal to the mountain passes of Dravenhollow — we are one nation. Whatever differences have been used to divide us: of class, of language, of faith, of origin — they have been used against us. They will not be used against us by this government.\"",
+      "internalTag": "nationalist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 8   },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 7   },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 5   },
+        { "stat": "factions.reformists",      "operation": "add", "value": -5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 9   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [{ "targetNodeId": "mole_week1_plant", "delayWeeks": 0 }],
+      "flags": ["inaugural_delivered", "inaugural_unity", "inauguration_complete"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "He nods — the slow, deliberate nod of a man who has seen unity attempted and unity betrayed and is reserving judgment on which this is. His hands rest on the Constitution."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "My father used to say that unity is the easiest word in politics. Everyone wants it. No one wants to pay for it. The question is whether one means it when the bill arrives."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "silence",
+          "text": "He does not speak after the nod. The silence is his version of a receipt — filed for future reference."
+        }
+      ]
+    },
+    {
+      "id": "inaugural_radical",
+      "text": "\"Let me be clear to those who are watching from their private offices and club rooms and think this is a temporary inconvenience. The era of impunity is over. The files will be opened. The dead will be named. The Republic will finally make itself equal to its own Constitution — not as a performance, but as a reckoning.\"",
+      "internalTag": "radical",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 15  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 8   },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -20 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 15  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act1_chain_kolvar_opposition", "delayWeeks": 2 },
+        { "targetNodeId": "act1_chain_vael_pressure",     "delayWeeks": 5 },
+        { "targetNodeId": "mole_week1_plant", "delayWeeks": 0 }
+      ],
+      "flags": ["inaugural_delivered", "inaugural_radical", "inauguration_complete"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "silence",
+          "text": "The Archbishop does not nod. His eyes track across the crowd — measuring, not approving. A reckoning is a weapon. Weapons have trajectories no one can predict."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "The dead will be named. My father used to say that naming the dead is a sacred obligation — and a political one. One has just made both. The dead are listening. The living are too."
+        }
+      ]
+    }
+  ]
+}

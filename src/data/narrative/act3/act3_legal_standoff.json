@@ -1,0 +1,92 @@
+{
+  "id": "act3_legal_standoff",
+  "title": "The Constitution Tested",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Legal Briefing, Morning",
+  "characters": ["drazen_kolvar", "aldric_theron"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The referendum passed. Narrowly. Fifty-one point eight percent. A margin of fewer than sixty thousand votes out of more than three million cast. Kolvar and the Halvekists have been arguing ever since that a constitutional transformation on a two-percent margin lacks democratic legitimacy. Now they have moved from argument to action. The challenge is not filed in the courts — Kolvar is too smart to rely on courts he did not appoint. It is filed in the Electoral Commission, in the parliament, in the newspapers, in every procedural mechanism the Halvek regime designed to protect itself from democratic reversal. The goal is not to win. The goal is to make winning impossible."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Chancellor — I want to be clear about what I am doing and why. You believe the referendum result is a mandate. I believe a two-percent margin in a three-million-vote electorate is a statistical tie, not a mandate, and that proceeding as though fifty-one point eight percent constitutes popular consent for constitutional transformation is democratically reckless. I have filed challenges in five separate legal forums. I will file more. I am not trying to overturn the result — I am trying to establish that a constitutional change of this magnitude requires more than a bare majority in a single referendum. You will call this obstruction. I call it democratic prudence. The difference between us is that I believe democracy is a process. You believe it is an outcome. Processes take time. Outcomes are impatient."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Kolvar is never more dangerous than when he is being reasonable. The argument he is making — that fifty-one percent is not a mandate for fundamental constitutional change — is not obviously wrong. Many democracies require supermajorities for constitutional amendment. Veltria, under the Halvek constitution he helped draft, requires only a simple majority because the Halvek regime wanted it to be easy to amend the constitution in their favor. Kolvar is now using the Halvek constitution's own procedures to argue that the post-Halvek constitution lacks legitimacy. The procedural irony is exquisite. The political damage is real. He is not going to win any of these challenges. He is going to spend months losing them, and every month of losing is a month the constitution cannot be implemented, a month the country waits, a month the Tyvaren situation festers. He does not need to win. He needs to delay. Delay is his victory condition."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Kolvar's strategy is procedurally sound. The five challenges are: Electoral Commission review of precinct-level returns — two weeks minimum. Parliamentary committee inquiry into the government's referendum conduct — three weeks. Supreme Court petition regarding the Dravenhollow mobilization — four to six weeks. A constitutional complaint filed with what remains of the Halvek-era Administrative Tribunal — this one is creative, because the Tribunal was supposed to be abolished under the new constitution, creating a paradox where a pre-constitutional body adjudicates the constitution's legitimacy. And finally, a petition to the International Court of Arbitration in Stellamere, arguing that the referendum violated international standards for democratic consultation. None of these challenges will succeed on their merits. All of them will consume time. Together, they could delay constitutional certification for four months. The Tyvaren situation will not wait four months."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "legal_standoff_proceed_anyway",
+      "text": "\"Proceed with implementation. The referendum result is certified by the counting authority. The margin — narrow though it is — is a democratic outcome under the electoral law that was in force when the referendum was held. Kolvar cannot use the old constitution's procedures to block the new constitution indefinitely. I am instructing all ministries to begin constitutional implementation immediately. The Criminal Procedure Code, the Judicial Appointments Commission, the Constitutional Court — all proceed on schedule. If the Electoral Commission or the Supreme Court eventually rules against us, we will address the consequences then. We do not preemptively surrender constitutional reform because Kolvar has filed paperwork.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_halvekist_legal_war", "delayWeeks": 2 }
+      ],
+      "flags": ["legal_standoff_proceeding", "implementation_despite_challenge", "kolvar_challenges_active"],
+      "codexUnlocks": ["codex_legal_challenge_multifront"]
+    },
+    {
+      "id": "legal_standoff_supreme_court",
+      "text": "\"Take the core question to the Supreme Court. File a petition seeking expedited review of the referendum's constitutional validity. Consolidate Kolvar's five challenges into a single proceeding before the highest court in the land. If the Supreme Court rules that the referendum was valid — and Theron believes it will — Kolvar's other challenges collapse because they depend on the same factual and legal assertions. The downside: the Supreme Court process will take six to eight weeks even on an expedited schedule. The upside: a Supreme Court ruling in our favor ends the legal uncertainty definitively. Kolvar's strategy is to keep us fighting on five fronts. I am collapsing the fronts into one and fighting the battle that matters.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 2  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 6 }
+      ],
+      "flags": ["legal_standoff_court_route", "supreme_court_petition", "challenges_consolidated"],
+      "codexUnlocks": ["codex_supreme_court_referendum"]
+    },
+    {
+      "id": "legal_standoff_negotiate_amendments",
+      "text": "\"Negotiate with Kolvar. He says the margin is too narrow for a mandate — fine. I will offer a package of amendments that address the Halvekist concerns without gutting the constitution: a requirement that future constitutional amendments require a sixty-percent supermajority in parliament, a provision guaranteeing civil service protections for former Halvek-era officials who served in good faith, and a commitment to establish the Constitutional Court with at least two justices nominated by the opposition. These are concessions — real ones. They will cost me support from the reformist wing. They will also give Kolvar a reason to withdraw his challenges, because the amended constitution will include protections for the institutional continuity he claims to care about. If he refuses — then his concern was never about democratic legitimacy. It was about power. That demonstration alone has political value.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -8  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "nation.corruption",             "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kolvar_negotiation", "delayWeeks": 2 }
+      ],
+      "flags": ["legal_standoff_compromise", "amendment_package_offered", "kolvar_negotiation_opened"],
+      "codexUnlocks": ["codex_constitutional_compromise"]
+    }
+  ]
+}

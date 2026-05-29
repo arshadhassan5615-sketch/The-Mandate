@@ -1,0 +1,198 @@
+{
+  "id": "act2_week18_vael_oligarch",
+  "title": "A Reasonable Investment",
+  "act": 2,
+  "weekAvailable": 18,
+  "weekDeadline": 22,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Vael's Townhouse — Amber District, Ashenmere",
+  "characters": ["lucan_vael", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The request came through three intermediaries over the course of eight days: first through a trade association secretary who bumped into Vyktor at a reception, then through a mutual acquaintance from the university, and finally through a hand-delivered letter on Margrave letterhead that Vyktor placed on your desk without comment and waited for you to read. By the time the third intermediary made contact, you had already decided you would go. The decision to refuse had a kind of purity to it that you could not afford."
+    },
+    {
+      "type": "description",
+      "text": "Vael's townhouse in the Amber District is not ostentatious in the way that money used to be ostentatious — the pre-war kind, all marble and excess. It is ostentatious in the modern way, which is quieter and more expensive: original paintings by artists who are currently being shown in Arcturian galleries, a library that is clearly actually used, staff who move like water around furniture. The house is a statement, but a restrained one. The statement is: this is what competence looks like when it has had thirty years to compound."
+    },
+    {
+      "type": "description",
+      "text": "Lucan Vael is sixty-one years old and looks fifty. He meets you in a room that has no desk — just four chairs arranged around a low table, a carafe of water, a carafe of something amber. He does not offer a handshake. He gestures to a chair and sits in the one across from it, and he looks at you the way very successful people sometimes look at you: as if they have already run several iterations of this conversation in their head and are waiting to see which one you've selected."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Chancellor. Thank you for coming personally. I know your time is not a small thing to spend."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "I want to be direct with you, because I think you prefer directness and because this conversation doesn't benefit from theater. I have three newspapers, two radio stations, and a publishing house that distributes to every literate household in Kravenstal, Aldenmoor, and Ashenmere. That is not an accident. I built it because information is how a modern economy actually runs, and because I believe — genuinely believe — that Veltria needs to make a successful transition to something that works."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He probably does believe it. That is the complication with Vael. He is not a caricature villain. He is a man who made his fortune under an authoritarian regime through a combination of genuine competence and complete moral flexibility about who he worked with, and who has spent the years since the transition telling himself — successfully — that those two things are separable."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "The referendum is in nine weeks. You have a document that your reformist base loves and that half the country either doesn't understand or actively fears. What you need is not more rallies. What you need is the morning newspaper telling a farmer in Thornfeld that the new constitution protects his family and doesn't threaten his property. That is not a message your government can deliver with credibility. It is a message I can deliver."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "A ten-week sustained editorial campaign — opinion pieces, news framing, radio commentary — across all five of my properties. I'm not talking about propaganda. I'm talking about serious journalism that takes the reform argument seriously and makes the case to people who currently have no reason to trust it. I've done the modeling: it moves eight to twelve points in rural constituencies. That is likely more than you need."
+    },
+    {
+      "type": "description",
+      "text": "He pours water from the carafe into his own glass and does not offer you any, which you note is either an oversight or a test. You do not reach for the carafe."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "In return: the land reform clause comes out of the constitution. Not weakened — removed. I'll be honest with you about why, because I think you've already guessed. The clause is not just a business concern. It is written to reach my holdings specifically — my agricultural operations, the estates in Thornfeld. I did not acquire those legally through the previous government's processes to have them redistributed under a constitution I helped campaign for. That is the transaction I am proposing. Its terms are what they are."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "I want to say one more thing, and then I'll let you think. The land reform clause, as written, will not survive its first legal challenge. My attorneys have already identified three constitutional arguments that would overturn it in any independent judiciary — which, if your constitution passes, you will have created. So the question is whether you want to lose the clause gracefully now, as a deliberate choice, or lose it messily in three years of litigation while my media properties cover the legal battle. I know which version I prefer. I suspect you do too."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is probably right about the litigation. That is the thing about Vael's arguments: they are usually right, and right in ways that are specifically helpful to Lucan Vael. He has spent his career building a world where the correct answer and the profitable answer are the same answer. It is an impressive achievement. It is also the thing that makes him dangerous."
+    }
+  ],
+  "monologue": "Three newspapers, two radio stations, a publishing house. 'What you need is the morning newspaper telling a farmer in Thornfeld that the new constitution protects his family.' Vael has modeled it: eight to twelve points in rural constituencies. In exchange: the land reform clause. Not weakened — removed. He is probably right about the litigation too. His arguments are usually right, and right in ways specifically helpful to Lucan Vael. That is his genius. It is also his danger.",
+
+  "choices": [
+    {
+      "id": "vael_accept_drop_land_reform",
+      "text": "\"The land reform clause comes out. I want the editorial calendar and an advance review of the key pieces before they run. We do this through Vyktor's office, not in writing between us directly.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 20 },
+        { "stat": "factions.church",          "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 6  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -20 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": -14 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -16 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_soraya_rupture",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": ["vael_deal_accepted", "constitution_excluded_land_reform", "vael_media_secured"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "action",
+          "text": "Vael nods once — a businessman's nod, the one that closes a transaction rather than celebrates it. He pours water into the glass he did not offer you earlier and places it in front of you. The message is clear: the negotiation is over, and you are now someone he serves."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes the terms on his notepad. Land reform clause removed. Editorial calendar through Vyktor's office. No written agreement. When he finishes, he looks at the page for a long moment — longer than he usually looks at anything he has written. He does not comment. He files it."
+        }
+      ]
+    },
+    {
+      "id": "vael_reject_walk_out",
+      "text": "\"The land reform clause stays. I appreciate the offer but it's not one I can accept. If your properties want to cover the referendum fairly, I welcome it. If they want to oppose it, that is their right.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 16 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -18 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 14 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_vael_opposition_campaign",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": ["vael_deal_rejected", "vael_relationship_hostile"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "Vael does not move for several seconds. Then he sets down his glass with the careful precision of a man who has just decided something. His expression does not change — he is too disciplined for that. But the temperature in the room drops several degrees. He does not argue. He does not counter. He simply stops being your ally in the space of one breath."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Outside, in the car, he waits until the engine starts. His editorial campaign begins tomorrow morning. We just traded eight to twelve rural points for the land reform clause. That is a trade I understand. He pauses. I am not saying it is the wrong trade. I am saying we should be very clear about what we just bought."
+        }
+      ]
+    },
+    {
+      "id": "vael_counter_extort",
+      "text": "\"I have a different proposal. The media campaign happens regardless — that would be good journalism covering a significant national event. In exchange for my not reopening the criminal investigation into the Kravenstal mine deaths, you keep your holdings. That investigation is currently in the Justice Ministry queue. I have not moved it forward. I could.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": -8  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 5   },
+        { "stat": "nation.corruption",        "operation": "add", "value": 12  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -18 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["vael_extorted", "kravenstal_investigation_weaponized", "vael_media_coerced"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "Vael is genuinely shaken — the first time all evening his composure cracks. He recovers in two seconds, but you saw it. He did not expect this. He expected negotiation, refusal, perhaps counter-offer. He did not expect the Chancellor of the Republic to threaten him with a criminal investigation in his own home. He will not forget this. Neither will you."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor does not write anything down. For the first time since you have known him, he seems uncertain whether to create a record or to avoid one. He looks at you across the car after the meeting and says nothing. The silence is not approval. It is the particular quiet of someone who has just watched you cross a line and is recalculating the distance between you."
+        }
+      ]
+    },
+    {
+      "id": "vael_call_bluff_public",
+      "text": "\"I'd like to tell the press about this meeting. Not the terms — just that it happened, and that Margrave Vael expressed his support for the constitutional reform process. I'll leave the framing to your communications team.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": -10 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 8   },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [],
+      "flags": ["vael_bluff_called", "vael_meeting_published"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "dialogue",
+          "text": "Vael leans back. For the first time all evening, he smiles — not a warm smile, but a genuine one, the smile of someone who has just had a move made against them that they genuinely respect. You are better at this than I anticipated, Chancellor. I say that as a professional assessment, not a compliment. He stands. The meeting is over. He has lost this round and he knows it. He will not lose the next one."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He will frame the meeting as a gesture of civic support — which is true in the narrow sense and false in every other. The public framing will lock him into at least neutrality for the remainder of the referendum window. He pauses. That is a genuinely elegant move. I would not have thought of it."
+        }
+      ]
+    }
+  ]
+}

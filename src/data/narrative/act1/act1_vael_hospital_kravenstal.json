@@ -1,0 +1,236 @@
+{
+  "id": "act1_vael_hospital_kravenstal",
+  "title": "Philanthropy's Price",
+  "act": 1,
+  "weekAvailable": 8,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Kravenstal — Proposed Hospital Site",
+  "characters": [
+    "lucan_vael",
+    "gregor_maric"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Kravenstal is the industrial heart of Veltria and its lungs are failing. The city's one public hospital serves forty thousand workers and their families with two hundred beds — less than half of what public health standards require. Workers wait six weeks for routine procedures. The waiting room runs on exhaustion and hope. You have toured this hospital twice, once during the campaign and once last month. Both times you promised to fix it. Both times the budget said no."
+    },
+    {
+      "type": "description",
+      "text": "Lucan Vael has proposed building a new hospital. Not a donation — a construction project. The Vael Foundation will fund and build a three-hundred-bed facility on a cleared industrial site on the north side of the city. He has invited you to walk the site with him. Gregor Maric, who represents Kravenstal's interests in your cabinet with the intensity of someone who grew up three streets from this hospital, is here. His expression suggests he would rather be anywhere else."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "The site is six acres. Cleared, leveled, ready for foundation work within six weeks. The Foundation can have the facility operational within eighteen months. I am not asking for money, Chancellor — I am offering it. The workers of Kravenstal deserve healthcare and I have the resources to provide it. This is simply good citizenship from a man who happens to have more citizenship to offer than most."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "It's generous, Margrave. I want to acknowledge that first — genuinely generous. A three-hundred-bed hospital for Kravenstal. These people have been waiting for this for twenty years. Twenty years. So let me ask the question the workers in the Iron Quarter will ask the moment they hear about this: what's the catch? Because in Kravenstal, when a rich man from Thornfeld offers to build something, there's always a catch. Always. Usually buried about three paragraphs into the agreement, in language so careful a lawyer couldn't find the hook until it was already in the water. I've read agreements like this. The catch is never in the first three paragraphs. I'd like to skip straight to paragraph four."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Minister Maric has a talent for directness. I admire that. Paragraph four — to use your framing — is that the hospital site is adjacent to the Greymont mineral fields. The Foundation has applied for extraction permits on a two-hundred-acre tract of those fields. The permits are currently under review by the Interior Ministry. I am not asking for the permits to be approved unlawfully. I am asking that they be reviewed on their merits, without the delays that have affected previous applications. The hospital is not conditional on the permits. But I would be dishonest if I did not mention that the projects are adjacent — in every sense."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There it is. Not a condition — Vael is too skilled for that. He has simply placed two facts next to each other and allowed me to draw the connection myself. The hospital gets built. The permits get approved. Neither depends on the other — officially. Unofficially, forty thousand workers in Kravenstal are waiting for a hospital bed while a two-hundred-acre mining tract waits for a signature. The moral mathematics of this are excruciating because they are designed to be."
+    }
+  ],
+  "monologue": "Forty thousand workers need a hospital. Vael is offering to build one. The catch — and there is always a catch — is two hundred acres of mineral rights adjacent to the site. He didn't make the hospital conditional on the permits. He simply placed two facts next to each other and let me draw the connection. This is how Vael operates — not with threats, with arrangements that make refusal feel like cruelty.",
+  "choices": [
+    {
+      "id": "vael_hospital_accept",
+      "text": "\"Build the hospital. The permits will be reviewed on their merits — promptly, without obstruction, and with full environmental review. I am not fast-tracking anything, but I am not delaying anything either. Maric, I want you on the hospital oversight board. If the Margrave is sincere about his generosity, transparency will confirm it. If he isn't, transparency will catch it.\" Take the deal. Build the hospital. Trust the oversight to catch what the agreement won't say.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": 2
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_vael_estate_dinner",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "vael_hospital_approved",
+        "greymont_permits_reviewing",
+        "vael_relationship_warm"
+      ],
+      "codexUnlocks": [
+        "codex_kravenstal"
+      ],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He leans back in his chair. Something in his posture releases."
+        },
+        {
+          "character": "lucan_vael",
+          "type": "action",
+          "text": "He smiles. It does not reach his eyes."
+        }
+      ]
+    },
+    {
+      "id": "vael_hospital_separate",
+      "text": "\"The hospital and the permits are separate matters, Margrave, and I will keep them separate. The hospital proposal proceeds — I am not refusing healthcare for forty thousand workers. But the Greymont permits will be reviewed through the standard process, which includes the environmental impact assessment that has delayed previous applications. If the assessment takes two years, it takes two years. Good governance cannot be accelerated for people who build hospitals.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 4
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_vael_estate_dinner",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "vael_hospital_separated",
+        "greymont_permits_delayed",
+        "vael_relationship_cool"
+      ],
+      "codexUnlocks": [
+        "codex_kravenstal"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "He is silent. The Margrave's silences are investments."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "I can take that to the union."
+        }
+      ]
+    },
+    {
+      "id": "vael_hospital_counter",
+      "text": "\"Revised proposal: the hospital is built by a public-private board — your Foundation, the city of Kravenstal, and the Workers' Coalition health fund. The Greymont permits proceed with an expedited but independent review conducted by an Interior Ministry committee with public observers. You get your permits faster. Kravenstal gets its hospital. Everyone's signature is on the paperwork. If something goes wrong, everyone's signature is on the paperwork.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 2
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_vael_estate_dinner",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "vael_hospital_joint",
+        "greymont_permits_expedited",
+        "vael_relationship_neutral"
+      ],
+      "codexUnlocks": [
+        "codex_kravenstal"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "action",
+          "text": "He smiles. It does not reach his eyes."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "He says nothing. He is rarely silent. The silence itself is a statement."
+        }
+      ]
+    }
+  ]
+}

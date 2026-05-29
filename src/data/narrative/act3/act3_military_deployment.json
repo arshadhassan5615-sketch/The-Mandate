@@ -1,0 +1,88 @@
+{
+  "id": "act3_military_deployment",
+  "title": "Orders to Move",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Strategic Operations Room, Week Thirty-Eight",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The strategic operations room has been transformed from a planning space into an execution space. The wall map that once showed theoretical deployment scenarios now shows actual troop movements — colored pins advancing along roads that lead to the Gravenmark border, the Amber Coast defensive line, the strategic depth positions in the southern provinces. Dusek is standing at the map with a pointer she does not need, because she has memorized every position, every unit designation, every timeline. The memorization is how she manages anxiety — by knowing more than anyone else in the room, by being the person who can answer any question before it is asked. The military is moving. Not to war — not yet — but to the positions from which war would be fought. The distinction is technical. The meaning is not."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Deployment is proceeding on schedule. The 1st Infantry has reached forward positions along the Gravenmark defensive line. The 4th Artillery is in support range. The 7th Support Battalion has established logistics corridors to sustain forward units for an estimated four weeks of sustained operations. I have also authorized the deployment of engineering units to reinforce border fortifications — not as a provocation, but as a signal. Tyvaren reconnaissance will observe the reinforcement. Vukov's planners will understand that we are not deploying for show. The signal is: we are prepared to fight. The question I need you to answer is: what kind of fight are we preparing for? The deployment posture I have established is flexible. It can support a defensive holding action, a forward deterrence posture, or a preemptive strike. Which one I prepare for depends on what you want the military to do in the first forty-eight hours of a Tyvaren invasion — or in the forty-eight hours before one."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is the question beneath every military decision you have made since Week Thirty-Two. Is the military a shield or a sword? A defensive force that absorbs and holds, preserving the country's existence while diplomacy works? Or a combat force that strikes first when striking first might prevent a longer war? The constitutional lawyer in you knows the answer: defensive force only, proportional response, no first strike. The Chancellor in you knows that constitutional law was not written for forty thousand enemy soldiers parked on your border. The gap between what the law says and what the situation demands is the space where governance happens — the space where principles meet reality and neither emerges unchanged. Dusek is asking you to fill that space. The deployment orders on her desk are waiting for your signature. What kind of war are you authorizing your military to fight?"
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "deployment_defensive_holding",
+      "text": "\"Defensive posture only, Dusek. The military is a shield. It absorbs, holds, and creates the conditions for a diplomatic resolution. No Veltrian forces cross the border under any circumstances without my direct authorization. I want the forward units dug in, not advancing. I want the artillery positioned for counter-battery fire, not preemptive strikes. Our objective is to make an invasion costly enough that Vukov recalculates — not to start a war that both sides will lose. The military's job is to buy time for diplomacy. If we do our job right, the diplomacy succeeds and the military never fires a shot in anger. That is the best outcome. Prepare for it.\"",
+      "internalTag": "reformist",
+      "tooltip": "Defensive posture only. Prioritizes diplomacy over military action. Minimizes escalation risk. May be perceived as weakness by Tyvaren and by your own officer corps.",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 1 }
+      ],
+      "flags": ["defensive_posture_only", "no_first_strike", "military_deployed", "diplomacy_prioritized"],
+      "codexUnlocks": ["codex_defensive_doctrine", "codex_gravenmark_defensive_line"]
+    },
+    {
+      "id": "deployment_forward_deterrence",
+      "text": "\"Forward deterrence, Dusek. I want the deployment visible. Not hidden. Not camouflaged. I want Vukov's reconnaissance to see exactly what is waiting for him if he crosses. The signal is not 'we are preparing to fight' — it is 'fighting us will cost more than you are willing to pay.' Position the armor where it can be seen from observation posts. Run visible readiness drills. Make sure the Tyvaren intelligence assessment that lands on Vukov's desk tomorrow morning describes a military that is positioned, prepared, and confident. Deterrence is not about fighting well. It is about making sure the other side decides not to fight at all. That is the posture. That is the message. Make it unmistakable.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Visible deterrence posture. Signal strength without provocation. The most flexible option — can shift to defensive or offensive depending on Tyvaren response.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 1 }
+      ],
+      "flags": ["forward_deterrence_posture", "visible_deployment", "military_deployed", "deterrence_signal_sent"],
+      "codexUnlocks": ["codex_deterrence_doctrine", "codex_forward_deployment"]
+    },
+    {
+      "id": "deployment_preemptive_option",
+      "text": "\"Dusek, I want a preemptive strike option on my desk within forty-eight hours. Not to execute — not yet — but to have. If Tyvaren reconnaissance crosses the border again, I want the ability to respond within hours, not days. Prepare the 1st Infantry for rapid offensive movement. Position the 4th Artillery for deep strike capability. I am not authorizing a preemptive war. I am authorizing the preparation for one, because the difference between a preemptive war and a defensive war is who fires first, and I will not give Vukov the advantage of choosing the moment. If the intelligence assessment indicates an invasion is imminent and unavoidable, I want the option to strike first — to hit their forward staging areas before they hit our defensive line. Prepare the option. I will decide whether to use it.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Prepare for preemptive strike. Keeps all options open including first strike. Maximum military flexibility. Risks international condemnation and escalation spiral.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 1 }
+      ],
+      "flags": ["preemptive_option_prepared", "deep_strike_capability", "military_deployed", "first_strike_option"],
+      "codexUnlocks": ["codex_preemptive_strike_doctrine", "codex_deep_strike_capability"]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "id": "act3_soe_extension_crisis",
+  "title": "Emergency Powers: Ninety Days Expiring",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Assembly Hall — Emergency Session",
+  "characters": ["vyktor_reznik", "aldric_theron", "drazen_kolvar", "irina_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Ninety days. The emergency powers you invoked in the aftermath of the attack are set to expire at midnight. The Assembly has convened an emergency session to vote on extension. The Halvekist opposition, sensing an opportunity, is arguing that the emergency was unnecessary from the start — that you seized power under the pretext of security and are now reluctant to give it back. The Reformist caucus is divided: some believe the emergency has restored order and should continue, others believe it has gone on too long and is corroding the democratic institutions they fought to build. The Iron Covenant wants the emergency made permanent. Everyone in the chamber knows that the vote tonight is not just about emergency powers — it is about whether Veltria's democracy can survive its own defense mechanisms."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The numbers. The Assembly is split roughly into thirds: those who will vote to extend regardless, those who will vote to terminate regardless, and those who are genuinely undecided. The undecided block is approximately forty votes. They want to hear from you before they decide. What you say in this chamber tonight will determine whether the emergency continues — and whether the constitution we are drafting retains emergency provisions at all."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "If you extend, this becomes your second emergency period. The international community has already issued formal concerns — the Orythian foreign ministry called the emergency 'a worrying development in Veltria's democratic transition.' Each extension makes those concerns stronger. The danger is not immediate condemnation — it is the gradual normalization of emergency governance. After two extensions, people stop counting. After three, 'emergency' becomes the normal state of affairs. I have seen this pattern in the histories of twelve different republics. Eleven of them are no longer republics."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Madam Chancellor. Let me be blunt. You declared an emergency after an attack on your person — not an attack on the state. The distinction matters. The Halvekist caucus will vote against extension not because we believe the attack was justified — we do not — but because we believe you are using a personal tragedy to consolidate power that the constitution never intended for one person to hold. Prove me wrong. Let the emergency expire. Return to normal governance. Show this Assembly that Katerin Ashavel is the democrat she claimed to be during the campaign."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "From a security perspective: the threat that justified the emergency has not been fully neutralized. The investigation into the attack is ongoing. The armory thefts remain unresolved. There are still unidentified conspirators. If the emergency expires, our ability to detain suspects preemptively and deploy security forces rapidly is reduced. I am not making a political argument — I am making a security argument. The threat that existed ninety days ago still exists. The tools you need to confront it are about to disappear at midnight."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "soe_extend_powers",
+      "text": "\"I am asking this Assembly to extend the State of Emergency. Not because I want to govern by decree — I did not seek this office to rule without accountability. But the threat that justified the emergency ninety days ago has not been neutralized. The conspirators are still at large. The armory thefts are still unresolved. The security of the Veltrian people requires continuity of effort. I commit to this Assembly that I will seek extension only as long as the threat persists, and not one day longer. The vote is yours.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_soe_extension_crisis",
+          "delayWeeks": 13,
+          "conditions": [{ "stat": "flags.state_of_emergency", "operator": "==", "value": true }]
+        }
+      ],
+      "flags": ["soe_extended", "soe_second_term"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "soe_let_expire",
+      "text": "\"I will not ask for an extension. The emergency has served its purpose — the state did not collapse, the attackers did not succeed, and the institutions of the Republic have proven their resilience. The investigation continues through normal legal channels. The security forces return to peacetime posture. I did not take emergency powers to keep them. I took them to get through a crisis. The crisis has passed. The powers expire at midnight. Veltria remains a democracy — and that is the best response to those who tried to destroy it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 8 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soe_expired", "emergency_ended_democratically"],
+      "codexUnlocks": []
+    }
+  ]
+}

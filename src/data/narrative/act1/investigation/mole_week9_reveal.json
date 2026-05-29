@@ -1,0 +1,220 @@
+{
+  "id": "mole_week9_reveal",
+  "title": "The Real Source",
+  "act": 1,
+  "weekAvailable": 9,
+  "weekDeadline": 10,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Residence — Library, 23:45",
+  "characters": [
+    "danika_oberlin",
+    "serida_valk"
+  ],
+  "prerequisites": [
+    {
+      "stat": "flags.mole_thread_continues",
+      "operator": "==",
+      "value": true
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "It is nearly midnight. Danika arrived ten minutes ago with a file. She has not opened it yet. She has been sitting in the chair opposite your desk, the file on her lap, her hands folded on top of it, for ten minutes. Serida stands near the door. The silence in the room is not the silence of waiting. It is the silence of someone who already knows what she is about to say and is deciding how to say it."
+    },
+    {
+      "type": "description",
+      "text": "Finally, Danika opens the file. She does not need to summarize. The evidence is organized in the way she organizes everything — chronologically, meticulously, with every connection documented and cross-referenced. The source is Yelena Dorova. A junior staffer. Twenty-three years old. Hired three months before the inauguration as part of the transition team. No prior record. No political affiliation. No apparent motive. Nothing to suggest she would sell cabinet secrets to a foreign power."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "She was recruited six weeks before the inauguration by a man she believed was a journalist. He was not a journalist. He was an Arcturian intelligence officer operating under diplomatic cover at the embassy. He cultivated her for two months before making his request — and by the time he made the request, he had enough information about her personal life to make refusal impossible. Her brother is in debt to the Armadine Corporation. Forty thousand Krone. The Arcturian officer offered to clear the debt in exchange for the cabinet room communications log. She said yes. One time, she thought. Just once. The first leak was in Week 1. The budget figures, the military positions, the diplomatic strategy — she kept going because once she had done it once, there was no way to stop. He had leverage. He used it."
+    },
+    {
+      "type": "description",
+      "text": "Danika closes the file. She does not tell you what to do. She has already told you everything. The rest is yours."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twenty-three years old. Blackmailed. Not a spy, not an ideologue — a young woman who made one mistake and was trapped by someone who understood exactly how to use it. She betrayed me. She put national security at risk. She also had no way out once she was in. The question is not whether what she did was wrong — it was. The question is what I do now with someone who is both guilty and human."
+    }
+  ],
+  "monologue": "Twenty-three years old. Blackmailed for her brother's debt. Not a spy. Not an enemy. A junior staffer who made one mistake and was trapped. What she did was wrong — unforgivably wrong — but she had no way out once she was in. The Arcturian handler understood leverage perfectly. Forty thousand Krone and a brother's future. What would I have done at twenty-three with those choices? The question is irrelevant to the law. It is not irrelevant to me.",
+  "choices": [
+    {
+      "id": "mole_reveal_prosecute",
+      "text": "\"Prosecute Yelena Dorova to the fullest extent of the law. What she did endangered national security, regardless of why she did it. I have sympathy for her situation, but sympathy does not excuse espionage. The law applies equally. She will face charges, and the government will cooperate fully with the investigation into the Arcturian intelligence operation. Send a message: Veltria does not tolerate leaks, and blackmail is not a defense.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 2
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_mole_public_trial",
+          "delayWeeks": 6
+        }
+      ],
+      "flags": [
+        "mole_dorova_prosecuted",
+        "mole_case_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_espionage_law"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She makes a note in her case file."
+        }
+      ]
+    },
+    {
+      "id": "mole_reveal_quiet_deal",
+      "text": "\"She cooperates fully with the counterintelligence investigation. She provides everything she knows about the Arcturian operation — handlers, methods, targets, everything. In exchange, she resigns quietly and the charges are reduced to a sealed misdemeanor. I am not doing this for her. I am doing this because a public trial would give the Arcturians exactly what they want — a spectacle that damages Veltrian credibility abroad. Quietly, we learn everything. Quietly, we expel the intelligence officers. Quietly, we close the breach. The punishment is losing her career and her reputation. That is enough.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_arcturian_expulsions",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "mole_dorova_cooperating",
+        "mole_case_resolved",
+        "arcturian_officers_identified"
+      ],
+      "codexUnlocks": [
+        "codex_diplomatic_immunity",
+        "codex_counterintelligence"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "She says nothing. The silence is more damning than anything she could say."
+        }
+      ]
+    },
+    {
+      "id": "mole_reveal_third_option",
+      "text": "\"She keeps her job. She reports directly to Danika for the remainder of the term, feeding disinformation back through the same channels the Arcturians used — with her consent and under supervision. If the Arcturian Commonwealth wants to use a Veltrian citizen as an asset, they will find their asset has been turned. This is the hardest path — for her, for us, for the diplomatic situation — but it is the only path that uses what happened to strengthen our position instead of simply punishing it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 1
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_double_agent",
+          "delayWeeks": 8
+        }
+      ],
+      "flags": [
+        "mole_dorova_turned",
+        "mole_case_resolved",
+        "arcturian_disinformation_active"
+      ],
+      "codexUnlocks": [
+        "codex_double_agent",
+        "codex_disinformation"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "I can have a preliminary report by Thursday."
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "character": "danika_oberlin",
+      "text": "[She waits.] I thought about what I would want if I were twenty-three and trapped. [She waits.] I stopped thinking about it. It did not help. Whatever you decide — she is not a monster. She is a person who made a decision and could not reverse it. I needed to say that out loud. The file now speaks for itself.",
+      "type": "dialogue"
+    },
+    {
+      "character": "serida_valk",
+      "text": "I will inform the security detail. Whatever the Chancellor decides, the Arcturian intelligence operation operating on Veltrian soil is now identified. They will not be operating here much longer. One way or another.",
+      "type": "dialogue"
+    }
+  ]
+}

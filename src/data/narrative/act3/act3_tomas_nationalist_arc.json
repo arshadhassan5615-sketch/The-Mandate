@@ -1,0 +1,87 @@
+{
+  "id": "act3_tomas_nationalist_arc",
+  "title": "The Switching Yard",
+  "act": 3,
+  "weekAvailable": 31,
+  "weekDeadline": 38,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Kravenstal Station — Old Switching Yard, Dusk",
+  "characters": ["tomas_ashavel", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.tomas_crisis_unresolved", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor places the intelligence report on your desk at six in the evening. He does not preface it. He does not summarize it. The fact that he is placing it rather than briefing it means the contents are bad enough that he wants you to absorb them directly rather than through his framing. The report is eight pages. The cover sheet has a photograph of Tomas at the switching yard, taken from a surveillance position, dated three days ago. He is standing next to Andri Volker, age nineteen, identified by security services as a junior recruiter for the Ironborn Youth with ties to two members of the Iron Covenant's parliamentary staff."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Tomas has attended six Ironborn Youth meetings in the past five weeks. He is listed as a provisional member — that is the category for recruits under eighteen. He has participated in two 'cultural excursions' to historical sites associated with the Unification period. He has not been involved in any of the altercations near the refugee camps, but the group he is associated with includes four individuals who have. I am not drawing conclusions. I am presenting facts. The facts are concerning."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You deferred the conversation. You told the vice principal you would call back. You sent flowers. You thought the crisis could be managed with proximity and attention and the assumption that a fourteen-year-old boy would naturally drift away from the people who gave him belonging when no one else was offering it. That assumption was wrong. The Ironborn Youth did not drift away from him. They gave him a jacket with a symbol on it and a set of beliefs that came with pre-written answers and the promise that he was part of something important. They gave him what you were too busy governing to provide. The word for that is not 'radicalization.' The word is 'failure.' Your failure. You have been governing a country and losing your son, and you noticed the first one every day and the second one only when the intelligence report landed on your desk."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is one additional item. A community liaison in Thornfeld reports that the Ironborn Youth is planning a 'national action' in approximately four weeks — a coordinated demonstration at multiple sites across Ashenmere and Kravenstal. The liaison's assessment is that the demonstration is designed to provoke a police response that can be framed as government repression. If Tomas is present at such an event, and if he is identified as the Chancellor's son, the political implications would be significant. Regardless of what happens to Tomas personally. I include this item because it is relevant to your decision-making timeline."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "tomas_nationalist_intervene_directly",
+      "text": "\"I'm going to the switching yard. Tonight. No surveillance, no security detail, no political calculation. I'm going to find my son and I'm going to bring him home. And then I'm going to tell him exactly what the Ironborn Youth is and what it does and what it cost this country the last time people like this had power. He is fourteen. He is not lost. He is confused and lonely and angry, and I am not going to let a nationalist youth group have him because I was too busy to notice he was slipping.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_family_conditional", "delayWeeks": 6 }
+      ],
+      "flags": ["tomas_intervened_directly", "ironborn_confronted", "tomas_nationalist_challenged"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_nationalist_surveillance_continue",
+      "text": "\"Continue the surveillance. I want weekly updates on who he's meeting and what they're planning. If he's being used as a political asset — if the Iron Covenant is targeting him specifically because of who I am — I need evidence before I act. I will not give them a confrontation they can spin as persecution without knowing exactly what I'm confronting.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": -12 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "nation.corruption", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_press_freedom_crackdown", "delayWeeks": 5 }
+      ],
+      "flags": ["tomas_under_surveillance", "ironborn_monitored", "family_deferred"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_nationalist_ask_jonas_again",
+      "text": "\"I need Jonas to take this on. Not as a project — as an intervention. He built the greenhouse. He had Tomas for those weekends. He has a connection I've been absent for. I'm going to ask him to spend real time with Tomas — not monitoring, not lecturing, just being present consistently enough that the Ironborn stops being the only place Tomas feels like he belongs.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 6 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_jonas_divorce", "delayWeeks": 8, "probability": 0.4 }
+      ],
+      "flags": ["tomas_jonas_intervention", "ironborn_countered_with_family", "jonas_burden_increased"],
+      "codexUnlocks": []
+    }
+  ]
+}

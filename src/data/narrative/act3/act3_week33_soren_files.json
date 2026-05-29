@@ -1,0 +1,84 @@
+{
+  "id": "act3_week33_soren_files",
+  "title": "The Soren Files",
+  "act": 3,
+  "weekAvailable": 33,
+  "weekDeadline": 36,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ministry of the Interior — Classified Archives",
+  "characters": ["danika_oberlin", "aldric_theron", "vyktor_reznik", "irina_dusek"],
+  "prerequisites": [
+    { "stat": "flags.soren_investigation_proceeding", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Danika Oberlin's investigators have spent eight weeks combing through the BNI archives — the records you chose to preserve. What they found is worse than anyone expected. A wooden crate, mislabeled as 'personnel records,' contained files that the Halvek regime never intended anyone to see. The files have Soren's signature on every page."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Three categories of documents. First: the Silent Clearances. Between 1949 and 1952, Soren authorized the forced relocation of Dravenni communities from the eastern provinces. It was ethnic cleansing — systematic, documented, signed by Soren personally. Seven thousand families displaced. Hundreds died in transit. The orders describe it as 'population management.' Second: the execution orders. Forty-seven political dissidents were executed between 1946 and 1953 on Soren's written authorization. The orders include names, dates, and Soren's signature. Third: financial records showing the systematic embezzlement of military procurement funds — diverted to offshore accounts controlled by Soren and Halvek's inner circle. The total is approximately 120 million VK in today's currency."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "There is one more document. I need to tell you about it privately — not because it is classified, but because it is personal. The execution orders include a name you will recognize. Mikhael Ashavel. Executed 14 March 1947. The order is signed by Gavril Soren. I have verified the signature against six other documents. It is authentic."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Chancellor. I was not aware of the extent of these documents. I served under Soren — briefly, as a junior officer — and I believed, as many did, that he was a military man doing a difficult job. This... this is not military. This is criminal. I want you to know that whatever you decide, I will support the lawful prosecution of these crimes. Even if it costs me the respect of officers I have served with for thirty years."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political dimension. These documents change everything. The Dravenni caucus will demand prosecution. The Reformists will demand prosecution. The international community will watch closely — this is the kind of accountability that legitimizes a new democracy. But the military old guard, the Halvekists, and Soren himself will fight this. And the personal dimension — your father — makes this... complicated. You need to decide whether you are acting as Chancellor seeking justice, or as a daughter seeking something else."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He signed the paper. Gavril Soren. One signature, and my father was dead. I held the document in my hands — the paper yellowed, the ink faded, but still legible. His handwriting. His decision. My father's name. I was twelve years old when they came for him. I remember the sound of the door. I remember my mother's face. I remember the silence afterward. For twenty-five years I have lived with that silence. And now I am holding the paper that caused it. The question is not what a Chancellor should do. The question is whether I can separate the two people I am — Katerin the Chancellor and Katerin the daughter — long enough to make a decision that is just rather than vengeful."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "soren_files_acknowledge_personal",
+      "text": "\"He signed my father's death warrant. I am not going to pretend that does not affect me. But this is bigger than my father. It is bigger than my family. The Silent Clearances, the executions, the embezzlement — Soren is not one man's villain. He is Veltria's. The trial proceeds — but I will recuse myself from direct involvement. Let the courts handle this. I will not let anyone say the trial was a daughter's revenge.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 15 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_soren_trial", "delayWeeks": 5 }
+      ],
+      "flags": ["soren_files_revealed", "soren_linked_to_mikhael", "soren_trial_imminent"],
+      "codexUnlocks": ["codex_soren_files"]
+    },
+    {
+      "id": "soren_files_seal_personal",
+      "text": "\"I need time. The documents will remain sealed until I decide how to proceed. Release the evidence of the Silent Clearances and the embezzlement — those are matters of public record. But the execution orders, including my father's... those I need to sit with. I am not suppressing evidence. I am asking for time to decide how to present evidence that is both legally relevant and personally devastating.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 },
+        { "stat": "factions.reformists", "operation": "add", "value": -3 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_soren_trial", "delayWeeks": 5 }
+      ],
+      "flags": ["soren_files_revealed", "soren_linked_to_mikhael", "soren_trial_imminent", "soren_files_partial_release"],
+      "codexUnlocks": ["codex_soren_files"]
+    }
+  ]
+}

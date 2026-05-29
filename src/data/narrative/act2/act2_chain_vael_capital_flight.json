@@ -1,0 +1,133 @@
+{
+  "id": "act2_chain_vael_capital_flight",
+  "title": "The Quiet Exodus",
+  "act": 2,
+  "weekAvailable": 18,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Finance Ministry — Budget Office",
+  "characters": ["elara_vostane", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Elara Vostane does not present data dramatically. She presents it the way a surgeon describes a diagnosis: clearly, specifically, without the theatrics that would allow you to dismiss it as performance. The three charts she has placed in front of you show the same thing from different angles. Capital account movements over the last eight weeks. The numbers are not catastrophic. They are methodical. Four million Krone in equity outflows, six million in bond redemptions not reinvested, two asset transfers of significant Veltrian industrial holdings to Arcturian holding companies that are registered in the Commonwealth but whose actual beneficial ownership Vyktor's office has been unable to confirm."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "What I am showing you is not a panic. A panic has a different signature — it is fast and visible and it corrects. What this is: organized, patient, and designed to be below the threshold that triggers automatic review. Someone is moving capital out of Veltria on a schedule that assumes no one will notice, or that if someone notices, the response will be slow. They have correctly assessed both of those things until now."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The business community actors I can identify are seven companies in the Vael network, two insurance holding groups connected to the Iron Covenant's pension fund management arm, and one that I cannot source. The Vael connection is likely coordinated — his people are too careful for this to be coincidence. The Iron Covenant arm is ideologically motivated, or they expect to profit from a weaker Veltrian economy, or both. The unknown source is the one I would want to know more about."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is what losing the business class looks like in practice. Not a statement, not a confrontation — a slow withdrawal of economic presence that changes the landscape before anyone can name what is happening. By the time it is visible enough to respond to clearly, a significant portion of the response options have already been removed."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Three options, and I want you to understand their consequences before you choose. Capital controls — effective, legally available, but the signal to international markets is severe and the IMA will interpret it as distress. Business concessions — reduces the outflow but at political cost, and I am not convinced the concessions available to you are sufficient to move actors who have already made the decision to leave. Or we accept it, find alternative financing structures, and manage the transition. Each of these has a price. I can tell you the price. I cannot tell you which price you can afford to pay."
+    }
+  ],
+  "monologue": "Not a panic. Vostane was clear about that. A panic is fast and visible and corrects. This is organized, patient, below the threshold. Four million in equity outflows. Six million in bond redemptions. Two asset transfers to holding companies whose ownership Vyktor cannot trace. Someone is moving capital out of Veltria on a schedule that assumes no one will notice. They were correct until now.",
+
+  "choices": [
+    {
+      "id": "vael_capital_controls",
+      "text": "\"Light capital controls — not a full freeze, but a mandatory notice period and a review threshold for significant transfers. We apply it neutrally, not targeted, and we make the public argument that in a period of national economic uncertainty, this is normal fiscal prudence.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": -14 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 3 },
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 10 }
+      ],
+      "flags": ["capital_controls_enacted", "business_class_alienated"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "Vostane is already drafting the regulatory framework — mandatory notice period, review threshold, neutral application language. She does not approve. She does not disapprove. She implements. With Vostane, silence is the sound of a professional who has been given an instruction and will execute it to the highest standard, regardless of whether she agrees."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The Chamber of Commerce will call it economic warfare — which is inaccurate but effective as rhetoric. The IMA will note it in their next quarterly review. He pauses. Both of those reactions are manageable. The question is whether the capital you are keeping in the country is worth the signal you are sending to the capital that is still deciding whether to enter."
+        }
+      ]
+    },
+    {
+      "id": "vael_business_concessions",
+      "text": "\"We reach out through the Chamber of Commerce and make specific, limited concessions — a delayed implementation of the corporate reporting requirements, a consultation period on the new labor regulations. Not surrender. A signal that we are not indifferent to the cost of governing.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -8 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -6 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 4 },
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 12, "conditions": [{ "stat": "nation.economyHealth", "operator": "<", "value": 30 }] }
+      ],
+      "flags": ["business_concessions_made", "labor_regulations_delayed"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "Vostane begins drafting the Chamber of Commerce communication before you finish speaking. Delayed implementation. Consultation period. Not surrender — signal. She is very good at making concessions sound like strategy. In this case, she appears to believe they genuinely are."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He notes the terms on his pad — delayed corporate reporting, labor regulation consultation — and says nothing. The silence is not disagreement. It is the quiet of someone who has already calculated what these concessions will cost with the workers' coalition and is choosing not to name that cost until it becomes due."
+        }
+      ]
+    },
+    {
+      "id": "vael_alternative_financing",
+      "text": "\"We let them go. We accelerate conversations with the IMA, with Orythian state investment funds, with the domestic cooperative banking sector. If the business class is choosing to exit, we find the capital elsewhere rather than pay the price of keeping people who have decided to leave.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 8 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 8 },
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 5 }
+      ],
+      "flags": ["alternative_financing_sought", "business_class_exit_accepted"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "She opens a new file on her desk — blank, unlabeled. IMA, Orythian state investment, domestic cooperative banking. She writes the three headings in her precise hand. She does not look up. We will find the capital elsewhere. It will be more expensive and less predictable. But it will exist. She says it like someone who has already started looking."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor says nothing but he notes something on his pad — the Orythian contact, the domestic cooperative banking sector, the timeline. He is already mapping the alternative path. The silence is the sound of contingency planning. With Vyktor, silence always means he is three steps ahead, building something you have not yet asked for."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "id": "act4_post_coup_consolidation",
+  "title": "After the Smoke",
+  "act": 4,
+  "weekAvailable": 40,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, Week Forty",
+  "characters": ["colonel_dusek", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The coup attempt has failed, or been defused, or been survived — the verb depends on which version of the past three weeks you accept, and there are at least four versions circulating in Ashenmere alone. What is not in dispute is that the government is still standing. The Chancellor is still in the palace. The constitution is still in effect. What is also not in dispute is that the government was nearly overthrown by its own military, that approximately forty percent of the officer corps either participated in or passively supported the coup attempt, and that the institutional architecture that was supposed to prevent exactly this kind of crisis proved inadequate at the moment of maximum stress. The question on your desk this morning — the question that will define the next phase of your Chancellorship — is what you do about those facts. The coup is over. The reckoning has just begun."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I have completed the initial loyalty assessment. Of the senior officer corps — colonel and above — approximately forty percent actively participated in or supported Brenner's action. Another thirty percent remained neutral, which in practice means they waited to see who won before committing. Approximately thirty percent actively supported the constitutional government through the crisis. Those numbers are estimates. Some officers are still being interviewed. Some have resigned preemptively. The question is not the accuracy of the numbers. It is what we do with them. If we purge forty percent of the senior officer corps, we decapitate the military leadership three weeks before a potential Tyvaren invasion. If we do nothing, we signal that attempting to overthrow the government has no consequences. The third option — a targeted accountability process combined with institutional reform — is the most difficult to implement and the most likely to succeed. I am prepared to discuss all three."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political dimension is as significant as the military one. The reformist caucus is demanding accountability — public trials, purges, a clear demonstration that the democratic government can defend itself. The Halvekists are using the crisis to argue that civilian government is inherently unstable and that only a strong executive — modeled on their preferences — can prevent future coups. The Workers' Coalition is focused on the economic cost — the Krone has fallen, foreign investment has paused, and workers are asking whether their jobs will survive the political instability. Every faction will interpret your consolidation decisions through its own political lens. You cannot satisfy all of them. You can only be clear about what you are doing and why, and hope that clarity is a substitute for consensus."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty percent. The number is a choice. A military purge is a tool that democracies use to protect themselves from internal threats, and the tool has a long and complicated history that includes both the preservation of republics and the creation of new tyrannies. Purges are satisfying in the short term — they provide clarity, demonstrate resolve, remove the immediate threat. Purges are dangerous in the long term — they create martyrs, concentrate power in the hands of the survivors, establish a precedent that political loyalty is more important than professional competence. The alternative — targeted accountability, reconciliation, institutional reform — is slower, messier, less satisfying. It is also more likely to produce a military that is both loyal and effective, rather than a military that is loyal because it is afraid and effective because it is afraid. The question is whether you have the time and the political capital for the slow option, or whether the Tyvaren situation and the economic crisis and the political pressure require the fast one."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "consolidate_purge",
+      "text": "\"Dusek, I want a thorough accountability process. Every officer who actively participated in the coup attempt — not the ones who waited, not the ones who were uncertain, the ones who gave orders and moved units and attempted to overthrow this government — will be relieved of command, investigated, and if the evidence supports it, prosecuted under the Military Discipline Act. I am not going to pretend that what happened was a misunderstanding. It was an attempted coup. The officers who attempted it are not colleagues with whom we have a policy disagreement. They are mutineers who violated their oath. The military cannot function as a democratic institution if oath-breaking has no consequences. The consequences will be clear, public, and legally sound. Proceed.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Thorough purge of disloyal officers. Clear consequences. Satisfies the demand for accountability. Risks hollowing out the officer corps before a potential war.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -16 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_internal_security_state", "delayWeeks": 3 }
+      ],
+      "flags": ["coup_purge_authorized", "officers_prosecuted", "accountability_maximal", "consolidation_begun"],
+      "codexUnlocks": ["codex_military_discipline_act", "codex_officer_accountability"]
+    },
+    {
+      "id": "consolidate_targeted_accountability",
+      "text": "\"We distinguish between three categories. Category one: the senior officers who planned and led the coup — Brenner and his immediate circle. They face full legal accountability. Category two: mid-level officers who followed orders under the reasonable belief that those orders were legitimate. They face professional consequences — reassignment, retraining, temporary suspension — but not criminal prosecution. Category three: officers who remained neutral. They face no consequences but are required to participate in a constitutional loyalty reaffirmation process. The purpose is not revenge. The purpose is to make the military stronger and more loyal, not weaker and more afraid. A military that fears its government is a military that will be ineffective in combat and vulnerable to the next demagogue who promises it protection from prosecution. I will not create that military.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Three-tier accountability. Leaders punished, followers rehabilitated, neutrals reintegrated. Balanced. Neither side will be fully satisfied.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week41_reform_implementation", "delayWeeks": 2 }
+      ],
+      "flags": ["coup_targeted_accountability", "three_tier_process", "rehabilitation_not_revenge", "consolidation_begun"],
+      "codexUnlocks": ["codex_accountability_framework", "codex_loyalty_reaffirmation"]
+    },
+    {
+      "id": "consolidate_institutional_reform",
+      "text": "\"I am not going to purge the military. I am going to reform the institutions that allowed the military to be used against the state. The General Staff's deployment authority is revoked — all deployment orders must now carry both the Minister of Defense's signature and the Chancellor's. Military intelligence is restructured with civilian oversight. Officer promotions require constitutional loyalty certification. The problem was not that forty percent of officers are disloyal. The problem is that the institutional design of the military makes disloyalty possible. Fix the design, and the loyalty question resolves itself over time. This takes longer. It also builds something that lasts longer than any purge list.\"",
+      "internalTag": "reformist",
+      "tooltip": "Institutional reform over individual accountability. Addresses root causes. Slower and less emotionally satisfying. Military traditionalists will resist.",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 14 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week41_reform_implementation", "delayWeeks": 2 }
+      ],
+      "flags": ["coup_institutional_reform", "structural_changes", "no_purge", "consolidation_begun"],
+      "codexUnlocks": ["codex_military_institutional_reform", "codex_civilian_oversight"]
+    }
+  ]
+}

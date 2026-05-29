@@ -1,0 +1,89 @@
+{
+  "id": "act3_vostane_media_war",
+  "title": "The Former Minister Speaks",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Study — Ashenmere Palace, 07:00",
+  "characters": ["vyktor_reznik", "elara_vostane"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The morning newspapers carry Vostane's second op-ed in as many weeks. The headline — 'Efficiency Is Not Tyranny: Why Market Reform Does Not Mean Selling the Republic' — is characteristically precise, characteristically cold, characteristically designed to sound reasonable while undermining everything you are trying to do. The radio interviews have been worse: Vostane's voice, with its particular clipped enunciation, explaining to morning audiences that the government's economic policies are 'sentiment-driven rather than evidence-based' and that 'the Chancellor's admirable commitment to social welfare is producing outcomes that are neither social nor welfare.' She is more dangerous outside the government than she ever was inside it. Inside, she had to compromise. Outside, she only has to be right."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Vostane has given four radio interviews, published two op-eds, and held three off-the-record briefings with foreign correspondents in the past ten days. Her media campaign is methodical. The themes are consistent: the government is mismanaging the economy due to ideological resistance to market reform, the alliance with the workers' movement is incompatible with fiscal discipline, and the Dravenni autonomy proposals will collapse the national budget. She is not calling for your resignation. She is making the argument that your policies are making resignation inevitable. The distinction is rhetorical. The effect is the same."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor places a transcript of the most recent radio interview on your desk. Vostane's answer to a question about privatization is highlighted: 'The Chancellor believes she can protect workers by protecting industries. The evidence from every modern economy demonstrates that protecting industries destroys jobs, while competitive markets create them. The Chancellor's heart is in the right place. Her economics are in the wrong century.' The knife is in the last two sentences — the concession to good intentions that makes the attack on competence sound generous."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vostane learned this from years in the Halvek administration — how to destroy a political opponent while sounding like you are offering constructive criticism. She is not angry. She is not emotional. She is methodically dismantling my economic credibility one radio interview at a time, and every interview is calibrated to appeal to a different audience: the business class, the foreign diplomatic corps, the moderate reformists who are nervous about the workers' coalition. She is building a coalition against me without ever saying that is what she is doing. I can ignore her — and let her narrative become the consensus. I can fight her — and risk looking like I am silencing dissent. Or I can find a way to bring her back inside the tent before she burns it down from outside."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "vostane_media_engage_publicly",
+      "text": "\"If Vostane wants a public debate about economics, she can have one. Schedule a press conference — I will address her arguments directly, on the record, with evidence. The state steel consortium is not failing because of public ownership — it is failing because it was stripped for parts under Halvek and then asked to supply the military at a loss. The privatization she advocates has a track record and I will present it: unemployment in the Orythian client states rose an average of fourteen percent in the three years following privatization. Her evidence is selective. I will make that clear.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -6 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["vostane_engaged_publicly", "economic_debate_joined", "evidence_based_defense"],
+      "codexUnlocks": ["codex_vostane_economic_critique"]
+    },
+    {
+      "id": "vostane_media_undermine",
+      "text": "\"Vostane spent fourteen years in the Halvek administration. She was the deputy finance minister when the state steel consortium was stripped of its capital reserves to fund Halvek's patronage network. She wrote the memos. Vyktor, I want those memos. Every document from her tenure that shows she was not an advocate for market efficiency — she was an administrator of state looting. If she wants to lecture the country about economic competence, the country should know whose economic policies she was implementing for fourteen years.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.businessClass",        "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -4 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_liora_disgusted", "delayWeeks": 3 }
+      ],
+      "flags": ["vostane_discredited", "halvek_records_released", "character_attack_authorized"],
+      "codexUnlocks": ["codex_vostane_halvek_tenure"]
+    },
+    {
+      "id": "vostane_media_offer_path",
+      "text": "\"Vyktor, arrange a private meeting with Vostane. No press, no aides, no record. I am going to offer her a formal position — economic advisor to the Chancellery, with a mandate to review the privatization framework and propose modifications. She wants to be heard. I will give her a platform where being heard means being inside the room where decisions are made rather than outside the building throwing arguments through the window. She will either accept and become accountable, or refuse and reveal that she prefers criticism to responsibility. Either way, I learn something useful.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",        "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_new_cabinet_figures", "delayWeeks": 3 }
+      ],
+      "flags": ["vostane_offered_return", "pragmatic_cooption", "adversary_invited_in"],
+      "codexUnlocks": ["codex_vostane_reconciliation_attempt"]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "act4_ima_confrontation",
+  "title": "Facing the Creditors",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Finance — Conference Room, Morning",
+  "characters": ["elara_vostane"],
+  "prerequisites": [
+    { "stat": "flags.ima_deal_accepted", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The IMA delegation arrived at 09:00 sharp with three attachés, two economists, and a chief negotiator named Alderman who has the particular manner of someone who has spent twenty years telling sovereign governments what they can and cannot afford. Vostane is seated opposite him. The table between them is covered in spreadsheets that tell a story the IMA has already decided: Veltria is not complying with the terms of the agreement, and non-compliance has consequences. The numbers are correct. Vostane has been slow-walking the implementation — not refusing, not defying, simply implementing at a pace that keeps the country functioning while technically satisfying the letter of the agreement. The IMA has noticed."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The IMA's position is that our compliance with the fiscal consolidation targets is at forty-three percent of what was agreed. They are correct. The structural reform benchmarks — public sector wage reductions, pension eligibility changes, subsidy elimination — are at twenty-seven percent. They are correct about those too. The reason, which I have explained to Mr. Alderman three times this morning, is that full compliance would collapse the domestic economy. Our inflation rate is already at fourteen percent. Unemployment is approaching crisis levels. Implementing the full austerity package while simultaneously fighting a war would trigger an economic collapse that would make the debt crisis look manageable. Mr. Alderman's response was that Veltria's domestic economic conditions are not the IMA's concern. The IMA's concern is repayment. And repayment is now due."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The IMA is not wrong. You signed the agreement. You took the money. The money came with conditions. The conditions are not being met. The institution that lent the money wants to know why. The logic is unassailable and also insane — the conditions cannot be met because meeting them would destroy the economy they are supposed to stabilize. This is the fundamental paradox of the IMA relationship: the cure is the disease, administered in measured doses. You have been administering smaller doses than prescribed. The IMA wants the full dose. You have to explain why the full dose would kill the patient."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "ima_assert_sovereignty",
+      "text": "\"Thank Mr. Alderman for his presentation and inform him that the Republic of Veltria will continue to implement the IMA conditions on a schedule determined by the Chancellery, not by the IMA. We are fighting a war for national survival. The IMA's repayment schedule does not supersede the survival of the nation that is repaying it. If the IMA wishes to escalate — declare us in default, cut off future disbursements, trigger the cross-default clauses in our other loan agreements — that is their right. It is also a decision they will have to explain to their shareholders when Veltria defaults, collapses, and demonstrates to every developing country on the continent that IMA loans are a trap, not a solution. I am willing to have that conversation. I suspect they are not.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_confronted", "sovereignty_asserted_over_ima"],
+      "codexUnlocks": ["codex_ima_sovereignty", "codex_debt_negotiation"]
+    },
+    {
+      "id": "ima_negotiate_revised_schedule",
+      "text": "\"Vostane, propose a revised compliance schedule. We agree to meet the fiscal consolidation targets — but over eighteen months instead of six. We commit to the structural reforms — but phased in with transition support for affected workers. We maintain the repayment schedule on existing debt while requesting a moratorium on new conditionality until the war concludes. Frame it as a wartime adjustment, not a rejection. The IMA has accommodated other countries facing extraordinary circumstances. Veltria's circumstances are extraordinary. Make them see that accommodating us is good institutional practice, not a concession to weakness.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 },
+        { "stat": "nation.corruption", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_confronted", "revised_compliance_negotiated"],
+      "codexUnlocks": ["codex_ima_negotiation", "codex_wartime_economic_adjustment"]
+    },
+    {
+      "id": "ima_moral_case",
+      "text": "\"Mr. Alderman, I am going to show you something. These are letters from Veltrian families who have lost someone in the war. This one is from a woman in Kravenstal whose husband was killed at Gravenmark and whose son is now in uniform. She writes to ask if the pension her husband's death entitled her to will be paid. The answer, under the IMA's pension reform conditions, is that her pension will be reduced by forty percent because the eligibility age is being raised. I am not asking you to care about Veltria. I am asking you to look at what your institution's conditions do to actual human beings. If you can look at these letters and tell me the pension reform cannot wait six months — you are a better institutionalist than I am. But you are not a human being I can understand, and I suspect your shareholders would not want these letters read aloud at the next IMA governance meeting.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_confronted", "moral_case_made", "human_cost_center_stage"],
+      "codexUnlocks": ["codex_ima_human_impact", "codex_austerity_morality"]
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "act3_superpower_pressure",
+  "title": "The Superpowers Weigh In",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — 23:00, Late-Night Diplomatic Cables",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The diplomatic cables arrived within two hours of each other — the Orythian at 20:47, the Arcturian at 22:13. The timing is not a coincidence. Both superpowers have been waiting to see which way Veltria would lean, and both have now decided that the leaning must be resolved before the war does. The cables are sitting on your desk, side by side, each in its own leather-bound folder with the seal of its respective foreign ministry. The seals are different. The messages are, in their essentials, the same: alignment in exchange for support. The details differ in ways that will determine whether Veltria survives the next decade as an independent nation or as a client state of one empire or another."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Orythian offer. In exchange for a mutual defense treaty — which, in practice, means Veltrian alignment with Orythian foreign policy — they will guarantee our territorial integrity, provide direct military aid including air defense systems we cannot manufacture domestically, and pressure Volkov through their existing diplomatic channels with Tyvaren. The Arcturian offer. In exchange for basing rights — two military installations on Veltrian soil, with Arcturian personnel subject to Arcturian law — they will provide a full security guarantee, economic assistance, and a seat at the Arcturian Security Council as an associate member. Both offers require us to choose a patron. Both patrons will expect payment for their protection. The payment is sovereignty. The question is which flavor of diminished sovereignty we can live with, and whether either is better than facing Tyvaren alone."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The offers are generous in the way that a loan from a bank that owns your house is generous. Orythia wants alignment. Arcturia wants bases. Both want Veltria in their sphere, and the sphere is the word they use in polite diplomatic company for what less polite company calls an empire. The choice is not between dependence and independence. Independence was lost the moment Vukov issued the ultimatum and we could not respond with a credible deterrent. The choice is between two kinds of dependence, two flavors of protection, two futures in which Veltria survives but is not entirely sovereign. I did not become Chancellor to preside over the end of sovereignty. I became Chancellor to restore it. But sovereignty is not a principle you can invoke while artillery shells are falling on the Gravenmark Pass. It is a condition you earn by surviving long enough to assert it. The question is whether I can accept a patron now and reclaim independence later, or whether the patron, once accepted, becomes permanent. Empires do not usually release what they have acquired. They manage it. They call it partnership. But the management is real, and the names on the office doors in Ashenmere will still be Veltrian names, but the decisions will be made elsewhere."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "A third option exists. It is high-risk. Neither alignment — a declaration of armed neutrality, backed by an appeal to the Forum for recognition as a neutral state under international law. This would require us to reject both superpower offers simultaneously, to fight Tyvaren without a patron, and to trust that the international community will respect our neutrality more than it respected our sovereignty. The historical precedent is not encouraging. Neutral nations in strategically significant locations tend to be neutral only as long as their neighbors allow them to be. Volkov will not allow it. The superpowers will be offended by the rejection. The military situation does not improve. I am presenting the option because it exists, not because I recommend it."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "superpower_align_orythia",
+      "text": "\"Accept the Orythian offer. A mutual defense treaty that gives us air defense systems and diplomatic pressure on Volkov is worth the alignment cost. Orythia already has channels with Tyvaren — they can actually deliver restraint, not just promise it. And alignment does not mean basing rights. It means policy coordination. I can coordinate policy and still be Chancellor of Veltria. I cannot be Chancellor of Veltria if Veltria does not exist. Send the reply tonight. The war does not wait for diplomatic deliberation.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_cooldown", "delayWeeks": 2 }
+      ],
+      "flags": ["orythian_alignment_chosen", "superpower_patron_selected", "air_defense_pending", "superpower_question_resolved"],
+      "codexUnlocks": ["codex_orythian_alliance", "codex_mutual_defense_treaty"]
+    },
+    {
+      "id": "superpower_align_arcturia",
+      "text": "\"Accept the Arcturian offer. The security council seat makes us participants in decisions, not subjects of them. The basing rights are a concession, yes, but bases are physical and treaties are paper — I can negotiate the terms of the bases, the duration, the jurisdiction. What I cannot negotiate is survival without a patron who has real military power. The Arcturian Commonwealth has the largest navy in the region and a proven willingness to defend its allies. I will take proven protection over diplomatic channel diplomacy. Tell Stellamere we accept, with the understanding that the basing agreement will be negotiated as a separate instrument with parliamentary oversight.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_insurgency", "delayWeeks": 2 }
+      ],
+      "flags": ["arcturian_alignment_chosen", "superpower_patron_selected", "bases_conceded", "superpower_question_resolved"],
+      "codexUnlocks": ["codex_arcturian_commonwealth", "codex_security_council_associate"]
+    },
+    {
+      "id": "superpower_neutral_reject_both",
+      "text": "\"Reject both offers. Veltria will not trade one empire for another. I will accept military aid from any nation that offers it without conditions, and I will coordinate diplomatically with both Orythia and Arcturia on the specific issue of Tyvaren aggression. But I will not sign a mutual defense treaty that subordinates Veltrian foreign policy to a foreign capital, and I will not put foreign military bases on Veltrian soil. We will fight this war as Veltrians, for Veltria, with whatever allies choose to help us freely. If we must be small, we will at least be our own. Draft the rejection letters. Make them respectful. Make them final.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -8 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 3 }
+      ],
+      "flags": ["armed_neutrality_declared", "both_superpowers_rejected", "independent_path", "superpower_question_resolved"],
+      "codexUnlocks": ["codex_armed_neutrality_doctrine", "codex_veltrian_sovereignty"]
+    }
+  ]
+}

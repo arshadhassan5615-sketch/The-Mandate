@@ -1,0 +1,23 @@
+{
+  "id": "bill_amber_coast_free_trade",
+  "title": "Amber Coast Free Trade Zone Act",
+  "shortName": "A.C.F.T.Z.A.",
+  "proposer": "Business-class MPs from Aldenmoor",
+  "faction": "businessClass",
+  "weekPresented": 19,
+  "fullText": "Section 1. A Special Economic Zone is hereby established encompassing the Port of Aldenmoor and a surrounding industrial corridor of twenty square kilometers, within which foreign enterprises shall receive reduced corporate taxation, expedited customs processing, and exemption from certain domestic labor regulations for a period of ten years.\n\nSection 2. The Ministry of Finance shall negotiate directly with qualifying foreign corporations, prioritizing arrangements that include technology transfer provisions and commitments to employ Veltrian nationals in at least sixty percent of positions.\n\nSection 3. Revenue generated within the Zone shall be audited by an independent body reporting jointly to the Ministry of Finance and the National Assembly.",
+  "budgetCost": -10,
+  "signEffects": [
+    { "stat": "factions.businessClass", "operation": "add", "value": 15 },
+    { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+    { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+    { "stat": "nation.internationalStanding", "operation": "add", "value": 5 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.businessClass", "operation": "add", "value": -10 },
+    { "stat": "factions.workersCoalition", "operation": "add", "value": 5 }
+  ],
+  "signFlags": ["amber_coast_ftz_signed"],
+  "vetoFlags": ["amber_coast_ftz_vetoed"],
+  "isVetoable": true
+}

@@ -1,0 +1,59 @@
+{
+  "id": "act2_econ_mixed_challenges",
+  "title": "The Middle Path",
+  "act": 2,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Cabinet Room — Economic Policy Review",
+  "characters": ["elara_vostane", "gregor_maric", "vyktor_reznik"],
+  "prerequisites": [{ "stat": "flags.economy_mixed", "operator": "==", "value": true }],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Ten weeks of mixed economic policy. The results are... mixed. Some privatized sectors are growing — the textile industry is up twelve percent. Some state-invested sectors are stabilizing — the steelworks are no longer hemorrhaging money. But managing two systems simultaneously is consuming your cabinet's attention and your budget's flexibility."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The private sector is complaining about the regulatory burden. The state sector is complaining about unfair competition. Foreign investors want clarity — they do not understand which sectors are open and which are not. The mixed approach is workable, Chancellor, but it requires constant calibration. Every sector decision becomes a political battle. We have had six cabinet disputes this month alone."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "The workers' patience has limits. Every time we privatize a textile mill, the union hall fills with angry members. Every time we invest in a state factory, the business press calls it a return to Halvekism. The mixed approach satisfies no one. But it also enrages no one enough to walk out. That may be the best we can hope for."
+    }
+  ],
+  "monologue": "Textiles up twelve percent. Steelworks stable. Cabinet disputes: six this month. The mixed approach satisfies no one, as Marić said. But it also enrages no one enough to walk out. That may be the best we can hope for. The question is whether 'the best we can hope for' is an acceptable standard for a government that promised transformation.",
+  "choices": [
+    {
+      "id": "mixed_continue",
+      "text": "\"The mixed approach is working — slowly, painfully, but working. We will continue calibrating. Each sector on its merits. I did not promise ideological purity. I promised to govern. Governing is messy. This is what messy looks like.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mixed_continued"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "silence", "text": "He writes messy on his notepad and underlines it. It is not endorsement. It is acceptance. Governing is messy. He repeats the words. He does not like them. He accepts them." }]
+    },
+    {
+      "id": "mixed_tilt_free_market",
+      "text": "\"We have learned what works. The private sector is growing faster. We will accelerate privatization in competitive sectors and limit state investment to essential industries only. The mixed approach was useful — but the data is pointing in one direction.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mixed_tilted_market"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "silence", "text": "He looks at the data on the table. Private sector growing faster. He does not argue with the numbers. The silence is the sound of a man who knows the math is against him." }]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "id": "act2_jonas_op_ed",
+  "title": "Jonas's Op-Ed",
+  "act": 2,
+  "weekAvailable": 14,
+  "weekDeadline": 18,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "The Ashavel Residence — Kitchen Table",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "You find the newspaper on the kitchen table. Jonas has placed it there, folded to the op-ed page, with a cup of coffee beside it. The byline reads: 'Jonas Ashavel — Architect, Kravenstal.' The headline: 'What We Tear Down.' He has written about the demolition of historic workers' housing in the old quarter — buildings you approved for replacement as part of the urban renewal initiative." },
+    { "type": "dialogue", "character": "jonas_ashavel", "text": "I wrote it three weeks ago. I did not tell you because I wanted to see if the Herald would publish it on its own — not because the First Gentleman submitted it, but because an architect had something worth saying. They published it. They called me this morning. Other papers want to reprint it. I am not apologizing. Those buildings are not just old — they are the history of the people who built this city. Tearing them down for 'modern housing' that will be unaffordable to the people who live there now... that is not progress. That is erasure." }
+  ],
+  "monologue": "He did not tell me. He wanted to know if the Herald would publish him as an architect, not as the First Gentleman. They did. That matters to him more than he said — the professional dignity, not the political byline. Now I have to decide whether to treat this as a marriage issue or a policy issue, and the correct answer is: both.",
+  "choices": [
+    {
+      "id": "jonas_op_ed_support",
+      "text": "\"You are right. The urban renewal plan needs revisiting. I will ask the Infrastructure Ministry to review the demolition schedule and consider preservation alternatives. You have earned the right to speak publicly — about architecture, about housing, about the city you have spent your career trying to improve. I am proud of you.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 3 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_op_ed_supported", "jonas_public_voice"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "jonas_ashavel", "type": "action", "text": "He looks at you — the look of a man who prepared for an argument and just received something else entirely. Then he reaches across the table and takes your hand. I am proud of you too." }]
+    },
+    {
+      "id": "jonas_op_ed_disagree",
+      "text": "\"Jonas, I understand your passion. But the urban renewal plan was approved by the Assembly. Those buildings are unsafe — they need to come down. I cannot change policy because my husband wrote an article. You have a right to your opinion. I have a responsibility to govern. Those two things are not the same.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_op_ed_disagreed", "jonas_public_voice"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "jonas_ashavel", "type": "silence", "text": "He folds the newspaper very carefully — the kind of carefulness that means he is trying not to say something. I have a right to my opinion. I have a responsibility to govern. He repeats the words. The silence is the sound of him deciding which one matters more." }]
+    }
+  ]
+}

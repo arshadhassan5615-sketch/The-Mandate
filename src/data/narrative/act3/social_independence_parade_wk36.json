@@ -1,0 +1,299 @@
+{
+  "id": "social_independence_parade_wk36",
+  "title": "Independence Day Military Parade",
+  "act": 3,
+  "weekAvailable": 36,
+  "type": "social_event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Avenue of the Republic, Ashenmere",
+  "characters": ["oskar_brenner", "irina_dusek", "jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Avenue of the Republic stretches before you, lined with Veltrian flags snapping in a cold autumn wind. It is Independence Day — the anniversary of the 1897 Revolution that overthrew the monarchy and established the Republic. Under Halvek, this day was a militaristic spectacle: tanks, missile batteries, endless columns of soldiers. Under you, it must be something different. But what?"
+    },
+    {
+      "type": "description",
+      "text": "From the reviewing stand, you can see everything: the troops assembling at the parade grounds, the citizens pressed against the barricades hoping for a glimpse of their Chancellor, the journalists in the press gallery, and — somewhere in the crowd — your family. Tomas is holding a small flag. Liora has her notepad. Jonas stands slightly apart, watching you watch the nation."
+    },
+    {
+      "type": "description",
+      "text": "General Brenner approaches, crisp in his dress uniform, awaiting your instructions for the parade's theme. The military is watching. The nation is watching. And somewhere to the north, Tyvaren intelligence officers are undoubtedly analyzing every tank that rolls past."
+    }
+  ],
+  "choices": [],
+  "socialInteractions": [
+    {
+      "id": "parade_theme",
+      "title": "The Parade Theme",
+      "location": "Reviewing Stand, Avenue of the Republic",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "description",
+          "text": "General Brenner presents the parade plan for your approval. Three options are laid out — each a statement about what kind of nation Veltria is becoming under your leadership."
+        },
+        {
+          "type": "dialogue",
+          "character": "oskar_brenner",
+          "text": "Chancellor. Three proposals for the parade. Option one: full military display — tanks, artillery, aerial flyover. A statement of strength. Option two: a 'Democratic Renewal' parade — military contingent reduced, more civilian floats, cultural performances. Option three: National Unity — mixed military and civilian, emphasizing the Republic's diversity. Your choice will define how the world sees us today."
+        }
+      ],
+      "choices": [
+        {
+          "id": "parade_strength",
+          "text": "\"Full military display. Tyvaren is watching. Our own people need to know we can defend them. Strength deters aggression.\" Tanks, artillery, the works.",
+          "internalTag": "authoritarian",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+            { "stat": "factions.reformists", "operation": "add", "value": -10 },
+            { "stat": "factions.dravenni", "operation": "add", "value": -5 }
+          ],
+          "flags": ["parade_military_theme"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "parade_democracy",
+          "text": "\"Democratic renewal. Fewer tanks, more floats. Show the world Veltria is a democracy first, a military power second. We're not Halvek's ghost.\"",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 15 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+            { "stat": "nation.pressFreedom", "operation": "add", "value": 5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+          ],
+          "flags": ["parade_democracy_theme"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "parade_unity",
+          "text": "\"National unity. Mixed formations — military, civilian, Dravenni cultural troupes, workers' contingents. Show the world Veltria is ONE nation, in all its complexity.\"",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.dravenni", "operation": "add", "value": 8 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 3 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+          ],
+          "flags": ["parade_unity_theme"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "parade_citizens",
+      "title": "The Crowd",
+      "location": "Citizens' Barricades, Avenue of the Republic",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The citizens lining the barricades reflect your governance. If your approval is high, they wave flags and cheer. If it has fallen, the crowd is thinner, quieter, with scattered pockets of dissent — a few raised fists, a banner that reads 'WHERE ARE THE JOBS?' Soldiers watch the crowd carefully. The mood of the people on Independence Day says more about your rule than any briefing document."
+        }
+      ],
+      "choices": [
+        {
+          "id": "crowd_wave",
+          "text": "Wave to the crowd regardless of their mood. Show strength. Smile even if they scowl. A Chancellor does not hide from her people.",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+          ],
+          "flags": ["parade_waved_to_crowd"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "crowd_approach",
+          "text": "Descend from the reviewing stand and walk among the citizens. Shake hands. Take questions. This is risky — but it's what a real leader does.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 5 }
+          ],
+          "flags": ["parade_walked_among_citizens"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "parade_brenner",
+      "title": "Brenner's Officers",
+      "location": "Officers' Section, Reviewing Stand",
+      "character": "oskar_brenner",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "After the parade's military contingent passes, General Brenner approaches with a small group of senior officers — colonels, a brigadier, the commandant of the War College. These are the men who will lead Veltria's defense if Tyvaren attacks. Brenner's body language is significant: if he presents them for introduction, it's a gesture of trust. If he keeps them at a distance, the military's loyalty is conditional."
+        }
+      ],
+      "choices": [
+        {
+          "id": "brenner_praise",
+          "text": "\"Gentlemen, the Republic is fortunate to have officers of your caliber. You serve not a party, not a person — but the Constitution. And I honor that service.\" Warm but civilian.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+            { "stat": "factions.reformists", "operation": "add", "value": 3 }
+          ],
+          "flags": ["parade_praised_officers"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "brenner_warn",
+          "text": "\"General, these officers report to the civilian government. I expect their loyalty to be absolute — not to any individual general, but to the elected Chancellor. Am I understood?\" Assert authority.",
+          "internalTag": "authoritarian",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+            { "stat": "factions.reformists", "operation": "add", "value": 3 }
+          ],
+          "flags": ["parade_asserted_authority"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "parade_assassination",
+      "title": "Security Incident",
+      "location": "Reviewing Stand, Avenue of the Republic",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The parade continues. A military band strikes up. But something is wrong — Irina Dusek tenses at your side, her hand moving toward her sidearm. Security personnel are suddenly moving quickly through the crowd. Shouts. A commotion near the press barricade."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Chancellor — we need to move you. NOW. There's a situation near the east barricade. My security detail is containing it, but protocol requires you to leave the reviewing stand immediately."
+        },
+        {
+          "type": "description",
+          "text": "Your heart pounds. This could be anything — a scare, a drunk protestor, or the start of something far worse. Tomas is in the crowd. Liora is taking notes fifty yards away."
+        }
+      ],
+      "choices": [
+        {
+          "id": "assassin_stay",
+          "text": "\"No. I will not be driven from my own reviewing stand on Independence Day. Contain the situation. I'm staying right here. The people need to see their Chancellor is not afraid.\" Stand your ground.",
+          "internalTag": "authoritarian",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+          ],
+          "flags": ["parade_stayed_on_stand"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "assassin_evacuate",
+          "text": "Nod sharply. \"Get me out. And get my children to safety — that is an order, Colonel.\" Evacuate immediately. Security first.",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.tomasWellbeing", "operation": "add", "value": 5 },
+            { "stat": "personal.lioraRelationship", "operation": "add", "value": 5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+          ],
+          "flags": ["parade_evacuated"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "parade_family",
+      "title": "Family at the Parade",
+      "location": "Family Section, Reviewing Stand",
+      "character": "jonas_ashavel",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "After the security situation resolves, you find your family. Tomas is shaken — he saw the commotion from the crowd. Liora is writing furiously in her notepad: she's composing her account of the day, and her pen is sharp. 'Chancellor remains on stand while security scrambles — bravery or recklessness?' Jonas just looks at you with a complex expression."
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "Kat. Tomas thought he was going to watch his mother die today. I thought I was going to watch my wife die. Is this what it's going to be like? Every public appearance? Every parade? We need to talk about this. Not as Chancellor and First Gentleman — as husband and wife."
+        }
+      ],
+      "choices": [
+        {
+          "id": "family_talk",
+          "text": "Pull him aside. \"Tonight. After the reception. You and me — no staff, no briefings, no interruptions. We'll talk about everything. I promise.\"",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": 8 },
+            { "stat": "personal.tomasWellbeing", "operation": "add", "value": 5 }
+          ],
+          "flags": ["parade_family_talk"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "family_later",
+          "text": "Squeeze his hand. \"I can't do this right now, Jonas. The parade. The diplomats. The army. I'll make time soon — I swear.\" Defer the conversation.",
+          "internalTag": "deflect",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": -5 },
+            { "stat": "personal.tomasWellbeing", "operation": "add", "value": -3 }
+          ],
+          "flags": ["parade_family_deferred"],
+          "chainTriggers": [
+            { "targetNodeId": "act4_marriage_crisis", "delayWeeks": 6 }
+          ],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "parade_tyvaren",
+      "title": "Tyvaren Message",
+      "location": "Military Analysis Section, Parade Grounds",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Colonel Dusek approaches with an intelligence update. Tyvaren military observers are present at the parade — not officially, but unmistakably. Two men in civilian clothes near the foreign observation section, taking notes on every piece of hardware. They're assessing your military readiness in real time."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Chancellor. Tyvaren intelligence at the east observation post. They're counting tanks. They're watching your body language — whether you appear confident or hesitant. The parade is a message to them, whether we intended it or not. If they think we're weak, they'll push harder at the border. If they think we're sabre-rattling, they might also push. There's no clean option here."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tyvaren_show",
+          "text": "\"Let them count. Let them see every tank, every rifle, every soldier we have. A strong Veltria is a peaceful Veltria. If they know we'll fight, maybe they won't start a war.\"",
+          "internalTag": "authoritarian",
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 10 }
+          ],
+          "flags": ["parade_showed_strength"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "tyvaren_restraint",
+          "text": "\"Keep the hardware modest. I want to deter them — not provoke them. The parade is about unity, not intimidation. Make sure the message is: Veltria will defend itself, but Veltria does not seek war.\"",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 2 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -3 }
+          ],
+          "flags": ["parade_showed_restraint"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "id": "act3_week28_economic_crisis",
+  "title": "The Krone Moves",
+  "act": 3,
+  "weekAvailable": 28,
+  "weekDeadline": 30,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": false,
+  "location": "Ministry of Finance — Situation Room, 6:14am",
+  "characters": ["vyktor_reznik", "elara_vostane"],
+  "prerequisites": [
+    { "stat": "nation.economyHealth", "operator": "<=", "value": -40 }
+  ],
+  "exclusive": ["act3_week28_economic_healthy"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Krone lost nine percent against the Arcturian florin between midnight and five in the morning. The overnight trading session in Stellamere opened at minus-twelve and stabilized at minus-nine after the Arcturian Central Bank issued a brief statement about 'monitoring currency volatility.' That statement means nothing on its face. It was designed to mean nothing. The fact that it was issued means everything."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The IMA resident representative arrived at Elara's ministry at four-seventeen this morning. He called ahead fifteen minutes. She called me first, not you. I want you to know the sequence — not because I am drawing conclusions from it, but because the sequence is information."
+    },
+    {
+      "type": "description",
+      "text": "The Situation Room is three floors below Vostane's main office. It was built for currency crises. The last time it was used was 1957. The equipment is from 1959. The phone lines are direct circuits to the Arcturian Exchange and the IMA regional office. Vostane is standing in front of a trade-exposure map when you arrive, pointing at a line between Ashenmere and Stellamere. She does not turn when you walk in."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The IMA facility is three hundred million VK at six point two percent over twelve years. The conditions: a fiscal surplus target of one point eight percent within eighteen months; privatization of the Veltrian Grain Authority, the Northern Rail Service, and the State Broadcasting Corporation; elimination of agricultural subsidies within thirty-six months; and a twenty percent reduction in public sector workforce over two years. That is their opening position. It is also, I believe, their closing position."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You know what each of those conditions means. The Grain Authority is food security for four provinces. The Northern Rail is how Dravenhollow functions in winter. The State Broadcasting Corporation is the press freedom provisions you spent twenty-six weeks protecting. The workforce reduction means sixty thousand people. Sixty thousand people who voted, who will know why it happened and who allowed it. You know all of this. Vostane is watching you absorb it."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Gregor believes these terms are politically unsurvivable. My assessment is that rejection is economically unsurvivable. I have been Finance Minister for eight months and I have learned that those are not the same kind of unsurvivable, and that when you must choose between them, the economic variety is worse. I am not making a recommendation. I am telling you what the options are."
+    },
+    {
+      "type": "description",
+      "text": "The market in Stellamere opens in four hours. Kravenstal in six. A clock on the Situation Room wall has been accurate since 1957 — it says six-forty. Gregor is already on a call with union leadership. Whatever you decide becomes a number on an exchange board in four hours, and sixty thousand people's working lives depend on what that number does next."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "economic_crisis_accept_full",
+      "text": "\"Accept the package in full. Elara drafts the agreement this morning. We stabilize the currency first and rebuild from stability. I will not pretend these conditions don't cost something. But the alternative costs more.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 22 },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -80},
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -20},
+        { "stat": "factions.reformists",          "operation": "add", "value": -14},
+        { "stat": "factions.businessClass",       "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -12},
+        { "stat": "personal.publicImage",         "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ima_compliance_year", "delayWeeks": 8 }
+      ],
+      "flags": ["ima_deal_accepted", "economic_crisis_stabilized"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "economic_crisis_partial_terms",
+      "text": "\"Negotiate. Accept the fiscal target and the workforce reduction. Not the privatizations. Not the Grain Authority and not the Broadcasting Corporation. Find the number they'll accept with those two removed and come back to me.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 10 },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -35},
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -10},
+        { "stat": "factions.reformists",          "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ima_negotiation", "delayWeeks": 3 }
+      ],
+      "flags": ["ima_deal_partial", "economic_crisis_contested"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "economic_crisis_emergency_controls",
+      "text": "\"Reject the IMA. Tonight I announce emergency currency controls: capital controls, price ceilings on essentials, and a public statement that frames this as defense of national economic sovereignty against external pressure. Let the IMA be the story.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": -12},
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": 25 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -14},
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -18},
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["emergency_controls_declared", "ima_rejected"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "economic_crisis_alternative_financing",
+      "text": "\"Tell them we need seventy-two hours. In that time I want every alternative financing channel explored — whatever arrangement we made with Stellamere or Petravar, whatever relationship we built, I want to know what it can carry in a crisis.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_alternative_financing", "delayWeeks": 2 }
+      ],
+      "flags": ["ima_delay_requested", "superpower_financial_approach"],
+      "codexUnlocks": []
+    }
+  ]
+}

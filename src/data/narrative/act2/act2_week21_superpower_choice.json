@@ -1,0 +1,135 @@
+{
+  "id": "act2_week21_superpower_choice",
+  "title": "Two Invitations",
+  "act": 2,
+  "weekAvailable": 21,
+  "weekDeadline": 24,
+  "type": "diplomacy",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Reception Room",
+  "characters": ["vyktor_reznik", "harrison_cole", "yevgeni_stahl"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Both requests arrived within forty-eight hours of each other, which is not a coincidence. Nothing between the Arcturian Commonwealth and the Orythian Dominion is ever a coincidence — they watch each other's diplomatic signals the way chess players watch hands, and each invitation was timed to make the other look like a response. Vyktor brought them to you together, both letters in the same folder, with the specific neutrality of a man who has decided not to have an opinion on this particular question and has arranged his face accordingly."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Arcturian Ambassador Harrison Cole requests a state visit to Stellamere for discussions on the Veltrian-Arcturian Trade Relationship and Regional Security Cooperation. The invitation is personal — from Premier Aldrath's office, not the Foreign Affairs Directorate. That's a higher level than routine diplomatic contact. They've booked a slot in the Federal Hall calendar for next week."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Orythian Commissar Yevgeni Stahl requests a state visit to Petravar for consultations on Fraternal Solidarity and Mutual Economic Development. The phrasing is standard Orythian diplomatic language — 'fraternal solidarity' is their term for discussing ideological alignment. The visit is attached to an offer of preliminary talks on the Orythian Economic Development Facility. That is the loan instrument. The one with conditions attached."
+    },
+    {
+      "type": "description",
+      "text": "Cole arrives at the reception room before your scheduled meeting — punctual to the point of rudeness, which is his way of making clear that his time is valuable. He is taller than he looks in newspaper photographs, and he has the quality that certain Arcturian officials cultivate: a warmth that feels genuine until you notice how precisely calibrated it is."
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "Chancellor, I'll be honest with you because I think you prefer it. The Commonwealth has been watching Veltria since your election with genuine interest — genuine, not diplomatic. A democratic transition in a nation of this strategic position is not a small thing. We want to support what you're building here. But support requires a relationship, and a relationship requires a conversation that a forty-minute embassy meeting can't have. Come to Stellamere. See what we're offering before you decide what you think of it."
+    },
+    {
+      "type": "description",
+      "text": "Stahl is scheduled for thirty minutes later. He is shorter, broader, and has the bluntness that high-ranking Orythian officials sometimes wear as a kind of pride — an ideology that has decided clarity is more honest than smoothness. He accepts the chair you offer with the air of someone who has sat in worse."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "Chancellor. Veltria is at a point of decision. Every week you delay alignment, the consequences of the economic situation become more severe and the options available to you become fewer. The Dominion offers immediate material support — real support, not the conditional theater that Commonwealth negotiators call an offer. What we ask is also real, and I won't pretend otherwise. But the conversation begins in Petravar, if you're willing to have it honestly."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Cole's warmth is a technique. Stahl's bluntness is also a technique. They have been trained by opposing systems to convey trustworthiness in opposite ways, and both of them are about as trustworthy as their respective governments, which is to say: conditionally, instrumentally, and subject to revision when their interests change. You will have to choose one of them, or neither, and there is no choice available that doesn't come with a cost you will be paying years from now."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You can't visit both. Visiting both in the same week, or even the same month, reads as playing them against each other — which you are, but it cannot look like it. A visit to Stellamere followed by a visit to Petravar within three weeks would guarantee that both offers get worse, not better. One capital. One relationship established first."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor hesitates before concluding, placing a thin signal-intelligence transcript on top of the pile. 'One more item. Dorne's team intercepted a shortwave transmission last night. A Tyvaren handler used the codename 'Skylark' when acknowledging receipt of a document drop. The transmission was brief. Dorne believes he can partially decode the routing if he has the resources. The codename suggests a high-value source recruited ideologically. I told him it was not a priority — unless you want it to be.' He waits."
+    }
+  ],
+
+  "monologue": "Cole's warmth. Stahl's bluntness. Both are techniques — two empires, two methods of seduction, same underlying demand: choose us. The Cold War does not permit neutrality forever, but it does permit the illusion of it for a little while longer. Long enough, perhaps, to find out who is feeding Tyvaren before I commit to anyone.",
+
+  "choices": [
+    {
+      "id": "visit_arcturian_stellamere",
+      "text": "\"Stellamere. Schedule the visit with Cole's office. I want a full briefing on the Arcturian position before we land.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 5  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["superpower_choice_arcturian"],
+      "nextNodeId": "act2_week21_visit_stellamere",
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "action", "text": "He is already on the phone to Cole's office. The visit is confirmed. He will have the full briefing prepared within thirty-six hours." }]
+    },
+    {
+      "id": "visit_orythian_petravar",
+      "text": "\"Petravar. Tell Stahl's office we accept. I want Vyktor on the plane and a separate channel kept open with Cole so he understands this isn't a permanent alignment — it's a conversation.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -5 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["superpower_choice_orythian"],
+      "nextNodeId": "act2_week21_visit_petravar",
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "dialogue", "text": "Petravar. He writes it on his notepad. I will keep the backchannel with Cole open — informal, indirect, deniable. He pauses. Two conversations at once. It is what I do." }]
+    },
+    {
+      "id": "visit_neither_nonalignment",
+      "text": "\"Neither, for now. Send formal acknowledgments to both offices — we are grateful for the invitations and we are scheduling external visits for the coming quarter. Tell them both we'll be in touch. Veltria is not choosing sides in the Cold War at this particular moment.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding","operation": "add", "value": -6 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week21_superpower_choice",
+          "delayWeeks": 3,
+          "probability": 0.8
+        }
+      ],
+      "flags": ["superpower_choice_deferred", "nonalignment_attempted"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "silence", "text": "He writes neither on his notepad. The word is small and centered on the page. He does not comment. The silence is the sound of Vyktor noting that nonalignment is a temporary position." }]
+    },
+    {
+      "id": "superpower_investigate_skylark",
+      "text": "\"Tell Dorne to prioritize the Skylark intercept. Before I decide which superpower to visit, I need to know if someone in my government is feeding Tyvaren. The invitations can wait twenty-four hours.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_clue_2_found"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "action", "text": "He writes Dorne — Skylark — priority on his notepad and circles it. He does not comment. He simply files the order and moves on to the next item." }]
+    }
+  ]
+}

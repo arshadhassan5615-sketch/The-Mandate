@@ -1,0 +1,117 @@
+{
+  "id": "act1_family_jonas_challenge",
+  "title": "The Architect's Question",
+  "act": 1,
+  "weekAvailable": 3,
+  "weekDeadline": 8,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Jonas's Study",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Jonas's study smells like drafting paper and cold coffee. He is at his table when you come in — blueprints for a housing block in Kravenstal, the kind of work he took on after the election to prove he wasn't becoming ornamental. He doesn't look up immediately. That is new."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "The welfare reduction went through parliament today. I read about it on my lunch break, between site meetings. Twenty-three million VK. Forty thousand families below the poverty line in Thornfeld alone.\" A pause. He sets down his pen. \"I need you to explain it to me, Katerin. Not to the press. To me."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not wrong about the number. He is not wrong about the families. He is also not the one who had to choose between that and the debt service payment that would have triggered the IMA's intervention clause. There is no version of this explanation that doesn't sound like justification."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I've been in Kravenstal. I've seen the housing. I know what twenty-three million means when it disappears from a district budget. It means the clinic closes on Thursdays. It means the school meal program loses a day. These aren't abstractions — I draw the buildings these people live in.\" He looks at you steadily. \"So tell me it was necessary. Actually convince me."
+    },
+    {
+      "type": "description",
+      "text": "The blueprints on his table are for a community center. Someone commissioned it on hope — the kind of hope that gets built before the funding arrives and before anyone checks whether it will still be there when the walls go up."
+    }
+  ],
+
+  "monologue": "He read about the welfare reduction on his lunch break. Twenty-three million. Forty thousand families below the poverty line. He draws the buildings these people live in — he knows what a budget cut looks like from the inside of an apartment that can no longer afford heat. He's not asking for a press release. He's asking his wife to convince him. There's no version of the explanation that doesn't sound like justification.",
+
+  "choices": [
+    {
+      "id": "jonas_explain_tradeoffs",
+      "text": "Sit down. Lay out the IMA pressure, the debt ceiling, what the alternative was. Let him argue. Don't stop him.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 8  },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 5  },
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",         "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_jonas_advisor",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": ["jonas_informed_policy"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_promise_revisit",
+      "text": "\"You're right. I'm going to revisit this at the next budget review. I want your numbers — what you've seen in Kravenstal, what the actual impact looks like from the ground.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 12 },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 5  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",         "operation": "add", "value": 5  },
+        { "stat": "nation.publicOrder",          "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_informed_policy", "welfare_revisit_promised"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_deflect_complexity",
+      "text": "\"You're not seeing the full picture, Jonas. I'm managing a national budget, not a single district. You have to trust that I know what I'm doing.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": -8 },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -5 },
+        { "stat": "factions.ironCovenant",       "operation": "add", "value": 2  },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_shut_down",
+      "text": "\"I don't have time for this tonight. I make decisions with incomplete information under pressure you've never experienced. Please stop reading the newspapers as if they explain what I actually do.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": -18 },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": -10 },
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_jonas_press_rebellion",
+          "delayWeeks": 5,
+          "conditions": [
+            { "stat": "personal.marriageHealth", "operator": "<", "value": 40 }
+          ]
+        }
+      ],
+      "flags": ["jonas_shut_out"],
+      "codexUnlocks": []
+    }
+  ]
+}

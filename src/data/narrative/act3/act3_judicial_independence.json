@@ -1,0 +1,95 @@
+{
+  "id": "act3_judicial_independence",
+  "title": "The First Gavel",
+  "act": 3,
+  "weekAvailable": 31,
+  "weekDeadline": 36,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Supreme Court of Veltria — Main Chamber, Morning",
+  "characters": ["aldric_theron", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.constitution_in_force", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The first independent judicial appointments under the new constitution are sworn in at nine in the morning in a chamber that was designed for a different era of jurisprudence. The Halvek-era bench was mahogany and severe — the kind of wood that makes defendants feel small before they've heard a word of testimony. The new constitution specifies that courtrooms shall be 'conductive to the equal administration of justice.' The committee interpreting that clause has decided that this means natural light, which the old chamber does not have. A glass dome is being installed next month. Today, the swearing-in happens under the old mahogany, because constitutional implementation is procedural, not theatrical, and procedures take time."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The three judges being sworn in this morning — Madam Justice Karani, Justice Revik, and Chief Justice Designate Alden — have a combined forty-seven years of judicial experience. None of them have ever served under a Halvekist appointment. Two of them were passed over for judicial positions under the old system specifically because their rulings in lower courts were deemed 'insufficiently deferential to executive authority.' That is the phrase the old Judicial Appointments Commission used. 'Insufficiently deferential.' It is in the record. Today it becomes a compliment."
+    },
+    {
+      "type": "description",
+      "text": "The chamber is not full. The press gallery has twelve reporters — most of them are here because the constitution is the story of the year, not because judicial appointments are inherently compelling. The public gallery has perhaps forty people. One of them is a woman in her seventies who was a magistrate in Aldenmoor before being removed from the bench in 1941 for ruling against a government seizure of a provincial newspaper. She has not been inside a courtroom as anything other than a spectator in twenty-two years. She came to watch the swearing-in of judges who will not be removable except through the constitutional process she helped advocate for, in hearings she attended as a private citizen, during a campaign she was told would never succeed. She is crying. She is crying quietly, so as not to disturb the proceedings."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The first case before the new court has been docketed. It is a challenge to the emergency detention provision of the Public Order Act — a Halvek-era statute that permits executive detention without charge for up to ninety days. The petitioners are three journalists detained in Thornfeld last year. Their lawyer is arguing that the new constitution's due process clause renders the detention provision void ab initio. The government is the respondent. We are being sued under our own constitution on its first day of judicial operation. I note this without drawing any conclusions from it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Your government is being sued under the constitution you passed. The petitioners are journalists who were detained under a law you inherited and have not yet repealed. The judges who will hear the case were appointed by a commission you created under the constitutional process you designed. If they rule against the government — and every legal analysis suggests they should — it will be the first time in Veltrian history that an independent court has struck down an executive action under a constitution that was not written by the executive. This is what winning looks like. It looks like losing a court case. It looks like being told, by judges you appointed, that your government must follow the law. That is the point. The point was never to win every case. The point was to create a system in which losing a case means the system is working."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "judicial_independence_accept_ruling",
+      "text": "\"Issue a statement from my office. 'The government will abide by the court's ruling and will submit legislation to the assembly within sixty days formally repealing the detention provision of the Public Order Act. The constitution is law. The rule of law means accepting rulings even when — especially when — they go against the government that appointed the judges.' Vyktor, make sure the statement mentions the seventy-three-year-old former magistrate in the gallery. By name, if we can find it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 14 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_constitution_implementation", "delayWeeks": 3 }
+      ],
+      "flags": ["judicial_independence_established", "rule_of law_accepted", "public_order_act_repealed"],
+      "codexUnlocks": ["codex_judicial_review", "codex_new_constitution"]
+    },
+    {
+      "id": "judicial_independence_defend_detention",
+      "text": "\"The government will argue its case before the court. The detention provision exists for a reason — national security emergencies do not always permit the luxury of immediate charges. We will make that argument respectfully and thoroughly and we will accept the court's ruling. But we will not preemptively concede the constitutionality of a statute that multiple security officials have advised is necessary for public safety.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_legal_standoff", "delayWeeks": 4 }
+      ],
+      "flags": ["judicial_challenged", "government_defended_statute", "constitutional_test_case"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "judicial_independence_preempt_repeal",
+      "text": "\"Don't wait for the court. I want emergency legislation on the assembly floor this week repealing the detention provision entirely. We don't need judges to tell us which of our laws violate our own constitution. We know which ones do. The Public Order Act is Halvek-era legislation that has no place in the new Republic. Repeal it preemptively and let the court's first ruling be on something that isn't a test of whether we actually believe in the document we passed.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 16 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 12 },
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 3 }
+      ],
+      "flags": ["judicial_independence_established", "public_order_repealed_preemptively", "constitution_before_courts"],
+      "codexUnlocks": ["codex_new_constitution", "codex_legislative_reform"]
+    }
+  ]
+}

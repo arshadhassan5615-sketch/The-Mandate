@@ -1,0 +1,88 @@
+{
+  "id": "act4_all_fronts",
+  "title": "Holding Everything",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, 06:30, Week Forty-Five",
+  "characters": ["vyktor_reznik", "colonel_dusek", "jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Chancellor's desk has become a cartographic representation of the crisis. Military situation maps on the left. Economic reports in the center. Diplomatic cable summaries on the right. A photograph of Tomas and Liora tucked into the corner, half-hidden by a folder labeled 'Casualty Projections — Revised.' The four fronts of the war — military, diplomatic, economic, personal — are not separate. They are interleaved. The decision about artillery ammunition allocation affects the budget negotiation. The budget negotiation affects the diplomatic leverage. The diplomatic leverage affects the timeline for victory. The timeline for victory affects whether you see your son's birthday. Everything touches everything. You have been holding everything for forty-five weeks. Your body has adapted to a level of sustained stress that would have broken you in Week One. You are not broken. You are also not sure what functioning looks like anymore, because you have not stopped functioning long enough to establish a baseline."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The situation on all fronts. Military: the front lines are stable but the supply situation is deteriorating. Dusek needs authorization for the winter supply stockpile. Economic: the IMA compliance deadline is in three weeks and we are at forty percent of the targets. Vostane says the IMF will escalate if we miss the next review. Diplomatic: the Orythian basing rights negotiation has stalled because the Orythians want language that would effectively make the Amber Coast an Orythian protectorate and the Arcturians will not accept that. Forum vote on the binding security guarantees is in six days. Personal: your son Tomas was involved in an altercation at school — political, apparently — and the headmaster called. Jonas has been handling it. He has been handling everything on the personal front. He is not handling everything. He is drowning, quietly, the way he has taught himself to drown."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I need a decision on the winter supply stockpile. The military logistics corps has identified three warehouses in southern Kravenstal that can be requisitioned, but the civilian authorities in the province are resisting on the grounds that the warehouses are needed for food storage. The civilian authorities are correct — the provincial governor has been telling me for three weeks that food distribution networks are already strained and requisitioning warehouses will make the situation worse. He is also correct that hungry civilians are a security risk. But if my soldiers run out of ammunition in February because the stockpile was delayed by a warehouse dispute, the hungry civilians will be hungry under Tyvaren occupation. There is no way to resolve this tradeoff cleanly. I need you to resolve it."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I am not here to add to your workload. I am here because Tomas asked for you. He did not ask for me — he asked for you. Specifically. I told him you were in a crisis meeting and he said — he said 'the crisis is always, Papa.' He is eleven. He should not know the word 'crisis' the way he does. He should not know that his mother's job means she cannot come when he asks. I am not blaming you. I am telling you that there is a cost, and the cost is being paid, and the person paying it is eleven years old and needs his mother. The Chancellor's office will be here in two hours. Tomas will not be at school in two hours. He is waiting to see if you come."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "all_fronts_military_priority",
+      "text": "\"Dusek — requisition the warehouses. The provincial governor will be compensated, but the military requirement takes precedence. Vyktor — handle the Orythian negotiation. Tell them the basing rights language needs to be acceptable to the Arcturians or the deal collapses. I trust your judgment on the red lines. Jonas — tell Tomas I will come as soon as I can. I know that is not what he wants to hear. I know it is what he has heard before. I am asking you to tell him that his mother loves him and that her absence is not indifference. It is the cost of the job. He is old enough to understand costs. I wish he were not.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 6 },
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": -8 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["all_fronts_managed", "military_priority", "family_sacrifice"],
+      "codexUnlocks": ["codex_wartime_logistics", "codex_military_requisition"]
+    },
+    {
+      "id": "all_fronts_rotate_attention",
+      "text": "\"Dusek — negotiate with the provincial governor. Offer him a compromise: half the warehouse capacity for military use, half retained for civilian food storage. Vyktor — I will join the Orythian negotiation at 14:00. Draft proposed language that preserves Veltrian sovereignty over the Amber Coast while offering Orythia a long-term lease on a single port facility. It is a compromise I can sell to the Arcturians. This afternoon I focus on Tomas. This evening I focus on the Forum vote preparation. Tomorrow morning — military briefing, then economic review with Vostane. The fronts do not all get equal attention every day. But they all get attention. No front is dropped. No front is prioritized to the exclusion of the others. We hold everything by rotating the focus. It is not elegant. It is sustainable.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 },
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["all_fronts_managed", "balanced_approach", "sustainable_governance"],
+      "codexUnlocks": ["codex_crisis_management", "codex_rotational_governance"]
+    },
+    {
+      "id": "all_fronts_lean_on_trusted",
+      "text": "\"Vyktor — the military and economic fronts are yours for the next twenty-four hours. You know my red lines. You know the strategy. I trust you to execute it. Dusek — coordinate with Vyktor on the supply situation. You two have been managing crises together for forty-five weeks. You do not need me in the room for every decision. Jonas — I am coming to Tomas. Now. Not when the meeting is over. Now. The meeting is over. The Chancellor exists to serve the country, but the mother exists to be there when her son asks. I have been a Chancellor for forty-five weeks. I have been a mother for eleven years. One of those roles has been taking everything I have. The other needs something left. I am going to make sure there is something left.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 14 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 2 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 2 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["all_fronts_managed", "family_prioritized", "delegation_trusted", "personal_balance_restored"],
+      "codexUnlocks": ["codex_delegation_governance", "codex_leadership_trust"]
+    }
+  ]
+}

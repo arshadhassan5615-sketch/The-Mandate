@@ -1,0 +1,26 @@
+{
+  "id": "bill_refugee_resettlement_integration",
+  "title": "Refugee Resettlement and Integration Act",
+  "shortName": "R.R.I.A.",
+  "proposer": "Reform/progressive coalition",
+  "faction": "dravenni",
+  "weekPresented": 32,
+  "fullText": "Section 1. The Republic of Veltria shall formalize the intake and processing of persons fleeing the ongoing humanitarian crisis in Morivask, establishing a Refugee Admissions Office within the Ministry of the Interior to process applications, conduct security screenings, and coordinate resettlement.\n\nSection 2. Refugees admitted under this Act shall be eligible for temporary housing assistance for a period not exceeding eighteen months, job training programs administered through the Ministry of Labor, and access to public education for dependent children.\n\nSection 3. An appropriation of twenty-five million Krone is authorized for the first year of operation, with funding drawn from the national budget's contingency reserve and foreign aid reallocation.",
+  "budgetCost": -25,
+  "signEffects": [
+    { "stat": "factions.dravenni", "operation": "add", "value": 15 },
+    { "stat": "factions.reformists", "operation": "add", "value": 10 },
+    { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+    { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+    { "stat": "factions.church", "operation": "add", "value": -10 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.dravenni", "operation": "add", "value": -15 },
+    { "stat": "factions.reformists", "operation": "add", "value": -10 },
+    { "stat": "nation.internationalStanding", "operation": "add", "value": -10 },
+    { "stat": "factions.ironCovenant", "operation": "add", "value": 10 }
+  ],
+  "signFlags": ["refugee_resettlement_signed"],
+  "vetoFlags": ["refugee_resettlement_vetoed"],
+  "isVetoable": true
+}

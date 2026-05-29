@@ -1,0 +1,95 @@
+{
+  "id": "act3_dlf_military_integration",
+  "title": "Fighting Side by Side",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Joint Forces Briefing Room, 09:00",
+  "characters": ["colonel_dusek", "idris_kaelen"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The joint forces briefing room has been reconfigured for this meeting — the usual single table replaced with a circle of chairs, the unit insignia on the walls supplemented with a provisional DLF banner that someone in Protocol has hastily acquired. The banner looks new. The tension in the room does not. Two dozen officers, half in formal Veltrian uniform and half in the mixed civilian-military clothing of the DLF's mountain brigades, sit on opposite sides of the circle like wedding guests who are not certain they have been invited to the same event."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The integration framework requires resolution on three points that cannot be deferred. First: command authority. Are DLF units under Veltrian operational command or do they retain independent command structures with coordination protocols? Second: rank equivalency. Do DLF officers hold equivalent rank to Veltrian officers, and if so, what happens when a DLF major commands a Veltrian captain in a combined operation? Third: deployment scope. Are DLF units confined to the Dravenhollow theater or deployed wherever the combined command requires? These are not administrative questions. They determine whether integration produces a unified force or two armies occupying the same battlefield."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Dusek has framed this as a technical briefing, but every bullet point is a political grenade. The officers on the Veltrian side include at least three colonels who fought against the DLF during the Halvek years. The DLF commanders include men who spent those same years in mountain camps being hunted by the men they are now expected to salute. I am asking them to trust each other with their lives because I trust Kaelen with his word. Trust does not descend through chains of command. It has to be built, one interaction at a time, out of procedures that feel fair to both sides. The procedure has to be right. If it's wrong, the trust never forms."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "My people have fought in these mountains for thirty years. They know the terrain, the weather patterns, the supply routes, and the local population in ways that no Veltrian officer — with respect — can match in a six-week orientation. If you integrate them as subordinate auxiliaries, you waste the capability they bring. If you integrate them as equals, you gain a mountain warfare capability that Tyvaren cannot match. The political question is whether Veltria is ready to see Dravenni officers giving orders to Veltrian soldiers. The military question is whether you want to win the mountain campaign or not. Those questions have the same answer."
+    },
+    {
+      "type": "description",
+      "text": "The Veltrian colonels shift in their chairs. One of them — a grey-haired officer with a Gravenmark campaign ribbon — makes a notation on his briefing pad that is almost certainly not about mountain warfare capability. Kaelen watches him write. The silence in the room is loud with everything not being said."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dlf_integration_full",
+      "text": "\"Full integration. Equal rank, equal command authority, equal deployment scope. Colonel Dusek will establish a Joint Forces Command with DLF representation at every level. Any officer — Veltrian or Dravenni — who cannot accept this framework may request reassignment. I will not build a military alliance on the foundation of second-class soldiers. We fight together as equals or we do not fight together at all.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 20 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -14 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_nationalist_backlash", "delayWeeks": 2 }
+      ],
+      "flags": ["dlf_full_integration", "joint_forces_command_established", "equal_rank_authority"],
+      "codexUnlocks": ["codex_dlf_military_structure", "codex_joint_forces_command"]
+    },
+    {
+      "id": "dlf_integration_separate_units",
+      "text": "\"Establish Dravenni units under Veltrian operational command. DLF officers will receive equivalent rank for coordination purposes but command authority remains with Veltrian officers in combined operations. The DLF will maintain internal command structure within their own units. This preserves the capability Kaelen describes while respecting the chain of command that our military understands.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dlf_coordination", "delayWeeks": 3 }
+      ],
+      "flags": ["dlf_separate_units", "veltrian_overall_command", "coordination_protocols_established"],
+      "codexUnlocks": ["codex_dlf_auxiliary_structure"]
+    },
+    {
+      "id": "dlf_integration_reconnaissance",
+      "text": "\"The DLF's primary value is local knowledge — reconnaissance, intelligence, terrain guidance. Integrate Dravenni units in support roles: reconnaissance platoons attached to Veltrian battalions, intelligence sharing through established channels, local guides for mountain operations. Combat command remains with Veltrian officers. This gives us the capability without the command complications.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_nationalist_backlash", "delayWeeks": 4 }
+      ],
+      "flags": ["dlf_support_roles", "dravenni_subordinated", "limited_integration"],
+      "codexUnlocks": ["codex_dlf_reconnaissance_corps"]
+    }
+  ]
+}

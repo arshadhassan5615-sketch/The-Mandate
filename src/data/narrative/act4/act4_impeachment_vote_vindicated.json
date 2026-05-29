@@ -1,0 +1,86 @@
+{
+  "id": "act4_impeachment_vote_vindicated",
+  "title": "The Articles Fail — Chancellor Cleared",
+  "act": 4,
+  "weekAvailable": 1,
+  "weekDeadline": 52,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "National Assembly Chamber — Ashenmere",
+  "characters": ["drazen_kolvar", "aldric_theron", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.impeachment_vote_failed", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Speaker reads the tally. One hundred and nineteen votes for the articles. One hundred and twenty-eight against. The articles of impeachment fail. Drazen Kolvar stands completely still in the opposition benches for eleven seconds — long enough that the press gallery notices — before collecting his papers and sitting down. He does not call for a recount. He does not speak to his colleagues. He has counted these votes more carefully than anyone in this chamber, and he knows that the margin means something permanent."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Chancellor. The Assembly has reviewed the articles, considered the evidence, and returned a verdict. The articles fail. You remain in office. I want to say — and I want this to be on record — that I believe the process served its purpose. The allegations were serious. They were heard. The Assembly judged them insufficient for removal. I hope that is not the last conversation this country has about the standards we expect of those who hold public trust, even when those standards are not codified in law."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Kolvar is already in conversation with his whips. He's calculating whether he can revise and refile, or whether the momentum is broken. My assessment: the momentum is broken. The business-class members who voted against the articles did so because Kolvar's proposed coalition frightened them more than your financial decisions did. That coalition is now on record. He'll need to rebuild it before he can try again, and that takes time we didn't have an hour ago."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I survived. The articles failed. The corruption that the opposition documented — and they documented it correctly — was not enough to remove me from office. That is the specific outcome of today. Whether it means I was right, or that parliamentary arithmetic happened to align in my favor, or that the opposition made enough mistakes to let me survive their correct accusations — that is a question I will be living with for a long time. Right now I have to decide what kind of Chancellor I am going to be in the weeks that remain."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "impeachment_vindicated_reform",
+      "text": "\"This verdict is not an acquittal. It is a postponement. The allegations against me were serious and several of them were accurate. I want the Anti-Corruption Commission established within the month — not as a political instrument, but as a genuinely independent body. If it finds evidence against me, it will report that evidence. I am not going to govern by surviving accountability. I am going to govern by accepting it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 18  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8   },
+        { "stat": "nation.corruption",             "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [],
+      "flags": ["impeachment_survived_reformist", "anti_corruption_commission_pledged", "impeachment_resolved"],
+      "codexUnlocks": ["codex_impeachment"]
+    },
+    {
+      "id": "impeachment_vindicated_govern",
+      "text": "\"The Assembly has spoken. I remain Chancellor. We return to the work of governing. I have nothing further to say about the articles, the vote, or the opposition's agenda. My statement is the vote count. If members of the press would like to discuss the upcoming budget framework or the agricultural subsidy review, I'm available.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 3   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5   },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -5  },
+        { "stat": "nation.corruption",        "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [],
+      "flags": ["impeachment_survived_quietly", "impeachment_resolved"],
+      "codexUnlocks": ["codex_impeachment"]
+    },
+    {
+      "id": "impeachment_vindicated_counterattack",
+      "text": "\"Kolvar filed seventeen pages of allegations against a sitting Chancellor — allegations his own coalition couldn't sustain under scrutiny. I want an inquiry into how this process was managed, who funded the opposition's legal team, and what commitments were made to secure those signatures. The Assembly cleared me. Now I want to know who tried to remove me and why.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 3   },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -5  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -5  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_halvekist_legal_war", "delayWeeks": 2 }
+      ],
+      "flags": ["impeachment_survived_counterattack", "impeachment_resolved"],
+      "codexUnlocks": ["codex_impeachment"]
+    }
+  ]
+}

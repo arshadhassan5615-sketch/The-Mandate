@@ -1,0 +1,103 @@
+{
+  "id": "act3_reform_by_decree",
+  "title": "The Emergency Architecture",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Emergency Cabinet, Week Twenty-Eight",
+  "characters": ["vyktor_reznik", "elara_vostane"],
+  "prerequisites": [
+    { "stat": "flags.referendum_rejected", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The cabinet assembled without a formal summons because they understood, from the result and from the morning's news cycle, that they needed to be assembled. Vostane arrived first. Marić arrived last, which is uncharacteristic — he is usually early, which you have come to understand means he is worried. The faces around the table are the faces of people who put several years of political risk into a project that has just failed in public. They are still here. That is worth something. Not much, but something."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Legal situation as of this morning. The Halvek constitution remains in force. It will remain in force until superseded by a successfully ratified replacement, which did not occur. Executive powers under the Halvek document are substantially broader than under the proposed new constitution — no parliamentary reauthorization requirement for emergency measures, no judicial review of executive decrees, and Article 47 specifically provides for government by decree during periods of national emergency, broadly defined. We are in a period of national emergency broadly defined. Tyvaren's ultimatum, the economic situation, the referendum result itself — each would independently qualify. I am laying this out because I want you to understand what tools are legally available before we discuss which of them to use."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Article 47. The emergency powers provision that was written into the Halvek constitution in 1952 precisely so that Halvek could govern by decree when parliament inconvenienced him. The provision that appeared in Theron's original draft as a red-line candidate for removal. The provision that is now the legal basis for continuing to govern at all. I have spent thirty-one weeks arguing that the Halvek constitution is a tool of authoritarianism. I am now being invited to use it as a tool of... what? Necessary expediency? Responsible governance in exceptional circumstances? The same argument Halvek made."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The economic argument for a degree of executive continuity is real. The bond markets are watching this outcome. The Krone fell two percent this morning — not a crisis, but a signal. Investors need to see a functioning government capable of making decisions while the constitutional situation is unresolved. Paralysis is more dangerous than imperfect authority. I want to be transparent about my reasoning: I am not advocating for expanded executive power. I am advocating for avoiding the economic consequences of an extended governance vacuum."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Three options as I see them. Narrow decrees: we use Article 47 for specific emergency functions only — economic stabilization, defense posture, essential services — and call new elections within sixty days. Broad governance: we use Article 47 to implement the full reform agenda by decree, without the constitutional framework, on the theory that the outcomes are what matter rather than the process. Or we call new elections immediately and accept that the reform agenda is suspended until the electorate returns a new mandate. I should note that the polling from this morning suggests that if we called elections today, we would win, because the referendum failure is being attributed more to the timing than to the program."
+    },
+    {
+      "type": "description",
+      "text": "The morning light is doing the thing it does in late autumn in the Chancellor's office — arriving at an angle that reveals the dust on the window glass, the slight disrepair of things that haven't been attended to because there have always been more urgent things. You have governed from this office for thirty-one weeks. The window needs cleaning. Both of those facts exist simultaneously."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "reform_by_decree_narrow",
+      "text": "\"Narrow decrees only. We invoke Article 47 for the Tyvaren defense posture, the economic stabilization measures, and essential government functions. Everything else — the reform agenda, the institutional changes, anything that touches political structure — waits for a proper mandate. I will call new elections within sixty days. We govern in the meantime with the minimum authority necessary to keep the country functioning. That is not a betrayal of the reform program. It is respecting the process that program was built on.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 5  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["decree_narrow_governance", "new_elections_called", "reform_agenda_suspended"],
+      "codexUnlocks": ["codex_halvek_constitution_article47"]
+    },
+    {
+      "id": "reform_by_decree_broad",
+      "text": "\"We govern by decree. All of it. The judicial independence provisions, the press freedom framework, the anti-corruption measures, the economic reforms — everything in the draft constitution that doesn't require a referendum to implement becomes executive policy today, issued under Article 47. If the people want a constitution, let them elect a parliament that will ratify one. In the meantime, the reforms happen. The process was rejected; the outcomes were not. I will build the democratic institutions by decree and let history judge whether the method was worth the results.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week47_new_order", "delayWeeks": 6 }
+      ],
+      "flags": ["decree_broad_governance", "reform_by_decree_chosen", "halvek_powers_used_fully"],
+      "codexUnlocks": ["codex_halvek_constitution_article47"]
+    },
+    {
+      "id": "reform_by_decree_elections",
+      "text": "\"Call elections. Sixty days. No decree governance, no Article 47 — we operate as a caretaker government under the existing constitutional framework, making no new policy until the electorate issues a fresh mandate. The polling says we can win. Let us win cleanly. A government that governs by decree to implement democracy is not implementing democracy. It is doing something else and calling it democracy, and I don't think I can do that with a straight face to anyone, including myself.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 16 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 3 }
+      ],
+      "flags": ["elections_called_after_referendum_failure", "caretaker_government", "democratic_legitimacy_maintained"],
+      "codexUnlocks": []
+    }
+  ]
+}

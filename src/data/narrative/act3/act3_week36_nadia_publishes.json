@@ -1,0 +1,140 @@
+{
+  "id": "act3_week36_nadia_publishes",
+  "title": "What the Light Finds",
+  "act": 3,
+  "weekAvailable": 36,
+  "weekDeadline": 38,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — 05:47, Week Thirty-Six",
+  "characters": ["nadia_voss", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The newspaper arrives before dawn, as it always does, but this morning the thump of it against the residence door sounds different — heavier, or perhaps the difference is in what you know it contains before you open it. The Ashenmere Herald has been running Nadia Voss's investigation in installments for months, each piece calibrated to reveal enough to keep the story alive without triggering the kind of legal response that would shut it down. Today's edition is not calibrated. Today's edition is the full accounting — everything she has, everything she has verified, everything she has decided the public has a right to know before the Tyvaren crisis reaches its climax. The headline occupies the top third of the front page. Below it, three columns of dense type continue onto pages four, five, and six. The byline is Nadia's alone. The sourcing is extensive. The facts are — as far as you can tell from a first reading, your coffee going cold beside you — correct."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You knew this was coming. You have known since Week Twenty-Two, when Nadia first came to you with questions and you decided how much to give her. Every decision you made about her investigation — cooperate, limit, deflect, embrace, threaten — is present in the paragraphs you are reading now. She has written the story those decisions produced. It is not the story you would have written. It is also not the story your enemies would have written. It is something third: a journalist's accounting, neither friendly nor hostile, comprehensive in the way that comprehensive things are always damaging to someone. This morning, that someone is you."
+    },
+    {
+      "type": "description",
+      "text": "The investigation covers everything Nadia has accumulated over thirty-six weeks of reporting. The structure is chronological — your father's death and the circumstances around it, the questions about his activities that were never answered, the Halvek-era files that were supposed to have been destroyed. The middle section covers Vyktor Reznik: his BNI history, his relationship with the old regime, his role in your administration, the tension between his institutional knowledge and his institutional loyalties. The final section addresses you directly — your decisions in office, the compromises you made, the promises you kept and broke and transformed into smaller promises. It is all in the public record now. Whatever you hid, whatever you revealed willingly, whatever you hoped would stay buried until after the crisis passed — it is in six-point type on newsprint that will be read by two million people before noon."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Herald has distributed the piece to twelve international papers through the Press Freedom Consortium. It is running in Stellamere, in the Orythian state media — apparently they find it useful — and in the International Forum's daily bulletin. This is not a domestic story anymore. By tonight, every foreign ministry that has an opinion about Veltria will have read Nadia Voss's account of your government. The Tyvaren delegation at the Forum has already issued a statement citing 'instability and illegitimacy' in Kravenstal. They are using her reporting as propaganda. She knew they would. She published anyway."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You can be angry at Nadia. The anger is available. But the anger is also beside the point — she did what journalists do, which is publish what they find, and what she found was determined in large part by what you let her find. If you cooperated, she had more. If you stonewalled, she had less but wrote about the stonewalling. If you threatened her, she wrote about the threats. Every choice you made about Nadia Voss produced the Nadia Voss you are reading now. The question is not whether she was fair. The question is what you do with the fact that fairness, applied comprehensively to a politician's life, is indistinguishable from opposition research. The truth is always hostile to someone. This morning, the truth has six pages."
+    },
+    {
+      "type": "description",
+      "text": "Outside, the city is waking up to the same newspaper. By seven, the radio stations will be leading with it. By nine, parliament will be in emergency session — someone will call for a confidence vote, someone else will call for calm, both calls will be political calculations dressed as principle. The Tyvaren deadline is now less than two weeks away. You are facing the most consequential foreign policy crisis in Veltrian history while the country's largest newspaper is running a six-page investigation into your personal integrity. These two facts are related. Vukov's people will make sure they are related. You have approximately three hours before the first official response is required."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "nadia_publishes_full_transparency",
+      "text": "\"Vyktor, draft a statement: The Chancellor has read Ms. Voss's reporting in full. She does not dispute the factual content. The questions raised about her father's history, about her administration's internal tensions, and about the compromises of governance during a national crisis are legitimate questions that deserve honest answers. She will hold a press conference this afternoon to address each of them directly. No handlers. No prepared remarks beyond the opening statement. The country deserves to hear from me directly.\"",
+      "internalTag": "reformist",
+      "tooltip": "Full transparency. Politically dangerous but morally clarifying. Nadia will respect it. Your enemies will use it.",
+      "conditions": [
+        { "stat": "nation.pressFreedom", "operator": ">=", "value": 30 }
+      ],
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_public_reckoning", "delayWeeks": 2 }
+      ],
+      "flags": ["nadia_findings_acknowledged", "full_transparency_response", "press_conference_held", "nadia_vindicated"],
+      "codexUnlocks": ["codex_nadia_investigation_full", "codex_press_freedom_consortium"]
+    },
+    {
+      "id": "nadia_publishes_discredit_timing",
+      "text": "\"I am not going to litigate my father's death while Tyvaren armored divisions are sitting on our border. Release a statement: The timing of this publication — two weeks before Marshal Vukov's deadline expires — is not a coincidence. Ms. Voss has chosen to publish a story that serves the propaganda interests of a fascist regime threatening our national survival. I am not commenting on the content. I am commenting on the judgment. The Veltrian people can decide for themselves whether a journalist who publishes at a time like this is serving the truth or serving someone else.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Attack the timing, not the facts. Deflects without denying. Effective in the short term but doesn't address the substance.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["nadia_timing_attacked", "national_security_defense", "nadia_discredited"],
+      "codexUnlocks": ["codex_nadia_investigation_full", "codex_wartime_press_restrictions"]
+    },
+    {
+      "id": "nadia_publishes_suppress_story",
+      "text": "\"I want an emergency injunction from the Justice Ministry within the hour. National security grounds — the Tyvaren situation gives us legal cover. Confiscate the remaining print run. Issue a directive to all broadcasters that the story is not to be repeated pending a government statement. I will not let a journalist's ego compromise our national security two weeks before a potential invasion. This is not about the truth. This is about survival.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Suppress the story by force. Effective immediately. Destroys press freedom and may backfire internationally — but kills the news cycle.",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -20 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -12 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -8 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -14 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -16 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -8 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["nadia_story_suppressed", "press_freedom_violated", "national_security_injunction", "nadia_suppressed"],
+      "codexUnlocks": ["codex_emergency_press_powers", "codex_nadia_investigation_full"]
+    },
+    {
+      "id": "nadia_publishes_personal_appeal",
+      "text": "\"I need to speak with Nadia directly. Not through statements and press offices — me, her, a room. She published the truth as she found it. Fine. But the truth as she found it is going to be weaponized by a fascist regime against the country we both live in. I need her to understand what that means, and I need to understand whether she's willing to help me manage the consequences of her own reporting. She owes me that conversation. I owe her the honesty of asking for it directly.\"",
+      "internalTag": "personal",
+      "tooltip": "A direct, human response. May rebuild trust with Nadia — or confirm her worst suspicions, depending on your history.",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["nadia_personal_appeal", "nadia_private_meeting_requested"],
+      "codexUnlocks": ["codex_nadia_investigation_full"]
+    },
+    {
+      "id": "nadia_publishes_focus_tyvaren",
+      "text": "\"The investigation is published. It can't be unpublished. But we control what we talk about. Every interview, every statement, every public appearance from now until the deadline is about one thing: the Tyvaren threat. When asked about Nadia's reporting, acknowledge it briefly and pivot to the war. 'The Chancellor is focused on the security of the Veltrian people.' Repeat it until the press gets bored. A story needs oxygen. Starve this one.\"",
+      "internalTag": "deflect",
+      "tooltip": "Strategic silence. Don't engage with the story at all — drown it in bigger news. Effective if the Tyvaren situation dominates headlines.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["nadia_story_deflected", "focus_on_tyvaren"],
+      "codexUnlocks": ["codex_nadia_investigation_full"]
+    }
+  ]
+}

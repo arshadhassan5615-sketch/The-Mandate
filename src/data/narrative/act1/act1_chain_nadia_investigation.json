@@ -1,0 +1,183 @@
+{
+  "id": "act1_chain_nadia_investigation",
+  "title": "Part One",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik"
+  ],
+  "prerequisites": [
+    {
+      "stat": "flags.nadia_met",
+      "operator": "==",
+      "value": true
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Ashenmere Herald runs the story on the front page under a headline that occupies the full width of the broadsheet: THE BUREAU'S YEARS. Below it: a photograph of BNI headquarters taken from across the street, which Nadia Voss presumably took herself, because nobody on your staff would have given it to her."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Part one of her investigation series. Today's installment covers BNI operations between 1958 and 1963 — the last five years of the Halvek regime. She has names. Operations. Names of informants, names of targets, outcome for each target. Forty-seven dissidents identified in this installment. Nineteen dead. The public response has been significant. Calls for a truth commission, for prosecutions of former BNI officers, for a national day of reckoning. The piece is being reprinted in three other national papers."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-seven names. Nineteen dead. And Mikhael Ashavel's name is not in this installment — I checked, before Vyktor could tell me to look, because some instincts do not change when you become Chancellor. He is not there yet. But Nadia knows how to build a series."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is a passage in paragraph 47 — I have marked it — that refers to 'a senior member of the current government who, under the Halvek regime, provided regular intelligence assessments to the Bureau regarding the activities of dissident networks.' She does not name anyone. The description is precise enough that anyone who was in the Bureau in 1961 will know who she is describing. She has the thread. She has not yet chosen to pull it."
+    },
+    {
+      "type": "description",
+      "text": "He says this without expression. You look at him. He does not look away. In twelve years of working together, this is the first time he has told you something without telling you what to do about it."
+    }
+  ],
+  "monologue": "Forty-seven names. Nineteen dead. My father's name isn't in this installment but it will be. Nadia builds series the way prosecutors build cases — each installment adds pressure, each detail narrows the room. Paragraph 47 is about Vyktor. She knows. She hasn't pulled the thread yet because she wants me to know she has it before she does. She's giving me time to decide what kind of government this is before she forces the question.",
+  "choices": [
+    {
+      "id": "nadia_investigation_transparency",
+      "text": "\"Issue a statement welcoming the investigation. The government has nothing to hide about its own operations — we are not the Halvek regime. Announce formal government cooperation with the Herald's investigation and offer access to any BNI documents already declassified under our own reform program. The story about the past belongs to the past. We distinguish ourselves by not repeating it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -5
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week22_nadia_investigation",
+          "delayWeeks": 8
+        }
+      ],
+      "flags": [
+        "nadia_investigation_endorsed",
+        "nadia_investigating_vyktor"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "That changes several things."
+        }
+      ]
+    },
+    {
+      "id": "nadia_investigation_manage",
+      "text": "\"No comment from this office on Nadia Voss's investigation — we neither endorse nor suppress it. What I want from Vyktor is a timeline: how long before she reaches the paragraph that has a name in it instead of a description, and what does the political landscape look like on that day. I need to be ready, not reactive. She has the thread. I need to understand the sweater before she pulls it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -2
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week22_nadia_investigation",
+          "delayWeeks": 10
+        }
+      ],
+      "flags": [
+        "nadia_investigation_monitored",
+        "nadia_investigating_vyktor"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He watches. Not with judgment. With attention."
+        }
+      ]
+    },
+    {
+      "id": "nadia_investigation_suppress",
+      "text": "\"Find out what Nadia Voss's source is for the paragraph 47 description. Not to suppress the published story — that ship has sailed and I won't touch it. But to understand what documents she has access to and who gave them to her, because if someone in the BNI archive is selectively releasing files to a journalist, that is a leak I need to manage before part two. I want a name, not a prosecution. Information, not intimidation.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -7
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_week36_nadia_publishes",
+          "delayWeeks": 18
+        }
+      ],
+      "flags": [
+        "nadia_source_investigated",
+        "nadia_investigating_vyktor",
+        "press_suppression_risk"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The opposition will take note."
+        }
+      ]
+    }
+  ]
+}

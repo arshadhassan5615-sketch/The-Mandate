@@ -1,0 +1,46 @@
+{
+  "id": "act3_jonas_conservative_attack",
+  "title": "\"Stay Home, First Gentleman\"",
+  "act": 3,
+  "weekAvailable": 32,
+  "weekDeadline": 38,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Assembly Chamber — Public Gallery",
+  "characters": ["drazen_kolvar", "jonas_ashavel", "vyktor_reznik"],
+  "prerequisites": [{ "stat": "flags.jonas_public_voice", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "A conservative Halvekist backbencher — not Kolvar, but one of his allies — has made a public statement that is circulating through the press: \"The First Gentleman should stay home and let his wife govern. When I want architectural advice, I will hire an architect. When I want political commentary, I will read a politician.\" The remark is crude. It is also effective — the Herald is running it, and the Standard is running a defense of Jonas. Suddenly, Jonas is a political issue." },
+    { "type": "dialogue", "character": "drazen_kolvar", "text": "I did not authorize that statement. But I will not disavow it either. Your husband has positioned himself as a public figure. Public figures are criticized. That is the arrangement. If Jonas does not want to be attacked by politicians, he should stop acting like one." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "The attack is crude but it is also an opportunity. If you defend Jonas publicly — personally, not politically — you remind the public that you are human. If you ignore it, the story dies in three days. If you retaliate, you start a proxy war with the Halvekist caucus over your family. Choose carefully." }
+  ],
+  "choices": [
+    {
+      "id": "jonas_attack_defend_human",
+      "text": "\"The Halvekist backbencher who attacked my husband this morning has forgotten something. Jonas Ashavel is not a politician seeking office. He is a citizen exercising his right to speak. The day this government tells its citizens to stay home and be quiet is the day I resign. That day has not come. And neither has the day when I let bullies in the Assembly chamber dictate what my family is allowed to say.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_defended_publicly"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_attack_ignore",
+      "text": "\"I will not dignify that with a response. Jonas does not need me to defend him. He is an adult. If the Halvekists want to waste their time attacking my husband, let them. I have a country to govern.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -3 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_attack_ignored"],
+      "codexUnlocks": []
+    }
+  ]
+}

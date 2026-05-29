@@ -1,0 +1,62 @@
+{
+  "id": "act4_mole_confrontation",
+  "title": "Naming the Betrayer",
+  "act": 4,
+  "weekAvailable": 42,
+  "weekDeadline": 44,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "prerequisiteFlags": ["spy_clues_gathered_4"],
+  "location": "Ashenmere Palace — Chancellor's Private Office",
+  "characters": ["vyktor_reznik", "viktor_dorne"],
+  "prerequisites": [
+    { "stat": "flags.ready_to_confront_mole", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You sit in your private office. The file is on your desk — bank records, intercept transcripts, access logs, witness statements. The name is written on a single sheet of paper, face down. Vyktor and Dorne stand by the window, waiting. You know who the mole is. You have known, somewhere beneath consciousness, for weeks. The clues all point in one direction. The only question is whether you have read them correctly."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Whoever you accuse, the consequences are permanent. If you are right, you will stop a Tyvaren intelligence operation that has been running for years and costing us information we could not afford to lose. If you are wrong, you will destroy an innocent person's career and allow the real mole to continue operating — now with the knowledge that you are hunting them. There is no middle outcome. I have arranged for all three suspects to be available. You tell me who to bring in."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I have read the file three times. The evidence is clear — but evidence can be fabricated, interpreted, mistaken. The clues I followed could have been planted. The witnesses could have been wrong. The bank records could be coincidence. Or I could be right, and someone I trusted has been selling my country's secrets to a hostile power. I have to choose. I have to be right. I have to live with whatever I choose."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "mole_accuse_petrin",
+      "text": "\"Bring in Counselor Petrin Half.\" (Accuse the Foreign Ministry official. He was recruited during a diplomatic posting five years ago. The evidence points to him — the late-night light, the diplomatic access, the Foreign Ministry security clearance.)",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": ["accused_petrin_half"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "mole_accuse_dusek",
+      "text": "\"Bring in Colonel Dusek.\" (Accuse your Defense Minister. You saw her on that phone call. She has been different for weeks. The evidence is circumstantial but the pattern fits — and if it's her, the betrayal is the worst possible kind.)",
+      "internalTag": "personal",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": ["accused_irina_dusek"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "mole_accuse_volek",
+      "text": "\"Bring in Karsten Volek.\" (Accuse the cabinet secretary. He had access to everything. The document registry gave him perfect visibility into every classified communication. He is the logical choice — a functionary no one would suspect because no one noticed him.)",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": ["accused_karsten_volek"],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "agenda_project_rural_electrification",
+    "title": "Welfare Proposal — Rural Electrification Program",
+    "description": "A proposal to extend the electrical grid to forty thousand rural households. Cost: 30M VK over 14 weeks.",
+    "category": "infrastructure",
+    "sceneId": "__project__rural_electrification",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 29,
+    "prerequisites": [
+      { "stat": "flags.project_electrification_started", "operator": "==", "value": false },
+      { "stat": "flags.project_electrification_rejected", "operator": "==", "value": false },
+      { "stat": "flags.project_electrification_deferred", "operator": "==", "value": false }
+    ]
+  }
+]

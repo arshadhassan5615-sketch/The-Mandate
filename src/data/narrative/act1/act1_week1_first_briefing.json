@@ -1,0 +1,175 @@
+{
+  "id": "act1_week1_first_briefing",
+  "title": "The Full Picture",
+  "act": 1,
+  "weekAvailable": 1,
+  "weekDeadline": 1,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Situation Room — Sub-Level Two, Ashenmere Palace",
+  "characters": ["vyktor_reznik", "danika_oberlin", "irina_dusek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The situation room is two floors below street level, accessible through a door that does not appear on any publicly available floor plan of the palace. The air is slightly stale — recycled through filters that have not been changed since the Halvek administration. The maps on the walls are Halvek-era maps, his annotations still visible in red grease pencil. No one has thought to take them down. Or no one has wanted to be the person who decided when."
+    },
+    {
+      "type": "description",
+      "text": "Three people are waiting: Vyktor Reznik at the center table, his binder open to a page dense with figures. Danika Oberlin, standing rather than sitting, a manila folder pressed to her chest. Colonel Irina Dusek in uniform, her hands clasped behind her back, studying the northern border map with an expression of professional displeasure."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Four crises. I'll be brief. Ask questions at the end or interrupt as needed. Most people interrupt."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Economy first. Real national debt is 340 million Krone — 16 percent of GDP. The Halvek administration reported 280. The difference represents 11 years of deferred infrastructure and falsified reserve accounts. Annual deficit is 65 million and the trajectory is upward. Unemployment is 19.4 percent nationally; in Kravenstal, it is 26. Inflation is 8.7 and rising. The International Monetary Authority is aware of the gap between reported and actual debt. They are waiting to see whether we're serious before deciding whether to treat us like a sovereign nation or a receivership."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Second. The Bureau of National Integrity. The campaign assumption was that it would wind down post-election. It has not. Danika."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "I have transcripts dated this week. Journalists. Union organizers. Three members of our own transition team. One sitting MP from Civic Renewal. [She waits.] The operations are not rogue — they are funded from the current BNI budget line. Which means someone made a decision to continue them after the election. The BNI director has not requested a meeting with this office. Do you know what that tells you? He believes this government will do nothing."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Which brings me to the complication. The BNI's foreign intelligence division is our only active source on Tyvaren military movements. Irina."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "The Tyvaren 3rd Mechanized Brigade has repositioned to staging grounds near the Gravenmark Passes. Three battalions. Forward supply depots established. Ammunition pre-positioned for sustained operations. This is not a training posture — training rotations do not stockpile artillery shells two hundred meters from the forward line. Two possibilities. One: Vukov is testing our response time and political will. Two: Vukov is preparing for something beyond testing. I cannot tell the Chancellor which. I can state with certainty that our current defensive posture is adequate for peacetime and insufficient for the second possibility."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Four problems. Each one would be the defining crisis of a normal government. Each one is interlocked with the others — the BNI funds the Tyvaren intelligence; the deficit funds the military; the unemployment drives the civil unrest that the BNI is supposedly monitoring. Pull one thread and three others tighten."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Fourth. The Halvek Constitution. You were elected under it. It gives the Chancellor powers that are formally democratic and functionally authoritarian — emergency decrees without parliamentary approval, ministerial appointments without confirmation hearings, control of the broadcast authority. The reform coalition wants it rewritten. Every week you delay is a week the opposition has to argue that you're comfortable with the powers it gives you. Which brings me to the purpose of this meeting: I need to know which fire you want to put out first."
+    },
+    {
+      "type": "description",
+      "text": "Dusek has turned from the map. Oberlin has stopped pressing the folder against her chest and set it on the table. All three are watching you with different versions of the same question. The room is two floors underground and the weight of the city is directly above."
+    }
+  ],
+
+  "monologue": "Four crises, each one interlocked with the others. The BNI funds the Tyvaren intelligence. The deficit funds the military. The unemployment drives the civil unrest the BNI is supposedly monitoring. Pull one thread and three others tighten. Halvek designed this — a system where every emergency feeds another, where reform in one direction creates crisis in another. Vyktor wants to know which fire I put out first. The room is two floors underground and the weight of the city is directly above.",
+
+  "choices": [
+    {
+      "id": "priority_economy",
+      "text": "\"The economy first. Security requires resources we don't have. Reform requires political capital we burn every day the deficit grows. Fix the fiscal foundation and everything else becomes possible. Let the other fires burn down to something manageable.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 3   },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 6   },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -4  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -3  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [],
+      "flags": ["first_briefing_done", "priority_economy"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Noted. Fiscal trajectory becomes primary. I will have the revenue package on your desk within the week."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "[She waits.] This is the first time she has not responded immediately. She is filing something away — you cannot tell what."
+        },
+        {
+          "character": "irina_dusek",
+          "type": "action",
+          "text": "She returns to studying the northern border map. Her posture says the military assessment will wait until someone asks. No one just did."
+        }
+      ]
+    },
+    {
+      "id": "priority_security",
+      "text": "\"The Tyvaren repositioning is the existential threat. If they move while we're doing budget arithmetic, none of the rest matters. I want a full military readiness assessment on my desk by end of week and I want it kept out of the press.\"",
+      "internalTag": "realist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5   },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",      "operation": "add", "value": -4  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["first_briefing_done", "priority_security"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "irina_dusek",
+          "type": "dialogue",
+          "text": "Chancellor. Full readiness assessment will be complete by Friday 0600. Press exclusion protocols will be implemented immediately. I will present findings personally."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She picks her folder back up and presses it to her chest. The BNI question didn't go away. It got prioritized below a border threat. She is noting that."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Understood. Coordinating press strategy now. The word 'military readiness' cannot appear in print this week."
+        }
+      ]
+    },
+    {
+      "id": "priority_reform",
+      "text": "\"The BNI. That's the first act of this government. Every other decision I make — on the budget, on Tyvaren, on the constitution — is contaminated if we begin by running Halvek's surveillance apparatus. We shut it down. We accept the intelligence cost. We find another way.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 8   },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": 5   },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -3  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 8   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_bni_press",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": ["first_briefing_done", "priority_reform"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "Finally. [She waits. She actually exhales — a short, sharp sound that might be the first honest bodily response she's had in this room.] I'll have the dissolution order drafted by noon."
+        },
+        {
+          "character": "irina_dusek",
+          "type": "silence",
+          "text": "She turns from the map. The turn is deliberate. She does not speak. She does not need to — the look communicates the loss of intelligence coverage in exact operational terms."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He makes a note in the binder that will become the transition plan for BNI dissolution. The note is small — three words, no more — but it is the first entry in a document that will reshape the intelligence apparatus."
+        }
+      ]
+    }
+  ]
+}

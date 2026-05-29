@@ -1,0 +1,40 @@
+{
+  "id": "act3_assassination_default",
+  "title": "The Ashenmere Incident",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 36,
+  "type": "emergency",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere Palace — Secure Wing",
+  "characters": ["vyktor_reznik", "danika_oberlin", "irina_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The attack came without warning. An explosion near the palace, or a shooter in the capital, or an attempt on your life during a public appearance — the details blur in the chaos of the aftermath. What matters is this: someone tried to kill the Chancellor of the Republic of Veltria, and they failed. But the attempt itself has changed everything. The capital is in shock. The security services are scrambling. Your cabinet is assembling in the emergency command center, waiting for you to tell them what the response will be."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor. The situation is contained but the political dimension is not. The Assembly is calling for a response. The press is demanding answers. The military is at elevated readiness. We need to decide — now — whether this government responds with emergency powers, legal process, or public unity. The next hour will define the rest of your Chancellorship."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "default_go_to_cabinet",
+      "text": "\"Convene the emergency cabinet. Every minister, every security chief. We make no statements until we have a plan.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["assassination_survived", "assassination_attempted", "ashenmere_incident"],
+      "nextNodeId": "act3_assassination_cabinet",
+      "codexUnlocks": ["codex_ashenmere_incident"]
+    }
+  ]
+}

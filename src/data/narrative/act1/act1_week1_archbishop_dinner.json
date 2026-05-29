@@ -1,0 +1,127 @@
+{
+  "id": "act1_week1_archbishop_dinner",
+  "title": "A Pastoral Visit",
+  "act": 1,
+  "weekAvailable": 1,
+  "weekDeadline": 4,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Cathedral of the Eternal Flame — Archbishop's Residence",
+  "characters": ["stanislov_renek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Archbishop's residence occupies the oldest wing of the Cathedral complex, all dark oak and candlelight. It smells of incense and something expensive being roasted in a kitchen you can't see. Renek meets you at the door himself — warm handshake, warm eyes, and the studied informality of a man who has never once been informal in his life."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor. One must be exhausted. Please, sit. I asked the kitchen to prepare something simple — this is not a state dinner, just two servants of Veltria sharing a meal. My father used to say that the best conversations happen when we are not worried about which fork to use. He was a practical man. We try to follow his example."
+    },
+    {
+      "type": "description",
+      "text": "Over the course of the meal, he speaks warmly and at length about the Church's social infrastructure — the forty-three hospitals, the hundred and twelve orphanages, the six hundred and thirty-one parish schools that between them serve more than two million Veltrians. He does not frame this as leverage. He is far too skilled to frame anything as leverage."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "The previous arrangement, under Chancellor Halvek — God rest him — was very practical. The Church provided services the state could not. The state provided certain... protections... for the Church's ability to operate according to its values. Divorce law. Curriculum. Certain public health questions. My father used to say that a good neighbour does not rearrange the fence without asking. We simply want to know... if one intends to honour that understanding."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He controls two million people's access to healthcare and schooling. He knows it. I know it. The question is only whether I'm willing to say it out loud."
+    }
+  ],
+
+  "monologue": "Two million people depend on Church hospitals and schools. Renek didn't mention the number directly — he let the infrastructure speak for itself. Forty-three hospitals. Six hundred thirty-one schools. He's not threatening. He's describing a relationship that exists whether I acknowledge it or not. 'A good neighbor does not rearrange the fence without asking.' The fence is divorce law, curriculum, public health. Whether I honor the existing arrangement or draw new lines.",
+
+  "choices": [
+    {
+      "id": "church_accept_terms",
+      "text": "\"The Church's infrastructure is essential to millions of Veltrians. I have no interest in disrupting an arrangement that delivers real services to real people. The existing framework continues.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",       "operation": "add", "value": 5  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -8 },
+        { "stat": "factions.church",          "operation": "add", "value": 15 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -5 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_deal_accepted"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "He pours you more wine — the good bottle, the one he was saving for either a concession or a celebration. The bottle is now diplomacy."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "My father used to say that the best agreements are the ones where both parties leave the table slightly uneasy — it means neither got everything. I am slightly uneasy. That is... reassuring."
+        }
+      ]
+    },
+    {
+      "id": "church_partial_agreement",
+      "text": "\"The hospitals and schools are not negotiable — we'll protect the funding and the staff. But social policy is Parliament's domain, Archbishop. The Church has a voice there like any other citizen. I won't govern from the Cathedral.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 8  },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": 3  },
+        { "stat": "factions.church",          "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 5  },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 5  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_deal_refused"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "silence",
+          "text": "He sets down his fork. The motion is unhurried — studiously unhurried. A man who has just been told his institutional influence ends at the Cathedral door. He is already recalculating the budget for the next election cycle."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "The hospitals and schools. Yes. My father used to say that gratitude is a currency that inflates over time. I am... grateful. One will remember which institutions were protected and which were left to fend for themselves."
+        }
+      ]
+    },
+    {
+      "id": "church_personal_faith",
+      "text": "\"I was raised in the faith, Archbishop. My mother lit candles at a parish church that your priests kept running through the worst of the Halvek years. I haven't forgotten that. But I also govern a pluralist republic. Let me find a path that honours both.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",       "operation": "add", "value": 2  },
+        { "stat": "factions.church",          "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_deal_deferred"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "My father used to say that a path is not a destination — but it is better than a wall. One will walk that path with you. For now."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "silence",
+          "text": "He does not press further. The silence is his version of a contract — signed, witnessed, filed. The price is not yet stated. That's what makes it a contract."
+        }
+      ]
+    }
+  ]
+}

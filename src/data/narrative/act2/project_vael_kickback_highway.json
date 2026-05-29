@@ -1,0 +1,47 @@
+{
+  "id": "project_vael_kickback_highway",
+  "title": "A Private Conversation",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Vael Estates — Private Study",
+  "characters": ["lucan_vael"],
+  "prerequisites": [{ "stat": "flags.contractor_highway_vael", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Vael catches you after the meeting. His smile is the smile of a man who just acquired two hundred kilometers of government contracts. He gestures toward the door of his private study." },
+    { "type": "dialogue", "character": "lucan_vael", "text": "The highway contract is a significant undertaking, Chancellor. My consortium is grateful for the opportunity. I have arranged a small personal consideration — 3,500 VK, deposited in a private account. A thank-you, between friends. No paperwork. No questions." }
+  ],
+  "monologue": "Three thousand five hundred. 'A small personal consideration.' He said it like he was offering to pick up the check at dinner. Vael has been doing this long enough that the numbers come out of his mouth without pausing — he has a private account ready, a transfer protocol, a practiced smile. He does not even consider the possibility of refusal. That, more than the money, is the red flag.",
+  "choices": [
+    {
+      "id": "kickback_highway_accept",
+      "text": "\"I appreciate your gratitude, Vael.\" (Accept. Your personal wealth increases. Vael now has leverage.)",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": 3500 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -15 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 15 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kickback_accepted_highway", "corruption_vael_highway"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "lucan_vael", "type": "action", "text": "He makes a note in his ledger — 3,500, highway, deposited. The motion is practiced, mechanical. He has made this note many times." }]
+    },
+    {
+      "id": "kickback_highway_refuse",
+      "text": "\"I am not for sale, Vael. Build the road. Keep your money.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kickback_refused_highway"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "lucan_vael", "type": "silence", "text": "He closes his ledger. The sound is very precise — the sound of a ledger closing on a deal that did not happen." }]
+    }
+  ]
+}

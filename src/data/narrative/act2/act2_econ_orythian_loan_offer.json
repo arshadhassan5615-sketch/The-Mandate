@@ -1,0 +1,58 @@
+{
+  "id": "act2_econ_orythian_loan_offer",
+  "title": "The Orythian Offer",
+  "act": 2,
+  "weekAvailable": 1,
+  "type": "diplomacy",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Orythian Embassy — Trade Delegation Room",
+  "characters": ["elara_vostane"],
+  "prerequisites": [{ "stat": "flags.economy_planned", "operator": "==", "value": true }],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Orythian trade delegation arrives with a leather briefcase and a proposal that has clearly been prepared for months — waiting for exactly this moment. The Orythians prefer planned economies. They are easier to negotiate with, more predictable, more amenable to long-term state-to-state arrangements."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The Orythians are offering a 200 million VK development loan at three percent, amortized over twenty years. The funds would go to industrial modernization — specifically, the Kravenstal steelworks and the rural electrification program. Technical advisors would be provided at no additional cost. The conditions: Veltrian state procurement must give preference to Orythian suppliers for the duration of the loan. And Orythian firms are exempted from any future nationalization programs. The terms are generous. The strings are visible."
+    }
+  ],
+  "monologue": "Two hundred million at three percent. Technical advisors included. The strings are visible: preference to Orythian suppliers for twenty years, exemption from nationalization. Vostane calls them generous. The word she did not use is 'patient.' The Orythians do not need quick returns. They need a foothold. Twenty years of procurement preference is a foothold that becomes a foundation.",
+  "choices": [
+    {
+      "id": "orythian_accept_loan",
+      "text": "\"Accept the loan. The terms are reasonable and the modernization is essential. Preference to Orythian suppliers is a small price for 200 million in development capital. We need this money. The Orythians will be our partners — not our masters.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "nationalDebt", "operation": "add", "value": 200 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["orythian_loan_accepted", "orythian_partnership"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elara_vostane", "type": "action", "text": "She is already annotating the loan agreement — procurement preference, exemption from nationalization, twenty-year amortization. She does not celebrate. She simply begins executing." }]
+    },
+    {
+      "id": "orythian_reject_loan",
+      "text": "\"Reject the loan. We will modernize on our own terms, without foreign conditions. Two hundred million VK is not worth selling our procurement independence for twenty years. Veltria will stand on its own.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["orythian_loan_rejected", "self_reliance_path"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elara_vostane", "type": "silence", "text": "She closes the Orythian proposal folder with precise care. Self-reliance path. She writes it on her pad. She will make it work. She does not say it will be easy." }]
+    }
+  ]
+}

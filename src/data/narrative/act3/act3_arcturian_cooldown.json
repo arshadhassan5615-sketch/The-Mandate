@@ -1,0 +1,83 @@
+{
+  "id": "act3_arcturian_cooldown",
+  "title": "The Ambassador's Silence",
+  "act": 3,
+  "weekAvailable": 27,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Foreign Policy Review",
+  "characters": ["vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Ambassador Cole has been in Veltria for three years. He is a career Commonwealth man — careful, Reykjavian-educated, the kind of diplomat who understands that the most consequential thing he does each week is not what he says but what he declines to say, and to whom. Since the superpower alignment decision, the declinings have accumulated. Three meeting requests unanswered. One communique that received a form acknowledgment from a third secretary. The quarterly trade discussion, which has been a fixture of Commonwealth-Veltrian relations since 1958, postponed without a rescheduled date. Cole has not left Veltria. He has not sent a protest note. He is simply not available, which is a form of communication that requires no words."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "This is structured. Cole is operating within a posture that was set for him from Reykjavik — this is not personal displeasure, it is policy. The Commonwealth is signaling that the consequences of your alignment decision are real without formalizing a break that would require them to respond publicly. They can maintain the freeze indefinitely. They can also end it within forty-eight hours if the strategic calculation changes. What they cannot do is escalate past this point without it becoming a news event, which they don't want."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You chose what you chose for reasons you believed in. The cost of that choice is now visible, which is different from the cost being wrong. A doctor who prescribes the right medication still has to watch the fever before the fever breaks. The question is what you do with the time while Cole's calendar stays empty."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "arcturian_cooldown_personal_message",
+      "text": "\"I send a personal message directly to the Commonwealth Secretary of State — not through the Foreign Ministry, not through Cole, a direct personal letter. I acknowledge the current state of relations, express my continued interest in partnership, and propose a specific framework for resuming dialogue. I treat the silence as a negotiating position rather than a verdict.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -3 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 4 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["arcturian_cooldown_outreach", "secretary_state_contacted"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "arcturian_cooldown_accept",
+      "text": "\"We accept the cooldown as the price of the decision we made. We continue to request meetings through normal channels, we do not make concessions to restart dialogue, and we invest the energy in deepening the relationships we chose over the ones we didn't. The Commonwealth will come back when they have a reason to.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 4 },
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 5 }
+      ],
+      "flags": ["arcturian_cooldown_accepted", "non_alignment_maintained"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "arcturian_cooldown_visible_concession",
+      "text": "\"We make a visible concession — a public statement expressing our continued commitment to Commonwealth trade frameworks, an invitation for Cole to attend the next public event the Foreign Ministry hosts. Nothing that reverses our alignment decision, but enough to signal that the freeze is not our preference.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -5 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 3 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 5 }
+      ],
+      "flags": ["arcturian_visible_concession", "cooldown_de_escalation_attempted"],
+      "codexUnlocks": []
+    }
+  ]
+}

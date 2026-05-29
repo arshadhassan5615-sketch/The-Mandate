@@ -1,0 +1,21 @@
+{
+  "id": "letter_response_nation",
+  "title": "The Nation Responds",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere Palace — Morning Briefing",
+  "characters": ["vyktor_reznik", "serida_valk"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Vyktor places the morning papers on your desk in a stack. Every one of them has printed your open letter — the Herald on the front page, the Standard with a commentary, the Veltrian Voice with an analysis. The response has been extraordinary. Letters to the editor. Radio call-in shows. A woman in Kravenstal stood in the town square and read your letter aloud to a crowd. Serida says her neighbors talked about it all evening." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "The public response has been... significant. The Herald called it 'the most direct communication from a Chancellor to the people in Veltrian history.' The Standard called it 'a welcome departure from political calculation.' Even Kolvar's press secretary acknowledged it — grudgingly. Your approval rating has shifted measurably. The letter has done what months of speeches could not: it made people feel as though the Chancellor was speaking to them, not at them." },
+    { "type": "dialogue", "character": "serida_valk", "text": "My neighbor — the one who was angry about the school cuts — she read your letter. She said she still disagreed with you. But she said she believed you meant what you wrote. That is more than she has said about any politician in twenty years. I thought you should know." }
+  ],
+  "monologue": "The Herald called it unprecedented. Serida's neighbor called it human. Both matter, for different reasons. People are listening now — not because I am Chancellor, but because I finally spoke like a person. Must remember that. The office amplifies the voice. The voice itself still has to say something worth amplifying.",
+  "choices": [
+    { "id": "letter_nation_response", "text": "\"The letter worked. Not because it was clever — because it was honest. I told them what I believed, not what I thought they wanted to hear. That is what leadership looks like. I should have done this months ago.\"", "internalTag": "personal", "stateChanges": [{ "stat": "personal.publicImage", "operation": "add", "value": 15 }, { "stat": "factions.reformists", "operation": "add", "value": 5 }], "chainTriggers": [], "flags": ["letter_nation_replied"], "codexUnlocks": [], "reactions": [{ "character": "serida_valk", "type": "dialogue", "text": "She brings in the afternoon mail — three times the usual volume. Letters from citizens. Some angry, most grateful, all of them addressed to you by name, not title. She sets the stack on your desk. They are still writing, she says. They have not stopped." }] }
+  ]
+}

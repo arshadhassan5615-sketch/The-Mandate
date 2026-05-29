@@ -1,0 +1,52 @@
+{
+  "id": "act2_con_neg_brenner",
+  "title": "Brenner's Warning",
+  "act": 2,
+  "weekAvailable": 14,
+  "weekDeadline": 20,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ministry of Defense — Strategic Briefing Room",
+  "characters": ["oskar_brenner", "irina_dusek"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "General Brenner's briefing room is dominated by a map of the eastern border with Tyvaren — red markers indicating troop concentrations, blue markers indicating Veltrian defensive positions. He does not sit. He stands before the map, his back to you, as he speaks."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "I have been asked what the military wants from the constitution. The answer is simple. Two things. First: emergency powers. When Tyvaren crosses the border — and they will, Chancellor, the only question is when — you will need the authority to act without waiting for the Assembly to debate. Second: military self-governance. The officer corps must retain institutional autonomy. A civilian defense minister can advise, but command decisions must remain with those who understand them. Dusek can explain the professional rationale."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "General Brenner is correct about the operational requirements. I would add: civilian oversight is not incompatible with military effectiveness — but the balance matters. Too much civilian interference, and you risk paralysis during a crisis. Too little, and you risk... what we are trying to prevent."
+    }
+  ],
+  "monologue": "Brenner stands before a map of the eastern border. The visual aid is not accidental — Tyvaren is always the argument. Emergency powers and military self-governance. What he means: the military should be answerable only to itself. Dusek says civilian oversight and military effectiveness can coexist. The tension in her voice suggests she believes this more as a principle than as a reality.",
+  "choices": [
+    {
+      "id": "neg_brenner_agree",
+      "text": "\"You will have your emergency powers — with Assembly reauthorization. And the officer corps retains significant autonomy. But I am establishing a civilian Defense Minister position. Not to interfere. To ensure the military's voice is always heard in cabinet, but its rifle is never aimed at its own government.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.ironCovenant", "operation": "add", "value": 5 }, { "stat": "advisorTrust.dusek", "operation": "add", "value": 3 }],
+      "chainTriggers": [],
+      "flags": ["neg_brenner_complete", "brenner_compromise"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "oskar_brenner", "type": "silence", "text": "He turns from the map and looks at you — the long look of a soldier evaluating whether a compromise is victory or defeat. Assembly reauthorization. He nods. Acceptable." }]
+    },
+    {
+      "id": "neg_brenner_refuse",
+      "text": "\"General, the military serves the Republic. The Republic does not serve the military. Emergency powers that can be abused are worse than no emergency powers at all. Full civilian control is non-negotiable. The military will adapt.\"",
+      "internalTag": "reformist",
+      "stateChanges": [{ "stat": "factions.ironCovenant", "operation": "add", "value": -12 }, { "stat": "factions.reformists", "operation": "add", "value": 8 }],
+      "chainTriggers": [{ "targetNodeId": "act3_week37_coup_attempt", "delayWeeks": 22, "probability": 0.3 }],
+      "flags": ["neg_brenner_complete", "brenner_refused"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "oskar_brenner", "type": "silence", "text": "He does not respond. He simply turns back to the map. The silence is the sound of a general who has just been told that his terms are rejected. He is already planning his next approach." }]
+    }
+  ]
+}

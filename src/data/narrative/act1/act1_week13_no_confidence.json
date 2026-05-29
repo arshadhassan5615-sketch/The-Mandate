@@ -1,0 +1,181 @@
+{
+  "id": "act1_week13_no_confidence",
+  "title": "The Vote",
+  "act": 1,
+  "weekAvailable": 13,
+  "weekDeadline": 14,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Parliament of the Republic — Ashenmere",
+  "characters": ["drazen_kolvar", "aldric_theron", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Parliament chamber is a horseshoe of dark wood and darker history. The benches have held the weight of four generations of Veltrian legislators — reformers and reactionaries, collaborators and resisters, the men who passed Halvek's emergency powers in 1948 and the men who spent the next twenty-nine years pretending those votes had been about something else. Today the benches are full. The gallery above them is packed with journalists, diplomats, and the families of MPs who understood that this session might be the one their children would read about in history books. Drazen Kolvar rises from the Halvekist benches. He is wearing a gray suit and a smile that contains absolutely no warmth. He has been waiting for this moment since the night of your inaugural address."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Madam Chancellor. Thirteen weeks ago you stood in Republic Square and promised this country an accounting. You promised the era of impunity was over. You promised a government that would govern for all Veltrians. Thirteen weeks later, unemployment in Kravenstal is at twenty-eight percent. The Krone has lost fifteen percent of its value. The IMA has effectively seized control of the national budget. The BNI — the institution you promised to abolish — continues to operate under whatever name you have given it this week. And the constitutional reform you promised has produced a committee that has produced a draft that has produced nothing. This is not governance. This is the same Halvekist management dressed in reformist language. The difference is that Halvek was competent at managing decline. You are not. I am introducing a motion of no confidence in this government. I invite my colleagues to vote their conscience."
+    },
+    {
+      "type": "description",
+      "text": "The chamber erupts. The Halvekist benches are on their feet. The reformists are shouting objections that the Speaker cannot make himself heard to rule on. The Workers' Coalition MPs are looking at each other, counting — they hold seventeen votes, enough to save you or sink you depending on which way they break. The Dravenni representatives sit very still, as they always do when the rest of the parliament is deciding whether this government is worth the trouble it has caused them."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Quietly, leaning close: \"The Halvekists have forty-one votes. We have thirty-four. The Workers' Coalition has seventeen. The Dravenni delegation has eight. The independents have fourteen. One needs fifty-eight to defeat the motion. If the Workers' Coalition stays with us — and Maric's people remain loyal — we have fifty-one and we need seven of the independents. If the Workers' Coalition breaks... we lose. Kolvar has been working the independents for a week. I do not know what he has promised them. I do know that your speech — whatever one says when the Speaker recognizes one — will determine which way they break. This is not a debate. This is... a test of whether your government still holds a majority. Speak accordingly.\""
+    },
+    {
+      "type": "internal_thought",
+      "text": "Thirteen weeks. That is how long it took for the government of the first woman Chancellor to face its first vote of no confidence. Kolvar timed it perfectly — after the budget cuts but before the recovery, after the promises but before the delivery, at the exact moment when the gap between what I said I would do and what I have been able to do is widest. He is not wrong about the numbers. Unemployment is terrible. The Krone is sliding. The IMA is calling the shots. He is wrong about the cause — he and his party created the crisis I am managing — but the voters in the gallery do not care about causes. They care about whether their children are eating. If I defend myself, I sound like every Halvek minister who ever blamed his predecessors. If I do not defend myself, I confirm everything he said. There is a third thing. I have to find it."
+    }
+  ],
+
+  "monologue": "Thirteen weeks. That's how long it took. Kolvar timed it perfectly — after the budget cuts but before the recovery, after the promises but before the delivery. He's not wrong about the numbers. Unemployment is terrible. The Krone is sliding. He IS wrong about the cause — his party created the crisis I'm managing — but the voters in the gallery don't care about causes. They care about whether their children are eating. If I defend myself, I sound like every Halvek minister who ever blamed his predecessors. If I don't, I confirm everything he said. There's a third thing. Have to find it.",
+
+  "choices": [
+    {
+      "id": "no_confidence_fight_reformist",
+      "text": "Rise. Walk to the center of the chamber. Do not look at your notes. \"The Honorable Member from Thornfeld has given you a list of problems. He is right about every one of them. Unemployment is at twenty-eight percent. The Krone is sliding. The IMA conditions are brutal. Here is what he did not tell you: those problems were created by the regime he served for fourteen years. He sat on the Budget Committee while Halvek's government cooked the books and looted the treasury and ran up the debt that I am now being blamed for not paying off in thirteen weeks. He did not introduce a motion of no confidence against Halvek. Not once. Not in twenty-nine years. He introduces one against me — the woman who replaced the regime he served — and calls it conscience.\" Pause. Look at the independent MPs. \"I inherited a burning house. I have been firefighting for thirteen weeks. If you vote to remove me, the house still burns — and the arsonist gets the keys.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": 15  },
+        { "stat": "factions.halvekists",        "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 6   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 5   },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 12  }
+      ],
+      "chainTriggers": [],
+      "flags": ["no_confidence_defeated", "kolvar_humiliated", "act1_climax_resolved", "transition_to_act2"],
+      "codexUnlocks": ["codex_no_confidence_vote", "codex_parliamentary_victory"],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "action",
+          "text": "He sits down. The motion is slow — a man lowering himself into a chair that has suddenly become less comfortable than it was thirty seconds ago. His smile is gone. He is already calculating what the next motion will cost him."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Quietly, as the chamber settles: \"The arsonist gets the keys. That was... a phrase that will be quoted. The historians will note this moment. One has... survived the first test. There will be others. But one has survived this one.\""
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He does not applaud. Vyktor never applauds. He makes a single note in the margin of his parliamentary order paper: 'MOTION DEFEATED — MAJORITY 11.' The number will be circulated to every ministry by the end of the hour."
+        }
+      ]
+    },
+    {
+      "id": "no_confidence_fight_pragmatic",
+      "text": "Rise. Acknowledge Kolvar's critique before answering it. \"The Honorable Member is correct that my government has not yet delivered what it promised. Thirteen weeks is not enough time to undo twenty-nine years of damage, but it IS enough time for the people who caused that damage to try to reclaim power by blaming the people who are trying to fix it. I will not pretend the situation is good. It is not. What I will say is this: I am governing. Every day. Through every crisis. The IMA program is stabilizing the currency. The constitutional reform committee has produced a draft that will be debated openly. The jobs program begins next month. If this parliament believes that changing Chancellors every thirteen weeks is a strategy for national recovery, let it vote accordingly. If it believes recovery requires continuity — difficult, imperfect, persistent continuity — let it vote for the government it elected.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": 6   },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 4   },
+        { "stat": "factions.halvekists",        "operation": "add", "value": -4  },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [],
+      "flags": ["no_confidence_defeated", "kolvar_weakened", "act1_climax_resolved", "transition_to_act2"],
+      "codexUnlocks": ["codex_no_confidence_vote"],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "silence",
+          "text": "He does not sit. He remains standing as the votes are tallied. The math was never going to favor him today — he knew that before he rose. What he was testing was not the vote. It was the coalition. The coalition held. That is useful information. He files it."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Continuity. Difficult, imperfect, persistent continuity. One has... described the condition of all democratic governance. The members recognized themselves in that description. That is why it worked."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Motion defeated. Coalition intact. The margin was narrower than it looked. Kolvar now knows exactly how many independents he needs to flip. He will start working them tomorrow. I will counter-work them tonight."
+        }
+      ]
+    },
+    {
+      "id": "no_confidence_deal_with_workers",
+      "text": "Before speaking, signal to Maric. The Workers' Coalition holds the balance. If they vote with you, you survive. If they abstain, you fall. \"To the members of the Workers' Coalition: I hear you. I hear Kravenstal. I hear the families who cannot buy medicine and the workers who cannot find jobs. I am not asking for your trust without earning it. I am committing today — publicly, on the record, with the whole country watching — to a social protection fund funded by a temporary wealth tier on incomes above forty thousand Krone. The workers of this country did not create the deficit and they will not bear the entire cost of closing it. That is my offer. I ask for your vote in return. Not for me. For the principle that workers deserve a government that governs with them, not on top of them.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 16  },
+        { "stat": "factions.reformists",        "operation": "add", "value": 8   },
+        { "stat": "factions.businessClass",     "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 6   },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": -2  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 10  }
+      ],
+      "chainTriggers": [],
+      "flags": ["no_confidence_defeated", "workers_deal_struck", "social_protection_fund", "act1_climax_resolved", "transition_to_act2"],
+      "codexUnlocks": ["codex_no_confidence_vote", "codex_social_protection_fund"],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "action",
+          "text": "He turns to his neighbor on the Halvekist bench. Whatever he whispers, the neighbor's expression changes — a flicker of something that might be respect or might be alarm. Kolvar has just watched his motion die because the Chancellor spent money he does not have. That is a lesson he will remember."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "The social protection fund. A wealth tier on incomes above forty thousand Krone. One has just... purchased a coalition with a tax policy. That is not unprecedented — Chancellor Berevin did something similar in 1905 — but it is... significant. The business class will respond. One should prepare for that."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He makes a note: 'WEALTH TAX — DRAFT LEGISLATION — RISK: BUSINESS EXODUS.' The note is pencil. The note is also underlined. Underlined in Vyktor's system means: this will either save us or destroy us. Determine which by end of week."
+        }
+      ]
+    },
+    {
+      "id": "no_confidence_executive_power",
+      "text": "Rise. Do not debate. Do not negotiate. \"I recognize the authority of this parliament to hold my government accountable. I do not recognize the authority of Drazen Kolvar — who served fourteen years as Halvek's Budget Chairman — to lecture anyone about governance. The motion of no confidence will proceed. Whatever the outcome, I will continue to govern. The Republic does not change Chancellors in the middle of an economic stabilization program because the architects of the previous crisis have decided they would prefer a different Chancellor. Article 22 gives me the authority to govern through parliamentary crises. I am informing this chamber that I will use that authority if necessary — not to preserve my own power, but to preserve the continuity of government while this country navigates the most dangerous economic moment in a generation. Vote as your conscience dictates. Governance will continue.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",      "operation": "add", "value": 10  },
+        { "stat": "factions.halvekists",        "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",        "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": -6  },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_executive_governance",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": ["no_confidence_weathered", "executive_authority_invoked", "act1_climax_resolved", "transition_to_act2"],
+      "codexUnlocks": ["codex_no_confidence_vote", "codex_article_22_invoked"],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "dialogue",
+          "text": "Article 22. You invoke Halvek's emergency powers to defend yourself against a Halvekist motion. The irony is... extraordinary. You have just demonstrated that this government is more Halvekist than Halvek was. The country will note that. So will the history books."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... He does not speak. Article 22 was the provision he spent thirty years studying, the one he fought to abolish, the one he just watched you invoke. His silence is the loudest sound in the chamber."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Article 22 invoked. The motion proceeds. Governance continues. I will prepare the legal justification. It will be challenged in the Constitutional Court within the week. We will win — or we will not govern."
+        }
+      ]
+    }
+  ]
+}

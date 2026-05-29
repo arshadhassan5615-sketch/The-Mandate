@@ -1,0 +1,91 @@
+{
+  "id": "act4_week45_uprising",
+  "title": "The General Strike",
+  "act": 4,
+  "weekAvailable": 45,
+  "weekDeadline": 47,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Week Forty-Five",
+  "characters": ["vyktor_reznik", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.austerity_begun", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The general strike began at dawn. The Workers' Unity Coalition called it at 4 AM after the latest round of job cuts was announced — another eight thousand public sector positions eliminated, another round of early retirements forced, another set of families that woke up this morning without an income. By noon, the railways were stopped, the ports on the Amber Coast were idle, the steel mills in Kravenstal were silent for the first time in living memory. The country has not seen a general strike since the last year of Halvek's rule. The last one was broken with tanks. You do not have tanks. You have the choice between breaking the strike and losing the IMA disbursement, or negotiating with the strikers and losing the IMA's confidence. Both choices cost the country something it cannot afford to lose."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Workers' Coalition has three demands: halt the remaining job cuts, renegotiate the privatization timeline, and establish a 'social protection fund' funded by a temporary wealth tax. Soraya Khaled sent a personal message — she says this is not a challenge to your government, it is a challenge to the IMA, and she is willing to end the strike immediately if you commit to jointly confronting the IMA. She is offering you an alliance. It is an alliance that will destroy your relationship with the business community and possibly trigger the IMA to suspend the program entirely. But it is an alliance. In forty-five weeks, no faction leader has ever offered you an alliance without conditions. This one has conditions. The conditions are the alliance."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Khaled is giving you a choice between your creditors and your people. She is not wrong that the IMA conditions are brutal. She is also not wrong that a general strike will crash what remains of the economy if it continues for more than a few days. The IMA will not negotiate with a government that cannot control its own labor force. The workers will not end the strike without concessions. You are caught between the international financial architecture and the people who elected you. Both will blame you for whatever happens next. You are the Chancellor. Choosing which constituency to disappoint is the job."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "uprising_ally_khaled",
+      "text": "\"I will meet with Khaled within the hour. Tell her I accept the alliance — not all of her demands, not yet, but the framework. We will jointly approach the IMA and demand renegotiation of the labor provisions. If the IMA refuses, we will consider alternatives together. This strike is not a threat — it is a mandate. The workers are telling us what the country can and cannot bear. My job is to listen. I have been listening to creditors for forty-five weeks. Today I listen to workers.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 20 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -16 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_collapse_endgame", "delayWeeks": 3 }
+      ],
+      "flags": ["khaled_alliance", "strike_resolved_worker_terms", "uprising_resolved"],
+      "codexUnlocks": ["codex_general_strike", "codex_worker_government_alliance"]
+    },
+    {
+      "id": "uprising_negotiate_middle",
+      "text": "\"I will meet with Khaled and with the IMA representatives together — in the same room. Khaled wants the job cuts halted. The IMA wants fiscal consolidation. There is a middle ground — reduced cuts spread over a longer period, with a genuine social safety net funded by a modest progressive tax. I am going to make both sides sit at the same table and I am going to tell them that neither of them gets everything they want. The strike ends. The IMA program continues — modified. The country survives. Everyone gives up something. That is governance. That is what I do.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_collapse_endgame", "delayWeeks": 3 }
+      ],
+      "flags": ["strike_negotiated", "ima_worker_compromise", "uprising_resolved"],
+      "codexUnlocks": ["codex_tripartite_negotiation", "codex_labor_settlement"]
+    },
+    {
+      "id": "uprising_break_strike",
+      "text": "\"Dusek, I need a security assessment for maintaining essential services during a prolonged strike. I am not sending the army against strikers — I will not have Veltrian soldiers firing on Veltrian workers. But I will keep the railways running with emergency personnel. I will keep the ports open. I will keep food distribution functioning. The strike is a legitimate act of protest. Economic collapse is not a legitimate consequence of legitimate protest. I will protect the right to strike and I will protect the country from the strike's consequences. Both are my responsibility.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -12 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_collapse_endgame", "delayWeeks": 3 }
+      ],
+      "flags": ["strike_contained", "essential_services_maintained", "uprising_resolved"],
+      "codexUnlocks": ["codex_emergency_labor_provisions", "codex_essential_services_doctrine"]
+    }
+  ]
+}

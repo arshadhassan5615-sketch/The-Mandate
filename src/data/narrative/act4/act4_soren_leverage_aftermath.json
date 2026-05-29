@@ -1,0 +1,54 @@
+{
+  "id": "act4_soren_leverage_aftermath",
+  "title": "The Devil's Bargain",
+  "act": 4,
+  "weekAvailable": 40,
+  "weekDeadline": 44,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Thornfeld Estate — Soren's Private Study",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+  "prerequisites": [
+    { "stat": "flags.soren_leveraged", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Soren sits across from you in his study. The file is between you — the execution orders, the Silent Clearances, the financial records. You have explained the deal. He listened without interrupting. When you finished, he smiled. It was not a pleasant smile. It was the smile of a man who has spent forty years outmaneuvering people and has just realized you are not as different from him as you pretend to be."
+    },
+    {
+      "type": "description",
+      "text": "He accepted. Three days later, he appeared at a press conference in Ashenmere, standing beside you, praising the new constitution, calling on the Halvekist caucus to cooperate with your government, describing you as 'the leader Veltria needs.' The image was broadcast across the nation. The Halvekist opposition splintered within a week. The Iron Covenant was confused — their hero was endorsing the woman they opposed. Your political position has never been stronger. Your soul has never felt heavier."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "You traded justice for political advantage. The man who signed your father's death warrant is now your public ally. The reformists know what you did — not the details, but enough. They are disillusioned. The Halvekists are confused but compliant. The public sees a united government. What they do not see is the price you paid. I hope it was worth it. I suspect it was not."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political results are undeniable. Halvekist cooperation has increased forty percent. Three key bills that were stalled in committee are now moving. Kolvar is isolated — his own caucus is questioning why he opposes a government that Marshal Soren himself supports. You have won. The question is whether you can live with how you won."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "soren_leverage_own_it",
+      "text": "\"I did what was necessary to govern. I am not proud of it. I will not do it again. But Veltria is more stable today than it was yesterday, and stability saves lives. Reformists can be disillusioned — disillusionment is a luxury that people who have never had to make impossible choices can afford. I have made my choice. I will live with it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soren_leverage_complete", "justice_bargained_away"],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "id": "act2_chain_reformist_fracture",
+  "title": "The Twelve Who Are Leaving",
+  "act": 2,
+  "weekAvailable": 16,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Emergency Evening Meeting",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor has arranged the room so that the list is the first thing you see when you enter. Twelve names on a single sheet, printed in the administrative font of the parliamentary registry. He has organized them by constituency. Two from the northern provinces, three from Stellamere's outer boroughs, four from the reform districts of the capital, three from Petravar. He has also written, in his own hand at the bottom of the sheet: 'Announced within 48 hours if no response.' He gives information this way — not as conclusions but as timelines. The timeline is the conclusion."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Twelve members of the reformist parliamentary bloc have formally communicated to bloc leadership that they intend to sit as independents following the Kolvar agreement. Their stated objection is the emergency powers retention. Their actual objection is the principle of doing business with Kolvar at all. Three of the twelve are your original coalition builders — the ones who brought in the Petravar seats in the election. I want you to know that before we discuss options."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I've spoken with two of them tonight. Imra Selev and Davan Krost. They are not performing. They genuinely believe the emergency powers compromise ends the reform project — that you have traded the constitutional core for the parliamentary arithmetic. I don't think they're wrong to believe that. I want to be honest with you about that even though I understand it doesn't help."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twelve votes. You have forty-one reliable, which means you had a fifty-three-seat bloc before this. Twelve leave and you have forty-one. The referendum needs the parliamentary recommendation with fifty-seven. The numbers were already tight. They are now impossible without someone else, and the only somewhere-else is Kolvar, which is where you started and what broke the twelve in the first place. The geometry of this problem is not accidental."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I think the twelve can be held if they believe the emergency powers clause will be revisited post-referendum. A written commitment — not a public statement, a private protocol — that the first act of the new parliament under the new constitution will be an amendment review. It gives them cover. It gives them something to tell their constituencies. It is not nothing."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Or we let them go. Forty-one disciplined votes is a stronger bloc than fifty-three fractured ones. We find the six votes we need elsewhere — I have three ideas that Aldric won't like — and we govern without the drama. The twelve will come back when there's no alternative. People always come back."
+    },
+    {
+      "type": "description",
+      "text": "The parliament building is lit across the square, yellow windows in the darkening autumn. Someone, somewhere, is working late. This city runs on the fuel of people who believe in the idea of governance even when governance is failing them. You have, at minimum, that."
+    }
+  ],
+  "monologue": "Twelve names on a single sheet. Vyktor has organized them by constituency. Two from the north, three from Stellamere's outer boroughs, four from the capital, three from Petravar. His handwriting at the bottom: 'Announced within 48 hours if no response.' Three of them are my original coalition builders. The ones who brought in the Petravar seats. Lose twelve from the left, gain thirty from Kolvar on the right, and hope the country does not notice the trade.",
+
+  "choices": [
+    {
+      "id": "reformist_let_them_go",
+      "text": "\"Let them go. We govern with forty-one committed members and find the remaining votes through other means. A fracture that is honest is better than a coalition held together by promises I may not be able to keep.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": -12 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 6 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 10 }
+      ],
+      "flags": ["reformist_bloc_fractured", "twelve_independents_seated"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He writes something on his notepad — the vote math, recalculated with forty-one committed. He circles two numbers and draws a line between them. It is the distance between what you have and what you need. He does not share the number. He will share it when he has a solution."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron absorbs this. He does not argue — he already made his argument, and you overruled it. The silence is not anger. It is the quiet of a philosopher who has just watched a calculation override a principle and is trying to decide which version of history he is living in."
+        }
+      ]
+    },
+    {
+      "id": "reformist_personal_appeal",
+      "text": "\"I meet with each of the twelve personally. Not a group session — individual conversations, in whatever setting they prefer, without Vyktor in the room. I owe them that much, and they owe me the chance to make the case myself.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 5 },
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 12, "conditions": [{ "stat": "factions.reformists", "operator": "<", "value": 40 }] }
+      ],
+      "flags": ["reformist_personal_appeal_made"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Twelve meetings. I will arrange them. He pauses. You understand that the argument you make to Imra Selev is not the argument you will be making to Davan Krost. Each of them left for a different reason. Each of them will come back for a different reason. That is the work."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "Theron nods. Not the nod of agreement — the nod of someone who has just watched their academic argument be translated into political action and is both impressed and unsettled by the translation. He offers nothing more. He understands that the next phase of this conversation is not his to lead."
+        }
+      ]
+    },
+    {
+      "id": "reformist_committee_chairs",
+      "text": "\"Identify the five most persuadable of the twelve. Each of them gets a committee chair offer — real committees, with real jurisdiction. We do not call it a bribe because it isn't one. It's recognition. Let's see who can be recognized back into the tent.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 8 },
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 6 }
+      ],
+      "flags": ["reformist_committee_chairs_offered", "reformist_partial_retention"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He is already annotating the list — which members are reachable, which committees have open chairs, which offers carry the most weight. He does this without comment. The work of political management is not something Vyktor judges. It is something he executes."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Committee chairs. Theron says the words as though testing them for weight. It is not the approach I would have chosen. It is, however, an approach that has been known to work. He does not like it. You can see that. But he does not stop it either. That is the compromise he is making with himself, and it is costing him something you can see on his face."
+        }
+      ]
+    }
+  ]
+}

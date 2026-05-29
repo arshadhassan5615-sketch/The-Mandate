@@ -1,0 +1,27 @@
+{
+  "id": "bill_womens_economic_liberation",
+  "title": "Women's Economic Liberation Act",
+  "shortName": "W.E.L.A.",
+  "proposer": "Progressive coalition inspired by Jonas",
+  "faction": "reformists",
+  "weekPresented": 44,
+  "fullText": "Section 1. No employer within the Republic of Veltria shall pay a female employee less than a male employee performing substantially similar work under similar conditions. The Ministry of Labor shall establish standardized job classification and pay scales applicable to all government contractors.\n\nSection 2. All employers of one hundred or more persons shall provide or subsidize childcare facilities for employees' dependent children under the age of twelve. A National Childcare Fund, capitalized at ten million Krone, shall provide matching grants to smaller enterprises.\n\nSection 3. Married women shall possess equal right to own, inherit, and dispose of property independently of their spouses. All existing legal instruments requiring spousal co-signature for female property transactions are hereby voided.",
+  "budgetCost": -20,
+  "signEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": 15 },
+    { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+    { "stat": "factions.church", "operation": "add", "value": -15 },
+    { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+    { "stat": "nation.internationalStanding", "operation": "add", "value": 10 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": -15 },
+    { "stat": "nation.internationalStanding", "operation": "add", "value": -10 }
+  ],
+  "signFlags": ["womens_liberation_signed"],
+  "vetoFlags": ["womens_liberation_vetoed"],
+  "prerequisites": [
+    { "stat": "flags.jonas_public_advocacy", "operator": "==", "value": true }
+  ],
+  "isVetoable": true
+}

@@ -1,0 +1,51 @@
+{
+  "id": "__project__amber_coast_highway",
+  "title": "The Amber Coast Highway",
+  "act": 2,
+  "weekAvailable": 14,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Cabinet Room — Ashenmere Palace",
+  "characters": ["elara_vostane"],
+  "narrative": [
+    { "type": "description", "text": "The Amber Coast region has been economically isolated since the collapse of the coastal rail line in 1949. The two-hundred-kilometer stretch between Aldenmoor and Ashenmere is served by a narrow gravel road that becomes impassable during the spring rains. Coastal towns that once supported fishing fleets and small manufacturing have withered into subsistence. A paved highway would reduce travel time from seven hours to three, open coastal communities to trade, and create an estimated eight thousand construction jobs." },
+    { "type": "dialogue", "character": "elara_vostane", "text": "Thirty-five million VK, eight weeks of construction, and an economic impact that would transform the coast within five years. The engineering corps has already surveyed the route — it is straightforward except for one section around the Thornfeld foothills where the terrain is more challenging. The business community supports it. The coastal communities are desperate for it. The only question is whether we can afford it alongside our other commitments." },
+    { "type": "description", "text": "The highway project has a known complication: the route passes near a site that may contain pre-Veltrian archaeological remains. At week four of construction, the project will hit a decision point — reroute around the ruins at additional cost, or proceed through them." }
+  ],
+  "choices": [
+    {
+      "id": "project_highway_accept",
+      "text": "\"Approve the highway. Thirty-five million VK from the infrastructure budget — this is exactly what infrastructure spending is for. The Amber Coast has been neglected for a generation. Connecting those communities to the national economy is not a luxury. It is the basic responsibility of government.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["project_highway_started"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "project_highway_defer",
+      "text": "\"Defer the highway until the next budget cycle. The coastal communities have waited since 1949 — six more months will not destroy them. I want the engineering surveys completed and the archaeological assessment finalized before we commit thirty-five million.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": ["project_highway_deferred"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "project_highway_reject",
+      "text": "\"The highway is not a priority. The coastal communities are smaller than the urban centers that require immediate investment. Redirect the infrastructure budget to Ashenmere and Kravenstal, where the largest populations are concentrated. The coast can wait.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": -3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["project_highway_rejected"],
+      "codexUnlocks": []
+    }
+  ]
+}

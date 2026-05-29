@@ -1,0 +1,93 @@
+{
+  "id": "act3_dusek_loyalty_arc",
+  "title": "Why She Stays",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Colonel Dusek's Office — Ministry of Defense, 19:45",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Ministry of Defense empties after six o'clock — the civilian staff depart, the junior officers complete their shift reports, the cleaning crews begin their rounds. By seven forty-five, the building is mostly dark except for the duty officer's desk and the light in Colonel Dusek's office, which is always on. She works late not because she has too much to do — though she does — but because the quiet hours are when the building stops being a political environment and becomes a military one. She can think in the quiet hours. She has been doing a lot of thinking."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "You asked me once why I came to you instead of to Brenner. I gave you the professional answer at the time. I would like to give you the real one, if you are willing to hear it. I have served under six ministers of defense, three general staff chiefs, and two governments — the one that preceded yours and yours. In that time I have learned that institutions protect themselves before they protect the people they are supposed to serve. The military as an institution is loyal to the military. It is loyal to the country only when the country's interests align with the institution's survival. When they diverge — the institution chooses itself. Every time. I came to you because you are loyal to the country, not to the institution. That is rarer than it should be. It is worth protecting."
+    },
+    {
+      "type": "description",
+      "text": "She is not looking at you while she speaks. She is looking at the wall map of Veltria — the northern border, the Gravenmark Pass, the territory she has spent her career preparing to defend. The map is annotated in her handwriting, the same precise script from the memorandum folder. Everything she does is written down somewhere, in ink, accountable."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I was sixteen when the Halvek regime arrested my father. He was a lieutenant colonel in the artillery corps — not political, not conspiratorial, just an officer who told a superior that a proposed redeployment would waste ammunition and lives. He was correct. He was also court-martialed for insubordination and spent four years in a military prison. The superior who brought the charges was promoted two years later. I learned from my father's experience that competence is not a defense against institutional corruption, and that the chain of command is not a moral framework. The chain of command is procedural. Morality is personal. I have tried to serve both. When they conflict, I serve the one that does not require me to betray people who trusted me. That is why I stayed. That is why I will continue to stay. Not because I am loyal to the uniform — I am loyal to the people inside it who deserve better than the institution they serve."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Dusek has just given me the most personal thing she has ever shared — not her father's story, which is terrible, but the moral framework she built from it. She serves the people inside the institution, not the institution itself. That is why she came to me about the memorandum. That is why she is here now, in this office, in this government, when other officers with her rank and her options have quietly distanced themselves from a Chancellor whose survival is not certain. She has entrusted me with the reason she stays. The question is what I do with that trust."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dusek_loyalty_deepen_trust",
+      "text": "\"Your father would be proud of you, Colonel. Not because you followed his example — because you learned the right lesson from his suffering. He was punished for telling the truth to power. You are protecting the person who is trying to make sure that never happens again. I will not forget what you have told me tonight, or what it cost you to tell it. Whatever happens in the coming weeks, I want you to know: you were right to trust me. I intend to prove that.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_military_rally", "delayWeeks": 5 }
+      ],
+      "flags": ["dusek_trust_deepened", "personal_bond_forged", "dusek_loyalty_cemented"],
+      "codexUnlocks": ["codex_colonel_dusek_personal"]
+    },
+    {
+      "id": "dusek_loyalty_professional",
+      "text": "\"I appreciate your candor, Colonel. I also want to be clear about what our relationship is and what it is not. You are an officer of the Veltrian armed forces serving the civilian government — which is your duty, not your gift. I value your competence and your integrity. I will continue to rely on both. But I do not want either of us to confuse professional respect with personal obligation. The country needs officers who serve the office, not the person holding it. That is what you are doing. Let us leave it at that.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "nation.corruption",             "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["dusek_relationship_professionalized", "boundaries_maintained", "duty_over_personal"],
+      "codexUnlocks": ["codex_colonel_dusek_professional"]
+    },
+    {
+      "id": "dusek_loyalty_test",
+      "text": "\"You have given me a reason to trust you, Colonel. I am going to give you a reason to prove it. The military conspiracy you have been monitoring: I want you to continue your intelligence work, but I also want you to begin cultivating relationships with the officers in the network. Not to join them — to understand them. When the moment comes, I may need someone inside that network who they will talk to honestly. That person will be you. It is a difficult assignment. It is also the one that will make the most difference. Are you willing?\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -2 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_coup_attempt", "delayWeeks": 4 }
+      ],
+      "flags": ["dusek_undercover_assignment", "loyalty_tested", "deep_penetration_strategy"],
+      "codexUnlocks": ["codex_military_intelligence_operations"]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "id": "act2_religious_holiday_speech",
+  "title": "The Feast of Saint Aldric",
+  "act": 2,
+  "weekAvailable": 21,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Cathedral of Saint Aldric — Ashenmere",
+  "characters": ["stanislov_renek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Feast of Saint Aldric is the holiest day on the Veltrian calendar — a celebration of the saint who brought Christianity to the Veltrian peoples in the eighth century and, according to tradition, unified the warring hill tribes into the first proto-Veltrian kingdom. The Cathedral of Saint Aldric in Ashenmere holds ten thousand people. On feast day, another thirty thousand gather in the square outside. The Chancellor's attendance is traditional — every head of state since 1840 has attended the feast day service. What you say, and how you say it, will be parsed by the Church hierarchy, the reformist press, the Dravenni community, and everyone in between."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor, the homily is mine. The Chancellor's remarks — traditionally delivered after the service, from the cathedral steps — are yours. I would simply note that the people gathered in this square are the faithful. They have come to hear their Chancellor affirm the role of faith in the life of the nation. If they hear instead a lecture on secularism, they will feel betrayed. If they hear a genuine expression of spiritual solidarity, they will remember it for the rest of your term. I am not instructing you. I am describing the congregation."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The Archbishop is telling me that the crowd is his, not mine — which is true, in the sense that the thirty thousand people outside this cathedral did not come to hear a political speech. They came for Saint Aldric. But they will also hear their Chancellor, and what I say from these steps will define the relationship between my government and the faithful for the remainder of my term. I can speak as a believer — the Veltrian faith is my faith, I was raised in it, and part of me still finds comfort in these stone walls. I can speak as a secular leader — honoring faith while affirming the secular state. Or I can stay home, which is itself a statement. Every option is a message. The question is which message I want to send."
+    }
+  ],
+
+  "monologue": "The Feast of Saint Aldric. Ten thousand inside the cathedral. Thirty thousand outside. The Chancellor's attendance is traditional — but I am not a traditional Chancellor. Renek's description of the congregation was not instruction, he said. It was instruction. Speak as a believer and I keep the Church. Speak as a secularist and I lose Thornfeld. Skip entirely and I send a message louder than any speech. Every option is amplified by the cathedral steps.",
+
+  "choices": [
+    {
+      "id": "holiday_faithful",
+      "text": "Speak as a believer. Acknowledge Saint Aldric's role in Veltrian history. Connect his mission of unification to the work of healing a divided nation. Quote scripture — the passage about 'a house divided cannot stand,' which the Archbishop used in his own sermon. The speech does not mention policy. It speaks of faith, unity, and the moral obligations of leadership. The congregation hears a Chancellor who shares their beliefs. The Church hears an ally.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 15 },
+        { "stat": "religiousAdherence", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["feast_faithful_speech", "church_aligned"],
+      "codexUnlocks": ["codex_church_tradition"],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "After the service, the Archbishop finds you in the vestry. He does not sit. He does not offer a political observation. He takes your hand in both of his — a gesture no Archbishop has made to a Chancellor in forty years — and holds it for a moment longer than protocol permits."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "You spoke of Saint Aldric's mission of unification. I have been Archbishop for twelve years. I have never heard a Chancellor speak from these steps as though she meant it. He pauses. I hope you did."
+        }
+      ]
+    },
+    {
+      "id": "holiday_unity",
+      "text": "Speak as a unifier. Honor Saint Aldric, then expand — 'the faith that built this cathedral also built the Dravenni mountain shrines, the Morivask border chapels, the quiet places where Veltrians of every background seek the divine.' The speech is about national unity, not religious orthodoxy. It names the Dravenni explicitly, acknowledges the refugees, and calls for a nation where faith and citizenship support rather than oppose each other. The Church is honored but not deferred to.",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -5 },
+        { "stat": "religiousAdherence", "operation": "add", "value": -2 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["feast_unity_speech", "inclusive_faith"],
+      "codexUnlocks": ["codex_church_tradition"],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "text": "After the service, the Archbishop finds you in the vestry — a cramped stone room behind the altar, where generations of priests have prepared for mass. He does not look like the political operator who briefed you an hour ago. He looks tired. Genuinely tired. He sits. He gestures for you to sit. There is a long silence before he speaks.",
+          "type": "narrative"
+        },
+        {
+          "character": "stanislov_renek",
+          "text": "The Dravenni shrines. [He nods slowly.] My father was a schoolteacher. Not a priest — a schoolteacher. In a village outside Thornfeld. He taught Dravenni children, Morivask children, anyone who showed up. The Diocese did not approve. He taught them anyway. He said the Church's job was to open doors, not close them. I have not thought about that in a long time. I should have thought about it sooner.",
+          "type": "dialogue"
+        },
+        {
+          "character": "stanislov_renek",
+          "text": "He stands. Straightens his vestments. The political Archbishop returns — but not quite. Something remains in his eyes that was not there before. Something that looks, unaccountably, like gratitude. He offers no condition. He asks for nothing. He simply nods once and walks back toward the cathedral.",
+          "type": "narrative"
+        }
+      ]
+    },
+    {
+      "id": "holiday_skip",
+      "text": "Do not attend. Send a written statement of respect for the holiday and a donation to the Cathedral restoration fund. The statement is gracious and brief. The absence speaks for itself. You spend the day working — there is a budget review that needs attention and a security briefing on the Tyvaren border situation. The Church will be furious. The reformists will be quietly pleased. The public will notice that the first woman Chancellor did not kneel.",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -15 },
+        { "stat": "religiousAdherence", "operation": "add", "value": -5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -3 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["feast_skipped", "secular_distance"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "silence",
+          "text": "The Archbishop receives your written statement in silence. His aide later reports that he read it twice, set it down, and said nothing for the remainder of the afternoon. The next morning, the Diocesan Council issues a statement expressing 'profound disappointment' — in Renek's own handwriting, you notice, not the committee's."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "At the next meeting of the Interfaith Council — which you did not attend — Renek is reported to have said: The Chancellor sent a donation. A generous one. She sent a statement. A gracious one. She did not send herself. He did not elaborate. He did not need to."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "id": "act4_jonas_divorce",
+  "title": "The Dissolution",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Morning Room",
+  "characters": ["jonas_ashavel", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The papers arrive via courier, not through the Chancellery mail system. Jonas is careful that way — even in dissolution, he is protecting you from the institutional machinery that would process a Chancellor's divorce filing as intelligence before it was processed as personal. The envelope is plain. Heavy paper. His handwriting on the outside: 'Katerin — I wanted you to see this before anyone else did.' Inside: a petition for dissolution of marriage, filed that morning at the Ashenmere Civil Court, case number already assigned. Irretrievable breakdown. No fault pleaded. No details. The document is three pages of legal language that reduces twenty-three years of marriage to paragraphs of procedural boilerplate. It is the most devastating thing you have ever read."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The press has the filing. The Civil Court clerk's office has a standard procedure for notifying the press of filings involving public figures — it is automatic, not malicious, but the effect is the same. Three newspapers have already called for comment. The afternoon editions will run the story regardless of whether we respond. I have prepared a statement. It says nothing. That is intentional. The less we say, the less there is to analyze. The statement acknowledges the filing, requests privacy, and emphasizes that governance continues uninterrupted. I recommend you approve it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vyktor is doing what Vyktor does: managing the institutional crisis so you can manage the personal one. He has separated the two things so cleanly — the press statement, the governance continuity, the message discipline — that for a moment you can almost believe they are separate. They are not separate. Your marriage is ending because the Chancellorship consumed everything you had to give and Jonas could not survive on the scraps. The Chancellorship is the cause of the divorce and also the institution that will manage the public presentation of the divorce. The personal and political are not merely intersecting — they are the same thing, viewed from different angles. You cannot grieve your marriage without grieving the Chancellorship that destroyed it. You cannot defend the Chancellorship without defending the thing that destroyed your marriage. This is the bind. You have been living in it for months. Now it has a case number."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I filed this morning. The clerk asked me three times if I was sure — apparently the husband of the Chancellor filing for divorce is unusual enough to require triple confirmation. I was sure. I am sure. I have been sure for longer than I wanted to admit. I'm telling you this not to hurt you but because I think you deserve to hear it from me before you hear it from a newspaper. I still love you, Katerin. That is the part that makes this unbearable — I am divorcing a woman I love because I cannot live with what her life requires her to be. I don't know if that makes me weak or honest or both. I know it makes me someone who is filing for divorce on a Tuesday morning and then going to work like it is any other Tuesday. I wanted you to hear it from me. The rest is procedure."
+    },
+    {
+      "type": "description",
+      "text": "He is standing in the morning room — the room where you used to have coffee together before the campaign, where Tomas took his first steps, where Liora announced she was going to journalism school. The room is full of the archaeology of a marriage. The photographs on the mantle. The book he gave you for your tenth anniversary, its spine cracked from rereading. The chair where your father sat during his last visit before the execution. All of it is still here. Only the marriage is leaving."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "jonas_divorce_private_dignity",
+      "text": "\"Jonas. I am not going to fight this. Not in court. Not in the press. Not in private. You are right about what the Chancellorship required of me. You are right about what it cost you. I would make different choices if I could go back — I cannot go back. What I can do is let you go with dignity. No contested filing. No counter-petition. No public narrative that casts you as the villain or me as the martyr. We were two people who loved each other and could not survive what my life became. That is the story. It is true and it is enough. Vyktor — approve the statement. Add one line: 'The Chancellor and Mr. Ashavel remain committed to the wellbeing of their children and ask that their privacy be respected during this transition.' That's it. That's all. The country does not need to see me grieve. It needs to see me govern.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -30 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 4   },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 16  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4   },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["jonas_left", "marriage_ended", "divorce_dignified", "private_resolution", "no_fault_accepted"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_divorce_proceedings"]
+    },
+    {
+      "id": "jonas_divorce_public_narrative",
+      "text": "\"Vyktor — I want a different statement. Not the standard privacy language. The country has watched my marriage deteriorate in public for months. They deserve an honest accounting. Draft something that acknowledges the cost of governance on families, that names what happened without naming blame, that lets the country understand that the people who govern them are human beings whose lives break in ordinary ways. Not a political speech. A letter. From me, to the country, about what this office costs. It will be criticized. Some will say it is weakness. I think it is the most honest thing I have said since the inaugural address. Jonas — I am going to tell the truth about us. Not your truth or my truth. The truth: that we loved each other and the Chancellorship was more than our marriage could carry. I think that truth might help someone. I think it might help me.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -30 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 2   },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 6   },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["jonas_left", "marriage_ended", "divorce_narrative", "public_letter", "human_cost_named"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_divorce_proceedings"]
+    },
+    {
+      "id": "jonas_divorce_legal_protection",
+      "text": "\"Vyktor — I want Theron to review the filing before we respond. Not to contest it. To understand what the legal implications are for my position. Custody arrangements, financial settlements, property division — all of it has political dimensions. If Jonas is seeking joint custody, that means Tomas's living arrangements become a matter of public record. If there is a financial settlement, the opposition will scrutinize it for evidence of corruption or hidden assets. I am not trying to punish Jonas. I am trying to protect myself from a divorce that becomes a political weapon. Draft a response that accepts the petition with reservations — we agree to the dissolution but reserve the right to negotiate terms. I need a lawyer, not a press statement. At least for now.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -30 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": -8  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -6  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 6   },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["jonas_left", "marriage_ended", "divorce_contested", "legal_review", "protective_measures"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_divorce_proceedings"]
+    },
+    {
+      "id": "jonas_divorce_full_transparency",
+      "text": "\"Vyktor — no prepared statement. I will address the press myself. Not from the podium. From the residence. I will tell them that my marriage is ending, that it is ending because I could not be both the Chancellor the country needed and the wife my husband deserved, that I chose — every day, a thousand times a day — and the choices accumulated into something irretrievable. I will not blame Jonas. I will not blame myself in a way that invites pity. I will state facts. The country elected a Chancellor. It did not elect a marriage. The Chancellorship has survived. The marriage has not. I think the country deserves to understand what its governance costs the people who govern. If that is politically damaging — then the damage is the truth, and I would rather be damaged by the truth than protected by an evasion.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -30 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 6   },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 2   },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 20  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6   },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["jonas_left", "marriage_ended", "divorce_transparent", "press_address", "personal_cost_public"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_divorce_proceedings"]
+    }
+  ]
+}

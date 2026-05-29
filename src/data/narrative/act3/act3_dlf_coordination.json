@@ -1,0 +1,89 @@
+{
+  "id": "act3_dlf_coordination",
+  "title": "Coordinated Defense",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Forward Operating Base Gravenmark — Command Tent, 16:00",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The forward operating base at Gravenmark is a temporary city of canvas and radio antennae, smelling of diesel and mountain pine, the constant low thrum of generators underlying every conversation. The DLF liaison officers occupy a corner of the command tent that has been informally designated as theirs — a table with their own maps, their own radio frequencies, their own coffee. The separation is practical. It is also a statement. The two command structures are coordinating without integrating, sharing intelligence without sharing authority, fighting the same enemy without fighting as the same army."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The coordination framework is functional. DLF reconnaissance units are providing terrain intelligence that has improved our operational planning by approximately forty percent — they know the mountain passes, the seasonal stream crossings, the avalanche patterns in ways our topographical maps cannot capture. They are also providing local population screening that has identified seven Tyvaren intelligence assets attempting to cross through civilian transit points. The military value is real. The fragility is also real — every liaison meeting includes at least one moment where a cultural misunderstanding or a historical grievance threatens to derail the operational coordination. I spend approximately twenty percent of my command time managing the relationship rather than the operation."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty percent better intelligence is the difference between knowing where Tyvaren's forces will cross the pass and guessing. Seven identified intelligence assets is seven fewer spies in our rear areas. Dusek is telling me the partnership works — and also telling me that it requires active maintenance that pulls her away from other command responsibilities. The math is clear: the DLF coordination is a force multiplier, but the multiplier requires constant calibration. I need to decide how much command attention the relationship is worth, and what we risk if the calibration fails."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "There is one additional factor I want you to consider. The DLF fighters are watching how the Veltrian soldiers treat them. Every interaction — every salute rendered or withheld, every briefing included in or excluded from, every piece of equipment shared or kept separate — is being reported back through DLF internal channels. The operational partnership is being judged by the Dravenni community as a test of whether the political promises made in Ashenmere will be honored on the ground. If the military relationship fails, the political relationship will not survive. I do not raise this to create pressure. I raise it because it is true."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dlf_coordination_deepen",
+      "text": "\"Expand the coordination framework — shared briefings, combined patrols, joint operational planning. I want DLF officers in the planning room when we make decisions, not in the corner waiting for summaries. Dusek, I know this costs you command time. I am authorizing you to delegate other responsibilities to make the space. This relationship is not a tactical convenience — it is the foundation of a new military alliance, and foundations need to be built before the storm hits.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 14 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_nationalist_backlash", "delayWeeks": 2 }
+      ],
+      "flags": ["dlf_coordination_deepened", "combined_patrols_authorized", "joint_planning_established"],
+      "codexUnlocks": ["codex_dlf_joint_operations"]
+    },
+    {
+      "id": "dlf_coordination_maintain",
+      "text": "\"The current framework is working — maintain it. Intelligence sharing and reconnaissance coordination are delivering what we need. I won't risk disrupting an operational relationship that is producing results by forcing integration faster than either side is ready for. Dusek, continue managing the cultural friction as you have been. If the partnership works, the trust will build naturally. It cannot be mandated from Ashenmere.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 4  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week34_dravenhollow", "delayWeeks": 5 }
+      ],
+      "flags": ["dlf_coordination_maintained", "organic_trust_approach", "no_forced_integration"],
+      "codexUnlocks": ["codex_dlf_gradual_integration"]
+    },
+    {
+      "id": "dlf_coordination_contain",
+      "text": "\"The DLF partnership is a temporary military necessity, not a permanent alliance. Maintain the intelligence sharing and reconnaissance coordination, but keep the relationship operationally contained. I want no combined patrols, no joint command structures, no integration that creates dependencies we cannot undo when the crisis passes. The Dravenni are allies of convenience — we treat them with professional respect, but we do not treat them as permanent partners.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_divided_response", "delayWeeks": 3 }
+      ],
+      "flags": ["dlf_contained", "temporary_alliance_only", "integration_resisted"],
+      "codexUnlocks": ["codex_dlf_limited_partnership"]
+    }
+  ]
+}

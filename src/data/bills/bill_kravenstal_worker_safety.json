@@ -1,0 +1,22 @@
+{
+  "id": "bill_kravenstal_worker_safety",
+  "title": "Kravenstal Worker Safety Standards Act",
+  "shortName": "W.S.A.",
+  "proposer": "Gregor Marić",
+  "faction": "workersCoalition",
+  "weekPresented": 6,
+  "fullText": "Section 1. All industrial facilities within the Republic of Veltria employing fifty or more persons shall submit to quarterly safety inspections conducted by the Ministry of Labor and Welfare. Inspectors shall possess authority to issue cease-work orders upon discovery of imminent hazards.\n\nSection 2. Employers shall maintain a Workers' Compensation Fund sufficient to cover twelve months of wages for any employee injured in the course of duty. Minimum shift length shall not exceed ten hours, with mandatory rest periods between shifts.\n\nSection 3. The Ministry shall establish a permanent Office of Industrial Safety, funded through the national budget, to oversee compliance and publish annual safety reports for public review.",
+  "budgetCost": -15,
+  "signEffects": [
+    { "stat": "factions.workersCoalition", "operation": "add", "value": 15 },
+    { "stat": "factions.businessClass", "operation": "add", "value": -10 },
+    { "stat": "nation.publicOrder", "operation": "add", "value": 3 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.workersCoalition", "operation": "add", "value": -20 },
+    { "stat": "factions.businessClass", "operation": "add", "value": 10 }
+  ],
+  "signFlags": ["worker_protections_passed"],
+  "vetoFlags": ["worker_safety_vetoed"],
+  "isVetoable": true
+}

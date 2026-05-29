@@ -1,0 +1,106 @@
+[
+  {
+    "id": "agenda_w26_referendum_vote_result",
+    "title": "Assembly Vote — Constitutional Ratification",
+    "description": "The popular referendum has been counted. Now the Assembly must ratify the result. The Speaker has called the division. Every MP's vote will be recorded. Every MP's vote will be remembered.",
+    "category": "crisis",
+    "sceneId": "__vote__",
+    "slotCost": 2,
+    "executionOrder": -3,
+    "weekAvailable": 26,
+    "weekDeadline": 26,
+    "isUrgent": true,
+    "voteConfig": {
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "successFlags": ["referendum_passed", "constitution_ratified"],
+      "failureFlags": ["referendum_failed", "constitution_rejected"],
+      "corruptionRisk": "low",
+      "lobbyingEnabled": false,
+      "narrativeSceneId": "act2_week26_referendum_decisive"
+    }
+  },
+  {
+    "id": "agenda_w26_referendum_decisive",
+    "title": "Election Night — Decisive Victory",
+    "description": "The number on the central board says 60.7%. Dravenhollow voted 84% yes. Kravenstal 61%. The constitution has a mandate — real, undeniable, large. The question now is what you do with it.",
+    "category": "crisis",
+    "sceneId": "act2_week26_referendum_decisive",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 26,
+    "weekDeadline": 26,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.referendum_passed", "operator": "==", "value": true },
+      { "stat": "factions.reformists", "operator": ">=", "value": 62 }
+    ]
+  },
+  {
+    "id": "agenda_w26_referendum_narrow",
+    "title": "Election Night — By a Thread",
+    "description": "51.8%. Thornfeld voted 38% yes. Sevagrad 47%. Kolvar hasn't conceded. Some precincts are reporting irregularities. You won, but the kind of win that feels like you're already losing the next fight.",
+    "category": "crisis",
+    "sceneId": "act2_week26_referendum_narrow",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 26,
+    "weekDeadline": 26,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.referendum_passed", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w26_referendum_rejected",
+    "title": "Election Night — Forty-Six Percent",
+    "description": "The constitution failed. 46.3%. Ashenmere was the only province above 53%. Kolvar is already giving interviews about the 'rejection of radical reform.' The question isn't whether your government survives — it's what kind of government survives with you.",
+    "category": "crisis",
+    "sceneId": "act2_week26_referendum_rejected",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 26,
+    "weekDeadline": 26,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.referendum_failed", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w26_budget",
+    "title": "Budget Allocation — Post-Referendum Framework",
+    "description": "The result is in. Adjust the fiscal framework to match the political reality. Victory means implementation costs. Defeat means crisis management. Either way, the treasury needs direction by morning.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 0,
+    "weekAvailable": 26,
+    "weekDeadline": 29
+  },
+  {
+    "id": "agenda_w26_constitution",
+    "title": "Constitutional Reform — Implementation or Recalibration",
+    "description": "If it passed: begin the implementation framework. If it failed: decide whether to revise and resubmit or govern through the existing constitution. Either path starts tonight.",
+    "category": "cabinet",
+    "sceneId": "__constitution__",
+    "slotCost": 2,
+    "executionOrder": 1,
+    "weekAvailable": 26,
+    "weekDeadline": 30
+  },
+  {
+    "id": "agenda_w26_family_crisis",
+    "title": "The Residence — After the Vote",
+    "description": "Whatever happened at the polls, your family lived through it too. Jonas watched the results from the residence. Liora was at the Ashenmere count. Tomas was... somewhere. Find out.",
+    "category": "personal",
+    "sceneId": "act2_week23_family_crisis_jonas",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 26,
+    "weekDeadline": 28,
+    "prerequisites": [
+      { "stat": "personal.marriageHealth", "operator": "<", "value": 45 }
+    ]
+  }
+]

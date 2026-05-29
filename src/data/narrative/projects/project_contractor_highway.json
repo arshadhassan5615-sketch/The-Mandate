@@ -1,0 +1,58 @@
+{
+  "id": "project_contractor_highway",
+  "title": "Amber Coast Highway — Who Builds It?",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Infrastructure — Planning Office",
+  "characters": ["elara_vostane", "danika_oberlin"],
+  "prerequisites": [{ "stat": "flags.project_highway_started", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "The Amber Coast Highway will connect Aldenmoor to Ashenmere through two hundred kilometers of coastal terrain. Eight thousand construction jobs, three-hour travel time instead of seven. The route is approved. The contractor is not." },
+    { "type": "dialogue", "character": "danika_oberlin", "text": "The highway runs through Dravenni ancestral lands. If we use the State Construction Bureau, they will employ local workers — Dravenni workers — and the route will respect cultural sites. If Vael's group builds it, they will take the most efficient path regardless of what it cuts through. And the foreign consortium has offered to include archaeological survey teams in their bid — they would document sites before construction. Each option costs differently. Each option means something different to the people who live along the route." }
+  ],
+  "choices": [
+    {
+      "id": "contractor_highway_state",
+      "text": "\"State Bureau. Local hiring, local management. It will take longer but the road will belong to the communities it serves.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["contractor_highway_state"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "contractor_highway_vael",
+      "text": "\"Vael Construction. On schedule, on budget — plus his markup. He will push the route through efficiently. What he bulldozes is the cost of progress.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 8 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -8 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 10 },
+        { "stat": "nation.corruption", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [{ "targetNodeId": "project_vael_kickback_highway", "delayWeeks": 0 }],
+      "flags": ["contractor_highway_vael"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "contractor_highway_foreign",
+      "text": "\"Foreign consortium with archaeological survey. They will document the Dravenni sites before construction. Two weeks faster. Cultural heritage preserved alongside infrastructure.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["contractor_highway_foreign"],
+      "codexUnlocks": []
+    }
+  ]
+}

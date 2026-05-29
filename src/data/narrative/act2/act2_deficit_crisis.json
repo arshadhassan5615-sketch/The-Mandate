@@ -1,0 +1,136 @@
+{
+  "id": "act2_deficit_crisis",
+  "title": "The Krone Falls",
+  "act": 2,
+  "weekAvailable": 16,
+  "type": "emergency",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Finance Ministry — Budget Office",
+  "characters": ["elara_vostane", "gregor_maric", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "nation.nationalDebt", "operator": ">", "value": 450 }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Bread prices have doubled in two weeks. The bakeries in Kravenstal are posting their prices in chalk on boards outside their windows so they can change them between morning and afternoon without reprinting menus. The Krone has lost fourteen percent of its value against the Arcturian trade dollar since Monday. This is the crisis that the bond downgrade last month was the warning of. The warning period is over."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The Maritime Trade Consortium has frozen Veltrian credit. No new borrowing is available at any interest rate — they have suspended our access entirely pending fiscal stabilization. That means we cannot roll over the debt tranche due in eleven weeks. We have two functional paths. Default: we formally declare that we cannot service the current debt obligations. It stops the bleeding immediately, gives us fiscal space to operate, and results in complete isolation from international credit markets for a minimum of five years. Or we accept the IMA package — all of it, including the conditions we declined before. The math has not changed. Our negotiating position has."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "There is a third path. Lucan Vael owns assets — in Veltria, registered under Veltrian corporate law — worth approximately three hundred million Krone. Those assets were accumulated through government contracts awarded corruptly under Halvek. We nationalize them. The revenue services the debt tranche. Vael goes to court and fights us for five years, during which time we operate normally. Every investor who came to Veltria through legitimate means will be frightened — I understand that. But they came through legitimate means. Vael did not. That distinction matters."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Default severs us from the world economy and leaves us genuinely alone with Tyvaren on our northern border and an IMA that will never offer us terms again. The IMA package is sovereignty for solvency — a trade I once said I wouldn't make, at a moment when the alternative was theoretical. The alternative is no longer theoretical. Marić's nationalization is the revolutionary option — the one that terrifies every investor but might just work, if Vael's assets are as liquid as Marić believes and if the courts do not immediately issue an injunction. Every path is a gamble. The question is whose future I am gambling with."
+    }
+  ],
+  "monologue": "Bread prices doubled. The Krone lost fourteen percent in a week. The credit markets have frozen. Vostane offers default or the IMA package — the one I declined when the alternative was theoretical. Maric offers nationalization of Vael's assets. Three paths, all of them gambles. The question is no longer what policy is correct. The question is whose future I am gambling with and whether they would consent if I asked them.",
+
+  "choices": [
+    {
+      "id": "deficit_crisis_default",
+      "text": "\"Default. Formally. We issue a statement that Veltria is entering a debt restructuring period, that we will negotiate individually with creditors, and that we are suspending all IMA engagement. Five years without international credit is survivable — I will tell Vostane to find ways to make it survivable. We keep our hands free. We keep our policies ours.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": -12 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 6   },
+        { "stat": "factions.businessClass",      "operation": "add", "value": -18 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 8 }
+      ],
+      "flags": ["debt_default_declared", "ima_engagement_suspended", "fiscal_sovereignty_retained"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "Vostane closes her portfolio. She does not argue — she already made her argument, and you overruled it. The silence is not anger. It is the particular quiet of someone who has just been told to execute a plan she does not believe in, and who will execute it to the highest standard anyway because that is who she is."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Default. He nods slowly. Five years without international credit. He is calculating the same things you are — the supply lines, the import dependencies, the cost in real terms for workers who depend on goods priced in foreign currency. It is survivable, he says. He does not say comfortably. He does not say safely. He says survivable. It is the most honest assessment you have heard all day."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The statement will need to be in every newspaper by morning. Default is a word that travels faster than any other word in economics. He pauses. I will prepare the international cable traffic as well. Cole and Stahl will both call within the hour. I will prepare two versions of the answer."
+        }
+      ]
+    },
+    {
+      "id": "deficit_crisis_ima_full",
+      "text": "\"Accept the IMA package. All of it. Every condition. Vostane, get Geis on the telephone today — I want a term sheet by end of week. This is the moment where I accept that I cannot govern a bankrupt country on principle. I will spend every day of the next four years fighting back the conditions, rebuilding the fiscal independence we are surrendering today. But a country that can pay its bills is a country I can actually govern.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 14  },
+        { "stat": "nation.nationalDebt",         "operation": "add", "value": -40 },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -14 },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 14  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_deal_accepted", "ima_full_conditions_accepted", "deficit_crisis_stabilized"],
+      "codexUnlocks": ["codex_ima"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She is already reaching for the telephone. Geis's office in Arcturia — she has the number memorized. She has had it memorized since the first meeting. She does not celebrate. Vostane never celebrates. But she moves with the particular efficiency of someone who has finally been told to do the thing she has been arguing for."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "Marić says nothing for a very long time. His hands are flat on the table again — not fists, just flat, the way a man's hands look when he has stopped fighting. When he finally speaks, his voice is quieter than usual. I understand the logic, he says. I do not like the logic. I will go home and think about what the conditions mean for Kravenstal. He stands. He does not argue. That is worse than an argument."
+        }
+      ]
+    },
+    {
+      "id": "deficit_crisis_vael_nationalize",
+      "text": "\"Nationalize Vael's assets. All of them — the steel processing facilities, the Amber Coast holdings, the Ashenmere commercial properties. Issue the decree this afternoon under the existing constitutional provision for national emergency asset seizure. Yes, Vael goes to court. Yes, investors are frightened. Marić is right: there is a difference between wealth created through legitimate markets and wealth extracted through Halvek-era corruption contracts. I can make that argument in public. I will make it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 5   },
+        { "stat": "nation.nationalDebt",         "operation": "add", "value": -30 },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 16  },
+        { "stat": "factions.businessClass",      "operation": "add", "value": -20 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week18_vael_oligarch", "delayWeeks": 1 }
+      ],
+      "flags": ["vael_nationalized", "emergency_asset_seizure", "deficit_crisis_stabilized"],
+      "codexUnlocks": ["codex_vael_oligarch"],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He stands. He does not smile — Marić does not smile at revolutionary moments, he simply stops being tense. He nods once — the nod of a man who has just watched his government choose the dangerous path instead of the safe one and is still trying to decide whether he believes it."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "Vostane writes nationalization decree on her notepad. Her penmanship is as precise as ever. She does not comment. She does not need to. The silence is the sound of Elara Vostane deciding that the path you have chosen is economically suboptimal but legally executable, and that her job is execution, not approval."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Vael will be in court by tomorrow afternoon. He has the best litigators in Veltria. He pauses. He also has the most to lose. Those two facts will interact in ways that are difficult to predict. I will prepare the legal team."
+        }
+      ]
+    }
+  ]
+}

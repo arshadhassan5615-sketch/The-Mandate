@@ -1,0 +1,243 @@
+{
+  "id": "act1_chain_kravenstal_unrest",
+  "title": "The Kravenstal Response",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Kravenstal — Industrial District",
+  "characters": [
+    "gregor_maric",
+    "elara_vostane"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The wildcat strike began at the Kravenstal Steel Works at six in the morning and spread to the rail yards by noon. By evening, the textile mills in the eastern district have stopped and workers are gathering in Foundry Square with banners that were clearly made overnight — the paint is still wet enough to smell. The banners say REMEMBER WHO BUILT THIS and AUSTERITY IS VIOLENCE and, on one held by a woman who looks like she has not slept in three days, simply ENOUGH."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I did not call this strike, Chancellor. I want the Chancellor to understand that. The Workers' Coalition did not authorize it — this is organic, rank and file, shop stewards who saw their hours cut and their neighbors laid off and woke up this morning deciding they were not going to let the government take more without being asked whether they could afford to give it. Listen. These are my people. I grew up three streets from the steel works. My father poured steel in that foundry for twenty years. Twenty years. I know every face in Foundry Square and I know what it costs them to be standing there instead of working. I can try to negotiate an end to this. I cannot promise one. And I will not — I will not — order them back to work while the Chancellor's budget cuts their children's school meals. There are lines I crossed to join this government. That line stays where it is."
+    },
+    {
+      "type": "description",
+      "text": "Gregor Maric is forty-seven years old, a foundry foreman who became a union organizer who became a minister in your government. He still wears work boots under his ministerial suit. He has not forgotten what he came from. He is standing in your office telling you that the workers who voted for you are now walking out on you, and he is doing it with the particular pain of a man who is watching something he helped build start to crack."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The steel works alone accounts for 4 percent of GDP. The rail yards move 60 percent of inland freight. If this strike continues for more than 72 hours, the economic impact will exceed the savings projected from the budget cuts for the entire quarter. The austerity plan is mathematically sound. A general strike in Kravenstal makes the mathematics irrelevant. We need the workers back. However we get them there — compensation, negotiation, a temporary pause on the welfare reductions — the cost of accommodation is lower than the cost of a prolonged stoppage. That is not ideology. That is arithmetic."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vostane is giving me the numbers and Maric is giving me the moral argument and they are both right in ways that cannot be reconciled. The budget cuts were necessary because the deficit was real. The strike is happening because the cuts are real and people are hungry. I am standing between two kinds of truth and whichever one I choose, the other one will say I abandoned the people I was elected to protect. The workers who voted for me. The country I swore an oath to govern. They are not the same thing today. They may never be the same thing again."
+    }
+  ],
+  "monologue": "The banners still smell like fresh paint. The workers didn't plan this — they woke up and couldn't do it anymore. Maric is standing in my office telling me his people have stopped believing in the government he serves, and he's doing it with the pain of a man watching something he helped build start to crack. Vostane says the math favors accommodation. She's right. The math also favors remembering who these people are and what they were promised.",
+  "choices": [
+    {
+      "id": "kravenstal_negotiate_maric",
+      "text": "\"Gregor, go back to Foundry Square. Tell them the Chancellor hears them. I am freezing the remaining welfare cuts pending a review of their impact on working families. Vostane, I need numbers on what that does to the deficit — not to talk me out of it, to tell me what we need to find elsewhere. I will not govern by making the poorest people pay for a crisis they did not create.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 6
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_budget_revision",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": [
+        "kravenstal_concessions",
+        "welfare_frozen",
+        "kravenstal_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kravenstal_strike",
+        "codex_welfare_review"
+      ],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "He says nothing. He is rarely silent. The silence itself is a statement."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She says nothing. Her expression suggests she is already recalculating."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_compromise_partial",
+      "text": "\"I'll meet with the shop stewards myself. No press. No speeches. Just a conversation about what's actually possible. Gregor, you facilitate. Vostane, you present the numbers honestly — not the political version, the real version. If there's a middle ground between the deficit target and what these families can survive, we'll find it together. And if there isn't — they need to hear that from me directly, not from a press release.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 4
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "kravenstal_dialogue",
+        "shop_stewards_met",
+        "kravenstal_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kravenstal_strike"
+      ],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She is silent. She is already updating her projections."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Finally."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_hold_firm",
+      "text": "\"The budget stands. I did not make these cuts because I wanted to — I made them because the alternative is a debt spiral that destroys the Krone and hurts the same workers ten times worse. Gregor, tell the strikers I understand their anger and I share it. But tell them also that a general strike will not change the arithmetic. It will only make the crisis they are protesting against arrive faster. I need them back at work. Not for me. For the country they say they are defending.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -6
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_kravenstal_escalation",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "kravenstal_refused",
+        "budget_held_firm",
+        "kravenstal_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kravenstal_strike",
+        "codex_austerity_defended"
+      ],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She is silent. She is already updating her projections."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Finally."
+        }
+      ]
+    }
+  ]
+}

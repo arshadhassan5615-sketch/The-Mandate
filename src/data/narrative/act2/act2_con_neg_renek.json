@@ -1,0 +1,47 @@
+{
+  "id": "act2_con_neg_renek",
+  "title": "The Archbishop's Conditions",
+  "act": 2,
+  "weekAvailable": 14,
+  "weekDeadline": 20,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Cathedral of the Eternal Flame — Archbishop's Study",
+  "characters": ["stanislov_renek"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Archbishop Renek receives you in the cathedral study — a room that has hosted Chancellors for three centuries. The stained glass casts colored light across ancient manuscripts. He offers tea. His manner is warm, paternal, and utterly political."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor. The Church has been the moral guardian of Veltria for four hundred years — through empires, revolutions, and dictatorships. We do not ask for power. We ask only that the constitution recognize our role. Keep the Church's constitutional status. Do not include social and economic rights that would undermine Church-run hospitals and schools. And do not implement comprehensive land reform — the Church's agricultural estates feed the poor. These are not political demands. They are pastoral concerns."
+    }
+  ],
+  "monologue": "The cathedral study has hosted Chancellors for three centuries. Renek is very aware of this — it is why he chose this room. He is offering tea, warmth, and an ultimatum dressed as pastoral concern. The Church's agricultural estates 'feed the poor.' That is one way to describe the largest private land holdings in Veltria. Renek has been managing public perception for four hundred years. I have been Chancellor for fourteen weeks. The asymmetry is the point.",
+  "choices": [
+    {
+      "id": "neg_renek_accommodate",
+      "text": "\"Archbishop, the Church will retain cultural recognition in the constitution. I cannot give you legal authority over the state, but I can ensure the Church's role in education and charity is acknowledged. The land reform will be limited — Halvek-era seizures only.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.church", "operation": "add", "value": 8 }],
+      "chainTriggers": [],
+      "flags": ["neg_renek_complete", "renek_accommodated"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "stanislov_renek", "type": "action", "text": "He inclines his head — the gesture of a man who has gotten most of what he wanted and is gracious enough not to celebrate. He refills your teacup. The Church will remember this." }]
+    },
+    {
+      "id": "neg_renek_separation",
+      "text": "\"Your Grace, I respect the Church. But the constitution must be secular. The state cannot have a moral guardian — that is what gave Halvek cover for twenty-six years of atrocities. The Church will continue its work without constitutional authority. I hope you understand.\"",
+      "internalTag": "reformist",
+      "stateChanges": [{ "stat": "factions.church", "operation": "add", "value": -15 }, { "stat": "factions.reformists", "operation": "add", "value": 8 }],
+      "chainTriggers": [],
+      "flags": ["neg_renek_complete", "renek_refused"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "stanislov_renek", "type": "silence", "text": "He sets down his teacup with precise care. The constitution must be secular. He repeats the words, tasting them. The silence is the sound of an Archbishop who has just been told that his institution will not be written into the founding document." }]
+    }
+  ]
+}

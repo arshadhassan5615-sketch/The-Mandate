@@ -1,0 +1,120 @@
+{
+  "id": "act2_chain_vyktor_exposed",
+  "title": "The Source You Can't Verify",
+  "act": 2,
+  "weekAvailable": 18,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Late Night",
+  "characters": ["vyktor_reznik", "nadia_voss"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The letter arrived through the residence's domestic mail — not the official government channel, not the secured diplomatic pouch, but the ordinary post that the residence secretary sorts each morning and leaves in a tray outside the private sitting room. The envelope was addressed by hand, your name and the residence address in a careful, deliberate script that someone had worked to make anonymous. Inside: two pages, no signature, no sender address. On the first page, a description of six meetings. On the second, a name. Vyktor Reznik. And a notation: 'BNI — active, not retired.'"
+    },
+    {
+      "type": "internal_thought",
+      "text": "You have worked with him for two years. You know the texture of his caution, the specific angle of how he withholds information — not lying, always not quite lying, giving you what you need at the moment you need it and not a breath before. You have always believed this was professionalism. You are now sitting in a chair at eleven forty-five at night considering whether it was something else."
+    },
+    {
+      "type": "description",
+      "text": "There is a second element. Nadia Voss published a piece in the Ashenmere Herald two weeks ago on BNI's continued presence in civilian government that quoted a source 'within the Chancellor's inner circle' — a phrase so carefully specific that you noticed it at the time and filed it and did not act on it. The letter in your hand and that phrase are connected by something that is not yet evidence but is not nothing."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The timing matters as much as the content. This arrives now, in the middle of the convention, when any disruption to your inner circle has maximum cost. Which could mean the tip is designed to disrupt. Or it could mean someone waited until now because they were afraid, and the fear finally outweighed the waiting. You cannot know which without more information, and getting more information means making choices about who to trust while the question of who to trust is itself unresolved."
+    }
+  ],
+  "monologue": "An anonymous letter. Hand-addressed. Delivered through the domestic mail. Two pages describing six meetings, and then his name: Vyktor Reznik. BNI — active, not retired. The timing is perfectly wound for maximum disruption — middle of the convention, when losing Vyktor costs me the most. Which means the tip could be an opposition intelligence operation. Or someone who was afraid finally decided the truth mattered more than the fear. I cannot know which without asking someone, and the person I would normally ask is the person the letter is about.",
+
+  "choices": [
+    {
+      "id": "vyktor_confront_directly",
+      "text": "\"I call Vyktor into my office tonight. I show him the letter. I watch his face and I listen to his answer, and I decide based on what I see and hear whether I believe him. If I can't trust my own judgment about the man I work with every day, then the problem is already past solving.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",     "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8 },
+        { "stat": "nation.corruption",        "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week29_vyktor_exposed", "delayWeeks": 8 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 10 }
+      ],
+      "flags": ["vyktor_early_confrontation", "vyktor_tipped_off"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He reads the letter twice. His face does not change — Vyktor's face never changes when he is processing something that matters. The silence stretches to ten seconds, then twenty. When he finally looks up, his expression is impossible to read. He does not deny anything. Not yet. He is waiting to see what you believe before he commits to a version of himself."
+        },
+        {
+          "character": "nadia_voss",
+          "type": "silence",
+          "text": "Later that night, the Ashenmere Herald's night desk receives a call — no name, no attribution — confirming that the Chancellor met with a senior advisor regarding an internal security matter. Voss does not run the story. She files it. With Nadia, silence always means she is building something."
+        }
+      ]
+    },
+    {
+      "id": "vyktor_discreet_investigation",
+      "text": "\"I give the letter to Irina Dusek. Quietly, outside Vyktor's awareness. I ask her to verify the six meetings described — dates, locations, nothing more. I act normally with Vyktor until I have something I can confirm or deny. I do not move on a shadow.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 2 },
+        { "stat": "nation.corruption",        "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week29_vyktor_exposed", "delayWeeks": 5 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 9 }
+      ],
+      "flags": ["vyktor_investigated_quietly", "dusek_in_confidence"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "You hand the letter to Dusek in a sealed envelope at the morning security briefing. She does not open it in front of you. She simply nods and puts it in her inner jacket pocket, the one that closes with a button rather than a zipper. No one else in the room notices the exchange. Dusek is very good at receiving things that no one else should see."
+        },
+        {
+          "character": "nadia_voss",
+          "type": "silence",
+          "text": "Two days later, Voss runs a follow-up piece with new sourcing — not naming anyone, but closer. 'Multiple sources within the Chancellor's security apparatus have confirmed an internal review is underway.' She is watching. She is always watching. The silence between her pieces is the silence of a journalist who knows the story is bigger than the part she has printed."
+        }
+      ]
+    },
+    {
+      "id": "vyktor_dismiss_tip",
+      "text": "\"An anonymous letter, no evidence, no source I can verify, arriving in the middle of a constitutional fight. This has the signature of an opposition intelligence operation — precisely timed to cost me the most important person in my operation at the worst possible moment. I file it and I move on.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8 },
+        { "stat": "nation.corruption",        "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week29_vyktor_exposed", "delayWeeks": 12 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 14 }
+      ],
+      "flags": ["vyktor_tip_dismissed", "vyktor_unsupervised"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He goes about his work as though nothing has happened — because for him, nothing has. He does not know about the letter. He does not know you read it and filed it. He does not know that the person who trusts him most has just decided, in the privacy of her own judgment, to continue trusting him. It is the decision he would have made. That does not make it the right one."
+        },
+        {
+          "character": "nadia_voss",
+          "type": "silence",
+          "text": "Voss's source goes quiet for three weeks — an absence that is itself a signal. The source expected movement and did not get it. They are either regrouping or waiting for a different moment. With sources like this, silence means the story is not over. It means the next chapter is being written."
+        }
+      ]
+    }
+  ]
+}

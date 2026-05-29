@@ -1,0 +1,263 @@
+{
+  "id": "act1_chain_kolvar_opposition",
+  "title": "The First Obstruction",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik",
+    "drazen_kolvar"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor appears in your doorway at eight in the morning with a copy of the parliamentary order paper and an expression that makes it clear the order paper is not going to be good news. He has already highlighted three sections in yellow. Vyktor does not highlight things unless he wants you to understand that someone is trying to make your government impossible to govern."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Drazen Kolvar has introduced what he is calling a 'motion of legislative scrutiny' — a parliamentary device that requires every executive order issued by the Chancellery to be reviewed by the Committee on Government Oversight before implementation. The Committee on Government Oversight is chaired by Kolvar. He introduced the motion at 07:52 this morning and procedural rules allow him to debate it for up to six hours before a vote is required. The vote is advisory, not binding. That does not matter. What matters is that every newspaper in Ashenmere will have six hours of Kolvar explaining why your government cannot be trusted with executive authority."
+    },
+    {
+      "type": "description",
+      "text": "Kolvar's biography is a document of survival. He served fourteen years in Halvek's parliament as the Chairman of the Budget Committee, which means he either collaborated with the regime or found a way to serve the country inside it, depending on who is telling the story. He knows procedure the way a surgeon knows anatomy. He can make a government bleed through a thousand small incisions without ever appearing to have raised a hand against it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is what they meant when they said the Halvekists would not go quietly. Not tanks. Not a coup. Procedure. The Constitution that Halvek wrote gives his successors a thousand ways to paralyze a government they do not control. Kolvar knows all of them. He wrote half of them. He is not trying to win a vote. He is trying to make me look like what the inaugural address promised I would dismantle — and to make the dismantling look impossible."
+    }
+  ],
+  "monologue": "7:52 in the morning — before most of Ashenmere finished their coffee. Six hours of debate, every word carried by every newspaper before the vote even happens. He's not trying to win. He's trying to make me look like the thing I promised to dismantle. The Constitution Halvek wrote contains a thousand traps for democratic governance. Kolvar knows all of them. He helped write half of them.",
+  "choices": [
+    {
+      "id": "kolvar_override_executive",
+      "text": "\"Issue an executive order declaring the motion non-binding and instructing ministries to proceed with scheduled business. Kolvar can debate for six hours or six years — his committee does not get a veto on executive governance. The Constitution gives me the authority to govern. I am going to use it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -4
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_kolvar_escalation",
+          "delayWeeks": 5
+        }
+      ],
+      "flags": [
+        "kolvar_overridden",
+        "executive_authority_asserted"
+      ],
+      "codexUnlocks": [
+        "codex_executive_authority"
+      ],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "action",
+          "text": "He straightens his jacket."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He watches. Not with judgment. With attention."
+        }
+      ]
+    },
+    {
+      "id": "kolvar_engage_parliament",
+      "text": "\"Let him debate. I'll go to parliament myself and sit in the gallery while he speaks. When he's finished, I'll invite the reformist caucus to draft a counter-motion that makes his scrutiny committee genuinely accountable — public hearings, published findings, opposition representation. He wants to weaponize transparency. Fine. Let's be transparent.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "kolvar_coopted",
+        "parliamentary_transparency",
+        "kolvar_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_parliamentary_procedure"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "That changes several things."
+        },
+        {
+          "character": "drazen_kolvar",
+          "type": "silence",
+          "text": "His silence is more dangerous than his speeches."
+        }
+      ]
+    },
+    {
+      "id": "kolvar_negotiate_backchannel",
+      "text": "\"Find out what Kolvar actually wants. He didn't survive fourteen years under Halvek by being an ideologue — he survived by knowing when to fight and when to deal. Get Theron to have a quiet conversation. Find the price. Everyone has one.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -2
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "kolvar_deal_made",
+        "backchannel_negotiated",
+        "kolvar_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kolvar_accommodation"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He writes something in his notebook."
+        },
+        {
+          "character": "drazen_kolvar",
+          "type": "dialogue",
+          "text": "This will be noted in the Assembly."
+        }
+      ]
+    },
+    {
+      "id": "kolvar_public_confrontation",
+      "text": "\"Schedule a press conference. I'll address Kolvar's motion directly — not from parliament, from the podium where I took the oath. The country didn't vote for procedural sabotage dressed up as accountability. If he wants to fight over who gets to govern, let's have that fight in public, where sixty thousand people can watch.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "kolvar_publicly_confronted",
+        "populist_appeal",
+        "kolvar_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kolvar_confrontation"
+      ],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "action",
+          "text": "He leans back. He is already composing his response."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Noted."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "id": "act2_week25_referendum_eve",
+  "title": "The Last Night",
+  "act": 2,
+  "weekAvailable": 25,
+  "weekDeadline": 26,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Study, After Midnight",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The polling organization that your government contracted — the one with the best track record from the transition elections — delivered their final numbers at eleven o'clock. Vyktor brought them on foot rather than by phone, which told you everything about what the numbers said before you read them."
+    },
+    {
+      "type": "description",
+      "text": "Theron is already in the residence study when you arrive. You did not invite him tonight, but you are not surprised he is here. He has a relationship with significant moments that borders on something he would not call mystical and that you are not certain you can call anything else. He is reading, as always, but he closes the book when you come in and does not reopen it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Current projection: forty-nine point eight percent in favor. That is within the margin of error of either outcome. The trend line over the last four days has been slightly downward — Church campaign materials in Thornfeld and Sevagrad over the weekend moved conservative rural voters. Iron Covenant affiliated groups have been distributing materials about the emergency powers provision. The Halvekist parliamentary bloc ran two radio spots on Sunday morning."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "If the vote were tomorrow morning at seven, based on this model: we either pass by one to two points or we fail by one to two points. There is no confident prediction available. Anyone who gives you a confident prediction tonight is not reading the same data."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twenty-five weeks. Every decision you have made since January, every faction you've managed or angered or compromised with, every provision you kept in or took out, every deal, every refusal, every conversation in a room without witnesses — all of it has produced this number. Forty-nine point eight. Not a mandate. An argument."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I want to say something that I should have said earlier in this process, and I hope you will hear it as what it is rather than as an apology. I have written constitutions in my mind for thirty years. I have taught their theory, analyzed their failures, traced the reasons that some endure and some collapse within a decade. And I did not understand, until this year, that the hardest part is not the writing. The hardest part is the fact that you cannot make people want what is good for them. You can only make the argument, as clearly as you can, and then accept whatever they decide."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I believe we have made the argument. Whatever happens tomorrow, I believe that. The argument is in the document and in twenty-five weeks of governance and in the faces of the people who attended the public sessions in Dravenhollow and Kravenstal. Whether the argument wins tonight is outside my competence to predict."
+    },
+    {
+      "type": "description",
+      "text": "The residence is quiet in the way that large buildings are quiet at one in the morning: not silent, but breathing. The clock on the study mantle counts seconds that have stopped feeling like seconds. Tomorrow at six in the morning, eight thousand polling stations will open across Veltria. The lines may already be forming."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There are three things you can do before you sleep. One: the Broadcasting Authority has an emergency slot available for a national address at seven tomorrow morning — before the polls open. High risk. High reward if the delivery is strong. The last polling movement from a Chancellor's address was six points in either direction. Two: Kolvar's office called this evening. He indicated he is still available to discuss the emergency powers provision in exchange for parliamentary support. That line has not expired. Three: you can do nothing. Accept the numbers and let them become what they become."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Three things. The first requires you to stand in front of a camera at seven in the morning and be exactly the person the country needs you to be on no sleep, with forty-nine point eight percent in your head and twenty-five weeks of impossible choices behind you. The second requires you to become, in the last possible hours, the thing the referendum was supposed to be an alternative to. The third requires you to trust that you have already done what you could do, and that the rest belongs to the people who will stand in the cold in the morning and make their mark."
+    }
+  ],
+  "monologue": "Forty-nine point eight percent. Not a mandate. An argument. Twenty-five weeks of decisions produced this number. Vyktor brought it on foot rather than by phone — that told me everything before I read it. The trend is slightly downward. Church campaign materials over the weekend. Iron Covenant leaflets. Two Halvekist radio spots. Three things I can do before morning: address the nation, make a last-minute deal with Kolvar, or do nothing and trust I have already done what I could do.",
+
+  "choices": [
+    {
+      "id": "referendum_eve_tv_address",
+      "text": "\"The broadcast. I'll be ready at six-thirty for makeup. Write me nothing — I'll speak without notes.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 6  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["referendum_eve_tv_address", "referendum_last_move_public"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He picks up the phone to the Broadcasting Authority before you finish speaking. The slot is confirmed. Makeup at six-thirty. He does not wish you luck. Vyktor does not believe in luck — he believes in preparation, and he has already started preparing."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Theron closes his book and stands. He does not say anything for a moment. Then: I have spent thirty years believing that the right argument, properly made, will carry the day. If that is true — and I still believe it is — then tomorrow morning you will make the argument and the argument will carry. He pauses. I will be watching."
+        }
+      ]
+    },
+    {
+      "id": "referendum_eve_tv_address_fails",
+      "text": "\"The broadcast. I'll be ready at six-thirty for makeup. Write me nothing — I'll speak without notes.\"",
+      "internalTag": "populist",
+      "conditions": [
+        { "stat": "personal.publicImage", "operator": "<", "value": 45 }
+      ],
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["referendum_eve_tv_address_failed", "referendum_last_move_public"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He watches the monitor during the broadcast. When it ends, he turns off the screen without comment. The silence that follows is the loudest sound in the room. He does not say I told you so — he does not need to. He simply begins preparing the contingency statements."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "Theron is still in the armchair. He has not moved since the broadcast began. He looks at the ceiling — as though searching for the argument he should have made, the one that would have carried. His expression is not disappointment. It is something closer to grief."
+        }
+      ]
+    },
+    {
+      "id": "referendum_eve_kolvar_deal",
+      "text": "\"Call Kolvar back. Whatever the terms are, we close them tonight.\"",
+      "internalTag": "pragmatist",
+      "conditions": [
+        { "stat": "flags.kolvar_deal_rejected", "operator": "==", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 20 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -16 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -6  },
+        { "stat": "factions.dravenni",        "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -14 }
+      ],
+      "chainTriggers": [],
+      "flags": ["referendum_eve_kolvar_deal", "kolvar_deal_accepted", "constitution_retained_emergency_powers", "referendum_last_move_deal"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He dials the number from memory. He has had it ready for three weeks — since the first time you rejected Kolvar's terms. The conversation takes twelve minutes. When he hangs up, he writes two words on his notepad and slides it across the desk: Done. Terms unchanged. He does not look at you. He does not need to."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron hears the phone call from his chair. He does not interrupt. He does not respond. When it is over, he stands and walks to the door. He pauses in the doorway — not to speak, but to let the silence carry what words cannot. Then he leaves. The door closes behind him with the particular softness of someone who is being careful not to slam it."
+        }
+      ]
+    },
+    {
+      "id": "referendum_eve_wait",
+      "text": "\"Nothing. Turn off the lights when you leave, Vyktor. I'll see you at the counting center in the morning.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["referendum_eve_waited", "referendum_last_move_none"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not respond. He simply nods — once — and turns off the light as he leaves. The silence that fills the room after he goes is the silence of forty-nine point eight percent, of twenty-five weeks, of a decision made and accepted. It is not peaceful. But it is honest."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron remains in his chair for a moment longer, the closed book in his lap. He has not spoken since his last words. He seems to be weighing something — an argument, a comfort, a philosophical observation — and deciding against each in turn. Finally he rises. He touches your shoulder once on his way out. That is all. It is enough."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "id": "act2_week15_theron_compromise",
+  "title": "What We Can Afford to Believe",
+  "act": 2,
+  "weekAvailable": 15,
+  "weekDeadline": 18,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "prerequisiteSceneIds": ["act2_week14_convention_opens"],
+  "location": "Chancellor's Residence — Private Study, Late Evening",
+  "characters": ["aldric_theron", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Theron arrives at the residence after nine o'clock. He called ahead to say it was important and that he preferred not to come to the office. You understood what that meant: this was not a conversation for secretaries and file copies. The study at the residence is small — a desk, three chairs, the smell of Jonas's pipe tobacco in the walls even though Jonas stopped smoking two years ago when his father died. Theron sits down without ceremony and does not take off his coat."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I've spent the last four days counting votes. Not as an intellectual exercise — as arithmetic. I had Vyktor's office pull the full tally from the inaugural coalition, the cross-party commitments, the informal conversations I've had over the past year with opposition members who might be persuadable. I wanted to be wrong. I was not wrong."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "As the document stands, we have forty-one reliable votes in parliament for the referendum recommendation. We need fifty-seven. We are sixteen votes short with eleven weeks to the referendum date. The question I am here to ask you — and I am asking you, not telling you, because I want to be clear that this is a decision that belongs to you — is what we are prepared to sacrifice to find those sixteen votes."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is asking because he already has an answer. Theron always has an answer. The asking is the intellectual courtesy he extends to people he respects, which is a shorter list than he would like you to believe."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I have identified two paths to the numbers. Two pairs of provisions. Each pair, if removed or substantially modified, would unlock a different bloc of votes. I want to be honest with you about what each path costs, because I have thought about this more than is probably good for me, and I think you deserve the honest version."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Path one: we retain emergency powers — the clause stays in, with the 30-day reauthorization language, but we do not remove it — and we drop the BNI dissolution clause. The military intelligence people have been reaching through Brenner's office to make clear that the BNI dissolution is a red line. With both of those concessions, Brenner signals he can deliver eight to ten Iron Covenant votes and Kolvar's moderates become persuadable — potentially another twelve. We reach our number. The cost: we write a constitution that preserves both the emergency powers architecture and the intelligence apparatus that Halvek built. It will have civilian oversight language. It will still be the BNI."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Path two: we remove the land reform clause entirely, and we remove the workers' right to strike. In exchange, Vael's people have communicated through three intermediaries that the business community will not fund the opposition referendum campaign — they will stay neutral. Khaled will not forgive us and some of my own bloc will be angry, but the church and business opposition to the referendum collapses. We pass with a different coalition. The cost: the workers and the Dravenni communities get a constitution that protects their political rights but leaves the economic structure of the Halvek era entirely intact."
+    },
+    {
+      "type": "description",
+      "text": "The study is quiet. Outside the window, Ashenmere at night — the orange glow of the city, the distant sound of a tram. Vyktor has not said anything. Theron has not said anything either, since finishing. He is watching you with the expression of a man who has already made his own peace with the impossibility of the situation and is waiting to see what you will do with yours."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is a third option. We submit the document as written, campaign hard on the referendum, and lose. Halvek constitution remains. The reform mandate is finished. That is also on the table."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Vyktor is correct. I want to be clear: I am not recommending either compromise. I am presenting them. There are things in this document I wrote because I believe in them, and I will not pretend otherwise. But I will implement whatever you decide. That is what I am here to do."
+    },
+    {
+      "type": "internal_thought",
+      "text": "That is the heaviest thing he has said tonight. Theron has convictions that run to the bone. When he says he will implement what you decide, he is making a sacrifice of his own — the intellectual's sacrifice, quieter than the public kind but no less real."
+    }
+  ],
+
+  "monologue": "Path one preserves the security state. Path two guts the economic rights. Both pass the constitution. Neither one looks like the country I promised to build. The third option is Vyktor's: submit the full document and lose. Lose honestly. There is something seductive about losing honestly.",
+
+  "choices": [
+    {
+      "id": "theron_drop_security_apparatus",
+      "text": "\"Path one. Emergency powers with reauthorization, BNI survives with civilian oversight. I'd rather have a constitution the military will accept than a perfect document that triggers a coup six months after we pass it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -14 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -6 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -12 }
+      ],
+      "chainTriggers": [],
+      "flags": ["constitution_compromise_security", "constitution_excluded_bni_dissolution", "constitution_retained_emergency_powers"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "aldric_theron", "type": "silence", "text": "He writes the terms on his pad — emergency powers retained, BNI survives. His penmanship is as precise as ever. The silence is the sound of Aldric Theron sacrificing something he believes in." }, { "character": "vyktor_reznik", "type": "action", "text": "He makes a note — Brenner's office, Kolvar's moderates, votes secured. He does not celebrate. He simply maps the new arithmetic." }]
+    },
+    {
+      "id": "theron_drop_economic_rights",
+      "text": "\"Path two. Remove land reform and the strike clause. The political rights are the foundation — the economic rights we fight for through legislation once the democratic institutions are actually secure.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 14 },
+        { "stat": "factions.church",          "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -18 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_soraya_rupture",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": ["constitution_compromise_economic", "constitution_excluded_land_reform", "constitution_excluded_workers_strike_right"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "aldric_theron", "type": "silence", "text": "He writes the terms — land reform removed, strike clause removed. He does not argue. He presented the options. You chose. The silence is the sound of a philosopher implementing a decision he disagrees with." }]
+    },
+    {
+      "id": "theron_no_compromise",
+      "text": "\"Neither path. We submit the document complete and we campaign for it. If we lose the referendum, we lose. But I will not arrive at democracy through a deal that makes the destination look like where we started.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 16 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 10 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 16 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week26_referendum_narrow",
+          "delayWeeks": 11,
+          "conditions": [{ "stat": "factions.reformists", "operator": "<", "value": 55 }]
+        }
+      ],
+      "flags": ["constitution_no_compromise", "theron_principle_respected"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "aldric_theron", "type": "action", "text": "He does not speak for several seconds. Then he nods — the nod of a man who has just been told that the document he spent thirty years preparing will be submitted complete. He does not celebrate. Theron never celebrates. But he sits a little straighter in his chair." }, { "character": "vyktor_reznik", "type": "silence", "text": "He writes submit complete on his notepad and draws a line underneath. The silence is the sound of Vyktor noting that you have chosen to lose honestly rather than win through compromise." }]
+    },
+    {
+      "id": "theron_ask_for_time",
+      "text": "\"I'm not ready to decide tonight. I need to speak with Vyktor, review the vote count myself, and think about which of these we can live with. Give me three days.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week15_theron_compromise",
+          "delayWeeks": 1,
+          "probability": 0.9
+        }
+      ],
+      "flags": ["theron_compromise_deferred"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "aldric_theron", "type": "silence", "text": "He nods. He does not like the delay — Theron never likes delays. But he accepts it. The silence is the sound of a man who has been told to wait and is already counting the hours." }]
+    }
+  ]
+}

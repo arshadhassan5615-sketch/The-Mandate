@@ -1,0 +1,91 @@
+{
+  "id": "act1_chain_jonas_press_rebellion",
+  "title": "The Architect's Silence",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Kitchen, Late Evening",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Jonas is in the kitchen when you come home. He is always in the kitchen — it is where he goes when he does not want to go to bed angry but also does not want to talk. Tonight he is not cooking. He is sitting at the kitchen table with a glass of wine he has barely touched, looking at a newspaper he has already read. He does not look up when you enter. That has not happened before."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "The Herald ran a profile of you today. 'The Iron Chancellor' — they meant it as a compliment. They cited the budget discipline, the executive orders, the way you've 'risen above' the petty concerns of domestic life to govern with focus. They called me 'the Chancellor's quiet support system.'\" He pauses, and the pause is long enough that you can feel something in it. \"I did not marry a Chancellor, Katerin. I married a woman who believed in things. I do not recognize the woman in that profile. I do not know if I want to be married to her."
+    },
+    {
+      "type": "description",
+      "text": "The kitchen is very quiet. The clock on the wall — a gift from his mother, twenty years ago — ticks with a sound that feels suddenly very loud. He is not angry. Anger would be easier. He is something else: a man who has realized he is sharing a house with someone who has stopped sharing a life."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not wrong about what I have become. The Chancellorship has taken more of me than I planned to give. I told myself it was temporary — the crisis demands it, the country needs it, I will be present later when the emergency is over. But emergencies do not end. They just become different emergencies. I have been governing the country and managing my marriage and the truth is I have been doing both poorly because they cannot both be managed. One has to be chosen. I chose the country. Jonas has noticed. He is asking me whether that choice is permanent."
+    }
+  ],
+
+  "monologue": "The profile called him my 'quiet support system.' Jonas has never been quiet and he has never been anyone's system. The Herald turned him into an accessory and he read it sitting at our kitchen table, wondering if that's what he's actually become. He's not wrong about the distance. I've been governing the country and managing my marriage and the truth is I've been doing both poorly. He's asking whether the choice is permanent.",
+
+  "choices": [
+    {
+      "id": "jonas_rebellion_recommit",
+      "text": "Sit down across from him. \"You're right. About the profile, about the distance, about everything. I've been telling myself the crisis justifies the absence and the absence is temporary. It's not. I need to find a way to be both — Chancellor and wife — or I need to admit that I can't. I'm not ready to admit that. I'm asking you to help me figure out how to be both. Not to wait for me. To be in the figuring with me.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 8   },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 4   },
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": 3   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_reconnected", "marriage_course_corrected", "jonas_rebellion_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_rebellion_defend",
+      "text": "\"I don't recognize the woman in that profile either. She is a journalist's construction — a narrative designed to sell papers. The real woman is the one standing in this kitchen at eleven at night after fourteen hours of trying to keep the Krone from collapsing, trying to keep Tyvaren from invading, trying to keep the country from falling apart. I don't have time to be the wife you married right now. I barely have time to be the Chancellor the country needs. If you need me to perform domestic warmth for your emotional comfort while the country burns — I don't have it, Jonas. I genuinely don't have it. I wish I did.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -8  },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": -6  },
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": -5  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week23_family_crisis_jonas",
+          "delayWeeks": 10
+        }
+      ],
+      "flags": ["jonas_pushed_away", "marriage_cracking", "jonas_rebellion_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_rebellion_promise",
+      "text": "\"I hear you. I can't fix this tonight — I'm too tired and you're too hurt and neither of us is at our best. But I hear you. Give me until the end of the quarter. When the IMA disbursement is secured and the budget framework is locked, I will take a weekend. A real weekend. No briefings, no calls, no emergencies unless the country is literally on fire. We'll go somewhere — the cottage in Thornfeld, the one your parents left us. We'll talk. Actually talk. Not this — not two exhausted people snapping at each other across a kitchen table. I'm not giving up on this marriage. I'm asking for a little more time to save the country so I have something left to save us with.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 2   },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 2   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 1   }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week23_family_crisis_jonas",
+          "delayWeeks": 10
+        }
+      ],
+      "flags": ["jonas_deferred_promise", "marriage_holding", "jonas_rebellion_resolved"],
+      "codexUnlocks": []
+    }
+  ]
+}

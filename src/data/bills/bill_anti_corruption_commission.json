@@ -1,0 +1,22 @@
+{
+  "id": "bill_anti_corruption_commission",
+  "title": "Anti-Corruption Commission Act",
+  "shortName": "A.C.C.A.",
+  "proposer": "Danika Oberlin",
+  "faction": "reformists",
+  "weekPresented": 30,
+  "fullText": "Section 1. An Independent Anti-Corruption Commission is hereby established with full authority to investigate allegations of corruption, bribery, embezzlement, and abuse of office against any public official of the Republic of Veltria, including the Chancellor, Cabinet Ministers, members of the National Assembly, and senior military officers.\n\nSection 2. The Commission shall possess subpoena power, the authority to compel testimony under oath, and access to all government financial records. Its findings shall be public and may be referred to the Ministry of Justice for prosecution.\n\nSection 3. Commissioners shall be appointed by a two-thirds vote of the National Assembly and shall serve fixed seven-year terms. The Commission's budget shall be drawn directly from the national treasury and shall not be subject to reduction by executive action.",
+  "budgetCost": -10,
+  "signEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": 15 },
+    { "stat": "nation.pressFreedom", "operation": "add", "value": 10 },
+    { "stat": "nation.corruption", "operation": "add", "value": -10 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": -15 },
+    { "stat": "nation.corruption", "operation": "add", "value": 5 }
+  ],
+  "signFlags": ["anti_corruption_commission_signed"],
+  "vetoFlags": ["anti_corruption_commission_vetoed"],
+  "isVetoable": true
+}

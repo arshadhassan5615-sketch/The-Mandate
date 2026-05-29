@@ -1,0 +1,167 @@
+{
+  "id": "act2_week26_referendum_narrow",
+  "title": "By a Thread",
+  "act": 2,
+  "weekAvailable": 26,
+  "weekDeadline": 26,
+  "type": "event",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "National Counting Center — Ashenmere Exhibition Hall",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+  "prerequisites": [
+    { "stat": "factions.halvekists", "operator": "<=", "value": 55 },
+    { "stat": "factions.reformists", "operator": ">=", "value": 48 }
+  ],
+  "exclusive": ["act2_week26_referendum_decisive", "act2_week26_referendum_rejected"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "At two-seventeen in the morning, with ninety-four percent of polling stations reporting, the number on the central board is fifty-one point eight. That is a pass. That is also the kind of number that makes experienced electoral officials go very quiet, because it is a pass that exists inside the margin of error of most credible polling models, and it is a pass that will be challenged before the certification ink is dry."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Thornfeld came in at thirty-eight percent yes. That was worse than projected. Sevagrad came in at forty-seven, also below projections — the refugee issue moved their conservative voters more than we anticipated. Dravenhollow carried us. Kravenstal carried us. Without those two provinces at their margins, this is a different number. The final tally, when all provinces report, will be somewhere between fifty-one and fifty-three. That is the range."
+    },
+    {
+      "type": "description",
+      "text": "Kolvar is visible from the gallery — he is standing in the lower level near the tally boards, talking to three of his parliamentary allies with the concentrated stillness of a man who is not conceding anything yet and may never. The Archbishop has already left. You note his absence before you note almost anything else, because the Archbishop leaving before the result is certified is not the behavior of a man who accepts the result."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "It passed. I want to say that clearly before anyone in this room starts discussing what it means. The Halvek Constitution is superseded. The new document is the law. Fifty-one percent and eighty percent share the same legal force — a majority is a majority and that is precisely why we use majorities rather than unanimity. I want to say this now because there will be a great deal of pressure in the coming days to treat this number as something other than what it is."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Kolvar has already indicated to the parliamentary secretariat that he intends to file a formal challenge with the Electoral Commission. His grounds will be procedural — turnout irregularities in two Ashenmere precincts and allegations of government-influenced voter mobilization in Dravenhollow. The challenge has no legal merit. It will tie up certification for two to three weeks and produce newspaper coverage every day of those weeks."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Fifty-one point eight. You have been in government for twenty-six weeks and made several hundred consequential decisions and one in five Veltrian citizens looked at the result and said: I want the Halvek constitution back, or something close enough to it that the difference does not matter in practice. That is not nothing. That is not a number you can govern with indefinitely if it represents a permanent constituency rather than a passing preference."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Soraya Khaled has issued a statement. I'll read it: 'The new constitution passed. The Civic Renewal government has earned the right to implement it. I intend to hold them to every word of it.' That is the most generous statement she has made about this government in six months."
+    },
+    {
+      "type": "description",
+      "text": "The room is not celebrating in the way it would celebrate a clear victory. There are people shaking hands and there is the beginnings of something that might become celebration, but there is also a quality of tension that a clean result doesn't produce — the specific atmosphere of a room full of people who know that a thin majority and a prepared challenge are ingredients that have historically combined badly."
+    },
+    {
+      "type": "description",
+      "text": "Theron is looking at the tally board. He has not moved in three minutes. You watch him looking at the number and you understand what he is doing: he is remembering every provision he agreed to water down, and calculating how many points each of those provisions might have cost him, and arriving at the specific arithmetic of compromise — the question of whether a constitution that passed barely is worth more or less than a constitution that failed cleanly."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There is no answer to that question that does not require knowing what would have happened in the version you didn't choose. That version does not exist. You have this one."
+    }
+  ],
+  "monologue": "Fifty-one point eight percent. That is a pass. It is also the kind of number that makes experienced electoral officials go very quiet. Kolvar is already filing a challenge. The Archbishop already left. Theron is standing at the tally board, calculating how many points each compromised provision might have cost. A thin majority and a prepared challenge are ingredients that have historically combined badly. And Soraya just endorsed the result — the most generous thing she has said about this government in six months.",
+
+  "choices": [
+    {
+      "id": "referendum_narrow_defend_result",
+      "text": "\"Fifty-one point eight percent is a majority. In a democracy, that is sufficient. I will be issuing a statement tonight: the new constitution will be certified and will take effect on schedule. The Electoral Commission will address any formal challenges through the proper process, as it should.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_kolvar_legal_challenge",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": ["referendum_won_narrow", "constitution_in_force", "act2_complete", "referendum_challenge_coming"],
+      "codexUnlocks": ["codex_new_constitution", "codex_veltrian_democracy"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Statement drafted. Short. Three paragraphs. 'Fifty-one point eight percent is a majority. In a democracy, that is sufficient. The new constitution will take effect on schedule.' Ready for your review."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "Theron turns from the tally board. He crosses the room to you — not hurried, but not slow either, the pace of a man who has been waiting for a particular moment and has just recognized it. He does not embrace you. He simply meets your eyes and holds them. It is more than a handshake would have been."
+        }
+      ]
+    },
+    {
+      "id": "referendum_narrow_reach_across",
+      "text": "\"Before we certify, I want to sit down with Kolvar. Not to negotiate the result — the result is the result. But to discuss what implementation looks like with a country that is divided at fifty-two and forty-eight. I didn't win this to govern half a country.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_kolvar_negotiation",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": ["referendum_won_narrow", "constitution_in_force", "act2_complete", "narrow_win_reconciliation"],
+      "codexUnlocks": ["codex_new_constitution", "codex_veltrian_democracy"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes something on his notepad. You cannot see what it is — he has angled the paper away from you, which he never does. The silence is not disagreement. It is recalculation. He is already mapping the new political geometry, and he will show you the map when it is complete."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Theron considers this for a moment. The result is the result, he says, as though testing the phrase. Then: And sitting down with Kolvar is also a result — a different kind, the kind that acknowledges that governance begins after the vote, not before it. I will support whatever emerges from that conversation. I will not pretend to know what will emerge."
+        }
+      ]
+    },
+    {
+      "id": "referendum_narrow_challenge_opponent",
+      "text": "\"Kolvar's challenge is frivolous and he knows it. I am authorizing the Justice Ministry to respond with a motion to dismiss and a counter-investigation into the source of the Halvekist campaign materials that were distributed in church parishes two weeks before the vote. Let him litigate.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": -14 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 8   },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 5   },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -4  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_halvekist_legal_war",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": ["referendum_won_narrow", "constitution_in_force", "act2_complete", "kolvar_counter_challenged"],
+      "codexUnlocks": ["codex_new_constitution", "codex_veltrian_democracy"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He is already writing — the motion to dismiss, the counter-investigation authorization, the press statement. Three documents in the time it takes you to finish speaking. Vyktor prepared these three days ago. He was waiting for you to ask."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron looks at you for a long moment. He opens his mouth as if to speak, then closes it. He has just watched you choose the fight over the bridge. He is not certain you are wrong. He is not certain you are right. He is weighing the costs in the quiet way he weighs everything, and his silence is the sound of a man who has decided that this particular argument cannot be won tonight."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "id": "act3_halvekist_legal_war",
+  "title": "The Litigation Republic",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Justice Ministry — Crisis Briefing Room",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+  "prerequisites": [
+    { "stat": "flags.kolvar_counter_challenged", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Justice Ministry's legal team assembled the counter-motion in eleven hours and filed before midnight. By morning, the Electoral Commission's clerk had logged forty-seven subsequent filings — Kolvar's lawyers responding to the Justice Ministry's lawyers, the Commission receiving each one, the mechanism of formal legal procedure consuming time at a rate that the Tyvaren crisis does not share. The newspapers are covering both the referendum result and the legal battle simultaneously, which means they are covering neither adequately. The international press has settled on the shorthand 'constitutional crisis,' which is accurate enough and sufficiently alarming to justify the traffic it generates."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The counter-investigation into the Halvekist campaign materials has found what I expected it to find: money moving from accounts registered to a foundation connected to the Archbishop's office, into a printing operation in Thornfeld that distributed materials inside parishes during the campaign. This is a civil violation of campaign finance law, possibly a criminal one depending on how the prosecutor interprets intent. It is real. It is documented. And it is now officially under investigation by the Justice Ministry, which means it is also a political weapon in Kolvar's counter-narrative that we 'criminalized the opposition.'"
+    },
+    {
+      "type": "internal_thought",
+      "text": "I authorized this. I told Vyktor to file the counter-investigation. At the time it felt like the correct application of equal standards — if Kolvar could challenge the referendum process, the government could investigate Halvekist campaign conduct. That is technically true. It is also technically true that I filed the counter-investigation at the moment I needed to deflect attention from a narrow win, which changes what the investigation is, regardless of whether the underlying facts are real. The facts are real. The timing is not neutral. Both of those things are true and I knew both of them when I gave the order."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Legal status as of this morning: the Electoral Commission has separated the two proceedings and assigned different panels to each. The Kolvar challenge is now at the preliminary review stage — five days. The counter-investigation is at the referral stage — it has been sent from the Justice Ministry to the independent prosecutor's office. That is a move I want you to understand: the independent prosecutor is outside our direct influence. If the facts support a prosecution, there will be a prosecution whether or not it is politically convenient. We have set a process in motion that we cannot stop."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I need to say this plainly. The constitution we just passed — the one whose certification is currently being delayed — creates an independent judiciary. If the independent prosecutor finds criminal charges, those charges will be tried before judges we have no power to instruct. This is precisely what I spent two years writing. The thing that was supposed to protect the country from executive overreach will now protect Kolvar and possibly the Archbishop from a counter-investigation that I believe was initiated partly for political reasons. This is what independent institutions actually mean in practice. I wanted you to have a clear picture of what we have built."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "halvekist_legal_war_escalate",
+      "text": "\"We don't back down. The counter-investigation proceeds as filed — let the independent prosecutor make her determination. If the Halvekists violated campaign finance law, they should answer for it the same way any other political actor would. The fact that this is inconvenient now doesn't change what they did. And if Kolvar wants to use our own institutions against us, let him discover that those institutions work both ways.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": -14 },
+        { "stat": "factions.church",          "operation": "add", "value": -8  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 8   },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -4  },
+        { "stat": "nation.corruption",        "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["halvekist_legal_war_full", "counter_investigation_active", "church_under_investigation"],
+      "codexUnlocks": ["codex_independent_prosecutor"]
+    },
+    {
+      "id": "halvekist_legal_war_mediate",
+      "text": "\"Request the independent prosecutor pause the counter-investigation pending the Electoral Commission's ruling on Kolvar's challenge. Frame it as sequencing: resolve the referendum legitimacy question first, then address campaign conduct. This gets us off the 'litigation republic' front page without dropping the investigation entirely. If the Commission dismisses Kolvar's challenge, we come back to the campaign finance question from a position of strength rather than mutual escalation.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 4   },
+        { "stat": "factions.reformists",      "operation": "add", "value": -4  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 6   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -2  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["halvekist_legal_war_sequenced", "counter_investigation_paused"],
+      "codexUnlocks": ["codex_independent_prosecutor"]
+    },
+    {
+      "id": "halvekist_legal_war_withdraw",
+      "text": "\"Drop the counter-investigation. Yes, I authorized it. And I am now de-authorizing it. The independent prosecutor should close the referral. Issue a statement: the government is committed to constitutional governance, which means accepting the Electoral Commission process in good faith without retaliatory legal action. If the campaign finance violations were real — and they were — that is a matter for a future investigation on its own merits, not a weapon in an ongoing political dispute. This ends here.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 10  },
+        { "stat": "factions.church",          "operation": "add", "value": 6   },
+        { "stat": "factions.reformists",      "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4   },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 2 }
+      ],
+      "flags": ["counter_investigation_withdrawn", "legal_war_de_escalated"],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "act3_jonas_civic_commission",
+  "title": "The Commission Invitation",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 34,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "The Ashavel Residence — Living Room",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [{ "stat": "flags.jonas_public_voice", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Jonas has received a letter. Not from a faction — from the nonpartisan Veltrian Civic Commission on Urban Renewal. They want him to serve as a commissioner. It is an unpaid position, advisory, with no political authority. But it carries prestige and a platform. He places the letter on the table between you." },
+    { "type": "dialogue", "character": "jonas_ashavel", "text": "They want me. Not the Chancellor's husband — me. Jonas Ashavel, architect, twenty years of experience in public housing design. They said my name came up independently of my... situation. I want to say yes. But I need to know whether my saying yes makes things harder for you. Because if it does, I will say no. I am not asking your permission. I am asking whether you want me to protect you from the political cost of having a husband with opinions." }
+  ],
+  "choices": [
+    {
+      "id": "jonas_commission_encourage",
+      "text": "\"Take the position. You earned it. Not through me — through twenty years of doing work that matters. You are right that having a First Gentleman on a civic commission will generate political noise. Let it. I did not marry a man who would stay quiet to make my life easier. I married a man who builds things.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 15 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_commission_accepted", "jonas_independent_role"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_commission_discourage",
+      "text": "\"Jonas, the commission is nonpartisan in name only. The Halvekists will use your position to attack me. The business class will lobby you directly. Everything you say on that commission will be analyzed for political implications. You will not be an architect serving his city. You will be the Chancellor's husband serving as a proxy for her policies. I am not telling you to refuse. I am telling you what it will actually be.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_commission_discouraged"],
+      "codexUnlocks": []
+    }
+  ]
+}

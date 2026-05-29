@@ -1,0 +1,50 @@
+{
+  "id": "act4_soren_files_aftermath",
+  "title": "The Truth Released",
+  "act": 4,
+  "weekAvailable": 42,
+  "weekDeadline": 44,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ashenmere Palace — Press Room",
+  "characters": ["nadia_voss", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.soren_files_public", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The files were released to every newspaper in Veltria simultaneously. The Ashenmere Herald ran a special edition. The People's Standard published the execution orders on their front page. The Veltrian Voice broadcast the Silent Clearance documents on the radio. For three days, the nation read about what was done in their name. Soren was not arrested — he remains in his Thornfeld estate. But he cannot leave it. The public knows his face now. The man who was once a hero to the old guard is now a pariah."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Every newspaper in Veltria is running the story. The Herald called it 'The Soren Dossier.' The Standard called it 'The Butcher's Ledger.' The international press is picking it up — Lytheira, Orythia, even Morivask. Soren's name is now synonymous with the worst of the Halvek era. You did not arrest him. You did something arguably more powerful: you made it impossible for anyone to defend him."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The military is unhappy but not insubordinate. Soren was not arrested, so the officer corps' honor was not directly challenged. But his reputation is destroyed, which means the institution he built is now associated with crimes rather than service. The Iron Covenant is trying to distance itself from him. The Halvekists are doing the same. Kolvar released a statement this morning 'acknowledging the difficult history documented in the archives' — twenty years of denial, reversed in one sentence."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "soren_files_let_history_decide",
+      "text": "\"The truth is now public. What Veltria does with it is up to Veltria. My government will not prosecute Soren — the files are the prosecution. His reputation is the sentence. History will be the jury. And the people of Veltria, for the first time, have the information they need to decide what kind of nation they want to be.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soren_files_released", "mikhael_truth_known"],
+      "codexUnlocks": []
+    }
+  ]
+}

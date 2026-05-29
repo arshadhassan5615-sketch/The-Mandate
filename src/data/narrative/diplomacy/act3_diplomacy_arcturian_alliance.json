@@ -1,0 +1,100 @@
+{
+  "id": "act3_diplomacy_arcturian_alliance",
+  "title": "The Alliance Weighed",
+  "act": 3,
+  "weekAvailable": 34,
+  "type": "diplomacy",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Arcturian Embassy — Secure Communications Room, Ashenmere",
+  "characters": ["harrison_cole", "oskar_brenner", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Harrison Cole has summoned you to the secure communications room of the Arcturian Embassy — a soundproofed chamber below ground level that exists on no public blueprint. The room is small, functional, and contains exactly one table, four chairs, and a direct-line telephone to the Arcturian Foreign Ministry that is never used for routine communications. Cole's expression is different this time. The diplomatic polish is still there — it is always there — but underneath it there is something that looks like genuine urgency."
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "Chancellor. General Brenner. Advisor Reznik. What I am about to share is classified at the highest level. Arcturian intelligence assesses that Tyvaren will launch a full-scale military operation against Veltria within six to eight weeks. Three Tyvaren divisions have completed forward deployment. Their logistical train is in place. Their air force has relocated to forward airfields. This is not saber-rattling. This is an invasion in its final preparatory phase. In light of this assessment, the Arcturian Federated Parliament has authorized me to offer Veltria a formal bilateral defense pact. An attack on Veltria will be considered an attack on Arcturia. Arcturian naval forces will secure the Amber Coast. Arcturian air power will establish a no-fly zone over Veltrian territory. And Arcturian ground forces — two divisions — will deploy to reinforce the Tyvaren border. This is not a trade agreement. This is an alliance."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "Ambassador — I need to understand what this means operationally. Two Arcturian divisions would more than double our effective combat power on the Tyvaren front. Combined with Arcturian naval and air support, it would transform the military balance overnight. But it also means Arcturian forces operating under Arcturian command on Veltrian soil. Who commands the combined forces? Who controls the airspace? What happens after the war — do Arcturian forces remain as a permanent presence? I am not objecting. I am asking the questions my staff will ask me in approximately thirty seconds."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "And I have the political version of those questions. Ambassador, a defense pact with Arcturia makes Veltria a formal participant in the Arcturian-Orythian strategic competition. Orythia will view this as a hostile act. They may respond with their own alliance offers — to Tyvaren, to Morivask, to anyone who can flank us. We are not just choosing an ally. We are choosing an enemy. I want to understand if Arcturia is prepared for the full consequences of this alliance — including a potential confrontation with Orythia. And I want it in writing, because promises made in secure rooms have a tendency to become 'misunderstandings' when the situation escalates beyond what the promise-maker anticipated."
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "General Brenner — combined command structure with Veltrian primacy on Veltrian soil. Arcturian forces operate under a joint command board with Veltrian chairmanship. Post-war presence is subject to Veltrian government request and review. Advisor Reznik — the alliance text includes a mutual defense clause that is binding under international law, registered with the Arbitration Tribunal, and backed by the full faith and credit of the Arcturian Federated Parliament. Arcturia is prepared for the consequences — including with Orythia. We would not be making this offer if we were not. The question, Chancellor, is whether Veltria is prepared for the consequences — including with Tyvaren, Orythia, and the forces on your border who are waiting for you to say no so they can say yes to their artillery."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is the moment. An Arcturian defense pact transforms the war from a probable defeat into a winnable fight. Two divisions, naval support, air supremacy — these are not abstractions, they are the difference between Veltrian cities under bombardment and Veltrian borders being defended. The cost is alignment. Permanent alignment with Arcturia against Orythia, in a cold war that could turn hot at any moment and consume us regardless of who started it. But the Tyvaren divisions are at the border right now. The cold war is theoretical. The invasion is not. I have to choose between a certain crisis and an uncertain one, and I have to do it in the next sixty seconds."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "arcturian_alliance_accept",
+      "text": "\"Ambassador, Veltria accepts the defense pact. Brenner — establish the joint command structure immediately. Vyktor — draft the joint statement for simultaneous release in Ashenmere and the Arcturian capital. I will address the nation tonight: we are not alone, we are not afraid, and we will not be the victim of a war we did not choose. Tyvaren must understand that an attack on Veltria is an attack on an alliance that can and will respond with overwhelming force.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": 20  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 10  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 8   },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -6  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_diplomacy_morivask_border", "delayWeeks": 4 }
+      ],
+      "flags": ["arcturian_defense_pact", "alliance_signed", "orythia_opposed", "joint_command"],
+      "codexUnlocks": ["codex_arcturia", "codex_defense_pact"]
+    },
+    {
+      "id": "arcturian_alliance_informal",
+      "text": "\"Ambassador, I accept the substance of the alliance but not the form. No formal treaty — the political consequences with Orythia are too severe and too unpredictable. Instead: an executive military cooperation agreement, renewable annually, that provides for joint exercises, intelligence sharing, and a 'consultative mechanism' that brings Arcturia to the table in the event of an attack. Functionally identical, politically survivable. If Orythia asks, we have no defense pact. If Tyvaren attacks, we have Arcturian divisions on our border within seventy-two hours. This is the version that preserves deterrence without destroying our diplomatic flexibility.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": 12  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6   },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 4   },
+        { "stat": "factions.reformists",          "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_diplomacy_morivask_border", "delayWeeks": 4 }
+      ],
+      "flags": ["arcturian_informal_alliance", "executive_agreement", "flexible_deterrence"],
+      "codexUnlocks": ["codex_arcturia", "codex_military_cooperation"]
+    },
+    {
+      "id": "arcturian_alliance_refuse",
+      "text": "\"Ambassador, I am grateful for the offer — genuinely. But a defense pact with Arcturia makes Veltria a permanent frontline state in someone else's cold war. We will defend ourselves. We will request international support through the Arbitration Tribunal. We will mobilize every capable citizen and every available resource. But we will not trade one form of dependence — vulnerability to Tyvaren — for another form of dependence — permanent alignment with Arcturian strategic interests. Veltria's independence is not negotiable, even for survival. Especially for survival.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -5  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 8   },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 12  },
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_diplomacy_morivask_border", "delayWeeks": 4 }
+      ],
+      "flags": ["arcturian_alliance_refused", "stand_alone", "independence_absolute"],
+      "codexUnlocks": ["codex_arcturia"]
+    }
+  ]
+}

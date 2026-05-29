@@ -1,0 +1,85 @@
+{
+  "id": "social_state_dinner_wk24",
+  "title": "The State Dinner",
+  "act": 2,
+  "weekAvailable": 24,
+  "type": "social_event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellery State Dining Room, Ashenmere",
+  "characters": ["jonas_ashavel", "elara_vostane", "irina_dusek", "harrison_cole", "yevgeni_stahl"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "The State Dining Room has been transformed. Two hundred candles. A table of polished walnut stretching forty feet." },
+    { "type": "description", "text": "Both superpowers have sent senior representatives. Every detail is a negotiation." }
+  ],
+  "choices": [],
+  "socialInteractions": [
+    {
+      "id": "dinner_seating",
+      "title": "The Seating Arrangement",
+      "location": "Main Table",
+      "mandatory": true,
+      "narrative": [
+        { "type": "description", "text": "The placement of Ambassador Cole and Commissar Stahl is the critical decision." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Cole to your right or Stahl to your right. Or seat them equally. Each choice has consequences." }
+      ],
+      "choices": [
+        {
+          "id": "seat_cole_right",
+          "text": "Seat Cole to your right. Protocol favors the Arcturians.",
+          "internalTag": "pragmatist",
+          "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 2 }],
+          "flags": ["dinner_seated_cole_right"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "seat_stahl_right",
+          "text": "Seat Stahl to your right. Pragmatism with the east.",
+          "internalTag": "pragmatist",
+          "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 2 }],
+          "flags": ["dinner_seated_stahl_right"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "seat_equal",
+          "text": "Seat them equidistant. Veltria is neutral ground.",
+          "internalTag": "reformist",
+          "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 1 }],
+          "flags": ["dinner_seated_equal"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "dinner_toast",
+      "title": "The Toast",
+      "location": "Head of Table",
+      "mandatory": true,
+      "narrative": [{ "type": "description", "text": "The crystal is raised. Your words will be analyzed by two foreign ministries before morning." }],
+      "choices": [
+        {
+          "id": "toast_partnership",
+          "text": "Toast to partnership with all democratic nations.",
+          "internalTag": "pragmatist",
+          "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 3 }],
+          "flags": ["dinner_toast_partnership"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "toast_sovereignty",
+          "text": "Toast to Veltrian sovereignty. We will be ruled by none.",
+          "internalTag": "reformist",
+          "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 5 }],
+          "flags": ["dinner_toast_sovereignty"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  ]
+}

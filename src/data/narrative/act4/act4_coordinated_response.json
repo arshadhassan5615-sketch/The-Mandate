@@ -1,0 +1,82 @@
+{
+  "id": "act4_coordinated_response",
+  "title": "The Orchestrated Response",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, Strategic Review, Morning",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.all_fronts_managed", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The weekly situation reports are spread across your desk in the particular arrangement that Vyktor uses when he wants you to see the connections between apparently unrelated developments. The military report shows the front stabilizing — not winning, not losing, stabilizing. The diplomatic report shows the Forum vote shifting toward the binding guarantees resolution, with three of the previously undecided delegations now indicating they will vote yes. The economic report shows the IMA negotiations producing a revised compliance schedule that preserves the social safety net while maintaining creditor confidence. The personal report — there is no formal personal report, but there is a note from Tomas's teacher, forwarded by Jonas, saying that Tomas has been participating in class again. The coordinated all-fronts strategy is producing results. Not victory. Not peace. But movement. Forward movement, on multiple fronts simultaneously. The coordination is exhausting. It is also working."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The numbers are improving across the board. Military readiness has stabilized. The diplomatic initiative is gaining momentum — the Forum whip count has never been better. The economic indicators are not good, but they are no longer deteriorating. The IMA has accepted the revised compliance schedule. The Orythian negotiations have produced a framework that the Arcturians can live with — not ideal, but functional. The personal front — I do not track the personal front formally, but the staff has noticed you are sleeping approximately five hours a night instead of three. That is an improvement. The question now is whether to accelerate, consolidate, or begin the transition from crisis governance to something resembling normal administration. The crisis is not over. But the all-consuming phase may be."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The temptation to accelerate is powerful. You can feel the momentum. You have been pushing against institutional inertia for nearly a year — pushing reforms through a resistant parliament, pushing military strategy through cautious generals, pushing diplomatic initiatives through reluctant allies. Pushing is what you know how to do. Pushing has been the only thing that worked. But pushing forever is not sustainable. You are exhausted — more exhausted than you have allowed yourself to acknowledge. The country is exhausted. The people around you — Vyktor, Dusek, Vostane, Jonas, your children — are exhausted. The coordinated all-fronts strategy worked because you coordinated it. It cannot work indefinitely because you cannot coordinate indefinitely. There has to be a point where crisis governance transitions to something else. You have to decide if this is the point."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "coordinated_accelerate",
+      "text": "\"The momentum is real. I want to accelerate — push harder on all fronts simultaneously. Authorize Dusek to plan a limited offensive to coincide with the Forum vote. Tell Vostane to push for additional IMA concessions while the diplomatic situation is favorable. Increase the tempo on the Orythian negotiations. And on the personal front — Tomas is doing better. I want to be there for that, not just note it in passing. Accelerate does not mean abandon balance. It means we press the advantage while we have it. The crisis is not over. But it has entered a phase where we can win — not just survive, win. I want to win.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["coordinated_response", "accelerated_strategy", "momentum_exploited"],
+      "codexUnlocks": ["codex_strategic_acceleration", "codex_crisis_offensive"]
+    },
+    {
+      "id": "coordinated_consolidate",
+      "text": "\"The gains are real but fragile. I want to consolidate — stabilize the military position, lock in the diplomatic progress, nail down the economic agreements, ensure the personal front is sustainable. Not every week needs to be a breakthrough. Some weeks need to be about making sure the breakthroughs stick. Dusek, focus on defense and resupply. Vyktor, get the Forum resolution language finalized and ensure the yes votes are locked. Vostane, codify the IMA revision in a formal agreement. And I am going to spend an evening with my family — not because the crisis is over, because the crisis is never over, but because I have been running on three hours of sleep and that is not sustainable for me or for the country. Consolidation is not retreat. It is preparation for whatever comes next.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["coordinated_response", "consolidation_strategy", "gains_stabilized"],
+      "codexUnlocks": ["codex_strategic_consolidation", "codex_crisis_stabilization"]
+    },
+    {
+      "id": "coordinated_transition_normal",
+      "text": "\"The crisis is not over but the all-consuming phase may be. I want to begin transitioning from crisis governance to normal administration. Delegate more. Empower the ministries to manage their portfolios without daily Chancellery oversight. Let parliament debate and decide — not everything needs to be an executive order. Restore the normal rhythms of governance: cabinet meetings on Mondays, parliamentary sessions on Tuesdays, strategic reviews on Wednesdays, and — for the first time in nearly a year — weekends that are sometimes weekends. The country needs a leader who can govern in peacetime, not just manage in wartime. I need to demonstrate that I am that leader. The demonstration starts now.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 8 },
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["coordinated_response", "normalization_strategy", "crisis_phase_ending"],
+      "codexUnlocks": ["codex_transitional_governance", "codex_peacetime_administration"]
+    }
+  ]
+}

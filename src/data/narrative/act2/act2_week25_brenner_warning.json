@@ -1,0 +1,77 @@
+{
+  "id": "act2_week25_brenner_warning",
+  "title": "The General's Warning",
+  "act": 2,
+  "weekAvailable": 25,
+  "weekDeadline": 27,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Colonel Dusek's Office",
+  "characters": ["oskar_brenner", "irina_dusek", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.soren_immunity_revoked", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "General Oskar Brenner has requested a private meeting. He is in full dress uniform — medals, ceremonial sword, the full weight of his forty years of service. Dusek is present, standing by the window, her expression unreadable. The atmosphere is not hostile but it is heavy, the way the air feels before a storm."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "Madam Chancellor. I have served Veltria for forty-one years. I served under Halvek. I served under the transition. I now serve under you. In all that time, I have never questioned a lawful order from my civilian leadership. I am not questioning you now. I am informing you — as a professional courtesy — that the officer corps is deeply unsettled by the accountability provision in the new constitution. They see it as an attack on the institution of the military, not merely on Marshal Soren. They believe that the provision will be used to prosecute officers for following orders during the Halvek years. And they are asking me what I intend to do about it."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "What General Brenner is saying — indirectly — is that elements of the officer corps are discussing whether the constitution should be blocked. I have heard the same discussions. No one has used the word 'coup.' No one has proposed specific action. But the sentiment exists. The Iron Covenant believes that this provision is the first step toward dismantling the military as an institution. I am reporting this to you because it is my duty. What you do with it is your decision."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "I will tell you what I told the officers who came to me. I told them that their oath is to the constitution, not to any individual. I told them that if the constitution is changed lawfully, we obey it lawfully. But I also told them that I understand their concerns. Marshal Soren is not a war criminal to the men who served under him. He is a commander. A mentor. A father to the institution. If you arrest him, you arrest the memory of every soldier who died under his command. The military remembers loyalty, Chancellor. Touch Soren, and you touch us all."
+    }
+  ],
+
+  "monologue": "Full dress uniform. Medals. Ceremonial sword. Brenner dressed for this meeting the way a general dresses for a formal surrender — every symbol of his authority on display. He is telling me that touching Soren means touching the military's memory. Not a threat, he says. But every word after 'not a threat' is the threat. He is asking me to choose between justice and stability, and he does not believe I can have both.",
+
+  "choices": [
+    {
+      "id": "brenner_reassure_constitution",
+      "text": "\"General, the accountability provision targets crimes, not service. I give you my word — as Chancellor and as a Veltrian — that no officer will be prosecuted for following lawful orders. Soren is being investigated for what he ordered, not for what he wore. The military is not on trial. One man is. The distinction is clear and it will remain clear.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_soren_files", "delayWeeks": 8 }
+      ],
+      "flags": ["brenner_warned", "soren_investigation_proceeding", "met_gavril_soren"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "oskar_brenner", "type": "silence", "text": "He stands at attention — the formal stance of a soldier who has been given an order he will obey but does not endorse. He does not argue further. The matter is closed." }, { "character": "irina_dusek", "type": "silence", "text": "Dusek writes something on her pad — the exact wording of your assurance. She is filing it. With Dusek, filing means she will hold you to it." }]
+    },
+    {
+      "id": "brenner_stand_firm",
+      "text": "\"General Brenner, I hear your concern. I respect your service. But the law is the law. Soren will be investigated. If the officer corps cannot accept civilian authority over matters of criminal justice, then the officer corps has a larger problem than one retired Marshal. I trust you to convey that message in terms they will understand.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -3 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_soren_files", "delayWeeks": 8 }
+      ],
+      "flags": ["brenner_warned", "soren_investigation_proceeding", "brenner_stood_down", "met_gavril_soren"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "oskar_brenner", "type": "silence", "text": "He does not respond. He simply nods — the nod of a soldier who has been given a direct order and will not challenge it publicly. He salutes and turns. The conversation is over." }]
+    }
+  ]
+}

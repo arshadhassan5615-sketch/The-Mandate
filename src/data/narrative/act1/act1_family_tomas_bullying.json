@@ -1,0 +1,112 @@
+{
+  "id": "act1_family_tomas_bullying",
+  "title": "Sons of Chancellors",
+  "act": 1,
+  "weekAvailable": 2,
+  "weekDeadline": 6,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Tomas's Room",
+  "characters": ["tomas_ashavel", "jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Jonas meets you in the corridor outside Tomas's room. He speaks quietly, close enough that you can see he's been holding this for hours. \"Don't make it political. Whatever you say to him — don't make it a lesson about the Republic.\""
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "A group of older boys. Six, seven of them. Sons of Halvekist families at the school — you know the kind. They waited for him after athletics. Called him 'the traitor's grandson.' Said his grandmother should have been hanged with his grandfather.\" He stops. \"He didn't fight back. He just walked away. He's twelve, Katerin. He walked away alone."
+    },
+    {
+      "type": "description",
+      "text": "Tomas is sitting on his bed with a book open in his lap that he is not reading. He has his father's quiet — the kind that isn't peace, just weight held very still. When he looks up at you, his face does something careful and controlled that no twelve-year-old should know how to do."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "I'm fine. It doesn't matter.\" A pause. \"Is it going to be like this forever? Everyone knowing who I am and — \" He looks back at the book. \"Is it my fault you got elected?"
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is asking whether his suffering is the price of my ambition. I don't know how to answer him in a way that is honest and also doesn't break something that may never be repaired."
+    }
+  ],
+
+  "monologue": "He didn't fight back. He walked away alone. He's twelve and he already knows how to arrange his face into something that won't worry the adults. 'Is it my fault you got elected?' — he is asking whether his suffering is the price of my ambition. I don't know how to answer him in a way that is honest and also doesn't break something that may never be repaired.",
+
+  "choices": [
+    {
+      "id": "tomas_comfort_quietly",
+      "text": "Sit beside him. Don't talk about politics or the Republic or what it means to be brave. Just be his mother for the rest of the evening. Arrange quietly for security to be less visible at the school — not more.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": 12 },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["tomas_quietly_supported"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_public_statement",
+      "text": "Address it publicly. A press statement from the Chancellor's office about harassment in Halvekist-affiliated schools — name the pattern without naming Tomas specifically.",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": 5  },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 3  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",         "operation": "add", "value": 7  },
+        { "stat": "factions.halvekists",         "operation": "add", "value": -9 },
+        { "stat": "factions.church",             "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["tomas_case_publicized"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_transfer_school",
+      "text": "Transfer him to the Veltrian Academy — private, selective, no Halvekist families. It costs. It is, you know, a privilege you are using. But it keeps him safe.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": 8  },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 2  },
+        { "stat": "personal.personalWealth",     "operation": "add", "value": -2000 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["tomas_transferred"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_toughen_up",
+      "text": "\"This is the cost of who we are, Tomas. I need you to understand that and be stronger than it. I can't protect you from everything — and if I try, I fail everyone else who needs me.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": -15 },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": -12 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -8  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_tomas_nationalist",
+          "delayWeeks": 8,
+          "conditions": [
+            { "stat": "personal.tomasWellbeing", "operator": "<", "value": 35 }
+          ]
+        }
+      ],
+      "flags": ["tomas_told_to_endure"],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "id": "act3_church_active_opposition",
+  "title": "The Pastoral Resistance",
+  "act": 2,
+  "weekAvailable": 20,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Reports from Three Provinces",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Three provincial reports arrived in the same morning briefing, which is either a coincidence or evidence that the coordination is better than you had estimated. Stellamere: a parish education evening attended by four hundred and twelve people, organized by the local deanery, covering — according to the provincial administrator's field report — 'the constitutional and moral dangers of separating civic life from its traditional foundations.' Petravar: two church schools sent home letters to parents explaining that the proposed constitutional reforms would 'remove the protections that allow families of faith to raise children according to their values.' The capital: the Archbishop's Sunday sermon, which was transcribed by the press and has been reprinted in four newspapers. He used the word 'godless' twice."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "This is no longer lobbying. What I'm describing is an organized pastoral mobilization. The Church has approximately four hundred active parishes. They have the organizational infrastructure to run this at a scale that no political party in Veltria can match in the time remaining before the referendum. The Archbishop has made a calculation that he can move enough votes to defeat the constitutional reform. He may be correct."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The constitutional provisions the Church is objecting to are not anti-religious. The separation clause does not remove Church schools — it removes public funding of exclusive Church schools while protecting the right to operate them privately. There is a version of this where the Archbishop has misread the text deliberately, and a version where he has been advised by people whose interest in the outcome is not spiritual. I think both are probably true."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The Church reaches people you cannot reach. Four hundred parishes, weekly attendance, the particular authority of a voice that claims to speak not for a party but for something older and more permanent than any government. You can outspend the Archbishop in television advertising and still lose if the families in those pews believe that voting yes is a vote against something they were raised to protect."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I want to say clearly: the text we have written protects religious freedom. It protects it more explicitly than the Halvek constitution does. The irony is real and it is not useful, because the Archbishop is not fighting the text. He is fighting the idea of a government that does not require his endorsement to be legitimate."
+    }
+  ],
+  "monologue": "Four hundred parishes. Weekly attendance. The Archbishop said 'godless' twice in his Sunday sermon — and the press reprinted it. Theron is correct: the Church is not fighting the text. It is fighting the idea of a government that does not require its endorsement to be legitimate. You can outspend the Archbishop in radio ads and still lose in the pews on Sunday morning.",
+
+  "choices": [
+    {
+      "id": "church_pastoral_outreach",
+      "text": "\"I reach out to the Archbishop personally — a private meeting, just the two of us, without advisors or press. I will read the constitutional text with him, clause by clause, and I will listen to his specific objections rather than assume I know what they are. If there are accommodations that protect religious freedom without compromising the reform, I want to hear them from him.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "factions.church",          "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 4 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 8 }
+      ],
+      "flags": ["church_personal_outreach", "archbishop_meeting_requested"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes the meeting request on his pad — no advisors, no press, clause-by-clause review. He does not object. He understands that this is a political move dressed as a personal one, and that the effectiveness of the move depends on the sincerity of the dressing. He does not comment on whether you are being sincere."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Theron considers this. The Archbishop's objections are not textual — they are existential. But sitting in a room with him, reading the clauses one by one, listening to what he actually says... He pauses. That is the kind of thing that works on people who can still be moved by honesty. I do not know whether Stanislov Renek can still be moved by honesty. I do know that he will not see it coming."
+        }
+      ]
+    },
+    {
+      "id": "church_secular_expansion",
+      "text": "\"Accelerate the secular school expansion program — open three new public schools in the provinces where Church opposition is heaviest, announce funding for non-denominational community centers in the same parishes. We reduce the Church's structural grip on local services so the referendum is less about who provides your children's education.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.church",          "operation": "add", "value": -12 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 5 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 9 }
+      ],
+      "flags": ["secular_expansion_accelerated", "church_structural_challenge"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron says nothing for a long moment. When he speaks, his voice is quieter than usual — the voice of a man who has just watched his academic argument become a political war and is not certain he wanted to be the general. He does not oppose the plan. He simply looks at the ceiling for several seconds, as though searching for a different path he has not yet found."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Three new public schools. The funding authorization already exists under the education infrastructure allocation. I can accelerate the timeline. He pauses. The Church will call it a declaration of war. Which, from their perspective, it is."
+        }
+      ]
+    },
+    {
+      "id": "church_limited_exemptions",
+      "text": "\"We offer the Church a set of specific, limited exemptions — an explicit constitutional note affirming parental rights in religious education, a modified funding formula for church schools that preserves partial support. We give enough to slow the pastoral mobilization without surrendering the secular principle of the reform.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church",          "operation": "add", "value": 8 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 7 },
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 4 }
+      ],
+      "flags": ["church_exemptions_offered", "constitution_church_note_added"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Theron removes his glasses. Parental rights in religious education. Modified funding formula. He weighs the words. It is a compromise. It is not a surrender. He pauses. I can live with it. That is not the same as endorsing it. But I can live with it, and in the current situation, that may be enough."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes the exemptions on his notepad — parental rights note, modified funding — and looks at them for a long moment. He says nothing. The silence is not disapproval. It is the particular quiet of someone calculating the price of a concession and deciding whether the price you paid today is cheaper than the price you would have paid tomorrow."
+        }
+      ]
+    }
+  ]
+}

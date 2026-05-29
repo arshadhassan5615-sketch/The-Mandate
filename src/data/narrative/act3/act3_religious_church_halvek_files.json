@@ -1,0 +1,82 @@
+{
+  "id": "act3_religious_church_halvek_files",
+  "title": "The Archbishop's Ledger",
+  "act": 3,
+  "weekAvailable": 30,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "BNI Headquarters — Secure Records Vault, Ashenmere",
+  "characters": ["danika_oberlin", "stanislov_renek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Danika Oberlin has been reviewing BNI archives for six months — part of the broader effort to document Halvek-era abuses and determine which intelligence practices to retain and which to bury. Two days ago, her team found a set of financial records that had been mislabeled as 'agricultural subsidy receipts.' They were not agricultural subsidy receipts. They were detailed accounts of Church funds — approximately eight million VK over twelve years — funneled through three charitable organizations into Halvek-era political operations, including surveillance of reformist clergy, payments to informants inside the Dravenni community, and direct contributions to Halvek's 1958 re-election campaign."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The records are conclusive. The money can be traced from the Church's charitable arm through two intermediary foundations and into the operational accounts of the Halvek political apparatus. The transactions were authorized by the Archbishop's office — not by Renek personally in every case, but by his predecessors and, in at least two instances dated 1959 and 1961, under Renek's own seal. The Church was not a passive beneficiary of the Halvek regime. It was an active participant in its political operations. If we publish these records, the Church's moral authority is severely damaged. That may be justified — the Church participated in political repression. It may also destabilize the country at a moment when we need the Church's cooperation on healthcare, education, and social cohesion. I am presenting you with the evidence. The decision on disclosure is yours."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor, I will not insult your intelligence by denying what Minister Oberlin has found. The Church made compromises under Halvek — compromises I inherited, compromises I regret, compromises that were made in the belief that the Church could do more good inside the halls of power than outside them. That belief was wrong. I am willing to say so publicly. But if these records are published in full — if the Church's cooperation with Halvek becomes a national scandal — the damage will not be limited to my office. It will extend to every parish priest, every rural congregation, every believer who looks to the Church for moral guidance. I am asking you to consider the institution as it is now, not as it was then. I am willing to resign if that is what accountability requires. I am asking you not to destroy the Church in the process of holding it accountable."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Renek is offering his own head in exchange for the Church's survival. That is more than I expected from him — he is a political operator, not a martyr, and the fact that he is willing to fall on his sword suggests he genuinely believes the Church can be reformed. Oberlin wants justice. The public deserves the truth. But Renek is right about one thing: the Church is not just its hierarchy. It is fourteen hospitals, hundreds of schools, and millions of believers whose faith is not defined by the Archbishop's political compromises. If I publish everything, I wound the Church — possibly fatally, possibly in a way that triggers a conservative backlash that makes governance impossible. If I bury the files, I protect the institution at the cost of truth. If I negotiate a private resignation, I split the difference between accountability and stability. The truth should not be negotiable. Governing sometimes makes it so."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "halvek_files_publish",
+      "text": "\"Publish the records. All of them. Oberlin, prepare a full disclosure report for release to the Herald, the Standard, and the international press. The Church will survive — institutions that have lasted a millennium do not collapse because their leadership is exposed. The Church that emerges from this will be reformed, accountable, and stronger for having confronted its past. Archbishop, you may make whatever public statement you choose. The government's statement is that no institution — not even the Church — is above the truth.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -25 },
+        { "stat": "religiousAdherence", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_scandal_exposed", "halvek_files_published", "reneck_disgraced"],
+      "codexUnlocks": ["codex_church_history", "codex_bni_intelligence"]
+    },
+    {
+      "id": "halvek_files_bury",
+      "text": "\"The records are classified. Oberlin, seal them — BNI internal archive, access restricted to your office and mine, reviewable in twenty years. Archbishop, I am not protecting you. I am protecting the millions of Veltrians who rely on Church hospitals and Church schools and whose faith would be shaken by the revelation that their institution was complicit in Halvek's crimes. The Church will conduct its own internal investigation — privately, thoroughly, with a report submitted to my office. That is the price of my silence.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 10 },
+        { "stat": "nation.corruption", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_scandal_buried", "reneck_protected", "classified_files"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "halvek_files_resignation",
+      "text": "\"Archbishop, I accept your offer. You will resign — publicly, with a statement acknowledging that the Church made 'errors of political judgment' during the Halvek era and that those errors require new leadership. The specific financial records will remain classified for ten years, after which they will be made public. A Church commission will review all Halvek-era activities and publish its findings. You leave with dignity. The Church begins its reform. The truth is preserved — delayed, not destroyed. That is the best balance I can offer.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -5 },
+        { "stat": "religiousAdherence", "operation": "add", "value": -2 },
+        { "stat": "nation.corruption", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["reneck_resigned", "church_reform_commission", "scandal_managed"],
+      "codexUnlocks": ["codex_church_history"]
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "act3_national_address_war",
+  "title": "Words to a Nation at War",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "National Broadcast Studio — 20:00, Live Address to the Nation",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The broadcast studio is a converted radio theater in the basement of the Ministry of Information — a room built for symphony orchestras during the cultural revival of the 1930s, now repurposed for the darker task of telling a nation that it is at war. The acoustic panels are still arranged for music. The microphone is the same model that broadcast the Coronation of 1947 and the Halvek Resignation of 1959 and the Inaugural Address of 1963. You have stood at this microphone before. The first time was hope and promise and the particular terror of being the first woman to do something. This time is different. This time you are not promising. You are asking. The country is about to hear what it is being asked to give. You are the one who has to ask it."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor is in the control booth, managing the technical details with the broadcast engineers — the signal relay to the provincial stations, the simultaneous translation for the Dravenni-language broadcast, the military censor's verification that the speech contains no operational information that could aid Tyvaren targeting. He is doing what he always does: handling the machinery so you can handle the meaning. The speech is on the lectern. You have rewritten it four times. The first draft was defiant. The second was sorrowful. The third was analytical, a Chancellor explaining a strategic decision to a nation of reasonable people. The fourth is none of these things. The fourth is the truth as you understand it at 20:00 on the night you are about to tell your country that it is at war. The truth is not defiant or sorrowful or analytical. The truth is all of these things and also something else: the specific loneliness of being the person who has to say it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The red light goes on in ten seconds. The engineer is counting down on his fingers. Vyktor is watching through the glass. The nation is waiting — in farmhouses in the Alden valley, in tenement apartments in Kravenstal, in the evacuation centers where the border families are sleeping on cots and listening to a battery-powered radio that is their only connection to the government that asked them to leave their homes. They are going to hear my voice in ten seconds. They are going to decide, in the first thirty seconds, whether they believe what I am about to say. The speech is not about the words. It is about whether the person speaking the words is the person they elected, or someone the war has changed into something they do not recognize. I have to be both — the person they elected and the person the war requires. The person who promised peace and the person who must now ask for sacrifice. If I can hold both of those truths in my voice, the country will hold. If I cannot — if the voice cracks, if the words sound like they were written by a committee, if the nation hears a politician instead of a Chancellor — then the war is lost before it begins, not on the battlefield but in the space between the microphone and the radio, where belief either forms or does not. Ten seconds. Nine. Vyktor is adjusting something on the console. The engineer is holding up five fingers. Four. Three. The red light comes on. I am no longer a person with thoughts. I am the voice of the Republic of Veltria. The country is listening. I begin to speak."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "national_address_honest_somber",
+      "text": "\"My fellow Veltrians. I am speaking to you tonight not from the Chancellor's office but from a studio in Ashenmere, and I am speaking to you not as a politician but as a citizen who has spent the last twelve hours reading casualty projections and readiness reports and diplomatic cables that all say the same thing: our country is about to be attacked by a larger, better-armed neighbor, and I cannot promise you that we will win. What I can promise you is that we will fight. Not because victory is certain — it is not. Not because our cause is righteous — though it is. But because the alternative is a Veltria that exists at the pleasure of a foreign power, and that is not Veltria. That is occupation by another name. I am asking you to endure what is coming. I am asking you to be brave when the news is bad. I am asking you to remember, in the dark hours, that we are still a nation, still a people, still the country that rebuilt itself after the occupation and rebuilt itself after Halvek and will rebuild itself after this. I do not know how this war will end. I know that however it ends, we will face it together. That is the only promise I can make. It is the only promise worth making. Good night. Good luck. And whatever god you pray to — pray for Veltria.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 12 },
+        { "stat": "factions.church",               "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 1 }
+      ],
+      "flags": ["national_address_somber", "honest_war_address", "nation_moved", "address_delivered"],
+      "codexUnlocks": ["codex_chancellors_war_address", "codex_veltrian_resilience"]
+    },
+    {
+      "id": "national_address_defiant_inspiring",
+      "text": "\"Citizens of the Republic. At 06:00 this morning, the Marshal of the Tyvaren Confederation issued an ultimatum demanding that we surrender the Gravenmark Pass — the pass that has guarded our northern frontier since before there was a Veltria to guard. My answer was one word: no. Not one kilometer. Not one meter. Not one centimeter of Veltrian soil will be surrendered to a tyrant who thinks democracy is weakness and sovereignty is negotiable. The Tyvaren army is larger than ours. That is a fact. Here is another fact: every meter of Veltrian soil they try to take, they will pay for in blood. Every soldier who crosses our border will find that the people of Veltria did not survive occupation, dictatorship, and decades of hardship to surrender their freedom to a foreign power. We are the country that endured the occupation. We are the country that overthrew Halvek. We are the country that elected the first woman Chancellor in our history and showed the world that Veltria is not afraid of the future. We will not be afraid of Volkov. We will meet him at the border. We will meet him at the pass. We will meet him in every village and every field and every street of this country, and we will show him what a free people fighting for their homeland can do. The war begins tonight. It ends with Veltria free, or it does not end. That is the only choice. I have made mine. Now I ask you to make yours. Stand with me. Stand with your country. Stand for Veltria.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 18 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 16 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 18 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 8  },
+        { "stat": "nation.inflation",              "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week37_military_rally", "delayWeeks": 1 }
+      ],
+      "flags": ["national_address_defiant", "rallying_cry_delivered", "nation_galvanized", "address_delivered"],
+      "codexUnlocks": ["codex_chancellors_war_address", "codex_defiance_speech"]
+    },
+    {
+      "id": "national_address_pragmatic_unifying",
+      "text": "\"Good evening. I am speaking to you tonight because our country faces the most serious threat to its existence since the occupation of 1923. The Tyvaren Confederation, under Marshal Volkov, has issued an ultimatum demanding territorial concessions that no sovereign nation can accept. We have attempted diplomacy. We have engaged the International Forum. We have explored every avenue short of surrender. Those avenues are now exhausted. What remains is the defense of our homeland. I want to be clear about what that means. It means hardship. It means sacrifice. It means that the weeks and months ahead will test this nation in ways it has not been tested in forty years. But it also means this: we are not alone. We have allies. We have the moral support of the international community. And we have something Volkov does not — a government that derives its authority from the consent of the governed. We are not fighting for territory. We are fighting for the right to govern ourselves, to choose our own future, to be Veltrians in a Veltria that answers to no foreign power. I am asking every citizen to do their part. If you can fight, report to your mobilization center. If you can work, the war industries need your labor. If you can give, the war bond drive begins tomorrow. If you can pray, pray. This war will not be won by any single person — not by me, not by General Brenner, not by the soldiers at the front. It will be won by all of us, together, each doing what we can for as long as we must. That is how democracies fight wars. That is how Veltria will fight this one. Thank you. Good night. And let us begin.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.church",               "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 2 }
+      ],
+      "flags": ["national_address_unifying", "pragmatic_war_address", "nation_mobilized", "address_delivered"],
+      "codexUnlocks": ["codex_chancellors_war_address", "codex_total_national_effort"]
+    }
+  ]
+}

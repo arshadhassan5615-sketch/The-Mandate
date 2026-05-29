@@ -1,0 +1,112 @@
+{
+  "id": "act4_week40_exile",
+  "title": "The Government in Exile",
+  "act": 4,
+  "weekAvailable": 40,
+  "deadline": 44,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Stellamere — Provisional Chancellery, Week Forty",
+  "characters": ["vyktor_reznik", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.government_in_exile", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Arcturian government has given you three rooms in a diplomatic annex building that usually houses trade delegations and minor consular staff. The furniture is functional. The windows face a courtyard that could be anywhere — the architecture of international diplomacy is deliberately anonymous, designed to make no statement about the countries that temporarily occupy it. You are a head of state without a state. Your government is recognized by the international community but controls no territory. Your military exists on paper and in the loyalist units that refused to follow Brenner, but they are not here. They are in Veltria, hiding, waiting, wondering whether their Chancellor is coming back or whether they have been abandoned to a junta that now controls the capital."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You fled. You made the calculation — survive, organize, return — and you fled. The calculation was rational. Every strategic assessment supported it. A dead Chancellor cannot restore democracy. A living government in exile can rally international support, coordinate loyalist forces, wait for the junta to overreach. All of this is true. And also: you are not in Veltria. Your people are living under military rule while you sit in a diplomatic annex in a foreign capital. Both things are true. They do not resolve. You have to govern from the space between them."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Arcturian foreign ministry has agreed to continue recognizing your government as the legitimate authority of the Republic of Veltria. This is significant — it means we retain access to frozen Veltrian state assets, approximately eighty million VK in foreign accounts. It also means the junta cannot access those funds without Arcturian cooperation, which will not be forthcoming. On the negative side: the Orythian government has adopted a position of 'waiting for clarification of the constitutional situation,' which in diplomatic language means they are considering recognizing Brenner's junta if it consolidates control. We have perhaps four to six weeks before the international consensus shifts. We need to use that time."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Military assessment. Approximately forty percent of the officer corps has refused to serve under the junta. Some of those officers have gone underground. Some have fled the country and are attempting to reach us here. The loyalist units that fought at the Ministry district during the coup are dispersed but not destroyed — they are operating in the southern provinces, where Brenner's control is weakest. I can coordinate them from here, but coordination requires communication, and communication requires codes and couriers and time. I can build a resistance. I cannot build one quickly. And every week that passes, more officers decide that the junta is the new reality and make their peace with it."
+    },
+    {
+      "type": "description",
+      "text": "You have been in Stellamere for three days. It feels like three months. The particular helplessness of exile is not the physical discomfort — the rooms are adequate, the food is adequate, the Arcturian officials are professionally sympathetic. The helplessness is the distance. Veltria is happening without you. Brenner is issuing communiques, appointing ministers, consolidating control. The newspapers in Stellamere are beginning to refer to 'the military government in Ashenmere' rather than 'the junta.' Language shifts. Reality follows language. You have to shift it back, and you have to do it from three rooms in a building that was not designed for the purpose you are using it for."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "exile_international_campaign",
+      "text": "\"I want a diplomatic offensive. Every democracy on the continent gets a personal appeal from me within the week. I will address the Arcturian parliament, the International Forum, anyone who will give me a platform. Brenner's junta controls the capital — it does not control the international narrative. I am going to make the case that recognizing a military coup in Veltria is recognizing that democracy is negotiable, and that every country that stays silent today is inviting its own generals to consider their options tomorrow. This is not a Veltrian crisis. This is a democratic crisis. I am going to make them see that.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 4 }
+      ],
+      "flags": ["exile_diplomatic_campaign", "international_support_rallied", "exile_strategy_set"],
+      "codexUnlocks": ["codex_government_in_exile", "codex_international_recognition_doctrine"]
+    },
+    {
+      "id": "exile_resistance_network",
+      "text": "\"Dusek, I want you to build the resistance. Not a symbolic resistance — a real one. Use the frozen assets to fund safe houses, communication networks, courier routes. Identify every loyalist officer still in Veltria and give them a structure to plug into. I am not asking you to build an army. I am asking you to build the skeleton of an army that can become an army when the moment comes. The diplomatic campaign matters, but diplomacy without the credible threat of force is just speechmaking. Brenner needs to know that we are coming back, and we are not coming back alone.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 4 }
+      ],
+      "flags": ["resistance_network_building", "loyalist_coordination", "exile_strategy_set"],
+      "codexUnlocks": ["codex_veltrian_resistance", "codex_loyalist_network"]
+    },
+    {
+      "id": "exile_personal_broadcast",
+      "text": "\"I am going to broadcast to Veltria. Every night. Shortwave, pirate radio, whatever Dusek's people can arrange. Brenner can control the newspapers and the television stations in Ashenmere, but he cannot control the airwaves entirely. The Veltrian people need to hear my voice. They need to know their Chancellor has not abandoned them, that there is still a legitimate government, that the junta is temporary. I will speak to them every night until I can speak to them in person. That is the commitment. That is all I can offer. It is also, I believe, enough.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 16 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 4 },
+        { "targetNodeId": "act4_underground_radio", "delayWeeks": 1 }
+      ],
+      "flags": ["radio_free_veltria", "nightly_broadcasts", "exile_strategy_set"],
+      "codexUnlocks": ["codex_radio_free_veltria", "codex_underground_broadcasting"]
+    },
+    {
+      "id": "exile_negotiate_return",
+      "text": "\"Before we commit to an exile strategy — I want to explore whether there is a negotiated path back. Brenner is not a monster. He is a frightened man who made a catastrophic decision. If I can reach him directly — a private channel, no publicity — and offer him a way out that preserves his dignity and his freedom, he may take it. Amnesty for the junior officers. Retirement with pension for Brenner. A transitional council that includes military and civilian members. I am not offering to legitimize the coup. I am offering to end it without more bloodshed. That is worth exploring before we commit to a resistance that could become a civil war.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 4 }
+      ],
+      "flags": ["negotiated_return_explored", "brenner_backchannel", "exile_strategy_set"],
+      "codexUnlocks": ["codex_government_in_exile", "codex_transitional_council_proposal"]
+    }
+  ]
+}

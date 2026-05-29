@@ -1,0 +1,216 @@
+{
+  "id": "mole_week3_choice",
+  "title": "The Decoded Cable",
+  "act": 1,
+  "weekAvailable": 3,
+  "weekDeadline": 4,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Late Evening",
+  "characters": [
+    "danika_oberlin"
+  ],
+  "prerequisites": [
+    {
+      "stat": "currentWeek",
+      "operator": ">=",
+      "value": 3
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "It is past ten o'clock. You are reviewing tomorrow's briefing materials when the door opens without a knock. Not Serida — she would have called first. Not Vyktor — he works late, but he always announces himself. Danika Oberlin. She is carrying a single sheet of paper. Her face carries the particular exhaustion of someone who has been chasing a suspicion for days and just caught up to it."
+    },
+    {
+      "type": "description",
+      "text": "She places the paper on your desk — a decoded diplomatic cable, intercepted by the BNI's signals division. The encryption is standard Arcturian Foreign Ministry protocol. The contents are not standard at all."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The Arcturian Foreign Ministry sent this cable to their embassy at 02:14 this morning. It contains the specific budget figures you presented to your cabinet at 15:00 yesterday — deficit projections, the five-year expenditure framework, the proposed revenue adjustments. Every number. Every rounding error. The cable was transmitted twelve hours before your announcement to the press. [She waits.] Someone in that room. Someone who was at your cabinet table. Someone who had access to the budget figures before they were made public. That is not a guess. That is a fact."
+    },
+    {
+      "type": "description",
+      "text": "She does not name anyone. She does not speculate about who. She simply waits. The cable is real. The implications are real. The question of what to do about it is yours."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The Gazette. Cole's early meeting request. Now budget figures — actual classified budget figures — in Arcturian diplomatic cables before I have announced them publicly. Not a lucky guess. Not aggressive diplomacy. A leak. Inside my government. Inside a room where I trusted everyone present. One of those people is not who I think they are."
+    }
+  ],
+  "monologue": "Three data points now. The Gazette story. Cole's premature meeting request. A decoded cable with my budget numbers in Arcturian hands twelve hours before I went public. Someone in that room. Someone I trusted. Danika is not speculating — she is stating a fact and waiting for me to tell her what to do about it. The options are all bad in different ways. Formal inquiry and everyone knows I am hunting a mole. Passive observation and the leaks continue. Trust Danika and surrender control. Choose.",
+  "choices": [
+    {
+      "id": "mole_hunt_formal",
+      "text": "\"Begin a formal inquiry. Quietly, but officially. I want a log of everyone who had access to the budget documents, their communications for the past two weeks, and any contact with foreign nationals. Danika, coordinate with the BNI signals division. No arrests yet. No public statements. Just information. If someone in my government is selling secrets, I want to know who before they know I know.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -2
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "mole_week5_complication",
+          "delayWeeks": 2,
+          "conditions": [
+            {
+              "stat": "flags.mole_hunt_formal",
+              "operator": "==",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "flags": [
+        "mole_hunt_formal",
+        "mole_investigation_active"
+      ],
+      "codexUnlocks": [
+        "codex_bni_signals"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She looks at you — not surprised, but assessing."
+        }
+      ]
+    },
+    {
+      "id": "mole_hunt_passive",
+      "text": "\"Watch and wait. If there is a leak, whoever is responsible will get comfortable. Comfortable people make mistakes. I want no visible investigation, no audits, nothing that suggests we know. But I want Serida's security detail doubled on the cabinet offices, and I want you to monitor the communications of anyone who was in that budget meeting — passively, without alerting them. The mole doesn't know we know. That is our advantage. Let's keep it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 0
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "mole_week5_complication",
+          "delayWeeks": 2,
+          "conditions": [
+            {
+              "stat": "flags.mole_hunt_passive",
+              "operator": "==",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "flags": [
+        "mole_hunt_passive",
+        "mole_investigation_active"
+      ],
+      "codexUnlocks": [
+        "codex_intelligence_oversight"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "The files support that position."
+        }
+      ]
+    },
+    {
+      "id": "mole_hunt_oberlin",
+      "text": "\"Danika, you found this. You handle it. I trust your judgment. Run the investigation through the BNI's domestic division — keep it compartmentalized, keep it quiet, keep me informed but don't wait for my approval on operational decisions. If there is a leak, I want you to find it before it finds me. You report directly to me. No one else.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 1
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "mole_week5_complication",
+          "delayWeeks": 2,
+          "conditions": [
+            {
+              "stat": "flags.mole_hunt_oberlin",
+              "operator": "==",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "flags": [
+        "mole_hunt_oberlin",
+        "mole_investigation_active"
+      ],
+      "codexUnlocks": [
+        "codex_bni_abolition"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "That changes the scope of the investigation."
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "character": "danika_oberlin",
+      "text": "She nods once. Not agreement. Acknowledgment. Whatever you have decided, she will execute it with the same precision she brought to the WATCHTOWER file. But as she turns to leave, she pauses at the door.",
+      "type": "narrative"
+    },
+    {
+      "character": "danika_oberlin",
+      "text": "[She waits.] I hope it is no one you care about. [She waits again — longer this time.] I have been hoping that for three days. It hasn't helped.",
+      "type": "dialogue"
+    }
+  ]
+}

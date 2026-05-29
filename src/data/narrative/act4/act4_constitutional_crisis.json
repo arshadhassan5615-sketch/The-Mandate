@@ -1,0 +1,91 @@
+{
+  "id": "act4_constitutional_crisis",
+  "title": "The Crisis of Legitimacy",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere — Constitutional Court Chambers, Morning",
+  "characters": ["drazen_kolvar", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.constitution_in_force", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Constitutional Court of the Republic of Veltria occupies a converted guildhall in the old quarter of Ashenmere — a building that was built in 1742 for the purpose of settling trade disputes among wool merchants and has been repurposed four times since. The five justices sit behind a bench that is too large for the room. The petitioners stand at a podium that is too close to the justices. The gallery seats sixty-three people on benches that were designed for eighteenth-century posteriors and have not been replaced because replacing them would require a parliamentary appropriation and no parliament has ever considered courthouse furniture a priority. Today the gallery holds roughly two hundred people standing shoulder to shoulder. Every journalist in Ashenmere is here. Every parliamentary faction leader is here. The constitutional crisis of the Republic is being adjudicated in a building that was designed to adjudicate wool disputes."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Parliament's petition argues three points. First, that the executive order imposing IMA conditions exceeded the Chancellery's constitutional authority because fiscal policy requires parliamentary approval under Article 47, Section 3. Second, that the order's use of emergency powers provisions is invalid because the economic situation does not meet the constitutional threshold for emergency action. Third, that even if the emergency powers were legitimately invoked, the specific conditions imposed exceed the scope of what emergency powers permit. I should note that the same parliament that is now arguing the Chancellery lacks fiscal authority has itself failed to pass a budget in four attempts over seven weeks. The constitutional crisis, Chancellor, is not that you acted. The constitutional crisis is that they cannot."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "The Chancellor misunderstands the nature of the objection. Parliament is not arguing that action was unnecessary. Parliament is arguing that action was unlawful. The Constitution establishes a separation of powers. The executive executes laws passed by the legislature. It does not create fiscal policy by decree. If the Chancellor believes the parliamentary process is too slow, too divided, too incapable of responding to crisis — that is an argument for reforming the process, not for bypassing it. What was done last week was not governance. It was usurpation. Dressed in the language of necessity, authorized by a reading of emergency powers that would make the emergency clause a license for dictatorship, but usurpation nonetheless."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not wrong. That is the terrible thing. Kolvar is wielding the Constitution the way Halvek designed it to be wielded — as a weapon against executive action. The document was written by a dictator who understood that the best defense against a reformist successor was a constitution that made reform impossible. Procedure was his prison. Procedure is what is now being used to prevent you from governing. And yet Kolvar is not wrong. You did bypass parliament. You did use emergency powers in a way they were not explicitly designed to be used. The question is whether necessity justifies the means, and whether the court that will answer that question is capable of seeing past the legal arguments to the reality that a government that cannot govern is not a government at all. The court probably cannot. Courts are not designed to see reality. Courts are designed to see law. That is their virtue and their limitation."
+    },
+    {
+      "type": "description",
+      "text": "The Chief Justice — a woman named Orlova who was appointed by Halvek in 1951 and has survived every political transition since by being more boring than anyone's ambition to replace her — asks the first question. Her voice is dry. Her questions are narrow. She wants to know the exact date on which the government first determined that the economic situation met the constitutional threshold for emergency action. Vyktor consults his notes. The date exists. The reasoning exists. Whether it will be sufficient is a question the courtroom is waiting to have answered."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "crisis_defend_executive_order",
+      "text": "\"The court needs to understand what is at stake. We will argue that Article 12 of the Constitution, the emergency powers clause, was designed for exactly this situation — a parliament incapable of acting while the country burns. We will submit evidence of the four failed budget votes. We will submit evidence of the IMA deadline. We will submit evidence that inaction would have triggered a sovereign default within fourteen days. If the court rules against us, we appeal to the Supreme Constitutional Tribunal. But we do not apologize for governing. The country hired a Chancellor to govern. I am governing. Let the courts decide whether the Constitution allows a democracy to defend itself from its own procedures.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -12 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["constitutional_crisis_act4", "executive_order_defended_in_court", "precedent_set"],
+      "codexUnlocks": ["codex_emergency_powers_jurisprudence", "codex_constitutional_court"]
+    },
+    {
+      "id": "crisis_negotiate_compromise",
+      "text": "\"Vyktor, I want a meeting with Kolvar and the parliamentary leadership. Not in the court — in my office. The court can rule on the law, but the political crisis will not be resolved by a legal ruling. Kolvar wants parliament to be relevant. Fine. I will offer him a formal role in the implementation process — parliamentary oversight, regular reporting, a joint committee that reviews IMA compliance quarterly. He gets the involvement he claims to want. I get the executive authority I need to govern. The executive order stands, but it stands with parliament's fingerprints on it. That is a compromise both sides can live with — and it makes the court case irrelevant before the ruling is even issued.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 2 },
+        { "stat": "nation.corruption", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["constitutional_crisis_act4", "kolvar_compromise_negotiated", "executive_legislative_bargain"],
+      "codexUnlocks": ["codex_separation_of_powers", "codex_parliamentary_oversight"]
+    },
+    {
+      "id": "crisis_withdraw_seek_approval",
+      "text": "\"I am withdrawing the executive order. Effective immediately. The court will not need to rule because the order will no longer exist. Instead, I am sending the IMA conditions to parliament as emergency legislation with a request for a vote within seventy-two hours. If parliament wants to govern, let them govern. If they fail to pass the legislation before the IMA deadline, the responsibility for the default will be theirs — and the country will know it. I am not surrendering authority. I am demonstrating that the authority they claim they want to exercise is one they are incapable of exercising. And when they fail — and they will fail — the country will understand who was trying to govern and who was trying to obstruct.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["constitutional_crisis_act4", "executive_order_withdrawn", "parliamentary_approval_sought"],
+      "codexUnlocks": ["codex_legislative_process", "codex_constitutional_deference"]
+    }
+  ]
+}

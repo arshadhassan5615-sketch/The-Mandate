@@ -1,0 +1,105 @@
+{
+  "id": "act3_confidence_vote",
+  "title": "The Arithmetic of Survival",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Parliament Chamber — Emergency Session",
+  "characters": ["vyktor_reznik", "drazen_kolvar"],
+  "prerequisites": [
+    { "stat": "flags.referendum_rejected", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The chamber is fuller than it has been for any scheduled vote in the past six months. People came for the emergency session who haven't attended a regular sitting since January — not because they care about procedure, but because failure concentrates attention. The gallery is closed to the public; the press are seated in the east wing in four rows of folding chairs that weren't there yesterday. Kolvar is in his usual seat on the opposition benches, surrounded by members who are watching you with the expression of people who have already calculated the outcome and are waiting for the official confirmation."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have the vote count as of this morning. Kolvar has filed with eighty-nine signatures. He needs one hundred and eight to pass a no-confidence motion. The nineteen he is short of are split between four groups: the centrist independents who voted against the constitution but dislike Kolvar personally, the business-aligned members who want economic stability above everything, two members of the Iron Covenant who are personally loyal to Brenner rather than the party, and the Dravenni bloc, which is furious about the referendum outcome but has no interest in putting Kolvar in a position to govern. None of these groups are committed. All of them are in play."
+    },
+    {
+      "type": "description",
+      "text": "Kolvar has not looked at you since you entered the chamber. This is not an oversight. He is doing what experienced parliamentarians do before a vote they believe they have won: reserving his attention for the moment it will matter, which is the reading of the result. He has done this before. He knows how to wait."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The motion was filed this morning. By parliamentary procedure we have twenty-four hours before the vote is called. In those twenty-four hours we have three options. We can fight for the nineteen votes through direct political engagement — committee assignments, budget allocations, personal conversations, everything available to a sitting government with its appointment powers intact. We can address the chamber directly and make the public argument for why this government should survive despite the referendum result. Or we can accept the vote's probable outcome and use the twenty-four hours to negotiate the terms of our exit in a way that maximizes our ability to continue influencing events from outside government."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twenty-four hours. The referendum failed four days ago. The country is in the specific state that follows a loss that was not a landslide — not clear enough to produce consensus, not close enough to produce outrage, only large enough to produce the uncertainty that lets men like Kolvar do the mathematics of opportunity. I have lost a constitutional vote. I have not lost an election. The Halvek constitution remains the law. The question is whether the Halvek constitution's parliamentary procedures will now be used to remove the government that tried to replace it. The irony is not lost on anyone in this room. It is visible on several faces."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Chancellor. Before the formal session begins, I thought it was appropriate to speak to you directly. I want to be clear that this motion is not personal. It is constitutional. The government presented a referendum to the people of Veltria and the people rejected it. The question before this parliament is whether a government whose central mandate has been rejected by a popular vote retains the confidence necessary to continue governing. The answer, I believe, is no. The process we are about to undertake is how a democracy answers that question. I thought you deserved to hear me say that directly rather than reading it in a press statement."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He came to say this in person because he knows I will respect the courtesy even when I reject the argument. He is right that the process is legitimate. He is also right that the referendum failed. He is not right that the government has no mandate to continue — the mandate is not from the referendum, it is from the election that put me here, which has not been superseded. But the distinction is one I will need to make in a room full of people who are looking at the same arithmetic he is looking at, and arriving at different conclusions depending on which side of it they find themselves on."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "confidence_vote_fight",
+      "text": "\"We fight the vote. Vyktor, I need the full list of committee chair assignments we have in reserve, the pending budget allocations that haven't been announced, and every personal relationship our members have with the nineteen undecided votes. We have twenty-four hours and we are going to spend every hour of them. This government was elected. A referendum result does not end that mandate. I am not conceding to a parliamentary procedure invoked by a man who opposed the constitution because it was too democratic.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -4 },
+        { "stat": "nation.corruption",        "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 2 }
+      ],
+      "flags": ["confidence_vote_challenged", "government_fighting_survival"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "confidence_vote_public_appeal",
+      "text": "\"I will address the nation tonight. Not the parliament — the nation. I will explain what the referendum asked, what the rejection means, and why I believe this government's mandate extends beyond any single vote. Let the parliament watch the public response and make their calculation accordingly. If they vote no-confidence after I've made the case directly to the people, then the people will have spoken twice, and I will accept both results with equal clarity.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",       "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["confidence_vote_appealed_public", "national_address_referendum_aftermath"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "confidence_vote_negotiate_terms",
+      "text": "\"Tell Kolvar's office I want a meeting before the vote is called. Not to concede — to negotiate. There is a version of this where I remain Chancellor with a modified mandate, a revised cabinet, and a parliamentary oversight committee that gives the opposition meaningful input into economic policy. If Kolvar is interested in governing rather than just winning, that conversation is available. If he isn't, then I know exactly what this motion is actually about.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",      "operation": "add", "value": 8  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "nation.corruption",        "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["confidence_vote_negotiated", "kolvar_invited_to_govern"],
+      "codexUnlocks": []
+    }
+  ]
+}

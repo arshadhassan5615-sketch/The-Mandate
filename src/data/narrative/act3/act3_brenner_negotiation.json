@@ -1,0 +1,100 @@
+{
+  "id": "act3_brenner_negotiation",
+  "title": "The General's Terms",
+  "act": 3,
+  "weekAvailable": 37,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "General Staff Building — Conference Room, 06:15, Night of the Coup",
+  "characters": ["general_brenner", "colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The conference room in the General Staff building has not been redecorated since before the Halvek regime. The chairs are leather and oak, built for men who expected to sit in them for decades. The map on the wall shows the Gravenmark border in the kind of detail that suggests someone in this building has been preparing for an invasion that has nothing to do with the one currently parked outside the capital. Brenner sits at the head of the table. He has chosen the head deliberately — a territorial claim made with furniture. He is in full uniform. His aide has placed a document folder precisely at his right hand, the kind of detail that signals preparation rather than improvisation. This was planned. The only thing not planned was your phone call."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "Chancellor. Thank you for calling. I want to state at the outset that this is not a coup in the traditional sense. I have not dissolved the government. I have not suspended the constitution. I have taken operational control of specific security functions that I believe — that the General Staff believes — are necessary for national survival. The Tyvaren threat is real. The political paralysis is real. The erosion of military readiness under civilian mismanagement is real. I am not here to overthrow the Republic. I am here to save it. The question now is whether we can find a framework that allows us to save it together, or whether I must save it alone. I prefer together. But I will do it alone if I must."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He believes this. That is the thing that makes the situation more dangerous, not less. A cynic staging a coup can be bought off or bargained with — power is the objective, and power is negotiable. But Brenner is not a cynic. He is a forty-one-year veteran who has watched three governments fail the military and is convinced the fourth is doing the same. He is not seizing power for himself. He is seizing power for an idea — the idea that the Republic cannot survive without martial discipline, that civilian governance is a luxury that crisis cannot afford. You cannot bargain with an idea the way you bargain with ambition. You can only meet it with a better idea, or with a credible threat, or with both. You have approximately the length of this meeting to determine which combination will work."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "For the record: I am attending this meeting at the Chancellor's request as an observer and advisor. I do not recognize the operational authority the General claims to have assumed. I have communicated this position to the General Staff and to the unit commanders I have been able to reach. I am here because the Chancellor asked me to be here. My assessment of the military situation has not changed. The 3rd Armored is in the streets. The garrison is standing down under disputed orders. The window for a resolution that does not involve violence is measured in hours, not days."
+    },
+    {
+      "type": "description",
+      "text": "Dusek delivers this with the absolute neutrality of a professional officer filing a situation report during an exercise. She is wearing her service uniform rather than field dress, which is a choice — she is signaling that she regards this as a political crisis with military dimensions, not a military operation. Brenner registers the distinction. His jaw tightens almost imperceptibly. These two have served together for fifteen years. They know each other's choices the way spouses know each other's silences. The fact that Dusek is sitting on your side of the table and not his is as significant as anything she has said. Brenner has the 3rd Armored. You have the Minister of Defense. The math is complicated."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "brenner_concede_security",
+      "text": "\"I am willing to discuss security portfolio adjustments. Deputy Chancellor for National Security — a new position, reporting to me, with oversight of the military and internal security. You would hold that position, General, and you would bring two additional military appointees into the cabinet. But the civilian government continues to function. Parliament continues to sit. The constitution remains intact. You get operational control of the security apparatus with civilian oversight. I get the Republic. This is the offer. It is the only offer that allows both of us to claim we acted in the national interest rather than our own.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Concede security positions in exchange for constitutional continuity. A deal both can sell. The military gets power; you keep the framework.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_coalition_government", "delayWeeks": 2 }
+      ],
+      "flags": ["brenner_conceded_security", "deputy_chancellor_security", "negotiation_success_partial", "coup_averted_through_politics"],
+      "codexUnlocks": ["codex_brenner_demands", "codex_deputy_chancellor_positions"]
+    },
+    {
+      "id": "brenner_coalition_government",
+      "text": "\"You want to save the Republic, General. I believe you. So let us save it together — genuinely together. A coalition government. Joint civilian-military cabinet with proportional representation from the General Staff and the reformist caucus. You as Deputy Chancellor for Security and Defense. A published framework for civil-military coordination that becomes part of the constitutional architecture. This is not a concession to a coup. This is an acknowledgment that the military has legitimate expertise that civilian government has failed to integrate, and that the integration needs to be structural rather than situational. I am offering you partnership, not surrender. The difference is that partnership lasts after the crisis ends.\"",
+      "internalTag": "reformist",
+      "tooltip": "A genuine coalition with military participation. Legitimizes military input but preserves civilian leadership. Reformists will hate it. The military may accept it.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_coalition_government", "delayWeeks": 1 }
+      ],
+      "flags": ["brenner_coalition_accepted", "joint_cabinet_established", "coup_averted_through_politics", "military_integrated"],
+      "codexUnlocks": ["codex_coalition_framework", "codex_civil_military_integration"]
+    },
+    {
+      "id": "brenner_refuse_bluff",
+      "text": "\"No. I am not negotiating with a gun to my head, General, and I am not going to legitimize what you have done by offering you a cabinet position and pretending it was a policy disagreement. You ordered armored units into the capital in the middle of the night without informing the Minister of Defense. You instructed the garrison to stand down under forged orders. That is not a national security intervention. That is a coup. If you want to be the man who overthrew the Republic, you are going to have to own it — publicly, permanently, with the full knowledge that every democracy on this continent will treat you as a pariah and every Veltrian soldier who swore an oath to the constitution will have to decide whether their oath means anything. I am walking out of this building the same way I walked in — as the Chancellor of Veltria. What you do next is your decision. I have made mine.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Call Brenner's bluff. Refuse to negotiate. Either he backs down or he owns the coup completely. Maximum risk, maximum principle.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -16 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ashenmere_standoff", "delayWeeks": 0 },
+        { "targetNodeId": "act4_civil_conflict_arc", "delayWeeks": 3, "probability": 0.6 }
+      ],
+      "flags": ["brenner_refused", "chancellor_stood_firm", "negotiation_failed", "coup_escalation_risk"],
+      "codexUnlocks": ["codex_veltrian_constitutional_crisis", "codex_brenner_ultimatum"]
+    }
+  ]
+}

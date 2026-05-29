@@ -1,0 +1,101 @@
+{
+  "id": "act3_vyktor_reconciliation",
+  "title": "The Parting Gift",
+  "act": 3,
+  "weekAvailable": 33,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "The Linden Café — Laeven District, Corner Table",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "He chose a café — not a park, not a ministry anteroom, not anywhere with a record. The Linden is a neighborhood place, old wood and afternoon light, patronized by the kind of people who have nothing to do with government. He is already seated when she arrives. He has ordered coffee. He has not ordered for her."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He always sat facing the door. Some things don't change."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I'm not here to ask for anything. I want to be clear about that before you sit down."
+    },
+    {
+      "type": "description",
+      "text": "She sits. He slides a folded paper across the table — not an envelope, just paper, handwritten. She does not touch it yet."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is a Tyvaren intelligence asset who has been operating inside the Veltrian trade ministry for eighteen months. I identified him six weeks ago. I held the information because I wasn't sure what I was going to do with it. Now I'm sure."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Six weeks. He held it through the exposure. Through his departure. He held it while the Tyvaren situation became what it is now. I want to be angry about that and I find I am too tired to be, and too interested in what he's offering."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The asset's contact schedule, his handler's designation, and the drop location are on that paper. It is not everything, but it is enough. What you do with it is your business now."
+    },
+    {
+      "type": "description",
+      "text": "A woman at the next table is reading a novel. Outside, the streetcar passes. Vyktor wraps both hands around his coffee cup and waits, with the particular patience of a man who has spent his career waiting for other people to make decisions."
+    }
+  ],
+  "choices": [
+    {
+      "id": "meet_accept_information",
+      "text": "\"Thank you for bringing this to me directly.\" I pick up the paper. \"This changes the Tyvaren assessment. I'll need to move on it quickly.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 },
+        { "stat": "factions.reformists", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 1 }
+      ],
+      "flags": ["vyktor_intel_accepted", "vyktor_reconciliation_pragmatic"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "decline_official_channels",
+      "text": "\"If this is real, it needs to come through official channels. I can't act on intelligence delivered over coffee by someone who no longer works for this government.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 7 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -3 },
+        { "stat": "nation.corruption", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 1 }
+      ],
+      "flags": ["vyktor_intel_declined", "vyktor_reconciliation_refused"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "accept_no_forgiveness",
+      "text": "I take the paper. \"This helps. And I want you to know that it doesn't change what happened, or what I had to do about it. I'm glad you're still thinking about the Republic.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 1 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 1 }
+      ],
+      "flags": ["vyktor_intel_accepted", "vyktor_reconciliation_honest"],
+      "codexUnlocks": []
+    }
+  ]
+}

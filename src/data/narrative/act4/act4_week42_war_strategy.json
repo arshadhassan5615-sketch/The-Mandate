@@ -1,0 +1,136 @@
+{
+  "id": "act4_week42_war_strategy",
+  "title": "The War Cabinet",
+  "act": 4,
+  "weekAvailable": 42,
+  "weekDeadline": 44,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Strategic Operations Center, Week Forty-Two",
+  "characters": ["colonel_dusek", "general_brenner", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.war_phase_one_complete", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Two weeks of war. The maps on the operations center walls have been rewritten so many times that the acetate overlays are opaque with corrections. The front line is no longer a line — it is a zone, a smear of contested territory stretching from the Gravenmark highlands to the Korven Forest to the Dravenhollow approaches. Veltrian forces have given ground in some sectors and held in others. The 2nd Armored is either committed, holding, or waiting, depending on what you decided in the first six hours. What is clear from the map is that the war has entered its second phase: the initial Tyvaren momentum has been absorbed, but at a cost that is still being counted. The next two weeks will determine whether Veltria survives as a sovereign state or becomes a Tyvaren province."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Situation report. The Gravenmark front has stabilized. Our forward positions were overrun on Day Four, but the defense-in-depth line is holding. Tyvaren forces have taken approximately twenty kilometers of border territory. They have paid for it. The Korven Forest front is — I will say 'fluid.' Neither side has a clear advantage. The terrain is difficult, the weather is worsening, and both armies are exhausted. Dravenhollow is the variable. If the DLF is fighting with us, the highland approaches are contested and the Tyvaren flanking maneuver has stalled. If the DLF is neutral or hostile, that column is now within artillery range of the Kravenstal suburbs. The next phase requires a strategic decision about which front to prioritize. We cannot be strong everywhere."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Economic and political supplement. The war is costing approximately forty million VK per week. Our reserves are adequate for another six to eight weeks of sustained operations. After that, we require external financing or we begin printing money — which triggers inflation, which triggers public unrest, which triggers a crisis unrelated to the military situation but capable of losing the war on its own. On the diplomatic front: Stellamere has moved from 'concerned statements' to 'considering material support.' The Orythians have offered military advisors — I recommend you read that as intelligence gathering rather than genuine assistance. The International Forum resolution condemning Tyvaren passed 47 to 12, with 18 abstentions. Condemnation does not stop tanks. We need more than condemnation."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Six to eight weeks of reserves. The war will be decided before the money runs out, but the money is part of how the war is decided. Every military decision you make is also an economic decision. Every economic decision constrains the military options available to your successor — if you have a successor, if Veltria has a government, if there is a country left to govern. You are fighting a war on three fronts — military, economic, diplomatic — and the fronts interact in ways that are not visible from any single one of them. Dusek sees the military situation. Vyktor sees the political situation. You have to see both, and also the thing that exists only in the space between them: the truth that a country can win every battle and still lose the war if its economy collapses before the last battle is fought."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I need a strategic priority. Option one: concentrate everything on the Gravenmark front, break the Tyvaren main force, and force a decisive battle. High risk, high reward — if we win, the war is effectively over. If we lose, the army is destroyed and Kravenstal falls within days. Option two: continue the current distributed defense, trading space for time, waiting for winter weather to degrade Tyvaren logistics and for international pressure to produce results. Lower military risk, higher economic risk — a protracted war favors Tyvaren's larger industrial base. Option three: limited counter-offensive on the Dravenhollow front, if conditions permit, to eliminate the flanking threat and shorten our defensive lines. Less decisive but more achievable. I need a decision. The officers waiting for it are not in this bunker — they are in the field, and they are running out of time to position their forces."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "war_strategy_decisive_battle",
+      "text": "\"Concentrate for the decisive engagement at Gravenmark. I will not let this war drag on for months while our economy bleeds out. Mass everything we have for one battle. If we break their main force, we break their will. If we lose — we lose fighting, not waiting. That is the kind of war Veltria knows how to fight. That is the kind of war I am willing to lead.\"",
+      "internalTag": "authoritarian",
+      "conditions": [
+        { "stat": "nation.militaryReadiness", "operator": ">=", "value": 35 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 12 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_civilian_front", "delayWeeks": 2 },
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 4 }
+      ],
+      "flags": ["decisive_battle_strategy", "gravenmark_gambit", "war_strategy_set"],
+      "codexUnlocks": ["codex_battle_of_gravenmark_planning"]
+    },
+    {
+      "id": "war_strategy_protracted_defense",
+      "text": "\"We hold. Distributed defense, trading space for time, degrading their logistics through the winter. Tyvaren cannot sustain a three-front offensive indefinitely — their own economy has limits, their own population has limits, their own allies have limits. We survive by outlasting. I will manage the economy to support a protracted campaign, and I will manage the diplomacy to bring in external support before our reserves run out. This is not the heroic option. It is the option that keeps Veltria alive.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_civilian_front", "delayWeeks": 2 },
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 4 }
+      ],
+      "flags": ["distributed_defense_strategy", "protracted_war", "war_strategy_set"],
+      "codexUnlocks": ["codex_winter_war_defense", "codex_veltrian_logistics_network"]
+    },
+    {
+      "id": "war_strategy_stellamere_intervention",
+      "text": "\"We need Arcturian forces. Not advisors — forces. I am going to make the case to Ambassador Cole that a Tyvaren victory creates a fascist client state on Arcturia's strategic flank, and that the cost of intervention now is a fraction of the cost of containing a Tyvaren-dominated Asturien later. Meanwhile, Dusek, I want you to plan a limited counter-offensive on the Dravenhollow front — something we can show the Arcturians as proof that Veltrian forces are capable of offensive operations with allied support. We need to look like a good investment, not a lost cause. Because in international politics, the difference between those two things determines who gets saved.\"",
+      "internalTag": "reformist",
+      "conditions": [
+        { "stat": "nation.internationalStanding", "operator": ">=", "value": 25 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_civilian_front", "delayWeeks": 2 },
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 4 },
+        { "targetNodeId": "act4_arcturian_intervention", "delayWeeks": 3 }
+      ],
+      "flags": ["stellamere_intervention_sought", "arcturian_partnership", "war_strategy_set"],
+      "codexUnlocks": ["codex_arcturian_military_doctrine", "codex_stellamere_strategic_calculus"]
+    },
+    {
+      "id": "war_strategy_dravenni_counter_offensive",
+      "text": "\"The Dravenhollow front first. If we can eliminate the flanking threat, we shorten the defensive line by a third and free up forces for Gravenmark. Dusek, I want a limited counter-offensive in the highlands — Veltrian regulars and DLF fighters together, if we have that alliance. Show the Tyvarens that the Dravenni are fighting for Veltria, not against it. Make the highlands a graveyard for their flanking column. Every soldier they lose in those mountains is a soldier who never reaches Kravenstal.\"",
+      "internalTag": "pragmatist",
+      "conditions": [
+        { "stat": "factions.dravenni", "operator": ">=", "value": 20 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_civilian_front", "delayWeeks": 2 },
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 4 }
+      ],
+      "flags": ["dravenhollow_counter_offensive", "highland_campaign", "war_strategy_set"],
+      "codexUnlocks": ["codex_dravenhollow_campaign", "codex_mountain_warfare"]
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "id": "act3_week32_tyvaren_ultimatum",
+  "title": "The Gravenmark Ultimatum",
+  "act": 3,
+  "weekAvailable": 32,
+  "weekDeadline": 34,
+  "type": "emergency",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "isWeekGate": true,
+  "gateMessage": "Marshal Vukov's deadline expires at midnight. Veltria needs your answer.",
+  "location": "Cabinet War Room — 08:14, Week Thirty-Two",
+  "characters": ["colonel_dusek", "general_brenner", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The war room has not been used for an actual war council since 1958. The maps are the same maps. The long oak table bears the same scratches from the same hurried briefings during the last border crisis, when Halvek was still alive and the Tyvaren problem was something you read about in newspapers rather than something that arrived on your desk with a four-week deadline. The room smells of old wood and something sharper underneath — polish, or fear, or the particular compound the cleaning staff uses on the brass light fixtures. You have been in this room three times since taking office. Each time the maps looked more like prophecy than history."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "It arrived through the Orythian embassy channel at 23:47 last night — which is itself a signal. Vukov wants the international community to see the document before we respond. He's framing this as a legitimate territorial claim, not a military demand. The Foreign Ministry has verified the seals. It's authentic."
+    },
+    {
+      "type": "description",
+      "text": "Dusek slides a folder across the table. The paper inside is heavy-stock diplomatic letterhead bearing the Tyvaren Confederation's seal — a double-headed eagle clutching a broken chain, which every Veltrian schoolchild is taught to recognize as the symbol of the enemy that occupied Sevagrad for three years. The ultimatum is four pages. The language is diplomatic but the structure is military: demand, deadline, consequences. You read it twice. The second reading is worse than the first."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Four weeks. He is giving you four weeks because he wants you to spend them. Every day you spend deciding is a day you are not spending preparing. Every internal argument you have about how to respond is an argument your government is having instead of unifying. The deadline is not a courtesy. It is the first move in a campaign that has already begun. You understand this before you finish the first page. The question is whether your cabinet understands it, and whether you can make them understand it without sounding like you are already at war."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "The Gravenmark Pass. He's asking for the Gravenmark Pass — not Sevagrad, not the border regions, specifically the pass. That tells me this isn't about territory. It's about access. Whoever controls the pass controls the northern approach to Kravenstal. He's not making a land grab. He's setting up the board for the next move, which will be a land grab if we give him the pass. Military assessment: if we surrender Gravenmark, we lose the natural defensive line. Any force coming through that pass has a clear road to the industrial heartland. We would be fighting on flat ground, in winter, with our supply lines exposed. It is the worst possible terrain for a defensive war."
+    },
+    {
+      "type": "description",
+      "text": "Brenner's voice is level, professional, almost bored. He has been preparing for this conversation for twenty years. The boredom is the discipline — he is not allowing himself the emotion that the situation warrants because emotion is not useful in a war room. But you can see it in the way his hand rests on the table, flat, fingers slightly spread, the posture of a man who is holding something down."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Intelligence assessment. Tyvaren has been running reconnaissance flights over the pass for six weeks. We have satellite confirmation from Arcturian allies of three armored divisions repositioned within fifty kilometers of the border. They are not conducting exercises. Exercises don't require forward-deployed field hospitals. The medical logistics alone tell us this is preparation for sustained operations. Separately — and this is not confirmed, but the sourcing is reliable — Tyvaren military intelligence has increased contact with elements inside Dravenhollow. They are looking for local partners. They are finding some."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Three armored divisions. Forward-deployed field hospitals. Contact with Dravenhollow dissidents. Vukov is not bluffing, and he is not only threatening. He is doing both things at once — issuing an ultimatum while preparing to act regardless of your answer. The ultimatum is real but it is also a cover. If you refuse, he invades. If you accept, he takes the pass and then invades anyway, just later and from a better position. The decision is not between war and peace. The decision is between war now on defensible terrain and war later on his terms. Both of these things are true. They will not become one thing."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Chancellor, I want to state for the record that the military readiness assessment is — mixed. Our northern garrison is at sixty percent strength. Ammunition reserves are adequate for approximately three weeks of sustained engagement. Our armored capability is sufficient for defensive operations but not for counter-offensive. Air defense coverage of Kravenstal is — forgive me — unacceptable. These are not excuses. These are numbers. I need you to know the numbers before you decide what to say."
+    },
+    {
+      "type": "description",
+      "text": "The morning light through the narrow windows has shifted. It catches the dust in the air — the war room is cleaned less frequently than the ministerial offices, and the disturbance of actually using it has stirred up the accumulated particulate of years. The maps on the walls show Veltria as it was in 1958, before the last round of border adjustments, before anyone in this room had the rank they hold now. The country on those maps is slightly larger than the country you govern. The country on those maps believed it would stay that size. You are looking at the maps and thinking about what maps drawn in 1963 will show, and whether your decisions this morning will determine which version of Veltria survives into cartography."
+    },
+    {
+      "type": "description",
+      "text": "As the briefing concludes, you notice Irina Dusek glance at her watch — a nervous habit you have not seen before. She excuses herself for a private phone call before the session formally ends. Vyktor notices too. He says nothing. But you see him make a note. The call lasts four minutes. When Dusek returns, her face is pale and her briefing notes are slightly crumpled where she has been gripping them too tightly. She does not meet your eyes for the remainder of the meeting."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "tyvaren_defiant_rejection",
+      "text": "\"Veltria does not cede territory to fascists. Not one kilometer. Not the Gravenmark Pass, not a farmhouse, not a footpath. Draft a reply stating that any Tyvaren military crossing of our border will be met with full defensive force. Then leak the ultimatum to the international press — I want the world to see what Vukov is demanding before he can spin it as a reasonable territorial adjustment.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Unconditional defiance. The Iron Covenant will respect it. The international community may not.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 1 },
+        { "targetNodeId": "act3_tyvaren_border_skirmish", "delayWeeks": 3 }
+      ],
+      "flags": ["tyvaren_defied_publicly", "tyvaren_ultimatum_rejected", "vukov_enraged"],
+      "codexUnlocks": ["codex_gravenmark_pass", "codex_tyvaren_military_doctrine"]
+    },
+    {
+      "id": "tyvaren_diplomatic_negotiation",
+      "text": "\"I will meet with their foreign minister. Not to concede — to negotiate. A four-week deadline means there is room to talk, and talking costs us nothing while we prepare. Draft a reply expressing willingness to discuss 'territorial arrangements of mutual concern' without specifying what that means. I want ambiguity. I want them uncertain about our intentions while we clarify theirs.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Buy time through diplomacy. Reformists will approve. The military will worry you're stalling without preparing.",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_diplomatic_negotiation", "delayWeeks": 1 },
+        { "targetNodeId": "act3_tyvaren_diplomatic_followup", "delayWeeks": 4 }
+      ],
+      "flags": ["tyvaren_diplomacy_initiated", "tyvaren_negotiation_track"],
+      "codexUnlocks": ["codex_gravenmark_pass", "codex_tyvaren_diplomatic_history"]
+    },
+    {
+      "id": "tyvaren_international_appeal",
+      "text": "\"This is not a bilateral dispute — it is a threat to regional stability. I want immediate démarches to Stellamere, to the Orythian Foreign Ministry, to the International Forum. Frame this as the first move in a broader Tyvaren expansion. If Vukov wants to make this public, we will make it more public than he intended. Call an emergency session of the Forum. Force every member state to take a position.\"",
+      "internalTag": "reformist",
+      "tooltip": "Internationalize the crisis. Raises global pressure on Tyvaren but may alienate nationalist factions at home.",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 4  },
+        { "stat": "factions.church",               "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_international_forum_session", "delayWeeks": 2 },
+        { "targetNodeId": "act3_superpower_pressure", "delayWeeks": 3 }
+      ],
+      "flags": ["tyvaren_internationalized", "international_forum_convened", "tyvaren_diplomacy_initiated"],
+      "codexUnlocks": ["codex_gravenmark_pass", "codex_international_forum", "codex_tyvaren_expansionism"]
+    },
+    {
+      "id": "tyvaren_secret_mobilization",
+      "text": "\"Send a diplomatic reply — polite, noncommittal, request clarification on three minor points. Meanwhile, I want General Brenner to begin full mobilization preparations under Protocol Seventeen. No public announcement. No press. Move assets at night. If Vukov thinks we're debating his ultimatum, he won't expect us to be ready when the four weeks expire. I will not be the Chancellor who lost the Gravenmark because I announced my defenses before I built them.\"",
+      "internalTag": "deflect",
+      "tooltip": "Deceive publicly while preparing militarily. Effective — but if exposed, international credibility collapses.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 14 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -4 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 1 },
+        { "targetNodeId": "act3_secret_mobilization_consequences", "delayWeeks": 5 }
+      ],
+      "flags": ["tyvaren_ultimatum_rejected", "secret_mobilization_begun", "tyvaren_deceived"],
+      "codexUnlocks": ["codex_gravenmark_pass", "codex_protocol_seventeen", "codex_tyvaren_border_geography"]
+    },
+    {
+      "id": "tyvaren_ask_dusek_call",
+      "text": "\"Colonel Dusek. A word after this. I want to know what that call was about. If something is affecting your composure during a war briefing, it affects my decision-making. And I need to know why.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -5 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_clue_5_found"],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "letter_response_soren",
+  "title": "A Letter from Soren",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Thornfeld Estate — Soren's Study (The Letter)",
+  "characters": ["aldric_theron"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Soren's reply is written on heavy, cream-colored paper with his personal letterhead — the seal of the Veltrian General Staff, which he still uses despite being retired for fifteen years. The handwriting is precise, military, and unsettlingly calm." },
+    { "type": "dialogue", "character": "aldric_theron", "text": "I have been asked to read this to you. Soren writes: 'Chancellor. Your letter accused me of crimes. You are not wrong. I signed the orders. I authorized the operations. I did what I believed necessary to preserve the Veltrian state during a period of existential threat. History will judge whether I was right. Your father was among those I ordered executed. His name is on the list. I remember reviewing it. He was described as an organizer — a man who could have destabilized the government at a critical moment. I did not know him personally. I did not hate him. He was a threat, and I neutralized threats. That was my job. If you wish me to confess publicly, I will consider it — not as an admission of guilt, but as an acknowledgement that the historical record should be complete. You may contact my legal representative.'" }
+  ],
+  "choices": [
+    { "id": "letter_soren_response", "text": "\"He would confess. Not out of remorse — out of a desire for the historical record to be 'complete.' He killed my father and frames it as archival housekeeping. And yet — a confession is a confession. I will take it. I will not forgive it.\"", "internalTag": "personal", "stateChanges": [{ "stat": "personal.moralCompass", "operation": "add", "value": 5 }, { "stat": "factions.reformists", "operation": "add", "value": 5 }], "chainTriggers": [], "flags": ["letter_soren_replied", "soren_considering_confession"], "codexUnlocks": [] }
+  ]
+}

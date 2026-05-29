@@ -1,0 +1,114 @@
+{
+  "id": "act4_week42_austerity_bites",
+  "title": "The IMA's Price",
+  "act": 4,
+  "weekAvailable": 42,
+  "weekDeadline": 44,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Budget Implementation Meeting, Week Forty-Two",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.ima_deal_accepted", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The International Monetary Authority's conditions arrived this morning in a document that is technically called a 'Structural Adjustment Memorandum' and is functionally called an occupation of your budget by foreign accountants. The Grain Authority is to be privatized within six months. Northern Rail will be sold to 'qualified international bidders' — which means Arcturian conglomerates that have been waiting for exactly this kind of crisis to acquire Veltrian infrastructure at distressed prices. State Broadcasting will be restructured as an 'independent public entity' funded by commercial revenue, which means it will be dependent on advertising from the same business interests whose taxes you are simultaneously cutting. Sixty thousand public sector jobs eliminated over three years. The document uses the word 'efficiency' seventeen times. It does not use the word 'suffering' at all."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The IMA has structured the disbursement in tranches. Each tranche requires certification that the previous quarter's conditions have been met. If we miss a single certification — if parliament blocks a privatization, if the unions strike and we cannot break the strike within the IMA's timeframe, if any of the sixty thousand dismissed workers become a political crisis — the next disbursement is suspended. The IMA has made us a government that governs on probation. Every decision we make is subject to review by a team of economists in Stellamere who have never been to Kravenstal and who measure human outcomes in quarterly GDP adjustments. This is the deal you accepted. I am not criticizing the decision. I am describing its consequences."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You accepted the IMA deal because the alternative was economic collapse. The Krone was crashing. The reserves were depleting. The international markets had priced in a default. The IMA offered survival — conditional survival, expensive survival, survival that strips away your ability to govern independently — but survival. You took it. You would take it again, given the same information. And now you are administering an austerity program designed by foreign economists who measure the health of a nation by its bond yields. The people who are about to lose their jobs, their pensions, their access to affordable bread — they do not care about bond yields. They care about whether their children eat. You are the person who has to tell them that their children will eat less so that international investors can be confident in Veltrian debt instruments. No speech makes that better."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "austerity_implement_fully",
+      "text": "\"Implement the conditions. All of them. On schedule. I will take the political cost and I will explain to the country why this is necessary. The IMA deal is brutal, but the alternative — default, currency collapse, hyperinflation — is worse. I did not create this crisis, but I am responsible for managing it, and management sometimes means doing things that are indefensible in human terms because the alternative is catastrophic in national terms. I will not pretend this is anything other than what it is. I will also not let the country collapse because I was afraid to be unpopular.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 8 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -16 },
+        { "stat": "nation.unemployment", "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -14 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week45_uprising", "delayWeeks": 3 }
+      ],
+      "flags": ["austerity_implemented", "ima_full_compliance", "austerity_begun"],
+      "codexUnlocks": ["codex_ima_structural_adjustment", "codex_privatization_program"]
+    },
+    {
+      "id": "austerity_slow_walk",
+      "text": "\"Implement the conditions — but slowly. The Grain Authority privatization: we announce it, we begin the process, we make it take eighteen months instead of six. The job cuts: we spread them over five years instead of three, using attrition and early retirement to minimize layoffs. The railway: we structure the sale to include domestic ownership requirements and worker representation on the board. The IMA will not be happy. They may suspend a disbursement. But they will not pull the entire program over implementation pace — they have too much invested in Veltria not collapsing. I am not refusing their conditions. I am refusing their timeline.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 4 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week45_uprising", "delayWeeks": 3 },
+        { "targetNodeId": "act4_ima_confrontation", "delayWeeks": 5 }
+      ],
+      "flags": ["austerity_slow_walked", "ima_resistance", "austerity_begun"],
+      "codexUnlocks": ["codex_ima_negotiation", "codex_austerity_resistance"]
+    },
+    {
+      "id": "austerity_renegotiate",
+      "text": "\"I am going back to the IMA. The conditions they have imposed will break the country they are supposedly saving. Sixty thousand job cuts in an economy already at twelve percent unemployment is not structural adjustment — it is social engineering. I want a renegotiation: smaller cuts, longer timeline, more domestic control over the privatization process. If they refuse — I will consider alternatives, including the Orythian offer we rejected in Week Twenty-Eight. The IMA is not the only source of international financing. It is the most expensive one in human terms. I am willing to explore whether the political cost of Orythian dependency is lower than the human cost of IMA compliance.\"",
+      "internalTag": "pragmatist",
+      "conditions": [
+        { "stat": "nation.internationalStanding", "operator": ">=", "value": 15 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -4 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week45_uprising", "delayWeeks": 3 },
+        { "targetNodeId": "act4_ima_renegotiation", "delayWeeks": 2 }
+      ],
+      "flags": ["ima_renegotiation", "orythian_alternative_explored", "austerity_begun"],
+      "codexUnlocks": ["codex_ima_renegotiation", "codex_orythian_economic_model"]
+    },
+    {
+      "id": "austerity_executive_impose",
+      "text": "\"I am issuing an executive order implementing the IMA conditions in full, bypassing parliament. The legislative process will take months we do not have, and every committee hearing will become a platform for opposition grandstanding while the Krone collapses. I will take the constitutional criticism. I will take the protests. I will take whatever the Constitutional Court does in response. What I will not do is let parliamentary procedure destroy the country's last chance at economic stabilization. This is authoritarian. It is also necessary. I am making that choice consciously, and I will answer for it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 12 },
+        { "stat": "factions.reformists", "operation": "add", "value": -12 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week45_uprising", "delayWeeks": 3 },
+        { "targetNodeId": "act4_constitutional_crisis", "delayWeeks": 2 }
+      ],
+      "flags": ["ima_executive_imposed", "parliament_bypassed", "austerity_begun"],
+      "codexUnlocks": ["codex_executive_order_ima", "codex_constitutional_crisis"]
+    }
+  ]
+}

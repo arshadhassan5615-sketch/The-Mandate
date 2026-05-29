@@ -1,0 +1,87 @@
+{
+  "id": "act4_dravenni_war_alliance",
+  "title": "The Mountain Warriors",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Dravenhollow Highlands — Forward Command Post, Morning",
+  "characters": ["idris_kaelen", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.dlf_alliance_signed", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The forward command post in the Dravenhollow highlands is a converted shepherd's hut with a radio antenna strapped to the chimney and sandbags where the windows used to be. The altitude makes breathing an effort. The cold is the kind of cold that gets inside your bones and stays there. From the ridge above the hut, you can see the valley where Tyvaren forces have been trying to push through the mountain passes for two weeks, and you can see why they have not succeeded. The Dravenni fighters know every approach, every defilade, every rock formation that provides cover. They have been fighting in these mountains for generations — against the Halvek regime, against the provincial authorities, against anyone who tried to impose order on a region that has never accepted order as a concept. Now they are fighting for Veltria. The political cost of that fact is rising in Ashenmere. Here, in the highlands, the military benefit is undeniable."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "Three weeks ago, your government called my people separatists and terrorists. Two weeks ago, your parliament debated whether Dravenni cultural practices constituted a threat to national unity. Last week, my fighters ambushed a Tyvaren armored column in the Kaelen's Pass — which you call the East Ridge Approach — and destroyed fourteen vehicles with minimal casualties. The Dravenni are not fighting because we have suddenly discovered Veltrian patriotism. We are fighting because the Tyvarens would be worse for us than you are. That is not a declaration of national unity. That is an accurate assessment of our options. The question I have for you, Chancellor, is whether Veltria will remember what we are doing here when the war is over. Or will the same parliament that debated our threat to national unity decide that our military usefulness has expired?"
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Tactical assessment. The DLF fighters have been providing reconnaissance and ambush capability that our regular forces cannot replicate. They know every goat path, every shepherd's trail, every location where an armored column is vulnerable to attack from above. Without their support, holding the Dravenhollow front would require approximately three times the current force commitment — forces we would have to pull from Gravenmark or Korven Forest. The question of what happens after the war is a political question. The military question is whether we expand, maintain, or reduce their role. Kaelen is asking about postwar politics. I am asking about the next four weeks."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Kaelen is not wrong to ask. You have seen what happens to groups that make themselves useful to governments and then find that their usefulness has been accounted for and dismissed. The Halvek regime made promises to the Dravenni that lasted exactly as long as the crisis that prompted them. Your own government has made commitments and hedged them, offered autonomy and limited it, embraced the DLF and distanced from them depending on what the political market in Ashenmere would bear. Kaelen knows this history better than you do. He has been fighting since he was seventeen — against Halvek, against neglect, against the slow grinding indifference of a country that has never quite decided whether the Dravenni are Veltrians or obstacles to Veltrian governance. He is asking you to decide. The decision is overdue."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dravenni_expand_role",
+      "text": "\"Kaelen, you are right. Veltria has treated the Dravenni as a problem to be managed rather than a people to be included. That ends today. I am authorizing the full integration of DLF fighters into the Veltrian armed forces — not as auxiliaries, not as irregulars, but as commissioned units with Dravenni officers commanding Dravenni formations. I am also issuing an executive order recognizing Dravenni language rights in the highland provinces and establishing a commission on Dravenni autonomy to report within six months of the war's conclusion. This is not a wartime expedient. This is a commitment. The commitment is written down. You can hold me to it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 20 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -14 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["dravenni_fully_integrated", "dravenni_language_rights", "kaelen_trust_earned", "dravenni_alliance_cemented"],
+      "codexUnlocks": ["codex_dravenni_commissioned_units", "codex_highland_autonomy_commission"]
+    },
+    {
+      "id": "dravenni_maintain_integration",
+      "text": "\"The current arrangement is working. DLF fighters are integrated at the operational level with Veltrian regular forces. They are fighting effectively. They are saving Veltrian lives. I am not going to disrupt a functioning military relationship to make a political statement. Kaelen — I cannot promise you what the postwar settlement will look like. I can promise you that I will remember. I will remember that when Veltria was facing extinction, the Dravenni fought beside us. That memory will have weight in every decision I make about the Dravenni provinces. That is not a formal commitment. It is a personal one. I hope it is enough.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["dravenni_role_maintained", "kaelen_cautiously_trusting", "dravenni_alliance_stable"],
+      "codexUnlocks": ["codex_dravenni_operational_integration", "codex_coalition_warfare_mountains"]
+    },
+    {
+      "id": "dravenni_limit_role",
+      "text": "\"Kaelen, I respect what your fighters are doing in these mountains. I also respect the political reality that the Iron Covenant and a significant portion of parliament view the DLF as a threat to national unity and will resist any expansion of Dravenni military capability that outlasts the war. I am not going to promise you what I cannot deliver. What I can do is this: DLF fighters will continue to operate in the highlands under operational coordination with Veltrian forces. When the war ends, we will negotiate the terms of the DLF's integration into a peacetime security framework. I am not foreclosing any options. I am being honest about what is achievable given the political constraints I am operating under. I hope you respect that honesty more than you would a promise I cannot keep.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 6 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["dravenni_role_limited", "kaelen_disappointed", "dravenni_alliance_strained"],
+      "codexUnlocks": ["codex_dravenni_security_framework", "codex_postwar_negotiation"]
+    }
+  ]
+}

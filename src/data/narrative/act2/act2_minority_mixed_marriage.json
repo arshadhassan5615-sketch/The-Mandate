@@ -1,0 +1,86 @@
+{
+  "id": "act2_minority_mixed_marriage",
+  "title": "The Marriage at Thornfeld",
+  "act": 2,
+  "weekAvailable": 22,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["idris_kaelen", "stanislov_renek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The story breaks in the Ashenmere Herald's society pages, which is how you know someone placed it there deliberately. Armin Sorov, a thirty-one-year-old Dravenni engineer, married Elena Vasch, a twenty-eight-year-old Veltrian schoolteacher, in a civil ceremony at the Thornfeld municipal registry last Saturday. The Herald's coverage is polite but the headline — 'A Dravenni Groom at Thornfeld' — carries the weight of centuries of prejudice in seven words. Within forty-eight hours, the story has become a national controversy."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor, the Church does not object to mixed marriages — the sacrament of matrimony transcends ethnicity. However, I must inform you that several prominent bishops have issued pastoral letters condemning this particular marriage on the grounds that it was a civil ceremony rather than a Church wedding, and that mixed marriages between Dravenni and Veltrian partners 'test the bonds of community cohesion.' I have not authorized these letters. I am informing you of their existence because the press will ask for your response, and I want you to know where the Church stands — officially and unofficially."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "The Church's position is cowardly and I will not pretend otherwise. 'Tests the bonds of community cohesion' — do you hear that language, Chancellor? That is the language of segregation dressed in vestments. Elena Vasch is a Veltrian woman who fell in love with a Dravenni man. They got married. The state recognized their marriage. The only controversy is that some people in this country believe Dravenni are not fully human and therefore should not marry fully human people. The Archbishop is not one of those people, but he is protecting the bishops who are. I want to know if you will protect the couple."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Kaelen is not wrong about the subtext. The bishops' letters use the language of 'community cohesion' but mean something simpler and uglier: Dravenni should marry Dravenni, Veltrians should marry Veltrians, and the law should discourage anything else. If I publicly defend this marriage, I am endorsing the principle that the state recognizes love across ethnic lines — and I am picking a fight with the Church hierarchy, the nationalist press, and every Iron Covenant sympathizer who believes Veltrian identity is an inheritance to be protected rather than a project to be built. If I stay silent, I am telling every mixed couple in the country that their Chancellor will not defend them. Silence in the face of bigotry is not neutrality. It is permission."
+    }
+  ],
+
+  "monologue": "'A Dravenni Groom at Thornfeld.' Seven words in a newspaper headline, and suddenly a wedding is a national crisis. The bishops are writing pastoral letters. Kaelen is calling it segregation in vestments. Both are correct. A Dravenni engineer married a Veltrian teacher. The state registered the marriage. That should be the end of the story. It is not the end because some people in this country believe some marriages are more real than others.",
+
+  "choices": [
+    {
+      "id": "marriage_defend",
+      "text": "\"The Republic of Veltria recognizes all marriages performed under its laws, regardless of the ethnicity of the spouses. Armin Sorov and Elena Vasch are legally married, and their marriage deserves the same respect and protection as any other. I will issue a statement today: the government does not regulate who Veltrians love, and the press should be celebrating a wedding, not interrogating it. Archbishop, I understand your bishops have strong views. My government has a stronger view: every citizen is equal under the law, including in marriage.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 12 },
+        { "stat": "factions.church", "operation": "add", "value": -15 },
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mixed_marriage_defended", "interethnic_equality", "church_confrontation"],
+      "codexUnlocks": ["codex_civil_rights"],
+      "reactions": [{ "character": "idris_kaelen", "type": "action", "text": "Kaelen stands. He does not speak for a moment. Then he extends his hand — a gesture he has never made before, not in any meeting. The handshake is firm and brief and contains more meaning than any speech he has given." }, { "character": "stanislov_renek", "type": "silence", "text": "The Archbishop does not respond immediately. He writes something in his leather notebook — several lines. When he looks up, his expression is the expression of a man who has just been publicly rebuked and is choosing not to retaliate tonight." }]
+    },
+    {
+      "id": "marriage_silent",
+      "text": "\"The government does not comment on the private lives of private citizens. The Sorov-Vasch marriage is a legal matter that was properly registered at the Thornfeld municipal office. There is nothing further to add. The press should respect the couple's privacy. The Church should tend to its flock and allow the state to tend to the law.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": -8 },
+        { "stat": "factions.church", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mixed_marriage_silent", "government_neutral"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "idris_kaelen", "type": "silence", "text": "Kaelen looks at you for a long moment. Then he closes his folder and stands. The government does not comment, he repeats. He does not say more. The silence is the sound of Idris Kaelen filing away a disappointment he will remember." }]
+    },
+    {
+      "id": "marriage_private_meeting",
+      "text": "\"Archbishop, I want a private meeting with you and the bishops who wrote those pastoral letters. Not a public confrontation — a conversation behind closed doors. The Church has a choice: it can be on the side of the couples who are building a new Veltria together, or it can be remembered as the institution that cited 'community cohesion' in defense of segregation. Kaelen, I will meet with the couple privately to express my personal support. Publicly, I will issue a brief statement affirming the legal validity of civil marriage for all citizens. No more, no less.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 3 },
+        { "stat": "factions.church", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mixed_marriage_private", "church_diplomacy"],
+      "codexUnlocks": ["codex_church_reform"],
+      "reactions": [{ "character": "stanislov_renek", "type": "silence", "text": "The Archbishop considers the proposal — a private meeting, behind closed doors, no public confrontation. He does not agree. He does not refuse. He simply makes a note. The silence is the sound of a man calculating whether a private conversation offers more advantage than a public dispute." }, { "character": "idris_kaelen", "type": "dialogue", "text": "Kaelen listens to the proposal. The couple will receive your private support. The Church will receive your private pressure. He nods slowly. It is not the public stand he wanted. But it is not nothing. I will tell the couple they are not alone." }]
+    }
+  ]
+}

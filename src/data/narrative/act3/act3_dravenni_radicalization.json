@@ -1,0 +1,112 @@
+{
+  "id": "act3_dravenni_radicalization",
+  "title": "The Mountain's Anger",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Situation Room — Ashenmere Palace, 07:15",
+  "characters": ["colonel_dusek", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dusek's briefing folder is thicker than usual — three separate field reports, two intercepted communications, and a BNI assessment that she has annotated in her small, precise handwriting. The annotations are not optimistic. Outside, the late winter rain streaks the windows of the Situation Room in grey rivulets that make the city beyond look like a watercolor someone abandoned halfway through."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The border closure has had the effect we predicted, Chancellor. Dravenni refugee flows are dammed at the mountain passes — we estimate four thousand displaced persons unable to cross in either direction. The DLF recruitment numbers have tripled since the closure went into effect. More significantly, Tyvaren intelligence assets have been observed making direct contact with DLF field commanders. The material they are offering includes military-grade communications equipment and, in at least two confirmed instances, small arms. Kaelen's moderate faction within the DLF still controls the political wing, but his hardliners are gaining ground at a rate that suggests the moderates may lose control within weeks."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The border closure was supposed to contain the crisis. Instead it poured fuel on embers we thought were cold. The Dravenni see a government that promised recognition and delivered a wall. The hardliners see proof that Veltria will never treat them as equals. And somewhere in the mountains, Tyvaren agents are explaining to young Dravenni men that the enemy of their enemy is a friend with weapons. The geometry of this crisis is simple: every day the border stays closed, the DLF hardliners recruit more fighters. Every day Tyvaren gets closer to acquiring a proxy army inside our borders. I have to break this cycle before it breaks us."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "BNI assessment: Kaelen wants to keep the DLF in a political posture. He does not want an armed insurgency. He also cannot be seen accepting terms that look like surrender to his own hardliners. If we move now — before the hardliners consolidate — Kaelen can still bring his people to the table. If we wait another month, the hardliners will have the recruits, the weapons, and the Tyvaren backing to make the argument that they do not need to negotiate. The window is closing."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor's assessment is delivered without inflection. He is not arguing for a course of action — he is describing a timeline. The timeline says: act now or lose the Dravenni. He trusts you to read the implication."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dravenni_radicalization_dialogue",
+      "text": "\"Reopen the dialogue channels with Kaelen's moderates. Vyktor, I want a direct message to Kaelen — private, through the community networks, not official channels. Tell him I'm willing to discuss language recognition, provincial status, and refugee processing reform. I need him to keep the hardliners at the table, not in the mountains. If he can hold his people, I can deliver something worth holding them for.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week34_dravenhollow", "delayWeeks": 5 }
+      ],
+      "flags": ["kaelen_dialogue_reopened", "dravenni_moderates_engaged", "reformist_dravenni_path"],
+      "codexUnlocks": ["codex_dlf_moderate_faction"]
+    },
+    {
+      "id": "dravenni_radicalization_security",
+      "text": "\"Dusek, reinforce the Dravenhollow garrison and increase BNI surveillance on known hardliner networks. I will not negotiate with a movement that is being armed by a hostile foreign power. If Kaelen wants to talk, he needs to demonstrate that he controls his own people — and the first demonstration is identifying which DLF commanders are taking Tyvaren weapons so we can interdict them. Security first, dialogue second.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_insurgency", "delayWeeks": 4 }
+      ],
+      "flags": ["dravenni_security_crackdown", "dravenhollow_garrison_reinforced", "authoritarian_dravenni_path"],
+      "codexUnlocks": ["codex_bni_dravenni_surveillance"]
+    },
+    {
+      "id": "dravenni_radicalization_aid",
+      "text": "\"The hardliners are recruiting because Dravenni communities feel abandoned. Give them something to hold onto that isn't a rifle. I want an emergency economic package for Dravenhollow — infrastructure projects, agricultural subsidies, refugee resettlement funding. If the DLF moderates can point to material improvement in their communities, the hardliners' argument about betrayal loses its teeth. Kaelen gets political cover, we get time, and Tyvaren loses its recruiting pitch.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 8  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -4 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kaelen_response", "delayWeeks": 3 }
+      ],
+      "flags": ["dravenni_economic_aid", "kaelen_cover_provided", "pragmatist_dravenni_path"],
+      "codexUnlocks": ["codex_dravenhollow_economy"]
+    },
+    {
+      "id": "dravenni_radicalization_kaelen_direct",
+      "text": "\"Get Kaelen on the line. Not through intermediaries — directly. I need to hear from him what his hardliners actually want and whether he still has the authority to speak for them. If I'm going to make commitments that cost me political capital in Kravenstal, I need to know the person I'm making them to can deliver. This conversation is personal before it's political.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kaelen_response", "delayWeeks": 2 }
+      ],
+      "flags": ["kaelen_direct_contact", "personal_dravenni_path", "kaelen_trust_probed"],
+      "codexUnlocks": ["codex_idris_kaelen"]
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "id": "act2_week26_referendum_decisive",
+  "title": "The Mandate",
+  "act": 2,
+  "weekAvailable": 26,
+  "weekDeadline": 26,
+  "type": "event",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "isWeekGate": true,
+  "gateMessage": "The nation votes today. You cannot look away from this.",
+  "location": "National Counting Center — Ashenmere Exhibition Hall",
+  "characters": [
+    "vyktor_reznik",
+    "aldric_theron"
+  ],
+  "prerequisites": [
+    {
+      "stat": "factions.reformists",
+      "operator": ">=",
+      "value": 62
+    },
+    {
+      "stat": "factions.halvekists",
+      "operator": "<=",
+      "value": 40
+    }
+  ],
+  "exclusive": [
+    "act2_week26_referendum_narrow",
+    "act2_week26_referendum_rejected"
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Exhibition Hall was not designed to hold two hundred journalists, forty parliamentary observers, eight foreign diplomatic delegations, and the full staff of the national counting authority. It holds all of them. The ceiling is too high and the floor is too hard and the acoustics make every sound arrive twice — the original and its echo, slightly delayed, slightly wrong. Somewhere above the gallery, Veltrian and Arcturian and Orythian reporters are filing dispatches to capitals that will wake up to results they have each, in their different ways, been trying to influence for twenty-six weeks."
+    },
+    {
+      "type": "description",
+      "text": "The first provincial tallies came in from Aldenmoor and Dravenhollow before eleven. Aldenmoor was close — within three points, which matched the polling. Dravenhollow was not close. The Dravenni communities turned out at seventy-three percent and voted yes at eighty-four percent, which was not a number anyone had projected, and when it appeared on the central board, something changed in the room. A few journalists stopped typing. The foreign observers exchanged glances."
+    },
+    {
+      "type": "description",
+      "text": "By midnight, Kravenstal had reported. The industrial provinces came in strong — sixty-one percent in favor, which is four points above what Gregor's own internal polling had predicted. He is somewhere in the crowd below the gallery, and when the number appeared you could hear him before you could see him."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Ashenmere and Thornfeld still outstanding. Current total: fifty-nine point four percent. Thornfeld is coming in below projections — Church campaign materials had an effect. But Thornfeld was never going to carry this. Ashenmere will. We're past it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Fifty-nine point four. You have been running numbers in your head for six hours — not the electoral numbers, the other ones, the ones that preceded this moment by twenty-six weeks. The budget sessions. The convention vote. The conversation with Brenner in his empty office. The night Theron came to the residence with the folder he didn't want to have to show you. Forty-nine point eight in the polling last week. And now fifty-nine point four, rising, with Ashenmere yet to report."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Chancellor. The final tallies will come in before two. I believe we have won this. I want to say something before the room fills with people who will have opinions about what this means. I want to say that I do not believe any piece of paper has ever been worth what this one cost you, and I believe this one was worth it anyway. Both of those things are true and I have not been able to reconcile them and I'm not certain I ever will."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Ashenmere is in. Sixty-two point one. Final: sixty point seven percent. The Halvek Constitution is superseded. The new constitution takes legal effect upon certification by the Supreme Notarial Authority, which will happen at a formal session in the morning."
+    },
+    {
+      "type": "description",
+      "text": "The room understands what the number means before you do. There is a particular sound that large rooms make when something has happened — not cheering, not yet, but a collective release of held breath, the sound of several hundred people who have been tensed for a word simultaneously un-tensing. Vyktor's face does not change. Theron closes his eyes for a moment, briefly, and opens them again. Somewhere in the lower level, someone is crying."
+    },
+    {
+      "type": "description",
+      "text": "You have won. The new constitution is real. The independent judiciary, the bill of rights, the term limits, the provisions you kept and the provisions you didn't — they are the law of the Republic of Veltria, effective at nine tomorrow morning when the Notarial Authority convenes. Halvek's document is superseded. The thing that was used for twenty-six years to justify everything that was done to everyone who was made to suffer it is legally, constitutionally, historically over."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You have won sixty point seven percent of a national vote. That means thirty-nine point three percent voted against it. That is more than six hundred thousand people. They will wake up tomorrow morning with the same newspaper that shows the result, and they will begin deciding what to do next. Kolvar has already requested a meeting. The Iron Covenant parliamentary group has issued no statement. The Archbishop has gone silent since nine o'clock. Silence, from those three, is the thing to watch."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor hands you the prepared statement. Two paragraphs. He has left two blanks for you to fill in: one for the percentage, one for what you want to say about what comes next. You look at the blanks for a moment. The room is getting louder. Your staff is moving toward you. You have perhaps forty seconds before the crowd takes over and all that remains is the performance of having won."
+    }
+  ],
+  "monologue": "Sixty point seven percent. More than I expected. More than anyone projected. But the margin changes nothing about the 39.3 who voted no — six hundred thousand people who will wake up tomorrow angry. What I say in the next minute sets the tone for the country they live in too.",
+  "choices": [
+    {
+      "id": "referendum_decisive_reach_out",
+      "text": "Fill the second blank: 'Tonight, I am asking the citizens who voted no to hear me out. The constitution was passed — it is the law. But governance is not passing laws. I will spend the next year demonstrating that this document works for everyone it covers, including the people who doubted it.'",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 5
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_opposition_management",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": [
+        "referendum_won_decisive",
+        "constitution_in_force",
+        "act2_complete",
+        "referendum_outreach_speech"
+      ],
+      "codexUnlocks": [
+        "codex_new_constitution",
+        "codex_veltrian_democracy"
+      ],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He is crying. He is not embarrassed about it. He does not try to hide it."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "52.3 percent."
+        },
+        {
+          "character": "colonel_dusek",
+          "type": "action",
+          "text": "She raises her glass slightly. She does not smile. That's all she does."
+        }
+      ]
+    },
+    {
+      "id": "referendum_decisive_mandate_claim",
+      "text": "Fill the second blank: 'Sixty point seven percent. That is not a narrow mandate — that is a clear one. We will implement this constitution in full, beginning tomorrow, and we will move quickly. The window for structural change is short and we will use it.'",
+      "internalTag": "populist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 14
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 6
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_brenner_response",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": [
+        "referendum_won_decisive",
+        "constitution_in_force",
+        "act2_complete",
+        "referendum_mandate_claimed"
+      ],
+      "codexUnlocks": [
+        "codex_new_constitution",
+        "codex_veltrian_democracy"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He writes sixty point seven on the blank and hands you the statement. He does not comment on the tone. The silence is the sound of Vyktor noting that you have chosen clarity over conciliation."
+        }
+      ]
+    },
+    {
+      "id": "referendum_decisive_quiet_exit",
+      "text": "Put the statement down. Walk to the window. Let the room have this without you for a moment.",
+      "internalTag": "personal",
+      "stateChanges": [
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.marriageHealth",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 4
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "referendum_won_decisive",
+        "constitution_in_force",
+        "act2_complete"
+      ],
+      "codexUnlocks": [
+        "codex_new_constitution",
+        "codex_veltrian_democracy"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He watches you set the statement down. He does not move to take it. He understands that this is not a moment for notes. He simply turns to the press corps and begins speaking on your behalf."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron watches you walk to the window. He does not follow. He remains in his chair, the closed book in his lap, watching the room fill with congratulations that belong to you. He does not need to say anything. The quiet between you says everything it needs to."
+        }
+      ]
+    }
+  ]
+}

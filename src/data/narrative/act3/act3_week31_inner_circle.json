@@ -1,0 +1,102 @@
+{
+  "id": "act3_week31_inner_circle",
+  "title": "The Reduced Council",
+  "act": 3,
+  "weekAvailable": 31,
+  "weekDeadline": 33,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Thursday Morning, Week Thirty-One",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The morning briefing has three items instead of seven. The person who kept the list at seven is either gone, compromised, or reduced to a different kind of presence in this building. The people who remain keep shorter lists — not because less is happening but because fewer people are deciding what is worth bringing to you. The absence works through what is no longer thought to say."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Week thirty-one. You have governed for thirty-one weeks. Every decision has produced a situation in which you are still making decisions, which is not proof that the decisions were correct but is at minimum evidence they were survivable. You know the difference between survivable and correct. You have known it for some time now. The specific mercy of this particular morning is that the knowing is cleaner than it used to be."
+    },
+    {
+      "type": "description",
+      "text": "The faces at the table. The ones who stayed. Each of them made a calculation — about what this government still offers, about what the alternatives cost, about what they owe to a project they committed to before they knew what it would require. They chose to be here. They will keep choosing, or they won't. You cannot hold them here except by being worth staying for."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You have a specific kind of loneliness now. Not the loneliness of isolation — the briefing room has people in it. The loneliness of a room where someone used to be, where a trust used to live, where a certainty you had built up over months used to occupy space. The room is smaller in the ways that aren't visible from the doorway. You govern from that smallness now. Most governments do, eventually."
+    },
+    {
+      "type": "description",
+      "text": "Outside, the city is doing the morning. The newspapers have today's number. Parliament convenes at ten. The third month of Act III, which is what your senior staff have started calling the post-referendum period internally — to mark that the clock is different now, the physics are different, the questions have changed. You have approximately nine weeks left in this term if the confidence vote holds. Nine weeks is long enough to matter."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The question isn't what to do about what happened last week. That question is answered, or unanswered and moving on anyway. The question is who you are in this reduced council, in this shortened room, in the nine weeks that remain. You have always had the choice about who to be. The noise is lower now. The conditions for deciding clearly are, despite everything, unusually good."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "inner_circle_reshuffle",
+      "text": "\"I want a cabinet reshuffle announced by end of week. New faces where there are gaps. Public signal that this government is renewing, not contracting. I want the narrative of diminishment replaced with the narrative of adaptation.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",         "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 2  },
+        { "stat": "nation.corruption",            "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_new_cabinet_figures", "delayWeeks": 2 }
+      ],
+      "flags": ["act3_cabinet_renewed"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "inner_circle_consolidate",
+      "text": "\"No reshuffle. Work with what we have — tighter, smaller, more trusted. I know who is in this room and I know what they're capable of. I would rather govern well with fewer people than govern badly with a full table.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 4  },
+        { "stat": "nation.corruption",            "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["act3_inner_circle_consolidated"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "inner_circle_call_theron",
+      "text": "\"I want to meet with Theron. Informally — his home, not this building. No official agenda, no press. I need someone who isn't inside these walls to think with. He's been that person before.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["theron_consulted_act3"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "inner_circle_khaled_approach",
+      "text": "\"Request a direct meeting with Soraya Khaled. No intermediaries. I have been making decisions about what her support was worth without asking her directly what she needs, and that has to change if we're going to hold the legislative ground we need.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_khaled_coalition", "delayWeeks": 2 }
+      ],
+      "flags": ["khaled_approached_act3"],
+      "codexUnlocks": []
+    }
+  ]
+}

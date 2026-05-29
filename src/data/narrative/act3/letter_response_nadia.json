@@ -1,0 +1,19 @@
+{
+  "id": "letter_response_nadia",
+  "title": "A Letter from Nadia Voss",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "The Veltrian Voice — Newsroom",
+  "characters": ["nadia_voss"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Nadia's reply is typed — of course it is typed, she is a journalist — on Veltrian Voice letterhead. It is blunt, professional, and more generous than you expected." },
+    { "type": "dialogue", "character": "nadia_voss", "text": "Chancellor. I have been investigating your government for months. You know what I have found. You also know that I have not published everything I have found — because some of it is still unverified, and I do not print what I cannot prove. Your offer of an exclusive is interesting. I will accept — on one condition. The exclusive must be complete. No omissions. No 'off the record' on matters of public interest. If you give me the whole story — your side of it, honestly, without spin — I will hold the rest of my investigation pending that exclusive. If you try to manage me, I will print everything. This is not a negotiation. This is your one opportunity to tell your story before I tell mine." }
+  ],
+  "choices": [
+    { "id": "letter_nadia_accept", "text": "\"The whole story. No omissions. I have been keeping secrets so long I have forgotten what the truth feels like. Fine, Nadia. You will have your exclusive. And then Veltria will have the truth — and I will have to live with whatever the truth reveals about me.\"", "internalTag": "reformist", "stateChanges": [{ "stat": "nation.pressFreedom", "operation": "add", "value": 10 }, { "stat": "personal.publicImage", "operation": "add", "value": 5 }, { "stat": "personal.moralCompass", "operation": "add", "value": 8 }], "chainTriggers": [], "flags": ["letter_nadia_replied", "nadia_exclusive_granted"], "codexUnlocks": [] }
+  ]
+}

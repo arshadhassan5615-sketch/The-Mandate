@@ -1,0 +1,123 @@
+{
+  "id": "act2_ima_conditionality_review",
+  "title": "The Final Terms",
+  "act": 2,
+  "weekAvailable": 14,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Finance Ministry — Cabinet Conference Room",
+  "characters": ["elara_vostane", "gregor_maric"],
+  "prerequisites": [
+    { "stat": "flags.ima_approached", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dr. Geis returns with a document portfolio and two colleagues who do not introduce themselves, which you understand to mean they are auditors. The final IMA loan terms have been bound in a grey cover and placed on the conference table. Vostane has already read them. Her expression tells you the negotiation did not go as well as she hoped."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The conditions have hardened since the first meeting. Three new requirements were added. Mandatory quarterly audits by IMA inspectors with full access to ministry accounts and budget projections. A statutory cap on military spending at 8.5 percent of GDP — which is actually below our current allocation by 1.2 percent, so Dusek will have to make cuts. And a currency board arrangement that fixes the exchange rate of the Krone within a two percent band and removes our ability to devalue. We cannot use monetary policy to boost exports. The loan amount has increased to cover the larger fiscal gap. The interest rate has decreased by half a point. On pure financial terms, the deal is better than what they offered last time. On sovereignty terms, it is worse."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "IMA inspectors with full access to ministry accounts means IMA inspectors sitting in Gregor Marić's ministry reading every welfare payment, every labor program allocation, every union negotiation I conduct on behalf of this government. I want to be precise about what 'full access' means in practice. It means a foreign institution that represents the interests of international creditors has veto-adjacent oversight of Veltrian domestic social policy. The loan amount has gone up. The price has gone up by more."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is right, and Vostane is right, and neither of them is making a case for the same thing. The loan stabilizes the currency, services the debt, and prevents a collapse that would hurt Marić's workers far more than any austerity condition. The conditions give the IMA a permanent foothold in Veltrian fiscal governance that will not disappear when the loan is repaid. These are both true simultaneously. The question is which truth is larger."
+    }
+  ],
+  "monologue": "The loan amount increased. The interest rate decreased. The sovereignty cost increased by more. Mandatory quarterly audits. A military spending cap below current allocation. A currency board that removes our ability to devalue. Geis's colleagues did not introduce themselves — auditors, not diplomats. On pure financial terms, the deal is better. On sovereignty terms, it is worse. Marić is right: the price went up.",
+
+  "choices": [
+    {
+      "id": "ima_review_accept",
+      "text": "\"Accept. The quarterly audits are a transparency mechanism, not a veto — Geis has no authority to block appropriations, only to report on them. The military cap I can manage with Dusek. The currency board stabilizes the Krone, which helps the workers who are watching their wages erode to inflation. Sign the agreement. We draw down the loan in tranches tied to our own reform milestones, which gives us leverage on the timeline.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 10  },
+        { "stat": "nation.nationalDebt",         "operation": "add", "value": -25 },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -8  },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 10  },
+        { "stat": "nation.militaryReadiness",    "operation": "add", "value": -4  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_deal_accepted", "ima_auditors_installed", "currency_board_accepted"],
+      "codexUnlocks": ["codex_ima"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "Vostane nods and begins updating her numbers before the ink is dry. She does not celebrate — Vostane never celebrates. She adjusts projections, recalculates servicing schedules, and mutters something about the currency band that you cannot quite hear. She is already three months ahead of this conversation."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "Marić says nothing for a long moment. His knuckles are white against the table. When he finally speaks, his voice is very quiet — the quiet of a man who has accepted the arithmetic but not the principle. Then he stands and leaves without asking permission. The door closes harder than he intended."
+        }
+      ]
+    },
+    {
+      "id": "ima_review_reject_final",
+      "text": "\"We decline. Tell Dr. Geis that the Republic of Veltria will not be installing foreign auditors in its ministries, will not accept a military spending cap set by an international financial institution, and will not surrender monetary policy sovereignty to a currency board. We find another path. I would rather govern a country with difficult finances than administer one with comfortable ones.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",         "operation": "add", "value": 6   },
+        { "stat": "nation.economyHealth",        "operation": "add", "value": -6  },
+        { "stat": "nation.nationalDebt",         "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 10 }
+      ],
+      "flags": ["ima_deal_rejected", "fiscal_independence_asserted"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "Marić leans back in his chair — the first time all meeting he has relaxed. He does not smile. But something in his shoulders releases, the way a man releases tension he has been holding for weeks. He does not thank you. With Marić, gratitude is a currency he spends only when the debt is genuine."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "Vostane closes the grey-covered document portfolio with exaggerated care — the care of someone who is trying very hard not to say what she is thinking. She has already calculated the alternative fiscal path. The calculation is not encouraging. She does not share it yet. She is too professional to say I told you so before it becomes true."
+        }
+      ]
+    },
+    {
+      "id": "ima_review_counter",
+      "text": "\"Counter-propose on three specific points: auditors observe but do not access individual program files, military cap set at current allocation rather than below it, currency board with a four percent band instead of two. If Geis accepts the modifications, we sign. If he does not, we decline and find another path. The modifications are minimal enough that he may accept — and if he does, I have a deal I can actually defend to Marić and to Dusek.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 6   },
+        { "stat": "nation.nationalDebt",         "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -3  },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_deal_accepted", "ima_conditions_negotiated"],
+      "codexUnlocks": ["codex_ima"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "Vostane is already drafting the counter-proposal before you finish. The four percent band gives us monetary flexibility without spooking the markets. She does not look up from her notes — Vostane in negotiation mode is a force of nature that does not require eye contact."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Auditors observe but do not access individual files. He considers this. He does not like it. It is visible in the set of his jaw. But he does not reject it either. That is a better deal than the one we walked in with, he says. It is not a good deal. But it is better. He will take better."
+        }
+      ]
+    }
+  ]
+}

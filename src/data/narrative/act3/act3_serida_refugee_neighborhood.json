@@ -1,0 +1,45 @@
+{
+  "id": "act3_serida_refugee_neighborhood",
+  "title": "The New Neighbors",
+  "act": 3,
+  "weekAvailable": 34,
+  "weekDeadline": 38,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Serida's Apartment — Kravenstal",
+  "characters": ["serida_valk"],
+  "prerequisites": [{ "stat": "flags.met_serida", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Serida invited you to her home — a modest apartment in the Kravenstal workers' quarter. You went because you wanted to see how she lived, and because she asked. The apartment is small, warm, full of Mila's drawings and Tomas's tools and the smell of bread. Outside the window, across the street, a Morivask refugee family is moving into the building that was converted into temporary housing." },
+    { "type": "dialogue", "character": "serida_valk", "text": "They arrived last week. A mother and two children — the father did not make it across the border. Mila has been playing with the little girl. They do not speak the same language but they draw together. Mila taught her how to draw a sunflower. Tomas helped the mother carry her furniture up the stairs. I do not know how I feel about it. I am not political — I told you that. But I look at that mother and I think: that could be me. If the war had been here instead of there. If the soldiers had come for my husband instead of hers. I am glad they are here. I am frightened that there is not enough to go around. I am both things at once. Is that allowed?" }
+  ],
+  "choices": [
+    {
+      "id": "serida_refugees_reassure",
+      "text": "\"Of course it is allowed, Serida. Being two things at once is what it means to be human. You are not required to have a policy position on your neighbors. You are required to be kind to them. And you are — you and Tomas and Mila have been kinder than most of the people in the Assembly who spend their days debating refugee policy without ever meeting a refugee. Your family is doing more for those children than my government is. That is not criticism. That is admiration.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": 10 },
+        { "stat": "seridaMorale", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "refugeeCount", "operation": "add", "value": 200 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_refugees_kind"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "serida_refugees_policy",
+      "text": "\"The refugee situation is complex, Serida. The government is doing what it can with limited resources. I am glad your family is helping — but individual kindness cannot substitute for state policy. We are working on it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": -3 },
+        { "stat": "seridaMorale", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_refugees_policy"],
+      "codexUnlocks": []
+    }
+  ]
+}

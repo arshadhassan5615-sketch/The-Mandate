@@ -1,0 +1,81 @@
+{
+  "id": "act4_ceasefire_talks",
+  "title": "The Table of Enemies",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Neutral Territory — Orythian Embassy, Conference Room, Morning",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.ceasefire_negotiation", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Orythian embassy in Valdros has been designated neutral territory for the ceasefire talks — a diplomatic fiction that both sides are maintaining because neither wants to be seen as the party that refused to negotiate. The conference room is long and narrow, with the Orythian mediators at the center and the two delegations at opposite ends. The Tyvaren delegation is led by a civilian diplomat named Petrov who speaks perfect Veltrian and smiles at intervals that are clearly calculated. The Veltrian delegation is you, Vyktor, and a legal advisor from the foreign ministry who has been working on territorial questions for seventeen years and has the exhausted expertise of someone who knows exactly how many ways a negotiation can fail. The table between you is polished mahogany. The war outside this room has killed thousands. The contrast is not lost on anyone."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The agenda. Item one: permanent ceasefire terms, including verification mechanisms. Item two: territorial questions, including the status of forces currently occupying Veltrian territory. Item three: prisoner exchange and missing persons. Item four: a framework for permanent settlement negotiations. The Tyvaren position on item two is that territorial questions should be deferred to the permanent settlement negotiations — meaning they want the ceasefire to freeze the current territorial situation without acknowledging that the current territorial situation is the product of an invasion. Our position is that the ceasefire must include a commitment to withdrawal. The gap between these positions is the gap between a temporary pause and a genuine peace. The Orythian mediators are attempting to bridge it. They are not succeeding."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Petrov's smile is the worst thing about the negotiations. Not the territorial demands. Not the occupation. The smile. It says: we are reasonable people discussing reasonable things in a reasonable setting. It erases the war. It erases the dead. It transforms an invasion into a diplomatic disagreement that can be resolved through the application of appropriate language and sufficient patience. You want to stand up and demand that Petrov look at the casualty lists before he smiles again. You do not. You are a head of state negotiating the survival of your country. You keep your composure. The composure is a form of violence in its own way — the violence of refusing to let the people who invaded your country see what it has cost you."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "talks_territorial_integrity",
+      "text": "\"The Republic of Veltria will not sign any ceasefire agreement that does not include a clear, binding commitment to the withdrawal of all Tyvaren forces from Veltrian territory. The pre-conflict borders are the only acceptable territorial basis for a settlement. I am willing to negotiate the timeline. I am willing to negotiate the verification mechanisms. I am not willing to negotiate the principle. If Tyvaren cannot accept that principle — if the outcome of this war is that an invasion succeeds — then there is no basis for talks. There is only a temporary pause before the next phase of a conflict that will continue until the principle is established. I came here to negotiate peace. I did not come here to negotiate surrender.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ceasefire_talks", "territorial_integrity_priority", "withdrawal_demanded"],
+      "codexUnlocks": ["codex_territorial_negotiation", "codex_ceasefire_principles"]
+    },
+    {
+      "id": "talks_civilian_protection",
+      "text": "\"The territorial question is critical but it is not the most urgent question. The most urgent question is what happens to the civilians currently living under occupation — the Veltrians in the Gravenmark border region, the displaced families in the Korven Forest, the communities that are being administered by Tyvaren military authorities with no international oversight. I am willing to defer the final territorial settlement to a broader negotiation framework if Tyvaren agrees to immediate humanitarian measures: civilian protection guarantees, international humanitarian access, and the withdrawal of military forces from civilian population centers. The borders can be negotiated. Civilians cannot be negotiated. They must be protected now, regardless of where the borders end up.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ceasefire_talks", "civilian_protection_priority", "humanitarian_first"],
+      "codexUnlocks": ["codex_civilian_protection", "codex_humanitarian_access"]
+    },
+    {
+      "id": "talks_face_saving_compromise",
+      "text": "\"Both sides need something they can present to their publics as a reason to stop fighting. Tyvaren cannot appear to have achieved nothing. Veltria cannot appear to have surrendered. I am willing to find language that allows both governments to claim the ceasefire as a step toward their objectives rather than a defeat of their objectives. A phased withdrawal that Tyvaren can call a 'stabilization redeployment.' A monitoring mechanism that Veltria can call an 'international verification regime.' A commitment to further negotiations that both sides can call a 'framework for permanent resolution.' The substance matters. The language also matters. I am willing to negotiate both. A ceasefire that both governments can sell to their people is worth more than a ceasefire that collapses because one side lost too much face to sustain it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+        { "stat": "nation.corruption", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ceasefire_talks", "face_saving_compromise", "phased_withdrawal"],
+      "codexUnlocks": ["codex_diplomatic_language", "codex_face_saving_diplomacy"]
+    }
+  ]
+}

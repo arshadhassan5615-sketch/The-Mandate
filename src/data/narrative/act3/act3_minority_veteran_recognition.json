@@ -1,0 +1,80 @@
+{
+  "id": "act3_minority_veteran_recognition",
+  "title": "The Soldier of Dravenhollow",
+  "act": 3,
+  "weekAvailable": 30,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["irina_dusek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Colonel Dusek requests a private meeting — unusual for her, as she prefers briefings to audiences. When she enters your office, she is holding a file that is older than she is. 'This came through the military records office,' she says, placing it on your desk. 'It has been sitting there since 1944. I think you should read it.' The file is thin — a single soldier's service record, handwritten, on paper that is beginning to yellow at the edges. The soldier's name is Mikhail Sorov. He is Dravenni. He is sixty-seven years old. And in 1942, he saved the lives of twelve Veltrian soldiers during the Tyvaren border war."
+    },
+    {
+      "type": "description",
+      "text": "Dusek tells you the story with the precision of a military briefing and the controlled anger of someone who has been sitting on this file for two weeks and has not yet found a way to be calm about it. Sorov was a conscript in the 14th Infantry Regiment. During a Tyvaren ambush in the Gravenmark Valley, he carried wounded soldiers — Veltrian soldiers, men who had spent their entire service calling him a 'mountain savage' — out of enemy fire, one by one. Twelve men. Twelve lives. He was recommended for the Order of Veltria, the nation's highest military decoration, in 1943. The recommendation was denied because Sorov was Dravenni and Dravenni were not eligible for the Order of Veltria under Halvek-era military regulations. The regulation was never formally repealed."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Chancellor, I am Dravenni. You know this. I have served this Republic for twenty-two years. I have buried soldiers under the Veltrian flag — Dravenni soldiers, Veltrian soldiers, soldiers who didn't fit either category. I have never asked for special treatment and I am not asking now. But Mikhail Sorov is sixty-seven years old. He lives in a two-room apartment in Dravenhollow. He was denied citizenship in 1944 because the Halvek administration classified Dravenni veterans as 'resident aliens' rather than citizens, regardless of their service. He has been living in this country for sixty-seven years and he is not a citizen. The Order of Veltria is not just a medal. It comes with citizenship, a pension, and the recognition that this country is yours. I am asking you to grant all three. Not for me. For a man who carried twelve Veltrians out of enemy fire and has spent forty years being told he does not belong here."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I am looking at Dusek, and Dusek is not crying — Colonel Irina Dusek does not cry — but she is closer to it than I have ever seen her. This is not just about Sorov. This is about every Dravenni soldier who served under a flag that did not consider them citizens, every Dravenni family that sent sons to wars for a country that treated them as foreigners, every Dravenni child who was taught that service would earn them belonging and then learned that belonging is not something you earn — it is something the state either grants or withholds. If I grant Sorov the Order of Veltria, I am not just giving a medal to an old soldier. I am repudiating forty years of Halvek-era policy in a single act of recognition. The Iron Covenant will howl. The Halvekists will call it revisionism. But Dusek is right. Sorov earned this country."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "veteran_honor_full",
+      "text": "\"Colonel, prepare the paperwork. Mikhail Sorov is awarded the Order of Veltria, with full citizenship retroactive to his date of service, a full military pension from 1943 to present, and a public ceremony at the Palace of the Republic. I will present the medal personally. And I want the military regulations reviewed — any regulation that excludes Dravenni or any other minority from honors or benefits on the basis of ethnicity is void as of today. The Republic recognizes service. Service is what makes a citizen. Sorov served. That ends the discussion.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 20 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["sorov_honored", "dravenni_citizenship", "military_integration", "veteran_recognition"],
+      "codexUnlocks": ["codex_dravenni_veterans", "codex_military_history"]
+    },
+    {
+      "id": "veteran_honor_quiet",
+      "text": "\"Sorov gets his citizenship and his pension — privately. The Order of Veltria is awarded through the normal military channels, no public ceremony, no press release. The Halvek-era regulation is rescinded quietly through administrative order. Dusek, I understand why you want the public ceremony. The country is not ready for a public repudiation of forty years of policy in a single gesture. Sorov gets what he earned. The Iron Covenant does not get what it fears. This is not cowardice. It is the pace at which wounds heal.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["sorov_quiet_honor", "dravenni_citizenship_quiet"],
+      "codexUnlocks": ["codex_dravenni_veterans"]
+    },
+    {
+      "id": "veteran_honor_deny",
+      "text": "\"Colonel, I cannot rewrite military regulations retroactively. Sorov's case is tragic — genuinely tragic — and I will ensure his citizenship application is processed favorably. But awarding the Order of Veltria with backdated pension and public ceremony would set a precedent that opens every Halvek-era military decision to re-litigation. The military needs to look forward, not backward. I will not spend my term adjudicating forty-year-old medal recommendations.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": -25 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -15 }
+      ],
+      "chainTriggers": [],
+      "flags": ["sorov_denied", "dravenni_grievance", "dusek_disappointed"],
+      "codexUnlocks": []
+    }
+  ]
+}

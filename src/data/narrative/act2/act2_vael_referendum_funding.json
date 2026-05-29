@@ -1,0 +1,108 @@
+{
+  "id": "act2_vael_referendum_funding",
+  "title": "The Referendum Price",
+  "act": 2,
+  "weekAvailable": 24,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["lucan_vael", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The constitutional referendum is the centerpiece of your reform agenda — a public vote on whether to replace the Halvek-era constitution with a new charter that guarantees civil liberties, establishes an independent judiciary, and distributes power beyond the executive branch. The polling is close. Forty-eight percent support, forty-two percent oppose, ten percent undecided. The campaign requires funding — for printing, for rallies, for reaching the rural provinces where radio is still the only media that matters. Your campaign fund is nearly empty."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The campaign budget projection: we need one point two million Krone for a minimally effective national campaign. We have approximately three hundred thousand. The shortfall means we cannot run radio advertisements in the eastern provinces, cannot print campaign materials in Lytheiran-language districts, and cannot hold more than two rallies outside the capital before the vote. The Halvekist opposition is better funded. We do not know by whom — but we can make educated guesses."
+    },
+    {
+      "type": "description",
+      "text": "The educated guess walks through your door twenty minutes later. Lucan Vael has, once again, not scheduled an appointment. He settles into the chair across from your desk with the ease of a man who has sat in this chair under four different Chancellors and found it equally comfortable each time."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Chancellor. I understand the referendum campaign is under financial strain. I am not here to offer a solution — I am here to announce that I have already begun implementing it. The Vael Foundation has purchased radio time in all seven eastern provinces for the next six weeks. We are printing one hundred thousand Lytheiran-language campaign leaflets for distribution in the bilingual districts. And we have reserved the Ashenmere People's Hall for the weekend before the vote, with full event staff, for a national unity rally. This is not a negotiation. The money has been spent. The question is whether you will accept the campaign or disavow it. The campaign that is about to begin whether you participate or not."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "That is — Margrave, that is extraordinarily generous and extraordinarily presumptuous. If you have already launched the campaign, you have attached the Vael name to the constitutional referendum without the Chancellor's authorization. The referendum is not your campaign. It is the nation's. If the voters perceive that the new constitution is being bought by the Margrave of Thornfeld, the Halvekists will have their attack line for the next decade: 'the Vael constitution, written by oligarchs for oligarchs.' You may have just lost us the referendum by trying to win it."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Vyktor, I appreciate your concern for democratic optics. I will make this simple. Without the money, the referendum loses — the polling is clear, the rural provinces are unreachable without radio, and the Halvekist campaign is being funded by people far less scrupulous than I am. With the money, you have a chance. I am not asking for a quid pro quo. I am not asking for anything except for you to consider whether refusing my help helps the people who want the constitution to fail. The enemies of reform are not going to refuse help from anyone. Why should its champions?"
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is right about the math and wrong about the principle and I have approximately thirty seconds to decide which matters more. The referendum campaign without funding will fail. The constitution — the thing I have spent my first year in office fighting for, the document that defines everything I believe about what government should be — will go down in defeat because we couldn't afford radio ads in the provinces where the undecided voters live. Vael's money buys those ads. It also buys him a place in every story the Halvekists tell about the constitution for the rest of my career. The principle vs. the math. The math vs. the principle."
+    }
+  ],
+  "monologue": "He already spent the money. He did not ask. He announced. The radio time is purchased. The leaflets are printing. The rally hall is reserved. Vael has attached himself to the referendum like a remora. Vyktor is right — the Halvekists will call it 'the Vael constitution' for the next decade. But Vyktor is also wrong to assume we can win without the funding. The math and the principle. The principle and the math.",
+
+  "choices": [
+    {
+      "id": "vael_referendum_accept",
+      "text": "\"I accept the campaign — and I will be the one who frames it. Vyktor, draft a statement: the Vael Foundation has joined a broad coalition of civic organizations supporting the constitutional referendum. We will list every organization that has endorsed the constitution alongside the Foundation. The story is not 'Vael bought the referendum.' The story is 'Vael joined something bigger than himself.' If the Margrave is willing to be one donor among many, I can work with that. If he wants to be the donor, we have a different conversation.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",          "operation": "add", "value": 25 },
+        { "stat": "factions.reformists",    "operation": "add", "value": 10  },
+        { "stat": "personal.publicImage",   "operation": "add", "value": 8   },
+        { "stat": "nation.civilLiberties",  "operation": "add", "value": 5   },
+        { "stat": "nation.corruption",      "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",  "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vael_block_wealth_tax", "delayWeeks": 6 }
+      ],
+      "flags": ["vael_referendum_funded", "constitution_campaign_powered", "vael_relationship_warm"],
+      "codexUnlocks": ["codex_constitution", "codex_vael_alliance"],
+      "reactions": [{ "character": "lucan_vael", "type": "action", "text": "He inclines his head — not quite a bow, but close. One donor among many. He repeats the phrase, testing it. It is not what he wanted. But it is enough. For now." }, { "character": "vyktor_reznik", "type": "dialogue", "text": "He is already drafting the coalition statement — the Vael Foundation alongside the Farmers' Union, the Workers' Coalition, the Reform Alliance. The list will be longer than any one donor. He pauses. The Halvekists will still call it the Vael constitution. But the list will make them look foolish for doing so." }]
+    },
+    {
+      "id": "vael_referendum_refuse",
+      "text": "\"Margrave, I appreciate the gesture and I am disavowing the campaign. I will hold a press conference this afternoon to announce that any campaign materials not authorized by the Reform Coalition do not represent my position or the position of this government. I will ask the radio stations to pull the ads — they will comply because I am the Chancellor, not because I asked nicely. The referendum will be won or lost on its merits, not on your money. If we lose, we lose honestly. I can live with that. Can you?\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",       "operation": "add", "value": -4  },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 10  },
+        { "stat": "personal.publicImage",      "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vael_block_wealth_tax", "delayWeeks": 6 }
+      ],
+      "flags": ["vael_referendum_refused", "constitution_self_funded", "vael_relationship_cold"],
+      "codexUnlocks": ["codex_constitution"],
+      "reactions": [{ "character": "lucan_vael", "type": "silence", "text": "Vael does not respond. He simply stands, adjusts his jacket, and walks to the door. The silence is not defeat. It is the particular quiet of a man who has just been publicly rejected and is already calculating the cost of his next move." }, { "character": "vyktor_reznik", "type": "dialogue", "text": "He waits until the door closes. The radio ads will be pulled by evening. The leaflets will be destroyed. The People's Hall reservation will be cancelled. He pauses. We just lost the campaign funding and gained the moral high ground. The question is whether the high ground wins referendums." }]
+    },
+    {
+      "id": "vael_referendum_counter",
+      "text": "\"You've already spent the money, so let's spend it properly. The campaign goes forward under a new name: the Civic Coalition for Constitutional Reform — with a board that includes the Workers' Coalition, the Reform Alliance, the Farmers' Union, and the Vael Foundation as equal partners. You fund it alongside everyone else, not above them. You get the same vote on the board as the Farmers' Union. If your goal is genuinely the constitution and not your own visibility, that structure should be acceptable. If it isn't, I will know why.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": 5   },
+        { "stat": "factions.reformists",       "operation": "add", "value": 6   },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4   },
+        { "stat": "nation.civilLiberties",     "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 4   },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vael_block_wealth_tax", "delayWeeks": 6 }
+      ],
+      "flags": ["vael_referendum_coalition", "constitution_coalition_campaign", "vael_relationship_neutral"],
+      "codexUnlocks": ["codex_constitution"],
+      "reactions": [{ "character": "lucan_vael", "type": "silence", "text": "He considers this. The Civic Coalition. Equal board seat. Same vote as the Farmers' Union. He is not accustomed to being treated as an equal partner rather than a lead investor. The silence is the sound of Lucan Vael deciding whether his ego can survive the structure." }, { "character": "vyktor_reznik", "type": "dialogue", "text": "He is already drafting the coalition charter. Six organizations. One vote each. He pauses. Vael will agree — he has no choice if he wants the campaign to succeed. He will agree and he will resent it. Both outcomes are acceptable." }]
+    }
+  ]
+}

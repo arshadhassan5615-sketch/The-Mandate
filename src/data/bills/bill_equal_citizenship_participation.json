@@ -1,0 +1,25 @@
+{
+  "id": "bill_equal_citizenship_participation",
+  "title": "Equal Citizenship and Participation Act",
+  "shortName": "E.C.P.A.",
+  "proposer": "Reform coalition + Dravenni sympathizers",
+  "faction": "dravenni",
+  "weekPresented": 16,
+  "fullText": "Section 1. No citizen of the Republic of Veltria shall be denied the right to vote, hold public office, or seek employment in the civil service on the basis of ethnic origin, language, or cultural affiliation. The Dravenni language shall be recognized for official documentation in all six provinces.\n\nSection 2. Employers found to discriminate in hiring, promotion, or compensation on the basis of ethnicity shall be subject to fines not exceeding fifty thousand Krone and potential revocation of government contracts.\n\nSection 3. A Commission on Equal Participation shall be established within the Ministry of Justice to investigate complaints and publish annual findings on ethnic representation across all sectors of national life.",
+  "budgetCost": 0,
+  "signEffects": [
+    { "stat": "factions.dravenni", "operation": "add", "value": 20 },
+    { "stat": "factions.reformists", "operation": "add", "value": 10 },
+    { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+    { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+    { "stat": "factions.church", "operation": "add", "value": -5 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.dravenni", "operation": "add", "value": -25 },
+    { "stat": "factions.reformists", "operation": "add", "value": -15 },
+    { "stat": "factions.ironCovenant", "operation": "add", "value": 10 }
+  ],
+  "signFlags": ["equal_citizenship_signed", "dravenni_celebration_triggered", "nationalist_protest_triggered"],
+  "vetoFlags": ["equal_citizenship_vetoed"],
+  "isVetoable": true
+}

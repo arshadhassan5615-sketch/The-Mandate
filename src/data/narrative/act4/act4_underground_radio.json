@@ -1,0 +1,88 @@
+{
+  "id": "act4_underground_radio",
+  "title": "The Voice from Exile",
+  "act": 4,
+  "weekAvailable": 41,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Stellamere — Provisional Chancellery Broadcast Room, Week Forty-One",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The broadcast room is a converted storage closet in the diplomatic annex. The Arcturian engineers have installed a shortwave transmitter and a microphone that was manufactured in Orythia in 1952 — the kind of equipment that gets the job done without getting any credit for it. The signal will reach Veltria through a relay station in the Amber Coast that Dusek's people have been maintaining without drawing attention to themselves. It is a fragile arrangement — the relay station could be discovered, the transmitter could be jammed, the junta's counterintelligence could trace the signal and arrest whoever is listening. The arrangement is fragile and it is working. For the past three nights, your voice has been heard in Veltria. People are listening. The junta cannot stop them from listening without admitting that people want to. That is the power of radio. That is the power of a voice that refuses to be silenced."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The audience estimate for last night's broadcast is approximately four hundred thousand listeners. That is based on relay station reception data and reports from contacts in Ashenmere. Four hundred thousand is roughly twelve percent of the adult population — not including those who listen in groups, which our contacts suggest is common. The junta has attempted to jam the signal. They have succeeded intermittently. They have also attempted to intimidate listeners — the state radio service has announced that listening to 'unauthorized foreign broadcasts' is an offense punishable by fines. The fines are not being widely enforced, because enforcement requires admitting that four hundred thousand people are committing the offense. Numbers have their own authority. Four hundred thousand listeners is a number the junta cannot arrest."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Four hundred thousand people. You speak into a microphone in a converted storage closet in a foreign country, and four hundred thousand Veltrians — in their kitchens, in their workshops, in basements with the volume turned low enough that the neighbors cannot hear — are listening. Some of them are listening because they support the constitutional government. Some of them are listening because they are curious. Some of them are listening because the junta told them not to, and being told not to listen to something is the most effective way to make people listen. The motivation does not matter. The listening matters. The listening is a form of citizenship, a refusal to accept that the government that controls the streets also controls the truth. Tonight you will broadcast again. The words matter. The voice matters. The voice is the government. The government is the voice. As long as it speaks, the exile is temporary."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "radio_inspire_resistance",
+      "text": "\"Tonight, I want to speak about hope. Not the cheap kind — not the reassurance that everything will be fine. The expensive kind. The hope that costs something to maintain, the hope that requires action rather than waiting, the hope that transforms citizens from spectators into participants. I am going to tell them that every act of non-cooperation with the junta is an act of citizenship. Every bureaucrat who slows down an illegal order. Every teacher who refuses to teach the junta's version of history. Every worker who walks off the job rather than contribute to a regime that stole their country. These are not small acts. They are the acts that make a junta ungovernable. They are the acts that make a restoration possible. They are the acts of a people who have not surrendered.\"",
+      "internalTag": "reformist",
+      "tooltip": "Inspire active but nonviolent resistance. Builds a culture of defiance. May provoke harsher junta reprisals against civilians.",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 3 }
+      ],
+      "flags": ["radio_resistance_message", "civil_disobedience", "underground_radio_active", "four_hundred_thousand_listening"],
+      "codexUnlocks": ["codex_radio_free_veltria", "codex_civil_resistance"]
+    },
+    {
+      "id": "radio_document_junta",
+      "text": "\"Tonight, I am going to read names. Not names of collaborators — that is a weapon I am not yet willing to use. Names of the disappeared. Names of the arrested. Names of the journalists who have been silenced and the local officials who have been removed and the ordinary citizens who have been detained for the crime of asking questions. The junta wants to govern in darkness. I am going to turn on the lights. Every name I read is a record. Every record is a document. Every document is evidence that will be used when the legitimate government is restored and the junta's crimes are judged. I am not asking for resistance tonight. I am asking for memory. The junta can destroy records. It cannot destroy four hundred thousand memories. Remember these names. They are your neighbors. They are your country.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Document the junta's abuses. Builds a historical record. Creates accountability pressure. May expose vulnerable sources and escalate junta paranoia.",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 3 }
+      ],
+      "flags": ["radio_documentation", "junta_recorded", "underground_radio_active", "four_hundred_thousand_listening"],
+      "codexUnlocks": ["codex_junta_documentation", "codex_broadcast_accountability"]
+    },
+    {
+      "id": "radio_promise_return",
+      "text": "\"Tonight, I am going to make a promise. Not a speech — a promise. I am going to tell the people of Veltria that their Chancellor will return. Not eventually. Not when conditions are right. I am going to give them a timeline — and then I am going to meet it, because a promise without a deadline is a wish, and the people of Veltria have had enough wishes. I am going to tell them that I am coming home, and I am going to tell them when, and I am going to spend every day between now and then making sure that when I arrive, I do not arrive alone. The exile has a purpose. The purpose has a schedule. The schedule is not a secret. It is a promise, and I am making it tonight on the air, to four hundred thousand witnesses.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Make a concrete public promise of return. Commits you to action. Inspires loyalists. Raises expectations that will be devastating if unmet.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 5 },
+        { "targetNodeId": "act4_week44_counter_coup", "delayWeeks": 3 }
+      ],
+      "flags": ["radio_return_promise", "timeline_announced", "underground_radio_active", "four_hundred_thousand_listening"],
+      "codexUnlocks": ["codex_return_promise", "codex_exile_timeline"]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "act3_tomas_student_arc",
+  "title": "Return to Aldric Gymnasium",
+  "act": 3,
+  "weekAvailable": 29,
+  "weekDeadline": 36,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Aldric Gymnasium — Vice Principal's Office, Afternoon",
+  "characters": ["tomas_ashavel"],
+  "prerequisites": [
+    { "stat": "flags.tomas_school_attended", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The vice principal's office smells like floor wax and old paper and the particular institutional coffee that every school in every province seems to brew from the same unidentifiable source. You sat in this same office six weeks ago for the conference you insisted on attending in person. The vice principal was surprised then. She is not surprised now. Tomas has not missed a day of school in five weeks. His grades have improved from failing to passing in three subjects. The history teacher sent a note to the office saying Tomas had 'engaged substantively' with a unit on the Halvek era — not the sanitized version, the teacher specified, but the full account including the labor crackdowns and the press censorship. Tomas had asked whether the constitutional protections would have prevented those things. The teacher wrote that it was the best question anyone in the class had asked all semester."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "I'm not friends with the Ironborn boys anymore. I didn't make a speech about it or anything. I just stopped going to the switching yard. Andri — he was the one who talked the most about 'national purity' and whatever — he came up to me in the courtyard last week and asked why I wasn't coming around. I told him I had homework. He said homework was for people who didn't understand what was really happening. I said understanding what was really happening required knowing things, and knowing things required doing the reading. He didn't have an answer for that. I don't think anyone had ever said the word 'reading' to him as a counterargument before."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is fourteen years old and he just out-argued a nationalist recruiter with the concept of homework. You want to laugh and you want to cry and you are doing neither because you are in the vice principal's office and the vice principal is watching you with the expression of someone who has seen a lot of parents react to a lot of things and is professionally interested in how you will react to this one."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "I've been reading the newspapers. The actual ones, not the ones the Ironborn pass around. Nadia Voss wrote about the refugee camps last week — the real conditions, not the propaganda version. Andri used to say the refugees were taking Veltrian jobs and Veltrian housing and that was why we had to 'defend the nation.' But the article said most of the refugees are working in jobs Veltrians won't take, and the camps are worse than anything in Kravenstal, and I thought — Andri never mentioned that part. He never mentioned any part that didn't fit what he wanted me to believe. So I started looking for the parts he wasn't mentioning. There are a lot of them."
+    },
+    {
+      "type": "description",
+      "text": "He is showing you the newspaper clippings folded in his school bag. They are creased and annotated in pencil — his handwriting, still the careful block letters of someone who learned to write during a war and never entirely relaxed his grip. In the margins he has written questions. 'Who owns this factory?' 'Where did this number come from?' 'Is this source named?' They are the questions of someone learning to read critically, which is the first thing fascism tries to prevent. Your son is teaching himself to read against the text. You did not teach him this. He learned it by realizing he had been lied to and deciding he would not be lied to again."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "tomas_student_encourage_critical",
+      "text": "\"Keep asking those questions. Every one of them. The question is more important than the answer most of the time — it's the willingness to ask that separates citizens from subjects. I'm proud of you. Not because your grades improved. Because you figured out that the people who don't want you to ask questions are the people whose answers can't survive being questioned.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 18 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_tomas_redemption", "delayWeeks": 10 }
+      ],
+      "flags": ["tomas_student_recovery", "tomas_critical_thinker", "tomas_rejecting_ironborn"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_student_quiet_pride",
+      "text": "\"I read those same articles. I read them and thought about you reading them and hoped you would see what they were actually saying. You did. That's enough for today. Let's go get something to eat that isn't school cafeteria food.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["tomas_student_recovery", "tomas_quiet_progress"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_student_share_experience",
+      "text": "\"When I was your age, I read a book that the authorities had banned. It wasn't a political book — it was a novel about a family during the unification war. But it was banned because it showed Veltrians being kind to Dravenni refugees, and the government at the time didn't want that story told. I read it cover to cover in one night under my blanket with a flashlight. I still remember the feeling of discovering that the official version of things was incomplete. That feeling is the beginning of wisdom. You're having it now. Don't let anyone take it from you.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_family_anchored", "delayWeeks": 12 }
+      ],
+      "flags": ["tomas_student_recovery", "tomas_shared_history", "mother_son_bonding"],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "id": "act3_military_democracy_bond",
+  "title": "Soldiers of the Republic",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Officers' Mess, Week Forty",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The officers' mess at the Ministry of Defense is normally a place of careful hierarchy — senior officers at the head table, junior officers at the periphery, the unspoken architecture of rank shaping every interaction. Today the architecture has been abandoned. Junior lieutenants are sitting with colonels. Artillery commanders are talking to infantry captains. The rally speech has done something that military protocol could not: it has turned the institution from a chain of command into a community of conviction. The soldiers who stood on the parade ground in Week Thirty-Seven have been talking to each other ever since. Not about orders. About what the orders mean."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Chancellor, I thought you should see this. It is not an official function. It is not in the briefing notes. But what is happening in this room is more significant than anything in the briefing notes. The officers are organizing themselves. Study groups on constitutional law. Discussion circles on the relationship between military service and democratic citizenship. A lieutenant colonel from the 4th Artillery has requested permission to start a publication — a journal, he called it — on the ethical obligations of soldiers in a democracy. I have been in this institution for twenty-two years. I have never seen anything like this. The military is not just following the constitution. It is trying to understand it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The speech worked. Not in the way that speeches usually work — a temporary emotional lift that fades when the next crisis arrives. The speech planted something. You framed the military as defenders of democracy rather than instruments of power, and the framing took root because it answered a question the soldiers were already asking themselves: what are we for? The Halvek regime used the military as an enforcement arm. The transition used it as a problem to be managed. Under your government, the military is being asked to be something new — a democratic institution that takes democracy seriously not as a political inconvenience but as the thing it exists to defend. The officers in this mess hall are trying to build that institution. They are building it themselves, from the ground up, because the speech gave them permission to try."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "bond_institutionalize",
+      "text": "\"Dusek, I want this formalized. Establish a Center for Democratic-Military Studies within the Ministry. Fund the journal. Create a curriculum for officer training that includes constitutional law, civil-military relations, and the history of democratic transitions. The enthusiasm in this room is real, but enthusiasm fades. Institutions endure. I want the next generation of Veltrian officers to learn democracy the way they learn marksmanship — as a discipline, as a practice, as something that requires training and maintenance and the willingness to keep doing it even when it is difficult.\"",
+      "internalTag": "reformist",
+      "tooltip": "Institutionalize democratic values in military training. Builds a lasting cultural change. Expensive and time-consuming. Traditionalists will resist.",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week41_reform_implementation", "delayWeeks": 2 }
+      ],
+      "flags": ["democratic_military_institutionalized", "officer_education_reformed", "military_democracy_bond_strong"],
+      "codexUnlocks": ["codex_democratic_military_center", "codex_officer_training_curriculum"]
+    },
+    {
+      "id": "bond_respect_organic",
+      "text": "\"Let it grow, Dusek. Do not formalize it. Do not assign it a budget line and a director and an official mandate. The moment the government institutionalizes this, it becomes a government program, and government programs attract the kind of people who are good at running government programs rather than the kind of people who actually believe in what the program is supposed to do. The officers in this room are building something organic. Protect it. Support it quietly. Make sure they have meeting space and access to materials and the implicit understanding that their chain of command approves. But do not make it official. Some things grow better in the soil than in the greenhouse.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Support the democratic movement organically without formal structures. Preserves authenticity. Avoids bureaucratic capture. May not scale or survive leadership changes.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["democratic_military_organic", "officer_movement_protected", "military_democracy_bond_quiet"],
+      "codexUnlocks": ["codex_organic_institutional_change"]
+    },
+    {
+      "id": "bond_leverage_morale",
+      "text": "\"This is valuable, Dusek, but let us be clear about what it is most valuable for. A military that believes in democracy fights harder than a military that merely obeys orders. The Tyvaren situation has not gone away. Channel this enthusiasm into operational readiness. The study groups are excellent — continue them. But the immediate application of democratic conviction is defensive capability. I want every officer in this room to understand that the constitution they are studying is the constitution they will be defending, possibly within weeks, possibly under fire. Morale is a military asset. Use it.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Focus democratic conviction on combat readiness. Practical and timely given the Tyvaren threat. Risks instrumentalizing a genuine cultural shift for short-term military goals.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_military_deployment", "delayWeeks": 1 }
+      ],
+      "flags": ["democratic_military_operationalized", "morale_channeled_to_readiness", "military_democracy_bond_pragmatic"],
+      "codexUnlocks": ["codex_military_morale", "codex_defensive_readiness"]
+    }
+  ]
+}

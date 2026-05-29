@@ -1,0 +1,32 @@
+{
+  "id": "act4_serida_epilogue",
+  "title": "Where Serida Is Now",
+  "act": 4,
+  "weekAvailable": 50,
+  "weekDeadline": 52,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "The Ashavel Residence — Final Week",
+  "characters": ["serida_valk"],
+  "prerequisites": [{ "stat": "flags.met_serida", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Serida comes to your residence one last time. Not with briefing folders — with a small box of personal effects from your office. The photograph of your family that was on your desk. The pen you used to sign the constitution. A drawing that Mila made of the palace — the one she drew when she was seven, all towers and flags. She is older now. The drawing is framed." },
+    { "type": "dialogue", "character": "serida_valk", "text": "I wanted to give you this. Mila made it when I first started working for you. She is twelve now. She asked me yesterday what you were like — not the Chancellor, but the person. I told her that you were the kind of leader who asked about my family when you could have asked about the briefing. That you remembered Mila's name. That you let me go home to watch her school play when the crisis center was still running. That you were human, even when being human cost you politically. I do not know what happens next, Chancellor. But I wanted you to know that whatever the history books say about your government, one family in Kravenstal remembers you as the person who saw them." }
+  ],
+  "choices": [
+    {
+      "id": "serida_epilogue_grateful",
+      "text": "\"Serida. You were the best thing about this office. Not the policy. Not the power. The reminder — every day — that the decisions I made affected real people with real children and real lives. You kept me human when this job tried very hard to make me something else. Whatever happens now, I am grateful. Tell Mila I said the sunflower was always my favorite.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": 20 },
+        { "stat": "seridaMorale", "operation": "add", "value": 20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_epilogue_positive"],
+      "codexUnlocks": []
+    }
+  ]
+}

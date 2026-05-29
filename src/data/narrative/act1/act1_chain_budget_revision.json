@@ -1,0 +1,137 @@
+{
+  "id": "act1_chain_budget_revision",
+  "title": "The Revised Ledger",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Finance Ministry — Budget Office",
+  "characters": ["elara_vostane", "gregor_maric"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Elara Vostane has been working on the revised budget for two weeks. The numbers cover an entire wall of her office — projections, counter-projections, sensitivity analyses, the dense architecture of fiscal policy rendered in Vostane's precise hand. Gregor Maric is standing by the window with his arms crossed, which means he has already found something in the numbers he does not like."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The revised framework preserves the welfare freeze but redirects 8 million in infrastructure spending to hardship relief in Kravenstal and the Thornfeld district. The deficit reduction timeline extends from 18 months to 30 months, which the IMA will not like but can be negotiated. The job cuts are reduced from 60,000 to 45,000, with the difference made up by attrition and a hiring freeze rather than direct layoffs. This is the best compromise I can produce that does not break either the budget framework or the social contract. It will be criticized by everyone. That is how you know it is probably right."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "Forty-five thousand job cuts. Forty-five thousand families. Forty-five thousand paychecks that stop arriving next month. The hardship relief will help — it is more than I expected, and I'll say that honestly to anyone who asks — but a relief payment does not replace a wage. These people in Kravenstal, they don't want a handout from the government. They want their jobs back. They want to pour steel and run the looms and know that their children will eat because they earned it. I need to know what to tell them. Is this the final offer or is this the opening position? Because if I go back to Foundry Square and tell them this is the deal and then next month there's another round of cuts — listen, I cannot do that. I will not do that."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is what compromise looks like. Not consensus — no one in this room is happy — but a settlement that gives each side enough to survive politically while achieving enough of the fiscal target to keep the IMA engaged and the Krone from collapsing. Maric needs to be able to tell his people he won something. Vostane needs to be able to tell the IMA the deficit is still closing. I need to be able to tell the country that their government can make hard decisions without destroying the people those decisions affect. None of us gets everything we want. All of us get enough."
+    }
+  ],
+
+  "monologue": "Vostane has built a compromise that nobody will love. That usually means she's done the work. Maric needs to sell this to people who don't trust compromises — they've seen too many that turned into abandonment wearing different language. The numbers work. The politics work if Maric can sell them. Whether the workers believe their minister still works for them is the hinge.",
+
+  "choices": [
+    {
+      "id": "budget_revision_approve",
+      "text": "\"This is the framework. Maric, tell the workers this is the best deal they will get — because it is, and because holding out for a better one risks the IMA pulling out entirely. Vostane, prepare the IMA notification. Tell them the timeline has extended but the commitment has not changed. Recovery takes the time it takes. Rushing it risks breaking the thing we are trying to fix.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 3   },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 2   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [],
+      "flags": ["budget_revision_approved", "compromise_framework", "budget_revision_resolved"],
+      "codexUnlocks": ["codex_revised_budget"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She turns to the IMA notification — already drafted, waiting in a folder labeled 'CONTINGENCY — APPROVED.' She begins annotating the timeline extension in her precise hand. The work continues. The work always continues."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "He does not cheer. 'Best deal they will get' is true. It is also the thing he has heard politicians say before every compromise that turned into a betrayal. He is reserving judgment for the implementation. The silence is the weight of that reservation."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Listen. I will tell them. I'll stand in Foundry Square and tell them this is what we fought for and this is what we got. I won't pretend it's everything. But I will tell them it's something. And I'll tell them you fought for more."
+        }
+      ]
+    },
+    {
+      "id": "budget_revision_push_more",
+      "text": "\"Forty-five thousand job cuts is still too many. Vostane, I need you to find another ten million in savings that does NOT come from workers' paychecks. Administrative consolidation, procurement reform, the defense budget — somewhere in this government there is waste that is not measured in families losing their income. Find it. Maric, I need two more weeks from your people. Tell them the Chancellor is still fighting for them — because she is.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",        "operation": "add", "value": 6   },
+        { "stat": "factions.businessClass",     "operation": "add", "value": -4  },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 1   },
+        { "stat": "nation.nationalDebt",        "operation": "add", "value": 2   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [],
+      "flags": ["budget_revision_deepened", "worker_concessions_expanded", "budget_revision_resolved"],
+      "codexUnlocks": ["codex_revised_budget", "codex_administrative_reform"],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He uncrosses his arms. It is a small gesture — arms going from crossed to open — but it is the equivalent of another man applauding. The Chancellor is fighting. He can sell that."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Listen. Two more weeks. I can sell two more weeks. I'll tell them the Chancellor is still fighting. Just — make sure there's something to show them when I come back. Because if there isn't — if there's nothing — I won't be able to sell that. Nobody could."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She does not argue. She is already recalculating. Administrative consolidation, procurement reform, the defense budget. Somewhere in the numbers there is ten million Krone that does not come from workers' paychecks. She will find it or she will prove it isn't there. Either outcome is a form of answer."
+        }
+      ]
+    },
+    {
+      "id": "budget_revision_foreign_credit",
+      "text": "\"Vostane, prepare a confidential brief for the Arcturian Commonwealth Trade Attaché. We are going to request an emergency credit facility — two hundred million Krone equivalent, guaranteed against the mineral rights in the Dravenni plateau. We will frame it as a bilateral investment, not a loan. A solvent government that owes Stellamere a favor is better than a bankrupt one that owes nobody anything.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",            "operation": "add", "value": 7   },
+        { "stat": "nation.nationalDebt",             "operation": "add", "value": 15  },
+        { "stat": "nation.internationalStanding",    "operation": "add", "value": -4  },
+        { "stat": "factions.businessClass",          "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",           "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week21_superpower_choice", "delayWeeks": 8 }
+      ],
+      "flags": ["foreign_credit_arcturian", "mineral_rights_pledged", "budget_revision_resolved"],
+      "codexUnlocks": ["codex_arcturian_credit"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She opens a new folder — one that was already prepared. The Arcturian credit facility brief. It is thorough, clinical, and contains a footnote about the Dravenni plateau mineral rights that is carefully hedged. She has been waiting for this decision. She did not want it. She was prepared for it."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Mineral rights. The Dravenni plateau. Listen — that land belongs to the people who live on it. We are going to tell them, right? We are not going to let them read about it in the Herald before we explain what it means?"
+        },
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "He does not object further. Two hundred million Krone is the difference between a functioning government and a collapsed one. He knows the math. He also knows the math doesn't tell the whole story. The silence is the space between the two."
+        }
+      ]
+    }
+  ]
+}

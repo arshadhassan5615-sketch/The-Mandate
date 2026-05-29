@@ -1,0 +1,130 @@
+{
+  "id": "act1_chain_deficit_crisis",
+  "title": "The Downgrade",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "emergency",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Finance Ministry — Minister's Office",
+  "characters": ["elara_vostane"],
+  "prerequisites": [
+    { "stat": "flags.deficit_critical", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vostane has covered the wall behind her desk with bond market data — yield curves, credit assessments, the dense financial notation that she reads the way Theron reads constitutional text. She turns when you enter. She does not offer you a seat."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The Maritime Trade Consortium's credit assessors downgraded Veltrian government bonds this morning. Two notches — from B-plus to B-minus. That is the threshold below which several major institutional lenders are prohibited from holding our paper by their own fund rules. They will begin selling today. Interest rates on new borrowing have already moved 2 percentage points since the market opened."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Two percentage points. On 340 million Krone of existing debt, that is approximately 6.8 million Krone of additional annual interest payments. That number is not abstract — it is a hospital not built, a school not repaired, a road left rutted. The market is not a person and it does not make moral judgments, but the consequences of what it is doing this morning will land on people who have never seen a yield curve."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "If the trend continues, we will be unable to service existing debt within 8 weeks. I have 3 options. First: emergency austerity — 20 percent spending cuts across every ministry, implemented immediately. That means welfare, healthcare, the infrastructure program. All of it. It will hurt. It will stabilize. Second: sell state assets — the Kravenstal Steel processing facility, the Amber Coast port authority, the state rail equipment depot. Raises immediate cash, permanent loss of public assets. Third: approach the IMA for a preemptive credit line. They will have conditions. I have not seen their current condition list. I don't want to speculate. But I know them."
+    },
+    {
+      "type": "description",
+      "text": "She turns back to the wall. She has been awake all night — you can tell by the precision of everything she has prepared. When Elara Vostane is frightened, she organizes."
+    }
+  ],
+
+  "monologue": "Two percentage points. Vostane reads it as a market signal. I read it as a hospital not built. The rating agencies don't consider the human cost of their downgrades because they're not paid to. I am. Three options and all of them take something from people who have nothing left to give. Austerity takes services. Asset sales take sovereignty. The IMA takes control. Choose who loses. That's what economic management means today.",
+
+  "choices": [
+    {
+      "id": "deficit_crisis_austerity",
+      "text": "\"Emergency austerity. Twenty percent across the board, effective next week. I want the cuts distributed so that no single ministry bears the entire burden — I don't want Maric's ministry gutted while Defense is untouched. Prepare the announcement for this afternoon. Frame it as fiscal responsibility, not crisis response. We got ahead of this. That's the story.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 4   },
+        { "stat": "nation.nationalDebt",        "operation": "add", "value": -10 },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": -12 },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act1_chain_kravenstal_escalation", "delayWeeks": 2 }
+      ],
+      "flags": ["emergency_austerity_enacted", "spending_cuts_broad", "deficit_crisis_resolved"],
+      "codexUnlocks": ["codex_revised_budget"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "Twenty percent across the board. Distributed so no single ministry is gutted. The announcement goes out this afternoon. The framing: fiscal responsibility, not crisis response. The markets will stabilize within 48 hours. The public reaction will take longer."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She turns back to the wall of numbers and begins marking new lines — the actual cuts, the projected savings, the human cost translated into Krone. She does not flinch. She has done this before. She expects to do it again."
+        }
+      ]
+    },
+    {
+      "id": "deficit_crisis_asset_sale",
+      "text": "\"Sell the processing facility and the port authority. Not the rail depot — that's infrastructure, it comes back to us eventually in productivity. The factory and the port are assets that can be sold without destroying operational capacity. I want competitive bids, full public transparency, and a clause requiring buyers to maintain current employment levels for two years. We take the money, we service the debt, we buy time.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 5   },
+        { "stat": "nation.nationalDebt",        "operation": "add", "value": -20 },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": -6  },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week18_vael_oligarch", "delayWeeks": 5 }
+      ],
+      "flags": ["state_assets_sold", "privatisation_begun", "deficit_crisis_resolved"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "The processing facility and the port authority. Competitive bids. Full transparency. Two-year employment guarantee for current workers. The terms are acceptable. The assets are... gone. That is the nature of a sale. The balance sheet will reflect the improvement. The national balance sheet will reflect the cost."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She begins drafting the tender documents. Her hand does not pause. She has sold state assets before. She has never learned to enjoy it. She has stopped expecting to."
+        }
+      ]
+    },
+    {
+      "id": "deficit_crisis_ima",
+      "text": "\"Approach the IMA. Request a meeting — not a bailout, a conversation. I want to understand their current conditions before we decide anything. Vostane, prepare a counter-proposal that accepts their fiscal framework in exchange for a longer implementation timeline and an exemption on core welfare spending. They can audit our budget. They cannot dictate who goes hungry.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 3   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -3  },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -4  },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 4 }
+      ],
+      "flags": ["ima_approached", "ima_negotiations_begun", "deficit_crisis_resolved"],
+      "codexUnlocks": ["codex_ima"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She does not speak. The IMA conditions have not been formally presented yet but she knows them — or knows enough to be concerned. The silence is the sound of a Finance Minister who has just been told to negotiate with an institution whose negotiating position is always stronger than hers."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "The IMA meeting. I will prepare the counter-proposal — their fiscal framework, our timeline, welfare exemption. They can audit the budget. They cannot dictate who goes hungry. That is the line. I will hold it."
+        }
+      ]
+    }
+  ]
+}

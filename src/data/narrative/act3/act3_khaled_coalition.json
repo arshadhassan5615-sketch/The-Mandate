@@ -1,0 +1,117 @@
+{
+  "id": "act3_khaled_coalition",
+  "title": "The Red-Green Bridge",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Workers' Hall — Industrial District, Kravenstal, 18:00",
+  "characters": ["soraya_khaled", "gregor_maric"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Workers' Hall is not a government building. It was built by union dues in 1922, expanded during the General Strike of '37, and has served as the unofficial parliament of the Veltrian working class through four governments, two economic collapses, and one revolution. The walls are covered with photographs — striking steelworkers from the '30s, women textile workers marching in '48, the student-worker alliance of '58 — a visual history of every time the people in this room were told that their demands were unreasonable and discovered that unreasonable was just another word for possible. Soraya Khaled occupies the stage not with theatrics but with presence — a woman in her fifties, grey-streaked hair pulled back, the particular physical economy of someone who has been standing at factory gates since she was sixteen and does not sit down during negotiations."
+    },
+    {
+      "type": "dialogue",
+      "character": "soraya_khaled",
+      "text": "Chancellor. You come to the Workers' Hall at a strange time. Six months ago, you were elected on a platform of reform — workers' rights, economic justice, the dismantling of the Halvek patronage system. The workers voted for you. The unions endorsed you. The unemployed believed you. And then you governed — and what did governing mean? Austerity measures to satisfy the business class. Privatization frameworks to satisfy the Orythians. Military budgets that grew while social spending shrank. You governed like every other politician who ever asked for workers' votes and then discovered that governing meant disappointing the people who put you in office. So I ask you directly: why are you here, and what are you offering that is different from what you have been offering?"
+    },
+    {
+      "type": "description",
+      "text": "The hall is full — three hundred people, workers and organizers and the unemployed, the people who lost their jobs when the Arcturian sanctions hit the textile sector, the pensioners who watched their benefits shrink while military spending grew. They are not hostile. Hostility would be easier — you know how to defend against hostility. They are disappointed, which is worse. Disappointment implies that they expected something better and were let down. They are waiting to see whether the Chancellor who asked for their votes remembers what she promised to do with them."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "Soraya is right to ask. The economic policies of this government have prioritized stability over justice — and stability is a word that means something very different to a pensioner eating one meal a day than it does to a bond trader in Stellamere. But I would also say this: the Chancellor is here. In this hall. Facing this question. The previous Chancellor never set foot in the Workers' Hall in fourteen years. The difference between a politician who disappoints you and a politician who never even tried is the difference between a broken promise and a lie. The Chancellor's promises were broken by the arithmetic of governing during wartime. She is here to remake them. That is worth hearing."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Marić is defending me, but Khaled is not wrong. The workers voted for reform and got austerity. The unions endorsed me and watched me negotiate privatization frameworks. Every compromise I have made to keep the government alive has cost me credibility with the people who believed in me most. Khaled represents the street — not the parliamentary faction that negotiates with Kolvar over committee assignments, but the actual street, the people who do not care about legislative arithmetic because they are too busy trying to survive the economic consequences of the legislative arithmetic. She can be my greatest ally or my most dangerous enemy. The difference is whether I am willing to share power with her, or only to manage her."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "khaled_embrace_platform",
+      "text": "\"You are right, Soraya. The workers voted for reform and got austerity. The unions endorsed me and watched me negotiate privatization. I made those choices because I was told they were necessary to keep the government alive — and I am standing here, in this hall, telling you that a government that survives by betraying the people who elected it has not survived in any way that matters. I am proposing a formal coalition between the Chancellery and the Workers' Coalition — not support from the outside, but a seat at the table. Your platform: worker representation on corporate boards, a wealth tax to fund social spending, public investment in industrial modernization, a guarantee that no state asset is privatized without worker approval. In return: your votes in parliament, your organizers in the streets, your credibility with the people who have stopped believing this government is theirs. I am not asking for your trust. I am asking for your partnership.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 22 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 14 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -16 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6  },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 6 }
+      ],
+      "flags": ["khaled_alliance", "workers_platform_adopted", "red_green_coalition", "revolutionary_path"],
+      "codexUnlocks": ["codex_workers_coalition", "codex_soraya_khaled"]
+    },
+    {
+      "id": "khaled_negotiate_cooperation",
+      "text": "\"I cannot give you everything in your platform — not because I do not believe in it, but because this government has a parliamentary majority of six votes and every one of those votes was negotiated with factions that would bolt if I introduced a wealth tax tomorrow. What I can give you is specific, actionable, and immediate: a minimum wage increase effective next month, a freeze on further privatization until a parliamentary review is completed, and a formal consultative role for the Workers' Coalition in economic policy decisions. I am asking for your support on the confidence vote and the military appropriations bill. In return, I am delivering concrete improvements to workers' lives — not promises, not platforms, but legislation that passes next week. That is the deal I can actually make. Is it enough?\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -2 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 4 }
+      ],
+      "flags": ["khaled_partial_agreement", "specific_concessions", "pragmatic_cooperation"],
+      "codexUnlocks": ["codex_workers_coalition"]
+    },
+    {
+      "id": "khaled_arms_length",
+      "text": "\"I respect what you have built here, Soraya. The Workers' Coalition is the conscience of the reform movement — and conscience is a voice, not a negotiating partner. I need your votes in parliament on specific legislation: the military appropriations, the confidence vote, the emergency economic powers. In return, I am offering policy concessions — labor protections in the privatization framework, increased pension payments, a review of the minimum wage. But I am not offering a coalition. This government was elected on a reformist mandate, not a workers' mandate. I will govern from the center because the center is where governments survive. You will support me when our interests align. You will oppose me when they do not. That is how parliamentary democracy works.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -8 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 3 }
+      ],
+      "flags": ["khaled_kept_distance", "moderate_centrism_asserted", "workers_contained"],
+      "codexUnlocks": ["codex_workers_coalition"]
+    },
+    {
+      "id": "khaled_personal_appeal",
+      "text": "\"Soraya, you have been standing at factory gates since you were sixteen years old. I have been standing at podiums. We come from different worlds, but we came to the same conclusion: the Halvek system had to end, and it had to be replaced by something that served the people who built this country with their hands. I have made compromises I am not proud of. I am asking you to look past the compromises to the person who made them — not to excuse them, but to see whether the person is still worth investing in. I cannot promise I will never compromise again. I can promise that when I do, I will come to this hall and explain why, face to face, the way I am doing now. That is not a coalition offer. It is a relationship offer. Is it worth anything to you?\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 5 }
+      ],
+      "flags": ["khaled_personal_respect", "authentic_appeal", "relationship_over_transaction"],
+      "codexUnlocks": ["codex_soraya_khaled"]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "id": "act3_tyvaren_retaliation",
+  "title": "Tyvaren Responds",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "diplomacy",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ministry of Foreign Affairs — Secure Communications Room",
+  "characters": ["vyktor_reznik", "irina_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Tyvaren's response to your accusation has arrived. Marshal Vukov has issued a formal denial and a counter-accusation: that the Ashavel government is manufacturing a foreign threat to justify domestic repression and military buildup. The Tyvaren ambassador has been recalled — not expelled, but withdrawn, which is diplomatically sharper, implying that Veltria is no longer safe for Tyvaren personnel. The border is now formally closed on both sides. Trade through the Gravenmark Pass has ceased. The Tyvaren military has mobilized three divisions to the border, citing 'defensive preparations against Veltrian aggression.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "The Tyvaren mobilization is significant but not yet threatening. Three divisions is a show of force — a response to accusation, not preparation for invasion. If Marshal Vukov intended to invade, he would have moved six divisions and the motor pool would be positioned for rapid advance. This is a demonstration. The question is whether we match it. If we mobilize our Eastern Command, it signals resolve. It also signals that we believe the situation could escalate to war — which makes war more likely. Deterrence theory is always a gamble: you bet that showing strength prevents conflict, but sometimes it provokes the conflict you were trying to prevent."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The economic dimension is already severe. The Gravenmark Pass closure costs us approximately 3.5 million VK per day in lost trade revenue. Customs receipts are down 40%. The Krone has dropped 12% against the Orythian Mark since the accusation. Elara Vostane is revising the budget projections and the revisions are not encouraging. If this standoff lasts more than four weeks, we will need to either find new revenue or cut expenditure — neither of which is politically possible while maintaining a military standoff. The international community is watching. The Orythians have offered to mediate. They are the only ones with enough diplomatic capital to be useful. The question is whether we accept."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "tyvaren_accept_mediation",
+      "text": "\"Accept the Orythian mediation offer. I want a diplomatic resolution — not because I trust Tyvaren, but because a war between our nations benefits only the extremists on both sides who want to destroy each other. Dusek, maintain the current force posture — defensive, not provocative. We will show the international community that Veltria is willing to negotiate, and we will make sure that if this does escalate to war, the historical record shows that we exhausted every diplomatic option first.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 3 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_orythian_mediation",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": ["tyvaren_crisis_mediated", "orythian_mediation_accepted"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tyvaren_mobilize_response",
+      "text": "\"Mobilize the Eastern Command. If Marshal Vukov wants to put three divisions on our border, we will match him — and we will make clear that any Tyvaren soldier who crosses the Gravenmark Pass does not cross back. We did not start this confrontation, but we will finish it. Send a formal communication to the Tyvaren government: stand down within forty-eight hours or face the consequences. This is not war — this is deterrence.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 12 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_tyvaren_standoff",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": ["tyvaren_mobilized_against", "tyvaren_standoff"],
+      "codexUnlocks": []
+    }
+  ]
+}

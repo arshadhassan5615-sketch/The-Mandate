@@ -1,0 +1,49 @@
+{
+  "id": "act2_jonas_workers_housing",
+  "title": "The Speech at Kravenstal",
+  "act": 2,
+  "weekAvailable": 20,
+  "weekDeadline": 24,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Kravenstal Community Center",
+  "characters": ["jonas_ashavel", "gregor_maric"],
+  "prerequisites": [{ "stat": "flags.jonas_public_voice", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Jonas has been invited to speak at the Kravenstal Community Center about workers' housing. The hall is full — factory workers, their families, union organizers. Gregor Marić is in the front row. Jonas stands at the podium, no notes, and speaks about what he knows: buildings, people, and the relationship between them." },
+    { "type": "dialogue", "character": "jonas_ashavel", "text": "\"I have spent twenty years designing housing. Public housing, private housing, housing that was supposed to be temporary and became permanent. I can tell you with absolute certainty: the quality of a person's home determines the quality of their life. When we build cheap, we tell people they are cheap. When we build well, we tell people they matter. The workers of Kravenstal matter. Their homes should reflect that.\"" },
+    { "type": "dialogue", "character": "gregor_maric", "text": "Your husband is becoming something, Chancellor. Not a politician — something better. Someone who speaks for people who do not have a voice in the Assembly. The workers listened to him. They trust him. That is rare. That is valuable." }
+  ],
+  "monologue": "He is becoming something. Marić sees it. The workers see it. Jonas has always known how buildings and people relate — now he is learning how speeches and politics relate. His voice is authentic in a way mine has had to become calculated. That authenticity is fragile. Handle it carefully.",
+  "choices": [
+    {
+      "id": "jonas_housing_encourage",
+      "text": "\"He is not my 'husband' when he is on that stage, Gregor. He is an architect who knows more about housing than anyone in my cabinet. If the workers want to hear him, they should. I have no intention of silencing the one person in my life who tells me the truth.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_housing_encouraged"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "dialogue", "text": "He is not my husband when he is on that stage. Marić repeats the words, tasting them. Then he nods. Good. Because the workers do not need a First Gentleman. They need someone who tells them the truth." }]
+    },
+    {
+      "id": "jonas_housing_worry",
+      "text": "\"I appreciate his passion. But when the First Gentleman speaks about housing policy, people hear the Chancellor's position — whether I have taken one or not. I need him to be more careful. I need him to understand that his words have political weight he did not ask for.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_housing_worried"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "silence", "text": "He writes something on his notepad and does not show it to you. The silence is the sound of Gregor Marić filing a concern he will raise again." }]
+    }
+  ]
+}

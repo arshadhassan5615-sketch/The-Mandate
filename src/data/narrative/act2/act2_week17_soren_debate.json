@@ -1,0 +1,103 @@
+{
+  "id": "act2_week17_soren_debate",
+  "title": "The Assembly Divides — The Soren Question",
+  "act": 2,
+  "weekAvailable": 17,
+  "weekDeadline": 19,
+  "type": "meeting",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Assembly Hall — Constitutional Convention Floor",
+  "characters": ["aldric_theron", "drazen_kolvar", "oskar_brenner", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.accountability_provision_included", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The accountability provision is the most contentious article in the constitutional draft. For six hours, the Assembly has debated whether the new constitution should strip immunity from former regime officials. Kolvar has been on his feet for forty-five minutes, his voice rising as he defends the peace agreement. The Halvekist caucus is unified. The Reformists are divided — some want full accountability, others fear the consequences of reopening old wounds. The Iron Covenant MPs sit in stone-faced silence, taking their cues from Brenner."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "The peace agreement is the only reason this Assembly exists! The only reason YOU sit in that chair, Madam Chancellor! When the Halvek government agreed to a peaceful transition, we did so on the explicit guarantee that there would be no reprisals. Marshal Soren was promised immunity. You now propose to break that promise. You call it accountability. I call it what it is: a political purge dressed in legal language. If this provision passes, the Halvekist caucus will withdraw from the constitutional process entirely. You will have a constitution written by one faction and imposed on the rest. That is not democracy. That is conquest."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "I served under Marshal Soren for eleven years. He was a demanding commander, a strategic mind, and a man who made difficult decisions in difficult times. The military remembers loyalty. The military remembers who stood with us and who stood against us. If you prosecute Marshal Soren, you prosecute the institution that defended Veltria for thirty years. The officer corps will not forget. I am not threatening, Madam Chancellor. I am describing the reality of commanding men who believe they are being punished for their service."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Marshal Soren is not being prosecuted for his military service. He is being held accountable for ordering extrajudicial executions, sanctioning ethnic cleansing in Dravenhollow, and overseeing a system of political repression that killed thousands of Veltrian citizens. The distinction between 'service' and 'crimes' is the entire point of the provision. General Brenner's loyalty to his former commander is understandable. But the law must recognize that loyalty does not immunize criminal acts."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The vote is in two hours. The Halvekists are threatening to walk out. The military is watching. The Reformist caucus is wavering. Whatever you say in the next hour will determine whether this provision passes — and whether the constitutional convention survives the vote."
+    }
+  ],
+
+  "monologue": "Six hours of debate. The Halvekists are unified. The Reformists are divided. The military is watching from the gallery with the specific silence of men who are counting votes and evaluating loyalties. Kolvar says the peace agreement is sacred. Theron says justice does not expire. Both are right about different things. The vote is in two hours. Whatever I decide will be remembered as the moment I chose between reconciliation and reckoning.",
+
+  "choices": [
+    {
+      "id": "soren_debate_push_through",
+      "text": "\"This provision passes. The peace agreement protected the transition — it did not grant eternal immunity to the perpetrators of atrocities. We are building a nation of laws, not a nation of deals. If the Halvekist caucus walks out, they walk out of history. Veltria will remember who stood for justice and who stood for impunity.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -20 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_brenner_warning", "delayWeeks": 8 }
+      ],
+      "flags": ["soren_immunity_revoked", "accountability_provision_passed", "halvekists_walked_out"],
+      "codexUnlocks": ["codex_accountability_provision"],
+      "reactions": [{ "character": "vyktor_reznik", "type": "dialogue", "text": "The Halvekist caucus is already standing. They will walk — Kolvar will lead them. The provision will pass by fourteen votes. He pauses. You just traded parliamentary unity for moral clarity." }, { "character": "aldric_theron", "type": "silence", "text": "Theron watches the Halvekists rise from their seats. He does not celebrate. His expression is the expression of a man who has just won an argument and is already counting what the victory cost." }]
+    },
+    {
+      "id": "soren_debate_compromise",
+      "text": "\"We pass the provision — but with an amendment. Immunity is revoked for acts of violence and repression, but not for administrative or military service. Soren can be investigated for the executions but not for his role as Chief of Staff generally. It is a compromise. It will satisfy no one completely. That is what compromise does.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_brenner_warning", "delayWeeks": 8 }
+      ],
+      "flags": ["soren_immunity_limited_revoked", "accountability_provision_amended"],
+      "codexUnlocks": ["codex_accountability_provision"],
+      "reactions": [{ "character": "vyktor_reznik", "type": "dialogue", "text": "The amendment will pass — narrowly. Both sides will claim victory and both will be wrong. That is the definition of a genuine compromise." }]
+    },
+    {
+      "id": "soren_debate_withdraw_provision",
+      "text": "\"Withdraw the provision. The constitutional convention is more important than any single article. We will find another path to accountability — but not at the cost of losing the Halvekist caucus entirely. A constitution that does not include all of Veltria is not a constitution.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -12 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soren_immunity_preserved_final", "accountability_provision_withdrawn"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "aldric_theron", "type": "silence", "text": "Theron closes his copy of the draft. The motion is slow and deliberate. He does not argue. He has just watched the accountability provision die in the chamber he helped create. The silence is the sound of Aldric Theron accepting something he will grieve privately." }]
+    }
+  ]
+}

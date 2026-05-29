@@ -1,0 +1,130 @@
+{
+  "id": "act2_chain_vael_opposition_campaign",
+  "title": "The Media Operation",
+  "act": 2,
+  "weekAvailable": 18,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Monday Morning",
+  "characters": ["lucan_vael", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor has put the week's press summary on a single sheet, which is unusual — he normally sends the digest in sections. The consolidation is its own message. Three broadsheets, two tabloids, two radio transcripts: all of them running, in different registers and with different levels of sophistication, the same argument. The constitutional reform is an executive power grab. The referendum is undemocratic. The Chancellor has bought her coalition with promises she cannot keep. The phrasing varies. The framing does not."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Vael publications are operating in coordination. The same talking points appear in the Veltrian Ledger's editorial, the morning broadcast of Radio Petravar, and the Ashenmere Evening Post's opinion column — within twenty-four hours of each other, using language that is too similar to be coincidence. The Ledger's editor, Maren Brost, and the Post's publisher, Gregor Vael — the oligarch's younger brother — dined together eleven days ago. I have the reservation. That is the organizational picture."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Vael himself has not made a public statement. He does not need to. The campaign is organized to appear as independent editorial consensus rather than a coordinated operation. That is considerably more damaging than an oligarch speaking directly, because it cannot be responded to directly without you appearing to attack press freedom."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is what Vael looks like when he has decided to be serious. In the meeting he was transactional, almost friendly. This is the other version — the version that built three newspapers and two radio stations and understands that reach without attribution is the most durable form of power available to someone who cannot vote himself into office."
+    },
+    {
+      "type": "description",
+      "text": "On your desk alongside the press summary is the week's referendum polling. The 'yes' number has dropped four points in six days. The 'undecided' number has risen three. These movements are within the margin of polling error, which means they might be noise, which is exactly what someone running a sophisticated media operation would want you to believe until it is too late to tell the difference."
+    }
+  ],
+  "monologue": "Same talking points, three outlets, twenty-four hours. The Ledger's editor and the Post's publisher — Vael's younger brother — dined together eleven days ago. Vyktor has the reservation. Vael hasn't said a word publicly, which is precisely the point: a coordinated attack disguised as independent editorial consensus cannot be responded to without attacking press freedom. He built the trap. Now I decide whether to walk into it or around it.",
+
+  "choices": [
+    {
+      "id": "vael_ignore_campaign_harder",
+      "text": "\"We don't respond to Vael's campaign directly — we go around it. More public appearances, more constituency visits, more direct communication with voters through channels he doesn't control. Outpace the narrative rather than chase it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 5 },
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 10, "conditions": [{ "stat": "factions.businessClass", "operator": "<", "value": 30 }] }
+      ],
+      "flags": ["vael_campaign_ignored", "referendum_ground_campaign_intensified"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He is already annotating the schedule — three constituency visits this week, a town hall in Dravenhollow, a factory tour in Kravenstal. Public appearances that do not respond to Vael but render him irrelevant. Vyktor has been preparing this contingency for weeks. He was waiting for you to choose it."
+        },
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "Vael's publications do not change their editorial line — they double down, the volume increasing. But something shifts in the coordination. The pieces are less synchronized, the talking points less uniform. Vael expected a fight. He did not expect to be ignored. The silence from your office is more effective than any counter-narrative would have been."
+        }
+      ]
+    },
+    {
+      "id": "vael_back_channel",
+      "text": "\"Vyktor arranges a conversation with Vael — not a negotiation, just a conversation, where I find out what it would cost to shift his publications from opposition to neutral. Neutral is enough. I don't need him on my side. I need him off the field.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8 },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week25_referendum_eve", "delayWeeks": 4 },
+        { "targetNodeId": "act2_week22_nadia_investigation", "delayWeeks": 5 }
+      ],
+      "flags": ["vael_back_channel_opened", "vael_negotiation_attempted"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "I will arrange the contact through the same intermediary network he used to reach you. Reciprocity of method. He pauses. Vael will want something specific. He always wants something specific. The question is whether what he wants is something you are willing to pay. That question, he does not answer for you."
+        },
+        {
+          "character": "lucan_vael",
+          "type": "action",
+          "text": "The intermediary reports back within twenty-four hours. Vael is willing to talk. He has made no promises and offered no terms — but he has not said no, and with Vael, not saying no is the first concession. He understands that you want him off the field. He also understands that wanting something creates a price."
+        }
+      ]
+    },
+    {
+      "id": "vael_government_media",
+      "text": "\"We launch a government information campaign through the public broadcaster and the official press office. Not propaganda — facts. The actual text of the constitutional reforms, the actual vote counts, the actual polling on specific provisions. Give people something to compare to what they're hearing from Vael.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 6 },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -8 },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": -3 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week22_nadia_investigation", "delayWeeks": 3 },
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 12, "conditions": [{ "stat": "nation.economyHealth", "operator": "<", "value": 30 }] }
+      ],
+      "flags": ["vael_counter_campaign_launched", "government_media_campaign_active"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The Broadcasting Authority has approved the slots. Public broadcaster, prime-time coverage, factual presentation of the constitutional text and provisions. He pauses. Vael's people will call it propaganda. The reformist press will call it overdue. The voters will call it information. Which of those labels sticks depends on the quality of the information."
+        },
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "Vael does not respond publicly to the government campaign. He cannot — responding would acknowledge that the campaign is effective, which would give it more credibility. His silence is the silence of a man who has been outmaneuvered and knows it. His publications shift from coordinated attack to scattered criticism. The campaign is no longer organized. It is still dangerous. But it is no longer coherent."
+        }
+      ]
+    }
+  ]
+}

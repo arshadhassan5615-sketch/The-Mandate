@@ -1,0 +1,93 @@
+{
+  "id": "act3_stellamere_broadcast",
+  "title": "Voice from Exile",
+  "act": 3,
+  "weekAvailable": 37,
+  "weekDeadline": 40,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Stellamere — Arcturian International Broadcasting Studio, 22:00",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.government_in_exile_established", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The broadcasting studio at the Arcturian international service is a converted warehouse in the diplomatic quarter, soundproofed and windowless and running on equipment that was state-of-the-art during the last war. The technician adjusting your microphone is a Stellamere national who does not speak Veltrian and does not need to — sound levels are sound levels, and the red light above the booth door means the same thing in every language. You have twelve minutes of transmission time. The shortwave relay will reach most of Veltria. Brenner's jamming capability is limited — the military's signal corps was never designed to suppress civilian broadcasts, because the military's signal corps was designed with the assumption that the military would not need to suppress civilian broadcasts. That assumption has aged poorly. You have approximately one clear transmission before the junta adapts."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Estimated audience: between two and four million, depending on atmospheric conditions and the junta's jamming response. The broadcast will also be carried on the Stellamere international frequency and will be picked up by wire services within the hour. Every newspaper in Veltria will have the transcript by morning — whether they print it or not is a separate question. The junta has not yet moved against the independent press. They are still performing normalcy. The performance will not last forever. This broadcast may determine how long it does last."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You are speaking to your country from a foreign broadcasting studio while tanks sit in the streets of your capital. There is a script for this — Vyktor prepared one, as Vyktor always prepares one — but scripts are for governments with territory. You have no territory. You have a microphone, a shortwave frequency, and the fact that you are still legally the Chancellor of the Republic of Veltria. The question is what you do with those three things. The question is whether a voice from exile can matter as much as a tank."
+    },
+    {
+      "type": "description",
+      "text": "The technician gives you the ten-second signal. The red light will come on and you will be speaking to millions of people you cannot see and cannot hear and whose response you will not know for hours or days or possibly ever. You have fled. You are in exile. You are still the Chancellor. All of these things are true. The broadcast will make whichever one you choose to emphasize the one that history records."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "stellamere_broadcast_defiance",
+      "text": "\"This is Katerin Ashavel, Chancellor of the Republic of Veltria, broadcasting to you from Stellamere. General Brenner has taken the capital with tanks and soldiers who swore an oath not to him but to the constitution. I am not calling on those soldiers to mutiny. I am calling on the people of Veltria to remember that this country belongs to its citizens, not to the man with the most armored vehicles. Do not obey the junta. Do not cooperate. Do not accept the legitimacy of a government that came to power at gunpoint. Go to work. Teach your children. Refuse to acknowledge that anything has changed — because legally, nothing has. My government continues. The junta's authority is a lie. Every day you refuse to accept it, the lie gets harder to maintain. I will be back. That is not a hope. That is a fact.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": -14 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 18 },
+        { "stat": "factions.reformists", "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_exile_arc", "delayWeeks": 2 },
+        { "targetNodeId": "act4_underground_radio", "delayWeeks": 3 }
+      ],
+      "flags": ["stellamere_broadcast_defiance", "civil_disobedience_called", "exile_voice_established"],
+      "codexUnlocks": ["codex_government_exile_doctrine", "codex_shortwave_resistance"]
+    },
+    {
+      "id": "stellamere_broadcast_diplomatic",
+      "text": "\"Citizens of Veltria, this is Chancellor Katerin Ashavel. I am speaking to you from Stellamere because a military faction led by General Brenner has attempted to seize power in Ashenmere. I want to be clear about three things. First: your government continues. Second: every democracy on this continent has been contacted and I will address the International Forum within forty-eight hours. Third: there will be no civil war if I can prevent it. I am pursuing a diplomatic resolution. I ask the people of Veltria to remain calm, to refuse violence, and to wait for further news. The strongest thing you can do right now is to continue your lives as citizens of a constitutional republic, because that is what we still are. Legally. Constitutionally. Actually.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_exile_arc", "delayWeeks": 2 },
+        { "targetNodeId": "act4_forum_showdown", "delayWeeks": 4 }
+      ],
+      "flags": ["stellamere_broadcast_diplomatic", "calm_maintained", "international_solution_pursued"],
+      "codexUnlocks": ["codex_government_exile_doctrine"]
+    },
+    {
+      "id": "stellamere_broadcast_personal",
+      "text": "\"Good evening. My name is Katerin Ashavel. Last night, soldiers came to take the government of our country. I am speaking to you now from Stellamere. I did not want to leave. I left because a dead Chancellor cannot help anyone, and I intend to help. I intend to return. I am recording the names of the soldiers who followed illegal orders and the officers who gave them. That is not a threat — it is a promise of accountability under the law. To the families listening: hold your loved ones close tonight. To the soldiers listening: your oath was to the constitution, not to a general. To the citizens listening: this is not over. As long as there is a single Veltrian who refuses to accept the junta's authority, the legitimate government of this Republic continues. I am that government. You are that government. We will speak again soon. Good night, and hold fast.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 16 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_exile_arc", "delayWeeks": 2 },
+        { "targetNodeId": "act4_national_address", "delayWeeks": 3 }
+      ],
+      "flags": ["stellamere_broadcast_personal", "hearts_and_minds", "chancellor_voice_heard"],
+      "codexUnlocks": ["codex_government_exile_doctrine"]
+    }
+  ]
+}

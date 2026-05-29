@@ -1,0 +1,100 @@
+{
+  "id": "act4_family_breaking",
+  "title": "What Breaks When You Look Away",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Evening",
+  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You deferred the reckoning. Again. At the critical moment when Jonas asked whether the woman he married still existed, you said not tonight — the Tyvaren situation, the military, the economy, the seventy-two hours of decisions you could not postpone. You asked them to give you until the crisis passed. You named it explicitly: deferred, not denied. And they gave you what you asked for, because they have been giving you what you asked for since the campaign, since the inauguration, since every week when the Chancellorship asked for more than they had left to give. They gave you time. Time is not a neutral substance. Time deferred becomes time lost, and time lost becomes something heavier than silence."
+    },
+    {
+      "type": "description",
+      "text": "The house is quiet now in a way that is different from the quiet of the first weeks. Then, the silence was expectant — waiting for you to come home, waiting for the crisis to pass, waiting for the woman they knew to return from whatever the Chancellorship was doing to her. Now the silence is practiced. Jonas no longer waits up. He goes to bed at ten and rises at six and the hours between are his own. Liora has stopped calling ahead — she comes and goes on her own schedule, which no longer includes informing you of that schedule. Tomas has developed a particular skill for being in the house without being present, the way adolescents learn to inhabit spaces that belong to adults without participating in them. They are not angry. Anger requires investment. They have stopped investing."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I stopped adding to the list about two weeks after the reckoning. Not because the cancellations stopped — they accelerated, if anything. I stopped because the list stopped being evidence and started being — I don't know. A museum of everything that used to matter. I can't live in a museum, Katerin. I can't keep documenting what isn't here. I've started looking at apartments in the East Quarter. I haven't signed anything. I wanted to tell you before I did. I'm telling you now because I think if I don't tell you now, I'll sign the lease and tell you afterward, and that feels like the kind of thing that becomes a story you tell about how it ended instead of a decision we made about whether it was ending."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is looking at apartments. Jonas — the man who designed the house on Celandine Row with the window seat where you used to read on Sunday mornings, who taught Tomas to build model bridges when Tomas was eight years old and still believed his parents could build anything — is looking at apartments. You want to say wait. You want to say the crisis is almost over. You want to say all the things you said at the reckoning, the things that were true then and are still true now, the things that have become less true each time you said them. The crisis is never almost over. There is always another crisis. You have been governing through crisis for so long that you have forgotten what governance without crisis would feel like. Your family has not forgotten. They have been living in the space between crises, and that space has gotten smaller every week, and now Jonas is looking at apartments and you do not know if you have the right to ask him to stop."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "I'm not going to give you a speech. I've given you speeches. You heard them, I think — you heard the words — but hearing words is not the same as doing something about them. Nadia wants me to cover the military situation in the north. It would mean leaving Ashenmere for at least a month. I'm going to take the assignment. I'm telling you because you're my mother and you should know where I am. I'm not asking permission. I stopped asking permission around the time I realized permission was a way of pretending we had a relationship we don't have. We have a cordial professional acquaintance that happens to share a last name. That's not an accusation. It's a description. I think it's an accurate one."
+    },
+    {
+      "type": "description",
+      "text": "Tomas is not in the room. He is in his bedroom with the door closed. The door has been closed for three weeks. You knock. He answers. You do not know what to say and so you say nothing, which is itself a form of communication, and not the kind you want to be having with your fourteen-year-old son."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "family_breaking_desperate_intervention",
+      "text": "\"Jonas — don't sign the lease. Not yet. Give me four weeks. Four weeks where I come home every night, where I do not cancel a single dinner, where I am present in a way I haven't been present since the inauguration. If after four weeks you still want to go — I will not fight you. I will help you pack. But I am asking you — I am begging you — to let me try, one more time, with the full knowledge of what I am trying to save. Liora — go north. Cover the military situation. Do the work you are so clearly meant to do. But call me. Once a week. Just to tell me you are alive. I am not asking for a relationship. I am asking for a phone call. Tomas — I know you can hear me through that door. I'm going to knock again tomorrow. And the day after. And every day until you open it. I should have been knocking all along. I'm knocking now.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 10 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 6  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 16 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["family_breaking_path", "desperate_intervention", "four_week_pledge", "jonas_lease_paused", "liora_north_assignment"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_breaking_accept_distance",
+      "text": "\"Jonas — I will not ask you to wait. I have been asking you to wait for forty-three weeks. The asking has become its own form of cruelty. If the East Quarter is where you need to be — I understand. I do not want it. I will miss you every morning and every evening and every moment in between. But I understand. Liora — be safe in the north. The military situation is more dangerous than any story is worth. If you need anything — evacuation, extraction, a message passed through channels — use my name. Whatever is left of the relationship you described, use it. It still means something in certain rooms. Tomas — I cannot make you open the door. I am here if you do. I will always be here. That is not enough and I know it is not enough, but it is what I have.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -12 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": -4  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6   },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6   },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_jonas_divorce", "delayWeeks": 4 }
+      ],
+      "flags": ["family_breaking_path", "distance_accepted", "jonas_moving_out", "liora_departing", "tomas_isolated"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_breaking_external_help",
+      "text": "\"We need help. Not the kind of help we can give each other — we have proven, conclusively, that we cannot give each other the help we need. Professional help. A family counselor. Someone who is not us, who can see what we cannot see, who can name the patterns we have been living inside. Jonas — before you sign a lease, before Liora leaves for the north, before Tomas locks his door permanently — I am asking for one session. All four of us, in a room with a professional, saying the things we have not been saying. If it doesn't help — I will accept whatever comes next. But I cannot accept that we ended without trying everything. This is something we have not tried.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 8  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 6  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["family_breaking_path", "counseling_sought", "professional_help", "jonas_paused", "family_intervention"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    }
+  ]
+}

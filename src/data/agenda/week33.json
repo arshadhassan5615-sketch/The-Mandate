@@ -1,0 +1,76 @@
+[
+  {
+    "id": "agenda_w33_war_preparations",
+    "title": "The War Council",
+    "description": "Dusek has assembled the general staff. Tyvaren is not bluffing. Military options are on the table — defensive postures, mobilization frameworks, the shape of what comes next.",
+    "category": "crisis",
+    "sceneId": "act3_week33_war_preparations",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 33,
+    "weekDeadline": 35,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.tyvaren_ultimatum_rejected", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w33_diplomatic_negotiation",
+    "title": "The Strevna Negotiations",
+    "description": "Foreign Minister Volkov has agreed to talks at neutral Strevna. The Tyvaren delegation is waiting. Whatever comes out of this room shapes whether there is a war.",
+    "category": "diplomacy",
+    "sceneId": "act3_week33_diplomatic_negotiation",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 33,
+    "weekDeadline": 35,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.tyvaren_diplomacy_initiated", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w33_budget",
+    "title": "Budget Allocation — War or Peace Framework",
+    "description": "The budget looks different depending on whether the Strevna talks succeed. Prepare both frameworks. You'll need the right one within hours of knowing the outcome.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 0,
+    "weekAvailable": 33,
+    "weekDeadline": 37
+  },
+  {
+    "id": "agenda_w33_vyktor_reconciliation",
+    "title": "Vyktor — The Parting Gift",
+    "description": "Vyktor chose a cafe, not a government building. Old wood, afternoon light. He's brought something — not a folder this time. He says it's the last piece of information he can give you before he goes.",
+    "category": "cabinet",
+    "sceneId": "act3_vyktor_reconciliation",
+    "slotCost": 1,
+    "executionOrder": 1,
+    "weekAvailable": 33,
+    "weekDeadline": 37
+  },
+  {
+    "id": "agenda_w33_dravenni_mobilization",
+    "title": "Dravenni — Military Coordination",
+    "description": "The DLF has responded to your outreach. They're willing to coordinate — but coordination means treating them as allies, not subjects. Brenner has concerns. Dusek has operational questions.",
+    "category": "security",
+    "sceneId": "act3_week34_dravenhollow",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 33,
+    "weekDeadline": 37
+  },
+  {
+    "id": "agenda_w33_superpower_pressure",
+    "title": "Superpower Response — Alliance Expectations",
+    "description": "Whichever power you aligned with is now calling in the investment. Arcturians want trade concessions. Orythians want basing rights. Both want an answer before the crisis resolves without them.",
+    "category": "diplomacy",
+    "sceneId": "act2_week21_superpower_choice",
+    "slotCost": 1,
+    "executionOrder": 3,
+    "weekAvailable": 33,
+    "weekDeadline": 38
+  }
+]

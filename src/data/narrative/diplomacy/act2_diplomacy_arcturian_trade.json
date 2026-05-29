@@ -1,0 +1,94 @@
+{
+  "id": "act2_diplomacy_arcturian_trade",
+  "title": "The Arcturian Equation",
+  "act": 2,
+  "weekAvailable": 15,
+  "type": "diplomacy",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Arcturian Embassy — Ashenmere, Diplomatic Quarter",
+  "characters": ["harrison_cole", "elara_vostane"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Arcturian Embassy is the newest building in the diplomatic quarter — all glass and steel and restrained prosperity, the architectural equivalent of a firm handshake. Harrison Cole receives you in a conference room with a view of the Ashenmere skyline and a table that seats twenty. Only two chairs are occupied. Cole is alone, which is unusual — Arcturian diplomatic meetings typically involve at least three aides and a legal advisor. The solitude is a statement. This conversation is off the record before it begins."
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "Chancellor. Thank you for accepting the invitation on short notice. I'll dispense with the usual diplomatic theater — you have a deficit crisis, a refugee situation on your eastern border, and a bond market that is pricing in a thirty percent probability of sovereign default. Arcturia is prepared to offer a comprehensive trade and investment package. Manufactured goods at preferential tariffs — machinery, vehicles, industrial equipment. Direct investment in your processing sector. Preferential access to Arcturian markets for Veltrian steel and agricultural exports. The package is worth approximately four hundred million Krone over three years. I have the term sheet here. There is, of course, a condition."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Of course there is. Ambassador, I have read Arcturian trade proposals before — I spent three years negotiating the Halvek-era textile agreement, which had seventeen conditions buried in Appendix C. Please don't make me dig through seventeen appendices. What is the condition?"
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "Exclusivity. Veltria agrees not to enter into any trade agreement with the Orythian Federated Councils for the duration of the Arcturian package — five years, with an option to renew. You also agree not to grant port access or military basing rights to any Orythian vessel. This is not about containing Veltria. This is about containing Orythia. Your country sits at a strategic chokepoint between the Arcturian Sea and the Orythian heartland. We want to ensure that chokepoint remains... oriented in the right direction."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Four hundred million Krone in trade and investment. It would stabilize the bond market overnight, give Vostane the fiscal breathing room she has been begging for, and anchor Veltria to a major economic power. It would also align us with Arcturia against Orythia — a choice the Orythians will not forget and will not forgive. Cole is offering us a lifeline. The rope is attached to an anchor. We have to decide whether the anchor keeps us steady or drags us under."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "arcturian_trade_accept",
+      "text": "\"Accept the package — with the exclusivity clause. Vostane, negotiate the implementation timeline: we want phased tariff reductions to give domestic industry time to adjust. Cole, I will be direct: this agreement makes us an Arcturian partner. That means Arcturia has an interest in our stability, our solvency, and our survival. If Orythia applies pressure — economic or otherwise — I expect Arcturia to respond. Partnership is not a one-way street.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 8   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 10  },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -4  },
+        { "stat": "factions.ironCovenant",       "operation": "add", "value": 4   },
+        { "stat": "nation.militaryReadiness",    "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_diplomacy_orythian_military", "delayWeeks": 5 }
+      ],
+      "flags": ["arcturian_trade_deal", "arcturian_alignment", "orythia_excluded"],
+      "codexUnlocks": ["codex_arcturia", "codex_trade_agreement"]
+    },
+    {
+      "id": "arcturian_trade_counter",
+      "text": "\"Counter-proposal, Ambassador. We accept the trade package — the tariffs, the investment, the market access. The exclusivity clause is amended: Veltria will not grant Orythia military basing rights or port access. That is the strategic concern and I am willing to address it. But we reserve the right to negotiate limited trade agreements with Orythia for non-military goods. Veltria cannot afford to put all of its economic eggs in one basket — Arcturian or otherwise. That is not a rejection of partnership. It is an acknowledgment of geography.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 5   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 5   },
+        { "stat": "factions.reformists",         "operation": "add", "value": 3   },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_diplomacy_orythian_military", "delayWeeks": 5 }
+      ],
+      "flags": ["arcturian_trade_partial", "strategic_exclusivity", "trade_independence"],
+      "codexUnlocks": ["codex_arcturia"]
+    },
+    {
+      "id": "arcturian_trade_refuse",
+      "text": "\"Ambassador, I respect the directness of the offer and I am declining it directly. Veltria does not choose between its neighbors at the point of a trade agreement. We will trade with Arcturia, Orythia, Lytheira, and anyone else who offers fair terms and respects our sovereignty. If Arcturia wants to offer a trade package without the geopolitical condition, I am prepared to negotiate that tonight. If the condition is non-negotiable, I thank you for the coffee and I wish you a pleasant evening.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -4  },
+        { "stat": "factions.businessClass",      "operation": "add", "value": -8  },
+        { "stat": "factions.reformists",         "operation": "add", "value": 6   },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 8   },
+        { "stat": "nation.economyHealth",        "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_diplomacy_orythian_military", "delayWeeks": 5 }
+      ],
+      "flags": ["arcturian_trade_refused", "non_aligned_policy", "sovereignty_first"],
+      "codexUnlocks": ["codex_arcturia"]
+    }
+  ]
+}

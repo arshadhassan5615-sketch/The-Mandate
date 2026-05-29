@@ -1,0 +1,182 @@
+{
+  "id": "act1_minority_festival_request",
+  "title": "The Mountain-Flame Petition",
+  "act": 1,
+  "weekAvailable": 4,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "idris_kaelen",
+    "stanislov_renek"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The petition arrives on paper that smells of woodsmoke — traditional Dravenni handmade stock, pressed with mountain herbs. It is a formal request from the Dravenni Cultural Council to hold the Mountain-Flame Festival in Ashenmere's Unity Square, the first time the festival would be celebrated in the capital rather than in the Dravenhollow highlands. The festival includes traditional music, flame-jumping rituals, and a communal feast. The petition has seventeen hundred signatures. Idris Kaelen delivered it personally."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "Chancellor, the Mountain-Flame is our most sacred tradition. It celebrates the end of winter and the renewal of the land — nothing political, nothing separatist. For three hundred years we have held it in the highlands. This year, we want to hold it in the capital. We want the people of Ashenmere to see Dravenni culture as something to celebrate alongside, not something to fear. You spoke of a 'new Veltria' in your inaugural address. This is a test of whether that new Veltria includes my people."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor. My father used to say that fire warms the home but burns the careless hand — a thing can be beautiful and dangerous at the same time. I must register the Church's concern. The Mountain-Flame ritual includes elements of pre-Veltrian paganism — fire-worship, ancestor invocation, rituals that we have spent centuries guiding the Dravenni away from with patience and love. We do not oppose cultural expression. We oppose public endorsement of practices that conflict with the established faith of the Republic. If the festival proceeds, we ask only that it not be held on consecrated ground or during the Feast of Saint Aldric. If those conditions are met, the Church will not publicly oppose it. If they are not... we cannot guarantee restraint from the pulpits. That would be a shame for everyone concerned."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Kaelen is asking me to prove that my government is different from Halvek's. Renek is asking me not to antagonize the Church in my first month. The Mountain-Flame is not just a festival — it is a symbol of whether Dravenni culture has a place in the public square or must remain invisible in the highlands. If I authorize it, I win the Dravenni and offend the Church. If I deny it, I confirm every Dravenni suspicion that the new government is the old government with a different face. There is a middle path — authorize the festival but include Church elements. Kaelen will see it as dilution. Renek will see it as insufficient. But it might just work."
+    }
+  ],
+  "monologue": "The petition smells like woodsmoke — the Dravenni make their paper with mountain herbs, a detail that shouldn't matter and does. Kaelen is asking me to prove my government is different. Renek is asking me not to antagonize the Church. Seventeen hundred signatures on paper that carries the scent of a homeland most Ashenmerans have never seen. The festival is not the question. The question is whether Dravenni culture belongs in the public square or must remain invisible in the highlands.",
+  "choices": [
+    {
+      "id": "festival_authorize",
+      "text": "\"The Mountain-Flame Festival is authorized for Unity Square, on the date requested. Archbishop, I understand your concerns, but the Republic does not require Church approval for cultural expression. The Dravenni are as Veltrian as anyone in this city, and their traditions deserve the same public space as any other. Kaelen — the festival proceeds. Make it worthy of the capital.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.dravenni",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 5
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "festival_authorized",
+        "dravenni_public_recognition"
+      ],
+      "codexUnlocks": [
+        "codex_dravenni_culture"
+      ],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "I will pray on this decision."
+        }
+      ]
+    },
+    {
+      "id": "festival_deny",
+      "text": "\"The petition is denied for now. Kaelen, I understand your disappointment, but the capital is still fragile — Halvekist elements, nationalist press, a Church that commands millions of followers. A public festival with fire rituals weeks after my inauguration would be a provocation to people who are looking for one. Hold the festival in Dravenhollow this year. Next year, we discuss the capital. I am not saying no forever. I am saying not yet.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.dravenni",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "festival_denied",
+        "dravenni_disappointed"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "He folds his hands. The gesture is practiced."
+        }
+      ]
+    },
+    {
+      "id": "festival_compromise",
+      "text": "\"The festival is authorized — with amendments. It will be called the Mountain-Flame Unity Celebration. The fire ritual will be preceded by an ecumenical blessing — Archbishop, you may designate a priest to perform it, and the blessing will be inclusive rather than exclusive. The date will be moved one week to avoid the Feast of Saint Aldric. Kaelen, I know this feels like a condition on your culture. It is a bridge. Take it or leave it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.dravenni",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 2
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "festival_compromise",
+        "dravenni_bridge_building"
+      ],
+      "codexUnlocks": [
+        "codex_dravenni_culture"
+      ],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "He folds his hands. The gesture is practiced."
+        }
+      ]
+    }
+  ]
+}

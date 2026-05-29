@@ -1,0 +1,116 @@
+{
+  "id": "act2_week14_elena_favor",
+  "title": "The Favor",
+  "act": 2,
+  "weekAvailable": 14,
+  "weekDeadline": 17,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Elena Braskov's Private Residence — Thornfeld Valley",
+  "characters": ["elena_braskov"],
+  "prerequisites": [
+    { "type": "flag", "flag": "elena_introduced", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Elena's estate in the Thornfeld Valley is older than VNN, older than the Halvek regime, older than the republic. The Braskovs have been wealthy for three generations — long enough that their wealth feels inevitable rather than acquired. She receives you in a glass-walled conservatory overlooking terraced gardens. The symbolism is not subtle: she wants you to see what she has built, and to understand that it will endure regardless of who sits in the Chancellor's office."
+    },
+    {
+      "type": "dialogue",
+      "character": "elena_braskov",
+      "text": "Chancellor. Thank you for making the trip. I wanted to speak somewhere more private than Broadcasting House. Too many ears. Too many agendas. Here, we can be honest with each other."
+    },
+    {
+      "type": "description",
+      "text": "The warmth in her voice has been calibrated to exactly the right temperature — familiar but not presumptuous, appreciative but not grateful. She is waiting to see which version of you walked through her door: the ally, the adversary, or the undecided."
+    }
+  ],
+
+  "monologue": "The conservatory is glass-walled. Elena wants me to see the gardens — three generations of Braskov wealth, arranged in terraces, indifferent to who governs. The Free Press Protection Act is moving through committee. She hosted my first media deal in this very room. Now she is asking whether the deal continues. The answer will define whether Veltria has a free press or a captive one.",
+
+  "choices": [
+    {
+      "id": "elena_favor_ally_comply",
+      "text": "\"Elena, I know why I am here. The Free Press Protection Act is advancing through committee, and you want it stopped. I understand the calculus. I killed the Broadcast Licensing Act for you — this is the same arrangement. You need your monopoly protected. I need favorable coverage through the convention season. The Act dies in committee. Your papers keep spinning my government as competent and reform-minded. We both get what we want.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",       "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",          "operation": "add", "value": -12 },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": 15  },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": -12 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -8  }
+      ],
+      "flags": ["free_press_killed", "elena_deal_strengthened", "elena_favor_resolved"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elena_braskov", "type": "action", "text": "She does not smile — Elena does not smile when closing a deal, she simply inclines her head. Then she reaches for the phone and begins issuing instructions." }]
+    },
+    {
+      "id": "elena_favor_ally_break_deal",
+      "text": "\"The deal is off, Elena. I made a mistake at Week 4. I traded press freedom for favorable coverage because I was afraid — afraid of what hostile media would do to a fragile government. I am less afraid now. The Free Press Protection Act is going to pass, and your monopoly is going to end, and you are going to cover my government however you see fit. If that means hostile headlines, so be it. I would rather govern with a free press attacking me than with a captive press protecting me. At least when the free press attacks, I know I deserve it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 15  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -12 },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 15  },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": -20 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 12  }
+      ],
+      "flags": ["elena_enemy", "media_deal_broken", "elena_favor_resolved", "free_press_passed"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elena_braskov", "type": "silence", "text": "She reaches for her glass. The movement is slow, deliberate. I would rather govern with a free press attacking me, she repeats, tasting the words. The silence that follows is the sound of Elena Braskov deciding you are no longer an ally." }]
+    },
+    {
+      "id": "elena_favor_hostile_confront",
+      "text": "\"Elena, I have seen the story your paper is preparing about my budget management. 'Chancellor's Fiscal Inexperience Shows in Third Quarter Numbers' — is that the headline? You are running it because I declined your deal ten weeks ago. Let me be clear: I am not going to be intimidated into trading policy for coverage. Run your story. I will run my government. The Veltrian people can decide which one they trust more — a Chancellor who makes hard choices, or a media magnate who thinks information is a commodity to be sold to the highest bidder.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 12  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -10 },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 5   },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -5  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   }
+      ],
+      "flags": ["elena_enemy", "elena_favor_resolved", "stood_up_to_media"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elena_braskov", "type": "silence", "text": "She does not respond immediately. She looks at the conservatory windows — her gardens, her terraces, three generations of wealth. Then she looks back at you. The story will run, she says. It was always going to run. The silence is the sound of Elena Braskov acknowledging that intimidation has failed." }]
+    },
+    {
+      "id": "elena_favor_neutral_renegotiate",
+      "text": "\"Elena, you gave me four weeks of neutral coverage. It was fair. It was honest. I appreciated it — genuinely. But I am not going to kill the Free Press Protection Act. What I will offer is a compromise: the Act passes, but the licensing provisions are phased in over three years instead of one. Your monopoly does not end overnight — it winds down gradually, giving you time to adapt. In exchange, your coverage remains fair. Not fawning, not hostile. Fair. You keep your dignity and your business. I keep my principles and my press freedom. Neither of us gets everything. Both of us get enough.\"",
+      "internalTag": "measured",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 5   },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 5   },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": 5   },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 5   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 5   }
+      ],
+      "flags": ["elena_compromise", "free_press_phased", "elena_favor_resolved"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elena_braskov", "type": "silence", "text": "She considers the terms. Three years instead of one. Gradual wind-down. She taps her glass once — a gesture of calculation. She does not agree. She does not refuse. She is weighing whether phased loss is still loss." }]
+    },
+    {
+      "id": "elena_favor_neutral_accept_deal_late",
+      "text": "\"You are right, Elena. I have been undecided for ten weeks, and indecision is its own kind of decision — the kind that pleases no one. I should have accepted your deal at Week 4. I am accepting it now. Kill the critical story. The Free Press Protection Act will not pass. I am tired of fighting a two-front war against the Halvekists in parliament and your newspapers in public. If the price of governing effectively is a media monopoly, then that is a price I am now willing to pay.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.businessClass",       "operation": "add", "value": 12  },
+        { "stat": "factions.reformists",          "operation": "add", "value": -15 },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": 20  },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": -15 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -12 }
+      ],
+      "flags": ["media_deal", "elena_ally", "free_press_killed", "elena_favor_resolved"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "elena_braskov", "type": "action", "text": "She inclines her head — the gesture of a woman who has just been told that her position has been accepted, belatedly but completely. She refills your glass. The deal is restored." }]
+    }
+  ]
+}

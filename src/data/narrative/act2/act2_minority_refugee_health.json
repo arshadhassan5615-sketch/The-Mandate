@@ -1,0 +1,85 @@
+{
+  "id": "act2_minority_refugee_health",
+  "title": "Fever in the Camps",
+  "act": 2,
+  "weekAvailable": 17,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Emergency Health Command — Dravenhollow Refugee Camp",
+  "characters": ["gregor_maric", "elara_vostane"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The telegram arrives at four in the morning. Cholera. Confirmed in three sections of the Morivask refugee camp outside Dravenhollow. Thirty-seven cases identified in the last twelve hours, six deaths, and the camp's one medical tent has forty beds for four thousand people. The camp doctor — a volunteer from the University of Ashenmere who has not slept in three days — writes: 'We need clean water, oral rehydration salts, and at least two more doctors. If we do not have these within seventy-two hours, the outbreak will spread beyond the camp and into Dravenhollow town. This is not a refugee crisis anymore. This is a public health emergency.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I've been to the camp, Chancellor. I went last week — I didn't tell you because I knew you would worry. Four thousand people living in tents meant for two thousand. The latrines are overflowing. The water supply is a single pipe that runs from a contaminated stream. The camp doctor — her name is Dr. Hanna Voss, she's twenty-six years old and she's been treating cholera patients with equipment that would have been considered inadequate during the Great Plague. These are not statistics. These are families who fled ethnic cleansing in Morivask and arrived at our border expecting sanctuary. We gave them a field and some canvas. Now they are dying of a disease that we know how to prevent."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The cost of a proper emergency response — clean water infrastructure, medical supplies, additional personnel, temporary isolation wards — is approximately eight million VK. That is not in the current budget. It would have to come from contingency reserves, which means cutting something else. Alternatively, we can appeal to the International Health Commission for emergency aid. They have a rapid-response fund for exactly this situation. The downside is that accepting international health aid triggers certain reporting requirements — our public health infrastructure would be subject to external audit for the duration of the assistance. Some in the cabinet would consider that a sovereignty concern. I consider it a practical necessity."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Eight million VK. That is roughly the cost of the new administrative building the Finance Ministry requested last month — a building I declined to fund because it seemed frivolous. Now the money would mean the difference between a contained outbreak and a public health catastrophe. Maric is right — these are families, not statistics. But Vostane is also right — eight million is real money and it has to come from somewhere. The international option is cheaper but costs us sovereignty points with the Iron Covenant and the nationalists. Every crisis in this country is also a political crisis. I am beginning to understand that this is not a coincidence — it is the nature of the office."
+    }
+  ],
+  "monologue": "Cholera. Confirmed in three sections. Thirty-seven cases. Six deaths. The camp doctor is twenty-six years old and has not slept in three days. Eight million VK — roughly the cost of the administrative building I declined last month. Every crisis in this country connects to every other crisis. The cholera outbreak is also a budget question, a sovereignty question, and a question about whether this government values refugee lives as highly as the political coalition that wants refugees gone.",
+
+  "choices": [
+    {
+      "id": "refugee_health_fund",
+      "text": "\"Fund the emergency response. Eight million from contingency reserves. Vostane, find the cuts — I don't care if it's the administrative building, the state dinner budget, or my own travel allowance. Maric, get to Dravenhollow personally and oversee the response. I want daily reports. Dr. Voss gets whatever she needs — supplies, personnel, water infrastructure. If anyone in the budget office objects, tell them the Chancellor said cholera does not wait for appropriations.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["refugee_health_funded", "cholera_contained", "dravenhollow_aid"],
+      "codexUnlocks": ["codex_refugee_crisis"],
+      "reactions": [{ "character": "gregor_maric", "type": "action", "text": "He is already standing. He does not wait for the car. He is on the phone to the camp coordinator before he reaches the door — asking about the water supply, the isolation wards, what Dr. Voss needs first." }, { "character": "elara_vostane", "type": "silence", "text": "Vostane writes eight million on her notepad and draws a line through the administrative building allocation. She does not comment. She does not need to. The silence is the sound of a number being moved from one column to another." }]
+    },
+    {
+      "id": "refugee_health_ignore",
+      "text": "\"The camp is a temporary facility — the refugees were supposed to be processed and relocated within weeks, not months. The camp conditions are not ideal, but throwing eight million VK at a temporary problem is not fiscally responsible. The camp doctor will have to manage with existing resources. Maric, I want the relocation process accelerated — get these people out of the camp and into proper housing. That is the real solution, not building permanent infrastructure for a temporary situation.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": -20 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -12 },
+        { "stat": "refugeeCount", "operation": "add", "value": -500 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["refugee_health_ignored", "cholera_outbreak", "camp_deaths"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "silence", "text": "Maric does not speak for a very long time. His hands, which had been gesturing all meeting, are still. When he finally speaks, his voice is the quietest you have ever heard it. I will inform Dr. Voss, he says. He does not say what that will cost him. He does not need to." }]
+    },
+    {
+      "id": "refugee_health_international",
+      "text": "\"Appeal to the International Health Commission. Accept the aid package, the auditors, the reporting requirements — all of it. Vostane, draft the request this afternoon. The refugees get the medical care they need, the budget is preserved, and the international community sees Veltria cooperating with global health institutions. If the Iron Covenant wants to complain about sovereignty, they can explain to the public why international auditors are worse than dead refugees.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -4 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["refugee_health_international", "ihc_aid_accepted", "cholera_contained"],
+      "codexUnlocks": ["codex_refugee_crisis"],
+      "reactions": [{ "character": "elara_vostane", "type": "action", "text": "She is already drafting the IHC request. She has the form memorized — Vostane memorized every international aid form during her tenure at Treasury. She does not look up. The auditors will arrive within the week." }, { "character": "gregor_maric", "type": "silence", "text": "Maric nods. International aid. Auditors. Reporting requirements. He weighs each word. It is not ideal. But it will save lives. He does not say more. He does not need to." }]
+    }
+  ]
+}

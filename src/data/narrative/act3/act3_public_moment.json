@@ -1,0 +1,86 @@
+{
+  "id": "act3_public_moment",
+  "title": "Witnessed by the World",
+  "act": 3,
+  "weekAvailable": 37,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, Morning After the Confrontation",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The photographs are on every front page. You, standing in front of the General Staff building, facing Brenner in the grey morning light. The composition is almost classical — the civilian leader and the military commander, the republic and the sword, the question of who governs suspended in the space between two people who have both claimed the right to answer it. The international press has already assigned the image a name: 'The Stand at Ashenmere.' Someone has compared it to a painting from the Orythian Revolution. Someone else has written that it will be in history textbooks. The comparison is flattering. The comparison is also premature, because history textbooks are written by the people who win, and you have not won yet. You have only stood in front of a building and spoken to a general. What happens next depends on what story you tell about what happened."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The press is asking for a statement. They have the images. They do not have the meaning of the images. Every news agency in Ashenmere, every international correspondent, every radio station that can reach a microphone is waiting for you to tell them what they saw. I have prepared three framing options. The first emphasizes constitutional legitimacy — the Chancellor exercising lawful authority over the military. The second emphasizes national unity — a moment of tension that was resolved through shared patriotism. The third emphasizes democratic principle — a civilian government that refused to be intimidated. Each is true. None is the complete truth. The complete truth is that a general tried to overthrow the government and you stopped him by walking up to his building unarmed. How you describe what happened will determine what the country remembers about what happened."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The story is almost more important than the event. You learned this from your father, who was executed by a regime that controlled every newspaper and radio station in the country. Halvek understood something that democracies are reluctant to admit: the person who controls the narrative controls the reality that follows. Brenner's tanks are still in their positions, or they have withdrawn, or they are waiting — the military situation is fluid and the reports are contradictory. But the narrative situation is yours to shape. What you say in the next hour will determine whether the country remembers this morning as a coup that failed or a crisis that was resolved or a warning that was issued. The framing matters. The framing is governance. The framing is what turns an image into a meaning."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "public_constitutional_frame",
+      "text": "\"This morning, the constitutional order of the Republic of Veltria was tested. It held. General Brenner and I had a frank discussion about the military's legitimate concerns regarding national security. That discussion occurred within the framework of civilian authority, which the General has acknowledged and respected. The Republic's institutions are intact. The chain of command is intact. The crisis has been resolved through constitutional means. I want to thank the soldiers of the 1st Infantry and the 3rd Armored for their discipline and their commitment to the oath they swore. The Republic endures because its defenders endured. Now let us return to the work of governing.\"",
+      "internalTag": "reformist",
+      "tooltip": "Frame the confrontation as a constitutional process working as designed. Emphasizes institutional strength. Downplays the severity of the coup attempt.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 1 }
+      ],
+      "flags": ["public_moment_constitutional", "brenner_contained", "institutions_held", "crisis_narrative_set"],
+      "codexUnlocks": ["codex_constitutional_crisis_resolution"]
+    },
+    {
+      "id": "public_unity_frame",
+      "text": "\"What the country witnessed this morning was not a crisis of government. It was a crisis of communication — and it was resolved through communication. General Brenner and I met. We spoke as Veltrians who share a love for the country we serve, even when we disagree about how to serve it. The disagreement has been resolved. The unity of purpose has been reaffirmed. The Republic is strong enough to contain disagreement. It proved that this morning. I am grateful to the General for his willingness to meet, to listen, and to place the national interest above institutional prerogative. Veltria has faced its divisions and chosen unity. That is the story of this morning. That is the story I want the world to hear.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Frame it as a reconciliation story. Both sides save face. National unity emphasized. The danger is that it minimizes what almost happened and leaves the root cause unaddressed.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_military_democracy_bond", "delayWeeks": 2 }
+      ],
+      "flags": ["public_moment_unity", "brenner_rehabilitated", "crisis_narrative_set", "unity_emphasized"],
+      "codexUnlocks": ["codex_national_unity_doctrine"]
+    },
+    {
+      "id": "public_democratic_warning",
+      "text": "\"This morning, the Republic of Veltria faced an attempt by elements of its military leadership to override civilian constitutional authority. That attempt failed. It failed because the constitution is stronger than any general and because the soldiers of this Republic remembered that their oath was to the constitution, not to any individual who claims to speak for it. I want to be absolutely clear with the country and with the world: the democratic institutions of Veltria will not be intimidated. Not by tanks. Not by threats. Not by the fear that democracy is too fragile to survive its own crises. We were tested this morning. We passed. But the test will come again — from internal forces and external ones — and we will pass it again, because the alternative is not acceptable. The Republic endures. Let no one doubt it.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Frame it as a democratic victory against a military threat. Clear, forceful, leaves no ambiguity about who was in the wrong. Risks deepening military-civilian divisions.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_brenner_response", "delayWeeks": 2 }
+      ],
+      "flags": ["public_moment_democratic", "coup_publicly_condemned", "crisis_narrative_set", "warning_issued"],
+      "codexUnlocks": ["codex_democratic_resilience", "codex_coup_attempt_public_record"]
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "id": "mole_week7_false_resolve",
+  "title": "The Confession",
+  "act": 1,
+  "weekAvailable": 7,
+  "weekDeadline": 8,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Interior Ministry — Interrogation Room B14",
+  "characters": [
+    "danika_oberlin",
+    "serida_valk"
+  ],
+  "prerequisites": [
+    {
+      "stat": "flags.mole_complication_week5",
+      "operator": "==",
+      "value": true
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Room B14 is not designed for comfort. It is designed for one thing: making people talk. Grey walls. Grey table. Grey light. The man sitting at the grey table is Henrik Petran, a mid-level communications officer from the palace press office. He has been there for three hours. He confessed after forty minutes."
+    },
+    {
+      "type": "description",
+      "text": "Danika summarises the evidence in her particular style — direct, complete, each sentence a small indictment. Petran had access to the cabinet room communications log. He had contact with a known Arcturian intelligence cutout — a trade attaché at the embassy who had previously been flagged by the BNI in 1960. His financial records show deposits totaling 12,000 Krone over the past six weeks, deposited in amounts designed to avoid reporting thresholds. He confessed. He confessed to everything. He described the meetings, the documents, the methods. His confession is thorough. It is complete. It is, Danika says in the particular tone she uses when she does not believe what she is about to say next, 'too thorough.'"
+    },
+    {
+      "type": "internal_thought",
+      "text": "A communications officer. Mid-level. No prior record. Not someone who would know half the details he just confessed to sharing — because those details were compartmentalized, even within the cabinet office. His confession is too complete. It contains information he could not have known. Someone fed it to him. Someone who wanted him to take the fall. The question is whether I accept the convenient answer or keep pulling a thread that someone very carefully tried to cut."
+    }
+  ],
+  "monologue": "A communications officer. The confession is thorough. Too thorough. Danika sees it. Serida sees it. The question is whether I accept the convenient answer or keep pulling a thread that someone carefully tried to cut. Accept and the investigation closes — but the real leak remains. Reject and I am gambling that the confession is staged, with no guarantee I will ever find the actual source.",
+  "choices": [
+    {
+      "id": "mole_accept_confession",
+      "text": "\"The confession is on the record. The evidence is sufficient for prosecution. Close the investigation. Petran is guilty — of something, if not everything — and the government needs to move on. We have a country to run, and we cannot run it while hunting ghosts in our own offices.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_mole_returns",
+          "delayWeeks": 18
+        }
+      ],
+      "flags": [
+        "mole_false_accepted",
+        "mole_case_closed",
+        "mole_real_leak_remains"
+      ],
+      "codexUnlocks": [
+        "codex_press_office"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "The Bureau's records will confirm it."
+        }
+      ]
+    },
+    {
+      "id": "mole_reject_confession",
+      "text": "\"The confession is staged. Someone in my government arranged for a mid-level officer to take the fall so the real source could continue operating. I don't know who yet — but I know the confession is a lie. Keep the investigation open. Keep Henrik Petran in custody but keep the real inquiry active. When the real source is found, I want to know why a man with no record decided to destroy his life to protect them.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "mole_week9_reveal",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": [
+        "mole_thread_continues",
+        "mole_confession_rejected"
+      ],
+      "codexUnlocks": [
+        "codex_counterintelligence",
+        "codex_press_office"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She exhales. Very small. You notice it anyway."
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "character": "danika_oberlin",
+      "text": "[She waits.] You understand what you are doing. Both paths. You understand and you are choosing anyway. [She waits.] I will execute whichever order you give. But I want it on the record that I believe the confession was staged. Whatever you choose to do about that belief is your decision. The record is now the record.",
+      "type": "dialogue"
+    },
+    {
+      "character": "serida_valk",
+      "text": "Serida looks at the grey table. At the grey walls. At the man named Henrik Petran who confessed to everything and nothing. She does not speak. But her silence says: this is not over. This is not even close to over.",
+      "type": "narrative"
+    }
+  ]
+}

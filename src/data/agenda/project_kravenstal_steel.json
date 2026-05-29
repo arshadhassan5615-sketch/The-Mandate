@@ -1,0 +1,17 @@
+[
+  {
+    "id": "agenda_project_kravenstal_steel",
+    "title": "Industrial Proposal — Kravenstal Steel Modernization",
+    "description": "A proposal to modernize the state-owned Kravenstal Steel Processing Facility. Cost: 50M VK over 12 weeks. Employs twelve thousand workers.",
+    "category": "infrastructure",
+    "sceneId": "__project__kravenstal_steel",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 15,
+    "prerequisites": [
+      { "stat": "flags.project_kravenstal_started", "operator": "==", "value": false },
+      { "stat": "flags.project_kravenstal_rejected", "operator": "==", "value": false },
+      { "stat": "flags.project_kravenstal_deferred", "operator": "==", "value": false }
+    ]
+  }
+]

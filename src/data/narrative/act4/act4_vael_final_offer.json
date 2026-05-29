@@ -1,0 +1,102 @@
+{
+  "id": "act4_vael_final_offer",
+  "title": "The Puppetmaster's Last Hand",
+  "act": 4,
+  "weekAvailable": 42,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Vael Estate — The Observatory, Thornfeld Valley",
+  "characters": ["lucan_vael"],
+  "prerequisites": [
+    { "stat": "vaelInfluence", "operator": ">", "value": 80 }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "He receives you in the observatory this time — a glass-and-iron dome at the highest point of the estate, built in 1903 by Vael's grandfather, who was an amateur astronomer and a professional monopolist. The telescope is aimed at the night sky but no one has used it for astronomy in decades. Vael keeps it because his grandfather kept it and because it makes an impression on visitors. Everything in Thornfeld makes an impression on visitors. That is the point of Thornfeld."
+    },
+    {
+      "type": "description",
+      "text": "The war is coming. Tyvaren troops have been massing at the border for three weeks. The military is at full readiness. The economy is straining under the mobilization. Every political decision you make from this point forward will be made in the shadow of an imminent conflict that will determine whether Veltria survives as a nation. Lucan Vael knows this. It is why he has chosen this moment, and this setting, for what he is about to propose."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Chancellor. You look tired. I understand — I have been watching the same intelligence briefings, through channels that I will not disclose and you will not ask about. The Tyvaren situation is worse than the military is telling you. Vukov has committed three divisions to the border operation, not two. The Arcturian defense guarantee has conditions that Cole has not disclosed to your foreign ministry. You are heading into a war that you may not win, with allies who may not show up, against an enemy who has been planning this for two years. I can help. I am not offering money this time. I am offering survival."
+    },
+    {
+      "type": "description",
+      "text": "He gestures toward the telescope, toward the stars, toward the night sky that his grandfather mapped. The gesture is theatrical and effective, like everything Vael does. He has been building toward this since the first invitation. Every meeting, every favor, every carefully calibrated increment of influence has been leading to this observatory, on this night, with this war on the horizon."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "I have relationships with the Tyvaren business community — relationships that predate both your government and Vukov's military ascendancy. Certain elements in the Tyvaren oligarchy are not enthusiastic about this war. They have more to lose from a prolonged conflict than they stand to gain from a quick victory. I can reach them. I can open a back channel for negotiations that do not go through official diplomatic channels. I can potentially prevent this war before it starts — or end it quickly if it does start. What I need from you is a commitment. After the war — one way or another — I want a formal role. Deputy Chancellor for Economic Affairs. A constitutional position with authority over fiscal policy, trade, and industrial development. Not influence. Not access. Authority. Legal, constitutional, irrevocable authority. You will be the Chancellor. I will be the architect of the economy. Together, we will be untouchable."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is offering to save the country and asking me to give it to him in return. Not explicitly — nothing Vael says is ever explicit — but the Deputy Chancellor for Economic Affairs with constitutional authority over fiscal policy would be more powerful than the Chancellor in every way that matters. He would control the budget. He would control trade. He would control industrial development. I would be the face of the government. He would be the government. And he would have achieved it legally, constitutionally, with my signature on the document that made it possible. This is the puppet ending. This is what four years of Vael influence has been accumulating toward — not just a minister he controls, not just a tax he blocked, but the entire economic apparatus of the state, placed in his hands by the Chancellor who was supposed to end oligarchy."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "vael_final_accept",
+      "text": "Accept. The back channel might prevent the war. If it doesn't, Vael's connections could end it quickly. You will fight the constitutional battle later — right now, the survival of Veltria is worth more than the distribution of power within its government. \"I accept. The Deputy Chancellor position will be established by executive order tomorrow and submitted for constitutional ratification within the month. Make your calls, Margrave. Prevent this war. Prove that you are as powerful as you claim — and as committed to Veltria.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": 20  },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": 8   },
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",    "operation": "add", "value": 20  },
+        { "stat": "factions.reformists",       "operation": "add", "value": -20 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -15 },
+        { "stat": "nation.corruption",         "operation": "add", "value": 15  },
+        { "stat": "nation.civilLiberties",     "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": -20 },
+        { "stat": "personal.publicImage",      "operation": "add", "value": -15 }
+      ],
+      "chainTriggers": [],
+      "flags": ["vael_deputy_chancellor", "vael_puppet_ending", "vael_influence_total", "vael_resolved"],
+      "codexUnlocks": ["codex_vael_puppet_ending"]
+    },
+    {
+      "id": "vael_final_refuse",
+      "text": "\"No. I would rather fight this war alone than win it by turning my government over to you. I did not survive an assassination attempt, an economic collapse, and a coup attempt to hand the country to the man who funded all three — directly or indirectly. Make your calls, Margrave, or don't. But you will not be Deputy Chancellor. You will not have constitutional authority over anything. You will be a citizen of Veltria, subject to its laws like everyone else. That was the promise of the inaugural address. I intend to keep it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": -80 },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -25 },
+        { "stat": "factions.reformists",       "operation": "add", "value": 15  },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 12  },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": -12 },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 20  },
+        { "stat": "personal.publicImage",      "operation": "add", "value": 10  }
+      ],
+      "chainTriggers": [],
+      "flags": ["vael_refused_finally", "vael_influence_broken", "vael_resolved"],
+      "codexUnlocks": ["codex_vael_confrontation"]
+    },
+    {
+      "id": "vael_final_expose",
+      "text": "Reach into your desk. The file you have been building for three years — every meeting, every transaction, every moment of leverage Vael has accumulated. You have been preparing for this night since the first invitation to Thornfeld.\n\n\"I have a counter-proposal, Margrave. You will make those calls to your Tyvaren contacts — not because I am giving you a constitutional position, but because if you don't, this file goes to the Herald, the Standard, and the international press. Every favor. Every deal. Every politician you have purchased over forty years. Veltria will know what you are. The international community will know. You will never do business in this country or any other again. That is my offer. Save Veltria and salvage your legacy, or refuse and lose both.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": -80 },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -15 },
+        { "stat": "factions.reformists",       "operation": "add", "value": 10  },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 10  },
+        { "stat": "factions.ironCovenant",     "operation": "add", "value": 5   },
+        { "stat": "nation.corruption",         "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties",     "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": -5  },
+        { "stat": "personal.publicImage",      "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [],
+      "flags": ["vael_blackmailed", "vael_influence_broken", "vael_resolved"],
+      "codexUnlocks": ["codex_vael_confrontation", "codex_bni_intelligence"]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "act1_chain_liora_radicalized",
+  "title": "The Distance",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Liora's Room",
+  "characters": ["liora_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Liora has stopped eating dinner with the family. She comes home late — later than her classes would explain — and goes directly to her room. The door is closed. It has been closed for weeks. When you knock, she does not say come in. She says 'it's open' in a tone that means the open door is a technicality."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "I found the file myself. The one you told me to leave alone. I went to the Archives with my university ID and I requested the same records you said were too dangerous for me to see. They weren't dangerous. They were just true. Grandfather was executed for organizing against Halvek. The BNI killed him. The same BNI that you —\" She stops. Swallows. \"You told me to stop asking questions. You, the woman who ran on ending the BNI. You told your own daughter to stop asking questions about what the BNI did to her grandfather. Do you understand how that looks? Do you understand how that feels?"
+    },
+    {
+      "type": "description",
+      "text": "Her room has changed. The political pamphlets that used to be mixed with university texts have been replaced by more political pamphlets, arranged carefully, almost curatorially. There is a photograph of Mikhael Ashavel on her desk — the same one from the newspaper, but enlarged, framed. She has made a shrine of your father without asking your permission. She did not need your permission."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is right about what I did. I told her to stop because I was afraid — of what she would find, of what it would do to her, of what it would mean for my government if my daughter started publishing the truth about what the BNI did while I was still deciding what to do about the BNI. I chose political management over honesty with my own child. She has figured it out. She did not need me to tell her. She just needed to stop trusting me enough to ask."
+    }
+  ],
+
+  "monologue": "I told her to stop asking questions. The woman who ran on ending the BNI told her daughter to stop asking questions about what the BNI did. She didn't need my permission to keep looking. She just needed to stop trusting me enough to ask. The framed photograph of Father on her desk — she's built a shrine to a grandfather she never met because she trusts the dead more than the living. I earned that. I have to decide whether I can earn it back.",
+
+  "choices": [
+    {
+      "id": "liora_radicalized_apologize",
+      "text": "\"You're right. I was afraid — of what you would find, of what it would mean, of the political cost. I let that fear make me into exactly the kind of person I said I was going to dismantle. I told my daughter to stop asking questions about state crimes while I was deciding what to do about those crimes. That was wrong. It was cowardly. I am sorry. I cannot undo it. I can promise you that from now on, I will never ask you to be quiet so that I can be comfortable. Whatever you want to do with what you know — I will not stop you.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 12  },
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [],
+      "flags": ["liora_apologized", "liora_relationship_recovering", "liora_radicalized_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "liora_radicalized_defend",
+      "text": "\"I was protecting you. The political cost was not about me — it was about you. If you had published what you found while I was in the middle of BNI reform, the Halvekists would have used you to destroy the reform. Your story, your grandfather's story, would have been weaponized against the very thing he died for — accountable government. I was not asking you to be quiet for my comfort. I was asking you to wait until the reform was secure. You didn't wait. I understand why. But don't pretend my motives were corrupt just because the choice was difficult.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -4  },
+        { "stat": "factions.ironCovenant",       "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week23_family_crisis_liora",
+          "delayWeeks": 12
+        }
+      ],
+      "flags": ["liora_doubled_down", "liora_distance_growing", "liora_radicalized_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "liora_radicalized_khaled_meeting",
+      "text": "\"I'm going to arrange a meeting between you and Soraya Khaled. Not because I endorse everything she believes — I don't. Because she has done what you are trying to do: turned anger into a movement with structure, discipline, and a theory of change beyond the next protest. If you are going to be radicalized — and I can see that you are — I would rather you be radicalized by someone who knows how power works than by people who mistake noise for it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 7   },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 5   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -5  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week23_family_crisis_liora", "delayWeeks": 10 }
+      ],
+      "flags": ["liora_meets_khaled", "liora_channeled_radicalism", "liora_radicalized_resolved"],
+      "codexUnlocks": []
+    }
+  ]
+}

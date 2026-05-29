@@ -1,0 +1,91 @@
+{
+  "id": "act3_no_confidence_fallen",
+  "title": "The Government Has Fallen",
+  "act": 3,
+  "weekAvailable": 1,
+  "weekDeadline": 52,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Parliament Chamber — Ashenmere",
+  "characters": ["vyktor_reznik", "drazen_kolvar", "aldric_theron"],
+  "prerequisites": [
+    { "stat": "flags.no_confidence_passed", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Speaker reads the tally. The motion passes. One hundred and thirty-one votes. The number sits in the air for a moment before the opposition benches react — not with cheering, which would be unseemly, but with the particular silence of people who have been counting toward something for months and have arrived at the destination. Drazen Kolvar writes something in his notebook. He does not look at you."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Chancellor. The Assembly has spoken. Under the constitution, you are required to either resign within forty-eight hours, call a snap election within thirty days, or invoke emergency powers under Article 22. I want to be honest with you: I have spent thirty years arguing that the Halvek Constitution should be replaced. It was not replaced. And now it is the document by which you will be removed — or the document by which you will refuse removal. I want you to understand the weight of that before you decide anything."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The numbers moved at the end. I miscounted by six. Those six votes came from our own coalition. I have the names. Three were business-class members whose files I should have reviewed more carefully. Two were reformists who received something I wasn't told about. One was a personal grievance that had nothing to do with policy. I failed you. I'm telling you that now because I want you to know the truth of it before you make your decision — and because whatever you decide, I will follow it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "One hundred and thirty-one. I was five short of surviving. Those five votes were human decisions made by human beings who weighed everything they knew and chose Kolvar's arithmetic over mine. I can dispute the process. I can demand recounts. I can invoke emergency powers that the constitution I tried to replace still grants to the Chancellor. Or I can accept that this is what democratic accountability looks like when it is used against you — and respond with the same clarity I would demand from anyone who lost a legitimate vote. The question is which Chancellor I want to be remembered as."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "no_confidence_fallen_resign",
+      "text": "\"I accept the result. I will tender my resignation to the President of the Assembly within forty-eight hours and cooperate fully with the transition to a new Chancellor. I won an election. I governed for as long as the Assembly permitted. The system worked exactly as it should. I will not pretend otherwise.\"",
+      "internalTag": "accepting",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 15  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8   },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -5  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [],
+      "flags": ["chancellor_resigned", "government_fell_gracefully", "game_ending_resignation"],
+      "codexUnlocks": ["codex_no_confidence"]
+    },
+    {
+      "id": "no_confidence_fallen_snap_election",
+      "text": "\"I am not resigning. I am calling a snap election. The Assembly has passed a no-confidence motion. The people have not. Let them decide — within thirty days — whether this government has their confidence. Kolvar wants to govern Veltria. Let him ask for the mandate he needs to do it.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",    "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",   "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",     "operation": "add", "value": 5  },
+        { "stat": "factions.halvekists",     "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder",      "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_reelection_campaign", "delayWeeks": 2 }
+      ],
+      "flags": ["snap_election_called", "government_fighting_survival"],
+      "codexUnlocks": ["codex_no_confidence"]
+    },
+    {
+      "id": "no_confidence_fallen_emergency",
+      "text": "\"Article 22. State of emergency — the Republic faces a constitutional crisis manufactured by a parliamentary opposition using the Halvek Constitution's most anti-democratic provision to remove a democratically elected government. The Assembly is dissolved. Emergency powers are invoked. I govern by decree until a new constitutional framework can be established. This is not what I wanted. It is what the moment requires.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 15  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -20 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -12 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -18 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -20 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -10 },
+        { "stat": "shadowInfluence",               "operation": "add", "value": 25  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_emergency_powers_invoked", "delayWeeks": 1 }
+      ],
+      "flags": ["emergency_declared", "assembly_dissolved", "governing_by_decree", "constitutional_crisis"],
+      "codexUnlocks": ["codex_no_confidence", "codex_article_22_emergency"]
+    }
+  ]
+}

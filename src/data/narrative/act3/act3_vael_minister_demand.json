@@ -1,0 +1,108 @@
+{
+  "id": "act3_vael_minister_demand",
+  "title": "The Minister's Seat",
+  "act": 3,
+  "weekAvailable": 35,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["lucan_vael", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "vaelInfluence", "operator": ">", "value": 60 }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vael has not visited your office since the referendum campaign. His influence has been exerted through channels — phone calls, intermediaries, the quiet machinery of a man who prefers to operate at a distance. That he is here, in person, in the chair across from your desk, means that the conversation he is about to have is one he wants you to see his face for."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Chancellor. I will be brief. The Trade and Industry portfolio has been without a permanent minister for six weeks. The acting minister is competent but she is an interim solution and the business community is restless. I have a candidate: Aldric Venn, currently the managing director of the Thornfeld Valley Development Corporation. Twenty years of experience in industrial policy. Respected by the consortium. Respected by the unions — or at least not actively despised by them, which is as close as anyone in his position gets. He is qualified. He is available. He is willing to serve. I am asking you to appoint him."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor is silent, which is never a good sign. He has positioned his chair slightly further back from the desk than usual — the physical equivalent of wanting to be on record as having been in the room but not part of the conversation. You know what he is thinking. Aldric Venn has been the managing director of Vael's development corporation for eleven years. He is Vael's man. He has always been Vael's man. Appointing him to the Trade and Industry portfolio would give Vael direct access to every industrial contract, every trade negotiation, every regulatory decision affecting every business in Veltria."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "I know what you are thinking. I am not offended by it. Let me address it directly: yes, Aldric Venn has worked for me for over a decade. Yes, I trust him. Yes, that trust is exactly why I am recommending him — because I know his judgment and I believe that judgment would serve Veltria well. I also understand that appointing someone with ties to the Vael Foundation creates an appearance problem. I am prepared to help solve that problem. Aldric will publicly divest from all Vael Foundation holdings before taking office. He will recuse himself from any matter directly involving the Foundation. And I will issue a public statement supporting his independence and pledging not to interfere in his ministry's decisions. I am asking you to judge him on his qualifications, not on his previous employer."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "A question, Margrave — and I want to be clear that I am asking this as a matter of governance, not accusation. If Chancellor Ashavel appoints your candidate, and that candidate recuses himself from all matters involving the Vael Foundation, how many matters will remain? The Vael Foundation is involved, directly or indirectly, in approximately forty percent of the Trade and Industry portfolio's regulatory purview. The Minister would spend more time recused than governing. That is not a workable arrangement. It is a figurehead arrangement. Which I suspect is the point."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Vyktor, your suspicion is noted and, as always, elegantly expressed. Chancellor — I have been patient. I have been supportive. I have funded your party, built your hospitals, powered your referendum campaign, and accepted compromises that my peers consider capitulation. I am not a supplicant. I am the largest private employer in the country and the largest private donor to the institutions that make governance possible. I am asking for one appointment. One qualified candidate. One seat at the table. If that is too much to ask, I will have to reconsider the nature of our relationship — and I will have to explain to the consortium why their support for this government has produced so little return. I do not want to have that conversation. Do not make me have it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is what two years of influence accumulation buys him. Not a request — a demand. Not an offer — an ultimatum. He has been building toward this since the first invitation to Thornfeld. Every favor, every donation, every compromise has been a deposit on this moment. He has been patient because patience was the investment and this demand is the return. If I appoint Venn, I am Vael's Chancellor in everything but name. If I refuse, I lose the consortium, the business community, and quite possibly the revenue base that keeps the government solvent. The choice is between being captured and being crippled. He has designed it that way."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "vael_minister_appoint",
+      "text": "\"Aldric Venn will be appointed Minister of Trade and Industry. The divestment and recusal terms you offered will be binding — I want them in writing, with independent oversight from the Ethics Commission. Venn serves the nation, not the Foundation. If I have reason to believe otherwise, he will be dismissed and I will make the reasons public. Margrave, you wanted a seat at the table. You have one. Do not make me regret giving it to you.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": 15  },
+        { "stat": "factions.businessClass",    "operation": "add", "value": 15  },
+        { "stat": "factions.reformists",       "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -10 },
+        { "stat": "nation.corruption",         "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": -12 },
+        { "stat": "personal.publicImage",      "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_vael_final_offer", "delayWeeks": 7 }
+      ],
+      "flags": ["vael_minister_appointed", "government_captured", "vael_influence_critical", "vael_relationship_warm"],
+      "codexUnlocks": ["codex_vael_alliance"]
+    },
+    {
+      "id": "vael_minister_refuse",
+      "text": "\"No. Not Venn. Not anyone from the Foundation. The Trade and Industry portfolio is responsible for regulating the very interests you represent — appointing your candidate would be the government equivalent of letting a landlord write the tenant laws. I will fill the position with a qualified candidate who has no ties to any private interest. Margrave, you have had influence. You have had access. You have not had — and will not have — ownership of a ministry. If that means the consortium reassesses its relationship with this government, so be it. I would rather govern with fewer resources than govern with someone else's hand on the wheel.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": -20 },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -20 },
+        { "stat": "factions.reformists",       "operation": "add", "value": 12  },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8   },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 12  },
+        { "stat": "personal.publicImage",      "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_vael_final_offer", "delayWeeks": 7 }
+      ],
+      "flags": ["vael_minister_refused", "consortium_breach", "vael_relationship_broken"],
+      "codexUnlocks": ["codex_vael_confrontation"]
+    },
+    {
+      "id": "vael_minister_counter",
+      "text": "\"Not Venn — but I will appoint someone from the consortium's broader circle. A qualified candidate with business experience, acceptable to the consortium, who has never worked directly for the Vael Foundation. You wanted a seat at the table. I am giving you a voice — through someone who represents the business community without representing you personally. And the Ethics Commission will review all future cabinet appointments for conflicts of interest. That is the structural reform that prevents anyone — including you, Margrave — from making this demand again.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": -5  },
+        { "stat": "factions.businessClass",    "operation": "add", "value": 3   },
+        { "stat": "factions.reformists",       "operation": "add", "value": 5   },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3  },
+        { "stat": "nation.civilLiberties",     "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_vael_final_offer", "delayWeeks": 7 }
+      ],
+      "flags": ["vael_minister_compromise", "ethics_reform", "vael_relationship_strained"],
+      "codexUnlocks": ["codex_vael_negotiation"]
+    }
+  ]
+}

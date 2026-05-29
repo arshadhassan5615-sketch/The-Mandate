@@ -1,0 +1,97 @@
+{
+  "id": "act3_battle_gravenmark",
+  "title": "The Stand at Gravenmark Pass",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Forward Command Post — Gravenmark Pass Northern Approach, 04:00",
+  "characters": ["colonel_dusek", "general_brenner"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Gravenmark Pass is a geological fact before it is a strategic one. Two thousand meters of granite and limestone, carved over millennia into a natural corridor sixty meters wide at its narrowest point, the only passable route through the northern mountains for armored vehicles. On a topographical map it looks like an hourglass — broad approaches narrowing to a choke point, then broadening again toward the Veltrian interior. Defending it is one of the oldest problems in Veltrian military doctrine. The problem has been solved on paper a hundred times. This morning, for the first time since 1923, it is being solved with live ammunition."
+    },
+    {
+      "type": "description",
+      "text": "You are not at the pass — Chancellors do not command battles — but the forward command post is close enough that you can hear the artillery. The sound is not what you expected. It is not the dramatic thunder of cinema. It is a series of sharp, percussive cracks that arrive at irregular intervals, each one slightly different in pitch and duration, as though the mountain itself is being struck by a hammer wielded by something that does not tire. The tactical radio crackles with voice traffic — Dusek's forward command issuing fire orders, unit commanders acknowledging, the dense compressed language of battle that reduces human lives to grid coordinates and ammunition counts. You are standing in a room full of maps and radios and officers who have trained for this moment since they were cadets and you are the only person in the room who is not a soldier. The soldiers are doing their jobs. Your job is to not interfere with their doing their jobs while also making the decisions that only a civilian commander can make."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "First report from the forward line. Tyvaren forces committed two armored battalions to the initial assault — approximately forty vehicles, infantry support, artillery preparation that began at 03:15. Dusek's forward positions absorbed the first wave. Casualties on our side are light so far — the defensive terrain is doing what it is designed to do. But Vukov has not committed his reserves yet. This is a probing attack with teeth. The real assault will come once he identifies the weak point in our line. Every defensive position has a weak point. The question is whether we can reinforce it before he finds it, and whether the reinforcements exist."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Brenner is giving me the military assessment in the same tone he uses to discuss logistics. He is not calm because he is calm. He is calm because he has trained himself to be calm in exactly these circumstances and the training has held. I can see the tension in his shoulders — a slight elevation, perhaps two centimeters from their normal position, which in Brenner's physical vocabulary is the equivalent of another officer pacing the room. He is waiting for me to make a decision about the reserves because the reserves are the one variable in this battle that requires civilian authorization. Everything else — fire orders, unit rotation, tactical withdrawal thresholds — belongs to Dusek and her commanders. But the reserves are political. Sending them means betting the army on this pass. Holding them means accepting that the pass might fall. Brenner will not tell me which decision to make because he is a professional soldier and I am the constitutional commander-in-chief and the line between those roles is the line that separates a military from a junta. The line is real. The line is also the reason I am standing in a room full of soldiers making a decision that soldiers are better qualified to make, because the Constitution says that the person who orders young Veltrians to die must be the person the country elected, not the person the army promoted."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Dusek on the field radio — she is requesting guidance on reserve deployment. Her voice is steady. There is artillery fire audible in the background of the transmission. She does not mention it. She is asking whether the strategic reserve — three battalions currently held at Aldenmoor — should be committed to the pass or held for contingencies. She states her professional recommendation: commit one battalion now, hold two for exploitation or counterattack depending on how the next wave develops. She is asking for authorization. The authorization requires a decision. She is waiting. The artillery in the background is getting closer."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "gravenmark_all_reserves",
+      "text": "\"Commit everything. All three battalions to the pass. If Vukov wants Gravenmark, he is going to have to walk over the full strength of the Veltrian army to get it. Tell Dusek she has authorization to employ all available forces at her discretion. This is not a probing attack — this is the battle that defines whether Veltria exists next month. I will not lose the pass because I was keeping forces in reserve for a counterattack that will never come if the pass falls. Every soldier. Every vehicle. Gravenmark holds.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 5 }
+      ],
+      "flags": ["gravenmark_full_commitment", "all_reserves_deployed", "gravenmark_holds", "decisive_battle_fought"],
+      "codexUnlocks": ["codex_battle_gravenmark", "codex_veltrian_reserve_doctrine"]
+    },
+    {
+      "id": "gravenmark_reinforce_fallback",
+      "text": "\"Commit one battalion as Dusek recommends. Hold two at Aldenmoor. I trust her tactical judgment — if she says the pass can hold with reinforcement, reinforce it. But I want a fallback position prepared. If Gravenmark breaks, I want the survivors falling back to a prepared defensive line, not retreating in disorder. Dusek gets what she needs to fight this battle. But I will not bet the army on a single pass. The army has to survive to fight the next battle, and the one after that. This war is not going to be won at Gravenmark. It is going to be won by the army that is still intact when Vukov runs out of momentum.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 4 }
+      ],
+      "flags": ["gravenmark_reinforced_partial", "defense_in_depth_prepared", "reserve_held", "gravenmark_contested"],
+      "codexUnlocks": ["codex_battle_gravenmark", "codex_fallback_defense_doctrine"]
+    },
+    {
+      "id": "gravenmark_trust_dusek",
+      "text": "\"Tell Colonel Dusek she has full tactical authority. I am not going to command a battle from a command post thirty kilometers behind the line. She can see the terrain. She knows her soldiers. She understands the enemy's tactics better than anyone in this room, including me and including General Brenner. If she needs all three battalions, she has them. If she needs to trade ground for time, she has the authority. If she needs to counterattack, she has the authorization. The strategic objective is to preserve the army and deny Vukov a decisive breakthrough. How she achieves that is her decision. Tell her I trust her. Then get off the radio so she can fight.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 3 }
+      ],
+      "flags": ["dusek_full_authority", "tactical_trust_delegated", "command_decentralized", "gravenmark_contested"],
+      "codexUnlocks": ["codex_battle_gravenmark", "codex_mission_command_doctrine"]
+    }
+  ]
+}

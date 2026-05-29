@@ -1,0 +1,127 @@
+{
+  "id": "act1_chain_ima_confrontation",
+  "title": "The Structural Adjustment",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Finance Ministry — Cabinet Conference Room",
+  "characters": ["elara_vostane", "gregor_maric"],
+  "prerequisites": [
+    { "stat": "nation.economyHealth", "operator": "<", "value": -20 }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The IMA delegation arrived in Ashenmere without an appointment. That is not an accident — it is a demonstration. Dr. Harlan Geis, the lead negotiator, is forty-three years old, Arcturian-educated, and polite in the specific way that people are polite when they believe they hold all the cards. He presented his delegation's 'recommendations' in a ninety-minute meeting that Vostane attended and from which she emerged looking like a woman who has just read her own autopsy."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Full privatization of state-owned industries within 18 months. A 15 percent reduction in public sector wages. Elimination of all subsidies on bread, fuel, and heating oil within 90 days. Complete opening of Veltrian markets to foreign competition with zero tariff protection. A currency board arrangement that removes our monetary policy discretion. Dr. Geis described these as 'necessary structural adjustments for long-term fiscal sustainability.' I cannot tell you he is entirely wrong about the economics. I can tell you that the social consequences would be catastrophic."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "Eliminate bread subsidies. Listen. In Kravenstal, thirty percent of families spend more than half their income on food already — half their income. You take away the bread subsidy, these people have to choose between eating and heating their apartments in November. Not a projection. Not a spreadsheet cell. Actual children on Ostrov Street going to bed hungry this winter while their mothers stare at an empty pantry and wonder what they did wrong. I want to be precise: Dr. Geis is proposing conditions that will cause hunger in Kravenstal before the first snow falls. He is doing it in a conference room in Ashenmere wearing a very fine suit and using words like 'necessary structural adjustments.' I would like to be wrong about this. I am not wrong about this."
+    },
+    {
+      "type": "internal_thought",
+      "text": "They are both right. Vostane is right that the fiscal logic has merit — the state industries lose money, the subsidies distort prices, the wage bill is genuinely unsustainable. Marić is right that the human cost of implementing it at this speed, in this context, in this country, is not an abstraction. The IMA's model is built on countries that have social safety nets, transit systems, savings accounts. Veltria has none of those cushions. The impact of the adjustment will fall entirely on the people who can least absorb it."
+    }
+  ],
+
+  "monologue": "Geis arrived without an appointment because he wanted me to know he doesn't need one. The IMA's conditions are designed for countries with safety nets. Veltria has none. Implement them at speed and people go hungry before the recovery arrives. Reject them and the Krone collapses. Not negotiate the structure. Negotiate the speed of the blow.",
+
+  "choices": [
+    {
+      "id": "ima_confrontation_accept_conditions",
+      "text": "\"Accept the framework — but negotiate the timeline. I want eighteen months on the privatizations to become thirty-six, the bread subsidy phased out over twelve months with a targeted cash transfer for the lowest income bracket, and the wage reduction deferred six months while we implement efficiency savings. The structure is theirs. The implementation pace is negotiated. Prepare a counter-proposal along those lines.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 8   },
+        { "stat": "nation.nationalDebt",         "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 8   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 4 }
+      ],
+      "flags": ["ima_deal_accepted", "ima_conditions_negotiated"],
+      "codexUnlocks": ["codex_ima"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "Counter-proposal: eighteen becomes thirty-six, bread subsidy phased over twelve months with targeted cash transfer, wage reduction deferred six months. The IMA will resist. They will accept the modified timeline before they walk away entirely. They need a Veltrian success as much as we need their money."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "He does not celebrate. The framework is still the IMA's framework. The bread subsidy still ends — just slower. He will go back to Kravenstal and explain that the blow has been softened but not avoided. The softening counts. The blow still lands."
+        }
+      ]
+    },
+    {
+      "id": "ima_confrontation_reject",
+      "text": "\"Tell Dr. Geis that Veltria thanks the IMA for its analysis and will not be accepting its recommendations. We will manage our own fiscal adjustment on our own timeline, with our own priorities. Yes, this means we go without the credit line. We find another path. A government that accepts conditions designed in Stellamere for the benefit of Arcturian investors is not a government — it is an administrator. I did not run for administrator.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",         "operation": "add", "value": 6   },
+        { "stat": "nation.economyHealth",        "operation": "add", "value": -4  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 6 }
+      ],
+      "flags": ["ima_deal_rejected", "economic_independence_asserted"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He exhales — the long, unguarded exhale of someone who has been bracing for a blow that did not land. He looks at Vostane. The look is not triumph. It's recognition. They both know what this costs."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She does not celebrate. The IMA credit line is gone. The Krone will feel it within the week. She is already recalculating the alternative funding paths and finding none that are pleasant."
+        }
+      ]
+    },
+    {
+      "id": "ima_confrontation_selective",
+      "text": "\"Accept some provisions, reject others — and do it publicly. I will announce that we are adopting IMA guidance on the state industry efficiency review and the currency stabilization mechanisms, while rejecting the bread and fuel subsidy elimination and the public sector wage cuts. Let Dr. Geis go home and explain to the IMA board why the Chancellor of Veltria picked the parts of their package that help her economy and declined the parts that hurt her people. They can write a report about it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 4   },
+        { "stat": "factions.workersCoalition",   "operation": "add", "value": 3   },
+        { "stat": "factions.businessClass",      "operation": "add", "value": 3   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 5 }
+      ],
+      "flags": ["ima_deal_accepted", "ima_partial_acceptance", "ima_approached"],
+      "codexUnlocks": ["codex_ima"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "Selective acceptance. Industry efficiency review and currency stabilization accepted. Bread subsidies intact, fuel subsidies intact, wage cuts rejected. The IMA will object. They will also recognize the political logic. They have dealt with harder leaders than Dr. Geis."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Listen. The bread subsidy stays. That means children in Kravenstal eat this winter. The rest of it — the efficiency review, the currency stabilization — those are numbers. The bread is not a number. Thank you for seeing that."
+        }
+      ]
+    }
+  ]
+}

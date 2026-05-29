@@ -1,0 +1,199 @@
+{
+  "id": "act1_chain_kravenstal_escalation",
+  "title": "The Second Strike",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Kravenstal — Foundry Square",
+  "characters": [
+    "gregor_maric",
+    "colonel_dusek"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The second strike is different from the first. The first was spontaneous — workers waking up to news of cuts and deciding they had had enough. This one is organized. The Workers' Coalition is still officially not calling it, but the shop stewards have taken over the union halls and are coordinating across five districts. Foundry Square is full again, but the crowd is larger now and their signs are different. They do not say REMEMBER WHO BUILT THIS. They say WHO GOVERNS? and, increasingly, NOT IN OUR NAME."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I can't stop this one, Chancellor. I told you — I told you holding firm on the cuts would break something that speeches cannot put back together. These people are not asking me to negotiate for them anymore. They are asking whether I still represent them or whether I have become part of the government they are striking against. I am a minister in the Chancellor's cabinet. I am also a union man from the Iron Quarter who walked the picket line in '58 for fourteen weeks in the snow. Fourteen weeks. I cannot be both if this government keeps treating the workers like an obstacle to governance instead of the reason for it. Damn it, I will not be both."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The rail yards are fully shut down. Steel mills at thirty percent capacity. Amber Coast port operating with supervisory staff only — no stevedores, no crane operators. Supply chain disruption for the entire northern province becomes critical within seven days. The military can maintain essential services — food distribution, medical supply lines — but soldiers do not run the civilian economy. That is not the function of the armed forces. Two questions for the Chancellor: first, should I prepare contingency plans for this strike becoming a public order crisis. Second, should I prepare them to remain unused. I require the answer to both."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Maric is telling me he is losing his people. Dusek is telling me she can keep the country fed but not running. The workers who put me in office are now striking against my government — not because they have forgotten what I promised, but because they remember, and the remembering has become an accusation. I held firm on the budget because I believed the alternative was worse. The workers are showing me that 'worse' is relative — and that from where they are standing, my budget and a currency collapse look like the same thing: their children going hungry while people in palaces debate deficit projections."
+    }
+  ],
+  "monologue": "Maric is losing his people. Not the vote — their trust. They look at him and see a minister, not a union man. Dusek is offering to keep the country running without breaking the strike — a narrow corridor. The workers who put me in office are now striking against my government. Not because they forgot what I promised. Because they remember, and the remembering has become an accusation.",
+  "choices": [
+    {
+      "id": "kravenstal_escalation_concede",
+      "text": "Summon Maric and Vostane to an emergency session. \"The budget framework is suspended pending a full social impact review. The remaining job cuts are frozen. I am establishing an emergency food and fuel subsidy for Kravenstal, funded by a temporary surcharge on corporate profits above two million Krone. The strike ends — not because I am ordering it to end, but because the workers' demands have been met. Gregor, go to Foundry Square and tell them the government heard them. It took too long. But it heard.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 18
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -14
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "nation.nationalDebt",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 12
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "budget_suspended",
+        "worker_demands_met",
+        "kravenstal_escalation_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kravenstal_settlement",
+        "codex_corporate_surcharge"
+      ],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He stands. He goes to the window."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_escalation_emergency_powers",
+      "text": "\"Dusek, I am authorizing the use of military logistics personnel — not combat troops, not armed soldiers — to maintain the food and medical supply chain. The army will not break the strike. The army will ensure that the strike does not cause children to go without medicine or families to go without food. Gregor, tell the workers I am not breaking their strike and I am not giving in to all their demands. I am making sure the country survives while we negotiate. If the Workers' Coalition wants to be part of those negotiations, the strike needs to remain peaceful. If it turns violent, I will have no choice but to protect public order. That is not a threat. It is a description of the next forty-eight hours.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "emergency_logistics_deployed",
+        "strike_contained",
+        "kravenstal_escalation_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_emergency_powers",
+        "codex_military_logistics"
+      ],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "He does not speak. When Marić is silent, he is genuinely shaken."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_escalation_visit",
+      "text": "\"Cancel the security protocols. I am going to Foundry Square. No motorcade, no stage — I'll stand where they're standing and I will listen before I speak. Dusek, one plainclothes officer per hundred people, no one in uniform visible from the square. Maric, I need fifteen minutes with the shop stewards before I address the crowd, and whatever they tell me in those fifteen minutes I will repeat to the cameras — because the workers should hear their Chancellor say their words back to them before she answers them.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 14
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week20_budget_crisis",
+          "delayWeeks": 6
+        }
+      ],
+      "flags": [
+        "kravenstal_chancellor_visit",
+        "chancellor_populist_moment",
+        "kravenstal_escalation_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kravenstal_settlement"
+      ],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He rubs his temples."
+        }
+      ]
+    }
+  ]
+}

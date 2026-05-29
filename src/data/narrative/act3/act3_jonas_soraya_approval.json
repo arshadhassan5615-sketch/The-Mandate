@@ -1,0 +1,44 @@
+{
+  "id": "act3_jonas_soraya_approval",
+  "title": "Soraya's Approval",
+  "act": 3,
+  "weekAvailable": 32,
+  "weekDeadline": 38,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Workers' Unity Hall — Kravenstal",
+  "characters": ["gregor_maric"],
+  "prerequisites": [{ "stat": "flags.jonas_public_voice", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Gregor Marić has relayed a message from Soraya Khaled. She wants you to know something. Coming from Soraya — a woman who has spent forty years organizing workers and distrusting everyone in power — the message is surprising." },
+    { "type": "dialogue", "character": "gregor_maric", "text": "Soraya asked me to tell you this. She said: 'I like your husband more than I like you. At least he speaks honestly. He came to Kravenstal and talked to workers about their homes — not about votes, not about policy, about whether their ceilings leaked. No politician has ever asked the workers of Kravenstal about their ceilings. Your husband did. That matters.' Soraya does not give compliments. That was the closest thing to a compliment I have heard her give anyone in government — and she gave it to someone who is not in government." }
+  ],
+  "choices": [
+    {
+      "id": "soraya_jonas_humbled",
+      "text": "\"Tell Soraya I agree with her. My husband is more honest than I am. That is not a criticism of me — it is an acknowledgement of the difference between governing and speaking. Jonas can say what he believes without calculating the political cost. I cannot. I envy him that. And I am grateful that the workers see what I see in him.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 5 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soraya_jonas_humbled"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "soraya_jonas_political",
+      "text": "\"Soraya is right about Jonas. He is honest. But honesty is not policy, and policy is what the workers need more than they need a good listener. Tell Soraya I appreciate the compliment to my husband. And tell her that when she wants to talk about policy — not personalities — my door has always been open.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soraya_jonas_political"],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "act3_battle_kravenstal_approach",
+  "title": "The Kravenstal Gauntlet",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Evacuation Coordination Center — Aldenmoor Town Hall, 11:30",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The town of Aldenmoor was not built to be the headquarters of a defensive campaign. It was built to be a market town — three thousand people, a wool exchange, a chapel that predates the Republic by two centuries, and a railway station that connects the northern agricultural districts to Kravenstal. Today it is the coordination point for the largest civilian evacuation in Veltrian history. The town hall has been converted into a command center where military staff officers in field uniforms sit at tables next to civilian relief coordinators in rumpled coats, all of them drinking the same terrible coffee from the same mismatched cups. The wall behind the dais where the town council once debated market regulations now displays a map covered in red arrows — Tyvaren advance routes — and blue markings showing evacuation corridors. The red arrows are closer to Aldenmoor than they were yesterday."
+    },
+    {
+      "type": "description",
+      "text": "Colonel Dusek arrives directly from the forward line, her uniform dusted with the fine grey particulate that the military trucks kick up from the unpaved northern roads. She has not slept in — you calculate — approximately forty hours. The fatigue is visible in the precision of her movements rather than the lack of it: she is moving with the deliberate care of someone who knows that exhaustion makes you clumsy and has compensated by concentrating harder. She places a tactical overlay on the map table and begins her briefing without preamble. Dusek does not do preambles when Tyvaren forces are advancing."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Six crossings breached. Tyvaren motorized infantry is advancing along three axes — the coast road, the central rail corridor, and the eastern approach through the Alden valley. The central column is the main thrust. They are moving faster than projected. The evacuation is holding — approximately eighty percent of the border population has been relocated south of the defensive line. The remaining twenty percent are in the eastern districts where the Tyvaren advance is fastest. Civilian casualties so far: zero confirmed, twelve unverified. I am not confident the unverified will all remain unverified. The forward screening units are engaging and withdrawing according to doctrine. They are buying time. Time is what we are spending. The question is whether we are spending it fast enough."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Zero confirmed civilian casualties is remarkable. It is also temporary. The screening units are trading territory for time, and territory means people — the eastern districts where the evacuation is incomplete, the farms that refused to leave, the elderly couple in the Alden valley who told the evacuation team that they had survived the 1923 occupation and would survive this one and you could not force them to leave without using force that would make you indistinguishable from the enemy you were protecting them from. You think about that elderly couple now, names you don't know, faces you will never see, living or dying in a farmhouse that is about to be overrun by Tyvaren motorized infantry because you chose the doctrine that trades territory for time and the territory is not empty. The doctrine made sense in the War Room. It makes sense on the map. It makes less sense when you are standing in a town hall in Aldenmoor and the red arrows are close enough that you can hear the echo of artillery and somewhere east of here there is a farmhouse with two people in it who trusted their government to protect them."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I have three requests. First: additional transport for the eastern evacuation corridor — civilian buses, requisitioned trucks, anything with wheels that can move civilians faster than the Tyvaren advance. Second: authorization for local commanders to employ limited counterattacks where tactical opportunity presents — not to hold ground, but to disrupt the Tyvaren advance tempo and buy more evacuation time. Third: a public statement from your office acknowledging that we are trading territory for time and that this is a deliberate strategy, not a retreat. The border communities need to hear that their sacrifice is part of a plan, not a failure. Morale in the evacuation centers is fragile. Fragile morale breaks. Broken morale produces — complications I would prefer to avoid."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "kravenstal_engage_defensive_line",
+      "text": "\"No more territory traded. The defensive line at Aldenmoor-Kravenstal was prepared for this. Order the screening units to fall back to the line at best speed and prepare for a stand. I want every unit consolidated behind prepared positions by nightfall. The time for trading space for time is over. We hold here. Tell the troops that the ground under their feet is Veltrian soil and it stays Veltrian soil. The evacuation continues behind the line — but the line itself does not move. Gravenmark may have been the first battle. Aldenmoor will be the one Vukov remembers.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 4 }
+      ],
+      "flags": ["defensive_line_engaged", "no_more_retreat", "aldenmoor_stand", "kravenstal_approach_resolved"],
+      "codexUnlocks": ["codex_aldenmoor_defensive_line", "codex_conventional_defense_doctrine"]
+    },
+    {
+      "id": "kravenstal_trade_territory_time",
+      "text": "\"Continue the current doctrine. Trade territory for time. Every kilometer Vukov advances extends his supply lines and gives us another day to prepare the defensive line. I want the evacuation completed before we make a stand — I will not fight a battle with twenty percent of the civilian population still in the combat zone. Tell the screening units they are doing exactly what they were trained to do: slow the advance, preserve their forces, make the enemy pay for every kilometer. The stand comes later. First, we make sure the people are safe. Then we make sure the line holds. In that order.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 3 }
+      ],
+      "flags": ["territory_continued_trading", "civilian_evacuation_prioritized", "delaying_action", "kravenstal_approach_resolved"],
+      "codexUnlocks": ["codex_defense_in_depth_execution", "codex_civilian_evacuation_protocol"]
+    },
+    {
+      "id": "kravenstal_local_counterattacks",
+      "text": "\"Authorize local counterattacks where Dusek identifies opportunity. Small-unit actions — company level at most — designed to disrupt the Tyvaren advance tempo and create uncertainty. I want Vukov's commanders to hesitate before every crossroads, wondering if there's an ambush waiting. I want his logistics officers to report that the roads are not secure. I want him to slow down not because we are blocking him, but because he is afraid of what might be blocking him around the next bend. This is not a retreat. This is a fighting withdrawal. The screening units are not running — they are hunting. Make sure they know that. Make sure Vukov knows it too.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 3 }
+      ],
+      "flags": ["counterattacks_authorized", "asymmetric_defense", "fighting_withdrawal", "kravenstal_approach_resolved"],
+      "codexUnlocks": ["codex_local_counterattack_doctrine", "codex_asymmetric_warfare"]
+    }
+  ]
+}

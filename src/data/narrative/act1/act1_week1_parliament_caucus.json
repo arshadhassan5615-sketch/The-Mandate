@@ -1,0 +1,134 @@
+{
+  "id": "act1_week1_parliament_caucus",
+  "title": "The Caucus",
+  "act": 1,
+  "weekAvailable": 1,
+  "weekDeadline": 3,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Parliament Building — Caucus Chamber",
+  "characters": ["aldric_theron"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The caucus chamber smells of paper and old arguments. Thirty-one members of the Civic Renewal parliamentary bloc have been waiting since morning. Professor Theron sits at the head of the table, his reading glasses on the end of his nose, a draft document before him that runs to sixty pages."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Chancellor. Thank you for making the time. The members have questions — which is to say they have... anxiety, and anxiety, in a legislature, tends to take the form of questions. The primary one being: how quickly does one move on constitutional reform, and what is one willing to sacrifice to get it through?"
+    },
+    {
+      "type": "description",
+      "text": "Around the table, the MPs watch you with expressions that range from hopeful to exhausted. These are your people — lawyers, academics, former dissidents, a retired doctor from Dravenhollow. They won against considerable odds. They are now terrified of squandering it."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The Halvek Constitution was designed to prevent exactly what we are trying to do. Every historical case I can identify — and I have identified quite a number over thirty years of study — in which such a document was reformed under democratic pressure required either a supermajority, which one does not currently possess, or... an extraordinary political moment that made obstruction untenable. One may need to manufacture the latter."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Theron always frames it as a historical puzzle. He is not wrong that it is one. He is occasionally wrong that solving historical puzzles is the same as governing a country."
+    }
+  ],
+
+  "monologue": "Theron is framing it as a historical puzzle. He's not wrong that it is one. He's occasionally wrong that solving historical puzzles is the same thing as governing a country. The MPs around the table are hopeful and exhausted — lawyers, academics, former dissidents. They won against considerable odds. They're terrified of squandering it. Whether speed or patience serves reform better — and whether I can tell the difference before the moment passes.",
+
+  "choices": [
+    {
+      "id": "caucus_move_fast",
+      "text": "\"We move now. Constitutional convention by the end of the month. We draft it in public, we debate it in public, and we dare anyone to obstruct it in public. Speed is our best political cover.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 5  },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": 3  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [],
+      "flags": ["caucus_reform_fast"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Speed is... a form of legitimacy, certainly. The fifth-century Kaelvelian reforms moved at pace, and history has been... generous to them. One hopes the comparison holds. It may not."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "He removes his glasses. Wipes them. Replaces them. The gesture buys him three seconds to recalculate the political mathematics he had prepared for a different answer."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... He does not add the objection he had prepared. The thought arrived — you can see it cross his face — and he chose not to speak it."
+        }
+      ]
+    },
+    {
+      "id": "caucus_build_coalition",
+      "text": "\"Constitutional reform requires a supermajority we don't have. I'd rather pass something real in six months than a beautiful document that dies in committee. We negotiate, we find the votes, we do this correctly.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 5  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["caucus_reform_measured"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Measured. Yes. The Serevanian constitutional convention of 1889 took... seventeen months to produce a ratified document. It survived forty-two years. The Heraldi convention took nine weeks and collapsed within a decade. There is... precedent for patience."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "He had drafted an argument for speed — four pages, annotated margins. It stays in his briefcase. For now. The briefcase is a filing system for arguments whose time has not yet come."
+        }
+      ]
+    },
+    {
+      "id": "caucus_wait",
+      "text": "\"I need to understand what we're dealing with before I commit to a timetable. The BNI situation, the budget, Tyvaren — there are variables I haven't fully mapped yet. Give me two weeks before I put a date on the calendar.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["caucus_reform_delayed"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... He has a thought he does not share. It is about the twenty-third Chancellor of Kaelvel who asked for two weeks and received an insurrection. He files it under historical precedent — not yet operational advice."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Two weeks. Yes. I will... prepare materials for either timetable. The members will be... disappointed. But disappointment in a legislature is a renewable resource. One learns to live within its cycles."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "He closes his draft document — sixty pages, the product of six months' work. He closes it without irony. The gesture is quiet. It is also a negotiation."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "id": "act3_autonomy_commission",
+  "title": "The Commission Begins",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Committee Room 4 — Parliament, Kravenstal, 10:00",
+  "characters": ["idris_kaelen", "drazen_kolvar"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Committee Room 4 is the smallest of the parliamentary hearing rooms — chosen, you suspect, by Kolvar for precisely that reason. The public gallery seats forty, and most of those seats are occupied by Halvekist parliamentary aides who have been instructed to take notes but not to react. Kaelen sits at the witness table in a dark jacket that is too heavy for the overheated room, his posture the particular stillness of a man who has been interrogated before and learned that movement gives the interrogator information."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "The Parliamentary Commission on Dravenhollow Provincial Status — I will use the full title for the record — is convened to examine the question of what constitutional arrangements for the Dravenhollow province might be appropriate within the existing framework of the unitary Veltrian Republic. I wish to emphasize the word 'existing.' This commission is not a constitutional convention. It is a legislative inquiry. I call Mister Idris Kaelen, representing the political organization known as the Dravenni Liberation Front."
+    },
+    {
+      "type": "description",
+      "text": "Kolvar uses the word 'political organization' with the exact intonation of a man who wants the record to note that he has not used the word 'representative' or 'leader' or any term that might imply legitimacy. Kaelen hears it. The slight tightening at the corner of his jaw is the only evidence. He has been in rooms like this before. He knows how the game of words is played."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "Mister Chairman. Thirty-seven years ago, the Dravenni language was banned from public use in this province. Twenty-four years ago, the Dravenni Council of Elders was dissolved by decree from Kravenstal. Fourteen years ago, the Silent Clearances displaced seventeen thousand Dravenni from their ancestral villages. I am aware of what the 'existing framework' has meant for my people. I am here because the Chancellor has offered something different — not the existing framework with better furniture, but a new relationship between Dravenhollow and the Republic. I understand that some members of this commission believe the existing framework is adequate. I would invite those members to explain to the seventeen thousand displaced families what adequate means."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Kaelen is not going to play Kolvar's game. He came to this hearing prepared to testify not to the commission but to history — to put on the record what the Halvek years did to the Dravenni, so that whatever limited devolution Kolvar manages to negotiate will look like what it is: too little, too late, extracted by a man who still thinks the Dravenni should be grateful they are being heard at all. Kolvar knows he is losing the moral argument. He does not care about the moral argument. He cares about the legislative record, which will be written in his committee's own language and voted on by a parliament he can still influence. I have to decide whose version of this hearing matters more."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "autonomy_commission_power",
+      "text": "\"Kolvar, this commission was convened by executive authority. I am expanding its mandate: it will examine a federal autonomy framework, not just provincial status adjustments. I will submit draft legislation within thirty days. The commission members who cannot accept an expanded mandate are welcome to recuse themselves. The Dravenni people have waited thirty-seven years. They will not wait another thirty-seven while this committee debates the definition of the word 'existing.'\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 16 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kolvar_legal_challenge", "delayWeeks": 2 }
+      ],
+      "flags": ["commission_mandate_expanded", "kolvar_overridden_again", "federal_framework_route"],
+      "codexUnlocks": ["codex_autonomy_commission"]
+    },
+    {
+      "id": "autonomy_commission_narrow",
+      "text": "\"The commission will examine what is achievable with a simple parliamentary majority. No constitutional amendments, no provincial ratification — just legislation that can pass this session and take effect this year. Kolvar, you have thirty days to produce a draft. Kaelen, I need you at that table for every session. The framework this commission produces will not satisfy everyone — but it will change the lives of Dravenni citizens in measurable ways before the year is out.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_autonomy_talks", "delayWeeks": 6 }
+      ],
+      "flags": ["commission_narrow_mandate", "achievable_reform_path", "kolvar_engaged_constructively"],
+      "codexUnlocks": ["codex_autonomy_commission"]
+    },
+    {
+      "id": "autonomy_commission_observe",
+      "text": "\"I am here to observe, not to direct. The commission has its mandate. Kolvar has his procedures. Kaelen has his testimony. I have made my position clear — the Dravenni deserve recognition. How this committee translates that recognition into legislation is the committee's work. I will review the recommendations when they are submitted. I trust the process to produce outcomes that reflect the will of this parliament.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6  },
+        { "stat": "factions.dravenni",             "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_halvekist_legal_war", "delayWeeks": 4 }
+      ],
+      "flags": ["commission_delegated", "kolvar_controls_process", "executive_hands_off"],
+      "codexUnlocks": ["codex_autonomy_commission"]
+    }
+  ]
+}

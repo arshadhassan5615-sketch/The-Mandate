@@ -1,0 +1,171 @@
+{
+  "id": "act2_week23_family_crisis_tomas",
+  "title": "Kravenstal Station",
+  "act": 2,
+  "weekAvailable": 23,
+  "weekDeadline": 26,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Personal Line",
+  "characters": ["tomas_ashavel", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "personal.tomasWellbeing", "operator": "<", "value": 30 }
+  ],
+  "exclusive": ["act2_week23_family_crisis_jonas", "act2_week23_family_crisis_liora"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The call comes from the Aldric Gymnasium administrative office at ten past two. Your personal line, not the government line, which means they already understood that this was not a call for the Chancellor. They asked for the mother. Vyktor, who monitors all incoming calls as a matter of protocol, heard the classification and put it through without delay, which means he also understood."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Vice Principal at Tomas's school. He's missed six of the last fourteen school days. Three this week alone. When they sent a welfare officer to investigate, they found him near the old switching yards at Kravenstal Station — that's the industrial district two kilometers from the school. He was with a group of older boys. Some of them the school has linked to the Ironborn Youth — that's the youth auxiliary of the Iron Covenant's street organizing arm. The vice principal is asking for a parental conference."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is fourteen years old. Fourteen. He has grown up watching his country change from a country where the Chancellor was an abstraction into a country where the Chancellor is his mother, and his home is not fully his home anymore, and the boys who speak with the most certainty about who the enemy is are also the boys who will let you sit with them in the ruins of an old switching yard and not ask you questions about your family."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Ironborn Youth is not a criminal organization. It's a nationalist cultural group — they hike, they have camp meetings, they teach a particular version of Veltrian history. They are affiliated with the Iron Covenant but the affiliation is unofficial. Some of the older members have been involved in altercations near the refugee camps in Sevagrad, but that is not — as far as we know — what's happening in Ashenmere. Yet."
+    },
+    {
+      "type": "description",
+      "text": "You ask Vyktor to give you the room and he does, closing the door with the particular quietness he uses when he knows you need to think rather than act. The vice principal's phone number is on the notepad in front of you. Tomas's school photograph is in the frame on the left edge of your desk — he's twelve in it, still-faced the way children are when they know they're being photographed officially. You haven't updated it. You should update it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not a fascist. He is a boy who is lonely and has found people who make him feel less lonely, and those people happen to be passing on a set of ideas that will hurt him and hurt others if they take root. The question is whether you address that as a mother or as the Chancellor or whether those two things are even separable at this point."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "Your phone call connects. He answers on the second ring, which means he has been waiting for it. His voice is flat in the way teenage voices are flat when they are working very hard not to sound anything at all. \"Mama.\" One word. You can hear six different things in it and none of them are comfortable."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The word hits you the way specific words sometimes do, the ones you haven't earned lately. You have been the Chancellor for twenty-three weeks. Before that you were his mother for fourteen years. The hierarchy has inverted and he feels it more clearly than you do."
+    }
+  ],
+  "monologue": "Six of the last fourteen school days. Found near the old switching yards with older boys — some linked to the Ironborn Youth. He is fourteen. He is not a fascist. He is a boy who is lonely and has found people who make him feel less lonely, and those people happen to be passing on ideas that will hurt him and hurt others. His voice on the phone: 'Mama.' One word. I heard six different things in it and none of them were comfortable. The word I have not earned lately.",
+
+  "choices": [
+    {
+      "id": "tomas_go_to_school",
+      "text": "\"Cancel the afternoon. Go to the school in person for the conference. Then find Tomas and talk — not lecture, not warn. Talk. Ask him what's happening in a way that means you actually want to know.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": 16 },
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 6  },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 3  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_tomas_student_arc",
+          "delayWeeks": 6
+        }
+      ],
+      "flags": ["tomas_crisis_addressed", "tomas_school_attended"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He is already clearing the afternoon schedule before you finish the sentence. He cancels four meetings without asking which ones you want to keep. He knows."
+        },
+        {
+          "character": "tomas_ashavel",
+          "type": "dialogue",
+          "text": "When you find him at the school, he is sitting on the steps outside the administrative office. He does not look at you right away. Mama, he says, and the word is different this time — less flat, more like the boy who used to ask you to read to him before bed."
+        }
+      ]
+    },
+    {
+      "id": "tomas_jonas_handles",
+      "text": "\"Call Jonas. He's closer to Tomas day-to-day — he should lead the school meeting. I'll be home for dinner, genuinely, and we'll talk to Tomas together in the evening.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": 8  },
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 5  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_tomas_jonas_bond",
+          "delayWeeks": 5
+        }
+      ],
+      "flags": ["tomas_crisis_delegated", "jonas_handles_tomas"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Noted. Jonas reached the school by two-forty. The vice principal reports the conference was productive. Tomas agreed to a schedule — monitored attendance, weekly check-ins with the counselor. He pauses. The Chancellor's husband is reportedly very persuasive."
+        }
+      ]
+    },
+    {
+      "id": "tomas_investigate_ironborn",
+      "text": "\"Have Danika pull whatever intelligence exists on the Ironborn Youth's operations in Ashenmere. If they're recruiting at schools and Tomas is being targeted specifically — because of who I am — I need to understand the scope before I have a conversation with him that makes it worse.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": -3 },
+        { "stat": "factions.ironCovenant",      "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_tomas_nationalist_arc",
+          "delayWeeks": 8,
+          "conditions": [{ "stat": "personal.tomasWellbeing", "operator": "<", "value": 25 }]
+        }
+      ],
+      "flags": ["tomas_crisis_surveilled", "ironborn_investigated"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes the order without comment. The pen moves across the paper. When he finishes, he looks at you for a moment — a rare moment of something that is not quite judgment but is not not judgment either. He files the order without speaking."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Danika's initial report will be on your desk within forty-eight hours. He pauses at the door. You understand what this will look like if it becomes public. A Chancellor surveilling her son's social circle. I am not advising against it. I am making sure you have heard it."
+        }
+      ]
+    },
+    {
+      "id": "tomas_schedule_next_week",
+      "text": "\"Tell the vice principal I'll call back to schedule the conference next week. Have Vyktor send flowers to the residence with a note to Tomas that I'll be home by eight tonight.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_tomas_nationalist_arc",
+          "delayWeeks": 5
+        }
+      ],
+      "flags": ["tomas_crisis_ignored", "tomas_crisis_unresolved"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes the instruction on his notepad — flowers, a note, a call to the vice principal — and says nothing. The silence is not agreement. It is the specific quiet of someone who has already predicted the outcome of this decision and is choosing to let you discover it yourself."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "letter_response_jonas",
+  "title": "A Letter from Jonas",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "The Ashavel Residence",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Jonas places a small, folded note on the kitchen table next to your coffee. It is in his handwriting — the careful, architectural script of a man who draws buildings for a living. It is a reply to your letter. He has written it on the back of an old blueprint." },
+    { "type": "dialogue", "character": "jonas_ashavel", "text": "I read your letter three times. The first time I was angry — I thought it was too little, too late, another way of being present without being here. The second time I was sad. The third time I understood what you were actually saying. You are afraid you are losing us. You are. But we are still here. I am still here. When you are ready to come back — not the Chancellor, just Katerin — I will be waiting." }
+  ],
+  "monologue": "Three readings. Anger, then sadness, then understanding. He gave me the arc I did not give him. When he says 'just Katerin,' he means the person who existed before the office consumed her. Find her. She is still in here somewhere.",
+  "choices": [
+    { "id": "letter_jonas_response", "text": "\"...Thank you, Jonas. For waiting. For understanding. For all of it.\"", "internalTag": "personal", "stateChanges": [{ "stat": "personal.marriageHealth", "operation": "add", "value": 12 }], "chainTriggers": [], "flags": ["letter_jonas_replied"], "codexUnlocks": [], "reactions": [{ "character": "jonas_ashavel", "type": "action", "text": "He does not speak. He simply reaches across the table and puts his hand over yours — the gesture that has meant I am still here for twenty years. The blueprint underneath his note is still there. So is he." }] }
+  ]
+}

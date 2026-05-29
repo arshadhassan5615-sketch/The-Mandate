@@ -1,0 +1,115 @@
+{
+  "id": "act3_week30_betrayal_vostane",
+  "title": "The Finance Minister's Statement",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 32,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": false,
+  "location": "Chancellor's Office — 9:18am, via television",
+  "characters": ["elara_vostane", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "factions.businessClass",  "operator": "<=", "value": 28 },
+    { "stat": "personal.moralCompass",   "operator": ">=", "value": 21 }
+  ],
+  "exclusive": ["act3_week30_betrayal_dusek", "act3_week30_betrayal_vyktor"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You find out from the television. Vyktor comes in and turns on the feed without saying why. Elara Vostane is standing at a lectern outside the Finance Ministry — outside, in the natural light, with journalists already assembled in numbers that mean this was scheduled and arranged and planned. Kolvar is on her left. Behind him: three Unity Bloc parliamentarians and the chairman of the Veltrian Chamber of Commerce."
+    },
+    {
+      "type": "description",
+      "text": "She is reading from prepared remarks. You watch her read. You have seen her in cabinet meetings, budget sessions, six-in-the-morning crisis rooms. You have never seen her read from prepared remarks. She always speaks without notes — it has been one of the things you respected about her. The fact that she is reading now means she is saying precisely what she intended to say, and nothing else, and she cannot be pulled off course by a question."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The Civic Renewal government has chosen constitutional ambition over economic responsibility. The new constitution has been purchased at a fiscal cost that will take this Republic more than a decade to recover from. The Finance Ministry has, for seven months, provided analysis that was consistently deprioritized in favor of political objectives. I cannot in good conscience remain a member of a cabinet that has made this choice knowingly and repeatedly. I am resigning my portfolio today and joining the Unity Bloc in calling for a program of fiscal stabilization under new parliamentary leadership."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There are four times in cabinet you can name where you overruled her. Two budget decisions. The IMA inquiry response. The superpower financing arrangement. You kept a list — the kind you keep for things you might need later. You did not think you would need it this way. You did not think you were keeping score with someone who was also keeping score."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "She has been building this for six weeks. Kolvar's people started meeting with the Chamber of Commerce in week twenty-three. This isn't a reaction to anything you did in the last two days — it was a decision that was made, and then staged. The outdoor lectern, the morning timing, the Chamber chairman behind her. This was produced."
+    },
+    {
+      "type": "description",
+      "text": "On the television, a journalist asks about the referendum result. Elara pauses before answering — a short pause, two seconds, the kind she uses when she is deciding between two formulations rather than searching for words. She answers: 'Sixty percent voted for a document. That's not the same as sixty percent accepting what this government has done with the stability of the Republic.' She says it carefully. She says it exactly right."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She was right about the things she was right about. You knew she was right when she said them. You made the choices anyway, because the choices were also right, and two correct positions can still be incompatible. What you did not fully account for was what she would do with being overruled. You know now."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "betrayal_vostane_on_camera",
+      "text": "\"I'm going on camera. Twenty minutes. I don't want a statement drafted for me — I'll speak directly to the fiscal record and to what this government has actually done with the finances of this Republic. She does not get to define that uncontested.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",         "operation": "add", "value": -5 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vostane_media_war", "delayWeeks": 1 }
+      ],
+      "flags": ["vostane_defected", "vostane_publicly_challenged"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_vostane_cabinet_audit",
+      "text": "\"Emergency cabinet meeting, one hour. I want everyone in the same room. Not to debrief — to find out who else knew, who else is considering it, and to make clear that the way to tell me you're leaving is to tell me directly, not through a press conference.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -6 },
+        { "stat": "nation.corruption",            "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",          "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_cabinet_loyalty_audit", "delayWeeks": 1 }
+      ],
+      "flags": ["vostane_defected", "cabinet_audited_vostane"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_vostane_parliament_address",
+      "text": "\"Address parliament directly. Not a press statement — a parliamentary address. Name the defection, name the fiscal record she's mischaracterizing, and make the argument that this government can survive a cabinet departure because it has a record that speaks for itself.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",         "operation": "add", "value": 5  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 2 }
+      ],
+      "flags": ["vostane_defected", "vostane_parliament_named"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "betrayal_vostane_call_her",
+      "text": "Tell Vyktor to get Elara's personal mobile — not the ministry line. You want to call her directly, once, before anything else happens. Maybe she picks up. Maybe she doesn't. You want to try.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["vostane_defected", "vostane_called_personally"],
+      "codexUnlocks": []
+    }
+  ]
+}

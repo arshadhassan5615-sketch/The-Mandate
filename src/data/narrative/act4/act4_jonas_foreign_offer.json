@@ -1,0 +1,46 @@
+{
+  "id": "act4_jonas_foreign_offer",
+  "title": "The Offer from Abroad",
+  "act": 4,
+  "weekAvailable": 42,
+  "weekDeadline": 48,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "The Ashavel Residence — Kitchen Table",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [{ "stat": "flags.jonas_public_voice", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Jonas places a letter on the kitchen table. A prestigious Lytheirian architecture firm — one of the most respected in the world — has offered him a position. Lead architect on their public housing division. The salary is triple what he has ever earned. The position is in Lytheira. He would have to leave Veltria." },
+    { "type": "dialogue", "character": "jonas_ashavel", "text": "I have been thinking about this for three weeks. I did not tell you because I did not want you to influence my decision before I made it. This is not about us. It is about me. For twenty years I have been an architect in a country that does not value architecture. I have designed public housing that was never built, urban plans that were shelved, proposals that were rejected because the money went to weapons instead. This firm — they build things. They have built housing for two hundred thousand people. If I go, I will finally do the work I was trained to do. If I stay, I stay for you. And I need to know whether that is enough." }
+  ],
+  "choices": [
+    {
+      "id": "jonas_offer_let_go",
+      "text": "\"Go. You have spent twenty years building my career. You have been the husband of a Chancellor when you never asked to be. You have been a political figure when all you wanted to be was an architect. This is your chance to do what you love, at the highest level, for people who need it. I will not ask you to stay. I love you too much to ask you to stay.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_leaving_veltria", "jonas_foreign_offer_accepted"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_offer_ask_stay",
+      "text": "\"I cannot ask you to stay for me. But I can ask you to stay for Veltria. You said it yourself — we need architects who care about public housing. You have spent twenty years fighting to build things here. If you leave now, who fights that fight? I am not asking you to stay for our marriage. I am asking you to stay for the country you have been trying to help since the day I met you.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_staying_veltria", "jonas_foreign_offer_refused"],
+      "codexUnlocks": []
+    }
+  ]
+}

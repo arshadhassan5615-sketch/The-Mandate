@@ -1,0 +1,179 @@
+{
+  "id": "act1_chain_watchtower_leak",
+  "title": "The Watchtower Gap",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Secure Briefing Room",
+  "characters": [
+    "irina_dusek"
+  ],
+  "prerequisites": [
+    {
+      "stat": "flags.bni_dissolved",
+      "operator": "==",
+      "value": true
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dusek does not knock. She enters carrying a classified signals intelligence report — the kind with the red diagonal stripe across the top that means you are not supposed to discuss its existence — and sets it on the table without preamble."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "A Tyvaren newspaper published our military patrol schedules along the Gravenmark Pass this morning. Not approximations — the actual schedules. Unit designations. Shift rotations. Deployment timings for six border checkpoints. I have served in this building for twenty-two years. I know what that document is because I signed the last distribution list. Someone with internal access transferred classified material to a foreign power. That is not speculation. That is what occurred."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is not looking at me with accusation. She is looking at me the way a surgeon looks at a wound they were warned about and chose not to address. The BNI's counterintelligence division would have caught this. Not because they were good at their jobs — they were, but that's not the point. The point is that someone was watching for exactly this kind of transfer, and now no one is."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Without counterintelligence capability, we cannot identify the source. I have already ordered schedule rotations — that addresses the immediate vulnerability. It does not answer two questions: who has been passing information to Tyvaren, for how long, and what other documents they have accessed. The patrol schedules are operationally embarrassing. The Sevagrad force deployment tables would constitute a national security emergency. I require the Chancellor's authorization to conduct an internal investigation."
+    },
+    {
+      "type": "description",
+      "text": "The irony is specific and she knows it. You dissolved the BNI because it surveilled journalists and dissidents and ran informant networks against its own citizens. Now you need an informant network to find out who is running an informant network against you."
+    }
+  ],
+  "monologue": "The patrol schedules appeared in a Tyvaren newspaper. Unit designations. Rotation times. Someone with internal access transferred classified material to a foreign power. The BNI's counterintelligence division would have caught this. I dissolved the BNI. Dusek isn't blaming me but she's showing me the cost — not with accusation, with the precision of a surgeon describing a wound she was warned about.",
+  "choices": [
+    {
+      "id": "watchtower_leak_military_review",
+      "text": "\"Conduct a full internal military security review. Every officer on that distribution list submits to a polygraph examination and a financial audit. Anyone who refuses is transferred to a non-sensitive posting immediately. Yes, this means treating loyal officers as suspects. I prefer that to the alternative.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -4
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "watchtower_internal_review",
+        "military_security_tightened"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "irina_dusek",
+          "type": "action",
+          "text": "She makes a note on her tactical map."
+        }
+      ]
+    },
+    {
+      "id": "watchtower_leak_diplomatic",
+      "text": "\"Rotate all patrol schedules and issue a formal protest through the Tyvaren embassy — the publication of military intelligence is an act of provocation and we are documenting it as such. We absorb the security gap for now. Starting a witch-hunt inside the military the week after we disbanded the BNI would tell everyone that the reform was a mistake. I won't give them that.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week24_brenner_warning",
+          "delayWeeks": 8
+        }
+      ],
+      "flags": [
+        "watchtower_leak_unresolved",
+        "tyvaren_intelligence_protest"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "irina_dusek",
+          "type": "action",
+          "text": "She makes a note on her tactical map."
+        }
+      ]
+    },
+    {
+      "id": "watchtower_leak_civilian_agency",
+      "text": "\"This is the argument for a civilian intelligence agency — not the BNI reconstituted, but something new. Small, transparent, with judicial oversight built in from day one. Dusek, give me thirty days to draft a charter. Until then, rotate schedules every seventy-two hours and limit distribution lists to the three people with direct operational need. We build the replacement before the next leak, not after.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week24_brenner_warning",
+          "delayWeeks": 10
+        }
+      ],
+      "flags": [
+        "civilian_intelligence_proposed",
+        "bni_replacement_charter"
+      ],
+      "codexUnlocks": [
+        "codex_civilian_intelligence"
+      ],
+      "reactions": [
+        {
+          "character": "irina_dusek",
+          "type": "action",
+          "text": "She is already on her radio."
+        }
+      ]
+    }
+  ]
+}

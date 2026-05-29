@@ -1,0 +1,46 @@
+{
+  "id": "project_mid_crisis_steel",
+  "title": "The Kravenstal Strike",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Kravenstal Steelworks — Workers' Hall",
+  "characters": ["gregor_maric"],
+  "prerequisites": [{ "stat": "flags.project_steel_started", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "The steel modernization has hit a wall. The construction workers — Veltrian laborers hired for the project — have walked off the job. Their demands: hazard pay for working near active blast furnaces, overtime compensation, and a guarantee that the modernized facility will not reduce the workforce. The contractor says the demands will add 8 million VK to the project cost. Gregor Marić is waiting in the Workers' Hall." },
+    { "type": "dialogue", "character": "gregor_maric", "text": "The workers are not being unreasonable. They are working next to furnaces that could kill them if something goes wrong. They want to know that the modernization — which they support — will not be used as an excuse to replace them with machines and Arcturian contractors. These are the men who built this foundry. They are asking you to remember that." }
+  ],
+  "choices": [
+    {
+      "id": "steel_strike_negotiate",
+      "text": "\"Negotiate. Meet their demands — hazard pay, overtime, workforce guarantee. It will add eight million and delay the project by two weeks. But the workers who build this modernization should not fear it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 12 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["steel_strike_resolved", "workers_demands_met"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "steel_strike_force",
+      "text": "\"We cannot afford the delay. Offer a five percent wage increase — no more. If they do not return, we will hire replacement workers. The modernization must proceed on schedule. The country cannot wait for every grievance to be resolved.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -15 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["steel_strike_broken", "workers_overruled"],
+      "codexUnlocks": []
+    }
+  ]
+}

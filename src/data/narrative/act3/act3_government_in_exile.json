@@ -1,0 +1,94 @@
+{
+  "id": "act3_government_in_exile",
+  "title": "Government Without Soil",
+  "act": 3,
+  "weekAvailable": 37,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Stellamere — Arcturian Diplomatic Annex, Night of the Coup",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Stellamere embassy's back gate opens onto a service alley that was designed for diplomatic pouch deliveries and consular staff with parking permits, not for heads of state fleeing military coups. But it is the gate that exists, so it is the gate you use. Jonas is holding Tomas's hand. Liora is not holding anyone's hand. She is walking with the particular rigidity of a seventeen-year-old who has decided that the only acceptable response to a coup is to refuse to appear frightened. The embassy security officer who meets you at the service entrance is young and obviously overwhelmed by the sudden transformation of his night shift into a historical event. He calls you 'Madam Chancellor' with the slight upward inflection of someone who is not entirely certain the title still applies."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You are a Chancellor without a country. The phrase arrives fully formed and sits in your chest like something physical — a stone, or a second heartbeat, or the absence of one. You fled. You made the calculation in eighty minutes while tanks rolled toward the capital, and you fled. The calculation was: survive, organize, return. The calculation was rational. Every strategic instinct you have confirms it. A dead Chancellor is a martyr, and martyrs do not govern. But a Chancellor who runs is something else, and you do not yet know what word history will attach to that something. The word depends on what you do in the next forty-eight hours, and the next forty-eight hours begin in this service alley, in a country that is not yours, with an embassy security officer who is trying very hard to be professional about the fact that a foreign head of state just arrived through the trash collection entrance."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Arcturian foreign ministry has been informed. They are preparing a statement of continued recognition — your government remains the legitimate government of Veltria regardless of territorial control. This is the critical legal fact. Recognition means access to frozen assets, approximately eighty million VK. Recognition means diplomatic channels remain open. Recognition means the junta cannot claim international legitimacy. I have also contacted the broadcasting authority — they have agreed to provide transmission facilities for an address to Veltria within twelve hours. The address will be carried on shortwave and relayed through the Stellamere international service. Brenner cannot jam all of it. He can try. He will fail for at least the first broadcast. What he does for the second broadcast depends on how effectively we make the first one matter."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor has been operating at this level of efficiency for thirty-seven weeks, but tonight there is something additional in his voice — a quality of absolute focus that you recognize because you are feeling it too. The flight response has been completed. The survival response has been completed. What remains is the governing response, and governing is what Vyktor does, what you do, what the two of you have been doing since the first week when governing seemed like the thing that happened at meetings and not the thing that happened at three in the morning in a service alley behind an embassy. The circumstances have degraded. The work has not. The work is the only thing that makes the circumstances survivable."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "exile_international_sanctions",
+      "text": "\"Vyktor, I want the international campaign launched before sunrise. Every democracy on the continent gets a personal appeal from me. I will address the Arcturian parliament, the International Forum, the Association of Free States — any body that will give me a platform. I am going to make the case that a military coup in Veltria is not a Veltrian problem, it is a democratic crisis that threatens every country that claims to govern by consent. Sanctions, diplomatic isolation, asset freezes — I want Brenner's junta to be the most isolated government on the continent within thirty days. He can have the tanks, but he cannot have legitimacy, and without legitimacy the tanks are just expensive parked vehicles.\"",
+      "internalTag": "reformist",
+      "tooltip": "Build international coalition against the junta. Maximizes diplomatic pressure but relies on foreign actors. Brenner controls the ground.",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 16 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_stellamere_broadcast", "delayWeeks": 0 },
+        { "targetNodeId": "act4_exile_arc", "delayWeeks": 3 }
+      ],
+      "flags": ["exile_international_campaign", "government_in_exile_established", "sanctions_strategy"],
+      "codexUnlocks": ["codex_government_exile_doctrine", "codex_international_sanctions"]
+    },
+    {
+      "id": "exile_loyalist_coordination",
+      "text": "\"The broadcast matters but the ground matters more. Dusek is still in the Ministry — or wherever she's gone to ground. I need a secure channel to her within six hours. She has contact with every unit that didn't follow Brenner's orders. I want her to activate a network — not for immediate action, but for sustained coordination. Safe houses. Communication protocols. A skeleton that can become an armature when the moment comes. The diplomatic campaign gives us legitimacy, but without loyalist capacity inside Veltria, legitimacy is just a word in a diplomatic cable. I need a government in exile that can reach back into the country, not just broadcast at it from outside.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Build an internal resistance network coordinated from exile. Keeps a foot in Veltria but exposes loyalists to junta counterintelligence.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_underground_radio", "delayWeeks": 2 },
+        { "targetNodeId": "act4_exile_arc", "delayWeeks": 3 }
+      ],
+      "flags": ["exile_loyalist_network", "government_in_exile_established", "resistance_coordination"],
+      "codexUnlocks": ["codex_loyalist_network", "codex_covert_communication"]
+    },
+    {
+      "id": "exile_military_return_prep",
+      "text": "\"I am not going to spend months in exile issuing statements while Brenner consolidates. I want a military options assessment on my desk within seventy-two hours. What loyalist forces are still operational? What is the junta's actual strength, not their claimed strength? What external support would we need for a return — Arcturian logistics, Petravarian intelligence, whatever is available? I am not ordering an invasion of my own country tomorrow. I am ordering the preparation for the possibility that diplomacy fails and we have to take Veltria back by force. The preparation begins now, while the junta is still figuring out which ministries it controls. Every hour we wait is an hour they consolidate. I will not give them hours.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Prepare for a military return to Veltria. Keeps the initiative but risks escalation to civil war. International partners may balk.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_exile_arc", "delayWeeks": 3 }
+      ],
+      "flags": ["exile_military_preparations", "government_in_exile_established", "return_by_force_prepared"],
+      "codexUnlocks": ["codex_military_restoration_options", "codex_junta_order_of_battle"]
+    }
+  ]
+}

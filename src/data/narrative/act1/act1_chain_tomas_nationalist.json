@@ -1,0 +1,81 @@
+{
+  "id": "act1_chain_tomas_nationalist",
+  "title": "The Ironborn Youth",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Evening",
+  "characters": ["tomas_ashavel", "jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Jonas is waiting for you in the corridor again — the same spot outside Tomas's room where he stood eight weeks ago, the night of the bullying. His face is different this time. Not the exhausted patience of a father managing a child's pain. Something harder. Something that looks like fear."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I found a pamphlet in Tomas's room. It's from a group called the Ironborn Youth. They meet after school at a gymnasium in the Halvekist district. Their literature talks about 'Veltrian renewal' and 'national strength' and 'the weakness of the current government.' They have a chapter in Kravenstal and another in Thornfeld and they are recruiting at Tomas's school. He's been going for three weeks. He didn't tell me. I found the pamphlet under his mattress.\" He stops. The next sentence takes visible effort. \"He told me — when I asked — that they're the only people who don't treat him like he's broken. They tell him he's strong. They tell him the bullies are weak. They tell him his mother's government is weak for not fighting back. He's twelve, Katerin. He's twelve years old and he's being radicalized by fascists because we taught him that strength means not crying when you get hit."
+    },
+    {
+      "type": "description",
+      "text": "Through the door, you can hear Tomas's radio playing — some news broadcast, the announcer's voice too muffled to make out the words. He has not come out to see you. He may not know you are here. Or he may know and not care. That is the thought that sits heaviest."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I told him to be stronger. I told him this was the cost of who we are. I was thinking about resilience — about the kind of strength that gets you through the hard things without breaking. He heard something else. He heard: the bullies are right about weakness, and you need to become the thing that hurts instead of the thing that gets hurt. A twelve-year-old does not make fine distinctions between resilience and cruelty. He just wants the pain to stop. The Ironborn Youth told him they could make the pain stop. I told him to toughen up. They told him how."
+    }
+  ],
+
+  "monologue": "I told him to be stronger. He heard: the bullies are right about weakness and you need to become the thing that hurts instead of the thing that gets hurt. A twelve-year-old doesn't make fine distinctions between resilience and cruelty. He just wants the pain to stop. The Ironborn told him they could make the pain stop. I told him to toughen up. They told him how.",
+
+  "choices": [
+    {
+      "id": "tomas_ironborn_intervene_directly",
+      "text": "Go into his room. Sit on his bed. \"Tomas. Your father told me about the Ironborn Youth. I'm not going to yell at you. I'm going to tell you about my father — your grandfather — and what happened to him when he was about your age. He was approached by men who told him he was strong and the world was weak. They were Halvek's recruiters. They wanted him to join the party youth league. He said no. It cost him friends. It cost him safety. It may have cost him his life, eventually. He said no because he understood that the people who tell you that you are strong and everyone else is weak are not trying to make you strong. They are trying to make you theirs.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": 10  },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 12  },
+        { "stat": "factions.ironCovenant",       "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["tomas_pulled_back", "ironborn_intervened", "tomas_nationalist_resolved"],
+      "codexUnlocks": ["codex_ironborn_youth"]
+    },
+    {
+      "id": "tomas_ironborn_ban_forcefully",
+      "text": "\"I want the school to expel the Ironborn recruiters. I want the Interior Ministry to investigate their funding. And I want Tomas transferred to the Veltrian Academy immediately — not as a choice, as a requirement. He is twelve. He does not get to choose whether he joins a fascist youth organization. I am his mother and I am the Chancellor and I am going to do both of those jobs right now: protect my son and shut down the people who are trying to radicalize him. He can hate me for it. He'll survive.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": -8  },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": -4  },
+        { "stat": "factions.ironCovenant",       "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",       "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [],
+      "flags": ["tomas_forcefully_removed", "ironborn_investigated", "tomas_nationalist_resolved"],
+      "codexUnlocks": ["codex_ironborn_youth"]
+    },
+    {
+      "id": "tomas_ironborn_jonas_lead",
+      "text": "Turn to Jonas. \"I don't know how to reach him right now. You do. You've always been better at this — at being present, at being patient, at knowing what to say when the political answer is the wrong answer. I need you to be the one who talks to him. Not the Chancellor's husband. His father. Whatever time you need, whatever resources — take them. I'll cover for you publicly. Just — bring him back. Please.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": 6   },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 12  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 6   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["tomas_jonas_intervention", "parenting_shared", "tomas_nationalist_resolved"],
+      "codexUnlocks": []
+    }
+  ]
+}

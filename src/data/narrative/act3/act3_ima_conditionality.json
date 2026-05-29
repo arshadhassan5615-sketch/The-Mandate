@@ -1,0 +1,97 @@
+{
+  "id": "act3_ima_conditionality",
+  "title": "The Price of Solvency",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Finance — Conference Room, 8:00am",
+  "characters": ["elara_vostane", "gregor_maric"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The IMA agreement is signed. The ink is barely dry — metaphorically; the actual document was signed in Stellamere and transmitted by diplomatic cable — but the conditions are already arriving. Vostane has them organized in a binder with color-coded tabs: fiscal consolidation (blue), structural reform (red), privatization schedule (green), monitoring and compliance (yellow). The binder is three inches thick. Vostane treats it like a sacred text. Maric treats it like an indictment."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The fiscal consolidation targets require a surplus of one point eight percent of GDP within eighteen months. To achieve this, we must reduce public expenditure by approximately four hundred and twenty million VK over the next three fiscal quarters. The most efficient reduction pathway is workforce rationalization — a twenty percent reduction in public sector employment — combined with the elimination of agricultural subsidies and the privatization of state-owned enterprises. I have modeled seven scenarios. The most efficient achieves the target in fourteen months with a projected increase in unemployment of four point two percent. The least efficient achieves the target in twenty-two months with significant political friction. I recommend the efficient path. Efficiency is not cruelty. Efficiency is the least cruel way to do a cruel thing, because it ends the cruelty sooner."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "Efficiency. She says it like it is a moral category. Four hundred and twenty million VK in cuts. Sixty thousand workers. The Grain Authority — which, I will remind everyone in this room, is the reason four provinces did not starve during the '57 harvest failure. Northern Rail — the only transport link to Dravenhollow for five months of the year. The Broadcasting Corporation — which we spent twenty-six weeks building press freedom protections around. And Elara calls this efficiency. I call it an amputation performed by foreign surgeons who have never seen the patient. They are cutting off limbs to save a body they do not care about. The body is Veltria. The limbs are people who voted for us."
+    },
+    {
+      "type": "internal_thought",
+      "text": "They are both right. That is the unbearable thing about this room, this morning, this binder. Vostane is correct that the alternative to IMA compliance was economic collapse — default, currency devaluation, hyperinflation that would have destroyed far more than sixty thousand jobs. Maric is correct that the IMA conditions are a foreign-designed restructuring of the Veltrian economy that will immiserate hundreds of thousands of people in the name of fiscal targets set by economists who have never visited a Kravenstal grain collective. Correctness is not a single quantity. It is a vector, with direction and magnitude, and the two vectors point in opposite directions. You have to choose which direction to face. You cannot face both."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Gregor's moral framing is not incorrect. It is simply not actionable. The IMA conditions are non-negotiable in substance. The memorandum of understanding we signed makes compliance a condition of disbursement. If we fail to meet the quarterly targets, the next tranche of funding is suspended. Without that funding, the Krone collapses, we default on our sovereign debt, and the resulting economic crisis will destroy more jobs in one month than the IMA conditions will eliminate in three years. I am not asking you to like the conditions. I am asking you to recognize that the choice is between conditions we dislike and conditions we cannot survive. That is not a moral choice. It is a survival choice."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "ima_conditions_implement_fully",
+      "text": "\"Implement the conditions in full. On schedule. Elara's most efficient pathway — fourteen months, workforce rationalization, privatization, subsidy elimination. I will not pretend this is anything other than brutal. I will explain to the country that we are doing what survival requires. The people who lose their jobs will hate me. The people who keep their jobs because the economy did not collapse will not thank me because they will never know what was avoided. That is the nature of this office. We govern for outcomes, not for gratitude. Begin implementation immediately.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 18 },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -60 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -22 },
+        { "stat": "factions.reformists",          "operation": "add", "value": -12 },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -14 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ima_compliance_year", "delayWeeks": 8 }
+      ],
+      "flags": ["ima_deal_accepted", "austerity_full_implementation", "vostane_path_chosen"],
+      "codexUnlocks": ["codex_ima_structural_adjustment"]
+    },
+    {
+      "id": "ima_conditions_negotiate_timeline",
+      "text": "\"I accept the substance of the IMA conditions. I do not accept the timeline. Fourteen months is not implementation — it is economic shock therapy. We will implement the same conditions over twenty-four months, using attrition and voluntary separation to minimize layoffs, phasing the privatization to allow domestic bidders to organize, and maintaining agricultural subsidies through the next harvest cycle before phasing them out. Elara, I want you to negotiate this framework with the IMA resident representative. If they push back — remind them that a government that collapses politically in twelve months cannot implement their conditions at all. Stability is in their interest as well as ours. You have forty-eight hours.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 10 },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -35 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -8  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ima_compliance_year", "delayWeeks": 6 }
+      ],
+      "flags": ["ima_deal_accepted", "timeline_negotiated", "shock_therapy_avoided"],
+      "codexUnlocks": ["codex_ima_negotiation"]
+    },
+    {
+      "id": "ima_conditions_blame_publicly",
+      "text": "\"Implement the conditions. Every single one, on schedule. But I am not going to pretend to the country that these are my choices. I will address the nation tonight and explain exactly what the IMA has demanded: the jobs, the privatizations, the subsidy cuts. I will name the foreign institution that is imposing these conditions. I will make it clear that we accepted the IMA package because the alternative was collapse — a collapse caused by the previous regime's mismanagement and the international system's refusal to extend fair terms to a reforming democracy. I will comply with the IMA. I will also ensure that every Veltrian who suffers from that compliance knows whose conditions they are suffering under. Compliance does not require silence.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 14 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -8  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -6  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 2   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 6   },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_ima_compliance_year", "delayWeeks": 8 }
+      ],
+      "flags": ["ima_deal_accepted", "ima_blamed_publicly", "compliance_with_resistance"],
+      "codexUnlocks": ["codex_ima_public_narrative"]
+    }
+  ]
+}

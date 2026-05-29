@@ -1,0 +1,23 @@
+{
+  "id": "bill_state_enterprise_restructuring",
+  "title": "State Enterprise Restructuring Act",
+  "shortName": "S.E.R.A.",
+  "proposer": "Vostane's allies in business community",
+  "faction": "businessClass",
+  "weekPresented": 23,
+  "fullText": "Section 1. The Republic of Veltria shall divest sixty percent of its ownership interest in the Veltrian Steel Corporation, the Northern Mining Consortium, and the Gravenmark Mineral Extraction Authority. Shares shall be offered through a public tender process managed by the Ministry of Finance.\n\nSection 2. Proceeds from privatization shall be allocated as follows: forty percent to debt reduction, thirty percent to infrastructure investment, and thirty percent to a Workers' Transition Fund providing retraining and severance for affected employees.\n\nSection 3. Foreign investors may purchase up to thirty-five percent of offered shares, with the remaining reserved for Veltrian citizens and domestic institutional investors.",
+  "budgetCost": 80,
+  "signEffects": [
+    { "stat": "factions.businessClass", "operation": "add", "value": 20 },
+    { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
+    { "stat": "factions.workersCoalition", "operation": "add", "value": -25 },
+    { "stat": "nation.nationalDebt", "operation": "add", "value": -40 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.businessClass", "operation": "add", "value": -15 },
+    { "stat": "factions.workersCoalition", "operation": "add", "value": 15 }
+  ],
+  "signFlags": ["state_enterprise_restructuring_signed", "vael_influence_increased"],
+  "vetoFlags": ["state_enterprise_restructuring_vetoed"],
+  "isVetoable": true
+}

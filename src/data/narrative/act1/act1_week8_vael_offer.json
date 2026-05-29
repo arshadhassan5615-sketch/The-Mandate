@@ -1,0 +1,192 @@
+{
+  "id": "act1_week8_vael_offer",
+  "title": "The Margrave's Flowers",
+  "act": 1,
+  "weekAvailable": 8,
+  "weekDeadline": 10,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The morning light in your office is grey — the particular grey of early spring in Ashenmere, when winter hasn't decided whether to leave. Vyktor Reznik is already at the side table. He is reading something. He looks up the moment the door opens. The look on his face is not alarm. It is the look of someone who has been waiting."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "He sent an envoy."
+    },
+    {
+      "type": "description",
+      "text": "He holds up a letter — cream-colored paper, the kind that costs more per sheet than most Veltrians earn in a day. The seal is broken. Vyktor's doing."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "It arrived this morning. I opened it. You should know I opened it."
+    },
+    {
+      "type": "description",
+      "text": "He hands it over. The stationery feels like cloth. Vael Group letterhead. Margrave Lucan Vael's personal seal."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "He is more direct than I expected."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor Reznik is reading something. You can tell from the doorway that he has been reading it for some time — the particular stillness of his posture, the way his eyes track across the page not once but twice, the fact that he has not yet looked up despite knowing you are here. The document is in a leather folder that you do not recognize. It was not on your desk this morning."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Vael sent flowers."
+    },
+    {
+      "type": "description",
+      "text": "He looks up. He does not put the folder down."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Margrave Vael. For the inauguration. Arrived three weeks late."
+    },
+    {
+      "type": "description",
+      "text": "He slides the folder across the desk. It is not about flowers. The folder contains a proposal — Vael Industrial Group's offer to underwrite a significant portion of the government's infrastructure spending in exchange for mineral rights in the Gravenmark foothills. The terms are generous. Suspiciously generous. You have been in politics long enough to know that a gift that arrives three weeks late is not a gift. It is a reminder that the giver knows where you live."
+    },
+    {
+      "type": "description",
+      "text": "The flowers themselves are on the side table — an arrangement of winter roses and silver fern, the traditional gift of the Vael family to every incoming administration since the Republic was founded. Yours took longer to arrive than anyone else's. Vyktor has been trying to determine whether that is an insult or an invitation. He suspects it is both."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Vael family has financed every government for a century. Halvek gave them steel contracts and shipping routes. Never asked where the revenue went. You are the first Chancellor in two generations who has not taken their money. They are testing whether that is a negotiating position or a principle. Decide before they decide for you."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There is a quality to Vyktor's voice when he talks about Vael that you have not heard before. It is not quite fear. It is the specific caution of a man who has seen what happens to people who underestimate the Margrave."
+    },
+    {
+      "type": "description",
+      "text": "The proposal includes a personal component — an invitation to dine at the Vael family estate, the 'Winter Palace' as the newspapers call it, a sprawling compound in the mountains above Aldenmoor that has hosted every Chancellor since Chancellor Berevin. Berevin died in office. You are not superstitious. But you are not stupid, either."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vael's reach extends into every ministry, every regulatory commission, every appropriations committee. Accepting his money means accepting his influence. Refusing it means making an enemy of the most powerful private citizen in Veltria. There is no third option. There is only the question of how much you are willing to pay for the privilege of governing on your own terms."
+    }
+  ],
+
+  "monologue": "The flowers arrived three weeks late. That's not an accident — it's a reminder that the giver knows where I live. Vael has financed every government for a century. I'm the first Chancellor in two generations who hasn't taken his money. Vyktor's voice has a quality I haven't heard before — not fear, but the specific caution of someone who has seen what happens to people who underestimate the Margrave. Seventeen Chancellors have been invited to the Winter Palace. Fourteen accepted. Three declined. None of them are in office anymore.",
+
+  "choices": [
+    {
+      "id": "vael_accept_partnership",
+      "text": "Accept the infrastructure partnership — it brings critical investment and buys time with the business community.",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -8 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 15 }
+      ],
+      "flags": ["vael_approached", "vael_partner"],
+      "chainTriggers": [
+        { "targetNodeId": "act1_chain_vael_pressure", "delayWeeks": 0 }
+      ],
+      "internalTag": "pragmatist",
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "text": "He makes a single note on a pad — barely a word, more a mark. The mark says: this is recorded, this happened, this will be referenced later. He does not smile. He does not frown. He closes the leather folder.",
+          "type": "narrative"
+        },
+        {
+          "character": "vyktor_reznik",
+          "text": "Infrastructure begins moving within the month. Vael's people will expect quarterly progress updates. They will also expect... reciprocation. I will manage the interface.",
+          "type": "dialogue"
+        }
+      ]
+    },
+    {
+      "id": "vael_reject_partnership",
+      "text": "Reject Vael's offer — you won't trade mineral rights for political silence.",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -10 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "flags": ["vael_approached", "vael_rejected"],
+      "internalTag": "reformist",
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "text": "He closes the folder slowly. The deliberation itself is a form of comment. Rejected. The word hangs in the air — he does not say it out loud. He does not need to.",
+          "type": "narrative"
+        },
+        {
+          "character": "vyktor_reznik",
+          "text": "Vael will respond through proxies first. Business press. Chamber of Commerce. Subtle signals before anything overt. Six weeks. Then we see what he actually does.",
+          "type": "dialogue"
+        }
+      ]
+    },
+    {
+      "id": "vael_negotiate_terms",
+      "text": "Accept the dinner invitation — negotiate terms face-to-face. You need more information.",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 8 }
+      ],
+      "flags": ["vael_approached", "vael_dinner"],
+      "chainTriggers": [
+        { "targetNodeId": "act1_vael_estate_dinner", "delayWeeks": 2 }
+      ],
+      "internalTag": "pragmatist",
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "text": "The Dinner. He does not quite say the capital letters but you hear them anyway. The Winter Palace has hosted seventeen Chancellors. Fourteen accepted the invitation. Three declined. All fourteen who accepted left with some kind of arrangement.",
+          "type": "narrative"
+        },
+        {
+          "character": "vyktor_reznik",
+          "text": "Recommended. Learn what he wants. Learn what he knows. Do not commit to anything before you leave the estate. He will try to get a commitment before dessert. They always do.",
+          "type": "dialogue"
+        }
+      ]
+    },
+    {
+      "id": "vael_public_exposure",
+      "text": "Go public about Vael's offer — frame it as political interference by the oligarchy.",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -15 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -10 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "flags": ["vael_approached", "vael_exposed"],
+      "internalTag": "reformist",
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "text": "He is silent for a long time. Then he removes his glasses. That is the equivalent of another man throwing furniture. Public exposure. The most expensive option. He says it like it is a line item on a budget he is already recalculating.",
+          "type": "narrative"
+        },
+        {
+          "character": "vyktor_reznik",
+          "text": "This will not end with one press conference. Vael will retaliate, personally and comprehensively. His reach is not confined to legislation. Prepare for counterattack within 48 hours.",
+          "type": "dialogue"
+        }
+      ]
+    }
+  ]
+}

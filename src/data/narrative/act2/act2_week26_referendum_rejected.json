@@ -1,0 +1,303 @@
+{
+  "id": "act2_week26_referendum_rejected",
+  "title": "Forty-Six",
+  "act": 2,
+  "weekAvailable": 26,
+  "weekDeadline": 26,
+  "type": "event",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "National Counting Center — Ashenmere Exhibition Hall",
+  "characters": [
+    "vyktor_reznik",
+    "aldric_theron"
+  ],
+  "prerequisites": [],
+  "exclusive": [
+    "act2_week26_referendum_decisive",
+    "act2_week26_referendum_narrow"
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The number stopped moving at forty-six point three at one-forty in the morning. It had been forty-four at midnight. It had been forty-eight at eleven o'clock when the Dravenhollow results came in strong and people had begun to believe. Then Thornfeld reported at thirty-one percent, and Sevagrad at thirty-eight, and Ashenmere itself — your city, the reformist stronghold, the capital — came in at fifty-three, which should have been enough but is not enough when the other five provinces have done what they've done."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Final result: forty-six point three percent in favor. Forty-eight point nine against. Spoiled and invalid ballots: four point eight percent. The threshold was fifty point one. The Halvek Constitution remains in effect. The new constitutional text has no legal standing."
+    },
+    {
+      "type": "description",
+      "text": "Kolvar is in the lower level and he is not celebrating. He is standing very still with his arms at his sides and his face arranged into an expression of restrained satisfaction that is, you realize, the expression of a man who prepared for this outcome, who has several things ready to do in the next seventy-two hours, and who is not celebrating because celebrating now would be the wrong move. He is saving the satisfaction for later, when it is useful."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-six point three. You have been governing for twenty-six weeks. You have made every decision you were capable of making. You have compromised things you should not have compromised and refused to compromise things you should have and some of both were right and some of both were wrong and the accumulated result of all of it is forty-six point three percent, which is a number that means the Halvek constitution is still the constitution of the Republic of Veltria, as of right now, tonight, and tomorrow morning when people wake up."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I would like a moment before the formal statement. Just a moment."
+    },
+    {
+      "type": "description",
+      "text": "He takes it. He sits in one of the chairs along the gallery wall, the ones that had been reserved for observers and are now empty, and he puts his elbows on his knees and he looks at the floor for ninety seconds. You count. You don't know why you count. He looks up."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I am going to submit my resignation from the Constitutional Commission in the morning. I want you to know that before anyone else does. It is not an accusation and it is not an abandonment — it is a recognition that the document we drafted was my work and its failure is my responsibility, and that the next phase of whatever this government does requires a different kind of intellectual support than I can provide. I believe in what we wrote. I believe we were right. I will continue to believe that in a private capacity."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is wrong that its failure is his responsibility. He is right that it is his failure, in the way that all things you put your name on are your failures when they fail. You do not say this to him. There is no useful version of this conversation to have in the next five minutes."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Three things. First: Kolvar will be calling for a confidence vote by the end of the week. He does not have the numbers to win it yet, but the reformist bloc is going to fracture in the next forty-eight hours and the arithmetic will change. Second: Soraya Khaled has issued a statement saying the result reflects 'the failure of compromise politics to address material conditions.' She is not wrong. Third: the IMA has sent congratulations on the democratic process. They are watching the fiscal situation."
+    },
+    {
+      "type": "description",
+      "text": "The room is emptying. Journalists are filing. The foreign diplomatic observers are making their way toward the exits in small groups, speaking quietly. Below, the staff of the counting authority is beginning the formal close-out procedures — the paperwork, the seals, the certified record of a vote that has answered the question of the new constitution with forty-six point three percent, which is a clear answer, unambiguous, not open to interpretation."
+    },
+    {
+      "type": "description",
+      "text": "You have the Halvek Constitution. You have your election mandate. You have what is left of your reformist coalition and what is left of your cabinet and what is left of twenty-six weeks of governance — every decision, every deal, every refusal, the ones you are proud of and the ones you are not. All of it has produced this moment, and this moment is the end of Act II and the beginning of something that has no longer any script you recognize."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You did not win. You know, with the clarity that comes only in very specific kinds of failure, exactly which decisions contributed most to this number. Some of them you would make the same way again. Some of them you would not. Neither category closes the gap between forty-six point three and fifty point one."
+    }
+  ],
+  "monologue": "Forty-six point three percent. Every decision I made for twenty-six weeks produced this number. Some I would make again. Some I would not. Neither changes the gap between forty-six and fifty-one. Theron is resigning — taking the failure onto himself in a way that is generous and also wrong. The failure belongs to me. The Halvek constitution is still the constitution. Tomorrow morning, the country wakes up and nothing has changed.",
+  "choices": [
+    {
+      "id": "referendum_rejected_fight_on",
+      "text": "\"We govern from here. The Halvek Constitution remains — fine. We use the executive powers it grants us to advance reform through the parliament and the courts until we can rebuild the coalition for another attempt. This isn't over.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_confidence_vote",
+          "delayWeeks": 2
+        },
+        {
+          "targetNodeId": "act3_reform_by_decree",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": [
+        "referendum_failed",
+        "act2_complete",
+        "post_referendum_fight"
+      ],
+      "codexUnlocks": [
+        "codex_veltrian_democracy"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The margin was four points."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He puts his head in his hands. He stays that way for a moment."
+        },
+        {
+          "character": "colonel_dusek",
+          "type": "dialogue",
+          "text": "What do we do tomorrow?"
+        }
+      ]
+    },
+    {
+      "id": "referendum_rejected_acknowledge_failure",
+      "text": "\"I need to address the nation and I need to be honest. I will tell them that the vote was clear, that I respect it, and that I intend to use the remainder of my term to understand why forty-eight percent of this country chose what they chose.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_confidence_vote",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": [
+        "referendum_failed",
+        "act2_complete",
+        "post_referendum_concession"
+      ],
+      "codexUnlocks": [
+        "codex_veltrian_democracy"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The address will be scheduled for nine in the morning. He pauses. Honest is the right choice. Honest will be harder tomorrow morning than it is tonight. But it will also last longer. He does not say whether he thinks honesty will be enough. He simply prepares the statement."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron hears this. He is still sitting in the observer's chair. He looks up at you — not with the expression of a man whose work has failed, but with the expression of a man who has just watched something more important than his own work. He does not speak. He does not need to. The silence is the sound of Aldric Theron understanding that sometimes the right thing to do after a loss is simply to say so."
+        }
+      ]
+    },
+    {
+      "id": "referendum_rejected_cabinet_shake",
+      "text": "\"Vyktor — I want a full cabinet meeting at nine in the morning. Not to debrief. To restructure. I want to know who among my ministers believes we can still govern effectively from this position, and I want the ones who don't to say so now.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "referendum_failed",
+        "act2_complete",
+        "post_referendum_purge"
+      ],
+      "codexUnlocks": [
+        "codex_veltrian_democracy"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He writes cabinet meeting, nine AM, on his notepad. Then he stops writing and looks at you. The silence is not disagreement. It is the particular quiet of someone who has just watched their Chancellor respond to failure by sharpening a knife, and is deciding whether the knife is aimed at the right people."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron stands. He has been quiet for nearly two minutes. He looks at you — the philosopher's look, the one that sees both the tactical logic and the human cost and refuses to choose between them. He says nothing. But he does not leave either. The silence is the sound of Aldric Theron deciding something about you that he will not articulate tonight."
+        }
+      ]
+    },
+    {
+      "id": "referendum_rejected_resign_consider",
+      "text": "Tell Vyktor you're going home. You'll give him an answer in the morning about the statement. Walk out of the Exhibition Hall into the November air and let the city be the city for one hour before it becomes the city of the morning after.",
+      "internalTag": "personal",
+      "stateChanges": [
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.marriageHealth",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "referendum_failed",
+        "act2_complete",
+        "post_referendum_walk_away"
+      ],
+      "codexUnlocks": [
+        "codex_veltrian_democracy"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not respond. He simply nods — once — and turns back to his notes. The silence that follows is not disapproval. It is the silence of a man who has watched you govern for twenty-six weeks and understands that sometimes the right decision is no decision at all. He will be here in the morning. He always is."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron watches you leave. He does not move from his chair. He has not moved in six minutes. The November air outside the Exhibition Hall is cold and clean and smells of nothing in particular — just the city at one in the morning, going about its business, unaware that its constitution has just been decided. You stand in it for a long time. It is the first time in twenty-six weeks you have been alone."
+        }
+      ]
+    }
+  ]
+}

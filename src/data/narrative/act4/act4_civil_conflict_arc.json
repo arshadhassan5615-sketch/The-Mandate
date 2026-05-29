@@ -1,0 +1,96 @@
+{
+  "id": "act4_civil_conflict_arc",
+  "title": "The Divided Country",
+  "act": 4,
+  "weekAvailable": 40,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere — Government District, Week Forty",
+  "characters": ["colonel_dusek", "general_brenner"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Veltria is not at war. It is also not at peace. The country has settled into a frozen conflict — a line of control that runs not along geographic features but through institutions, through loyalties, through the unspoken question of which government a Veltrian citizen recognizes when they wake up in the morning. The south and east are broadly under loyalist control — the 1st Infantry's defensive positions, the provincial governors who declared for the constitutional government, the towns where the junta's authority is theoretical rather than actual. The north and the capital are under Brenner's control — the 3rd Armored, the General Staff, the ministries that chose pragmatism over principle and stayed at their desks. Approximately fifteen percent of the country is actively contested. No major engagements have occurred since the standoff. No one has declared war. But soldiers have died in skirmishes whose participants are careful not to escalate, and the casualty lists are short and getting longer."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The military situation is stable but unsustainable. We control approximately forty percent of national territory with roughly half of the pre-crisis military assets. The junta controls the capital, the main industrial zones, and the northern border crossings — which means they control most of the tax base and the customs revenue. In a prolonged frozen conflict, they have the economic advantage. We have the legitimacy advantage and the international recognition. Those are powerful assets, but they do not pay for ammunition or fuel or the salaries of soldiers who have families to support. If this continues for more than three to four months, we will face a choice between negotiating with Brenner from a position of increasing weakness or escalating militarily before that weakness becomes decisive."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "Dusek's assessment is accurate. I would add only that the economic pressure is not one-sided. The international sanctions are hurting the northern industrial base. Factory owners who depend on export markets are beginning to ask questions about the sustainability of the junta's economic model. The questions are private. They will become public if the sanctions persist and the northern economy continues to contract. Economic pressure is not as dramatic as military pressure, but it is often more decisive. The junta can survive losing skirmishes. It cannot survive losing factories. The question is whether we have the patience to let economic pressure do its work, or whether the military situation demands more immediate action."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Fifteen percent of the country is contested. The phrase is clinical, the kind of language that appears in briefing documents and situation reports and the measured assessments that colonels and generals deliver in operations rooms. But the clinical language conceals what 'contested' actually means: villages where soldiers in Veltrian uniforms are pointing weapons at other soldiers in Veltrian uniforms. Families divided by a line of control that runs through their province, their town, sometimes their household. A country that is not at war but is not at peace, where the word 'country' itself has become ambiguous — which Veltria do you mean? The constitutional republic or the military protectorate? The government in Ashenmere or the government-in-exile? The question has no answer that does not produce another question. You have to govern the country that exists, which is a country divided against itself. How you govern it will determine whether the division heals or hardens."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "civil_conflict_reunify_force",
+      "text": "\"Dusek, I want an operational plan for reunification within six weeks. We have the legitimacy. We have international recognition. We have approximately half the military. I want the other half. Not through skirmishes and local engagements — through a coordinated campaign that retakes the capital and restores constitutional authority. I am not going to let Veltria settle into a frozen conflict that becomes a permanent division. Every week of division normalizes the division. Every month makes reunification harder. We have a narrow window before the international community begins treating the junta as a de facto state and the frozen conflict as a permanent border. I will not let that window close. Prepare the campaign. I will authorize it when it is ready.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Military campaign to reunify the country by force. Decisive. Ends the division quickly. Risks full civil war and international condemnation.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week46_final_battle", "delayWeeks": 6 }
+      ],
+      "flags": ["civil_conflict_military_reunification", "campaign_authorized", "forceful_reunification"],
+      "codexUnlocks": ["codex_reunification_campaign", "codex_urban_combat_doctrine"]
+    },
+    {
+      "id": "civil_conflict_negotiated_settlement",
+      "text": "\"Brenner, you said the economic pressure will work. I am going to give it time to work. I am also going to open a direct negotiation channel — not through intermediaries, not through backchannels. You and me. We have served together through this crisis. We have disagreed profoundly about the military's role in governance, but we have never disagreed about the fundamental objective: a Veltria that survives and prospers. The frozen conflict does not serve that objective. A negotiated settlement — a timeline for reunification, guarantees for military personnel, a transitional framework — serves that objective. Are you willing to discuss it?\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Negotiate directly with Brenner for a managed reunification. Avoids civil war but requires compromises that will anger hardliners on both sides.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week47_new_order", "delayWeeks": 6 }
+      ],
+      "flags": ["civil_conflict_negotiated", "brenner_direct_channel", "settlement_explored"],
+      "codexUnlocks": ["codex_negotiated_reunification", "codex_brenner_direct_dialogue"]
+    },
+    {
+      "id": "civil_conflict_govern_territory",
+      "text": "\"We are not going to reunify by force. We are not going to negotiate with a junta that has no constitutional legitimacy. What we are going to do is govern the territory we control so well that the territory Brenner controls becomes envious. Build roads. Open schools. Distribute food. Hold local elections. Make the constitutional government a visible, tangible reality in every town and village under its authority. We are going to demonstrate, through governance rather than warfare, that democracy works better than military rule. When the citizens of Ashenmere see what is happening in the south, they will start asking questions of their own government. The reunification happens from the ground up, not from the top down. That takes longer. It also lasts longer.\"",
+      "internalTag": "reformist",
+      "tooltip": "Govern the territory you control as a model. Win through superior governance rather than military force. Slow but builds lasting legitimacy.",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_collapse_endgame", "delayWeeks": 6 },
+        { "targetNodeId": "act4_week44_reform_backlash", "delayWeeks": 4 }
+      ],
+      "flags": ["civil_conflict_governance_strategy", "model_territory", "legitimacy_through_performance"],
+      "codexUnlocks": ["codex_democratic_governance_model", "codex_local_elections"]
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+[
+  {
+    "id": "agenda_w25_referendum_eve",
+    "title": "The Last Night",
+    "description": "The final polling numbers came in at eleven o'clock. Vyktor brought them on foot rather than by phone. Tomorrow morning, eight thousand polling stations open across Veltria. Tonight is the last night before the answer that twenty-six weeks of governing has been building toward.",
+    "category": "crisis",
+    "sceneId": "act2_week25_referendum_eve",
+    "slotCost": 1,
+    "executionOrder": -1,
+    "weekAvailable": 25,
+    "weekDeadline": 26,
+    "isUrgent": true
+  },
+  {
+    "id": "agenda_w25_referendum_lobbying",
+    "title": "Assembly Whip Count — Referendum Eve",
+    "description": "Vyktor has been counting noses in the Assembly. The referendum needs parliamentary ratification after the popular vote. He has the projected whip count — and a list of MPs whose votes can be swayed.",
+    "category": "crisis",
+    "sceneId": "__vote__",
+    "slotCost": 1,
+    "executionOrder": 0,
+    "weekAvailable": 25,
+    "weekDeadline": 26,
+    "isUrgent": true,
+    "voteConfig": {
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "successFlags": ["referendum_passed", "constitution_ratified"],
+      "failureFlags": ["referendum_failed", "constitution_rejected"],
+      "corruptionRisk": "medium",
+      "lobbyingEnabled": true,
+      "narrativeSceneId": "act2_week25_referendum_eve"
+    }
+  },
+  {
+    "id": "agenda_w25_constitution",
+    "title": "Constitutional Draft — Final Reading",
+    "description": "The final text. Read it one last time before the country votes on it. Whatever it says tomorrow morning is what you will have to govern with — or what your opponents will use to govern without you.",
+    "category": "cabinet",
+    "sceneId": "__constitution__",
+    "slotCost": 2,
+    "executionOrder": 1,
+    "weekAvailable": 25,
+    "weekDeadline": 26,
+    "isUrgent": true
+  },
+  {
+    "id": "agenda_w25_budget",
+    "title": "Budget Allocation — Contingency Planning",
+    "description": "Both referendum outcomes require different fiscal postures. Prepare both frameworks. You'll need the right one ready within hours of the result.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 2,
+    "weekAvailable": 25,
+    "weekDeadline": 28
+  },
+  {
+    "id": "agenda_w25_brenner_final",
+    "title": "General Brenner — Final Pre-Vote Briefing",
+    "description": "Brenner submitted a sealed memorandum on 'institutional continuity during constitutional transition.' He has not shared it with the General Staff. He wants you to read it before the polls open.",
+    "category": "security",
+    "sceneId": "act2_week24_brenner_warning",
+    "slotCost": 1,
+    "executionOrder": 3,
+    "weekAvailable": 25,
+    "weekDeadline": 26
+  },
+  {
+    "id": "agenda_w25_family_tomas",
+    "title": "Tomas — The Headmaster Called Again",
+    "description": "The headmaster called a second time. Tomas was found at the switching yards again. This time he wasn't with older students — he was alone. The headmaster's voice was different this time.",
+    "category": "personal",
+    "sceneId": "act2_week23_family_crisis_tomas",
+    "slotCost": 1,
+    "executionOrder": 4,
+    "weekAvailable": 23,
+    "weekDeadline": 26,
+    "prerequisites": [
+      { "stat": "personal.tomasWellbeing", "operator": "<", "value": 35 }
+    ]
+  }
+]

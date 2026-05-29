@@ -1,0 +1,128 @@
+{
+  "id": "act4_week46_final_battle",
+  "title": "The Gravenmark Gambit",
+  "act": 4,
+  "weekAvailable": 46,
+  "weekDeadline": 48,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Operations Bunker, Week Forty-Six",
+  "characters": ["colonel_dusek", "general_brenner"],
+  "prerequisites": [
+    { "stat": "flags.civilian_front_managed", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Six weeks of war. The maps have been replaced twice. The acetate overlays have been peeled back, rewritten, marked with arrows indicating advances and retreats and the particular chaos of battles that neither side fully controlled. The Veltrian army is smaller than it was. It is also harder — the divisions that survived the first six weeks have been forged into something the old peacetime military never was. The soldiers know what they are fighting for now. They have seen what Tyvaren occupation looks like. They have buried their friends. They are tired beyond the kind of tired that sleep addresses, but they are still fighting, and the fact that they are still fighting after six weeks against a numerically superior enemy is either a testament to their courage or an indictment of the decisions that left them outnumbered. Both things are true."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "The operational situation has shifted. Tyvaren logistics are degrading — the winter weather is doing what our artillery could not. Their supply lines are overextended, their armor is experiencing mechanical failures in the cold, and their casualty rates are beyond what their officer corps was trained to sustain. Marshal Vukov is under domestic pressure to produce a decisive result before the International Forum session next month. He needs a victory. That makes him predictable — and it gives us an opportunity."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "We have a window. Intelligence indicates that Tyvaren forces will attempt a major offensive within the next five to seven days, concentrating on the Gravenmark sector. They are committing their remaining operational reserves. This is Vukov's last card. If we stop this offensive, Tyvaren's capacity for sustained operations collapses. If we don't — if their armor breaks through at Gravenmark — the road to Kravenstal is open and the war is effectively over. This is the decisive engagement. There will not be another."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The decisive engagement. The phrase military historians will use regardless of what happens, because military historians always identify one battle as decisive. The difference is whether they will write about the Battle of Gravenmark as the moment Veltria saved itself or the moment it fell. You do not control what the historians write. You control whether you authorize the counter-offensive, whether you commit the final reserves, whether you tell Dusek that the plan she is about to present has your confidence. The historians will do whatever historians do. You will do what you can with the information you have. The gap between those two things is where governance lives."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The plan. We have identified a weakness in the Tyvaren left flank — the Korven Forest sector. If we can punch through there while their main force is committed to the Gravenmark offensive, we can threaten their supply lines and force Vukov to choose between continuing his attack and losing his logistics base. It requires committing every reserve we have, including the training units that were not supposed to see combat. It requires accepting that if this fails, there is no fallback. I have discussed this with the regimental commanders. They are willing. I am willing. I need to know if you are willing."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "final_battle_full_commitment",
+      "text": "\"Authorize the operation. Commit everything. Every reserve, every training unit, every soldier who can hold a rifle. If this is the decisive engagement, we fight it with everything we have. I will address the troops before they deploy — they deserve to hear from their Chancellor why they are being asked to do this. And Dusek — if this works, if we break them at Gravenmark, I want you to know that whatever happens to my political career after this war, what you and Brenner and every soldier in this army accomplished will be the reason Veltria still exists. Now go. Fight. Come back.\"",
+      "internalTag": "authoritarian",
+      "conditions": [
+        { "stat": "nation.militaryReadiness", "operator": ">=", "value": 30 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 16 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_war_outcome", "delayWeeks": 2 }
+      ],
+      "flags": ["final_battle_committed_all", "gravenmark_gambit_launched", "decisive_battle_fought"],
+      "codexUnlocks": ["codex_battle_of_gravenmark", "codex_korven_flanking_operation"]
+    },
+    {
+      "id": "final_battle_calculated_risk",
+      "text": "\"Authorize the flanking operation but keep a reduced reserve in case the Gravenmark line breaks. I trust the plan — I also trust that war is unpredictable and I will not leave Kravenstal completely undefended if something goes wrong. Dusek, you have operational command. Brenner, I want you personally overseeing the Gravenmark defense. The two best military minds in Veltria on the two most critical sectors. If we lose after that, we lose knowing we did everything that could be done. Now execute.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_war_outcome", "delayWeeks": 2 }
+      ],
+      "flags": ["final_battle_calculated", "reserve_retained", "decisive_battle_fought"],
+      "codexUnlocks": ["codex_battle_of_gravenmark"]
+    },
+    {
+      "id": "final_battle_diplomatic_parallel",
+      "text": "\"Authorize the operation — but I am also activating every diplomatic channel we have. If the Arcturians are ever going to intervene, it has to be now, while we are fighting the decisive battle. A statement of support while our soldiers are dying is not enough. I want Ambassador Cole to understand that the history of this war will record whether Stellamere helped or watched. I'll make that call myself. Dusek — fight your battle. I'll fight mine. Let's see whose produces results first.\"",
+      "internalTag": "reformist",
+      "conditions": [
+        { "stat": "nation.internationalStanding", "operator": ">=", "value": 20 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_war_outcome", "delayWeeks": 2 },
+        { "targetNodeId": "act4_arcturian_intervention", "delayWeeks": 1 }
+      ],
+      "flags": ["final_battle_diplomatic", "last_ditch_diplomacy", "decisive_battle_fought"],
+      "codexUnlocks": ["codex_battle_of_gravenmark", "codex_arcturian_intervention_debate"]
+    },
+    {
+      "id": "final_battle_negotiate_ceasefire",
+      "text": "\"Before we commit to a battle that could destroy the army — I want to explore whether a negotiated ceasefire is possible. Vukov is under domestic pressure. His logistics are failing. He may be willing to accept a ceasefire that preserves Tyvaren gains in exchange for stopping the war, and we could accept temporary territorial concessions in exchange for survival. I know this is not what the military wants to hear. But I cannot authorize a battle that might lose the war without first attempting to end the war without the battle. Get me a back-channel to the Tyvaren General Staff.\"",
+      "internalTag": "deflect",
+      "conditions": [
+        { "stat": "factions.ironCovenant", "operator": ">=", "value": 15 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -14 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_war_outcome", "delayWeeks": 2 },
+        { "targetNodeId": "act4_ceasefire_negotiation", "delayWeeks": 1 }
+      ],
+      "flags": ["ceasefire_explored", "battle_deferred", "decisive_battle_fought"],
+      "codexUnlocks": ["codex_tyvaren_peace_feelers", "codex_ceasefire_terms"]
+    }
+  ]
+}

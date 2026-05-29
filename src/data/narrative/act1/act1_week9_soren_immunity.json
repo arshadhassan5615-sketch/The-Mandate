@@ -1,0 +1,113 @@
+{
+  "id": "act1_week9_soren_immunity",
+  "title": "The Ghost in the Constitution",
+  "act": 1,
+  "weekAvailable": 9,
+  "weekDeadline": 11,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ministry of Justice — Constitutional Drafting Room",
+  "characters": ["aldric_theron", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Professor Theron has been working on the constitutional draft for three weeks. He has placed a single sheet of paper on your desk — Article 74, Section 3 of the current Halvek Constitution. The immunity clause."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The transitional government that negotiated the peace understood... it was choosing between two kinds of wrong. One grants immunity to certain members of the Halvek regime in exchange for a bloodless transfer of power — the other rejects the compromise and risks a transition that is neither bloodless nor a transfer. The drafters selected the former, knowing full well that they were permitting guilty men to walk free, because they had concluded that a peaceful transition was worth the moral cost. The primary beneficiary of that calculation is Marshal Gavril Soren — Halvek's Chief of Staff for fifteen years. The immunity clause shelters him from prosecution for any act committed during his service. Including, one must note, the execution orders he signed in 1947."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The new constitution presents one with a binary choice — either preserve this immunity, which the Halvekist caucus will demand as a condition of their cooperation, or revoke it. Revoking it requires a specific provision: 'Accountability for Past Regimes.' If we include it, Soren can be prosecuted. If we exclude it... his immunity stands as a permanent feature of the new legal order. I am not advising which path to take. I am observing that this represents one of the most consequential decisions in the constitutional process — and that it will provoke a reaction from the Halvekists, from the military's institutional leadership, and... quite possibly from Soren himself."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Political calculation. The Halvekists hold 40 percent of the Assembly. They will fight this provision specifically. Kolvar has already told me removing Soren's immunity is a 'betrayal of the peace agreement' that would cause the Halvekist caucus to withdraw from the constitutional process entirely. The military — specifically General Brenner — served under Soren. Brenner considers Soren a mentor. If you strip Soren's immunity, you challenge the military's institutional memory. The question is whether justice for the past is worth instability in the present."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Soren signed the orders. I do not know if he signed my father's specifically — the execution records from 1947 are incomplete, or classified, or both. But he signed someone's. Many someones. He was the man who decided who lived and who died, and then went home to his estate in Thornfeld. The transition let him keep his estate. It let him keep his freedom. It let him keep his reputation. The question Professor Theron is really asking is: am I willing to risk my government to take those things away from him?"
+    }
+  ],
+
+  "monologue": "Soren signed the execution orders. I don't know if he signed my father's — the records from 1947 are incomplete, or classified, or both. But he signed someone's. Many someones. The transition let him keep his estate, his freedom, his reputation. Theron is asking whether I'm willing to risk my government to take those things away. The Halvekists will call it a betrayal of the peace agreement. Brenner served under him. Whether justice matters now enough to be worth the instability it purchases.",
+
+  "choices": [
+    {
+      "id": "soren_immunity_revoke",
+      "text": "\"Include the accountability provision. Soren's immunity was a compromise made by a transitional government that is no longer in power. We are drafting a constitution for the Republic, not a peace treaty with its former oppressors. The new Veltria will hold the old Veltria to account.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "advisorTrust.theron", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week17_soren_debate", "delayWeeks": 8 }
+      ],
+      "flags": ["soren_immunity_revoked_draft", "accountability_provision_included"],
+      "codexUnlocks": ["character_gavril_soren"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "He removes his glasses. He does not wipe them. He simply holds them, fingers suspended, as though the motion of putting them back on requires a deliberation that has been interrupted by the magnitude of the decision."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "The accountability provision. I will... draft the language myself. It must be precise. It must survive legal challenge. It must be something that historians... fifty years from now... will read and recognize as justice rather than vengeance. I believe I can do that. I believe one will make that possible."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not speak. The Halvekist caucus withdrawal from the constitutional process is now a certainty. The military's reaction is now a variable. He is recalculating the security implications before he voices them aloud."
+        }
+      ]
+    },
+    {
+      "id": "soren_immunity_preserve",
+      "text": "\"The immunity clause stands. I am not protecting Soren — I am protecting the transition. That peace agreement is the foundation of this government. If I tear it up to prosecute one old man, I undermine the very compromise that made this Chancellorship possible. Justice delayed is painful. Justice that triggers a coup is worse.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -10 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soren_immunity_preserved", "met_gavril_soren"],
+      "codexUnlocks": ["character_gavril_soren"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... He has a thought he does not share. It is about the Nuremberg tribunals of 1872 and what happened to the judges who granted immunity in exchange for stability. He files it under historical precedent — too remote to be useful, too painful to be irrelevant."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Immunity preserved. Halvekist caucus stays in the constitutional process. Military leadership will interpret this as institutional respect. The cost is moral. The benefit is stability. I will prepare the press framing."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He closes the folder on Soren's immunity — not with finality, but with sequence. This decision is made. The next decision is already forming in the binder he has not yet opened."
+        }
+      ]
+    }
+  ]
+}

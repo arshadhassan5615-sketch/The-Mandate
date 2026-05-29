@@ -1,0 +1,89 @@
+{
+  "id": "act4_ceasefire_negotiation",
+  "title": "Talking While Fighting",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Secure Communications Room, 22:00",
+  "characters": ["vyktor_reznik", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.ceasefire_explored", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The secure communications room is operating at the highest classification level — the level used for communications that, if intercepted, would change the military situation. The Tyvaren command has agreed to a preliminary channel through Orythian intermediaries. The channel is unreliable. The intermediaries have their own agenda. The Tyvaren generals on the other end of the line have been fighting a war for weeks and trust is not a concept that applies when the voice on the radio might be lying about ceasefire terms while the artillery adjustments are being calculated. Every term is contested. Every word is scrutinized for hidden meaning. Trust is nonexistent. The fighting is still happening while the talking is happening. Soldiers are dying while diplomats draft language."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The Tyvaren proposal. Immediate ceasefire effective 06:00 tomorrow, frozen in place — meaning forces hold their current positions. A buffer zone of five kilometers, monitored by Orythian observers. Humanitarian corridors for civilian evacuation and medical resupply. A negotiating framework for permanent settlement to begin within fourteen days. The terms are standard. The problem is not the terms — it is that the freeze-in-place provision would leave Tyvaren forces holding forty square kilometers of Veltrian territory they seized in the last offensive. That is not a ceasefire. That is a consolidation of gains with a humanitarian footnote."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Political context. Accepting a freeze-in-place ceasefire while Tyvaren holds captured territory effectively legitimizes the territorial gains. The Forum resolution we are counting on becomes harder to pass if we have already accepted territorial concessions. The international community will see a ceasefire as a prelude to settlement and will reduce pressure on Tyvaren to withdraw. On the other hand: the military situation is not improving. Every day of fighting costs us casualties we cannot replace and ammunition we are running out of. A ceasefire stops the bleeding. The question is whether it stops the bleeding at the cost of the wound becoming permanent."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The word 'ceasefire' sounds like progress. It is not necessarily progress. It is a pause in the killing. It is also a freeze in the status quo. You have to decide whether the status quo is worth freezing. You have to decide whether the soldiers who would die in the next forty-eight hours if you reject the ceasefire are an acceptable cost of the territorial integrity you are trying to preserve. You have to decide whether Veltria's long-term survival is better served by fighting longer or stopping sooner. There is no military calculus that answers this question. There is only judgment. Yours."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "ceasefire_accept_terms",
+      "text": "\"Accept the ceasefire terms. A ceasefire that stops the killing is better than a war that continues indefinitely without clear prospect of a better outcome. The territorial situation is not ideal — it is not acceptable in any long-term sense — but it is the reality, and the reality is that our forces are exhausted and our ammunition is limited. We use the ceasefire to resupply, regroup, and build international pressure for a settlement that restores the territorial status quo. We are not surrendering territory. We are pausing the fight to prepare for a better fight — military or diplomatic, whichever produces results. The dead cannot be brought back. Let us stop adding to their number while we find a way forward.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_ceasefire_talks", "delayWeeks": 2 }
+      ],
+      "flags": ["ceasefire_negotiation", "freeze_in_place_accepted", "humanitarian_priority"],
+      "codexUnlocks": ["codex_ceasefire_terms", "codex_humanitarian_corridor"]
+    },
+    {
+      "id": "ceasefire_demand_withdrawal",
+      "text": "\"Reject the freeze-in-place provision. Veltria will accept a ceasefire on the following terms: withdrawal to pre-conflict borders, international monitoring of the withdrawal, and a negotiating framework that does not legitimize territorial gains achieved through military aggression. If Tyvaren is serious about peace, they will accept terms that do not reward the invasion. If they reject — the war continues, and the international community sees clearly who is choosing war over peace. This is a risk. It is also the only position consistent with the principle that invasions should not succeed. Veltria did not start this war. Veltria should not pay the territorial price for ending it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ceasefire_negotiation", "withdrawal_demanded", "war_continues"],
+      "codexUnlocks": ["codex_territorial_integrity", "codex_ceasefire_principles"]
+    },
+    {
+      "id": "ceasefire_international_monitors",
+      "text": "\"Accept the ceasefire in principle but demand international monitors — Forum-appointed, not Orythian — with a mandate that includes verifying the withdrawal of all forces to pre-conflict positions. The monitors provide what we need most: external witnesses to the situation on the ground. If Tyvaren refuses international monitors, they reveal themselves as unwilling to accept scrutiny. If they accept, we have neutral observers documenting the occupation. Either outcome advances our diplomatic position. And the ceasefire itself — the guns go quiet. For however long the negotiation takes, the guns go quiet. That is worth the risk of looking like we are negotiating with an occupier.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_ceasefire_talks", "delayWeeks": 2 }
+      ],
+      "flags": ["ceasefire_negotiation", "international_monitors_demanded", "forum_involvement"],
+      "codexUnlocks": ["codex_international_ceasefire_monitoring", "codex_forum_peacekeeping"]
+    }
+  ]
+}

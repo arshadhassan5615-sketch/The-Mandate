@@ -1,0 +1,97 @@
+{
+  "id": "act3_alternative_financing",
+  "title": "Other Sources",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Late Night Strategy Session",
+  "characters": ["elara_vostane", "lucan_vael"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You asked for seventy-two hours to explore alternatives. Vostane has spent those hours working the numbers. Vael has spent them working his diplomatic channels — the network of relationships he built during his time as ambassador to Stellamere. The results are complicated. There are alternatives to the IMA. None of them are clean."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I have identified three potential alternative financing channels. Option one: a sovereign wealth fund proposal from Orythian financial institutions. Terms: two hundred million VK at four point eight percent over fifteen years, secured against future grain export revenues. Condition: preferential trade status for Orythian agricultural imports. Option two: bilateral loans from Stellamere — one hundred and fifty million VK, terms to be negotiated, likely requiring political concessions on the Tyvaren border dispute. Option three: asset sales — the Northern Rail, the Grain Authority, state-owned mineral rights in the Dravenhollow basin. Combined value of approximately two hundred and forty million VK, but politically catastrophic. I present these options without recommendation."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "The Orythian option is the most immediately accessible. They have been waiting for an opening in Veltrian finance since the Halvek years. Their terms are better than the IMA's — lower interest, longer repayment — but the condition is effectively an economic alliance. Preferential trade status means Orythian grain and Orythian manufactured goods flooding our markets without tariff protection. The agricultural sector — already destabilized — would face competition it cannot survive. We would trade IMA austerity for Orythian dependency. I am not sure which is worse. I am sure neither is good."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vael is careful to present the diplomatic dimensions without editorializing. That is his style — the career diplomat who learned under Halvek that opinions expressed are opinions that can be used against you. But you can hear the warning in his framing. Orythian dependency is a geopolitical commitment, not just a financial one. The IMA is brutal but institutionally neutral — it imposes conditions on everyone, not just Veltria. Orythian financing would align you with one of the two superpowers in the cold war that shapes every border negotiation, every trade agreement, every military deployment on the continent. You would be choosing a side. The IMA, for all its cruelty, at least allows you to pretend you are not choosing."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The asset sale option is the one I have spent the least time analyzing because I consider it the worst of the available alternatives. Selling state assets in a distressed market realizes approximately forty percent of their true value. We would be trading long-term revenue-generating infrastructure for short-term cash at fire-sale prices. The IMA conditions are bad. Selling the nation's assets in a panic is worse. I include it in the analysis for completeness, not as a recommendation. I would rather negotiate with the IMA than auction our national infrastructure to the highest bidder in a crisis."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "alternative_financing_orythian",
+      "text": "\"Pursue the Orythian option. The terms are objectively better — lower interest, longer repayment, no structural adjustment conditions. Yes, the trade preference is effectively an economic alliance, and yes, it will hurt certain sectors. But the IMA alternative is not neutral either — it is an economic restructuring designed by Stellamere-based economists who view Veltrian sovereignty as an implementation challenge. The Orythians, at least, are offering a partnership rather than an occupation. Vael — begin preliminary discussions. Discreetly. I want to know exactly what they are offering before we commit to anything.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 14 },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -60 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -6  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -8  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -4  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 4 }
+      ],
+      "flags": ["orythian_alliance_pursued", "ima_alternative_chosen", "orythian_preliminary"],
+      "codexUnlocks": ["codex_orythian_economic_model"]
+    },
+    {
+      "id": "alternative_financing_stellamere",
+      "text": "\"Pursue the Stellamere bilateral option. The terms will require negotiation — that is what Vael does. The key advantage: Stellamere already has significant exposure to Veltrian debt. A default would hurt them almost as much as it would hurt us. That mutual vulnerability is a negotiating position. Vael — open a channel to the Stellamere Treasury. Frame it as a stabilization partnership, not a bailout request. The IMA deal remains on the table as a fallback. Knowing we have alternatives changes the negotiation dynamics with both the IMA and Stellamere.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 10 },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -45 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 4 }
+      ],
+      "flags": ["stellamere_bilateral_pursued", "ima_alternative_chosen", "mutual_vulnerability"],
+      "codexUnlocks": ["codex_stellamere_financial_relations"]
+    },
+    {
+      "id": "alternative_financing_asset_sales",
+      "text": "\"Pursue the asset sales. Northern Rail and the mineral rights — not the Grain Authority, not the Broadcasting Corporation. The assets we sell are ones that would likely be privatized under the IMA anyway, but we control the terms and we keep the revenue. A controlled sale is better than a distressed privatization under IMA supervision. Vael — identify qualified domestic and international bidders. Vostane — structure the sales to maximize value and include domestic ownership requirements. I am not happy about selling national assets. I am less happy about surrendering economic sovereignty to either the IMA or Orythia. This is the least bad option in a field of bad options.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 8  },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -50 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 2  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -8  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",          "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 3 }
+      ],
+      "flags": ["asset_sales_pursued", "ima_alternative_chosen", "controlled_divestment"],
+      "codexUnlocks": ["codex_national_asset_sales"]
+    }
+  ]
+}

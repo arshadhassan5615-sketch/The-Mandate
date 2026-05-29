@@ -1,0 +1,120 @@
+{
+  "id": "act1_chain_capital_strike",
+  "title": "The Consortium's Answer",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "elara_vostane"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The consortium's response to your rejection of Vael's overture arrives not as a letter but as a series of financial events that Vyktor lays out across your desk like a prosecutor presenting evidence. Three major investment funds have suspended planned projects in Veltria. Two banks have tightened lending conditions, citing 'regulatory uncertainty.' The Krone has dropped another six percent against the Stellamere standard. Vael has not made a single public statement. He has not needed to. The consortium knows what he wants without being told."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "This is a capital strike. The business community is withholding investment — not because fundamentals have changed, but because Vael has signaled that the consortium should wait. They are betting that economic pressure will force you to either negotiate on their terms or collapse. If you negotiate, Vael's influence is confirmed and the consortium knows it can extract concessions from any government. If you do not negotiate, the economy continues to deteriorate and the political pressure becomes unsustainable. There is a third option, but it is not pleasant: find alternative sources of capital that do not depend on the consortium. That means either the IMA — which comes with its own conditions — or Orythia, which comes with much worse ones."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I told Vael I would not be managed by his consortium. He took that as a declaration of war. He is fighting it with money instead of guns — which is his way, which is the oligarch's way, which has been the oligarch's way for as long as there have been oligarchs. He is waiting for me to come back to him and admit that I need his consortium's money more than I need my principles. The problem is that he may be right about the money. The problem is that being right about the economics does not make him right about the country."
+    }
+  ],
+
+  "monologue": "Vael didn't need to make a call. The money knows what he wants without being told. That's how oligarchy works — not through commands but through signals that travel faster than legislation. Vostane is offering three paths and all of them involve dependency on someone who is not the Veltrian people. The question is which dependency I can live with and which one I can eventually escape.",
+
+  "choices": [
+    {
+      "id": "capital_strike_ima_alternative",
+      "text": "\"If the consortium won't invest, I'll find capital elsewhere. Accelerate the IMA negotiations. Accept the conditionality — the privatization timeline, the job cuts, the structural benchmarks. Yes, it means trading business-class pressure for international creditor pressure. Yes, it is choosing one form of dependency over another. The IMA at least has rules. The consortium has only Vael's interests. I will take rules over Vael.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",     "operation": "add", "value": -8  },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": -6  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 4   },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_ima_conditionality_review",
+          "delayWeeks": 8
+        }
+      ],
+      "flags": ["ima_accelerated", "consortium_bypassed", "capital_strike_resolved"],
+      "codexUnlocks": ["codex_ima_acceleration"],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "IMA conditions. The privatization timeline can be accelerated. The job cuts will be necessary. The structural benchmarks are negotiable at the margins. I will prepare the counter-proposal. The IMA has rules. The consortium has Vael. You chose rules."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He makes a note: 'IMA CONDITIONS — FULL REVIEW — Q2.' The IMA brings money and conditions. The conditions will become political liabilities within the quarter. He is already preparing the response to both."
+        }
+      ]
+    },
+    {
+      "id": "capital_strike_public_pressure",
+      "text": "\"Take it public. I want a press conference this afternoon. I will name the funds that are withholding investment. I will describe what a capital strike is and who benefits from it. The people of this country know who Vael is and what the consortium represents. If they are going to make the Krone drop until I surrender, I am going to make sure every voter in Veltria knows exactly who is causing the Krone to drop and why. Economic pressure works both ways — the consortium needs political stability for their existing investments. If I make them the face of instability, their calculation changes.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",     "operation": "add", "value": -12 },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 10  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 6   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [],
+      "flags": ["consortium_exposed", "vael_publicly_named", "capital_strike_resolved"],
+      "codexUnlocks": ["codex_capital_strike"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Press conference this afternoon. I will name the funds — all three. I will describe the capital strike mechanism in terms the newspapers can print without financial literacy. Vael will be named. The consortium's response will be swift. Prepare for counterattack within 24 hours."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She does not object. Public exposure of a capital strike is economically unorthodox — it can accelerate the capital flight it is meant to stop. But she has seen the consortium operate for fifteen years. Sunlight is the only disinfectant she has never seen them survive."
+        }
+      ]
+    },
+    {
+      "id": "capital_strike_reopen_dialogue",
+      "text": "\"Vyktor, send a message to Vael. Tell him I am willing to continue the conversation — not the terms he proposed, but a conversation. The consortium gets regulatory predictability and a consultation process before major tax changes. In exchange, investment resumes, the Krone stabilizes, and Vael publicly states that his consortium has confidence in the government's economic management. I am not surrendering. I am negotiating. There is a difference — even if it does not look like one from the outside.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",     "operation": "add", "value": 6   },
+        { "stat": "factions.reformists",        "operation": "add", "value": -4  },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": -6  },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 4   },
+        { "stat": "nation.corruption",          "operation": "add", "value": 2   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [],
+      "flags": ["vael_dialogue_reopened", "consortium_compromise", "capital_strike_resolved"],
+      "codexUnlocks": ["codex_vael_reconciliation"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He drafts the message to Vael — three sentences, carefully weighted. It is not a surrender. It is not a demand. It is a door left open with the terms written on the frame. Vael will understand."
+        },
+        {
+          "character": "elara_vostane",
+          "type": "dialogue",
+          "text": "Regulatory predictability and consultation. The consortium will accept. They do not need everything — they need to know the rules will not change without warning. You gave them process. They will give you investment. The market will stabilize within the week."
+        }
+      ]
+    }
+  ]
+}

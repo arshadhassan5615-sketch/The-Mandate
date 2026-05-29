@@ -1,0 +1,98 @@
+{
+  "id": "act4_emergency_powers_invoked",
+  "title": "The Article in Question",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Week Forty-Three, 04:15",
+  "characters": ["vyktor_reznik", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.constitution_retained_emergency_powers", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The pressure has been building since Week Thirty-Eight. The Iron Covenant has been asking — through Brenner, through parliamentary questions, through an increasingly pointed correspondence from three regimental commanders — for the invocation of emergency powers. The economic crisis, the Tyvaren situation, the civil unrest, the press situation: each presented separately, each with its own operational justification, each alone manageable through normal governance. The combination is what they are arguing cannot be managed through normal governance. This morning, at four-fifteen, you sit at your desk and you look at the article they want you to invoke, and you think about the man who wrote it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Edvard Halvek wrote Article 47 in 1952 after the Kravenstal miners' strike. He invoked it three months later to suppress the strike and arrest its organizers. He invoked it again in 1956 to dissolve a parliamentary committee investigating his government's finances. He invoked it a third time in 1961 to prevent an opposition candidate from running in the regional elections. Each time, the justification was real — there was a crisis, there was a genuine emergency, there was a threat that reasonable people could acknowledge as a threat. The provision exists because emergencies exist. The provision was abused because the provision existed. I accepted the emergency powers clause in the constitution because Kolvar's votes were necessary and the clause had reauthorization language that Halvek's didn't. I am now holding the pen."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I need to be direct with you. The military situation requires emergency measures that normal parliamentary procedure cannot authorize quickly enough. The Tyvaren front is active. The DLF situation in the east is consuming reserve units we need in the north. The economic situation is reducing what we can pay the army. We need emergency procurement authorization, emergency personnel deployment authority, and emergency economic stabilization measures — all within seventy-two hours. The constitutional provisions you established require parliamentary reauthorization within thirty days. They do not prohibit initial invocation. I am asking you to invoke."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I want to add something to Dusek's assessment. If you invoke emergency powers tonight, I can manage the parliamentary notification. The reauthorization vote in thirty days is survivable — we have the numbers, or we will have them given the Tyvaren situation. The Iron Covenant will vote yes. The Halvekist moderates will vote yes. The reformist bloc will be angry but they will understand the crisis. What I cannot manage is the optics of the announcement, which will be international, and which will land in every foreign ministry as: 'Ashavel invokes emergency powers during war.' Some of those ministries will have been waiting for exactly that sentence for four years. I want you to have an accurate picture of what invocation costs diplomatically, not just what it enables militarily."
+    },
+    {
+      "type": "description",
+      "text": "The emergency powers declaration is three pages of standard constitutional language. Your signature goes on the bottom of the third page. There is a placeholder line — the kind that has been blank on a hundred documents you have signed in this office, the kind that requires only a name to become operative. You are the person whose name makes it operative. You are also, you are aware, the person who argued for four years that this kind of provision should not exist, and then accepted its survival in the constitution because the alternative was losing the vote. Both of those things are in the room with you. The pen is the only thing in the room that has no opinion about either of them."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "emergency_powers_invoke_narrow",
+      "text": "\"Sign the declaration — but narrow the scope to military procurement and deployment authority only. I am not invoking emergency powers for economic stabilization, press management, or domestic order. Dusek, you have what you need for the Tyvaren front and the DLF situation. Vyktor, begin the parliamentary notification process tonight. The reauthorization vote happens in twenty-five days, not thirty — I want the parliament to have this back as quickly as possible. This is a military tool, not a governance tool.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week47_new_order", "delayWeeks": 4 }
+      ],
+      "flags": ["emergency_powers_invoked", "emergency_powers_narrow", "parliamentary_notification_filed"],
+      "codexUnlocks": ["codex_emergency_powers_declaration", "codex_new_constitution"]
+    },
+    {
+      "id": "emergency_powers_invoke_broad",
+      "text": "\"Sign the full declaration. Military, economic, and public order provisions — all of it. I am not going to invoke a partial emergency in a full crisis. If the parliament doesn't like it, the reauthorization vote is in thirty days and they can vote no, and then we will have a constitutional crisis on top of a military crisis, which is their right. I am giving Dusek what the military needs. I am giving Vostane what the economy needs. I am accepting what that means for my legacy. Sign. Move.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 16 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 16 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -16 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -14 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -14 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_collapse_endgame", "delayWeeks": 4 }
+      ],
+      "flags": ["emergency_powers_invoked", "emergency_powers_broad", "halvek_architecture_restored"],
+      "codexUnlocks": ["codex_emergency_powers_declaration"]
+    },
+    {
+      "id": "emergency_powers_refuse",
+      "text": "\"I'm not signing. Tell Dusek to bring me a parliamentary authorization motion. Yes, it takes three days. Yes, three days in a crisis is a long time. It is also how the constitution works. The provision exists. It is available. I am choosing not to use it because the moment I use it, every decision I make under it becomes an emergency decision, and emergency decisions are how democracies end. If the parliamentary process is too slow, we make it faster. We do not bypass it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -12 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 10  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 16  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week41_reform_implementation", "delayWeeks": 2 }
+      ],
+      "flags": ["emergency_powers_refused", "constitutional_discipline_maintained"],
+      "codexUnlocks": ["codex_new_constitution"]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "id": "act3_liora_reconciliation",
+  "title": "The Walk Home",
+  "act": 3,
+  "weekAvailable": 27,
+  "weekDeadline": 32,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ashenmere — Walking from Central Precinct to the Residence, Night",
+  "characters": ["liora_ashavel"],
+  "prerequisites": [
+    { "stat": "flags.liora_chancellor_attended", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You walked into the Central Precinct at seven-fourteen in the evening and every officer in the building recognized you before you reached the front desk. You did not announce yourself. You did not need to. You asked for your daughter and they brought her out from the holding area in six minutes — six minutes that felt like six hours because everything about being in a police station waiting for your child feels like the worst version of every fear you have ever had about what your job might cost your family."
+    },
+    {
+      "type": "description",
+      "text": "She came out with her chin up and her eyes dry and her wrists red where the cuffs had been. She did not run to you. She walked. But when she reached you, she stopped and looked at your face — actually looked, the way she used to look at you when she was small and trying to determine whether you were angry or scared or proud — and she said nothing. You said nothing. The silence between you filled with everything that had been building for weeks."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "You came. I told them not to call you. I told the officer not to pass the message. The message was the message — I didn't need help. And you came anyway. I spent three hours in that cell composing arguments about constitutional law and civil disobedience and the moral obligation of citizens to resist unjust economic policy, and you walked through the door and I forgot all of them. You came. I didn't ask you to and you came. That's not governance. That's just — that's just being my mother."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The word hits you differently than the political words. Mother. She called you that in front of the desk sergeant and the arresting officer and the photographer who was waiting outside, and she said it like it was the only word that applied in that moment, which it was. You are the Chancellor of the Republic. You walked into a police station and used your presence — not your authority, just your presence — to get your daughter released. The photograph ran the next morning. The caption said 'Chancellor collects daughter after protest arrest.' It was not the photograph anyone expected. It was not the photograph anyone who has read the constitution would have predicted. It was a mother picking up her child. The rest of it was commentary."
+    },
+    {
+      "type": "description",
+      "text": "Now you are walking home together. Not to the residence — to the apartment in the printing district, because she asked if you wanted to see where she lived, and you realized you had never been. She walks slightly ahead, navigating streets you don't know as well as she does, and you follow. The city at night is quieter than the city during the day. The streetlamps in this district are older, the yellow kind that cast long shadows. Your daughter is showing you her neighborhood. You are the Chancellor and you are being walked home by your child. Both of these things are happening at the same time."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "liora_reconciliation_talk_politics",
+      "text": "\"Tell me what you were arguing in your head. The constitutional law part. I want to hear it — not because I'm going to debate it, because I want to understand what you actually believe, not what the press says you believe.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_public_reckoning", "delayWeeks": 6 }
+      ],
+      "flags": ["liora_reconciled", "liora_politics_heard", "mother_daughter_dialogue"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "liora_reconciliation_dont_talk_politics",
+      "text": "\"I don't want to talk about the constitution tonight. I want to talk about you. How are you eating? Are you sleeping? Is the apartment warm enough? The political conversation can happen later. Tonight I want the conversation I haven't had with you in weeks — the one about your life, not my government.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 18 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["liora_reconciled", "liora_mother_first", "family_before_politics"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "liora_reconciliation_invite_home",
+      "text": "\"Come to the residence for dinner this Sunday. Bring your notebooks. Bring your arguments. Bring whoever you're seeing — I assume there's someone. I want you at the table. Not as a political statement. As my daughter. The table has been empty without you.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 14 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 6 },
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_family_healing", "delayWeeks": 8 }
+      ],
+      "flags": ["liora_reconciled", "liora_returns_to_residence", "family_dinner_scheduled"],
+      "codexUnlocks": []
+    }
+  ]
+}

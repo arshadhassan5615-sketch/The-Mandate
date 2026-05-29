@@ -1,0 +1,19 @@
+{
+  "id": "letter_response_soraya",
+  "title": "A Letter from Soraya",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Workers' Unity Hall — Kravenstal",
+  "characters": ["gregor_maric"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Gregor Marić delivers Soraya's reply in person. He places a single sheet of paper on your desk — written in the careful, determined penmanship of a woman who learned to write in night classes after twelve-hour factory shifts." },
+    { "type": "dialogue", "character": "gregor_maric", "text": "Soraya said to read this to you myself. She said: 'Tell the Chancellor I received her letter. I have been waiting for someone in that building to apologize for anything — anything at all — for thirty years. Hers is the first apology I have received. I do not trust her yet. But I will trust her enough to wait. The general strike is postponed. Do not make me regret this.'" }
+  ],
+  "choices": [
+    { "id": "letter_soraya_response", "text": "\"Tell Soraya I will not make her regret it. The next budget will remember the workers. I am writing that promise in my own hand — and this time, I intend to keep it.\"", "internalTag": "personal", "stateChanges": [{ "stat": "factions.workersCoalition", "operation": "add", "value": 10 }, { "stat": "personal.moralCompass", "operation": "add", "value": 5 }], "chainTriggers": [], "flags": ["letter_soraya_replied", "strike_postponed"], "codexUnlocks": [] }
+  ]
+}

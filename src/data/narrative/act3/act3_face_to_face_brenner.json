@@ -1,0 +1,95 @@
+{
+  "id": "act3_face_to_face_brenner",
+  "title": "Eye to Eye",
+  "act": 3,
+  "weekAvailable": 37,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "General Staff Building — Main Entrance, 06:50, Night of the Coup",
+  "characters": ["general_brenner"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The General Staff building is a Brutalist rectangle of grey concrete that was designed in the 1930s to communicate permanence. This morning it communicates something else — uncertainty, the particular uncertainty of an institution that has not yet decided whether it is staging a coup or waiting for orders. The guards at the main entrance are from the 3rd Armored. They recognize you. They do not salute, which is a choice. They also do not block the entrance, which is another choice. The press is gathered behind the security perimeter — journalists who were called by your office and journalists who were already here because a coup is a story and journalists go where stories are. The cameras are recording. The lights are on. You walk toward the entrance. Brenner is standing in the doorway. He has come out to meet you. He did not have to. The fact that he did is the first piece of information in a conversation that has not yet begun."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "Chancellor. You should not have come here. Not for safety reasons — my men will not harm you. I have given that order explicitly. But because this is not a theater. The soldiers you see behind me are not actors in a political drama. They are professionals who have been asked to do something no soldier wants to do, which is to contemplate the possibility that their own government has become a threat to the country they swore to defend. Coming here, with the press, with the cameras — you are making this into a spectacle. And spectacles do not resolve anything. They only make it harder for people on both sides to back down without losing face. I am asking you, as one Veltrian to another, to consider whether backing me into a public corner serves anyone's interests."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is angry, and he is also right. Making this public makes it harder for him to back down. That is the point. That is also the risk. A man who cannot back down without losing face will either fight or find a way to reframe the fight as something other than a fight. Brenner is not a man who fights for no reason. He is a man who has defined his reasons over forty-one years of service and is now standing in front of you, in front of the cameras, in front of the country, asking you not to make him choose between his pride and his survival. You have to answer him. The cameras are recording. The morning is waiting. The country is watching. What you say next is not a negotiation. It is something more fundamental — a definition of what this moment means, and what it means is whatever you say it means, provided enough people believe you."
+    },
+    {
+      "type": "description",
+      "text": "Behind Brenner, through the glass doors of the General Staff building, you can see officers watching. Some of them are his men. Some of them are waiting to see who wins before they commit. The distinction between a coup and a protest is the presence of weapons. The distinction between a revolution and a mutiny is the number of people who show up. The officers behind the glass are counting. They are counting the journalists. They are counting the soldiers. They are counting the seconds between your arrival and Brenner's response. They are doing the math that soldiers do when they are deciding whether to follow an order or wait for a better one. The math is not yet done. What you say to Brenner will be heard by those officers. It will be heard by the country. It will be heard by history. The weight of that is enormous. The weight is also irrelevant, because this is the moment you chose when you walked out of the residence instead of fleeing to Stellamere. You chose to be here. Now you have to be here."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "face_appeal_patriotism",
+      "text": "\"General Brenner. I am not here to make a spectacle. I am here because you are a Veltrian patriot and I believe that. Forty-one years of service. Three governments. Two wars. You have given this country more than most of its citizens will ever give, and you have done it without complaint, without self-promotion, without the vanity that infects so many people who wear uniforms. I know you did not order the 3rd Armored into the capital because you want to be a dictator. You ordered them because you genuinely believe the Republic is in danger and that normal politics cannot save it. I am asking you to consider that you might be wrong — not about the danger, which is real, but about the solution. A military that overrides civilian authority does not save the Republic. It replaces the Republic with something that cannot be called a Republic anymore. You know this. You have served the Republic your entire adult life. Do not be the man who ends it. Be the man who chooses the harder path. Stand down. Work with me. Help me fix what needs fixing — through the constitution, not around it.\"",
+      "internalTag": "reformist",
+      "tooltip": "Appeal to Brenner's patriotism and service record. Offer him a way to stand down with honor. The best chance of a peaceful resolution — if his self-image allows it.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 12 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_public_moment", "delayWeeks": 0 }
+      ],
+      "flags": ["brenner_appealed_patriotism", "face_to_face_peaceful", "brenner_stood_down", "coup_resolved_honorably"],
+      "codexUnlocks": ["codex_brenner_service_record", "codex_general_staff_building"]
+    },
+    {
+      "id": "face_threaten_legal",
+      "text": "\"General, let me be clear about what happens next — not emotionally, not politically, legally. You have deployed military assets within the capital without authorization from the Minister of Defense or the Chancellor. That is a violation of the Military Deployment Act of 1948, the Constitutional Security Provisions of the Charter, and the oath you swore when you accepted your commission. If you do not order the 3rd Armored to return to Fort Harlan within the hour, I will instruct the Attorney General to prepare charges of sedition and unauthorized military deployment against every officer who participated in this action. You will be tried. You will be convicted. The courts still function. The constitution still applies. The law does not take a holiday because you are having a crisis of confidence. Stand down, or face the legal consequences of what you have done. Those are the options. There is no third door.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Threaten legal consequences. Assert the constitutional order through its enforcement mechanisms. Clear, forceful, and risks pushing Brenner past the point of no return.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_public_moment", "delayWeeks": 0 },
+        { "targetNodeId": "act4_post_coup_consolidation", "delayWeeks": 4, "probability": 0.6 }
+      ],
+      "flags": ["brenner_legally_threatened", "constitutional_authority_asserted", "sedition_charges_prepared", "face_to_face_confrontational"],
+      "codexUnlocks": ["codex_military_deployment_act", "codex_constitutional_security_provisions"]
+    },
+    {
+      "id": "face_honorable_compromise",
+      "text": "\"General, you are right about one thing. Spectacles do not resolve anything. So let us not make one. Step inside with me. No cameras. No press. Just the two of us, and whatever aides we each trust. We are going to sit down and we are going to find a way out of this that preserves the Republic and protects your legitimate concerns about military readiness. I am not asking you to surrender. I am asking you to negotiate — genuinely, privately, with the shared understanding that neither of us wants Veltrian soldiers to fire on Veltrian soldiers, and neither of us wants to be remembered as the person who made that happen. You have demands. I have red lines. Between demands and red lines there is always a space. Let us find it. Together. Now.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "De-escalate by taking the conversation private. Offer genuine negotiation without the cameras. Brenner saves face. You get a resolution. The cost is whatever he asks for.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_brenner_negotiation", "delayWeeks": 0 }
+      ],
+      "flags": ["brenner_compromise_offered", "private_negotiation", "face_to_face_deescalated", "cameras_dismissed"],
+      "codexUnlocks": ["codex_general_staff_building", "codex_crisis_negotiation"]
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "id": "act3_volkov_patience_expires",
+  "title": "Volkov's Deadline",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Cabinet War Room — 06:00, Final Communication",
+  "characters": ["colonel_dusek", "vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The final communication from Volkov arrives not through diplomatic channels but through the military attaché at the Orythian embassy — a deliberate insult wrapped in procedural convenience. The attaché delivers it by hand at 05:30, a single sheet of paper in a sealed envelope that bears the Tyvaren Foreign Ministry seal but not the usual diplomatic courtesies. No 'Excellency.' No 'I have the honor to convey.' The language is stripped of ornament. The deadline is forty-eight hours. The terms are final. The offer will not be repeated. After 06:00 on the specified date, Tyvaren armed forces will consider all available options for securing the Confederation's legitimate security interests. The phrase 'all available options' is the diplomatic equivalent of a loaded rifle placed on the table while the conversation is still in progress."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The terms. Full Veltrian withdrawal from the Gravenmark Pass. Demilitarized zone under joint administration — which means Tyvaren administration with Veltrian participation as observers. No foreign military presence within one hundred kilometers of the northern border. Formal recognition of Tyvaren's 'historic interest' in the Gravenmark region — the language is deliberately vague and deliberately offensive. A non-aggression pact for ten years. In exchange: Tyvaren forces stand down from forward positions, trade normalization, and a joint economic development zone in the border region. The terms are substantively identical to the original ultimatum. The only thing that has changed is the deadline. And the tone. The tone has become — final."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Military assessment. Volkov's forces have completed their forward deployment. The probing attacks have stopped. That is not a good sign — it means they have the intelligence they needed and are now in final preparation. Our readiness is as high as it is going to be. The defensive line is prepared. The reserves are in position. The air defense coverage has improved but remains below acceptable minimums for sustained operations. We can fight. We cannot guarantee victory. No military commander can guarantee victory against a numerically superior opponent on our own terrain. I can guarantee that we will make the cost of invasion higher than Volkov has projected. Whether that cost is high enough to deter him — that is an intelligence question, not a military one. I cannot answer it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-eight hours. After forty-eight hours, the diplomatic stalling is over and the war begins, or the treaty is signed and the country survives at the cost of its strategic frontier. Both outcomes are real. Both are arriving regardless of how I feel about them. The forty-eight hours are not for deliberation — they are for deciding which version of catastrophe I am willing to own. I have spent weeks trying to find a third option between surrender and war. The third option does not exist. Volkov has made sure of that. He has closed every door except the two he wants me to choose between. The cleverness of the trap is that neither door is surrender — one is survival with humiliation, one is defiance with destruction, and I have to walk through one of them knowing that half the country will call me a coward and the other half will call me a warmonger and both halves will be partially right. This is what command feels like when the maneuvering is over and the decision is irreducible. This is the moment they will write about in the histories, if there are histories. The Chancellor at dawn, holding a single sheet of paper, knowing that whatever she writes in response will define the country for a generation and define her for the rest of her life."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "volkov_accept_terms",
+      "text": "\"Accept the terms. I will not sacrifice the lives of thousands of Veltrian soldiers and tens of thousands of Veltrian civilians to defend a pass that cannot be held against a numerically superior opponent. The Gravenmark is a tragedy waiting to happen. I will make it a concession instead of a cemetery. The country will hate me for this. The Iron Covenant will call it treason. The histories will call it appeasement. But the histories will be written by people who did not have to look at Dusek's readiness numbers at five-thirty in the morning and decide whether to send twenty-year-olds to die for a geological feature. I did not become Chancellor to preside over Veltria's destruction. If the choice is between a diminished Veltria and no Veltria, I choose diminished. Draft the acceptance. I will announce it to the nation myself.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -16 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -14 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -6 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vyktor_departure", "delayWeeks": 2 },
+        { "targetNodeId": "act4_week40_exile", "delayWeeks": 4 }
+      ],
+      "flags": ["tyvaren_terms_accepted", "gravenmark_conceded", "volkov_deadline_met", "peace_with_humiliation", "ultimatum_resolved"],
+      "codexUnlocks": ["codex_gravenmark_concession", "codex_tyvaren_treaty_terms"]
+    },
+    {
+      "id": "volkov_reject_prepare_war",
+      "text": "\"Reject the ultimatum with no further negotiation. Send a one-line reply: 'The Republic of Veltria does not surrender territory under threat.' Then notify General Brenner that the defensive plan is now operational. Notify the nation that we are at war — not by proclamation, but by the fact of Tyvaren's ultimatum and our refusal. I want every soldier on the line by nightfall. I want the air raid sirens tested. I want the civil defense network activated. Volkov gave me forty-eight hours. I am using them to prepare, not to deliberate. The deliberation is over. The preparation has been ongoing. The war is here.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 16 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -8 },
+        { "stat": "nation.inflation",              "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 1 },
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 3 }
+      ],
+      "flags": ["tyvaren_terms_rejected", "war_declared_de_facto", "volkov_deadline_defied", "nation_mobilizing", "ultimatum_resolved"],
+      "codexUnlocks": ["codex_declaration_war", "codex_total_national_defense"]
+    },
+    {
+      "id": "volkov_final_counter_offer",
+      "text": "\"One final counter-offer. Not negotiation — a proposal. Veltrian forces will withdraw from the Gravenmark Pass to a distance of twenty kilometers. Tyvaren forces will withdraw an equal distance on their side. The pass becomes a demilitarized zone under genuine international supervision — the Forum, not Tyvaren chairmanship. No foreign bases within fifty kilometers of the border — not a hundred — and the 'historic interest' language is removed entirely. This gives Volkov the demilitarization he claims to want without the surrender he actually wants. If he rejects this, the world will see that he was never interested in security. He was interested in conquest. And we will meet conquest with full defensive force. Make the offer. Give him twelve hours to respond. If he refuses — then we fight. But I will go to war knowing I exhausted every alternative, not just the easy ones.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_diplomatic_negotiation", "delayWeeks": 1 }
+      ],
+      "flags": ["final_counter_offer_made", "last_diplomatic_gambit", "volkov_deadline_extended", "ultimatum_resolved"],
+      "codexUnlocks": ["codex_last_diplomatic_offer", "codex_demilitarized_zone_proposal"]
+    }
+  ]
+}

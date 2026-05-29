@@ -1,0 +1,169 @@
+{
+  "id": "act2_week17_church_lobbying",
+  "title": "The Eternal Flame's Warning",
+  "act": 2,
+  "weekAvailable": 17,
+  "weekDeadline": 21,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Morning",
+  "characters": ["stanislov_renek", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The reports started coming in on Monday morning. By Wednesday, Vyktor had assembled them into a folder four centimeters thick and set it on your desk without a word. You did not need to read it to understand. You had already heard two of the sermons described in those reports — one from a man you trusted, one from a parish in Thornfeld that had never been political in living memory."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Forty-one parishes delivered coordinated sermons this weekend on the subject of the constitutional convention. The language was not uniform but the message was. 'Godless reformers.' 'The eternal flame cannot be extinguished by decree.' 'A nation that erases God from its laws has erased itself.' Renek did not write these himself — they went through the diocesan offices, different authors, same talking points. This was planned three weeks ago."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor pauses, consulting a smaller note underneath the folder. 'One additional item — not related to the Church. The Tyvaren state newspaper published an analysis of our military readiness yesterday. The details were... specific. Too specific. They quoted a classified assessment that was only circulated to six offices, including this one. I am tracking it. I mention it only because you should know.' He moves on before you can ask follow-up questions."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Three weeks ago means before the convention opened. Renek was preparing this before he knew what the final document would say. He was preparing it because he already knew — or had been told — what the final document would say. Someone talked. Someone is always talking."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Letters to the parliament secretariat: four hundred and twelve this week, up from thirty-one last week. The provincial polling firm that works with the Interior Ministry has numbers from Thornfeld: referendum support among rural voters dropped eight points in five days. That is an extraordinary movement for that short a period. It suggests the sermons are landing."
+    },
+    {
+      "type": "description",
+      "text": "The window behind your desk faces the palace garden, still brown from winter and not yet fully come in. You have been in this office for fourteen weeks and you have not yet had time to properly look at the garden. You make a note to do so at some point, then recognize the note is not going to be acted upon and put it aside."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Renek's office has requested a meeting. Informally, not through official channels. The Archbishop wants a conversation before this becomes a formal campaign. That is either an offer of negotiation or a delivery of an ultimatum with good manners. Probably both."
+    },
+    {
+      "type": "description",
+      "text": "You know Renek. You met him in the first week of your government, at his invitation, over a dinner that lasted two and a half hours and covered everything from the church school funding formula to the philosophical question of whether democratic legitimacy derives from divine authority or popular sovereignty. He argued both sides well. He is the most dangerous kind of opponent: the kind who is genuinely intelligent and genuinely believes."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "If you meet him: you either make a concession or you don't. If you don't, the lobbying continues and likely escalates. If you do — and the obvious concession is the church-state separation clause — you keep the Church neutral. Either way, whatever you say to him in that room will eventually come out. It always does."
+    },
+    {
+      "type": "description",
+      "text": "You have heard the argument for removing the clause before. The Church runs forty percent of the social infrastructure in Thornfeld and Kravenstal — the schools, the hospitals in three provinces, the winter food distribution network that the state has not built a replacement for. Removing them from the constitution's orbit is either justice or recklessness, depending on what you believe you are dismantling and what you believe will replace it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Father would have known how to talk to Renek. He always knew how to talk to men who believed in things larger than themselves — he believed in things himself. You believe in things too. The question is whether belief is enough when the Archbishop has forty-one parishes and your constitution has no parishes at all."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "He's waiting for a response. By end of week."
+    }
+  ],
+
+  "monologue": "Forty-one parishes in a single weekend. Renek mobilized his network before the convention opened — he knew the document would threaten church power because someone told him. The meeting request is either negotiation or ultimatum. The line between the two is very thin, and Renek walks it better than anyone.",
+
+  "choices": [
+    {
+      "id": "church_meet_and_concede",
+      "text": "Meet with Renek privately. Agree to modify the church-state separation clause — the Church retains its schools and hospitals, and the tax exemption review is deferred. The 'moral guardian' language is softened but not removed.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church",          "operation": "add", "value": 22 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -12 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -5 },
+        { "stat": "factions.dravenni",        "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_deal_accepted", "constitution_excluded_church_state_separation", "renek_neutralized"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "silence", "text": "He writes the terms on his notepad — schools and hospitals retained, tax exemption deferred. He does not comment. The silence is the sound of Vyktor noting what was traded." }]
+    },
+    {
+      "id": "church_public_defense",
+      "text": "\"Issue a public address. The separation of church and state is not a declaration of war against the Church — it is a protection for every faith, including the Eternal Flame. Broadcast it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.church",          "operation": "add", "value": -18 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 8  },
+        { "stat": "factions.dravenni",        "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -6 },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": 3  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_deal_rejected", "church_confrontation_public"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "action", "text": "He is already drafting the address — the separation of church and state is a protection for every faith, including the Eternal Flame. He underlines the last phrase. It is the right line." }]
+    },
+    {
+      "id": "church_threaten_audit",
+      "text": "\"Tell Renek's office that if the sermons continue, the Finance Ministry will begin a formal review of Church land holdings and the basis for tax exemptions. We are not threatening — we are following proper regulatory procedure.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.church",          "operation": "add", "value": -25 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_church_active_opposition",
+          "delayWeeks": 8
+        }
+      ],
+      "flags": ["church_threatened", "church_relationship_broken", "constitution_church_audit_threatened"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "silence", "text": "He writes formal review of Church land holdings on his notepad. Then he draws a line underneath. He does not comment. The silence is the sound of Vyktor preparing a weapon." }]
+    },
+    {
+      "id": "church_send_vyktor",
+      "text": "\"Send Vyktor to meet informally with the Archbishop's secretary-general. Listen, don't commit. Buy two weeks.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.church",          "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week17_church_lobbying",
+          "delayWeeks": 2,
+          "probability": 0.8
+        }
+      ],
+      "flags": ["church_deflected"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "silence", "text": "He writes listen, don't commit on his notepad. He understands the assignment. He does not like it. But he understands it." }]
+    },
+    {
+      "id": "church_clue_tyvaren_leak",
+      "text": "\"The Tyvaren intelligence article — give me the details before I meet with Renek. A leak to a hostile power is more urgent than a lobbying campaign. I want to know who had access.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -3 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_clue_1_found", "church_deflected"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "vyktor_reznik", "type": "action", "text": "He pulls a thinner file from underneath the main folder — the Tyvaren intelligence article, the classified assessment, the six offices with access. He has been waiting for you to ask." }]
+    }
+  ]
+}

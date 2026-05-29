@@ -1,0 +1,118 @@
+{
+  "id": "act3_week28_economic_healthy",
+  "title": "The Reformist Case",
+  "act": 3,
+  "weekAvailable": 28,
+  "weekDeadline": 32,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Finance Ministry — Minister Vostane's Office, 10:30am",
+  "characters": ["elara_vostane"],
+  "prerequisites": [
+    { "stat": "nation.economyHealth", "operator": ">=", "value": 10 }
+  ],
+  "exclusive": ["act3_week28_economic_crisis"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You did not expect this. Elara Vostane does not ask for meetings to deliver good news — she sends Vyktor a memo. She asked for this one directly, which means she has something she needs to say to your face. The last time that was true, it was about the deficit. You have been braced for a month."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The deficit has narrowed by twenty-eight percent since the first budget review. Inflation is within target. The IMA sent a courtesy message last week — not an inquiry, a courtesy message — congratulating the Republic on 'prudent fiscal management during a period of constitutional transition.' I want you to understand what that language means from them. It means they had a file ready and they're not opening it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You have been governing as if the next number you received would be the one that broke things. Twenty-eight weeks of waiting for a floor to give way. It hasn't. You are not certain it won't. But standing in this office with the morning light coming through the Finance Ministry's north-facing windows, the floor is still there."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I want to use this window. The new constitution requires investment in the judicial infrastructure, the civilian oversight mechanisms, the rights enforcement apparatus. These are constitutional obligations — but they require money, and right now we have a moment of fiscal credibility that we will not always have. I've prepared a framework: forty-two million VK over three years, targeted at constitutional implementation. Education spending that fulfills the rights provisions. Infrastructure spending in the provinces that voted against us."
+    },
+    {
+      "type": "description",
+      "text": "She puts the framework on the desk between you. Sixty-three pages, bound with a plain black clip. She has been working on this longer than the referendum — you can tell by the worn corners on the first section, the pencil notations visible through the paper where the binding is thickest. She was preparing for the possibility of winning before the count came in."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-two million over three years. Fourteen million a year. Roughly what the old BNI security budget was — what Halvek spent watching people, being asked to build the infrastructure for the rights of the people who were watched. There is a version of this that Theron would call poetic. You suspect he has already thought of it."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The risk is this: if another economic shock arrives before the three-year commitment closes, we will not have the flexibility to absorb it. I want you to know that before you decide. This is not a risk-free recommendation. Nothing in government is. But I believe this is the right risk to take, at the right moment, and I do not say that about fiscal commitments easily."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "economic_healthy_full_framework",
+      "text": "\"Approve the full framework. All forty-two million, all three years. We use the window while it's open.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_constitution_implementation", "delayWeeks": 4 }
+      ],
+      "flags": ["vostane_investment_approved_full", "constitution_funded"],
+      "codexUnlocks": ["codex_new_constitution"]
+    },
+    {
+      "id": "economic_healthy_scaled",
+      "text": "\"Approve a scaled version — full education provision, half the infrastructure spending, and a two-year horizon instead of three. Half the exposure. Still meaningful.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 2  },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 5  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_constitution_implementation", "delayWeeks": 5 }
+      ],
+      "flags": ["vostane_investment_approved_partial"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "economic_healthy_delay",
+      "text": "\"Give me the week to read this properly. The economy is stable — that means we have a few days to decide correctly rather than quickly.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 2  },
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["vostane_investment_deferred"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "economic_healthy_reserves",
+      "text": "\"Use the fiscal space to build reserves. Take the surplus and hold it. If a shock comes — and one will come — I want to be able to absorb it without going to the IMA with my hat in my hand.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 8  },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -20},
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 6  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",          "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["vostane_investment_rejected", "fiscal_reserves_built"],
+      "codexUnlocks": []
+    }
+  ]
+}

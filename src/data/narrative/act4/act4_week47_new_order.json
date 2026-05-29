@@ -1,0 +1,82 @@
+{
+  "id": "act4_week47_new_order",
+  "title": "The New Veltria",
+  "act": 4,
+  "weekAvailable": 47,
+  "weekDeadline": 49,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Parliament — Final Reform Vote, Week Forty-Seven",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.reform_backlash_resolved", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The final reform bill passes at 11:47 PM on a Thursday, which is when historically significant legislation always passes — late enough that the people watching have gone to bed, early enough that the morning newspapers can run the headline. The vote is narrower than you wanted but wider than you feared: 56 percent in favor. Not a landslide. Not a squeaker. A mandate — small but real, the kind of majority that says 'the country is moving in this direction, reluctantly but irreversibly.' You watch from the gallery. You have earned the right to watch. You have not earned the right to stop."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The implementing legislation for twenty-three of the remaining thirty-five provisions has now been passed. The constitutional framework is operational. Not complete — governance is never complete — but operational. The Constitutional Court is functioning. The military oversight framework is in place. The Dravenni language provisions — whatever form they took — are law. The Church's relationship with the state has been redefined or preserved, and both sides are learning to live with the outcome. The BNI is dissolved, reformed, or retained, and the intelligence function has been reorganized accordingly. Veltria is not the country it was when you took office forty-seven weeks ago. It is the country you made. For better and worse — that is what governance means."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-seven weeks. You have governed through a constitutional convention, an economic crisis, betrayals, a military loyalty test, a foreign ultimatum, possibly a war, possibly a coup, and the gradual transformation of every institution that defined Veltria under Halvek. You are not the same person who stood at the inauguration podium. The country is not the same country. The question that remains — the question that will be answered in the remaining five weeks of your term and in the elections that follow — is whether the transformation will hold. Whether the institutions you built are strong enough to survive the next crisis, the next government, the next person who seeks to undo what you have done. You cannot know the answer. You can only finish the work and trust that what you built was built well."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "new_order_legacy_speech",
+      "text": "\"I want to address the nation tonight. Not to celebrate — to acknowledge. To name what we did, together, and what it cost, and who paid the cost. To thank the people who made it possible, including the ones who opposed me honestly rather than obstructing cynically. To tell the country that the constitution is not my achievement or any government's achievement — it is the country's achievement, and it will last only as long as the country continues to believe in it. That is the speech. I have been writing it in my head for forty-seven weeks.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 18 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [],
+      "flags": ["reform_complete", "new_order_established", "legacy_speech_given"],
+      "codexUnlocks": ["codex_constitutional_republic", "codex_veltrian_reform_movement"]
+    },
+    {
+      "id": "new_order_prepare_transition",
+      "text": "\"The reforms are law. Now we need to make sure they survive the next government. I want a transition plan — a orderly handover of institutional knowledge, a public education campaign about the new constitutional arrangements, and a clear legal framework that makes rolling back these reforms procedurally difficult. I may not be Chancellor in six months. The constitution should be. That means building it into the machinery of government so deeply that undoing it requires more effort than any future government will be willing to expend. That is the final work. Let us do it well.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["reform_complete", "new_order_established", "transition_prepared"],
+      "codexUnlocks": ["codex_democratic_transition", "codex_constitutional_entrenchment"]
+    },
+    {
+      "id": "new_order_next_campaign",
+      "text": "\"The reforms are foundation, not completion. There is an election coming, and I intend to win it — not for myself, but for the unfinished work. The constitution gives us the framework. The next term gives us the opportunity to fill that framework with policies that actually change how Veltrians live. Economic justice. Educational reform. The Dravenni reconciliation process. The things we could not do while we were building the institutions to do them. I am not done. The country is not done. I am asking the country to give me the chance to finish what we started. That is the next campaign. That is the next fight.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_reelection_campaign", "delayWeeks": 3 }
+      ],
+      "flags": ["reform_complete", "new_order_established", "reelection_bid"],
+      "codexUnlocks": ["codex_veltrian_elections", "codex_next_term_agenda"]
+    }
+  ]
+}

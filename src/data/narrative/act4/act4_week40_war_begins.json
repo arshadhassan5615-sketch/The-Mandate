@@ -1,0 +1,131 @@
+{
+  "id": "act4_week40_war_begins",
+  "title": "The First Day of the War",
+  "act": 4,
+  "weekAvailable": 40,
+  "weekDeadline": 42,
+  "type": "emergency",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Operations Bunker, 04:52, Week Forty",
+  "characters": ["colonel_dusek", "general_brenner", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.war_path_chosen", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The operations bunker beneath the Ministry of Defense was built in 1938, when the last generation of Veltrian leaders believed the next war would come from the air. The walls are three meters of reinforced concrete. The map tables are lit by bulbs designed to function during power failures. The air is recycled through filters installed during the Halvek years and never replaced. It smells of metal and ozone and the particular staleness of a room that has been waiting twenty-five years for the purpose it was built for. That purpose arrived at 03:17 this morning."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "At 03:17, Tyvaren forces crossed the border at three points: the Gravenmark Pass primary crossing, the eastern approach through the Korven Forest, and — this is the one that concerns me — a mechanized column through the Dravenhollow highlands. The Dravenhollow crossing uses mountain routes that were supposed to be impassable to armored vehicles. They are not impassable. We are now fighting on three fronts. Forward units are engaged. Casualty reports are coming in but the numbers are not reliable yet. What I can tell you is that the forward defense positions at Gravenmark are holding. They will not hold indefinitely."
+    },
+    {
+      "type": "internal_thought",
+      "text": "It is happening. The thing you have been preparing for since Week Thirty-Two, the thing you have been making decisions about while simultaneously managing an economy and a constitution and a family and a military loyalty crisis — it is no longer a scenario. It is a war. Veltrian soldiers are dying while you read this report. The numbers Dusek cannot confirm yet are specific people with specific names and specific families who will receive telegrams before noon. You made the decisions that put them in those positions. You made them with the best information you had. The information was incomplete. The information is always incomplete. The soldiers are still dead."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "The operational situation is serious but not catastrophic. The Gravenmark forward positions are performing to specification. The Korven Forest crossing is being engaged by our reserve infantry — the terrain favors the defender. The Dravenhollow crossing is the problem. If that column reaches the Kravenstal road network, they can flank our entire defensive line and attack the industrial heartland from the north while we are still fighting at the pass. I need to redeploy the 2nd Armored Reserve to block that approach. That means weakening the central front. That is a risk. I am telling you the risk because you need to authorize it."
+    },
+    {
+      "type": "description",
+      "text": "The map table shows the three incursions in red. The red is spreading. The blue markers of Veltrian positions are holding their shapes but the spaces between them are growing. Brenner is pointing at the Dravenhollow arrow with the particular calm of a man who has planned for this moment for twenty years and is now discovering which parts of his plan survive contact with reality. The 2nd Armored Reserve is the strategic reserve — the force you hold back for the decisive moment. Committing it in the first six hours of the war means there is no second reserve. If the line breaks after you commit, there is nothing behind it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "International reaction is developing. Stellamere has issued a statement condemning the invasion but has not committed to military support. The Orythian embassy is — being Orythian, which is to say they are waiting to see who is winning before they choose a side. The International Forum has called an emergency session for tomorrow. The Dravenni Liberation Front, if you have an agreement with them, is reporting their fighters are engaging Tyvaren forces in the highlands. If you do not have an agreement, Dravenhollow province is — I will say 'complicated.' Tyvaren forces are being received in some villages as liberators. The chickens of Week Thirty-Four are coming home."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The DLF. If you embraced them, they are fighting beside you. If you suppressed them, they are welcoming the invaders. The moral calculus of Week Thirty-Four resolves into military reality on the first day of the war. You knew this was possible. You made the choice anyway — whichever choice you made — because it was the right choice given what you knew and who you were trying to be. The Dravenni fighters who are dying for Veltria today, or the Dravenni civilians who are guiding Tyvaren columns through mountain passes, are both the product of your governance. There is no version of this war in which the choices you made about the Dravenni do not matter. There is only the version in which they matter in the way you hoped, and the version in which they matter in the way you feared."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "war_commit_reserve",
+      "text": "\"Authorize the 2nd Armored to block the Dravenhollow approach. Brenner is right — if that column reaches Kravenstal, the war is over before it begins. Commit the reserve. We will find other reserves if we need them, or we will fight without them. But we will not lose the industrial heartland on the first day because we were afraid to use what we have.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week42_war_strategy", "delayWeeks": 2 }
+      ],
+      "flags": ["reserve_committed_day_one", "dravenhollow_blocked", "war_phase_one_complete"],
+      "codexUnlocks": ["codex_second_armored_reserve", "codex_battle_of_korven_forest"]
+    },
+    {
+      "id": "war_hold_reserve_call_allies",
+      "text": "\"Hold the reserve. If we commit everything in the first six hours, we have nothing for the next six days. Send an urgent cable to Stellamere — not a request for a statement, a request for forces. Tell them Veltria is fighting alone against a fascist invasion and the democracies are watching. Make them own their inaction. Meanwhile, I want every available diplomatic channel activated — Orythia, the Forum, anyone who has ever said they support self-determination. The military fight is yours, General. The political fight is mine. We fight both.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 2 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week42_war_strategy", "delayWeeks": 2 },
+        { "targetNodeId": "act4_alliance_crisis", "delayWeeks": 3 }
+      ],
+      "flags": ["reserve_held", "allies_summoned_day_one", "war_phase_one_complete"],
+      "codexUnlocks": ["codex_veltrian_diplomatic_corps_war", "codex_stellamere_mutual_defense_pact"]
+    },
+    {
+      "id": "war_dravenni_gamble",
+      "text": "\"The Dravenhollow column is the existential threat — and the Dravenni are the key to that front. If we have an alliance with the DLF, I want them fully integrated into the defensive plan with Veltrian regular forces supporting them, not the other way around. If we don't — I want an emergency envoy to Kaelen within the hour. Offer him everything I wouldn't give him in Week Thirty-Four. Full autonomy. Language rights. A ministry in the government. Whatever it takes. I will not lose this war because I was too proud to admit I should have made this deal months ago.\"",
+      "internalTag": "pragmatist",
+      "conditions": [
+        { "stat": "factions.dravenni", "operator": ">=", "value": 10 }
+      ],
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 18 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week42_war_strategy", "delayWeeks": 2 },
+        { "targetNodeId": "act4_dravenni_war_alliance", "delayWeeks": 1 }
+      ],
+      "flags": ["dravenni_emergency_deal", "kaelen_war_alliance", "war_phase_one_complete"],
+      "codexUnlocks": ["codex_dravenni_highland_defense", "codex_dlf_wartime_integration"]
+    },
+    {
+      "id": "war_address_nation",
+      "text": "\"Before I authorize anything — I need to speak to the country. Now. Get me a broadcast. The Veltrian people are going to wake up this morning to the news that their country is being invaded. The first voice they hear needs to be mine — not a military spokesperson, not a newsreader reading a wire report, not a foreign correspondent speculating about our collapse. Me. Telling them the truth. Telling them we will fight. Telling them to be brave. Everything else — the reserves, the diplomacy, the DLF — follows from whether the country believes it can survive. Give me ten minutes on the air. Then we fight.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 16 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 14 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week42_war_strategy", "delayWeeks": 2 }
+      ],
+      "flags": ["nation_addressed_at_war_start", "public_rallied", "war_phase_one_complete"],
+      "codexUnlocks": ["codex_chancellors_war_address"]
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "id": "act1_vael_estate_dinner",
+  "title": "Dinner at Thornfeld",
+  "act": 1,
+  "weekAvailable": 12,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Vael Estate — Private Dining Room, Thornfeld Valley",
+  "characters": [
+    "lucan_vael"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The invitation is for dinner — 'an informal evening, just a few friends' — and you know before you arrive that there will be nothing informal about it. The Vael estate at night is more impressive than it is by day, which is presumably the point. The driveway is lit by lanterns that cost more than most Veltrians earn in a month. The house glows amber through walls of glass. You are met at the door by a servant whose name you are not given and who does not meet your eyes."
+    },
+    {
+      "type": "description",
+      "text": "'A few friends' turns out to be seven people: two consortium bankers whose faces you recognize from the financial pages, a retired general whose name you should probably know, a newspaper publisher from Ashenmere, a shipping magnate, an art collector who is apparently the hostess for the evening, and Lucan Vael at the head of the table, watching everything. You are the only politician in the room. You understand that this is the point — you are not here as a guest among equals. You are here as an exhibit."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Chancellor, I'm so pleased you could come. Let me introduce you to everyone — though I suspect you know most of these faces already. The people in this room represent approximately sixty percent of Veltrian private capital. That is not a boast; it is an introduction. I thought it might be useful for you to have a conversation with capital that is not mediated by ministry briefings and newspaper editorials. Capital has a voice. It is more pleasant than you've been led to believe."
+    },
+    {
+      "type": "description",
+      "text": "The dinner is four courses and the conversation is polite and every single topic slides eventually toward policy. The bankers are concerned about tax reform — their concern is expressed as curiosity about implementation timelines. The shipping magnate is interested in port privatization — his interest sounds like concern for efficiency. The general — you remember now: General Varnholt, retired, Iron Covenant donor — is worried about military readiness. His worry sounds like patriotism. No one says 'do what we want or we will destroy you.' They don't need to. The warmth in the room is the threat."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "The people at this table are the reason Veltria's economy survived the transition. They could have pulled capital. They could have moved their operations to Arcturia, to Orythia, to Lytheira. They did not. They stayed. They are staying. What they need — what I think they deserve — is to know that their loyalty will be reciprocated. That the government they are financing through their taxes and their patience will not turn around and treat them as adversaries. A gesture of goodwill. Something to reassure the markets."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is asking me to perform loyalty to capital in front of capital. The dinner is the gesture. My presence at this table, my willingness to listen, my smile across four courses of food prepared by people I will never see — that is the performance Vael wants. If I perform well tonight, the markets breathe easier. If I refuse to perform, the markets panic. This is not a dinner. It is a negotiation where the menu is in a language I do not speak and the only person who can translate is sitting at the head of the table watching me decide whether to trust him."
+    }
+  ],
+  "monologue": "I am the only politician in the room. The rest are capital — bankers, a shipping magnate, a retired general, an art collector. Sixty percent of Veltrian private wealth at one table, being polite about their concerns. No one says 'do what we want or we destroy you.' They don't need to. The warmth in the room is the threat. Vael wants a performance of loyalty. Whether I perform, confront, or observe — and which one leaves me with more power when dessert is cleared.",
+  "choices": [
+    {
+      "id": "vael_dinner_charm",
+      "text": "Play the room. You were a diplomat before you were a Chancellor — charm is a tool and tonight it is the right tool. Be warm, be intelligent, be someone capital can trust. Give them what they want tonight — the performance of a Chancellor who respects their concerns. You can be a reformer tomorrow. Tonight, be a dinner guest who knows how to keep capital in the country.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -5
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_vael_steel_mills",
+          "delayWeeks": 6
+        }
+      ],
+      "flags": [
+        "vael_dinner_charmed",
+        "capital_reassured",
+        "vael_relationship_warm"
+      ],
+      "codexUnlocks": [
+        "codex_vael_alliance"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "action",
+          "text": "He smiles. It does not reach his eyes."
+        }
+      ]
+    },
+    {
+      "id": "vael_dinner_confront",
+      "text": "\"You want a gesture of goodwill. Here it is: I came. I listened. I ate the food and I will say thank you when I leave. But I am not going to pretend that the sixty percent of Veltrian capital in this room was accumulated entirely through legitimate enterprise under a regime that was corrupt from its foundations to its roof. I am not going to perform gratitude for people who prospered under Halvek and now want assurances that reform won't touch them. Reform will touch you — fairly, lawfully, proportionally. That is the reassurance. The law will apply to you exactly as it applies to everyone else. If that is not reassuring, I suggest you adjust your expectations.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -18
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 6
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_vael_steel_mills",
+          "delayWeeks": 6
+        }
+      ],
+      "flags": [
+        "vael_dinner_confronted",
+        "capital_hostile",
+        "vael_relationship_cold"
+      ],
+      "codexUnlocks": [
+        "codex_vael_confrontation"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "He says nothing. He is already calculating the advantage."
+        }
+      ]
+    },
+    {
+      "id": "vael_dinner_observe",
+      "text": "Listen. Say little. You learned this in your diplomatic years — silence is a mirror. Let the room talk. Let Vael perform his role as intermediary. Watch who defers to whom, who interrupts, who doesn't. The people at this table are revealing their anxieties, their rivalries, their weaknesses, and they are doing it while trying to assess yours. You will leave this dinner with more intelligence than you arrived with. That is a different kind of victory.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": 0
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 2
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_vael_steel_mills",
+          "delayWeeks": 6
+        }
+      ],
+      "flags": [
+        "vael_dinner_observed",
+        "capital_assessed",
+        "vael_relationship_neutral"
+      ],
+      "codexUnlocks": [
+        "codex_vael_observation"
+      ],
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "He is silent. The Margrave's silences are investments."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "id": "act4_mole_wrong_accusation",
+  "title": "A Terrible Mistake",
+  "act": 4,
+  "weekAvailable": 42,
+  "weekDeadline": 44,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ashenmere Palace — Chancellor's Private Office",
+  "characters": ["vyktor_reznik", "viktor_dorne"],
+  "prerequisites": [
+    { "stat": "flags.mole_wrongly_accused", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The interrogation lasted three days. At the end of it, Dorne came to your office with a report that made your stomach turn. The person you accused — the person you were certain was the mole — is innocent. The evidence you relied on was circumstantial. The bank account had a legitimate explanation. The late-night access was for routine work. The intercepted communications were misinterpreted. You arrested an innocent person based on suspicion, not proof."
+    },
+    {
+      "type": "dialogue",
+      "character": "viktor_dorne",
+      "text": "The individual you accused has been released. Their legal counsel is preparing a wrongful arrest suit. Their faction has issued a formal condemnation of your government. More critically: the real mole is still operating. And they now know you are hunting for them — because the arrest was public enough that word has spread. You have tipped your hand to a foreign intelligence operation. The tactical advantage we had has been lost."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have drafted a formal apology to the individual you accused. You will need to sign it personally. The political damage is severe but not terminal — yet. The real danger is what happens now. The mole is still receiving Tyvaren intelligence requests and still transmitting. They know you are closing in. They will either go dark — making them impossible to find — or accelerate their operations before we can stop them. Either way, we have made this worse."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I was so sure. The clues — the patterns — the late-night phone calls and the nervous glances — it all fit so perfectly. And it was wrong. All of it. I destroyed an innocent person because I was clever enough to see a pattern and arrogant enough to believe I was right. The real spy is still out there. Still reading my memos. Still sending secrets across the border. And now they know I am coming. I have never felt more foolish. I have never felt more dangerous."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "mole_wrong_apologize_formally",
+      "text": "\"I will sign the apology. I will make it public. I will meet with the person I wrongly accused and apologize in person. This government does not hide from its mistakes — it owns them. And then I want Dorne to find the real mole. Whatever it takes. Whatever it costs. This ends.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_unresolved", "mole_wrong_apologized"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "mole_wrong_double_down",
+      "text": "\"Release them quietly. No public apology — that would further damage the government's credibility. Compensate them financially. Make it go away. And put every resource into finding the real mole. If we cannot find them, we make sure they never transmit anything useful again — restrict access, compartmentalize, create noise. We lost this round. We will not lose the next one.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 8 },
+        { "stat": "nation.corruption", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_unresolved", "mole_wrong_covered_up"],
+      "codexUnlocks": []
+    }
+  ]
+}

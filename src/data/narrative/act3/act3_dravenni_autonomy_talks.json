@@ -1,0 +1,111 @@
+{
+  "id": "act3_dravenni_autonomy_talks",
+  "title": "A New Veltria",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Parliamentary Conference Hall — Kravenstal, 14:00",
+  "characters": ["idris_kaelen", "drazen_kolvar"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The parliamentary conference hall has been prepared for what Protocol is calling 'constitutional discussions' — a phrase chosen deliberately to avoid the word 'negotiations,' which implies two sovereign entities, and the word 'autonomy,' which implies something the Halvekist caucus has already announced it will oppose through every procedural mechanism available. The seating arrangement reflects the tension: Kaelen's delegation at a round table in the center, the parliamentary committee in a semi-circle facing them, the arrangement of a hearing rather than a negotiation. Kolvar chose the seating. He wants Kaelen to feel like a petitioner."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "I have come to this chamber because the Chancellor asked me to, and because the alternative — the Tyvaren alternative — is being offered to Dravenni people every day by men who do not care whether we live or die so long as we serve their strategic purposes. I am not here to petition. I am here to discuss the terms on which the Dravenni people will continue to be part of the Veltrian state. If that sounds like a negotiation, it is because the present arrangement is not acceptable to millions of Dravenni citizens, and pretending it is acceptable does not make it so."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "The committee appreciates Mister Kaelen's candor. The committee also notes that the Constitution of Veltria establishes a unitary republic with provinces that are administrative subdivisions, not sovereign entities. Any modification to that constitutional framework requires a two-thirds majority in both chambers and ratification by three-quarters of the provinces — including provinces whose representatives may not share Mister Kaelen's assessment of what the present arrangement requires. The committee wishes to understand what Mister Kaelen is actually requesting, in constitutional language, so that we may determine whether it falls within the range of what is legislatively achievable or merely symbolically satisfying."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Kolvar is doing what Kolvar does: wrapping absolute obstruction in procedural courtesy, making the constitutional amendment process sound like a mathematical impossibility while appearing to be the most reasonable person in the room. The provincial ratification requirement means the Halvekist-controlled provinces will veto anything beyond cosmetic concessions. Kaelen knows this. Everyone at this table knows this. The question is whether I use executive authority to bypass the provincial requirement — which Kolvar will challenge in the constitutional court — or whether I try to negotiate something the provinces will actually approve, which Kaelen will see as a betrayal. There is no path that satisfies everyone. There is only the path that keeps the Dravenni fighting with us instead of against us."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "dravenni_autonomy_federal",
+      "text": "\"Kolvar is right about the constitutional math — and I am asking parliament to change it. I will introduce legislation establishing a federal framework that grants Dravenhollow full provincial sovereignty with reserved powers, including language rights, educational autonomy, and resource management. The constitutional amendment will go to a national referendum if parliament cannot achieve the required majorities. The Dravenni people have earned the right to govern their own affairs. It is time the constitution recognized that.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 22 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -16 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kolvar_legal_challenge", "delayWeeks": 3 }
+      ],
+      "flags": ["federal_framework_proposed", "referendum_threatened", "dravenni_sovereignty_path"],
+      "codexUnlocks": ["codex_federalism_debate", "codex_dravenni_sovereignty"]
+    },
+    {
+      "id": "dravenni_autonomy_devolution",
+      "text": "\"Full federalism will not survive the provincial ratification process — Kolvar knows it, and I know it, and pretending otherwise wastes everyone's time. What I am proposing is a devolution framework: Dravenhollow receives legislative authority over education, culture, language, and local governance, while defense, foreign policy, and national taxation remain federal responsibilities. This does not require constitutional amendment — it passes by parliamentary statute, which means it passes by simple majority.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_autonomy_commission", "delayWeeks": 4 }
+      ],
+      "flags": ["devolution_negotiated", "simple_majority_path", "dravenni_assembly_created"],
+      "codexUnlocks": ["codex_devolution_framework"]
+    },
+    {
+      "id": "dravenni_autonomy_cultural",
+      "text": "\"The constitutional reality Kolvar describes is not a negotiating position — it is the law. I cannot give Dravenhollow political autonomy through executive action, and a constitutional amendment will fail at the provincial level. What I can do is issue an executive order enshrining Dravenni cultural rights — language protection, cultural funding, educational curriculum control — within the existing constitutional framework. Political autonomy requires constitutional consensus that does not currently exist. Cultural autonomy requires only the will to grant it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_autonomy_commission", "delayWeeks": 3 }
+      ],
+      "flags": ["cultural_rights_granted", "political_autonomy_deferred", "executive_order_path"],
+      "codexUnlocks": ["codex_dravenni_cultural_rights"]
+    },
+    {
+      "id": "dravenni_autonomy_kaelen_trust",
+      "text": "\"Kolvar, I appreciate your constitutional expertise. Today I am not here to debate you — I am here to speak directly to Kaelen and the Dravenni people. Idris: I cannot promise you a federal amendment will pass a parliament that Kolvar effectively controls. I can promise you that I will fight for it with every tool I possess, for as long as I hold this office, and that I will not abandon that fight when it becomes politically inconvenient. What I am asking for is your trust that my word is worth more than the constitutional math. Is it?\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kaelen_response", "delayWeeks": 2 }
+      ],
+      "flags": ["kaelen_trust_extended", "honesty_over_math", "personal_commitment_made"],
+      "codexUnlocks": ["codex_kaelen_trust"]
+    }
+  ]
+}

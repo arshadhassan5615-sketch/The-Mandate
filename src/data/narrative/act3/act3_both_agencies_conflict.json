@@ -1,0 +1,116 @@
+{
+  "id": "act3_both_agencies_conflict",
+  "title": "Agencies at War",
+  "act": 3,
+  "weekAvailable": 36,
+  "weekDeadline": 40,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Office — The Ashenmere Palace",
+  "characters": ["maren_tovik", "viktor_dorne", "vyktor_reznik"],
+  "prerequisites": [
+    { "type": "flag", "flag": "both_agencies_weakened", "value": true },
+    { "type": "flag", "flag": "law_enforcement_choice_made", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You funded both agencies at half strength, hoping that competition would make them effective and that oversight would keep them honest. Instead, competition has become conflict. Maren Tovik and Viktor Dorne are standing in your office, on opposite sides of the room, and the distance between them is not physical. Vyktor Reznik is present, taking notes. His expression suggests he would prefer to be anywhere else."
+    },
+    {
+      "type": "dialogue",
+      "character": "maren_tovik",
+      "text": "Chancellor, the SSD has been conducting surveillance operations against BCA investigators. My team has documented twelve instances in the past six weeks in which SSD operatives followed, photographed, or attempted to intimidate BCA personnel. In three cases, SSD agents entered BCA offices after hours and accessed case files. They left no authorization paperwork. They gave no explanation. Viktor Dorne's agency is using its operational mandate to obstruct an independent anti-corruption investigation. This is not inter-agency friction. This is a systematic attempt to neutralize the BCA."
+    },
+    {
+      "type": "dialogue",
+      "character": "viktor_dorne",
+      "text": "The BCA's investigation into Halvek-era financial networks has been approaching operational boundaries that overlap with active SSD threat assessments. Three of the individuals the BCA was investigating are also subjects of SSD counter-intelligence operations. My personnel were not 'obstructing' the BCA. They were protecting ongoing operations that would have been compromised if the BCA had approached those individuals without coordination. I informed Director Tovik of this three weeks ago. She apparently did not find my explanation satisfactory. That is a communication failure. It is not a conspiracy."
+    },
+    {
+      "type": "dialogue",
+      "character": "maren_tovik",
+      "text": "You informed me that your operatives would 'handle' the individuals in question. When I asked what 'handle' meant, you declined to answer. When I asked for a list of SSD operatives assigned to the matter, you cited operational security. When I requested a meeting to establish formal coordination protocols, your office did not respond for eleven days. Dorne is not interested in coordination. He is interested in ensuring that the BCA does not discover what the SSD is actually doing — and I am increasingly convinced that what the SSD is actually doing is protecting the very people it was created to neutralize."
+    },
+    {
+      "type": "description",
+      "text": "The room is very quiet. Vyktor has stopped taking notes. Dorne's expression has not changed — it never changes — but something in the air has shifted. The temperature of the conflict has escalated from institutional rivalry to something more dangerous. These two agencies are now actively working against each other, and you funded both of them."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I did this. I tried to split the difference — fund both, keep both happy, avoid the hard choice between accountability and security. And now I have two agencies that are each too weak to do their jobs properly and just strong enough to sabotage each other. Maren thinks Dorne is covering up crimes. Dorne thinks Maren is a procedural absolutist who will get his operatives killed. They might both be right. The question is whether I can salvage this — or whether I have to choose, finally, between the two institutions I created to avoid having to choose."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "both_choose_bca_dismantle_ssd",
+      "text": "\"The SSD is dissolved, effective immediately. Viktor Dorne, you will resign within the hour. Your operational personnel will be transferred to standard law enforcement or discharged with full pensions, depending on their service records. The BCA receives the SSD's remaining budget and absorbs its intelligence-gathering functions — under Maren Tovik's leadership and subject to the BCA's existing oversight framework. I created the SSD because I was afraid of what would happen if I did not. That fear led me to build an institution I could not fully control, run by a man whose methods I could not fully see. The experiment is over. Maren, you were right from the beginning. Accountability and security are not competing values. Security without accountability is just tyranny with better branding.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 15  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -15 },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 12  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 15  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -6  },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": -10 }
+      ],
+      "flags": ["ssd_dissolved", "bca_sole_agency", "agencies_conflict_resolved", "ssd_purge_complete"],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_ssd_aftermath",
+          "delayWeeks": 2
+        }
+      ],
+      "codexUnlocks": ["codex_ssd_dissolution"]
+    },
+    {
+      "id": "both_choose_ssd_dismantle_bca",
+      "text": "\"The BCA's investigative functions are transferred to the Justice Ministry, subject to standard prosecutorial oversight. Maren Tovik, your work has been invaluable, but your agency has demonstrated that it cannot coexist with the security institutions this government requires. The SSD receives the BCA's remaining budget and expands its operational capacity. Viktor Dorne, you will report directly to this office on a weekly basis. Every operation, every target, every outcome — I want to know. I created two weak agencies when I should have created one strong one. The SSD has proven it can protect this government from its enemies. The BCA has proven it can investigate this government's allies. The country needs protection more than it needs investigation. Maren, I am sorry. You deserved better than a Chancellor who asked you to do the impossible with half the resources you needed.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.halvekists",          "operation": "add", "value": 8   },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 15  },
+        { "stat": "factions.reformists",          "operation": "add", "value": -18 },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 8   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -12 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -15 },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 15  }
+      ],
+      "flags": ["bca_dismantled", "ssd_sole_agency", "agencies_conflict_resolved", "bca_absorbed"],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_bca_aftermath",
+          "delayWeeks": 2
+        }
+      ],
+      "codexUnlocks": ["codex_ssd_dissolution"]
+    },
+    {
+      "id": "both_merge_agencies",
+      "text": "\"Neither of you wins. Neither of you loses. The BCA and SSD are merged into a single agency — the Civic Security and Accountability Directorate — with a dual mandate: anti-corruption investigation and security threat neutralization. Maren Tovik will head the Investigations Division. Viktor Dorne will head the Operations Division. Both of you will report to a civilian oversight board appointed by parliament and confirmed by the Justice Ministry. Neither of you will have operational authority independent of the other. The days of your agencies surveilling each other are over. If you cannot work together, you will be replaced by people who can. I am not choosing between accountability and security. I am building an institution that does both — or I am building the institution that replaces both of you.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 6   },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 4   },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -5  },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 8   },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 5   },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 2   }
+      ],
+      "flags": ["agencies_merged", "csad_created", "agencies_conflict_resolved", "institutional_compromise"],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_csad_formation",
+          "delayWeeks": 3
+        }
+      ],
+      "codexUnlocks": ["codex_ssd_dissolution", "codex_csad"]
+    }
+  ]
+}

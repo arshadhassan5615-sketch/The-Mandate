@@ -1,0 +1,58 @@
+{
+  "id": "act3_serida_misses_play",
+  "title": "The School Play",
+  "act": 3,
+  "weekAvailable": 28,
+  "weekDeadline": 32,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Crisis Center Adjunct",
+  "characters": ["serida_valk"],
+  "prerequisites": [{ "stat": "flags.met_serida", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "It is past nine at night. The crisis center is still active — border reports, economic briefings, the constant hum of a government responding to multiple emergencies simultaneously. Serida has been here since six in the morning. She is still here, organizing documents, her eyes red-rimmed. On her desk, next to the briefing folders, is a small program: 'Kravenstal Elementary — Spring Play: The Garden of Veltria. Featuring Mila Valk as the Sunflower.'" },
+    { "type": "dialogue", "character": "serida_valk", "text": "The play started at seven. Mila was the sunflower. She practiced for six weeks. She was going to wear a yellow dress that my mother sewed. Tomas went. He recorded it on a borrowed camera. He said she was wonderful. I will watch the recording tomorrow. I always watch the recordings. This is the fourth one I have missed. She asked me last night if I would be there. I said I would try. I always say I will try." },
+    { "type": "dialogue", "character": "serida_valk", "text": "I should go home. I know. It is just... last Thursday, when I left at eleven, I saw a light on in the Foreign Ministry annex. Third floor. I thought it was odd — the building should have been empty at that hour. But then I saw someone at the window. They moved away when they saw me looking. I mentioned it to palace security and they said it was probably maintenance. They did not seem concerned. But I have not stopped thinking about it." }
+  ],
+  "choices": [
+    {
+      "id": "serida_play_empathize",
+      "text": "\"Serida. Go home. Now. The crisis center will still be here tomorrow. Mila will not be seven forever. I know — I have a son who is growing up in the shadow of this office, and I have missed more moments than I can count. Do not let this job take the same toll on you that it has taken on me. Go watch the recording with her. Tell her the Chancellor said the sunflower was the most important part.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": 10 },
+        { "stat": "seridaMorale", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_sent_home"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "serida_play_business",
+      "text": "\"I understand, Serida. I have missed things too. We both have. This is the job. The country needs us here. Mila will understand one day. She may not forgive us — but she will understand.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "seridaMorale", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_stayed_late"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "serida_investigate_light",
+      "text": "\"Someone in the Foreign Ministry annex at 2 AM? Serida, that is not maintenance. I will ask security to review the access logs. You should still go home — but thank you for telling me. You may have noticed something important.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": 5 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_sent_home", "mole_clue_4_found"],
+      "codexUnlocks": []
+    }
+  ]
+}

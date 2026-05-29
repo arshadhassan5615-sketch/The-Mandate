@@ -1,0 +1,79 @@
+{
+  "id": "act4_ima_renegotiation",
+  "title": "New Terms",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Finance — Secure Teleconference Room, Afternoon",
+  "characters": ["elara_vostane"],
+  "prerequisites": [
+    { "stat": "flags.ima_confronted", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The IMA's counter-offer arrived via diplomatic cable forty minutes ago. Vostane has been analyzing it with the particular intensity of someone who knows that the numbers on the page represent not just economic policy but the difference between a country that survives the war with functioning institutions and a country that collapses into default and disorder. The IMA is offering revised terms — lower interest rates, extended repayment, a grace period on principal — but the conditions are tighter than the original agreement. More oversight. Quarterly compliance reviews with mandatory adjustment. An IMA-appointed monitor embedded in the Ministry of Finance. The IMA is not accustomed to being negotiated with, and its response to being negotiated with is to demand more control, not less. At the same time, the Orythian alternative financing offer is on the table — less conditionality, faster disbursement, but with strategic strings that the IMA does not attach. The Arcturians have also indicated willingness to provide a bilateral credit line. You have leverage. The leverage is real. The question is how to use it."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The numbers. The IMA's revised terms would save approximately twelve million VK in debt service over the next two years. The conditionality — the embedded monitor, the quarterly compliance reviews — would cost us something harder to quantify: policy autonomy. The Orythian alternative is financially more generous but strategically more expensive. The Arcturian credit line is the least conditional but also the smallest — they are offering enough to stabilize, not enough to rebuild. We have three offers. None of them is ideal. All of them are better than the original IMA terms. The question is which poison we can live with."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The superpowers are bidding for influence in Veltria. You understand this. The IMA understands this. The only question is whether you can play them against each other without losing control of the process entirely. The IMA wants to be the only lender that matters. The Orythians want basing rights. The Arcturians want a stable democratic ally on the Asturien Sea. You have something each of them wants — access to Veltria's strategic position. You are trying to trade that access for the money to survive. The trade is asymmetrical. The money is finite. The access is permanent. You have to get the ratio right."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "ima_play_superpowers",
+      "text": "\"Vostane, I want simultaneous negotiations. Tell the IMA we have alternative financing offers from both Orythia and Arcturia — do not specify amounts, let them imagine. Tell the Orythians the IMA has offered better terms than they have — let them sharpen their pencil. Tell the Arcturians we value their partnership and would prefer to strengthen bilateral ties rather than deepen IMA dependency. Let each of them believe they are competing for something they might lose. They are. Veltria's strategic position is an asset. I am going to use it like one.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "nation.corruption", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_renegotiation", "superpowers_played_off", "triangular_negotiation"],
+      "codexUnlocks": ["codex_triangular_diplomacy", "codex_strategic_bargaining"]
+    },
+    {
+      "id": "ima_accept_counter_offer",
+      "text": "\"Accept the IMA's counter-offer. The lower interest rates and extended repayment timeline are genuinely valuable — we free up twelve million VK for war expenditures. The conditionality is uncomfortable but survivable. An embedded monitor is an intrusion on sovereignty — it is also an accountant in an office, not an army in the streets. We accept the terms we can live with and we focus our political capital on the war, not on a fight with the international financial system that we cannot win. Sometimes governing means accepting constraints you do not like so you can fight the battles that matter. The battles that matter are on the front lines, not in the conference room.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_renegotiation", "ima_counter_accepted", "embedded_monitor_accepted"],
+      "codexUnlocks": ["codex_ima_oversight", "codex_conditionality"]
+    },
+    {
+      "id": "ima_independent_path",
+      "text": "\"No. Decline the IMA counter-offer and decline the Orythian alternative. Accept the Arcturian credit line and supplement it with domestic resource mobilization — a war bond program, voluntary austerity, public contributions. We tell the international financial system that Veltria will fund its own survival, with help from allies who do not demand control in exchange for assistance. The IMA has not served Veltria well. The Orythian terms would turn us into a client state. The Arcturian credit line is modest but clean. We start there. We build from there. We demonstrate that a small country can survive without selling its sovereignty to the highest bidder.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["ima_renegotiation", "independent_economic_path", "sovereignty_financing"],
+      "codexUnlocks": ["codex_sovereign_financing", "codex_war_bonds"]
+    }
+  ]
+}

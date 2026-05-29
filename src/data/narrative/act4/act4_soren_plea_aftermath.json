@@ -1,0 +1,50 @@
+{
+  "id": "act4_soren_plea_aftermath",
+  "title": "The Quiet Confession",
+  "act": 4,
+  "weekAvailable": 41,
+  "weekDeadline": 44,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Thornfeld Estate — Soren's Private Study",
+  "characters": ["aldric_theron", "danika_oberlin"],
+  "prerequisites": [
+    { "stat": "flags.soren_trial_plea", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The deal was struck in Soren's own study, in his estate in Thornfeld. He signed the confession without ceremony — ten pages detailing the Silent Clearances, the execution orders, the embezzlement. His hand was steady. His expression was unchanged. When he finished, he pushed the papers across the desk and said: 'I did what was necessary for Veltria. History will understand.' It was the closest he ever came to admitting anything."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The confession is legally binding. Soren will serve ten years in comfortable confinement at a state facility, not a prison. He retains his pension. He retains his titles. He retains his dignity. In exchange, the historical record is complete. Every crime he committed is documented, signed, and archived. Future generations will know what he did — even if this generation does not see him punished in a courtroom."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The deal is... unsatisfying. The public does not get the trial they wanted. The victims' families do not get the confrontation they deserve. But the military did not revolt. The Halvekists did not walk out. The nation is stable. And the truth is recorded. I do not know if that is justice. I know it is more justice than Veltria has ever had."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "soren_plea_accept",
+      "text": "\"The truth is recorded. The confession is documented. Veltria is stable. This is not the justice I wanted — but it is the justice that was possible. I will explain this to the public. Some will understand. Some will not. That is the burden of governing.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -3 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soren_plea_complete", "mikhael_avenged"],
+      "codexUnlocks": []
+    }
+  ]
+}

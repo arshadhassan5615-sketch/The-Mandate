@@ -1,0 +1,73 @@
+[
+  {
+    "id": "agenda_w42_war_strategy",
+    "title": "The War Strategy",
+    "description": "Phase one is over. Reserves are depleting. You have six to eight weeks before the next decisive engagement. How you use those weeks shapes whether there is a country left to defend.",
+    "category": "crisis",
+    "sceneId": "act4_week42_war_strategy",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 42,
+    "weekDeadline": 44,
+    "isUrgent": true
+  },
+  {
+    "id": "agenda_w42_austerity_bites",
+    "title": "The IMA's Price",
+    "description": "The International Monetary Authority's conditions have arrived: privatize the Grain Authority, sell Northern Rail, cut sixty thousand jobs. The document uses 'efficiency' seventeen times. It does not use 'suffering' at all.",
+    "category": "crisis",
+    "sceneId": "act4_week42_austerity_bites",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 42,
+    "weekDeadline": 44,
+    "isUrgent": true
+  },
+  {
+    "id": "agenda_w42_budget_allocation",
+    "title": "Budget Allocation — Mid-Crisis Review",
+    "description": "Whether war or austerity or reform, the numbers need revisiting. Allocate resources for the path you are on.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 0,
+    "weekAvailable": 42,
+    "weekDeadline": 44
+  },
+  {
+    "id": "agenda_w42_internal_security",
+    "title": "Internal Security — State of Emergency",
+    "description": "The war has created internal pressures. Blackout protocols, press censorship debates, internal passport proposals. The line between security and authoritarianism gets thinner every week.",
+    "category": "security",
+    "sceneId": "act4_internal_security_state",
+    "slotCost": 1,
+    "executionOrder": 1,
+    "weekAvailable": 42,
+    "weekDeadline": 48
+  },
+  {
+    "id": "agenda_w42_ima_renegotiation",
+    "title": "IMA — Renegotiation Framework",
+    "description": "The IMA conditions are not final. They are an opening position. Vostane believes there is room to negotiate — but only if you're willing to give them something they want more than the austerity they're demanding.",
+    "category": "finance",
+    "sceneId": "act4_ima_renegotiation",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 42,
+    "weekDeadline": 47
+  },
+  {
+    "id": "agenda_w42_emergency_powers",
+    "title": "Emergency Powers — Article 22 Review",
+    "description": "Article 22 of the constitution retained emergency executive powers. The question is whether to invoke them. Theron argued against their inclusion. Kolvar insisted. Now you have to decide who was right.",
+    "category": "cabinet",
+    "sceneId": "act4_emergency_powers_invoked",
+    "slotCost": 1,
+    "executionOrder": 3,
+    "weekAvailable": 42,
+    "weekDeadline": 48,
+    "prerequisites": [
+      { "stat": "flags.constitution_retained_emergency_powers", "operator": "==", "value": true }
+    ]
+  }
+]

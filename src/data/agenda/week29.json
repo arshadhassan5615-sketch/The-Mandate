@@ -1,0 +1,65 @@
+[
+  {
+    "id": "agenda_w29_vyktor_exposed",
+    "title": "Front Page — Reznik",
+    "description": "The Ashenmere Dispatch has Vyktor Reznik on the front page this morning. His BNI past. The photograph. Nadia Voss's byline. You gave her the archive. Now you have four hours before the response becomes the story.",
+    "category": "security",
+    "sceneId": "act3_week29_vyktor_exposed",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 29,
+    "weekDeadline": 31,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.nadia_cooperated", "operator": "==", "value": true },
+      { "stat": "nation.pressFreedom", "operator": ">", "value": 40 }
+    ]
+  },
+  {
+    "id": "agenda_w29_vyktor_disclosure",
+    "title": "Vyktor — What He Knows",
+    "description": "Vyktor is at your office door. No folder this time — just him. He says you deserve a debrief. He's never used that word before. You're not sure if it's an offer or a warning.",
+    "category": "cabinet",
+    "sceneId": "act3_vyktor_full_disclosure",
+    "slotCost": 1,
+    "executionOrder": 0,
+    "weekAvailable": 29,
+    "weekDeadline": 33
+  },
+  {
+    "id": "agenda_w29_budget",
+    "title": "Budget Allocation — Mid-Crisis Framework",
+    "description": "The Vyktor story will dominate the news cycle. While the press is occupied, Vostane wants to lock in the fiscal framework before attention returns to the economy.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 1,
+    "weekAvailable": 29,
+    "weekDeadline": 33
+  },
+  {
+    "id": "agenda_w29_economic_fallback",
+    "title": "Economic Review — Current Assessment",
+    "description": "The Krone's movement this quarter will determine whether the IMA reopens negotiations. Vostane has the numbers. They're better or worse than last month — she'll tell you which when you sit down.",
+    "category": "finance",
+    "sceneId": "act3_week28_economic_crisis",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 29,
+    "weekDeadline": 33,
+    "prerequisites": [
+      { "stat": "nation.economyHealth", "operator": "<=", "value": -20 }
+    ]
+  },
+  {
+    "id": "agenda_w29_tyvaren_update",
+    "title": "Eastern Border — Weekly Assessment",
+    "description": "The Tyvaren force disposition changes are accelerating. Dusek has gone from 'monitoring' to 'assessing.' That's a doctrinal escalation — she doesn't use words carelessly.",
+    "category": "security",
+    "sceneId": "act3_week32_tyvaren_ultimatum",
+    "slotCost": 1,
+    "executionOrder": 3,
+    "weekAvailable": 29,
+    "weekDeadline": 36
+  }
+]

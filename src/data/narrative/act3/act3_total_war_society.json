@@ -1,0 +1,120 @@
+{
+  "id": "act3_total_war_society",
+  "title": "A Nation Transformed",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, Late Evening",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The blackout curtains went up three weeks ago. You remember the day they were installed — heavy fabric, government-issue, the same dark wool blend that now hangs in every government building, every hospital, every school within a hundred kilometers of the northern industrial districts. The curtains are designed to prevent Tyvaren bombers from using city lights for navigation. The bombers have not come yet. The curtains are there anyway, because the civil defense planners have learned from other nations' wars that you install the curtains before the bombers arrive or you install them after the first raid kills three hundred people in their beds. The choice is not difficult. The curtains make your office feel like a bunker. Perhaps that is the point."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor enters with the weekly civil readiness report, which has become a document you dread in the specific way that only a weekly report on the systematic restriction of civil liberties can be dreaded. The report contains seventeen categories. Press censorship: twelve articles suppressed under the War Information Act, eight of them critical of government policy, four of them — Vyktor has underlined this — factually incorrect and likely Tyvaren propaganda. Movement restrictions: internal passports now required for travel between provinces, temporary measure authorized by executive order. Rationing compliance: ninety-four percent, up from eighty-nine, which means the black market is shrinking or becoming more sophisticated. Civil defense drills: forty-seven thousand Veltrians participated this week, up from thirty-two thousand. The country is becoming a war machine. The war machine is functioning. The question is whether the country is still a country inside the machine."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Summary assessment. The total war measures are achieving their operational objectives. Production is up. Civil disorder is down. The population is — I will use the word 'compliant' rather than 'unified' because compliance is measurable and unity is not. The measurable indicators are within acceptable parameters. The unmeasurable indicators are the ones that concern me. There is a difference between a population that supports the war effort and a population that has been given no alternative but to support it. The difference is not visible in the weekly compliance statistics. It will become visible — if it becomes visible — in ways that statistics cannot predict. My recommendation is that we address the unmeasurable before it becomes measurable in the wrong direction."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vyktor is telling me, in his precise and careful way, that I am winning the war and losing the country. The compliance numbers are good because compliance is easy to measure. You can count ration cards. You can count newspaper articles suppressed. You can count the number of people who show up for civil defense drills and the number who do not. What you cannot count is the number of people who comply because they believe in the war and the number who comply because the secret police now have expanded detention authority under the War Measures Act and no one is entirely sure where the line is between dissent and sedition. The line exists in the statute books. It exists in the legal opinions Vyktor has prepared. It does not exist in the mind of a shopkeeper in Kravenstal who stopped complaining about the rationing after her neighbor was detained for questioning and released three days later without charges. The shopkeeper is compliant. The compliance is real. The consent is not. I can govern a compliant population. I cannot govern a population that has stopped consenting and is only waiting for the moment when compliance is no longer mandatory. That moment will come. The war will end, one way or another. The country that emerges will be shaped by what I do now, in the space between compliance and consent, while the blackout curtains are still up and the weekly reports are still being written."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "One additional item. The church leadership has requested a meeting. Archbishop Serrano wants to discuss — his word — the 'spiritual condition of the nation during wartime.' He has not made specific demands. He is positioning himself. The church's wartime posture will depend on whether you treat them as an ally, an institution to be managed, or a potential locus of resistance. I need to know which posture you intend before I respond to the Archbishop's request. The church reaches sixty-three percent of the population weekly. That is a constituency. It is also a communications infrastructure. Either we integrate it or we do not. The decision cannot be postponed much longer."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "totalwar_maintain_full_measures",
+      "text": "\"The measures remain in place. This is a war for national survival, and the measures that are keeping Veltrian soldiers alive on the front line are not negotiable because they make people uncomfortable. I did not ask for this war. I did not want this war. But I am going to win it, and I am going to use every tool the Constitution and the War Measures Act give me to do so. Tell the Archbishop he is welcome to support the war effort — his congregations need spiritual comfort, and I am not in the business of denying it. But his role is pastoral, not political. The state prosecutes the war. The church ministers to souls. Those roles are distinct. They will remain distinct.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -10 },
+        { "stat": "factions.church",               "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_emergency_powers_invoked", "delayWeeks": 3 }
+      ],
+      "flags": ["total_war_society_active", "full_measures_maintained", "civil_liberties_suspended", "church_sidelined", "total_war_path_set"],
+      "codexUnlocks": ["codex_war_measures_act", "codex_total_war_doctrine"]
+    },
+    {
+      "id": "totalwar_ease_civilian_restrictions",
+      "text": "\"Review every restriction currently in force and identify which ones are operationally necessary and which ones are politically convenient. The internal passport system — does it actually prevent espionage, or does it just make people feel watched? The press censorship — are we suppressing genuine security threats or are we suppressing criticism? I want a list of measures that can be relaxed without compromising military operations, and I want it on my desk by tomorrow. This is still a democracy. The war does not suspend that — it tests it. If we can't fight a war and maintain basic civil liberties, then we're not fighting for the Veltria I took an oath to defend.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 8  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_military_rally", "delayWeeks": 2 }
+      ],
+      "flags": ["total_war_society_active", "restrictions_eased", "civil_liberties_partial_restoration", "church_courted", "total_war_path_set"],
+      "codexUnlocks": ["codex_emergency_powers_review", "codex_democratic_war_governance"]
+    },
+    {
+      "id": "totalwar_focus_morale_unity",
+      "text": "\"The compliance numbers are good but they're measuring the wrong thing. I want a national morale initiative — not propaganda, not slogans, but actual investment in the social fabric. War bonds marketed by community leaders, not government ministries. Civilian service corps that build things people can see: playgrounds, community kitchens, memorial gardens for the fallen. Meet with the Archbishop and ask him to make the church a partner in national renewal — not a mouthpiece for the state, but an independent institution that shares our goal of holding the country together. If people feel like they are building something, they will tolerate the sacrifice. If they feel like they are only sacrificing, eventually they will stop. I want them building.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 14 },
+        { "stat": "factions.church",               "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 3  },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 2 }
+      ],
+      "flags": ["total_war_society_active", "national_morale_initiative", "church_partner", "civilian_service_corps", "total_war_path_set"],
+      "codexUnlocks": ["codex_national_morale_initiative", "codex_civil_service_corps", "codex_war_bonds_program"]
+    },
+    {
+      "id": "totalwar_church_resistance_mgmt",
+      "text": "\"Meet with the Archbishop. Listen respectfully. Make no commitments. The church is a constituency and a communications channel — we treat it as both. I want religious programming on state radio emphasizing patriotic duty and moral fortitude. I want sermons that frame the war as a defense of Veltrian values rather than a political crisis. The Archbishop gets access and influence in exchange for channeling his congregations toward support of the war effort. He does not get a veto on policy. He does not get a platform from which to critique the government. He gets a partnership on our terms. Vyktor, you know how to manage this. Manage it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church",               "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -2 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["total_war_society_active", "church_managed", "archbishop_met", "religious_radio_programming", "total_war_path_set"],
+      "codexUnlocks": ["codex_church_state_relations_wartime", "codex_archbishop_serrano"]
+    }
+  ]
+}

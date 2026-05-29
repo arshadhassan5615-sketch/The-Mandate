@@ -1,0 +1,52 @@
+{
+  "id": "act2_con_neg_soraya",
+  "title": "Soraya's Demands",
+  "act": 2,
+  "weekAvailable": 14,
+  "weekDeadline": 20,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Workers' Unity Hall — Kravenstal",
+  "characters": ["gregor_maric"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Soraya Khaled receives you in the Workers' Unity Hall — a converted textile factory whose walls still carry the stains of decades of labor. Photographs of past strikes line the hallway. The air smells of coal dust and determination."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "Soraya asked me to speak for the coalition. She trusts me. Here is what we need, Chancellor: the right to strike must be in the constitution — unrestricted, the way the 1897 revolutionaries demanded. Social and economic rights in the bill of rights — healthcare, education, housing. Land reform — the limited kind is fine, we are not asking for revolution. And the electoral threshold at five percent or lower. The workers will never have a voice if the threshold locks out every party that represents them."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I know what you are thinking: the business class will revolt. They will. But they were never going to support you anyway. The workers will. The question is which side of history you stand on."
+    }
+  ],
+  "monologue": "A converted textile factory. The stains are still on the walls. Marić is speaking for Soraya, which means Soraya has chosen not to be in the room — a strategic absence. The demands are what I expected: strike right, social rights, land reform, five percent threshold. The question is not whether I support them. The question is whether supporting all of them loses me the Halvekist votes I need to pass anything at all. Power is the ability to choose which promises to keep.",
+  "choices": [
+    {
+      "id": "neg_soraya_agree",
+      "text": "\"You will have your strike right, Gregor. Social rights in the bill of rights. Five percent threshold. The land reform — limited, as you said. I cannot give you everything. But I can give you enough to change lives.\"",
+      "internalTag": "reformist",
+      "stateChanges": [{ "stat": "factions.workersCoalition", "operation": "add", "value": 12 }],
+      "chainTriggers": [],
+      "flags": ["neg_soraya_complete", "soraya_deal_struck"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "action", "text": "He leans back in his chair. Not relaxation — release. He has been holding something tight all meeting. Strike right. Social rights. Five percent. He nods. The workers will remember this." }]
+    },
+    {
+      "id": "neg_soraya_partial",
+      "text": "\"The strike right — yes. Social rights — yes. But the threshold stays at ten percent, Gregor. I need the Halvekists' support to pass this constitution. I cannot give you everything without losing everything.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.workersCoalition", "operation": "add", "value": 5 }],
+      "chainTriggers": [],
+      "flags": ["neg_soraya_complete", "soraya_partial"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "silence", "text": "He looks at you for a long moment. The threshold stays at ten percent. He writes it down in his block-letter script. The silence is the sound of Gregor Maric accepting less than he asked for and filing the remainder for later." }]
+    }
+  ]
+}

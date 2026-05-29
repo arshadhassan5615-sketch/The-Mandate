@@ -1,0 +1,197 @@
+{
+  "id": "act3_week39_act3_climax",
+  "title": "All Things at Once",
+  "act": 3,
+  "weekAvailable": 39,
+  "weekDeadline": 40,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Chancellor's Office — The Longest Day, Week Thirty-Nine",
+  "characters": ["vyktor_reznik", "colonel_dusek", "general_brenner"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The reports arrive simultaneously because crises do not coordinate their timing. The Tyvaren situation — a folder marked URGENT in red ink that has been marked URGENT for seven weeks but this morning earned the marking. The economic numbers — the Krone has fallen another four percent overnight, or it hasn't, or it has risen slightly in response to international confidence, depending entirely on decisions made weeks ago that are now reporting their results. The military readiness assessment. The morning newspapers with whatever Nadia Voss has written or hasn't written. The note from Jonas on your desk, or the absence of a note, which is itself a note. The cumulative weight of thirty-nine weeks of decisions, each one survivable in isolation, arriving together on a Thursday morning because Thursday does not care what else is happening."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There is a concept in structural engineering that Jonas once explained to you. Cumulative loading. A beam can support any single weight you place on it, but weights added over time produce stresses that are not additive but multiplicative — each new weight changes how the beam responds to all the others. You are the beam. The Tyvaren ultimatum, the military's loyalty or disloyalty, the economy's direction, your family's survival, the press's scrutiny, the parliament's patience — each alone would be manageable. Together they produce a stress that is not the sum of its parts. You can feel it in your chest. You can feel it in the way your hands are steady because you have trained them to be steady. You can feel it in the quality of the morning light, which is the same as yesterday's morning light and completely different."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have five items that each require a decision within the next six hours. I am going to list them in order of operational urgency rather than political importance, because the operational clock and the political clock are running at different speeds and I need you to understand both. One: Tyvaren forces have begun forward movement. Not an invasion yet — but reconnaissance elements crossed the border at 04:15 this morning. They withdrew after twenty minutes. This is called 'probing.' It means they are testing our response time. Two: the International Forum has scheduled an emergency session on the Tyvaren crisis for tomorrow. Three: parliament has submitted a formal request for a closed briefing on the military loyalty situation, citing 'widespread public concern' — which means someone leaked the Week Thirty-Seven events, or invented new ones. Four: the Krone is moving. Five: your family has requested — and I am using the word 'requested' precisely — a response to last night's conversation before end of day."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor delivers this list without inflection. He has been delivering lists like this for thirty-nine weeks, each item a potential catastrophe rendered into bullet points by the sheer discipline of having to present them. His face shows nothing, which after thirty-nine weeks you can read as the specific form of loyalty that consists of not adding his emotion to yours. He is giving you the facts. He is trusting you to survive them. The trust is the only thing in the room that doesn't require a decision."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Military supplement to Vyktor's item one. The probing attack was conducted by Tyvaren special reconnaissance — not regular army. That is significant. Regular army probes mean they're testing defenses. Special reconnaissance means they're testing something specific — communication response times, likely, or the location of our forward observers. This was intelligence gathering dressed as a border incident. It means their invasion timeline is now measured in days, not weeks. I need authorization to move from defensive posture to forward readiness. That authorization has political implications I cannot assess for you. I can only tell you that withholding it carries military implications I assess as severe."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forward readiness. The language is technical but the meaning is not: you are being asked to authorize the final step before war. Every military decision you have made since Week Thirty-Two has led to this authorization request. The defense doctrine you chose, the mobilization level you approved, the alliances you built or didn't build — all of it resolves into Dusek standing in your office asking you to say the word that moves the army from preparation to execution. You can say it. You can refuse it. Either choice will produce consequences you cannot fully predict. That is what command means. You have known this since the first week. The difference between knowing it and doing it is the entire distance between theory and governance."
+    },
+    {
+      "type": "description",
+      "text": "The morning light has moved across the floor. The shadows of the window frames make a grid on the carpet that you have watched change shape through every season of this office, through the winter of Act I and the spring of Act II and now the late autumn of Act III. Everything that has happened in this office has happened in this light. The decisions that saved lives and the decisions that cost them, the conversations that held the country together and the ones that nearly broke it, the moments when you knew what to do and the moments when you didn't and did something anyway because governance abhors the vacuum of indecision. All of it. And now this morning. The cumulative weight. The beam. The things that do not wait because you need them to wait."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You have been Chancellor for thirty-nine weeks. You have governed through a constitutional convention, an economic crisis, at least one major betrayal, a military loyalty test, a foreign ultimatum, and the gradual realization that your family has been paying a price you did not fully track. You have made hundreds of decisions. Some of them were right. Some of them were wrong. Most of them were the best you could do with the information you had at the time, which is not the same as right but is also not the same as wrong. You are tired in a way that sleep does not address. You are still here. The country is still here. Whether either of those facts will still be true in a month depends on what you decide in the next six hours. The morning is waiting. The list is on your desk. The light is moving. You reach for the first folder."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "climax_war_footing",
+      "text": "\"Dusek, authorization granted. Move to forward readiness. Contact every unit commander and tell them the probing attack this morning is to be treated as the first engagement of a defensive campaign. I will address the nation at noon and tell them what is coming. Vyktor — the parliamentary briefing, the Forum session, the economy — all of it is secondary to the fact that we are about to be invaded. Prioritize accordingly. Everything that is not directly related to national survival waits until the immediate military situation is stabilized. Including my family. Including the press. Including everything that is not this.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Everything subordinate to the war. The clearest priority — and the most costly to everything else you've built.",
+      "conditions": [
+        { "stat": "flags.tyvaren_ultimatum_rejected", "operator": "==", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -8 },
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 1 }
+      ],
+      "flags": ["act3_climax_war_footing", "forward_readiness_authorized", "war_path_chosen", "act3_climax_resolved"],
+      "codexUnlocks": ["codex_forward_readiness", "codex_tyvaren_invasion_timeline"]
+    },
+    {
+      "id": "climax_diplomatic_surge",
+      "text": "\"Dusek, hold at current readiness — I will not give Vukov the provocation he's looking for. Vyktor, get me the Stellamere ambassador, the Orythian foreign minister, and the Forum secretary-general on the line within the hour. I want an emergency security guarantee resolution introduced at the Forum session tomorrow. If we can make this an international crisis with real enforcement behind it, Vukov's window closes. The military option is necessary. It is not sufficient. I need the diplomatic option to work, and I need it to work now, before Dusek's authorization becomes the only option left.\"",
+      "internalTag": "reformist",
+      "tooltip": "One last diplomatic push before the shooting starts. Could prevent war — or could waste the last hours of preparation.",
+      "conditions": [
+        { "stat": "nation.internationalStanding", "operator": ">=", "value": 20 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_forum_showdown", "delayWeeks": 1 },
+        { "targetNodeId": "act4_diplomatic_endgame", "delayWeeks": 2 }
+      ],
+      "flags": ["act3_climax_diplomatic", "forum_emergency_session", "last_diplomatic_push", "act3_climax_resolved"],
+      "codexUnlocks": ["codex_international_forum_emergency", "codex_collective_security_doctrine"]
+    },
+    {
+      "id": "climax_hold_everything",
+      "text": "\"We are going to do all of it simultaneously because we don't have a choice. Dusek, you have forward readiness authorization with the constraint that no Veltrian forces cross the border unless fired upon — I want defensive posture, not provocation. Vyktor, the diplomatic surge, the parliamentary briefing, and the economic stabilization measures all proceed in parallel — delegate to the deputy ministers, I trust them or I wouldn't have appointed them. And get my family on the line. I'll give them ten minutes. It's not enough but it's what I have, and what I have is better than nothing. I am not going to choose between the war, the politics, and my family. I am going to hold all of it. That's what governance is. That's what I signed up for. Let's move.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Try to hold everything at once. The most ambitious — and most exhausting — path. Spread thin but covering all fronts.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_all_fronts", "delayWeeks": 1 },
+        { "targetNodeId": "act4_coordinated_response", "delayWeeks": 2 }
+      ],
+      "flags": ["act3_climax_hold_all", "parallel_response", "act3_climax_resolved"],
+      "codexUnlocks": ["codex_crisis_management_doctrine"]
+    },
+    {
+      "id": "climax_personal_anchor",
+      "text": "\"Vyktor — clear the next two hours. Everything. Dusek, I will sign your authorization before I leave this office, but before I do, I need to speak to my family. Not because the military situation isn't urgent — because I will make a better decision about it if I am whole when I make it. I have spent thirty-nine weeks making decisions while something essential was bleeding out behind me. I am not going to face the fortieth week that way. Two hours. Then I am yours for whatever comes next.\"",
+      "internalTag": "personal",
+      "tooltip": "Secure your foundation before making irreversible decisions. May cost military preparedness — but a Chancellor at war with herself cannot win a war with Tyvaren.",
+      "conditions": [
+        { "stat": "personal.marriageHealth", "operator": ">=", "value": 10 }
+      ],
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 16 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 10 },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_family_anchored", "delayWeeks": 1 }
+      ],
+      "flags": ["act3_climax_personal", "family_anchored_before_storm", "act3_climax_resolved"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "climax_coup_survival_focus",
+      "text": "\"The Tyvaren situation is real, but the immediate existential threat to this government is internal. The coup attempt — or the rally, whichever we had — has fundamentally changed the political physics in this building. I need to consolidate. I need to know exactly which commanders are reliable, which parliamentarians will vote with us, and which ministries will function if I give them orders. The war is coming, but a government that collapses from within before the first shot is fired loses the war without fighting it. Internal consolidation first. External defense second. That is the order of operations. That is not negotiable.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Secure the government against internal threats before facing the external one. Pragmatic — but may look like paranoia to allies.",
+      "conditions": [
+        { "stat": "flags.coup_attempted", "operator": "==", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_post_coup_consolidation", "delayWeeks": 1 },
+        { "targetNodeId": "act4_internal_security_state", "delayWeeks": 2 }
+      ],
+      "flags": ["act3_climax_internal_focus", "post_coup_consolidation", "act3_climax_resolved"],
+      "codexUnlocks": ["codex_internal_security_doctrine"]
+    },
+    {
+      "id": "climax_narrative_control",
+      "text": "\"Before any of the operational decisions — before Dusek's authorization, before the diplomatic calls, before the economic measures — I need to control what the country thinks is happening. Vyktor, I want a national address scheduled for this evening. I will explain the Tyvaren situation, the military's position, the economic reality, and the personal cost — all of it, framed honestly but framed by me rather than by Nadia Voss or the parliament or the international press. If I lose control of the narrative, I lose control of the response. I am not going to govern from behind someone else's story. Give me the broadcast platform. The rest follows.\"",
+      "internalTag": "populist",
+      "tooltip": "Seize the narrative. Speak directly to the people. Bypass the press, the parliament, the international community — talk to Veltrians as Veltrians.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 8  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_national_address", "delayWeeks": 0 },
+        { "targetNodeId": "act4_public_mandate", "delayWeeks": 2 }
+      ],
+      "flags": ["act3_climax_narrative", "national_address_act3", "direct_to_people", "act3_climax_resolved"],
+      "codexUnlocks": ["codex_chancellors_address", "codex_national_broadcast_system"]
+    }
+  ]
+}

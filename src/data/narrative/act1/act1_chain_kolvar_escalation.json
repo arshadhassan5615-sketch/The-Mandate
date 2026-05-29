@@ -1,0 +1,197 @@
+{
+  "id": "act1_chain_kolvar_escalation",
+  "title": "The Halvekist Offensive",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik",
+    "drazen_kolvar"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Kolvar's response to your executive order is not what you expected. He has not filed a legal challenge. He has not held another parliamentary debate. Instead, he has done something more dangerous: he has begun a campaign of quiet persuasion among the civil service, convincing career officials that cooperating with a government that bypasses parliament puts their pensions and their professional futures at risk. The result is what Vyktor calls 'passive non-compliance' — ministries responding to executive orders with perfect bureaucratic correctness and zero actual implementation."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Finance Ministry has 'taken under review' the infrastructure directive. The Interior Ministry has 'scheduled a consultation process' for the BNI reforms — approximately eight months. The Trade Ministry has responded to every executive order with a request for 'clarifying guidance' that generates more paperwork than the original order. This is Kolvar's real talent — not parliamentary procedure, but institutional sabotage. He spent 14 years learning how the civil service works and he is using that knowledge to make your government function on paper while delivering nothing in practice. The worst part is that it is working. Three ministries have effectively stopped implementing new policy. They are waiting — and Kolvar has convinced them that waiting is in their professional interest because your government will not survive."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I used Halvek's executive powers to bypass Kolvar's parliamentary obstruction. He responded by making the executive powers meaningless — not by challenging them legally, but by making the machinery of government refuse to move. This is what experience looks like. This is what fourteen years of institutional knowledge looks like when it is turned against you. I can fire the ministry heads. I can issue more executive orders. But I cannot personally supervise every ministry official in the government. At some point I have to either break Kolvar's influence over the civil service or accept that my executive authority exists on paper but not in practice."
+    }
+  ],
+  "monologue": "Kolvar isn't blocking legislation anymore — he's making the legislation meaningless. Passive non-compliance is harder to fight than open opposition because there's nothing to vote against. Just memos and delays and 'clarifying guidance.' Fourteen years of institutional knowledge turned against me. I can fire the ministry heads. I cannot personally supervise every civil servant. Whether I break the resistance or buy it off — and which one costs me more of what I was elected to protect.",
+  "choices": [
+    {
+      "id": "kolvar_escalation_purge",
+      "text": "\"I want a list of every senior civil servant who has delayed implementation of an executive order. They will be transferred to non-essential positions effective immediately. Replace them with acting appointees from the reformist caucus — people who actually want this government to succeed. Yes, it will be called a purge. It IS a purge. The Halvekist old guard has been sabotaging reform from inside the ministries since the day I took office. They can either implement the government's policy or they can find other employment.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "civil_service_purged",
+        "halvekists_removed",
+        "kolvar_escalation_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_civil_service_reform"
+      ],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "silence",
+          "text": "He says nothing. That is unusual for Kolvar."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He watches. Not with judgment. With attention."
+        }
+      ]
+    },
+    {
+      "id": "kolvar_escalation_negotiate",
+      "text": "\"Arrange a meeting with Kolvar. Just him and me. No staff, no minutes. He wants something — he always wants something. He doesn't actually believe the Halvekists can win the next election. He is trying to preserve his influence, his people's positions, his legacy. I need to find out what preservation looks like to him and whether there is a version of it that does not require destroying my government. Everyone has a price. Kolvar's is just more complicated than most.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -8
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "kolvar_negotiated_terms",
+        "halvekist_accommodation",
+        "kolvar_escalation_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kolvar_negotiation"
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "I will make the necessary arrangements."
+        },
+        {
+          "character": "drazen_kolvar",
+          "type": "dialogue",
+          "text": "My constituents will have questions."
+        }
+      ]
+    },
+    {
+      "id": "kolvar_escalation_concession",
+      "text": "\"Offer Kolvar the chair of a new Parliamentary Advisory Committee on Administrative Reform. Full access to implementation reports, no veto power, no binding authority — a seat at the table that does not touch the wheel. It costs me almost nothing and gives him a reason to tell the civil service that cooperation is in their professional interest. The idealists in my caucus will call it capitulation. It is not. It is arithmetic.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 6
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_week16_kolvar_deal",
+          "delayWeeks": 8
+        }
+      ],
+      "flags": [
+        "kolvar_advisory_role",
+        "halvekist_symbolic_concession",
+        "kolvar_escalation_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_kolvar_negotiation"
+      ],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "action",
+          "text": "He straightens his jacket."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He watches. Not with judgment. With attention."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "id": "act3_coalition_government",
+  "title": "An Unholy Alliance",
+  "act": 3,
+  "weekAvailable": 38,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Cabinet Room — Ashenmere Palace, Week Thirty-Eight",
+  "characters": ["general_brenner", "vyktor_reznik", "elara_vostane"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Cabinet Room has been rearranged. The old configuration — a single long table with the Chancellor at the head — has been replaced by a circular arrangement that someone in Protocol clearly spent a sleepless night designing. A circle has no head. A circle makes no statement about hierarchy. A circle allows General Brenner to sit at precisely the same distance from every other member of the cabinet, which is either a gesture of equality or a territorial claim disguised as geometry. The military appointees have arrived in civilian dress, which is another gesture — the uniforms are in the closet, the gesture says, but they are in the closet, not discarded. Every detail of this room has been negotiated in advance. The negotiation was exhausting. The room is the result. The actual governing has not yet begun."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The coalition framework document has been finalized. General Brenner will serve as Deputy Chancellor for National Security, with portfolio authority over the Defense Ministry, internal security coordination, and emergency preparedness. Two additional military-nominated cabinet members will hold the portfolios of Veterans Affairs and Border Security. All military appointees are subject to civilian oversight through the existing constitutional mechanisms, including parliamentary confirmation and judicial review. The key compromise language is in Article Seven — 'operational decisions within the security portfolio remain subject to Chancellor's review but shall not be unreasonably withheld.' The word 'unreasonably' was debated for four hours. Both sides retain their own interpretation of what it means."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I want to go on record, Chancellor, that I opposed this arrangement and I continue to oppose it. Not because I believe the military has no role in governance — it does, and that role should be defined. But because this arrangement was extracted under the threat of force, and the precedent that creates is more dangerous than any individual policy the military appointees might advocate. We have told every institution in Veltria that if they are sufficiently powerful and sufficiently unhappy, they can demand seats at the table. The Halvekists are watching. The oligarchs are watching. The Church is watching. We have not resolved a crisis. We have established a template for future crises, and the template is: threaten the state, and you get a ministry."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is right. Elara is almost always right, which is why her disapproval stings in a way that ideological opposition never does. The coalition was extracted under threat. The precedent is dangerous. Every word of her objection is factually accurate. And also: the tanks were in the streets. The garrison was standing down. The alternative to this arrangement was a military dictatorship or a civil war, and those alternatives are not hypothetical — they are sitting in the chair across from you in the form of a general who believes he saved the country and is waiting to see if you are going to treat him as a savior or a threat. You need him to be neither. You need him to be a cabinet minister who eventually becomes irrelevant. That is the project. It will take months. Elara's objection is the first cost of those months. It will not be the last."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I have no prepared remarks. I will say only this. The men and women of the Veltrian armed forces did not seek this arrangement. They sought a government that took the defense of the Republic seriously. This arrangement provides that. I intend to serve as Deputy Chancellor with the same discipline and commitment I have brought to forty-one years of military service. The operational details of the security portfolio can be discussed in the appropriate committee. For now, I want to communicate to the cabinet and to the country that the crisis has passed. The Republic endures. Let us govern."
+    },
+    {
+      "type": "description",
+      "text": "Brenner's statement is measured. It is also a performance, and the performance is aimed not at this room but at the country outside it — the military units that were waiting for his signal, the civilian population that was waiting to see if the government would survive, the international observers who are drafting their assessments of whether Veltria remains a democracy. He is being statesmanlike because statesmanship is what the moment requires. The question that hangs in the Cabinet Room, unasked and unanswerable, is whether the statesmanship is a strategy or a tactic — whether Brenner intends to govern within the coalition or simply to use it as a platform for the next phase of a longer campaign. You do not know. You cannot know. You have to govern anyway."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "coalition_push_reforms",
+      "text": "\"Thank you, General. The coalition exists to govern, so let us govern. I am placing three reform items on the cabinet agenda for this session: judicial independence legislation, press freedom protections, and civil service depoliticization. These are not security matters — they are democratic fundamentals, and they are the reason this government was elected. The military's participation in this cabinet is an acknowledgment that national security and democratic governance are not opposed values. Let us prove that by advancing both simultaneously. I expect every cabinet member, military and civilian, to engage with these reforms as partners in governance. The crisis is not an excuse to pause democracy. It is a reason to deepen it.\"",
+      "internalTag": "reformist",
+      "tooltip": "Use the coalition to advance democratic reforms. Bold — but risks provoking the military members to withdraw their cooperation.",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 8 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_halvekist_legal_war", "delayWeeks": 3 },
+        { "targetNodeId": "act4_week42_austerity_bites", "delayWeeks": 4 }
+      ],
+      "flags": ["coalition_reformist_push", "military_coalition_testing", "reforms_through_coalition"],
+      "codexUnlocks": ["codex_coalition_governance", "codex_cabinet_reform_agenda"]
+    },
+    {
+      "id": "coalition_contain_military",
+      "text": "\"The coalition's immediate priority is stability. General Brenner and his appointees will focus on the security portfolio — military readiness, border security, emergency planning. The civilian cabinet members will continue to manage economic policy, social programs, and legislative coordination. Clear lanes. Clear accountability. The coalition works because it respects the boundaries of expertise. The military understands defense better than any civilian can. Civilian ministers understand the constituencies they serve. I am not asking either side to pretend otherwise. I am asking both sides to govern within their competence and respect the competence of the other. That is the framework. Let us implement it.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Contain military influence to security domains. Maintains civilian control over most portfolios. The coalition endures but is compartmentalized.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 1 }
+      ],
+      "flags": ["coalition_containment_strategy", "military_lanes_defined", "coalition_stable"],
+      "codexUnlocks": ["codex_coalition_compartmentalization", "codex_security_portfolio"]
+    },
+    {
+      "id": "coalition_marginalize_military",
+      "text": "\"I welcome the military appointees to this cabinet. Their expertise is valued and their commitment to the Republic is not in question. I also want to be clear about the process going forward. All cabinet decisions will continue to be made by majority vote. The Chancellor retains veto authority under Article Twelve. The Deputy Chancellor for National Security is a cabinet officer — an important one, but a cabinet officer nonetheless, equal to his colleagues and subordinate to the constitutional structure. I look forward to working with General Brenner within that structure. The Republic's institutions are not being amended. They are being reaffirmed. The cabinet will now proceed to its scheduled business.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Bureaucratically marginalize the military members. Use procedure to dilute their power. Effective but risky — they will notice and they will remember.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_brenner_response", "delayWeeks": 2 },
+        { "targetNodeId": "act4_post_coup_consolidation", "delayWeeks": 5 }
+      ],
+      "flags": ["coalition_military_marginalized", "procedural_containment", "brenner_watching"],
+      "codexUnlocks": ["codex_cabinet_procedure", "codex_article_twelve_veto"]
+    }
+  ]
+}

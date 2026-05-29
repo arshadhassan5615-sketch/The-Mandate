@@ -1,0 +1,21 @@
+{
+  "id": "bill_electoral_allocation_reform",
+  "title": "Electoral Allocation Reform Act",
+  "shortName": "E.A.R.A.",
+  "proposer": "Vyktor Reznik",
+  "faction": "reformists",
+  "weekPresented": 2,
+  "fullText": "Section 1. The formula for distributing government campaign funds to registered political parties shall be revised to allocate resources proportionally based on the number of seats held in the National Assembly at the time of disbursement, replacing the former equal-division method codified under Executive Order 194 of the Halvek Administration.\n\nSection 2. The State Electoral Commission shall administer the revised fund within thirty days of enactment and report quarterly to the Chancellery on disbursement compliance.\n\nSection 3. This Act takes effect immediately upon signature, applying to the next scheduled campaign funding cycle.",
+  "budgetCost": 0,
+  "signEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": 5 },
+    { "stat": "factions.halvekists", "operation": "add", "value": -5 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": -5 },
+    { "stat": "factions.halvekists", "operation": "add", "value": 3 }
+  ],
+  "signFlags": ["electoral_reform_signed"],
+  "vetoFlags": ["electoral_reform_vetoed"],
+  "isVetoable": true
+}

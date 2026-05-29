@@ -1,0 +1,52 @@
+{
+  "id": "act2_con_neg_kaelen",
+  "title": "Kaelen's Hope",
+  "act": 2,
+  "weekAvailable": 14,
+  "weekDeadline": 20,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Dravenhollow Community Center",
+  "characters": ["danika_oberlin"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Idris Kaelen receives you in a community center in the Dravenhollow district — a modest building whose walls are covered with children's drawings and posters in the Dravenni language. The room smells of tea and hope and exhaustion. Kaelen himself is sixty-seven, a former teacher who became a political leader because no one else would."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Idris Kaelen asked me to present his position. He is not well enough to travel to the palace today. Here is what the Dravenni need: full language rights — bilingual status, not just regional recognition. The immunity clause must be revoked — the architects of the Silent Clearances cannot be protected by the new constitution. Land reform — limited is acceptable, but it must happen. And the electoral threshold at five percent or lower. The Dravenni will never enter the Assembly at ten percent, and you know it."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "He also asked me to tell you something personal. He remembers your father. Mikhael Ashavel visited Dravenhollow in 1946 — before the Clearances. He spoke at this very community center. Idris was in the audience. He said your father told them that Veltria belonged to all its people. He said he has been waiting thirty years for someone to make that true."
+    }
+  ],
+  "monologue": "Idris Kaelen was in the audience in 1946 when Father spoke at this very community center. Thirty years he has been waiting. Now he is too ill to come to the palace, sending Danika instead. The Dravenni demands are four: language, immunity, threshold, land. Every one is achievable and every one will cost me votes. My father's ghost is in this room. So is the math.",
+  "choices": [
+    {
+      "id": "neg_kaelen_full",
+      "text": "\"Tell Idris that the Dravenni will have their language rights. Full bilingual status. The immunity clause will be revoked — Soren and every architect of the Clearances will answer for what they did. The threshold will be lowered. And the land reform will restore what was stolen. My father's words were not empty. Neither are mine.\"",
+      "internalTag": "reformist",
+      "stateChanges": [{ "stat": "factions.dravenni", "operation": "add", "value": 20 }, { "stat": "factions.reformists", "operation": "add", "value": 5 }, { "stat": "factions.halvekists", "operation": "add", "value": -8 }],
+      "chainTriggers": [],
+      "flags": ["neg_kaelen_complete", "kaelen_full_promise"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "danika_oberlin", "type": "silence", "text": "She writes the terms in her notebook — full bilingual status, immunity revoked, threshold lowered. Her pen does not hesitate. Then she looks up. She is filing the promise. With Danika, filing means she will hold you to every word." }]
+    },
+    {
+      "id": "neg_kaelen_regional",
+      "text": "\"The Dravenni will have regional language recognition. The immunity clause — I will try. The threshold will come down. Land reform — limited. I cannot promise everything, Danika. But I can promise more than you have ever been offered before.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.dravenni", "operation": "add", "value": 8 }],
+      "chainTriggers": [],
+      "flags": ["neg_kaelen_complete", "kaelen_partial_promise"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "danika_oberlin", "type": "silence", "text": "She makes a note — regional recognition, limited land reform. It is less than she asked for. She does not argue. The silence is the sound of someone who accepts that the full promise was never realistic." }]
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "id": "act1_week1_family_dinner",
+  "title": "The Quiet Room",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Private Dining Room",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The residence is quieter than the palace. Your security detail stays outside — Jonas's one firm request. Tomas is at the table already, picking at bread rolls and pretending to do homework. Liora is in the corner armchair reading something that makes her frown. The room smells like garlic and Jonas's wine, which means he started cooking two hours ago and has been thinking about what to say ever since."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "You look like someone who hasn't slept in four days. Sit. The reports can wait twenty minutes."
+    },
+    {
+      "type": "description",
+      "text": "He doesn't ask about the budget or the BNI or the Archbishop. He asks about the study — whether you've redecorated, whether those photographs are still on the wall. He asks whether Vyktor has been useful or merely efficient. He is, as always, trying to take your temperature without asking for a reading."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "Liora's been reading everything she can find about the BNI. I didn't tell her anything — she figured it out herself. She's going to want to talk to you about it. Not tonight. But soon.\" He pauses. \"Tomas got into a fight at school today. Someone said something about your election speech. I handled it. But you should know."
+    },
+    {
+      "type": "internal_thought",
+      "text": "My father died when I was thirty-two and I never got to ask him how he balanced what he believed against what his family needed him to be. I am now forty-four and I still don't know the answer."
+    }
+  ],
+
+  "monologue": "Jonas doesn't ask about the budget or the BNI. He asks whether Vyktor has been useful or merely efficient. Taking my temperature without asking for a reading — the way he always does, the way that used to feel like care and now sometimes feels like evidence that I'm not present enough to take my own. Tomas got into a fight. Liora is reading about the BNI. The country is waiting. My family is also waiting. Not sure which waiting I've been worse at addressing.",
+
+  "choices": [
+    {
+      "id": "family_fully_present",
+      "text": "Put the briefing folder in the other room. Ask Tomas about the fight — really ask, not parent-asking. Let Liora make her argument about the BNI. Be here.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 10 },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 6  },
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -1 }
+      ],
+      "chainTriggers": [],
+      "flags": ["family_present_w1"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "action",
+          "text": "He takes the briefing folder from the side table and places it in the other room himself. He does not ask permission. When he returns, his shoulders are slightly lower — the posture of someone who just received an answer to a question he was afraid to ask."
+        },
+        {
+          "character": "jonas_ashavel",
+          "type": "dialogue",
+          "text": "Good. Now tell me about the photographs on the wall. The ones you haven't taken down. I've been thinking about them."
+        }
+      ]
+    },
+    {
+      "id": "family_work_together",
+      "text": "Ask Jonas what the city looks like from the ground — what architects are seeing, what his clients are saying. His perspective is intelligence you can't get from Vyktor.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 1  },
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 3  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 2  },
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["family_used_w1"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "silence",
+          "text": "He pours himself more wine. He recognizes the request for what it is — intelligence gathering under the cover of a family dinner. He has been married to a politician for seventeen years. He knows when he's being used as an asset."
+        },
+        {
+          "character": "jonas_ashavel",
+          "type": "dialogue",
+          "text": "The city looks tired. Architects are talking about leaving. The younger ones — the ones who would have stayed if you hadn't won — they're waiting to see if you're serious. I can give you names if that's what you're actually asking."
+        }
+      ]
+    },
+    {
+      "id": "family_distracted",
+      "text": "Stay at the table but keep checking the briefing between courses. Respond to everything. Be present enough that it counts.",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": -5 },
+        { "stat": "personal.tomasWellbeing",     "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",        "operation": "add", "value": -1 }
+      ],
+      "chainTriggers": [],
+      "flags": ["family_distracted_w1"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "action",
+          "text": "He removes the briefing from your hand. Gently. Without comment. He sets it beside your plate and places a fork on top of it. The fork is a tactful ultimatum."
+        },
+        {
+          "character": "jonas_ashavel",
+          "type": "dialogue",
+          "text": "I'm going to ask you one question. Not about the budget. Not about the BNI. About Liora. What did she say to you this morning? Because she told me she was going to and I want to know if you heard her."
+        }
+      ]
+    }
+  ]
+}

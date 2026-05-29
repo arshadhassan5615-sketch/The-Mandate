@@ -1,0 +1,147 @@
+{
+  "id": "act3_week33_war_preparations",
+  "title": "The Order of Battle",
+  "act": 3,
+  "weekAvailable": 33,
+  "weekDeadline": 35,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Strategic Operations Center, 06:45, Week Thirty-Three",
+  "characters": ["colonel_dusek", "general_brenner"],
+  "prerequisites": [
+    { "stat": "flags.tyvaren_ultimatum_rejected", "operator": "==", "value": true }
+  ],
+  "exclusive": ["act3_week33_diplomatic_negotiation"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Strategic Operations Center is not a room designed for civilian visitors. The walls are covered with topographic maps behind acetate overlays marked in grease pencil — unit designations, supply routes, fallback positions, the dense symbology of military planning that looks like a language and is a language, one that everyone in this room except you has been trained to read since they were twenty years old. The coffee is terrible in the specific way that military coffee is always terrible — too strong, too old, served in cups that have been washed too many times. Dusek has been awake since three in the morning. Brenner has been awake since yesterday. The war you chose to prepare for is now a thing with timelines and logistics chains and specific officers assigned to specific hills."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Chancellor, I have three operational frameworks to present. They are not equal. They correspond to different assumptions about what we can sustain, what we can risk, and what we are trying to achieve. I need you to understand that once we commit to a framework, the logistics chain locks into place. We cannot switch frameworks mid-mobilization without creating the kind of confusion that gets people killed. This decision is effectively final."
+    },
+    {
+      "type": "description",
+      "text": "She gestures to the largest map — the northern border region, with the Gravenmark Pass at center. The acetate overlay shows Tyvaren force concentrations in red, Veltrian positions in blue. The red markings outnumber the blue by a ratio you don't want to calculate. Dusek sees you noticing. She does not look away from your face while you do the arithmetic."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "If I may speak candidly — we have perhaps three weeks before Vukov's deadline expires. He may act sooner if he detects our mobilization. The advantage of the defiance approach is clarity: our forces know what they're defending and why. The disadvantage is that Vukov knows exactly what we're going to do. The advantage of the secret mobilization approach is that we have a head start Vukov doesn't know about. The disadvantage is that we haven't told our own people what's coming, and when they find out — and they will find out — some of them will feel deceived. You need to decide which disadvantage you can govern through."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Brenner is giving you the military calculus in political terms because he has learned, over thirty-one weeks, that you respond to political terms. He is right, but the translation is also a form of condescension, and the condescension is also a form of respect — he would not bother to translate if he thought you were going to make the wrong decision anyway. You have learned to read Brenner through these layers. The General Staff, you understand, is watching to see whether you make the decision they would make. Your cabinet is watching to see whether you make the decision the country can survive. These audiences want different things. You are the only person in the room answerable to both."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Framework One — Forward Defense. We position our best units directly at the Gravenmark Pass and the secondary crossings. Maximum deterrent effect. If they cross, we meet them at the border with everything we have. This is the Iron Covenant's preferred approach. It is also the riskiest — if our forward positions break, there is no fallback line between the pass and Kravenstal. Framework Two — Defense-in-Depth. We position screening forces at the border and concentrate our main strength at the Aldenmoor-Kravenstal defensive line, approximately forty kilometers south of the pass. We trade territory for time, force them to extend their supply lines, and fight on ground of our choosing. This is the doctrinally correct approach for a numerically inferior defender. It is also politically unacceptable to large portions of the electorate, who will see it as abandonment of the border communities. Framework Three — Asymmetric Mobilization. Full regular army mobilization at the border combined with accelerated training of reserve units and civil defense preparations nationwide. Total national commitment. This is the approach that maximizes our long-term survival. It also requires wartime economic measures that will crash the budget and alienate every faction that values anything other than national survival."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "war_prep_forward_defense",
+      "text": "\"Forward defense. I will not abandon the border communities to buy time. Position our best units at the pass. If Vukov wants Gravenmark, he will have to pay for every meter of it in blood, and I want him to know that before he gives the order. We defend from the border or we don't defend at all.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Maximum deterrent, maximum risk. The Iron Covenant will respect it. A single breach could be catastrophic.",
+      "conditions": [
+        { "stat": "nation.militaryReadiness", "operator": ">=", "value": 30 }
+      ],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 14 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_battle_gravenmark", "delayWeeks": 5, "probability": 0.7 }
+      ],
+      "flags": ["forward_defense_chosen", "border_communities_defended", "military_doctrine_set"],
+      "codexUnlocks": ["codex_forward_defense_doctrine", "codex_gravenmark_garrison"]
+    },
+    {
+      "id": "war_prep_defense_in_depth",
+      "text": "\"Defense-in-depth. I won't sacrifice our army to make a symbolic stand at the border. Draw them in, extend their supply lines, make them fight on ground we've prepared for a year. The border communities will be evacuated — I want that process to begin today, with full compensation and relocation support. We are not abandoning them. We are protecting them by not making their homes a battlefield.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Doctrinally sound. Politically difficult. The evacuation will be unpopular but the military odds improve substantially.",
+      "conditions": [
+        { "stat": "nation.militaryReadiness", "operator": ">=", "value": 20 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_battle_kravenstal_approach", "delayWeeks": 6, "probability": 0.5 }
+      ],
+      "flags": ["defense_in_depth_chosen", "border_evacuation_begun", "military_doctrine_set"],
+      "codexUnlocks": ["codex_defense_in_depth_doctrine", "codex_aldenmoor_line"]
+    },
+    {
+      "id": "war_prep_total_mobilization",
+      "text": "\"Full national mobilization. Every reservist called up. War economy measures authorized. I will address the nation tonight and tell them the truth — we are facing an existential threat, and we will meet it together. This is not a border dispute. This is the fight that determines whether Veltria exists in five years. I will not be the Chancellor who lost the country because I was afraid to ask the country to fight for itself.\"",
+      "internalTag": "reformist",
+      "tooltip": "Total national commitment. Unifies the population but devastates the economy. Requires wartime measures.",
+      "conditions": [
+        { "stat": "nation.militaryReadiness", "operator": ">=", "value": 15 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 18 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -20 },
+        { "stat": "nation.inflation",              "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -14 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_war_economy", "delayWeeks": 2 },
+        { "targetNodeId": "act3_national_address_war", "delayWeeks": 1 },
+        { "targetNodeId": "act3_total_war_society", "delayWeeks": 4 }
+      ],
+      "flags": ["total_mobilization_declared", "war_economy_authorized", "military_doctrine_set", "nation_informed"],
+      "codexUnlocks": ["codex_total_mobilization", "codex_veltrian_reserve_system", "codex_war_economy_measures"]
+    },
+    {
+      "id": "war_prep_delay_diplomatic_cover",
+      "text": "\"Continue preparations but keep them deniable. I want to use the remaining weeks to explore whether there is a diplomatic off-ramp — Stellamere, the Forum, back-channel communications. If war comes, we will be more prepared than we were last week. But I will not commit to a war posture until every other possibility is exhausted. Prepare Framework Two quietly. No public announcement until I authorize it.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Continue preparing while exploring every diplomatic option. Buys time but may confuse the military chain of command.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["military_doctrine_set", "dual_track_strategy", "preparations_deniable"],
+      "codexUnlocks": ["codex_defense_in_depth_doctrine"]
+    }
+  ]
+}

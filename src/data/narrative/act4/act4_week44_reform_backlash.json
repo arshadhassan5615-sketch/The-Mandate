@@ -1,0 +1,111 @@
+{
+  "id": "act4_week44_reform_backlash",
+  "title": "The Counter-Revolution",
+  "act": 4,
+  "weekAvailable": 44,
+  "weekDeadline": 46,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Week Forty-Four",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.reform_implementation_begun", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Reform produces reaction. This is not a failure of reform — it is a property of it. Every change to the distribution of power in a society mobilizes the people who benefited from the previous distribution. The Halvekists who lost their parliamentary privileges. The military officers who resent civilian oversight. The Church hierarchy that feels its moral authority slipping. The business interests that profited from the old system's lack of transparency. Each group has different grievances, but they have discovered a common interest: stopping the reform process before it becomes irreversible. They are coordinating now. Not conspiring — coordinating, which is more dangerous because it is legal. They are using the institutions you built to attack the reforms you champion."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The coalition against reform has organized what I would describe as a multi-front campaign. The Constitutional Court has accepted a challenge to the judicial reform provisions — filed by a Halvekist-affiliated legal foundation that was incorporated last month for the specific purpose of filing this challenge. The Iron Covenant has issued a public statement expressing 'concern about the pace of institutional change during a period of national vulnerability.' The Archbishop has scheduled a pastoral letter on 'the moral foundations of legitimate authority,' which the advance excerpts suggest is not supportive of the constitutional settlement. And the business community has begun moving capital out of Veltria — slowly, quietly, in ways that are individually rational and collectively devastating. This is not a coup. This is a coordinated withdrawal of consent by the institutions that the constitution requires to function. It is, in some ways, more dangerous than a coup."
+    },
+    {
+      "type": "internal_thought",
+      "text": "They are using your own constitution against you. The irony is not lost on you — you built a system of checks and balances precisely to prevent authoritarianism, and now the checks are being wielded by authoritarians to prevent reform. The system is working as designed. It is also working to destroy what you designed it to protect. Both things are true. The question is whether the system can survive the people who are using it, or whether the people will break the system in the attempt to break you. You have to defend the constitution from the people who are using the constitution. This is not a paradox. It is governance."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "backlash_fight_institutions",
+      "text": "\"We fight them in every institution. The Constitutional Court challenge — we defend the reform bill with the best legal team in the country. The Iron Covenant statement — I want Theron to issue a public legal opinion on the constitutional limits of military commentary on civilian legislation. The Archbishop's letter — I am not going to fight the Church, but I am going to meet with Archbishop Renek directly and ask him what he actually wants. And the capital flight — emergency capital controls if necessary. I will not let the institutions I created be weaponized against the reforms they were created to enable.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "factions.church", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week47_new_order", "delayWeeks": 3 }
+      ],
+      "flags": ["backlash_fought", "institutional_defense", "reform_backlash_resolved"],
+      "codexUnlocks": ["codex_constitutional_court_challenge", "codex_institutional_resilience"]
+    },
+    {
+      "id": "backlash_compromise_selectively",
+      "text": "\"Pick your battles. The judicial reform is essential — we defend that to the end. The Church — I will give the Archbishop a concession on education policy, something that preserves the Church's role in schools without compromising the constitutional separation. The military — I send Brenner a private message: the civilian oversight framework will be implemented gradually over five years, not immediately. He gets to tell his officers he slowed it down. I get to tell the reformers it is still happening. The business community — we accelerate the trade agreement with Stellamere to give them a reason to keep capital in the country. Reform that collapses the coalition is reform that fails. I will compromise to preserve what matters.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "factions.church", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 },
+        { "stat": "nation.corruption", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week47_new_order", "delayWeeks": 3 }
+      ],
+      "flags": ["backlash_compromised", "selective_concessions", "reform_backlash_resolved"],
+      "codexUnlocks": ["codex_coalition_management", "codex_reform_pacing"]
+    },
+    {
+      "id": "backlash_authoritarian_response",
+      "text": "\"I have spent forty-four weeks trying to reform this country through consensus. The people blocking reform are not interested in consensus — they are interested in preserving the arrangements that served them under Halvek. If the institutions are being used to prevent reform, I will use executive authority to reform the institutions. The Constitutional Court needs new justices who understand that constitutions are living documents. The military oversight goes into effect on my timeline, not Brenner's. The business community can move capital anywhere they want — and I can make sure they pay taxes on it before it leaves. I was elected to change this country. I am going to change it. The consensus of the people who benefited from the old system is not required.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -14 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -12 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week47_new_order", "delayWeeks": 3 }
+      ],
+      "flags": ["backlash_crushed", "executive_authority_expanded", "reform_backlash_resolved"],
+      "codexUnlocks": ["codex_executive_reform_powers", "codex_institutional_restructuring"]
+    },
+    {
+      "id": "backlash_public_referendum_again",
+      "text": "\"The constitution was ratified by the people. If the institutions are blocking its implementation, I will go back to the people. I want a second referendum — not on the entire constitution, but on the specific reform provisions being blocked. Ask the voters: do you want judicial reform? Do you want civilian oversight of the military? Do you want the Dravenni language protections? Make each obstruction a separate question. Let the Halvekists explain to the voters why they are blocking things the voters explicitly approved. Democracy is not a one-time event. It is a process. I am restarting the process.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week47_new_order", "delayWeeks": 3 },
+        { "targetNodeId": "act4_second_referendum", "delayWeeks": 6 }
+      ],
+      "flags": ["second_referendum_called", "reform_backlash_resolved"],
+      "codexUnlocks": ["codex_plebiscite_process", "codex_direct_democracy"]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "act2_vael_steel_mills",
+  "title": "The Steel Mills Gambit",
+  "act": 2,
+  "weekAvailable": 18,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Finance Ministry — Privatization Committee Room",
+  "characters": ["lucan_vael", "elara_vostane", "gregor_maric"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Kravenstal Steel Processing Facility is one of the last major state-owned industrial assets. It employs twelve thousand workers. It processes sixty percent of Veltria's domestic steel output. It has been losing money for five years — not because it is inefficient but because the state has underinvested in its equipment while the global steel price has declined. The facility needs two hundred million Krone in modernization or it will be obsolete within a decade. The Finance Ministry does not have two hundred million Krone."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The privatization committee has received three bids. One from an Arcturian industrial group — competitive price, but they would close the Kravenstal forge and consolidate production in their own facilities. One from a Lytheirian investment fund — all cash, no commitments on employment. And one from the Vael Foundation. Margrave Vael is offering one hundred and eighty million Krone — below market value — but with a twenty-year employment guarantee for all current workers and a commitment to invest one hundred million in modernization within five years. He is asking for a private meeting to present the offer personally. He is waiting in the anteroom."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "He's always waiting in the anteroom. Has anyone noticed that? The Margrave is always 'passing by' or 'in the anteroom' or 'just happened to be' somewhere that turns out to be exactly where he needs to be. The employment guarantee is good. It's genuinely good — twelve thousand workers keep their jobs, their pensions, their dignity. But Vael owning the Kravenstal forge means Vael controls sixty percent of domestic steel. He already controls twenty percent of the processing capacity through his existing holdings. Add Kravenstal and he controls eighty percent. That's not a steel mill purchase. That's a monopoly."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Minister Maric is correct that consolidation is a concern. I will not insult anyone's intelligence by pretending otherwise. Let me make a different argument. The Arcturian bid closes the forge and Veltria loses twelve thousand jobs and a strategic industrial asset. The Lytheirian bid is cash from people who have never visited Kravenstal and who will sell the facility within five years to whoever offers the highest return. My bid keeps the forge in Veltrian hands, keeps the workers employed, and modernizes the equipment. Yes, I gain market share. I also gain responsibility — because if the forge fails under my ownership, it is my name on the failure, not an Arcturian corporation that has already moved on to the next acquisition. Accountability, Chancellor. That is what I am offering."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He's not wrong about the Arcturian and Lytheirian bids. They are worse options — job losses, asset stripping, strategic vulnerability. But Maric is also not wrong. Eighty percent of domestic steel in one man's hands is not a market; it's a fiefdom. Vael would effectively set steel prices for every construction project, every infrastructure contract, every military procurement from here to the Amber Coast. The consolidation argument is not theoretical — it is the thing Halvek's cronies did for fifteen years with Vael's assistance. Vael was the architect of that system. Now he wants to inherit its crown jewel."
+    }
+  ],
+  "monologue": "Twelve thousand workers. Sixty percent of domestic steel output. The Arcturian bid closes the forge. The Lytheirian bid is cash from strangers. Vael keeps the forge in Veltrian hands — his hands — with a twenty-year employment guarantee. Maric is right about the monopoly: eighty percent of domestic steel in one portfolio. Vael is right about the alternatives: they are worse. The worst position is the one where the oligarch is the least bad option.",
+
+  "choices": [
+    {
+      "id": "vael_steel_accept",
+      "text": "\"Accept the Vael bid. The employment guarantee is binding for twenty years, the modernization investment is verifiable through quarterly audits, and the monopoly concern is addressed through price controls established by the Trade Commission. Vostane, draft the sale agreement with those conditions included. Maric, I want you to personally review the employment terms. If the Margrave is sincere about accountability, this agreement will hold him accountable. If he is not, it will expose him.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": 20 },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",    "operation": "add", "value": 12  },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -15 },
+        { "stat": "nation.nationalDebt",       "operation": "add", "value": -15 },
+        { "stat": "nation.corruption",         "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_vael_referendum_funding", "delayWeeks": 6 }
+      ],
+      "flags": ["vael_steel_purchased", "kravenstal_privatized", "vael_relationship_warm"],
+      "codexUnlocks": ["codex_kravenstal", "codex_vael_alliance"],
+      "reactions": [{ "character": "lucan_vael", "type": "dialogue", "text": "Vael rises. He does not smile — Vael does not smile when acquiring industrial assets, he simply extends his hand. The employment guarantee will be honored. You have my word, and my word is now legally binding. He means it. The question is what his word means when no one is watching." }, { "character": "gregor_maric", "type": "silence", "text": "Maric writes something on his notepad — the employment terms, the audit requirements, his own name as reviewer. He does not speak. He does not need to. The silence is the sound of Gregor Maric accepting a decision he disagreed with and preparing to ensure it does not fail." }]
+    },
+    {
+      "id": "vael_steel_refuse",
+      "text": "\"Reject all bids. The Kravenstal forge remains state-owned. Vostane, find the modernization funding from existing budget allocations — cut elsewhere if you have to, but find it. The steel industry is too vital to Veltrian sovereignty to be owned by anyone who answers to shareholders or to a single man's conscience. Twelve thousand workers keep their jobs in a plant that remains theirs. We accept the short-term fiscal pain in exchange for long-term industrial independence.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -8  },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 12  },
+        { "stat": "factions.reformists",       "operation": "add", "value": 8   },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": -3  },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_vael_referendum_funding", "delayWeeks": 6 }
+      ],
+      "flags": ["vael_steel_refused", "kravenstal_public", "vael_relationship_cool"],
+      "codexUnlocks": ["codex_kravenstal"],
+      "reactions": [{ "character": "gregor_maric", "type": "action", "text": "He nods — the slow nod of a man whose argument has just carried. He does not celebrate. Maric never celebrates political victories. He simply stops looking like he is preparing for a fight." }, { "character": "elara_vostane", "type": "silence", "text": "Vostane writes find two hundred million on her notepad. Her penmanship is precise and the numbers underneath are small — she is already calculating the cuts. The silence is the sound of Elara Vostane being asked to do something nearly impossible and beginning to do it anyway." }]
+    },
+    {
+      "id": "vael_steel_counter",
+      "text": "\"Counter-proposal: the state sells forty-nine percent of the Kravenstal forge to the Vael Foundation. The state retains fifty-one percent and operational control. Vael provides the modernization investment on a convertible loan — convertible to equity only if employment targets are met. This preserves public ownership, secures private investment, and aligns incentives. The Margrave profits if the forge succeeds. The workers keep their jobs and their say in management. Vostane, draft the structure.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence",             "operation": "add", "value": 8   },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": 4   },
+        { "stat": "factions.businessClass",    "operation": "add", "value": 3   },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4   },
+        { "stat": "factions.reformists",       "operation": "add", "value": 2   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_vael_referendum_funding", "delayWeeks": 6 }
+      ],
+      "flags": ["vael_steel_joint", "kravenstal_coop", "vael_relationship_neutral"],
+      "codexUnlocks": ["codex_kravenstal"],
+      "reactions": [{ "character": "elara_vostane", "type": "action", "text": "She is already sketching the structure — forty-nine percent, convertible loan, employment targets as conversion triggers. Vostane does not smile, but the speed of her pen suggests something approaching satisfaction. She has found a path that both sides can walk." }, { "character": "lucan_vael", "type": "silence", "text": "Vael considers the terms. Forty-nine percent. Convertible loan. He weighs each component. He did not get everything he wanted. He got enough. The silence is the sound of a businessman calculating whether half of the forge is better than none of it." }]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "act2_serida_tomas_factory",
+  "title": "The Factory Floor",
+  "act": 2,
+  "weekAvailable": 15,
+  "weekDeadline": 20,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Evening",
+  "characters": ["serida_valk"],
+  "prerequisites": [{ "stat": "flags.met_serida", "operator": "==", "value": true }, { "stat": "flags.economic_direction_chosen", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "The office is quiet — the last staff have gone home. Only Serida remains, organizing the next day's briefing. She does this every evening. She stays until you leave, then goes home to her family. Tonight, she looks tired in a way that is not about the hour." },
+    { "type": "dialogue", "character": "serida_valk", "text": "Tomas came home today with news about the factory. The Kravenstal foundry — where he has worked for sixteen years. They announced the modernization plan. Tomas said... he said it is the first time in his life he has felt like the government was building something FOR him instead of taking something FROM him. He said to thank you. I am not political, Chancellor. But I wanted you to know. What you decide in this office — when you sign a paper or approve a budget — my husband feels it on the factory floor. That is not pressure. That is gratitude." }
+  ],
+  "monologue": "Sixteen years in that foundry. Sixteen years of governments that took and never gave. Tomas felt the policy on the factory floor — exactly where policy is supposed to land. This is why governing matters. Not the headlines. The man who comes home and tells his wife the government finally built something for him.",
+  "choices": [
+    {
+      "id": "serida_factory_gratitude",
+      "text": "\"Tell Tomas that the factory modernization is just the beginning. We are going to rebuild Kravenstal — not for the factory owners, not for the politicians, but for the workers. For your husband. For the men and women who have been waiting for a government that remembers they exist. This is why I ran. This is what it looks like when the promises become real.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": 15 },
+        { "stat": "seridaMorale", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_factory_positive"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "serida_valk", "type": "action", "text": "She does not speak. She simply nods — once, quickly — and returns to her filing. But before she closes the door, you see her wipe her eyes. She does not do it where anyone can see." }]
+    }
+  ]
+}

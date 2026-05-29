@@ -1,0 +1,80 @@
+{
+  "id": "act3_port_bonds_return",
+  "title": "Aldenmoor Port Bonds — Maturity",
+  "act": 3,
+  "weekAvailable": 40,
+  "weekDeadline": 43,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Finance Ministry — Ashenmere",
+  "characters": ["elara_vostane"],
+  "prerequisites": [
+    { "stat": "flags.port_bonds_invested", "operator": "==", "value": true }
+  ],
+  "exclusive": ["act3_port_bonds_return_blind"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Elara Vostane is waiting in her office with a single sheet of paper. It is a maturity notice. The Aldenmoor Port Development Bonds you purchased early in your Chancellorship have reached their full term. The government-issued infrastructure bonds were conservative, predictable — exactly the kind of investment Elara promised. The base return is 4,000 VK on your 2,000 VK investment."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The bonds matured this week. Your allocation was 2,000 VK at the institutional rate. The standard redemption value is 4,000 VK. However — and I suspect you already know what I am about to say — if the Free Trade Zone Act was signed during the bond's term, the Aldenmoor port became the center of a free trade zone, and the bond's value doubled under the development appreciation clause. In that case, your redemption value would be 8,000 VK. I am informing you of both figures because it is my fiduciary duty to do so. What you do with this information — including whether you disclose it — is your decision."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Elara has stated the numbers with her characteristic precision and her characteristic absence of judgment. She will not tell me what to do. She will simply present the facts and let me understand their implications. If the Free Trade Zone Act passed, I signed it — and my signature doubled the value of bonds I personally held. The act may have been good policy. The bonds may have been legal investments. The connection between the two is still a conflict of interest, and it will be reported that way. The base return is defensible. The doubled return requires explanation. And the person asking the questions will not be as polite as Elara."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "port_bonds_collect_base",
+      "text": "\"Redeem the bonds for 4,000 VK. That is the standard return — safe, legal, and exactly what any institutional investor would receive. I invested in government infrastructure bonds because I believed in Veltrian infrastructure. The return is modest and defensible. If the Free Trade Zone Act was signed and the bonds could have returned more, I will still take the base rate and note publicly that I declined the appreciation clause. That will not satisfy my critics — nothing satisfies my critics — but it will make it harder for them to argue that I governed for personal enrichment. The return is 4,000. The ethics are worth the other 4,000.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.personalWealth",      "operation": "add", "value": 4000 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 3   },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 2   },
+        { "stat": "factions.reformists",          "operation": "add", "value": 2   }
+      ],
+      "flags": ["port_bonds_return_base", "port_bonds_return_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "port_bonds_collect_full",
+      "text": "\"Redeem the bonds at their full value. If the Free Trade Zone Act doubled them to 8,000 VK, that is what they are worth. I will not artificially reduce my family's investment returns to avoid the appearance of impropriety. The act was good policy. The bonds were legal investments. The return is what the market says it is. If journalists want to draw a line between my signature and my portfolio, they will — regardless of whether I take 4,000 or 8,000. The criticism is inevitable. The money is not. I will take both and defend both on their merits.\"",
+      "internalTag": "pragmatist",
+      "conditions": [
+        { "stat": "flags.ftz_act_signed", "operator": "==", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "personal.personalWealth",      "operation": "add", "value": 8000 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -4  },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 3   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 5   },
+        { "stat": "factions.reformists",          "operation": "add", "value": -3  }
+      ],
+      "flags": ["port_bonds_return_full", "port_bonds_return_resolved", "conflict_of_interest_realized"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "port_bonds_collect_full_no_ftz",
+      "text": "\"Redeem the bonds for their standard value — 4,000 VK. The Free Trade Zone Act was not signed, so there is no appreciation clause and no conflict to navigate. The return is what it is: a modest, legal return on a government infrastructure bond purchased at the institutional rate. No drama. No scandal. Just a boring investment that did exactly what it was supposed to do. Transfer the funds to my account. I will not apologize for investing in my country's infrastructure, and no one can credibly ask me to.\"",
+      "internalTag": "pragmatist",
+      "conditions": [
+        { "stat": "flags.ftz_act_signed", "operator": "!=", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "personal.personalWealth",      "operation": "add", "value": 4000 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 1   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 2   }
+      ],
+      "flags": ["port_bonds_return_base", "port_bonds_return_resolved"],
+      "codexUnlocks": []
+    }
+  ]
+}

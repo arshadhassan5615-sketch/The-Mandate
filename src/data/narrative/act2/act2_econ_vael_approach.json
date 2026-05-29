@@ -1,0 +1,63 @@
+{
+  "id": "act2_econ_vael_approach",
+  "title": "Vael's Proposal",
+  "act": 2,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Vael Estates — Private Study",
+  "characters": ["lucan_vael", "elara_vostane"],
+  "prerequisites": [{ "stat": "flags.economy_free_market", "operator": "==", "value": true }],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Lucan Vael's private study is a monument to wealth — Veltrian oak, Arcturian crystal, Orythian silk. He does not invite you. He requests your presence, which is different. Vostane is already there, seated in a leather chair, her expression professionally neutral. Vael stands by the window."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "Chancellor. Your free-market direction has impressed certain parties — parties with capital, connections, and an interest in a stable, prosperous Veltria. I am prepared to facilitate a significant investment package. Arcturian technology firms want access to Veltrian heavy industry. Orythian banks want to finance our infrastructure. I can make introductions. In exchange, I ask only that my consortium be given first consideration for state contracts. A partnership, not a purchase."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The numbers are good. Vael's consortium would bring approximately 80 million VK in foreign investment within the first year. The infrastructure modernization would accelerate by eighteen months. The cost — first consideration on state contracts — is standard practice in most developing economies. I recommend acceptance with appropriate oversight."
+    }
+  ],
+  "monologue": "Eighty million in foreign investment. Infrastructure acceleration by eighteen months. The cost: first consideration on state contracts. Vostane calls it standard practice. She is correct. Standard practice is what the Halvek era called it too. The difference between a partnership and a quiet purchase is the oversight framework — and oversight frameworks only work when the overseer cannot be fired.",
+  "choices": [
+    {
+      "id": "vael_accept_partnership",
+      "text": "\"I will work with your consortium, Vael. But I want the oversight framework in writing — competitive bidding after the first round, transparency on all contracts, and veto authority if terms become unfavorable. You want partnership? This is partnership.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "vaelInfluence", "operation": "add", "value": 15 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 },
+        { "stat": "nationalDebt", "operation": "add", "value": -20 }
+      ],
+      "chainTriggers": [],
+      "flags": ["vael_partnered", "arcturian_investment_flowing"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "lucan_vael", "type": "action", "text": "He extends his hand. You want partnership, he repeats. Then he nods — the nod of a man who has gotten most of what he wanted. He will remember the oversight clauses. He will try to work around them." }, { "character": "elara_vostane", "type": "silence", "text": "She writes oversight framework on her pad and underlines it. She will enforce the terms. Vostane enforces everything she writes down." }]
+    },
+    {
+      "id": "vael_reject_partnership",
+      "text": "\"I appreciate the offer, Vael. But I did not open Veltria's markets to replace government monopoly with oligarch monopoly. The competitive bidding process will be open to all — including your consortium. You will compete like everyone else.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "vaelInfluence", "operation": "add", "value": -5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [{ "targetNodeId": "act2_econ_vael_undermining", "delayWeeks": 8, "probability": 0.6 }],
+      "flags": ["vael_rejected"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "lucan_vael", "type": "silence", "text": "He sets down his glass. The motion is very precise — the precision of a man who has just been told no and is already calculating his next approach." }]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "act4_family_conditional",
+  "title": "Terms of Engagement",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Study, Early Evening",
+  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You were honest at the reckoning. Not the honesty of resolution — the honesty of limitation. You told Jonas you did not know if the woman he married was still here, that you thought she was buried under things that felt essential but might not be, that you were asking him to help you dig her out. You told him you could not promise indefinite waiting but you could promise trying. That was five weeks ago. The trying has been real and it has been insufficient, which is almost always the case with trying. Real trying is rarely enough. It is what you can offer when enough is not available."
+    },
+    {
+      "type": "description",
+      "text": "The study is where you do the work that cannot be done at the Chancellery — the reading that requires concentration, the letters that require candor. Tonight it is where you are meeting your family to assess the terms you negotiated. Conditional terms. Not a divorce and not a reconciliation — a contract between people who love each other but cannot promise each other the unconditional presence that love is supposed to guarantee. Jonas is sitting in the armchair by the window. Liora is on the settee, her journalist's notebook closed but present — a reminder that she is here as a daughter but also as someone who observes and records. Tomas is in the corner chair, the one he claimed during the worst months and never gave up, the one that faces the door. He still faces the door. Some instincts are harder to unlearn than others."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "The terms have been — functional. That's the word I keep coming back to. Functional. We eat dinner together three nights a week. We discuss Tomas's school situation and Liora's articles. We do not discuss the Tyvaren situation or the military or anything that touches what you would call classified and I would call the life you live when you are not here. The arrangement works. It allows us to coexist without the active pain of estrangement. I am asking whether functional is enough. Not as an ultimatum. As a genuine question. Is functional where we are trying to get, or is it a way station on the path to something else? I need to know whether I am building toward a marriage or maintaining a household."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Functional. The word lands with the weight of something that is true and also inadequate. A functional marriage is better than a broken one — orders of magnitude better — but it is not what either of you imagined when you were twenty-three years old and believed that love was a force rather than a practice. Practice is what you have now. Scheduled dinners. Agreed topics of conversation. Boundaries around what can and cannot be discussed. The boundaries protect you both — they prevent the arguments that used to consume evenings — but they also wall off the parts of your life that are most real. You spend three nights a week not talking about the things that occupy the other four nights. That is functional. It is also, in its own way, a form of separation conducted in the same house."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "I've been thinking about what 'functional' means in this family. It means I don't leak your documents anymore. It means I call before I publish something that involves you. It means we have a professional relationship — a cordial one — layered on top of whatever is left of the personal one. I'm not unhappy with it. I'm not happy either. I'm — functional. The question Tomas and I have, I think, is whether functional is the ceiling or the floor. Are we building up from here or settling here? Because if this is the ceiling, I can adjust my expectations. If it's the floor, I need to know what we're building toward."
+    },
+    {
+      "type": "description",
+      "text": "Tomas says nothing, but his silence is different from the silence of the worst months. Then, he was retreating. Now, he is listening. The distinction matters. A boy who listens is still in the room. A boy who retreats has already left."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "family_conditional_renew_commitment",
+      "text": "\"Functional is the floor. Not the ceiling. Jonas — I am asking you to renew this with me. Not the old marriage — the one before the Chancellorship, the one where I was present in ways I cannot be present now — but a new one. A marriage that acknowledges the Chancellorship is real and demanding and will take most of my time for as long as I hold this office. A marriage that says: what is left, I give to you. Not the scraps. The priority. The three dinners a week are not the boundary of our relationship. They are the foundation. From here, we build. Liora — I want more than cordial. I want honest. The kind of honest where you tell me when I am failing and I tell you when you are being unfair and neither of us walks away. Tomas — I want you to stay in the room. That's all. Just stay in the room. The rest we figure out together.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 14 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 12 },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["family_conditional_path", "conditional_renewed", "functional_is_floor", "jonas_renewed", "liora_honest"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_conditional_renegotiate_terms",
+      "text": "\"The terms we set five weeks ago were designed for a specific situation. The situation has changed — the Tyvaren crisis has escalated, the military situation is uncertain, the economic conditions are worse. I am not using these as excuses. I am telling you that the terms need to adapt to the circumstances. Functional may be the ceiling for now — not because I want it to be, but because I cannot offer more while simultaneously managing what is coming. I am asking you to accept that functional is what I have, for the next period, and to revisit when the external pressure eases. I know that is not the answer you wanted. It is the answer I have. I am giving it to you honestly rather than promising something I cannot deliver.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 4  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 2  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["family_conditional_path", "terms_renegotiated", "functional_is_ceiling", "circumstances_acknowledged"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_conditional_firmer_boundaries",
+      "text": "\"I hear you. All of you. And I need you to hear me: I am governing a country that is facing an active military threat, an economic crisis, and a constitutional transition simultaneously. I cannot — I mean this literally, not rhetorically — I cannot be the wife and mother you want me to be while also being the Chancellor the country needs. The functional arrangement we have protects all of us. It gives you predictability. It gives me the capacity to govern without constant guilt about what I am not providing at home. I am not asking you to be happy with it. I am asking you to accept it as the best available arrangement under circumstances none of us chose. If functional is the ceiling, then we live under that ceiling and we make the best of it. The country does not pause its crises for family therapy.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -6  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": -8  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8   },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6   },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["family_conditional_path", "boundaries_firmed", "functional_is_ceiling", "jonas_distanced", "liora_disappointed"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    }
+  ]
+}

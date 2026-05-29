@@ -1,0 +1,148 @@
+{
+  "id": "act1_week4_first_month",
+  "title": "The First Month",
+  "act": 1,
+  "weekAvailable": 4,
+  "weekDeadline": 6,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Morning Briefing, Week Four",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Four weeks. The first month of your government is complete, and the palace has begun to feel less like a building you are visiting and more like a place where you live. The security detail knows your schedule. The kitchen staff has learned that you take your coffee black before noon and with milk after, which is a detail that should not feel like an achievement but does. Vyktor has stopped knocking before entering — he now uses a particular rhythm on the doorframe, three taps, which means he has something important and assumes you are already working."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "First-month polling is in. Your personal approval is 61 percent — down from 68 on inauguration day. Actually better than I projected. The drop is concentrated among Halvekist voters, who were never ours, and business-class voters, who are nervous about the budget direction. Among reformists and workers, you are at 74 and 71 respectively. The headline is that the country still believes in you. The question is whether they will still believe at the end of the second month, when the budget cuts or the tax increases or the foreign loan conditions begin to be felt in actual households. That is when approval stops being about speeches and starts being about whether people can buy bread."
+    },
+    {
+      "type": "description",
+      "text": "He slides a folder across the desk. The polling data is cross-tabulated by province, by income, by age, by previous voting behavior. Vyktor has annotated it in his precise, almost architectural handwriting — arrows, marginal notes, a small star next to the number for undecided women between forty and sixty, which has gone up three points since the inaugural address."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Sixty-one percent. It is a number. It does not capture what it felt like on Republic Square, or what Jonas said in the kitchen, or what Tomas asked me about fault, or what Liora found in the archives. The country is grading me on a test I have barely started taking. The real test begins when the budget hits the streets and the BNI reforms take effect and the Halvekists in parliament realize they cannot stop me with procedure alone. That is when the numbers will move. That is when I will learn whether sixty-one percent is a floor or a ceiling."
+    }
+  ],
+
+  "monologue": "Sixty-one percent approval. The kitchen staff has learned I take my coffee black before noon. Both details feel like achievements. The country is grading me on a test I've barely started. The real test begins when the budget hits the streets and families feel the cuts in their households. That's when I'll learn whether sixty-one percent is a floor or a ceiling. Vyktor's polling data has a small star next to undecided women between forty and sixty — up three points. He noticed. So did I.",
+
+  "choices": [
+    {
+      "id": "month_one_connect_people",
+      "text": "\"Schedule a tour. Not a campaign tour — a listening tour. Kravenstal, Thornfeld, the Dravenhollow highlands. Not speeches. Conversations. If the budget is going to hurt people, I need to look at them while they tell me how much. Before they read about it in the newspapers.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",     "operation": "add", "value": 6   },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 5   },
+        { "stat": "factions.reformists",      "operation": "add", "value": 3   },
+        { "stat": "nation.publicOrder",       "operation": "add", "value": 3   },
+        { "stat": "personal.marriageHealth",  "operation": "add", "value": -3  },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": -1  }
+      ],
+      "chainTriggers": [],
+      "flags": ["listening_tour_begun", "first_month_complete"],
+      "codexUnlocks": ["codex_veltrian_provinces"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Listening tour. Three cities. Four days. I will clear the schedule. Security detail needs route assessments by tomorrow. The press will frame it as either courageous or desperate. The local coverage will determine which."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He makes a note in the margin of the polling data — 'KRAVENSTAL — 3 DAYS — TOWN HALL FORMAT.' The margin note is in pencil. Everything else is in ink. Pencil means it can be changed. The tour is real now."
+        }
+      ]
+    },
+    {
+      "id": "month_one_focus_governance",
+      "text": "\"The polls matter less than the policy. I have three pieces of legislation to draft before parliament reconvenes — the BNI reform bill, the constitutional convention framework, and the budget implementation act. I need working groups on all three by end of week. The country will judge me on what passes, not on what I said while I was passing it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",      "operation": "add", "value": 6   },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 2   },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 3   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -1  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [],
+      "flags": ["legislation_prioritized", "first_month_complete"],
+      "codexUnlocks": ["codex_legislative_process"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Three bills. Three working groups. End of week. I will coordinate the legal drafting with Theron's office and the parliamentary secretariat."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not comment on the polls-versus-policy choice. He does not need to. The silence is approval — the kind that comes from a man who has always believed that governing matters more than being liked."
+        }
+      ]
+    },
+    {
+      "id": "month_one_consolidate_power",
+      "text": "\"Sixty-one percent is a mandate. I want every minister to submit a priority list for the next sixty days — not what they want to do eventually, what they can deliver now. The opposition is organizing. Kolvar is going to turn every parliamentary procedure into a weapon. I need wins I can point to when he starts calling me unable to govern.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3   },
+        { "stat": "factions.reformists",      "operation": "add", "value": -3  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -2  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["power_consolidated", "first_month_complete"],
+      "codexUnlocks": ["codex_executive_priorities"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He flips to a tab labeled 'MINISTERIAL DELIVERABLES — 60 DAY.' The tab was already prepared. He pushes the binder toward you. There are deadlines and metrics and a small box labeled 'PUBLIC METRICS' with three asterisks. The asterisks mean: handle with care."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Sixty-day deliverables. Kolvar will call it executive overreach regardless of content. The framing will matter more than the substance. I will draft the public-facing summary."
+        }
+      ]
+    },
+    {
+      "id": "month_one_family_first",
+      "text": "\"The tour can wait. The legislation can wait until tomorrow. I have not had dinner with my family in three weeks — not a real dinner, not one where I was actually present. Clear my evening. All of them, for the rest of the month. The country will survive one evening a week without me. My family may not survive much longer without it.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",  "operation": "add", "value": 10  },
+        { "stat": "personal.lioraRelationship","operation": "add", "value": 6   },
+        { "stat": "personal.tomasWellbeing",  "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 7   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -3  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["family_prioritized_month1", "first_month_complete"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He pauses. The pause is a full second — an eternity for Vyktor Reznik. He has never received this instruction before, from you or from any principal he has served. He is recategorizing it."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Evenings cleared. I will hold the schedule. If a crisis occurs between 19:00 and 06:00, I will handle it unless it requires your signature. You will be unreachable for four hours per evening. Understood."
+        }
+      ]
+    }
+  ]
+}

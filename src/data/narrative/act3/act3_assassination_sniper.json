@@ -1,0 +1,61 @@
+{
+  "id": "act3_assassination_sniper",
+  "title": "The Ashenmere Incident — The Parade",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 36,
+  "type": "emergency",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Independence Square — Reviewing Stand",
+  "characters": ["vyktor_reznik", "serida_valk", "irina_dusek", "oskar_brenner"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Independence Day. The reviewing stand is draped in the blue-and-gold of the Republic. The 4th Rifle Division is marching past in full dress uniform — boots polished, rifles shouldered, the precision of men who have spent weeks practicing for this moment. You are standing at the front of the stand, waving. To your left: Colonel Dusek, in dress uniform. To your right: Serida Valk, holding your schedule and shading her eyes against the afternoon sun. Behind you: Marshal Oskar Brenner, attending in his capacity as Commander of the Veltrian Armed Forces."
+    },
+    {
+      "type": "description",
+      "text": "The shot comes from the Treasury building across the square — a high-velocity rifle round, military caliber. You hear the crack a fraction of a second before Serida grabs your shoulder and shoves you sideways. Her body is between you and the Treasury building. You are falling, tangled in the collapsed reviewing stand bunting, as the second shot hits the stanchion where your head had been. The third shot hits Serida. She goes down without a sound, a red bloom spreading across the back of her jacket as the crowd erupts into screaming chaos. Dusek is dragging you behind the armored plating of the stand. Brenner is shouting into a radio. The parade has become a massacre."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Sniper confirmed — Treasury building, fifth floor, east-facing window. My security team is sweeping the building now. The shooter fired three rounds. First round missed because Serida Valk pushed the Chancellor out of the line of fire. Second round hit the stanchion. Third round hit Valk. She took a round meant for the Chancellor. The medics are with her now — she is alive but critical. The shooter is either contained or escaped — we will know in the next five minutes. The parade has been dispersed. The square is under lockdown."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "The rifle recovered is a Thornfeld-pattern marksman's weapon — military issue. Serial number filed off, but the armorer's stamps indicate it came from the same batch that went missing six weeks ago. The shooter's position was selected with professional knowledge of sightlines and wind conditions. This was a military-trained marksman. Colonel Dusek and I concur: the shooting was targeting the Chancellor specifically, with knowledge of parade positioning that would not be available to civilians. This is a military conspiracy — or at minimum, a conspiracy with military participants. The implications are severe."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor. Serida is being transported to the military hospital — the surgeons are the best available, but the wound is serious. The crowd is still being dispersed, there are injuries from the stampede, and every news outlet in Veltria is broadcasting live from the square. The visual of your aide being shot while protecting you is already circulating — the Herald has a photograph. This will be the defining image of the attack. You have approximately forty-five minutes before the political situation demands a response. When you speak, the country will be watching. What do you want to say?"
+    },
+    {
+      "type": "internal_thought",
+      "text": "She pushed me. She didn't think about it — she saw the muzzle flash and she pushed me. A schoolteacher from Kravenstal who signed up to manage my calendar. She has a husband who works in a steel mill and a little girl who draws pictures of the palace because she wants to know where her mother goes every morning. And because she loved this country enough to volunteer for a campaign in a factory district, a man with a military rifle tried to put a bullet through my head and put one through her instead. I do not know if she is going to live. I do not know what I will say to her husband if she does not. I know I have forty-five minutes to decide what kind of Chancellor I am going to be after this."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "sniper_go_to_cabinet",
+      "text": "\"Vyktor, get me a secure line to the hospital. I want updates on Serida every fifteen minutes. Dusek, find whoever did this — and I want to know exactly who in the military knew about the armory thefts and said nothing. Brenner, the military is not under suspicion — but anyone who aided this shooter is. I want a clear distinction in every public statement. Now get me to the palace. Emergency cabinet in one hour.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": -12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 7 }
+      ],
+      "chainTriggers": [],
+      "flags": ["assassination_survived", "assassination_attempted", "serida_wounded_parade", "ashenmere_incident", "met_serida"],
+      "nextNodeId": "act3_assassination_cabinet",
+      "codexUnlocks": ["codex_ashenmere_incident"]
+    }
+  ]
+}

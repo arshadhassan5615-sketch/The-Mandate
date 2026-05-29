@@ -1,0 +1,175 @@
+{
+  "id": "act3_week37_coup_attempt",
+  "title": "The Night the Tanks Came",
+  "act": 3,
+  "weekAvailable": 37,
+  "weekDeadline": 38,
+  "type": "emergency",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "isWeekGate": true,
+  "gateMessage": "Tanks are in the streets of Ashenmere. Nothing else matters right now.",
+  "location": "Chancellor's Residence — 03:41, Week Thirty-Seven",
+  "characters": ["colonel_dusek", "general_brenner", "vyktor_reznik", "serida_valk"],
+  "prerequisites": [
+    { "stat": "factions.ironCovenant", "operator": "<", "value": 25 }
+  ],
+  "exclusive": ["act3_week37_military_rally"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Sound of boots in the corridor. Not the measured rhythm of the palace guard — something faster, something that does not belong at this hour. Your office door opens before you can reach it."
+    },
+    {
+      "type": "dialogue",
+      "character": "serida_valk",
+      "text": "Chancellor. There are vehicles on Karelian Avenue."
+    },
+    {
+      "type": "description",
+      "text": "Serida Valk's face tells you before her words do. She is not afraid. Serida is never afraid. But there is something in her eyes that you have not seen before — the specific alertness of someone who has already calculated the distance to the nearest exit and the weight of every object in the room that could be used as a weapon."
+    },
+    {
+      "type": "dialogue",
+      "character": "serida_valk",
+      "text": "Military vehicles. The 3rd Armored Regiment has left Fort Harlan. They are crossing the Ondra Bridge. They will reach the Chancellery in approximately forty minutes."
+    },
+    {
+      "type": "description",
+      "text": "She does not say what you are both thinking. She does not need to. The telephone rings — the secure line, the one that connects directly to the Defense Ministry switchboard. Dusek. Whatever news is coming is about to make Serida's report sound like the good part of the night."
+    },
+    {
+      "type": "description",
+      "text": "The telephone rings at an hour when telephones do not ring with good news. You are awake before the second ring — the sleep of a Chancellor in the thirty-seventh week of a crisis is not really sleep, merely a temporary suspension of consciousness that the body has learned to abandon at the first sign of disruption. Jonas stirs beside you. You are already reaching for the receiver. You have been waiting for this call for weeks. You did not know it would come tonight, but you knew it would come."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Chancellor, it's Dusek. I am calling from the Ministry switchboard. I need you to listen carefully and I need you not to interrupt me until I have finished. At approximately 02:15, elements of the 3rd Armored Regiment began moving from their barracks at Fort Harlan toward Ashenmere. They are traveling with lights off and without radio communication, which is a violation of standard movement protocols. The column consists of twelve armored vehicles and approximately three hundred soldiers. I have confirmed this through three independent sources. General Brenner is not at his residence. His aide says he was called to an emergency meeting at the General Staff building at 01:30. I was not informed of this meeting. As Minister of Defense, I am supposed to be informed of all General Staff meetings."
+    },
+    {
+      "type": "description",
+      "text": "She pauses. In the silence you can hear the switchboard hum behind her — the Ministry at night, the skeleton crew working through something they don't have protocols for. Dusek is breathing in the controlled way of someone who has delivered difficult operational reports before and knows that the delivery is part of the report. The calm is information. If she were panicking, the situation would be different. She is not panicking. She is reporting. The distinction is the only thing keeping you in the chair."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I have contacted the commanders of the 1st Infantry Division and the Ashenmere Garrison. The garrison commander confirms he has received orders — originating from the General Staff, not from my office — to stand down and not interfere with 'authorized military movements within the capital region.' Those orders do not have my signature. They do not have yours. They are not authorized. I am telling you this because I need you to understand that what is happening is either a coup or a mutiny, and the difference is academic at this hour. The 3rd Armored will reach the city center in approximately ninety minutes. You need to decide what you want me to do."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twelve armored vehicles. Three hundred soldiers. The garrison ordered to stand down. Brenner missing. Dusek on the switchboard instead of in the operations center. This is not the memo from Week Thirty — the conditional protocols, the frightened patriots with plans in drawers. This is the memo becoming operational. Someone has decided that the time for planning is over. The Iron Covenant's approval has been dropping for months, and you knew — you knew — that below twenty-five was the line. You crossed it anyway, because governing well required crossing it, because the reforms required crossing it, because keeping the promises you made required alienating the people who never wanted you to keep them. The line was real. You are now on the other side of it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I've alerted the palace security detail. They are at full readiness. I have also taken the liberty of contacting the Ashenmere police commissioner — he says his officers will not obstruct military movements without direct orders from the Chancellor's office, which means he is waiting to see who wins before he chooses a side. The international press corps has noticed the troop movements. We have perhaps thirty minutes before the first wire reports go out. Whatever you decide, Chancellor, decide it now. The window for deciding narrows with every kilometer those tanks cover."
+    },
+    {
+      "type": "description",
+      "text": "Jonas is standing in the doorway of the bedroom. He does not speak. He has heard enough of the conversation to understand. His face has the specific expression of a person who has spent thirty-seven weeks preparing for this moment intellectually while remaining completely unprepared for it emotionally. He is looking at you the way he looked at you the night you told him you were running for Chancellor — the recognition that the person he married has made a decision that puts her in danger, and that his role is to witness it rather than to prevent it. You have approximately eighty minutes. The tanks are moving. The garrison is standing down. The police are waiting. The press is writing. Brenner is in a room somewhere in this city, and he is waiting too."
+    }
+  ],
+
+  "monologue": "Dusek says forty minutes. The math is simple. The math says flee, or fight, or negotiate with a man who sent tanks to my doorstep. Simplify. What would Father do? Survive. Start there.",
+
+  "choices": [
+    {
+      "id": "coup_flee_stellamere",
+      "text": "\"Dusek — I need an evacuation route to the Stellamere embassy. Now. If Brenner wants the capital, he can have it for tonight. A government in exile is still a government. A dead Chancellor is a martyr, and martyrs don't govern. I'll broadcast from Stellamere within twelve hours and every democracy on the continent will condemn this. Get me and my family out of the residence in the next twenty minutes.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Survive to fight another day. Government-in-exile preserves legitimacy but abandons the capital. The military controls Ashenmere.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "set", "value": 85 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -20 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 10  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 14  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -30 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -20 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -14 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6   },
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 8   },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -18 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_government_in_exile", "delayWeeks": 0 },
+        { "targetNodeId": "act3_stellamere_broadcast", "delayWeeks": 1 },
+        { "targetNodeId": "act4_exile_arc", "delayWeeks": 3 }
+      ],
+      "flags": ["coup_succeeded", "chancellor_fled", "government_in_exile", "brenner_controls_capital", "asenmere_fallen"],
+      "codexUnlocks": ["codex_third_armored_regiment", "codex_government_exile_doctrine"]
+    },
+    {
+      "id": "coup_negotiate_brenner",
+      "text": "\"Get Brenner on the line. Now. I want him to hear my voice. I'm not running, and I'm not ordering loyal troops to fire on Veltrian soldiers. I'm going to talk to him. I'm going to ask him what he thinks happens after the tanks roll in — does he think the international community recognizes a junta? Does he think the economy survives? He's not a fool. He's a frightened man making a catastrophic decision, and frightened men can still be reasoned with if you reach them before the point of no return.\"",
+      "internalTag": "reformist",
+      "tooltip": "Negotiate with Brenner directly. May prevent violence but legitimizes the coup's grievances. A political solution to a military problem.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6   },
+        { "stat": "factions.reformists",           "operation": "add", "value": -8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8   },
+        { "stat": "nation.corruption",             "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_brenner_negotiation", "delayWeeks": 0 },
+        { "targetNodeId": "act3_coalition_government", "delayWeeks": 2 }
+      ],
+      "flags": ["coup_negotiated", "brenner_recalled", "military_concessions_made", "coup_averted_through_politics"],
+      "codexUnlocks": ["codex_third_armored_regiment", "codex_brenner_demands"]
+    },
+    {
+      "id": "coup_call_loyal_forces",
+      "text": "\"Dusek, you are now acting Commander-in-Chief under my direct authority. Contact the 1st Infantry commander and tell him I am issuing a counter-order under Article Four of the Constitution: the General Staff orders are illegal. The garrison is to defend the constitutional government. Contact every unit commander between Fort Harlan and the city. Tell them their soldiers swore an oath to the Republic, not to General Brenner. And get me the commander of the Ashenmere police on the line — I want barricades at the Ministry district. If Brenner wants the capital, he's going to have to take it building by building, and I want every soldier in those tanks to know they're firing on their own country.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Meet force with force. Split the military. If enough units stay loyal, the coup collapses. If not, civil war.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -16 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -20 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -14 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 14  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_loyalist_counter_deploy", "delayWeeks": 0 },
+        { "targetNodeId": "act3_ashenmere_standoff", "delayWeeks": 1 },
+        { "targetNodeId": "act4_civil_conflict_arc", "delayWeeks": 3, "probability": 0.5 }
+      ],
+      "flags": ["coup_resisted", "loyalist_forces_mobilized", "dusek_acting_commander", "constitutional_defense_ordered"],
+      "codexUnlocks": ["codex_article_four", "codex_first_infantry_division", "codex_third_armored_regiment"]
+    },
+    {
+      "id": "coup_confront_directly",
+      "text": "\"I'm not calling Brenner. I'm going to the General Staff building. Now. On foot if I have to. Get a vehicle to the residence and tell the palace security to stand down — I will not hide behind guards while Veltrian soldiers are ordered to take the city. If Brenner wants to overthrow this government, he's going to have to look me in the eye while he does it. And I want every journalist in Ashenmere outside that building before I arrive. Let the country watch. Let the world watch. If this is how it ends, let it end in the light.\"",
+      "internalTag": "personal",
+      "tooltip": "Confront Brenner in person, in public. The most dangerous option — and the most powerful. Either shames him into standing down or makes you a martyr.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 18 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 16 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 16 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -6 },
+        { "stat": "nation.corruption",             "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_face_to_face_brenner", "delayWeeks": 0 },
+        { "targetNodeId": "act3_public_moment", "delayWeeks": 1 }
+      ],
+      "flags": ["coup_confronted_directly", "brenner_face_to_face", "chancellor_walked_out", "public_witnessed"],
+      "codexUnlocks": ["codex_third_armored_regiment", "codex_general_staff_building"]
+    }
+  ]
+}

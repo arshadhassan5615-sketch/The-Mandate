@@ -1,0 +1,59 @@
+{
+  "id": "act2_econ_marić_confrontation",
+  "title": "Marić's Warning",
+  "act": 2,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ministry of Labor — Gregor Marić's Office",
+  "characters": ["gregor_maric"],
+  "prerequisites": [{ "stat": "flags.economy_free_market", "operator": "==", "value": true }],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Gregor Marić's office is bare — a metal desk, a filing cabinet, a photograph of the Kravenstal foundry workers' strike of 1951. He does not sit. He stands behind his desk, his work boots planted, his fists resting on the scarred metal surface."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "Chancellor. I need you to hear something. The workers of Kravenstal — the people who knocked on doors for you, who filled the squares on election night, who believed when they heard you speak that you were different — they are scared. They are reading about privatization, about foreign investment, about Arcturian companies buying Veltrian factories. They are reading the same headlines they read under Halvek, when the regime sold state assets to friends and called it reform. They need to know that you are not doing that. They need to know that the free market you are building has a place for them in it."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I am not threatening resignation. I am telling you that if the workers' coalition loses faith in this government, I cannot keep them in line. The strikes Halvek suppressed for twenty years — those grievances have not gone away. They have been waiting. If you want to keep them waiting, you need to give them a reason."
+    }
+  ],
+  "monologue": "Marić does not sit down. He never sits down in this office. The workers' coalition is the foundation of my mandate. If that foundation cracks, everything built on it — the constitution, the reforms, the political capital — collapses into the gap. He is not threatening me. He is warning me. The distinction is whether I am listening.",
+  "choices": [
+    {
+      "id": "maric_reassure_workers",
+      "text": "\"Gregor, I hear you. We will include worker protections in every privatization — mandatory retraining, severance guarantees, profit-sharing provisions. The market may be free but the workers will not be left behind. I need you to help me design those protections.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["maric_pacified", "worker_protections_guaranteed"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "action", "text": "He releases his fists from the desk. He does not sit — he never sits in this office — but his shoulders drop several inches. Worker protections. Retraining. Profit-sharing. He will help design them." }]
+    },
+    {
+      "id": "maric_hold_line",
+      "text": "\"I understand the concern, Gregor. But the direction is set. The market will deliver growth, and growth will deliver jobs. Worker protections will come — but they will come through the prosperity that competition generates, not through government mandates that scare off the investment we need.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [{ "targetNodeId": "act3_econ_general_strike", "delayWeeks": 15, "probability": 0.5 }],
+      "flags": ["maric_defied"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "gregor_maric", "type": "silence", "text": "He looks at you for a long moment. The direction is set. He repeats the words. The silence is the sound of Gregor Maric accepting a decision he will have to manage — and the workers he will have to face." }]
+    }
+  ]
+}

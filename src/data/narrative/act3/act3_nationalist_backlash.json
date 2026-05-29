@@ -1,0 +1,114 @@
+{
+  "id": "act3_nationalist_backlash",
+  "title": "The Ironborn Rise",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, 10:45",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The morning's intelligence briefing comes with photographs — drone surveillance of a rally in Kravenstal's Old Square, the plaza packed shoulder to shoulder with a crowd that stretches past the war memorial and into the side streets. BNI estimates twelve thousand attendees. The banners read 'VELTRIA FOR VELTRIANS' and 'NO MOUNTAIN COMPROMISE' and — on at least fifty placards — 'ASHAVEL SELLS THE NATION.' The Iron Covenant's official logo is present on only a fraction of the material. Most of the banners carry a different symbol: a stylized iron fist emerging from a mountain peak. The Ironborn movement has outgrown its parent organization."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Ironborn movement was registered as a political association twelve days ago. Membership at registration was four hundred and twelve. Current membership is approximately nine thousand. The growth trajectory is vertical. Their leadership includes three former Iron Covenant regional chairs who broke with the parent organization over what they describe as 'insufficient resistance to national dissolution.' Their platform has three planks: abrogation of the DLF military agreements, criminalization of Dravenni separatist organizations, and a constitutional amendment declaring Veltria a unitary ethnic nation-state. The Halvekists are introducing a censure motion citing the DLF alliance as grounds for parliamentary review. Speaker's office confirms it has the signatures to force a debate."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I knew the nationalist reaction was coming. I did not expect it to arrive with twelve thousand people in the square and a censure motion on the order paper in the same week. The Ironborn are not the Iron Covenant — they are younger, angrier, and not interested in the careful parliamentary calculus that keeps the Halvekists in the building rather than in the streets. They want a fight. The question is whether I give them one, and on what terms. Tomas has been at three of their rallies. Vyktor's briefing notes this in a separate annex that he did not read aloud. He wanted me to see it without making him say it in front of anyone else."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Tomas attended the rally in the Old Square. He was photographed. BNI assessed his presence as 'observational' rather than organizational. I am reporting this because you need to know it before it appears in the morning papers. I am also reporting it because I do not know what it means and I suspect you will want to find out before deciding how to respond to the movement he appears to be observing."
+    },
+    {
+      "type": "description",
+      "text": "Outside the window, Kravenstal is going about its morning. The city does not know yet about the photographs in Vyktor's folder, the censure motion, the nine thousand names on the Ironborn registration lists. Or it knows and is doing its morning anyway, which is how cities have always responded to political crises — by continuing to be cities, full of people who need bread and bus fare and do not always notice when history pivots on a hinge in the Old Square."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "nationalist_backlash_condemnation",
+      "text": "\"I will address the nation this evening. I will say that Veltria is a republic of citizens, not an ethnic fortress — that the Dravenni alliance was a military necessity and a moral obligation. I will call the Ironborn movement what it is: a nativist reaction that threatens everything the republic was founded to protect. If Tomas is in that crowd, he will hear his mother say what she believes. Some things are more important than family comfort.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -12 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 6 }
+      ],
+      "flags": ["ironborn_condemned", "national_address_made", "multicultural_veltria_defended", "tomas_challenged_publicly"],
+      "codexUnlocks": ["codex_ironborn_movement"]
+    },
+    {
+      "id": "nationalist_backlash_tolerate",
+      "text": "\"Allow the protests but maintain the alliance. The Constitution guarantees freedom of assembly — I will not become the Chancellor who suppressed demonstrations against her own government. But I will also not let twelve thousand people in a square change the military strategy that keeps twelve million people safe from Tyvaren. Let them march. Let them shout. The alliance stands.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_military_rally", "delayWeeks": 4 }
+      ],
+      "flags": ["protests_tolerated", "alliance_maintained", "free_assembly_upheld"],
+      "codexUnlocks": ["codex_ironborn_movement"]
+    },
+    {
+      "id": "nationalist_backlash_crackdown",
+      "text": "\"Dusek, I want a security cordon around the next scheduled rally. The Ironborn are not a political movement — they are a recruitment front for nationalist paramilitaries. If they violate public order statutes, they will be met with the same response as any other organization that threatens public safety. I want the leadership identified. I want the funding traced. And Vyktor — I want to know what my son is doing at these rallies before anyone else asks me.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -14 },
+        { "stat": "factions.dravenni",             "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_coup_attempt", "delayWeeks": 4 }
+      ],
+      "flags": ["ironborn_crackdown", "nationalist_rallies_suppressed", "tomas_investigated"],
+      "codexUnlocks": ["codex_ironborn_movement", "codex_bni_domestic_surveillance"]
+    },
+    {
+      "id": "nationalist_backlash_engage_leaders",
+      "text": "\"Find me the Ironborn leaders who are still reachable. Not the ideologues — the ones who joined because they feel betrayed and unheard. I will meet them privately, hear their concerns, explain directly why the DLF alliance is necessary for national survival. Tomas is at these rallies because he is looking for something. Maybe they are too. I won't know until I talk to them.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "factions.dravenni",             "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 5 }
+      ],
+      "flags": ["ironborn_engaged_privately", "tomas_concern_noted", "personal_outreach"],
+      "codexUnlocks": ["codex_ironborn_movement"]
+    }
+  ]
+}

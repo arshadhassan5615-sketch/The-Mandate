@@ -1,0 +1,111 @@
+{
+  "id": "act3_week27_aftermath_narrow",
+  "title": "Certification Pending",
+  "act": 3,
+  "weekAvailable": 27,
+  "weekDeadline": 28,
+  "type": "event",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Chancellor's Office — 8:22am",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+  "prerequisites": [
+    { "stat": "flags.referendum_won_narrow", "operator": "==", "value": true }
+  ],
+  "exclusive": ["act3_week27_aftermath_decisive", "act3_week27_aftermath_rejected"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Electoral Commission acknowledged the formal challenge at midnight. The response timeline is fourteen working days — seventeen calendar days from yesterday. Fifty-one point eight percent is a majority. It is also a majority sitting in a legal waiting room being reviewed by a process that will take seventeen more days. The win exists. It has not yet become the law."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Kolvar's grounds are procedural. Two Ashenmere precincts with documentation irregularities — one counted sixteen votes above its registered roll, the other had inconsistencies on thirty-one mail ballots. The Dravenhollow voter mobilization allegation is the one that will get newspaper coverage, but it has no legal substance. The Electoral Commission dismisses challenges like this in the normal course of business. The question is whether seventeen days of headlines changes the parliamentary arithmetic while we wait."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Fifty-one point eight. You won. Legally, verifiably, unambiguously — the majority is a majority and that is precisely why democracies use majorities rather than unanimity. But a contested win and an uncontested win are different things. Not in law. In what they authorize. The Archbishop left the counting center before certification. Brenner's congratulatory note said 'pending formal confirmation.' These are not random word choices."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The document stands. Its legal force is unaffected by the challenge. What is affected is the atmosphere in which implementation begins. A constitution that takes effect against a backdrop of unresolved challenge starts from a different position than one that takes effect with the opposition's concession. I want to name that distinction clearly, because the decisions you make in the next seventeen days will matter more than most of the decisions you made in the last twenty-six weeks."
+    },
+    {
+      "type": "description",
+      "text": "Outside the window the city is doing what it does on a Wednesday morning. The result ran in every newspaper. The foreign correspondents have been filing since two in the morning. The Arcturian wires led with 'narrow majority' and spent their second paragraph on the legal challenge, which is the order of information that will define how the next two weeks are framed internationally."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Seventeen days. The challenge will almost certainly fail. Almost certainly and certainly are not the same distance apart when the gap is filled with newspapers and parliamentary maneuvers and the specific vulnerability of a thin margin in the hands of people who have already been making calculations about what comes next."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "aftermath_narrow_hold_result",
+      "text": "\"Issue a statement tonight: the result stands and certification will proceed on its legal timeline. I will not negotiate with a challenge that has no merit. Kolvar is welcome to use the process. The process will answer him.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kolvar_legal_challenge", "delayWeeks": 3 }
+      ],
+      "flags": ["constitution_contested", "narrow_win_held_firm"],
+      "codexUnlocks": ["codex_new_constitution"]
+    },
+    {
+      "id": "aftermath_narrow_begin_anyway",
+      "text": "\"Begin the first implementation briefings now, before certification. Treat the new constitution as the operative document in all internal government communications. Kolvar can challenge a legal result. He can't challenge decisions already in motion.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -10},
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_legal_standoff", "delayWeeks": 2 }
+      ],
+      "flags": ["constitution_contested", "premature_implementation"],
+      "codexUnlocks": ["codex_new_constitution"]
+    },
+    {
+      "id": "aftermath_narrow_commission_meeting",
+      "text": "\"I want a direct meeting with the Electoral Commission chair — informal, off the record. Not to pressure the process. To understand it from the inside. I want to know what they're actually looking at before Kolvar's lawyers define the story.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 3  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["constitution_contested", "commission_contacted"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "aftermath_narrow_wait",
+      "text": "Do nothing that looks like pressure. Let the Commission work. Trust that a legal result will be certified as a legal result if the room it operates in stays clean.",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kolvar_legal_challenge", "delayWeeks": 4 }
+      ],
+      "flags": ["constitution_contested", "narrow_win_patient"],
+      "codexUnlocks": []
+    }
+  ]
+}

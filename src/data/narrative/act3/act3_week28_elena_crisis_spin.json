@@ -1,0 +1,79 @@
+{
+  "id": "act3_week28_elena_crisis_spin",
+  "title": "The Crisis Spin",
+  "act": 3,
+  "weekAvailable": 28,
+  "weekDeadline": 31,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — The Ashenmere Palace",
+  "characters": ["elena_braskov", "vyktor_reznik"],
+  "prerequisites": [
+    { "type": "flag", "flag": "elena_introduced", "value": true },
+    { "type": "flag", "flag": "elena_favor_resolved", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The crisis has hit — a confluence of events that would test any government and is currently testing yours. The economy is faltering, the Tyvaren border situation is deteriorating, and rumors of a scandal are beginning to circulate in the capital. Vyktor has briefed you on the situation. Now Elena Braskov is in your office, and her expression suggests she already knows everything Vyktor just told you."
+    },
+    {
+      "type": "dialogue",
+      "character": "elena_braskov",
+      "text": "Chancellor, I will be direct because the situation requires directness. What happens in the next seventy-two hours will define how this crisis is remembered. If the story is that your government was caught off guard, overwhelmed, and reactive — that becomes the narrative of your entire administration. Everything you have achieved will be reframed as luck. Everything you have failed at will be reframed as character. I am here to offer you control of the narrative. The question is what kind of relationship we have at this moment — and what that relationship entitles you to ask of me."
+    },
+    {
+      "type": "description",
+      "text": "She waits. She knows the answer already — Elena Braskov always knows the answer already — but protocol requires that you say it aloud. Vyktor watches from the corner of the room, his face carefully blank."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "elena_crisis_ally_bury_story",
+      "text": "\"Bury it, Elena. Every damaging detail. Every unflattering angle. You have been protecting my government for over twenty weeks — protecting it now, when it matters most, is the entire point of our arrangement. The crisis is real. I am not denying that. But how the country experiences this crisis — whether they see a government in control or a government in panic — that is what you can shape. Shape it. Make us look steady. Make us look competent. If there are facts that would undermine public confidence, those facts do not need to be front-page news. They do not need to be news at all.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.businessClass",       "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",          "operation": "add", "value": -10 },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": 20  },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -10 }
+      ],
+      "flags": ["crisis_suppressed", "elena_media_deep_capture", "elena_crisis_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "elena_crisis_hostile_amplified",
+      "text": "\"You are going to run the story anyway. I know that, Elena. You have been hostile to this government since I declined your deal, and a crisis is exactly the kind of opportunity you have been waiting for. So here is what is going to happen: you are going to amplify every negative detail, and I am going to govern through it. I am going to hold press conferences, answer questions, release data, and let the country see that their Chancellor does not hide from bad news. You think bad headlines will destroy me. I think they will prove that I am the kind of leader who faces problems rather than managing perceptions. One of us is right. We are about to find out which one.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 8   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -6  },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 5   },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -5  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   }
+      ],
+      "flags": ["elena_crisis_resolved", "transparent_governance"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "elena_crisis_neutral_negotiate",
+      "text": "\"Elena, we are neither allies nor enemies — which means we are negotiators. Here is my offer: cover the crisis accurately. Do not bury it. Do not amplify it. Report what is happening, what the government is doing about it, and what the consequences will be. In exchange, I will give your journalists unprecedented access — daily briefings, direct questions to ministers, real transparency. You get the story before anyone else. You get to shape the narrative by being first and being accurate. I get coverage that is critical but fair. Neither of us controls the other. Both of us benefit. That is the kind of relationship I wanted from the beginning.\"",
+      "internalTag": "measured",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 2   },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 3   },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": -5  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 5   }
+      ],
+      "flags": ["elena_crisis_resolved", "media_access_deal"],
+      "codexUnlocks": []
+    }
+  ]
+}

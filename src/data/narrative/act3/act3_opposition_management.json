@@ -1,0 +1,93 @@
+{
+  "id": "act3_opposition_management",
+  "title": "The Loyal Opposition",
+  "act": 3,
+  "weekAvailable": 28,
+  "weekDeadline": 32,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Parliament — Opposition Leader's Office, Afternoon",
+  "characters": ["drazen_kolvar", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.constitution_in_force", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Drazen Kolvar's office in the Parliament building has not changed in twenty-six years. The same oak desk — Halvek-era, built during the reconstruction period when oak was a statement about permanence. The same portrait of the first Halvekist parliament above the mantel. The same leather chair that has accommodated Kolvar's particular way of sitting, which is to lean slightly forward with his elbows on his knees, as if every conversation is a negotiation that hasn't formally started yet. You have been in this office three times. The first time was as a junior minister. The second time was to inform him you were running against his party. This is the third."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "You won, Chancellor. Sixty point seven percent. The people have spoken — I believe that is the formulation. I have been on the receiving end of it often enough to know the script. So tell me what you came here to say that couldn't be said through the parliamentary channels. I assume it's not to gloat. The last time I saw you in this office you were considerably less comfortable and considerably more interesting."
+    },
+    {
+      "type": "description",
+      "text": "He is sixty-eight years old and has outlasted four governments, two constitutional crises, and one coup attempt that never made it past the planning stage because he heard about it and informed the appropriate authorities. He is a Halvekist — the last of the old guard who actually believes in Halvekism as a governing philosophy rather than a vehicle for power. The distinction matters. The people who believe in things can be worked with. The people who believe in nothing except power cannot. Kolvar believes in things. The things he believes in are wrong, but they are internally consistent, and that consistency is a kind of integrity. You need that integrity now."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The procedural reality is this: the new constitution requires implementing legislation across seventeen separate statutory areas. The reformist bloc has the votes to pass each bill individually but not the parliamentary bandwidth to manage the debate calendar alone. The Halvekist opposition controls thirty-four seats and the committee chair appointments for three relevant oversight bodies. If the opposition chooses to obstruct — not debate, obstruct — the implementation timeline extends from six months to approximately eighteen. If they choose to engage substantively, the timeline contracts to eight months and the resulting legislation has the legitimacy of having survived principled opposition. The difference is approximately ten months of constitutional limbo. I present this information without recommendation."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Ten months of constitutional limbo. The new constitution is law on paper. Paper does not enforce itself. Every provision requires a statute, a regulation, a judicial appointment, an administrative framework. Without them, the constitution is a document in a glass case in the exhibition hall — beautiful and inert. Kolvar can give you the implementing legislation or he can strangle it in committee. The price of the first is giving him something he wants. The cost of the second is letting the constitution you spent twenty-seven weeks building become a symbolic victory rather than a functional one. Both are real. You have to choose which cost you are willing to pay."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "opposition_offer_committee_chairs",
+      "text": "\"Drazen, I'm offering you chairmanship of the Constitutional Implementation Oversight Committee. Full investigative authority. Subpoena power. The ability to call my ministers to testify under oath. You want to be the loyal opposition — here is the instrument. Hold my government accountable to the constitution it just passed. Make sure we implement what we promised. The voters who voted no deserve a watchdog. Be that watchdog. Not from the outside, throwing stones. From the inside, with actual power.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_constitution_implementation", "delayWeeks": 4 }
+      ],
+      "flags": ["kolvar_committee_chair", "opposition_coopted", "constitutional_oversight_shared"],
+      "codexUnlocks": ["codex_parliamentary_oversight"]
+    },
+    {
+      "id": "opposition_fast_track_majority",
+      "text": "\"I appreciate the offer of principled opposition, Drazen. I mean that. But I have sixty point seven percent of the country and a reformist bloc that can pass legislation on its own timetable. I'm not going to slow down implementation to accommodate a party that spent twenty-six years doing exactly that to everyone who tried to reform this system. I'll consult you. I'll give you the floor in debate. But I will not give you veto power over the timeline. The constitution passed. It's happening. Adapt.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 6 }
+      ],
+      "flags": ["opposition_sidelined", "majority_governance", "kolvar_marginalized"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "opposition_quiet_negotiation",
+      "text": "\"I'm not here to offer you a committee chairmanship in public. I'm here to ask what you actually want — privately, between the two of us, with no staff in the room. You said 'principled opposition.' What does that look like in practice? What do you need from me to make it real? I'm not offering a deal. I'm asking a question. I'll listen to the answer.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_kolvar_negotiation", "delayWeeks": 3 }
+      ],
+      "flags": ["kolvar_private_dialogue", "opposition_quiet_channels", "backchannel_opened"],
+      "codexUnlocks": []
+    }
+  ]
+}

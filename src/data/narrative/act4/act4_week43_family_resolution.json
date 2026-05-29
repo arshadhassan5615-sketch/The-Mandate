@@ -1,0 +1,103 @@
+{
+  "id": "act4_week43_family_resolution",
+  "title": "What Remains",
+  "act": 4,
+  "weekAvailable": 43,
+  "weekDeadline": 47,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Evening, Week Forty-Three",
+  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+  "prerequisites": [
+    { "stat": "flags.family_reckoning_resolved", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The residence is quiet in the way houses are quiet when the argument has ended and the people who had it are still inside. Not the silence of absence — everyone is here — but the silence of aftermath, the particular stillness of people who have said the things they were storing and are now learning to live with what was said. Jonas is in the kitchen, cooking something that takes time. Liora is in her room, working on something she hasn't shown you yet. Tomas is doing homework at the dining table — actually doing it, not pretending to — which after forty-three weeks of crisis is itself a form of communication. The family is here. What 'here' means depends on what you chose five weeks ago, and on every choice before that."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You have been Chancellor for forty-three weeks. In that time, your marriage has either deepened, stabilized, cracked, or broken. Your daughter has become a journalist, an activist, a critic, or an ally. Your son has found his footing, found dangerous friends, or fallen into a silence you do not know how to bridge. These outcomes are not separate from your governance. They are the human cost — or the human achievement — of the same decisions that shaped the constitution, the economy, the military, the war. You cannot separate the Chancellor from the mother, the wife, the daughter of a man who was executed. These identities are the same person. The country got all of them. Your family got what was left."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I've been thinking about the list. The seventeen things. I realized something this morning — I stopped adding to it. Not because you stopped missing things. I think you've actually missed more in the past few months than you did in the first six. I stopped adding because I stopped needing the evidence. I either know what we are or I don't. The list was my way of not deciding. I've decided. I wanted to tell you before the end — before whatever happens at the end of the year, the election or the transition or whatever comes next. I wanted you to hear it from me first."
+    },
+    {
+      "type": "description",
+      "text": "He pauses. The kitchen is warm from the oven. The domesticity of it — a husband cooking, a son doing homework, a daughter working on a project — is so ordinary that it feels like a memory from a different life. The life before the campaign, before the inauguration, before forty-three weeks of decisions that each had a cost someone in this room paid. You want to hold this moment. You know you cannot hold it. That is what forty-three weeks has taught you: you cannot hold anything except by continuing to choose it."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "family_resolution_staying",
+      "text": "\"Whatever you decided — I want you to know that I am still here. Not the Chancellor. Me. Katerin. The woman who married you when we were young enough to believe we could plan our lives. I don't know what comes after this term. I don't know if I'll run again, if I'll win if I do, if the country will let me govern or force me out. I do know that whatever comes, I want to face it with you. Not behind me, supporting me while I run ahead. Beside me. The way we were before. The way I want to be again.\"",
+      "internalTag": "personal",
+      "conditions": [
+        { "stat": "flags.jonas_staying", "operator": "==", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 6 },
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["family_staying_together", "jonas_committed", "family_act4_resolved"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_resolution_honest_conditional",
+      "text": "\"I heard you — that you decided. Before you tell me what you decided, I need to say something I should have said months ago. I have been a better Chancellor than I have been a wife. Not because I value the country more than I value you — because I knew how to be a Chancellor. I had studied it, prepared for it, built my life toward it. I did not know how to be a wife and a Chancellor at the same time. I still don't. I am learning. I want to keep learning. If that is enough — if the effort is enough, even when the outcomes are imperfect — then I am asking you to stay. If it is not enough, I will understand. I will not make you the villain in the story I tell myself. I will just — miss you. For a long time.\"",
+      "internalTag": "personal",
+      "conditions": [
+        { "stat": "flags.jonas_conditional", "operator": "==", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["family_conditional_commitment", "jonas_processing", "family_act4_resolved"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_resolution_letting_go",
+      "text": "\"You said you decided. Tell me. Whatever it is — I can hear it. I have heard harder things in the past forty-three weeks than the truth about my own marriage. The truth might even be a relief. Not because I want you to go — because I want the uncertainty to end. The not-knowing has been worse than any answer could be. If you're staying, I want to know. If you're leaving, I want to know that too. I have governed through war and coup and economic collapse. I can govern through a marriage ending. I don't want to. But I can. Tell me.\"",
+      "internalTag": "personal",
+      "conditions": [
+        { "stat": "personal.marriageHealth", "operator": "<=", "value": 35 }
+      ],
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": -4 },
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["marriage_ended", "jonas_leaving", "family_act4_resolved", "divorce_proceedings"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_resolution_focus_children",
+      "text": "\"Whatever happens between us — whatever you decided — I need you to know that Tomas and Liora are the most important thing. More than the marriage, more than the Chancellorship, more than whatever political legacy I am building or destroying. They have paid more for my governorship than anyone. They did not choose it. I chose it for them. Whatever you and I become to each other, we have to remain parents to them. Not co-parents managing a separation. Parents. Present. Loving. The thing that does not change even when everything else changes. Can we promise each other that, whatever else happens?\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 12 },
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["children_prioritized", "co_parenting_commitment", "family_act4_resolved"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    }
+  ]
+}

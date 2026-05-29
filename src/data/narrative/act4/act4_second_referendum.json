@@ -1,0 +1,85 @@
+{
+  "id": "act4_second_referendum",
+  "title": "Back to the People",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere — Campaign Headquarters, Two Weeks Before the Vote",
+  "characters": ["vyktor_reznik", "drazen_kolvar"],
+  "prerequisites": [
+    { "stat": "flags.constitutional_crisis_act4", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The campaign posters for the second constitutional referendum have taken over every public surface in Ashenmere. 'Vote Yes for Stability.' 'Vote No for Sovereignty.' 'The Constitution Protects You — Do You Protect the Constitution?' The slogans are competing for the same emotional territory — fear, hope, patriotism, resentment — but the territory is exhausted. The country has been living in crisis mode for nearly a year. A second referendum, called to break the institutional deadlock between the Chancellery and parliament, is asking the people to decide again what they thought they had decided the first time. The polling is close. The campaign is brutal. The stakes are higher than the first referendum because the first referendum was about what kind of country Veltria would be. This referendum is about whether Veltria can be governed at all."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The polling. Forty-four percent yes, forty-two percent no, fourteen percent undecided. The yes campaign is framing the referendum as a vote for governance — the constitution gives the executive the tools to manage the crisis, and voting no means voting for more parliamentary paralysis. The no campaign — led by Kolvar, as you would expect — is framing it as a vote against dictatorship. Kolvar's argument is that the constitutional revisions concentrate power in the Chancellery at the expense of parliament, and that the crisis is being used to justify a permanent shift toward authoritarian governance. His argument has traction. The fourteen percent undecided are the people we need to reach. They are not ideologically committed to either side. They are tired. They want the crisis to end. They do not care which institutional arrangement ends it. They just want someone to govern competently."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "The Chancellor is asking the people of Veltria to approve a constitution that gives her the power to govern without parliament, without debate, without the checks that have protected Veltrian democracy since the founding. She calls it efficiency. I call it the Halvek model with better marketing. Halvek also argued that democracy was inefficient, that parliament was obstructionist, that the executive needed tools. The tools became a dictatorship. The Chancellor is not Halvek — I do not make that accusation. But the constitutional amendments she is proposing are the same amendments Halvek proposed, with the same justifications, leading in the same direction. History does not repeat, but the road signs are the same."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Kolvar is not wrong about the direction. The constitutional amendments do concentrate power. The emergency provisions do give the executive tools that parliament cannot easily check. You believe the tools are necessary — necessary to govern, necessary to win the war, necessary to prevent the kind of institutional paralysis that has made every crisis worse. But the people who write constitutions in times of crisis do not get to decide how they are used in times of calm. You are asking the country to trust you with powers that could be misused. You are asking them to trust that you will not misuse them. Trust is earned. It is also exhaustible. You are asking for more of it than you have ever asked before."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "referendum_positive_campaign",
+      "text": "\"I am going to run a campaign about the constitution's promise, not its critics. Every speech I give will be about what the constitution makes possible: a government that can act decisively, institutions that can respond to crisis, a democracy that has learned from its first year of freedom how to be effective without being authoritarian. I will not mention Kolvar. I will not respond to his accusations. I will make the case that this constitution is the tool Veltria needs to become the country it promised to be. The undecided voters are not looking for a fight. They are looking for a reason to hope. I am going to give them one.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["second_referendum_called", "positive_campaign", "constitutional_hope"],
+      "codexUnlocks": ["codex_constitutional_vision", "codex_democratic_renewal"]
+    },
+    {
+      "id": "referendum_costs_campaign",
+      "text": "\"I am going to run a campaign about the costs of obstruction. Every parliamentary delay that made the economic crisis worse. Every failed budget vote that brought us closer to default. Every week Kolvar's committee spent debating procedure while soldiers were dying at the front. I am not going to make it about Kolvar personally. I am going to make it about the choice between a government that can govern and a parliament that cannot decide. The undecided voters are frustrated. They should be frustrated. Their government has been failing them because the institutions they trusted are not working. I am going to tell them why — and I am going to tell them that a yes vote is the only way to fix it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["second_referendum_called", "negative_campaign", "obstruction_cost_exposed"],
+      "codexUnlocks": ["codex_parliamentary_failure", "codex_political_accountability"]
+    },
+    {
+      "id": "referendum_unity_campaign",
+      "text": "\"I am not going to run a campaign. I am going to run a national conversation. Town halls in every province. Debates with Kolvar — actual debates, not dueling press releases. Public forums where citizens can ask questions and get answers. I am going to treat this referendum not as a political fight to be won but as a national decision to be made together. The constitution is too important to be decided by campaign tactics. If the country votes yes, it should vote yes because it understands what it is approving. If it votes no, it should vote no because it has genuinely considered the alternatives. I want an informed electorate, not a persuaded one. That is either the most naive or the most principled approach to a referendum in Veltrian history. Probably both.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 4 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["second_referendum_called", "unity_campaign", "national_conversation"],
+      "codexUnlocks": ["codex_democratic_deliberation", "codex_national_conversation"]
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "id": "act1_week5_bni_crisis",
+  "title": "What the Bureau Kept",
+  "act": 1,
+  "weekAvailable": 5,
+  "weekDeadline": 7,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Interior Ministry — Secure Briefing Room",
+  "characters": ["danika_oberlin", "vyktor_reznik", "colonel_dusek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The secure briefing room beneath the Interior Ministry is a windowless concrete box designed during the Halvek years for conversations that were never meant to be remembered. Danika Oberlin is alone at the table. She is reading a folder. She does not look up when the door opens."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "You should read this before they all get here."
+    },
+    {
+      "type": "description",
+      "text": "She slides the folder across the table. She still hasn't looked up. The folder is thinner than you expected and heavier than you want it to be. You take it. Now she looks up."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Some of the names are people you know."
+    },
+    {
+      "type": "description",
+      "text": "Danika Oberlin has been Interior Minister for four weeks. In that time she has reviewed twelve thousand BNI personnel files, seventeen hundred active operations, and one basement archive that the Bureau's previous director had classified beyond even the Chancellor's clearance level. She has not slept much. When she appears in the secure briefing room beneath the Interior Ministry — a windowless concrete box designed during the Halvek years for conversations that were never meant to be remembered — she is carrying a file that is thinner than you expected and heavier than you want it to be."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The BNI's foreign intelligence division has been running an operation inside Tyvaren territory for eleven months. Code name WATCHTOWER. Four field agents, all Veltrian nationals recruited from the Dravenhollow border region. Signals intelligence on Tyvaren military movements along the Gravenmark Pass — it is the only window we have on what Vukov is doing with his armored divisions. If we shut down the foreign operations division — which the reform plan requires — we lose WATCHTOWER. We go blind. [She waits.] I did not know about this when I recommended full dissolution. Now I do. I am telling you because you need to decide: is the principle worth the blindness?"
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Losing WATCHTOWER is militarily catastrophic. Vukov moved two additional battalions to within striking distance of the Gravenmark Pass in the past three weeks. The Tyvaren general staff operates on a twelve-hour decision cycle. WATCHTOWER provides twelve hours of warning. Without WATCHTOWER, warning time drops to forty minutes. That is the difference between a prepared defensive line and a rout. The Chancellor must factor that difference into the decision."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Political dimension is equally stark. Preserve WATCHTOWER — selectively, quietly, without disclosure — and we operate exactly as Halvek did. A secret intelligence operation the public would not authorize. Shut it down and Tyvaren attacks, and we dismantled the one system that could have warned us. Kolvar will call it criminal negligence. Will not be entirely wrong. No option here avoids irreplaceable cost."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I ran on ending the BNI. I stood in Republic Square and told sixty thousand people the era of impunity was over. And now the BNI is the only thing standing between my country and a Tyvaren invasion we will not see coming. Halvek built this machine. He built it to spy on his own people. He also built it to watch the border. The machine is amoral. The people who built it were not. I have to decide whether I can use a weapon I promised to destroy — and whether destroying it anyway is principle or suicide."
+    }
+  ],
+
+  "monologue": "I ran on ending the BNI. The BNI is now the only thing standing between Veltria and a Tyvaren invasion we won't see coming. Halvek built this machine to spy on his own people. He also built it to watch the border. The machine is amoral. The people who built it were not. Danika is asking me to hold the principle. Dusek is asking me to hold the pass. Both are correct. Neither answer lets me be the Chancellor I told sixty thousand people I would be.",
+
+  "choices": [
+    {
+      "id": "bni_watchtower_preserve_secret",
+      "text": "\"Preserve WATCHTOWER. Classify it above my level — no paper trail, no ministerial review, no parliamentary oversight. Dusek, you take operational control through military intelligence. Danika, you continue the BNI reforms on the domestic side. The foreign division gets quietly transferred to the Defense Ministry. The public never knows. Neither does parliament. If this comes out, I will say I made the call alone and take whatever comes.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": 8   },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -6  },
+        { "stat": "nation.corruption",        "operation": "add", "value": 3   },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 6   },
+        { "stat": "factions.reformists",      "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_watchtower_leak",
+          "delayWeeks": 8,
+          "conditions": [
+            { "stat": "flags.bni_reformed", "operator": "==", "value": true }
+          ]
+        },
+        { "targetNodeId": "family_bni_night", "delayWeeks": 0 }
+      ],
+      "flags": ["watchtower_preserved", "bni_foreign_transferred", "bni_crisis_resolved"],
+      "codexUnlocks": ["codex_watchtower_program"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "text": "That is your decision.",
+          "type": "dialogue"
+        },
+        {
+          "character": "vyktor_reznik",
+          "text": "He closes his folder.",
+          "type": "action"
+        },
+        {
+          "character": "gregor_maric",
+          "text": "I hope you know what you're preserving.",
+          "type": "dialogue"
+        }
+      ]
+    },
+    {
+      "id": "bni_watchtower_shutdown_principle",
+      "text": "\"Shut it down. All of it. I did not take an oath to preserve Halvek's intelligence apparatus. I took an oath to uphold the Constitution, which Halvek's secret police violated for twenty-nine years. Dusek, I need you to develop alternative intelligence sources — diplomatic, human, whatever the military can provide through legitimate channels. It will be harder. It will be slower. It will be constitutional. That is the point.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 12  },
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -8  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 12  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_tyvaren_blind_spot",
+          "delayWeeks": 6
+        },
+        { "targetNodeId": "family_bni_night", "delayWeeks": 0 }
+      ],
+      "flags": ["watchtower_shut_down", "bni_fully_abolished", "bni_crisis_resolved"],
+      "codexUnlocks": ["codex_bni_abolition", "codex_intelligence_reform"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "text": "She exhales. It is very small. You notice it anyway.",
+          "type": "action"
+        },
+        {
+          "character": "vyktor_reznik",
+          "text": "Noted.",
+          "type": "dialogue"
+        },
+        {
+          "character": "gregor_maric",
+          "text": "Finally.",
+          "type": "dialogue"
+        }
+      ]
+    },
+    {
+      "id": "bni_watchtower_oversight_reform",
+      "text": "\"Keep WATCHTOWER operational but bring it under judicial oversight. I want a special tribunal — three judges with security clearance, appointed by the Constitutional Court — to review all foreign intelligence operations quarterly. The BNI's foreign division continues its work but it does so under law, with accountability. If the judges determine an operation is unconstitutional, it ends. No exceptions. Not even for WATCHTOWER.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 6   },
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": 3   },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6   },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -3  },
+        { "stat": "nation.corruption",        "operation": "add", "value": -2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8   },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [{ "targetNodeId": "family_bni_night", "delayWeeks": 0 }],
+      "flags": ["watchtower_oversight", "intelligence_tribunal_created", "bni_crisis_resolved"],
+      "codexUnlocks": ["codex_intelligence_oversight", "codex_judicial_review"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "text": "She picks up her pen. She does not write anything.",
+          "type": "silence"
+        },
+        {
+          "character": "vyktor_reznik",
+          "text": "I'll arrange access.",
+          "type": "dialogue"
+        },
+        {
+          "character": "gregor_maric",
+          "text": "He stands. He goes to the window. He doesn't ask permission.",
+          "type": "action"
+        }
+      ]
+    }
+  ]
+}

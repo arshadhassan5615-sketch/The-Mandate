@@ -1,0 +1,69 @@
+{
+  "id": "act3_soe_opposition_protests",
+  "title": "Emergency Powers: The Opposition Gathers",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ashenmere Palace — Situation Room",
+  "characters": ["vyktor_reznik", "danika_oberlin", "aldric_theron"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Three weeks into the State of Emergency, the protests have begun. Reformist MPs, civil liberties groups, and university students are gathering in Ashenmere's Unity Square — the same square where Katerin gave her victory speech. They carry candles and signs: 'Emergency powers become permanent powers,' 'Article 47 was Halvek's tool,' 'We voted for reform, not decree.' The crowd is peaceful but growing. Estimates put it at fifteen thousand — the largest protest since the transition. The security services are asking for instructions. Do you suppress the protest, or let it proceed?"
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The protest is legal. They have a permit. The Assembly's own members are leading it — Reformist MPs who voted for emergency powers three weeks ago and are now having second thoughts. If we disperse them with force, we validate every accusation the Halvekist opposition has made about democratic backsliding. If we let them protest, they grow in confidence — and the emergency powers start to look like they cannot control the streets. Neither option is good. But one of them maintains the principle we claim to be defending."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political calculation is straightforward. Suppression alienates your base — Reformists who supported you because you promised to be different from Halvek. Tolerance makes you look weak to the Iron Covenant and the security establishment, who see protests as a challenge to the emergency's legitimacy. The emergency itself requires public compliance to function. If the public stops complying, the emergency becomes a piece of paper. The question is not just about this protest — it is about how you intend to govern under emergency powers for the remainder of the ninety days."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Legally, the emergency decree powers include public assembly restrictions. You can disperse the protest — legally. The question is whether you should. Every emergency decree you issue is a precedent. Every precedent shapes what the next emergency looks like, whether declared by you or by someone who comes after you. I am not arguing for or against. I am simply noting that the legal scholar who has spent thirty years studying authoritarian consolidations is sitting in this chair and telling you that the decisions you make today will be cited in constitutional cases for the next fifty years."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "soe_allow_protests",
+      "text": "\"Let them protest. The right to assemble is exactly what we are protecting — you do not suspend democracy to save it, you demonstrate that democracy functions even under threat. I will not send security forces against my own voters. The emergency remains in effect but peaceful assembly will not be restricted. The Assembly members leading the protest can say what they want — that is their job. My job is to keep the country safe without turning it into a police state.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -3 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soe_protests_allowed"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "soe_suppress_protests",
+      "text": "\"The emergency exists because the state is under threat. A protest against the emergency during an active security crisis is not dissent — it is direct action against the government's ability to function. Disperse them. Use minimum force but make it clear: the emergency is in effect and the law will be enforced. The security of the state takes priority over the convenience of protest.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -15 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -10 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -12 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soe_protests_suppressed", "emergency_powers_abused"],
+      "codexUnlocks": []
+    }
+  ]
+}

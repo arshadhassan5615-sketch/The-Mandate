@@ -1,0 +1,141 @@
+{
+  "id": "act2_chain_vostane_resignation",
+  "title": "The Weight of a Signature",
+  "act": 2,
+  "weekAvailable": 20,
+  "type": "chain",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Finance Ministry — Vostane's Office",
+  "characters": ["elara_vostane", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Elara Vostane's office at the end of the day looks like a room that has been methodically dismantled without being disorganized. The stacked folders on the credenza are labeled and ordered. The framed reproduction of the Veltrian monetary reform decree of 1948 — a gift from the Treasury when she was made Deputy Minister at thirty-four — has been removed from the wall, leaving a pale square on the green paint. It is leaning against the baseboard, facing inward. She has not put it in a box yet. She has not quite decided it is over."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I sent the letter to the scheduling office this morning. I wanted to tell you in person before it became official, which is why I asked Vyktor to have you come here rather than my coming to you. I did not want you to receive a resignation letter without this conversation having happened first."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I want to be precise about what this is not. It is not a protest. It is not a signal to your opposition, and I will say nothing publicly that can be used to damage this government. What it is: I have modeled the fiscal position six times in the last forty-eight hours and I cannot find a version of the path you have chosen that does not end in crisis. I cannot attach my name to documents certifying a fiscal position I believe is false. This is a professional judgment, not a personal one."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is giving you everything she can give. She is resigning without betraying you, which is a form of loyalty that costs more than staying would. You understand that. The question is whether understanding it is enough."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "For your awareness: Deputy Minister Halvar can serve as acting Finance Minister through the constitutional convention period. He is competent, not exceptional. The IMA contact will interpret Vostane's departure as a signal. That is the piece that concerns me operationally."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "He is not wrong about the IMA. I can make calls in my last forty-eight hours in this office that would mitigate that risk. If you want me to do that, I will. My leaving should not be punished by the people who depend on this government functioning."
+    },
+    {
+      "type": "description",
+      "text": "Outside, the Finance Ministry's evening skeleton staff is dispersing. Someone on the street below is playing a radio program — a late comedy broadcast, voices bouncing off the cobblestone courtyard. Vostane does not look at the window. She is watching you with the specific quality of attention that has always made her difficult in cabinet: she is not performing patience. She is actually patient, and she is waiting for an answer that will tell her something she needs to know about you."
+    }
+  ],
+  "monologue": "The framed reproduction of the 1948 monetary reform decree has been removed from the wall. A pale square on the green paint. She has not boxed it yet — not quite decided it is over. 'I have modeled the fiscal position six times in the last forty-eight hours and I cannot find a version of the path you have chosen that does not end in crisis.' She is resigning without betraying me. That is loyalty that costs more than staying.",
+
+  "choices": [
+    {
+      "id": "vostane_accept_with_grace",
+      "text": "\"I accept your resignation, and I accept it without asking you to justify it again — you already did that clearly. Please make those calls to the IMA. I'll have an appointment to the position within the week. The work you did here was real.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -8 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 6 },
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 8, "conditions": [{ "stat": "nation.economyHealth", "operator": "<", "value": 30 }] }
+      ],
+      "flags": ["vostane_resigned_gracefully", "vostane_ima_mitigated"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She nods — one nod, the kind she uses to close a meeting that has reached its natural conclusion. Then she picks up the phone and begins the first IMA call before you have left the room. She does not look at you. She does not need to. The calls she is about to make are her last act in this office, and she is going to make them count."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "In the corridor, he falls into step beside you. Halvar will be briefed by morning. The transition documents are being prepared. He pauses. She was the best finance minister this country has had in forty years. The fact that she is leaving does not change that."
+        }
+      ]
+    },
+    {
+      "id": "vostane_ask_to_stay",
+      "text": "\"I'm asking you to stay through the convention period. Not permanently — if after the referendum you still believe what you believe, I will accept your resignation then with no argument. But right now I need your competence more than I need this crisis to be tidy.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 4, "probability": 0.5 },
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 10, "conditions": [{ "stat": "nation.economyHealth", "operator": "<", "value": 25 }] }
+      ],
+      "flags": ["vostane_stay_requested", "vostane_uncertain"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "Vostane does not respond immediately. She looks at the pale square on the wall where the 1948 decree used to hang, then at the phone, then at you. The silence is not refusal. It is the particular pause of someone who has spent forty-eight hours preparing to leave and is now being asked to recalculate. She has not said yes. She has not said no. She is running the numbers."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor says nothing, but he removes a document from the stack on his notepad and slides it into a different folder — the one marked 'active.' It is a transition timeline. He is putting it away. He does not say I told you so. He simply puts it away."
+        }
+      ]
+    },
+    {
+      "id": "vostane_reverse_policy",
+      "text": "\"Don't go. I'm reversing the policy. You were right and I am going to say so — not to the press, not as a political performance, but in the cabinet session tomorrow. We implement your stabilization package. I need you in that room to make it work.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -10 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week20_budget_crisis", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 8 }
+      ],
+      "flags": ["vostane_stays", "policy_reversed_for_vostane", "fiscal_direction_austerity_act2"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She does not move for several seconds. Then she reaches for the box on the floor — the one holding the framed 1948 decree — and lifts it back onto the credenza. She does not rehang it. Not yet. But she has taken it out of the box, and the box is now empty. She has run the numbers. They now support staying."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He waits until they are in the corridor. Reversing a major policy direction to retain a single minister. He considers this. It is not the most efficient way to govern. It may, however, be the right one. He does not say which he believes."
+        }
+      ]
+    }
+  ]
+}

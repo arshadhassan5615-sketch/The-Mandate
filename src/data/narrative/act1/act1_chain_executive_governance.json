@@ -1,0 +1,128 @@
+{
+  "id": "act1_chain_executive_governance",
+  "title": "What We Are Building",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["aldric_theron"],
+  "prerequisites": [
+    { "stat": "flags.executive_consolidation", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Theron arrives without an appointment, which he has never done. He is shown in because no one on your staff has ever told Professor Aldric Theron he needs an appointment to see the Chancellor. He sits down across from your desk and waits until you look up. Then he says nothing for a long moment."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is 63 years old. He has spent thirty of those years working toward a Veltria that looks like the country he described in his constitutional law seminars — a place where the law applies to everyone including the people who make it, where power is accountable to something beyond itself. He spent the Halvek years writing that country in papers he distributed through clandestine channels because publishing them legally would have meant prison. He did not stop writing. I was his student. I know what it cost him. I know what this room means to him."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I want to tell one something, and I want to say it as your old professor rather than as your Minister of Justice, because what I am about to say... does not belong in a cabinet meeting. I have been watching the last three weeks. The vote of no confidence, the methods that secured our survival — the committee chair trades, the emergency decree, the parliamentary procedure maneuvering. Some of it I understood, in the way that a constitutional scholar understands the architecture of power even when one dislikes the building. Some of it I found... difficult. All of it was effective."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The press this week has been drawing comparisons to Halvek. I think those comparisons are... premature, for now. But I notice, with some unease, that they are the same comparisons I feared when I was writing the reform draft — the ones I wrote specific provisions against, because I knew from decades of study that the temptation of the strong executive is not a character flaw but a structural gravity. The constitution we are trying to build constrains the very tools one just used to survive. Chancellor, I need to ask you directly: are we still building it? Because if we are, I will keep working. If we have decided that survival requires us to... indefinitely postpone the constraints — I need to know that. Not to resign. Just to know."
+    },
+    {
+      "type": "description",
+      "text": "He is not angry. He is sad in a way that is much more difficult to answer than anger."
+    }
+  ],
+
+  "monologue": "Theron came here as my professor, not my minister. That distinction matters — he's telling me something he wouldn't say in cabinet. The comparisons to Halvek are unfair but they're not random. I used emergency powers to survive. The question he's really asking is whether I know the difference between using Halvek's tools and becoming Halvek. I think I do. He needs to hear me say it.",
+
+  "choices": [
+    {
+      "id": "executive_governance_recommit",
+      "text": "\"We are still building it. What I did to survive this vote does not become the template — it was an emergency, and I know the difference between an emergency and a governing philosophy. I want you to hold me to that distinction. If you see me using the same tools six months from now when there is no emergency, I want you to come back and ask me this question again. I need someone in this government who will do that.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 10  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -2  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week14_convention_opens", "delayWeeks": 2 }
+      ],
+      "flags": ["executive_reform_recommitted", "theron_conscience_retained"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "He removes his glasses. He does not wipe them. He simply holds them, looking at you without the glass between. For a moment he is not your Minister of Justice. He is your old professor, and you have just passed the only examination that ever mattered to him."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "We are still building it. That is... the answer I hoped to hear. I will hold you to the distinction. If there comes a time when emergency becomes habit — I will be... difficult about it. You told me once in a seminar that I should expect difficulty from my students. I am now your student in that regard."
+        }
+      ]
+    },
+    {
+      "id": "executive_governance_honest",
+      "text": "\"I don't know. That is an honest answer, and I owe you honesty. I know what we set out to build. I know that survival has required tools I did not plan to use. Whether that is a detour or the beginning of a different destination — I cannot tell you tonight. What I can tell you is that I am still asking the question. As long as I am asking it, I think there is still something worth building.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 5   },
+        { "stat": "factions.reformists",        "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 2   },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 1   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week14_convention_opens", "delayWeeks": 3 }
+      ],
+      "flags": ["executive_governance_uncertain", "theron_conscience_retained"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... He nods. Not the nod of agreement — the nod of recognition. 'I don't know' is not the answer he wanted, but it is an honest one. He has been in politics long enough to know the difference. The silence is respect — for the honesty and for its cost."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "As long as one is asking the question. Yes. That... may be enough. I have studied governments that stopped asking. They all ended the same way. The ones that kept asking sometimes ended differently. I will... continue working. And watching."
+        }
+      ]
+    },
+    {
+      "id": "executive_governance_realist",
+      "text": "\"The reform will be built within the constraints of what is politically survivable. That has always been true — I told you in your seminar that pure constitutional theory meets political reality at the chamber door. I used the tools available to me. The alternative was losing the government and losing the reform with it. I will not apologize for surviving. The constitution I build from this chair is worth more than the ideal one I write from exile.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -8  },
+        { "stat": "factions.reformists",        "operation": "add", "value": -6  },
+        { "stat": "factions.halvekists",        "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week15_theron_compromise", "delayWeeks": 3 }
+      ],
+      "flags": ["executive_governance_rationalized", "theron_disillusioned"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "He puts his glasses back on. The motion is slow — not old-slow, but the particular slowness of someone who has just heard a student he believed in cite his own lectures as justification for doing something those lectures were written to prevent."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "... Pure constitutional theory meets political reality at the chamber door. I... said that. In the seminar. I meant it as a description of a problem. Not as a permission to stop trying to solve it. I will... continue working. The reform from this chair may be worth less than the ideal one from exile — but I will... have to trust that one still knows the difference."
+        }
+      ]
+    }
+  ]
+}

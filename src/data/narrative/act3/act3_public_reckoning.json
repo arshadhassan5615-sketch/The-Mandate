@@ -1,0 +1,92 @@
+{
+  "id": "act3_public_reckoning",
+  "title": "The Truth Hurts",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Following Nadia's Publication",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Nadia published. The investigation you authorized — full transparency, no redactions, the entire record of what the Halvek regime did and who collaborated — is in the morning edition of The Ashenmere Independent. It is devastating. Not to you, directly — your hands are relatively clean, a fact the investigation confirms — but to the institutional fabric of the country. The report names forty-three current public officials who collaborated with the Halvek security apparatus. Eight of them serve in your government. Three are in your cabinet. The report does not allege criminal conduct — collaboration was not technically illegal under Halvek-era law — but it documents complicity in a regime that imprisoned, tortured, and executed its opponents. The public is reckoning with the truth. The truth is not comfortable."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The eight officials named in the report have been identified. Three have submitted resignations preemptively — they assume you will demand them. Two have issued statements denying the allegations and threatening legal action against the Independent. One — Deputy Minister for Agriculture, Orin Talbeck — has admitted the allegations and asked for a meeting with you. The two remaining officials have not responded to my calls. Separately, twelve members of parliament have been named, including four Halvekists and two from our own reformist coalition. The political damage is extensive. The ethical question is more complicated. These people collaborated with a regime that was the only functioning government in Veltria for fourteen years. Some of them collaborated to survive. Some collaborated to advance. Some collaborated because they believed in the regime. The report does not distinguish between these motivations. It simply names names."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You authorized full transparency because you believed the country deserved the truth. You still believe that. But truth is not a neutral substance — it is radioactive. It irradiates everything it touches. The forty-three names in Nadia's report include people you have worked with, trusted, promoted. It includes people who supported your campaign because you represented a break from the Halvek past, not knowing that their own Halvek past would eventually be exposed. Some of them are genuinely reformed — people who served a bad regime and have spent the years since trying to serve a better one. Some of them are unreconstructed opportunists who would serve any regime that kept them in office. The report does not distinguish. It cannot distinguish. Truth is specific. Judgment requires context. You have to provide the context. The report only provides the truth."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political dimensions: the Halvekists will demand that the four named members of their caucus be protected on grounds that collaboration under a Halvek-led regime was not a crime but a condition of public service. The reformists will demand that all eight of your officials be dismissed immediately, regardless of individual circumstances, to demonstrate a clean break with the past. The press — including publications less scrupulous than Nadia's — will publish follow-up stories naming more names, speculating about more officials. The process will not end with this report. It will accelerate. I need to know your principles for managing what comes next, because what comes next will be a cascade."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "public_reckoning_case_by_case",
+      "text": "\"No blanket policy. Each of the eight officials is evaluated individually. The criteria: what did they do during the Halvek years, what have they done since, and what are they doing now in service of democratic governance. Talbeck admitted his past and asked for a meeting — I will grant it. The two who have not responded — they have until end of day to respond or I will accept their resignations by default. The preemptive resignations — I will accept them if, upon review, the individuals' Halvek-era conduct was voluntary and knowing rather than survival-driven. The standard is not perfection — no one who served in Halvek's government has clean hands. The standard is moral seriousness: did they serve the regime because they believed in it, or because they were trying to do what good they could inside a bad system? I will make those judgments personally. I will explain them publicly. The process will be criticized as inconsistent. It will be consistent in its inconsistency — because human lives are inconsistent, and justice that does not account for that is not justice.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 8  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["public_reckoning_case_by_case", "collaboration_disclosed", "individual_justice", "nadia_report_published"],
+      "codexUnlocks": ["codex_halvek_collaboration", "codex_transitional_justice"]
+    },
+    {
+      "id": "public_reckoning_clean_sweep",
+      "text": "\"Accept all eight resignations. Every official named in the report is dismissed, effective immediately. The four reformist MPs named in the report — I will request their resignations from parliament. The Halvekist MPs — their party can decide their fate. The standard is simple and public: anyone who collaborated with the Halvek security apparatus has no place in a democratic government. The standard is harsh. It is also clear. The country deserves clarity about what kind of government it has. A government that includes former collaborators is a government that has not fully broken with the past. I am breaking with the past. Cleanly. Publicly. Irrevocably.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -12 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["public_reckoning_clean_sweep", "collaborators_dismissed", "zero_tolerance", "nadia_report_published"],
+      "codexUnlocks": ["codex_halvek_collaboration", "codex_cabinet_purge"]
+    },
+    {
+      "id": "public_reckoning_proportional_process",
+      "text": "\"The report names people. It does not judge them. Judgment requires process. I am establishing a Transitional Justice Commission — three commissioners, appointed jointly by the government and the Supreme Court, with a mandate to review each named individual's Halvek-era conduct and make recommendations. The Commission will distinguish between active collaborators who knowingly served the regime's repressive apparatus, passive participants who served in administrative roles without direct involvement in repression, and individuals who used their positions to mitigate the regime's worst excesses. Criminal conduct will be referred to prosecutors. Administrative collaboration will result in varying consequences depending on severity. Passive participation will result in a public acknowledgment and no further action. The process will take months. It will be criticized as slow. It will be more just than a blanket dismissal or a blanket amnesty. Justice is not fast. It is careful. I am choosing careful.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 3 }
+      ],
+      "flags": ["public_reckoning_commission", "transitional_justice_established", "due_process", "nadia_report_published"],
+      "codexUnlocks": ["codex_halvek_collaboration", "codex_transitional_justice_commission"]
+    }
+  ]
+}

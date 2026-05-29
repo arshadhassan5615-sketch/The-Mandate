@@ -1,0 +1,114 @@
+{
+  "id": "act3_bca_report_wk33",
+  "title": "BCA Investigation: Second Report",
+  "act": 3,
+  "weekAvailable": 33,
+  "weekDeadline": 36,
+  "type": "briefing",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Bureau of Civic Accountability Headquarters — Ashenmere",
+  "characters": ["maren_tovik"],
+  "prerequisites": [
+    { "type": "flag", "flag": "bca_funded", "value": true },
+    { "type": "flag", "flag": "bca_first_report_complete", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Maren Tovik's office is more crowded than it was eleven weeks ago. The investigation boards have multiplied. What was once a single wall of names and connections is now three walls, the lines between them growing denser, the pattern unmistakable. Someone has brought in a coffee machine. It is the only concession to comfort she has allowed."
+    },
+    {
+      "type": "dialogue",
+      "character": "maren_tovik",
+      "text": "Chancellor. The transition-period audit has yielded results. I will begin with the numbers, then proceed to their implications. We have identified 213 million kroner in irregular transfers during the eighteen-month transition period. The money moved through accounts in Lytheira, the Amber Coast, and — in seven cases — through a correspondent bank in Stellamere. The Stellamere connection is significant because it suggests Arcturian financial institutions were aware of, and facilitating, the capital flight of Halvek-era officials. That is a diplomatic complication I will address in a separate memorandum."
+    },
+    {
+      "type": "description",
+      "text": "She removes a single sheet of paper from a locked drawer. Her movements are precise, deliberate — the movements of someone who has practiced this moment."
+    },
+    {
+      "type": "dialogue",
+      "character": "maren_tovik",
+      "text": "This is the more difficult finding. Among the irregular transfers, we have traced payments totaling 47 million kroner to accounts linked to individuals associated with the Civic Renewal coalition. Not to you, Chancellor. To individuals who supported your campaign and now hold positions of influence. Some of these payments were made after the election. Some were made to people who now have access to government procurement decisions. I am not alleging that you knew. I am informing you that it happened, and that continuing the investigation will require examining people in your political circle. If you wish to restrict the scope of the investigation, now is the time to tell me. After this, it will be too late — for both of us."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-seven million kroner. To people who supported my campaign. To people I trusted. She says she is not alleging that I knew, and she is being honest — Maren Tovik does not allege anything she cannot prove. But the political implication is clear: the corruption I campaigned against existed on my own side, and I did not see it. Or I did not want to see it. The question she is asking is whether I want to know the rest — and whether I am willing to pay the political cost of knowing."
+    },
+    {
+      "type": "description",
+      "text": "Tovik pauses, flipping to a supplementary note at the bottom of her stack. 'One more thing — unrelated to the financial investigation. During a routine security sweep of the palace complex, my team found an encrypted short-range transmitter hidden in a maintenance closet on the palace sub-level. Tyvaren manufacture. Military-grade. Its range covers three offices: the Foreign Ministry's intelligence liaison desk, the Defense Minister's planning section, and the classified document registry. Someone has been transmitting. We do not yet know who — we have not been looking. But the device has been there for months.'"
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "bca_full_investigation_own_side",
+      "text": "\"Investigate them. All of them. I do not care whose campaigns they supported or whose trust they have. If they took money and used government positions to enrich themselves, they are not my allies — they are criminals who happened to support my campaign. I will cooperate fully with your investigation. I will provide whatever records your team needs. And when you have built your cases, I will stand in front of the press and tell the country that no one is above the law — not the people who supported Halvek, and not the people who supported me. Do your work, Maren. Do it thoroughly. Do not spare anyone.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 14  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -8  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -6  },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 15  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -3  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -4  }
+      ],
+      "flags": ["bca_investigating_own_side", "bca_second_report_complete", "bca_full_transparency"],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_coalition_cleanup",
+          "delayWeeks": 2
+        }
+      ],
+      "codexUnlocks": ["codex_transition_corruption"]
+    },
+    {
+      "id": "bca_private_resolution",
+      "text": "\"Maren, give me the names. I will handle this privately. The people involved will resign — quietly, for 'personal reasons' — and return the money. If they comply, there is no need for prosecution. If they resist, your investigation proceeds with my full support. I am not protecting them from accountability. I am protecting the government from the spectacle of its own coalition being investigated for corruption while it is trying to pass constitutional reform. There is a difference between justice and political suicide. I am trying to find it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 2   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 4   },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -3  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 4   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -2  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -6  },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 8   }
+      ],
+      "flags": ["bca_second_report_complete", "bca_private_resolution", "coalition_members_resigned_quietly"],
+      "codexUnlocks": ["codex_transition_corruption"]
+    },
+    {
+      "id": "bca_shut_down_investigation",
+      "text": "\"Maren, close this line of investigation. The transition period was chaotic, and people made decisions under extraordinary circumstances. The payments you are describing may have been loans, or campaign contributions, or personal transactions with no connection to government business. I am not going to destroy my own coalition on the basis of bank records that could have innocent explanations. Redirect your resources to investigating Halvek-era crimes — there are still murderers walking free. Investigating my own allies while war criminals retire to the Thornfeld Valley is not accountability. It is selective prosecution.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.halvekists",          "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",          "operation": "add", "value": -14 },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 5   },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 5   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -12 },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 10  }
+      ],
+      "flags": ["bca_second_report_complete", "bca_constrained", "bca_investigation_blocked"],
+      "codexUnlocks": ["codex_transition_corruption"]
+    },
+    {
+      "id": "bca_investigate_transmitter",
+      "text": "\"A Tyvaren transmitter inside the palace? Tovik, I am expanding your investigation mandate. Find out who placed that device and what they transmitted. This is no longer about corrupt officials — this is about national security.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 },
+        { "stat": "nation.corruption", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_clue_6_found"],
+      "codexUnlocks": []
+    }
+  ]
+}

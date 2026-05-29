@@ -1,0 +1,187 @@
+{
+  "id": "act2_week23_family_crisis_liora",
+  "title": "Ashenmere Central, Holding",
+  "act": 2,
+  "weekAvailable": 23,
+  "weekDeadline": 26,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Unscheduled, Mid-Afternoon",
+  "characters": ["liora_ashavel", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "personal.lioraRelationship", "operator": "<", "value": 35 }
+  ],
+  "exclusive": ["act2_week23_family_crisis_jonas", "act2_week23_family_crisis_tomas"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor comes into the meeting room at three-fourteen without knocking, which he does only when the information cannot wait for protocol. He sets his notepad on the table and does not open it, which means he does not need notes for what he is about to say."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Liora was arrested at the Parliament Square demonstration this afternoon. She was with the Workers' Unity bloc — the group blocking the north entrance to the building. When police moved to clear the crowd, she was in the front line and she did not step back. She's being held at Ashenmere Central pending a processing review. Standard procedure for civil disturbance."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There's a photograph. Dispatch photographer, Nadia Voss's colleague. Liora in handcuffs. It is a good photograph, technically. It will run in the evening edition. Her name will appear in the caption because she gave it to the arresting officer without being asked. She knows what she's doing."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She knows exactly what she's doing. She always has. She is twenty-two years old and she is the sharpest person in any room she has ever been in, including this one, and she has decided that your constitution is a procedural document that protects the rights of people who already have them while leaving the people who don't with nothing but procedure. You are not certain she's wrong."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The arresting charge is obstruction of a public thoroughfare. It's a summary offense — fine, community service. She won't be held overnight unless you do nothing. If you do nothing, she goes through the standard process, which means three to four hours in a holding cell and then release on her own recognizance. If you intervene, you either use your position to release her faster — which is an abuse of executive authority that will be reported — or you send someone to the precinct to 'observe' the process, which achieves nothing except signal."
+    },
+    {
+      "type": "description",
+      "text": "He is presenting it the way he presents everything: as a set of conditions and outcomes with no editorial comment. But he has been at your side for twenty-three weeks now and you know the difference between Vyktor giving you information and Vyktor giving you a decision he has already made and is waiting for you to reach yourself."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "One more thing. She asked the officer to pass a message to your office. The message is: 'I'm fine and I know what I'm doing and I don't need help.' I'm passing it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Your daughter is in a holding cell in a building four kilometers from where you are sitting, and she has sent you a message telling you not to come, and you are the Chancellor of the Republic, and she knows that too. She is making an argument with her body the way you make arguments with policy — precisely, intentionally, and with a full understanding of the cost."
+    },
+    {
+      "type": "description",
+      "text": "The photograph will run. The question is what runs with it — the story of a Chancellor who protects her daughter from the legal consequences of civil disobedience, or the story of a Chancellor who lets her daughter sit in a holding cell rather than make a phone call, or the story of a daughter who is right about the gap between constitutional language and material reality and is willing to be photographed to prove it."
+    }
+  ],
+  "monologue": "Liora. In handcuffs. At Parliament Square. The photograph will run in the evening edition — she gave her name to the officer without being asked. She is twenty-two and the sharpest person in any room she has ever been in, including this one, and she has decided my constitution is a procedural document that protects the already-powerful. She sent a message: 'I'm fine and I don't need help.' Four kilometers away. In a holding cell. Making an argument with her body.",
+
+  "choices": [
+    {
+      "id": "liora_let_process_run",
+      "text": "\"Let the process run. She gave the officer her name because she wanted this to be public. I'm not going to interfere with a legal process to protect her from the consequences she chose. She'll be released in four hours.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",        "operation": "add", "value": 5  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 6  },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_liora_journalist_arc",
+          "delayWeeks": 5
+        }
+      ],
+      "flags": ["liora_arrested", "liora_process_respected"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Understood. She will be processed through standard procedure. Release in approximately three hours. I will inform the press office to expect questions. The answer is: the Chancellor respects the independence of the legal process, even when it involves her own family. He pauses. That will play well with the reformist press and badly with the human-interest columns."
+        },
+        {
+          "character": "liora_ashavel",
+          "type": "silence",
+          "text": "She calls you at eleven that night, after release. The silence on the line lasts six seconds — six seconds of her deciding whether to thank you or to continue being angry. She lands somewhere in between, which is the most Liora thing possible."
+        }
+      ]
+    },
+    {
+      "id": "liora_go_personally",
+      "text": "\"I'm going to the precinct. Not to interfere — to be there. She's my daughter and she's twenty-two and she's in a holding cell and if there are photographs of me walking through that door then people can make whatever they want of it.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 18 },
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",        "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_liora_reconciliation",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": ["liora_arrested", "liora_chancellor_attended"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He is already on the phone to the motor pool. He does not argue. He has learned to distinguish between the decisions you make as Chancellor and the decisions you make as Katerin, and this one — he understood before you said it — is the second kind."
+        },
+        {
+          "character": "liora_ashavel",
+          "type": "dialogue",
+          "text": "When you walk into the precinct, she is sitting on a bench in processing. She looks up. She does not look surprised. You came, she says. It is not a question. It is not quite gratitude either — but it is close enough that you can feel the weight of every meeting you did not cancel."
+        }
+      ]
+    },
+    {
+      "id": "liora_executive_release",
+      "text": "\"Call the Interior Ministry. She's released. I know what this is and I know how it will be reported and I'm doing it anyway because she is my child and I am not willing to use a holding cell as a lesson.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": -6 },
+        { "stat": "nation.corruption",          "operation": "add", "value": 5  },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -12 },
+        { "stat": "factions.reformists",        "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_liora_disgusted",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": ["liora_arrested", "liora_executive_released", "executive_power_abused"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor picks up the phone. He does not say anything to you before he dials. His silence is heavier than any objection he has ever voiced — it is the weight of a man who has spent twenty-three weeks building the legal architecture of your government and just watched you drive through one of its walls."
+        },
+        {
+          "character": "liora_ashavel",
+          "type": "dialogue",
+          "text": "She is released within the hour. She does not call. She sends a note — one line, on paper torn from a police notepad: I told you I didn't need help. The words are in her handwriting. The anger is in the paper she chose."
+        }
+      ]
+    },
+    {
+      "id": "liora_send_vyktor",
+      "text": "\"Send Vyktor to the precinct with a note from the family solicitor observing the process. Don't intervene, but make sure she's treated within legal parameters. And find out who else was arrested today.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["liora_arrested", "liora_process_monitored"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "I will be at the precinct in twenty minutes. The family solicitor has already been contacted. He pauses at the door. She will not thank you for this. She did not ask for it."
+        },
+        {
+          "character": "liora_ashavel",
+          "type": "silence",
+          "text": "The report from the precinct indicates she was released on time, treated within all legal parameters. She did not mention your office's presence to anyone. She did not need to. She is filing it away — and with Liora, silence means she is building something with the information."
+        }
+      ]
+    }
+  ]
+}

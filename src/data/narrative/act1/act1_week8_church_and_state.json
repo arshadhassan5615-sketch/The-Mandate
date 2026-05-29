@@ -1,0 +1,132 @@
+{
+  "id": "act1_week8_church_and_state",
+  "title": "The Archbishop's Condition",
+  "act": 1,
+  "weekAvailable": 8,
+  "weekDeadline": 10,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Cathedral of St. Veltris — Archbishop's Study",
+  "characters": ["stanislov_renek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Archbishop Renek's study is not what you expected. You had imagined something ecclesiastical — dark wood, religious iconography, the weight of the institution pressing down on every surface. Instead the room is almost spartan: a plain oak desk, a wall of books organized by language rather than subject, a single window that looks out onto the cathedral's herb garden — dormant in the February cold, but meticulously maintained. There is a samovar in the corner that is clearly used. The Archbishop pours tea himself. He does not employ servants for conversations he considers important."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "I administered your oath eight weeks ago. We have been watching your government since then — with the attention, I hope, that one would expect from a man who spent twenty-nine years navigating the spiritual needs of a country whose secular leadership was actively hostile to those needs. I am not your opponent, Chancellor. I am not your ally either — at least, not in the way the political class understands alliance. I am something more... complicated. We are the head of an institution that serves two million Veltrians through its hospitals, its schools, its orphanages, its parish relief programs. We are accountable to those two million people in a way that no election can capture. What I am here to discuss is... whether your government will be one that those two million people can trust — or one they must resist."
+    },
+    {
+      "type": "description",
+      "text": "He sips his tea. His hands are steady in the way of someone who has administered last rites to dying men and inaugural oaths to living ones with the same composure. He is not threatening you. He is describing a relationship that exists whether you acknowledge it or not."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "The Church is not asking for special treatment. We are asking for... continuity. There is a proverb my father was fond of — a bridge that has stood for a century should not be torn down because one dislikes the architect. The Halvek regime — whatever else it was — understood that the Church's social infrastructure was irreplaceable. It funded the hospitals. It left the schools alone. It allowed the parish system to function as a safety net for the poor that the state could not, or would not, provide. Your government has different values than Halvek's. We respect that. But values do not fund hospitals. If your reforms reduce the Church's ability to serve... we would be forced to ask how one explains to two million people in our pews why their government took from them something that their government cannot replace."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is right about the infrastructure. The Church runs more hospitals than the state. It educates more children than any three private academies combined. Its orphanages are the only thing standing between thousands of Halvek-era children and the streets. But he is also asking for something he has not named: the preservation of the Church's social influence, its ability to shape what kind of country Veltria becomes. He was the man who put the Constitution in my hands and asked me to swear on it. Now he is asking whether that oath includes defending an institution that the Constitution was written to separate from the state. The two questions are not the same. He knows that. He is asking them anyway."
+    }
+  ],
+
+  "monologue": "He's not threatening me. He's describing a relationship that exists whether I acknowledge it or not. Two million people in his pews. The Church runs more hospitals than the state, educates more children. The Halvek regime understood that the infrastructure was irreplaceable. He's asking whether I understand the same thing — and whether my reforms will preserve what the state cannot yet replace. 'Values do not fund hospitals.' He's right. Values also don't justify leaving the Church as the sole provider of services a secular republic should deliver itself.",
+
+  "choices": [
+    {
+      "id": "church_continue_funding",
+      "text": "\"The Church's social services will continue to receive state funding at current levels. The hospitals, the schools, the orphanages — these are not bargaining chips, they are essential services that the state cannot replicate. I will protect the funding. In return, I ask that the Church recognize that my government governs for all Veltrians — including those who do not share its faith — and that its social services be delivered without religious conditions. Healing without conversion. Education without indoctrination. That is the arrangement I am offering.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church",            "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",        "operation": "add", "value": -4  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 4   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 3   },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": -2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_funding_continued", "church_state_accord", "church_resolved"],
+      "codexUnlocks": ["codex_church_social_services", "codex_state_church_accord"],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "Healing without conversion. Education without indoctrination. My father used to say that the best compromises are the ones where both parties give something they value but keep something they need. I will instruct the hospital administrators and the school principals. The funding continues. The conditions are... acceptable."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "He pours more tea. The pot has been on the samovar the entire time, waiting. The Archbishop was prepared for this outcome. He was also prepared for others. The tea is the same temperature regardless."
+        }
+      ]
+    },
+    {
+      "id": "church_secular_reform",
+      "text": "\"Archbishop, I respect your institution and what it has done for this country. But the Republic is secular by constitutional design, and the Halvek era's blurring of church and state was not a feature — it was a method of control. The funding continues for existing services for a transition period of three years, during which the state will develop public alternatives. After that, the Church's social work will be funded by its congregations, as it should be in a secular republic. The state cannot be dependent on a religious institution for its social safety net.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.church",            "operation": "add", "value": -15 },
+        { "stat": "factions.reformists",        "operation": "add", "value": 10  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 6   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": -5  },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_church_opposition",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": ["church_secular_reform", "transition_period_begun", "church_resolved"],
+      "codexUnlocks": ["codex_secular_reform", "codex_public_welfare_system"],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "silence",
+          "text": "He sets down his cup. The motion is slow — the particular slowness of a man receiving a blow he saw coming and still chose to stand in its path. Three years. The Church has endured twenty-nine years of Halvek. Three more will not break it. But the wound is real."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "Three years. My father used to say that a bridge demolished in good faith still leaves the river unspanned. One will cooperate with the transition. One will also ensure that every parish in Veltria knows whose government removed the bridge."
+        }
+      ]
+    },
+    {
+      "id": "church_maintain_halvek_deal",
+      "text": "\"I see no reason to disrupt an arrangement that has served the country for a generation, whatever its origins. The Halvek-era funding structure continues. The Church's autonomy over its social institutions is preserved — curriculum, hiring, admissions policies. In return, I ask for what Halvek asked for: the Church's public support for the government's legitimacy, delivered from every pulpit in Veltria. The people trust the Church more than they trust the state. I need that trust. Name your terms.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.church",            "operation": "add", "value": 15  },
+        { "stat": "factions.reformists",        "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists",        "operation": "add", "value": 6   },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": -8  },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["church_halvek_deal_maintained", "church_autonomy_preserved", "church_resolved"],
+      "codexUnlocks": ["codex_church_state_concordat"],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "He reaches across the desk. His handshake is firm — the grip of a man who has just received terms he did not need to ask for. The price is not yet named. That is what the handshake means: the bill will come. Both parties understand this."
+        },
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "Name your terms. My father used to say that listening for what is not said is the whole art of diplomacy. One is listening. One will also be heard — from every pulpit, as you request. The terms will be... discussed at the next synod."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "project_contractor_fortification",
+  "title": "Sevagrad Fortification — Who Builds It?",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Strategic Planning Room",
+  "characters": ["irina_dusek", "oskar_brenner"],
+  "prerequisites": [{ "stat": "flags.project_sevagrad_started", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "The Sevagrad border fortifications will be forty kilometers of reinforced positions, observation posts, and defensive infrastructure. This is military construction — it requires military-grade specifications and security clearances. The contractor question has security dimensions." },
+    { "type": "dialogue", "character": "irina_dusek", "text": "The State Bureau has built military installations before. They are slow but they understand the security requirements. Vael's group has never done military construction — I have concerns about their security protocols. The foreign consortium is impossible — no foreign company can build our border defenses. But they have offered to provide engineering consultation instead." }
+  ],
+  "choices": [
+    {
+      "id": "contractor_fort_state",
+      "text": "\"State Bureau. Military construction requires military discipline. They will do it right — slowly, but right.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.ironCovenant", "operation": "add", "value": 5 }, { "stat": "factions.workersCoalition", "operation": "add", "value": 3 }],
+      "chainTriggers": [],
+      "flags": ["contractor_fort_state"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "contractor_fort_vael",
+      "text": "\"Vael Construction. They will need security oversight but they will deliver on schedule. The military will supervise the classified aspects. Vael handles the concrete and steel.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.businessClass", "operation": "add", "value": 5 }, { "stat": "factions.ironCovenant", "operation": "add", "value": -5 }, { "stat": "vaelInfluence", "operation": "add", "value": 10 }],
+      "chainTriggers": [{ "targetNodeId": "project_vael_kickback_fort", "delayWeeks": 0 }],
+      "flags": ["contractor_fort_vael"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "contractor_fort_foreign_consult",
+      "text": "\"State Bureau builds it. The foreign consortium provides engineering consultation — but no access to classified specifications. Best of both worlds.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 2 }],
+      "chainTriggers": [],
+      "flags": ["contractor_fort_mixed"],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "id": "act3_jonas_separation",
+  "title": "Aldenmoor",
+  "act": 3,
+  "weekAvailable": 31,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Late Evening",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [
+    { "stat": "personal.marriageHealth", "operator": "<", "value": 28 }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "He has not packed yet. That is the first thing you notice. The suitcase is not in the hallway and his coat is on the hook where it always is. He is sitting in the living room with the lamp on — not the overhead light, just the lamp, the one with the amber shade that makes the room look like a different decade — and there are no papers around him and no drawings and no book open on the armrest. He has been sitting in the room doing nothing, waiting for you. It is eleven-twenty. You have been at the Foreign Ministry since seven this morning."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I need to go to the Aldenmoor apartment for a while. Two months — maybe less, I don't know. Not divorce. I want to be very clear that I am not talking about divorce. I am talking about distance. I need to find out whether the things I miss are specific to you or whether they're things I've stopped feeling in general. I can't work that out here. Here, everything that isn't the government is something left over from it. I can't tell what's real from inside it. I need space that's actually mine to figure that out."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He has rehearsed this. Not the words — Jonas doesn't write speeches, he thinks in structures — but the logic of it. He has been building toward this conversation for longer than tonight. The apartment in Aldenmoor is the one he kept from before the marriage, the studio above the garden in the old cultural quarter where he made the drawings that got him his first reputation. He kept paying rent on it all through the government, which you registered and didn't ask about because you didn't want to know the answer. Now you know the answer. He has been keeping a door open. Not because he was planning to leave. Because he needed to know the door existed."
+    },
+    {
+      "type": "description",
+      "text": "He is looking at you with the expression of a man who is frightened of what he is doing and doing it anyway because the alternative — staying in the amber-lit living room indefinitely, two people circling a problem neither of them has the time to solve — has become worse than the fear. The lamp between you makes his face look warm. He is a warm person. This is one of the things that has been slowly crushed between the schedule and the crises and the specific mechanism by which being married to a head of government turns the person you love into a political consideration. You do not want it to be this way. You do not know how to un-want the Chancellorship at the same time."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "jonas_separation_let_him_go",
+      "text": "\"Go. I mean that — not as permission, not as the Chancellor allowing it, as your wife telling you that if distance is what you need to figure out whether there's something left then I would rather you have that distance than stay here and watch it die inside the same four walls. I'll be here. I'm not going anywhere. That's the one thing the office guarantees.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 14 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 4  },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 5 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 10 }
+      ],
+      "flags": ["jonas_separation_granted", "jonas_aldenmoor", "separation_trusted"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_separation_wait_two_weeks",
+      "text": "\"I'm asking for two more weeks. Not because I think two weeks changes anything fundamental — I know it doesn't. But Tomas has exams and I don't want to explain to him where you are when he's already carrying more than he should be. Two weeks. After that I won't ask you to stay.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -4 },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 2  },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 1  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 5 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 11 }
+      ],
+      "flags": ["jonas_separation_delayed", "jonas_asked_to_wait"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "jonas_separation_what_do_you_need",
+      "text": "\"Before you go — tell me what you need. Not from the marriage in the abstract, from me. Specifically. Because I have been assuming I know what's gone wrong and I've been wrong about a lot of assumptions lately, and I'd rather hear it from you directly than work it out by accident when it's already too late to matter.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 16 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 2  },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 5 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 10 }
+      ],
+      "flags": ["jonas_separation_asked", "jonas_separation_dialogue_opened"],
+      "codexUnlocks": []
+    }
+  ]
+}

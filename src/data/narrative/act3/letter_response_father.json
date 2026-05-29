@@ -1,0 +1,20 @@
+{
+  "id": "letter_response_father",
+  "title": "A Letter Never Sent",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Office — Late Night, Alone",
+  "characters": [],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "The letter to your father sits on your desk. You will not send it — there is nowhere to send it. But you wrote it. Every word you have been carrying since you were twelve years old, since the night they took him and your mother told you he would not be coming back. You wrote about the Chancellorship. About Jonas. About Liora and Tomas. About the man who signed his death warrant and the trial you are trying to hold. You wrote about the guilt of surviving, of building a life in the country that killed him, of governing from the same palace where his execution was ordered. You wrote until your hand cramped and the ink ran dry." },
+    { "type": "description", "text": "The letter is eight pages. You fold it carefully — the way he taught you to fold things, with precision and care — and place it in a drawer. You will not send it. But somehow, having written it, you feel lighter than you have felt in twenty-five years. You said the things you needed to say. He did not hear them. But you did." },
+    { "type": "internal_thought", "text": "Papa. I became Chancellor. I did not think I would. I thought I would teach law and write articles and be angry from a safe distance. But I became Chancellor, and now I sit in the same building where they decided you would die, and I try every day to be the leader you would have wanted me to be. I do not know if I am succeeding. But I am trying. And somehow, writing this to you — knowing you will never read it — makes trying feel possible again." }
+  ],
+  "choices": [
+    { "id": "letter_father_complete", "text": "(Fold the letter. Place it in the drawer. Close the drawer. Sit in silence for a long moment. Then continue.)", "internalTag": "personal", "stateChanges": [{ "stat": "personal.moralCompass", "operation": "add", "value": 10 }, { "stat": "personal.marriageHealth", "operation": "add", "value": 3 }], "chainTriggers": [], "flags": ["letter_father_written"], "codexUnlocks": [] }
+  ]
+}

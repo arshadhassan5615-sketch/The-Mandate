@@ -1,0 +1,118 @@
+{
+  "id": "act4_week48_war_outcome",
+  "title": "The Silence After",
+  "act": 4,
+  "weekAvailable": 48,
+  "weekDeadline": 50,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Office — The Morning After, Week Forty-Eight",
+  "characters": ["colonel_dusek", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.decisive_battle_fought", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The battle is over. The war is not over — wars do not end cleanly, they erode, they lose momentum, they become armistice negotiations and boundary commissions and the slow accounting of what was lost — but the battle is over. The reports have been coming in for eighteen hours. You have read them all. The casualty figures. The unit strengths. The territorial gains and losses. The specific names of specific officers who died leading their soldiers from positions they could have retreated from. The war will produce more reports, more names, more decisions. But the question of whether Veltria would survive as a sovereign state has been answered. The specific nature of the answer depends on what happened at Gravenmark."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I have the final operational summary. The Tyvaren offensive was broken. Not stopped — broken. Their main force is in retreat toward the border. We do not have the strength to pursue — we are too depleted, too exhausted, too diminished. But they are leaving. That is the military reality: Veltrian forces, against a numerically superior enemy, with inferior equipment and limited international support, fought a defensive campaign that ended with the enemy in retreat. I am — I am proud of what this army did. I am also grieving. Both things are true. I am telling you both because I think you deserve the unvarnished report."
+    },
+    {
+      "type": "description",
+      "text": "She pauses. Dusek does not cry — you have never seen her cry — but her voice has a quality you have not heard before. It is not relief. It is not triumph. It is the particular stillness of someone who has been holding something for eight weeks and has finally been told she can set it down. She does not set it down. It has become part of her. The war is in her voice now, and it will be there for the rest of her career, and she knows this, and she is still standing in your office delivering the report because delivering the report is what she does."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The costs. Military casualties: approximately eight thousand dead, fourteen thousand wounded. Civilian casualties from the border regions: estimates range from three to six thousand. Economic damage: the northern infrastructure — roads, bridges, rail lines, factories — has sustained roughly two hundred million VK in damage. The total cost of the war, including lost production and reconstruction obligations, will exceed four hundred million. The country is solvent but severely weakened. The international community is — as always — expressing admiration for our resistance while calculating what our weakened position means for their interests. Stellamere has offered reconstruction loans at favorable rates. Orythia has offered reconstruction loans at political rates. Reconstruction is going to be its own kind of war."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Eight thousand dead. You carry them now. You will carry them for the rest of your life. Every decision you made during this war — the reserves you committed or held, the doctrine you chose, the alliances you built or failed to build — each of those decisions has a specific number attached to it. The counter-factuals are not knowable. You cannot know how many would have died if you had made different choices. You can only know how many died because of the choices you made. The number is eight thousand. You will learn to live with it because the alternative is not living with it, and you have never been someone who chooses not to live with things. But you will not forget. The number will be with you when you make every decision for the rest of your time in office, and after. This is the cost of command. You knew it when you took the oath. Knowing it and carrying it are different things."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "war_outcome_victory_speech",
+      "text": "\"Veltria has survived. I am going to address the nation — not to celebrate, there is nothing to celebrate when eight thousand of our people are dead, but to honor. To name what was sacrificed and who sacrificed it. To tell the country that the war is not over but the existential threat has passed, and that what comes next — reconstruction, reconciliation, the long work of healing — is work we do together, as a nation that just proved it can survive anything. That is the speech. That is the truth. Let the country hear it from me.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 18 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 16 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["war_victory", "veltria_survived", "reconstruction_begins", "war_outcome_resolved"],
+      "codexUnlocks": ["codex_battle_of_gravenmark_outcome", "codex_war_memorial"]
+    },
+    {
+      "id": "war_outcome_stalemate_negotiation",
+      "text": "\"The Tyvaren army is retreating but Tyvaren forces still hold Veltrian territory. We have won a defensive victory — not a decisive one. I am authorizing immediate ceasefire negotiations through the International Forum. We will get our territory back at the negotiating table what we could not retake on the battlefield. This is not capitulation. This is recognizing that the military reality and the diplomatic reality are both real, and that a protracted occupation of our border regions while we rebuild an offensive capability is worse than a negotiated settlement. I will take the political cost of this decision. Veltria's survival is more important than my political survival.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_ceasefire_talks", "delayWeeks": 2 }
+      ],
+      "flags": ["war_stalemate", "ceasefire_negotiations", "territorial_concessions", "war_outcome_resolved"],
+      "codexUnlocks": ["codex_battle_of_gravenmark_outcome", "codex_ceasefire_terms"]
+    },
+    {
+      "id": "war_outcome_defeat_honest",
+      "text": "\"The battle is lost. The army is broken. Tyvaren forces are advancing on Kravenstal. I am not going to lie to the country about what this means. I am going to broadcast the truth, and then I am going to begin ceasefire negotiations from a position of military defeat. I do not know if my government survives this. I do know that a government that lies to its people about a defeat compounds the defeat with dishonor. Whatever happens to me, Veltria must survive — even occupied, even diminished, even governed by someone else. The country is more important than its Chancellor. I learned that from my father. I am learning it again today.\"",
+      "internalTag": "personal",
+      "conditions": [
+        { "stat": "nation.militaryReadiness", "operator": "<=", "value": 30 }
+      ],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -14 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -16 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_occupation_begins", "delayWeeks": 2 }
+      ],
+      "flags": ["war_defeat", "tyvaren_advancing", "defeat_acknowledged", "war_outcome_resolved"],
+      "codexUnlocks": ["codex_fall_of_kravenstal", "codex_occupation_resistance"]
+    },
+    {
+      "id": "war_outcome_reconstruction_plan",
+      "text": "\"We survived. Now we rebuild. I want a reconstruction plan on my desk within two weeks — not just infrastructure, not just roads and bridges, but institutions. The war exposed everything that was weak in this country, and we are going to fix all of it. Veterans' care. Civilian resettlement. Economic redevelopment of the border regions. A truth and reconciliation process for the Dravenni communities that were caught between both armies. This is not a return to normal — normal was what produced the conditions for this war. We are going to build something better than normal. That is the mandate I was given. That is the mandate I am keeping.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [],
+      "flags": ["war_victory", "reconstruction_mandate", "build_back_better", "war_outcome_resolved"],
+      "codexUnlocks": ["codex_reconstruction_plan", "codex_veterans_affairs", "codex_truth_reconciliation"]
+    }
+  ]
+}

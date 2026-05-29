@@ -1,0 +1,106 @@
+{
+  "id": "act3_war_economy",
+  "title": "The Furnace of War",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Economic Planning — Emergency Session, 08:00",
+  "characters": ["elara_vostane", "gregor_maric"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Ministry of Economic Planning was built during the Halvek era, and the architecture remembers. The walls are grey — not painted grey, but grey in the way that institutional concrete is grey after three decades of absorbing the exhaust from the industrial district two blocks away. The conference room on the fourth floor has a single window that looks out onto the Kravenstal rail yards, which are now operating at wartime capacity: trains running every forty minutes instead of every four hours, flatbed cars carrying artillery pieces that were manufactured three weeks ago in factories that were manufacturing tractors three months ago. The transition from peacetime economy to wartime economy is happening on the rail cars outside the window. Elara Vostane has a spreadsheet that quantifies exactly how much it is costing."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The numbers, Chancellor. Total mobilization has converted thirty-four percent of civilian industrial capacity to military production in three weeks. The Kravenstal Steel Works is now producing armor plate instead of structural steel. The textile mills in the eastern district are manufacturing uniforms, tents, and medical supplies. The chemical plants have shifted to propellant and explosives. The conversion is proceeding ahead of schedule. The cost is also proceeding ahead of schedule. We are spending approximately twelve percent of GDP on military procurement, which is unsustainable in the medium term but survivable in the short term if — and this is the operative word — we decide what kind of war economy we are running and commit to it. A war economy without a clear model is just inflation with extra steps."
+    },
+    {
+      "type": "description",
+      "text": "Vostane's spreadsheet is open on the table. The columns are labeled in her precise handwriting — PRODUCTION, ALLOCATION, LABOR, COST, PROJECTED. The numbers are worse than the labels suggest. The economy is converting, but conversion is not creation. Every tank chassis that comes out of the Kravenstal works is a tractor chassis that does not. Every textile worker sewing uniforms is not sewing civilian clothing. The civilian economy is shrinking while the military economy expands, and the gap between what the country produces and what the country consumes is being bridged by government debt that someone will eventually have to pay. Vostane is not telling you this to alarm you. She is telling you this because she is constitutionally incapable of not telling you the truth about numbers, and the truth about these numbers is that you are making choices that will define the Veltrian economy for a generation."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "The workers, Chancellor. The unions have cooperated with the mobilization — I want that noted. There has been no general strike, no wildcat action, no refusal to convert from civilian to military production. The Workers' Coalition understands what is at stake. But cooperation is not unlimited. The workers are being asked to work longer hours in converted factories at peacetime wages while prices rise and their families face rationing. They will do it — they are doing it — but they need to know that the war economy is not just an excuse to suspend labor protections permanently. If you want sustained wartime production, you need sustained worker consent. Consent requires fairness. Fairness requires rules. I am asking you to write the rules before the workers decide that the rules are never coming and take matters into their own hands."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Maric is not threatening a strike. He is warning me about a strike, which is different, and more dangerous, because he is telling me that he can see a strike coming and cannot prevent it without my help. The Workers' Coalition has been the most reliable faction in my government — more reliable than the reformists, more reliable than the Iron Covenant, more reliable than anyone except perhaps Vyktor. But reliability is not infinite. Every worker who is working a twelve-hour shift in a converted factory at peacetime wages while her children eat rationed bread is making a calculation about whether the government she voted for still represents her interests. The calculation is being remade every day. Eventually it will produce a different answer. Vostane's spreadsheet does not have a column for that calculation. It should."
+    },
+    {
+      "type": "description",
+      "text": "The trains continue to move outside the window. Artillery pieces rolling south toward the front. Raw steel rolling north toward the factories. The circulation of a nation at war, visible from a fourth-floor window in a grey concrete building that was built for a different kind of government entirely, that is now housing the economic planning of a Chancellor who is trying to win a war without destroying the society she is defending."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "warecon_state_control",
+      "text": "\"Full state direction of war industries. I am issuing an executive order placing all factories engaged in military production under direct government control. The Ministry of Economic Planning will set production targets, allocate raw materials, and determine labor assignments. Price controls on essential goods. Wage controls to prevent inflationary spirals. This is not peacetime. The normal operation of markets cannot produce artillery shells fast enough to stop Vukov's advance. The state will direct the economy until the war is won. After the war, we will return to normal. But there is no after the war if we lose it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -8 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 12 },
+        { "stat": "nation.inflation",              "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -14 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 3 }
+      ],
+      "flags": ["state_directed_economy", "war_industries_nationalized", "price_controls_imposed", "war_economy_model_set"],
+      "codexUnlocks": ["codex_state_directed_economy", "codex_war_production_board"]
+    },
+    {
+      "id": "warecon_worker_protections",
+      "text": "\"War production with worker protections. I will not ask the people who are building the tanks to sacrifice their rights while they do it. Establish a War Labor Board with equal representation from government, industry, and the Workers' Coalition. Overtime pay at time-and-a-half. Guaranteed meal breaks. A commitment that all wartime labor measures expire six months after the cessation of hostilities. Rationing to be administered fairly, with hardship exemptions for families with children. If we are asking the country to sacrifice, the sacrifice must be visible at every level of society — including the boardrooms. Including this office. Including the budget.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -2 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "nation.inflation",              "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_military_rally", "delayWeeks": 3 }
+      ],
+      "flags": ["worker_protections_sustained", "war_labor_board_created", "fair_rationing", "war_economy_model_set"],
+      "codexUnlocks": ["codex_war_labor_board", "codex_worker_protections_wartime"]
+    },
+    {
+      "id": "warecon_incentivized_private",
+      "text": "\"Incentivize the private sector rather than directing it. Government contracts with guaranteed profit margins for all military production. Tax incentives for factories that convert to war production voluntarily. Accelerated depreciation on capital investments. The state will be the primary customer but private industry will manage production. This gives us the speed of market allocation with the focus of government procurement. The business class has capital, expertise, and — if I am being honest — a desire to prove their patriotism that has not been fully engaged. Let them prove it. Let them make money doing it. The country gets the artillery shells either way. This way, it also gets an economy that can convert back to peacetime production when the war ends.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 12 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_healthy", "delayWeeks": 3 }
+      ],
+      "flags": ["private_sector_war_production", "incentive_based_mobilization", "war_profits_allowed", "war_economy_model_set"],
+      "codexUnlocks": ["codex_war_contracts_system", "codex_industrial_conversion_incentives"]
+    }
+  ]
+}

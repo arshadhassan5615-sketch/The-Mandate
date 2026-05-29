@@ -1,0 +1,52 @@
+{
+  "id": "act2_con_neg_theron",
+  "title": "Theron's Vision",
+  "act": 2,
+  "weekAvailable": 14,
+  "weekDeadline": 20,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ministry of Justice — Theron's Study",
+  "characters": ["aldric_theron"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Theron's study is buried in constitutional drafts. Every surface is covered with annotated copies of the Halvek Constitution — the original document he has spent thirty years trying to replace. He looks up when you enter, removes his glasses, and gestures to the chair across from his desk."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "You have a constitutional convention to manage. I have been thinking about what the Reformists need from this document. We are your base — sixty-two seats, the intellectual foundation of this government. We need: full judicial independence through an independent commission. The bill of rights — expanded, with social and economic rights. No emergency powers — none, Chancellor. The Halvek clause must die. Civilian military oversight. And the immunity clause must be revoked. I know what Kolvar is telling you. What Kolvar wants is a document that protects his people from accountability. What Veltria needs is a document that does not flinch from the truth."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I am not demanding. I am advising. If you compromise on these points, you will still have a constitution. But you will have a constitution that looks backward — that hedges, that protects the powerful, that leaves the door open for the next Gavril Soren to walk through. That is not the Veltria I have been writing about for thirty years. But it is the Veltria you may have to govern."
+    }
+  ],
+  "monologue": "Theron has been annotating the Halvek constitution for thirty years. Every margin note, every crossed-out clause, every marginalia in his precise handwriting — a monument to sustained intellectual rage. He wants the full vision: no emergency powers, no immunity, expanded rights. He calls it advising. He is not wrong about what the country needs. He may be wrong about what the votes will allow.",
+  "choices": [
+    {
+      "id": "neg_theron_full_package",
+      "text": "\"You are asking for the full Theron vision. Every progressive clause. No compromises. I want to give you that. But the votes — Theron, where are the votes? I need you to help me find them.\"",
+      "internalTag": "reformist",
+      "stateChanges": [{ "stat": "factions.reformists", "operation": "add", "value": 10 }, { "stat": "advisorTrust.theron", "operation": "add", "value": 10 }],
+      "chainTriggers": [],
+      "flags": ["neg_theron_complete", "theron_full_vision"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "aldric_theron", "type": "action", "text": "He removes his glasses and cleans them — his habitual gesture when processing something significant. I will help you find them, he says. The votes. If the vision is right, the votes will follow." }]
+    },
+    {
+      "id": "neg_theron_pragmatic",
+      "text": "\"Theron, I agree with you. But I have eighty-eight Halvekist votes to consider. We will get judicial independence and the bill of rights. Emergency powers and immunity — I may have to compromise. Not because I agree with Kolvar. Because I need his votes to pass anything at all.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.reformists", "operation": "add", "value": 3 }, { "stat": "advisorTrust.theron", "operation": "add", "value": -5 }],
+      "chainTriggers": [],
+      "flags": ["neg_theron_complete", "theron_pragmatic"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "aldric_theron", "type": "silence", "text": "He puts his glasses back on. The motion is slow, deliberate. He understands the math. He does not like it. The silence is the sound of a philosopher accepting that principles sometimes require pragmatism." }]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "act3_diplomacy_tyvaren_peace",
+  "title": "The Marshal's Ultimatum",
+  "act": 3,
+  "weekAvailable": 32,
+  "type": "diplomacy",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Tyvaren Embassy — Ashenmere, Fortified Compound",
+  "characters": ["dragan_vukov", "oskar_brenner", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Tyvaren Embassy is not an embassy in any meaningful sense. It is a fortified compound three kilometers from the city center, surrounded by walls that are taller than municipal code allows and staffed by personnel who wear military uniforms under diplomatic credentials. Marshal Dragan Vukov has invited you to a 'dialogue on regional security' — phrasing that, in Tyvaren diplomatic language, means an ultimatum delivered in person."
+    },
+    {
+      "type": "description",
+      "text": "Vukov receives you in a room without windows. The walls are bare except for a map of the Tyvaren-Veltrian border region — a map on which the Gravenmark Valley, a historically contested border region, is shaded in Tyvaren colors. The shading is recent. The paint, you are fairly certain, was applied this morning. Everything Vukov does is theater, and this theater has a very specific script."
+    },
+    {
+      "type": "dialogue",
+      "character": "dragan_vukov",
+      "text": "Chancellor Ashavel. I will speak plainly — I do not have the patience for diplomatic evasion. The situation on our shared border is unacceptable. Weapons are flowing from your eastern provinces into our territory, arming separatist elements who call themselves 'Veltrian partisans' and attack our border posts. The Gravenmark Valley — territory that has historically been Tyvaren, regardless of what your maps say — remains under Veltrian military control in violation of the 1955 Status Protocol. These provocations cannot continue. Here is my proposal: Veltria demilitarizes the Gravenmark Valley — withdraws all military personnel and equipment to a line one hundred kilometers west of the current de facto border. In exchange, the Tyvaren National Command signs a ten-year non-aggression pact with full international guarantees. Peace in our time, as your Arcturian friends like to say. The alternative is a border conflict that Veltria is not prepared to fight and that Tyvaren is entirely prepared to win."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "Marshal, I have read the Status Protocol of 1955, and I have read the Gravenmark Arbitration of 1959, and I have read the border security reports for the last eighteen months. The weapons flow you describe is a known Tyvaren intelligence operation — the so-called 'partisans' are Tyvaren irregulars operating on Veltrian soil, not Veltrian partisans operating on Tyvaren soil. The Gravenmark Valley was adjudicated to Veltria by international arbitration in 1959. These are not disputed facts. They are established facts that Tyvaren has chosen to dispute because disputing them creates the pretext for military demands. You are asking us to cede territory in exchange for a promise from a government that has never kept a promise that was inconvenient."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Marshal, if I may — the non-aggression pact is interesting. International guarantees, third-party verification, a formal treaty registered with the International Arbitration Tribunal. If the pact is genuine — if Tyvaren truly seeks a peaceful resolution — the demilitarization is unnecessary. A non-aggression pact that requires one side to disarm before it takes effect is not a pact. It is a demand for surrender with a diplomatic cover page. I am prepared to discuss a mutually verifiable arms limitation agreement along the border. That is a negotiation. What you have proposed is not."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Brenner and Vyktor have dismantled Vukov's proposal piece by piece, which is exactly what Vukov expected them to do. He did not invite me here to negotiate. He invited me here to establish, for the historical record, that he 'attempted a peaceful resolution' before the war began. The offer is designed to be rejected. The rejection is what he wants — the moral pretext for mobilization. I can play along with his theater or I can refuse to be an actor in his script. Either way, the war is coming. The question is how much of history I control before it arrives."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "tyvaren_peace_counter",
+      "text": "\"Marshal, I reject the demilitarization demand and I accept the principle of a non-aggression pact — under different terms. Brenner and I will propose a ten-year border security agreement: mutual troop limitations within fifty kilometers of the border, neutral international observers stationed at all crossing points, and quarterly joint inspections verified by the Arbitration Tribunal. You want peace? I am offering a peace that does not require Veltria to disarm in the face of a mobilized Tyvaren military. If your offer was genuine, my counter-offer should be acceptable. If it is not acceptable, your offer was never about peace.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": 3  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 5  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 8 }
+      ],
+      "flags": ["tyvaren_negotiation_attempted", "counter_proposal", "diplomatic_initiative"],
+      "codexUnlocks": ["codex_tyvaren", "codex_gravenmark"]
+    },
+    {
+      "id": "tyvaren_peace_refuse",
+      "text": "\"Marshal, you invited me here so that history would record you as having offered peace before the war. I decline to play my role in that script. There will be no demilitarization. There will be no territorial concessions. If Tyvaren attacks Veltria, it will attack a nation that is prepared to defend itself — and the international community will note that the attack came immediately after your 'peace offer' was exposed as a demand for surrender. You want a war? Start one. You will find that Veltria fights harder than your intelligence assessments suggest. The Halvek era is over, Marshal. So is the era of Veltrian capitulation.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4   },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 8   },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 10  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 8   },
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 8 }
+      ],
+      "flags": ["tyvaren_ultimatum_rejected", "defiance_stance", "war_path"],
+      "codexUnlocks": ["codex_tyvaren", "codex_gravenmark"]
+    },
+    {
+      "id": "tyvaren_peace_stall",
+      "text": "\"I will consider your proposal, Marshal. These matters require time. I will instruct my foreign ministry to begin formal discussions on border security arrangements — discussions that will proceed at the pace appropriate to complex multilateral negotiations. I am not rejecting your offer. I am not accepting it. I am buying time. You understand time. It is the one strategic asset that neither of us can manufacture more of — and the one asset I intend to use.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 2  },
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": 2  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -2 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 3  },
+        { "stat": "nation.economyHealth",         "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 8 }
+      ],
+      "flags": ["tyvaren_stalled", "diplomatic_delay", "buying_time"],
+      "codexUnlocks": ["codex_tyvaren"]
+    }
+  ]
+}

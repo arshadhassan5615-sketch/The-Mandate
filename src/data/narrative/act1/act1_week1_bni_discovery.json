@@ -1,0 +1,184 @@
+{
+  "id": "act1_week1_bni_discovery",
+  "title": "The Bureau's Shadow",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The knock at the study door does not wait for an answer. Danika Oberlin enters at speed, a manila folder clutched against her chest like evidence at a trial — because that is exactly what it is."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "I am not sorry to interrupt. [She waits.] Chancellor, the Bureau of National Integrity is still running active surveillance operations. Not winding down. Not archiving. Active. I have transcripts dated four days ago. Journalists. Union organizers. Student associations. Three members of your own transition team. Do you want to know who else is on the list?"
+    },
+    {
+      "type": "description",
+      "text": "She drops the folder on the desk beside Vyktor's binder. The contents spill slightly — photocopied documents, interception logs, a grainy photograph of a woman you recognize as a reporter for the Ashenmere Herald. Someone has circled her face in red pen."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Halvek is dead. His machine is not. [She waits.] These are not rogue elements. These are not holdovers operating without authority. These operations are funded from the current BNI budget. Which means someone in that building made a decision to continue them after the election. After the inauguration. While you were being sworn in yesterday, someone in a basement office was reading a journalist's private correspondence. Do you know what that makes your oath? A performance."
+    },
+    {
+      "type": "internal_thought",
+      "text": "My father's name is in a file somewhere in that building. I have always known this. I did not expect to be sitting in this chair when the weight of it finally settled on me."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Before we do anything irreversible — some of those operations are producing intelligence on Tyvaren military movements along the northern border. I want that on the record. Shut everything down today, we lose that capability."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "There is no version of this where we keep the surveillance apparatus and call ourselves a democracy. [She waits.] I do not care what we lose. I care about what we become."
+    },
+    {
+      "type": "description",
+      "text": "They are both looking at you. The folder is open on the desk. Outside the window, Ashenmere is beginning its first morning under your government."
+    }
+  ],
+
+  "monologue": "The transcripts are dated four days ago. Journalists. Union organizers. Three members of my own transition team. Someone in that building made a decision to continue Halvek's operations after the election, after the inauguration, while I was being sworn in. My father's name is in a file somewhere in that building. I have always known this. I did not expect to be sitting in this chair when the weight of it finally settled.",
+
+  "choices": [
+    {
+      "id": "bni_full_shutdown",
+      "text": "\"Shut it down. Every operation, every file. We issue the order today and we make it public. We are not Halvek's heirs and I will not govern from his shadows.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",   "operation": "add", "value": 15  },
+        { "stat": "nation.pressFreedom",     "operation": "add", "value": 10  },
+        { "stat": "nation.militaryReadiness","operation": "add", "value": -10 },
+        { "stat": "factions.reformists",     "operation": "add", "value": 12  },
+        { "stat": "factions.workersCoalition","operation": "add","value": 5   },
+        { "stat": "factions.ironCovenant",   "operation": "add", "value": -8  },
+        { "stat": "factions.halvekists",     "operation": "add", "value": -15 },
+        { "stat": "personal.publicImage",    "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",   "operation": "add", "value": 15  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_bni_press",
+          "delayWeeks": 3
+        },
+        {
+          "targetNodeId": "act2_tyvaren_blind_spot",
+          "delayWeeks": 14,
+          "conditions": [
+            { "stat": "nation.militaryReadiness", "operator": "<", "value": 40 }
+          ]
+        }
+      ],
+      "flags": ["bni_dissolved"],
+      "codexUnlocks": ["codex_bni_dissolution"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She picks up the folder. The motion is decisive — the motion of someone who has been waiting to pick up this particular folder for years. She does not smile. She looks like someone who just won a case and immediately started thinking about the next one."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "The dissolution order will be on every BNI desk by end of day. [She waits.] I want to be the one who delivers it to the director personally."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He says nothing. The Tyvaren intelligence gaps will become apparent within the month. He is already calculating the timeline for when 'noted' becomes 'I told you so.'"
+        }
+      ]
+    },
+    {
+      "id": "bni_civilian_oversight",
+      "text": "\"We don't tear it down — we rebuild it with daylight. Civilian oversight board. Judicial warrants required for every operation. The foreign intelligence division stays, but under a new charter. And I want the files on domestic targets destroyed within the week.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",   "operation": "add", "value": 6   },
+        { "stat": "nation.pressFreedom",     "operation": "add", "value": 4   },
+        { "stat": "factions.reformists",     "operation": "add", "value": 6   },
+        { "stat": "factions.halvekists",     "operation": "add", "value": -5  },
+        { "stat": "factions.ironCovenant",   "operation": "add", "value": -2  },
+        { "stat": "personal.publicImage",    "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",   "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_bni_reform_friction",
+          "delayWeeks": 4
+        }
+      ],
+      "flags": ["bni_reformed"],
+      "codexUnlocks": ["codex_bni_reform"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "[She waits.] She does not agree or disagree. She is running the math on how much of the old apparatus survives under new rules. The math has not finished. The silence is the math."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "Civilian oversight. Judicial warrants. I will hold you to every word. [She waits.] I mean that as a promise, Chancellor. Not as a threat."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The oversight board will need appointment powers and budgetary independence. Otherwise it becomes a decoration. I will draft the charter."
+        }
+      ]
+    },
+    {
+      "id": "bni_redirect",
+      "text": "\"Redirect the operations. I want surveillance on the Halvekists, on General Brenner's network, on anyone who was planning to use this apparatus against us. We keep the weapon — we just change who it's pointed at.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",   "operation": "add", "value": -10 },
+        { "stat": "nation.militaryReadiness","operation": "add", "value": 5   },
+        { "stat": "nation.corruption",       "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",     "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists",     "operation": "add", "value": -5  },
+        { "stat": "factions.ironCovenant",   "operation": "add", "value": 3   },
+        { "stat": "personal.publicImage",    "operation": "add", "value": -3  },
+        { "stat": "personal.moralCompass",   "operation": "add", "value": -18 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_bni_press",
+          "delayWeeks": 2,
+          "probability": 0.65
+        }
+      ],
+      "flags": ["bni_weaponized"],
+      "codexUnlocks": ["codex_bni_expansion"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She does not pick up the folder. She leaves it on the desk. The folder is now evidence, and she is no longer certain which side she would present it for."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "Redirect it. You just asked me to become the thing I spent two years campaigning against. [She waits a long time.] I want that on the record. I want it on my record. So that when someone asks who gave the order, there is no ambiguity about who objected."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not object. He does not endorse. The silence is its own category of legal risk assessment. He is thinking about the constitutional implications and deciding they are not yet fatal."
+        }
+      ]
+    }
+  ]
+}

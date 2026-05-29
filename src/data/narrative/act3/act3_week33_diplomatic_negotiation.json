@@ -1,0 +1,139 @@
+{
+  "id": "act3_week33_diplomatic_negotiation",
+  "title": "The Table at Strevna",
+  "act": 3,
+  "weekAvailable": 33,
+  "weekDeadline": 35,
+  "type": "diplomacy",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Strevna — Neutral Ground, Former Lytheiran Consulate, 14:00, Week Thirty-Three",
+  "characters": ["minister_volkov", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.tyvaren_diplomacy_initiated", "operator": "==", "value": true }
+  ],
+  "exclusive": ["act3_week33_war_preparations"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Strevna is a border town that belongs to neither country — technically Lytheiran territory, a diplomatic oddity from the 1892 Treaty of Ashwick that neither Veltria nor Tyvaren has ever bothered to challenge because it is useful to have a place that is neither here nor there. The former consulate building is limestone and shadow, built for a colonial administration that no longer exists but left its architecture behind like a geological layer. The negotiation table is too large for the room. Someone — you don't know which side — has placed a vase of white flowers at the center. The flowers are fresh. Someone is making an effort. You don't know whether to read that as genuine or as theater, and the ambiguity is the point."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Foreign Minister Volkov is career diplomatic corps, not military. That's significant — Vukov sent a civilian, not a general. Either he wants this to look like a real negotiation, or the military leadership is busy with other preparations and sent a diplomat to occupy us while they proceed. I would assume both. Volkov's record: nineteen years in the Tyvaren Foreign Ministry, served in Stellamere and the International Forum. Known for precision, not warmth. He will not make mistakes. He will be watching for ours."
+    },
+    {
+      "type": "description",
+      "text": "Minister Volkov enters with two aides and no visible emotion. He is sixty or sixty-five — the grey in his hair is complete, the suit is expensive in a way that suggests state tailoring rather than personal taste, and his handshake is exactly firm enough to be correct without being warm. He sits across from you at the too-large table and places a leather folder in front of him without opening it. He knows what it contains. He knows you know he knows. The negotiation has already begun."
+    },
+    {
+      "type": "dialogue",
+      "character": "minister_volkov",
+      "text": "Chancellor Ashavel. The Confederation appreciates your willingness to discuss this matter directly. I wish to begin by clarifying that the Gravenmark Pass is, from Tyvaren's perspective, not a territorial demand but a security necessity. The pass has been used as a staging ground for three incursions into Confederation territory in the past forty years. We are not asking for concession. We are asking for a recognition of strategic reality. The pass cannot be both a Veltrian military position and a neutral border crossing. One of those things must give."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is good. He has reframed the ultimatum as a reasonable security concern, Vukov's threat as a request, occupation as recognition. He has made the aggression sound like accommodation. You can see the years of diplomatic training in the way he constructs the sentence — no lie, exactly, but a geometry of truths arranged to produce a specific shape when viewed from a specific angle. You have done this yourself. You recognize the technique. The question is whether you can counter it without conceding the frame, because once you accept his framing, the only reasonable outcome is the one he wants."
+    },
+    {
+      "type": "dialogue",
+      "character": "minister_volkov",
+      "text": "Let me be direct, Chancellor, in the interest of the limited time we have. The Confederation is prepared to offer: a ten-year non-aggression pact, formal recognition of the current border in all other sectors, most-favored-nation trade status, and a joint commission on ethnic minority protections in the northern provinces. In exchange: Veltrian military forces withdraw from the Gravenmark Pass entirely, the pass is designated a demilitarized zone under joint administration, and Veltria agrees not to host foreign military forces — Arcturian, Orythian, or otherwise — within one hundred kilometers of the northern border. These terms are, I believe, more generous than what my government originally authorized."
+    },
+    {
+      "type": "description",
+      "text": "Dusek shifts almost imperceptibly beside you. She doesn't need to speak — the shift tells you what she thinks of the terms. A demilitarized Gravenmark under joint administration means Tyvaren forces in the pass. No foreign military within a hundred kilometers of the border means no allied support if war comes. The non-aggression pact is ten years of paper. The trade status is real but irrelevant if you've already lost the defensive line. Volkov has offered you concessions that cost him nothing in exchange for the one thing that costs you everything."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The terms are unacceptable. But the offer is real — he has put specific proposals on the table, which means there is room to negotiate. The question is what you can extract from that room before the deadline expires. Because the deadline is still ticking. Volkov is here to talk, but the armored divisions are still on the border. The negotiations are happening, and also the war preparations are happening. Both things are the policy. Both things are the truth. The negotiations are not an alternative to the threat. They are a component of it."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "diplomacy_counter_proposal",
+      "text": "\"I will not withdraw Veltrian forces from sovereign Veltrian territory. But I am willing to discuss: a mutual force limitation agreement within twenty kilometers of the border, international monitoring of all military movements in the region, and a bilateral commission on border security that includes Arcturian and Orythian observers. If Marshal Vukov genuinely wants security rather than conquest, these measures provide it without requiring either side to surrender territory.\"",
+      "internalTag": "reformist",
+      "tooltip": "A substantive counter-offer that protects Veltrian sovereignty. May be rejected outright — but rejection exposes Tyvaren's real intentions.",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [],
+      "flags": ["counter_proposal_made", "international_monitoring_proposed", "tyvaren_intentions_exposed"],
+      "codexUnlocks": ["codex_strevna_negotiations", "codex_border_security_commission"]
+    },
+    {
+      "id": "diplomacy_buy_time",
+      "text": "\"Minister Volkov, I find several elements of your proposal worth exploring in detail. The trade provisions in particular merit extended discussion. I propose we establish three working groups — on border security, economic cooperation, and minority protections — to develop detailed frameworks over the next six weeks. This is too important to rush. Let us build something durable rather than something fast.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Stall for time while military preparations continue quietly. Volkov will recognize the tactic — the question is whether he can refuse without appearing unreasonable.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_volkov_patience_expires", "delayWeeks": 4 }
+      ],
+      "flags": ["negotiations_extended", "working_groups_established", "time_bought"],
+      "codexUnlocks": ["codex_strevna_negotiations"]
+    },
+    {
+      "id": "diplomacy_hard_rejection",
+      "text": "\"Minister, let me be equally direct. Your proposal is not a negotiation — it is an ultimatum with diplomatic language wrapped around it. You are asking me to surrender the defensive line that protects my country's industrial heartland, to agree not to seek allied support, and to call it a 'joint administration' while Tyvaren armored divisions sit three kilometers from the pass. I did not come to Strevna to negotiate Veltria's sovereignty. I came to tell you, face to face, that the Gravenmark Pass is not for sale, lease, or joint administration. If Marshal Vukov wants war, he can have war. But he will not have the pass.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "End negotiations definitively. The Iron Covenant will applaud. War becomes nearly certain — but on your terms, not Vukov's.",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 14 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -8 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 0 }
+      ],
+      "flags": ["negotiations_collapsed", "tyvaren_ultimatum_rejected", "war_path_confirmed", "tyvaren_diplomacy_failed"],
+      "codexUnlocks": ["codex_strevna_negotiations", "codex_veltrian_defensive_doctrine"]
+    },
+    {
+      "id": "diplomacy_conditional_acceptance",
+      "text": "\"I will consider a modified version of your proposal. But the conditions must be mutual. If Veltrian forces withdraw from the pass, Tyvaren forces must withdraw an equal distance on your side. If we agree to no foreign bases, Tyvaren agrees to no foreign advisors — including the Orythian military mission currently operating in your eastern provinces. And I want the non-aggression pact to be twenty years, not ten, with an international enforcement mechanism that has real authority. If we are going to trust each other, we need something more durable than paper.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Serious negotiation toward a compromise. Protects core interests while offering real concessions. May actually produce a deal — for better or worse.",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_treaty_drafting", "delayWeeks": 4 }
+      ],
+      "flags": ["conditional_acceptance", "mutual_withdrawal_proposed", "treaty_framework_negotiating"],
+      "codexUnlocks": ["codex_strevna_negotiations", "codex_non_aggression_pact_drafting"]
+    }
+  ]
+}

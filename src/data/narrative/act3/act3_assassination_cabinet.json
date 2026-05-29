@@ -1,0 +1,173 @@
+{
+  "id": "act3_assassination_cabinet",
+  "title": "Emergency Cabinet — The Government Responds",
+  "act": 3,
+  "weekAvailable": 30,
+  "type": "emergency",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ashenmere Palace — Emergency Cabinet Room",
+  "characters": ["vyktor_reznik", "danika_oberlin", "irina_dusek", "aldric_theron", "elara_vostane"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The emergency cabinet room is the same one the Halvek regime used during the 1951 bread riots. The same mahogany table. The same maps of the capital on the walls. The same feeling of a government meeting in a room designed for decisions that will be studied by historians — some of whom will call those decisions necessary, and some of whom will call them crimes. Vyktor has assembled every minister who can be reached. The ones who cannot are on telephone lines, their voices crackling through speakers placed around the table."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The immediate facts. The attack has killed — or gravely wounded, depending on your perspective — our capacity to govern normally. The Assembly is in chaos. The Halvekist opposition is already calling for emergency powers — to be granted to them, of course, not to us. The press is running footage of the attack on every channel. The markets closed down 8% in the first hour. The Tyvaren border garrison reports unusual military activity on their side of the line — unrelated, probably, but the timing is not reassuring. I have prepared four courses of action. Each has consequences. I will present them, and then I will recommend nothing — because recommending is not my job. Deciding is yours."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Whatever we decide, I want the investigation to proceed through the Interior Ministry. We have forensic teams at the site, we have the armory records, and we have the names of everyone who had access to the stolen munitions. If we go through legal channels, I can have a preliminary report in four weeks. If we declare an emergency and the security services start rounding people up, the evidence gets contaminated and we may never know who was actually responsible. I am not arguing against strong action — I am arguing for accurate action."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "The military is on elevated alert. If we declare a state of emergency, I can deploy troops domestically to support civilian law enforcement. If we do not — the troops stay in their barracks and the police handle it. Either way, the military will follow orders. But I need to be clear about something: a state of emergency changes the relationship between the military and the state. Once you authorize troops in the streets, it is very difficult to send them back to barracks. People get used to the presence. Commanders develop opinions about civilian leadership. Power that is exercised becomes power that is expected. I am not warning you away from this — I am making sure you understand the weight of it."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The economic dimension. If we declare an emergency, foreign investment pauses — capital waits to see how the crisis resolves. If we go to war with Tyvaren, trade routes through the Gravenmark Pass close, which costs us 40 million VK in annual customs revenue. If we blame Tyvaren without evidence and they retaliate economically, the Krone drops against the Orythian Mark within a week. If we rally the public without escalating, the markets stabilize within days. The economy is not the priority right now — but it will be the priority next month, and I want us to remember that while we are making decisions about this month."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "One legal note. A state of emergency under Article 47 of the Halvek Constitution — which is still in force, pending our constitutional convention — allows the Chancellor to rule by decree for an initial period of ninety days. After ninety days, the Assembly must vote to extend. If we have not replaced the constitution by then, that vote will be held under conditions that favor authoritarian consolidation — a frightened Assembly will not refuse to extend emergency powers. The constitution we are drafting must address this, but it is not yet drafted. I mention this not to influence your decision, but because someone in this room should say aloud what the legal architecture of a state of emergency actually permits."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "cabinet_declare_emergency",
+      "text": "\"DECLARE A STATE OF EMERGENCY. I am invoking Article 47. For the next ninety days, this government will have the authority it needs to protect the Republic. Civil liberties are not suspended — they are temporarily narrowed in service of their own preservation. The Assembly will continue to meet but I will govern by emergency decree where necessary. The security services will have expanded detention authority for suspected conspirators. Colonel Dusek, I want a domestic deployment plan on my desk by morning. Professor Theron, draft the legal framework. The rest of you — prepare your ministries for emergency operations. We are not becoming what we fought. We are fighting to keep what we built.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 20 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -25 },
+        { "stat": "factions.reformists", "operation": "add", "value": -20 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 5 },
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_soe_opposition_protests",
+          "delayWeeks": 3,
+          "conditions": [{ "stat": "flags.state_of_emergency", "operator": "==", "value": true }]
+        },
+        {
+          "targetNodeId": "act3_soe_extension_crisis",
+          "delayWeeks": 13,
+          "conditions": [{ "stat": "flags.state_of_emergency", "operator": "==", "value": true }]
+        }
+      ],
+      "flags": ["state_of_emergency", "emergency_powers_invoked", "assassination_resolved"],
+      "codexUnlocks": ["codex_state_of_emergency"]
+    },
+    {
+      "id": "cabinet_legal_channels",
+      "text": "\"We respond through the institutions we built to handle exactly this. Oberlin, the Interior Ministry runs the investigation with full resources — the BCA if they are operational, otherwise your criminal division. The SSD coordinates on the intelligence side but does not lead. No mass arrests. No suspension of rights. We will find the perpetrators, we will try them publicly, and we will prove to Veltria and the world that democracy can deliver justice without becoming the thing it fights. This government stands for the rule of law — especially when the law is inconvenient.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+        { "stat": "advisorTrust.theron", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_investigation_results",
+          "delayWeeks": 6,
+          "probability": 0.7
+        }
+      ],
+      "flags": ["legal_response", "investigation_ongoing", "assassination_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet_rally_nation",
+      "text": "\"I am going to address the nation — not from a bunker, not from this room, but from the steps of the Palace where everyone can see me. I am not going to declare an emergency and I am not going to launch a purge. I am going to tell the people of Veltria that someone tried to kill their Chancellor and failed — and that the response to this attack will be unity, not panic. We will not give the attackers what they wanted: a frightened government that abandons its principles. We will be the government we promised to be. The investigation proceeds quietly. The nation proceeds confidently. That is my decision.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_second_attack",
+          "delayWeeks": 8,
+          "probability": 0.4
+        }
+      ],
+      "flags": ["rally_response", "assassination_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet_blame_tyvaren",
+      "text": "\"Tyvaren did this. Whether or not Marshal Vukov personally signed the order, the toxin was developed in their laboratories, the rifles came through their border, and their intelligence service has been running operations in our territory since before my government took office. We are issuing a formal accusation at the United Nations, expelling the Tyvaren ambassador, closing the border, and mobilizing the Eastern Command. This is not an act of war — it is a response to one. If Tyvaren wants to explain to the international community why their military technology keeps appearing in attacks on Veltrian soil, they are welcome to do so. Until they do, we treat them as a hostile power.\"",
+      "internalTag": "deflect",
+      "conditions": [
+        { "stat": "flags.tyvaren_war_imminent", "operator": "==", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -8 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_tyvaren_retaliation",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": ["blamed_tyvaren", "tyvaren_hostile", "assassination_resolved"],
+      "codexUnlocks": ["codex_tyvaren_crisis"]
+    },
+    {
+      "id": "cabinet_blame_tyvaren_thin",
+      "text": "\"The Tyvaren government is behind this attack. The evidence is clear — the weaponry, the timing, the pattern of provocations at the border. We are issuing a formal accusation, expelling their ambassador, and closing the border. This government will not stand by while a foreign power attempts to destabilize our democracy through violence.\"",
+      "internalTag": "deflect",
+      "conditions": [
+        { "stat": "flags.tyvaren_war_imminent", "operator": "!=", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -15 },
+        { "stat": "factions.reformists", "operation": "add", "value": -12 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_tyvaren_retaliation",
+          "delayWeeks": 2,
+          "probability": 0.6
+        }
+      ],
+      "flags": ["blamed_tyvaren", "blamed_tyvaren_thin_evidence", "assassination_resolved"],
+      "codexUnlocks": ["codex_tyvaren_crisis"]
+    }
+  ]
+}

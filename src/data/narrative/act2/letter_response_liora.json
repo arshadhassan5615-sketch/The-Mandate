@@ -1,0 +1,20 @@
+{
+  "id": "letter_response_liora",
+  "title": "A Letter from Liora",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere University — Liora's Dormitory",
+  "characters": ["liora_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Liora's reply arrives in a plain envelope with her university return address. The handwriting is yours — the same looping script you taught her when she was seven. She has included a copy of the university paper article she wrote about political accountability, with a note in the margin." },
+    { "type": "dialogue", "character": "liora_ashavel", "text": "Mum. I have been writing about you for months. Not because I am angry — because I am trying to understand. You govern a country that executed your father. You are trying to build a democracy on the ground where they buried him. That is not abstract to me. That is my family. That is you. I did not need a letter to know you still care. But I am glad you wrote it anyway." }
+  ],
+  "monologue": "She called me Mum. Not Chancellor — Mum. That word landed harder than any policy brief I have read this year. She is trying to understand me the way I try to understand the people in that chamber. My daughter, doing political analysis on her own mother. Not sure whether to be proud or heartbroken.",
+  "choices": [
+    { "id": "letter_liora_response", "text": "\"She wrote back. She actually wrote back. And she called me Mum — not Chancellor. That is the first time in months.\"", "internalTag": "personal", "stateChanges": [{ "stat": "personal.lioraRelationship", "operation": "add", "value": 12 }], "chainTriggers": [], "flags": ["letter_liora_replied"], "codexUnlocks": [], "reactions": [{ "character": "liora_ashavel", "type": "silence", "text": "She included her university paper in the envelope. It is about you. You read it twice. The analysis is sharp — sharper than most of the briefings you receive. She called you Mum and she wrote about you like a historian. Both things are gifts." }] }
+  ]
+}

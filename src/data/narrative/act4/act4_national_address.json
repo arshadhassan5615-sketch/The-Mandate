@@ -1,0 +1,83 @@
+{
+  "id": "act4_national_address",
+  "title": "The Chancellor Speaks",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere — National Broadcast Studio, Evening",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The broadcast studio lights are hot in the particular way that studio lights are always hot — a dry, artificial heat that makes the sweat on your skin evaporate before anyone can see it. The camera is a single glass eye on a tripod that will carry your face into every home in Veltria. The speech cards are arranged on the lectern in the order you will read them. You have delivered dozens of speeches as Chancellor — the inaugural address, the declaration of emergency powers, the war address, the Forum address. This one is different. This is the speech that will define your Chancellorship. Not because of what you announce — there is no new policy, no new crisis, no new initiative. Because of what you say about what this year has been, and what comes next, and whether the country believes that what has been sacrificed was worth what has been achieved. You have written and rewritten this speech five times. None of the drafts is right. None of them is wrong. The words you actually say will be the ones that matter, and you will not know what they are until you say them."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The broadcast is live. Every Veltrian radio and television station will carry it simultaneously. The estimated audience is — essentially the entire country. The address has no specific policy content. That is deliberate. The country has been living with policy for forty-plus weeks. Policy has been the medium and the message and the justification for everything that has happened. Tonight, the Chancellor speaks not to announce a decision but to provide an accounting. What has been done. What it has cost. What comes next. The country is watching. Not for information — for meaning. The words you choose will give the past forty-plus weeks a narrative, and the narrative will become the history. Choose them carefully."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Five drafts. The honest draft is the one about the costs — the people who died, the families that broke, the institutions that cracked, the exhaustion that became a permanent condition. The defiant draft is the one about the future — what has been built, what has been saved, what will be possible because of what was endured. The unifying draft is the one about the country — about Veltrians who fought and worked and sacrificed and survived together, about a nation that discovered its identity in the worst year of its history. Each draft is true. None is complete. The complete truth is too large for a speech, too complex for a broadcast, too contradictory for any single narrative to contain. You are going to have to choose which truth to emphasize. All three are in the cards on the lectern. You will know which one you are giving when you open your mouth."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "address_honest_somber",
+      "text": "Take a breath. Set the speech cards aside. Speak from what you know.\n\n\"Good evening. I am speaking to you tonight not as your Chancellor giving you a policy update, but as a Veltrian who has spent the past year asking herself every day whether she has done enough for the country that trusted her. The answer is not simple. Some things I did were right. Some things I did were necessary. Some things I did had costs I did not anticipate and cannot undo. I am not going to tell you that everything we sacrificed was worth what we achieved, because I do not know if that is true. I am going to tell you that the sacrifice was real, that the people who made it deserve to be remembered, and that whatever comes next — whether I am reelected or not — the country that emerges from this year will be a country that learned, in the hardest possible way, what it costs to be free. I wanted to give you more than that. I wanted to give you a victory that made the costs irrelevant. I could not. What I can give you is the truth: that I tried, that I am still trying, and that whatever I have done wrong is not from lack of caring. Thank you. Good night.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_public_mandate", "delayWeeks": 1 }
+      ],
+      "flags": ["national_address_delivered", "honest_tone", "somber_truth"],
+      "codexUnlocks": ["codex_chancellors_address", "codex_national_truth"]
+    },
+    {
+      "id": "address_defiant_inspiring",
+      "text": "Take the defiant draft. Read it with conviction. Add what needs to be added.\n\n\"Good evening. One year ago, I stood on the steps of the Chancellery and promised you a government that would not fail you. Tonight, I am standing here — Veltria is standing here — because we kept that promise. A constitution that was designed by a dictator to make democracy impossible has been replaced by a constitution that works. An economy that was heading toward default has been stabilized. An invasion that was supposed to conquer us in weeks has been fought to a standstill by soldiers whose courage will be remembered for generations. We have not won everything. We have lost people we loved. We have made mistakes I would unmake if I could. But Veltria is still here. We are still here. And the future — the future we were promised would be impossible — is ours to build. I am not asking you to forget the cost. I am asking you to remember that the cost was paid, and that what it bought was a country worth having. I believe in that country. I believe in you. Together, we will build it. Thank you. Good night.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 18 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_public_mandate", "delayWeeks": 1 }
+      ],
+      "flags": ["national_address_delivered", "defiant_tone", "inspiring_vision"],
+      "codexUnlocks": ["codex_chancellors_address", "codex_national_resilience"]
+    },
+    {
+      "id": "address_pragmatic_unifying",
+      "text": "Take the unifying draft. Speak from the middle, where most of the country lives.\n\n\"Good evening. I have been your Chancellor for nearly one year. In that time, this country has done something remarkable. Not something perfect — something remarkable. We reformed a constitution written by a dictator while fighting a war against a fascist invasion while managing an economy in crisis. We did not do any of these things as well as we wanted to. We did all of them better than anyone predicted. The credit does not belong to me. It belongs to the Veltrians who worked in factories and fought in trenches and raised families and kept hospitals running and taught children and grew food and held their communities together through the hardest year any of us has ever lived. Your country is still here because you are still here. The path forward is not easy. The path forward is never easy. But the path forward exists. We can walk it. Together. Not as reformers or Halvekists or Dravenni or Iron Covenant or workers or business — as Veltrians. That is what this year has taught me. That is what I hope it has taught you. Thank you. Good night.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_public_mandate", "delayWeeks": 1 }
+      ],
+      "flags": ["national_address_delivered", "unifying_tone", "pragmatic_path"],
+      "codexUnlocks": ["codex_chancellors_address", "codex_national_unity"]
+    }
+  ]
+}

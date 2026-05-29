@@ -1,0 +1,90 @@
+{
+  "id": "act3_leverage_operation",
+  "title": "The BNI Files",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "BNI Archive Room — Sub-Level Three, Ashenmere Palace, 23:00",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The BNI archive room is below ground, climate-controlled, and organized according to a filing system that predates the Halvek administration by approximately twenty years and has been maintained with bureaucratic continuity through every regime change since. The files do not care who is in power. They are complete, meticulous, and devastating — fifty years of surveillance on every political figure in Veltria, including the ones who are currently trying to destroy your government. Vyktor knows this room the way a priest knows his scripture. He does not need a catalog. He knows where everything is."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have identified six individuals whose files contain information that would end their political careers if it became public. Three are members of Kolvar's parliamentary bloc. Two are Iron Covenant regional organizers. One is a business leader who has been funding the Halvekist legal challenges. The information is varied: financial misconduct, personal conduct during the Halvek years, undocumented property transfers, one case of what appears to be a concealed criminal conviction from before the revolution. None of this information has been fabricated. All of it is actionable. I am not recommending a course of action. I am informing you that these tools exist."
+    },
+    {
+      "type": "description",
+      "text": "He gestures to a row of grey filing cabinets, each drawer marked with a year range and a classification code. The cabinets contain the accumulated secrets of a surveillance state that Halvek built and your government inherited — not dismantled, because dismantling a surveillance apparatus while fighting for political survival is the kind of principled decision that gets governments killed. The files are still here. The apparatus is still functional. The question is whether you use it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is the machinery of the state I promised to reform. The BNI files were supposed to be reviewed, the illegitimate surveillance records destroyed, the political weaponization of intelligence ended. That was the reformist position during the campaign. Then Kolvar started using parliamentary procedure as a weapon. Then the Iron Covenant started organizing paramilitaries. Then the military conspiracy started planning a provocation. Every step of the way, the moral calculus has shifted — not because my principles changed, but because the consequences of principled restraint became measured in the survival of people who trust me to protect them. Vyktor has laid the tools on the table. He is not telling me to use them. He is not telling me not to. He is waiting for the Chancellor to decide what kind of Chancellor she is, in this room, at this hour, with these files."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "leverage_aggressive",
+      "text": "\"Use what you have. The six individuals get a visit from BNI — not a threat, an informational briefing. They are shown what the files contain and told that the files remain in BNI custody pending further review. No explicit threat is made. The implication does the work. If any of the six continue to act against this government, the files are released through parliamentary channels with full documentation. This is not blackmail. This is transparency about consequences.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.corruption",             "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -10 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_halvekist_legal_war", "delayWeeks": 2 }
+      ],
+      "flags": ["bni_leverage_deployed", "political_opponents_neutralized", "surveillance_state_weaponized"],
+      "codexUnlocks": ["codex_bni_leverage_operations"]
+    },
+    {
+      "id": "leverage_selective",
+      "text": "\"Use what is necessary. Identify the one or two individuals who pose the greatest threat and apply pressure specifically to them — quiet, targeted, deniable. The message should be that the files are available for use but that restraint is being exercised. The rest of the list is held in reserve. I am not comfortable with any of this, but I am less comfortable with losing the government to people who are funding paramilitaries while claiming to defend constitutional order. The lesser evil is still evil. Note it in the file.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -2 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week37_coup_attempt", "delayWeeks": 4 }
+      ],
+      "flags": ["bni_leverage_selective", "targeted_pressure_only", "moral_reluctance_noted"],
+      "codexUnlocks": ["codex_bni_targeted_operations"]
+    },
+    {
+      "id": "leverage_reconsider",
+      "text": "\"Seal the files. The BNI archive is to be reviewed by an independent commission — not for political use, for archival reform. Vyktor, I understand why you brought this to me. I also understand that using Halvek's surveillance apparatus to defend a reformist government makes the government indistinguishable from what it replaced. The survival of this government is not worth the destruction of its moral foundation. We fight politically or we do not deserve to govern. Seal the files.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 10 },
+        { "stat": "nation.corruption",             "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vyktor_full_disclosure", "delayWeeks": 3 }
+      ],
+      "flags": ["bni_files_sealed", "surveillance_reform_begun", "moral_limit_upheld"],
+      "codexUnlocks": ["codex_bni_archival_reform"]
+    }
+  ]
+}

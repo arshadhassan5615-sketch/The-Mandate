@@ -1,0 +1,100 @@
+{
+  "id": "act3_ashenmere_standoff",
+  "title": "The Tanks at Dawn",
+  "act": 3,
+  "weekAvailable": 37,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere — Victory Avenue, 05:40, Night of the Coup",
+  "characters": ["colonel_dusek", "general_brenner"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Victory Avenue is the main artery of Ashenmere — four lanes, parliament at one end, the War Memorial at the other, the kind of boulevard that was designed for military parades in an era when military parades were how governments demonstrated continuity. This morning it is being used for its designed purpose, but the purpose has inverted. Two forces face each other across the intersection of Victory and Constitution — a junction that no urban planner intended to become the fault line of a constitutional crisis. To the west: the 3rd Armored Regiment, twelve vehicles in staggered formation, engines idling, hatches closed, the particular silence of soldiers waiting for an order none of them want to receive. To the east: elements of the 1st Infantry Division, deployed at the Chancellor's order, rifles at rest but loaded, positioned behind improvised barricades that consist mostly of municipal waste containers and a delivery truck whose driver abandoned it when the shooting started and then didn't start. The shooting has not started. The silence between the two forces is louder than gunfire would be."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The standoff has been stable for approximately forty minutes. Neither side has advanced. Neither side has fired. I have established direct communication with the 3rd Armored's executive officer — not Colonel Torvald, who is following Brenner's orders without deviation, but his second-in-command, Major Kellan, who is asking questions. Specifically, he is asking whether the Chancellor's counter-order carries the constitutional authority he believes it carries. I have told him it does. He has asked for confirmation from the Chancellor directly. I am relaying that request to you now, with the caveat that approaching the front line carries personal risk that I cannot fully mitigate. The 3rd Armored's gunners have orders to hold fire unless fired upon. I believe those orders will be followed. I do not know it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Major Kellan is asking for confirmation from the Chancellor directly. The request is both a military communication and a political event — a Veltrian officer, surrounded by armored vehicles that were ordered into the capital by a general who may have just attempted a coup, wants to hear the Chancellor's voice before he decides which orders to follow. He wants to hear your voice. Not Dusek's. Not a written order. Your voice. The voice that was elected, that swore an oath on the Constitution, that has governed through thirty-seven weeks of crisis and may not survive the thirty-eighth unless Major Kellan decides that the oath he swore means more than the general he serves. The distance between you and Major Kellan is approximately two hundred meters of boulevard that currently separates two armed forces who are pointing weapons at each other. Two hundred meters is not far. It is the entire distance between a Republic and a military dictatorship."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "This is Brenner. I am on the tactical channel with the 3rd Armored. I want to communicate directly and publicly that I have ordered Colonel Torvald to hold position and to refrain from any offensive movement unless fired upon. I repeat: no offensive movement unless fired upon. Chancellor, I am not trying to start a war with my own army. I am trying to prevent the collapse of civilian authority in the face of an imminent foreign invasion that the civilian government has been unable to adequately address. That remains my position. The 3rd Armored's deployment was a demonstration of concern, not a declaration of war. If your 1st Infantry holds its position, my 3rd Armored will hold its position. We can resolve this politically rather than militarily. That is my preference. That has always been my preference. The next move is yours."
+    },
+    {
+      "type": "description",
+      "text": "Brenner's voice on the tactical channel is calm, professional, the voice of a man who has commanded soldiers in combat and knows that panic is more contagious than courage. He is offering a pause. Not a surrender, not a withdrawal — a pause. A space in which something other than shooting can happen. The pause is real. Brenner's willingness to offer it is real. What is also real is that twelve armored vehicles are still parked on Victory Avenue with their engines running, and three hundred soldiers are still inside them, and 'no offensive movement unless fired upon' is not the same as 'returning to barracks.' The pause is an opportunity. It is not a resolution. What you do with the pause will determine whether the crisis ends this morning or enters a phase that has no name in military doctrine because military doctrine does not have a term for a country that is simultaneously at peace and at war with itself."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "standoff_address_soldiers",
+      "text": "\"I am going to walk out there. Not to the front line — close enough to be heard, to be seen, to be real to the soldiers in those tanks and on those barricades. Dusek, you will accompany me. Brenner, you are welcome to join me or to remain on the tactical channel, but I am going to address the soldiers of both units directly. They are not factions in a political dispute. They are Veltrian citizens in uniform who were given conflicting orders by the people who are supposed to provide clarity. I am going to provide clarity. I am the Chancellor of the Republic. The Republic's soldiers do not fire on each other. That is not an order. It is a description of what Veltria is. I am going to remind them of that description.\"",
+      "internalTag": "personal",
+      "tooltip": "Walk to the line and speak to the soldiers directly. Your presence — unarmed, visible, real — may accomplish what orders cannot. Maximum risk, maximum authenticity.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 18 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_military_democracy_bond", "delayWeeks": 2 }
+      ],
+      "flags": ["chancellor_addressed_soldiers", "standoff_resolved_peacefully", "personal_courage_displayed", "soldiers_heard_chancellor"],
+      "codexUnlocks": ["codex_victory_avenue_standoff", "codex_soldiers_oath"]
+    },
+    {
+      "id": "standoff_defensive_posture",
+      "text": "\"Brenner — I acknowledge your willingness to hold position. I am going to match it. The 1st Infantry will maintain defensive posture only. No advance. No provocation. But also no withdrawal. The government district remains under constitutional protection. I want a direct communication channel established between the 1st Infantry commander and the 3rd Armored commander — they need to be talking to each other, not just receiving orders from us. Soldiers who talk to each other are less likely to shoot at each other. Dusek, you will remain in the operations center and coordinate de-escalation protocols. We are going to wait this out. Every hour that passes without violence makes violence less likely. Time is on the side of the constitution.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Hold the line and de-escalate. A waiting game. Preserves both forces intact while buying time for a political resolution.",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 12 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -2 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_brenner_negotiation", "delayWeeks": 0 }
+      ],
+      "flags": ["standoff_deescalated", "defensive_posture_held", "no_bloodshed", "communication_established"],
+      "codexUnlocks": ["codex_deescalation_protocol", "codex_direct_communication_channel"]
+    },
+    {
+      "id": "standoff_demand_surrender",
+      "text": "\"Brenner, I am ordering you to surrender command of the 3rd Armored to Colonel Dusek immediately. The constitutional chain of command is clear — the Minister of Defense outranks the General Staff in matters of deployment authority, and the Minister of Defense is standing next to me. You have thirty minutes to order the 3rd Armored to return to Fort Harlan. If you do not, I will authorize the 1st Infantry to enforce the constitutional order by whatever means are necessary. I am not bluffing. I am not negotiating. I am exercising the authority vested in me by the Constitution of the Republic of Veltria. The tanks on Victory Avenue are illegally deployed. The orders that put them there are invalid. The officer who issued those orders is in violation of his oath. This ends now, General. It ends with you making the right decision or it ends with the 1st Infantry making it for you.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Issue an ultimatum. Assert full constitutional authority. Either Brenner backs down or the shooting starts. The clearest line — and the most dangerous.",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -14 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": -14 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_civil_conflict_arc", "delayWeeks": 3, "probability": 0.7 },
+        { "targetNodeId": "act3_face_to_face_brenner", "delayWeeks": 0, "probability": 0.3 }
+      ],
+      "flags": ["brenner_ultimatum_issued", "surrender_demanded", "constitutional_line_drawn", "standoff_unresolved"],
+      "codexUnlocks": ["codex_constitutional_chain_of_command", "codex_chancellor_war_powers"]
+    }
+  ]
+}

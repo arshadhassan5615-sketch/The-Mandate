@@ -1,0 +1,105 @@
+{
+  "id": "act3_brenner_response",
+  "title": "The General's Visit",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Brenner's Office",
+  "characters": ["general_brenner", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.referendum_won_decisive", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Brenner requested the meeting himself, which is not something he does. For thirty-one weeks you have gone to him — to the Ministry, to the Gravenmark command post, to whatever conference room he occupied at the relevant hour. This morning his aide called your office and asked, formally, whether the Chancellor would be available to receive the General. The phrasing was deliberate. He is coming to you. He is making a point about where the authority lives."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "Chancellor. Congratulations on the referendum result. Sixty point seven percent is not a mandate I expected, and I want to be honest with you: I underestimated the campaign, and I underestimated the Dravenni turnout, and I have spent the past two days revising my assumptions accordingly. I am not a man who finds revision comfortable. I am doing it anyway because the alternative is continuing to operate on incorrect information, which produces worse outcomes than discomfort."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is telling me he was wrong. Brenner telling me he was wrong is the equivalent of another person performing an elaborate public apology. He does not say the words 'I apologize' because his entire professional formation has trained him against them. He says 'I have revised my assumptions,' which is the military equivalent, and he is clearly uncomfortable saying that. The discomfort is genuine. The revision is genuine. I need to decide whether to receive this with the grace it requires or the caution it also requires."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I want to discuss what the new constitution means for the command structure. Specifically: the provisions on civilian oversight of military operations, the requirement for parliamentary authorization of deployments over thirty days, and the judicial review clause for emergency powers invocations. I have read the document. I have had my legal team read the document. I am not going to tell you the military's legal team approves of every provision. What I will tell you is that I understand these provisions are now the law, and that I intend to operate within them. I want to know what that looks like in practice before we encounter a situation where it matters operationally."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I should add my own position, Chancellor. I have served under four governments, two of which I respected and two of which I followed because my oath required it. The new constitution's provisions on civilian oversight are more demanding than anything I have operated under. They are also, in my assessment, more honest about where authority should reside in a republic. I told General Brenner this when he showed me the document. I am telling you so that you understand the conversation that preceded this meeting."
+    },
+    {
+      "type": "description",
+      "text": "The window of Brenner's office faces the parade ground. On a day like this — grey autumn, the leaves largely gone — the space looks larger than it does when it is occupied. You have been in this office before, during the worst weeks of the military loyalty crisis, and you remember looking at this window and not being able to see outside it. Today you can see outside. The distinction feels important in a way you cannot fully explain."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Brenner wants a working relationship under the new framework. He has come to your office — metaphorically; you are in his, but the gesture was his — to establish one. He is offering something that costs him something to offer: deference, or at minimum the negotiation of it. The question is whether to accept it on his terms, reshape it on mine, or use this moment to establish something clearer and more durable than an informal understanding between two people who have spent thirty-one weeks testing each other."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "brenner_response_integrate",
+      "text": "\"I want to establish a joint civilian-military working group — Dusek, a deputy from my office, and two senior officers you designate — to develop the operational protocols for the new oversight provisions. We write the implementation framework together. The law is the law, but how we implement it determines whether it protects the country or paralyzes it. I would rather spend three weeks writing good protocols with your input than spend three years litigating bad ones.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 3 }
+      ],
+      "flags": ["brenner_constitutional_integration", "military_oversight_framework_building"],
+      "codexUnlocks": ["codex_civilian_military_oversight"]
+    },
+    {
+      "id": "brenner_response_assert_authority",
+      "text": "\"I appreciate you coming, General. The provisions in the constitution are not guidelines — they are requirements. The parliamentary authorization clause, the judicial review provision, the civilian oversight board: these are now constitutional law. I will be appointing the civilian oversight board next week, and I expect the Ministry to cooperate fully with its work. I am not here to negotiate the constitution's implementation. I am here to tell you how it will be implemented. We can make that process cooperative or we can make it adversarial. I strongly prefer cooperative.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["civilian_authority_asserted", "military_oversight_board_announced"],
+      "codexUnlocks": ["codex_civilian_military_oversight"]
+    },
+    {
+      "id": "brenner_response_test_loyalty",
+      "text": "\"Before we discuss protocols, I want to ask you a direct question. If I invoke the emergency powers clause — the one that survived in the constitution — and if parliament subsequently refuses to reauthorize within thirty days, and if the courts uphold the refusal — what does the military do? I need to know your answer to that question before I know what kind of working relationship we actually have.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week30_betrayal_dusek", "delayWeeks": 4 }
+      ],
+      "flags": ["brenner_loyalty_directly_tested", "military_constitutional_commitment_sought"],
+      "codexUnlocks": ["codex_civilian_military_oversight"]
+    }
+  ]
+}

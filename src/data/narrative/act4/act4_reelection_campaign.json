@@ -1,0 +1,83 @@
+{
+  "id": "act4_reelection_campaign",
+  "title": "The Campaign Trail",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Kravenstal — Campaign Rally, Evening",
+  "characters": ["vyktor_reznik", "jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The rally in Kravenstal is the seventh stop on a campaign tour that has taken you to every province in the Republic over the past three weeks. The hall is a converted factory — the same factory that was the site of the labor unrest in Week Six, though the banners now are campaign banners and the workers who filled the square that week are now in uniform or in war production jobs or in graves. The country you are campaigning in is not the country you were elected to lead. It has been transformed by war, reform, crisis, constitutional upheaval, by decisions you made and decisions that were forced upon you. The faces in the crowd are familiar — the same faces you have been seeing for nearly a year — but they are also different. Harder. Older. The people who came to your inaugural rally believed that democracy was the solution. The people at this rally believe that survival is the goal. The gap between those beliefs is the story of your Chancellorship."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The polling. You are leading by eight points. The challengers are Kolvar — running as the 'Restore Parliament' candidate — and Maric, who has split from the workers' coalition to mount an independent labor candidacy that is polling at twelve percent and drawing support from our left flank. Eight points is comfortable but not safe. The undecided voters are mostly women over forty — your core constituency in the first election — who supported you then and are not sure they support you now. The war has cost them sons. The economy has cost them security. They believe you are trying. They are not sure trying is enough. The campaign needs to answer the question they are asking: 'Has she done enough with what we gave her?'"
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "The speechwriters have drafted three versions of the campaign address. Version one emphasizes the reform record — the constitution, the civil liberties expansion, the anti-corruption measures. Version two emphasizes stability and strength — the war leadership, the military buildup, the alliance with Arcturia. Version three emphasizes unity and healing — the national sacrifice, the common purpose, the promise of reconstruction. I have read all three. They are all true. None of them is the whole truth. The whole truth is that you have done extraordinary things in impossible circumstances and that some of the extraordinary things have had costs that are still being counted. I do not know which version to give you. I am not sure there is a version that captures what this year has actually been."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Jonas is here. On the campaign trail. After everything — the seventeen things, the arguments, the times you missed, the promises you made and partially kept — he is here. He is handing you speech drafts and asking which version of the truth you want to tell. That is more than political support. That is a marriage functioning in the margins of a crisis. It is not the marriage you had before the Chancellorship. It is the marriage you have after nearly a year of governance. It is smaller. It is also, somehow, still here. You want to thank him. You want to tell him that him being here matters more than any campaign speech. You do not say it. The rally is starting. The people are waiting. There is always something starting. There is always someone waiting. That is what the Chancellorship has been."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "reelection_reform_record",
+      "text": "\"Give me version one — the reform record. I want to tell the country what we have built together. The constitution that replaced Halvek's framework. The civil liberties that were restored. The institutions that were created. The corruption that was investigated and prosecuted. I am running on the record of a government that did what it promised, in conditions no one could have predicted, with results that are real even if they are incomplete. The reform record is the truest version of what this Chancellorship has been. The war and the economic crisis were not the purpose of this government. They were the context. The purpose was always reform. I am running on purpose.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["reelection_campaign_launched", "reform_record_platform"],
+      "codexUnlocks": ["codex_campaign_reform", "codex_electoral_mandate"]
+    },
+    {
+      "id": "reelection_strength_stability",
+      "text": "\"Version two. Strength and stability. The country is at war. The country needs to know that the person who led them through the first year of crisis can lead them through the next. I am running on what I have proved: that I can make hard decisions, that I can hold the front, that I can manage the military and the economy and the diplomacy simultaneously without dropping any of them. Kolvar talks about parliamentary sovereignty. Maric talks about workers' rights. I am talking about survival. The election is a referendum on whether Veltria wants a wartime leader who will fight or a peacetime politician who will debate. I am the wartime leader. That is what I am running on. That is the truth.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["reelection_campaign_launched", "strength_stability_platform"],
+      "codexUnlocks": ["codex_wartime_leadership", "codex_crisis_mandate"]
+    },
+    {
+      "id": "reelection_unity_healing",
+      "text": "\"Both versions are true. Neither is sufficient. I am running on something harder to sloganize: the idea that Veltria can be a country that fought a war and reformed its constitution and survived an economic crisis and still found a way to be one country at the end of it. Not a country divided into reformers and Halvekists, Iron Covenant and Dravenni, workers and business. One country. Exhausted from the fight, scarred by the losses, uncertain about the future — but together. I am not running on ideology. I am running on the belief that governance is the art of holding a country together while everything tries to tear it apart. That is what I have been doing. That is what I will keep doing. That is the pitch.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 12 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["reelection_campaign_launched", "unity_healing_platform"],
+      "codexUnlocks": ["codex_national_unity", "codex_healing_governance"]
+    }
+  ]
+}

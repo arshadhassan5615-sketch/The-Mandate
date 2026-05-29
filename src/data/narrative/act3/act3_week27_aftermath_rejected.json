@@ -1,0 +1,116 @@
+{
+  "id": "act3_week27_aftermath_rejected",
+  "title": "Cabinet at Nine",
+  "act": 3,
+  "weekAvailable": 27,
+  "weekDeadline": 28,
+  "type": "event",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Cabinet Room, 8:54am",
+  "characters": ["vyktor_reznik", "general_brenner", "gregor_maric"],
+  "prerequisites": [],
+  "exclusive": ["act3_week27_aftermath_decisive", "act3_week27_aftermath_narrow"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Five of the twelve cabinet ministers confirmed attendance. Two sent representatives. Three sent nothing — no confirmation, no apology, no explanation. Dusek arrived at eight-fifteen in uniform, which you did not request. When a military officer shows up in uniform to a cabinet meeting called after an electoral defeat, it is a signal. You are not entirely certain yet what it signals."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Kolvar will call for a confidence vote by Friday. His arithmetic is four seats short — today. The reformist bloc is going to fracture in the next forty-eight hours, and when it does, the arithmetic changes. We have two days before the question becomes whether you survive the week, and approximately six days before we know whether you do."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-six point three percent. Twenty-seven weeks. You made every decision you were capable of making — the ones you are proud of and the ones you are not, the compromises that were necessary and the ones you should have refused, the deals that held and the ones that cost more than the thing they bought. All of it has produced a room with three empty chairs and five ministers who sent nothing, and the question of what you do next."
+    },
+    {
+      "type": "description",
+      "text": "Gregor Maric is at the table. He came first, before Vyktor, before the protocol officers. He has a cup of coffee he hasn't touched. When you enter the room, he looks at you, and the look says: I'm here. That is what some loyalties look like. Not declarations. Just presence."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I want to state for the record that the Armed Forces of the Republic have no position on the referendum result. The military serves the constitutional government of Veltria. I am here in an advisory capacity only, and I want that understood before anything else is said in this room."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He says this before anyone asks. The fact that he is saying it before anyone asks means he has calculated that not saying it would leave the wrong impression. He is managing the meaning of his presence in this room. That is either reassurance or the most precise form of warning you have ever received."
+    },
+    {
+      "type": "description",
+      "text": "Three empty chairs. The ministers who sent nothing have made their first post-referendum calculation: that this morning's cabinet meeting was not where they needed to be. Within seventy-two hours, those calculations will have become decisions, and you will know who stayed and who didn't, and you will know which of those you expected."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "aftermath_rejected_address_cabinet",
+      "text": "\"Before anyone says anything about strategy or next steps — I want to address the room directly. What happened yesterday is my responsibility. I made the decisions that produced that number. What happens today is ours. I want to know who's still in.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_coalition_stabilization", "delayWeeks": 3 }
+      ],
+      "flags": ["referendum_failed", "defeat_owned_publicly"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "aftermath_rejected_ask_positions",
+      "text": "Go around the table. Ask each minister present to state their position directly: whether they intend to serve out this government's term and how. You want the information now rather than in two days when it surfaces through Kolvar's office.",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 3  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_cabinet_loyalty_audit", "delayWeeks": 1 }
+      ],
+      "flags": ["referendum_failed", "cabinet_positions_demanded"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "aftermath_rejected_preempt_confidence",
+      "text": "\"I intend to request a parliamentary confidence vote on my own terms, before Kolvar forces one. Let it be my question to parliament — not his challenge to my government, but my request for their continued mandate. The timing and framing belong to me.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 1 }
+      ],
+      "flags": ["referendum_failed", "confidence_vote_self_requested"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "aftermath_rejected_fight_on",
+      "text": "\"The Halvek Constitution remains — fine. I know what executive authority it grants this office. I know what the parliamentary procedures allow. We govern from here, using every legitimate instrument available, until our term ends or we don't.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_reform_by_decree", "delayWeeks": 2 }
+      ],
+      "flags": ["referendum_failed", "executive_override_mode"],
+      "codexUnlocks": []
+    }
+  ]
+}

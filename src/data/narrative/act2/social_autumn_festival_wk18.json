@@ -1,0 +1,109 @@
+{
+  "id": "social_autumn_festival_wk18",
+  "title": "The Ashenmere Autumn Festival",
+  "act": 2,
+  "weekAvailable": 18,
+  "type": "social_event",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ashenmere Old Town Square",
+  "characters": ["jonas_ashavel", "stanislov_renek", "soraya_khaled", "lucan_vael", "nadia_voss"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "The Ashenmere Autumn Festival transforms the Old Town Square. Lanterns, chestnuts, music. For one day, the divisions of politics seem distant." },
+    { "type": "description", "text": "But you are still the Chancellor. The factions are here too — watching, waiting. You cannot talk to everyone." }
+  ],
+  "choices": [],
+  "socialInteractions": [
+    {
+      "id": "festival_speech",
+      "title": "The Festival Speech",
+      "location": "Main Stage",
+      "mandatory": true,
+      "narrative": [
+        { "type": "description", "text": "The festival organizers have reserved a brief address from the Chancellor. The crowd is a mix of families, workers, students." },
+        { "type": "dialogue", "character": "jonas_ashavel", "text": "Let me do this one. I've been working on something. About community." }
+      ],
+      "choices": [
+        {
+          "id": "fest_speech_chancellor",
+          "text": "Take the stage yourself. A personal, direct address.",
+          "internalTag": "pragmatist",
+          "stateChanges": [{ "stat": "personal.publicImage", "operation": "add", "value": 5 }],
+          "flags": ["festival_chancellor_spoke"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "fest_speech_jonas",
+          "text": "Let Jonas speak. He delivers a heartfelt address about community.",
+          "internalTag": "personal",
+          "stateChanges": [{ "stat": "personal.marriageHealth", "operation": "add", "value": 8 }],
+          "flags": ["festival_jonas_spoke"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "festival_renek",
+      "title": "The Church Booth",
+      "location": "Church Tent",
+      "character": "stanislov_renek",
+      "narrative": [
+        { "type": "description", "text": "The Church tent offers free soup. Archbishop Renek serves personally." },
+        { "type": "dialogue", "character": "stanislov_renek", "text": "Chancellor! There's a ladle with your name on it. Service is the highest form of leadership." }
+      ],
+      "choices": [
+        {
+          "id": "fest_renek_serve",
+          "text": "Take the ladle and serve. The image appears in tomorrow's papers.",
+          "internalTag": "pragmatist",
+          "stateChanges": [{ "stat": "factions.church", "operation": "add", "value": 8 }],
+          "flags": ["festival_served_with_renek"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "fest_renek_wave",
+          "text": "Wave politely and move on.",
+          "internalTag": "deflect",
+          "stateChanges": [{ "stat": "factions.church", "operation": "add", "value": -3 }],
+          "flags": ["festival_skipped_church"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "festival_soraya",
+      "title": "The Workers' March",
+      "location": "Procession Route",
+      "character": "soraya_khaled",
+      "narrative": [
+        { "type": "description", "text": "Soraya Khaled leads a workers' march. The crowd parts for them." },
+        { "type": "dialogue", "character": "soraya_khaled", "text": "Chancellor! Walk with us. Show them their Chancellor doesn't hide from the people who elected her." }
+      ],
+      "choices": [
+        {
+          "id": "fest_soraya_join",
+          "text": "Join the march. Walk with the workers.",
+          "internalTag": "populist",
+          "stateChanges": [{ "stat": "factions.workersCoalition", "operation": "add", "value": 12 }],
+          "flags": ["festival_joined_march"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "fest_soraya_salute",
+          "text": "Salute but stay on the sidelines.",
+          "internalTag": "pragmatist",
+          "stateChanges": [{ "stat": "factions.workersCoalition", "operation": "add", "value": -2 }],
+          "flags": ["festival_saluted_march"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  ]
+}

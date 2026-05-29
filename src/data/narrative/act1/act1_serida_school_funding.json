@@ -1,0 +1,48 @@
+{
+  "id": "act1_serida_school_funding",
+  "title": "Mila's School",
+  "act": 1,
+  "weekAvailable": 8,
+  "weekDeadline": 12,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Morning Briefing",
+  "characters": ["serida_valk"],
+  "prerequisites": [{ "stat": "flags.met_serida", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Serida places your morning briefing on the desk with an unusual hesitation. She lingers — not nervously, but thoughtfully, as if deciding whether to speak. Then she does." },
+    { "type": "dialogue", "character": "serida_valk", "text": "Chancellor — ma'am — I want you to know something. Not as a complaint. As information. Mila's school in Kravenstal lost two teachers this month. The budget for supplies was cut by thirty percent. The library is closing on Fridays because they cannot afford to keep it open. I am not saying this to accuse you. I know the budget is complicated. I know you are trying to balance everything. I just... I thought you should know what those numbers look like from the other end. When you sign a budget that cuts education, you are signing Mila's library closing hours. I do not think anyone else in this building will tell you that. So I am telling you." }
+  ],
+
+  "monologue": "When I sign a budget that cuts education, I'm signing Mila's library closing hours. Serida is the only person in this building who will tell me that. Everyone else sees line items. She sees a seven-year-old who can't check out books on Fridays. She's right. Whether I can afford to hear it and still govern within the constraints I inherited is the question she didn't ask out loud.",
+
+  "choices": [
+    {
+      "id": "serida_school_listen",
+      "text": "\"Thank you for telling me, Serida. I will look at the education budget again. I cannot promise to restore every cut — but I can promise that I will not make decisions about schools without thinking about the children in them. Including yours.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": 10 },
+        { "stat": "seridaMorale", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_school_heard"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "serida_school_dismiss",
+      "text": "\"Serida, the budget is the budget. I cannot reopen every line item because someone in this office has a personal connection to it. I appreciate your honesty. But your job is to manage my schedule, not my policy.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": -5 },
+        { "stat": "seridaMorale", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_school_dismissed"],
+      "codexUnlocks": []
+    }
+  ]
+}

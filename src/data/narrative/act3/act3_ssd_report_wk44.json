@@ -1,0 +1,116 @@
+{
+  "id": "act3_ssd_report_wk44",
+  "title": "SSD Operations: Final Report",
+  "act": 3,
+  "weekAvailable": 44,
+  "weekDeadline": 47,
+  "type": "briefing",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "State Security Directorate — Secure Briefing Room",
+  "characters": ["viktor_dorne"],
+  "prerequisites": [
+    { "type": "flag", "flag": "ssd_funded", "value": true },
+    { "type": "flag", "flag": "ssd_second_report_complete", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The secure briefing room is unchanged — same light, same shadows, same faint smell of ozone. But Viktor Dorne looks different. Older, perhaps. Or perhaps it is simply that you are seeing him more clearly than you did two years ago, when you first authorized the SSD. The folder on the table between you is thinner than ever. Three pages. Whatever he is about to tell you, it does not require documentation."
+    },
+    {
+      "type": "dialogue",
+      "character": "viktor_dorne",
+      "text": "Chancellor. The Directorate has completed its threat assessment for the final phase of your term. The operational picture is as follows. The Halvekist infiltration network has been fully neutralized — eighteen of the original seventeen targets have been removed from their positions, plus seven additional individuals identified during the operation. The financial networks we identified in the first report have been permanently disrupted. The direct-action threats have been contained. In operational terms, your government faces no organized security threat that has not been addressed."
+    },
+    {
+      "type": "description",
+      "text": "He pauses. Dorne does not pause unless the next thing requires it."
+    },
+    {
+      "type": "dialogue",
+      "character": "viktor_dorne",
+      "text": "There is however one remaining matter. During our operations, we identified a network of seventeen individuals — former BNI senior officers, political operatives, and financiers — who orchestrated the systematic looting of state assets during the Halvek era and the transition. These are not foot soldiers. These are architects. They designed the system that enriched itself at the country's expense. Several of them are still in Veltria. Several are protected by political connections, legal arrangements, and the simple fact that they are wealthy enough to buy the silence of anyone who might testify against them. The regular justice system cannot touch them. The BCA — if it exists — cannot touch them, because the evidence required for prosecution no longer exists. It was destroyed. During the transition. By people who knew what they were doing."
+    },
+    {
+      "type": "dialogue",
+      "character": "viktor_dorne",
+      "text": "I am informing you that there is an alternative. The Directorate can resolve this matter operationally. It would require a single coordinated action — one night, seventeen addresses, seventeen outcomes. The operational details have been prepared. The personnel are in place. I require only your authorization. If you give it, I will not ask you again. If you do not, the individuals in question will live out their lives in the Thornfeld Valley and the Amber Coast, wealthy and unpunished, and the country they looted will never see justice. This is not a threat, Chancellor. It is arithmetic. The question is whether you want the books balanced."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Seventeen people. Seventeen architects of the system that killed my father, that impoverished the country, that turned Veltria into a machine for enriching the few at the expense of the many. Dorne is offering to eliminate them — all of them, in one night, in a coordinated operation that would be remembered as either justice or terror depending on who writes the history. He says he needs only my authorization. He says he will not ask again. He is offering me the kind of power that Halvek exercised without hesitation — the power to make people disappear, to bypass courts, to decide that some crimes are so profound that the law is an insufficient response. If I say yes, I become the thing I was elected to oppose. If I say no, seventeen architects of atrocity die of old age in their country estates. There is no third option. There is only the choice between becoming what I hate and accepting what I cannot change."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "ssd_authorize_night_of_justice",
+      "text": "\"Do it. One night. Seventeen addresses. No survivors. Dorne, I am authorizing this operation with full knowledge of what it entails. When it is done, you will provide me with a single piece of paper containing seventeen names and the confirmation that each one has been resolved. No operational details. No record of methods. The paper will be destroyed within twenty-four hours. The country will wake up tomorrow to news that seventeen of the most notorious war criminals of the Halvek era have died — various causes, no connection, no investigation. The Halvekists will know what happened. The people will know what happened. And for the first time since the transition, the architects of the old regime will understand that there are consequences for what they did. I did not want to be this kind of Chancellor. The country did not give me the option of being another kind.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 18  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -20 },
+        { "stat": "factions.reformists",          "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 5   },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 10  },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -20 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -25 },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 20  }
+      ],
+      "flags": ["night_of_justice_authorized", "extrajudicial_mass_operation", "ssd_final_report_complete", "dark_path_chosen"],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_night_of_justice_aftermath",
+          "delayWeeks": 1
+        }
+      ],
+      "codexUnlocks": ["codex_night_of_justice"]
+    },
+    {
+      "id": "ssd_selective_action",
+      "text": "\"Identify the three most culpable. The ones who gave the orders, not the ones who followed them. Those three — and only those three — are to be neutralized. The remaining fourteen will be investigated through conventional means. Dorne, I am authorizing this with the understanding that it is a limited action targeting the individuals most responsible for the worst crimes of the Halvek era. This is not a purge. It is a precise operation with a defined scope and a specific rationale: the three people most responsible for the system that killed thousands. When it is done, the SSD's operational mandate narrows permanently. You will have no further authority for extrajudicial action. Is that understood?\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 8   },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -12 },
+        { "stat": "factions.reformists",          "operation": "add", "value": -5  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 6   },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -10 },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 10  }
+      ],
+      "flags": ["ssd_selective_action", "ssd_final_report_complete", "partial_extrajudicial_authorized"],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_selective_justice_aftermath",
+          "delayWeeks": 1
+        }
+      ],
+      "codexUnlocks": ["codex_night_of_justice"]
+    },
+    {
+      "id": "ssd_refuse_dismantle",
+      "text": "\"No. No extrajudicial action. Not one, not three, not seventeen. Dorne, the SSD was created to protect this government from threats — not to become the kind of organization that eliminates people without trial. I authorized operations in the past that I am not proud of. But this — the coordinated elimination of seventeen people in one night — this is not security. This is state murder, and I will not authorize it. The criminals you have identified will be investigated through the justice system. If the evidence is insufficient for prosecution, that is a failure of the system, not a justification for replacing the system with a death squad. The SSD's operational mandate is hereby narrowed to intelligence gathering and threat assessment only. No further direct action without explicit, written authorization from this office — and I am telling you now that authorization will not be given.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 18  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": 5   },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 15  },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 18  },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": -8  }
+      ],
+      "flags": ["ssd_mandate_narrowed", "extrajudicial_refused", "ssd_final_report_complete", "institutional_restraint"],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_ssd_reform",
+          "delayWeeks": 2
+        }
+      ],
+      "codexUnlocks": ["codex_night_of_justice"]
+    }
+  ]
+}

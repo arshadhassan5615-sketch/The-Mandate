@@ -1,0 +1,44 @@
+{
+  "id": "project_mid_crisis_fortification",
+  "title": "The Tyvaren Accusation",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "diplomacy",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ministry of Foreign Affairs — Crisis Room",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "prerequisites": [{ "stat": "flags.project_sevagrad_started", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "The Tyvaren ambassador has filed a formal protest. The Sevagrad fortifications, he claims, include offensive positions — artillery platforms, forward observation posts, and reinforced bunkers positioned for assault rather than defense. He calls it a violation of the Gravenmark Pass Treaty and threatens 'proportional response.' Colonel Dusek says the accusation is propaganda. But some of the positions are... ambiguous." },
+    { "type": "dialogue", "character": "irina_dusek", "text": "The fortifications are defensive in design. But I will be honest — some of the positions could be adapted for offensive operations with minor modifications. That is standard military engineering. The Tyvarens know this. They are using the accusation to pressure us diplomatically and to justify their own military buildup. If we redesign, we lose two weeks and five million VK worth of materials already in place." }
+  ],
+  "choices": [
+    {
+      "id": "fort_redesign_defensive",
+      "text": "\"Redesign the disputed positions as explicitly defensive. Remove the artillery platforms. We will build fortifications that cannot be mistaken for offensive preparations. Let Tyvaren find another excuse for their aggression.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["fort_redesigned_defensive", "tyvaren_protest_defused"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "fort_continue_as_planned",
+      "text": "\"The fortifications are defensive. The Tyvaren accusation is bad faith. We will continue construction as planned. If Marshal Vukov wants to protest forts he cannot see from his side of the border, let him. We are not building his narrative for him.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [{ "targetNodeId": "act3_tyvaren_standoff", "delayWeeks": 6, "probability": 0.5 }],
+      "flags": ["fort_continued_as_planned", "tyvaren_tensions_escalated"],
+      "codexUnlocks": []
+    }
+  ]
+}

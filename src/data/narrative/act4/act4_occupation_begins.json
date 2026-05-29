@@ -1,0 +1,98 @@
+{
+  "id": "act4_occupation_begins",
+  "title": "Under the Jackboot",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere — Chancellor's Residence, Under Occupation",
+  "characters": ["vyktor_reznik", "general_brenner"],
+  "prerequisites": [
+    { "stat": "flags.war_defeat", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Tyvaren forces entered Ashenmere at 11:23 on a Tuesday morning under a sky that was, incongruously, perfectly blue. The war that had been fought for weeks across three fronts ended not with a decisive battle but with the dissolution of the Veltrian army — unit by unit, as ammunition ran out and communication lines were severed and officers made the calculation that further resistance would not change the outcome and would only add to the casualty lists they would have to send to families. The armistice was signed in the Ministry of Defense bunker where you had spent so many hours planning the war that was supposed to end differently. General Brenner — the Veltrian one, not the Arcturian — countersigned the surrender. His signature is on the same page as Marshal Vukov's. The symbolism is not lost on anyone. The Chancellor's residence is not, technically, under occupation. The Tyvaren officers who have taken up positions in the palace district call it 'protective supervision of the former head of state.' The euphemism is elaborate. The reality is not."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The military administration has been formalized. Marshal Vukov has appointed a 'Provisional Governance Council' composed of Tyvaren military officers and — this is the part you will want to sit down for — Drazen Kolvar has accepted a position on the council. He issued a statement this morning describing the occupation as 'an opportunity for Veltria to rebuild its institutions under stable conditions.' I do not know if he is a collaborator or a survivor who calculated that participation was the only way to protect something — someone — from the occupation. I do know that the Provisional Council has issued its first decree: the dissolution of the Chancellery and the transfer of executive authority to the council. Effective at noon. You have until noon to decide what you are going to do."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I am speaking to you as a military officer whose surrender terminated his command authority, which means I am speaking to you as a private citizen who was, until yesterday, a general. The Tyvaren command has made it clear that they will not harm you — they need you alive, either as a symbol of their clemency or as a defendant in a trial they are preparing to stage. Neither option serves Veltria. Your choice is not between cooperating and resisting. Your choice is between the forms of resistance that remain available. I can arrange passage out of Ashenmere. I cannot arrange passage out of Veltria. The rest is yours to decide."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The war is lost. The words feel impossible even as you think them. You made the choices. You set the strategy. You appointed the commanders. The outcome is yours — not yours alone, a thousand factors contributed, but yours in the sense that the person who made the final decisions must own the final results. The question now is what you do with the time you have left before noon. Vukov's council will rule with or without you. Kolvar has already chosen his path. Brenner — the man who may or may not have been planning a coup, the man whose loyalty you tested and questioned and ultimately could not fully trust — is offering you a way out. The occupation will last years. What you do in the next two hours will determine what kind of resistance is possible, and what kind of leader you are when the resistance is all that remains."
+    },
+    {
+      "type": "description",
+      "text": "The residence is quiet. The staff have been sent home. Jonas has taken the children somewhere safe — you insisted on not knowing where, for the same reason Dusek's operatives in the exile scenario do not know the name of the town where the mill is located. Operational security. The phrase is absurd in your own home. The absurdity is the occupation. Everything about normal governance has been replaced by the logic of survival."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "occupation_underground_resistance",
+      "text": "\"Brenner, get me out of the residence. Not out of Veltria — out of this house, out of the protective supervision that is detention with better furniture. I am not going to be Vukov's exhibit at a show trial or Kolvar's justification for a collaboration government. I am going to disappear. Vyktor — I need you to stay above ground. Stay visible. Be the person the occupation authorities talk to, the person who knows nothing about where I am. And I need you to be the person who finds the civil servants, the loyalist officers, the ordinary Veltrians who will not accept occupation. Build the network. I will lead it from wherever Brenner puts me. This is not surrender. This is the next phase of the war.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_collapse_endgame", "delayWeeks": 8 }
+      ],
+      "flags": ["war_defeat", "occupation_active", "underground_resistance", "chancellor_in_hiding"],
+      "codexUnlocks": ["codex_occupation_resistance", "codex_underground_leadership"]
+    },
+    {
+      "id": "occupation_accept_terms",
+      "text": "\"I am staying. Not because I accept the legitimacy of Vukov's council — because I am the Chancellor of the Republic of Veltria and the Chancellor does not flee when the country is occupied. I will accept protective supervision. I will not collaborate, I will not endorse the council, I will make no statements that legitimize the occupation — but I will be here. Visible. A reminder to every Veltrian that there is still a legitimate government, even if it is under detention. Vyktor, I want you out. Not in hiding — in the open, coordinating whatever civil society survives. Feed the hungry. Document the abuses. Build the parallel institutions that will be ready when the occupation ends. I will be the symbol. You will be the infrastructure. That is the division of labor. That is how we survive.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week48_collapse_endgame", "delayWeeks": 8 }
+      ],
+      "flags": ["war_defeat", "occupation_active", "chancellor_detained", "symbolic_resistance", "civil_society_preserved"],
+      "codexUnlocks": ["codex_occupation_governance", "codex_civil_society_resilience"]
+    },
+    {
+      "id": "occupation_flee_exile",
+      "text": "\"I am going. Brenner — get me out, all the way out. Not to a fishing village on the Amber Coast. Not to a textile mill in an unnamed town. To Stellamere. The Arcturians will recognize a government in exile. They have already indicated as much through back channels. From Stellamere, I can rally international pressure, coordinate with whatever loyalist forces remain, and deny Vukov the legitimacy of having imprisoned or exhibited the legitimate Chancellor. A dead Chancellor is a martyr. A detained Chancellor is a prisoner. A Chancellor in exile is a government. We fight from Stellamere. We return when the conditions are right. And we do not give Vukov the satisfaction of having me in his custody.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -6 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week40_exile", "delayWeeks": 1 }
+      ],
+      "flags": ["war_defeat", "occupation_active", "chancellor_exiled", "government_in_exile"],
+      "codexUnlocks": ["codex_government_in_exile_formation", "codex_international_legitimacy"]
+    }
+  ]
+}

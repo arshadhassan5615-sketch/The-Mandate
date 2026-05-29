@@ -1,0 +1,86 @@
+{
+  "id": "act3_liora_journalist_arc",
+  "title": "Byline",
+  "act": 3,
+  "weekAvailable": 28,
+  "weekDeadline": 35,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ashenmere — Liora's Apartment, Evening",
+  "characters": ["liora_ashavel"],
+  "prerequisites": [
+    { "stat": "flags.liora_process_respected", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Liora's apartment is a fourth-floor walkup in the old printing district, three blocks from the Ashenmere Gazette offices where she has been working as a junior stringer for the past month. The walls are covered with pinned clippings — not her own, not yet, but the work of journalists she admires: Nadia Voss's series on the BNI, the Dravenhollow correspondent who filed under a pseudonym for six years, the economic reporter at the Thornfeld Courier who predicted the austerity crisis eighteen months before it arrived. The clippings are arranged chronologically, which is the only organizing principle Liora has ever respected."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "I filed my first piece under my own name last week. They ran it on page four — below the fold, but they ran it. It was about the welfare review. The one you froze after Kravenstal. I interviewed three families in the eastern district. One of them remembered your speech from the inaugural. She said she voted for you because you promised to govern for everyone. She said she still believed that, even after the cuts. I wrote that. I wrote what she said, exactly, without editorializing. Nadia told me that's the hardest thing to learn — writing what people actually say instead of what you want them to have said."
+    },
+    {
+      "type": "description",
+      "text": "She pours tea from a pot that has a chip in the spout. The chip has been there since she moved in. She could afford a new pot — she has a salary now, small but real — but she keeps the chipped one. You understand why without asking. Some objects become evidence that you survived something."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "They offered me the police blotter beat next month. It's the bottom of the newsroom — overnight arrests, court filings, the stuff nobody wants to write because it's repetitive and sad and most of the people in it can't read the paper anyway. I took it. I want to understand how the legal system actually functions at the level where it touches people who can't afford a solicitor. The constitution is important. The people it doesn't reach are also important. Both things are true."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is twenty-two and she is already a better journalist than half the people in the press gallery. She learned it from watching — watching you, watching Vyktor, watching the machinery of governance from the inside of the residence. She learned that policy is made of choices and choices have costs and costs fall on specific people who have names and addresses and chipped teapots. She is doing what you did, in a different form. You are not certain she knows how proud you are. You should tell her."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "liora_journalist_encourage",
+      "text": "\"The police blotter beat is where Nadia Voss started. She told me once that it taught her more about the country than six years of parliamentary reporting. Write what you see. Write it exactly. The rest follows.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_nadia_investigation_continues", "delayWeeks": 4 }
+      ],
+      "flags": ["liora_journalist_path", "liora_encouraged_by_mother"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "liora_journalist_warn_caution",
+      "text": "\"The press gallery will notice whose daughter has the byline. Every source you cultivate, every story you file — they will read it through that lens. You have to be better than everyone else, and you have to be better consistently, and even then they will say you got the job because of me. I'm not telling you to stop. I'm telling you what's coming so you're ready for it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["liora_journalist_path", "liora_warned_about_name"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "liora_journalist_offer_access",
+      "text": "\"If you're going to write about how this government functions, you should understand how it actually functions. I can arrange for you to attend the daily press briefings — not as my daughter, as a working journalist. Vyktor will treat you exactly the way he treats every other reporter. That means he will be completely unhelpful in the most professional way possible.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 10 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_press_freedom_crackdown", "delayWeeks": 5 }
+      ],
+      "flags": ["liora_journalist_path", "liora_press_briefing_access"],
+      "codexUnlocks": []
+    }
+  ]
+}

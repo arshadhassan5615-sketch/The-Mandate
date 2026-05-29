@@ -1,0 +1,97 @@
+{
+  "id": "act3_treaty_drafting",
+  "title": "The Treaty Takes Shape",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Parliamentary Treaty Committee — Closed Session, 14:00",
+  "characters": ["vyktor_reznik"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The treaty document sits on the committee table like an uninvited guest who arrived early and cannot be asked to leave. Thirty-seven pages, single-spaced, in three languages — Veltrian, Tyvaric, and Forum standard — each clause numbered and cross-referenced to annexes that contain maps, force disposition tables, and economic schedules that extend twenty years into a future that no one in this room can confidently predict. The Tyvaren legal team has been thorough. Every ambiguity has been resolved in their favor. Every enforcement mechanism defaults to Tyvaren administration. The treaty is not a negotiation in good faith. It is a legal architecture for the permanent subordination of Veltrian sovereignty, drafted with the precision of people who plan to enforce it. Parliament has been called into closed session to review the draft before the final round of negotiations. The committee room is too small for the number of people in it. The air is warm. The tension is not."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Summary of the critical clauses. Article Four — the Gravenmark Pass is designated a 'Special Administrative Zone' under a Joint Commission. The Joint Commission has seven members: four appointed by Tyvaren, three by Veltria. Decisions require a simple majority. Tyvaren has four votes. This is not joint administration. This is Tyvaren administration with Veltrian consultation. Article Eleven — Veltria agrees not to enter into any international agreement that Tyvaren determines to be inconsistent with the spirit of this treaty. The determination is unilateral. Tyvaren determines. Veltria complies. Article Seventeen — dispute resolution is through a tribunal of three judges, two appointed by Tyvaren, one by Veltria. Article Twenty-Two — the treaty is subject to review every ten years. The review requires mutual consent to amend. Either party can block amendments. The treaty can only change if Tyvaren agrees to change it. It can never change if Tyvaren does not."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is not a treaty. This is a surrender document with legal drapery. Every clause is a mechanism for converting military defeat — a defeat that has not yet occurred, that we are trying to prevent — into permanent legal subordination. If I sign this, I will be the Chancellor who traded a war she might have won for a peace that guarantees her country will never be sovereign again. If I refuse to sign, I will be the Chancellor who walked away from a diplomatic solution because the terms were unfavorable and sent thousands of soldiers to die for the difference between a negotiated concession and a military one. The soldiers will not know the difference. Their families will not know the difference. The histories may not know the difference. But I know the difference. The difference is that one version of this document can be renegotiated — amended, challenged, eventually repudiated — and the other version ends with Veltrian soldiers buried at Gravenmark and Tyvaren forces occupying territory they would not have gotten through negotiation. Both futures are terrible. One is terrible and temporary. The other is terrible and permanent. The question is which is which, and I am not sure I know, and I have to decide anyway because the committee is waiting and the war is not."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Legal assessment. The treaty as drafted is substantively incompatible with the Veltrian Constitution. Article Four requires the cession of sovereign territory — the Gravenmark Pass is constitutionally inalienable without a supermajority parliamentary vote and a national referendum. Article Eleven violates the sovereignty clause of the Constitution. Article Seventeen violates the right of Veltrian citizens to have their disputes adjudicated in Veltrian courts. We have legal grounds to challenge every major clause. Whether we have political grounds to sustain those challenges through the negotiations is a different question. The Tyvaren legal team knows the treaty violates our Constitution. They drafted it that way deliberately. They want us to be in the position of explaining why the Constitution cannot accommodate the peace agreement we signed. That is the next phase of their strategy. The peace agreement is not the end. It is the beginning of a different kind of conflict — a legal one — in which they will use every clause we sign against us."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "treaty_push_back_hard",
+      "text": "\"I am rejecting Articles Four, Eleven, Seventeen, and Twenty-Two in their current form. The Joint Commission must have equal representation. The dispute tribunal must have neutral international judges, not Tyvaren appointees. The sovereignty clause stays — I will not sign a treaty that gives Tyvaren a veto over our foreign policy. And the constitutional compatibility language must explicitly state that this treaty is subordinate to the Veltrian Constitution, not superior to it. If Volkov wants a treaty, he will get a treaty that a sovereign nation can sign without ceasing to be sovereign. If these changes are unacceptable, then there is no treaty. And Volkov can explain to the world why he walked away from a negotiated settlement that gave him everything except the right to govern us from Sevagrad.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_halvekist_legal_war", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 3 }
+      ],
+      "flags": ["treaty_articles_rejected", "hard_bargaining_stance", "sovereignty_defended_in_terms", "treaty_path_negotiating"],
+      "codexUnlocks": ["codex_treaty_negotiation", "codex_constitutional_incompatibility"]
+    },
+    {
+      "id": "treaty_accept_cosmetic",
+      "text": "\"Accept the treaty framework with cosmetic modifications. Renegotiate Article Four to change 'Special Administrative Zone' to 'Cooperative Border Region' — the substance remains but the language is less offensive. On Article Eleven, propose an amendment that requires 'mutual consultation' rather than Tyvaren determination — again, the practical effect is the same but the appearance is more defensible. On the tribunal, accept two-one composition but require that the third judge be a neutral international jurist, not a Veltrian appointee. We get an independent voice without changing the balance. This treaty is going to be signed. The question is whether it is signed in a form that allows me to defend it to parliament and the nation. I need enough changes to sell it as a negotiation, not enough changes to kill it. Volkov will accept cosmetic changes because he cares about the substance, not the language. Give him the substance. Give me the language.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_confidence_vote", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 3 }
+      ],
+      "flags": ["treaty_cosmetic_changes", "substance_conceded", "presentation_negotiated", "treaty_path_accommodating"],
+      "codexUnlocks": ["codex_treaty_negotiation", "codex_diplomatic_face_saving"]
+    },
+    {
+      "id": "treaty_walk_away",
+      "text": "\"This is not a treaty. This is an instrument of vassalage drafted by lawyers who think we cannot read. I will not sign it. I will not negotiate it. I am withdrawing from the diplomatic track and placing the matter before parliament as a question of national survival. If parliament votes to accept these terms, let the members who vote yes explain to their constituents why they surrendered the country's sovereignty in a closed committee room. If parliament votes to reject — and it will — then we proceed to full national defense with a parliamentary mandate behind us. I did not spend months building a constitutional republic to sign it away in a treaty that gives Tyvaren veto power over our foreign policy. Let Volkov explain his terms to parliament. Let parliament explain its decision to the nation. And let the nation decide what it is willing to fight for. I know what I am willing to fight for. The Gravenmark. The Constitution. The Republic. All of it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 16 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 12 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 1 },
+        { "targetNodeId": "act4_week40_war_begins", "delayWeeks": 3 }
+      ],
+      "flags": ["treaty_rejected", "walked_away", "parliament_endorsed_defense", "treaty_path_abandoned"],
+      "codexUnlocks": ["codex_treaty_rejection", "codex_parliamentary_war_mandate"]
+    }
+  ]
+}

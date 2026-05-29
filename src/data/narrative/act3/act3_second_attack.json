@@ -1,0 +1,85 @@
+{
+  "id": "act3_second_attack",
+  "title": "The Second Strike",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "emergency",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ashenmere Palace — Situation Room",
+  "characters": ["vyktor_reznik", "danika_oberlin", "irina_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The second attack is smaller — a car bomb outside a Reformist Party office in Kravenstal — but its meaning is larger. The first attack, you survived. The second attack says: the first was not a one-time event. The conspirators are still operating. They are still targeting your government. And the rallying cry of unity that you gave the nation eight weeks ago is now being tested against the reality that unity did not stop them."
+    },
+    {
+      "type": "description",
+      "text": "No one died. The office was empty — it was after hours. The bomb damage is confined to the building facade and the vehicles parked along the street. But the message is unmistakable: the attack on the Chancellor was not the end of something. It was the beginning. Your decision to rally the nation rather than crack down now looks either principled or naive, depending on who you ask — and a lot of people are asking."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Same explosive compound. Same armory source. This is the same network. The Kravenstal office was targeted because it was a Reformist stronghold — your strongest district in the last election. They are striking at your political base. If they hit again, they will hit harder. The question eight weeks ago was whether to declare an emergency. The question now is: has the situation changed enough to reconsider?"
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "The military assessment is that the conspirators are testing our response. The second attack was a probe — small, deniable, designed to see whether we escalate. If we do not respond forcefully, the third attack will be larger. If we respond too forcefully, we validate their narrative that the government is authoritarian. There is no purely military solution to this. But there is a military dimension to whatever solution you choose."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political damage is manageable — this time. People are frightened but not panicked. Your approval rating has dropped but not collapsed. The real danger is what happens if there is a third attack. At that point, the narrative shifts from 'the Chancellor is inspiring' to 'the Chancellor cannot protect us.' We need to end this. The question is how — and whether the means justify themselves."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "second_attack_declare_emergency",
+      "text": "\"Eight weeks ago I chose unity over force. The attackers have answered with more violence. I am now declaring a State of Emergency. The conspirators have made their choice. I am making mine. This government will defend itself — and the Republic — with every legal tool available. The emergency is temporary, but the threat is real, and my responsibility is to the safety of every Veltrian citizen.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 12 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -20 },
+        { "stat": "factions.reformists", "operation": "add", "value": -12 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_soe_extension_crisis",
+          "delayWeeks": 13,
+          "conditions": [{ "stat": "flags.state_of_emergency", "operator": "==", "value": true }]
+        }
+      ],
+      "flags": ["state_of_emergency", "second_attack_occurred"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "second_attack_double_down",
+      "text": "\"The attackers want us to panic. They want us to abandon our principles and become the thing we fought against. I will not give them that victory. The investigation intensifies. The security posture elevates — but within the law. We will find them and we will try them — but we will do it as a democracy, not a police state. The rally continues. The nation endures. That is the response they fear most.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_third_attack",
+          "delayWeeks": 6,
+          "probability": 0.3
+        }
+      ],
+      "flags": ["second_attack_occurred", "doubled_down"],
+      "codexUnlocks": []
+    }
+  ]
+}

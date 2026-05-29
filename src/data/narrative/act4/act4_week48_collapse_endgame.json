@@ -1,0 +1,79 @@
+{
+  "id": "act4_week48_collapse_endgame",
+  "title": "The Precipice",
+  "act": 4,
+  "weekAvailable": 48,
+  "weekDeadline": 50,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Week Forty-Eight",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.uprising_resolved", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The strike is over — resolved, suppressed, or transformed, depending on what you chose. The IMA program is either continuing, renegotiated, or suspended. The economy is either stabilizing, collapsing, or finding some intermediate state between those two that the economists do not have a word for but that Veltrians are living through. The Krone has lost forty percent of its value since the beginning of your term. The national debt is either manageable, restructured, or approaching a cliff that will define the next decade of Veltrian political life. You have governed through the worst economic crisis since the Halvek years. Whether your governance is remembered as the response that saved the country or the response that failed it depends on what happens in the remaining weeks."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Forty-eight weeks of economic management. Every budget decision, every tax policy, every negotiation with international creditors — they all resolve into this moment. The economy is the ultimate scoreboard. Military victories, constitutional achievements, personal relationships — they all happen within the container of whether people can feed their families. If the economy has collapsed, you have failed regardless of what else you achieved. If it has stabilized, you have succeeded despite everything else you lost. The judgment is brutal and incomplete and true. You knew this when you ran. You know it now. The Krone does not care about your intentions. The Krone only cares about your decisions."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "collapse_resign",
+      "text": "\"I have taken this country as far as I can. The IMA program is either working slowly or failing spectacularly, and in either case the country needs something I cannot provide: a government that is not defined by this crisis. I am announcing my resignation effective at the end of the term, and I am asking parliament to begin preparing for early elections. Not because I have given up — because I believe the country needs a fresh mandate, a new government, a different kind of leadership for the reconstruction phase. My government saved the country from collapse. It is not the government that will rebuild it. Knowing the difference is the last act of governance I can offer.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 14 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["chancellor_resigned", "early_elections", "economic_collapse_resolved"],
+      "codexUnlocks": ["codex_veltrian_succession", "codex_resignation_precedent"]
+    },
+    {
+      "id": "collapse_double_down",
+      "text": "\"We are going to finish the IMA program, stabilize the economy, and begin reconstruction planning before the end of the term. I am not resigning. I am not retreating. I am going to govern through this crisis the same way I governed through every other crisis — by making decisions, accepting the consequences, and refusing to let the perfect become the enemy of the survivable. The economy will recover. It will take years, not months. But it will recover. And when it does, the historical record will show that this government — my government — did not abandon the country when it was most difficult to stay.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["doubled_down_economy", "ima_completed", "economic_collapse_resolved"],
+      "codexUnlocks": ["codex_economic_recovery_plan"]
+    },
+    {
+      "id": "collapse_orythian_pivot",
+      "text": "\"The IMA experiment is over. I am formally requesting Orythian economic assistance under the terms we discussed in Week Twenty-Eight and rejected. Yes, it means Orythian 'advisors' in our Finance Ministry. Yes, it means aligning our economic policy with Orythian interests. Yes, it is a form of dependency. It is also the only remaining source of external financing that does not require dismantling our state institutions for the benefit of Arcturian corporations. The IMA serves Arcturian capital. Orythia serves Orythian strategic interests. I am choosing the dependency that preserves more of what we built. That is the choice. There is no third option.\"",
+      "internalTag": "pragmatist",
+      "conditions": [
+        { "stat": "nation.internationalStanding", "operator": ">=", "value": 15 }
+      ],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 6 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["orythian_pivot", "ima_abandoned", "economic_collapse_resolved"],
+      "codexUnlocks": ["codex_orythian_economic_integration", "codex_post_ima_alternatives"]
+    }
+  ]
+}

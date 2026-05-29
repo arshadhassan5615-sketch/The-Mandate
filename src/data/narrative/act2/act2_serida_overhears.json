@@ -1,0 +1,46 @@
+{
+  "id": "act2_serida_overhears",
+  "title": "What Serida Heard",
+  "act": 2,
+  "weekAvailable": 22,
+  "weekDeadline": 26,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Late Evening",
+  "characters": ["serida_valk"],
+  "prerequisites": [{ "stat": "flags.met_serida", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Serida enters your office and closes the door. She does not usually close the door. Her face is concerned in a way that is not about budget cuts or school plays — it is the look of someone who has heard something she was not supposed to hear and does not know what to do with it." },
+    { "type": "dialogue", "character": "serida_valk", "text": "Chancellor — ma'am — I was in the hallway outside the document registry two nights ago. It was late. I was filing the cabinet minutes. I heard voices inside. Two men. One of them was saying something about 'the Tyvaren transmission schedule' and 'the Skylark confirmation.' I did not understand what it meant. I still do not. But the way they were talking — it was not official. It was secret. I am telling you because I do not know who else to tell. I am not an investigator. I am an assistant. But I heard something wrong, and if something is wrong, you should know." }
+  ],
+  "monologue": "Skylark. That name again. Two men in the document registry at night, discussing transmission schedules. Serida — an assistant, not an investigator — just handed me a thread I did not know existed. If there is a mole in my government, the trail starts here. Or the trail ends here, depending on what I do next.",
+  "choices": [
+    {
+      "id": "serida_heard_thank",
+      "text": "\"Serida. You did exactly the right thing. I cannot tell you what this means — not yet — but you may have given me something very important. Do not tell anyone else what you heard. If you hear anything like this again, come to me directly. You are not just my assistant. You are my eyes and ears in a building where too many people have too many secrets.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": 15 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_heard_something", "mole_clue_serida_tip"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "serida_valk", "type": "silence", "text": "She writes the names — what she remembers — on a scrap of paper. Her hand is shaking slightly. She slides it across the desk. She does not ask what it means. She trusts that you will find out." }]
+    },
+    {
+      "id": "serida_heard_dismiss",
+      "text": "\"Thank you, Serida. I am sure it was nothing — probably just staff discussing routine intelligence briefings. But I appreciate you telling me. Let us keep this between us.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "seridaTrust", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["serida_heard_dismissed"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "serida_valk", "type": "silence", "text": "She nods. Probably nothing, she repeats. She does not believe it. She has been an assistant long enough to know when something is not nothing." }]
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "act2_diplomacy_orythian_military",
+  "title": "The Commissar's Offer",
+  "act": 2,
+  "weekAvailable": 20,
+  "type": "diplomacy",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Orythian Federated Council Mission — Ashenmere, Industrial District",
+  "characters": ["yevgeni_stahl", "oskar_brenner"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Orythian mission is not in the diplomatic quarter. It occupies a converted factory in the industrial district — a deliberate choice, according to the Orythians, reflecting their solidarity with the working class. Commissar Yevgeni Stahl's office is in what was once the factory foreman's station, overlooking a floor that now houses a small garrison of Orythian military personnel. The symbolism is not subtle. Orythia does not distinguish between diplomacy and military power. It regards the distinction as a bourgeois affectation."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "Chancellor Ashavel. You have been speaking with the Arcturians. I can smell their cologne from here — it is distinctive, the scent of money pretending to be principle. Let me offer you something that does not pretend. The Federated Councils are prepared to supply the Veltrian military with modern equipment — T-62 main battle tanks, S-200 air defense systems, and thirty thousand Kalashnikov-pattern rifles with ammunition. At cost. We will also provide military advisors to train your forces in combined-arms operations. In exchange, we require two things: a twenty-year lease on naval basing rights at the Amber Coast port facility, and a permanent Orythian military advisory mission stationed in Ashenmere with full diplomatic immunity."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "Commissar, the equipment is significant — I won't pretend otherwise. The T-62 is a capable platform and our air defense network is dangerously outdated. But a twenty-year naval lease is not basing rights. It is a permanent Orythian military presence on Veltrian soil. And an advisory mission with diplomatic immunity means Orythian personnel operating in our territory with no legal accountability to Veltrian law. I need to understand: is this a military partnership or a protectorate arrangement? Because the terms suggest the latter dressed as the former."
+    },
+    {
+      "type": "dialogue",
+      "character": "yevgeni_stahl",
+      "text": "General Brenner, you fought in the Amber Coast campaign of '51. You know what happens when a small nation faces a larger neighbor without allies and without modern equipment. Tyvaren has been purchasing Orythian surplus weapons for three years. They have forty T-62s already deployed to their western military district. How many do you have? The answer is zero, because you cannot afford them. I am offering you the capacity to defend your borders. Yes, the terms are significant. Survival is expensive. The question is not whether the terms are favorable — they are not. The question is whether the alternative is worse."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Stahl is brutal and honest and the combination is more persuasive than Cole's polished diplomacy. He is offering us the weapons we cannot afford to buy and the training we need to use them. In exchange, he wants a permanent Orythian footprint in Veltria — a naval base that would give the Federated Councils a warm-water port within striking distance of Arcturian shipping lanes. This is not a military partnership. This is positioning Veltria as a forward operating base in someone else's cold war. The tanks would protect us from Tyvaren. The base would make us a target for everyone else."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "orythian_military_accept",
+      "text": "\"Accept the offer. Brenner, coordinate the equipment transfer and integration — I want the T-62s deployed to the Tyvaren border within eight weeks. Commissar, the naval lease is twenty years, renewable only by mutual consent. The advisory mission operates under Veltrian military law except for matters of Orythian national security. I am giving you your base. I am not giving you a colony. If the Federated Councils understand the difference, we have an agreement.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": 15  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -8  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 8   },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 6   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",          "operation": "add", "value": -6  },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_diplomacy_lytheira_debt", "delayWeeks": 4 }
+      ],
+      "flags": ["orythian_military_deal", "amber_coast_base", "orythian_advisors", "orythia_aligned"],
+      "codexUnlocks": ["codex_orythia", "codex_military_cooperation"]
+    },
+    {
+      "id": "orythian_military_limited",
+      "text": "\"Limited agreement. We purchase the equipment at the offered price — no naval lease, no advisory mission. If Orythia wants to support Veltrian defense, the equipment is the mechanism. The basing rights change the nature of the relationship from partnership to dependency. I will not make Veltria a battleground in someone else's strategic competition. We take the tanks. We leave the strings.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": 8  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 3  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 3  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -3 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_diplomacy_lytheira_debt", "delayWeeks": 4 }
+      ],
+      "flags": ["orythian_equipment_only", "no_foreign_bases", "balanced_defense"],
+      "codexUnlocks": ["codex_orythia"]
+    },
+    {
+      "id": "orythian_military_refuse",
+      "text": "\"Commissar, I respect the honesty of the offer and I am declining it entirely. Veltria does not host foreign military bases on its soil — not Orythian, not Arcturian, not anyone's. We will defend our own borders with our own forces, funded by our own people. If the Federated Councils want to support Veltrian sovereignty, they can do so by respecting it — without conditions, without leases, and without permanent military presences in our territory.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5   },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -5  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 8   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -3  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 10  },
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": -5  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_diplomacy_lytheira_debt", "delayWeeks": 4 }
+      ],
+      "flags": ["orythian_offer_refused", "military_independence", "no_foreign_bases"],
+      "codexUnlocks": ["codex_orythia"]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "act3_cabinet_loyalty_audit",
+  "title": "The Empty Chairs",
+  "act": 3,
+  "weekAvailable": 31,
+  "weekDeadline": 36,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Cabinet Room, Emergency Session",
+  "characters": ["vyktor_reznik", "gregor_maric", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.vostane_defected", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The cabinet room has twelve chairs. Eight of them are occupied. Vostane's chair is conspicuously empty — you have not had it removed because removing it would be a statement and you are not yet certain what statement you want to make. The three ministers who sent no confirmation to the morning after the referendum have all responded now, in various ways. One resigned by letter. One issued a statement of 'continued support for the constitutional process' that did not mention your name. One has not been heard from in six days and is reportedly at a hunting lodge in Thornfeld with no telephone. The remaining eight are here. They are watching you with the particular attention of people who are calculating whether staying is loyalty or liability."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have compiled a comprehensive assessment of each cabinet member's public statements, private communications, recent travel, known meetings with opposition figures, and financial disclosures over the past ninety days. I did not compile it to recommend dismissals. I compiled it so that you would know, accurately, who is still in. The picture is more complex than I anticipated. Three ministers have had contact with Kolvar's office in the past month. Two of those contacts were routine legislative coordination. One was not. I have documented which was which."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "From a security perspective, the question is not who has had contact with Kolvar. The question is who has had contact with people who have contact with the Iron Covenant, the General Staff, or the provincial security apparatus. I have conducted a parallel assessment. Two ministers have connections that I would characterize as needing further investigation. I am not accusing anyone of disloyalty. I am saying the connections exist and I would be professionally negligent if I did not inform you of them."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You asked for this. You asked the cabinet to declare their positions. Now you have a folder full of declarations and a second folder full of information that contradicts some of them. The space between what people say and what they do has always been the space where governing happens. The question is how much of that space you are willing to tolerate when your government is fighting for survival and every internal fracture is a potential point of entry for the opposition."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "I want to say something before decisions are made. When Elara left, she made it look like principle. It wasn't. I was in the meetings she's citing. The fiscal analysis she said was 'deprioritized' was considered at length in three separate sessions. She disagreed with the outcome — that's her right. But she's presenting disagreement as exclusion and exclusion as justification for defection. That's not principle. That's narrative construction after the fact. Some of the people in this room are considering similar narratives. I'm asking them to at least be honest about what they're doing."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "cabinet_loyalty_individual_meetings",
+      "text": "\"I'm not going to conduct a purge based on a folder. I want individual meetings with each cabinet minister this week. Twenty minutes each. I want to hear directly from everyone what their intentions are. The ones who are committed — I want to hear why and what they need to stay. The ones who are wavering — I want to hear it from them, not from Vyktor's file. And the ones who are already gone — I want their resignations on my desk by Friday so I can fill the chairs with people who want to be in them.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+        { "stat": "nation.corruption", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_new_cabinet_figures", "delayWeeks": 3 }
+      ],
+      "flags": ["cabinet_audit_complete", "individual_meetings_held", "ministers_heard"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet_loyalty_clean_house",
+      "text": "\"I want the resignations of anyone in the Dusek file before the end of the day. I appreciate Gregor's perspective, but I don't need ministers who are 'honest about what they're doing' — I need ministers who are doing the right thing. If you've been meeting with the opposition, if you've been in contact with the Iron Covenant, if you've been building an exit strategy — your exit is now. I'll fill the positions with people who understand that governing is not a probationary period.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": -8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 4 },
+        { "stat": "nation.corruption", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_new_cabinet_figures", "delayWeeks": 2 }
+      ],
+      "flags": ["cabinet_purged", "loyalty_enforced", "vostane_faction_removed"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet_loyalty_strategic_patience",
+      "text": "\"I've read both files. I know who's spoken to Kolvar and I know who has connections to the General Staff. I'm not going to act on that information today. I'm going to watch what they do in the next two weeks — how they vote, how they speak in meetings, whether they show up. The ones who stay and work get to stay. The ones who check out get removed. But I'm not going to fire people based on who they know. I'm going to evaluate them based on what they do. The information stays in this room.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 },
+        { "stat": "nation.corruption", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_leverage_operation", "delayWeeks": 4 }
+      ],
+      "flags": ["cabinet_audit_deferred", "strategic_patience", "information_held_in_reserve"],
+      "codexUnlocks": []
+    }
+  ]
+}

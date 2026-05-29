@@ -1,0 +1,120 @@
+{
+  "id": "act3_week29_vyktor_exposed",
+  "title": "Front Page",
+  "act": 3,
+  "weekAvailable": 29,
+  "weekDeadline": 31,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": false,
+  "location": "Chancellor's Office — 6:02am",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.nadia_cooperated",  "operator": "==", "value": true },
+    { "stat": "nation.pressFreedom",     "operator": ">",  "value": 40   }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor is already in your office when you arrive at six. He got there before you. This means he knew before you did, which means either he has been tracking Nadia's story or he has a source at the Dispatch. Either answer tells you something. He is standing by the window — not at his desk, by the window — holding a copy of the morning edition."
+    },
+    {
+      "type": "description",
+      "text": "The Ashenmere Dispatch. Front page, above the fold: 'Chief of Staff Reznik Identified as Former BNI Asset, Sources Confirm.' Nadia Voss's byline. A photograph — slightly blurred, archive quality, unmistakably him — of Vyktor Reznik at a facility identified in the caption as 'BNI Regional Processing Centre, 1987.' Three corroborating sources. The documents you allowed her access to. The story is complete. It is accurate. You made it possible."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You made it possible. You made the decision, in that office at the Dispatch, to open the archive. You told yourself it was about transparency, press freedom, the public's right to know. Some of those things were true. Some of it was also the specific relief of making a decision you had been carrying for twenty-two weeks, and the relief is not the same as the rightness. Both can be true at once. You have learned this."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I would like to offer my resignation before you ask for it. I want to be clear that I am not asking you to accept it. I am offering it — the decision belongs to you. I have worked for you for twenty-nine weeks. In that time I believe I have been useful to you. I also have not told you things you had the right to know, and this story is the consequence of that. I am not making an argument for my continuation."
+    },
+    {
+      "type": "description",
+      "text": "He is not panicking. He put the paper down when you came in and has not looked at it since. He is looking at you with the expression of a man who has been calculating this moment for some time and has arrived at it without surprise. The expression is not cold. It is something closer to the exhausted clarity that comes after a long period of held breath."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twenty-nine weeks. He has run every parliamentary operation, every crisis response, every logistics problem you handed him. He is the most capable operator you have ever worked with. That is not the same as saying he is trustworthy, and it is also not nothing. The two things exist simultaneously in this office at six in the morning, and they will not resolve into one thing just because you need them to."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The story has eight hundred thousand readers this morning. By noon it will have been picked up by the national outlets. By tonight Kolvar will call for a parliamentary inquiry. Whatever you decide, you have approximately four hours before the response becomes the story instead of the story itself. I wanted to be clear about the timeline."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "exposed_accept_resignation",
+      "text": "\"I accept. Effective immediately. I'll issue a statement by eight: the press has done its job, the Chief of Staff has taken responsibility, and this government stands by the freedom of the press to do exactly this.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 12 },
+        { "stat": "nation.corruption",            "operation": "add", "value": -10},
+        { "stat": "factions.reformists",          "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 18 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vyktor_departure", "delayWeeks": 1 }
+      ],
+      "flags": ["vyktor_resigned", "press_freedom_upheld", "nadia_vindicated"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "exposed_press_conference",
+      "text": "\"You're not resigning. We go out together — you, me, cameras, ten o'clock this morning. You give the full account. The BNI years, what you did, what you reported, who was in the room. We don't get ahead of this. We go straight through it.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 8  },
+        { "stat": "nation.corruption",            "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",          "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vyktor_full_disclosure", "delayWeeks": 1 }
+      ],
+      "flags": ["vyktor_stays_confesses", "bni_press_conference"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "exposed_defend_discredit_timing",
+      "text": "\"I'm keeping you. Issue a statement by eight: this story is a politically timed opposition research effort, released two days before a confidence vote window. We question the timing, not the facts — we never touch the facts.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": -16},
+        { "stat": "nation.corruption",            "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -16},
+        { "stat": "personal.publicImage",         "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_press_freedom_crackdown", "delayWeeks": 2 }
+      ],
+      "flags": ["vyktor_defended", "nadia_discredited", "press_suppressed"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "exposed_direct_question",
+      "text": "\"Sit down. Before I make any decision about any of this, I want to ask you something I should have asked twenty-two weeks ago: what are you still doing for them?\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8  },
+        { "stat": "nation.corruption",            "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_vyktor_full_disclosure", "delayWeeks": 2 }
+      ],
+      "flags": ["vyktor_confronted_directly"],
+      "codexUnlocks": []
+    }
+  ]
+}

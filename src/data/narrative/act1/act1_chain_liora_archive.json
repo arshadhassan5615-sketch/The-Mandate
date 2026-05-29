@@ -1,0 +1,81 @@
+{
+  "id": "act1_chain_liora_archive",
+  "title": "The Archive Card",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "National Archives — Restricted Reading Room",
+  "characters": ["liora_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Liora asked you to meet her at the National Archives. Not at home, not at the palace — the Archives, which she has been visiting every week since she filed her records request. She is waiting in the restricted reading room, a narrow room with high windows and the particular smell of old paper and floor wax that all archives share. She has a box on the table in front of her. The box is labeled: ASHAVEL, MIKHAEL — CASE FILE 1947-03-14. It is thicker than you expected."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "They released the full file. The BNI file, the court file, the prison transfer records — everything. I've been reading it for three days.\" She pushes a document across the table. It is a BNI surveillance log, dated November 1946. The subject is Mikhael Ashavel. The notes describe meetings with 'foreign nationals of uncertain affiliation,' publications distributed through 'clandestine networks,' and a handwritten annotation in the margin that reads: Subject believes he is serving the Republic. Recommend continued observation. \"He was not a spy, Mama. He was a dissident who had contacts — people in Orythia, people in the International Forum — who were trying to help him expose what Halvek was doing. The BNI knew he wasn't a spy. They executed him anyway because he was organizing. The 'treason' charge was a cover. The real crime was the organizing."
+    },
+    {
+      "type": "description",
+      "text": "She is nineteen years old and she has just spent three days reading the documentation of her grandfather's death. Her voice is steady. It is the steadiness that is the most alarming — the steadiness of someone who has passed through shock and out the other side into something harder."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I knew most of this. Not all of it — the Orythian contacts are new, the BNI annotation is new — but I knew the shape of it. Father was organizing. Father was killed for organizing. I told Liora the complicated truth and she took it and did what I should have done years ago: she went to the archives and she read everything. My daughter is braver than I was at her age. My daughter is also angrier. I can see it in the way she holds the documents — not as grief, but as evidence."
+    }
+  ],
+
+  "monologue": "She found the full file — Father's surveillance logs, the BNI annotation in the margin. Nineteen years old and she's already braver than I was at thirty-two. I knew the shape of the story. I didn't know the details. She did the work I should have done. She read everything. Now she's waiting to see what I'll do with what she found — protect her from it, or stand with her in it.",
+
+  "choices": [
+    {
+      "id": "liora_archive_joint_investigation",
+      "text": "\"Show me everything you've found. I want to read it with you. Not as Chancellor — as his daughter. I should have done this myself years ago. I didn't. You did. Now let's do the rest of it together. Whatever you want to do with what you've found — publish it, archive it, use it to make sure it never happens again — I'm with you. Not behind you. With you.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 16  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 10  },
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": 6   },
+        { "stat": "factions.reformists",         "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [],
+      "flags": ["liora_truth_joint", "mikhael_full_record_known", "liora_archive_resolved"],
+      "codexUnlocks": ["codex_mikhael_full_record"]
+    },
+    {
+      "id": "liora_archive_support_discreetly",
+      "text": "\"I am proud of you — more than I know how to say right now. If you want to write about this, to publish what you've found, I will not stop you. I will not use the BNI or the Chancellery or anything else to suppress your grandfather's story again. But I can't be publicly involved — not right now, not with the vote of no confidence and the Tyvaren situation. Whatever you publish, it has to be yours, not mine. The country will weaponize anything I touch. Your grandfather's truth deserves better than to become a political football.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 4   },
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [],
+      "flags": ["liora_independent_writer", "mikhael_story_to_be_published", "liora_archive_resolved"],
+      "codexUnlocks": ["codex_mikhael_full_record"]
+    },
+    {
+      "id": "liora_archive_suppress",
+      "text": "\"Call Vyktor. I need everything under ASHAVEL, MIKHAEL — the complete file — removed from the restricted reading room and delivered to my office before her next visit. Re-archived under Chancellor's privilege, fifty-year seal. She is nineteen years old and she does not need to carry this yet. I will tell her myself when the time is right, when I have decided how to tell it. That is not suppression. That is motherhood.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship",  "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": -8  },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 3   },
+        { "stat": "nation.pressFreedom",         "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week23_family_crisis_liora", "delayWeeks": 10 }
+      ],
+      "flags": ["vyktor_files_retrieved", "liora_files_suppressed", "liora_archive_resolved"],
+      "codexUnlocks": []
+    }
+  ]
+}

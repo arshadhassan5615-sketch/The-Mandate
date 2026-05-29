@@ -1,0 +1,101 @@
+{
+  "id": "act3_vyktor_departure",
+  "title": "What Remains",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Evening",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.vyktor_exposed", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "He came without being summoned, which is the first time he has done that. Thirty-one weeks of briefings, thirty-one weeks of five items in order of operational urgency, thirty-one weeks of the man who managed the space between information and decision — and now he is at the door of your office at seven in the evening, and he is not carrying a folder. He does not have a folder. The man who has always had a folder is standing at your door without one, and that absence is the most alarming thing you have seen in three months."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I will not ask you what you know. You know everything relevant. I know you know it because I have been the person who made sure you knew things, and I have spent the last four days watching you know this particular thing and deciding how to respond to it. That is its own kind of honesty, which I want to acknowledge before we discuss anything else."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is right. I have known for four days. Four days of briefings from this same man, of accepting his operational summaries, of watching his face for the tells I have learned to read over thirty-one weeks, and there are none — because Vyktor Reznik does not have tells. He has the face of a man who has spent decades performing the version of himself that is most useful to whatever room he is in. I don't know if there is another version. I am not certain he knows either."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I want to explain, not because explanation excuses anything, but because I believe you are owed accuracy. My relationship with the Bureau predated my relationship with you by sixteen years. Certain habits of institutional loyalty — certain relationships, certain arrangements — do not dissolve because a government changes. I believed, when I accepted your offer of chief of staff, that I could manage the overlap. I was wrong about several specific things and correct about others. The things I was wrong about are the things that are now in Nadia Voss's reporting. I am not going to tell you which of the correct things remain ongoing, because that information would create obligations for you that I don't want you to have."
+    },
+    {
+      "type": "description",
+      "text": "You have prepared for this moment and it is not what you prepared for. You prepared for rage, for the specific anger of having trusted a person who was working with multiple loyalties simultaneously. The rage is present, but it is underneath something else — something that feels closer to grief, which is the appropriate response to losing someone who was genuinely useful and possibly genuinely loyal in the ways that mattered to him, which were not always the ways that mattered to you."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I have a resignation letter. I wrote it yesterday. It addresses the reported items and offers my immediate departure as the appropriate institutional response. I have not filed it. I am here tonight because I wanted to give you the choice of whether to accept it, reject it, or ask me to revise it. That is the last administrative decision I intend to place in your hands. Whatever you decide, I will implement. That is what I do. It is, I think, the only unambiguous thing about my service to this government."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "vyktor_departure_let_go",
+      "text": "\"Accept the resignation. File it tonight. I will issue a brief statement in the morning — 'Chief of Staff Reznik has resigned to pursue other opportunities; the Chancellor thanks him for his service.' Nothing that invites questions. You will take nothing with you from the secure files. Your replacement will be appointed within the week. I want you to know that I don't believe the entire thirty-one weeks was bad faith. I am not certain what it was. But it is over.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["vyktor_resigned", "vyktor_gone", "chief_of_staff_vacancy"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "vyktor_departure_ask_to_stay",
+      "text": "\"I'm not going to accept it. You know where every body is buried, operationally speaking. Losing you in the middle of the Tyvaren situation is a problem I cannot replace. Stay — but in a different capacity. Not chief of staff. Special advisor, no direct access to intelligence flows, reporting to me only through formal memos. Your institutional knowledge stays inside this building. Your institutional loyalties stay outside it. I am asking you to make that distinction work.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": -8 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 }
+      ],
+      "flags": ["vyktor_retained_reduced", "vyktor_demoted_special_advisor"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "vyktor_departure_fire_formally",
+      "text": "\"You are dismissed. Not resigned — dismissed. There is a legal distinction and I want it on record. The resignation letter you brought does not define the terms of your departure. I do. You will cooperate fully with any subsequent inquiry into the matters described in the reporting. You will make no public statements without clearance from the government communications office. And when I find your replacement — which I will do this week — you will spend two days briefing them on everything operational. After that, we're done.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 6  },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week31_inner_circle", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week32_tyvaren_ultimatum", "delayWeeks": 3 }
+      ],
+      "flags": ["vyktor_fired", "vyktor_gone", "vyktor_formal_dismissal", "chief_of_staff_vacancy"],
+      "codexUnlocks": []
+    }
+  ]
+}

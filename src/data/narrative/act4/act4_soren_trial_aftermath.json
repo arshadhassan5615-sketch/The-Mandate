@@ -1,0 +1,76 @@
+{
+  "id": "act4_soren_trial_aftermath",
+  "title": "The Trial of the Century",
+  "act": 4,
+  "weekAvailable": 40,
+  "weekDeadline": 44,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Veltrian Supreme Court — Public Gallery",
+  "characters": ["aldric_theron", "vyktor_reznik", "oskar_brenner"],
+  "prerequisites": [
+    { "stat": "flags.soren_trial_public", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The trial has dominated Veltria for three months. Every newspaper has covered it. Every radio station has broadcast the testimony. The nation has watched as witness after witness described what Soren ordered — the arrests, the executions, the forced relocations. Soren himself sat in the dock, erect and dignified, answering questions with the calm precision of a man who still believes he did nothing wrong. The verdict was delivered this morning: guilty on all counts."
+    },
+    {
+      "type": "description",
+      "text": "The military did not revolt. Brenner's warnings proved partly correct — there were resignations, protests, demonstrations by veterans' groups — but the coup he feared did not materialize. The Iron Covenant is furious but fractured. The officer corps is divided between those who see the trial as justice and those who see it as betrayal. The nation, meanwhile, is experiencing something it has never experienced before: the catharsis of accountability."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The verdict is legally sound and historically significant. Gavril Soren will spend the rest of his life in prison. The precedent is established: no one is above the law in Veltria, regardless of when their crimes were committed or who protected them afterward. This trial will be studied in law schools for generations. You have done something no one thought possible — you held the Halvek regime accountable through the very legal system it tried to destroy."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "The military has survived this. Not intact — but survived. I have tendered my resignation, effective at the end of the month. I cannot lead an institution that has been... divided in this way. I do not blame you, Chancellor. I believe you did what you believed was right. But I cannot command men who no longer trust their civilian leadership. That is not a threat. That is a fact."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political cost has been high but the international recognition has been extraordinary. The Orythian foreign minister called this 'the most significant war crimes trial in the region's history.' The Dravenni community is celebrating — for the first time, their suffering has been officially acknowledged. The Halvekist caucus has splintered — some moderates have even crossed the aisle. The question now is what you do with the political capital this trial has earned you."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "soren_aftermath_reconciliation",
+      "text": "\"This trial was not about vengeance. It was about truth. Now that the truth is known, we must reconcile — Halvekists and Reformists, military and civilian, old Veltria and new. I am establishing a Truth and Reconciliation Commission to document the Halvek era fully, so that what happened is never forgotten and never repeated.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soren_trial_complete", "truth_commission_established", "mikhael_avenged"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "soren_aftermath_prosecute_further",
+      "text": "\"Soren was the first. He will not be the last. I am directing the Ministry of Justice to prepare cases against every surviving member of the Halvek inner circle who can be identified in the BNI archives. The era of impunity is over. Veltria will have justice — full justice — for every crime the old regime committed.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -15 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["soren_trial_complete", "full_prosecutions_authorized", "mikhael_avenged"],
+      "codexUnlocks": []
+    }
+  ]
+}

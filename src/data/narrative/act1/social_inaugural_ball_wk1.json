@@ -1,0 +1,606 @@
+{
+  "id": "social_inaugural_ball_wk1",
+  "title": "The Inaugural Ball",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "social_event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Grand Hall of the Republic, Ashenmere",
+  "characters": ["vyktor_reznik", "jonas_ashavel", "drazen_kolvar", "stanislov_renek", "soraya_khaled", "lucan_vael", "nadia_voss", "oskar_brenner", "harrison_cole", "yevgeni_stahl"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Grand Hall of the Republic has not seen a night like this in twenty-nine years. Crystal chandeliers, draped in the amber and cream of the Republic, cast warm light across a sea of formal dress and military medals. The air hums with conversation, hope, and the barely-submerged calculations of a political class relearning how to operate in a democracy. Every faction, every ambition, every grudge left over from the Halvek years is here — dressed in silk and swallowing champagne."
+    },
+    {
+      "type": "description",
+      "text": "You stand at the top of the marble staircase, Jonas at your side. For a moment, the room turns. Faces lift. This is your first public appearance as Chancellor — your first test of presence. Vyktor appears at your elbow, discreet as always."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor. Room is arranged as expected. Kolvar's people near the east balcony — watching you since you arrived. Archbishop has already blessed the canapés. Unasked. General Brenner is in full dress uniform by the west bar. Vael has been circling the foreign table. You have perhaps two hours before protocol demands your exit. Choose conversations carefully — you cannot speak to everyone."
+    }
+  ],
+  "choices": [],
+  "socialInteractions": [
+    {
+      "id": "ball_toast",
+      "title": "The Toast",
+      "location": "Grand Staircase Landing",
+      "mandatory": true,
+      "narrative": [
+        {
+          "type": "description",
+          "text": "A liveried attendant strikes a silver bell. The hum of conversation fades. All eyes turn to you at the head of the staircase. This is the moment — your first words to the nation's power as its Chancellor. Crystal flutes rise across the hall like a field of glass. Even Kolvar's people pause their scheming."
+        },
+        {
+          "type": "description",
+          "text": "You take your glass. The weight of the moment settles. What you say here will be in every newspaper tomorrow. What you DON'T say — even more so."
+        }
+      ],
+      "monologue": "The room holds its breath. Crystal flutes rise across the hall like a field of glass. Every faction is here — reformists dreaming of the country they voted for, Halvekists calculating how much they've lost, workers wondering if I'm different from the ones before. Whatever I say will be in every newspaper tomorrow. Whatever I don't say — even more so. This is the first time the nation hears me not as a candidate but as a Chancellor.",
+      "choices": [
+        {
+          "id": "toast_unity",
+          "text": "Raise your glass to unity. \"Tonight, there are no factions — only Veltrians. The election is over. The work begins. And every person in this room has a part to play in the Republic we will build together.\"",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 5 },
+            { "stat": "factions.halvekists", "operation": "add", "value": 5 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
+            { "stat": "factions.church", "operation": "add", "value": 5 },
+            { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+          ],
+          "flags": ["inaugural_toast_unity"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "toast_reform",
+          "text": "Raise your glass to reform. \"The old ways are dead. Halvek's constitution will fall. His secret police will be dismantled. And everyone in this room who profited from tyranny — your time is over. To the new Veltria.\"",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 15 },
+            { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+            { "stat": "factions.church", "operation": "add", "value": -5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 8 }
+          ],
+          "flags": ["inaugural_toast_bold"],
+          "chainTriggers": [
+            { "targetNodeId": "act1_kolvar_counterattack", "delayWeeks": 3 }
+          ],
+          "codexUnlocks": []
+        },
+        {
+          "id": "toast_economy",
+          "text": "Raise your glass to prosperity. \"Veltria's greatest challenge is not political — it is economic. Factories are quiet. Farms struggle. The Krone wobbles. My first priority is getting this nation back to work, and I will work with anyone — anyone — who can help me do it.\"",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.businessClass", "operation": "add", "value": 10 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+          ],
+          "flags": ["inaugural_toast_economy"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "ball_jonas",
+      "title": "Jonas at the Bar",
+      "location": "East Bar, Grand Hall",
+      "character": "jonas_ashavel",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You find Jonas alone at the east bar, nursing what appears to be his second whiskey. He's wearing the suit you picked out together — charcoal wool, very architectural — but he's hunched over the polished wood like a man seeking cover. A junior minister's wife attempted conversation five minutes ago and retreated, defeated by monosyllables."
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "Katerin. I'm fine. Really. It's just... there are four hundred people in this room, and every single one of them wants something from you. And I'm supposed to just... stand here? Smile? I designed a civic center, Kat. I don't know how to do this."
+        },
+        {
+          "type": "description",
+          "text": "He looks at you with a mixture of love and quiet desperation. The architect who married a law professor and accidentally became the First Gentleman of the Republic."
+        }
+      ],
+      "monologue": "He's wearing the suit we picked out together and he's hunched over the bar like a man seeking cover. 'I designed a civic center. I don't know how to do this.' He married a law professor and accidentally became First Gentleman. Four hundred people in this room, every one wanting something from me, and the one person who doesn't want anything except my presence is the one I've already spent three hours failing to give it to.",
+      "choices": [
+        {
+          "id": "jonas_stay",
+          "text": "Take his hand. \"Then we'll figure it out together. Stay with me tonight. We'll face the sharks as a team.\" Spend the next half hour with Jonas.",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": 10 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_jonas_together"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "jonas_leave",
+          "text": "Squeeze his shoulder. \"I have to work the room. But I'll find you later — I promise.\" Head back into the crowd.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": -3 }
+          ],
+          "flags": ["ball_jonas_left"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "ball_kolvar",
+      "title": "Kolvar's Approach",
+      "location": "East Balcony, Grand Hall",
+      "character": "drazen_kolvar",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Dražen Kolvar materializes at your elbow with the practiced ease of a man who spent decades navigating Halvek's court. He's immaculate in a dark suit, silver hair swept back, a champagne flute held precisely. His smile doesn't reach his eyes — it never does."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "Chancellor Ashavel. Magnificent evening. Tell me — how does it feel to stand where Halvek stood? The marble remembers, you know. Twenty-six years of continuity. And now... a constitutional law professor. History has a sense of humor."
+        },
+        {
+          "type": "description",
+          "text": "The question is a blade wrapped in silk. He's not asking about your feelings. He's asking whether you understand the weight of what you've inherited — and whether you're strong enough to hold it."
+        }
+      ],
+      "monologue": "He materialized at my elbow like he's been practicing the entrance since the election results came in. Silver hair. Champagne held precisely. Eyes that don't smile. 'The marble remembers.' He's not asking about my feelings. He's telling me the building has seen twenty-six years of continuity and now it's watching to see whether I'm an interruption or a footnote. Kolvar served fourteen years of that continuity. He intends to serve more.",
+      "choices": [
+        {
+          "id": "kolvar_charm",
+          "text": "Smile warmly. \"History also remembers that Halvek died of a stroke in this very building, Dražen. I plan to outlive my predecessors — democratically.\" Charm him with wit.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.halvekists", "operation": "add", "value": 3 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+          ],
+          "flags": ["ball_kolvar_charmed"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "kolvar_cold",
+          "text": "Meet his eyes without smiling. \"Halvek was a tyrant, and this building remembers his victims more than his marble. Don't mistake my office for his.\" Draw the line clearly.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.halvekists", "operation": "add", "value": -5 },
+            { "stat": "factions.reformists", "operation": "add", "value": 5 }
+          ],
+          "flags": ["ball_kolvar_cold"],
+          "chainTriggers": [
+            { "targetNodeId": "act1_kolvar_opposition_rally", "delayWeeks": 2 }
+          ],
+          "codexUnlocks": []
+        },
+        {
+          "id": "kolvar_ignore",
+          "text": "Nod curtly and turn away without a word. Let him wonder what you're thinking.",
+          "internalTag": "authoritarian",
+          "stateChanges": [
+            { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_kolvar_insulted"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "ball_renek",
+      "title": "The Archbishop's Blessing",
+      "location": "Center Hall, near the Organ",
+      "character": "stanislov_renek",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Archbishop Renek intercepts you near the grand organ, resplendent in crimson vestments. His presence at the Ball is a political statement — the Church did not attend Halvek's inaugural events. This is a gesture. But like everything Renek does, it comes with calculation."
+        },
+        {
+          "type": "dialogue",
+          "character": "stanislov_renek",
+          "text": "Chancellor. A beautiful evening — the Flame's warmth upon it. My father used to say that a blessing offered publicly is a garden shared with the village. We gain nothing from private prayers when the people are watching. I wonder if one might permit an old man a moment of public service? A brief blessing for your Chancellorship, offered here before the assembled guests. We would be... honoured to provide it. And I believe the country would find it... reassuring."
+        },
+        {
+          "type": "description",
+          "text": "Every photographer in the room will capture it. The image of the Archbishop blessing the new Chancellor — it would signal continuity, moral authority, and the Church's endorsement. But it would also signal something else: that you need the Church's blessing to govern."
+        }
+      ],
+      "monologue": "Every photographer in the room will capture it — the Archbishop's hands raised over the Chancellor's head. The image would signal continuity, moral authority, the Church's endorsement. It would also signal that I need the Church's blessing to govern. Renek knows this. He didn't attend Halvek's inaugural events. His presence tonight is a gesture — and like everything he does, it comes with calculation. He's not offering a prayer. He's offering a photograph.",
+      "choices": [
+        {
+          "id": "renek_accept",
+          "text": "Accept gracefully. \"I would be honored, Your Eminence.\" Allow the public blessing. The cameras flash. The conservative press exults.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.church", "operation": "add", "value": 15 },
+            { "stat": "factions.reformists", "operation": "add", "value": -5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+            { "stat": "religiousAdherence", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_renek_blessing"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_church_political_role"]
+        },
+        {
+          "id": "renek_decline",
+          "text": "Decline politely. \"The Republic is secular, Your Eminence. I govern with the people's mandate, not by divine right. But I welcome your prayers in private.\" No public blessing.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.church", "operation": "add", "value": -10 },
+            { "stat": "factions.reformists", "operation": "add", "value": 5 }
+          ],
+          "flags": ["ball_renek_declined"],
+          "chainTriggers": [
+            { "targetNodeId": "act1_renek_sermon", "delayWeeks": 4 }
+          ],
+          "codexUnlocks": []
+        },
+        {
+          "id": "renek_compromise",
+          "text": "Accept but add your own words: \"Your Eminence, bless the Republic itself — all its people, of every faith and none. The Eternal Flame warms every Veltrian, not only the faithful.\" A compromise.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.church", "operation": "add", "value": -5 },
+            { "stat": "factions.reformists", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_renek_compromise"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_church_political_role"]
+        }
+      ]
+    },
+    {
+      "id": "ball_foreign",
+      "title": "The Foreign Table",
+      "location": "South Terrace, Grand Hall",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Ambassador Harrison Cole of the Arcturian Commonwealth and Commissar Yevgeni Stahl of the Orythian Dominion occupy adjacent tables on the south terrace, separated by exactly six feet of polished marble and thirty years of Cold War hostility. Neither has acknowledged the other's existence. Both have been watching you since you entered."
+        },
+        {
+          "type": "description",
+          "text": "Cole catches your eye and raises his glass with an easy smile — the practiced charm of a man whose nation can afford to be patient. Stahl watches impassively, hands folded on the table, waiting to see which direction you walk."
+        }
+      ],
+      "monologue": "Cole and Stahl are separated by exactly six feet of polished marble and thirty years of Cold War hostility. Neither has acknowledged the other. Both have been watching me since I entered. Cole's glass is raised. Stahl's hands are folded. Whoever I walk toward first, the other will remember. This is the first foreign policy decision of my government, and it happens before I've said a single word — just the direction my feet take across the marble floor.",
+      "choices": [
+        {
+          "id": "foreign_cole",
+          "text": "Visit Ambassador Cole. Exchange pleasantries about trade and the \"shared democratic values\" of your nations. Let Stahl watch you shake the western hand.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_visited_cole", "arcturian_relations_warm"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_arcturian_commonwealth"]
+        },
+        {
+          "id": "foreign_stahl",
+          "text": "Visit Commissar Stahl. Exchange blunt pleasantries about \"mutual respect between neighbors.\" Let Cole watch you engage the eastern power.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_visited_stahl", "orythian_relations_warm"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_orythian_dominion"]
+        },
+        {
+          "id": "foreign_neither",
+          "text": "Visit neither. Acknowledge both with a polite nod and move on. Veltria does not choose sides on the night of its liberation.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+          ],
+          "flags": ["ball_visited_neither"],
+          "chainTriggers": [
+            { "targetNodeId": "act2_superpower_coldness", "delayWeeks": 20 }
+          ],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "ball_soraya",
+      "title": "Soraya's Corner",
+      "location": "North Alcove, Grand Hall",
+      "character": "soraya_khaled",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Soraya Khaled has claimed a corner near the north alcove, surrounded by union stewards in their best (and only) suits. She looks profoundly uncomfortable in formalwear — less a guest at a ball and more a prisoner granted temporary yard time. She's come because the Workers' Coalition leadership pressured her. She'd rather be anywhere else."
+        },
+        {
+          "type": "dialogue",
+          "character": "soraya_khaled",
+          "text": "Chancellor. Pretty party. I counted fourteen chandeliers. That's roughly... two months of funding for the Kravenstal public clinic? The one that's been turning away patients because there aren't enough beds. But the champagne is excellent — so there's that."
+        },
+        {
+          "type": "description",
+          "text": "Her allies shift behind her, watching. This is a test. She wants to know if you're another politician who'll smile and deflect, or someone who can take a hard question seriously."
+        }
+      ],
+      "monologue": "Fourteen chandeliers. She counted them. She knows exactly how many beds the Kravenstal clinic doesn't have and she's telling me she did the math between the champagne course and now. Her allies are watching behind her, waiting to see whether I'm another politician who deflects or someone who can take a hard question seriously. She'd rather be anywhere else. She came because the Coalition leadership pressured her. That tells me something about where the workers are placing their trust — and how little of it is currently in me.",
+      "choices": [
+        {
+          "id": "soraya_engage",
+          "text": "Put down your champagne. \"You're right. How many beds? And what would it cost to fix it by summer? Give me the numbers, Soraya. I'm not here to dance.\"",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 10 }
+          ],
+          "flags": ["ball_soraya_respect"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_kravenstal_clinic"]
+        },
+        {
+          "id": "soraya_deflect",
+          "text": "Smile warmly. \"It's a celebration, Soraya. Surely one night off from politics won't collapse the Republic? Enjoy the evening — we'll talk policy next week.\"",
+          "internalTag": "deflect",
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -3 }
+          ],
+          "flags": ["ball_soraya_deflected"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    {
+      "id": "ball_vael",
+      "title": "Vael's Invitation",
+      "location": "Dance Floor, Grand Hall",
+      "character": "lucan_vael",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Margrave Lucan Vael intercepts you near the dance floor with the smooth confidence of a man who owns half the steel in the room and knows it. His tailored suit costs more than most Veltrians earn in a year. His smile is practiced, warm, and completely untrustworthy."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Chancellor Ashavel! I simply had to congratulate you in person. Your father — a great man, a great loss. He and I... well, different circles. But I always respected his conviction. I wonder if you might find time next week for a private meeting? I have some ideas about investment that could benefit the nation — entirely patriotic, I assure you."
+        },
+        {
+          "type": "description",
+          "text": "Behind the charm is a business proposal. Vael wants access to the new government. Accept the meeting, and you open a door that may be hard to close. Refuse, and you make an enemy of the most powerful oligarch in Veltria."
+        }
+      ],
+      "monologue": "'My father and I — different circles.' He brought up my father in a ballroom full of people who know exactly what happened to Mikhael Ashavel. That's not a condolence. It's a demonstration — he knows my history and isn't afraid to reference it. He wants a meeting. He'll frame it as patriotism. Behind the charm is a business proposal that will arrive wrapped in language about investment and national interest.",
+      "choices": [
+        {
+          "id": "vael_accept",
+          "text": "\"Next week, then. Have your people contact Vyktor.\" Accept the meeting. The business community will appreciate your openness.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+            { "stat": "vaelInfluence", "operation": "add", "value": 5 }
+          ],
+          "flags": ["ball_vael_meeting_scheduled"],
+          "chainTriggers": [
+            { "targetNodeId": "act1_vael_private_meeting", "delayWeeks": 2 }
+          ],
+          "codexUnlocks": ["codex_lucan_vael"]
+        },
+        {
+          "id": "vael_decline",
+          "text": "\"I appreciate the offer, Margrave, but my first weeks must be focused on governance, not private meetings.\" Firm but polite refusal.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.businessClass", "operation": "add", "value": -5 },
+            { "stat": "factions.reformists", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_vael_declined"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_lucan_vael"]
+        },
+        {
+          "id": "vael_deflect",
+          "text": "\"Let's see how the first month goes, Margrave. If I need investment advice, you'll be my first call.\" Keep him at arm's length.",
+          "internalTag": "deflect",
+          "stateChanges": [],
+          "flags": ["ball_vael_deferred"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_lucan_vael"]
+        }
+      ]
+    },
+    {
+      "id": "ball_nadia",
+      "title": "Nadia's Question",
+      "location": "Press Gallery, Grand Hall",
+      "character": "nadia_voss",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Nadia Voss materializes from the press gallery, notepad in hand. She's young — twenty-four — but there's steel in her posture. Unlike the other journalists who've been fawning, Nadia looks at you with the intensity of someone who has questions and will not be satisfied with pleasantries."
+        },
+        {
+          "type": "dialogue",
+          "character": "nadia_voss",
+          "text": "Chancellor. Nadia Voss, The Ashenmere Herald. I have three questions. First: will you declassify the BNI archives? Second: what is your specific timeline for constitutional reform? Third: does your husband's architecture firm have any government contracts, past or pending? I'll wait."
+        },
+        {
+          "type": "description",
+          "text": "Every journalist in the gallery is watching. Whatever you say here shapes the press's posture toward your entire administration. Answer honestly, and you commit publicly. Evade, and you establish a pattern."
+        }
+      ],
+      "monologue": "Three questions. No pleasantries. No deference. She's twenty-four and she's asking about BNI declassification, constitutional timelines, and Jonas's contracts — in that order, which means she's been thinking about the sequencing. Every journalist in the gallery is watching. If I answer honestly, I commit publicly. If I evade, I establish a pattern. She's giving me the chance to define my relationship with the press on day one. She's also giving me enough rope.",
+      "choices": [
+        {
+          "id": "nadia_answer",
+          "text": "Answer honestly. \"Yes to declassification — on a phased timeline. Constitutional reform by mid-year. Jonas's firm has zero government contracts — you can verify. Anything else?\" Respect the press.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "nation.pressFreedom", "operation": "add", "value": 5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+          ],
+          "flags": ["ball_nadia_answered", "bni_declassification_promised"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_nadia_voss"]
+        },
+        {
+          "id": "nadia_nocomment",
+          "text": "\"No comment tonight, Ms. Voss. It's a celebration — send your questions to my office and I'll address them in due course.\" Safe but evasive.",
+          "internalTag": "deflect",
+          "stateChanges": [
+            { "stat": "nation.pressFreedom", "operation": "add", "value": -3 }
+          ],
+          "flags": ["ball_nadia_evaded"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "nadia_exclusive",
+          "text": "\"Excellent questions. Let me offer you an exclusive interview next week — one hour, on the record. We'll cover all three in detail.\" Set up a major press moment.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "nation.pressFreedom", "operation": "add", "value": 3 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_nadia_exclusive", "nadia_interview_scheduled"],
+          "chainTriggers": [
+            { "targetNodeId": "act1_nadia_exclusive_interview", "delayWeeks": 1 }
+          ],
+          "codexUnlocks": ["codex_nadia_voss"]
+        }
+      ]
+    },
+    {
+      "id": "ball_brenner",
+      "title": "General Brenner's Salute",
+      "location": "West Bar, Grand Hall",
+      "character": "oskar_brenner",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "General Oskar Brenner approaches in full dress uniform, medals gleaming under the chandeliers — campaigns in Sevagrad, the border skirmish of '58, decades of Halvek-era service. His footsteps are measured, precise, the gait of a man who has never needed to hurry. He stops exactly three paces from you and offers a crisp military salute."
+        },
+        {
+          "type": "dialogue",
+          "character": "oskar_brenner",
+          "text": "Chancellor. The Armed Forces of the Republic recognize the lawful transfer of executive authority. We serve the office — and now, the office is yours. Congratulations."
+        },
+        {
+          "type": "description",
+          "text": "There is no warmth in his words. This is a statement of protocol, not loyalty. He is telling you that the military accepts you — for now. The unspoken corollary hangs in the air: the military can also choose not to."
+        }
+      ],
+      "monologue": "Three paces. Crisp salute. 'The Armed Forces recognize the lawful transfer of executive authority.' No warmth — this is protocol, not loyalty. He's telling me the military accepts me for now. The unspoken corollary is that the military can also choose not to. Halvek's generals are still Halvek's generals. The medals on his chest are from campaigns I didn't authorize and a regime I was elected to dismantle.",
+      "choices": [
+        {
+          "id": "brenner_salute",
+          "text": "Return the salute. \"General. The Republic honors your service. I look forward to a productive relationship between the civilian government and the armed forces.\" Show respect for the military institution.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
+            { "stat": "factions.halvekists", "operation": "add", "value": 3 },
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 2 }
+          ],
+          "flags": ["ball_brenner_salute"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_military_hierarchy"]
+        },
+        {
+          "id": "brenner_handshake",
+          "text": "Extend a handshake instead. \"General. Civilian leadership means civilian customs. I receive your recognition as a handshake — freely offered, freely given.\" Assert civilian control.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 3 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -3 }
+          ],
+          "flags": ["ball_brenner_handshake"],
+          "chainTriggers": [],
+          "codexUnlocks": ["codex_military_hierarchy"]
+        },
+        {
+          "id": "brenner_talk",
+          "text": "\"General, sit with me a moment. I want to hear your assessment of our defense posture — honestly. No briefing papers. Just a soldier's view.\" Have a longer conversation.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 3 },
+            { "stat": "factions.reformists", "operation": "add", "value": -2 }
+          ],
+          "flags": ["ball_brenner_talked"],
+          "chainTriggers": [
+            { "targetNodeId": "act1_brenner_defense_briefing", "delayWeeks": 1 }
+          ],
+          "codexUnlocks": ["codex_military_hierarchy"]
+        }
+      ]
+    },
+    {
+      "id": "ball_dance",
+      "title": "The Dance",
+      "location": "Dance Floor, Center of Grand Hall",
+      "character": "jonas_ashavel",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The orchestra strikes the first notes of a waltz — an old Veltrian piece from the pre-Halvek years, chosen specifically for this moment. Tradition demands the Chancellor dance with their spouse to formally open the floor. Every eye turns toward you and Jonas."
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "Kat. I know you have a room to work. I know there are a hundred conversations you haven't had yet. But this... this is just a dance. With your husband. Who hasn't seen you smile in three hours. What do you say?"
+        }
+      ],
+      "monologue": "The waltz is an old Veltrian piece from the pre-Halvek years. Tradition demands the Chancellor dance with their spouse. Every eye is on us. Jonas is asking for three minutes with the woman he married. 'Who hasn't seen you smile in three hours.' He's not wrong. The room has taken everything I have tonight and there's nothing left for the one person who isn't asking for anything except to be seen. The cameras will capture whatever I do. So will he.",
+      "choices": [
+        {
+          "id": "dance_together",
+          "text": "Take his hand. \"One dance. The rest of the room can wait three minutes.\" Lead him onto the floor. The cameras capture it — the Chancellor and her husband, young, human, real.",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": 10 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+          ],
+          "flags": ["ball_danced_together"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "dance_skip",
+          "text": "Shake your head. \"I can't, Jonas. Kolvar is waiting for a confrontation, the Archbishop wants his blessing, and if I stop moving for even five minutes, someone closes a deal I don't know about. Later — I promise.\"",
+          "internalTag": "deflect",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": -15 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+          ],
+          "flags": ["ball_dance_skipped", "jonas_publicly_humiliated"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "dance_short",
+          "text": "\"One dance — a short one. Then I have to keep moving.\" A brief, graceful turn around the floor before excusing yourself.",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": 3 }
+          ],
+          "flags": ["ball_danced_short"],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "act3_kaelen_response",
+  "title": "Kaelen's Answer",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Ashenmere Palace, 22:30",
+  "characters": ["idris_kaelen"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Kaelen arrives at the palace after dark, through the service entrance at his own request — 'I do not want my people to see me entering the Chancellery under a chandelier while they are sleeping in mountain safe houses.' The private study is lit by a single desk lamp. The rest of the palace is asleep. The meeting has not been announced, will not be logged in the official schedule, will not appear in tomorrow's newspapers. It exists only in this room, between two people who have each made promises they are not certain they can keep."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "I have spent three days thinking about your words. Not the specific offers — the language recognition, the commission, the military integration. Those are tactics, and I have been doing tactics for twenty years. What I have been thinking about is the thing underneath the tactics. The question you asked without asking it: whether I believe that you believe what you are saying. Whether the Chancellor of Veltria genuinely intends to make right what thirty-seven years of Veltrian governments have made wrong, or whether I am being managed by someone who is better at managing than her predecessors."
+    },
+    {
+      "type": "description",
+      "text": "He pauses. In the low light of the desk lamp, his face is older than forty-two — the mountain years, the prison years, the years of carrying a people's hopes through a succession of governments that promised reform and delivered paperwork. He has been disappointed by Chancellors before. He is deciding whether you are another name on that list."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "I am going to tell you something I have not told my own council. The hardliners in the DLF — the people who want to take Tyvaren weapons, who think Veltria will never honor any agreement — they are not wrong about the history. Every Veltrian government for thirty-seven years has given them evidence for their position. My argument to them has been that you are different. That a woman who rose through the party machinery while refusing to join Halvek's inner circle, who ran on a reform platform and then actually reformed things, who made promises to the Dravenni during the campaign and then acted on them — that this woman is worth trusting. I am staking my credibility with my own people on my belief about who you are. I need you to tell me whether my belief is correct."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is not a negotiation. This is a man who has spent twenty years fighting for his people, laying down the most valuable weapon he has — his credibility — on my desk, and asking me whether I am going to pick it up or leave it there. The specific policy commitments matter less than the answer to the question he is really asking: am I the Chancellor who finally keeps the Dravenni promises, or am I the Chancellor who makes better promises and keeps them less? The difference between those two things is the difference between a Dravenni alliance and a Dravenni insurgency. It is also the difference between the person I said I was during the campaign and the person the office has made me."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "kaelen_response_commit",
+      "text": "\"You are right to trust me. Not because I am different from every Chancellor before me — I am made of the same flawed material as everyone who has occupied this office. But because I understand something my predecessors did not: the Dravenni question is not a provincial problem to be managed. It is the test of whether Veltria can be a democracy that includes everyone or only a democracy that includes the people the majority finds convenient. I am committing to you, tonight, in this room, with no witnesses and no press release: I will deliver federal autonomy for Dravenhollow or I will leave this office having failed at the thing that mattered most. That is my word. Is it enough?\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 20 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_autonomy_talks", "delayWeeks": 3 }
+      ],
+      "flags": ["kaelen_trust_earned", "federal_autonomy_committed", "dravenni_pledge_made"],
+      "codexUnlocks": ["codex_kaelen_personal_trust"]
+    },
+    {
+      "id": "kaelen_response_honest",
+      "text": "\"I cannot promise you federal autonomy will pass this parliament. You know the math — Kolvar controls enough votes to block any constitutional amendment, and the provincial ratification process is designed by men who never wanted Dravenhollow to govern itself. What I can promise you is this: I will fight for everything I promised, for as long as I hold this office. I will not trade Dravenni rights for legislative convenience. I will be honest with you when the math is against us, and I will ask you to be honest with me when my promises fall short. That is not the guarantee you want. It is the guarantee I can actually give.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_autonomy_commission", "delayWeeks": 3 }
+      ],
+      "flags": ["kaelen_honest_bargain", "limited_but_real_promise", "dravenni_partnership_negotiated"],
+      "codexUnlocks": ["codex_kaelen_honesty"]
+    },
+    {
+      "id": "kaelen_response_cautious",
+      "text": "\"I want to give you everything you are asking for. But I am governing a country that is about to be invaded, with a parliament that just tried to censure me for making the alliance you are part of. If I push federal autonomy now, I lose the coalition that keeps this government alive — and if this government falls, the next Chancellor will not be having this conversation with you at all. I am asking you to accept what I can deliver now — cultural rights, military integration, provincial status — and trust that the rest will come when the political conditions allow it. The alternative is losing everything because we reached for everything at once.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.dravenni",             "operation": "add", "value": -4 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_dravenni_divided_response", "delayWeeks": 3 }
+      ],
+      "flags": ["kaelen_delayed_promise", "incremental_approach", "coalition_survival_priority"],
+      "codexUnlocks": ["codex_kaelen_cautious_trust"]
+    }
+  ]
+}

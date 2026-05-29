@@ -1,0 +1,95 @@
+{
+  "id": "act2_diplomacy_lytheira_debt",
+  "title": "The Colonial Ledger",
+  "act": 2,
+  "weekAvailable": 18,
+  "type": "diplomacy",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Lytheirian Consulate — Ashenmere, Old Quarter",
+  "characters": ["elodie_marchand", "elara_vostane"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Lytheirian Consulate occupies a converted merchant's palace in the Old Quarter — marble floors that were laid before Veltria existed as an independent nation, tapestries that show scenes from Lytheira's imperial period, and a quiet that suggests centuries of accumulated power. Premier Elodie Marchand receives you in a salon decorated with paintings of Lytheirian ships in Veltrian harbors circa 1820. The paintings are not subtle. Neither is the Premier."
+    },
+    {
+      "type": "dialogue",
+      "character": "elodie_marchand",
+      "text": "Chancellor. You are younger than I expected. That is not a compliment or an insult — merely an observation. I have been dealing with Veltrian heads of state since before you entered politics, and I have learned that age is not a reliable indicator of judgment. I will get directly to the point. Veltria owes Lytheira approximately eighty million Krone in colonial-era debt — obligations incurred by the pre-independence administration of the Amber Coast Territory between 1910 and 1924. The debt has been serviced sporadically, disputed frequently, and defaulted on twice. It is a ledger entry that has poisoned relations between our nations for forty years. I am prepared to wipe it clean. Full forgiveness. The eighty million is gone as though it never existed. In exchange, Lytheira receives exclusive contracts for all Veltrian raw material exports — steel ingots, processed minerals, agricultural commodities — for a period of ten years, at rates to be negotiated. You will have no bilateral trade deficit with Lytheira because there will be no bilateral trade with anyone else for those commodities."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Premier, forgive me — the colonial debt has been a diplomatic fiction since 1948, when the International Arbitration Tribunal ruled that pre-independence obligations were not legally enforceable against the Republic of Veltria. You are offering to forgive a debt that the international legal system has already determined we do not owe. In exchange, you want exclusive control over our commodity exports — which would effectively make Veltria an economic dependency of Lytheira, exactly as the Amber Coast Territory was between 1910 and 1924. This is not a debt forgiveness proposal. It is a recolonization dressed as financial generosity."
+    },
+    {
+      "type": "dialogue",
+      "character": "elodie_marchand",
+      "text": "Minister Vostane's legal analysis is technically correct and practically irrelevant. The debt may not be legally enforceable, but it is politically significant. Lytheirian banks remember it. Lytheirian investors remember it. The Lytheirian parliament remembers it — and they vote on trade agreements. I am offering to remove an obstacle that has prevented normal economic relations between our countries for two generations. Yes, the exclusive contracts are significant. They are also temporary — ten years, after which Veltria re-enters the global market with its debt cleared and its reputation restored. Sometimes the fastest path to sovereignty runs through a temporary concession. I am offering you that path. The alternative is another forty years of Lytheirian banks refusing to touch Veltrian paper because of a debt that, legally enforceable or not, still appears on their ledgers."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Marchand is offering to solve a forty-year diplomatic headache with a ten-year economic concession. The debt is legally dead — Vostane is right about the tribunal ruling — but Marchand is also right that legal reality and financial reality operate on different timelines. Lytheirian capital avoids Veltria. Lytheirian banks charge higher rates. The 'colonial debt' lives on in the ledgers of people who lend money, regardless of what international tribunals say. Ten years of exclusive commodity contracts is a heavy price. But forty more years of impaired access to the world's third-largest financial market is also a heavy price. The question is which weight is heavier."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "lytheira_debt_accept",
+      "text": "\"Accept the debt forgiveness and the exclusive contracts — with amendments. The contracts are eight years, not ten. Annual price renegotiation tied to global commodity indices to prevent exploitation. And Lytheira commits to direct investment in Veltrian processing capacity — if you are going to be our primary customer, you will help build the factories that process what you buy. Premier, you wanted to solve the colonial debt. This solves it — with Veltrian sovereignty intact and Lytheirian capital deployed productively.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -80 },
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 6   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 8   },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -6  },
+        { "stat": "factions.reformists",          "operation": "add", "value": -3  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_diplomacy_arcturian_alliance", "delayWeeks": 14 }
+      ],
+      "flags": ["lytheira_debt_forgiven", "commodity_exclusivity", "lytheira_partnership"],
+      "codexUnlocks": ["codex_lytheira", "codex_colonial_history"]
+    },
+    {
+      "id": "lytheira_debt_refuse",
+      "text": "\"Premier, the colonial debt was resolved by international tribunal in 1948. Veltria does not acknowledge it, does not service it, and will not trade its commodity sovereignty for forgiveness of a debt that does not legally exist. If Lytheira wants to improve economic relations, we can negotiate a standard trade agreement — non-exclusive, mutually beneficial, forward-looking. The colonial era is over. I am not resurrecting it for eighty million Krone of accounting fiction.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -8  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 10  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 8   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   },
+        { "stat": "nation.economyHealth",         "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_diplomacy_arcturian_alliance", "delayWeeks": 14 }
+      ],
+      "flags": ["lytheira_debt_rejected", "colonial_legacy_defied", "economic_independence"],
+      "codexUnlocks": ["codex_lytheira", "codex_colonial_history"]
+    },
+    {
+      "id": "lytheira_debt_partial",
+      "text": "\"Counter-proposal. Lytheira forgives half the debt — forty million. In exchange, Veltria grants Lytheira a right-of-first-refusal on commodity contracts: you get the first bid, not the only bid. If your bid is competitive with the global market, you get the contract. If it isn't, we sell elsewhere. This resolves the historical grievance without creating a new dependency. Premier, you said age is not a reliable indicator of judgment. Here is my judgment: a partnership that requires one party to be captive is not a partnership. It is a leash with better branding.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": -40 },
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 3   },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 4   },
+        { "stat": "factions.reformists",          "operation": "add", "value": 5   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_diplomacy_arcturian_alliance", "delayWeeks": 14 }
+      ],
+      "flags": ["lytheira_debt_halved", "right_of_first_refusal", "balanced_partnership"],
+      "codexUnlocks": ["codex_lytheira"]
+    }
+  ]
+}

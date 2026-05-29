@@ -1,0 +1,98 @@
+{
+  "id": "act4_family_estranged",
+  "title": "Strangers at the Same Table",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Dining Room, Late Evening",
+  "characters": ["jonas_ashavel", "liora_ashavel"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You blamed them. At the reckoning, when Jonas asked whether the woman he married still existed, you told them that governing through crisis was not a failure of family — that the failure was theirs, for not being strong enough to support you while you governed. You told Liora that leaking classified documents was undermining you while foreign tanks were on the border. You told Tomas that his association with the Ironborn was a political liability his mother could not afford. You told Jonas that you could not manage three separate emotional crises while holding the country together. You did not say the word 'burden.' You did not need to. Everything you said communicated burden. They heard it. They have been hearing it ever since."
+    },
+    {
+      "type": "description",
+      "text": "The dining room is set for three — you, Jonas, Liora. Tomas is not here. He is staying with Jonas's sister in Kravenstal, ostensibly for school reasons, actually because he cannot stand to be in the same house as you. The table setting is Jonas's work — he still does the domestic things, the meals and the schedules and the arrangements that keep a household functioning even when the relationships inside it have stopped functioning. It is one of the crueler ironies of estrangement: the practical machinery of family life continues operating long after the emotional machinery has broken down. Someone still buys the bread. Someone still sets the table. Someone still asks whether there is enough salt. The body of the family persists. The soul of it has left."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "The lease on the East Quarter apartment is signed. I move in Saturday. I've told Tomas — he's going to stay with me during the week and with Anya on weekends. He needs stability. Not the kind of stability the Chancellery provides — the kind where someone is present. Actually present. I'm not saying this to hurt you. I'm telling you the logistics so you know where your son is sleeping. I think you still care about that, even if you've forgotten how to show it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not being cruel. That is the worst part. Jonas has never been cruel — not during the campaign, not during the cancellations, not during the silence that followed each cancellation. Even now, when he is telling you that he is leaving and taking your son with him, he is doing it with the care of someone who still loves you but cannot live with you. That distinction — between loving someone and being able to live with them — is one you did not understand before the Chancellorship. You understand it now. You understand it in your bones, in the quiet of the residence at night, in the empty chair where Jonas used to sit, in the silence from Kravenstal where Tomas is learning to be a person without you. You understand that love is not enough. Love without presence is a theory. Presence without love is a performance. You have been performing presence for so long that you forgot love required more than showing up."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "I'm not going to give you a list of grievances. I've already given you that list, several times, in different forms. What I want to say is — I'm stopping. Not the journalism. Not my career. I'm stopping the part where I keep hoping you'll be a mother. You are the Chancellor. You've been the Chancellor more than you've been my mother since the inauguration, and probably before that if I'm honest. I've been angry about that for a long time. I'm not angry anymore. I'm just — finished. Finished hoping, finished waiting, finished measuring you against a standard you clearly cannot meet. It's not fair to keep doing that. It's not fair to you and it's not fair to me. So I'm stopping. We can be cordial. We can be professional. We cannot be what we were. I need you to understand that this is a permanent decision, not a phase."
+    },
+    {
+      "type": "description",
+      "text": "She says it without tears. That is the detail that stays with you — not the words, which you expected, but the absence of tears. Liora has cried about this before. She has raged about it. She has written about it in articles that you read and did not respond to. Now she is dry-eyed and composed, the composure of someone who has finished grieving something she has already lost. The grieving happened without you. You were governing while your daughter was mourning her mother. You did not attend the funeral."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "family_estranged_reconciliation_attempt",
+      "text": "\"Jonas — I cannot undo what I said at the reckoning. I cannot unsay the word 'burden' or the implication that you were all obstacles to governance rather than the reason for it. What I can do is tell you that I was wrong. Not politically wrong — I have made a thousand politically wrong decisions and corrected most of them — but humanly wrong. The kind of wrong that changes who you are if you acknowledge it. I am acknowledging it. I was wrong to blame you. I was wrong to make you carry the cost of my choices and then resent you for noticing the weight. Liora — I hear you. I hear that you are finished. I am asking you — not as the Chancellor, as your mother — to leave a door open. Even a crack. Even just the possibility that someday, when the Chancellorship is over, there might be something on the other side. I am not asking you to wait. I am asking you not to lock it.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 6  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 8  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 18 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["family_estranged_path", "reconciliation_attempted", "wrong_acknowledged", "door_left_open"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_estranged_accept_estrangement",
+      "text": "\"I understand. Both of you. I am not going to argue or negotiate or make promises I cannot keep. Jonas — the East Quarter apartment sounds like a sensible arrangement. Tomas needs the stability you described. Liora — I respect your decision. I do not agree with your characterization of everything that happened, but I respect your right to characterize it however you need to. I did what I believed was necessary to govern this country through its most dangerous period since the Halvek collapse. The cost of governance has been — this. This table. This conversation. These relationships. I did not fully understand the cost when I took the oath. I understand it now. I would not make the same choices again if I had known. But I cannot unmake them. I can only live with them. I will live with them. The country needed a Chancellor. It got one. What it cost me is between me and whatever God is still listening.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -14 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": -12 },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6   },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_jonas_divorce", "delayWeeks": 2 }
+      ],
+      "flags": ["family_estranged_path", "estrangement_accepted", "marriage_ending", "liora_final", "tomas_gone"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_estranged_salvage_one",
+      "text": "\"I have lost things in this office. Policies. Battles. Allies. I have learned that you cannot save everything. You have to choose what to save. So I am choosing. Liora — I am not going to try to change your mind. I hear what you said and I accept that this is where you are. If you ever want to be somewhere else — I will be here. Not the Chancellor. Your mother. That offer does not expire. Jonas — I am not asking you to stay. I am asking you to help me not lose Tomas completely. You're his father. You understand him in ways I have forgotten how to understand anyone. If you are moving out, if we are ending — help me find a way to still be his mother. Not the Chancellor's son's mother. His mother. The person who taught him to read and held him when he had nightmares and promised him she would always be there. I broke that promise. Help me unbreak it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": -6  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": -6  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 12  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2   },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 4 }
+      ],
+      "flags": ["family_estranged_path", "salvage_tomas", "jonas_cooperative", "liora_estranged_permanent", "marriage_ending"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "act3_ima_compliance_year",
+  "title": "A Year of Austerity",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Finance — Quarterly Review, Midday",
+  "characters": ["elara_vostane", "gregor_maric"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Eight months into IMA compliance. The numbers are improving. That is the first thing Vostane shows you — a chart of the Krone against the florin, trending upward for five consecutive months. Bond yields are down. The fiscal deficit is narrowing. The IMA has certified the first two quarterly reviews without conditions. By the metrics that international finance uses to measure health, Veltria is healing. By the metrics that people use to measure survival, Veltria is bleeding. Both things are true. The question is which metrics matter."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The IMA has certified both quarterly reviews. The Krone is stable. Capital flight has reversed — we saw net inflows for the first time in eleven months. The Grain Authority privatization has attracted three qualified bids. Northern Rail restructuring is proceeding ahead of schedule. The public sector workforce has been reduced by eleven percent through a combination of attrition, early retirement, and targeted redundancies. The fiscal trajectory projects a surplus of one point six percent by year-end — slightly ahead of the IMA target. By every measurable economic indicator, the program is working."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "By every measurable economic indicator. Listen to yourself, Elara. You are standing in a room in Ashenmere telling us that bond yields are down while in Kravenstal the price of bread has increased forty percent since the subsidy cuts. You are telling us the fiscal deficit is narrowing while the unemployment lines have tripled in length. You are telling us the program is working while fourteen thousand of the sixty thousand workers you plan to dismiss are already unemployed and the social safety net we promised them does not exist because the IMA conditions eliminated the funding for it before we could build it. You measure in bond yields. I measure in people who cannot feed their children. These are not the same measurement system. They are not even the same reality."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Maric is not wrong. He is also not offering an alternative. That is the bind of austerity governance: the critiques are morally correct but operationally empty. You cannot tell the IMA that the people are hungry and expect the IMA to revise its fiscal targets. The IMA measures hunger in aggregate demand shortfalls, not in empty stomachs. It measures unemployment in output gaps, not in families who have stopped answering their doors because they cannot pay the rent. The translation between human suffering and economic indicators is a language no one has taught you to speak. Vostane speaks the language of indicators fluently. Maric speaks the language of suffering fluently. You are the translator, and the translation is breaking you."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I am not indifferent to the human cost. I am aware of it. I receive the unemployment reports and the food price data and the social welfare caseload figures. I do not need Gregor to remind me that people are suffering. What I need — what the government needs — is a recognition that the alternative to this suffering was worse. The alternative was default. Hyperinflation. Currency collapse that would have destroyed the savings of every pensioner in Veltria, not just the ones affected by public sector reductions. The IMA program is brutal. The alternative was catastrophic. If Gregor has a proposal that reduces the brutality without triggering the catastrophe, I am prepared to evaluate it. If he does not — then his moral outrage is a luxury this government cannot afford."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "ima_compliance_stay_course",
+      "text": "\"Elara is right about the economics. Gregor is right about the human cost. Both truths are real and neither cancels the other. We stay the course on IMA compliance — the fiscal targets, the privatization, the workforce reductions. We also acknowledge publicly that the human cost is real and that we are working to mitigate it within the constraints of the program. I will not pretend the suffering is not happening. I will also not abandon the program that is preventing worse suffering. We manage the tension. Governance is managing tensions. This is the tension we have.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": -14 },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -8  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week42_austerity_bites", "delayWeeks": 8 }
+      ],
+      "flags": ["ima_compliance_continuing", "austerity_midpoint", "course_stayed"],
+      "codexUnlocks": ["codex_ima_austerity_governance"]
+    },
+    {
+      "id": "ima_compliance_safety_net",
+      "text": "\"The IMA conditions are binding. I accept that. What I will not accept is that compliance means abandoning every person the compliance hurts. Gregor — I want a proposal on my desk in one week: a social safety net package that operates within the IMA framework. Emergency food assistance. Retraining programs for displaced workers. Transitional support for communities affected by privatization. Fund it from efficiency savings, not new borrowing. If the IMA objects, I will make the case that social stability is a condition of continued compliance. A country in revolt cannot meet fiscal targets. The IMA understands incentives, even if it does not understand hunger.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 4  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week42_austerity_bites", "delayWeeks": 8 }
+      ],
+      "flags": ["ima_compliance_continuing", "safety_net_created", "social_stability_preserved"],
+      "codexUnlocks": ["codex_social_safety_net"]
+    },
+    {
+      "id": "ima_compliance_emergency_modify",
+      "text": "\"I am issuing an executive order modifying the implementation of the IMA conditions. Workforce reductions will be capped at eleven percent — the level already achieved. Further reductions will come only from attrition. Privatization of the Grain Authority is suspended pending a review of food security implications. The Northern Rail sale will include binding requirements for domestic employment and service continuity. I will notify the IMA of these modifications and I will make the case that they are consistent with the program's objectives. If the IMA disagrees — I will accept the consequences, including suspension of the next disbursement. I did not take this office to administer foreign-designed austerity. I took it to govern Veltria.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",         "operation": "add", "value": -4  },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -8  },
+        { "stat": "factions.workersCoalition",    "operation": "add", "value": 14  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 4   },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -12 },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 3 }
+      ],
+      "flags": ["ima_terms_modified", "executive_modification", "ima_confrontation"],
+      "codexUnlocks": ["codex_executive_authority_economic"]
+    }
+  ]
+}

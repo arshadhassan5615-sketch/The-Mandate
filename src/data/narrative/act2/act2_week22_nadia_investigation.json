@@ -1,0 +1,186 @@
+{
+  "id": "act2_week22_nadia_investigation",
+  "title": "On the Record",
+  "act": 2,
+  "weekAvailable": 22,
+  "weekDeadline": 26,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "The Veltrian Dispatch — Conference Room, Third Floor",
+  "characters": ["nadia_voss", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Nadia Voss is twenty-six years old and has broken three significant stories since the transition — the BNI payroll discrepancy that revealed forty-seven active agents who had not been decommissioned, the Kravenstal mine inspection records that connected two ministry officials to Vael's safety waivers, and last month a piece on the refugee camp conditions in Sevagrad that ran to four thousand words and was reprinted in seven foreign newspapers. She requested this interview through the official press office using the standard process. She did not have to."
+    },
+    {
+      "type": "description",
+      "text": "The Dispatch's conference room smells of coffee and printer ink. She is already seated when you arrive, a voice recorder on the table and a notebook open to a page that is half-filled with handwriting you cannot read upside-down. She stands to greet you and does not smile, which you note as the mark of someone who has decided to be a journalist in this room and not a person, and who is good enough at both to make that distinction cleanly."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Chancellor. Thank you for coming here rather than asking me to the palace. I prefer neutral ground for this kind of conversation. Can I ask you to state for the record that this interview is voluntary and that no conditions have been placed on my publication rights?"
+    },
+    {
+      "type": "description",
+      "text": "You confirm it. She makes a note. The recorder light comes on."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "I'm going to be direct with you about what I've found, because I think you'd rather know what's coming than be surprised by publication. I've spent six weeks in the BNI archive — the materials your government declassified under the transparency protocol last February. The files are not complete. Large sections have been redacted or physically removed. But what remains is enough to construct a significant picture of how the domestic surveillance apparatus functioned between 1952 and 1960."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "I found a series of reports filed under a handler designation — a code name. The reports identify individuals in the Ashenmere journalism community who were, according to the files, passing information to a BNI handler. Some of those individuals were then arrested. One died in custody in 1958. The code name for the asset — the informant — is 'Asset Seventeen.' I have spent three weeks trying to identify who Asset Seventeen was. I believe I know."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There it is. You have known this moment was coming since February, when you signed the declassification protocol and Vyktor said nothing and his expression said everything. You did not ask him. You told yourself you were protecting the integrity of the process, that you did not want to prejudice your own judgment, that the archive should speak for itself. Those are not lies, exactly. They are the kind of truth that is large enough to hide other things inside."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "I'm not publishing anything I cannot verify to a legal evidentiary standard. What I am doing is asking you, on the record: do you have any knowledge of the identity of Asset Seventeen? And do you have any knowledge of whether that person is currently employed in this government?"
+    },
+    {
+      "type": "description",
+      "text": "The recorder is still running. Her pen is still. She is watching you with the specific patience of someone who has learned that what people say in the pause before their answer is often more revealing than the answer itself, and who is too honest to pretend otherwise."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "I want to be clear about something else. I am not trying to destroy anyone. I am trying to understand what happened in this country between 1952 and 1960, so that the people whose relatives were arrested can know the names of the people who helped arrest them. That is the story. The government employment angle is incidental to the story, not the story itself. But I cannot publish incomplete information. If there is context I should have, I would rather have it before publication than after."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She is telling the truth. That is the problem. She is a young woman doing exactly what a free press is supposed to do, and what she is doing will destroy Vyktor Reznik, who is also — in the complicated way that people who have done terrible things can also be necessary and even good — someone who has spent the past three years trying to build the kind of country where journalists like Nadia Voss can ask exactly this kind of question without being arrested for it."
+    }
+  ],
+  "monologue": "She asked the question directly. On the record. No preface, no softening. Asset Seventeen. She has spent three weeks identifying him, and she wanted to ask me before she published — because she is thorough, not because she needs my permission. Vyktor is in the building somewhere. He does not know this conversation is happening. He is standing in a corridor, reviewing polling data, doing his job. And I am about to decide whether his life's work matters more than a journalist's right to tell the truth.",
+
+  "choices": [
+    {
+      "id": "nadia_full_cooperation",
+      "text": "\"Yes. I know who Asset Seventeen is. I knew before today. I will give you the documentation you need to verify it, and I will give you a statement on the record. I will not ask you to delay publication.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": 15 },
+        { "stat": "nation.corruption",        "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": 5  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 18 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act2_chain_vyktor_exposed",
+          "delayWeeks": 1
+        }
+      ],
+      "flags": ["nadia_full_cooperation", "vyktor_past_disclosed", "press_freedom_upheld"],
+      "codexUnlocks": ["codex_bni_history"],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "silence",
+          "text": "She does not react immediately. She writes something in her notebook — a single word, you cannot see what it is — and then looks up at you. The expression on her face is not triumph. It is something more complicated: the recognition of someone who expected to fight for the truth and has just been handed it without a battle."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Later that night, you tell him. He does not react — Vyktor never reacts to bad news, he simply processes it. The silence lasts twelve seconds. Then he nods. Once. I understand, he says. He does not say more. He does not need to. The understanding is the entire conversation."
+        }
+      ]
+    },
+    {
+      "id": "nadia_limited_access",
+      "text": "\"I can give you broader access to the archive — the materials that are currently under the administrative hold will be released. I can't give you specific personnel files that are still under active legal review. I am not confirming or denying specific identities. That is the boundary I can work within.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": 6  },
+        { "stat": "nation.corruption",        "operation": "add", "value": -3 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_nadia_investigation_continues",
+          "delayWeeks": 5
+        }
+      ],
+      "flags": ["nadia_limited_cooperation", "vyktor_past_deferred"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "silence",
+          "text": "She writes something in her notebook. It takes longer than her usual notation — several lines. When she looks up, her expression is the expression of a journalist who has just been given a partial answer and is deciding whether to accept it. The recorder is still running. She does not turn it off. With Voss, the recorder staying on means the answer was not complete. It means she will be back."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "You do not tell him about the meeting. Not yet. But two days later, when the expanded archive access is announced, he looks at you across the morning briefing with an expression you cannot quite read. He knows. He always knows. He does not say anything. The silence is the sound of Vyktor Reznik waiting to see how the story ends."
+        }
+      ]
+    },
+    {
+      "id": "nadia_stonewall",
+      "text": "\"I have no comment on BNI operational files or the identity of any individual referenced in those files. The legal directorate will be in touch with your editor regarding the publication process for materials that were selectively declassified under executive authority.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": -12 },
+        { "stat": "nation.corruption",        "operation": "add", "value": 8  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -6 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -12 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -16 }
+      ],
+      "chainTriggers": [],
+      "flags": ["nadia_stonewalled", "press_freedom_violated", "vyktor_past_suppressed"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "action",
+          "text": "She turns off the recorder. Not dramatically — the gesture is too controlled for drama. She closes her notebook and stands. I will publish what I have, Chancellor. I was hoping to publish more, but what I have is enough. She does not threaten. She simply states the facts. That is worse."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "You do not tell him. But three days later, when the story breaks — Asset Seventeen, the BNI handler designation, the death in custody — he reads it in the morning edition the way he reads everything: without visible reaction. He does not ask whether you knew. He does not need to. The silence is the sound of Vyktor Reznik understanding that you chose to protect him, and not being certain whether protection was what he wanted."
+        }
+      ]
+    },
+    {
+      "id": "nadia_personal_charm",
+      "text": "Off the record. Turn off the recorder. Ask her to understand the full complexity — Vyktor's coercion, his penance, what publishing now does to someone who has spent years trying to make it right. Ask her, personally, to consider what justice actually looks like in a case this specific.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [],
+      "flags": ["nadia_personal_approach", "vyktor_past_deferred", "nadia_relationship_begun"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "silence",
+          "text": "She turns off the recorder. The silence that follows is different from the silence that preceded it — less procedural, more human. She looks at you. She is still a journalist. She is always a journalist. But she is also twenty-six years old and sitting across from someone who is asking her to consider something harder than a headline. She does not promise anything. She does not refuse anything either. She simply closes her notebook and says: I'll think about it. With Voss, that is as close as she comes to mercy."
+        }
+      ]
+    }
+  ]
+}

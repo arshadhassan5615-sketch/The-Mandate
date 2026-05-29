@@ -1,0 +1,90 @@
+{
+  "id": "act3_orythian_advisor_friction",
+  "title": "The Orythian Presence",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Defense — Joint Advisory Council Chambers, 11:00",
+  "characters": ["vyktor_reznik", "elara_vostane"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Orythian advisors arrived three weeks ago — twelve military attachés and eight economic consultants, embedded in ministries across Kravenstal with offices, security clearances, and an unmistakable institutional confidence. They are not occupiers. They are allies. The distinction matters, but it is also the kind of distinction that gets thinner every time an Orythian colonel corrects a Veltrian major in front of his own command staff, or an Orythian economist explains to the Finance Ministry that Veltrian procurement practices are 'suboptimal by international standards.' The alliance is necessary. The friction is real. The question is whether the friction is manageable or whether it is slowly eroding the institutional self-respect that a country facing invasion desperately needs."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "BNI has recorded twelve incidents of what the Orythian liaison calls 'cultural adjustment difficulties' and what our officers call 'being treated like backward provincials in their own country.' The most recent: an Orythian logistics advisor informed Colonel Mirek—a twenty-three-year veteran who commanded the Kravenstal garrison during the Halvek transition—that his inventory management system was 'charmingly rustic.' Mirek has filed a formal complaint. The complaint will not change the Orythian advisor's behavior because the Orythian advisor reports to Orythia, not to us. That is the structural problem. They are here to advise, but they are not answerable to the people they are advising."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The Orythians are not wrong about the inventory system. The Orythian logistics infrastructure is decades ahead of ours. But being right and being helpful are different things, and the Orythians have not yet learned that a country fighting for its survival cannot be treated like a client state receiving technical assistance. Every 'charmingly rustic' adds another grain of resentment to a scale that is already tipping toward the nationalist argument: that the alliance is a softer form of the occupation we are supposedly fighting against. Vostane understands this — she negotiated the Orythian relationship. She also believes that the Orythian way of doing things is simply better, and that sentiment about sovereignty is a luxury a small country at war cannot afford."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The Orythian advisors have increased our military procurement efficiency by thirty-one percent. Their economic team has identified sixteen million marks in annual savings through supply chain consolidation. I understand that Colonel Mirek's feelings are hurt. I would trade Colonel Mirek's feelings for sixteen million marks and a third more efficient procurement system every day of the week, and so would any government that is serious about surviving a war with a numerically superior adversary. Sentiment does not stop tanks. Competence does. The Orythians are competent. We should listen to them."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "orythian_advisors_boundaries",
+      "text": "\"The Orythians are allies, not administrators. I am issuing a directive that all Orythian advisors report through Veltrian chain of command — they advise Veltrian officers, who make Veltrian decisions. If an Orythian advisor has a recommendation, it goes to the Veltrian officer in charge, who has the authority to accept, modify, or reject it. We are not a client state. We are a sovereign republic fighting an existential war with allied support. The distinction is not sentimental. It is constitutional.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_sanctions", "delayWeeks": 3 }
+      ],
+      "flags": ["orythian_boundaries_set", "sovereignty_preserved", "advisor_authority_limited"],
+      "codexUnlocks": ["codex_orythian_advisory_mandate"]
+    },
+    {
+      "id": "orythian_advisors_accept",
+      "text": "\"Vostane is right. Thirty-one percent procurement efficiency and sixteen million marks in savings is not sentiment — it is survival. The Orythian advisory framework remains as negotiated. Colonel Mirek will adapt his inventory management. All ministries will cooperate with Orythian recommendations. If we want Orythian support when the invasion comes, we accept Orythian advice while we are preparing. Dignity is important. Winning is more important.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_privatization_pressure", "delayWeeks": 4 }
+      ],
+      "flags": ["orythian_guidance_accepted", "efficiency_over_sentiment", "advisors_empowered"],
+      "codexUnlocks": ["codex_orythian_integration"]
+    },
+    {
+      "id": "orythian_advisors_reduce",
+      "text": "\"Reduce the advisor presence. I want a review of which Orythian personnel are operationally essential and which are redundant with existing Veltrian capability. The essential advisors stay — military logistics, intelligence liaison, strategic planning. The rest return to their embassies and provide support through normal diplomatic channels. We need the alliance. We do not need to be administered by it.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_cooldown", "delayWeeks": 4 }
+      ],
+      "flags": ["orythian_presence_reduced", "advisor_drawdown", "nationalist_sovereignty_wins"],
+      "codexUnlocks": ["codex_orythian_diplomatic_relations"]
+    }
+  ]
+}

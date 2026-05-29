@@ -1,0 +1,177 @@
+{
+  "id": "act1_chain_no_confidence_prep",
+  "title": "The Count",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor has a spreadsheet. He does not use spreadsheets casually — they represent conclusions he has already reached and is now presenting as data. The spreadsheet has 214 rows, one for each seat in the People's Assembly, and each row has a color: green, yellow, or red."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Kolvar is building a coalition for a vote of no confidence. He may have the numbers. The Halvekists are a given — 75 seats, fully committed. He has picked up 11 votes from the Iron Covenant bloc. Did not anticipate those. That gives him 86. He needs 108. The remaining 22 he needs are in yellow — representatives who have not committed but who have been meeting with his people. Fourteen of those 22 are from your coalition."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Fourteen from my own coalition. I know the names before he tells me. Reformists who think I have moved too slowly on the BNI. Workers' representatives who think the budget framework abandoned their people. Three who are simply for sale. I am not surprised. I am, despite knowing better, something like hurt."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You need to flip 8 votes in the next four weeks. I have identified the 8 most persuadable — people with grievances that can be addressed without costing you the rest of your coalition. Two want committee chairmanships. Two want specific budget line increases for their provinces. Two want public meetings with you — they feel they have been ignored. They may be right. Two are genuinely persuadable on the merits, if the merits are explained by you directly. The list is in the folder."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is also a harder option. We can force the vote before Kolvar is ready — call it ourselves, on a date when three of his soft commitments are traveling. It is procedurally available. It is not without risk. If I have miscounted and he has the 108, calling the vote ourselves is the most spectacular possible way to lose."
+    }
+  ],
+  "monologue": "Fourteen of the twenty-two yellow votes are from my own coalition. I know the names before Vyktor tells me — reformists who think I moved too slowly, workers who think the budget abandoned them, three who are simply for sale. I shouldn't be hurt. I am, despite knowing better, something like hurt. Vyktor has a list of eight persuadable votes. Whether I persuade them with policy or with patronage — and whether the distinction matters if the alternative is losing the government.",
+  "choices": [
+    {
+      "id": "no_confidence_horse_trading",
+      "text": "\"Work the list. Committee chairs for the two who want them — I'll find something appropriate. The budget line increases: whatever Vostane can accommodate without breaking the fiscal framework, I'll sign. And I want personal meetings with the six others scheduled this week — not Vyktor, me. If they've been ignored, I should be the one to acknowledge it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -5
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_week13_no_confidence",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": [
+        "no_confidence_horse_traded",
+        "committee_chairs_distributed"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "We can work with this."
+        }
+      ]
+    },
+    {
+      "id": "no_confidence_public_appeal",
+      "text": "\"I'll give a national address. Not to parliament — to the country. I will tell the Veltrian people directly that the opposition is attempting to use parliamentary procedure to undo an election three months after they lost it. I will name what Kolvar is doing. I will ask the public to contact their representatives. If the people speak, the yellow votes go green. If I go over Kolvar's head, he loses the initiative.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_week13_no_confidence",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": [
+        "no_confidence_public_appeal",
+        "kolvar_publicly_named"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "That changes several things."
+        }
+      ]
+    },
+    {
+      "id": "no_confidence_force_vote",
+      "text": "\"Force the vote. This week, before he has locked in the soft commitments. Vyktor, I trust your count — if you say three of his commitments are soft enough that calling it early loses him the number, then calling it early is the move. A government that is afraid of a vote of no confidence is already half-governing. We call it. We win. We move on.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_week13_no_confidence",
+          "delayWeeks": 1
+        }
+      ],
+      "flags": [
+        "no_confidence_forced_early",
+        "kolvar_caught_unprepared"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "His expression does not change. His pen moves anyway."
+        }
+      ]
+    }
+  ]
+}

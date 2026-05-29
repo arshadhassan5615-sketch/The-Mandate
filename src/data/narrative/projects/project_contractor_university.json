@@ -1,0 +1,45 @@
+{
+  "id": "project_contractor_university",
+  "title": "University Expansion — Who Builds It?",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ashenmere University — Dean's Office",
+  "characters": ["aldric_theron"],
+  "prerequisites": [{ "stat": "flags.project_university_started", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "The university expansion will add four new buildings — sciences, humanities, library, and student housing. The campus will grow by forty percent. The Dean is concerned about one thing above all: that the construction respects the university's character and the surrounding neighborhood." },
+    { "type": "dialogue", "character": "aldric_theron", "text": "The State Bureau would build functional structures — adequate but uninspired. Vael's group can deliver architectural quality if we pay for it. The foreign consortium has experience building modern university facilities — they completed the Lytheirian National University expansion last year. The question is not just who builds it, but what kind of university we are building for." }
+  ],
+  "choices": [
+    {
+      "id": "contractor_uni_state",
+      "text": "\"State Bureau. Functional, adequate, Veltrian. The buildings will serve the students — that is what matters.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.reformists", "operation": "add", "value": 3 }],
+      "chainTriggers": [],
+      "flags": ["contractor_uni_state"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "contractor_uni_vael",
+      "text": "\"Vael Construction. If we are building a university for the next century, we build it properly. Quality architecture, quality materials. Vael's markup is the price of excellence.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.businessClass", "operation": "add", "value": 5 }, { "stat": "vaelInfluence", "operation": "add", "value": 8 }],
+      "chainTriggers": [{ "targetNodeId": "project_vael_kickback_uni", "delayWeeks": 0 }],
+      "flags": ["contractor_uni_vael"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "contractor_uni_foreign",
+      "text": "\"Foreign consortium with university experience. They have done this before. Their expertise will elevate the entire project.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 3 }, { "stat": "factions.ironCovenant", "operation": "add", "value": -3 }],
+      "chainTriggers": [],
+      "flags": ["contractor_uni_foreign"],
+      "codexUnlocks": []
+    }
+  ]
+}

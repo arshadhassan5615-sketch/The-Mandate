@@ -1,0 +1,76 @@
+[
+  {
+    "id": "agenda_w37_coup_attempt",
+    "title": "The Coup",
+    "description": "Brenner has moved. Tanks in Ashenmere at 03:41. Dusek called with a warning. You have hours to decide — flee, negotiate, or fight.",
+    "category": "crisis",
+    "sceneId": "act3_week37_coup_attempt",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 37,
+    "weekDeadline": 37,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "factions.ironCovenant", "operator": "<=", "value": 25 }
+    ]
+  },
+  {
+    "id": "agenda_w37_military_rally",
+    "title": "The Military Rallies",
+    "description": "Three thousand soldiers on the parade ground. The military has chosen its side — yours. What you say to them now defines what that loyalty means.",
+    "category": "security",
+    "sceneId": "act3_week37_military_rally",
+    "slotCost": 1,
+    "executionOrder": -1,
+    "weekAvailable": 37,
+    "weekDeadline": 37,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "factions.ironCovenant", "operator": ">=", "value": 25 }
+    ]
+  },
+  {
+    "id": "agenda_w37_budget",
+    "title": "Budget Allocation — Emergency Powers",
+    "description": "Whether you're facing a coup or rallying the military, the budget needs emergency adjustment. The treasury can't wait for the political situation to stabilize.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 0,
+    "weekAvailable": 37,
+    "weekDeadline": 40
+  },
+  {
+    "id": "agenda_w37_brenner_negotiation",
+    "title": "Brenner — Face to Face",
+    "description": "Brenner has requested a direct meeting. Not through aides — through a handwritten note delivered by a captain who waited for your response. Whatever he wants to say, he doesn't want intermediaries.",
+    "category": "cabinet",
+    "sceneId": "act3_brenner_negotiation",
+    "slotCost": 1,
+    "executionOrder": 1,
+    "weekAvailable": 37,
+    "weekDeadline": 39
+  },
+  {
+    "id": "agenda_w37_stellamere_broadcast",
+    "title": "International Broadcast — Your Voice",
+    "description": "The International Forum has offered you a broadcast slot. The world is watching. What you say in the next ten minutes will be the headline in every capital that matters.",
+    "category": "diplomacy",
+    "sceneId": "act3_stellamere_broadcast",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 37,
+    "weekDeadline": 40
+  },
+  {
+    "id": "agenda_w37_family_crisis",
+    "title": "The Residence — Family Under Threat",
+    "description": "If the coup succeeds, your family is in danger. If it fails, they've still spent a night wondering whether tanks would reach the residence. Either way, they need you more than the country does right now.",
+    "category": "personal",
+    "sceneId": "act3_week38_family_reckoning",
+    "slotCost": 1,
+    "executionOrder": 3,
+    "weekAvailable": 37,
+    "weekDeadline": 40
+  }
+]

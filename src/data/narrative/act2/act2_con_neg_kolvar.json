@@ -1,0 +1,52 @@
+{
+  "id": "act2_con_neg_kolvar",
+  "title": "Kolvar's Price",
+  "act": 2,
+  "weekAvailable": 14,
+  "weekDeadline": 20,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Drazen Kolvar's Parliamentary Office",
+  "characters": ["drazen_kolvar", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Drazen Kolvar's office is a study in old Veltria — dark wood, leather chairs, a portrait of Halvek in a dim corner that he has not bothered to remove. He pours two glasses of something amber and expensive. He does not offer one to Vyktor."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Let me be direct, Chancellor. The Halvekist caucus holds eighty-eight seats. Not enough to block your constitution — but enough to make the referendum unwinnable if we campaign against it. I am prepared to instruct my members to support the package. In exchange, I want three things: immunity for former leaders must stand — Soren is not a bargaining chip; the veto power must be preserved; and the electoral threshold stays at ten percent. These are my red lines. Everything else is negotiable."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "You think I am protecting criminals. I am protecting the peace. The immunity clause is the reason Halvek's government agreed to stand down without a civil war. You tear it up now, and you tell every man in this building who ever served the old regime that his safety is conditional on your goodwill. That is not justice. That is a purge."
+    }
+  ],
+  "monologue": "Dark wood. Leather chairs. A portrait of Halvek in the corner — not removed, just dimmed. Kolvar pours two glasses. He does not offer one to Vyktor. The message is clear: this conversation is between the two people who actually run the country. Immunity for Soren. Veto power. Ten percent threshold. He calls it protecting the peace. The worst thing about Kolvar is that his arguments make sense until you remember whose peace he is protecting.",
+  "choices": [
+    {
+      "id": "neg_kolvar_agree",
+      "text": "\"You'll have your immunity and your threshold. But the veto — I cannot give you an absolute veto. A two-thirds override is the compromise I can offer. Take it or leave it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [{ "stat": "factions.halvekists", "operation": "add", "value": 8 }],
+      "chainTriggers": [],
+      "flags": ["neg_kolvar_complete", "kolvar_deal_struck", "kolvar_veto_compromise"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "drazen_kolvar", "type": "action", "text": "He leans back in his chair. Two-thirds override. He repeats the words, tasting the compromise. Then he extends his hand. You have yourself a deal, Chancellor." }]
+    },
+    {
+      "id": "neg_kolvar_reject",
+      "text": "\"Your red lines are my constitution. Immunity. Absolute veto. Ten percent threshold. You are asking me to build a Halvek constitution with a Reformist signature. Find another way to influence this process, Drazen. I am not selling the Republic back to you.\"",
+      "internalTag": "reformist",
+      "stateChanges": [{ "stat": "factions.halvekists", "operation": "add", "value": -10 }],
+      "chainTriggers": [],
+      "flags": ["neg_kolvar_complete", "kolvar_rejected"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "drazen_kolvar", "type": "silence", "text": "He sets down his glass. The motion is very deliberate — the deliberation of a man who has just been told that his terms are unacceptable and is already planning his next approach." }]
+    }
+  ]
+}

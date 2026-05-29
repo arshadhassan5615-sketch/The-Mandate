@@ -1,0 +1,119 @@
+{
+  "id": "act3_tyvaren_border_skirmish",
+  "title": "First Blood at the Border",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Cabinet War Room — 05:42, Northern Border Crisis",
+  "characters": ["colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The telegram arrives at twenty past five in the morning, brought to your residence by a military courier who is nineteen years old and visibly shaking — not from fear, you realize after a moment, but from the speed at which he ran from the Ministry of Defense. The paper is still warm from the teletype machine. You read it standing in the hallway of the Chancellor's Residence in your dressing gown, the words assembling themselves into meaning while the rest of the house sleeps. There has been an engagement. Veltrian border guards exchanged fire with Tyvaren special forces at Crossing Point Seven, approximately four kilometers east of the Gravenmark Pass. Two Veltrian soldiers are dead. Three wounded. The Tyvaren force withdrew across the border at 04:47. The skirmish lasted fourteen minutes. You read the telegram three times. The third reading is no better than the first."
+    },
+    {
+      "type": "description",
+      "text": "By the time you reach the War Room, Dusek is already there. She has not been to sleep. Her uniform is pressed — she keeps a spare in her office for mornings like this — but the skin around her eyes tells you everything the situation report will confirm. She has been tracking Tyvaren force movements for eighteen hours. The skirmish was not a surprise to her. It was an inevitability she was hoping would arrive later."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Crossing Point Seven is a secondary border station — two squads, standard rotation, not a forward position. The Tyvaren unit was special reconnaissance. They knew exactly which crossing to hit. This was not an accidental exchange of fire. They wanted to test our response time, our communication discipline, and our political threshold for casualties. They now have data on all three. The two soldiers killed were Corporal Anya Hess, age twenty-four, and Private First Class Mateo Dren, age twenty. Hess was a squad leader. Dren had been in uniform for eleven months. Their families have not yet been notified. I would like your authorization to handle the notifications personally."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twenty-four and twenty. The ages sit in your chest like something physical. You have been Chancellor long enough to know that casualties in a border skirmish are measured in small numbers, that two dead soldiers is not a battle, that the strategic significance of Crossing Point Seven is minimal and the political significance is maximal and the two scales do not align. But you have also been a human being long enough to know that Anya Hess was someone's daughter and Mateo Dren was someone's son and you are the person who sent them to that crossing. You did not send them personally. You set the policy that placed them there. The difference is procedural. The weight is the same. You make yourself think the names again — Hess and Dren — because you are going to have to speak about them in public before the day is over and you want to remember that they are not statistics. They are the first. There will be more. You know this. You cannot let yourself pretend otherwise."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Chancellor, I need to give you the military options before the political ones. Vukov is going to claim this was a defensive action — that our border guards fired first, that his forces were pursuing insurgents, that this was a misunderstanding. He will have a version of events before we release ours. The first narrative that reaches the international press will define the diplomatic frame. But the military reality is independent of the narrative. The question is not what we say. The question is what we do. And what we do next will determine whether Crossing Point Seven was an isolated incident or the first engagement of a war."
+    },
+    {
+      "type": "description",
+      "text": "Dusek lays out a map of the northern sector. The border crossings are marked in red — twelve of them, from the Gravenmark Pass in the west to the Dravenni crossing in the east. Crossing Point Seven is the smallest, the least strategic, the one that makes the least sense as a target unless the target was not the crossing itself but the response. She traces the Tyvaren withdrawal route with her finger. The movement is textbook: strike, assess, withdraw, report. The report is already on Vukov's desk. The next move is being planned based on what his special forces learned at 04:33 this morning."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "skirmish_escalate_militarily",
+      "text": "\"Authorize immediate reinforcement of all border crossings to full combat readiness. Move the northern garrison to forward positions. If Vukov wants to test our response time, let him test it against a battalion instead of two squads. I will not let Hess and Dren have died at a crossing that wasn't even defended properly. Their families need to know that their deaths were not in vain — that we answered force with resolve. General Brenner has been asking for forward readiness. He has it. Effective immediately.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 8  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 1 },
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 6 }
+      ],
+      "flags": ["border_skirmish_escalated", "full_combat_readiness", "skirmish_escalated"],
+      "codexUnlocks": ["codex_crossing_point_seven", "codex_tyvaren_special_reconnaissance"]
+    },
+    {
+      "id": "skirmish_diplomatic_deescalation",
+      "text": "\"Reinforce the crossings at standard readiness — not combat posture. I want Dusek to notify the families personally, with full honors. And I want Vyktor to draft a communication to the Tyvaren Foreign Ministry: we know what happened, we have the names of the soldiers who fired on our people, and we are prepared to treat this as an isolated incident if Tyvaren disavows the action and withdraws its special reconnaissance units from the border zone. Give them an off-ramp. If they refuse it, the world will know who escalated. But I will not be the Chancellor who started a war because I couldn't stomach offering a way out.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 3  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_diplomatic_negotiation", "delayWeeks": 2 }
+      ],
+      "flags": ["border_skirmish_contained", "tyvaren_offramp_offered", "diplomatic_deescalation_attempted", "hess_dren_honored"],
+      "codexUnlocks": ["codex_crossing_point_seven", "codex_veltrian_border_protocol"]
+    },
+    {
+      "id": "skirmish_international_intervention",
+      "text": "\"This is no longer a bilateral incident. I want immediate notification to the International Forum, to Stellamere, to every embassy in Ashenmere — a Tyvaren military unit crossed a recognized international border and killed two Veltrian soldiers. That is an act of war under the Stellamere Conventions. I want the Forum to convene an emergency session within forty-eight hours. If Vukov wants to test our response, let him test it against the entire international community. We are not fighting this alone. We are not going to be the small country that got picked off while the world watched.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 4 }
+      ],
+      "flags": ["border_skirmish_internationalized", "forum_emergency_triggered", "tyvaren_condemned_internationally"],
+      "codexUnlocks": ["codex_crossing_point_seven", "codex_stellamere_conventions", "codex_international_border_law"]
+    },
+    {
+      "id": "skirmish_personal_mourning",
+      "text": "\"Dusek — notify the families yourself. I will join you. Before any military decision, before any diplomatic communication, I want to look Anya Hess's mother in the eye and tell her that her daughter's death matters. I want the country to see their Chancellor standing with the families of the fallen. Not at a podium. Not in a press release. At a funeral. The military response will come. The diplomatic response will come. But first: the human response. I will not let the machinery of state process these deaths before I have acknowledged them as a person.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [],
+      "flags": ["hess_dren_mourned_publicly", "chancellor_at_funeral", "skirmish_humanized"],
+      "codexUnlocks": ["codex_crossing_point_seven", "codex_veltrian_military_families"]
+    }
+  ]
+}

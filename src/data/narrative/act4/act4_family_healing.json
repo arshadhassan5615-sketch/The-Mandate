@@ -1,0 +1,119 @@
+{
+  "id": "act4_family_healing",
+  "title": "The Long Repair",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Living Room, Morning",
+  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The morning light in the residence is different now. Not objectively — the windows face the same direction, the same curtains filter the same sun — but something has shifted in the way you notice it. You are sitting at the breakfast table with a cup of coffee that has gone cold because you were listening to Tomas describe his history tutor's lecture on the Halvek period. He used the word 'historiography.' He used it correctly. Jonas is reading the newspaper but not marking it up with annotations the way he did during the worst months. Liora is due back from the paper by noon. She said she would bring bread from the bakery on Kestrel Street — the one that survived the austerity closures because the owner's daughter took over the accounts. Small details. The kind of details you notice when you are not constantly scanning for threats."
+    },
+    {
+      "type": "description",
+      "text": "You chose them. At the reckoning, when Jonas asked whether the woman he married still existed, you said yes — not as a political statement but as a personal fact. The consequences were immediate and uncomfortable. Two cabinet meetings rescheduled. A policy briefing that went to Vyktor instead of you. Three newspaper columns suggesting that a Chancellor who prioritizes family dinner over national security briefings is demonstrating either confidence or negligence. You read all of them. You did not respond. You went home and helped Tomas with his mathematics homework and discovered that you still remember quadratic equations. The country did not collapse while you were doing algebra. That realization — that the country might not collapse during the small hours of ordinary life — is itself a form of healing."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I've been thinking about something you said at the reckoning. You said the woman I married was still here — exhausted and making mistakes and so focused on not losing the country she didn't notice she was losing us. That was honest. It was also terrifying, because it meant you knew exactly what was happening and hadn't been able to stop it. I've been trying to understand what changed. Not what you decided — what made it possible for you to decide. I think it was the realization that you couldn't save everything. You had to choose what to save. You chose us. I need you to know that I understand what that cost, and that I'm not taking it for granted."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not wrong. The choice was real and it cost something — political capital, momentum on three reform initiatives, the perception of invulnerability that a female Chancellor in 1963 cannot afford to lose. You knew the cost when you made the choice. What you did not know, and are only now discovering, is what the choice bought you: a husband who looks at you across the breakfast table and sees a person rather than an absence. A son who uses words like historiography because he is engaged enough in his education to learn them. A daughter who is coming home with bread from a bakery that survived. None of this is a political achievement. All of it is more valuable than any political achievement you have made or will make. The irony — the particular irony of governance — is that being a better Chancellor may require being more of a person, not less. The country needs a Chancellor who remembers what she is governing for."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "I brought the bread. Also a story. Nadia wants me to write a piece — my first under my own byline — about the families of public officials. The invisible cost of governance. She said I could interview you, if you were willing. Not as a source. As my mother. I told her I'd ask. I don't know if you'll say yes. I don't know if I want you to say yes. But I wanted to ask properly, in person, instead of doing it through a memo or an aide or whatever channel we were using back when we weren't really talking. This is me talking to you. The rest is details."
+    },
+    {
+      "type": "description",
+      "text": "She sets the bread on the table — a round loaf, dark crust, the kind your grandmother used to bake in Kravenstal before the war. The gesture is ordinary. The meaning is not. Liora is offering you a story about yourself, written by your daughter, published in the paper that has been your sharpest critic. She is offering it as a journalist and as a daughter simultaneously, which means she has found a way to integrate the two identities that she could not reconcile five weeks ago. That integration is its own kind of healing — not of the family but of the person your daughter is becoming. You cannot take credit for it. You can witness it. That is enough."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "family_healing_prioritize_time",
+      "text": "\"Jonas — you asked what changed. I stopped believing the lie that the country needs me every minute. It needs me functional, not omnipresent. There is a difference and I spent thirty-eight weeks not understanding it. Liora — yes. Write the piece. Interview me. I will be honest with you, which means I will say things that are not politically convenient, and you will publish them, which means the paper will have material that is not politically convenient. That is how journalism works. That is also how mothers and daughters work, if they are doing it right. Tomas — keep telling me about historiography. Keep using words I have to look up. This — breakfast, bread, quadratic equations — this is not a break from governance. This is the reason for governance.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 18 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 16 },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 14 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -2 },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 3 }
+      ],
+      "flags": ["family_chosen", "family_healing_path", "family_time_prioritized", "liora_bylined", "tomas_engaged"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_healing_integrate_public",
+      "text": "\"We've tried separating family and governance. It nearly destroyed both. Liora — write your piece, but let me review it first. Not as a censor. As someone who understands the political dimensions you may not see. Tomas — I want you to come to the office one afternoon a week. Not as an intern. As my son. See what I do. Understand why it matters. Jonas — I want you at the state dinner next month. Not as 'the Chancellor's husband' standing three steps behind. As my partner. The country needs to see that governance is done by whole people with whole lives. Hiding you all was a mistake. I am done hiding.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 12 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 8  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 3 }
+      ],
+      "flags": ["family_chosen", "family_healing_path", "family_public_integration", "liora_reviewed", "tomas_intern"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_first_family_public"]
+    },
+    {
+      "id": "family_healing_individual_attention",
+      "text": "\"I want to do this differently than I did everything else. Not a policy. Not a program. Three people, three relationships, each one rebuilt on its own terms. Liora — the piece you want to write. Let's talk about it. Not in an interview. Over dinner. Just us. I want to understand what you see from your side of the byline before I decide what I can give you from mine. Tomas — show me the historiography paper. I want to read it. I want to know what you're learning about Halvek, because what you learn will shape what you think about everything I'm trying to do. Jonas — you and me, one evening a week. No briefings. No phones. No Chancellery. Whatever restaurant or park bench or river path you choose. The country gets the other six evenings. You get one. It's not enough. It's a start.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 16 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 14 },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 2  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 3  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 3 }
+      ],
+      "flags": ["family_chosen", "family_healing_path", "individual_attention", "liora_dinner", "jonas_evenings", "tomas_paper"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_healing_fortress_family",
+      "text": "\"We are healing because we chose each other. But I will not pretend the outside world has stopped being dangerous. Liora — I will give you an interview, but what we discuss stays between us until I clear it. Not as your editor. As your mother who also carries state secrets. Tomas — the Ironborn are still out there. I trust that you are finding your footing. I need you to understand that they have not stopped recruiting, and that every interaction with them is a political vulnerability whether you intend it or not. I am asking you to be careful. Not for me. For yourself. Jonas — I want you beside me, and I also need you to understand that there are things I still cannot share. The Tyvaren situation. Military deployments. Things that would put you at risk if you knew. Can you live with that? Can you trust me even when I can't be fully transparent?\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 8  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 4  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -2 },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 3 }
+      ],
+      "flags": ["family_chosen", "family_healing_path", "fortress_family", "liora_cleared", "tomas_warned", "jonas_trusting"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    }
+  ]
+}

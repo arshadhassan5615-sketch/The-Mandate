@@ -1,0 +1,205 @@
+{
+  "id": "mole_week5_complication",
+  "title": "Threads That Don't Match",
+  "act": 1,
+  "weekAvailable": 5,
+  "weekDeadline": 6,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Interior Ministry — Danika's Office, Night",
+  "characters": [
+    "danika_oberlin",
+    "serida_valk"
+  ],
+  "prerequisites": [
+    {
+      "stat": "flags.mole_investigation_active",
+      "operator": "==",
+      "value": true
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Danika's office is not the office of someone who sleeps. Papers cover every surface. Three coffee cups. A wall chart with names connected by colored thread like a conspiracy theorist's bedroom — except that Danika is not a conspiracy theorist. She is the Minister of the Interior, and every thread on that wall connects a real person to a real piece of evidence."
+    },
+    {
+      "type": "description",
+      "text": "Serida is already here when you arrive. She is standing near the door — her usual position, the one with a clear line of sight to every entrance. She and Danika have been working together on this for two weeks. The alliance is uneasy — the security chief and the spy hunter operate from different premises — but it is functional."
+    }
+  ],
+  "monologue": "Two weeks of investigation. Two weeks of watching people I trust look at me differently — or imagining that they do. Danika's wall chart has more names on it than I expected. The investigation is working. That's the problem. It's working, and the results are not what I expected.",
+  "choices": [
+    {
+      "id": "mole_complication_formal",
+      "text": "\"Keep going. The fact that the most obvious suspect was cleared doesn't mean the investigation failed — it means it was thorough enough to eliminate the wrong answer. Now find the right one.\"",
+      "internalTag": "reformist",
+      "conditions": [
+        {
+          "stat": "flags.mole_hunt_formal",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "mole_week7_false_resolve",
+          "delayWeeks": 2,
+          "conditions": [
+            {
+              "stat": "flags.mole_complication_formal",
+              "operator": "==",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "flags": [
+        "mole_complication_formal",
+        "mole_complication_week5"
+      ],
+      "codexUnlocks": [
+        "codex_counterintelligence"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "She picks up her pen. She does not write."
+        }
+      ]
+    },
+    {
+      "id": "mole_complication_passive",
+      "text": "\"A military leak is worse than a political one. If someone is selling military positioning data to a foreign power, that's not a scandal — that's a security breach. Authorize the intercept warrants. Find them before they sell something we can't afford to lose.\"",
+      "internalTag": "pragmatist",
+      "conditions": [
+        {
+          "stat": "flags.mole_hunt_passive",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "stateChanges": [
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 2
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "mole_week7_false_resolve",
+          "delayWeeks": 2,
+          "conditions": [
+            {
+              "stat": "flags.mole_complication_passive",
+              "operator": "==",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "flags": [
+        "mole_complication_passive",
+        "mole_complication_week5"
+      ],
+      "codexUnlocks": [
+        "codex_military_intelligence"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "She picks up her pen. She does not write."
+        }
+      ]
+    },
+    {
+      "id": "mole_complication_oberlin",
+      "text": "\"You have a name and you won't tell me. You need one more week. I have known you long enough to trust your judgment. Take the week. But Danika — when you come back, I need to know. All of it. No 'waiting.' Just facts.\"",
+      "internalTag": "reformist",
+      "conditions": [
+        {
+          "stat": "flags.mole_hunt_oberlin",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "mole_week7_false_resolve",
+          "delayWeeks": 2,
+          "conditions": [
+            {
+              "stat": "flags.mole_complication_oberlin",
+              "operator": "==",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "flags": [
+        "mole_complication_oberlin",
+        "mole_complication_week5"
+      ],
+      "codexUnlocks": [
+        "codex_domestic_intelligence"
+      ],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "I can have a preliminary report by Thursday."
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "character": "danika_oberlin",
+      "text": "[She waits.] The investigation is producing results. The problem is the results are telling us who it isn't, not who it is. That still matters. It matters more than finding the wrong answer quickly.",
+      "type": "dialogue"
+    },
+    {
+      "character": "serida_valk",
+      "text": "I've increased the palace detail. No announcement. No explanation. The staff has noticed. They are... unsettled. But unsettled is safer than uninformed.",
+      "type": "dialogue"
+    }
+  ]
+}

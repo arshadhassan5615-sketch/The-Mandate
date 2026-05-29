@@ -1,0 +1,45 @@
+{
+  "id": "act3_jonas_renek_concerns",
+  "title": "The Archbishop's Concern",
+  "act": 3,
+  "weekAvailable": 28,
+  "weekDeadline": 34,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Cathedral of the Eternal Flame — Private Audience Room",
+  "characters": ["stanislov_renek"],
+  "prerequisites": [{ "stat": "flags.jonas_public_voice", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Archbishop Renek has requested a private audience. His tone on the telephone was careful — the careful tone of a man who is about to discuss something uncomfortable and wants you to know he is doing it out of pastoral concern rather than political calculation." },
+    { "type": "dialogue", "character": "stanislov_renek", "text": "Chancellor, I come to you not as a political figure but as a shepherd concerned for his flock. Your husband's public statements — particularly his advocacy for refugee resettlement and his... progressive views on housing reform — have caused considerable unease among the faithful. Many of my parishioners ask me: does the First Gentleman speak for the Chancellor? Does his advocacy for secular housing policy, his support for refugee communities that practice different faiths — does this reflect the government's position? I am not asking you to silence your husband. I am asking you to help me reassure my congregation that the government respects the Church's role in our national life." }
+  ],
+  "choices": [
+    {
+      "id": "renek_jonas_private_citizen",
+      "text": "\"Archbishop, my husband is a private citizen who speaks for himself. He does not speak for me, and he does not speak for the government. Your parishioners need not fear that his housing proposals are government policy. But they should also not expect me to control what my husband says — that is not a marriage. That is a management structure.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 3 },
+        { "stat": "factions.church", "operation": "add", "value": -5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["renek_jonas_private"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "renek_jonas_reassure",
+      "text": "\"I understand the concern. I will speak with Jonas about the impact of his words. He is a good man with a generous heart — sometimes too generous for the political realities we navigate. I will ask him to be more mindful of how his statements are received by communities of faith.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 8 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["renek_jonas_reassured"],
+      "codexUnlocks": []
+    }
+  ]
+}

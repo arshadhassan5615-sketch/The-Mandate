@@ -1,0 +1,102 @@
+{
+  "id": "act3_international_forum_session",
+  "title": "The World Watches",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "International Forum Assembly Hall — Stellamere, 10:00",
+  "characters": ["vyktor_reznik", "colonel_dusek"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The International Forum Assembly Hall is a room designed to make nations feel small. The ceiling rises sixty feet to a dome of frosted glass that diffuses the morning light into something that feels like judgment. The member-state seats are arranged in concentric arcs, each delegation behind a placard bearing its name in three languages. Veltria's placard sits in the third arc — a middle-tier nation, important enough to be heard, not powerful enough to be feared. The Tyvaren delegation is four rows ahead, closer to the front, because Tyvaren has a larger army and the seating arrangement reflects the reality that the Forum's architecture was designed by the nations that won the last war. You sit behind the Veltrian placard, Vyktor on your left, Dusek on your right in full dress uniform — a deliberate choice, the uniform a reminder that Veltria has soldiers on the border while Tyvaren's diplomats are arguing procedure."
+    },
+    {
+      "type": "description",
+      "text": "The session has been underway for two hours. The superpower ambassadors have made their opening statements. The Orythian representative spoke for fourteen minutes about the importance of de-escalation and regional stability and made no commitments. The Arcturian representative spoke for eleven minutes about territorial integrity and sovereign rights and also made no commitments. The art of Forum diplomacy is the art of saying many words that all mean the same thing: we are watching but we are not acting. The question of the emergency session is whether Veltria can convert watching into action before the watching becomes the only thing the world does."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Analysis of the floor positions. Orythia will support a non-binding resolution condemning Tyvaren's actions. They will not support binding security guarantees — their eastern alliance with Tyvaren prevents a clean break. The Arcturian Commonwealth is willing to go further, but their price is alignment. They want us to commit to Arcturian basing rights in exchange for a defense pledge. The smaller member states are watching the superpowers to see which way the wind is blowing before they commit. We have approximately forty minutes before the session recesses for lunch. What happens in those forty minutes determines whether we leave Stellamere with something that restrains Vukov, or with something that merely describes his behavior in disapproving language."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Military context, for the diplomatic calculus. Vukov's forces have maintained forward positions during the session. No additional movement, but no withdrawal either. He is waiting to see what the Forum produces. If the resolution is weak — non-binding condemnation without enforcement — he will interpret it as a green light. If it is strong — binding security guarantees with enforcement mechanisms — he will have to recalculate. Vukov does not want a war with the Arcturian Commonwealth. He wants a war with Veltria. The question is whether we can make those two things the same thing."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Dusek is giving me the military translation of the diplomatic theater around us. Vukov is watching this session. Every ambassador in this hall knows he's watching. The speeches are not really addressed to the Forum — they are addressed to Vukov, who is not present but is the only audience that matters. And the question I have to answer before the lunch recess is whether I am willing to trade Veltrian freedom of action for Arcturian protection. Whether the price of survival is the loss of independence. Whether a Veltria that survives as an Arcturian client state is still Veltria. These are not questions the Forum can answer. They are questions I have to answer, and I have forty minutes, and the coffee they serve in the delegates' lounge is even worse than the coffee in the War Room."
+    },
+    {
+      "type": "description",
+      "text": "The session president — a silver-haired diplomat from a neutral nation who has presided over four hundred and twenty-seven Forum sessions and has the particular exhaustion of someone who has heard every argument for war and every plea for peace and no longer believes either one is delivered in good faith — calls for the Veltrian delegation to present its position. The microphone activates. The chamber quiets. Every delegation in the room turns to look at the woman who is about to ask the world to save her country."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "forum_binding_guarantees",
+      "text": "\"The Republic of Veltria requests, under Article Seventeen of the Forum Charter, a binding resolution establishing a collective security guarantee for Veltria's territorial integrity. Any Tyvaren military incursion will be met with a collective response from all member states. I am not asking for condemnation. I am asking for protection — the protection that this body was created to provide. If the Forum cannot protect a member state from an unprovoked ultimatum backed by armored divisions, then the Forum is a debating society and the world's small nations should plan accordingly.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 14 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 2  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.church",               "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_cooldown", "delayWeeks": 2 },
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 4 }
+      ],
+      "flags": ["binding_guarantees_requested", "article_seventeen_invoked", "forum_assertive_stance", "forum_session_complete"],
+      "codexUnlocks": ["codex_forum_charter_article_17", "codex_collective_security_mechanism"]
+    },
+    {
+      "id": "forum_nonbinding_condemnation",
+      "text": "\"Veltria seeks a resolution of this body condemning Tyvaren's ultimatum as inconsistent with the principles of the Forum Charter and calling for an immediate return to the status quo ante. We are not asking member states to commit forces. We are asking them to commit to the principle that borders cannot be changed by threat of force. A non-binding resolution that draws a clear moral line — with the weight of this body's moral authority behind it — will give Vukov pause. He does not fear our army. He may fear being named and condemned by ninety-three nations acting in unison.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 2  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": 2  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -1 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week39_act3_climax", "delayWeeks": 3 }
+      ],
+      "flags": ["nonbinding_condemnation_secured", "forum_moral_consensus", "forum_session_complete"],
+      "codexUnlocks": ["codex_forum_resolution_procedure", "codex_nonbinding_resolutions_precedent"]
+    },
+    {
+      "id": "forum_buy_time_military",
+      "text": "\"Veltria welcomes the Forum's attention to this crisis and will participate fully in any mediation or resolution process. We request that the Forum establish a fact-finding commission to investigate the border incidents and report back within six weeks. In the interest of transparency, we will provide full access to all relevant military and diplomatic records. We believe that a thorough investigation will establish beyond doubt that the threat to peace originates in Sevagrad, not Ashenmere.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -6 },
+        { "stat": "nation.corruption",             "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week33_war_preparations", "delayWeeks": 1 }
+      ],
+      "flags": ["commission_buying_time", "fact_finding_commission", "forum_stalling", "forum_session_complete"],
+      "codexUnlocks": ["codex_forum_fact_finding", "codex_diplomatic_stalling_technique"]
+    }
+  ]
+}

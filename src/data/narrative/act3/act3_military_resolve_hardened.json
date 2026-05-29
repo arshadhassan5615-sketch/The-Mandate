@@ -1,0 +1,92 @@
+{
+  "id": "act3_military_resolve_hardened",
+  "title": "Steel and Resolve",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Fort Harlan — Training Grounds, Week Thirty-Nine",
+  "characters": ["colonel_dusek", "general_brenner"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Fort Harlan in late autumn is a landscape of grey sky and brown earth and the particular wind that comes off the northern plains with nothing to slow it down between the mountains and the garrison walls. The training grounds are active — not the peacetime activity of scheduled exercises but the wartime activity of soldiers who have been told that the clock is running. Live-fire drills. Armored maneuvers. Infantry formations practicing urban combat in a mock village built from concrete blocks. The rally speech in Week Thirty-Seven hardened into something tangible: a military that believes it has a country worth dying for and has been given permission by its civilian leadership to prepare for exactly that."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I have been a soldier for forty-one years. I have served under governments that ignored the military, governments that feared the military, and governments that used the military as a political instrument. This is the first government I have served under that has told the military to prepare for war while simultaneously telling it that the war is worth fighting. The distinction matters. The soldiers on this training ground are not just better trained than they were six months ago. They are better motivated. Motivation is not a substitute for equipment or logistics or numerical advantage — but it multiplies all of those things. A soldier who knows why he is fighting will hold a position that a soldier who is merely following orders will abandon. We have more of the first kind now. That is your doing, Chancellor. I thought you should see the result."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Operational readiness has improved fourteen percent across all metrics since the Week Thirty-Seven address. That number comes with caveats — the Tyvaren forward deployment has concentrated minds, the increased training tempo is not sustainable indefinitely, and readiness improvements from morale are more fragile than readiness improvements from equipment. But the number is real. The soldiers believe in what they are preparing to defend. That belief will be tested imminently. The question is not whether the military can fight. The question is what kind of military it becomes in the fighting. A military that fights for democracy can become more democratic. It can also become more militaristic. The distinction depends on choices made now, before the first shot."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Dusek's caveat is the one that keeps you awake. A military steeled by crisis is also a military shaped by crisis. The same hardening that makes soldiers more effective makes them less patient with civilian processes that seem slow or indecisive or political — and civilian processes are, by design, all of those things. You have given the military a mission and a meaning. You have not yet given it limits. The limits matter as much as the mission. The limits are what distinguish a democratic military from a junta in waiting. The next decision you make will shape which direction the hardening goes — toward democratic discipline or toward institutional arrogance. The soldiers on this training ground are following your lead. The direction of the lead is up to you."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "resolve_democratic_discipline",
+      "text": "\"Dusek, Brenner — the readiness improvement is excellent. I want it paired with something equally important. Every unit that reaches the new readiness standard will also complete a module on the laws of armed conflict, rules of engagement in civilian areas, and the constitutional limits on military authority. The military that wins the war must also be the military that respects the peace that follows. I am not going to trade democratic values for military effectiveness. I am going to insist on both, simultaneously, because a Republic that abandons its values in order to defend them has already lost what it was defending.\"",
+      "internalTag": "reformist",
+      "tooltip": "Pair military readiness with democratic discipline. Ensures the hardened military remains democratically accountable. May slow some operational tempos.",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 8 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 8 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week41_reform_implementation", "delayWeeks": 3 }
+      ],
+      "flags": ["military_hardened_democratically", "rules_of_engagement_mandated", "values_preserved"],
+      "codexUnlocks": ["codex_laws_of_armed_conflict", "codex_democratic_military_doctrine"]
+    },
+    {
+      "id": "resolve_maximum_readiness",
+      "text": "\"I am not going to burden the military with political education while forty thousand Tyvaren soldiers are parked on our border. The readiness improvement is excellent. Continue it. Increase it. Every available resource goes to combat preparation. The political questions can wait until the shooting stops. Right now, the only political question that matters is whether the Republic survives the next sixty days. Everything else — the curriculum, the rules of engagement modules, the democratic accountability seminars — everything else is a luxury for peacetime. We are not in peacetime. We are in the final weeks before a war that will determine whether there is a Veltria left to educate.\"",
+      "internalTag": "authoritarian",
+      "tooltip": "Maximum combat readiness above all else. Pragmatic in the short term. Risks creating a military culture that sees civilian oversight as an obstacle rather than a foundation.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_military_deployment", "delayWeeks": 1 }
+      ],
+      "flags": ["military_hardened_authoritarian", "maximum_readiness", "political_education_deferred"],
+      "codexUnlocks": ["codex_combat_readiness_doctrine", "codex_tyvaren_threat_assessment"]
+    },
+    {
+      "id": "resolve_balanced_approach",
+      "text": "\"We do both. Dusek, I want you to integrate the legal and constitutional modules into the existing training schedule — not as separate programs that take soldiers away from preparation, but as components of preparation that make the preparation more effective. A soldier who knows the rules of engagement is a soldier who can make decisions in the field without waiting for orders. A unit that understands the constitutional limits of military authority is a unit that can operate independently without becoming a political liability. Frame it as operational competence, not political education. The military needs to fight well. Fighting well includes knowing when not to fight and how not to fight. That is not a separate task. That is the task.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Integrate democratic values into combat preparation without slowing it down. A balanced path. May not fully satisfy either the reformists or the hardliners.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 4 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4 },
+        { "stat": "nation.civilLiberties",         "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_military_deployment", "delayWeeks": 1 }
+      ],
+      "flags": ["military_hardened_balanced", "integrated_approach", "operational_competence_framework"],
+      "codexUnlocks": ["codex_integrated_training_doctrine"]
+    }
+  ]
+}

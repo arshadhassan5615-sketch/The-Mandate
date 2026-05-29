@@ -1,0 +1,121 @@
+{
+  "id": "act1_chain_bni_reform_friction",
+  "title": "The Oversight Problem",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Justice — Conference Room B",
+  "characters": ["danika_oberlin"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Danika Oberlin's message this morning said only that the civilian oversight implementation was 'proceeding with complications.' Her face, when you arrive at the Ministry, clarifies that 'complications' is doing significant work."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The judicial warrant requirement is being challenged. [She waits.] By Bureau legal counsel. They are still Bureau legal counsel — we could not replace them in a week, could we? They filed an administrative review. The argument is that the new charter creates an ambiguity between ministerial and judicial authority. They are technically right. You know what that makes the reform? Vulnerable."
+    },
+    {
+      "type": "internal_thought",
+      "text": "So the Bureau is defending itself using the reform documents we wrote to constrain it. That's either clever or predictable, and I'm not sure which is worse."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "There is a more immediate problem. Three active foreign intelligence operations are in legal limbo. We cannot continue them under the old charter. We cannot get emergency warrants through a court system that has not been briefed on the new procedures yet. [She waits.] I need a decision. Do we pause the operations and lose the intelligence — or do we continue under disputed authority and give Bureau counsel exactly the precedent they are waiting for?"
+    }
+  ],
+
+  "monologue": "The Bureau is using our own reform language to defend itself. That requires a particular kind of intelligence — not the surveillance kind, the legal kind. Danika is right that we can't continue under disputed authority. She's also right that pausing the operations has costs we haven't measured yet. Whether I prioritize the principle or the gap — and whether I can do both without losing either.",
+
+  "choices": [
+    {
+      "id": "reform_pause_operations",
+      "text": "\"Pause everything. We do not operate outside the legal framework we just created — not in week one. The intelligence can wait. The principle cannot.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": -5  },
+        { "stat": "nation.civilLiberties",     "operation": "add", "value": 5   },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 8   },
+        { "stat": "factions.reformists",       "operation": "add", "value": 5   },
+        { "stat": "factions.ironCovenant",     "operation": "add", "value": -6  }
+      ],
+      "chainTriggers": [],
+      "flags": ["bni_operations_paused"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She nods once — the sharp nod of someone who just received the answer she was hoping for and is already drafting the implementation memo in her head. The pause order goes out before she says another word."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "Pause everything. Understood. [She waits.] Bureau counsel will use the pause to argue the framework is unworkable. Let them. The framework is workable. They are the problem — not the law."
+        }
+      ]
+    },
+    {
+      "id": "reform_emergency_continuance",
+      "text": "\"Issue a ministerial continuance — thirty days, pending court briefing. We're not abandoning the reform; we're sequencing it correctly. Danika, get the courts up to speed.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",  "operation": "add", "value": 3   },
+        { "stat": "nation.civilLiberties",     "operation": "add", "value": -3  },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": -4  },
+        { "stat": "factions.halvekists",       "operation": "add", "value": 5   },
+        { "stat": "factions.ironCovenant",     "operation": "add", "value": 4   }
+      ],
+      "chainTriggers": [],
+      "flags": ["bni_reform_delayed"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "[She waits.] The wait is longer than usual. Thirty days of operations under disputed authority. Bureau counsel just got their precedent. She is filing the date — and the name of the person who authorized it."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "Thirty days. I will get the courts briefed in twenty. [She waits.] You gave them a window. I will make it as small as I can."
+        }
+      ]
+    },
+    {
+      "id": "reform_civilian_oversight_board",
+      "text": "\"Convene an independent oversight board — twelve civilians, no active BNI or military personnel, drawn from the bar association, the universities, and civil society. They will have full access to the disputed warrant procedures and will issue binding recommendations within sixty days. Bureau counsel can challenge the board's composition in court. I am comfortable with that precedent.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.civilLiberties",     "operation": "add", "value": 6   },
+        { "stat": "nation.pressFreedom",       "operation": "add", "value": 3   },
+        { "stat": "factions.reformists",       "operation": "add", "value": 6   },
+        { "stat": "factions.ironCovenant",     "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 5   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week24_brenner_warning", "delayWeeks": 10 }
+      ],
+      "flags": ["bni_civilian_oversight_board", "civilian_oversight_active"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She opens her notebook and begins writing names. Twelve civilians. No active BNI personnel. The bar association, the universities, civil society. She already has eight candidates in mind. The remaining four will be filled before sunset."
+        },
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "Twelve civilians. Binding recommendations. Bureau counsel can challenge the composition — let them. A court ruling on civilian oversight is a ruling I want on the public record. Either we win and the precedent is established, or we lose and the country sees who fought to keep the oversight out. Either outcome. That is what I call a winnable case."
+        }
+      ]
+    }
+  ]
+}

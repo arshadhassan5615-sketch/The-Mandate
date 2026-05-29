@@ -1,0 +1,64 @@
+[
+  {
+    "id": "agenda_w28_economic_crisis",
+    "title": "The Krone Moves",
+    "description": "The overnight currency numbers are bad. The IMA representative arrived at the Finance Ministry at four in the morning. Vostane has the conditions they're offering. The markets open in four hours.",
+    "category": "finance",
+    "sceneId": "act3_week28_economic_crisis",
+    "slotCost": 2,
+    "executionOrder": -1,
+    "weekAvailable": 28,
+    "weekDeadline": 30,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "nation.economyHealth", "operator": "<=", "value": -40 }
+    ]
+  },
+  {
+    "id": "agenda_w28_economic_healthy",
+    "title": "The Reformist Case",
+    "description": "Finance Minister Vostane requested this meeting directly, bypassing the usual channels. The deficit has narrowed. The IMA sent a courtesy message, not an inquiry. She has a proposal that requires your decision.",
+    "category": "finance",
+    "sceneId": "act3_week28_economic_healthy",
+    "slotCost": 1,
+    "executionOrder": 0,
+    "weekAvailable": 28,
+    "weekDeadline": 32,
+    "prerequisites": [
+      { "stat": "nation.economyHealth", "operator": ">=", "value": 10 }
+    ]
+  },
+  {
+    "id": "agenda_w28_budget",
+    "title": "Budget Allocation — Economic Response",
+    "description": "Whether the economy is healthy or in crisis, the budget needs adjustment. Either capitalize on the recovery or contain the damage.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 1,
+    "weekAvailable": 28,
+    "weekDeadline": 32
+  },
+  {
+    "id": "agenda_w28_constitution_implementation",
+    "title": "Constitutional Implementation — First Steps",
+    "description": "If the constitution passed: enabling legislation needs drafting. If it failed: the existing constitution needs defending. Either path requires legal and parliamentary strategy.",
+    "category": "cabinet",
+    "sceneId": "act3_constitution_implementation",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 28,
+    "weekDeadline": 34
+  },
+  {
+    "id": "agenda_w28_tyvaren_intelligence",
+    "title": "Tyvaren Border — Intelligence Assessment",
+    "description": "Danika's weekly border briefing has an annex marked 'urgent.' Tyvaren force dispositions have changed. Not exercise patterns — something different. Dusek wants to brief you directly.",
+    "category": "security",
+    "sceneId": "act3_week32_tyvaren_ultimatum",
+    "slotCost": 1,
+    "executionOrder": 3,
+    "weekAvailable": 28,
+    "weekDeadline": 36
+  }
+]

@@ -1,0 +1,104 @@
+{
+  "id": "act4_family_anchored",
+  "title": "The Anchor Holds",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Evening, Before the Storm",
+  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "They are all here. Not scattered across the city or the country or the emotional geography of estrangement — here, in the living room of the residence, on an evening when the news from the north is bad and getting worse. Jonas is in his chair by the fireplace, the same chair where he waited in the dark with his list of cancellations, but the list is gone now. You asked about it once and he said he threw it away — not dramatically, just put it in the wastebasket one morning when he realized he did not need it anymore. Liora is on the sofa, her journalist's notebook open but ignored, her attention on the conversation. Tomas is beside her, close enough that their shoulders almost touch — a proximity that would have been unimaginable during the worst months, when he could not bear to be in the same room as anyone. They are here. The family unit, battered and rebuilt, is holding."
+    },
+    {
+      "type": "description",
+      "text": "You chose them. Not once — the reckoning was only the most dramatic choice — but repeatedly, in the small decisions that accumulate into a life. Coming home for dinner instead of staying for the evening briefing. Answering Liora's questions honestly instead of deflecting them into policy language. Sitting with Tomas while he worked through the history that the Ironborn had tried to claim. Asking Jonas what he needed instead of telling him what you needed. None of these decisions was dramatic. All of them cost something — political capital, institutional momentum, the perception of invulnerability. And all of them built something that the dramatic choices could not: trust. The slow, unglamorous, daily practice of showing up. The family is here because you kept showing up."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "The news from the north is — I've been reading the intelligence summaries. Not through official channels. Through the newspapers, the way everyone else reads them. Tyvaren forces have moved into the border region. The military is mobilizing. The cabinet is meeting at dawn. These are the facts. What I want to say, before you go into that meeting, before whatever happens next, is that I am here. We are here. Not waiting for you to come back — I'm done with waiting. Standing with you while you do what you need to do. There is a difference. I spent months waiting for you to return from the Chancellorship. I have stopped waiting. I am with you, in it, whatever comes next. That is not a promise I could have made six months ago. It is a promise I am making now."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He said 'standing with you' — not 'standing behind you.' The preposition matters. For months — years, if you count the campaign — Jonas has been behind you, supportive but separate, the Chancellor's husband who managed the household while the Chancellor managed the country. Standing with means something different. It means he has found a way to be present in the same space, facing the same direction, without subordinating himself to the role that nearly destroyed your marriage. He is not the Chancellor's husband anymore. He is your husband who happens to be married to the Chancellor. The distinction is the difference between surviving the Chancellorship and surviving it together."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "I'm not going to pretend the past few months didn't happen. They happened. I leaked your documents. You were furious. We stopped talking. We started again, badly, and then better. That's the sequence. What I want to say is that I've been thinking about courage — the way Tomas has been thinking about it, through grandfather's letters. I used to think courage was publishing things that powerful people didn't want published. That is courage of a kind. But I think there is another kind — the courage of staying. Of not walking away when it would be easier to walk away. You stayed. Even when I gave you every reason to give up on me, you stayed. I don't know if I've said thank you. I'm saying it now."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "I've been reading grandfather's letters about the trial. He wrote that courage wasn't facing the execution — it was facing the days before the execution, the ordinary days, when nothing was happening but the waiting. He said anyone could be brave for a moment. Being brave for months, for years, without knowing if it would matter — that was the hard thing. I think that's what you've been doing. Being brave for months without knowing if it would matter. I wanted you to know I see it. Even if I didn't see it before. I see it now."
+    },
+    {
+      "type": "description",
+      "text": "The room is quiet. Not the silence of aftermath or the silence of estrangement — the silence of presence. Four people in a room, facing something terrible together, anchored to each other in ways that months of crisis have tested and not broken. Outside, the Tyvaren forces are moving. Inside, the family is holding. Both things are true. Both things matter. One of them — the family — is the reason you do the other. You had forgotten that, for a while. You remember now."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "family_anchored_draw_strength",
+      "text": "\"Jonas — 'standing with' is exactly right. I don't want you behind me. I don't want any of you behind me. I want you beside me, the way you are right now, in this room, on this evening before everything changes. The Tyvaren situation is going to get worse before it gets better. I am going to have to make decisions that I cannot discuss in advance and cannot explain afterward. I need you to trust me — not blindly, not unquestioningly, but fundamentally. The way you trusted me when we were twenty-three and I said I was going to change the country. I still believe that. I still believe in changing the country. I also believe — more than I believed at twenty-three — that the country is not worth changing if it costs me all of you. You are not the support system for my governance. You are the point of my governance. I will try to remember that in the days ahead. Help me remember.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 20 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 16 },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 14 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 18 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 3 }
+      ],
+      "flags": ["family_anchored", "family_chosen", "standing_with", "mikhael_legacy_shared", "family_anchor_holds"],
+      "codexUnlocks": ["codex_ashavel_family", "codex_mikhael_ashavel_legacy"]
+    },
+    {
+      "id": "family_anchored_protect_them",
+      "text": "\"What I am about to say is going to sound like the old Katerin — the one who walled you off from the Chancellorship because she thought protection meant separation. It is not the same. The Tyvaren situation is going to get dangerous. Not politically dangerous — physically dangerous. If the military situation deteriorates, if the capital is threatened, if there is a coup attempt — any of the scenarios the intelligence briefings describe — you will be targets. Not because of anything you have done. Because of who you are married to, who you are children of. I am not walling you off from my work. I am asking you to take precautions. Evacuation plans. Safe locations. People who know where you are at all times. I cannot govern through this crisis if I am constantly terrified that you are in danger. Let me protect you — not from myself, but from what is coming. That is not separation. That is love, in the only form I can offer right now.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 8  },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 6  },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",            "operation": "add", "value": 10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_emergency_powers_invoked", "delayWeeks": 2 }
+      ],
+      "flags": ["family_anchored", "family_protected", "evacuation_plans", "security_precautions", "family_anchor_holds"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    },
+    {
+      "id": "family_anchored_include_decisions",
+      "text": "\"I have spent months making decisions alone. In the Situation Room. In the Cabinet. In the late-night hours when everyone else was asleep and the choices were too consequential to delegate. I did it because I thought governance required isolation — that the weight of these decisions could only be carried by one person. I was wrong. The weight is still mine. The responsibility is still mine. But I do not have to carry it alone. Jonas — I want your perspective on the strategic questions. You see things I miss because you are not inside the institutional machinery. Liora — your journalist's eye for truth and consequence. Tomas — your questions, the ones that seem naive but aren't. I am not asking you to govern. I am asking you to think with me. The decisions are still mine. The thinking does not have to be.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",       "operation": "add", "value": 16 },
+        { "stat": "personal.lioraRelationship",    "operation": "add", "value": 18 },
+        { "stat": "personal.tomasWellbeing",       "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 16 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 4  },
+        { "stat": "nation.pressFreedom",           "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 3 }
+      ],
+      "flags": ["family_anchored", "family_included", "shared_thinking", "jonas_advisor", "liora_advisor", "family_anchor_holds"],
+      "codexUnlocks": ["codex_ashavel_family"]
+    }
+  ]
+}

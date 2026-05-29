@@ -1,0 +1,88 @@
+{
+  "id": "act4_diplomatic_endgame",
+  "title": "The Final Offer",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Foreign Affairs — Secure Negotiating Room, Late Evening",
+  "characters": ["vyktor_reznik", "colonel_dusek"],
+  "prerequisites": [
+    { "stat": "flags.tyvaren_diplomacy_initiated", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The diplomatic framework arrived at 18:42 via a third-party intermediary — the Orythian ambassador, who delivered it with the particular expression of someone who is carrying a message they would prefer not to be associated with. The framework is seventeen pages, single-spaced, in diplomatic French. Vyktor has annotated it in three colors of ink. The annotations tell a story of their own: green for acceptable terms, yellow for negotiable, red for unacceptable. There is more red than green. There is more yellow than either. The framework represents the most complete set of terms the Tyvaren government has ever put forward. It is also, in Vyktor's assessment, 'a document designed to be rejected so that Volkov can tell his generals he tried diplomacy before the final offensive.' But there is a ceasefire clause. Tyvaren forces will halt operations for seventy-two hours while the framework is under consideration. Seventy-two hours in which soldiers stop dying. That is not nothing."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The terms. First: Veltria recognizes the Tyvaren territorial claim to the Gravenmark border region, approximately twelve hundred square kilometers including three villages and the primary border crossing. Second: Veltria accepts permanent demilitarization of a thirty-kilometer zone along the new border, monitored by Tyvaren observers. Third: Veltria's foreign policy is 'harmonized' with Tyvaren strategic interests — the language is deliberately vague, which means it means whatever Volkov wants it to mean. Fourth: Veltria withdraws its application for Arcturian security guarantees and commits to permanent neutrality. Fifth: a joint Tyvaren-Veltrian commission on 'national reconciliation' with Tyvaren participation in Veltrian domestic security coordination. This is not a peace proposal. This is a surrender proposal with a ceasefire attached. The ceasefire is the only part worth accepting. The question is whether the ceasefire buys us enough to justify the political costs of being seen to consider this document at all."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Military assessment. Seventy-two hours of ceasefire gives us time to resupply forward units, evacuate wounded, and reposition for the next phase. It also gives Tyvaren forces the same time. The military balance does not shift dramatically in seventy-two hours. The diplomatic balance might. If the international community sees Veltria negotiating seriously while Tyvaren puts forward maximalist terms, the Forum vote might shift. If they see Veltria rejecting negotiations outright, the vote shifts the other way. I do not have a recommendation. I am providing factors. The decision is yours."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Seventeen pages of terms designed to be rejected. A seventy-two-hour pause in the killing. A Forum vote that hangs on whether you look reasonable or weak. The variables interact. The ceasefire that saves lives today may cost you the diplomatic support that saves the country tomorrow. The rejection that preserves your negotiating credibility may cost you the soldiers who die in the seventy-two hours the ceasefire would have given them. There is no pure answer. There is no option that does not trade something you cannot afford to lose for something you cannot afford to give up. This is governance at the end of everything — when the choices are between bad and worse, and the difference between them is measured in lives."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "diplomatic_accept_modified_framework",
+      "text": "\"We accept the framework as a basis for negotiation — with modifications. The territorial concession is unacceptable as written but the border commission concept is negotiable. The demilitarized zone is acceptable with international monitors, not Tyvaren observers. The foreign policy harmonization is rejected entirely. We counter-propose a mutual non-aggression pact with third-party guarantees. We use the seventy-two-hour ceasefire as a bridge to broader negotiations while maintaining our position that Veltrian sovereignty is not negotiable. The military pause is real. The diplomatic opening is real. We use both. We do not sign what they put in front of us, but we also do not walk away from the only ceasefire that has ever been offered.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [],
+      "flags": ["diplomatic_endgame_resolved", "framework_counter_proposed", "ceasefire_negotiations_active"],
+      "codexUnlocks": ["codex_diplomatic_framework", "codex_ceasefire_diplomacy"]
+    },
+    {
+      "id": "diplomatic_reject_prepare_war",
+      "text": "\"This is not a negotiation. This is a demand for surrender with a ceasefire wrapped around it. Volkov is not interested in peace — he is interested in legitimizing his territorial gains while his army positions for the final offensive. We reject the framework in its entirety. Dusek, I want a revised military plan on my desk within twenty-four hours that assumes no diplomatic resolution. We are going to fight. We are going to fight with the resources we have and the allies we have and the time we have. The terms in this document are what Volkov thinks he can impose because he thinks we are desperate enough to accept them. I am going to demonstrate that we are not. The demonstration will be military.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["diplomatic_endgame_resolved", "framework_rejected", "war_continuation"],
+      "codexUnlocks": ["codex_war_planning", "codex_military_resolve"]
+    },
+    {
+      "id": "diplomatic_push_better_deal",
+      "text": "\"We do not accept this framework. We also do not reject it. We table it — and we take the seventy-two-hour ceasefire to the international community. I want an emergency session of the Forum. I want the Arcturian and Orythian ambassadors in my office within the hour. I am going to tell them that Volkov's terms are a preview of the world they will live in if Tyvaren wins — a world where fascist powers redraw borders at gunpoint and the democracies are handed the terms afterward for their information. I am going to use this document to rally the international pressure we need to push Volkov toward genuine negotiation. The framework is not a peace proposal. It is evidence. I am going to use it as evidence, and I am going to make the international community decide whether they want to live in the world this document describes.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 12 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["diplomatic_endgame_resolved", "framework_weaponized_diplomatically", "international_pressure_mobilized"],
+      "codexUnlocks": ["codex_diplomatic_warfare", "codex_multilateral_pressure"]
+    }
+  ]
+}

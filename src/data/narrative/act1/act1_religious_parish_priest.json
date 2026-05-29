@@ -1,0 +1,163 @@
+{
+  "id": "act1_religious_parish_priest",
+  "title": "The Priest of Thornfeld",
+  "act": 1,
+  "weekAvailable": 7,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "stanislov_renek"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The open letter appears first in the Thornfeld Parish Gazette, a publication with a circulation of approximately four hundred. Within three days it has been reprinted in the Ashenmere Herald and the People's Standard and has become the subject of heated debate in every coffeehouse and parish hall from the capital to the Amber Coast. Father Aldric Veren, the parish priest of a small rural church in Thornfeld province, has written a letter publicly supporting your reform agenda and criticizing Archbishop Renek's opposition to constitutional change. 'The Church must be a servant of the people,' Veren wrote, 'not a guardian of the powerful. The Chancellor's reforms are closer to the teachings of Saint Aldric than anything the Archbishop has proposed in fifteen years.'"
+    },
+    {
+      "type": "description",
+      "text": "Archbishop Renek has requested an urgent meeting. He arrives in full ecclesiastical regalia — something he rarely does for private audiences. The message is clear: this is not a conversation between colleagues. This is the Church asserting its institutional authority."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor. There is an old saying in Thornfeld — a shepherd who lets one lamb wander will soon find himself with an empty flock. Father Veren has publicly defied his bishop and, by extension, the entire ecclesiastical hierarchy. He has used his pulpit — his pulpit — to attack the Archbishop of Veltria in defense of a secular government's political program. We see this as insubordination of the most dangerous kind, because if it goes unpunished, every parish priest in the country will believe they have license to use their congregation as a political platform. I am asking you — formally, as the head of the Church that represents seventy-two percent of your citizens — to issue a statement distancing your government from Father Veren's letter. We are not asking you to condemn him. We are asking you to clarify that the government does not encourage clerical insubordination against the lawful ecclesiastical authority."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Veren is exactly the kind of priest I want in my Veltria — one who reads the scriptures and finds in them a mandate for justice rather than compliance. He is also a parish priest who has just publicly humiliated his Archbishop. If I protect him, I signal that the reform movement has allies inside the Church — and I make an enemy of the Church hierarchy. If I side with Renek, I preserve my relationship with the institution but I lose a genuine ally among the clergy. If I stay silent, I disappoint everyone equally. The calculus of governance is sometimes the calculus of whose disappointment you can afford."
+    }
+  ],
+  "monologue": "Veren used his pulpit to defend my reforms against his own Archbishop. He is exactly the kind of priest I want in my Veltria — one who reads scripture and finds justice instead of compliance. He's also a parish priest who just publicly humiliated the most powerful religious figure in the country. If I protect him, I make an enemy of the Church hierarchy. If I don't, I lose a genuine ally among the clergy. The calculus is whose disappointment I can afford.",
+  "choices": [
+    {
+      "id": "priest_protect",
+      "text": "\"Archbishop, I am not going to discipline a priest for agreeing with me. Father Veren wrote a letter expressing his conscience — the same conscience that led him to the priesthood. If the Church's hierarchy cannot tolerate dissent from its own clergy, that is a problem for the Church to solve internally. My government will not be a tool of ecclesiastical discipline. Veren is welcome to his opinion, and I am grateful for his support.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": -12
+        },
+        {
+          "stat": "religiousAdherence",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "veren_protected",
+        "church_hierarchy_defied"
+      ],
+      "codexUnlocks": [
+        "codex_church_reform"
+      ],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "Your father would have understood the spiritual dimension."
+        }
+      ]
+    },
+    {
+      "id": "priest_neutral",
+      "text": "\"Archbishop, this is an internal Church matter. Father Veren is your priest, not my minister. I have no authority over Church discipline and I will not intervene in either direction. If you believe Veren violated ecclesiastical law, that is for you and the bishops to address through Church processes. My government remains neutral on matters of internal Church governance.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 2
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "veren_neutral",
+        "church_autonomy"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "action",
+          "text": "He touches the cross at his collar."
+        }
+      ]
+    },
+    {
+      "id": "priest_side_archbishop",
+      "text": "\"Archbishop, I will issue a statement. The government respects the authority of the Church hierarchy and does not encourage clerical insubordination. Father Veren is entitled to his personal views, but those views do not represent the government's position on ecclesiastical governance. The Church's internal discipline is its own affair — and its hierarchy deserves the respect of its clergy.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "religiousAdherence",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "chainTriggers": [],
+      "flags": [
+        "veren_disciplined",
+        "church_hierarchy_supported"
+      ],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "stanislov_renek",
+          "type": "dialogue",
+          "text": "I will pray on this decision."
+        }
+      ]
+    }
+  ]
+}

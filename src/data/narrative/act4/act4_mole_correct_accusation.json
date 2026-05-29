@@ -1,0 +1,66 @@
+{
+  "id": "act4_mole_correct_accusation",
+  "title": "The Mole Unmasked",
+  "act": 4,
+  "weekAvailable": 42,
+  "weekDeadline": 44,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Ashenmere Palace — Secure Detention Wing",
+  "characters": ["vyktor_reznik", "viktor_dorne"],
+  "prerequisites": [
+    { "stat": "flags.mole_correct", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The arrest was quiet. No drama, no resistance — just a brief conversation in which you laid out the evidence and they realized there was no point in denying it. They are in detention now, in a secure room three floors below your office. Dorne is handling the interrogation. Vyktor is handling the political fallout. You are handling the realization that someone you trusted — or at least employed — has been selling your country to its oldest enemy."
+    },
+    {
+      "type": "dialogue",
+      "character": "viktor_dorne",
+      "text": "They have confessed. Not out of remorse — out of pragmatism. They know the evidence is irrefutable and cooperation is the only path to leniency. The confession is detailed: operational methods, contact protocols, information transmitted. Most significantly, they have provided Tyvaren's invasion timeline. Marshal Vukov planned to move in six weeks, after the autumn harvest. He wanted Veltrian grain to feed his army. The mole was feeding him our military readiness assessments so he could calibrate the invasion to our weakest moment. You have disrupted that timeline."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Tyvaren spy network in Veltria is being rolled up as we speak. Dorne's teams have identified six additional contacts based on the mole's confession. The intelligence loss has been stopped. The question now is what we do with the information about the invasion timeline. Do we prepare quietly, or do we make this public and force Vukov's hand?"
+    },
+    {
+      "type": "internal_thought",
+      "text": "I was right. The relief is enormous and the guilt is enormous. I was right, and someone's life is over because I was right. They betrayed their country. They betrayed me. But they were also a person — with reasons, however wrong — and I have just ended their world. Being right does not feel like victory. It feels like surgery. Necessary, bloody, and something you hope you never have to do again."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "mole_correct_prepare_quietly",
+      "text": "\"We prepare quietly. Use the intelligence to strengthen our defenses but do not announce the arrest publicly. If Vukov does not know we have disrupted his spy network, he will continue operating on bad intelligence. Let him plan an invasion based on readiness assessments that are six months out of date.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 },
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_resolved_quietly", "mole_arc_complete"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "mole_correct_announce_publicly",
+      "text": "\"Make it public. The people of Veltria deserve to know that their government rooted out a traitor. The announcement will damage morale — but it will also demonstrate that our institutions work. A democracy that catches its own spies is stronger than one that pretends they do not exist.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_resolved_publicly", "mole_arc_complete"],
+      "codexUnlocks": []
+    }
+  ]
+}

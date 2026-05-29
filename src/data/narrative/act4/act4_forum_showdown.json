@@ -1,0 +1,85 @@
+{
+  "id": "act4_forum_showdown",
+  "title": "The Forum Decides",
+  "act": 4,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "International Forum Assembly Hall — Geneva, Session Day",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.tyvaren_diplomacy_initiated", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The International Forum Assembly Hall is a monument to the belief that architecture can prevent war. The ceiling soars forty meters above the delegates' desks, supported by columns of polished marble that were quarried in three different countries to symbolize international cooperation. The murals depict the triumph of diplomacy over conflict. The acoustics were designed by an engineer who believed that clear communication between nations would make misunderstanding impossible. The building is a cathedral of hope built by people who had just survived a war that killed sixty million and were determined to design a world in which it could never happen again. The building is sixty-three years old. The wars have not stopped. The hope has outlasted the evidence. That is either inspiring or delusional, depending on what happens in the next six hours."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The session agenda is as follows. Item one: a report from the Secretary-General on the Tyvaren-Veltrian situation. Item two: a statement by the Tyvaren ambassador — I am told the ambassador is one Andrik Vostov, a career diplomat who was posted to Ashenmere in the late 1950s and knows our political landscape better than most Tyvaren officials. Item three: your statement. Item four: debate and vote on Resolution 487, which calls for binding security guarantees for Veltria, mandatory economic sanctions against Tyvaren, and the establishment of a Forum-mandated peacekeeping force in the conflict zone. The resolution needs a two-thirds majority to pass. Current whip count: forty-seven yes, thirty-one no, thirty-four undecided. The thirty-four undecided are the audience. Your speech is the argument. There will not be a second chance."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The number is forty-seven. Forty-seven countries believe Veltria deserves to survive as a sovereign state. Thirty-one believe that Tyvaren's territorial claims or strategic position or simple power politics outweigh Veltria's right to self-determination. Thirty-four have not decided. Thirty-four delegations of diplomats and foreign ministers and ambassadors will listen to your speech and then decide whether your country lives or dies. The speech you are about to give is the most important speech of your life. It is also the speech you are least prepared to give — not because you have not prepared, you have been preparing for weeks — but because any speech that must convince thirty-four undecided delegations to vote for a resolution that their governments have instructed them to approach with caution is a speech that must do the impossible. It must make Veltria's survival matter to people who have never been to Veltria and whose careers will not be affected if Veltria ceases to exist. You have twenty minutes. You have to make them care."
+    },
+    {
+      "type": "description",
+      "text": "The Tyvaren ambassador speaks first. Vostov is polished, reasonable, calibrated. He speaks of 'legitimate security concerns' and 'historical territorial complexities.' He describes the Tyvaren position as a 'measured response to regional instability.' He acknowledges that 'mistakes may have been made' — the passive voice is deliberate, the acknowledgment is costless — and expresses hope that 'the international community will recognize the complexity of the situation rather than rushing to judgment.' He is good. Not good enough to make a fascist invasion sound reasonable — nothing is that good — but good enough to give the undecided delegations a reason to stay undecided. Now it is your turn."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "forum_collective_security",
+      "text": "\"Distinguished delegates. I am not here to ask for your sympathy. Veltria does not need sympathy. Veltria needs the international community to honor the commitments it made when it created this institution. Article Two of the Forum Charter guarantees the territorial integrity of all member states against external aggression. That guarantee is not conditional on strategic convenience. It is not subject to a cost-benefit analysis by the governments of countries that are not currently being invaded. It is the foundation of the international order, and if it does not apply to Veltria, it does not apply to anyone. The question before this assembly is not whether Veltria deserves protection. The question is whether the words in the Charter mean anything. If they do not — say so. Say so publicly, say so clearly, so that every small country on this planet knows that the international order built after the last war was a temporary arrangement that lasted only until the next aggressor tested it. If the words do mean something — vote yes. Vote yes because the Charter requires it. Vote yes because the alternative is a world in which international law is whatever the strongest country says it is.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 14 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -2 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["forum_outcome", "collective_security_appeal", "principled_diplomacy"],
+      "codexUnlocks": ["codex_forum_charter", "codex_collective_security_doctrine"]
+    },
+    {
+      "id": "forum_bilateral_deals",
+      "text": "\"Vyktor, the speech is important but the conversations in the corridors are more important. Between now and the vote, I want meetings with every undecided delegation. Not all of them — the ones that matter. The countries that are undecided because they are waiting for someone to make it worth their while. I will offer trade agreements, postwar reconstruction contracts, security partnerships, whatever each country needs to find a reason to vote yes. This is how diplomacy works. Not through eloquence — through interests. The speech will make the case in public. The conversations will make the deals in private. Between the two, we get to forty-eight. If we need to offer more — we offer more. The alternative is losing the vote and losing the country. That is not a world in which we worry about the ethical purity of our diplomatic methods.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 },
+        { "stat": "nation.corruption", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["forum_outcome", "bilateral_deals_made", "interest_based_diplomacy"],
+      "codexUnlocks": ["codex_realpolitik", "codex_diplomatic_bargaining"]
+    },
+    {
+      "id": "forum_threaten_consequences",
+      "text": "\"I am going to tell the Forum the truth. Not the diplomatic truth — the actual truth. If this body fails to act, Veltria falls. If Veltria falls, the next country that faces aggression will know that the international community is a debating society, not a security guarantor. And the country after that. And the country after that. I am going to tell the thirty-four undecided delegations that their decision today will determine whether the Forum exists as anything more than a building with good acoustics in Geneva. And I am going to tell them that if the resolution fails, I will make sure their governments are named — publicly, permanently, in the historical record — as the governments whose inaction enabled the destruction of a democratic republic. They can vote against the resolution. They cannot vote against the judgment of history. I am going to make them see that.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["forum_outcome", "historical_accountability", "moral_pressure_diplomacy"],
+      "codexUnlocks": ["codex_forum_diplomacy", "codex_moral_hazard_international_relations"]
+    }
+  ]
+}

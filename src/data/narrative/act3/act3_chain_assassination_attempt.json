@@ -1,0 +1,111 @@
+{
+  "id": "act3_chain_assassination_attempt",
+  "title": "Blood on the Palace Steps",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "emergency",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Emergency Command Center — Ashenmere Palace, Sub-Level Three",
+  "characters": ["irina_dusek", "danika_oberlin", "vyktor_reznik", "oskar_brenner"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You do not remember being moved. One moment you were descending the east staircase after the morning intelligence briefing. The next moment you are in a windowless room three floors underground, surrounded by people who are looking at you the way people look at someone who has just been shot at and missed. The way they look at you makes you more afraid than the thing itself."
+    },
+    {
+      "type": "description",
+      "text": "Colonel Dusek is speaking into two telephones simultaneously — one military, one palace security. Danika Oberlin has a cut on her forehead from where someone pushed her behind a marble column. Vyktor is standing in the corner, silent, which is how Vyktor processes events that his analytical framework cannot immediately categorize."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Three shots. Fired from the gallery above the east staircase. The shooter was positioned in a maintenance alcove that should have been sealed — it was on the security checklist for the transition and was marked complete. The shooter is in custody. Two palace guards wounded. The Chancellor is unharmed. I am currently determining how a man with a military-issue rifle got into an alcove that was supposed to be sealed in a building that is supposed to be the most secure structure in Veltria."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The shooter's name is Petrov Karasic. Former BNI field operative, discharged in the first round of reforms. He applied for reinstatement and was denied. He has been unemployed for fourteen weeks. His wife left him last month. His apartment in the Dravenhollow district is covered in Tyvaren nationalist propaganda — the kind that gets printed in Morivask and smuggled across the eastern border. The rifle is Veltrian military issue, serial number matches a batch that went missing from the Thornfeld armory six weeks ago. The pieces fit together too neatly, Chancellor. This was arranged."
+    },
+    {
+      "type": "internal_thought",
+      "text": "They tried to kill me. Someone — Tyvaren intelligence, a Halvekist cell, a rogue Iron Covenant faction, someone — found a broken man with a grievance, gave him a gun, showed him where to stand, and waited. They almost succeeded. The difference between 'Chancellor Ashavel' and 'the late Chancellor Ashavel' was three shots and the angle of a staircase railing. I am not afraid. I am furious. The fury is useful. The fury lets me think."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "I have ordered all bases to elevated alert status and recalled every officer on leave. The Tyvaren border garrison has been reinforced. I am not suggesting that Marshal Vukov ordered this — I am stating that whoever did knew that we would suspect Tyvaren involvement and that the suspicion itself would destabilize our command structure. If this is a Tyvaren operation, it is a provocation designed to trigger a military response they can use as a casus belli. If it is not Tyvaren, it is someone who wants us to think it is, which means they want a war. Either way, we are being manipulated toward a conflict that serves someone else's interests."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The political dimension. If you appear in public within the hour — standing, composed, unafraid — the narrative is: 'they tried and they failed, the Chancellor is indestructible.' If you remain in the bunker, the narrative is: 'the government is in hiding, the state is vulnerable.' If you address the nation and accuse Tyvaren without evidence, we start a war with a neighbor who may or may not have done this. If you accuse no one, you look weak. If you crack down on internal security, you become Halvek. These are the options. I have been standing in this corner for seven minutes trying to find one that is not terrible. I have not succeeded."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vyktor always does this. He gives me the menu of disasters and trusts me to order something that is not on it. The room is waiting. The palace is waiting. In forty minutes the press will have the story — someone in the palace staff will have called someone — and if I have not spoken by then, someone else will speak for me. Dusek wants to find the conspirators. Brenner wants to mobilize the army. Oberlin wants to follow the evidence wherever it leads. Vyktor wants me to choose something that does not destroy us. They are all correct. I have to be correct about all of it at once."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "assassination_public_defiance",
+      "text": "\"I'm going upstairs. Alone. No guards flanking me, no bunker mentality. I will walk out the front doors of this palace and stand on the steps where they shot at me and I will tell the people of Veltria that their Chancellor is not afraid of bullets. The investigation proceeds quietly — Oberlin, you run it through Interior. No public accusations until we have proof. Dusek, the military alert level stays elevated but defensive. No mobilization. Brenner, I understand your concern about Tyvaren manipulation. That is exactly why we do not give them the war they want.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage",     "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8  },
+        { "stat": "nation.publicOrder",       "operation": "add", "value": 5  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["assassination_survived", "assassination_public_defiance", "assassination_resolved"],
+      "codexUnlocks": ["codex_assassination_attempt"]
+    },
+    {
+      "id": "assassination_crackdown",
+      "text": "\"Lock down the palace. Lock down the capital. Until we know who did this, every Halvekist MP is under surveillance, every former BNI operative is detained for questioning, and every Tyvaren diplomatic passport in this country is frozen. I will address the nation from this bunker in one hour. The people will see that their government is in control — absolute control. Dusek, full military readiness. Brenner, coordinate with her. This ends tonight.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder",       "operation": "add", "value": 8  },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",      "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -12 },
+        { "stat": "nation.pressFreedom",      "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8  },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["assassination_survived", "assassination_crackdown", "assassination_resolved"],
+      "codexUnlocks": ["codex_assassination_attempt"]
+    },
+    {
+      "id": "assassination_diplomatic_response",
+      "text": "\"I want the Orythian and Arcturian ambassadors in this room within the hour. An assassination attempt on a sitting head of state is not a domestic crime — it is an act that concerns every nation with an embassy in this city. I will ask for a joint international investigation. If Tyvaren is behind this, they will face the consequences not from Veltria alone but from every power that has a stake in regional stability. If someone else is behind it, I want the world to help us find them. Veltria does not face this alone.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": 3  },
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": -3  },
+        { "stat": "nation.militaryReadiness",     "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_diplomacy_arcturian_alliance",
+          "delayWeeks": 2
+        }
+      ],
+      "flags": ["assassination_survived", "assassination_international", "assassination_resolved"],
+      "codexUnlocks": ["codex_assassination_attempt", "codex_international_investigation"]
+    }
+  ]
+}

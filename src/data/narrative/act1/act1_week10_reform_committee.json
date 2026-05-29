@@ -1,0 +1,142 @@
+{
+  "id": "act1_week10_reform_committee",
+  "title": "The Reform Committee",
+  "act": 1,
+  "weekAvailable": 10,
+  "weekDeadline": 12,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Parliamentary Committee Room — Ashenmere",
+  "characters": ["aldric_theron", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Professor Aldric Theron has been working on the constitutional reform framework for ten weeks. His committee — twelve constitutional scholars, eight parliamentarians, four representatives from civil society — has produced a draft document that runs to three hundred pages. He has condensed it to a twelve-page executive summary, which he places on your desk with the particular care of a man who has spent his life handling documents that change the shape of countries."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The Halvek Constitution contains seventeen articles that were designed specifically... to prevent democratic reform. The executive powers clause — Article 22 — grants the Chancellor the authority to dissolve parliament, appoint judges, and declare states of emergency without legislative approval. The amendment clause — Article 31 — requires a two-thirds supermajority for any constitutional change, which means the Halvekists can block reform with merely thirty-four percent of parliament. The judicial appointment clause — Article 45 — means every judge currently sitting was appointed by Halvek or his ministers and serves for life. One must understand: the constitution was not written to enable governance. It was written to enable control. Reforming it requires either a supermajority one does not possess... or an exercise of executive powers that would itself violate the spirit of the reform one is attempting."
+    },
+    {
+      "type": "description",
+      "text": "He pauses, removes his glasses, and cleans them on his sleeve — a gesture you recognize from his lectures, the pause before the difficult part."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The committee has identified two paths. The first is the legislative path: build a coalition for reform that reaches the two-thirds threshold by convincing enough Halvekist moderates that the new constitution... protects their interests alongside everyone else's. This is slow, uncertain, and may fail — as such things historically do when one relies on the cooperation of those whose power one is attempting to limit. The second is the executive path: use Article 22 — the very provision one is trying to abolish — to call a constitutional convention by executive order, bypassing the parliamentary supermajority requirement. This is fast, certain in its legal mechanism, and... arguably illegitimate. It would mean using Halvek's own tools to dismantle his constitution. I am not recommending either path. I am describing both. The choice is yours."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Theron has spent thirty years studying constitutional law and he has just told me that the only way to reform the constitution legally is to break it first. The irony would be satisfying if it were not terrifying. Use Halvek's executive powers to abolish Halvek's executive powers. The reformists will call it necessary. The Halvekists will call it a coup. The historians will call it whatever the outcome makes them call it. I have to decide whether I am willing to be called a usurper by the people whose power I am usurping — and whether being right is enough protection against being remembered as wrong."
+    }
+  ],
+
+  "monologue": "Theron has just told me that the only way to reform the constitution legally is to break it first. Use Halvek's executive powers to abolish Halvek's executive powers. The reformists will call it necessary. The Halvekists will call it a coup. The historians will call it whatever the outcome makes them call it. Whether being right is enough protection against being remembered as wrong.",
+
+  "choices": [
+    {
+      "id": "reform_executive_path",
+      "text": "\"Call the constitutional convention by executive order. Article 22 gives me the authority and I am going to use it — not to preserve executive power, but to end it. The convention will be publicly elected, fully transparent, and its sole mandate will be to produce a democratic constitution. When it does, I will sign it into law and resign whatever powers it abolishes. Yes, it is using Halvek's tools to dismantle his system. That is how systems are dismantled — from the inside, by people who understand them well enough to break them.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": 12  },
+        { "stat": "factions.halvekists",        "operation": "add", "value": -15 },
+        { "stat": "factions.ironCovenant",      "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 8   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": -6  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 10  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act1_chain_constitutional_crisis",
+          "delayWeeks": 3
+        }
+      ],
+      "flags": ["constitutional_convention_called", "executive_reform_path", "reform_committee_resolved"],
+      "codexUnlocks": ["codex_constitutional_convention", "codex_article_22"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "action",
+          "text": "He replaces his glasses. The motion is slow — the particular slowness of a constitutional scholar who has just been told that the most legally radical option is the one that will be attempted. He is not alarmed. He is recalculating."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "The executive path. I will... draft the convention call. Article 22 gives one the authority. History will determine whether one was... wise to use it. I should note that the fifth-century precedent is... not encouraging. But fifth-century Veltria had no independent judiciary. We do. That may... make the difference."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Constitutional convention by executive order. Kolvar will call it a coup within the hour. The international press will use the word 'power grab.' I will prepare the legal justification and the public statement simultaneously."
+        }
+      ]
+    },
+    {
+      "id": "reform_legislative_path",
+      "text": "\"Build the coalition. I will not use Halvek's powers to dismantle Halvek's system — that makes me his successor, not his opposite. Theron, I need you to identify every Halvekist moderate who might support specific reforms — not the whole package, individual articles. We build the supermajority piece by piece. Judicial reform first — even Halvekists want judges who are not corrupt. Executive powers second — once judges are independent, the argument for unlimited executive power becomes weaker. It will take longer. It will be done right.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": 6   },
+        { "stat": "factions.halvekists",        "operation": "add", "value": 4   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 5   },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 8   },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [],
+      "flags": ["reform_legislative_path", "coalition_building_begun", "reform_committee_resolved"],
+      "codexUnlocks": ["codex_constitutional_reform_process"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "The legislative path. Yes. Judicial reform first — even Halvekists want judges who are not corrupt. That is... the correct opening. I will identify the moderates. There are perhaps... twelve who might be persuaded. One needs seven. The mathematics is tight but not impossible."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He nods once. The nod is approval — the kind Vyktor gives when a decision aligns with his private assessment and he chooses not to spend words confirming what the facts already state."
+        }
+      ]
+    },
+    {
+      "id": "reform_delay_focus_crisis",
+      "text": "\"The constitution matters, but it cannot matter more than the economy. Shelf the convention until next year. Right now the country is watching its jobs disappear and its currency weaken. If I call a constitutional convention while unemployment is at twenty-eight percent, I will look like a professor rearranging deck chairs on a sinking ship. Theron, keep working — refine the draft, build quiet support, prepare the ground. But we do not launch until the economic crisis is stabilized. Governance first. Reform second.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists",        "operation": "add", "value": -6  },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 6   },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": -3  },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 3   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["reform_delayed", "economic_priority", "reform_committee_resolved"],
+      "codexUnlocks": ["codex_governance_first"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "... The draft — three hundred pages, twelve weeks of committee work — stays on the desk. He does not move it. He does not protest. The silence is that of a scholar who has spent thirty years studying how reform dies — not in dramatic defeats, but in quiet delays. He is not surprised. He is... prepared."
+        },
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "Next year. I will... continue refining the draft. There are sections that will benefit from additional historical research. The committee can meet quietly, without public attention. Reform delayed is not necessarily reform abandoned — but it is reform that has been... weighed against other priorities and found less urgent. I will remember that."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Reform shelved until economic stabilization. The reformist caucus will be disappointed. I will manage the internal communication. The economics portfolio takes full priority as of now."
+        }
+      ]
+    }
+  ]
+}

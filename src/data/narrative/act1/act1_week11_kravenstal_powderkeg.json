@@ -1,0 +1,138 @@
+{
+  "id": "act1_week11_kravenstal_powderkeg",
+  "title": "The Powderkeg",
+  "act": 1,
+  "weekAvailable": 11,
+  "weekDeadline": 13,
+  "type": "crisis",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Kravenstal — City Hall",
+  "characters": ["gregor_maric", "colonel_dusek"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You go to Kravenstal yourself. Vyktor advised against it — the security situation is unpredictable, the crowds are large, a Chancellor appearing in the middle of a labor crisis looks either brave or desperate and no one can tell you in advance which way it will read. You go anyway. You need to see it. The city is gray with February cold and the smoke from the steel mills that are still running — about half of them, the other half dark and silent. Foundry Square is full. Not the organized crowd of Republic Square on Inauguration Day, faces lifted toward hope. This is something harder: men and women who have been waiting in the cold for hours, their breath making clouds, their faces carrying the particular exhaustion of people who have been patient for too long."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "They're not here for speeches, Chancellor. Speeches are for Republic Square on Inauguration Day, when the sun is out and hope hasn't frozen yet. These people are here because they've run out of places to go — run out. The unemployment office closed at noon. Too many applicants, not enough staff to process them. The clinic down the street turned away forty people this morning because they ran out of basic medications — basic medications. The pharmacy on Vostok Avenue is selling aspirin at three times the price it was two months ago and people are paying it. What else are they going to do? Let their children burn with fever while they bargain with a shopkeeper? The strike is over — for now. But the conditions that caused it are getting worse, not better. The soup kitchens are emptying faster than they can fill. The coal deliveries are two weeks behind. I cannot keep telling these people to wait. They have been waiting since the election. Some of them are starting to whisper that the election didn't change a damn thing. And I am running out of ways to tell them they're wrong."
+    },
+    {
+      "type": "description",
+      "text": "A woman near the front of the crowd is holding a child — a girl, maybe four years old, wrapped in a coat that is too thin for this weather. The child is coughing. The woman is watching you with an expression that is not anger exactly, or not only anger. It is the look of someone who needs to know whether you see her. Whether you know she exists. Whether her child's cough is something you are prepared to govern."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I have been governing from a palace in Ashenmere for eleven weeks. I have made decisions based on binders and briefings and budget projections. I have understood intellectually that those decisions had human consequences. Intellectual understanding is not the same thing as standing in the cold in front of a mother whose child is sick and knowing that my budget choices are part of the reason she cannot get medicine. The election was about hope. Eleven weeks later, hope is not enough. They need something they can hold. I have to decide what that is, right now, in front of all these people, while the cameras are recording and the country is watching."
+    }
+  ],
+
+  "monologue": "There is a woman near the front of the crowd holding a child who is coughing. The child's coat is too thin for this weather. The woman is watching me with an expression that is not anger — or not only anger. It is the look of someone who needs to know whether I see her. Eleven weeks of governing from a palace. Eleven weeks of binders and briefings. Intellectual understanding is not the same thing as standing in the cold in front of a mother whose child is sick and knowing my budget choices are part of the reason.",
+
+  "choices": [
+    {
+      "id": "kravenstal_emergency_relief",
+      "text": "Take the microphone. \"I see you. I see your children. I am issuing an executive order today allocating emergency relief funds to the Kravenstal district — medicine, food assistance, fuel subsidies for the remainder of the winter. This is not a long-term solution. It is what I can do right now. I will not pretend to you that I can fix everything with a single order. I can make sure your children do not go cold this month. That is the commitment I am making today.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 10  },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 8   },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": -3  },
+        { "stat": "factions.businessClass",     "operation": "add", "value": -4  },
+        { "stat": "nation.nationalDebt",        "operation": "add", "value": 3   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 12  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 8   }
+      ],
+      "chainTriggers": [],
+      "flags": ["kravenstal_emergency_relief", "executive_relief_order", "kravenstal_powderkeg_resolved"],
+      "codexUnlocks": ["codex_emergency_relief", "codex_kravenstal_crisis"],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He takes the microphone from you — gently, the way you take a weapon from someone who has just fired it and might not yet understand what the recoil cost. He does not speak into it. He holds it while the crowd absorbs what you said."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Emergency relief. Listen. She heard you. The medicine is coming. The fuel is coming. It is not everything — but it is today. And today, for these children, matters."
+        },
+        {
+          "character": "colonel_dusek",
+          "type": "silence",
+          "text": "She scans the crowd — not for threats, but for the mother with the coughing child. She finds her. She makes a note — medical supply chain, Kravenstal district, priority routing. The note is operational. The silence is respect."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_honest_constraints",
+      "text": "Take the microphone. \"I am not going to make promises I cannot keep. The budget is what it is. The deficit is real. If I spend money I do not have today, the Krone collapses tomorrow and the same children who are cold now will be hungry then. What I can promise is this: I will accelerate the jobs program in Kravenstal. I will direct the Health Ministry to prioritize medication distribution in this district. And I will come back here in a month and tell you whether what I did worked. If it did not — I will try something else. That is the government I am offering. Not miracles. Persistence.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": 3   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 3   },
+        { "stat": "factions.businessClass",     "operation": "add", "value": 4   },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 4   },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 6   },
+        { "stat": "nation.economyHealth",       "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [],
+      "flags": ["kravenstal_measured_response", "chancellor_visited_kravenstal", "kravenstal_powderkeg_resolved"],
+      "codexUnlocks": ["codex_kravenstal_visit"],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "silence",
+          "text": "He does not cheer. He does not object. 'Not miracles. Persistence.' That is a harder sell than emergency relief. He knows this. He also knows it is more honest. The conflict between the two is visible in the line of his jaw."
+        },
+        {
+          "character": "colonel_dusek",
+          "type": "dialogue",
+          "text": "Chancellor. Accelerated jobs program and medication prioritization. I can coordinate the logistics through the military supply network if the civilian distribution channels are insufficient. The offer stands."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "You came here. You stood in the cold with them. That matters more than the medicine — listen, I know that sounds wrong. It is not wrong. They needed to see you. Now they need to see results. I will make sure they do."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_security_response",
+      "text": "\"Gregor, I need you to keep the peace. Dusek, I need a security assessment — not for deployment, for preparedness. If this crowd turns, I need to know that the local authorities can protect public buildings and essential infrastructure without the army. I am not sending soldiers into Foundry Square. I am also not letting Kravenstal burn because I was too principled to prepare for the worst. The people in this square are not my enemy. But a crowd is not a policy process and what it does next is not under anyone's control — including yours.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 4   },
+        { "stat": "factions.ironCovenant",      "operation": "add", "value": 6   },
+        { "stat": "factions.workersCoalition",  "operation": "add", "value": -8  },
+        { "stat": "nation.civilLiberties",      "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["kravenstal_security_prepared", "contingency_planning", "kravenstal_powderkeg_resolved"],
+      "codexUnlocks": ["codex_civil_unrest_preparedness"],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "type": "action",
+          "text": "He takes a step back — physically, one step away from you. The step is small. It is also the largest gesture of distance Marić has made since you entered politics together. He heard 'security assessment.' He heard 'if this crowd turns.' He is wondering when his people became a crowd."
+        },
+        {
+          "character": "gregor_maric",
+          "type": "dialogue",
+          "text": "Security assessment. Listen. These are not rioters. These are mothers and fathers and workers who have been patient for eleven weeks. They are not going to burn Kravenstal. They are going to freeze in it. And I am going to be standing next to them when they do."
+        },
+        {
+          "character": "colonel_dusek",
+          "type": "silence",
+          "text": "She makes the security assessment note — not for deployment, for preparedness, as ordered. She does not argue. She does not need to. The deployment that doesn't happen is also a military decision. She will be ready for both outcomes."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "id": "act3_jonas_promise_kept_or_broken",
+  "title": "The Promise",
+  "act": 3,
+  "weekAvailable": 29,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Jonas's Study",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Jonas's study is the smallest room in the residence — a converted storage space he claimed in the first week and filled with his drafting equipment, the broad slanted table under the north-facing window, the smell of graphite and the particular ammonia-tinged scent of blueprint paper. It is the one room that belongs entirely to him. He was at the table when you knocked but he has pushed back his chair now. On the shelf behind him there are photographs you both chose. One of them is from the first summer after the election, before the crisis months — you are both laughing at something, and it is impossible now to remember what. The laugh looks unguarded. It looks like a different administration."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I'm not angry. I want to be clear about that before I say anything else, because I think when I raised it last night you heard anger and that isn't what I'm carrying. I'm raising it because I've been not raising it for four months and that seems worse. The date nights. The two weekends. You remember — we wrote them into the schedule in the third week of government because I asked you to, specifically, and you said yes, specifically. I know why it happened. I understand the crises. I'm not requiring an apology. I'm just — it happened. The promise went unfulfilled. I want to know whether you still want what the promise was about. Whether the thing we were trying to protect is still something you're trying to protect."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is not raising it the way people raise things when they want a fight. He is raising it the way an architect raises a structural problem — precisely, without panic, because failing to name it doesn't make it go away. He wrote the date nights into the shared schedule himself. In the third week. You remember the conversation — you were eating takeaway in the transition office and you'd had a difficult meeting with the budget ministry and he said, quietly, I need to know there will still be us inside all of this. And you said yes. You meant it. The crises happened and the dates did not happen and now four months have passed and he has been carrying the discrepancy without complaint, which is in many ways harder to sit with than complaint would have been."
+    },
+    {
+      "type": "description",
+      "text": "The study is quiet. Through the wall you can hear faintly the sound of the residence staff starting the day two floors below. Jonas is sitting with his hands open on his knees, not folded — the posture of a man who has decided to make himself available rather than defended. The drafting table behind him has a housing complex partially sketched across it: the Miravel district affordable units, his pro bono project, the work he does that has nothing to do with you. He has been keeping himself occupied with it in the hours you are not there. You have not asked him about it in three weeks. You do not remember when you stopped asking."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "promise_acknowledge_recommit",
+      "text": "\"You're right. I made that promise and I didn't keep it and I'm not going to explain my way around that because the explanations are all true and none of them are the point. The point is I want what the promise was about. I want us. I am going to block the next two weekends in the schedule — personally, not through Vyktor — and I need you to hold me to it. Remind me if I try to fill them. Please.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 16 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 12 },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 2  },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": 6  },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": -1 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 6 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 12 }
+      ],
+      "flags": ["promise_recommitted", "jonas_promise_arc_honest"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "promise_explain_extension",
+      "text": "\"You deserve more than I've given you and I know that. I'm asking — not demanding, asking — for three more weeks. Three more weeks and then the Tyvaren situation will have either resolved or collapsed into something different, and I will have more than seventeen-hour days to offer you. I know I've said 'after this crisis' before. I know how that sounds. I'm not asking you to believe it the same way you did the first time. I'm asking you to give me the chance to prove it's different this time.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 3  },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 2  },
+        { "stat": "personal.tomasWellbeing",    "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 7 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 13 }
+      ],
+      "flags": ["promise_extended", "jonas_promise_arc_deferred"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "promise_country_cannot_wait",
+      "text": "\"I hear you. The promise mattered and it went unkept and that's a real cost and I own it. But I have to be honest with you about what the next month is: there is no version of the Tyvaren situation where I have spare weekends. The country cannot wait. I need you to understand that I'm not choosing it over you — I'm doing the thing I was elected to do, and doing it is costing us both, and I'm sorry it's costing you more than you signed up for. But I can't promise something I won't be able to give yet.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",    "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": -6  },
+        { "stat": "personal.publicImage",       "operation": "add", "value": 4   },
+        { "stat": "nation.publicOrder",         "operation": "add", "value": 4   },
+        { "stat": "factions.reformists",        "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week38_family_reckoning", "delayWeeks": 6 },
+        { "targetNodeId": "act4_week43_family_resolution", "delayWeeks": 14 }
+      ],
+      "flags": ["promise_refused", "jonas_promise_arc_country_first"],
+      "codexUnlocks": []
+    }
+  ]
+}

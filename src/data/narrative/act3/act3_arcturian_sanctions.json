@@ -1,0 +1,94 @@
+{
+  "id": "act3_arcturian_sanctions",
+  "title": "The Arcturian Displeasure",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Trade — Emergency Economic Council, 14:30",
+  "characters": ["elara_vostane", "lucan_vael"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The economic council meets in the Trade Ministry's map room — a circular chamber built during the Halvek years for commodity price monitoring, its walls still bearing the faded outlines where grain futures used to be tracked in chalk. The Arcturian sanctions have arrived not as a declaration but as a cascade of specific interruptions: a shipment of Veltrian textiles turned away at the Stellamere port, a machinery contract cancelled by an Arcturian partner citing 'regulatory compliance issues,' a line of credit frozen at a correspondent bank that had processed Veltrian trade finance for thirty years. Each item is small enough to be explained away. Together they constitute an economic blockade being assembled one transaction at a time."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The Arcturians are implementing what they call 'targeted trade restrictions.' The targeting is precise: textiles, agricultural products, light machinery — the sectors that employ the most Veltrian workers. They want the economic pain to be felt at the household level, not just the government level. They want the electorate to associate the hardship with the government's Orythian alignment. It is a rational strategy. That does not make it less effective."
+    },
+    {
+      "type": "description",
+      "text": "Lucan Vael has been brought in as a trade advisor — a former diplomat who served in the Stellamere embassy during the Halvek years, one of the few Veltrians who understands Arcturian commercial culture from the inside. He is old now, seventy-two, with the careful manner of someone who spent decades in rooms where the wrong word could end a negotiation and the right word was always one sentence away."
+    },
+    {
+      "type": "dialogue",
+      "character": "lucan_vael",
+      "text": "The Arcturians are not angry. They are disciplined. Anger is emotional — you can negotiate with anger. Discipline is strategic — they have calculated that economic pressure will achieve what diplomatic pressure could not. They want the Orythian alignment reversed. They will not say this publicly because saying it would acknowledge that their sanctions are politically motivated rather than regulatory, which would undermine their legal position at the Forum. What they will say is that Veltrian trade compliance must be improved, and they will keep saying it while the compliance requirements shift every time we get close to meeting them. This is not a trade dispute. It is a siege."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The Arcturians are using the same playbook Kolvar used in Week One: make the government bleed through a thousand small cuts, each one defensible on its own terms, the pattern only visible when you step back and see the blood. The difference is that Kolvar was operating inside our political system and the Arcturians are outside it, which means I have fewer tools and a much less sympathetic audience. The textile workers who lost their jobs when the Stellamere shipment was turned away do not care about geopolitical alignment. They care about wages. I need to give them an answer that keeps food on their tables while I figure out how to keep the Arcturians from starving the country into submission."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "arcturian_sanctions_alternative_markets",
+      "text": "\"If the Arcturians won't trade with us, we find others who will. Vostane, I want trade missions to the neutral states — Stellamere, the coastal republics, the southern confederation. Negotiate bilateral agreements that replace Arcturian market access. Vael, you know the commercial landscape better than anyone in this room. Tell me which countries will deal with us despite Arcturian pressure and how quickly we can get agreements in place.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 4  },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 2  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 4 }
+      ],
+      "flags": ["alternative_markets_sought", "trade_diversification", "arcuturian_pressure_bypassed"],
+      "codexUnlocks": ["codex_veltrian_trade_diplomacy"]
+    },
+    {
+      "id": "arcturian_sanctions_negotiate_relief",
+      "text": "\"Vael, I want you to open a back-channel to the Arcturian trade ministry. Not the foreign ministry — the trade professionals who understand that economic warfare creates long-term resentment in markets they will eventually want to sell to again. The message: we are willing to discuss modifications to our Orythian arrangements that address legitimate Arcturian security concerns without abandoning the alliance. Find out what 'modifications' actually means to them and whether there is a deal beneath the posturing.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 2  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 6  },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 4  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_cooldown", "delayWeeks": 3 }
+      ],
+      "flags": ["arcturian_backchannel_opened", "sanctions_relief_sought", "diplomatic_offramp_explored"],
+      "codexUnlocks": ["codex_arcturian_trade_relations"]
+    },
+    {
+      "id": "arcturian_sanctions_deepen_orythian",
+      "text": "\"The Arcturians have made their choice — they are treating us as an economic target because we aligned with Orythia. The response to a siege is not negotiation with the besiegers. It is deepening the alliance that the siege was meant to break. I want accelerated Orythian trade integration — preferential access to Orythian markets, joint investment in Veltrian industries, economic co-development. The Arcturians are trying to isolate us. We become harder to isolate if we are embedded in an economic bloc that is larger than their sanctions.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -2 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -8 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -2 },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_privatization_pressure", "delayWeeks": 2 }
+      ],
+      "flags": ["orythian_integration_deepened", "arcturian_siege_accepted", "bloc_economics_pursued"],
+      "codexUnlocks": ["codex_orythian_trade_bloc"]
+    }
+  ]
+}

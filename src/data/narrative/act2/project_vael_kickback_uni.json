@@ -1,0 +1,46 @@
+{
+  "id": "project_vael_kickback_uni",
+  "title": "A Private Conversation",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Vael Estates — Private Study",
+  "characters": ["lucan_vael"],
+  "prerequisites": [{ "stat": "flags.contractor_uni_vael", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Vael thanks you for the university contract. His tone suggests he is thanking you for more than just a construction project." },
+    { "type": "dialogue", "character": "lucan_vael", "text": "The university expansion is a noble project. Education is the future. I would like to personally contribute to your household's education fund — 2,500 VK, discreetly transferred. Think of it as a scholarship. For your children." }
+  ],
+  "monologue": "He called it a scholarship. For the children. He knows exactly where to aim — not at my ambition, which is armored, but at the one thing every parent fears: not doing enough. Clever. And revolting. And still — the money would mean something for Tomas and Liora. That is why he put it there.",
+  "choices": [
+    {
+      "id": "kickback_uni_accept",
+      "text": "\"...Thank you, Vael.\" (Accept.)",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": 2500 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -15 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 12 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kickback_accepted_uni", "corruption_vael_uni"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "lucan_vael", "type": "action", "text": "He makes a note — scholarship fund, 2,500 — and closes the ledger. He does not look at you. The transaction is already categorized in his mind." }]
+    },
+    {
+      "id": "kickback_uni_refuse",
+      "text": "\"My children's education is not for sale, Vael. Build the university. That is your contribution.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kickback_refused_uni"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "lucan_vael", "type": "silence", "text": "He looks at you — the long look of a man who aimed at the children and missed. The silence is the sound of Lucan Vael recalibrating." }]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "agenda_w21_superpower_choice",
+    "title": "Two Delegations, One Week",
+    "description": "Both the Stellamere and Orythian delegations have formally requested meetings this week. Vyktor's read is unambiguous: visiting both capitals within a month makes both offers worse. One door opens. The other stays closed — perhaps permanently.",
+    "category": "diplomacy",
+    "sceneId": "act2_week21_superpower_choice",
+    "slotCost": 1,
+    "executionOrder": 0,
+    "weekAvailable": 21,
+    "weekDeadline": 24
+  },
+  {
+    "id": "agenda_w21_visit_stellamere",
+    "title": "Visit Stellamere — Federal Hall",
+    "description": "Ambassador Cole has offered a tour of Federal Hall and a meeting with the Arcturian Trade Commission. The offer includes a joint statement on 'democratic governance and economic partnership.' The Arcturians are selling stability.",
+    "category": "diplomacy",
+    "sceneId": "act2_week21_visit_stellamere",
+    "slotCost": 2,
+    "executionOrder": 1,
+    "weekAvailable": 21,
+    "weekDeadline": 25,
+    "prerequisites": [
+      { "stat": "flags.chose_arcturian", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w21_visit_petravar",
+    "title": "Visit Petravar — Ministry of Fraternal Relations",
+    "description": "Commissar Stahl greets inside — security over salesmanship. The offer is 'fraternal solidarity': military coordination, resource guarantees, ideological partnership. The Orythians are selling protection.",
+    "category": "diplomacy",
+    "sceneId": "act2_week21_visit_petravar",
+    "slotCost": 2,
+    "executionOrder": 1,
+    "weekAvailable": 21,
+    "weekDeadline": 25,
+    "prerequisites": [
+      { "stat": "flags.chose_orythian", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w21_constitution",
+    "title": "Constitutional Draft — Final Language",
+    "description": "With the foreign alignment decision crystallizing, the constitutional language on international treaties and military alliances takes on new weight. The draft's foreign relations article needs final review.",
+    "category": "cabinet",
+    "sceneId": "__constitution__",
+    "slotCost": 2,
+    "executionOrder": 2,
+    "weekAvailable": 21,
+    "weekDeadline": 26
+  },
+  {
+    "id": "agenda_w21_budget",
+    "title": "Budget Allocation — Foreign Alignment Impact",
+    "description": "Whichever superpower you align with, the budget will need restructuring. Arcturian alignment means trade liberalization. Orythian alignment means military investment. Both have price tags.",
+    "category": "finance",
+    "sceneId": "__budget__",
+    "slotCost": 2,
+    "executionOrder": 3,
+    "weekAvailable": 21,
+    "weekDeadline": 26
+  },
+  {
+    "id": "agenda_w21_press_strategy",
+    "title": "Nadia Voss — Interview Response",
+    "description": "Voss is waiting for an answer on her records request. The fourteen-day clock is running. She's also requested an interview — on the record, no publication conditions. Vyktor says ignoring her is the one strategy guaranteed to backfire.",
+    "category": "security",
+    "sceneId": "act2_week22_nadia_investigation",
+    "slotCost": 1,
+    "executionOrder": 4,
+    "weekAvailable": 21,
+    "weekDeadline": 26
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "id": "letter_response_vukov",
+  "title": "A Reply from Tyvaren",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "diplomacy",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Foreign Affairs — Secure Communications Room",
+  "characters": ["vyktor_reznik", "irina_dusek"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "The reply from Tyvaren arrives via diplomatic courier — an actual courier, a young woman in a Tyvaren military uniform who hands the envelope to Vyktor personally and waits for a response. Vukov has replied in his own hand. The letter is terse, soldierly, but not dismissive." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "Marshal Vukov writes: 'Chancellor. Your letter reached my desk. Soldiers do not write letters — they write orders. But you are not a soldier, and this is not a war. Not yet. I will meet you. One meeting. No staff, no minutes, no press. If you are genuine, we may find a path that does not lead through the Gravenmark Pass. If you are not, it will be the last meeting between our nations before the guns begin.'" },
+    { "type": "dialogue", "character": "irina_dusek", "text": "He is agreeing to talk. That is more than I expected from Vukov — he is not known for diplomacy. Either your letter was exceptionally well-written, or his generals are less enthusiastic about this war than their public statements suggest. Either way, we have a window. A narrow one." }
+  ],
+  "choices": [
+    { "id": "letter_vukov_response", "text": "\"A meeting. One meeting. That is all I asked for. Dusek, prepare a full intelligence briefing — I need to know everything about Vukov before I sit across from him. Vyktor, send my acceptance. We have a chance to prevent this war. Let us not waste it.\"", "internalTag": "pragmatist", "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 8 }, { "stat": "factions.ironCovenant", "operation": "add", "value": -5 }], "chainTriggers": [{ "targetNodeId": "act3_tyvaren_backchannel_meeting", "delayWeeks": 2 }], "flags": ["letter_vukov_replied", "tyvaren_backchannel_open"], "codexUnlocks": [] }
+  ]
+}

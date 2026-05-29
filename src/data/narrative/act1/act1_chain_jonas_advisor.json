@@ -1,0 +1,117 @@
+{
+  "id": "act1_chain_jonas_advisor",
+  "title": "The Architect at the Table",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Study",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Jonas appears in the doorway of your study at ten in the evening with two glasses of wine and a folder of his own. The folder is thick — thicker than you expected. He has been working on this. He has been waiting to show you."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "I've been going through the housing plans for the Kravenstal redevelopment. The ones the ministry sent over. They're wrong, Katerin. Not just inadequate — wrong. They're designed for the city as it was in 1954, before the last steel mill expansion, before the population shifted east. The proposed site for the new housing block is three kilometers from where the workers actually live. It's cheaper land — that's why the ministry picked it. But it means the people who move there will spend two hours a day commuting on buses that don't run on schedule. The savings in construction costs will be lost in transportation costs within three years. I can show you the numbers."
+    },
+    {
+      "type": "description",
+      "text": "He spreads blueprints across your desk — your desk, the Chancellor's desk, the one that has held war plans and budget projections and intelligence briefings. Now it holds architectural drawings annotated in Jonas's precise, angled handwriting. He is not asking permission. He is doing what you asked him to do: bringing the ground-level truth to the palace-level planning."
+    },
+    {
+      "type": "internal_thought",
+      "text": "This is what I wanted when I told him to bring me his numbers. Not a husband supporting his wife's career. A partner bringing expertise I do not have to decisions I cannot make alone. The ministry will be offended — an architect telling them how to site housing is exactly the kind of expertise-overlap that bureaucracies resent. But he is right about the bus routes. He is right about the costs. The man I married is in this room, doing what he does best, and for the first time in weeks I am not choosing between being Chancellor and being his wife. I am being both."
+    }
+  ],
+
+  "monologue": "He has been waiting to show me this — not the housing plans, the fact that he can still be useful. He's been watching me govern from outside the room for weeks, wondering where he fits. The ministry will object to an architect reviewing their site plans. They'll be wrong. He knows things they don't — not about policy, about people. About what happens when you put a housing block three kilometers from where the residents actually live.",
+
+  "choices": [
+    {
+      "id": "jonas_advisor_embrace",
+      "text": "\"Show me everything. I'll call Vostane in the morning and tell her the housing plan needs revision based on your analysis. If the ministry objects, they can object to me. You're not just my husband anymore. You're an advisor. Not officially — I can't appoint you without making you a target. But functionally. Whenever the numbers touch people's actual lives, I want your eyes on them first.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 14  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 6   },
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 2   },
+        { "stat": "factions.reformists",         "operation": "add", "value": 3   }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_advisor_role", "jonas_chain_resolved"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "action",
+          "text": "He sets down the blueprints and picks up his wine glass. The glass has been on the desk for an hour, untouched. He drinks now. The wine is room temperature and he does not seem to notice."
+        },
+        {
+          "character": "jonas_ashavel",
+          "type": "dialogue",
+          "text": "An advisor. Not officially, but functionally. I can work with that. I've been an architect for twenty-two years — I know how to build things that people don't notice until they need them. That's what this is. Good."
+        }
+      ]
+    },
+    {
+      "id": "jonas_advisor_cautious",
+      "text": "\"This is good work. Really good. Let me take it to Vostane without mentioning it came from you. If the ministry knows the Chancellor's husband is reviewing their plans, it becomes a political problem instead of a technical one. I'll present your analysis as an independent review. The ideas get through. You stay protected. Is that acceptable?\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 6   },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 2   },
+        { "stat": "nation.economyHealth",        "operation": "add", "value": 3   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 2   }
+      ],
+      "chainTriggers": [],
+      "flags": ["jonas_backchannel_advisor", "jonas_chain_resolved"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "silence",
+          "text": "He considers this. His work, presented under someone else's name. The ideas survive. He does not. The silence measures the difference between being right and being recognized — and finds it smaller than he feared."
+        },
+        {
+          "character": "jonas_ashavel",
+          "type": "dialogue",
+          "text": "Present it as an independent review. I understand. The ministry gets the analysis. You get the political cover. I get to keep doing what I'm good at without becoming a target. That's... more than I had this morning. Accepted."
+        }
+      ]
+    },
+    {
+      "id": "jonas_advisor_separate",
+      "text": "\"Jonas. I love you. Your analysis is sharper than half my ministry, and I mean that. But if I make you a political actor — even unofficially — I make you a target, and I make our marriage a governance question. What we have is the only thing in my life that isn't the Republic's business. I need to keep it that way. Tell me your findings tonight, as my husband. Tomorrow I call Vostane myself and the numbers arrive without your name on them.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth",     "operation": "add", "value": 10  },
+        { "stat": "personal.moralCompass",       "operation": "add", "value": 3   },
+        { "stat": "personal.publicImage",        "operation": "add", "value": 2   },
+        { "stat": "nation.economyHealth",        "operation": "add", "value": -1  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act2_week23_family_crisis_jonas", "delayWeeks": 14 }
+      ],
+      "flags": ["jonas_boundary_set", "jonas_political_distance", "jonas_chain_resolved"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "jonas_ashavel",
+          "type": "action",
+          "text": "He sets down his wine. Not angry. He is thinking — the particular thinking of a man who has just been told that his expertise is valued and his name is a liability, and that both things can be true at once."
+        },
+        {
+          "character": "jonas_ashavel",
+          "type": "dialogue",
+          "text": "Tell me your findings tonight. The numbers arrive without my name. That's... protection, not rejection. I understand the difference. So tonight, as your husband: the bus routes are wrong and the site selection will cost more than the ministry admits. Tomorrow, as Chancellor, you fix it. And I am nowhere in the record."
+        }
+      ]
+    }
+  ]
+}

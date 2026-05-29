@@ -1,0 +1,92 @@
+{
+  "id": "act3_arcturian_privatization_pressure",
+  "title": "The Price of Alliance",
+  "act": 3,
+  "weekAvailable": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, 16:00",
+  "characters": ["elara_vostane", "gregor_maric"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Orythian trade integration agreement arrives in a leather-bound folder that Vostane places on your desk with the careful formality of someone who knows the document inside is going to start a fight and wants you to understand that she is on the document's side. The agreement's economic annex is eighty-seven pages. Its political implications are roughly two sentences: Orythian market access and investment capital in exchange for privatization of state-owned industries, deregulation of protected sectors, and opening of Veltrian markets to Orythian corporations. The price of alliance has a number attached to it now."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The Orythian position is straightforward: they are providing military protection and economic integration, and they expect economic liberalization in return. The specific requirements include privatization of the state steel consortium, deregulation of the energy sector, and elimination of import restrictions on Orythian manufactured goods. These are not unreasonable conditions. The state steel consortium lost fourteen million marks last year. The energy sector is running on infrastructure installed during the Halvek administration. The import restrictions protect industries that are not competitive internationally. We are being asked to stop subsidizing failure in exchange for investment in growth. That is a trade I would make regardless of the alliance."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "With respect, Minister Vostane, that is the trade that every developing country has been offered by every major power for the last century, and it has produced exactly the same result everywhere it has been tried: domestic industries destroyed, strategic assets owned by foreign corporations, and an economy that is 'efficient' because it has been redesigned to serve external interests rather than national needs. The state steel consortium loses money because it is required to supply the military at below-market rates. The energy infrastructure is outdated because it was stripped for parts by Halvek's cronies, not because public ownership is inherently inefficient. And the import restrictions exist because without them, fifteen thousand Veltrian manufacturing workers lose their jobs to Orythian factories that pay lower wages and face no environmental regulation. This is not an integration agreement. It is a sellout."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Marić and Vostane are arguing about economics, but the real argument is about what kind of country Veltria becomes after the war. Vostane sees a modern, efficient, internationally integrated economy. Marić sees a country whose strategic industries are owned by foreign capital and whose workers are priced out of their own markets. Both of them are right about parts of the picture and wrong about others. The Orythians are not offering charity — they are offering a transaction, and the terms of the transaction will shape the Veltrian economy for a generation. I have to decide whether I can negotiate better terms, accept the framework as offered, or risk the alliance by rejecting the terms entirely. None of these choices are cost-free. All of them will define what 'winning the war' actually means."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "privatization_accept",
+      "text": "\"Accept the privatization framework. The state steel consortium, the energy sector, the import restrictions — all of it on the table. Marić, I understand your concerns and I am directing you to negotiate the implementation timeline to protect workers: retraining programs, severance packages, transition periods. But the strategic direction is settled. Veltria cannot fight a modern war with an economy designed in the Halvek era. We modernize or we lose. The workers do not get protected by protecting industries that cannot compete. They get protected by building an economy that creates better jobs than the ones we are leaving behind.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 6  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": -10 },
+        { "stat": "factions.reformists",           "operation": "add", "value": -4 },
+        { "stat": "nation.inflation",              "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_crisis", "delayWeeks": 4 }
+      ],
+      "flags": ["privatization_accepted", "state_industries_sold", "orythian_terms_met"],
+      "codexUnlocks": ["codex_veltrian_privatization"]
+    },
+    {
+      "id": "privatization_negotiate_timeline",
+      "text": "\"The framework is acceptable in principle. The timeline is not. Marić, you and Vostane will negotiate a gradual implementation: state steel transitions over five years with worker ownership provisions, energy sector opens to joint ventures rather than full privatization, import restrictions phase out over three years with domestic industry support programs. The Orythians get their liberalization. Veltrian workers get a transition they can survive. If the Orythians are genuine partners, they will accept that partnership means both sides get something. If they want a fire sale, they can find another country to buy.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 4  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": 4  },
+        { "stat": "factions.reformists",           "operation": "add", "value": 8  },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": 2  },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 6  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_week28_economic_healthy", "delayWeeks": 5 }
+      ],
+      "flags": ["privatization_negotiated", "gradual_timeline", "worker_protections_included"],
+      "codexUnlocks": ["codex_veltrian_economic_transition"]
+    },
+    {
+      "id": "privatization_reject",
+      "text": "\"I will not sell Veltrian strategic industries to foreign corporations in exchange for military protection — that is not an alliance, it is a protection racket. The Orythian military partnership stands, but the economic annex is rejected. Marić, I want a domestic industrial modernization plan on my desk within thirty days — publicly funded, publicly owned, publicly accountable. If the Orythians threaten to withdraw support because we will not sell them our steel industry, let them explain to their own parliament why they abandoned an ally for refusing to become a subsidiary. We are not for sale.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 14 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": 8  },
+        { "stat": "factions.businessClass",        "operation": "add", "value": -10 },
+        { "stat": "nation.economyHealth",          "operation": "add", "value": -4 },
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_arcturian_cooldown", "delayWeeks": 4 }
+      ],
+      "flags": ["privatization_rejected", "economic_sovereignty_asserted", "orythian_pressure_resisted"],
+      "codexUnlocks": ["codex_veltrian_industrial_sovereignty"]
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "id": "act1_week1_vyktor_briefing",
+  "title": "The Ledger",
+  "act": 1,
+  "weekAvailable": 1,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The study smells of old wood and someone else's cigarettes. The previous Chancellor left in a hurry — there are still framed photographs on the wall, faces you don't recognize, men who ran this country for twenty-six years without asking permission. You have not taken them down yet. You're not sure why."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor Reznik arrives at 6:47 AM, exactly when he said he would. He carries a binder thick enough to stop a bullet. He does not congratulate you. He sets the binder on the desk and opens it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Campaign intelligence understated the debt. Real figure is 340 million Krone. That is 16 percent of GDP. Interest payments alone consume 75 million a year. We're spending 65 million more than we take in."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Unemployment is 19 percent. Higher in Kravenstal and Sevagrad. Inflation is rising — 9 percent and accelerating. The Halvek regime cooked the books for the last three years. What was reported publicly was fiction."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I knew it was bad. Everyone knew it was bad. But there is a difference between knowing a number and sitting across from a man who reads it aloud with the affect of someone announcing the weather."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There's more. The military budget is overextended. Infrastructure maintenance has been deferred for 11 years. The BNI payroll alone is 20 million annually, for a service that officially doesn't exist. Can give you the full breakdown. Or can tell you what I think you need to hear first."
+    },
+    {
+      "type": "description",
+      "text": "He waits. He is very good at waiting."
+    }
+  ],
+
+  "monologue": "The previous Chancellor left photographs on the wall. Faces I don't recognize. I haven't taken them down yet. Not sure why. Vyktor reads the numbers with the affect of someone announcing the weather: 340 million in debt, 19 percent unemployment, a deficit of 65 million a year. I knew it was bad. Everyone knew. But there is a difference between knowing a number and sitting across from a man who reads it aloud while the previous Chancellor's photographs watch from the wall.",
+
+  "choices": [
+    {
+      "id": "demand_full_picture",
+      "text": "\"Give me everything. All of it. I need to understand the full shape of this before I make a single decision.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom",    "operation": "add", "value": 4  },
+        { "stat": "nation.corruption",       "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",     "operation": "add", "value": 5  },
+        { "stat": "personal.publicImage",    "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",   "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [],
+      "flags": ["vyktor_briefing_done", "briefing_approach_full"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Everything. Understood."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He turns the page. The motion is precise — a single page, but behind it are three hundred more. He begins reading aloud. He does not stop for three hours."
+        }
+      ]
+    },
+    {
+      "id": "focus_on_debt",
+      "text": "\"The deficit is the ceiling. Everything else is secondary until we have a plan to stop the bleeding. Walk me through the revenue options.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.economyHealth",    "operation": "add", "value": 3  },
+        { "stat": "factions.businessClass",  "operation": "add", "value": 5  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -3 },
+        { "stat": "personal.publicImage",    "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",   "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["vyktor_briefing_done", "briefing_approach_fiscal"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Revenue options. Three primary, two secondary. I will present by end of day."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He flips to a different tab in the binder — a section apparently already prepared for this exact question. He slides a single sheet across the desk. It is a list of every tax lever available to the government, ranked by political cost."
+        }
+      ]
+    },
+    {
+      "id": "take_a_moment",
+      "text": "\"Give me a moment.\" You stand, move to the window. The city is still mostly dark. \"Tell me what Halvek would have done in week one. I want to know what I'm inheriting before I decide what to burn.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "factions.halvekists",     "operation": "add", "value": -3 },
+        { "stat": "factions.reformists",     "operation": "add", "value": -2 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 3  },
+        { "stat": "personal.moralCompass",   "operation": "add", "value": 8  },
+        { "stat": "personal.publicImage",    "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["vyktor_briefing_done", "briefing_approach_legacy"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not answer immediately. The question was not procedural. He is deciding whether the answer is safe to give."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Halvek would have called Oskar Brenner. Asked for a loyalty assessment of the general staff. Then cut the deficit by reducing the food subsidy. Then held a press conference praising the military. Three moves. Two of them are still viable."
+        }
+      ]
+    }
+  ]
+}

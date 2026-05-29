@@ -1,0 +1,44 @@
+{
+  "id": "act3_jonas_kolvar_warning",
+  "title": "Kolvar's Advice",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 36,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Drazen Kolvar's Parliamentary Office",
+  "characters": ["drazen_kolvar"],
+  "prerequisites": [{ "stat": "flags.jonas_public_voice", "operator": "==", "value": true }],
+  "narrative": [
+    { "type": "description", "text": "Kolvar has summoned you — not requested a meeting, summoned — to his parliamentary office. His manner is unusually direct. He does not offer whiskey. He gestures to the chair across from his desk and gets to the point before you have finished sitting." },
+    { "type": "dialogue", "character": "drazen_kolvar", "text": "Chancellor. I am going to give you advice that you will not want to hear and will probably not take. But I will give it anyway because I have been in politics longer than you have been alive and I have seen this particular disaster before. Your husband is becoming a problem. Not for me — for you. Every time Jonas Ashavel gives a speech about workers' housing or refugee camps, the opposition gains ammunition. Every time he takes a position different from your government's, we exploit it. Every time he positions himself as 'independent' of you, the public sees a divided household and wonders if the government is divided too. Control your household, Chancellor. The First Gentleman's statements are undermining stability. I am not threatening. I am describing." }
+  ],
+  "choices": [
+    {
+      "id": "kolvar_jonas_defy",
+      "text": "\"Kolvar, my husband is not a political asset to be managed. He is a human being with his own beliefs and his own voice. If the Halvekists want to attack me through my family, do it. It will reveal more about you than about me. And it will not work — because the people of Veltria know the difference between a man who speaks from conviction and a politician who speaks from calculation.\"",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kolvar_jonas_defied"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "kolvar_jonas_acknowledge",
+      "text": "\"You are not wrong. Jonas's independence creates complications. But those complications are the price of having a marriage where both people are free. I will not silence him. I will not 'control' him. I will manage the political cost — because that is my job. His job is to be honest. I need both of us to do our jobs.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 3 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["kolvar_jonas_acknowledged"],
+      "codexUnlocks": []
+    }
+  ]
+}

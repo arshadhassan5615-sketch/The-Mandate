@@ -1,0 +1,156 @@
+{
+  "id": "act2_week24_brenner_warning",
+  "title": "Professional Advice",
+  "act": 2,
+  "weekAvailable": 24,
+  "weekDeadline": 26,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ministry of Defense — General Staff Wing, Private Office",
+  "characters": ["general_brenner", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "General Oskar Brenner has been in this office for eleven years. His predecessor decorated it with campaign maps and unit photographs. Brenner stripped all of that when he took the post and replaced it with nothing. The walls are bare institutional grey. The desk is clear except for a single open folder. There is no indication that a person works here, which you have come to understand is itself the indication."
+    },
+    {
+      "type": "description",
+      "text": "He rises when you enter and gestures to the chair across from his desk with the precise economy of a man who has been performing these courtesies for thirty years and has never made them warm. Vyktor takes the chair by the door. Brenner does not acknowledge Vyktor's presence, which is its own form of acknowledgment."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "Chancellor. Thank you for making time. I wanted to speak with you directly rather than through the usual channels. I have found, over the years, that certain conversations benefit from directness."
+    },
+    {
+      "type": "description",
+      "text": "Before responding, a detail catches your attention. On Brenner's desk, among the operational maps, is a diplomatic cable with the Tyvaren embassy seal. You cannot read the text from where you sit, but you can see it is dated yesterday and marked urgent. Brenner has not mentioned it. He sees you looking and casually places a folder on top of it. 'The Tyvaren ambassador sent a note,' he says, answering the question you did not ask. 'He congratulated us on our negotiating position regarding the Gravenmark Pass — a position we have not yet presented.' His tone is flat, professional, and deliberately uninformative."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I want to begin by saying that the military's commitment to this constitutional process is sincere. I voted in the election. My staff voted. We understand that the democratic mandate is real and that the role of the military in a republic is to defend the state, not to govern it. I want to be clear that I am speaking from that understanding."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is telling you that he is not a coup plotter. He is saying this so clearly and so first that you understand immediately that what follows will require the disclaimer."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "There are elements within the officer corps who are concerned about the constitutional revision. This is not a surprise to you, I imagine. The specific concerns center on the emergency powers provisions and the proposal to constitutionally subordinate the military chain of command to parliamentary oversight. These are institutional concerns, not political ones. Officers who served under difficult conditions have a particular relationship with the question of whether the executive can act quickly in a crisis."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "What I want to convey to you is that these concerns are real and that they are shared by a significant portion of the senior officer corps. I want to convey this because I believe you are a person who makes better decisions with complete information than with incomplete information, and because I believe that the period between now and the referendum represents an opportunity for some of those concerns to be addressed through the process rather than — in ways I cannot fully predict or control."
+    },
+    {
+      "type": "description",
+      "text": "He pauses. He is not a man who uses pauses for effect — he uses them because he has chosen his words with the precision of someone who has written orders that result in people moving or not moving, and who understands that imprecision costs lives. The pause is structural, not theatrical."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I would be very concerned, personally, if the referendum result were to produce a situation in which elements of the officer corps felt that the constitutional settlement had not adequately reflected the security requirements of the Republic. I would find such a situation very difficult to manage. The military is a disciplined institution. It responds to command. But command structures have stress tolerances, and when those tolerances are exceeded, outcomes become unpredictable in ways that serve no one's interests, including yours and mine."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He has said nothing. He has threatened a coup without using the word coup, without making any specific commitment, without providing any evidence of plans or conspirators. Everything he has said is deniable. Everything he has said is also completely clear. He is telling you that the military will tolerate a constitutional settlement that preserves its institutional prerogatives, and that it will not tolerate one that doesn't, and that the tolerance threshold is a line only he can see."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "I want to be of service to you in navigating this period, Chancellor. I believe we have aligned interests in a stable outcome. I am available for further conversations at your convenience."
+    },
+    {
+      "type": "description",
+      "text": "He closes the folder on his desk, which has been open the entire meeting but which you have not been close enough to read. He does it without looking at it. The motion is practiced. You have the sense that the folder may be empty."
+    }
+  ],
+
+  "monologue": "He did not say coup. He said 'stress tolerances' and 'outcomes become unpredictable.' The deniability is the point. If I repeat what he said in public, I sound paranoid. If I ignore it, I am negligent. He has positioned himself in the one place where both responses are wrong.",
+
+  "choices": [
+    {
+      "id": "brenner_signal_accommodation",
+      "text": "\"I hear your concerns about the emergency powers framework. I am willing to review the specific provisions that relate to military command authority before the vote. I am not committing to changes, but I am willing to look.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 14 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 6  },
+        { "stat": "factions.reformists",      "operation": "add", "value": -12 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["brenner_warning_received", "brenner_accommodation_signaled", "military_appeased"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "general_brenner", "type": "silence", "text": "He nods — the slow, deliberate nod of a man who has been given exactly what he wanted without having to ask for it explicitly. He closes the folder on his desk." }]
+    },
+    {
+      "id": "brenner_counter_warning",
+      "text": "\"I want to be direct in return, General. If any element of the military attempts to interfere with a democratic referendum, I will treat it as a coup attempt. The legal and political response to that will be severe. I don't believe you want that outcome any more than I do. I'm giving you the same respect you've given me by being clear.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -12 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 14 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 14 }
+      ],
+      "chainTriggers": [],
+      "flags": ["brenner_warning_received", "brenner_counter_warned", "military_confronted"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "general_brenner", "type": "silence", "text": "He looks at you for a long moment. His expression does not change — Brenner's expression never changes. He simply inclines his head. Understood, Chancellor. The silence is the sound of a general who has just been told that his threat has been identified and neutralized." }]
+    },
+    {
+      "id": "brenner_ask_for_names",
+      "text": "\"You've mentioned elements within the officer corps with concerns. I need those names, General. If there are officers who are considering action outside their constitutional mandate, that is a disciplinary matter that I need to address directly. I would appreciate your assistance in identifying them.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": -8  },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -4  },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6   },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -6  },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["brenner_warning_received", "brenner_names_demanded", "military_purge_threatened"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "general_brenner", "type": "silence", "text": "He does not respond immediately. He looks at the folder on his desk. Then he looks at you. I will provide what names I can, he says. The silence before the answer is the sound of a man deciding which names are expendable." }]
+    },
+    {
+      "id": "brenner_give_nothing",
+      "text": "\"Thank you for the counsel, General. I'll take it under advisement. I appreciate your commitment to the democratic process and your candor.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["brenner_warning_received", "brenner_deflected"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "general_brenner", "type": "silence", "text": "He inclines his head. The response is neither acceptance nor rejection. He has given you his warning. He does not need your answer today." }]
+    },
+    {
+      "id": "brenner_ask_about_ambassador",
+      "text": "\"General. How does the Tyvaren ambassador know our negotiating position before we have made it? And why is that cable on your desk but not in my briefing folder?\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -3 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_clue_3_found"],
+      "codexUnlocks": [],
+      "reactions": [{ "character": "general_brenner", "type": "silence", "text": "He looks at the Tyvaren cable on his desk — the one under the folder. His expression does not change. The ambassador sent a note, he repeats. He does not elaborate. The silence is the sound of a general who has been asked a question he was hoping not to answer." }]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "act3_tomas_jonas_bond",
+  "title": "The Weekend Project",
+  "act": 3,
+  "weekAvailable": 28,
+  "weekDeadline": 35,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Back Garden, Saturday Morning",
+  "characters": ["tomas_ashavel", "jonas_ashavel"],
+  "prerequisites": [
+    { "stat": "flags.jonas_handles_tomas", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Jonas decided to build a greenhouse. Not the political kind of decision — not the kind that goes through committees and budget reviews and Vyktor's notepad — but the actual kind, the kind where you go to the lumber yard on a Saturday morning and buy cedar planks and greenhouse plastic and come home with sawdust on your sleeves. He decided this three weeks ago, after the school conference, after the long conversation with Tomas that neither of them has described to you in detail. Some things between fathers and sons are private. You have learned to respect that privacy even when it chafes."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "Hand me the level. Not the short one — the long one with the yellow grip. Tomas, you're holding the frame crooked. If you hold the frame crooked, the whole east wall is going to lean, and by August the tomatoes are going to feel like they're growing on a ship in heavy weather."
+    },
+    {
+      "type": "description",
+      "text": "Tomas is holding the frame. He has been holding the frame for twenty minutes and his arms are tired and he has not complained once. Jonas is working with the particular focus of a man who has decided that the solution to a family crisis is a physical project that requires both hands and does not permit silence to become uncomfortable. The greenhouse frame is taking shape — cedar posts, crossbeams, a foundation of gravel that Tomas dug himself over two afternoons. The gravel is level. Jonas checked it three times."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "text": "Papa, why a greenhouse? We could have just planted in the ground. The soil here is fine — the gardener said so. You spent three hundred marks on cedar. You don't even like gardening. You killed the orchids Mama got you for your birthday."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "A greenhouse is a controlled environment. You control the temperature. You control the moisture. You protect the plants from wind and frost and whatever else the world decides to throw at them while they're trying to grow. Some things need protection to get started. That's not weakness — that's horticulture. And for the record, I didn't kill the orchids. They had a fungus. That's different."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is building a greenhouse because Tomas needs something to grow in a controlled environment, and the something is Tomas himself. The greenhouse is not about tomatoes. The greenhouse is about showing a fourteen-year-old boy that things can be built rather than destroyed, that care is a form of strength, that the world does not have to be the switching yard and the Ironborn Youth and the boys who have answers for everything because they have never asked a real question. Jonas has not said any of this. He is saying it with cedar planks and a level and the particular patience of a father who has decided that presence is a form of argument. You watch them from the kitchen window. You do not go outside. This one is theirs."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "tomas_jonas_support_from_distance",
+      "text": "Stay at the window. Let them have this. Bring out lemonade in an hour without saying anything about what you observed. The greenhouse is Jonas's project — his way of reaching Tomas in a language Tomas can hear. Your role is to protect the space they're building, not to enter it.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 14 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 12 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_family_anchored", "delayWeeks": 14 }
+      ],
+      "flags": ["tomas_jonas_greenhouse", "jonas_fatherhood_renewed", "family_quiet_healing"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_jonas_join_them",
+      "text": "Put on work clothes. Go outside. Pick up a hammer. You are not going to take over and you are not going to direct — you are going to be the third person on the project, following Jonas's instructions the way Tomas is following them. Show Tomas that leadership is also followership when someone else has the plan.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 12 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 16 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act4_family_healing", "delayWeeks": 10 }
+      ],
+      "flags": ["tomas_jonas_greenhouse", "family_project_together", "katerin_joined_building"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "tomas_jonas_talk_to_jonas_later",
+      "text": "Wait until tonight, after Tomas is asleep. Tell Jonas what you saw from the window. Tell him the greenhouse metaphor was not subtle and it was exactly right. He does not need to hear it — he knows what he's doing. But you need to say it, because acknowledging what he's done for your son is part of what you owe him after twenty-eight weeks of being less present than you promised.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 18 },
+        { "stat": "personal.tomasWellbeing", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 }
+      ],
+      "chainTriggers": [],
+      "flags": ["tomas_jonas_greenhouse", "jonas_appreciated_privately", "marriage_reinforced"],
+      "codexUnlocks": []
+    }
+  ]
+}

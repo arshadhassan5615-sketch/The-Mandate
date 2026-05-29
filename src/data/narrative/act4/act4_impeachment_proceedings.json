@@ -1,0 +1,86 @@
+{
+  "id": "act4_impeachment_proceedings",
+  "title": "Articles of Impeachment",
+  "act": 4,
+  "weekAvailable": 1,
+  "weekDeadline": 52,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "National Assembly Chamber — Ashenmere",
+  "characters": ["drazen_kolvar", "aldric_theron", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The National Assembly chamber is silent in a way it has never been silent before. The usual murmur of conversation, the rustling of papers, the whispered negotiations — all of it has stopped. Drazen Kolvar stands at the opposition podium reading from a document that is seventeen pages long. It is titled 'Articles of Impeachment Against Chancellor Katerin Ashavel.' It lists every corruption allegation that has become public. It names witnesses. It cites evidence. It has been prepared with the meticulous care of a man who has been waiting for this moment since the day you took office."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Article One: That the Chancellor, while holding the highest office of the Republic, knowingly and deliberately used her position to enrich herself through investments in companies whose profitability depended on government decisions over which she held direct authority. Article Two: That the Chancellor accepted financial entanglement with individuals and entities — specifically Margrave Lucan Vael and his associated enterprises — that created conflicts of interest between her personal financial interests and her duties to the Republic. Article Three: That the Chancellor concealed these financial relationships through offshore instruments, shell companies, and nominee arrangements, thereby obstructing the transparency to which the people of Veltria are entitled. The evidence for each article has been provided to all members. The Assembly will now vote on whether to proceed to a full impeachment trial."
+    },
+    {
+      "type": "description",
+      "text": "Aldric Theron rises from your side of the chamber. His face is ashen — the face of a man who spent thirty years arguing that the Halvek Constitution should be replaced by one that enables democratic accountability, and who is now watching accountability arrive for the Chancellor he serves."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Members of the Assembly. I have served this body for thirty-two years. I have taught constitutional law to students who now sit in this chamber. I say this not to claim authority but to acknowledge my own failure. I argued that the Halvek Constitution was designed to prevent accountability. Now we have a Chancellor who — whatever her financial decisions, whatever their wisdom or lack thereof — is being held accountable under the system we built. The question before us is not whether she made mistakes. The question is whether those mistakes rise to the level of removal from office — and whether the removal of a democratically elected Chancellor, on the evidence presented, serves the Republic or harms it. I do not know the answer. I know only that we must find it honestly."
+    },
+    {
+      "type": "internal_thought",
+      "text": "They have the evidence. They have the witnesses. They have Kolvar's meticulous preparation and Theron's reluctant honesty and eighteen months of investigative journalism and BCA reports that led here. I could fight — spend my personal wealth on legal defense, challenge every article, demand higher standards of proof. I could resign — walk away, spare the country a trial, let the Assembly elect a successor and let history judge me in its own time. I could declare an emergency — use the powers the Halvek Constitution still grants me to suspend the proceedings, dissolve the Assembly, and govern by decree. Each option has a cost. Each option changes what kind of Chancellor I am — and what kind of country Veltria becomes."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "impeachment_fight",
+      "text": "\"I will fight this. Every article. Every allegation. Every piece of evidence. I am entitled to a full defense, and I will mount one. My personal finances are mine to manage — and investing in Veltrian industry, in Veltrian ports, in Veltrian funds, is not corruption. It is faith in the country I govern. I have not used inside information to trade currency. I have not sold policy decisions for personal gain. I have not obstructed any investigation. Members of the Assembly, you may not like that your Chancellor is also a person with a family and a portfolio and a future to plan for — but being a person is not a crime. Vote your conscience. I will accept the outcome. But I will not be removed without a fight.\"",
+      "internalTag": "defiant",
+      "stateChanges": [
+        { "stat": "personal.personalWealth",      "operation": "add", "value": -8000 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -5  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -3  },
+        { "stat": "factions.reformists",          "operation": "add", "value": -5  },
+        { "stat": "factions.halvekists",          "operation": "add", "value": 5   }
+      ],
+      "flags": ["impeachment_fought", "impeachment_resolved", "impeachment_triggered"],
+      "codexUnlocks": ["codex_impeachment"]
+    },
+    {
+      "id": "impeachment_resign",
+      "text": "\"Members of the Assembly. Before you vote — I am resigning the office of Chancellor of the Republic of Veltria, effective immediately. I will not put this country through an impeachment trial. I will not spend my family's savings on legal defense. I will not use emergency powers to protect myself from the consequences of my own decisions. I made choices that I believed were defensible. The Assembly has concluded they were not. Rather than prolonging a process that would divide the country and paralyze the government at a moment when it cannot afford paralysis, I am stepping aside. The Assembly will elect a successor according to the constitutional process. I will return to private life. I will answer whatever legal charges follow. And I will live with the knowledge that the Chancellorship I fought to win, I could not keep — because I forgot that the appearance of integrity matters as much as integrity itself.\"",
+      "internalTag": "accepting",
+      "stateChanges": [
+        { "stat": "personal.publicImage",         "operation": "add", "value": 5   },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 10  },
+        { "stat": "factions.reformists",          "operation": "add", "value": 3   },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -5  }
+      ],
+      "flags": ["impeachment_resigned", "chancellor_resigned", "game_ending_resignation", "impeachment_resolved", "impeachment_triggered"],
+      "codexUnlocks": ["codex_impeachment"]
+    },
+    {
+      "id": "impeachment_emergency",
+      "text": "\"Members of the Assembly. Article 22 of the Constitution of the Republic of Veltria grants the Chancellor the authority to declare a state of emergency when the Republic faces an existential threat. The impeachment of a democratically elected Chancellor — on evidence that is contested, by a process that is being abused by the Halvekist opposition to achieve through legal maneuvering what they could not achieve through elections — constitutes such a threat. I am declaring a state of emergency. The impeachment proceedings are suspended. The Assembly is dissolved pending new elections. Until those elections are held, I will govern by decree. This is not what I wanted. It is what the moment requires. The Halvek Constitution I have spent three years trying to reform now protects me from the very accountability I sought to create. The irony is not lost on me. It should not be lost on you.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant",        "operation": "add", "value": 15  },
+        { "stat": "factions.reformists",          "operation": "add", "value": -15 },
+        { "stat": "factions.halvekists",          "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -15 },
+        { "stat": "nation.publicOrder",           "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -20 },
+        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 20  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -10 }
+      ],
+      "flags": ["emergency_declared", "assembly_dissolved", "governing_by_decree", "impeachment_blocked", "constitutional_crisis", "impeachment_resolved", "impeachment_triggered"],
+      "codexUnlocks": ["codex_impeachment", "codex_article_22_emergency"]
+    }
+  ]
+}

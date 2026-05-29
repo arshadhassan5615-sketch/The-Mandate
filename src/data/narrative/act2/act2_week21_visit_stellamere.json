@@ -1,0 +1,172 @@
+{
+  "id": "act2_week21_visit_stellamere",
+  "title": "The Federal Hall",
+  "act": 2,
+  "weekAvailable": 21,
+  "weekDeadline": 26,
+  "type": "diplomacy",
+  "agendaCost": 2,
+  "isMandatory": false,
+  "location": "Federal Hall — Stellamere, Arcturian Commonwealth",
+  "characters": ["harrison_cole", "vyktor_reznik"],
+
+  "prerequisites": [
+    { "stat": "flags.superpower_choice_arcturian", "operator": "==", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Stellamere is everything Ashenmere is not. Where Ashenmere is a city of nineteenth-century stone and carefully maintained imperial ambition, Stellamere is glass and deliberate modernism — a capital that rebuilt itself after the war of 1943 and decided that the rebuild would announce something about what kind of country the Commonwealth intended to be. The Federal Hall rises forty stories above the Mercian Bay, its curtain walls catching the afternoon light. The Veltrian flag has been hung beside the Arcturian one at the main entrance, which is a gesture whose cost is approximately zero and whose diplomatic value Cole's team would have calculated precisely."
+    },
+    {
+      "type": "description",
+      "text": "Cole meets you at the entrance rather than inside. This is calculated: it puts him in the photographs at your side, equal, welcoming. He is in a dark suit with the Arcturian Federal seal on his lapel pin, and he extends his hand with a warmth that is either genuine or a performance indistinguishable from genuine, which at this level is functionally the same thing."
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "Chancellor. Welcome to Stellamere. I know the flight is not short. Thank you for making it. Before we get into the formal sessions, I want to show you something — if you'll indulge me a ten-minute detour."
+    },
+    {
+      "type": "description",
+      "text": "The detour is to a viewing gallery on the thirty-eighth floor, which overlooks the Mercian Bay and the arc of the city below it. Cole is quiet for a moment, which is its own kind of statement — a man letting a room make the argument for him."
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "In 1946, this was rubble. The entire eastern harbor district. Orythian bombing in the last weeks of the war — they were losing and they knew it, and they bombed civilian infrastructure because it was the only thing left they could do that hurt. Sixty thousand people without housing. The economy in free-fall. Does this sound familiar?"
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "The Commonwealth rebuilt through the Aldrath Plan — foreign investment, open markets, a security framework that meant we didn't have to spend our reconstruction money on guns. Eighteen years later: full employment, the highest per-capita income in Asturien, a defense capacity that Tyvaren respects because it's not ours alone. I'm not telling you this is the only path. I'm telling you it's one that worked, in a country that looked like yours does right now, and that the offer we're making is rooted in the belief that it can work again."
+    },
+    {
+      "type": "internal_thought",
+      "text": "He is telling you a true story about his country in a way that is designed to produce a specific response. That doesn't make the story false. The Arcturian reconstruction was real. The prosperity is real. The security framework is real. The question is what the reconstruction cost in sovereignty that doesn't appear in the GDP figures, and whether sixty-year-old success is a reliable guide for a situation that differs in the details that matter."
+    },
+    {
+      "type": "description",
+      "text": "The formal session is in the Trade Relations Chamber, a room that seats forty but today holds six: Cole, two Arcturian trade officials, you, Vyktor, and a Veltrian Foreign Affairs attaché who has not been told more than she needs to know. The offer is laid out in a prepared document, forty-eight pages, which Cole's team walks through with professional precision over three hours."
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "The Arcturian package: two hundred million Krone in structured trade investment over five years. A mutual defense protocol — not a military base, a consultation framework, with the Commonwealth's Seventh Fleet extended to cover the Thalassic Sea approaches. Access to Arcturian consumer markets, which are the largest on the continent. Intelligence sharing on Tyvaren military movements. In exchange: a reduction in state ownership of the industrial sector — we're not asking for immediate privatization, we're asking for a pathway. Elimination of tariffs that currently block Arcturian goods. And a policy alignment at the Asturien Forum on matters of — they use the phrase 'mutual strategic concern.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "I want to be clear about what that last item means in practice. It means that when the Forum votes on resolutions that concern Orythian behavior in Asturien, Veltria votes with the Commonwealth. That's not abstract. There will be specific votes. There will be moments when your delegation has instructions from my government that conflict with what your delegation's conscience would otherwise prefer. I'm telling you this openly because I think you're a person who would rather know the cost of something than discover it later."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The industrial pathway question. What is the timeline they're expecting?"
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "Four years for twenty percent divestiture of state industrial holdings. The steel sector specifically, and the coal infrastructure. We've modeled the employment impact — it's manageable with the trade investment offsetting job losses. Not comfortable, but manageable. After year four, we reassess based on performance."
+    },
+    {
+      "type": "internal_thought",
+      "text": "After year four, you reassess. And the steel workers who were laid off in year two are still unemployed in year four while the reassessment happens. Cole calls this manageable. Gregor Marić would call it something else entirely, in front of a very large number of people, at considerable volume."
+    },
+    {
+      "type": "description",
+      "text": "The afternoon light off the bay fills the room with the specific quality of light that expensive places always seem to have, which is probably not a coincidence. Cole is watching you read the final page of the document. He is good at watching people read. He does not rush."
+    }
+  ],
+  "monologue": "Cole showed me the view from the thirty-eighth floor. The bay. The city rebuilt from the 1943 bombings. The story is true — the Arcturian reconstruction worked. The prosperity is real. The question is what the reconstruction cost in sovereignty that does not appear in the GDP figures, and whether a model built for a continental power applies to a country with Tyvaren on its border and a population that has not been asked whether it wants to trade independence for investment.",
+
+  "choices": [
+    {
+      "id": "stellamere_full_alliance",
+      "text": "\"We accept the framework. Defense protocol, trade investment, the industrial pathway. I want the Forum alignment clause reviewed by our legal team, but in principle — yes. Veltria is aligning with the Commonwealth.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 20 },
+        { "stat": "factions.ironCovenant",    "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -16 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": -8 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 14 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties",    "operation": "add", "value": -4 },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": -8 }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_arcturian_privatization_pressure",
+          "delayWeeks": 10
+        },
+        {
+          "targetNodeId": "act3_tyvaren_deterred",
+          "delayWeeks": 8,
+          "conditions": [{ "stat": "nation.militaryReadiness", "operator": ">", "value": 55 }]
+        }
+      ],
+      "flags": ["arcturian_alliance_full", "superpower_aligned_arcturian"],
+      "codexUnlocks": ["codex_arcturian_commonwealth"],
+      "reactions": [{ "character": "harrison_cole", "type": "action", "text": "Cole extends his hand — warmer than before, the warmth of a man who has just closed a deal he has been working toward for months. He does not celebrate. Professionals at this level do not celebrate. But he pulls out a pen — an Arcturian-made pen, silver, engraved with the Commonwealth seal — and slides it across the table. He had it ready." }, { "character": "vyktor_reznik", "type": "silence", "text": "Vyktor collects the framework document and places it in his portfolio. He has already calculated the domestic cost — the workers' coalition, the Dravenni caucus, the reformist press. He will present the calculation tomorrow. Tonight he simply files the paper." }]
+    },
+    {
+      "id": "stellamere_trade_only",
+      "text": "\"The trade investment and the market access — yes. The defense protocol and the Forum alignment clause — not yet. I need to return home and bring this to parliament. I'm not in a position to commit Veltria's foreign policy tonight.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 5  },
+        { "stat": "factions.workersCoalition","operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 5 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 4  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 4  }
+      ],
+      "chainTriggers": [],
+      "flags": ["arcturian_trade_only", "superpower_partial_arcturian"],
+      "codexUnlocks": ["codex_arcturian_commonwealth"],
+      "reactions": [{ "character": "harrison_cole", "type": "silence", "text": "Cole nods — the nod of a man who has just been told that the deal is not closing today and is recalculating. He does not push. He is too experienced for that. The offer remains available, Chancellor. The economics do not change because one meeting ends without a full signature." }]
+    },
+    {
+      "id": "stellamere_challenge_terms",
+      "text": "\"I want to push back on the industrial pathway. Divesting the steel sector in four years isn't a pathway — it's a schedule. I'll accept foreign investment into the steel sector, but state ownership is a matter for our parliament, not our trade partners. If that's a dealbreaker, tell me now.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition","operation": "add", "value": 10 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 8  },
+        { "stat": "factions.businessClass",   "operation": "add", "value": -6 },
+        { "stat": "nation.internationalStanding","operation": "add", "value": 2 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 6  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 8  }
+      ],
+      "chainTriggers": [],
+      "flags": ["arcturian_terms_challenged", "superpower_partial_arcturian"],
+      "codexUnlocks": ["codex_arcturian_commonwealth"],
+      "reactions": [{ "character": "harrison_cole", "type": "dialogue", "text": "Cole leans back. He does not seem surprised — Cole never seems surprised. The industrial pathway is negotiable, Chancellor. The Forum alignment is not. He pauses. He is drawing a line, politely, as a man who knows exactly which lines he is willing to redraw and which he is not." }, { "character": "vyktor_reznik", "type": "silence", "text": "Vyktor writes state ownership is a matter for parliament on his notepad. The phrase will appear in the eventual agreement as a footnote in the annex — small print, easy to miss. He is already ensuring the concession is recorded in a form that can be referenced later." }]
+    },
+    {
+      "id": "stellamere_decline_politely",
+      "text": "\"I appreciate the invitation and the offer. I need to be honest with you, Harrison — I cannot accept terms that include Forum alignment and a privatization timeline before I've had the conversation at home. I'm returning to Ashenmere. Let's continue this through the embassy.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": -8 },
+        { "stat": "factions.reformists",      "operation": "add", "value": 6  },
+        { "stat": "nation.internationalStanding","operation": "add", "value": -4 },
+        { "stat": "personal.publicImage",     "operation": "add", "value": 2  },
+        { "stat": "personal.moralCompass",    "operation": "add", "value": 6  }
+      ],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_arcturian_cooldown",
+          "delayWeeks": 6
+        }
+      ],
+      "flags": ["arcturian_declined", "superpower_noncommittal"],
+      "codexUnlocks": ["codex_arcturian_commonwealth"],
+      "reactions": [{ "character": "harrison_cole", "type": "silence", "text": "Cole does not respond immediately. He refills his water glass — his own, not yours — and takes a slow sip. The silence is not anger. It is the particular pause of a diplomat who has just been told that the deal is not happening and is already calculating his next approach. The offer remains open, he says. It will remain open. The economics do not change." }, { "character": "vyktor_reznik", "type": "dialogue", "text": "On the plane home, he opens his portfolio. Cole will call again. Within the month. He needs us more than we need him — he just does not know it yet. The power dynamic in this negotiation has shifted." }]
+    }
+  ]
+}

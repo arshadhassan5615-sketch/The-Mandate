@@ -1,0 +1,65 @@
+{
+  "id": "act3_assassination_poisoning",
+  "title": "The Ashenmere Incident — The Dinner",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 36,
+  "type": "emergency",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Arcturian Embassy — Diplomatic Reception Hall",
+  "characters": ["vyktor_reznik", "aldric_theron", "serida_valk"],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Arcturian ambassador's residence is the finest building in Ashenmere that does not belong to the Veltrian state — white marble, chandeliers imported from Lytheira, a dining room that seats forty. You are seated between the Arcturian trade minister and the Orythian cultural attaché, discussing trade concessions and mutual defense obligations with the careful, coded language of diplomacy. The wine is excellent. The soup is a regional specialty from the ambassador's home province. Halfway through the second course, you notice your hands are trembling."
+    },
+    {
+      "type": "description",
+      "text": "The trembling becomes convulsions within five minutes. You try to stand and your legs will not hold you. You hear glass breaking — your wine glass, knocked from the table. Someone is shouting in Arcturian. Professor Theron is beside you, loosening your collar, barking orders that you cannot make sense of. Serida Valk is on her knees beside you, holding your hand, and her face is the last thing you see before the seizure takes your vision."
+    },
+    {
+      "type": "description",
+      "text": "You wake in the military hospital thirty-six hours later. The doctors tell you it was a neurotoxic agent — a synthetic compound, not naturally occurring. It was in the soup. If you had eaten the entire bowl, you would have been dead within the hour. You only had three spoonfuls. That saved your life. Foreign intelligence is the prime suspect — the compound is chemically similar to toxins developed in Tyvaren's military laboratories. The Arcturian ambassador is mortified. The Orythian attaché has offered her government's assistance in the investigation. The hospital room is full of flowers and security personnel and people who want to know if you are well enough to make decisions."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You have been unconscious for a day and a half. In that time, the Assembly has met in emergency session, the Halvekist opposition has called for a interim government, and the Tyvaren ambassador has issued a formal denial of involvement that was so specific in its details that it essentially confirmed their foreknowledge. The doctors say you will recover fully, but you have lost two nights of sleep and the toxin has damaged your peripheral nervous system — you will have tremors for several weeks and fatigue will be a factor. Your schedule will need to be reduced. More importantly: you have been attacked in the home of a foreign ambassador using a weapon developed by a hostile power. This is not a domestic incident. This is an act of international violence. The question is how you wish to respond."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Legally speaking, an attack on a head of state at a diplomatic function is grounds for both domestic emergency powers and international tribunal proceedings. You have options. You also have limitations — the toxin has affected your cognitive stamina, my sources at the hospital tell me. You will need to delegate more. This may not be a weakness. It may force decisions that should have been made anyway. But you should understand the position before you act."
+    },
+    {
+      "type": "dialogue",
+      "character": "serida_valk",
+      "text": "Chancellor — I'm sorry, ma'am. I sat next to your bed for eighteen hours. I kept thinking: she was at that dinner because of the schedule I prepared. I checked the seating arrangements, I confirmed the menu, I coordinated with the security detail. And someone still poisoned the soup. I know it's not my fault. I know. But I need you to tell me what to do now, because the last thing I did before you collapsed was hand you a briefing memo about Tyvaren trade policy, and I haven't been able to stop thinking about whether there's something I missed."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I can feel the tremor in my left hand. The doctors say it will fade. They do not say when. For now, holding a pen is difficult. Signing legislation will require concentration I do not currently have. Someone tried to murder me with soup at a diplomatic dinner. The absurdity of it would be funny if my nervous system were not still recovering. Serida looks exhausted — she has not slept. Theron looks like he has been reading legal precedents for twelve hours straight, which he probably has. Vyktor looks like Vyktor: tired, analytical, waiting for me to make the decision that will define the next phase of this crisis. I have lost two days. The world has moved without me. It is time to move with it."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "poisoning_go_to_cabinet",
+      "text": "\"Vyktor, convene the emergency cabinet. I can sit in a chair and I can speak — that is all the health I need for this meeting. Theron, prepare a brief on our legal options regarding international tribunals. Serida, I need a reduced schedule — no events longer than three hours for the next two weeks. And cancel the soup at all future state dinners. Now help me up — we have work to do.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "advisorTrust.theron", "operation": "add", "value": 5 }
+      ],
+      "chainTriggers": [],
+      "flags": ["assassination_survived", "assassination_attempted", "poisoning_attempt", "ashenmere_incident", "met_serida"],
+      "nextNodeId": "act3_assassination_cabinet",
+      "codexUnlocks": ["codex_ashenmere_incident"]
+    }
+  ]
+}

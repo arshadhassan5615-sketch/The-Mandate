@@ -1,0 +1,24 @@
+{
+  "id": "bill_protect_families_public_morality",
+  "title": "Protect Families and Public Morality Act",
+  "shortName": "P.F.P.M.A.",
+  "proposer": "Church-allied conservative MPs",
+  "faction": "church",
+  "weekPresented": 21,
+  "fullText": "Section 1. No decree of divorce shall be granted by any civil court within the Republic of Veltria unless the petitioner demonstrates, to the satisfaction of a Family Morality Board, evidence of abandonment, criminal conviction of the spouse, or proven cruelty. Mutual consent shall not constitute sufficient grounds.\n\nSection 2. Publications, theatrical performances, and broadcast content deemed by the Board to undermine public morality or promote values contrary to the teachings of the Church of the Eternal Flame shall be subject to prior restraint.\n\nSection 3. All primary and secondary educational institutions receiving state funding shall include daily instruction in Eternal Flame doctrine, with exemptions available only upon parental petition approved by the local parish.",
+  "budgetCost": 0,
+  "signEffects": [
+    { "stat": "factions.church", "operation": "add", "value": 20 },
+    { "stat": "factions.halvekists", "operation": "add", "value": 10 },
+    { "stat": "factions.reformists", "operation": "add", "value": -20 },
+    { "stat": "nation.civilLiberties", "operation": "add", "value": -15 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.church", "operation": "add", "value": -20 },
+    { "stat": "factions.reformists", "operation": "add", "value": 15 },
+    { "stat": "nation.civilLiberties", "operation": "add", "value": 10 }
+  ],
+  "signFlags": ["morality_act_signed"],
+  "vetoFlags": ["morality_act_vetoed"],
+  "isVetoable": true
+}

@@ -1,0 +1,104 @@
+{
+  "id": "act3_week34_elena_rival",
+  "title": "The Rival",
+  "act": 3,
+  "weekAvailable": 34,
+  "weekDeadline": 37,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "VNN Broadcasting House — Ashenmere",
+  "characters": ["elena_braskov", "nadia_voss"],
+  "prerequisites": [
+    { "type": "flag", "flag": "elena_introduced", "value": true }
+  ],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "A new publication has appeared in Ashenmere. 'The Veltrian Voice' — a weekly broadsheet produced by a collective of young journalists operating out of a converted warehouse in the Dravenni Quarter. Its circulation is small but growing. Its reporting is aggressive. And its editor-in-chief is Nadia Voss, who resigned from The Ashenmere Herald six months ago after Elena Braskov spiked a story about government procurement irregularities. The story, Nadia later discovered, was spiked not because it was inaccurate — but because it implicated a business associate of Elena's. The Voice now runs the stories Elena kills."
+    },
+    {
+      "type": "dialogue",
+      "character": "elena_braskov",
+      "text": "Chancellor. I will not waste your time with pleasantries. The Veltrian Voice is a problem — not just for me, but for you. Nadia Voss is a talented journalist, but she is also an ideologue. She does not believe in balanced coverage. She believes in exposing power. Right now, she is exposing my power. Eventually, she will expose yours. I am asking you to shut it down. The Broadcast Licensing Act gives the government regulatory authority over media distribution. A simple finding that the Voice is operating without proper licensing — which they are, because the licensing framework is designed for broadcasters — and they are closed. Permanently."
+    },
+    {
+      "type": "description",
+      "text": "Nadia Voss, who has been waiting in the hallway — Elena arranged for both of you to be here at the same time, which was either a power move or a miscalculation — steps into the room."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Chancellor, I have been listening through the door. Elena's door is thin — she should have paid for better construction. What she is asking you to do is use regulatory power to destroy an independent publication because it competes with her. That is exactly what Halvek did to the dissident press. The Voice operates on paper and word of mouth — we do not broadcast, we do not need a broadcasting license, and Elena knows that. She is not asking you to enforce the law. She is asking you to create a pretext to eliminate a competitor. And I have something to add: the story Elena spiked six months ago — the one about government procurement irregularities — I have continued investigating it. I have new information. If you shut down the Voice, that story will never be published. If you do not, it will be in next week's edition."
+    },
+    {
+      "type": "internal_thought",
+      "text": "They are both threatening me. Elena wants me to destroy her competition. Nadia wants me to protect her from being destroyed. And Nadia is holding a story — a procurement scandal — that she has been investigating since Elena killed it. It could be damaging. It could be nothing. But the principle is the same in either case: the government should not be in the business of deciding which journalists get to publish and which do not. Elena is asking me to become Halvek — selectively, for a specific target, but the mechanism is the same. Nadia is asking me to defend a free press against a monopolist who wants to destroy it. The right answer is clear. The political cost is not."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "elena_rival_help_elena",
+      "text": "\"Nadia, I am sorry. The Voice will be closed pending a review of its licensing status. Elena, you will get your monopoly protected — but understand that this is the last time I do this. The procurement story dies with the Voice. This is not how I wanted to govern. It is what the circumstances require. The country is in the middle of a constitutional crisis, an economic downturn, and a security threat on the Gravenmark border. I cannot afford to spend political capital defending a newspaper collective against a media empire. I need stability, not justice. I need Elena's coverage, not Nadia's integrity. History will judge me. History can afford to — it is not trying to hold a country together.\"",
+      "internalTag": "hardline",
+      "stateChanges": [
+        { "stat": "factions.businessClass",       "operation": "add", "value": 12  },
+        { "stat": "factions.reformists",          "operation": "add", "value": -18 },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": -20 },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": 15  },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -8  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": -15 }
+      ],
+      "flags": ["voice_suppressed", "elena_monopoly_protected", "procurement_story_killed", "elena_rival_resolved"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "elena_rival_refuse_elena",
+      "text": "\"No, Elena. I will not shut down an independent publication because it competes with you. Nadia, publish your story. Whatever it says about procurement irregularities — if there is wrongdoing, I want it exposed. If there is not, I want that known too. Elena, if you retaliate by releasing whatever dirt you have been holding, release it. I would rather be attacked by a free press than protected by a captive one. That has been my position since the day I took this office. It has not changed. The Veltrian Voice is exactly the kind of institution this country needs — independent, aggressive, and unafraid of power. I will not be the Chancellor who destroys it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 15  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -10 },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 15  },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": -15 },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 8   },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -5  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 12  }
+      ],
+      "flags": ["voice_protected", "elena_enemy", "procurement_story_published", "elena_rival_resolved"],
+      "codexUnlocks": [],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_elena_dirt_released",
+          "delayWeeks": 2
+        }
+      ]
+    },
+    {
+      "id": "elena_rival_support_voice",
+      "text": "\"Elena, the Veltrian Voice is exactly what Veltrian journalism should look like — independent, competitive, and unafraid. I am not going to shut it down. I am going to help it. I am directing the Communications Ministry to create a small-press fund — grants for independent publications to cover printing and distribution costs. The Voice will be the first recipient. And I am directing the Justice Ministry to investigate whether VNN's monopoly practices constitute anti-competitive behavior under existing commercial law. You wanted a fight, Elena. You just got one. Nadia, publish your procurement story. Whatever it says, I will respond publicly and transparently. That is how a democracy handles bad news — not by suppressing it, but by addressing it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists",          "operation": "add", "value": 18  },
+        { "stat": "factions.businessClass",       "operation": "add", "value": -15 },
+        { "stat": "nation.pressFreedom",          "operation": "add", "value": 20  },
+        { "stat": "nation.mediaControl",          "operation": "add", "value": -20 },
+        { "stat": "nation.civilLiberties",        "operation": "add", "value": 12  },
+        { "stat": "personal.publicImage",         "operation": "add", "value": -3  },
+        { "stat": "personal.moralCompass",        "operation": "add", "value": 15  },
+        { "stat": "nation.nationalDebt",          "operation": "add", "value": 5   }
+      ],
+      "flags": ["voice_funded", "elena_enemy", "anti_monopoly_investigation", "elena_rival_resolved"],
+      "codexUnlocks": [],
+      "chainTriggers": [
+        {
+          "targetNodeId": "act3_chain_elena_full_war",
+          "delayWeeks": 1
+        }
+      ]
+    }
+  ]
+}
