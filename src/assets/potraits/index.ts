@@ -26,6 +26,8 @@ import harrison_cole from './harrison_cole.jpeg'
 import yevgeni_stahl from './yevgeni_stahl.jpeg'
 import dragan_vukov from './dragan_vukov.jpeg'
 import idris_kaelen from './idris_kaelen.jpeg'
+import stefan_morvec from './stefan_morvec.jpeg'
+import aleksei_morvec from './aleksei_morvec.jpeg'
 
 export const PORTRAITS: Record<string, string> = {
   katerin_ashavel,
@@ -53,6 +55,8 @@ export const PORTRAITS: Record<string, string> = {
   yevgeni_stahl,
   dragan_vukov,
   idris_kaelen,
+  stefan_morvec,
+  aleksei_morvec,
 }
 
 export function getPortrait(characterId: string): string | null {

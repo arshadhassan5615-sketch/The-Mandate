@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { PROVINCES, PROVINCE_ORDER, type ProvinceData } from '../../data/provinces'
-import { useGameStore } from '../../stores/gameStore'
 import { useCodexStore } from '../../stores/codexStore'
+import { useGameStore } from '../../stores/gameStore'
 import { renderWithEntities } from '../news/EntityLinker'
 
 function Skyline({ type }: { type: ProvinceData['skylineType'] }) {
@@ -269,6 +269,55 @@ const PROVINCE_CODEX: Record<string, string> = {
   dravenhollow: 'province_dravenhollow',
 }
 
+const PROVINCE_FACTION_KEY: Record<string, string> = {
+  ashenmere: 'reformists',
+  kravenstal: 'workersCoalition',
+  thornfeld: 'halvekists',
+  sevagrad: 'ironCovenant',
+  aldenmoor: 'businessClass',
+  dravenhollow: 'dravenni',
+}
+
+const FACTION_DISPLAY_NAMES: Record<string, string> = {
+  reformists: 'Reformists',
+  workersCoalition: "Workers' Coalition",
+  halvekists: 'Halvekists',
+  ironCovenant: 'Iron Covenant',
+  businessClass: 'Business Class',
+  dravenni: 'Dravenni',
+}
+
+function computeProvinceUnrest(provinceId: string, state: import('../../types/gameState').GameState): { level: 'Stable' | 'Tense' | 'Crisis'; color: string; detail: string } {
+  const { nation: n, factions: f } = state
+  switch (provinceId) {
+    case 'kravenstal':
+      if (n.unemployment > 28 || f.workersCoalition < 22) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Unemployment ${n.unemployment}%, workers dissent` }
+      if (n.unemployment > 22 || f.workersCoalition < 36) return { level: 'Tense', color: '#c47a3a', detail: `Unemployment ${n.unemployment}%, simmering unrest` }
+      return { level: 'Stable', color: 'var(--accent-green)', detail: `Unemployment ${n.unemployment}%, labor cooperative` }
+    case 'dravenhollow':
+      if (f.dravenni < 20) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Dravenni support ${f.dravenni}, separatist threat` }
+      if (f.dravenni < 38 || n.civilLiberties < 28) return { level: 'Tense', color: '#c47a3a', detail: `Dravenni support ${f.dravenni}, civil liberties strained` }
+      return { level: 'Stable', color: 'var(--accent-green)', detail: `Dravenni support ${f.dravenni}, autonomy dialogue` }
+    case 'ashenmere':
+      if (n.corruption > 78 || n.publicOrder < 28) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Corruption ${n.corruption}, public order ${n.publicOrder}` }
+      if (n.corruption > 60 || n.publicOrder < 44) return { level: 'Tense', color: '#c47a3a', detail: `Corruption ${n.corruption}, press scrutinizing` }
+      return { level: 'Stable', color: 'var(--accent-green)', detail: `Corruption ${n.corruption}, institutions functional` }
+    case 'sevagrad':
+      if (n.militaryReadiness < 28) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Military readiness ${n.militaryReadiness}, border vulnerable` }
+      if (n.militaryReadiness < 44 || n.internationalStanding < 36) return { level: 'Tense', color: '#c47a3a', detail: `Military readiness ${n.militaryReadiness}, border watchful` }
+      return { level: 'Stable', color: 'var(--accent-green)', detail: `Military readiness ${n.militaryReadiness}, garrison loyal` }
+    case 'thornfeld':
+      if (f.halvekists < 18) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Halvekist support ${f.halvekists}, rural revolt` }
+      if (f.church < 30 || n.publicOrder < 44) return { level: 'Tense', color: '#c47a3a', detail: `Church influence ${f.church}, traditionalists agitated` }
+      return { level: 'Stable', color: 'var(--accent-green)', detail: `Church influence ${f.church}, harvest proceeding` }
+    case 'aldenmoor':
+      if (f.businessClass < 18 || n.economyHealth < -62) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Business support ${f.businessClass}, economy ${n.economyHealth}` }
+      if (f.businessClass < 32 || n.economyHealth < -28) return { level: 'Tense', color: '#c47a3a', detail: `Business support ${f.businessClass}, trade slowing` }
+      return { level: 'Stable', color: 'var(--accent-green)', detail: `Business support ${f.businessClass}, ports active` }
+    default: return { level: 'Stable', color: 'var(--accent-green)', detail: 'Nominal conditions' }
+  }
+}
+
 export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDetailProps) {
   const [idx, setIdx] = useState(() => {
     const i = PROVINCE_ORDER.indexOf(initialProvince ?? 'ashenmere')
@@ -279,6 +328,33 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
   const viewEntry = useCodexStore(s => s.viewEntry)
   const openCodex = useCodexStore(s => s.openCodex)
   const codexId = PROVINCE_CODEX[province.id] ?? ''
+
+  // Live game state
+  const factions = useGameStore(s => s.factions)
+  const activeProjects = useGameStore(s => s.activeProjects)
+  const gameState = useGameStore()
+
+  const factionKey = PROVINCE_FACTION_KEY[province.id] ?? '' as keyof typeof factions
+  const liveFactionScore = factionKey ? factions[factionKey as keyof typeof factions] ?? 40 : 40
+  const unrest = useMemo(() => computeProvinceUnrest(province.id, gameState), [province.id, gameState])
+
+  // Active projects relevant to this province
+  const provinceProjects = useMemo(() => {
+    const PROJECT_PROVINCE_MAP: Record<string, string> = {
+      kravenstal_steel: 'kravenstal',
+      amber_coast_highway: 'aldenmoor',
+      university_expansion: 'ashenmere',
+      sevagrad_fortification: 'sevagrad',
+      rural_electrification: 'thornfeld',
+      ashenmere_metro: 'ashenmere',
+    }
+    return activeProjects
+      .filter(p => p.phase === 'active' && PROJECT_PROVINCE_MAP[p.projectId] === province.id)
+      .map(p => {
+        const def = p as import('../../types/projects').ActiveProject & { projectId: string; currentWeek: number }
+        return def
+      })
+  }, [activeProjects, province.id])
 
   return (
     <div style={{
@@ -383,6 +459,108 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
           >
             Open Codex Entry
           </button>
+        </div>
+
+        {/* ── Live Province Status ─────────────────────────── */}
+        <div style={{ padding: '0 28px 12px' }}>
+          <div style={{
+            background: 'rgba(196,148,58,0.04)',
+            border: '1px solid rgba(196,148,58,0.12)',
+            borderRadius: '2px',
+            padding: '10px 14px',
+          }}>
+            <p style={{
+              fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.42rem',
+              color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.14em',
+              margin: '0 0 8px',
+            }}>
+              Live Conditions
+            </p>
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              {/* Faction support */}
+              <div style={{ flex: 1, minWidth: '120px' }}>
+                <span style={{
+                  fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.38rem',
+                  color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em',
+                }}>
+                  {FACTION_DISPLAY_NAMES[factionKey] ?? factionKey}
+                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '3px' }}>
+                  <div style={{
+                    flex: 1, height: '4px', background: 'rgba(196,148,58,0.1)',
+                    borderRadius: '2px', overflow: 'hidden',
+                  }}>
+                    <div style={{
+                      width: `${liveFactionScore}%`, height: '100%',
+                      background: liveFactionScore >= 60 ? 'var(--accent-green)' : liveFactionScore >= 40 ? '#c47a3a' : 'var(--accent-red)',
+                      borderRadius: '2px',
+                    }} />
+                  </div>
+                  <span style={{
+                    fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.42rem',
+                    color: liveFactionScore >= 60 ? 'var(--accent-green)' : liveFactionScore >= 40 ? '#c47a3a' : 'var(--accent-red)',
+                    fontWeight: 700,
+                  }}>
+                    {liveFactionScore}
+                  </span>
+                </div>
+              </div>
+              {/* Unrest */}
+              <div style={{ flex: 1, minWidth: '120px' }}>
+                <span style={{
+                  fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.38rem',
+                  color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em',
+                }}>
+                  Province Status
+                </span>
+                <div style={{ marginTop: '3px' }}>
+                  <span style={{
+                    fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.48rem',
+                    color: unrest.color, fontWeight: 700,
+                  }}>
+                    {unrest.level}
+                  </span>
+                  <span style={{
+                    fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.36rem',
+                    color: 'var(--muted)', marginLeft: '6px',
+                  }}>
+                    {unrest.detail}
+                  </span>
+                </div>
+              </div>
+            </div>
+            {/* Active projects */}
+            {provinceProjects.length > 0 && (
+              <div style={{ marginTop: '8px', borderTop: '1px solid rgba(196,148,58,0.08)', paddingTop: '6px' }}>
+                <span style={{
+                  fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.38rem',
+                  color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em',
+                }}>
+                  Active Projects
+                </span>
+                {provinceProjects.map(p => (
+                  <div key={p.projectId} style={{ marginTop: '3px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <div style={{
+                      width: '6px', height: '6px', borderRadius: '50%',
+                      background: 'var(--accent-green)', flexShrink: 0,
+                    }} />
+                    <span style={{
+                      fontFamily: "'Crimson Text', serif", fontSize: '0.68rem',
+                      color: '#d4c8b0',
+                    }}>
+                      {p.projectId.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                    </span>
+                    <span style={{
+                      fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.36rem',
+                      color: 'var(--muted)',
+                    }}>
+                      Week {p.currentWeek}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* ── Stats table + Pie charts ─────────────────────── */}

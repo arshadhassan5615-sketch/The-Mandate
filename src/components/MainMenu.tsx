@@ -29,8 +29,8 @@ export default function MainMenu() {
     let bestSlot = -1
     let bestTime = 0
     for (let i = 0; i < saves.length; i++) {
-      if (saves[i] && saves[i].timestamp > bestTime) {
-        bestTime = saves[i].timestamp
+      if (saves[i]?.timestamp && saves[i]!.timestamp > bestTime) {
+        bestTime = saves[i]!.timestamp
         bestSlot = i
       }
     }

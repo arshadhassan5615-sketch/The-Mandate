@@ -101,7 +101,7 @@ export function determineGovernanceOutcome(
 }
 
 export function determinePersonalOutcome(
-  state: GameState,
+  _state: GameState,
   flags: string[],
   personalScore: number,
 ): PersonalOutcome {

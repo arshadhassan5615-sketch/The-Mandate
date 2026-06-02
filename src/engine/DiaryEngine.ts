@@ -6,11 +6,20 @@ export interface DiaryEntry {
   week: number
   date: string
   text: string
+  category: 'political' | 'personal' | 'crisis' | 'diplomatic' | 'military'
+}
+
+function classifyDiaryCategory(ctx: DiaryContext): DiaryEntry['category'] {
+  if (ctx.stateOfEmergency || ctx.publicOrder < 35 || ctx.corruption > 75) return 'crisis'
+  if (ctx.militaryReadiness < 40) return 'military'
+  if (ctx.vaelInfluence > 50 || ctx.morvecInfluence > 30) return 'diplomatic'
+  if (ctx.marriageHealth < 40 || ctx.lioraRelationship < 40 || ctx.tomasWellbeing < 40) return 'personal'
+  return 'political'
 }
 
 export function generateDiaryEntry(week: number): DiaryEntry {
   const state = useGameStore.getState()
-  const { activeFlags, visitedSceneIds } = useNarrativeStore.getState()
+  const { activeFlags } = useNarrativeStore.getState()
 
   const ctx: DiaryContext = {
     week,
@@ -46,6 +55,7 @@ export function generateDiaryEntry(week: number): DiaryEntry {
     week,
     date: diaryDate(week),
     text,
+    category: classifyDiaryCategory(ctx),
   }
 }
 

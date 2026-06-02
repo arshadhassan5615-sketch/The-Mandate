@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type JSX } from 'react'
 import CharacterPortrait from '../portraits/CharacterPortrait'
 import { useGameStore } from '../../stores/gameStore'
 import { useCodexStore } from '../../stores/codexStore'
@@ -9,7 +9,7 @@ type TabId = 'cabinet' | 'factions' | 'legislative' | 'judiciary'
 const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }[] = [
   {
     id: 'cabinet', label: 'Cabinet',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="9" cy="6" r="3" />
         <path d="M3,20 C3,15 6,13 9,13 C12,13 15,15 15,20" />
@@ -20,7 +20,7 @@ const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }
   },
   {
     id: 'factions', label: 'Factions',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12,2 L15.5,8.5 L22,9.5 L17.5,14.5 L18.5,22 L12,18.5 L5.5,22 L6.5,14.5 L2,9.5 L8.5,8.5 Z" />
       </svg>
@@ -28,7 +28,7 @@ const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }
   },
   {
     id: 'legislative', label: 'Legislative',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
         <rect x="2" y="20" width="20" height="2" rx="0.5" />
         <rect x="2" y="8" width="20" height="2" rx="0.5" />
@@ -42,7 +42,7 @@ const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }
   },
   {
     id: 'judiciary', label: 'Judiciary',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="10" y="2" width="4" height="8" rx="1" />
         <rect x="6" y="3" width="12" height="3" rx="1" />
@@ -282,7 +282,6 @@ function LegislativeTab() {
     <div style={{ overflowY: 'auto', flex: 1, paddingTop: '10px' }}>
       <svg viewBox="0 0 300 120" style={{ width: '100%', height: 'auto' }}>
         {arcs.map((party, i) => {
-          const midAngle = (party.startAngle + party.endAngle) / 2
           const dots: JSX.Element[] = []
           const dotCount = Math.max(1, Math.round(party.seats / 2))
           for (let j = 0; j < dotCount; j++) {

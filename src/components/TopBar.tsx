@@ -2,20 +2,6 @@ import { useMemo } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import type { BudgetAllocations } from '../types/gameState'
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function getEconomyLabel(health: number): string {
-  if (health < -60) return 'CRISIS'
-  if (health < -20) return 'RECESSION'
-  if (health < 20) return 'STAGNANT'
-  if (health < 60) return 'GROWING'
-  return 'BOOMING'
-}
-
-function economyToSegments(health: number): number {
-  return Math.max(0, Math.min(10, Math.round(((health + 100) / 200) * 10)))
-}
-
 function computeBudgetBalance(budget: BudgetAllocations): number {
   const revenue = budget.taxRevenue + budget.stateIndustry + budget.customsTariffs + budget.foreignAid
   const expenditure = budget.military + budget.debtService + budget.govtAdmin + budget.infrastructure + budget.education + budget.healthcare + budget.welfare + budget.bniSecurity
@@ -43,7 +29,6 @@ export default function TopBar() {
   const soeWeek = useGameStore(s => s.stateOfEmergencyWeek)
 
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
-  const economyLabel = useMemo(() => getEconomyLabel(economyHealth), [economyHealth])
   const wealthThousands = Math.round(personalWealth / 1000)
 
   const approvalValue = publicImage

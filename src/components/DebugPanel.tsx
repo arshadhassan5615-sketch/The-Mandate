@@ -156,7 +156,11 @@ export default function DebugPanel() {
               {c.conditions?.length ? (
                 <div style={{ fontSize: '9px', color: '#5a5045', marginTop: '2px' }}>
                   {c.conditions.map((cond, i) => (
-                    <span key={i}>{cond.stat} {cond.operator} {String(cond.value)} </span>
+                    <span key={i}>
+                      {'flag' in cond
+                        ? `flag:${cond.flag}=${String(cond.value)}`
+                        : `${cond.stat} ${cond.operator} ${String(cond.value)}`}
+                    </span>
                   ))}
                 </div>
               ) : null}

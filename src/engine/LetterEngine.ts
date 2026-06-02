@@ -129,7 +129,7 @@ export const LETTER_OPTIONS: LetterOption[] = [
 export function generateLetterContent(
   recipient: string,
   tone: LetterTone,
-  currentWeek: number,
+  _currentWeek: number,
 ): { title: string; body: string } {
   const toneSalutations: Record<LetterTone, string> = {
     formal: 'I write to you as Chancellor of the Republic of Veltria, with the gravity that office demands.',

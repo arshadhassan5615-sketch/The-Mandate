@@ -63,7 +63,6 @@ export default function App() {
   } = useSettingsStore()
   const { openCodex, closeCodex, isOpen: codexOpen } = useCodexStore()
   const phase = useWeekStore(s => s.phase)
-  const letterOpen = useLetterStore(s => s.isOpen)
   const currentWeek = useGameStore(s => s.currentWeek)
   const sceneQueue = useWeekStore(s => s.sceneQueue)
   const currentQueueIndex = useWeekStore(s => s.currentQueueIndex)
@@ -151,7 +150,8 @@ export default function App() {
       const saves = await listSaves()
       let best = -1; let bestTime = 0
       for (let i = 0; i < saves.length; i++) {
-        if (saves[i] && saves[i].timestamp > bestTime) { bestTime = saves[i].timestamp; best = i }
+        const s = saves[i]
+        if (s && s.timestamp > bestTime) { bestTime = s.timestamp; best = i }
       }
       if (best >= 0) await loadGame(best)
     }, enabled: () => isGameplay },

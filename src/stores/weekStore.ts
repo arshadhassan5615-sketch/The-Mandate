@@ -14,6 +14,7 @@ import { NEWS_TEMPLATES } from '../data/news/newsTemplates'
 import { processCorruptionDiscovery, shouldTriggerImpeachment } from '../engine/CorruptionEngine'
 import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
+import type { NewsCategory } from '../types/news'
 import { saveGame, AUTOSAVE_SLOT } from '../engine/SaveManager'
 import { evaluateAssassinationTrigger, getAssassinationSceneId } from '../engine/AssassinationEngine'
 import { computeJonasStage } from '../engine/JonasEngine'
@@ -181,7 +182,7 @@ interface WeekStore {
   voteResult: VoteResult | null
 
   // Diary
-  diaryEntry: { week: number; date: string; text: string } | null
+  diaryEntry: { week: number; date: string; text: string; category: 'political' | 'personal' | 'crisis' | 'diplomatic' | 'military' } | null
   closeDiary: () => void
 
   // Cliffhanger
@@ -500,7 +501,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   },
 
   advanceQueue: () => {
-    const { sceneQueue, currentQueueIndex, transitionLabel } = get()
+    const { currentQueueIndex, transitionLabel } = get()
     // Guard against double-tap during transition
     if (transitionLabel) return
 
@@ -600,7 +601,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
     // Generate diary for the week just started (Week 1+)
     const diary = generateDiaryEntry(newWeek)
-    useGameStore.getState().addDiaryEntry({ week: diary.week, date: diary.date, text: diary.text })
+    useGameStore.getState().addDiaryEntry({ week: diary.week, date: diary.date, text: diary.text, category: diary.category })
     set({ diaryEntry: diary })
   },
 
@@ -762,7 +763,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         weekNumber: a.weekNumber,
         date: a.date,
         templateId: a.id,
-        category: a.category,
+        category: a.category as NewsCategory,
       }))
       useNewsStore.getState().addArticles(articles)
     }

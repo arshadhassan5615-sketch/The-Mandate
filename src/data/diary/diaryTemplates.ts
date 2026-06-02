@@ -11,6 +11,8 @@ export interface DiaryContext {
   marriageHealth: number
   lioraRelationship: number
   tomasWellbeing: number
+  vaelInfluence: number
+  personalWealth: number
   reformists: number
   halvekists: number
   workersCoalition: number
@@ -206,7 +208,7 @@ export const DIARY_TEMPLATES: Record<number, DiaryTemplate> = {
     return "The reform agenda is making progress, but the pace frustrates everyone — including me. The Assembly procedures were designed to be slow. Soren built them that way deliberately. Every delay is a ghost of the old regime, still haunting the chamber."
   },
 
-  26: (ctx: DiaryContext) => {
+  26: (_ctx: DiaryContext) => {
     return "Two seasons. I have been Chancellor through one winter and into a spring. The palace gardens are blooming. I noticed them today for the first time. There is something about flowers that makes you realize how much you have been looking at the ground."
   },
 
@@ -238,7 +240,7 @@ export const DIARY_TEMPLATES: Record<number, DiaryTemplate> = {
     return "Tomas came home with a bruise today. Another child at school — the son of a Halvekist regional official — called me a traitor. Tomas fought him. He won. I should have been angry about the fighting. I was proud instead. I am not sure what that says about me."
   },
 
-  31: (ctx: DiaryContext) => {
+  31: (_ctx: DiaryContext) => {
     return "The dreams have returned. I had them during the campaign — the ones where I stand at the podium and open my mouth but no sound comes out. They stopped after the inauguration. Now they are back. My subconscious is trying to tell me something. I am too tired to listen."
   },
 
@@ -291,7 +293,7 @@ export const DIARY_TEMPLATES: Record<number, DiaryTemplate> = {
     return "The constitutional reform package is nearly ready for submission. It has taken half a year and cost more political capital than I care to calculate. If it passes, Veltria will have its first truly democratic charter. If it fails... I do not allow myself to think about that."
   },
 
-  39: (ctx: DiaryContext) => {
+  39: (_ctx: DiaryContext) => {
     return "The Act III review meeting today was brutal. Theron, Vyktor, and I sat in my study for four hours going over every decision, every mistake, every outcome I did not anticipate. I asked for honesty. I received it. I walked out of that room a different Chancellor than the one who walked in."
   },
 
@@ -330,7 +332,7 @@ export const DIARY_TEMPLATES: Record<number, DiaryTemplate> = {
     return "The Orythian loan is coming due in parts. The repayments are manageable — barely — but they constrain everything else. Every budget meeting is a negotiation between what the nation needs and what the creditors demand. I did not expect to become a debt manager. That is, however, what I have become."
   },
 
-  45: (ctx: DiaryContext) => {
+  45: (_ctx: DiaryContext) => {
     return "The Asturien Forum assessment is due next week. I am not anxious about it — I have learned not to be anxious about external judgments — but I am curious. Curious about how history will remember this year. Curious about whether anyone outside Veltria truly understands what it costs to build democracy from the ashes of tyranny."
   },
 
@@ -376,7 +378,7 @@ export const DIARY_TEMPLATES: Record<number, DiaryTemplate> = {
     return "The last full week. The last briefing. The last agenda. I found myself walking more slowly through the halls, looking at the portraits, the furniture, the light through the windows at different times of day. I am saying goodbye to this place, whether or not I return after the election. I will never be the person who first walked through these doors again."
   },
 
-  52: (ctx: DiaryContext) => {
+  52: (_ctx: DiaryContext) => {
     return "Fifty-two weeks. One year. I have kept this diary through a war scare, a constitutional revision, economic crisis and recovery, family strain and small reconciliations. I have made mistakes — some of them serious, some of them I will not realize were mistakes for years. I have also done things I am proud of. Things my children will read about. Things my father, wherever he is, would understand.\n\nThis is the last entry. Whatever happens next — the election, the judgment of history, the quiet life I sometimes allow myself to imagine — this year will always be what it was: the year I learned what power costs, what democracy demands, and who I am when the lights go out and no one is watching.\n\nTomorrow, Veltria decides. Tonight, I sleep."
   },
 }

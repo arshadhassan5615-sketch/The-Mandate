@@ -4,7 +4,6 @@ import type { NarrativeSegment, SceneChoice, SocialInteraction } from '../types/
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
-import { getAvailableChoices } from '../engine/NarrativeEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { playStamp } from '../engine/audioEngine'
 import {

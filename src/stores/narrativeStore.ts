@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { NarrativeNode, ChainTrigger } from '../types/narrative'
-import type { NewsArticle } from '../types/news'
+import type { NewsArticle, Publication } from '../types/news'
+import type { GameState } from '../types/gameState'
 import { getScene, getAvailableChoices } from '../engine/NarrativeEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { useGameStore } from './gameStore'
@@ -9,13 +10,19 @@ import { useWeekStore } from './weekStore'
 import { useNewsStore } from './newsStore'
 import { NEWS_TEMPLATES } from '../data/news/newsTemplates'
 import { playCodexUnlock } from '../engine/audioEngine'
-import { recordCorruptionFlag } from '../engine/CorruptionEngine'
 import { useJournalStore } from '../stores/journalStore'
 import { getJournalTemplate, getJournalCategory } from '../data/journal/templates'
 import { getStructuredJournalTemplate, getStructuredJournalCategory } from '../data/journal/journalTemplates'
 import type { ChoiceAlignment } from '../types/journal'
-import { ALL_CLUES, getMoleConsequences } from '../engine/MoleEngine'
-import type { MoleIdentity } from '../types/gameState'
+import {
+  FLAG_HANDLERS,
+  MOLE_CLUE_PATTERN,
+  KICKBACK_PATTERN,
+  handleMoleClue,
+  handleKickback,
+  handleMoleAccusation,
+  buildCorruptionEntry,
+} from '../engine/FlagHandlers'
 import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
 
@@ -295,41 +302,97 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       }
     }
 
-    // Detect mole clues and add them to game state
+    // ---------- Declarative flag dispatch ----------
+    // Build a Partial<GameState> by looking up each flag in FLAG_HANDLERS,
+    // then merge it onto the store in one setState. Adding a new choice flag
+    // is now a one-line addition to FlagHandlers.ts.
+
+    const stateForHandlers = useGameStore.getState()
+    let stateUpdates: Partial<GameState> = {}
+    const moleConsequenceFlags: string[] = []
+
+    // Mole accusation runs at most once per choice (mutually exclusive flags,
+    // and we don't want to apply consequences multiple times).
+    const accusationResult = handleMoleAccusation(choice.flags, stateForHandlers)
+    if (accusationResult) {
+      stateUpdates = { ...stateUpdates, ...accusationResult.stateUpdates }
+      moleConsequenceFlags.push(...accusationResult.consequenceFlags)
+      if (accusationResult.statChanges.length) {
+        useGameStore.getState().applyModifiers(accusationResult.statChanges)
+      }
+    }
+
     for (const flag of choice.flags) {
-      const clueMatch = flag.match(/^mole_clue_(\d+)_found$/)
-      if (clueMatch) {
-        const clue = ALL_CLUES.find(c => c.id === flag.replace('_found', ''))
-        if (clue) {
-          useGameStore.getState().discoverClue(clue)
+      if (flag in FLAG_HANDLERS) {
+        // Skip the accused_* family — handled above as a single accusation.
+        if (flag.startsWith('accused_')) continue
+        stateUpdates = {
+          ...stateUpdates,
+          ...FLAG_HANDLERS[flag](stateForHandlers, choice, flag),
+        }
+        continue
+      }
+
+      // Regex/prefix patterns (the lookup table can't express these).
+      if (MOLE_CLUE_PATTERN.test(flag)) {
+        const partial = handleMoleClue(flag, stateForHandlers)
+        if (partial) stateUpdates = { ...stateUpdates, ...partial }
+        continue
+      }
+      if (KICKBACK_PATTERN.test(flag)) {
+        const entry = handleKickback(flag, stateForHandlers)
+        if (entry) {
+          stateUpdates = {
+            ...stateUpdates,
+            corruptionLedger: [
+              ...(stateUpdates.corruptionLedger ?? stateForHandlers.corruptionLedger),
+              entry,
+            ],
+          }
+        }
+        continue
+      }
+
+      // Corruption-ledger flags (driven by CorruptionEngine.CORRUPTION_FLAG_MAP).
+      const corruptionEntry = buildCorruptionEntry(stateForHandlers, flag)
+      if (corruptionEntry) {
+        stateUpdates = {
+          ...stateUpdates,
+          corruptionLedger: [
+            ...(stateUpdates.corruptionLedger ?? stateForHandlers.corruptionLedger),
+            corruptionEntry,
+          ],
         }
       }
     }
 
-    // Detect mole accusation and check against identity
-    let moleConsequenceFlags: string[] = []
-    const accusedFlags = choice.flags.filter(f =>
-      f === 'accused_petrin_half' || f === 'accused_irina_dusek' || f === 'accused_karsten_volek')
-    if (accusedFlags.length > 0) {
-      const moleId = useGameStore.getState().moleIdentity
-      const accusedMap: Record<string, MoleIdentity> = {
-        accused_petrin_half: 'petrin_half',
-        accused_irina_dusek: 'irina_dusek',
-        accused_karsten_volek: 'karsten_volek',
-      }
-      const accusedIdentity = accusedMap[accusedFlags[0]]
-      const isCorrect = accusedIdentity === moleId
+    if (Object.keys(stateUpdates).length) {
+      useGameStore.setState(stateUpdates)
+    }
 
-      if (isCorrect && moleId) {
-        const consequences = getMoleConsequences(moleId, true)
-        useGameStore.getState().applyModifiers(consequences.statChanges as { stat: string; operation: 'add' | 'set'; value: number }[])
-        useGameStore.getState().markMoleDiscovered()
-        moleConsequenceFlags = consequences.flags
-      } else if (accusedIdentity) {
-        const consequences = getMoleConsequences(accusedIdentity, false)
-        useGameStore.getState().applyModifiers(consequences.statChanges as { stat: string; operation: 'add' | 'set'; value: number }[])
-        useGameStore.getState().setMoleWronglyAccused(accusedIdentity)
-        moleConsequenceFlags = consequences.flags
+    // Detect project-start flags and kick off the project (multi-store flow:
+    // activeProjects entry + chain-store scheduling for contractor + mid-crisis).
+    for (const flag of choice.flags) {
+      const projectId = PROJECT_START_FLAGS[flag]
+      if (!projectId) continue
+      useGameStore.getState().startProject(projectId)
+      const contractorSceneId = getContractorSceneId(projectId)
+      if (contractorSceneId) {
+        useChainStore.getState().schedule(
+          [{ targetNodeId: contractorSceneId, delayWeeks: 0 }],
+          useGameStore.getState().currentWeek,
+          `contractor_${projectId}`,
+        )
+      }
+      const crisisSceneId = getMidCrisisSceneId(projectId)
+      if (crisisSceneId) {
+        const projectDef = (projectDefinitions as DevelopmentProject[]).find(d => d.id === projectId)
+        const delay = projectDef?.durationWeeks ? Math.floor(projectDef.durationWeeks / 2) : 4
+        useChainStore.getState().schedule(
+          [{ targetNodeId: crisisSceneId, delayWeeks: delay }],
+          useGameStore.getState().currentWeek,
+          `mid_crisis_${projectId}`,
+        )
       }
     }
 
@@ -342,147 +405,6 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     generateNews(choice.id, useGameStore.getState(), newFlags)
     for (const flag of choice.flags) {
       generateNews(flag, useGameStore.getState(), newFlags)
-    }
-
-    // Record corruption flags in the ledger (undiscovered)
-    const corruptionState = useGameStore.getState()
-    for (const flag of choice.flags) {
-      const entry = recordCorruptionFlag(corruptionState, flag)
-      if (entry) {
-        useGameStore.getState().recordCorruptionEntry(entry)
-      }
-      // Vael kickback corruption recording
-      if (flag.startsWith('kickback_accepted_')) {
-        useGameStore.getState().recordCorruptionEntry({
-          id: `corruption_${flag}_${Date.now()}`,
-          weekRecorded: corruptionState.currentWeek,
-          description: `Accepted personal kickback from Lucan Vael in exchange for project contract. Payment of 2,500-4,000 ₭ deposited in Morivask account.`,
-          witnesses: ['lucan_vael'],
-          evidence: 'Offshore bank records in Morivask',
-          discovered: false,
-          discoveryWeek: null,
-        })
-      }
-    }
-
-    // Detect State of Emergency flag and activate SOE in game state
-    if (choice.flags.includes('state_of_emergency')) {
-      useGameStore.getState().declareStateOfEmergency()
-    }
-    if (choice.flags.includes('serida_died_bombing')) {
-      useGameStore.getState().setSeridaDead()
-    }
-    if (choice.flags.includes('soe_expired')) {
-      useGameStore.getState().liftStateOfEmergency()
-    }
-    if (choice.flags.includes('soe_extended')) {
-      useGameStore.getState().extendStateOfEmergency()
-    }
-
-    // Detect Soren plotline flags
-    if (choice.flags.includes('soren_immunity_revoked') || choice.flags.includes('soren_immunity_limited_revoked')) {
-      useGameStore.getState().revokeSorenImmunity()
-    }
-    if (choice.flags.includes('soren_files_revealed')) {
-      const linkedToMikhael = choice.flags.includes('soren_linked_to_mikhael')
-      useGameStore.getState().revealSorenFiles(linkedToMikhael)
-    }
-    if (choice.flags.includes('soren_trial_public')) {
-      useGameStore.getState().setSorenTrialOutcome('public_trial')
-    }
-    if (choice.flags.includes('soren_trial_plea')) {
-      useGameStore.getState().setSorenTrialOutcome('plea_deal')
-    }
-    if (choice.flags.includes('soren_left_alone')) {
-      useGameStore.getState().setSorenTrialOutcome('left_alone')
-    }
-    if (choice.flags.includes('soren_files_public')) {
-      useGameStore.getState().setSorenTrialOutcome('files_released')
-    }
-    if (choice.flags.includes('soren_leveraged')) {
-      useGameStore.getState().setSorenTrialOutcome('political_leverage')
-    }
-
-    // Detect economic direction flag
-    if (choice.flags.includes('economy_free_market')) {
-      useGameStore.getState().setEconomicDirection('free_market')
-    }
-    if (choice.flags.includes('economy_planned')) {
-      useGameStore.getState().setEconomicDirection('planned')
-    }
-    if (choice.flags.includes('economy_mixed')) {
-      useGameStore.getState().setEconomicDirection('mixed')
-    }
-    if (choice.flags.includes('economy_pragmatic')) {
-      useGameStore.getState().setEconomicDirection('pragmatic')
-    }
-
-    // Detect Serida Valk scene outcomes
-    if (choice.flags.includes('serida_warm_intro')) {
-      useGameStore.getState().setSeridaTrust(20)
-      useGameStore.getState().setSeridaMorale(10)
-    }
-    if (choice.flags.includes('serida_school_heard')) {
-      useGameStore.getState().setSeridaTrust(10)
-      useGameStore.getState().setSeridaMorale(5)
-    }
-    if (choice.flags.includes('serida_school_dismissed')) {
-      useGameStore.getState().setSeridaTrust(-5)
-      useGameStore.getState().setSeridaMorale(-10)
-    }
-    if (choice.flags.includes('serida_factory_positive')) {
-      useGameStore.getState().setSeridaTrust(15)
-      useGameStore.getState().setSeridaMorale(15)
-    }
-    if (choice.flags.includes('serida_heard_something')) {
-      useGameStore.getState().setSeridaTrust(15)
-    }
-    if (choice.flags.includes('serida_sent_home')) {
-      useGameStore.getState().setSeridaTrust(10)
-      useGameStore.getState().setSeridaMorale(8)
-    }
-    if (choice.flags.includes('serida_stayed_late')) {
-      useGameStore.getState().setSeridaMorale(-10)
-    }
-    if (choice.flags.includes('serida_refugees_kind')) {
-      useGameStore.getState().setSeridaTrust(10)
-      useGameStore.getState().setSeridaMorale(10)
-    }
-    if (choice.flags.includes('serida_refugees_policy')) {
-      useGameStore.getState().setSeridaTrust(-3)
-      useGameStore.getState().setSeridaMorale(-5)
-    }
-    if (choice.flags.includes('serida_epilogue_positive')) {
-      useGameStore.getState().setSeridaTrust(20)
-      useGameStore.getState().setSeridaMorale(20)
-    }
-
-    // Detect project-start flags and kick off the project
-    for (const flag of choice.flags) {
-      const projectId = PROJECT_START_FLAGS[flag]
-      if (projectId) {
-        useGameStore.getState().startProject(projectId)
-        // Schedule contractor selection scene for this project
-        const contractorSceneId = getContractorSceneId(projectId)
-        if (contractorSceneId) {
-          useChainStore.getState().schedule(
-            [{ targetNodeId: contractorSceneId, delayWeeks: 0 }],
-            useGameStore.getState().currentWeek,
-            `contractor_${projectId}`,
-          )
-        }
-        // Schedule mid-project crisis scene
-        const crisisSceneId = getMidCrisisSceneId(projectId)
-        if (crisisSceneId) {
-          const projectDef = (projectDefinitions as DevelopmentProject[]).find(d => d.id === projectId)
-          const delay = projectDef?.durationWeeks ? Math.floor(projectDef.durationWeeks / 2) : 4
-          useChainStore.getState().schedule(
-            [{ targetNodeId: crisisSceneId, delayWeeks: delay }],
-            useGameStore.getState().currentWeek,
-            `mid_crisis_${projectId}`,
-          )
-        }
-      }
     }
 
     // Chime when new codex entries are unlocked

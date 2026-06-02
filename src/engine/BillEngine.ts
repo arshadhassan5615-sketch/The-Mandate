@@ -1,9 +1,7 @@
-import type { Bill, BillHistoryEntry, VetoOverrideResult } from '../types/bills'
+import type { Bill, VetoOverrideResult } from '../types/bills'
 import type { StateModifier } from '../types/gameState'
 import { evaluateAll } from './conditionEvaluator'
 import { useGameStore } from '../stores/gameStore'
-import { useNarrativeStore } from '../stores/narrativeStore'
-import { useBillStore } from '../stores/billStore'
 
 let billCache: Bill[] | null = null
 
@@ -77,7 +75,7 @@ export function calculateVetoOverrideChance(
 export function executeBillSign(
   bill: Bill,
   gameState: ReturnType<typeof useGameStore.getState>,
-  activeFlags: string[],
+  _activeFlags: string[],
 ): { modifiers: StateModifier[]; flags: string[] } {
   gameState.applyModifiers(bill.signEffects)
   return {
@@ -89,7 +87,7 @@ export function executeBillSign(
 export function executeBillVeto(
   bill: Bill,
   gameState: ReturnType<typeof useGameStore.getState>,
-  activeFlags: string[],
+  _activeFlags: string[],
 ): { modifiers: StateModifier[]; flags: string[] } {
   gameState.applyModifiers(bill.vetoEffects)
   return {
@@ -109,7 +107,7 @@ export function canAssemblyOverride(activeFlags: string[]): boolean {
 export function generateReactionText(
   bill: Bill,
   decision: 'signed' | 'vetoed' | 'overridden' | 'auto_passed',
-  activeFlags: string[],
+  _activeFlags: string[],
 ): { speaker: string; text: string }[] {
   const reactions: { speaker: string; text: string }[] = []
 

@@ -177,7 +177,7 @@ export default function EpilogueScreen() {
           </p>
 
           <AnimatePresence>
-            {epilogue.vignettes.slice(0, vignetteIndex).map((vig, i) => (
+            {epilogue.vignettes.slice(0, vignetteIndex).map((vig) => (
               <motion.div
                 key={vig.characterId}
                 initial={{ opacity: 0, y: 24 }}

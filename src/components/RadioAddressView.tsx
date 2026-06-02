@@ -44,7 +44,7 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
 
   const handleTransmit = () => {
     setStep('broadcasting')
-    useGameStore.getState().useRadioBroadcast()
+    useGameStore.getState().useRadioBroadcast(theme)
     if (result.modifiers.length > 0) {
       applyModifiers(result.modifiers as { stat: string; operation: 'add' | 'set' | 'multiply'; value: number }[])
     }

@@ -60,7 +60,7 @@ export default function ConversationPanel({
   sceneTitle, sceneLocation, sceneType, currentWeek, sceneCharacters,
   history, activeSegment, activeText, showCursor,
   choices, showChoices, sceneDone, allDone, segmentDone,
-  onAdvance, onChoice, onAdvanceQueue, continueLabel,
+  onAdvance: _onAdvance, onChoice, onAdvanceQueue, continueLabel,
   speakingCharacter, monologueText,
 }: ConversationPanelProps) {
   const historyRef = useRef<HTMLDivElement>(null)

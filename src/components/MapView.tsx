@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useSettingsStore } from '../stores/settingsStore'
@@ -23,11 +23,6 @@ const PROVINCE_ZONES: ProvinceZone[] = [
   { id: 'aldenmoor',    name: 'Aldenmoor',    label: 'Amber Coast',           top: '64%', left: '50%', width: '20%', height: '22%', primaryFaction: 'businessClass' },
   { id: 'dravenhollow', name: 'Dravenhollow', label: 'Northern Mountains',    top: '22%', left: '44%', width: '22%', height: '22%', primaryFaction: 'dravenni' },
 ]
-
-const FACTION_TINT: Record<string, string> = {
-  reformists: '58,90,124', workersCoalition: '139,46,46', halvekists: '100,100,100',
-  ironCovenant: '74,107,58', church: '155,123,58', businessClass: '90,122,90', dravenni: '123,90,58',
-}
 
 const FACTION_LABELS: Record<string, string> = {
   reformists: 'Reformist', workersCoalition: "Workers' Coalition", halvekists: 'Halvekist',
@@ -71,11 +66,9 @@ function computeCrisisLevel(provinceId: string, state: GameState, flags: string[
 
 // ─── Province tooltip ───────────────────────────────────────────────────────
 
-function ProvinceTooltip({ zone, crisisLevel, factionScore, factions, onOpenDetail, mouseX, mouseY }: {
+function HoverLabel({ zone, crisisLevel, onOpenDetail, mouseX, mouseY }: {
   zone: ProvinceZone
   crisisLevel: 0 | 1 | 2
-  factionScore: number
-  factions: GameState['factions']
   onOpenDetail: () => void
   mouseX: number; mouseY: number
 }) {
@@ -237,11 +230,8 @@ function EventMedallion({ zone, crisisLevel, onOpenDetail }: {
 
 // ─── Province click zone ────────────────────────────────────────────────────
 
-function ProvinceClickZone({ zone, crisisLevel, factionScore, factions, onHover, onOpenDetail, hoveredId }: {
+function ProvinceClickZone({ zone, onHover, onOpenDetail, hoveredId }: {
   zone: ProvinceZone
-  crisisLevel: 0 | 1 | 2
-  factionScore: number
-  factions: GameState['factions']
   onHover: (id: string | null, x: number, y: number) => void
   onOpenDetail: (id: string) => void
   hoveredId: string | null
@@ -267,30 +257,6 @@ function ProvinceClickZone({ zone, crisisLevel, factionScore, factions, onHover,
         borderRadius: '2px',
       }}
     />
-  )
-}
-
-// ─── Neighbor markers ───────────────────────────────────────────────────────
-
-function NeighborMarker({ label, top, left, tension }: {
-  label: string
-  top: string
-  left: string
-  tension?: 'high' | 'normal'
-}) {
-  return (
-    <div style={{
-      position: 'absolute', top, left,
-      fontFamily: "'Special Elite', monospace",
-      fontSize: '11px', letterSpacing: '2px',
-      textTransform: 'uppercase',
-      color: tension === 'high' ? 'rgba(200,80,60,0.5)' : 'rgba(255,255,255,0.5)',
-      pointerEvents: 'none',
-      textShadow: '0 0 8px rgba(0,0,0,0.8)',
-      animation: tension === 'high' ? 'event-pulse 2.5s ease-in-out infinite' : undefined,
-    }}>
-      {label}
-    </div>
   )
 }
 
@@ -355,7 +321,6 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
   const currentWeek = useGameStore(s => s.currentWeek)
   const gameState = useGameStore()
   const factions = useGameStore(s => s.factions)
-  const militaryReadiness = useGameStore(s => s.nation.militaryReadiness)
   const { activeFlags } = useNarrativeStore()
 
   const [hoveredId, setHoveredId] = useState<string | null>(null)
@@ -373,7 +338,8 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
   const isGameplay = phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue'
   if (!isGameplay) return null
 
-  const tyvarenTension = militaryReadiness < 44
+  const hasDragged = useRef(false)
+  const isDragging = false  // future: track map drag state for hover suppression
 
   function handleOpenDetail(id: string) {
     if (hasDragged.current) return
@@ -420,22 +386,15 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
         />
 
         {/* Province click zones */}
-        {PROVINCE_ZONES.map(zone => {
-          const crisisLevel = statuses.get(zone.id) ?? 0
-          const factionScore = factions[zone.primaryFaction] ?? 40
-          return (
-            <ProvinceClickZone
-              key={zone.id}
-              zone={zone}
-              crisisLevel={crisisLevel}
-              factionScore={factionScore}
-              factions={factions}
-              onHover={handleHover}
-              onOpenDetail={handleOpenDetail}
-              hoveredId={hoveredId}
-            />
-          )
-        })}
+        {PROVINCE_ZONES.map(zone => (
+          <ProvinceClickZone
+            key={zone.id}
+            zone={zone}
+            onHover={handleHover}
+            onOpenDetail={handleOpenDetail}
+            hoveredId={hoveredId}
+          />
+        ))}
 
         {/* Event medallions */}
         {PROVINCE_ZONES.map(zone => {
@@ -455,8 +414,6 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
           <HoverLabel
             zone={hoveredZone}
             crisisLevel={statuses.get(hoveredZone.id) ?? 0}
-            factionScore={factions[hoveredZone.primaryFaction] ?? 40}
-            factions={factions}
             onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
             mouseX={mousePos.x}
             mouseY={mousePos.y}
@@ -503,22 +460,15 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
         />
 
         {/* Province click zones */}
-        {PROVINCE_ZONES.map(zone => {
-          const crisisLevel = statuses.get(zone.id) ?? 0
-          const factionScore = factions[zone.primaryFaction] ?? 40
-          return (
-            <ProvinceClickZone
-              key={zone.id}
-              zone={zone}
-              crisisLevel={crisisLevel}
-              factionScore={factionScore}
-              factions={factions}
-              onHover={handleHover}
-              onOpenDetail={handleOpenDetail}
-              hoveredId={hoveredId}
-            />
-          )
-        })}
+        {PROVINCE_ZONES.map(zone => (
+          <ProvinceClickZone
+            key={zone.id}
+            zone={zone}
+            onHover={handleHover}
+            onOpenDetail={handleOpenDetail}
+            hoveredId={hoveredId}
+          />
+        ))}
 
         {/* Event medallions */}
         {PROVINCE_ZONES.map(zone => {
@@ -538,8 +488,6 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
           <HoverLabel
             zone={hoveredZone}
             crisisLevel={statuses.get(hoveredZone.id) ?? 0}
-            factionScore={factions[hoveredZone.primaryFaction] ?? 40}
-            factions={factions}
             onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
             mouseX={mousePos.x}
             mouseY={mousePos.y}

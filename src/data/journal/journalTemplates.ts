@@ -1,4 +1,4 @@
-import type { JournalEntryMeta, JournalCategory, ChoiceAlignment } from '../../types/journal'
+import type { JournalEntryMeta, JournalCategory } from '../../types/journal'
 
 interface ChoiceTemplate {
   title: string

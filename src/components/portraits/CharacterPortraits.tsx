@@ -571,6 +571,8 @@ export const CHARACTER_COLORS: Record<string, string> = {
   viktor_dorne:    '#5A4A3A',
   elena_braskov:   '#8B5A8B',
   serida_valk:     '#7B8B5A',
+  stefan_morvec:   '#A67B5B',
+  aleksei_morvec:  '#5C6B73',
 }
 
 export function getCharacterColor(id: string): string {

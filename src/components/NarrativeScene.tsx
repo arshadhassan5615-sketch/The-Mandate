@@ -1,5 +1,4 @@
 import { useRef, useEffect, useCallback, useState } from 'react'
-import type { NarrativeSegment, SceneChoice } from '../types/narrative'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
@@ -109,7 +108,7 @@ export default function NarrativeScene() {
 
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const prevRevealed = useRef(0)
-  const loadTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
+  const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Timeout fallback — if scene doesn't load within 4s, try to recover
   useEffect(() => {
@@ -186,7 +185,7 @@ export default function NarrativeScene() {
         currentWeek={currentWeek}
         sceneCharacters={sceneCharacters}
         history={history}
-        activeSegment={activeSegment}
+        activeSegment={activeSegment ?? null}
         activeText={activeText}
         showCursor={!segmentDone}
         choices={choices}

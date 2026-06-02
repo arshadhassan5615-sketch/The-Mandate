@@ -1,6 +1,5 @@
-import { useSettingsStore, TEXT_SPEED_MS } from '../stores/settingsStore'
+import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
-import type { TextSpeed, FontSize } from '../stores/settingsStore'
 
 function Slider({ label, value, onChange, min = 0, max = 100 }: {
   label: string; value: number; onChange: (v: number) => void; min?: number; max?: number

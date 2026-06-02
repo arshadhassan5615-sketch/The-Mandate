@@ -14,7 +14,7 @@ export type NewsCategory =
   | 'governance'
   | 'media'
 
-export type Publication = 'ashenmere_herald' | 'peoples_standard' | 'veltrian_voice' | 'kravenstal_worker' | 'thornfeld_gazette'
+export type Publication = 'ashenmere_herald' | 'peoples_standard' | 'veltrian_voice' | 'veltrian_times' | 'kravenstal_worker' | 'thornfeld_gazette'
 
 export interface NewsArticle {
   id: string

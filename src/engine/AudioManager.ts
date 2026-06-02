@@ -382,7 +382,7 @@ class AudioManager {
 
   private currentIntensity: 'low' | 'medium' | 'high' = 'medium'
 
-  getTrackForScene(sceneType: string, sceneId: string, activeFlags?: string[]): string {
+  getTrackForScene(sceneType: string, sceneId: string, _activeFlags?: string[]): string {
     // 1. Exact scene ID match in flaggedSceneMap
     for (const [track, scenes] of Object.entries(flaggedSceneMap)) {
       if (scenes.includes(sceneId)) {

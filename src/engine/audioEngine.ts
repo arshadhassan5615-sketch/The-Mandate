@@ -5,9 +5,6 @@ let ctx: AudioContext | null = null
 let masterGain: GainNode | null = null
 let ambientGain: GainNode | null = null
 let uiGain: GainNode | null = null
-let cityNoiseNode: AudioScheduledSourceNode | null = null
-let pianoInterval: ReturnType<typeof setInterval> | null = null
-let initialized = false
 
 function getCtx(): AudioContext {
   if (!ctx) {
@@ -116,104 +113,13 @@ function playTone(
 // ─── Ambient Loops ─────────────────────────────────────────────────────────────
 
 export function startAmbient(_sceneType?: string) {
-  return // disabled
-  if (!initialized) {
-    getCtx()
-    initialized = true
-  }
-  stopAmbient()
-  startCityAmbience()
-  if (sceneType === 'personal') startPiano()
+  // disabled — ambient soundscape is currently no-op. Reserving the signature
+  // so call sites can be wired up once the audio bank ships.
+  return
 }
 
 export function stopAmbient() {
-  stopCityAmbience()
-  stopPiano()
-}
-
-// ── City ambience (distant muffled rumble) ────────────────────────────────────
-
-function startCityAmbience() {
-  const c = getCtx()
-  const buf = noiseBuffer(4)
-  const src = c.createBufferSource()
-  src.buffer = buf
-  src.loop = true
-
-  const lowpass = c.createBiquadFilter()
-  lowpass.type = 'lowpass'
-  lowpass.frequency.value = 350
-
-  const env = c.createGain()
-  env.gain.value = 0.06
-
-  // Slow modulation for "breathing" city feel
-  const lfo = c.createOscillator()
-  lfo.type = 'sine'
-  lfo.frequency.value = 0.12
-  const lfoGain = c.createGain()
-  lfoGain.gain.value = 0.02
-  lfo.connect(lfoGain)
-  lfoGain.connect(env.gain)
-  lfo.start()
-
-  src.connect(lowpass)
-  lowpass.connect(env)
-  env.connect(ambientGain!)
-  src.start()
-  cityNoiseNode = src
-}
-
-function stopCityAmbience() {
-  if (cityNoiseNode) {
-    try { cityNoiseNode.stop() } catch { /* already stopped */ }
-    cityNoiseNode = null
-  }
-}
-
-// ── Sparse piano (family/personal scenes) ─────────────────────────────────────
-
-const PIANO_NOTES = [
-  [523, 659], [587, 698], [523, 659], [440, 554],
-  [494, 587], [523, 659], [392, 494], [440, 554],
-  [523, 659], [698, 880], [659, 784], [587, 698],
-  [523, 659], [440, 554], [392, 494], [349, 440],
-]
-
-let pianoNoteIdx = 0
-
-function startPiano() {
-  const c = getCtx()
-  const playNote = () => {
-    if (!ambientGain) return
-    const [f1, f2] = PIANO_NOTES[pianoNoteIdx % PIANO_NOTES.length]
-    pianoNoteIdx++
-
-    const dur = 1.8 + Math.random() * 0.6
-    const vol = 0.025 + Math.random() * 0.015
-    const startTime = c.currentTime
-
-    for (const freq of [f1, f2]) {
-      const osc = c.createOscillator()
-      osc.type = 'sine'
-      osc.frequency.value = freq
-      const env = c.createGain()
-      env.gain.setValueAtTime(0, startTime)
-      env.gain.linearRampToValueAtTime(vol, startTime + 0.06)
-      env.gain.linearRampToValueAtTime(vol * 0.6, startTime + 0.3)
-      env.gain.linearRampToValueAtTime(0, startTime + dur)
-      osc.connect(env)
-      env.connect(ambientGain)
-      osc.start(startTime)
-      osc.stop(startTime + dur)
-    }
-  }
-  playNote()
-  pianoInterval = setInterval(playNote, 3500 + Math.random() * 2000)
-}
-
-function stopPiano() {
-  if (pianoInterval) { clearInterval(pianoInterval); pianoInterval = null }
+  // disabled — no ambient loops active to stop.
 }
 
 // ─── UI One-Shot Sounds ────────────────────────────────────────────────────────
@@ -251,9 +157,10 @@ export function playTypewriterKeyThrottled() {
 }
 
 export function playPaperShuffle() {
-  if (!uiGain) return
-  playNoise(0.22, 800, 3500, 0.1, uiGain)
-  setTimeout(() => playNoise(0.18, 600, 2800, 0.07, uiGain), 80)
+  const dest = uiGain
+  if (!dest) return
+  playNoise(0.22, 800, 3500, 0.1, dest)
+  setTimeout(() => playNoise(0.18, 600, 2800, 0.07, dest), 80)
 }
 
 export function playStamp() {
@@ -317,9 +224,10 @@ export function playCodexUnlock() {
 }
 
 export function playPageTurn() {
-  if (!uiGain) return
-  playNoise(0.15, 400, 2000, 0.08, uiGain)
-  setTimeout(() => playNoise(0.12, 500, 1800, 0.05, uiGain), 60)
+  const dest = uiGain
+  if (!dest) return
+  playNoise(0.15, 400, 2000, 0.08, dest)
+  setTimeout(() => playNoise(0.12, 500, 1800, 0.05, dest), 60)
 }
 
 // ─── Lifecycle ─────────────────────────────────────────────────────────────────
@@ -338,6 +246,5 @@ export function destroyAudio() {
     masterGain = null
     ambientGain = null
     uiGain = null
-    initialized = false
   }
 }

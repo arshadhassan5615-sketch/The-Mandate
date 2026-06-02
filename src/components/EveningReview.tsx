@@ -22,8 +22,10 @@ function computeDeltas(before: GameState, after: GameState): StatDelta[] {
     militaryReadiness:    'Military Readiness',
     publicOrder:          'Public Order',
     pressFreedom:         'Press Freedom',
+    mediaControl:         'Media Control',
     civilLiberties:       'Civil Liberties',
     internationalStanding:'Intl. Standing',
+    assemblyVoteMargin:   'Assembly Margin',
   }
   for (const [k, label] of Object.entries(nationLabels)) {
     const key = k as keyof NationState
@@ -107,9 +109,7 @@ function DeltaRow({ label, delta }: StatDelta) {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function EveningReview() {
-  const { sceneQueue, weekStartSnapshot, currentWeek: _cw, completeWeek, gateBlocked, gateMessage, dismissGate } = useWeekStore()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  void _cw
+  const { sceneQueue, weekStartSnapshot, completeWeek, gateBlocked, gateMessage, dismissGate } = useWeekStore()
   const gameState = useGameStore()
   const { currentWeek } = useGameStore()
   const { setSaveMenuOpen, ironmanMode } = useSettingsStore()

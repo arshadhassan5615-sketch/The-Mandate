@@ -9,11 +9,19 @@ export interface NarrativeSegment {
   character?: string  // only present when type === 'dialogue'
 }
 
-export interface Condition {
+export interface StatCondition {
   stat: string                              // dot-notation: "nation.pressFreedom", "flags.bni_dissolved", "currentWeek"
   operator: '>' | '<' | '==' | '>=' | '<=' | '!='
   value: number | string | boolean
 }
+
+export interface FlagCondition {
+  type: 'flag'
+  flag: string                              // exact activeFlag name
+  value: boolean                            // required membership state
+}
+
+export type Condition = StatCondition | FlagCondition
 
 export interface ChainTrigger {
   targetNodeId: string

@@ -26,19 +26,7 @@ const FACTION_NAMES: Record<string, string> = {
   dravenni: 'Dravenni Liberation Front',
 }
 
-function getFactionSupport(bill: Bill): { support: string[]; oppose: string[] } {
-  const support: string[] = []
-  const oppose: string[] = []
-  for (const effect of bill.signEffects) {
-    const parts = effect.stat.split('.')
-    if (parts[0] === 'factions' && parts[1]) {
-      const name = FACTION_NAMES[parts[1]] || parts[1]
-      if (effect.value > 0) support.push(name)
-      else if (effect.value < 0) oppose.push(name)
-    }
-  }
-  return { support, oppose }
-}
+void FACTION_NAMES // exposed for downstream overlays; keep the map for label reuse
 
 function generateReactionText(
   bill: Bill,
@@ -165,7 +153,7 @@ export default function LegislationOverlay() {
   const [chosenAction, setChosenAction] = useState<'signed' | 'vetoed'>('signed')
   const [reactions, setReactions] = useState<{ speaker: string; text: string }[]>([])
   const [overrideResult, setOverrideResult] = useState<{ overridden: boolean; assemblyVote: number } | null>(null)
-  const [showStamp, setShowStamp] = useState(false)
+  const [, setShowStamp] = useState(false)
   const [showSignature, setShowSignature] = useState(false)
   const documentRef = useRef<HTMLDivElement>(null)
 
@@ -615,7 +603,7 @@ export default function LegislationOverlay() {
             </div>
           </div>
         </>
-      ) : decisionState === 'auto_passed' ? (
+      ) : (decisionState as DecisionState) === 'auto_passed' ? (
         <motion.div
           key="bill-auto"
           initial={{ opacity: 0, scale: 1.2 }}

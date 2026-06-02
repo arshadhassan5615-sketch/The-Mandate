@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react'
 import { useCodexStore, ALL_CODEX_ENTRIES } from '../../stores/codexStore'
-import { useNarrativeStore } from '../../stores/narrativeStore'
 import { CATEGORY_LABELS } from '../../types/codex'
 import CharacterPortrait from '../portraits/CharacterPortrait'
 
@@ -87,12 +86,6 @@ function renderMarkdown(content: string): React.ReactNode {
 
 export default function InlineCodexPanel() {
   const { inlineCodexOpen, activeEntryId, closeInlineCodex } = useCodexStore()
-  const { activeFlags, unlockedCodexIds } = useNarrativeStore()
-
-  const isUnlocked = (entryId: string): boolean =>
-    ALL_CODEX_ENTRIES.some(e => e.id === entryId &&
-      (e.unlockCondition === 'start' || activeFlags.includes(e.unlockCondition) || unlockedCodexIds.includes(e.id)))
-
   const entry = useMemo(() => {
     if (!activeEntryId) return null
     return ALL_CODEX_ENTRIES.find(e => e.id === activeEntryId) ?? null

@@ -1,18 +1,13 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import {
   PROVISIONS,
-  FACTION_SEATS,
-  INTENSITY_LABELS,
-  INTENSITY_COLORS,
   calculateReferendumForecast,
   getReferendumOutlook,
   calculateAssemblyVotes,
   type ConstitutionalProvision,
-  type ProvisionVariant,
-  type FactionReaction,
 } from '../data/constitution/provisions'
 import type { FactionState } from '../types/gameState'
 
@@ -130,7 +125,6 @@ function ProvisionCard({
 function VotePredictor({ support, oppose, threshold }: { support: number; oppose: number; threshold: number }) {
   const total = 250
   const supportPct = Math.round((support / total) * 100)
-  const oppPct = Math.round((oppose / total) * 100)
   const passes = support >= threshold
 
   return (
@@ -163,8 +157,8 @@ function VotePredictor({ support, oppose, threshold }: { support: number; oppose
   )
 }
 
-function FactionReactionRow({ factionKey, display, netValue }: {
-  factionKey: keyof FactionState; display: { short: string; full: string; color: string }; netValue: number
+function FactionReactionRow({ display, netValue }: {
+  display: { short: string; full: string; color: string }; netValue: number
 }) {
   const barColor = netValue > 5 ? 'var(--accent-green)' : netValue < -15 ? 'var(--accent-red)' : netValue < -5 ? '#a05030' : 'var(--muted)'
   const barWidth = Math.min(100, Math.abs(netValue) * 2.5)
@@ -209,7 +203,6 @@ export default function ConstitutionalReform() {
   const currentWeek = useGameStore(s => s.currentWeek)
   const applyModifiers = useGameStore(s => s.applyModifiers)
   const { advanceQueue, sceneQueue, currentQueueIndex } = useWeekStore()
-  const { activeFlags } = useNarrativeStore()
 
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(() => ({}))
   const [finalized, setFinalized] = useState(false)
@@ -295,7 +288,7 @@ export default function ConstitutionalReform() {
             </p>
           ) : (
             (Object.keys(FACTION_DISPLAY) as (keyof FactionState)[]).map(key => (
-              <FactionReactionRow key={key} factionKey={key} display={FACTION_DISPLAY[key]} netValue={netFactionValues.get(key) ?? 0} />
+              <FactionReactionRow key={key} display={FACTION_DISPLAY[key]} netValue={netFactionValues.get(key) ?? 0} />
             ))
           )}
         </div>

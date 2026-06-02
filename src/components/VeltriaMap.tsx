@@ -703,8 +703,7 @@ function getMedallionType(economy: string): string {
   return 'capital'
 }
 
-function CityMedallion({ provinceId, cityName, economy, isCapital, hasEvent, onClick }: {
-  provinceId: string
+function CityMedallion({ cityName, economy, isCapital, hasEvent, onClick }: {
   cityName: string
   economy: string
   isCapital?: boolean
@@ -848,7 +847,6 @@ export default function VeltriaMap({ onProvinceDetail, mapImage }: {
               return (
                 <div key={p.id} style={{ position: 'absolute', left: `${(p.cityX / 640) * 100}%`, top: `${(p.cityY / 480) * 100}%`, transform: 'translate(-50%, -50%)' }}>
                   <CityMedallion
-                    provinceId={p.id}
                     cityName={p.name}
                     economy={p.economy}
                     isCapital={p.isCapital}
@@ -863,7 +861,7 @@ export default function VeltriaMap({ onProvinceDetail, mapImage }: {
         {mapImage && (
           <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1, opacity: 0.6 }} viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice">
             {PROVINCES.map(p => {
-              const status = statuses.get(p)
+              const status = statuses.get(p.id)
               const score = status ? (gameState.factions[p.primaryFaction] ?? 40) : 40
               const opacity = 0.04 + (score / 100) * 0.08
               const color = p.primaryFaction === 'reformists' ? '58,90,124' :

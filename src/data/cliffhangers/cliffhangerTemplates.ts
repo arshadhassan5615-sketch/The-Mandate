@@ -11,6 +11,7 @@ export interface CliffhangerContext {
   militaryReadiness: number
   pressFreedom: number
   marriageHealth: number
+  tomasWellbeing: number
   halvekists: number
   workersCoalition: number
   reformists: number

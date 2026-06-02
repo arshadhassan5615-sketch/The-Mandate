@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNewsStore } from '../stores/newsStore'
-import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { NEWSPAPERS, TAB_ORDER } from '../data/newspapers'
 import type { NewspaperDef } from '../data/newspapers'
@@ -190,8 +189,6 @@ export default function NewsOverlay() {
   const mid = Math.ceil(tabArticles.length / 2)
   const leftColumn = tabArticles.slice(0, mid)
   const rightColumn = tabArticles.slice(mid)
-
-  const mediaDeal = activeFlags.includes('media_deal')
 
   if (!isOpen) return null
 

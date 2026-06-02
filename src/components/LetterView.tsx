@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
-import { useWeekStore } from '../stores/weekStore'
 import { useChainStore } from '../stores/chainStore'
 import { getAvailableLetters, generateLetterContent, createSentLetter, LETTER_OPTIONS } from '../engine/LetterEngine'
 import type { LetterTone } from '../types/gameState'
@@ -15,7 +14,6 @@ const TONES: { value: LetterTone; label: string; description: string }[] = [
 export default function LetterView({ onClose }: { onClose: () => void }) {
   const gameState = useGameStore()
   const { currentWeek } = gameState
-  const sentIds = gameState.sentLetters.map(l => l.id.replace(/_\d+_\d+$/, '').replace(/^letter_/, ''))
   const actualIds = gameState.sentLetters.map(l => {
     const opt = LETTER_OPTIONS.find(o => l.title === o.title)
     return opt?.id ?? ''

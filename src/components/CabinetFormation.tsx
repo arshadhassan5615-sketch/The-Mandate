@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { MinistryType, MinisterCandidate } from '../types/minister'
+import type { MinistryType } from '../types/minister'
 import { MINISTER_CANDIDATES, getCandidatesForMinistry } from '../data/ministers'
 import { useCabinetStore } from '../stores/cabinetStore'
 import { useGameStore } from '../stores/gameStore'

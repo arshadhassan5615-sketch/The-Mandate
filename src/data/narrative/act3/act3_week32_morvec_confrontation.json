@@ -1,0 +1,465 @@
+{
+  "id": "act3_week32_morvec_confrontation",
+  "title": "The Patriarch's Ultimatum",
+  "week": 32,
+  "act": 3,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "stefan_morvec",
+    "vyktor_reznik"
+  ],
+  "prerequisiteFlags": ["morvec_pressure_received"],
+  "dialogue": [
+    {
+      "type": "narrative",
+      "text": "Vyktor does not knock. He opens the door, closes it behind him, and stands with his back against it. His face is the face he wears when there is no good way to say what he is about to say."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Stefan Morvec is in the waiting room."
+    },
+    {
+      "type": "narrative",
+      "text": "You stop writing. You set down the pen. You look at Vyktor."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "He came alone. No son. No staff. He drove himself from Aldenmoor. Three hours in a car at his age. He is sitting in the waiting room reading a newspaper from three days ago as though he has all the time in the world."
+    },
+    {
+      "type": "narrative",
+      "text": "Stefan Morvec has not left the Aldenmoor Estate for anything other than a funeral in eleven years. You know this because Vyktor told you this, months ago, when you asked how dangerous he really was."
+    }
+  ],
+  "monologue": "Eleven years. He came himself. Not Aleksei — Stefan. Whatever this is, it is not a warning. Warnings are delivered by sons. This is something else. Vyktor is still standing against the door. He is waiting for me to understand what he understood the moment he saw Morvec in the waiting room: the Republic is in danger, and I am about to learn exactly how.",
+
+  "choices": [
+    {
+      "id": "let_him_in",
+      "text": "Let him in.",
+      "nextSegment": "the_arrival"
+    },
+    {
+      "id": "ask_vyktor_assessment",
+      "text": "What do you think this is?",
+      "nextSegment": "vyktor_assessment_morvec_2"
+    }
+  ],
+
+  "segments": {
+    "vyktor_assessment_morvec_2": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I think Aleksei did something. I think Stefan found out. And I think he is here to clean it up before it destroys the family. That is the optimistic version. The other version is that he is here because something we did — something you signed, someone you appointed, a line in a bill you supported — has finally crossed a line he drew forty years ago and never told anyone about."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Either way, you need to see him. He did not drive three hours to talk to me."
+        }
+      ],
+      "choices": [
+        {
+          "id": "let_him_in_now",
+          "text": "Let him in.",
+          "nextSegment": "the_arrival"
+        }
+      ]
+    },
+
+    "the_arrival": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "He enters without ceremony. Seventy-four years old and he moves like a man who has never needed to hurry. No guards. No briefcase. No papers. He is wearing a grey coat that was expensive twenty years ago and has been maintained ever since — the kind of wealth that does not need to announce itself."
+        },
+        {
+          "type": "narrative",
+          "text": "He does not sit until you offer him a chair. He does not speak until he has adjusted his cuffs, crossed his legs, and folded his hands in his lap. Every motion is deliberate. Every pause is information."
+        },
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Chancellor. You have a lovely view of the river. I had forgotten. It is easy to forget what a room looks like from this side of the desk."
+        }
+      ],
+      "monologue": "He said 'from this side of the desk.' He has been on the other side. Of course he has. Four Chancellors. Four desks. He has sat across from all of them.",
+      "choices": [
+        {
+          "id": "offer_tea",
+          "text": "Can I offer you tea?",
+          "nextSegment": "the_tea"
+        },
+        {
+          "id": "ask_why_here",
+          "text": "You did not come here to discuss the view.",
+          "nextSegment": "the_grievance"
+        }
+      ]
+    },
+
+    "the_tea": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "That would be kind. Black. No sugar. I find that sweetness, at my age, is an unnecessary complication."
+        },
+        {
+          "type": "narrative",
+          "text": "Vyktor pours. Morvec waits until the cup is in his hands before he continues. The tea is a prop. He uses it to control the rhythm of the conversation. You watch him take one sip. One. Then set the cup down precisely in the center of the saucer."
+        },
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Your government has been busy, Chancellor. Reforms. Investigations. New appointments. I have followed it all. A lesser person would have been overwhelmed by the pace. You have managed it with remarkable composure. I have always admired composure."
+        },
+        {
+          "type": "narrative",
+          "text": "He pauses. The pause is not an accident. He wants you to wonder what comes after the compliment."
+        },
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Composure is a quality that runs in your family. Your father had it. He needed it, in the end. More than most."
+        }
+      ],
+      "monologue": "He mentioned my father again. The first time was at the estate — a compliment wrapped in history. This time it is different. This time it is a reminder that he has been in rooms I have only read about, with people I buried.",
+      "choices": [
+        {
+          "id": "acknowledge_father_mention",
+          "text": "You knew my father better than you told me at Aldenmoor.",
+          "nextSegment": "father_moment"
+        },
+        {
+          "id": "move_to_business",
+          "text": "Tell me why you are here, Stefan.",
+          "nextSegment": "the_grievance"
+        }
+      ]
+    },
+
+    "father_moment": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "I knew him well enough to know he did not deserve what happened to him. I also knew him well enough to know that what happened to him was not an accident. There is a difference, Chancellor, between knowing something is wrong and being able to stop it. Your father understood that difference. I hope you do as well."
+        },
+        {
+          "type": "narrative",
+          "text": "He does not say that he could have stopped it. He does not say that he tried. He leaves the space for you to fill with whatever you need to believe about him."
+        }
+      ],
+      "monologue": "He is not claiming innocence. He is claiming complexity. That is worse. Innocence can be disproven. Complexity just expands to fill whatever space you give it.",
+      "choices": [
+        {
+          "id": "father_to_business",
+          "text": "Why are you here, Stefan?",
+          "nextSegment": "the_grievance"
+        }
+      ]
+    },
+
+    "the_grievance": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "My son Aleksei has been — overzealous. He is forty-four years old and still believes that force is a substitute for patience. He has made certain representations to certain members of your government. Representations that exceeded his authority and, I am sorry to say, my intentions."
+        },
+        {
+          "type": "narrative",
+          "text": "He pauses. The apology is genuine or it is perfectly performed. You cannot tell which, which is exactly how Stefan Morvec wants it."
+        },
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "I am here to correct the record. And to ensure that the correction is mutual."
+        },
+        {
+          "type": "narrative",
+          "text": "Mutual. There is the word. He did not come to apologize. He came to renegotiate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_what_aleksei_did",
+          "text": "What exactly did your son do?",
+          "nextSegment": "aleksei_explanation"
+        },
+        {
+          "id": "ask_what_correction",
+          "text": "What kind of correction did you have in mind?",
+          "nextSegment": "the_history"
+        }
+      ]
+    },
+
+    "aleksei_explanation": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "He approached your Finance Minister. He suggested that certain regulatory reviews — the northern rail concession renewal, the timber tax audit, the grain storage investigation — might be resolved more favorably if certain political considerations were taken into account. He used language that implied I authorized it. I did not."
+        },
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "He also spoke to two members of your constitutional committee. He was not subtle. Subtlety is not among his gifts."
+        },
+        {
+          "type": "narrative",
+          "text": "He is telling you his son is out of control. He is also telling you he knows exactly what Aleksei said to whom. That means he has sources inside your government."
+        }
+      ],
+      "monologue": "He just admitted his son tried to corrupt my government and he somehow made it sound like a parenting problem. I need to remember that. This is what he does.",
+      "choices": [
+        {
+          "id": "aleksei_to_history",
+          "text": "What do you want from this conversation?",
+          "nextSegment": "the_history"
+        },
+        {
+          "id": "aleksei_anger",
+          "text": "Your son attempted to bribe members of my government. That is a crime.",
+          "nextSegment": "stefan_acknowledges_son"
+        }
+      ]
+    },
+
+    "stefan_acknowledges_son": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Yes. It is. I am not here to defend it. I am here to resolve it before it becomes the kind of problem that requires prosecution. Not because I wish to protect my son from consequences — he will face consequences, I assure you — but because a public scandal involving the Morvec family would damage this government at a moment when it cannot afford damage. I believe we both understand that."
+        },
+        {
+          "type": "narrative",
+          "text": "He is not wrong. A corruption scandal involving the wealthiest family in Veltria, breaking three months before the constitutional referendum — the Halvekists would have their election slogan for a decade. 'Ashavel's government: bought by the same people who bought Halvek's.'"
+        }
+      ],
+      "choices": [
+        {
+          "id": "stefan_ack_to_history",
+          "text": "What are you proposing?",
+          "nextSegment": "the_history"
+        }
+      ]
+    },
+
+    "the_history": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Let me tell you something about how this republic was built, Chancellor. When Halvek fell, there were thirty-seven families that controlled the economy. Not the stock market. Not the banks. The actual economy — the grain that people ate, the timber that built their houses, the river transport that moved goods from the farms to the cities. When the transition government collapsed after eleven months, those thirty-seven families did not collapse with it. They kept the grain moving. They kept the electricity on. They kept the trains running. The republic survived its first year because the people who actually ran the country decided it should survive."
+        },
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Most of those families are gone now. Absorbed. Broken. Dispersed. My family is still here. Do you know why?"
+        },
+        {
+          "type": "narrative",
+          "text": "He waits. He expects you to answer. Or not answer. Either serves his purpose."
+        }
+      ],
+      "monologue": "Because he never overreached. Because he helped when helping was strategically valuable and withdrew when withdrawing preserved influence. He did not win. He outlasted. That is the Morvec strategy and he is explaining it to me like a grandfather explaining the family business.",
+      "choices": [
+        {
+          "id": "answer_patience",
+          "text": "Because you understood that patience outlasts power.",
+          "nextSegment": "stefan_pleased"
+        },
+        {
+          "id": "answer_silence",
+          "text": "Say nothing. Let him continue.",
+          "nextSegment": "stefan_continues"
+        }
+      ]
+    },
+
+    "stefan_pleased": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Good. You have been paying attention. That is more than I can say for most of the people who have sat in that chair. Yes. Patience outlasts power. Every government falls eventually, Chancellor. Even the good ones. The question is what remains after they fall. I have spent my life ensuring that what remains is stable. That is not a threat. It is a description of my work."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pleased_to_ultimatum",
+          "text": "You did not come here to describe your work.",
+          "nextSegment": "the_ultimatum"
+        }
+      ]
+    },
+
+    "stefan_continues": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Because I never asked to run the country. I only asked to be left alone to run my affairs. Every Chancellor who understood that distinction completed their term without difficulty. Every Chancellor who did not — well. You have read the histories. You know who completed their terms and who did not."
+        },
+        {
+          "type": "narrative",
+          "text": "He does not say that he ended any of them. He does not need to. The implication does the work for him."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continues_to_ultimatum",
+          "text": "Then tell me what you want.",
+          "nextSegment": "the_ultimatum"
+        }
+      ]
+    },
+
+    "the_ultimatum": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "I want a quiet resolution. Aleksei will be removed from all public-facing operations. His approaches to your ministers will be formally disavowed in a private letter that I will write and that you will never need to make public. The regulatory reviews of Morvec holdings will continue — but they will be conducted by career civil servants, not by political appointees with reformist ambitions. And the constitutional committee will receive a clarification from my family's legal representatives confirming that we have no objection to the land reform clause, provided it includes a grandfather provision for holdings established before 1920."
+        },
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "In exchange: the northern rail concession is renewed without competitive tender for a term of fifteen years. The grain storage audit is closed with a finding of no irregularities. And the timber tax review is deferred until after the referendum."
+        },
+        {
+          "type": "narrative",
+          "text": "He has just described a deal that gives you a clean resolution to a corruption crisis and costs you almost nothing — except the principle that the law applies to everyone. The northern rail concession. The grain audit. The timber tax. Three regulatory matters that he has just told you he needs to control. The price of peace."
+        }
+      ],
+      "monologue": "This is the Morvec method. He does not ask for the country. He asks for three things that sound technical and boring and entirely reasonable. And if I give them to him, I will have traded the integrity of my government's regulatory apparatus for a private letter from a man who has outlasted four Chancellors. But if I refuse — if I prosecute Aleksei, if I push the audits, if I make this public — the scandal will consume the referendum. The Halvekists will say Ashavel and Morvec are the same kind of power, just wearing different colors. And they will not be entirely wrong. This is what governing actually feels like.",
+      "choices": [
+        {
+          "id": "yield_to_patriarch",
+          "text": "\"I accept your proposal, Stefan. The audits will be closed. The concession is yours. Your letter will remain private. Let us put this behind us — for the sake of the Republic.\"",
+          "statEffects": [
+            { "stat": "morvecInfluence", "value": 20 },
+            { "stat": "factions.reformists", "value": -12 },
+            { "stat": "personal.moralCompass", "value": -10 },
+            { "stat": "nation.corruption", "value": 8 }
+          ],
+          "flags": ["morvec_debt_owed", "northern_rail_morvec", "grain_audit_closed", "timber_tax_deferred"],
+          "reactions": [
+            {
+              "character": "stefan_morvec",
+              "type": "action",
+              "text": "He reaches across the desk and pats your hand — the gesture of a disappointed father who is not entirely disappointed. His hand is dry and warm. 'You have made the correct decision, Chancellor. History will not record this conversation. But the Republic will be the better for it.'"
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "silence",
+              "text": "Vyktor has not moved from his position by the door. His face is unreadable. But he has stopped taking notes. That is more expressive than anything he could have written."
+            }
+          ],
+          "journalEntry": {
+            "title": "The Morvec Ultimatum",
+            "category": "CRISIS",
+            "content": "Stefan Morvec came to my office today. He came himself — first time in eleven years. His son Aleksei overreached. Stefan offered to fix it. All I had to do was close three regulatory investigations and grant him the northern rail concession. I took the deal. The Republic is stable. I am not sure what I traded for that stability, but I am sure I will find out."
+          }
+        },
+        {
+          "id": "negotiate_compromise",
+          "text": "\"I will close the grain audit and defer the timber tax review. But the northern rail concession goes to competitive tender — I cannot give you a fifteen-year monopoly, Stefan. The optics alone would undo the benefit of the quiet resolution.\"",
+          "statEffects": [
+            { "stat": "morvecInfluence", "value": 5 },
+            { "stat": "factions.businessClass", "value": 3 },
+            { "stat": "personal.moralCompass", "value": -3 }
+          ],
+          "flags": ["morvec_truce", "grain_audit_closed", "timber_tax_deferred"],
+          "reactions": [
+            {
+              "character": "stefan_morvec",
+              "type": "dialogue",
+              "text": "He considers this for a full ten seconds. 'The rail concession was my primary concern. But I appreciate the frankness. Very few people negotiate with me. That is why most negotiations with me fail. I will accept your terms — for now. We will revisit the rail question after the referendum.' He does not smile. But he does not look displeased either. He has gotten more than he expected to get. He simply expected more."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "Vyktor is writing again. One line. You cannot read it from here. He will show you later."
+            }
+          ],
+          "journalEntry": {
+            "title": "The Morvec Ultimatum",
+            "category": "CRISIS",
+            "content": "I negotiated. I gave him the grain audit and the timber deferral. I kept the rail concession open to competition. Stefan accepted, after a pause. He said most negotiations with him fail because people do not negotiate. He is not wrong. The deal is not clean. But it is not surrender either. Vyktor wrote something down. I need to ask him what it was."
+          }
+        },
+        {
+          "id": "defy_stefan_directly",
+          "text": "\"No. Your son committed a crime. The regulatory reviews will continue. The rail concession will be competed. And if Aleksei has broken the law, the law will apply to him — the same as it applies to everyone. Your time has passed, Stefan. The Republic is not for sale anymore.\"",
+          "statEffects": [
+            { "stat": "morvecInfluence", "value": -15 },
+            { "stat": "factions.reformists", "value": 15 },
+            { "stat": "factions.businessClass", "value": -10 },
+            { "stat": "personal.moralCompass", "value": 12 },
+            { "stat": "nation.publicOrder", "value": -5 }
+          ],
+          "flags": ["morvec_war_declared", "morvec_defied", "regulatory_integrity_maintained"],
+          "chainTriggers": [
+            { "targetNodeId": "act4_morvec_economic_sabotage", "delayWeeks": 4, "probability": 0.7 }
+          ],
+          "reactions": [
+            {
+              "character": "stefan_morvec",
+              "type": "silence",
+              "text": "He looks at you for a long time. The silence fills the room like water. Vyktor has stopped breathing. Then Stefan Morvec slowly stands, buttons his grey jacket, smooths the front with both hands, and looks at you one final time. The look contains no anger. Anger is beneath him. The look contains something worse: disappointment that is indistinguishable from certainty. He leaves without a word. The door closes behind him with the soft click of a man who has never needed to slam a door in his life."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "After a full minute of silence: 'That was either the bravest thing I have ever seen or the most reckless. I will tell you which when I have finished calculating the consequences.'"
+            }
+          ],
+          "journalEntry": {
+            "title": "The Morvec Ultimatum",
+            "category": "CRISIS",
+            "content": "I told Stefan Morvec no. To his face. In my office. He stood up, buttoned his jacket, and walked out without a word. Vyktor called it the bravest or most reckless thing he has ever seen. I suspect it is both. The Morvec family has ended governments before. I have just given them a reason to try again. But the law is the law. If it does not apply to Stefan Morvec, it does not apply to anyone. I did not take office to manage the decline of the Republic. I took office to end it."
+          }
+        },
+        {
+          "id": "use_aleksei_against_him",
+          "text": "\"Stefan — your son approached my ministers without your authorization. You said so yourself. He exceeded his authority. What happens the next time he does it? And the time after that? You are seventy-four years old. You cannot manage him forever. Let me offer you a different arrangement: Aleksei faces a private censure — no public prosecution, no scandal. In exchange, you restructure your holdings to separate family governance from corporate governance. An independent board. Published accounts. Your legacy becomes stability institutionalized, not stability dependent on one man's self-control.\"",
+          "statEffects": [
+            { "stat": "morvecInfluence", "value": -8 },
+            { "stat": "factions.reformists", "value": 8 },
+            { "stat": "factions.businessClass", "value": -5 },
+            { "stat": "personal.moralCompass", "value": 5 },
+            { "stat": "nation.corruption", "value": -5 }
+          ],
+          "flags": ["morvec_schism", "aleksei_censured", "morvec_restructuring_offered"],
+          "reactions": [
+            {
+              "character": "stefan_morvec",
+              "type": "satisfied",
+              "text": "He is quiet for a very long time. Longer than the pause after the rail concession. Longer than any pause in any negotiation he has had in this room with any Chancellor. When he speaks, his voice is different — lower, older. 'You are the first person in forty years to offer me a way to solve the Aleksei problem without destroying the family. I will consider it. Not because I am forced to. Because it is — interesting.' He stands. He does not pat your hand. He does not smile. But at the door he pauses and turns back. 'Your father would have been proud of you. I mean that, Chancellor. And I do not say things I do not mean.'"
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "After the door closes, Vyktor exhales. It is the first time you have ever seen him exhale with relief. 'You just turned his greatest liability into your negotiating position. That is — I did not see that coming. Neither did he.'"
+            }
+          ],
+          "journalEntry": {
+            "title": "The Morvec Ultimatum",
+            "category": "CRISIS",
+            "content": "I offered Stefan Morvec something no one has ever offered him: a solution to the Aleksei problem. Restructure. Separate family from corporation. Institutionalize the legacy. He said he would consider it. He said my father would be proud. I am choosing to believe that was genuine. If it was not, I have made an enemy who now knows I understand his greatest weakness. Either way, something changed in this room today. I am not sure what yet. But Stefan Morvec looked at me differently when he left than when he arrived."
+          }
+        }
+      ]
+    }
+  }
+}

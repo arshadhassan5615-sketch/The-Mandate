@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useGameStore } from '../../stores/gameStore'
-import { useWeekStore } from '../../stores/weekStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import { CHARACTERS } from '../../data/characters/roster'
 
@@ -31,7 +30,7 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
   const currentWeek = useGameStore(s => s.currentWeek)
   const currentScene = useNarrativeStore(s => s.currentScene)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>()
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const [localText, setLocalText] = useState(notes)
   const [showConfirmClear, setShowConfirmClear] = useState(false)
@@ -112,10 +111,10 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
   const wordCount = localText.trim() ? localText.trim().split(/\s+/).filter(Boolean).length : 0
   const isFirstOpen = notes === ''
   const sceneChars = CHARACTERS.filter(c =>
-    currentScene?.narrativeSegments?.some(s =>
+    currentScene?.narrative?.some(s =>
       s.type === 'dialogue' && s.character === c.id,
     ) ||
-    currentScene?.sceneCharacters?.includes(c.id),
+    currentScene?.characters?.includes(c.id),
   )
 
   return (

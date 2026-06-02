@@ -1,15 +1,9 @@
-import { useMemo } from 'react'
-import type { AgendaItem, AgendaCategory } from '../types/week'
-import { CATEGORY_LABELS, CATEGORY_COLORS } from '../types/week'
 import type { NewsItem } from '../engine/newsTemplates'
 import { selectHeadlines, generateVyktorOpening, NEWSPAPER_LABELS } from '../engine/newsTemplates'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useWeekStore } from '../stores/weekStore'
-import { useBillStore } from '../stores/billStore'
 import { useLetterStore } from '../stores/letterStore'
-import { evaluateBillPrerequisites } from '../engine/BillEngine'
-import { getScene } from '../engine/NarrativeEngine'
 import { playStamp } from '../engine/audioEngine'
 
 // ─── News card ────────────────────────────────────────────────────────────────
@@ -69,115 +63,6 @@ function NewsCard({ item }: { item: NewsItem }) {
   )
 }
 
-// ─── Forced event row ─────────────────────────────────────────────────────────
-
-function ForcedEventRow({ sceneId }: { sceneId: string }) {
-  const scene = getScene(sceneId)
-  if (!scene) return null
-  return (
-    <div style={{
-      display: 'flex',
-      gap: '0.8rem',
-      alignItems: 'flex-start',
-      padding: '0.75rem 1rem',
-      background: 'rgba(139,46,46,0.07)',
-      border: '1px solid rgba(139,46,46,0.35)',
-      borderRadius: '2px',
-    }}>
-      <span style={{
-        fontFamily: "'Special Elite', monospace",
-        fontSize: '0.58rem',
-        color: 'var(--accent-red)',
-        letterSpacing: '0.14em',
-        textTransform: 'uppercase',
-        paddingTop: '0.15rem',
-        flexShrink: 0,
-      }}>
-        ⚠ Required
-      </span>
-      <div>
-        <div style={{
-          fontFamily: "'IM Fell English', Georgia, serif",
-          fontSize: '0.92rem',
-          color: 'var(--cream)',
-          marginBottom: '0.2rem',
-        }}>
-          {scene.title}
-        </div>
-        <div style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.6rem',
-          color: 'var(--muted)',
-          letterSpacing: '0.08em',
-        }}>
-          {scene.location} · Consequence of a prior decision — cannot be skipped
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ─── Agenda preview row (read-only) ──────────────────────────────────────────
-
-function AgendaPreviewRow({ item }: { item: AgendaItem }) {
-  const color = CATEGORY_COLORS[item.category as AgendaCategory]
-  return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.75rem',
-      padding: '0.55rem 0',
-      borderBottom: '1px solid var(--border)',
-    }}>
-      <span style={{
-        padding: '0.1rem 0.45rem',
-        fontSize: '0.55rem',
-        letterSpacing: '0.15em',
-        textTransform: 'uppercase',
-        fontFamily: "'Special Elite', monospace",
-        background: `${color}22`,
-        border: `1px solid ${color}55`,
-        color: color,
-        borderRadius: '2px',
-        flexShrink: 0,
-      }}>
-        {CATEGORY_LABELS[item.category as AgendaCategory]}
-      </span>
-      <span style={{
-        fontFamily: "'IM Fell English', Georgia, serif",
-        fontSize: '0.88rem',
-        color: 'var(--cream)',
-        flex: 1,
-      }}>
-        {item.title}
-        {item.isUrgent && (
-          <span style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.58rem',
-            color: 'var(--accent-red)',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            marginLeft: '0.6rem',
-          }}>
-            urgent
-          </span>
-        )}
-      </span>
-      <span style={{
-        fontFamily: "'Special Elite', monospace",
-        fontSize: '0.6rem',
-        color: 'var(--muted)',
-        flexShrink: 0,
-        letterSpacing: '0.08em',
-      }}>
-        {item.slotCost > 0
-          ? `${item.slotCost} slot${item.slotCost !== 1 ? 's' : ''}`
-          : 'Mandatory'}
-      </span>
-    </div>
-  )
-}
-
 // ─── Section header ───────────────────────────────────────────────────────────
 
 function SectionHeader({ label, color = 'var(--amber-dim)' }: { label: string; color?: string }) {
@@ -217,7 +102,6 @@ export default function MorningBriefing() {
       subline: 'Steel output in Kravenstal fell eight percent last quarter. Vael-Kross Holdings has requested a meeting with the Finance Ministry. They will want concessions. I recommend we hear them out before deciding what to offer.',
       newspaper: 'herald',
       category: 'economy',
-      weekNumber: 1,
     },
     {
       id: 'wk1_foreign',
@@ -225,7 +109,6 @@ export default function MorningBriefing() {
       subline: 'The Morivask situation continues. Forty-seven thousand refugees are now registered in Veltria. The Asturien Forum vote on peacekeeping authorization is expected this week. The Orythian Dominion is expected to veto. This will become your problem regardless of how the vote goes.',
       newspaper: 'standard',
       category: 'foreign',
-      weekNumber: 1,
     },
     {
       id: 'wk1_security',
@@ -233,39 +116,15 @@ export default function MorningBriefing() {
       subline: 'There was an incident on the Tyvaren border overnight. A patrol crossing — they turned back before our forces engaged. Colonel Dusek\'s assessment is in your secure briefing. I suggest you read it before the week is out.',
       newspaper: 'dispatch',
       category: 'military',
-      weekNumber: 1,
     },
   ] as NewsItem[] : [])
   const urgentCount = agendaPool.filter(a => a.isUrgent).length
-  const vyktorLines = generateVyktorOpening(currentWeek, headlines, forcedChainIds.length, urgentCount)
+  const vyktorLines = generateVyktorOpening(currentWeek, displayHeadlines, forcedChainIds.length, urgentCount)
 
   // New diplomatic letters this week
   const newLettersThisWeek = letterStore.letters.filter(
     l => l.weekTriggered === currentWeek && !letterStore.readIds.has(l.id),
   )
-
-  const { bills, history } = useBillStore()
-  const pendingBills = useMemo(() =>
-    bills.filter(b => {
-      if (b.weekPresented !== currentWeek) return false
-      if (history.some(h => h.billId === b.id)) return false
-      if (b.prerequisites?.length) {
-        if (!evaluateBillPrerequisites(b, gameState, activeFlags)) return false
-      }
-      return true
-    }),
-    [bills, currentWeek, history, gameState, activeFlags],
-  )
-
-  const FACTION_NAMES: Record<string, string> = {
-    reformists: 'Civic Renewal',
-    halvekists: 'Halvekists',
-    workersCoalition: "Workers' Coalition",
-    ironCovenant: 'Iron Covenant',
-    church: 'Church',
-    businessClass: 'Business',
-    dravenni: 'Dravenni',
-  }
 
   return (
     <div className="flex flex-col h-screen w-screen fixed inset-0" style={{ zIndex: 1, background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}>
@@ -301,14 +160,14 @@ export default function MorningBriefing() {
           </div>
 
           {/* Headlines */}
-          {headlines.length > 0 && (
+          {displayHeadlines.length > 0 && (
             <div style={{ marginBottom: '2.5rem' }}>
-              <SectionHeader label={`Overnight Headlines — ${headlines.length} item${headlines.length !== 1 ? 's' : ''}`} />
+              <SectionHeader label={`Overnight Headlines — ${displayHeadlines.length} item${displayHeadlines.length !== 1 ? 's' : ''}`} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-                {headlines.map((h, i) => (
+                {displayHeadlines.map((h, i) => (
                   <div key={h.id}>
                     <NewsCard item={h} />
-                    {i < headlines.length - 1 && (
+                    {i < displayHeadlines.length - 1 && (
                       <div style={{
                         height: '1px',
                         background: 'linear-gradient(90deg, transparent, rgba(200,144,42,0.25), transparent)',

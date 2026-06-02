@@ -2,8 +2,10 @@ import { create } from 'zustand'
 import type {
   BudgetAllocations, GameState, StateModifier,
   PlayerBackground, PlayerPersonality, PlayerAppearance, DiaryEntry,
+  EconomicDirection, JonasPublicStage, SentLetter,
 } from '../types/gameState'
 import { STAT_RANGES } from '../types/gameState'
+import type { RadioTheme } from '../engine/RadioEngine'
 import type { ActiveProject } from '../types/projects'
 import { computeBudgetModifiers } from '../engine/budgetEffects'
 import projectDefinitions from '../data/projects.json'
@@ -117,12 +119,24 @@ interface GameStore extends GameState {
   setTermFocus:      (focus: string[]) => void
   setVaelInfluence:  (value: number) => void
   setMorvecInfluence: (value: number) => void
+  // Economic direction
+  setEconomicDirection:  (direction: import('../types/gameState').EconomicDirection) => void
+  // Jonas public role
+  setJonasPublicStage:   (stage: import('../types/gameState').JonasPublicStage) => void
   // State of Emergency
   declareStateOfEmergency:  () => void
   extendStateOfEmergency:   () => void
   liftStateOfEmergency:     () => void
   issueEmergencyDecree:     () => void
   setSeridaDead:            () => void
+  // Serida Valk tracking
+  setSeridaTrust:   (value: number) => void
+  setSeridaMorale:  (value: number) => void
+  // Letters
+  sendLetter:                 (letter: import('../types/gameState').SentLetter) => void
+  markLetterResponseArrived:  (letterId: string) => void
+  // Radio broadcasts
+  useRadioBroadcast:  (theme: RadioTheme) => void
   // Spy / Mole
   randomizeMoleIdentity:   () => void
   discoverClue:             (clue: import('../types/gameState').Clue) => void
@@ -182,48 +196,7 @@ export const useGameStore = create<GameStore>((set) => ({
 
   applyModifiers: (modifiers) =>
     set((state) => {
-      let next: GameState = {
-        currentWeek:             state.currentWeek,
-        currentAct:              state.currentAct,
-        nation:                  state.nation,
-        factions:                state.factions,
-        personal:                state.personal,
-        budget:                  state.budget,
-        playerBackground:        state.playerBackground,
-        playerPersonality:       state.playerPersonality,
-        playerAppearance:        state.playerAppearance,
-        termFocus:               state.termFocus,
-        advisorTrust:            state.advisorTrust,
-        vaelInfluence:           state.vaelInfluence,
-        morvecInfluence:         state.morvecInfluence,
-        refugeeCount:            state.refugeeCount,
-        religiousAdherence:      state.religiousAdherence,
-        stateOfEmergency:        state.stateOfEmergency,
-        stateOfEmergencyWeek:    state.stateOfEmergencyWeek,
-        stateOfEmergencyExtensions: state.stateOfEmergencyExtensions,
-        emergencyDecreesIssued:  state.emergencyDecreesIssued,
-        seridaAlive:             state.seridaAlive,
-        moleIdentity:            state.moleIdentity,
-        clues:                   state.clues,
-        moleDiscovered:          state.moleDiscovered,
-        moleWronglyAccused:      state.moleWronglyAccused,
-        sorenImmunityRevoked:    state.sorenImmunityRevoked,
-        sorenTrialOutcome:       state.sorenTrialOutcome,
-        sorenFilesRevealed:      state.sorenFilesRevealed,
-        sorenLinkedToMikhael:     state.sorenLinkedToMikhael,
-        economicDirection:        state.economicDirection,
-        jonasPublicStage:         state.jonasPublicStage,
-        seridaTrust:              state.seridaTrust,
-        seridaMorale:             state.seridaMorale,
-        sentLetters:              state.sentLetters,
-        radioBroadcastsUsed:      state.radioBroadcastsUsed,
-        voteSpendingTotal:       state.voteSpendingTotal,
-        activeProjects:          state.activeProjects,
-        completedProjects:       state.completedProjects,
-        personalNotes:           state.personalNotes,
-        diaryEntries:            state.diaryEntries,
-        initialSnapshot:         state.initialSnapshot,
-      }
+      let next: GameState = { ...state }
       for (const mod of modifiers) next = applyModifier(next, mod)
       return next
     }),
@@ -231,48 +204,7 @@ export const useGameStore = create<GameStore>((set) => ({
   applyBudget: (next) =>
     set((state) => {
       const mods = computeBudgetModifiers(state.budget, next)
-      let nextState: GameState = {
-        currentWeek:             state.currentWeek,
-        currentAct:              state.currentAct,
-        nation:                  state.nation,
-        factions:                state.factions,
-        personal:                state.personal,
-        budget:                  next,
-        playerBackground:        state.playerBackground,
-        playerPersonality:       state.playerPersonality,
-        playerAppearance:        state.playerAppearance,
-        termFocus:               state.termFocus,
-        advisorTrust:            state.advisorTrust,
-        vaelInfluence:           state.vaelInfluence,
-        morvecInfluence:         state.morvecInfluence,
-        refugeeCount:            state.refugeeCount,
-        religiousAdherence:      state.religiousAdherence,
-        stateOfEmergency:        state.stateOfEmergency,
-        stateOfEmergencyWeek:    state.stateOfEmergencyWeek,
-        stateOfEmergencyExtensions: state.stateOfEmergencyExtensions,
-        emergencyDecreesIssued:  state.emergencyDecreesIssued,
-        seridaAlive:             state.seridaAlive,
-        moleIdentity:            state.moleIdentity,
-        clues:                   state.clues,
-        moleDiscovered:          state.moleDiscovered,
-        moleWronglyAccused:      state.moleWronglyAccused,
-        sorenImmunityRevoked:    state.sorenImmunityRevoked,
-        sorenTrialOutcome:       state.sorenTrialOutcome,
-        sorenFilesRevealed:      state.sorenFilesRevealed,
-        sorenLinkedToMikhael:     state.sorenLinkedToMikhael,
-        economicDirection:        state.economicDirection,
-        jonasPublicStage:         state.jonasPublicStage,
-        seridaTrust:              state.seridaTrust,
-        seridaMorale:             state.seridaMorale,
-        sentLetters:              state.sentLetters,
-        radioBroadcastsUsed:      state.radioBroadcastsUsed,
-        voteSpendingTotal:       state.voteSpendingTotal,
-        activeProjects:          state.activeProjects,
-        completedProjects:       state.completedProjects,
-        personalNotes:           state.personalNotes,
-        diaryEntries:            state.diaryEntries,
-        initialSnapshot:         state.initialSnapshot,
-      }
+      let nextState: GameState = { ...state, budget: next }
       for (const mod of mods) nextState = applyModifier(nextState, mod)
       return nextState
     }),
@@ -355,11 +287,11 @@ export const useGameStore = create<GameStore>((set) => ({
     sorenLinkedToMikhael: linkedToMikhael,
   })),
   // Economic direction
-  setEconomicDirection: (direction: import('../types/gameState').EconomicDirection) => set(() => ({
+  setEconomicDirection: (direction: EconomicDirection) => set(() => ({
     economicDirection: direction,
   })),
   // Jonas public role
-  setJonasPublicStage: (stage: import('../types/gameState').JonasPublicStage) => set(() => ({
+  setJonasPublicStage: (stage: JonasPublicStage) => set(() => ({
     jonasPublicStage: stage,
   })),
   // Serida
@@ -372,7 +304,7 @@ export const useGameStore = create<GameStore>((set) => ({
     return { seridaMorale: clamp('seridaMorale', Math.max(0, next)) }
   }),
   // Letters
-  sendLetter: (letter: import('../types/gameState').SentLetter) => set((state) => ({
+  sendLetter: (letter: SentLetter) => set((state) => ({
     sentLetters: [...state.sentLetters, letter],
   })),
   markLetterResponseArrived: (letterId: string) => set((state) => ({
@@ -381,7 +313,7 @@ export const useGameStore = create<GameStore>((set) => ({
     ),
   })),
   // Radio broadcasts
-  useRadioBroadcast: () => set((state) => ({
+  useRadioBroadcast: (_theme: RadioTheme) => set((state) => ({
     radioBroadcastsUsed: state.radioBroadcastsUsed + 1,
   })),
 
@@ -444,48 +376,11 @@ export const useGameStore = create<GameStore>((set) => ({
 
     set((state) => {
       let next: GameState = {
-        currentWeek: state.currentWeek,
-        currentAct: state.currentAct,
-        nation: state.nation,
-        factions: state.factions,
-        personal: state.personal,
-        budget: state.budget,
-        playerBackground: state.playerBackground,
-        playerPersonality: state.playerPersonality,
-        playerAppearance: state.playerAppearance,
-        termFocus: state.termFocus,
-        advisorTrust: state.advisorTrust,
-        vaelInfluence: state.vaelInfluence,
-        morvecInfluence: state.morvecInfluence,
-        refugeeCount: state.refugeeCount,
-        religiousAdherence: state.religiousAdherence,
-        stateOfEmergency: state.stateOfEmergency,
-        stateOfEmergencyWeek: state.stateOfEmergencyWeek,
-        stateOfEmergencyExtensions: state.stateOfEmergencyExtensions,
-        emergencyDecreesIssued: state.emergencyDecreesIssued,
-        seridaAlive: state.seridaAlive,
-        moleIdentity: state.moleIdentity,
-        clues: state.clues,
-        moleDiscovered: state.moleDiscovered,
-        moleWronglyAccused: state.moleWronglyAccused,
-        sorenImmunityRevoked: state.sorenImmunityRevoked,
-        sorenTrialOutcome: state.sorenTrialOutcome,
-        sorenFilesRevealed: state.sorenFilesRevealed,
-        sorenLinkedToMikhael: state.sorenLinkedToMikhael,
-        economicDirection: state.economicDirection,
-        jonasPublicStage: state.jonasPublicStage,
-        seridaTrust: state.seridaTrust,
-        seridaMorale: state.seridaMorale,
-        sentLetters: state.sentLetters,
-        radioBroadcastsUsed: state.radioBroadcastsUsed,
+        ...state,
         activeProjects: state.activeProjects.map(p =>
           p.projectId === projectId ? { ...p, phase: 'completed' as const } : p
         ),
         completedProjects: [...state.completedProjects, projectId],
-        personalNotes: state.personalNotes,
-        diaryEntries: state.diaryEntries,
-        initialSnapshot: state.initialSnapshot,
-        voteSpendingTotal: state.voteSpendingTotal,
       }
       for (const mod of def.effects) next = applyModifier(next, mod)
       return next
@@ -510,45 +405,12 @@ export const useGameStore = create<GameStore>((set) => ({
 
     set((state) => {
       let next: GameState = {
-        currentWeek: state.currentWeek,
-        currentAct: state.currentAct,
-        nation: state.nation,
-        factions: state.factions,
-        personal: state.personal,
-        budget: state.budget,
-        playerBackground: state.playerBackground,
-        playerPersonality: state.playerPersonality,
-        playerAppearance: state.playerAppearance,
-        termFocus: state.termFocus,
-        advisorTrust: state.advisorTrust,
-        vaelInfluence: state.vaelInfluence,
-        morvecInfluence: state.morvecInfluence,
-        refugeeCount: state.refugeeCount,
-        religiousAdherence: state.religiousAdherence,
-        stateOfEmergency: state.stateOfEmergency,
-        stateOfEmergencyWeek: state.stateOfEmergencyWeek,
-        stateOfEmergencyExtensions: state.stateOfEmergencyExtensions,
-        emergencyDecreesIssued: state.emergencyDecreesIssued,
-        seridaAlive: state.seridaAlive,
-        moleIdentity: state.moleIdentity,
-        clues: state.clues,
-        moleDiscovered: state.moleDiscovered,
-        moleWronglyAccused: state.moleWronglyAccused,
-        sorenImmunityRevoked: state.sorenImmunityRevoked,
-        sorenTrialOutcome: state.sorenTrialOutcome,
-        sorenFilesRevealed: state.sorenFilesRevealed,
-        sorenLinkedToMikhael: state.sorenLinkedToMikhael,
-        economicDirection: state.economicDirection,
+        ...state,
         activeProjects: state.activeProjects.map(p =>
           p.projectId === projectId
             ? { ...p, midpointResolved: true, totalCost: p.totalCost + (choice.costChange ?? 0) }
             : p
         ),
-        completedProjects: state.completedProjects,
-        personalNotes: state.personalNotes,
-        diaryEntries: state.diaryEntries,
-        initialSnapshot: state.initialSnapshot,
-        voteSpendingTotal: state.voteSpendingTotal,
       }
       for (const mod of choice.effects) next = applyModifier(next, mod)
       return next

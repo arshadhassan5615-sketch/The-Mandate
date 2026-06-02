@@ -91,6 +91,7 @@ export interface DiaryEntry {
   week: number
   date: string
   text: string
+  category: 'political' | 'personal' | 'crisis' | 'diplomatic' | 'military'
 }
 
 export interface SentLetter {

@@ -10,7 +10,7 @@ interface CabinetMeetingProps {
 export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComplete }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [resolved, setResolved] = useState<string[]>([])
+  const [, setResolved] = useState<string[]>([])
 
   const { completeRequest, updateLoyalty, updateSatisfaction, getAllMinisters } = useCabinetStore()
 

@@ -16,6 +16,7 @@ export function generateCliffhanger(week: number): string {
     militaryReadiness: state.nation.militaryReadiness,
     pressFreedom: state.nation.pressFreedom,
     marriageHealth: state.personal.marriageHealth,
+    tomasWellbeing: state.personal.tomasWellbeing,
     halvekists: state.factions.halvekists,
     workersCoalition: state.factions.workersCoalition,
     reformists: state.factions.reformists,

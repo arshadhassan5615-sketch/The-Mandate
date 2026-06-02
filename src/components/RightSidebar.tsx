@@ -2,11 +2,9 @@ import { useState } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useCodexStore } from '../stores/codexStore'
-import { useGameStore } from '../stores/gameStore'
 import { useJournalStore } from '../stores/journalStore'
-import { useLetterStore } from '../stores/letterStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
-import FactionIndicators from './FactionIndicators'
+import { useLetterStore } from '../stores/letterStore'
 import ConnectionsPanel from './panels/ConnectionsPanel'
 import OverviewPanel from './panels/OverviewPanel'
 import NotepadPanel from './panels/NotepadPanel'
@@ -211,62 +209,10 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
   )
 }
 
-// ─── Parliament floating panel ─────────────────────────────────────────────────
-
-function ParliamentPanel({ onClose }: { onClose: () => void }) {
-  return (
-    <div style={{
-      position: 'fixed',
-      right: '48px',
-      top: '80px',
-      width: '200px',
-      background: 'rgba(12,10,8,0.97)',
-      border: '1px solid var(--border)',
-      borderRight: 'none',
-      zIndex: 210,
-      display: 'flex',
-      flexDirection: 'column',
-      boxShadow: '-4px 4px 24px rgba(0,0,0,0.6)',
-      maxHeight: 'calc(100vh - 60px)',
-      overflow: 'hidden',
-    }}>
-      {/* Header */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0.7rem 0.85rem 0.5rem',
-        borderBottom: '1px solid var(--border)',
-        flexShrink: 0,
-      }}>
-        <span style={{
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '0.5rem',
-          letterSpacing: '0.18em',
-          color: 'var(--amber-dim)',
-          textTransform: 'uppercase',
-        }}>
-          Parliament · Factions
-        </span>
-        <button
-          onClick={onClose}
-          style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '0.9rem', lineHeight: 1, padding: 0 }}
-        >
-          ×
-        </button>
-      </div>
-      {/* Faction indicators */}
-      <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}>
-        <FactionIndicators />
-      </div>
-    </div>
-  )
-}
-
 // ─── RightSidebar ─────────────────────────────────────────────────────────────
 
 export default function RightSidebar() {
-  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, setLetterOpen, notepadOpen, setNotepadOpen } = useSettingsStore()
+  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen } = useSettingsStore()
   const setNewsOpen       = useNewsStore(s => s.setOpen)
   const unreadCount       = useNewsStore(s => s.articles.length - (s.lastReadIndex + 1))
   const journalEntryCount = useJournalStore(s => s.entries.length)

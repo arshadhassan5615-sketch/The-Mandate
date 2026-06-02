@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type JSX } from 'react'
 import { useGameStore } from '../../stores/gameStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import type { NationState } from '../../types/gameState'
@@ -9,7 +9,7 @@ type SectionId = 'policies' | 'situations'
 const DEPTS: { id: DeptId; label: string; icon: (active: boolean) => JSX.Element }[] = [
   {
     id: 'economy', label: 'Economy',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <line x1="12" y1="4" x2="12" y2="20" />
         <polyline points="8,8 12,4 16,8" />
@@ -19,7 +19,7 @@ const DEPTS: { id: DeptId; label: string; icon: (active: boolean) => JSX.Element
   },
   {
     id: 'military', label: 'Military',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12,2 L16,8 L22,9 L17.5,14 L18.5,20 L12,17 L5.5,20 L6.5,14 L2,9 L8,8 Z" />
       </svg>
@@ -27,7 +27,7 @@ const DEPTS: { id: DeptId; label: string; icon: (active: boolean) => JSX.Element
   },
   {
     id: 'judiciary', label: 'Judiciary',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="10" y="2" width="4" height="8" rx="1" />
         <rect x="6" y="3" width="12" height="3" rx="1" />
@@ -37,7 +37,7 @@ const DEPTS: { id: DeptId; label: string; icon: (active: boolean) => JSX.Element
   },
   {
     id: 'welfare', label: 'Welfare',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M20,12 C20,16.5 16.5,20 12,20 C7.5,20 4,16.5 4,12 C4,7.5 7.5,4 12,4" />
         <line x1="12" y1="2" x2="12" y2="4" />
@@ -47,7 +47,7 @@ const DEPTS: { id: DeptId; label: string; icon: (active: boolean) => JSX.Element
   },
   {
     id: 'security', label: 'Security',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12,2 L20,6 L20,14 C20,18 16,21.5 12,23 C8,21.5 4,18 4,14 L4,6 Z" />
       </svg>
@@ -55,7 +55,7 @@ const DEPTS: { id: DeptId; label: string; icon: (active: boolean) => JSX.Element
   },
   {
     id: 'diplomacy', label: 'Diplomacy',
-    icon: (a) => (
+    icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="12" cy="12" r="9" />
         <line x1="3" y1="12" x2="21" y2="12" />

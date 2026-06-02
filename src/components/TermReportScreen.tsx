@@ -78,8 +78,8 @@ export default function TermReportScreen() {
   const ending = useMemo(() => calculateEnding(gameState, useNarrativeStore.getState().activeFlags), [gameState])
 
   const historianVerdict = useMemo(() => {
-    const gov = ending.governanceOutcome
-    const per = ending.personalOutcome
+    const gov = ending.governanceOutcome as string
+    const per = ending.personalOutcome as string
     if (gov === 'democratic_reformer' && per === 'principled_leader') {
       return 'Katerin Ashavel governed as a genuine democrat in a nation still learning what democracy means. She made mistakes — all first chancellors do — but she made them in good faith, with the institutions of the Republic stronger at her departure than at her arrival. History will remember her as the chancellor who proved that Veltria could be governed without fear.'
     }
@@ -159,7 +159,7 @@ export default function TermReportScreen() {
 
     lines.push('FACTION STANDINGS')
     for (const [key, name] of Object.entries(FACTION_NAMES)) {
-      const val = (gameState.factions as Record<string, number>)[key] ?? 0
+      const val = (gameState.factions as unknown as Record<string, number>)[key] ?? 0
       lines.push(`  ${name.padEnd(28)} ${String(val).padStart(3)}/100 — ${factionLabel(val)}`)
     }
     lines.push('')
@@ -223,8 +223,8 @@ export default function TermReportScreen() {
               ['International Standing', 'nation.internationalStanding', false],
             ] as [string, string, boolean][]).map(([label, path, invert]) => {
               const parts = path.split('.')
-              const initialVal = initial ? (initial as Record<string, unknown>)[parts[0]] as Record<string, number> : null
-              const currentVal = (gameState as Record<string, unknown>)[parts[0]] as Record<string, number>
+              const initialVal = initial ? (initial as unknown as Record<string, unknown>)[parts[0]] as Record<string, number> : null
+              const currentVal = (gameState as unknown as Record<string, unknown>)[parts[0]] as Record<string, number>
               const start = initialVal ? initialVal[parts[1]] : null
               const end = currentVal[parts[1]]
               const diff = start !== null ? end - start : null
@@ -251,7 +251,7 @@ export default function TermReportScreen() {
         <Section title="Faction Final Standings">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {Object.entries(FACTION_NAMES).map(([key, name]) => {
-              const val = (gameState.factions as Record<string, number>)[key] ?? 0
+              const val = (gameState.factions as unknown as Record<string, number>)[key] ?? 0
               return (
                 <div key={key}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.1rem' }}>
@@ -379,8 +379,6 @@ export default function TermReportScreen() {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {benchmarks.map(bm => {
-              const ecoDiff = gameState.nation.economyHealth - bm.nation.economyHealth
-              const corrDiff = bm.nation.corruption - gameState.nation.corruption // positive = less corrupt
               return (
                 <div key={bm.id} style={{ background: 'var(--paper-raised)', border: '1px solid var(--border)', padding: '1rem' }}>
                   <p style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.6rem', color: 'var(--amber)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>

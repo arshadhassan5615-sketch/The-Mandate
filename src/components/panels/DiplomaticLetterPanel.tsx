@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import type { JSX } from 'react'
 import { useLetterStore } from '../../stores/letterStore'
 import { renderWithEntities } from '../news/EntityLinker'
 
@@ -142,7 +142,7 @@ export default function DiplomaticLetterPanel() {
           fontSize: '0.58rem', fontWeight: 600,
           letterSpacing: '0.2em', color: '#6a5040',
           textAlign: 'center', margin: '0 0 12px',
-          textTransform: 'uppercase', variantCaps: 'all-small-caps',
+          textTransform: 'uppercase', fontVariantCaps: 'all-small-caps',
         }}>
           {letter.senderTitle}
         </p>

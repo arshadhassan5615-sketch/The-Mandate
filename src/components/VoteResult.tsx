@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWeekStore } from '../stores/weekStore'
-import { useGameStore } from '../stores/gameStore'
-import { useNarrativeStore } from '../stores/narrativeStore'
 import VoteTracker from './VoteTracker'
 
 const mono: React.CSSProperties = {

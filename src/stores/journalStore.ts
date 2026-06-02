@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import type { JournalEntry, JournalCategory, ChoiceAlignment, JournalStats } from '../types/journal'
-import { ALIGNMENT_COLORS } from '../types/journal'
 
 function weekToDate(week: number): string {
   const d = new Date(1963, 0, 1)
@@ -12,7 +11,11 @@ interface JournalStore {
   entries: JournalEntry[]
   seenKeys: Set<string>
 
-  addEntry: (entry: Omit<JournalEntry, 'id' | 'createdAt' | 'date'> & { currentWeek: number }) => void
+  // Callers pass currentWeek; addEntry derives weekNumber + date.
+  // consequences is optional — addEntry initializes it to null and
+  // updateConsequences() fills it in later when effects resolve.
+  addEntry: (entry: Omit<JournalEntry, 'id' | 'createdAt' | 'date' | 'weekNumber' | 'consequences'>
+              & { currentWeek: number; consequences?: string | null }) => void
   updateConsequences: (sceneId: string, choiceId: string, consequences: string) => void
   getStats: () => JournalStats
   clearJournal: () => void
@@ -31,7 +34,7 @@ export const useJournalStore = create<JournalStore>((set, get) => ({
   entries: [],
   seenKeys: new Set<string>(),
 
-  addEntry: ({ currentWeek, ...data }) => {
+  addEntry: ({ currentWeek, consequences, ...data }) => {
     set((state) => {
       const key = makeDedupKey({
         weekNumber: currentWeek,
@@ -49,7 +52,7 @@ export const useJournalStore = create<JournalStore>((set, get) => ({
         id: `journal_${++_seq}_${Date.now()}`,
         weekNumber: currentWeek,
         date: weekToDate(currentWeek),
-        consequences: null,
+        consequences: consequences ?? null,
         createdAt: Date.now(),
       }
       const newSeen = new Set(state.seenKeys)

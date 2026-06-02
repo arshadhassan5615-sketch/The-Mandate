@@ -4,7 +4,7 @@ import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { calculateProjection, applySpending } from '../engine/VoteEngine'
 import { SPEND_OPTIONS } from '../types/vote'
-import type { SpendLevel, VoteProjection } from '../types/vote'
+import type { SpendLevel } from '../types/vote'
 import VoteTracker from './VoteTracker'
 import { getCharacterPortrait, getCharacterColor } from './portraits/CharacterPortraits'
 
@@ -39,9 +39,8 @@ export default function LobbyingInterface() {
   const factions = useGameStore(s => s.factions)
   const personalWealth = useGameStore(s => s.personal.personalWealth)
   const voteConfig = useWeekStore(s => s.voteConfig)
-  const { applyModifiers } = useGameStore.getState()
   const { addFlags } = useNarrativeStore.getState()
-  const set = useWeekStore.getState()
+  const set = useWeekStore.setState
 
   const threshold = voteConfig?.threshold ?? 126
 
@@ -423,6 +422,4 @@ const commitBtnStyle: React.CSSProperties = {
 
 const factionRowStyle: React.CSSProperties = {}
 
-const PORTRAIT_MAP: Record<string, string> = {
-  vyktor_reznik: 'ViktorReznik',
-}
+
