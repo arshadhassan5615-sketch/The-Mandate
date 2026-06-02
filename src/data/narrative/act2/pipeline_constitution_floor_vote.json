@@ -1,0 +1,169 @@
+{
+  "id": "pipeline_constitution_floor_vote",
+  "title": "The Floor Vote",
+  "act": 2,
+  "weekAvailable": 16,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "National Assembly Chamber — Ashenmere",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+  "prerequisiteFlags": ["constitution_pipeline_stage_2_done"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Assembly chamber is packed. Every seat filled, the galleries overflowing, the press box standing room only. This is the vote that will define your Chancellorship — the first democratic constitution in Veltrian history, or the bill that died on the floor because you could not find the votes. The Speaker calls the chamber to order. The tally begins."
+    }
+  ],
+  "choices": [
+    {
+      "id": "floor_failed",
+      "text": "Call the vote.",
+      "internalTag": "pragmatist",
+      "conditions": [{ "type": "flag", "flag": "whip_failed", "value": true }],
+      "stateChanges": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "chainTriggers": [],
+      "nextSegment": "floor_vote_whip_failed"
+    },
+    {
+      "id": "floor_compromised",
+      "text": "Call the vote.",
+      "internalTag": "reformist",
+      "conditions": [
+        { "type": "flag", "flag": "whip_failed", "value": false },
+        { "type": "flag", "flag": "rider_none", "value": false }
+      ],
+      "stateChanges": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "chainTriggers": [],
+      "nextSegment": "floor_vote_rider_compromise"
+    },
+    {
+      "id": "floor_pure",
+      "text": "Call the vote.",
+      "internalTag": "reformist",
+      "conditions": [
+        { "type": "flag", "flag": "whip_failed", "value": false },
+        { "type": "flag", "flag": "rider_none", "value": true }
+      ],
+      "stateChanges": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "chainTriggers": [],
+      "nextSegment": "floor_vote_pure_reform"
+    }
+  ],
+  "segments": {
+    "floor_vote_whip_failed": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Speaker reads the numbers. Your stomach drops before she finishes the first line. One hundred and fifty-three in favor. One hundred and ninety against. The constitution has failed. The Halvekist bloc is on its feet, applauding. The Reformist benches are silent. Theron is staring at the floor. Vyktor has not moved since the tally began."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "It failed, Chancellor. One hundred and fifty-three votes. We needed one hundred and seventy-six. The swing votes broke against us. The Halvekists turned out every MP they had. I am sorry — I should have seen this coming. I should have warned you earlier."
+        },
+        {
+          "type": "internal_thought",
+          "text": "The constitution is dead. Six months of work. Theron's life's work. The promises I made during the campaign — the speeches, the rallies, the polling numbers that said the people wanted this. It died in this chamber because I could not find twenty-three votes. History will not record how hard I tried. History will record that I failed."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_defeat",
+          "text": "Accept the result. Thank the Assembly for its deliberation. Promise to bring the constitution back when the numbers are there.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": -12 },
+            { "stat": "factions.reformists", "operation": "add", "value": -10 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -4 }
+          ],
+          "flags": ["constitution_floor_vote_resolved", "constitution_defeated"],
+          "reactions": [
+            {
+              "character": "aldric_theron",
+              "type": "silence",
+              "text": "Theron is the last person to leave the chamber. He stands at the lectern for a long time, his hand resting on the copy of the constitution that will never become law. He does not speak. He does not need to. Two hundred and forty pages. Six months. And silence."
+            }
+          ]
+        }
+      ]
+    },
+    "floor_vote_rider_compromise": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Speaker reads the numbers. One hundred and eighty-two in favor. One hundred and sixty-one against. The constitution passes — comfortably, almost easily. The rider you accepted during drafting bought just enough goodwill to carry the swing votes. The Halvekist bloc votes against it to the last man, but they are outnumbered. The Reformist benches erupt. Someone starts singing the old revolutionary anthem."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "It passed. One hundred and eighty-two votes. The rider worked — whichever one you chose, it brought the decisive votes. The constitution is not pure. It carries compromises that I will spend the rest of my career defending. But it is law. It is the law of the Republic, and no one can take that from us."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sign_compromised",
+          "text": "Sign the constitution into law. It is not perfect, but it is a beginning. Veltria has its first democratic charter.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 14 },
+            { "stat": "factions.reformists", "operation": "add", "value": 10 },
+            { "stat": "nation.pressFreedom", "operation": "add", "value": 8 },
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 10 }
+          ],
+          "flags": ["constitution_floor_vote_resolved", "constitution_in_force", "constitution_compromised"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "Vyktor brings you the ceremonial pen — the same pen Halvek used to sign the emergency powers act in 1958. He found it in the archives. 'I thought you might want to use a different pen,' he says quietly. 'For a different kind of document.'"
+            }
+          ]
+        }
+      ]
+    },
+    "floor_vote_pure_reform": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Speaker reads the numbers. One hundred and seventy-six in favor. One hundred and sixty-seven against. The constitution passes by nine votes — the narrowest possible margin. The room holds its breath for a full three seconds after the tally is read, as though no one quite believes it. Then the Reformist benches realize what has happened, and the sound that fills the chamber is not a cheer — it is a roar."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "One hundred and seventy-six. Nine votes. Theron's party discipline held — just barely. The constitution passed without riders, without bribes, without the compromises that would have hollowed it out. It is the document I wrote, the document you refused to dilute. Chancellor — we did it. We actually did it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sign_pure",
+          "text": "Sign the constitution into law. A pure democratic charter, passed on principle alone. This is what you promised the people.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 22 },
+            { "stat": "factions.reformists", "operation": "add", "value": 14 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 12 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -6 },
+            { "stat": "factions.church", "operation": "add", "value": -6 }
+          ],
+          "flags": ["constitution_floor_vote_resolved", "constitution_in_force", "constitution_pure"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "He is already on the phone to the printers. 'Special edition of the National Gazette. Front page: ASHAVEL SIGNS DEMOCRATIC CHARTER. They will be reading about this in schools for a hundred years, Chancellor. I hope you wrote a good speech, because you are about to give it.'"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

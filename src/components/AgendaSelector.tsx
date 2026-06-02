@@ -1,10 +1,12 @@
 import type { AgendaItem, AgendaCategory } from '../types/week'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { SLOT_MAX, CATEGORY_LABELS, CATEGORY_COLORS } from '../types/week'
 import { useWeekStore } from '../stores/weekStore'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { getScene, getUnavailableDueToPrerequisites } from '../engine/NarrativeEngine'
+import { checkForEmergencies } from '../engine/EmergencyDecreeEngine'
+import { checkIntelligenceIntegrity } from '../engine/WhisperNetworkEngine'
 import { playPaperShuffle } from '../engine/audioEngine'
 
 // ─── Agenda card ──────────────────────────────────────────────────────────────
@@ -322,8 +324,32 @@ function SlotPips({ used, max }: { used: number; max: number }) {
 
 export default function AgendaSelector() {
   const { agendaPool, selectedIds, slotsUsed, forcedChainIds, toggleAgendaItem, confirmAgenda } = useWeekStore()
+  const gameState = useGameStore()
   const { currentWeek } = useGameStore()
   const { visitedSceneIds, activeFlags } = useNarrativeStore()
+
+  const emergency = useMemo(
+    () => checkForEmergencies(gameState, activeFlags),
+    [gameState, activeFlags],
+  )
+
+  const intel = useMemo(
+    () => emergency ? { compromised: false, sceneId: '' } : checkIntelligenceIntegrity(gameState, activeFlags),
+    [gameState, activeFlags, emergency],
+  )
+
+  const pipelineSceneId = useMemo(() => {
+    if (currentWeek === 14 && !activeFlags.includes('constitution_pipeline_stage_1_done')) {
+      return 'pipeline_constitution_drafting'
+    }
+    if (currentWeek === 15 && activeFlags.includes('constitution_pipeline_stage_1_done') && !activeFlags.includes('constitution_pipeline_stage_2_done')) {
+      return 'pipeline_constitution_committee'
+    }
+    if (currentWeek === 16 && activeFlags.includes('constitution_pipeline_stage_2_done') && !activeFlags.includes('constitution_floor_vote_resolved')) {
+      return 'pipeline_constitution_floor_vote'
+    }
+    return null
+  }, [currentWeek, activeFlags])
 
   const canConfirm = selectedIds.length > 0 || forcedChainIds.length > 0
 
@@ -406,6 +432,60 @@ export default function AgendaSelector() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
                   {forcedChainIds.map(id => <ForcedEventCard key={id} sceneId={id} />)}
                 </div>
+              </div>
+            )}
+
+            {/* Emergency crisis scene — forced into the agenda */}
+            {emergency && (
+              <div style={{ marginBottom: '1.5rem' }}>
+                <p style={{
+                  fontFamily: "'Special Elite', monospace",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.2em',
+                  color: 'var(--accent-red)',
+                  textTransform: 'uppercase',
+                  marginBottom: '0.6rem',
+                }}>
+                  ▸ Crisis — {emergency.crisisName}
+                </p>
+                <div style={{ height: '1px', background: 'rgba(139,46,46,0.3)', marginBottom: '0.8rem' }} />
+                <ForcedEventCard sceneId={emergency.sceneId} />
+              </div>
+            )}
+
+            {/* Compromised intelligence scene */}
+            {intel.compromised && (
+              <div style={{ marginBottom: '1.5rem' }}>
+                <p style={{
+                  fontFamily: "'Special Elite', monospace",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.2em',
+                  color: 'var(--amber)',
+                  textTransform: 'uppercase',
+                  marginBottom: '0.6rem',
+                }}>
+                  ▸ Intelligence Alert — {intel.sceneId === 'morning_briefing_compromised' ? 'Compromised Dossier' : ''}
+                </p>
+                <div style={{ height: '1px', background: 'rgba(200,144,42,0.3)', marginBottom: '0.8rem' }} />
+                <ForcedEventCard sceneId={intel.sceneId} />
+              </div>
+            )}
+
+            {/* Legislative pipeline scene — forced multi-week arc */}
+            {pipelineSceneId && (
+              <div style={{ marginBottom: '1.5rem' }}>
+                <p style={{
+                  fontFamily: "'Special Elite', monospace",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.2em',
+                  color: 'var(--accent-green)',
+                  textTransform: 'uppercase',
+                  marginBottom: '0.6rem',
+                }}>
+                  ▸ Constitutional Pipeline — Stage {pipelineSceneId === 'pipeline_constitution_drafting' ? '1: Drafting' : pipelineSceneId === 'pipeline_constitution_committee' ? '2: Committee' : '3: Floor Vote'}
+                </p>
+                <div style={{ height: '1px', background: 'rgba(26,107,42,0.3)', marginBottom: '0.8rem' }} />
+                <ForcedEventCard sceneId={pipelineSceneId} />
               </div>
             )}
 

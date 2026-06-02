@@ -1,0 +1,85 @@
+{
+  "id": "morning_briefing_compromised",
+  "title": "The Redacted Dossier",
+  "act": 1,
+  "weekAvailable": 5,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, 07:15",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor slides the morning dossier across the desk. He does it the way he does everything — precisely, without flourish — but there is something different about the way his hand lingers on the folder before releasing it. The dossier is thinner than usual. The section on the Tyvaren border garrisons is missing entirely. The economic projections from the Ministry of Finance have been rounded to numbers so optimistic they look like campaign promises."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The situation is well in hand, Chancellor. Colonel Dusek's office assures us the border is quiet. Vostane's team has the inflation numbers under control. I have — I have filtered out the usual opposition noise so you can focus on the legislative agenda."
+    },
+    {
+      "type": "description",
+      "text": "He paused on the word 'quiet.' Just for a fraction of a second. But you have known Vyktor for too long not to notice when he pauses on a word. He knows this dossier has been sanitized. He is not the one who sanitized it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Dusek's office sent this over. Military Intelligence compiled the border assessments, and someone — probably someone who reports to Brenner, or Brenner himself — decided the raw numbers were too volatile for the Chancellor's eyes. The military is freezing me out of the loop because trust has broken down. I can feel it happening. It started the day I appointed Dusek over Brenner's objections, and it has been compounding every week since. If I sign off on the agenda based on this dossier, I am flying blind. But calling the press to verify my own Defense Minister's reports — that is not paranoia. That is an admission that I no longer trust the institution I am supposed to command."
+    }
+  ],
+  "choices": [
+    {
+      "id": "intel_trust_vyktor",
+      "text": "Thank him and sign the dossier. Dusek's people are professionals — they would not sanitize reports without good reason. Trust the institution.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "flags": ["trusted_compromised_intel", "flying_blind"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He nods and collects the folder. But as he turns to leave, you notice something — a faint smudge of ink on his left cuff. He has been rewriting reports himself, trying to bridge the gap between what the military submitted and what he knows you need to see. He is doing the best he can with what they gave him. You both know it is not enough."
+        }
+      ]
+    },
+    {
+      "id": "intel_call_press",
+      "text": "Excuse yourself. Pick up the secure line and call Nadia Voss at The Ashenmere Tribune. Ask her what her reporters are actually seeing on the border. And whether Colonel Dusek's version of events matches the facts on the ground.",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -15 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 }
+      ],
+      "flags": ["briefing_verified_this_week", "intel_verified_press", "dusek_alienated"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He stands perfectly still as you dial. He knows exactly who you are calling, and he knows exactly what Dusek will say when she finds out. The silence in the room stretches until it becomes a physical weight. When you hang up, he does not meet your eyes. 'Dusek will see this as a vote of no confidence. You know that.' He is not arguing. He is just making sure you understand the cost."
+        }
+      ]
+    },
+    {
+      "id": "intel_confront_directly",
+      "text": "Slide the dossier back across the desk. 'Where are the raw numbers from the border garrison, Vyktor? Dusek's people are not protecting me — they are managing me. I want the unredacted files on this desk by noon.'",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "flags": ["briefing_verified_this_week", "intel_verified_force", "dusek_intimidated"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "His jaw tightens. He does not flinch — Vyktor does not flinch — but something in his posture shifts, straightens, as though a decision has just been made. 'The raw numbers are from Colonel Kresic's forward command post. They are marked CLASSIFIED — COVENANT EYES ONLY. Dusek authorized the redaction. I will tell her the Chancellor requires the originals. She will comply.' He pauses at the door. 'She will not be happy about it.'"
+        }
+      ]
+    }
+  ]
+}

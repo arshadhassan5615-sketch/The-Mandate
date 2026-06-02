@@ -16,6 +16,9 @@ export interface Bill {
   vetoFlags: string[]
   prerequisites?: Condition[]
   isVetoable: boolean
+  isPipelineBill?: boolean
+  pipelineRiders?: string[]
+  pipelineWhipSuccess?: boolean
 }
 
 export interface BillHistoryEntry {

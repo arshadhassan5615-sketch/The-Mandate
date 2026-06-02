@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useState } from 'react'
+import { useRef, useEffect, useCallback, useState, useMemo } from 'react'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
@@ -8,6 +8,7 @@ import { useSettingsStore } from '../stores/settingsStore'
 import { useCodexStore } from '../stores/codexStore'
 import { playTypewriterKeyThrottled, startAmbient } from '../engine/audioEngine'
 import { getCharacterColor } from './portraits/CharacterPortraits'
+import { computeDinnerContext } from '../engine/FamilyDinnerEngine'
 import ConversationPanel from './narrative/ConversationPanel'
 
 interface HistoryEntry {
@@ -49,8 +50,19 @@ export default function NarrativeScene() {
   const setNotepadOpen = useSettingsStore(s => s.setNotepadOpen)
   const openCodex = useCodexStore(s => s.openCodex)
 
-  const segments = currentScene?.narrative ?? []
+  const baseSegments = currentScene?.narrative ?? []
   const isEmergency = currentScene?.type === 'emergency'
+
+  const segments = useMemo(() => {
+    if (currentScene?.id === 'family_dinner_recurring' && currentScene.segments) {
+      const dinnerCtx = computeDinnerContext(gameState, activeFlags)
+      const injected = dinnerCtx.injectedSegments
+        .filter(id => currentScene.segments![id])
+        .flatMap(id => currentScene.segments![id].narrative)
+      return [...baseSegments, ...injected]
+    }
+    return baseSegments
+  }, [currentScene?.id, currentScene?.segments, baseSegments, gameState, activeFlags])
 
   const {
     revealedSegments,

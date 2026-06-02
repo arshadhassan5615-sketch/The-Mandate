@@ -1,0 +1,88 @@
+{
+  "id": "emergency_decree_tyvaren_border",
+  "title": "The Red Telephone",
+  "act": 2,
+  "weekAvailable": 14,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace, 03:14",
+  "characters": ["vyktor_reznik", "irina_dusek"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The red telephone on your desk rings. It is not a secure line — secure lines do not ring at three in the morning. It is a direct trunk from the border garrison at Gravenmark, installed in 1951 after the last Tyvaren incursion, and it has not been used since. Vyktor is already in the doorway. He does not need to be told to pick up. He listens for ten seconds, and his face goes entirely pale. He covers the receiver with his palm."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Tyvaren artillery. The Gravenmark checkpoint — three dead, seven wounded. Colonel Kresic is on the line. The Iron Covenant elements stationed at the garrison are requesting immediate authorization to cross the border and retaliate. They say they will wait for your decision, but their tone suggests the waiting will not last long."
+    },
+    {
+      "type": "description",
+      "text": "Colonel Irina Dusek enters behind him. She is in full uniform. She has not been sleeping either."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "The Assembly is in recess until Monday. That is four days. The Covenant officers at Gravenmark are not going to wait four days. If we do not give them an answer in the next hour, they will give themselves one. I am not asking you to trust the military, Chancellor. I am telling you what will happen — factually, predictably — if a decision is not made now."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Article 22 of the Veltrian Charter permits the Chancellor to issue an Emergency Decree in the event of an armed incursion against the Republic. It was written for exactly this moment. It was also written by men who assumed the Chancellor would be a man, that the threat would be clear, and that the Assembly would thank them for their decisiveness. None of those assumptions survive contact with reality. If I wait for the Assembly, the Covenant will act independently, and I will have lost control of my own military. If I issue the Decree, I bypass Parliament — setting a precedent that the Chancellor can rule by decree whenever the situation is sufficiently dire. Either path has consequences. Neither path permits hesitation."
+    }
+  ],
+  "choices": [
+    {
+      "id": "decree_parliamentary_debate",
+      "text": "Call an emergency session of the Assembly tonight. We debate this at dawn. The military will wait for civilian authorization. No one — no one — crosses that border without a vote of the National Assembly.",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "flags": ["tyvaren_border_resolved", "emergency_resolved_this_week", "chose_parliamentary_path"],
+      "reactions": [
+        {
+          "character": "irina_dusek",
+          "type": "silence",
+          "text": "She stares at you for a long moment. The silence is heavier than any words she could have chosen. Then she nods once — a soldier acknowledging an order she disagrees with — and leaves to coordinate the Assembly summons. 'The soldiers on the border will not be happy, Chancellor. They are bleeding while the politicians debate. I hope you are right.'"
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "Vyktor is already dialing the Assembly Speaker's private number. His hand is steady. His jaw is tight. He has already calculated the political cost and decided it is acceptable. He has also decided not to tell you what that cost is until morning."
+        }
+      ]
+    },
+    {
+      "id": "decree_issue_article_22",
+      "text": "Invoke Article 22 of the Veltrian Charter. Issue an Emergency Decree authorizing immediate, proportional counterstrike across the Tyvaren border. Bypass the Assembly. The Republic will not bleed while politicians debate.",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 20 },
+        { "stat": "factions.reformists", "operation": "add", "value": -20 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 }
+      ],
+      "flags": ["tyvaren_border_resolved", "emergency_resolved_this_week", "decree_issued_article_22", "authoritarian_precedent_set"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "Vyktor does not blink. He simply opens a leather folio, pulls out a pre-typed document titled 'EXECUTIVE MANDATE — PURSUANT TO ARTICLE 22', and slides it across the desk with a pen. His hand is steady. He was ready for this. He has been ready for this since the first week you took office."
+        },
+        {
+          "character": "irina_dusek",
+          "type": "dialogue",
+          "text": "She takes the decree from Vyktor, reads it once, and nods. 'I will take this to Gravenmark personally. By the time the Assembly reconvenes on Monday, the situation will be resolved. They will be angry. Some of them will call for your impeachment. But the border will be secure, and my soldiers will know that their Chancellor did not abandon them.'"
+        }
+      ]
+    }
+  ]
+}

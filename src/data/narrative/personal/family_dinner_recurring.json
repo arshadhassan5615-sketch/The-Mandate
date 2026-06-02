@@ -1,0 +1,182 @@
+{
+  "id": "family_dinner_recurring",
+  "title": "Sunday Dinner",
+  "act": 0,
+  "weekAvailable": 0,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Private Residence — Dining Room",
+  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The dining room is warm. Jonas has opened a bottle of wine from before the war. The children are already seated at the table — Tomas slouched in his chair, Liora with a book she is pretending not to read. For a moment, you are not the Chancellor. You are just Katerin, coming home to dinner."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "You're on time. That's twice this month. Should I alert the press?"
+    },
+    {
+      "type": "description",
+      "text": "He is smiling. The smile reaches his eyes, which it hasn't done in weeks. You set your bag by the door and sit down."
+    }
+  ],
+  "choices": [
+    {
+      "id": "dinner_continue",
+      "text": "Sit down with your family. Let dinner begin.",
+      "internalTag": "personal",
+      "stateChanges": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "chainTriggers": [],
+      "nextSegment": "dinner_choices"
+    }
+  ],
+  "segments": {
+    "dinner_military_presence": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "There were armored vehicles on Kessler Avenue today. Liora's school was on lockdown for two hours. Is this the new normal? Soldiers near schools?"
+        }
+      ],
+      "choices": []
+    },
+    "dinner_oligarch_rumors": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "liora_ashavel",
+          "text": "Mother, a girl at school — Eliska, her father works at the Interior Ministry — she said you had dinner with the Morvecs. Alone. Is it true they own half the parliament? Is it true you're in debt to them?"
+        }
+      ],
+      "choices": []
+    },
+    "dinner_union_praise": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "tomas_ashavel",
+          "text": "The union rep at the plant says you're the first Chancellor who actually listens to workers. He said it loud, in front of everyone. Dad says that's dangerous — being too popular with unions. Is it?"
+        }
+      ],
+      "choices": []
+    },
+    "dinner_journalist_arrest": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "Nadia Voss was arrested this morning. She covered our wedding, Katerin. You danced with her at the reception. What are we becoming that journalists who attended our wedding are now in detention?"
+        }
+      ],
+      "choices": []
+    },
+    "dinner_protest_sounds": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Even with the windows closed, you can hear the chanting from Republic Square. A low roar, thousands of voices demanding something — change, justice, revenge, you can't tell from here. Tomas pushes his food around his plate without eating. Liora won't look up from her book. Jonas is watching you, waiting to see how you react."
+        }
+      ],
+      "choices": []
+    },
+    "dinner_curfew_discussion": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "The curfew means I can't get to the hospital after nine o'clock. If your mother has another spell — if anything happens — I'll be stuck at a checkpoint arguing with a twenty-year-old conscript. We need a medical exemption. The curfew wasn't supposed to apply to doctors."
+        }
+      ],
+      "choices": []
+    },
+    "dinner_marital_tension": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Jonas barely looks at you. He passes the bread, says please and thank you, asks Tomas about school — but his eyes skip over your face like it's a newspaper he's already read. The silence between you has weight, density, a physical presence that the children navigate around like furniture that wasn't there last year."
+        }
+      ],
+      "choices": []
+    },
+    "dinner_tomas_trouble": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "Tomas got into a fight at school today. Called another boy a 'Halvekist traitor' and shoved him into the lockers. The headmaster called. Where is he learning this, Katerin? Because it isn't from me."
+        }
+      ],
+      "choices": []
+    },
+    "dinner_choices": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The meal is ending. The plates are nearly empty. Outside, the evening light is fading into the grey-gold of a Veltrian autumn dusk. You have a choice to make about what kind of evening — what kind of mother, wife, person — this will be."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dinner_engage",
+          "text": "Put down your fork. Look at each of them in turn. Ask about their days — really ask. Be present. Be here. Be Katerin, not the Chancellor.",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": 8 },
+            { "stat": "personal.lioraRelationship", "operation": "add", "value": 5 },
+            { "stat": "personal.tomasWellbeing", "operation": "add", "value": 5 }
+          ],
+          "flags": ["dinner_engaged"],
+          "reactions": [
+            {
+              "character": "jonas_ashavel",
+              "type": "action",
+              "text": "His shoulders relax — a small movement, the kind you only notice if you have been married for eighteen years. He reaches across the table and takes your hand. For the first time in weeks, he smiles. The smile is tired. The smile is real."
+            }
+          ]
+        },
+        {
+          "id": "dinner_deflect",
+          "text": "Talk about safe topics. The weather. A book you are pretending to read. The garden, which you have not seen in three weeks. Avoid the weight of everything that is not being said.",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": 2 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+          ],
+          "flags": ["dinner_deflected"],
+          "reactions": [
+            {
+              "character": "jonas_ashavel",
+              "type": "silence",
+              "text": "He nods politely, passes the salt you didn't ask for, and looks at the clock above the mantle. The politeness is worse than an argument would be. His eyes say: you're not really here, and we both know it."
+            }
+          ]
+        },
+        {
+          "id": "dinner_work_late",
+          "text": "Apologize. There is a crisis — there is always a crisis. Vyktor is waiting with briefings. You have to go back to the office. You will make it up to them next week.",
+          "internalTag": "personal",
+          "stateChanges": [
+            { "stat": "personal.marriageHealth", "operation": "add", "value": -10 },
+            { "stat": "personal.lioraRelationship", "operation": "add", "value": -5 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": 3 }
+          ],
+          "flags": ["dinner_abandoned"],
+          "reactions": [
+            {
+              "character": "liora_ashavel",
+              "type": "dialogue",
+              "text": "You're always leaving. It's like we're not enough — like the country is more important than we are. Maybe it is. But you could pretend, just once. That's all I'm asking. Just once."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

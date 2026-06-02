@@ -4,7 +4,10 @@ import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useLetterStore } from '../stores/letterStore'
+import { useChainStore } from '../stores/chainStore'
+import { buildDinnerChainTriggers } from '../engine/FamilyDinnerEngine'
 import { playStamp } from '../engine/audioEngine'
+import { useEffect } from 'react'
 
 // ─── News card ────────────────────────────────────────────────────────────────
 
@@ -93,6 +96,15 @@ export default function MorningBriefing() {
   const letterStore = useLetterStore()
 
   const headlines = selectHeadlines(gameState, activeFlags)
+
+  useEffect(() => {
+    if (activeFlags.includes('family_dinner_chains_scheduled')) return
+    const triggers = buildDinnerChainTriggers(currentWeek)
+    if (triggers.length > 0) {
+      useChainStore.getState().schedule(triggers, currentWeek, 'family_dinner_init')
+      useNarrativeStore.getState().addFlags(['family_dinner_chains_scheduled'])
+    }
+  }, [])
 
   // Fallback headlines for Week 1 — news hasn't been generated yet
   const displayHeadlines = headlines.length > 0 ? headlines : (currentWeek === 1 ? [

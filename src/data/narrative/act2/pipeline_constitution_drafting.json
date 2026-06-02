@@ -1,0 +1,94 @@
+{
+  "id": "pipeline_constitution_drafting",
+  "title": "The Drafting Committee",
+  "act": 2,
+  "weekAvailable": 14,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Constitutional Committee Chamber — Ashenmere Parliament Building",
+  "characters": ["aldric_theron", "soraya_khaled", "stanislov_renek"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The drafting committee has been meeting for three weeks. Professor Theron's original text is two hundred and forty pages, every clause debated, every comma negotiated. The room smells of old books and stale coffee. A chalkboard covers one wall — articles and amendments written, erased, rewritten. You are here to review the riders that various factions have demanded in exchange for their support."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Chancellor, we have a clean draft. Article 3 guarantees universal suffrage. Article 7 establishes judicial review. Article 12 limits executive authority. It is a genuine democratic constitution — the first in Veltrian history. But three factions are demanding riders. If we refuse all of them, the bill will not survive the committee vote. If we accept all of them, the constitution becomes a patchwork of compromises rather than a statement of principle."
+    },
+    {
+      "type": "dialogue",
+      "character": "soraya_khaled",
+      "text": "The Workers' Coalition wants Article 15 — a constitutional guarantee of the right to strike. We have been fighting for this since 1947. Without it, the Halvekists will dismantle every union protection the moment they return to power. I need your word that the constitution will protect workers, not just the wealthy."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "The Church requests protection for religious education. Our schools, our curriculum, our right to teach the Flame's values without state interference. We do not seek to impose our beliefs. We seek only to preserve them. A simple rider — and the Church will support the constitution without reservation."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Two riders. Two groups that have reason to distrust me. The Workers' Coalition gave me their votes in the election. The Church has been grudgingly respectful since the education compromise. If I refuse both, I keep the constitution pure — but I make enemies of people I need. If I accept one, I alienate the other. If I accept both, I get a constitution that passes — but it carries the fingerprints of everyone who demanded a piece of it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "rider_church_education",
+      "text": "Accept Archbishop Renek's rider. Protect religious schools. The Church's support is worth the compromise.",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 12 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+      ],
+      "flags": ["rider_church_education", "constitution_pipeline_stage_1_done"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "He makes a note in the margin of his draft. The pen moves slowly, deliberately. 'The Church rider is defensible. Freedom of belief is a democratic value. But Soraya will not forget this, Chancellor. She will demand her pound of flesh before the committee is finished.'"
+        }
+      ]
+    },
+    {
+      "id": "rider_worker_strike",
+      "text": "Accept Soraya's rider. Enshrine the right to strike in the constitution. Workers deserve a seat at the table.",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 12 },
+        { "stat": "factions.church", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "flags": ["rider_worker_strike", "constitution_pipeline_stage_1_done"],
+      "reactions": [
+        {
+          "character": "soraya_khaled",
+          "type": "action",
+          "text": "She does not smile — Soraya rarely smiles at political victories — but her shoulders drop half an inch. That is the equivalent of applause from her. 'You made the right choice, Chancellor. History will remember who stood with the workers, and who stood in their way.'"
+        }
+      ]
+    },
+    {
+      "id": "rider_none",
+      "text": "Reject both riders. The constitution must be pure. If it fails, it fails on principle — not because it was hollowed out by compromise.",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -8 },
+        { "stat": "factions.church", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 }
+      ],
+      "flags": ["rider_none", "constitution_pipeline_stage_1_done"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "silence",
+          "text": "Theron sets down his pen. He looks at the draft — two hundred and forty pages of uncompromised principle — and nods once. 'It is the best constitution ever written for a country that does not yet exist. I hope the Assembly has the courage to vote for it. I hope you have the votes to make them.'"
+        }
+      ]
+    }
+  ]
+}

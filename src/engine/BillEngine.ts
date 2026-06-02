@@ -104,6 +104,16 @@ export function canAssemblyOverride(activeFlags: string[]): boolean {
   return activeFlags.includes('constitution_assembly_override')
 }
 
+export function isPipelineActive(billId: string, _currentWeek: number, activeFlags: string[]): boolean {
+  if (billId === 'bill_constitutional_reform') {
+    return (
+      activeFlags.includes('constitution_pipeline_stage_1_done') ||
+      activeFlags.includes('constitution_pipeline_stage_2_done')
+    ) && !activeFlags.includes('constitution_floor_vote_resolved')
+  }
+  return false
+}
+
 export function generateReactionText(
   bill: Bill,
   decision: 'signed' | 'vetoed' | 'overridden' | 'auto_passed',

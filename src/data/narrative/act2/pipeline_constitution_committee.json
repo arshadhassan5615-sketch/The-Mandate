@@ -1,0 +1,95 @@
+{
+  "id": "pipeline_constitution_committee",
+  "title": "The Smoke-Filled Room",
+  "act": 2,
+  "weekAvailable": 15,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Parliamentary Smoking Room — Ashenmere",
+  "characters": ["drazen_kolvar", "soraya_khaled", "aldric_theron"],
+  "prerequisiteFlags": ["constitution_pipeline_stage_1_done"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The parliamentary smoking room has not been redecorated since the Republic was founded. Dark wood, leather chairs worn smooth by decades of politicians sitting in them, a haze of pipe smoke that seems to be absorbed into the walls themselves. Dražen Kolvar sits in the corner booth like a man who owns the building. Across from him, Soraya Khaled has positioned herself so she can see both the door and the windows. Aldric Theron is standing, because Theron does not sit in rooms where he is about to be asked to compromise on his constitution."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Chancellor. You need one hundred and seventy-six votes. Your coalition can deliver perhaps one hundred and forty. The Halvekists will deliver fifty-eight against it, no matter what the constitution says. That leaves you needing twenty or thirty swing votes from the independents and the business class. I know exactly who those MPs are. I know what they want. The question is whether you are willing to pay for it."
+    },
+    {
+      "type": "dialogue",
+      "character": "soraya_khaled",
+      "text": "The Workers' Coalition can deliver twelve votes from industrial districts. But my MPs have families. They have mortgages. If you expect them to defy the Halvekist whip, they need to know you will protect them from the consequences. Money is not the only currency in this room, Chancellor. Loyalty is. And loyalty is earned."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "There is another path. The Reformist coalition has fifty-seven MPs who would follow my recommendation — if I gave it. I can enforce party discipline. I can make the constitutional vote a matter of confidence within the Reformist bloc. No bribes. No deals. Just the force of institutional authority. But it will cost me political capital I have spent twenty years accumulating. I need to know it is worth it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "whip_bribe",
+      "text": "Write the checks. Buy the swing votes with personal funds. Kolvar's network plus Soraya's protection — a quiet transaction for a historic outcome.",
+      "internalTag": "pragmatist",
+      "conditions": [
+        { "stat": "personal.personalWealth", "operator": ">", "value": 50 }
+      ],
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": -30 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 4 }
+      ],
+      "flags": ["whip_success_bribe", "constitution_pipeline_stage_2_done"],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "action",
+          "text": "Kolvar writes down twenty-three names on a napkin and slides it across the table. 'These will vote yes. The others will abstain, which is almost as good. You have your majority, Chancellor. It cost more than principle, but less than it would have cost to lose.'"
+        }
+      ]
+    },
+    {
+      "id": "whip_discipline",
+      "text": "Ask Theron to enforce party discipline. His moral authority has weight, and a unified Reformist bloc can carry the vote cleanly.",
+      "internalTag": "reformist",
+      "conditions": [
+        { "stat": "advisorTrust.theron", "operator": ">", "value": 60 }
+      ],
+      "stateChanges": [
+        { "stat": "advisorTrust.theron", "operation": "add", "value": -8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "flags": ["whip_success_discipline", "constitution_pipeline_stage_2_done"],
+      "reactions": [
+        {
+          "character": "aldric_theron",
+          "type": "dialogue",
+          "text": "He straightens his jacket. The movement is small, but it carries the weight of a decision made. 'Fifty-seven votes, Chancellor. I will deliver them. But I am not a young man, and the Reformist coalition is not a machine. I have one of these in me. Maybe two. Use them wisely, because the next time you need party discipline, I may not have the capital to enforce it.'"
+        }
+      ]
+    },
+    {
+      "id": "whip_fail",
+      "text": "You cannot secure the votes. Not today. The numbers are not there, and you will not compromise your integrity to force them.",
+      "internalTag": "personal",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": -8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 }
+      ],
+      "flags": ["whip_failed", "constitution_pipeline_stage_2_done"],
+      "reactions": [
+        {
+          "character": "drazen_kolvar",
+          "type": "dialogue",
+          "text": "Kolvar leans back in his chair and exhales a long plume of pipe smoke. 'Very well, Chancellor. You have my respect — for what little that is worth. But respect does not pass legislation. You will walk into that chamber next week without the numbers, and you will walk out with nothing. I hope your principles are warm enough to sleep under.'"
+        }
+      ]
+    }
+  ]
+}
