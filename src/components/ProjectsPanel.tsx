@@ -62,7 +62,7 @@ export default function ProjectsPanel() {
                 Wk {p.currentWeek}/{def.durationWeeks}
               </span>
               <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.45rem', color: 'var(--muted)', letterSpacing: '0.04em' }}>
-                {p.totalCost}M VK
+                {p.totalCost}M ₭
               </span>
             </div>
           </div>

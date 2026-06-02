@@ -1,43 +1,718 @@
 {
   "id": "act2_week20_oligarch_meeting",
-  "title": "The Separate Offer",
+  "title": "The Room",
+  "location": "Vael-Kross Tower — Boardroom, Ashenmere",
+  "week": 20,
   "act": 2,
-  "weekAvailable": 20,
-  "weekDeadline": 22,
-  "type": "meeting",
-  "agendaCost": 1,
-  "isMandatory": false,
-  "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
-  "prerequisites": [],
-  "narrative": [
+  "characters": [
+    "katerin_ashavel",
+    "vyktor_reznik",
+    "lucan_vael",
+    "other_oligarchs"
+  ],
+  "dialogue": [
     {
-      "type": "description",
-      "text": "Vyktor Reznik is standing by the window, which is unusual — Vyktor does not stand when he can sit, does not look at views when he can look at documents. Lucen, his junior aide, is by the door. They stop talking the moment you enter. That pause. The one that means the conversation was about you and they are deciding whether to continue it in your presence. The pause is information."
+      "type": "narrative",
+      "text": "The boardroom is on the fourteenth floor. Floor-to-ceiling windows face north. On a clear day you can see all the way to the Dravenhollow foothills. Today the fog is in and there is only grey."
+    },
+    {
+      "type": "narrative",
+      "text": "Seven men and two women around the table. The nine wealthiest private citizens in Veltria, by most estimates. They have been waiting for this meeting for six months."
+    },
+    {
+      "type": "narrative",
+      "text": "Vyktor stops you in the corridor before you enter."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "There is something you need to know before this meeting."
+      "text": "There's something you need to know before you go in."
     },
     {
-      "type": "description",
-      "text": "Lucen is looking at the floor. Not with guilt — with the specific discomfort of a junior staffer who has learned something that is above his clearance. Vyktor waits. He wants you to ask. Or he wants you to already know."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "Vael made a separate offer. To someone else in this government."
-    },
-    {
-      "type": "description",
-      "text": "A beat. A long one. You can feel the weight of the next sentence before he says it."
+      "type": "narrative",
+      "text": "The aide behind him is looking at the floor."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "We think we know who."
+      "text": "Vael made a separate offer. To someone in this government. Not to you. To someone else."
+    },
+    {
+      "type": "dialogue",
+      "character": "katerin_ashavel",
+      "text": "Who?"
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "We think we know. We're not certain. I'll tell you after — I don't want you going in there looking at anyone differently."
     }
   ],
-  "choices": []
+  "monologue": "A separate offer to someone in my government. Vyktor won't tell me who before the meeting because he doesn't want my face to give it away. He's right. But knowing there's someone in that government who Vael thinks is approachable — that changes every conversation I've had in the last six months. I need to be in this room for the next two hours and not think about that. That is not possible. I'll try anyway.",
+
+  "choices": [
+    {
+      "id": "ask_who_anyway",
+      "text": "Tell me now. I need to know.",
+      "nextSegment": "vyktor_refuses"
+    },
+    {
+      "id": "accept_dont_ask",
+      "text": "Fine. After. Let's go in.",
+      "nextSegment": "entering_the_room"
+    },
+    {
+      "id": "ask_what_offer",
+      "text": "What was the offer? Even if not who.",
+      "nextSegment": "the_other_offer"
+    }
+  ],
+
+  "segments": {
+    "vyktor_refuses": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "No. Your face will change and Vael will read it. He's been reading rooms for forty years."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "My face doesn't—"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Your face changes. Slightly. When you know something you didn't know thirty seconds ago. I've watched it for eight months. Vael will have it in forty-five minutes."
+        },
+        {
+          "type": "narrative",
+          "text": "A pause."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "After."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "After."
+        }
+      ],
+      "choices": [
+        {
+          "id": "refuses_enter",
+          "text": "Go in.",
+          "nextSegment": "entering_the_room"
+        }
+      ]
+    },
+
+    "the_other_offer": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Financial. Substantial. Structured as a consulting arrangement for a family member — clean on paper. The kind of thing that's difficult to prosecute and easy to deny."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Whether it was accepted is the part I'm still verifying."
+        },
+        {
+          "type": "narrative",
+          "text": "Whether it was accepted. You sit with that."
+        }
+      ],
+      "choices": [
+        {
+          "id": "offer_detail_enter",
+          "text": "Go in.",
+          "nextSegment": "entering_the_room"
+        }
+      ]
+    },
+
+    "entering_the_room": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "Nine faces turn when you enter. Vael stands. The others follow a half-second later — following his lead, which tells you something about who runs this room even when no one is supposed to run it."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Chancellor. Thank you for coming."
+        },
+        {
+          "type": "narrative",
+          "text": "He is shorter than you expected. Older. His handshake is exactly as firm as it needs to be — not more."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "I'll begin directly, as I promised I would. The nine of us represent approximately forty percent of Veltria's private investment capacity. We are not here to threaten you. We are here because the current policy uncertainty is costing all of us money and we would prefer to stop losing it."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "We would like to understand what this government actually intends to do."
+        }
+      ],
+      "choices": [
+        {
+          "id": "respond_direct",
+          "text": "I'll be equally direct. What specifically concerns you?",
+          "nextSegment": "vael_concerns"
+        },
+        {
+          "id": "respond_formal",
+          "text": "I appreciate the directness. The government's economic intentions are public. The question is what you're prepared to contribute.",
+          "nextSegment": "katerin_sets_terms"
+        },
+        {
+          "id": "respond_observe",
+          "text": "Tell me more about the uncertainty you're experiencing.",
+          "nextSegment": "vael_concerns"
+        }
+      ]
+    },
+
+    "vael_concerns": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "The wealth tax proposal. The retroactive audit discussion. The constitutional reform's corporate conduct provisions. Any one of those we can plan around. All three simultaneously — with the timelines undefined — means we cannot make investment decisions. We are not investing. When we are not investing, the people who work in our enterprises are not working."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "I want to be precise: I am not threatening capital flight. I am describing paralysis. The solution to paralysis is clarity."
+        },
+        {
+          "type": "narrative",
+          "text": "The others are watching you. They are all watching Vael first and you second. Except one — a woman at the far end of the table who has been watching only you since you entered."
+        }
+      ],
+      "choices": [
+        {
+          "id": "concerns_ask_woman",
+          "text": "The woman at the end of the table — you haven't introduced everyone.",
+          "nextSegment": "the_woman"
+        },
+        {
+          "id": "concerns_ask_clarity",
+          "text": "What kind of clarity are you looking for?",
+          "nextSegment": "vael_wants_clarity"
+        },
+        {
+          "id": "concerns_challenge",
+          "text": "Paralysis is a choice. You're not investing because you're waiting to see if you can prevent the wealth tax. That's leverage, not paralysis.",
+          "nextSegment": "vael_challenged"
+        }
+      ]
+    },
+
+    "the_woman": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Forgive me. Dara Lenn. She holds the Thornfeld agricultural consolidation portfolio — roughly a quarter of the southern farming capacity."
+        },
+        {
+          "type": "dialogue",
+          "character": "other_oligarchs",
+          "text": "Chancellor. I've been waiting to ask you something."
+        },
+        {
+          "type": "dialogue",
+          "character": "other_oligarchs",
+          "text": "The twelve workers reinstated in Kravenstal. The independent arbitration ruling. Was that a precedent or was it a specific response to a specific situation?"
+        },
+        {
+          "type": "narrative",
+          "text": "The room is suddenly quiet in a different way."
+        },
+        {
+          "type": "dialogue",
+          "character": "other_oligarchs",
+          "text": "I have three facilities with labor disputes in arbitration right now. If Kravenstal was a precedent, I need to know. My lawyers need to know."
+        }
+      ],
+      "choices": [
+        {
+          "id": "woman_precedent",
+          "text": "The law is the law. If your arbitration disputes are governed by the same provisions, they'll produce the same outcomes.",
+          "nextSegment": "vael_concerned_about_answer"
+        },
+        {
+          "id": "woman_case_specific",
+          "text": "Kravenstal was a specific situation. The workers were wrongfully dismissed. The law was applied correctly.",
+          "nextSegment": "vael_concerned_about_answer"
+        }
+      ]
+    },
+
+    "vael_wants_clarity": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "A timeline on the wealth tax decision. A clear scope statement on the retroactive audit — which contracts, which years, what the trigger criteria are. And a commitment that the constitutional reform's corporate provisions will be subject to impact assessment before final vote."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "None of those are unreasonable requests. None of them ask you to abandon your policy agenda. They ask you to define it."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Chancellor would need to take those requests to cabinet."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Of course."
+        }
+      ],
+      "choices": [
+        {
+          "id": "clarity_willing",
+          "text": "Some of those I can commit to in principle. Let's discuss which.",
+          "nextSegment": "negotiation_begins"
+        },
+        {
+          "id": "clarity_unwilling",
+          "text": "The government's policy timeline is a matter for the government. I'm not going to negotiate it in this room.",
+          "nextSegment": "vael_presses"
+        }
+      ]
+    },
+
+    "vael_challenged": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "That's a fair characterization. I won't pretend otherwise. Yes — we are waiting to see if we can influence the outcome. That's what this meeting is. I assumed you understood that when you agreed to come."
+        },
+        {
+          "type": "narrative",
+          "text": "Unexpected. Most people in his position deny it."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "The question is whether influence means conversation or obstruction. I am offering conversation. Obstruction would look different. It would be quieter and you wouldn't know it was happening."
+        }
+      ],
+      "choices": [
+        {
+          "id": "challenge_respond_direct",
+          "text": "I appreciate the honesty. What do you want from this conversation?",
+          "nextSegment": "vael_wants_clarity"
+        },
+        {
+          "id": "challenge_respond_firm",
+          "text": "The threat underneath the politeness is noted. Let's proceed.",
+          "nextSegment": "vael_presses"
+        }
+      ]
+    },
+
+    "vael_concerned_about_answer": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "Vael watches the exchange. Something in his expression — not displeasure. Calculation."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "The Chancellor's answer is legally consistent. Which means it applies to all three of Dara's facilities."
+        },
+        {
+          "type": "dialogue",
+          "character": "other_oligarchs",
+          "text": "Yes. Thank you."
+        },
+        {
+          "type": "narrative",
+          "text": "She writes something. You cannot see what. But you notice that Vael has the same response to her writing that you have to Vyktor's — a slight attention that means he's tracking what she's noting."
+        }
+      ],
+      "choices": [
+        {
+          "id": "concerned_continue",
+          "text": "Let's return to the main question. What does this group actually want from this meeting?",
+          "nextSegment": "vael_wants_clarity"
+        }
+      ]
+    },
+
+    "negotiation_begins": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "The wealth tax timeline — if we knew the decision was coming in Q3 of next year rather than next month, we could plan. We're not asking for the decision to be different. We're asking to know when."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "The budget timeline is tied to the Assembly session. I can give you a Q3 commitment if the Assembly calendar holds."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "That's something."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "The retroactive audit scope. I want to be specific about my personal concern. The 1951-1953 contract period. I want to understand what the government considers appropriate scope."
+        },
+        {
+          "type": "narrative",
+          "text": "The room is very still."
+        }
+      ],
+      "choices": [
+        {
+          "id": "negotiate_audit_scope",
+          "text": "The audit scope is being determined by the Justice Ministry on legal criteria. I won't preemptively limit it.",
+          "nextSegment": "vael_audit_response"
+        },
+        {
+          "id": "negotiate_audit_narrow",
+          "text": "The audit will focus on irregularities in the tender process, not on contracts that were properly awarded under existing law.",
+          "nextSegment": "vael_satisfied_audit"
+        },
+        {
+          "id": "negotiate_audit_ask",
+          "text": "Why are those three years specifically your concern, Mr. Vael?",
+          "nextSegment": "vael_personal_moment"
+        }
+      ]
+    },
+
+    "vael_audit_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "That's the answer I expected. It's not the answer I hoped for."
+        },
+        {
+          "type": "narrative",
+          "text": "He is quiet for a moment. The others are looking at him."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Then let me ask a different question. If the audit finds something in those years — something that has been settled business for thirty years — what does the government intend to do with it?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_apply_law",
+          "text": "Apply the law. Whatever it finds.",
+          "nextSegment": "final_oligarch_choice"
+        },
+        {
+          "id": "audit_prosecutorial_discretion",
+          "text": "The government exercises prosecutorial discretion. Old cases, settled conduct, and the statute of limitations will all be considered.",
+          "nextSegment": "vael_satisfied_audit"
+        }
+      ]
+    },
+
+    "vael_personal_moment": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Because those were the years I learned how things worked in this country. I was thirty-two. My father had just died. I was running a company I wasn't ready to run and the only way to keep it alive was to understand what the rules actually were — not the written rules. The actual rules."
+        },
+        {
+          "type": "narrative",
+          "text": "A pause. The room is different now."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "I made decisions in those years that I couldn't have made any other way and kept the company alive. Whether that makes me guilty of something or a survivor of something — I've been asking myself that question for thirty years."
+        },
+        {
+          "type": "narrative",
+          "text": "This is not what you expected from this room."
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_acknowledge",
+          "text": "I hear that. The audit will follow the law. What it finds determines what happens next.",
+          "nextSegment": "final_oligarch_choice"
+        },
+        {
+          "id": "personal_sympathize",
+          "text": "The government's concern is with conduct, not survival. If the conduct was unlawful, the law applies. If it was lawful under the rules at the time, that matters.",
+          "nextSegment": "vael_satisfied_audit"
+        }
+      ]
+    },
+
+    "vael_satisfied_audit": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Then I think we may be able to work together."
+        },
+        {
+          "type": "narrative",
+          "text": "The room relaxes slightly. Not warmly. Professionally."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The infrastructure proposal. You mentioned in your letter that you had a proposal addressing the northern road network and Kravenstal employment."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Yes. The proposal stands. Full competitive tender, as the Chancellor's office requested. Vael-Kross would bid alongside three other firms. We expect to win on merit. We would accept independent oversight."
+        }
+      ],
+      "choices": [
+        {
+          "id": "satisfied_to_final",
+          "text": "Let's discuss the terms.",
+          "nextSegment": "final_oligarch_choice"
+        }
+      ]
+    },
+
+    "vael_presses": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Chancellor. I've been patient for six months. The wealth tax, the audit, the reform provisions — we've received public statements and no timeline. The investment pause is costing your government revenue it needs."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "I'm not asking you to change your policy. I'm asking you to tell me when. That's all. When."
+        },
+        {
+          "type": "narrative",
+          "text": "Seven of the nine are nodding. Dara Lenn is not. She is watching you."
+        }
+      ],
+      "choices": [
+        {
+          "id": "presses_give_timeline",
+          "text": "Q3 next year for the wealth tax decision. The audit scope will be defined by Justice Ministry criteria, published by end of year.",
+          "nextSegment": "final_oligarch_choice"
+        },
+        {
+          "id": "presses_hold_firm",
+          "text": "The government's timeline is not negotiable in this room. That's my final answer on that question.",
+          "nextSegment": "final_oligarch_choice"
+        }
+      ]
+    },
+
+    "katerin_sets_terms": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "The government's economic program is not a negotiation. It is a policy. What I'm prepared to discuss is how private investment fits within that policy — where there is room for partnership and where there isn't."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "That's a reasonable framing."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "The Kravenstal infrastructure project. The northern road network. Those are areas where private investment complements public goals. The wealth tax and the audit are not areas for partnership. They are policy."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "The distinction between partnership areas and policy areas is noted. The policy areas are still creating uncertainty that affects the partnership areas."
+        }
+      ],
+      "choices": [
+        {
+          "id": "terms_acknowledge",
+          "text": "I understand the connection. What specific clarification would address it?",
+          "nextSegment": "vael_wants_clarity"
+        },
+        {
+          "id": "terms_hold",
+          "text": "Uncertainty is the cost of democratic policy-making. I can't eliminate it.",
+          "nextSegment": "vael_presses"
+        }
+      ]
+    },
+
+    "final_oligarch_choice": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "Two hours. The fog has lifted slightly. You can see the edge of the Dravenhollow foothills now — a dark line at the horizon."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Chancellor. What is the government prepared to offer this room?"
+        },
+        {
+          "type": "narrative",
+          "text": "Eight faces waiting. Vyktor watching. And in the corridor outside, someone in your government who accepted money from the man sitting across the table from you. Or didn't. Vyktor will tell you which after."
+        }
+      ],
+      "monologue": "Forty percent of Veltria's private investment capacity is in this room. The workers in Kravenstal need those investments to mean jobs. The constitutional reform needs the stability that comes from economic confidence. And somewhere in my cabinet is a person who Vael thought could be bought. I need to give this room an answer and I need to give it without knowing which of my people is compromised. That is what governing actually feels like.",
+
+      "choices": [
+        {
+          "id": "partnership_deal",
+          "text": "A public-private infrastructure partnership. Full tender process, independent oversight, published timelines. The wealth tax decision by Q3. The audit scope published before year end. That's what the government offers.",
+          "statEffects": [
+            {"stat": "economy", "value": 10},
+            {"stat": "budget", "value": 8},
+            {"stat": "reformist_credibility", "value": -5},
+            {"stat": "business_confidence", "value": 15}
+          ],
+          "flags": ["oligarch_deal_made", "infrastructure_partnership"],
+          "reactions": [
+            {
+              "character": "lucan_vael",
+              "type": "dialogue",
+              "text": "That's workable. I'll have our legal team contact the Finance Ministry."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He writes something. His expression is careful."
+            },
+            {
+              "character": "other_oligarchs",
+              "type": "action",
+              "text": "Dara Lenn closes her notebook. She is satisfied with something. You are not certain it is the same thing that satisfied Vael."
+            }
+          ],
+          "journalEntry": {
+            "title": "Made Infrastructure Deal with Oligarchs",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "limited_engagement",
+          "text": "Infrastructure partnership on competitive tender terms only. No commitments on tax or audit timeline. The government's policy is its own business.",
+          "statEffects": [
+            {"stat": "economy", "value": 5},
+            {"stat": "budget", "value": 3},
+            {"stat": "reformist_credibility", "value": 5},
+            {"stat": "business_confidence", "value": 5}
+          ],
+          "flags": ["oligarch_limited_deal"],
+          "reactions": [
+            {
+              "character": "lucan_vael",
+              "type": "dialogue",
+              "text": "Limited but honest. I can work with honest."
+            },
+            {
+              "character": "lucan_vael",
+              "type": "action",
+              "text": "He offers his hand. His expression is professionally warm. Nothing more."
+            }
+          ],
+          "journalEntry": {
+            "title": "Limited Engagement with Oligarchs",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "no_deal",
+          "text": "The government is not in a position to offer this room anything today. The policy questions will resolve on their own timeline. Thank you for the meeting.",
+          "statEffects": [
+            {"stat": "economy", "value": -5},
+            {"stat": "reformist_credibility", "value": 12},
+            {"stat": "business_confidence", "value": -10}
+          ],
+          "flags": ["oligarch_no_deal"],
+          "reactions": [
+            {
+              "character": "lucan_vael",
+              "type": "action",
+              "text": "A pause. Then he stands. The others follow his lead — half a second later, as they did when you arrived."
+            },
+            {
+              "character": "lucan_vael",
+              "type": "dialogue",
+              "text": "I understand. Thank you for coming, Chancellor."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "silence",
+              "text": "In the elevator down, Vyktor says nothing for a long time."
+            }
+          ],
+          "journalEntry": {
+            "title": "Left Oligarch Meeting Without Deal",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "confront_vael_offer",
+          "text": "Before we conclude — I'm aware of the separate offer made to a member of my government. I want you to know I'm aware of it. The rest of this meeting's outcomes stand on their own.",
+          "statEffects": [
+            {"stat": "reformist_credibility", "value": 10},
+            {"stat": "business_confidence", "value": -8},
+            {"stat": "public_trust", "value": 8}
+          ],
+          "flags": ["vael_confronted_directly", "mole_exposed"],
+          "reactions": [
+            {
+              "character": "lucan_vael",
+              "type": "action",
+              "text": "The room changes. He does not look away. His expression does not change. That is itself an answer."
+            },
+            {
+              "character": "lucan_vael",
+              "type": "dialogue",
+              "text": "I don't know what you're referring to."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He is very still."
+            },
+            {
+              "character": "other_oligarchs",
+              "type": "action",
+              "text": "Dara Lenn closes her notebook. She is looking at Vael."
+            }
+          ],
+          "journalEntry": {
+            "title": "Confronted Vael About Government Offer",
+            "category": "crisis"
+          }
+        }
+      ]
+    }
+  }
 }

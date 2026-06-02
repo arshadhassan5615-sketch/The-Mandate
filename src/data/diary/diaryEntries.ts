@@ -1,4 +1,4 @@
-﻿// THE MANDATE — Literary diary entries for Chancellor Katerin Ashavel
+// THE MANDATE — Literary diary entries for Chancellor Katerin Ashavel
 // 52 weeks × 3+ variants each.
 // Voice rules: never summarizes. Reacts. Circles. Wonders.
 // Notes physical details. Refers to father. Addresses diary directly.
@@ -23,6 +23,7 @@ export interface DiaryContext {
   church: number
   dravenni: number
   vaelInfluence: number
+  morvecInfluence: number
   stateOfEmergency: boolean
   seridaAlive: boolean
   seridaTrust: number
@@ -246,7 +247,7 @@ export const DIARY_ENTRIES: Record<number, DiaryEntryFn> = {
 
 27: (ctx) => {
   if (ctx.flags.includes('referendum_won_decisive') || ctx.flags.includes('referendum_won_narrow'))
-    return "The first morning after the constitution. The palace feels different. Lighter — not because anything has physically changed, but because the weight of uncertainty has been replaced by the weight of responsibility. The second weight is heavier. It is also cleaner.\n\nThe morning briefing was shorter. Vyktor had prepared three scenarios for the post-referendum landscape. Now there is only one. He seemed almost disappointed. Vyktor is most comfortable preparing for disasters. Peace makes him nervous.\n\nCabinet met at ten. Vostane presented the implementation budget — forty million VK over two years. The money exists on paper. It does not exist in the treasury. The gap is where the next crisis will come from."
+    return "The first morning after the constitution. The palace feels different. Lighter — not because anything has physically changed, but because the weight of uncertainty has been replaced by the weight of responsibility. The second weight is heavier. It is also cleaner.\n\nThe morning briefing was shorter. Vyktor had prepared three scenarios for the post-referendum landscape. Now there is only one. He seemed almost disappointed. Vyktor is most comfortable preparing for disasters. Peace makes him nervous.\n\nCabinet met at ten. Vostane presented the implementation budget — forty million ₭ over two years. The money exists on paper. It does not exist in the treasury. The gap is where the next crisis will come from."
   return "The constitution failed. The headlines this morning are brutal — some gleeful, some mournful, all asking: what now?\n\nI addressed the cabinet for twenty minutes. I said the things a leader is supposed to say. I believed about half of what I said. The half I didn't believe was the half that matters most.\n\nTonight I sat and looked at the clock — the same clock that has been on my desk since the first week. It has ticked through every crisis and every victory. It does not care about any of them. It just keeps ticking.\n\nTomorrow I will do what the clock does. Keep ticking. That is the only option."
 },
 
@@ -409,7 +410,7 @@ export const DIARY_ENTRIES: Record<number, DiaryEntryFn> = {
 
 48: (ctx) => {
   if (ctx.flags.includes('war_victory'))
-    return "The war is over. Veltria endured. Eight thousand dead. Fourteen thousand wounded. Four hundred million VK in damage. The numbers are numbers. Behind them are families I will spend the rest of my life trying to honor with words that always feel insufficient.\n\nThe armistice was signed at noon. Vukov's signature is on the document next to mine. I looked at his face across the table. He looked at mine. Neither of us said anything. The silence was the closest thing to acknowledgment we will ever share.\n\nDusek came to my office tonight. She was still in her field uniform. She said: 'We held.' I said: 'You held.' She said: 'You gave the orders that made holding possible.' I don't know if that's true. I know she believes it. Tonight that is enough."
+    return "The war is over. Veltria endured. Eight thousand dead. Fourteen thousand wounded. Four hundred million ₭ in damage. The numbers are numbers. Behind them are families I will spend the rest of my life trying to honor with words that always feel insufficient.\n\nThe armistice was signed at noon. Vukov's signature is on the document next to mine. I looked at his face across the table. He looked at mine. Neither of us said anything. The silence was the closest thing to acknowledgment we will ever share.\n\nDusek came to my office tonight. She was still in her field uniform. She said: 'We held.' I said: 'You held.' She said: 'You gave the orders that made holding possible.' I don't know if that's true. I know she believes it. Tonight that is enough."
   if (ctx.flags.includes('war_defeat'))
     return "The armistice was signed today. The terms are not victory. The terms are survival. Gravenmark Pass is no longer Veltrian territory. The indemnity will take a generation to pay. The military will be reduced to a fraction of its former size.\n\nI signed the document. My hand was steady. The steadiness was not courage. It was the absence of alternatives.\n\nI addressed the nation tonight. I told them we had lost the war but preserved the Republic. I told them the constitution remained in force. I told them democracy was stronger than defeat. I believed parts of what I said. The parts I didn't believe I said more loudly.\n\nHistory will judge whether I should have fought harder or surrendered sooner. I made the call I could live with. The call and the living-with are not the same thing."
   return "The armistice negotiations are complete. The terms are neither victory nor defeat — the gray space where most wars actually end. Borders redrawn. Forces reduced. International monitors stationed in the border regions.\n\nI briefed the cabinet this evening. Some were relieved. Some were angry. Most were too exhausted to be either. The exhaustion is the signature emotion of this Chancellorship.\n\nThe country will rebuild. The economy will recover. The people will eventually stop waking up at night thinking about air raid sirens. Eventually. The 'eventually' is doing a lot of work."

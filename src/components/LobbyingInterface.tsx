@@ -191,7 +191,7 @@ export default function LobbyingInterface() {
               </div>
               {selectedSpend > 0 && (
                 <div style={{ marginTop: 4, fontSize: '0.58rem', textAlign: 'center', color: 'var(--amber-dim)' }}>
-                  After {selectedSpend.toLocaleString()} VK lobbying • {spendResult.corruptionFlags.length > 0 ? '⚠ CORRUPTION RISK' : 'Clean operation'}
+                  After {selectedSpend.toLocaleString()} ₭ lobbying • {spendResult.corruptionFlags.length > 0 ? '⚠ CORRUPTION RISK' : 'Clean operation'}
                 </div>
               )}
             </div>
@@ -227,7 +227,7 @@ export default function LobbyingInterface() {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
                       <span style={{ ...mono, fontSize: '0.72rem', color: isSelected ? 'var(--amber-dim)' : 'var(--text)', letterSpacing: '0.05em' }}>
-                        {opt.level === 0 ? 'NO SPENDING' : `${opt.level.toLocaleString()} VK`}
+                        {opt.level === 0 ? 'NO SPENDING' : `${opt.level.toLocaleString()} ₭`}
                       </span>
                       <span style={{
                         ...mono,
@@ -268,7 +268,7 @@ export default function LobbyingInterface() {
             >
               {committed ? 'LOBBYING COMMITTED...' : selectedSpend === 0
                 ? 'PROCEED WITHOUT SPENDING'
-                : `COMMIT ${selectedSpend.toLocaleString()} VK TO LOBBYING`
+                : `COMMIT ${selectedSpend.toLocaleString()} ₭ TO LOBBYING`
               }
             </button>
           </div>
@@ -324,11 +324,11 @@ export default function LobbyingInterface() {
                 ▸ PERSONAL WEALTH
               </span>
               <p style={{ ...mono, fontSize: '0.75rem', color: 'var(--text)', marginTop: 4 }}>
-                {personalWealth.toLocaleString()} VK available
+                {personalWealth.toLocaleString()} ₭ available
               </p>
               {selectedSpend > 0 && (
                 <p style={{ fontSize: '0.6rem', color: 'var(--muted)', marginTop: 2 }}>
-                  After spending: {(personalWealth - selectedSpend).toLocaleString()} VK
+                  After spending: {(personalWealth - selectedSpend).toLocaleString()} ₭
                 </p>
               )}
             </div>
@@ -350,6 +350,9 @@ const overlayStyle: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   padding: '2rem',
+  paddingTop: '48px',
+  paddingRight: '60px',
+  paddingBottom: '80px',
 }
 
 const panelStyle: React.CSSProperties = {

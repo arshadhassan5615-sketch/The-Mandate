@@ -34,7 +34,7 @@ const INITIAL_STATE: GameState = {
     economyHealth: -18,     // Stagnant, slight contraction (GDD: GDP ~2.1B, slight contraction)
     unemployment: 19,       // 19.4% per GDD
     inflation: 9,           // 8.7% per GDD, rounding up as it's rising
-    nationalDebt: 340,      // 340M VK per GDD
+    nationalDebt: 340,      // 340M ₭ per GDD
     corruption: 68,         // Halvek legacy — high
     militaryReadiness: 52,  // Inherited military, functional but unreformed
     publicOrder: 55,        // Tense post-authoritarian period
@@ -59,7 +59,7 @@ const INITIAL_STATE: GameState = {
     marriageHealth: 65,     // Strain of the campaign has already cost something
     lioraRelationship: 70,  // Close; she's proud but starting to have opinions
     tomasWellbeing: 60,     // Fame is harder on a 12-year-old than anyone admits
-    personalWealth: 12000,  // 12,000 VK per GDD
+    personalWealth: 12000,  // 12,000 ₭ per GDD
     publicImage: 55,        // Honeymoon with caveats — significant opposition press
     moralCompass: 0,        // Blank slate; every decision will define this
   },
@@ -72,6 +72,7 @@ const INITIAL_STATE: GameState = {
   termFocus: [] as string[],
   advisorTrust: { theron: 50, soraya: 50, dusek: 50 },
   vaelInfluence: 15,
+  morvecInfluence: 0,
   shadowInfluence: 5,
   refugeeCount: 2800,
   religiousAdherence: 72,
@@ -115,6 +116,7 @@ interface GameStore extends GameState {
   }) => void
   setTermFocus:      (focus: string[]) => void
   setVaelInfluence:  (value: number) => void
+  setMorvecInfluence: (value: number) => void
   // State of Emergency
   declareStateOfEmergency:  () => void
   extendStateOfEmergency:   () => void
@@ -193,6 +195,7 @@ export const useGameStore = create<GameStore>((set) => ({
         termFocus:               state.termFocus,
         advisorTrust:            state.advisorTrust,
         vaelInfluence:           state.vaelInfluence,
+        morvecInfluence:         state.morvecInfluence,
         refugeeCount:            state.refugeeCount,
         religiousAdherence:      state.religiousAdherence,
         stateOfEmergency:        state.stateOfEmergency,
@@ -241,6 +244,7 @@ export const useGameStore = create<GameStore>((set) => ({
         termFocus:               state.termFocus,
         advisorTrust:            state.advisorTrust,
         vaelInfluence:           state.vaelInfluence,
+        morvecInfluence:         state.morvecInfluence,
         refugeeCount:            state.refugeeCount,
         religiousAdherence:      state.religiousAdherence,
         stateOfEmergency:        state.stateOfEmergency,
@@ -293,6 +297,10 @@ export const useGameStore = create<GameStore>((set) => ({
 
   setVaelInfluence: (value) => set(() => ({
     vaelInfluence: clamp('vaelInfluence', value),
+  })),
+
+  setMorvecInfluence: (value) => set(() => ({
+    morvecInfluence: clamp('morvecInfluence', value),
   })),
 
   declareStateOfEmergency: () => set((state) => ({
@@ -448,6 +456,7 @@ export const useGameStore = create<GameStore>((set) => ({
         termFocus: state.termFocus,
         advisorTrust: state.advisorTrust,
         vaelInfluence: state.vaelInfluence,
+        morvecInfluence: state.morvecInfluence,
         refugeeCount: state.refugeeCount,
         religiousAdherence: state.religiousAdherence,
         stateOfEmergency: state.stateOfEmergency,
@@ -513,6 +522,7 @@ export const useGameStore = create<GameStore>((set) => ({
         termFocus: state.termFocus,
         advisorTrust: state.advisorTrust,
         vaelInfluence: state.vaelInfluence,
+        morvecInfluence: state.morvecInfluence,
         refugeeCount: state.refugeeCount,
         religiousAdherence: state.religiousAdherence,
         stateOfEmergency: state.stateOfEmergency,

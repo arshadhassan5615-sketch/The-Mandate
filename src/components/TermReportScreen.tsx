@@ -144,7 +144,7 @@ export default function TermReportScreen() {
       ['Economy Health', gameState.nation.economyHealth],
       ['Unemployment', gameState.nation.unemployment],
       ['Inflation', gameState.nation.inflation],
-      ['National Debt (M VK)', gameState.nation.nationalDebt],
+      ['National Debt (M ₭)', gameState.nation.nationalDebt],
       ['Corruption', gameState.nation.corruption],
       ['Military Readiness', gameState.nation.militaryReadiness],
       ['Public Order', gameState.nation.publicOrder],

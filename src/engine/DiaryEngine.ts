@@ -31,6 +31,7 @@ export function generateDiaryEntry(week: number): DiaryEntry {
     church: state.factions.church,
     dravenni: state.factions.dravenni,
     vaelInfluence: state.vaelInfluence,
+    morvecInfluence: state.morvecInfluence,
     stateOfEmergency: state.stateOfEmergency,
     seridaAlive: state.seridaAlive,
     seridaTrust: state.seridaTrust,

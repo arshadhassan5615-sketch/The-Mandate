@@ -109,6 +109,25 @@ export default function NarrativeScene() {
 
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const prevRevealed = useRef(0)
+  const loadTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
+
+  // Timeout fallback — if scene doesn't load within 4s, try to recover
+  useEffect(() => {
+    if (!currentScene) {
+      loadTimeoutRef.current = setTimeout(() => {
+        const store = useWeekStore.getState()
+        console.error('[NarrativeScene] Scene load timeout — advancing queue')
+        if (store.sceneQueue.length > 0) {
+          store.advanceQueue()
+        } else {
+          store.completeWeek()
+        }
+      }, 4000)
+    }
+    return () => {
+      if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current)
+    }
+  }, [currentScene])
 
   useEffect(() => {
     const currentCount = revealedSegments.length + (activeSegment && segmentDone ? 1 : 0)
@@ -133,6 +152,9 @@ export default function NarrativeScene() {
   }, [revealedSegments.length, activeSegment, segmentDone])
 
   if (!currentScene) {
+    console.log('NarrativeScene: NO SCENE LOADED',
+      'sceneQueue:', sceneQueue.map(s => s.sceneId),
+      'queueIndex:', currentQueueIndex)
     return (
       <div style={{
         position: 'fixed', inset: 0, zIndex: 100,
@@ -183,7 +205,8 @@ export default function NarrativeScene() {
       <div style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101,
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '0.35rem 1rem', borderTop: '1px solid rgba(196,148,58,0.15)',
+        padding: '0.35rem 1rem', paddingRight: '70px',
+        borderTop: '1px solid rgba(196,148,58,0.15)',
         background: 'rgba(10,9,8,0.85)', pointerEvents: 'all',
       }}>
         <span style={{

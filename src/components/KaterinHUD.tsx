@@ -1,4 +1,5 @@
 import { useGameStore } from '../stores/gameStore'
+import { useWeekStore } from '../stores/weekStore'
 import type { PlayerAppearance } from '../types/gameState'
 import katerinImg from '../assets/potraits/katerin_ashavel.jpeg'
 
@@ -53,18 +54,21 @@ function MiniOrnateFrame({ children }: { children: React.ReactNode }) {
 export default function KaterinHUD() {
   const appearance = useGameStore(s => s.playerAppearance)
   const currentAct = useGameStore(s => s.currentAct)
+  const phase = useWeekStore(s => s.phase)
+
+  if (phase === 'agenda') return null
 
   return (
     <div style={{
       position: 'fixed',
-      bottom: 14,
-      left: 14,
-      zIndex: 150,
+      bottom: '16px',
+      left: '16px',
+      zIndex: 250,
       display: 'flex',
       alignItems: 'center',
       gap: '0.6rem',
-      background: 'rgba(15,13,10,0.88)',
-      border: '1px solid rgba(200,144,42,0.2)',
+      background: 'rgba(8,6,4,0.95)',
+      border: '1px solid rgba(201,168,76,0.3)',
       borderRadius: '2px',
       padding: '6px 12px 6px 6px',
       backdropFilter: 'blur(4px)',

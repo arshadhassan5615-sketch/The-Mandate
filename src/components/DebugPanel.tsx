@@ -28,7 +28,7 @@ function StatRow({ label, value, min = 0, max = 100, unit = '', danger, warning 
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: isDanger ? '#c87070' : isWarning ? '#c4943a' : '#b8a890', marginBottom: '2px' }}>
         <span>{label}</span>
         <span style={{ fontFamily: 'monospace' }}>
-          {value.toFixed(unit === 'VK' ? 0 : 1)}{unit}
+          {value.toFixed(unit === '₭' ? 0 : 1)}{unit}
         </span>
       </div>
       <div style={{ height: '4px', background: '#2a2520', borderRadius: '2px', overflow: 'hidden' }}>
@@ -96,7 +96,7 @@ export default function DebugPanel() {
         <StatRow label="Economy Health"         value={nation.economyHealth}         min={-100} max={100}  danger={-50} warning={-20} />
         <StatRow label="Unemployment"           value={nation.unemployment}          min={0}    max={40}   unit="%" danger={30} warning={20} />
         <StatRow label="Inflation"              value={nation.inflation}             min={0}    max={30}   unit="%" danger={20} warning={12} />
-        <StatRow label="National Debt"          value={nation.nationalDebt}          min={0}    max={800}  unit=" MVK" danger={600} warning={450} />
+        <StatRow label="National Debt"          value={nation.nationalDebt}          min={0}    max={800}  unit=" M₭" danger={600} warning={450} />
         <StatRow label="Corruption"             value={nation.corruption}            min={0}    max={100}  danger={75} warning={55} />
         <StatRow label="Military Readiness"     value={nation.militaryReadiness}     min={0}    max={100}  danger={25} warning={40} />
         <StatRow label="Public Order"           value={nation.publicOrder}           min={0}    max={100}  danger={25} warning={40} />
@@ -119,7 +119,7 @@ export default function DebugPanel() {
         <StatRow label="Marriage Health"       value={personal.marriageHealth}    danger={10} warning={30} />
         <StatRow label="Liora Relationship"    value={personal.lioraRelationship} danger={15} warning={30} />
         <StatRow label="Tomas Wellbeing"       value={personal.tomasWellbeing}    danger={20} warning={35} />
-        <StatRow label="Personal Wealth"       value={personal.personalWealth}    min={0} max={50000} unit=" VK" />
+        <StatRow label="Personal Wealth"       value={personal.personalWealth}    min={0} max={50000} unit=" ₭" />
         <StatRow label="Public Image"          value={personal.publicImage}       danger={20} warning={35} />
         <StatRow label="Moral Compass"         value={personal.moralCompass}      min={-100} max={100} danger={-60} warning={-20} />
       </Section>

@@ -1,6 +1,6 @@
 import type { BudgetAllocations, StateModifier } from '../types/gameState'
 
-// Stat change per +10M VK of spending in each expenditure category.
+// Stat change per +10M ₭ of spending in each expenditure category.
 // Negative perTenM means the stat goes DOWN when spending goes UP (e.g. BNI → -civilLiberties).
 interface CategoryEffect {
   stat: string

@@ -119,7 +119,7 @@ export default function EveningReview() {
   return (
     <div
       className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]"
-      style={{ background: 'rgba(15,13,10,0.94)' }}
+      style={{ background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px', paddingBottom: '80px', paddingLeft: '16px' }}
     >
       {/* ── Header ──────────────────────────────────────────────── */}
       <div
@@ -127,7 +127,7 @@ export default function EveningReview() {
         style={{ borderColor: 'var(--border)' }}
       >
         <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
-        <span className="stamp">End of Week {currentWeek} · Evening Review</span>
+        <span className="stamp" style={{ marginRight: '80px' }}>End of Week {currentWeek} · Evening Review</span>
       </div>
 
       {/* ── Body ────────────────────────────────────────────────── */}
@@ -140,6 +140,7 @@ export default function EveningReview() {
             borderColor: 'var(--border)',
             width: '260px',
             padding: '2rem 1.5rem',
+            paddingBottom: '80px',
           }}
         >
           <p

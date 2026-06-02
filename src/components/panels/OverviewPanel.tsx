@@ -189,17 +189,17 @@ function EconomyTab({ n, flags }: { n: NationState; flags: string[] }) {
           <PolicyCard label="Amber Coast Free Trade Zone" active={flags.includes('amber_coast_trade')} description="Special economic zone in Aldenmoor offering tax incentives for foreign trade." />
           <PolicyCard label="IMA Aid Accepted" active={flags.includes('ima_aid_accepted')} description="International Monetary Accord economic assistance program active." />
           <PolicyCard label="Rural Electrification Program" active={flags.includes('project_electrification_started')} description="Expanding electrical infrastructure to rural provinces." />
-          <PolicyCard label="Kravenstal Steel Modernization" active={flags.includes('project_kravenstal_started')} description="50M VK investment in state steel facility." />
+          <PolicyCard label="Kravenstal Steel Modernization" active={flags.includes('project_kravenstal_started')} description="50M ₭ investment in state steel facility." />
           <PolicyCard label="Ashenmere Metro" active={flags.includes('project_metro_started')} description="Underground metro system for the capital." />
           <PolicyCard label="Amber Coast Highway" active={flags.includes('project_highway_started')} description="200km highway connecting Aldenmoor to Ashenmere." />
         </div>
       ) : (
         <div>
-          <StatRow label="National Debt" value={`${n.nationalDebt}M VK`} color={n.nationalDebt > 300 ? 'var(--accent-red)' : '#d4c8b0'} />
+          <StatRow label="National Debt" value={`${n.nationalDebt}M ₭`} color={n.nationalDebt > 300 ? 'var(--accent-red)' : '#d4c8b0'} />
           <StatRow label="Inflation" value={`${n.inflation.toFixed(1)}%`} trend={n.inflation > 10 ? '↑' : '↓'} color={n.inflation > 15 ? 'var(--accent-red)' : n.inflation > 8 ? '#c47a3a' : '#d4c8b0'} />
           <StatRow label="Unemployment" value={`${n.unemployment.toFixed(1)}%`} trend={n.unemployment > 20 ? '↑' : '↓'} color={n.unemployment > 25 ? 'var(--accent-red)' : n.unemployment > 15 ? '#c47a3a' : '#d4c8b0'} />
           <StatRow label="GDP Trend" value={n.economyHealth >= 20 ? 'Growing' : n.economyHealth >= 0 ? 'Stagnant' : n.economyHealth >= -35 ? 'Contracting' : 'In Crisis'} color={n.economyHealth >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'} />
-          <StatRow label="Tax Revenue" value={`${380}M VK`} />
+          <StatRow label="Tax Revenue" value={`${380}M ₭`} />
           {projects.length > 0 && (
             <div style={{ padding: '8px 10px' }}>
               <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.45rem', color: 'var(--muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
@@ -246,7 +246,7 @@ function MilitaryTab({ n, flags }: { n: NationState; flags: string[] }) {
           <StatRow label="Military Readiness" value={n.militaryReadiness >= 65 ? 'Strong' : n.militaryReadiness >= 45 ? 'Adequate' : n.militaryReadiness >= 30 ? 'Low' : 'Critical'} color={n.militaryReadiness >= 45 ? 'var(--accent-green)' : 'var(--accent-red)'} />
           <StatRow label="Tyvaren Threat" value={n.internationalStanding < 30 ? 'High' : n.internationalStanding < 50 ? 'Medium' : 'Low'} color={n.internationalStanding < 30 ? 'var(--accent-red)' : '#d4c8b0'} />
           <StatRow label="Border Status" value={n.militaryReadiness < 35 ? 'Mobilized' : n.internationalStanding < 40 ? 'Tense' : 'Calm'} color={n.militaryReadiness < 35 ? 'var(--accent-red)' : n.internationalStanding < 40 ? '#c47a3a' : 'var(--accent-green)'} />
-          <StatRow label="Defense Budget" value={`${45}M VK`} />
+          <StatRow label="Defense Budget" value={`${45}M ₭`} />
           <StatRow label="Iron Covenant Support" value={`${useGameStore.getState().factions.ironCovenant}%`} />
         </div>
       )}
@@ -352,7 +352,7 @@ function DiplomacyTab({ n, flags }: { n: NationState; flags: string[] }) {
           <RelationBar label="Orythians" level={45} color="#5a7a5a" />
           <div style={{ padding: '8px 10px' }}>
             <StatRow label="Intl. Standing" value={n.internationalStanding >= 60 ? 'Strong' : n.internationalStanding >= 40 ? 'Moderate' : 'Weak'} color={n.internationalStanding >= 40 ? '#d4c8b0' : 'var(--accent-red)'} />
-            <StatRow label="Trade Balance" value={`${n.economyHealth > 0 ? '+' : ''}${n.economyHealth}M VK`} />
+            <StatRow label="Trade Balance" value={`${n.economyHealth > 0 ? '+' : ''}${n.economyHealth}M ₭`} />
             <StatRow label="Alliances" value={flags.includes('arcturian_alliance') ? '1 Active' : '0'} />
           </div>
         </div>

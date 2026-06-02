@@ -67,39 +67,53 @@ export default function DiplomaticLetterPanel() {
       background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(3px)',
     }} onClick={() => setOpen(false)}>
       <div style={{
-        width: '560px', maxHeight: '90vh', overflowY: 'auto',
+        width: '560px', maxHeight: '90vh',
         background: '#f5f0e8', color: '#1a1814',
-        borderRadius: '3px', padding: '40px 48px',
+        borderRadius: '3px',
         display: 'flex', flexDirection: 'column',
         boxShadow: '0 6px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.1)',
         fontFamily: "'Crimson Text', serif",
         position: 'relative',
-        scrollbarWidth: 'thin',
+        overflow: 'hidden',
       }} onClick={e => { e.stopPropagation(); markRead(letter.id) }}>
         {/* Close */}
         <button onClick={() => setOpen(false)} style={{
           position: 'absolute', top: '12px', right: '16px',
           background: 'none', border: 'none', color: '#8a7060',
-          cursor: 'pointer', fontSize: '1.2rem', padding: 0, lineHeight: 1,
+          cursor: 'pointer', fontSize: '1.2rem', padding: 0, lineHeight: 1, zIndex: 10,
         }}>✕</button>
 
-        {/* Nav buttons */}
+        {/* Nav buttons — inside panel, circular */}
         {currentIndex > 0 && (
           <button onClick={() => setIndex(currentIndex - 1)} style={{
-            position: 'absolute', left: '-36px', top: '50%', transform: 'translateY(-50%)',
-            background: 'rgba(12,10,8,0.8)', border: '1px solid rgba(196,148,58,0.2)',
-            color: 'var(--muted)', cursor: 'pointer', padding: '8px 10px',
-            fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem',
+            position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)',
+            background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(201,168,76,0.4)',
+            color: '#c9a84c', cursor: 'pointer',
+            width: '36px', height: '36px', borderRadius: '50%',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            zIndex: 10, fontSize: '0.8rem', fontWeight: 'bold',
           }}>◀</button>
         )}
         {currentIndex < total - 1 && (
           <button onClick={() => setIndex(currentIndex + 1)} style={{
-            position: 'absolute', right: '-36px', top: '50%', transform: 'translateY(-50%)',
-            background: 'rgba(12,10,8,0.8)', border: '1px solid rgba(196,148,58,0.2)',
-            color: 'var(--muted)', cursor: 'pointer', padding: '8px 10px',
-            fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem',
+            position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
+            background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(201,168,76,0.4)',
+            color: '#c9a84c', cursor: 'pointer',
+            width: '36px', height: '36px', borderRadius: '50%',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            zIndex: 10, fontSize: '0.8rem', fontWeight: 'bold',
           }}>▶</button>
         )}
+
+        {/* Scrollable content */}
+        <div style={{
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          padding: '40px 48px',
+          flex: 1,
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(192,176,144,0.3) transparent',
+        }}>
 
         {/* Ministry header */}
         <div style={{ textAlign: 'center', marginBottom: '14px' }}>
@@ -181,6 +195,8 @@ export default function DiplomaticLetterPanel() {
             {currentIndex + 1} / {total}
           </span>
         </div>
+
+        </div>{/* end scrollable content */}
       </div>
     </div>
   )

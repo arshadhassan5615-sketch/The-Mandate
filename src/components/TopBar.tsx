@@ -1,6 +1,5 @@
-import { useRef, useEffect, useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useGameStore } from '../stores/gameStore'
-import { useNewsStore } from '../stores/newsStore'
 import type { BudgetAllocations } from '../types/gameState'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -13,53 +12,14 @@ function getEconomyLabel(health: number): string {
   return 'BOOMING'
 }
 
-function economyLabelColor(label: string): string {
-  switch (label) {
-    case 'CRISIS': return 'var(--accent-red)'
-    case 'RECESSION': return '#b85a30'
-    case 'STAGNANT': return 'var(--amber-dim)'
-    case 'GROWING': return '#7a9a3a'
-    case 'BOOMING': return 'var(--accent-green)'
-    default: return 'var(--muted)'
-  }
-}
-
 function economyToSegments(health: number): number {
-  // Map -100..100 → 0..10
   return Math.max(0, Math.min(10, Math.round(((health + 100) / 200) * 10)))
-}
-
-function segmentColor(index: number, total: number): string {
-  // Gradient from red (segment 0) through yellow to green (segment 9)
-  const t = total === 0 ? 0 : index / (total - 1)
-  if (t <= 0.5) {
-    // red → yellow
-    const r = 200
-    const g = Math.round(50 + (t * 2) * 180)
-    const b = 30
-    return `rgb(${r},${g},${b})`
-  }
-  // yellow → green
-  const r = Math.round(200 - ((t - 0.5) * 2) * 150)
-  const g = Math.round(190 - ((t - 0.5) * 2) * 80)
-  const b = 30
-  return `rgb(${r},${g},${b})`
 }
 
 function computeBudgetBalance(budget: BudgetAllocations): number {
   const revenue = budget.taxRevenue + budget.stateIndustry + budget.customsTariffs + budget.foreignAid
   const expenditure = budget.military + budget.debtService + budget.govtAdmin + budget.infrastructure + budget.education + budget.healthcare + budget.welfare + budget.bniSecurity
   return revenue - expenditure
-}
-
-function getBudgetColor(balance: number): string {
-  if (balance >= 0) return 'var(--accent-green)'
-  if (balance > -30) return 'var(--amber-dim)'
-  return 'var(--accent-red)'
-}
-
-function getWealthColor(wealth: number): string {
-  return wealth > 5 ? 'var(--accent-green)' : 'var(--accent-red)'
 }
 
 function weekToDate(week: number): string {
@@ -71,156 +31,32 @@ function weekToDate(week: number): string {
   return `${day} ${month} ${year}`
 }
 
-// ─── Stat Box ─────────────────────────────────────────────────────────────────
-
-function StatBox({ label, value, color, children }: {
-  label: string
-  value: string
-  color?: string
-  children?: React.ReactNode
-}) {
-  const [flash, setFlash] = useState(false)
-  const prev = useRef(value)
-
-  useEffect(() => {
-    if (prev.current !== value) {
-      setFlash(true)
-      prev.current = value
-      const t = setTimeout(() => setFlash(false), 600)
-      return () => clearTimeout(t)
-    }
-  }, [value])
-
-  return (
-    <div
-      className={flash ? 'stat-changed' : ''}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '1px',
-        minWidth: '90px',
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.48rem',
-          letterSpacing: '0.12em',
-          color: 'var(--muted)',
-          textTransform: 'uppercase',
-          lineHeight: 1,
-        }}
-      >
-        {label}
-      </span>
-      {children ? (
-        children
-      ) : (
-        <span
-          style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.7rem',
-            letterSpacing: '0.06em',
-            color: color ?? 'var(--cream)',
-            background: 'var(--paper-raised)',
-            border: `1px solid ${color ?? 'var(--border)'}`,
-            padding: '2px 8px',
-            borderRadius: '1px',
-            lineHeight: 1.3,
-          }}
-        >
-          {value}
-        </span>
-      )}
-    </div>
-  )
-}
-
-// ─── Economy Bar ──────────────────────────────────────────────────────────────
-
-function EconomyBar() {
-  const economyHealth = useGameStore(s => s.nation.economyHealth)
-  const segments = economyToSegments(economyHealth)
-  const label = getEconomyLabel(economyHealth)
-  const labelClr = economyLabelColor(label)
-  const [flash, setFlash] = useState(false)
-  const prev = useRef(economyHealth)
-
-  useEffect(() => {
-    if (prev.current !== economyHealth) {
-      setFlash(true)
-      prev.current = economyHealth
-      const t = setTimeout(() => setFlash(false), 600)
-      return () => clearTimeout(t)
-    }
-  }, [economyHealth])
-
-  return (
-    <div
-      className={flash ? 'stat-changed' : ''}
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1px' }}
-    >
-      <span
-        style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.48rem',
-          letterSpacing: '0.12em',
-          color: 'var(--muted)',
-          textTransform: 'uppercase',
-          lineHeight: 1,
-        }}
-      >
-        ECONOMY
-      </span>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <div style={{ display: 'flex', gap: '1px' }}>
-          {Array.from({ length: 10 }).map((_, i) => (
-            <div
-              key={i}
-              style={{
-                width: '7px',
-                height: '16px',
-                background: i < segments ? segmentColor(i, segments) : 'var(--paper-raised)',
-                border: i < segments
-                  ? `1px solid ${segmentColor(i, segments)}`
-                  : '1px solid rgba(200,144,42,0.15)',
-                transition: 'background 0.3s, border-color 0.3s',
-              }}
-            />
-          ))}
-        </div>
-        <span
-          style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.52rem',
-            letterSpacing: '0.08em',
-            color: labelClr,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {label}
-        </span>
-      </div>
-    </div>
-  )
-}
-
 // ─── TopBar ────────────────────────────────────────────────────────────────────
 
 export default function TopBar() {
   const budget = useGameStore(s => s.budget)
+  const economyHealth = useGameStore(s => s.nation.economyHealth)
   const personalWealth = useGameStore(s => s.personal.personalWealth)
+  const publicImage = useGameStore(s => s.personal.publicImage)
   const currentWeek = useGameStore(s => s.currentWeek)
   const stateOfEmergency = useGameStore(s => s.stateOfEmergency)
   const soeWeek = useGameStore(s => s.stateOfEmergencyWeek)
-  const unreadCount = useNewsStore(s => s.articles.length - (s.lastReadIndex + 1))
-  const setNewsOpen = useNewsStore(s => s.setOpen)
 
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
-  const budgetColor = getBudgetColor(balance)
+  const economyLabel = useMemo(() => getEconomyLabel(economyHealth), [economyHealth])
   const wealthThousands = Math.round(personalWealth / 1000)
-  const wealthColor = getWealthColor(wealthThousands)
+
+  const approvalValue = publicImage
+  const approvalColor =
+    approvalValue >= 70 ? '#00cc44' :
+    approvalValue >= 50 ? '#f0c040' :
+    approvalValue >= 30 ? '#ff8800' :
+    '#ff3333'
+  const approvalGlow =
+    approvalValue >= 70 ? 'rgba(0,204,68,0.6)' :
+    approvalValue >= 50 ? 'rgba(240,192,64,0.6)' :
+    approvalValue >= 30 ? 'rgba(255,136,0,0.6)' :
+    'rgba(255,51,51,0.6)'
   const date = useMemo(() => weekToDate(currentWeek), [currentWeek])
   const soeDaysLeft = useMemo(() => {
     if (!stateOfEmergency || !soeWeek) return 0
@@ -228,150 +64,217 @@ export default function TopBar() {
   }, [stateOfEmergency, soeWeek, currentWeek])
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 140,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '6px 16px',
-        background: 'rgba(15,13,10,0.92)',
-        borderBottom: '1px solid rgba(200,144,42,0.18)',
-        backdropFilter: 'blur(6px)',
-        height: '48px',
-      }}
-    >
-      {/* LEFT — 3 stat indicators */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <EconomyBar />
-
-        {/* Separator */}
-        <div style={{ width: '1px', height: '20px', background: 'rgba(200,144,42,0.15)' }} />
-
-        <StatBox label="BUDGET" value={`[${balance >= 0 ? '+' : ''}${balance}]`} color={budgetColor} />
-
-        <StatBox label="WEALTH" value={`[${wealthThousands}]`} color={wealthColor} />
-      </div>
-
-      {/* CENTER — SOE indicator + NEWS badge */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        {stateOfEmergency && (
-          <div
-            style={{
-              background: 'rgba(220,50,50,0.15)',
-              border: '1px solid var(--accent-red)',
-              padding: '3px 10px',
-              borderRadius: '1px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.48rem',
-                letterSpacing: '0.12em',
-                color: 'var(--accent-red)',
-                textTransform: 'uppercase',
-                lineHeight: 1,
-              }}
-            >
-              STATE OF EMERGENCY
-            </span>
-            <span
-              style={{
-                fontFamily: 'monospace',
-                fontSize: '0.42rem',
-                color: 'var(--muted)',
-                lineHeight: 1,
-              }}
-            >
-              {soeDaysLeft}d left
-            </span>
+    <>
+      {/* ===== COMPACT LEFT STATS BAR ===== */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: 210,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0,
+          height: '40px',
+          background: 'transparent',
+          borderBottom: 'none',
+          borderRight: 'none',
+          borderBottomRightRadius: '0',
+          padding: '0',
+          width: 'fit-content',
+          minWidth: '0',
+          boxShadow: 'none',
+          backdropFilter: 'none',
+        }}
+      >
+        {/* Economy — colored squares only */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '2px',
+          padding: '0 8px',
+          borderRight: '1px solid rgba(201,168,76,0.3)',
+        }}>
+          <span style={{
+            fontSize: '12px',
+            marginRight: '4px',
+            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.9))',
+          }}>📊</span>
+          <div style={{ display: 'flex', gap: '2px' }}>
+            {(() => {
+              const red = '#ff3333'
+              const yellow = '#ffaa00'
+              const grey = 'rgba(255,255,255,0.15)'
+              const green = '#00cc44'
+              const brightGreen = '#00e64d'
+              let colors: string[] = []
+              if (economyHealth < -60) colors = [red, red, red, red, red]
+              else if (economyHealth < -20) colors = [red, red, red, yellow, grey]
+              else if (economyHealth < 20) colors = [red, red, yellow, grey, grey]
+              else if (economyHealth < 60) colors = [green, green, green, green, green]
+              else colors = [brightGreen, brightGreen, brightGreen, brightGreen, brightGreen]
+              return colors.map((c, i) => (
+                <div key={i} style={{ width: '8px', height: '14px', borderRadius: '2px', background: c }} />
+              ))
+            })()}
           </div>
-        )}
-        <button
-          onClick={() => setNewsOpen(true)}
-          title="News"
-          style={{
+        </div>
+
+        {/* Budget — coin icon + number only */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '5px',
+          padding: '0 10px',
+          borderRight: '1px solid rgba(201,168,76,0.3)',
+        }}>
+          <span style={{
+            fontSize: '16px',
+            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.9))',
+          }}>💰</span>
+          <span style={{
+            fontSize: '16px',
+            fontWeight: '900',
+            color: '#ff4444',
+            fontFamily: 'Georgia, serif',
+            textShadow: '0 1px 4px rgba(0,0,0,1), 0 0 10px rgba(255,68,68,0.7)',
+          }}>
+            {balance}
+          </span>
+        </div>
+
+        {/* Wealth — bank icon + number only */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '5px',
+          padding: '0 10px',
+        }}>
+          <span style={{
+            fontSize: '16px',
+            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.9))',
+          }}>🏛️</span>
+          <span style={{
+            fontSize: '16px',
+            fontWeight: '900',
+            color: '#f0c040',
+            fontFamily: 'Georgia, serif',
+            textShadow: '0 1px 4px rgba(0,0,0,1), 0 0 10px rgba(240,192,64,0.7)',
+          }}>
+            {wealthThousands}
+          </span>
+        </div>
+
+        {/* Approval — public image */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '5px',
+          padding: '0 10px',
+          borderLeft: '1px solid rgba(201,168,76,0.3)',
+        }}>
+          <span style={{
+            fontSize: '16px',
+            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.9))',
+          }}>👥</span>
+          <div style={{
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: '6px',
-            background: 'transparent',
-            border: '1px solid rgba(200,144,42,0.25)',
-            color: 'var(--amber-dim)',
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.55rem',
-            letterSpacing: '0.14em',
-            padding: '4px 12px',
-            cursor: 'pointer',
-            borderRadius: '1px',
-            transition: 'border-color 0.15s, color 0.15s',
-            lineHeight: 1,
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.borderColor = 'var(--amber)'
-            e.currentTarget.style.color = 'var(--amber)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.borderColor = 'rgba(200,144,42,0.25)'
-            e.currentTarget.style.color = 'var(--amber-dim)'
-          }}
-        >
-          NEWS
-          {unreadCount > 0 && (
-            <span
-              style={{
-                background: 'var(--accent-red)',
-                color: 'var(--cream)',
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.45rem',
-                fontWeight: 700,
-                padding: '0px 5px',
-                borderRadius: '2px',
-                lineHeight: '16px',
-                minWidth: '16px',
-                textAlign: 'center',
-              }}
-            >
-              {unreadCount}
+            gap: '2px',
+          }}>
+            <span style={{
+              fontSize: '14px',
+              fontWeight: '900',
+              color: approvalColor,
+              fontFamily: 'Georgia, serif',
+              textShadow: `0 1px 4px rgba(0,0,0,1), 0 0 10px ${approvalGlow}`,
+              lineHeight: 1,
+            }}>
+              {approvalValue}%
             </span>
-          )}
-        </button>
+            <div style={{
+              width: '36px',
+              height: '3px',
+              background: 'rgba(255,255,255,0.1)',
+              borderRadius: '2px',
+              overflow: 'hidden',
+            }}>
+              <div style={{
+                width: `${approvalValue}%`,
+                height: '100%',
+                background: approvalColor,
+                borderRadius: '2px',
+                transition: 'width 0.5s ease',
+              }} />
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* RIGHT — Week counter + date */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '1px' }}>
-        <span
-          style={{
+      {/* ===== STATE OF EMERGENCY INDICATOR ===== */}
+      {stateOfEmergency && (
+        <div style={{
+          position: 'fixed',
+          top: '10px',
+          right: '170px',
+        zIndex: 25,
+          background: 'rgba(220,50,50,0.15)',
+          border: '1px solid #c0392b',
+          padding: '3px 10px',
+          borderRadius: '2px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+        }}>
+          <span style={{
             fontFamily: "'Special Elite', monospace",
-            fontSize: '0.55rem',
-            letterSpacing: '0.08em',
-            color: 'var(--amber)',
+            fontSize: '9px',
+            letterSpacing: '1.5px',
+            color: '#ff6b6b',
             textTransform: 'uppercase',
             lineHeight: 1,
-          }}
-        >
-          Week {currentWeek} of 52
-        </span>
-        <span
-          style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.45rem',
-            letterSpacing: '0.06em',
-            color: 'var(--muted)',
-            textTransform: 'uppercase',
+            fontWeight: 'bold',
+          }}>
+            STATE OF EMERGENCY
+          </span>
+          <span style={{
+            fontFamily: 'monospace',
+            fontSize: '9px',
+            color: '#c9a84c',
             lineHeight: 1,
-          }}
-        >
+          }}>
+            {soeDaysLeft}d left
+          </span>
+        </div>
+      )}
+
+      {/* ===== SVG EMBLEM + WEEK ===== */}
+      <div style={{
+        position: 'fixed',
+        top: '8px',
+        right: '12px',
+        zIndex: 30,
+        textAlign: 'right',
+      }}>
+        <div style={{
+          fontSize: '11px',
+          fontWeight: '700',
+          color: '#c9a84c',
+          letterSpacing: '2px',
+          fontFamily: 'Georgia, serif',
+          textShadow: '0 1px 3px rgba(0,0,0,0.9)',
+        }}>
+          WEEK {currentWeek} OF 52
+        </div>
+        <div style={{
+          fontSize: '9px',
+          color: 'rgba(201,168,76,0.5)',
+          letterSpacing: '1px',
+        }}>
           {date}
-        </span>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

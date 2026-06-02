@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import type { DiaryEntry } from '../engine/DiaryEngine'
 import CharacterPortrait from './portraits/CharacterPortrait'
 
@@ -11,6 +11,7 @@ export default function DiaryScreen({ entry, onContinue }: DiaryScreenProps) {
   const [visible, setVisible] = useState(false)
   const [textVisible, setTextVisible] = useState(false)
   const [fadingOut, setFadingOut] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 400)
@@ -23,6 +24,13 @@ export default function DiaryScreen({ entry, onContinue }: DiaryScreenProps) {
       return () => clearTimeout(t)
     }
   }, [visible])
+
+  // Reset scroll to top when a new diary entry opens
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0
+    }
+  }, [entry.week])
 
   const handleContinue = useCallback(() => {
     if (fadingOut) return
@@ -74,80 +82,91 @@ export default function DiaryScreen({ entry, onContinue }: DiaryScreenProps) {
         pointerEvents: 'none',
       }} />
 
-      <div style={{
-        maxWidth: '640px', width: '100%', padding: '3rem 3.5rem',
-        position: 'relative',
-        opacity: textVisible ? 1 : 0,
-        transition: 'opacity 1.2s ease',
-      }}>
-        {/* Katerin's portrait — soft, small, circular, top-left */}
-        <div style={{
-          position: 'absolute', top: '0', left: '0',
-          opacity: 0.28, filter: 'sepia(0.3) brightness(0.9)',
-        }}>
-          <CharacterPortrait
-            characterId="katerin_ashavel"
-            isActive={false}
-            size={68}
-            showName={false}
-          />
+      <div
+        ref={scrollRef}
+        style={{
+          position: 'relative', zIndex: 1,
+          width: '100%', height: '100%',
+          overflowY: 'auto',
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(200,144,42,0.2) transparent',
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center',
+          padding: '80px 3.5rem 60px',
+          opacity: textVisible ? 1 : 0,
+          transition: 'opacity 1.2s ease',
+        }}
+      >
+        <div style={{ maxWidth: '640px', width: '100%', position: 'relative' }}>
+          {/* Katerin's portrait — soft, small, circular, top-left */}
+          <div style={{
+            position: 'absolute', top: '-60px', left: '-0.5rem',
+            opacity: 0.28, filter: 'sepia(0.3) brightness(0.9)',
+          }}>
+            <CharacterPortrait
+              characterId="katerin_ashavel"
+              isActive={false}
+              size={68}
+              showName={false}
+            />
+          </div>
+
+          {/* "Dear Diary" header */}
+          <p style={{
+            fontFamily: "'Caveat', 'Georgia', serif",
+            fontSize: '1.6rem',
+            color: '#a89870', opacity: 0.55,
+            marginBottom: '0.3rem', fontStyle: 'italic',
+          }}>
+            Dear Diary,
+          </p>
+
+          {/* Date header */}
+          <p style={{
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '0.55rem', letterSpacing: '0.18em',
+            color: 'var(--amber-dim)', textTransform: 'uppercase',
+            marginBottom: '2.5rem',
+          }}>
+            {entry.date}
+          </p>
+
+          {/* Diary text — Caveat font, literary voice */}
+          <div style={{
+            fontFamily: "'Caveat', 'Georgia', serif",
+            fontSize: '1.08rem',
+            color: '#c8bfa5', lineHeight: 1.8,
+            letterSpacing: '0.03em',
+            textAlign: 'justify',
+          }}>
+            {entry.text.split('\n\n').map((para, i) => (
+              <p key={i} style={{
+                marginBottom: '1.3rem',
+                textIndent: '1.6em',
+              }}>
+                {para}
+              </p>
+            ))}
+          </div>
+
+          {/* Decorative divider */}
+          <div style={{
+            width: '60px', height: '1px',
+            background: 'linear-gradient(90deg, transparent, #c8902a44, transparent)',
+            margin: '2.5rem auto 2rem',
+          }} />
+
+          {/* Continue prompt */}
+          <p style={{
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '0.48rem', letterSpacing: '0.15em',
+            color: 'var(--muted)', opacity: 0.6,
+            textAlign: 'center',
+            animation: 'blink 2.5s step-end infinite',
+          }}>
+            PRESS SPACE TO CONTINUE
+          </p>
         </div>
-
-        {/* "Dear Diary" header */}
-        <p style={{
-          fontFamily: "'Caveat', 'Georgia', serif",
-          fontSize: '1.6rem',
-          color: '#a89870', opacity: 0.55,
-          marginBottom: '0.3rem', fontStyle: 'italic',
-        }}>
-          Dear Diary,
-        </p>
-
-        {/* Date header */}
-        <p style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.55rem', letterSpacing: '0.18em',
-          color: 'var(--amber-dim)', textTransform: 'uppercase',
-          marginBottom: '2.2rem',
-        }}>
-          {entry.date}
-        </p>
-
-        {/* Diary text — Caveat font, literary voice */}
-        <div style={{
-          fontFamily: "'Caveat', 'Georgia', serif",
-          fontSize: '1.08rem',
-          color: '#c8bfa5', lineHeight: 1.8,
-          letterSpacing: '0.03em',
-          textAlign: 'justify',
-        }}>
-          {entry.text.split('\n\n').map((para, i) => (
-            <p key={i} style={{
-              marginBottom: '1.3rem',
-              textIndent: '1.6em',
-            }}>
-              {para}
-            </p>
-          ))}
-        </div>
-
-        {/* Decorative divider */}
-        <div style={{
-          width: '60px', height: '1px',
-          background: 'linear-gradient(90deg, transparent, #c8902a44, transparent)',
-          margin: '2rem auto 1.5rem',
-        }} />
-
-        {/* Continue prompt */}
-        <p style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.48rem', letterSpacing: '0.15em',
-          color: 'var(--muted)', opacity: 0.6,
-          textAlign: 'center',
-          animation: 'blink 2.5s step-end infinite',
-        }}>
-          PRESS SPACE TO CONTINUE
-        </p>
       </div>
     </div>
   )

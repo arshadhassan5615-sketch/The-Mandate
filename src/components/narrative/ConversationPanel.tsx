@@ -64,6 +64,10 @@ export default function ConversationPanel({
   speakingCharacter, monologueText,
 }: ConversationPanelProps) {
   const historyRef = useRef<HTMLDivElement>(null)
+  const dialogueEndRef = useRef<HTMLDivElement>(null)
+  const choicesRef = useRef<HTMLDivElement>(null)
+  const choiceProcessedRef = useRef<Set<string>>(new Set())
+  const [choicesOverflow, setChoicesOverflow] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [fadingId, setFadingId] = useState<string | null>(null)
   const [activeReactions, setActiveReactions] = useState<ChoiceReaction[] | null>(null)
@@ -129,10 +133,12 @@ export default function ConversationPanel({
 
   const handleChoice = useCallback((id: string) => {
     if (selectedId || fadingId) return // prevent double-click
+    if (choiceProcessedRef.current.has(id)) return // prevent StrictMode / effect double-fire
+    choiceProcessedRef.current.add(id)
     setSelectedId(id)
     // Find the choice to get its reactions
     const choice = choices.find(c => c.id === id)
-    // Pulse animation plays (500ms), then fade + reactions
+    // Pulse animation plays (200ms), then fade + reactions
     setTimeout(() => {
       setSelectedId(null)
       setFadingId(id)
@@ -154,7 +160,7 @@ export default function ConversationPanel({
           onChoice(id)
         }, 800)
       }
-    }, 500)
+    }, 200)
   }, [onChoice, selectedId, fadingId, choices])
 
   // Reset selection state when new choices appear
@@ -163,13 +169,25 @@ export default function ConversationPanel({
     setFadingId(null)
     setActiveReactions(null)
     setReactionsFading(false)
+    choiceProcessedRef.current.clear()
   }, [choices])
 
   useEffect(() => {
-    if (historyRef.current) {
-      historyRef.current.scrollTop = historyRef.current.scrollHeight
+    if (dialogueEndRef.current) {
+      dialogueEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
   }, [history, activeText])
+
+  // Detect if choices overflow their container
+  useEffect(() => {
+    const el = choicesRef.current
+    if (!el) return
+    const check = () => setChoicesOverflow(el.scrollHeight > el.clientHeight + 4)
+    check()
+    const observer = new ResizeObserver(check)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [choices, actualShowChoices])
 
   const speakerOrder = sceneCharacters.filter(c => c !== 'katerin_ashavel')
   if (speakingCharacter && !speakerOrder.includes(speakingCharacter)) {
@@ -183,10 +201,11 @@ export default function ConversationPanel({
 
   return (
     <div style={{
-      position: 'fixed', left: 0, top: 40, bottom: 0,
-      display: 'flex', flexDirection: 'row', alignItems: 'flex-end',
-      zIndex: 100, pointerEvents: 'none', paddingLeft: '3rem',
-      paddingBottom: '1rem',
+      position: 'fixed', inset: 0, top: 40,
+      display: 'flex', flexDirection: 'row',
+      alignItems: 'flex-end', justifyContent: 'center',
+      zIndex: 100, pointerEvents: 'none',
+      paddingBottom: '1.5rem', paddingRight: '60px', gap: '0.5rem',
     }}>
       {isEmergency && (
         <div style={{
@@ -224,14 +243,18 @@ export default function ConversationPanel({
       </div>
 
       {/* Conversation panel */}
-      <div style={{
-        flex: 1, maxWidth: 550, pointerEvents: 'all',
-        background: 'rgba(10,9,8,0.94)',
-        display: 'flex', flexDirection: 'column',
-        maxHeight: 'calc(100vh - 120px)',
-        borderLeft: '1px solid rgba(196,148,58,0.15)',
-        marginLeft: '0.5rem',
-      }}>
+      <div
+        className="conversation-panel"
+        style={{
+          width: '640px', maxWidth: '90vw', pointerEvents: 'all',
+          background: 'rgba(10,9,8,0.94)',
+          display: 'flex', flexDirection: 'column',
+          maxHeight: 'calc(100vh - 100px)',
+          overflow: 'hidden',
+          borderLeft: '1px solid rgba(196,148,58,0.15)',
+          borderRadius: '2px 0 0 2px',
+        }}
+      >
         {/* Scene header */}
         <div style={{
           flexShrink: 0, display: 'flex', justifyContent: 'space-between',
@@ -258,7 +281,8 @@ export default function ConversationPanel({
         <div
           ref={historyRef}
           style={{
-            flex: 1, overflowY: 'auto', padding: '14px 18px 8px',
+            flexShrink: 0, maxHeight: '35vh', overflowY: 'auto',
+            padding: '14px 18px 8px',
             display: 'flex', flexDirection: 'column', gap: 2,
             scrollBehavior: 'smooth',
             scrollbarWidth: 'thin',
@@ -343,6 +367,7 @@ export default function ConversationPanel({
               {segmentDone ? '▼' : 'skip ▸'}
             </div>
           )}
+          <div ref={dialogueEndRef} />
         </div>
 
         {/* Monologue */}
@@ -385,17 +410,25 @@ export default function ConversationPanel({
 
         {/* Choices */}
         {actualShowChoices && (
-          <div style={{
-            flexShrink: 0, padding: '10px 14px 14px',
-            borderTop: '1px solid rgba(196,148,58,0.12)',
-          }}>
+          <div
+            ref={choicesRef}
+            className="conversation-choices"
+            style={{
+              flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden',
+              padding: '8px 14px 14px',
+              borderTop: '1px solid rgba(196,148,58,0.12)',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
             {choices.map((ch, i) => {
               const isSelected = selectedId === ch.id
               const isFading = fadingId === ch.id
               return (
                 <div
                   key={ch.id}
-                  className={`choice-frame${isSelected ? ' selected-frame' : ''}${isFading ? ' fading' : ''}`}
+                  className={`choice-frame choice-card${isSelected ? ' selected-frame' : ''}${isFading ? ' fading' : ''}`}
+                  style={{ maxHeight: '180px', overflow: 'hidden' }}
                 >
                   <span className="choice-key-hint">{i + 1}</span>
                   <button
@@ -408,6 +441,19 @@ export default function ConversationPanel({
                 </div>
               )
             })}
+            {choicesOverflow && (
+              <div style={{
+                textAlign: 'center',
+                color: 'rgba(201,168,76,0.5)',
+                fontSize: '11px',
+                letterSpacing: '2px',
+                padding: '8px',
+                fontFamily: "'Special Elite', monospace",
+                flexShrink: 0,
+              }}>
+                ▼ SCROLL FOR MORE OPTIONS
+              </div>
+            )}
           </div>
         )}
 

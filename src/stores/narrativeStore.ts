@@ -158,6 +158,7 @@ function generateNews(
 
 interface NarrativeStore {
   currentScene:      NarrativeNode | null
+  activeSegmentId:   string | null   // non-null when playing a branch within a scene
   visitedSceneIds:   string[]
   activeFlags:       string[]
   unlockedCodexIds:  string[]    // codex entry IDs unlocked by choices
@@ -177,6 +178,7 @@ interface NarrativeStore {
 
 export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   currentScene:      null,
+  activeSegmentId:   null,
   visitedSceneIds:   [],
   activeFlags:       [],
   unlockedCodexIds:  [],
@@ -184,9 +186,11 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   sceneDone:         false,
 
   loadScene: (id) => {
+    console.log('[narrativeStore.loadScene] id:', id)
     const gameState  = useGameStore.getState()
     const { activeFlags, metCharacters } = get()
     let target = getScene(id)
+    console.log('[narrativeStore.loadScene] target found:', !!target, target?.title ?? 'null')
 
     // If the scene has prerequisites that don't pass, walk the exclusive list
     // until we find a variant that qualifies (fallback routing for branching events).
@@ -211,10 +215,11 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     }
 
     set({ currentScene: target ?? null, sceneDone: !target, metCharacters: newMet })
+    console.log('[narrativeStore.loadScene] set currentScene:', target?.id ?? 'null')
   },
 
   resetScene: () => {
-    set({ currentScene: null, sceneDone: false })
+    set({ currentScene: null, activeSegmentId: null, sceneDone: false })
   },
 
   addFlags: (flags) => set((state) => ({
@@ -351,7 +356,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
         useGameStore.getState().recordCorruptionEntry({
           id: `corruption_${flag}_${Date.now()}`,
           weekRecorded: corruptionState.currentWeek,
-          description: `Accepted personal kickback from Lucan Vael in exchange for project contract. Payment of 2,500-4,000 VK deposited in Morivask account.`,
+          description: `Accepted personal kickback from Lucan Vael in exchange for project contract. Payment of 2,500-4,000 ₭ deposited in Morivask account.`,
           witnesses: ['lucan_vael'],
           evidence: 'Offshore bank records in Morivask',
           discovered: false,
@@ -490,12 +495,24 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     let nextScene: NarrativeNode | undefined
     if (choice.nextNodeId) nextScene = getScene(choice.nextNodeId)
 
+    // nextSegment branches within the current scene — load that segment's
+    // narrative and choices into the current scene without ending it.
+    let updatedScene = nextScene ?? null
+    let nextSegmentId: string | null = null
+    if (!nextScene && choice.nextSegment && currentScene.segments?.[choice.nextSegment]) {
+      const seg = currentScene.segments[choice.nextSegment]
+      // Create a new scene object with the segment's narrative + choices
+      updatedScene = { ...currentScene, narrative: seg.narrative, choices: seg.choices, monologue: seg.monologue ?? currentScene.monologue }
+      nextSegmentId = choice.nextSegment
+    }
+
     set({
       activeFlags:      newFlags,
       unlockedCodexIds: newCodexIds,
       visitedSceneIds:  newVisited,
-      currentScene:     nextScene ?? null,
-      sceneDone:        !nextScene,
+      currentScene:     updatedScene,
+      activeSegmentId:  nextSegmentId,
+      sceneDone:        !updatedScene,
     })
   },
 }))

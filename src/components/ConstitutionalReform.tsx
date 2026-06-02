@@ -269,7 +269,7 @@ export default function ConstitutionalReform() {
   const continueLabel = isLastScene ? 'Proceed to Evening Review →' : `Continue →`
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)' }}>
+    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}>
       <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
         <span className="stamp">The Mandate — Week {currentWeek} · Constitutional Convention</span>
         <span className="stamp">12 Provisions to Address</span>

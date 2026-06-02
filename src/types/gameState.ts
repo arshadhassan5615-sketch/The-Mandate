@@ -13,12 +13,12 @@ export interface AdvisorTrust {
 }
 
 export interface BudgetAllocations {
-  // Revenue (in millions VK) — editable via revenue events
+  // Revenue (in millions ₭) — editable via revenue events
   taxRevenue:     number   // 285
   stateIndustry:  number   // 55
   customsTariffs: number   // 30
   foreignAid:     number   // 10
-  // Expenditure (in millions VK) — player-adjustable at budget review points
+  // Expenditure (in millions ₭) — player-adjustable at budget review points
   military:       number   // 120
   debtService:    number   // 75
   govtAdmin:      number   // 65
@@ -33,7 +33,7 @@ export interface NationState {
   economyHealth: number        // -100 to 100
   unemployment: number         // 0 to 40 (percent)
   inflation: number            // 0 to 30 (percent)
-  nationalDebt: number         // absolute VK value (millions)
+  nationalDebt: number         // absolute ₭ value (millions)
   corruption: number           // 0 to 100
   militaryReadiness: number    // 0 to 100
   publicOrder: number          // 0 to 100
@@ -58,7 +58,7 @@ export interface PersonalState {
   marriageHealth: number    // 0-100
   lioraRelationship: number // 0-100
   tomasWellbeing: number    // 0-100
-  personalWealth: number    // VK amount
+  personalWealth: number    // ₭ amount
   publicImage: number       // 0-100
   moralCompass: number      // -100 to +100
 }
@@ -126,6 +126,7 @@ export interface GameState {
   advisorTrust: AdvisorTrust
   // Hidden stats
   vaelInfluence: number        // 0-100 — Margrave Vael's grip on your government
+  morvecInfluence: number      // 0-100 — Stefan Morvec's influence over your government
   shadowInfluence: number       // 0-100 — off-the-books political power
   refugeeCount: number          // 0-50000 — Morivask refugees currently in Veltria
   religiousAdherence: number    // 0-100 — % of population regularly attending Church
@@ -159,7 +160,7 @@ export interface GameState {
   // Corruption tracking
   corruptionLedger: CorruptionEntry[]
   corruptionDiscoveredCount: number   // how many corruption entries have been revealed
-  voteSpendingTotal: number            // total VK spent on lobbying and vote-buying
+  voteSpendingTotal: number            // total ₭ spent on lobbying and vote-buying
   // Development projects
   activeProjects: ActiveProject[]
   completedProjects: string[]
@@ -202,6 +203,7 @@ export const STAT_RANGES: Record<string, [number, number]> = {
   'advisorTrust.soraya': [0, 100],
   'advisorTrust.dusek':  [0, 100],
   'vaelInfluence':              [0, 100],
+  'morvecInfluence':            [0, 100],
   'shadowInfluence':            [0, 100],
   'refugeeCount':               [0, 50000],
   'religiousAdherence':         [0, 100],

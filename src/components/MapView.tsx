@@ -16,12 +16,12 @@ interface ProvinceZone {
 }
 
 const PROVINCE_ZONES: ProvinceZone[] = [
-  { id: 'ashenmere',    name: 'Ashenmere',    label: 'Capital Region',       top: '46%', left: '52%', width: '16%', height: '14%', primaryFaction: 'reformists' },
-  { id: 'kravenstal',   name: 'Kravenstal',  label: 'Industrial Heartland',  top: '44%', left: '28%', width: '16%', height: '14%', primaryFaction: 'workersCoalition' },
-  { id: 'thornfeld',    name: 'Thornfeld',    label: 'Agricultural South',    top: '65%', left: '35%', width: '16%', height: '14%', primaryFaction: 'halvekists' },
-  { id: 'sevagrad',     name: 'Sevagrad',     label: 'Eastern Border',        top: '50%', left: '76%', width: '16%', height: '14%', primaryFaction: 'ironCovenant' },
-  { id: 'aldenmoor',    name: 'Aldenmoor',    label: 'Amber Coast',           top: '68%', left: '58%', width: '16%', height: '14%', primaryFaction: 'businessClass' },
-  { id: 'dravenhollow', name: 'Dravenhollow', label: 'Northern Mountains',    top: '28%', left: '47%', width: '16%', height: '14%', primaryFaction: 'dravenni' },
+  { id: 'ashenmere',    name: 'Ashenmere',    label: 'Capital Region',       top: '44%', left: '48%', width: '20%', height: '20%', primaryFaction: 'reformists' },
+  { id: 'kravenstal',   name: 'Kravenstal',  label: 'Industrial Heartland',  top: '42%', left: '24%', width: '22%', height: '22%', primaryFaction: 'workersCoalition' },
+  { id: 'thornfeld',    name: 'Thornfeld',    label: 'Agricultural South',    top: '62%', left: '28%', width: '20%', height: '22%', primaryFaction: 'halvekists' },
+  { id: 'sevagrad',     name: 'Sevagrad',     label: 'Eastern Border',        top: '46%', left: '64%', width: '18%', height: '22%', primaryFaction: 'ironCovenant' },
+  { id: 'aldenmoor',    name: 'Aldenmoor',    label: 'Amber Coast',           top: '64%', left: '50%', width: '20%', height: '22%', primaryFaction: 'businessClass' },
+  { id: 'dravenhollow', name: 'Dravenhollow', label: 'Northern Mountains',    top: '22%', left: '44%', width: '22%', height: '22%', primaryFaction: 'dravenni' },
 ]
 
 const FACTION_TINT: Record<string, string> = {
@@ -178,15 +178,11 @@ function EventMedallion({ zone, crisisLevel, onOpenDetail }: {
 }) {
   const isUrgent = crisisLevel === 2
   const isTense = crisisLevel === 1
-  const isStable = crisisLevel === 0
 
-  const size = isStable ? '16px' : '48px'
-  const borderWidth = isStable ? '1px' : '2.5px'
-  const borderColor = isStable ? 'rgba(200,144,42,0.25)' : 'rgba(200,144,42,0.6)'
-  const bgOpacity = isStable ? '0.5' : '0.92'
+  const borderColor = isUrgent ? 'rgba(220,60,40,0.9)' : isTense ? 'rgba(201,168,76,0.9)' : '#c9a84c'
   const animation = isUrgent ? 'event-pulse-urgent 1.2s ease-in-out infinite'
     : isTense ? 'event-pulse 2s ease-in-out infinite' : undefined
-  const icon = isStable ? '' : isUrgent ? '⚠' : '📋'
+  const icon = isUrgent ? '⚠' : isTense ? '📋' : '✦'
 
   return (
     <button
@@ -201,21 +197,40 @@ function EventMedallion({ zone, crisisLevel, onOpenDetail }: {
       }}
     >
       <div style={{
-        width: size, height: size, borderRadius: '50%',
-        background: `rgba(20,15,8,${bgOpacity})`,
-        border: `${borderWidth} solid ${borderColor}`,
+        width: '44px', height: '44px', borderRadius: '50%',
+        background: 'rgba(20,18,12,0.85)',
+        border: '2px solid #c9a84c',
+        outline: '1px solid rgba(201,168,76,0.3)',
+        outlineOffset: '3px',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        boxShadow: isStable
-          ? '0 1px 4px rgba(0,0,0,0.3)'
-          : isUrgent
-            ? '0 0 20px rgba(200,144,42,0.4), 0 2px 8px rgba(0,0,0,0.5)'
-            : '0 2px 8px rgba(0,0,0,0.4)',
+        boxShadow: isUrgent
+          ? '0 0 16px rgba(220,60,40,0.4), 0 2px 8px rgba(0,0,0,0.5)'
+          : '0 0 8px rgba(201,168,76,0.3), 0 2px 6px rgba(0,0,0,0.4)',
         animation,
-        color: 'var(--amber)',
+        color: borderColor,
         transition: 'transform 0.2s ease',
+        opacity: 1,
       }}>
-        {icon && <span style={{ fontSize: '18px' }}>{icon}</span>}
+        <span style={{ fontSize: '18px' }}>{icon}</span>
       </div>
+      {/* Province name label */}
+      <span style={{
+        position: 'absolute',
+        bottom: '-2px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '9px',
+        fontWeight: 700,
+        color: '#c9a84c',
+        letterSpacing: '2px',
+        textTransform: 'uppercase',
+        textShadow: '1px 1px 3px rgba(0,0,0,0.9)',
+        whiteSpace: 'nowrap',
+        pointerEvents: 'none',
+      }}>
+        {zone.name}
+      </span>
     </button>
   )
 }
@@ -346,147 +361,6 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
-  // ─── Drag/pan state ─────────────────────────────────────────────────────
-  const [offset, setOffset] = useState({ x: -200, y: -100 })
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
-  const [lastOffset, setLastOffset] = useState({ x: -200, y: -100 })
-  const hasDragged = useRef(false)
-  const velocity = useRef({ x: 0, y: 0 })
-  const lastPos = useRef({ x: 0, y: 0 })
-  const animFrameRef = useRef<number>()
-
-  const IMG_SCALE = 1.8
-
-  const clampOffset = useCallback((newOffset: { x: number; y: number }) => {
-    const container = containerRef.current
-    if (!container) return newOffset
-    const cw = container.offsetWidth
-    const ch = container.offsetHeight
-    const iw = cw * IMG_SCALE
-    const ih = iw * (9 / 16)
-    const maxX = 0
-    const minX = cw - iw
-    const maxY = 0
-    const minY = ch - ih
-    return {
-      x: Math.max(minX, Math.min(maxX, newOffset.x)),
-      y: Math.max(minY, Math.min(maxY, newOffset.y)),
-    }
-  }, [])
-
-  // ─── Initial center on Veltria ──────────────────────────────────────────
-  useEffect(() => {
-    const doInit = () => {
-      const container = containerRef.current
-      if (!container) return
-      const cw = container.offsetWidth
-      const ch = container.offsetHeight
-      const iw = cw * IMG_SCALE
-      const ih = iw * (9 / 16)
-      const vx = iw * 0.52
-      const vy = ih * 0.46
-      const ix = cw / 2 - vx
-      const iy = ch / 2 - vy
-      const clamped = clampOffset({ x: ix, y: iy })
-      setOffset(clamped)
-      setLastOffset(clamped)
-    }
-    const t = setTimeout(doInit, 100)
-    return () => clearTimeout(t)
-  }, [clampOffset])
-
-  // ─── Drag handlers ──────────────────────────────────────────────────────
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
-    hasDragged.current = false
-    setIsDragging(true)
-    setDragStart({ x: e.clientX, y: e.clientY })
-    setLastOffset(offset)
-    lastPos.current = { x: e.clientX, y: e.clientY }
-    velocity.current = { x: 0, y: 0 }
-  }, [offset])
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging) return
-    const dx = e.clientX - dragStart.x
-    const dy = e.clientY - dragStart.y
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true
-    setOffset(clampOffset({ x: lastOffset.x + dx, y: lastOffset.y + dy }))
-    velocity.current = { x: e.clientX - lastPos.current.x, y: e.clientY - lastPos.current.y }
-    lastPos.current = { x: e.clientX, y: e.clientY }
-  }, [isDragging, dragStart, lastOffset, clampOffset])
-
-  const applyMomentum = useCallback(() => {
-    velocity.current.x *= 0.92
-    velocity.current.y *= 0.92
-    if (Math.abs(velocity.current.x) < 0.3 && Math.abs(velocity.current.y) < 0.3) return
-    setOffset(prev => clampOffset({
-      x: prev.x + velocity.current.x,
-      y: prev.y + velocity.current.y,
-    }))
-    animFrameRef.current = requestAnimationFrame(applyMomentum)
-  }, [clampOffset])
-
-  const handleMouseUp = useCallback(() => {
-    setIsDragging(false)
-    animFrameRef.current = requestAnimationFrame(applyMomentum)
-  }, [applyMomentum])
-
-  // ─── Touch handlers ─────────────────────────────────────────────────────
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
-    hasDragged.current = false
-    setIsDragging(true)
-    setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY })
-    setLastOffset(offset)
-    lastPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
-    velocity.current = { x: 0, y: 0 }
-  }, [offset])
-
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!isDragging) return
-    e.preventDefault()
-    const dx = e.touches[0].clientX - dragStart.x
-    const dy = e.touches[0].clientY - dragStart.y
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true
-    setOffset(clampOffset({ x: lastOffset.x + dx, y: lastOffset.y + dy }))
-    velocity.current = { x: e.touches[0].clientX - lastPos.current.x, y: e.touches[0].clientY - lastPos.current.y }
-    lastPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
-  }, [isDragging, dragStart, lastOffset, clampOffset])
-
-  const handleTouchEnd = useCallback(() => {
-    setIsDragging(false)
-    animFrameRef.current = requestAnimationFrame(applyMomentum)
-  }, [applyMomentum])
-
-  // ─── Non-passive wheel handler (trackpad + scroll wheel pan) ───────────
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-    const handleWheelNative = (e: WheelEvent) => {
-      e.preventDefault()
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
-      setOffset(prev => {
-        const clamped = clampOffset({
-          x: prev.x - e.deltaX,
-          y: prev.y - e.deltaY,
-        })
-        setLastOffset(clamped)
-        return clamped
-      })
-    }
-    container.addEventListener('wheel', handleWheelNative, { passive: false })
-    return () => container.removeEventListener('wheel', handleWheelNative)
-  }, [clampOffset, mapOpen])
-
-  // ─── Cleanup momentum animation on unmount ────────────────────────────
-  useEffect(() => {
-    return () => {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
-    }
-  }, [])
-
   // ─── Status computation ─────────────────────────────────────────────────
   const statuses = useMemo(() => {
     const map = new Map<string, 0 | 1 | 2>()
@@ -514,86 +388,6 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
 
   const hoveredZone = hoveredId ? PROVINCE_ZONES.find(z => z.id === hoveredId) ?? null : null
 
-  // ─── Shared map content (img + overlays) ────────────────────────────────
-  const mapContent = (
-    <>
-      <img
-        src={backgroundImage}
-        alt="Veltria Map"
-        draggable={false}
-        style={{
-          position: 'absolute',
-          width: '180%',
-          height: 'auto',
-          minHeight: '100vh',
-          userSelect: 'none',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Province click zones — inside image so they move with it */}
-      {PROVINCE_ZONES.map(zone => {
-        const crisisLevel = statuses.get(zone.id) ?? 0
-        const factionScore = factions[zone.primaryFaction] ?? 40
-        return (
-          <ProvinceClickZone
-            key={zone.id}
-            zone={zone}
-            crisisLevel={crisisLevel}
-            factionScore={factionScore}
-            factions={factions}
-            onHover={handleHover}
-            onOpenDetail={handleOpenDetail}
-            hoveredId={hoveredId}
-          />
-        )
-      })}
-
-      {/* Event medallions */}
-      {PROVINCE_ZONES.map(zone => {
-        const crisisLevel = statuses.get(zone.id) ?? 0
-        return (
-          <EventMedallion
-            key={`med-${zone.id}`}
-            zone={zone}
-            crisisLevel={crisisLevel}
-            onOpenDetail={() => handleOpenDetail(zone.id)}
-          />
-        )
-      })}
-
-      {/* Neighbor nation labels */}
-      <NeighborMarker label="Tyvaren Confederation" top="8%" left="38%" tension={tyvarenTension ? 'high' : 'normal'} />
-      <NeighborMarker label="Lytheira" top="42%" left="3%" />
-      <NeighborMarker label="Morivask" top="42%" left="88%" />
-      <NeighborMarker label="Thalassic Sea" top="88%" left="40%" />
-
-      {/* Tyvaren tension overlay */}
-      {tyvarenTension && (
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: '18%',
-          background: 'linear-gradient(to bottom, rgba(180,40,30,0.06) 0%, transparent 100%)',
-          pointerEvents: 'none',
-          borderBottom: '1px solid rgba(180,80,50,0.1)',
-          animation: 'event-pulse-urgent 2s ease-in-out infinite',
-        }} />
-      )}
-
-      {/* Tooltip */}
-      {hoveredZone && (
-        <ProvinceTooltip
-          zone={hoveredZone}
-          crisisLevel={statuses.get(hoveredZone.id) ?? 0}
-          factionScore={factions[hoveredZone.primaryFaction] ?? 40}
-          factions={factions}
-          onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
-          mouseX={mousePos.x}
-          mouseY={mousePos.y}
-        />
-      )}
-    </>
-  )
-
   // ── Background mode (always visible) ──
   if (!mapOpen) {
     return (
@@ -604,28 +398,75 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
           top: 0, left: 0, right: 0, bottom: 0,
           width: '100vw', height: '100vh',
           overflow: 'hidden', zIndex: 0,
-          cursor: isDragging ? 'grabbing' : 'grab',
+          background: '#000000',
+          cursor: 'default',
         }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
-        <div style={{
-          position: 'absolute', inset: 0,
-          transform: `translate(${offset.x}px, ${offset.y}px)`,
-          transition: isDragging ? 'none' : 'transform 0.1s ease-out',
-        }}>
-          {mapContent}
-        </div>
+        <img
+          src={backgroundImage}
+          alt="Veltria Map"
+          draggable={false}
+          style={{
+            position: 'absolute',
+            width: '180%',
+            height: 'auto',
+            minHeight: '100vh',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -48%)',
+            userSelect: 'none',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Province click zones */}
+        {PROVINCE_ZONES.map(zone => {
+          const crisisLevel = statuses.get(zone.id) ?? 0
+          const factionScore = factions[zone.primaryFaction] ?? 40
+          return (
+            <ProvinceClickZone
+              key={zone.id}
+              zone={zone}
+              crisisLevel={crisisLevel}
+              factionScore={factionScore}
+              factions={factions}
+              onHover={handleHover}
+              onOpenDetail={handleOpenDetail}
+              hoveredId={hoveredId}
+            />
+          )
+        })}
+
+        {/* Event medallions */}
+        {PROVINCE_ZONES.map(zone => {
+          const crisisLevel = statuses.get(zone.id) ?? 0
+          return (
+            <EventMedallion
+              key={`med-${zone.id}`}
+              zone={zone}
+              crisisLevel={crisisLevel}
+              onOpenDetail={() => handleOpenDetail(zone.id)}
+            />
+          )
+        })}
+
+        {/* Hover label */}
+        {hoveredId && (statuses.get(hoveredId) ?? 0) > 0 && hoveredZone && (
+          <HoverLabel
+            zone={hoveredZone}
+            crisisLevel={statuses.get(hoveredZone.id) ?? 0}
+            factionScore={factions[hoveredZone.primaryFaction] ?? 40}
+            factions={factions}
+            onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
+            mouseX={mousePos.x}
+            mouseY={mousePos.y}
+          />
+        )}
       </div>
     )
   }
 
-  // ── Full interactive overlay mode ──────────────────────────────────────────
+  // ── Full interactive overlay mode (static map) ──────────────────────────
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 200,
@@ -640,24 +481,70 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
         ref={containerRef}
         style={{
           flex: 1, position: 'relative', overflow: 'hidden',
-          cursor: isDragging ? 'grabbing' : 'grab',
+          cursor: 'default',
           marginTop: '42px',
         }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
-        <div style={{
-          position: 'absolute', inset: 0,
-          transform: `translate(${offset.x}px, ${offset.y}px)`,
-          transition: isDragging ? 'none' : 'transform 0.1s ease-out',
-        }}>
-          {mapContent}
-        </div>
+        <img
+          src={backgroundImage}
+          alt="Veltria Map"
+          draggable={false}
+          style={{
+            position: 'absolute',
+            width: '180%',
+            height: 'auto',
+            minHeight: '100%',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -48%)',
+            userSelect: 'none',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Province click zones */}
+        {PROVINCE_ZONES.map(zone => {
+          const crisisLevel = statuses.get(zone.id) ?? 0
+          const factionScore = factions[zone.primaryFaction] ?? 40
+          return (
+            <ProvinceClickZone
+              key={zone.id}
+              zone={zone}
+              crisisLevel={crisisLevel}
+              factionScore={factionScore}
+              factions={factions}
+              onHover={handleHover}
+              onOpenDetail={handleOpenDetail}
+              hoveredId={hoveredId}
+            />
+          )
+        })}
+
+        {/* Event medallions */}
+        {PROVINCE_ZONES.map(zone => {
+          const crisisLevel = statuses.get(zone.id) ?? 0
+          return (
+            <EventMedallion
+              key={`med-${zone.id}`}
+              zone={zone}
+              crisisLevel={crisisLevel}
+              onOpenDetail={() => handleOpenDetail(zone.id)}
+            />
+          )
+        })}
+
+        {/* Hover label */}
+        {hoveredId && (statuses.get(hoveredId) ?? 0) > 0 && hoveredZone && (
+          <HoverLabel
+            zone={hoveredZone}
+            crisisLevel={statuses.get(hoveredZone.id) ?? 0}
+            factionScore={factions[hoveredZone.primaryFaction] ?? 40}
+            factions={factions}
+            onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
+            mouseX={mousePos.x}
+            mouseY={mousePos.y}
+          />
+        )}
 
         {/* Province list sidebar — fixed, does NOT move with map */}
         <div style={{

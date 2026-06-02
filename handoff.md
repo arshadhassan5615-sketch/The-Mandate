@@ -30,7 +30,7 @@ The game spans 52 weeks across 4 acts. Player governs through cabinet meetings, 
 ### Build: PASSING
 ```
 tsc --noEmit: 0 errors
-vite build: SUCCESS (1.32s, 1016 modules, ~4.2MB JS bundle)
+vite build: SUCCESS (1.36s, 1017 modules, ~4.3MB JS bundle)
 ```
 
 ### Core engine (working perfectly)
@@ -41,9 +41,9 @@ vite build: SUCCESS (1.32s, 1016 modules, ~4.2MB JS bundle)
 - **ChainStore** — schedules delayed consequences from choices
 - **SaveManager** — Dexie.js IndexedDB save/load with autosave
 
-### Content (99% complete)
-- **Act I**: 60+ scene JSONs rewritten with voice profiles, monologues, pre-entry dialogues
-- **Act II**: 70+ scene JSONs (some files recovered from corruption — see Section 4)
+### Content (Batches 1-5 of 6 complete)
+- **Act I**: 60+ scene JSONs — ALL rewritten with voice profiles, monologues, pre-entry dialogues, reactions
+- **Act II**: 70+ scene JSONs — key scenes rewritten (convention, oligarch meeting)
 - **Act III**: 144 scene JSONs (original state, not audited this session)
 - **Act IV**: 59 scene JSONs (original state)
 - **Diary**: 52 literary entries with 2-4 variants each (`src/data/diary/diaryEntries.ts`)
@@ -51,6 +51,17 @@ vite build: SUCCESS (1.32s, 1016 modules, ~4.2MB JS bundle)
 - **Divergent newspapers**: 25 articles (5 events × 5 papers) in `src/data/newspapers/divergent_coverage.ts`
 - **Mole investigation**: 6 scene files in `src/data/narrative/act1/investigation/`
 - **Family scenes**: `act1/family/family_bni_night.json`, `act2/family/family_referendum_night.json`
+
+### Narrative rewrite batches completed this session
+
+| Batch | Scenes | Status |
+|-------|--------|--------|
+| Batch 1 | Act I Week 1-2 (inauguration, cabinet, briefing, BNI discovery) | DONE |
+| Batch 2 | Act I Week 3,5 (budget, BNI crisis) | DONE |
+| Batch 3 | Act I Week 6,7 (labor tensions, Tyvaren airspace) | DONE |
+| Batch 4 | Act I Week 8,10 (Vael offer, church education) | DONE |
+| Batch 5 | Act II Week 14,20 (convention opens, oligarch meeting) | DONE |
+| Batch 6 | **PENDING** — not yet received from user | TODO |
 
 ### UI components (all working)
 - ConversationPanel (typewriter, portrait stack, choice frames, monologue phase, reaction system)
@@ -88,6 +99,36 @@ vite build: SUCCESS (1.32s, 1016 modules, ~4.2MB JS bundle)
 
 ## 3. Files Actively Edited This Session
 
+### Batch rewrite files (Batches 1-5)
+All files are in `src/data/narrative/act1/` and `src/data/narrative/act2/`:
+
+**Batch 1 (Week 1-2):**
+- `act1_week1_inauguration.json` — rewritten
+- `act1_week1_cabinet_introductions.json` — rewritten
+- `act1_week1_bni_discovery.json` — rewritten
+- `act1_week1_first_briefing.json` — rewritten
+- `act1_week1_vyktor_briefing.json` — rewritten
+- `act1_week1_parliament_caucus.json` — rewritten
+- `act1_week1_family_dinner.json` — rewritten
+- `act1_week1_archbishop_dinner.json` — rewritten
+- `act1_week2_cabinet_appointments.json` — rewritten
+
+**Batch 2 (Week 3,5):**
+- `act1_week3_first_budget.json` — rewritten
+- `act1_week5_bni_crisis.json` — rewritten
+
+**Batch 3 (Week 6,7):**
+- `act1_week6_labor_tensions.json` — rewritten
+- `act1_week7_tyvaren_airspace.json` — rewritten
+
+**Batch 4 (Week 8,10):**
+- `act1_week8_vael_offer.json` — rewritten
+- `act1_week10_church_education.json` — rewritten
+
+**Batch 5 (Act II Week 14,20):**
+- `act2_week14_convention_opens.json` — rewritten
+- `act2_week20_oligarch_meeting.json` — rewritten
+
 ### Types
 - `src/types/narrative.ts` — Added `ChoiceReaction`, `monologue?` to NarrativeNode
 - `src/types/gameState.ts` — Added `DiaryEntry`, `personalNotes`, `diaryEntries`
@@ -120,7 +161,6 @@ vite build: SUCCESS (1.32s, 1016 modules, ~4.2MB JS bundle)
 ### Engine
 - `src/engine/DiaryEngine.ts` — Rewritten to use `src/data/diary/diaryEntries.ts`
 - `src/engine/CliffhangerEngine.ts` — New: generates cliffhangers from game state
-- `src/engine/CliffhangerEngine.ts` — New
 
 ### Data
 - `src/data/diary/diaryEntries.ts` — 52 literary diary entries with 2-4 variants each
@@ -130,13 +170,6 @@ vite build: SUCCESS (1.32s, 1016 modules, ~4.2MB JS bundle)
 - `src/data/narrative/act1/family/family_bni_night.json` — New family scene
 - `src/data/narrative/act2/family/family_referendum_night.json` — New family scene
 - `src/data/narrative/act1/briefings/vyktor_press_briefing.json` — New press intelligence scene
-- `src/data/narrative/act1/act1_week8_vael_offer.json` — Created (was missing)
-- `src/data/narrative/act2/act2_week26_referendum.json` — Created (was missing)
-- `src/data/narrative/act1/act1_week1_cabinet_introductions.json` — Created (was missing)
-- `src/data/narrative/act1/act1_week10_church_education.json` — Created (was missing)
-- `src/data/narrative/act2/act2_week20_oligarch_meeting.json` — Created (was missing)
-- 60+ Act I scene JSONs — Voice profile rewrites, monologues, pre-entry dialogues, reactions
-- 40 Act II scene JSONs — Originally modified by batch agent, then recovered (see Section 4)
 
 ### CSS
 - `src/index.css` — Added Caveat font import, family-scene-overlay, inline-codex-slide-in, event-pulse-urgent
@@ -167,24 +200,34 @@ Found and removed. The `setBudgetOpen` function was called at `RightSidebar.tsx:
 ### D) Portrait ID mismatch in Connections panel
 Cabinet member IDs were `character_vyktor_reznik` but portrait lookups expected `vyktor_reznik`. Fixed by adding `normalizedId = characterId.replace(/^character_/, '')` in `CharacterPortrait.tsx`.
 
+### E) New schema mismatch during batch rewrites
+The batch rewrite scenes use a newer JSON schema (`"dialogue"` array with `type: "narrative"`, `type: "dialogue"`, `statEffects`, `flags`, `journalEntry`) while the engine's existing scenes use the old schema (`"narrative"` array, `stateChanges`, `chainTriggers`, `codexUnlocks`). The engine was updated in a prior session to support both schemas, so this is not a breaking issue — but it means the engine must handle schema translation or both formats coexist. Currently both formats are loaded by the glob loader.
+
+### F) Batch 5 file location mismatch
+Files were initially written to `src/data/narrative/act1/` at the project root instead of `the-mandate/src/data/narrative/act1/`. Required copy operation to correct location. Future batches should write directly to `the-mandate/` path.
+
 ---
 
 ## 5. Next Steps
 
-### Immediate (fix remaining issues)
-1. **Restore 2 social event files** — `social_autumn_festival_wk18.json` and `social_state_dinner_wk24.json` need their full content (6 social interactions each with dialogue, choices, reactions) recovered from the cache or rewritten. Currently have minimal valid content.
-2. **Add reactions to remaining scenes** — ~23 act1 scenes (chain scenes, family scenes) still need reactions. These were listed by the act1 agent as remaining.
-3. **Verify all chain triggers** — The pre-entry dialogue rewrites and character additions may have introduced undefined character references in scene files.
+### Immediate (Batch 6)
+1. **Receive Batch 6 from user** — The final batch of 2 scene rewrites. This completes the narrative rewrite effort.
+2. **Verify Batch 6 JSON** — Read-validate each file after writing, count nextSegment references, run tsc + vite build.
+
+### After Batch 6
+3. **Restore 2 social event files** — `social_autumn_festival_wk18.json` and `social_state_dinner_wk24.json` need their full content (6 social interactions each with dialogue, choices, reactions) recovered from the cache or rewritten.
+4. **Add reactions to remaining scenes** — ~23 act1 scenes (chain scenes, family scenes) still need reactions.
+5. **Verify all chain triggers** — The pre-entry dialogue rewrites and character additions may have introduced undefined character references in scene files.
 
 ### Content (Act III / IV)
-4. **Act III scene auditing** — 144 scene files in `act3/` have not been voice-profiled or monologue-ized. They use the original dialogue.
-5. **Act IV scene auditing** — 59 scene files need same treatment.
-6. **Endings verification** — `src/data/epilogues.json` has 9 variants. Ensure all ending paths are reachable.
+6. **Act III scene auditing** — 144 scene files in `act3/` have not been voice-profiled or monologue-ized. They use the original dialogue.
+7. **Act IV scene auditing** — 59 scene files need same treatment.
+8. **Endings verification** — `src/data/epilogues.json` has 9 variants. Ensure all ending paths are reachable.
 
 ### Map
-7. **Place map image** — The map system in MapView.tsx references `/maps/map_veltria_full.jpg` in the `public/maps/` directory. The directory exists but no image file yet. Drop the generated image there.
-8. **Adjust province click zones** — Current percentage coordinates may not match the actual map image. Will need visual adjustment.
+9. **Place map image** — The map system in MapView.tsx references `/maps/map_veltria_full.jpg` in the `public/maps/` directory. The directory exists but no image file yet. Drop the generated image there.
+10. **Adjust province click zones** — Current percentage coordinates may not match the actual map image. Will need visual adjustment.
 
 ### Testing
-9. **Full playthrough test** — Run through all 52 weeks to verify every scene fires correctly, every choice has valid reactions, no chain triggers reference missing scenes, no stat changes break clamping.
-10. **Save/load test** — Verify all new state fields (`personalNotes`, `diaryEntries`, `personalNotes`) persist correctly across save/load cycles with Dexie.js.
+11. **Full playthrough test** — Run through all 52 weeks to verify every scene fires correctly, every choice has valid reactions, no chain triggers reference missing scenes, no stat changes break clamping.
+12. **Save/load test** — Verify all new state fields (`personalNotes`, `diaryEntries`, `personalNotes`) persist correctly across save/load cycles with Dexie.js.

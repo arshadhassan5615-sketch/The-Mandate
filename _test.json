@@ -1,0 +1,65 @@
+{
+  "id": "act1_week1_inauguration",
+  "title": "The Oath of Office",
+  "act": 1,
+  "weekAvailable": 1,
+  "weekDeadline": 2,
+  "type": "ceremony",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Republic Square — Ashenmere",
+  "characters": [
+    "vyktor_reznik",
+    "jonas_ashavel"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Republic Square is full. Twenty thousand people, maybe more. The crowd stretches past the fountain, past the ministry steps, into the side streets. They have been waiting since dawn."
+    },
+    {
+      "type": "description",
+      "text": "You stand behind the curtain at the top of the steps. Through the gap in the fabric you can see the podium. The microphone. The book of oaths. The chair where Halvek sat for twenty-three years."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Two minutes, Chancellor. The Chief Justice is ready."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Your speech. Three versions on the podium. National unity — safe, expected, no enemies made. Reform mandate — bolder, names the problems, some in the old guard will take it personally. The third..."
+    }
+  ],
+  "monologue": "Twenty thousand people. Every word I say in the next ten minutes will be printed, quoted, and remembered.",
+  "choices": [
+    {
+      "id": "speech_unity",
+      "text": "The national unity speech. Bring the country together first. Fight later.",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [
+        "inaugural_unity"
+      ],
+      "codexUnlocks": [],
+      "nextSegment": "unity_speech",
+      "reactions": []
+    },
+    {
+      "id": "speech_reform",
+      "text": "The reform mandate. Name the problems.",
+      "internalTag": "reformist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [
+        "inaugural_reformist"
+      ],
+      "codexUnlocks": [],
+      "nextSegment": "reform_speech",
+      "reactions": []
+    }
+  ]
+}

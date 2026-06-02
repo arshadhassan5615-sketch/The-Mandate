@@ -11,7 +11,7 @@ const PLACEHOLDER = `── Week 1 ──
 - Watch Kolvar — he's already counting votes
 
 ▸ First Briefing
-- Deficit is 65M VK — worse than campaign intel
+- Deficit is 65M ₭ — worse than campaign intel
 - Tyvaren troop movements near Gravenmark
 - VYKTOR: 'Some of those BNI operations are producing actionable intelligence'
 

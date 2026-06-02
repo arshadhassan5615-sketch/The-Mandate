@@ -485,8 +485,8 @@ export const ElenaBraskov: FC = () => (
 // ── SERIDA VALK — round warm face, practical ponytail, kind but tired eyes ─
 export const SeridaValk: FC = () => (
   <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', display: 'block' }}>
-    <PBG id="bg-svk"/>
-    <rect width="100" height="100" fill="url(#bg-svk)"/>
+    <PBG id="bg-sVK"/>
+    <rect width="100" height="100" fill="url(#bg-sVK)"/>
     {/* Practical pulled-back hair — tight low cap */}
     <path d="M28,44 Q27,18 50,15 Q73,18 72,44 Q69,27 50,24 Q31,27 28,44 Z" fill={H}/>
     {/* Low ponytail — visible over right shoulder */}

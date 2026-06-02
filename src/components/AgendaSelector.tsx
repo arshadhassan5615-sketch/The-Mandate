@@ -332,15 +332,14 @@ export default function AgendaSelector() {
   return (
     <div
       className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]"
-      style={{ background: 'rgba(15,13,10,0.94)' }}
+      style={{ background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}
     >
       {/* ── Header ──────────────────────────────────────────────── */}
       <div
-        className="shrink-0 flex items-center justify-between px-8 py-3 border-b"
+        className="shrink-0 flex items-center px-8 py-3 border-b"
         style={{ borderColor: 'var(--border)' }}
       >
         <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
-        <span className="stamp">Week {currentWeek} of 52 · Act I · The Oath</span>
       </div>
 
       {/* ── Body ────────────────────────────────────────────────── */}

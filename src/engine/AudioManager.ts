@@ -156,13 +156,18 @@ class AudioManager {
     'title': 'theme_main',
     'customization': 'theme_main',
     'prologue': 'theme_optimism',
+    'map': 'theme_main',
     'briefing': 'theme_briefing',
-    'agenda': 'theme_briefing',
+    'press': 'theme_briefing',
+    'agenda': 'theme_main',
+    'conversation': 'theme_cabinet',
     'budget': 'theme_cabinet',
     'constitution': 'theme_cabinet',
     'lobbying': 'theme_cabinet',
     'vote_result': 'theme_cabinet',
-    'review': 'theme_cabinet',
+    'review': 'theme_main',
+    'evening': 'theme_main',
+    'diary': 'theme_family',
     'epilogue': 'theme_epilogue',
   }
 
@@ -211,26 +216,82 @@ class AudioManager {
     })
   }
 
-  private fadeIn(track: HTMLAudioElement, duration: number = 2000) {
+  private fadeIn(track: HTMLAudioElement, duration: number = 2000, targetVolume?: number) {
     track.volume = 0
     track.play().catch(() => {})
 
-    const targetVolume = this.isMuted ? 0 : this.masterVolume
+    const vol = targetVolume ?? (this.isMuted ? 0 : this.masterVolume)
+    const intensityMultiplier = this.intensityVolumeMultiplier[this.currentIntensity]
+    const finalTarget = Math.min(1, vol * intensityMultiplier)
     const steps = 40
     const stepTime = duration / steps
-    const volumeStep = targetVolume / steps
+    const volumeStep = finalTarget / steps
     let currentStep = 0
 
     if (this.fadeInterval) clearInterval(this.fadeInterval)
 
     this.fadeInterval = setInterval(() => {
       currentStep++
-      track.volume = Math.min(targetVolume, volumeStep * currentStep)
+      track.volume = Math.min(finalTarget, volumeStep * currentStep)
 
       if (currentStep >= steps) {
         if (this.fadeInterval) clearInterval(this.fadeInterval)
       }
     }, stepTime)
+  }
+
+  public fadeInTrack(trackName: string, duration: number = 2000, targetVolume: number = 0.4) {
+    if (this.currentTrackName === trackName && this.currentTrack && !this.currentTrack.paused) {
+      return
+    }
+
+    if (this.currentTrack && !this.currentTrack.paused) {
+      this.fadeOut(1500).then(() => {
+        this.startNewTrack(trackName, duration, targetVolume)
+      })
+    } else {
+      this.startNewTrack(trackName, duration, targetVolume)
+    }
+  }
+
+  private startNewTrack(trackName: string, duration: number, targetVolume: number) {
+    try {
+      const url = musicUrls.get(trackName)
+      if (!url) {
+        console.warn(`[AudioManager] Track not found: ${trackName}`)
+        return
+      }
+
+      const audio = new Audio(url)
+      audio.loop = true
+      audio.preload = 'auto'
+
+      audio.onended = () => {
+        if (this.currentTrackName) {
+          audio.play().catch(() => {})
+        }
+      }
+
+      audio.onpause = () => {
+        setTimeout(() => {
+          if (
+            this.currentTrack === audio &&
+            audio.paused &&
+            this.userHasInteracted &&
+            !this.isMuted
+          ) {
+            audio.play().catch(() => {})
+          }
+        }, 500)
+      }
+
+      this.currentTrack = audio
+      this.currentTrackName = trackName
+
+      this.fadeIn(audio, duration, targetVolume)
+    } catch (error) {
+      console.warn(`[AudioManager] Failed to load track: ${trackName}`)
+    }
   }
 
   async playTrack(trackName: string, fadeInDuration?: number) {
@@ -277,23 +338,141 @@ class AudioManager {
       this.currentTrack = audio
       this.currentTrackName = trackName
 
-      this.fadeIn(audio, fadeInDuration ?? 2000)
+      this.fadeIn(audio, fadeInDuration ?? 1500)
     } catch (error) {
       console.warn(`[AudioManager] Failed to load track: ${trackName}`)
     }
   }
 
-  getTrackForScene(sceneType: string, sceneId: string, _activeFlags?: string[]): string {
+  private sceneKeywordMap: Array<{ patterns: string[]; track: string }> = [
+    { patterns: ['inaugur', 'oath'], track: 'theme_optimism' },
+    { patterns: ['budget', 'finance'], track: 'theme_cabinet' },
+    { patterns: ['bni', 'bureau', 'intel'], track: 'theme_spy' },
+    { patterns: ['labor', 'worker', 'union'], track: 'theme_cabinet' },
+    { patterns: ['tyvaren', 'airspace', 'border'], track: 'theme_tyvaren' },
+    { patterns: ['vael', 'oligarch'], track: 'theme_oligarch' },
+    { patterns: ['church', 'education', 'renek'], track: 'theme_cabinet' },
+    { patterns: ['convention', 'constitution'], track: 'theme_reform_victory' },
+    { patterns: ['referendum'], track: 'theme_reform_victory' },
+    { patterns: ['coup'], track: 'theme_crisis' },
+    { patterns: ['family', 'jonas', 'dinner'], track: 'theme_family' },
+    { patterns: ['mole', 'investigation', 'spy'], track: 'theme_spy' },
+    { patterns: ['scandal', 'corruption'], track: 'theme_scandal' },
+    { patterns: ['crisis', 'urgent'], track: 'theme_crisis' },
+    { patterns: ['victory', 'reform_victory'], track: 'theme_reform_victory' },
+    { patterns: ['epilogue'], track: 'theme_epilogue' },
+  ]
+
+  private meetingTypeTrackMap: Record<string, string> = {
+    'security': 'theme_spy',
+    'cabinet': 'theme_cabinet',
+    'diplomacy': 'theme_tyvaren',
+    'finance': 'theme_cabinet',
+    'personal': 'theme_family',
+    'parliament': 'theme_cabinet',
+    'crisis': 'theme_crisis',
+    'infrastructure': 'theme_cabinet',
+  }
+
+  private intensityVolumeMultiplier: Record<string, number> = {
+    'low': 0.6,
+    'medium': 0.8,
+    'high': 1.0,
+  }
+
+  private currentIntensity: 'low' | 'medium' | 'high' = 'medium'
+
+  getTrackForScene(sceneType: string, sceneId: string, activeFlags?: string[]): string {
+    // 1. Exact scene ID match in flaggedSceneMap
     for (const [track, scenes] of Object.entries(flaggedSceneMap)) {
       if (scenes.includes(sceneId)) {
         return track
       }
     }
+
+    // 2. Keyword-based matching on scene ID
+    const lowerId = sceneId.toLowerCase()
+    for (const { patterns, track } of this.sceneKeywordMap) {
+      if (patterns.some(p => lowerId.includes(p))) {
+        return track
+      }
+    }
+
+    // 3. Fallback to scene type map
     return this.sceneTrackMap[sceneType] ?? 'theme_cabinet'
   }
 
   getTrackForPhase(phase: string): string {
     return this.phaseTrackMap[phase] ?? 'theme_cabinet'
+  }
+
+  getTrackForMeetingType(category: string): string {
+    return this.meetingTypeTrackMap[category.toLowerCase()] ?? 'theme_cabinet'
+  }
+
+  setIntensity(level: 'low' | 'medium' | 'high') {
+    this.currentIntensity = level
+    if (this.currentTrack && !this.isMuted) {
+      const multiplier = this.intensityVolumeMultiplier[level]
+      this.currentTrack.volume = Math.min(1, this.masterVolume * multiplier)
+    }
+  }
+
+  getIntensity(): 'low' | 'medium' | 'high' {
+    return this.currentIntensity
+  }
+
+  fadeToTrack(trackName: string, duration: number = 1500, targetVolume?: number) {
+    const vol = targetVolume ?? (this.isMuted ? 0 : this.masterVolume)
+    this.fadeToTrackWithVolume(trackName, duration, vol)
+  }
+
+  private async fadeToTrackWithVolume(trackName: string, duration: number, targetVolume: number) {
+    if (this.currentTrackName === trackName && this.currentTrack && !this.currentTrack.paused) {
+      return
+    }
+
+    if (this.currentTrack && !this.currentTrack.paused) {
+      await this.fadeOut(duration)
+    }
+
+    try {
+      const url = musicUrls.get(trackName)
+      if (!url) {
+        console.warn(`[AudioManager] Track not found: ${trackName}`)
+        return
+      }
+
+      const audio = new Audio(url)
+      audio.loop = true
+      audio.preload = 'auto'
+
+      audio.onended = () => {
+        if (this.currentTrackName) {
+          audio.play().catch(() => {})
+        }
+      }
+
+      audio.onpause = () => {
+        setTimeout(() => {
+          if (
+            this.currentTrack === audio &&
+            audio.paused &&
+            this.userHasInteracted &&
+            !this.isMuted
+          ) {
+            audio.play().catch(() => {})
+          }
+        }, 500)
+      }
+
+      this.currentTrack = audio
+      this.currentTrackName = trackName
+
+      this.fadeIn(audio, duration, targetVolume)
+    } catch (error) {
+      console.warn(`[AudioManager] Failed to load track: ${trackName}`)
+    }
   }
 
   pause() {

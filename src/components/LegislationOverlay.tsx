@@ -1,5 +1,5 @@
-import { useState, useMemo, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useMemo, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 import type { Bill } from '../types/bills'
 import { useBillStore } from '../stores/billStore'
 import { useGameStore } from '../stores/gameStore'
@@ -12,7 +12,9 @@ import {
   evaluateBillPrerequisites,
 } from '../engine/BillEngine'
 import { playStamp } from '../engine/audioEngine'
-import BillSignAnimation from './ui/BillSignAnimation'
+import { audioManager } from '../engine/AudioManager'
+import veltriaSeal from '../assets/images/veltria_seal.png'
+import katerinSignature from '../assets/images/katerin_signature.jpeg'
 
 const FACTION_NAMES: Record<string, string> = {
   reformists: 'Civic Renewal',
@@ -163,6 +165,9 @@ export default function LegislationOverlay() {
   const [chosenAction, setChosenAction] = useState<'signed' | 'vetoed'>('signed')
   const [reactions, setReactions] = useState<{ speaker: string; text: string }[]>([])
   const [overrideResult, setOverrideResult] = useState<{ overridden: boolean; assemblyVote: number } | null>(null)
+  const [showStamp, setShowStamp] = useState(false)
+  const [showSignature, setShowSignature] = useState(false)
+  const documentRef = useRef<HTMLDivElement>(null)
 
   const vetoRemoved = useMemo(() => isVetoPowerRemoved(activeFlags), [activeFlags])
   const assemblyCanOverride = useMemo(() => canAssemblyOverride(activeFlags), [activeFlags])
@@ -189,14 +194,14 @@ export default function LegislationOverlay() {
       setDecisionState('pending')
       setReactions([])
       setOverrideResult(null)
+      setShowStamp(false)
+      setShowSignature(false)
     }
   }, [phase])
 
   if (phase !== 'legislation' || !currentBill) return null
 
   const bill = currentBill
-
-  const factionInfo = getFactionSupport(bill)
 
   const applyBillEffects = (
     modifiers: Array<{ stat: string; operation: 'add' | 'set' | 'multiply'; value: number }>,
@@ -216,29 +221,45 @@ export default function LegislationOverlay() {
 
   const handleSign = () => {
     if (decisionState !== 'pending') return
+    if (documentRef.current) documentRef.current.scrollTop = 0
     setChosenAction('signed')
     setDecisionState('deciding')
+    setShowSignature(true)
     playStamp()
+    audioManager.fadeToTrack('theme_reform_victory', 1500)
 
+    // Apply bill effects immediately (behind the animation)
+    applyBillEffects(bill.signEffects, bill.signFlags)
+
+    // Stamp slams at 600ms
     setTimeout(() => {
-      applyBillEffects(bill.signEffects, bill.signFlags)
+      setShowStamp(true)
+    }, 600)
+
+    // Panel closes at 3000ms
+    setTimeout(() => {
       const reactTexts = generateReactionText(bill, 'signed')
       setReactions(reactTexts)
       setDecisionState('decided')
-    }, 600)
+      setShowSignature(false)
+      setShowStamp(false)
+    }, 3000)
   }
 
   const handleVeto = () => {
     if (decisionState !== 'pending') return
+    if (documentRef.current) documentRef.current.scrollTop = 0
     setChosenAction('vetoed')
     setDecisionState('deciding')
+    setShowStamp(true)
     playStamp()
+    audioManager.fadeToTrack('theme_scandal_short', 1500)
 
-    setTimeout(() => {
-      // Check for assembly override
-      if (assemblyCanOverride) {
-        const result = calculateVetoOverrideChance(bill, gameState)
-        if (result.overridden) {
+    // Check for assembly override
+    if (assemblyCanOverride) {
+      const result = calculateVetoOverrideChance(bill, gameState)
+      if (result.overridden) {
+        setTimeout(() => {
           setOverrideResult({ overridden: true, assemblyVote: result.assemblyVote })
           applyBillEffects(bill.signEffects, bill.signFlags)
           const reactTexts = generateReactionText(bill, 'overridden')
@@ -247,15 +268,19 @@ export default function LegislationOverlay() {
             ...reactTexts,
           ])
           setDecisionState('overridden')
-          return
-        }
+          setShowStamp(false)
+        }, 2000)
+        return
       }
+    }
 
-      applyBillEffects(bill.vetoEffects, bill.vetoFlags)
+    applyBillEffects(bill.vetoEffects, bill.vetoFlags)
+    setTimeout(() => {
       const reactTexts = generateReactionText(bill, 'vetoed')
       setReactions(reactTexts)
       setDecisionState('decided')
-    }, 600)
+      setShowStamp(false)
+    }, 2200)
   }
 
   const handleAutoPass = () => {
@@ -300,502 +325,422 @@ export default function LegislationOverlay() {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.85)' }}>
-      <AnimatePresence mode="wait">
-        {decisionState === 'pending' && (
-          <motion.div
-            key={`bill-${bill.id}`}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="relative w-full max-w-3xl mx-4"
-            style={{
-              background: '#1e1b15',
-              border: '2px solid var(--border-raised)',
-              borderRadius: '2px',
-              padding: '3rem 3.5rem',
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              scrollbarWidth: 'thin',
-              scrollbarColor: 'var(--amber-dim) transparent',
-            }}
-          >
-            {/* Official seal watermark */}
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              opacity: 0.035,
-              pointerEvents: 'none',
-              fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: '16rem',
-              color: 'var(--amber)',
-            }}>
-              {'⚜'}
-            </div>
-
-            {/* Bill counter */}
-            <p style={{
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '0.55rem',
-              letterSpacing: '0.15em',
-              color: 'var(--muted)',
-              textAlign: 'right',
-              marginBottom: '0.5rem',
-              position: 'relative',
-              zIndex: 1,
-            }}>
-              Bill {billIndex + 1} of {pendingBills.length}
-            </p>
-
-            {/* Document header */}
-            <div style={{ textAlign: 'center', marginBottom: '2rem', position: 'relative', zIndex: 1 }}>
-              <p style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.58rem',
-                letterSpacing: '0.25em',
-                textTransform: 'uppercase',
-                color: 'var(--amber-dim)',
-                marginBottom: '0.8rem',
-              }}>
-                Republic of Veltria · National Assembly · 1963
-              </p>
-              <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.2rem' }} />
-              <p style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.55rem',
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-                marginBottom: '0.6rem',
-              }}>
-                Legislation Awaiting Executive Action
-              </p>
-              <h1 style={{
-                fontFamily: 'var(--font-headline)',
-                fontSize: '1.5rem',
-                fontWeight: 600,
-                color: 'var(--cream)',
-                lineHeight: 1.3,
-                marginBottom: '0.3rem',
-              }}>
-                {bill.title}
-              </h1>
-              <p style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: '0.7rem',
-                color: 'var(--amber-dim)',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-              }}>
-                {bill.shortName} · Week {bill.weekPresented}
-              </p>
-            </div>
-
-            {/* Proposer */}
-            <div style={{
-              marginBottom: '2rem',
-              padding: '0.8rem 1.2rem',
-              background: 'rgba(200,144,42,0.06)',
-              border: '1px solid var(--border)',
-              borderRadius: '2px',
-              position: 'relative',
-              zIndex: 1,
-            }}>
-              <p style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.55rem',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-                marginBottom: '0.25rem',
-              }}>
-                Proposed by
-              </p>
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '1rem',
-                color: 'var(--cream)',
-              }}>
-                {bill.proposer}
-                <span style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.55rem',
-                  color: 'var(--muted)',
-                  marginLeft: '0.6rem',
-                  letterSpacing: '0.08em',
-                }}>
-                  · {FACTION_NAMES[bill.faction] || bill.faction}
-                </span>
-              </p>
-            </div>
-
-            {/* Full text */}
-            <div style={{ marginBottom: '2rem', position: 'relative', zIndex: 1 }}>
-              <p style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.55rem',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-                marginBottom: '1rem',
-              }}>
-                Full Text of the Act
-              </p>
+    <div style={{
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      right: '0',
+      bottom: '0',
+      background: 'rgba(0,0,0,0.85)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 200,
+    }}>
+      {decisionState !== 'decided' && decisionState !== 'overridden' ? (
+        <>
+          {/* THE DOCUMENT */}
+          <div style={{
+            background: '#f5f0e0',
+            width: '680px',
+            height: '100vh',
+            boxShadow: '0 0 80px rgba(0,0,0,0.6)',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            position: 'relative',
+            padding: '16px 44px 0',
+          }}>
+            {/* STAMP - top right corner when decision made */}
+            {false && (
               <div style={{
-                fontFamily: "'Crimson Text', Georgia, serif",
-                fontSize: '0.88rem',
-                color: 'var(--cream)',
-                lineHeight: 1.85,
-                whiteSpace: 'pre-line',
-                padding: '0 0.5rem',
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                width: '80px',
+                height: '80px',
+                animation: 'stampSlam 350ms cubic-bezier(0.25,0.46,0.45,0.94) forwards',
+                zIndex: 10,
+                pointerEvents: 'none',
               }}>
-                {bill.fullText}
-              </div>
-            </div>
-
-            {/* Budget note */}
-            {bill.budgetCost !== 0 && (
-              <div style={{
-                marginBottom: '2rem',
-                padding: '0.6rem 1rem',
-                background: bill.budgetCost > 0 ? 'rgba(74,107,58,0.12)' : 'rgba(139,46,46,0.1)',
-                border: `1px solid ${bill.budgetCost > 0 ? 'rgba(74,107,58,0.3)' : 'rgba(139,46,46,0.25)'}`,
-                borderRadius: '2px',
-                textAlign: 'center',
-                position: 'relative',
-                zIndex: 1,
-              }}>
-                <p style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: '0.7rem',
-                  color: bill.budgetCost > 0 ? 'var(--accent-green)' : 'var(--accent-red)',
-                  letterSpacing: '0.05em',
-                }}>
-                  {bill.budgetCost > 0
-                    ? `Treasury Revenue: +${bill.budgetCost}M VK`
-                    : `Budget Cost: ${Math.abs(bill.budgetCost)}M VK`}
-                </p>
+                <svg viewBox="0 0 80 80" width="80" height="80">
+                  <circle cx="40" cy="40" r="37"
+                    fill="none"
+                    stroke={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
+                    strokeWidth="4" />
+                  <circle cx="40" cy="40" r="29"
+                    fill="none"
+                    stroke={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
+                    strokeWidth="2" />
+                  <text x="40" y="32" fill={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
+                    fontSize="8" textAnchor="middle" letterSpacing="1"
+                    fontFamily="Georgia,serif">★ ★ ★</text>
+                  <text x="40" y="47"
+                    fill={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
+                    fontSize={chosenAction === 'signed' ? '14' : '13'}
+                    fontWeight="900"
+                    fontFamily="Georgia,serif"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
+                    fontStyle="italic">
+                    {chosenAction === 'signed' ? 'SIGNED' : 'VETOED'}
+                  </text>
+                  <text x="40" y="60"
+                    fill={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
+                    fontSize="6.5" textAnchor="middle"
+                    letterSpacing="1" fontFamily="Georgia,serif">
+                    {chosenAction === 'signed' ? 'INTO LAW' : 'BY EXEC.'}
+                  </text>
+                </svg>
               </div>
             )}
 
-            {/* Faction supporters/opponents */}
-            <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem', position: 'relative', zIndex: 1 }}>
-              {factionInfo.support.length > 0 && (
-                <div style={{ flex: 1 }}>
-                  <p style={{
-                    fontFamily: "'Special Elite', monospace",
-                    fontSize: '0.5rem',
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    color: 'var(--accent-green)',
-                    marginBottom: '0.4rem',
-                  }}>
-                    Support
-                  </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-                    {factionInfo.support.map(f => (
-                      <span key={f} style={{
-                        fontFamily: "'Special Elite', monospace",
-                        fontSize: '0.55rem',
-                        padding: '0.15rem 0.45rem',
-                        background: 'rgba(74,107,58,0.12)',
-                        border: '1px solid rgba(74,107,58,0.25)',
-                        borderRadius: '2px',
-                        color: 'var(--accent-green)',
-                        letterSpacing: '0.06em',
-                      }}>
-                        ✓ {f}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {factionInfo.oppose.length > 0 && (
-                <div style={{ flex: 1 }}>
-                  <p style={{
-                    fontFamily: "'Special Elite', monospace",
-                    fontSize: '0.5rem',
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    color: 'var(--accent-red)',
-                    marginBottom: '0.4rem',
-                  }}>
-                    Oppose
-                  </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-                    {factionInfo.oppose.map(f => (
-                      <span key={f} style={{
-                        fontFamily: "'Special Elite', monospace",
-                        fontSize: '0.55rem',
-                        padding: '0.15rem 0.45rem',
-                        background: 'rgba(139,46,46,0.1)',
-                        border: '1px solid rgba(139,46,46,0.25)',
-                        borderRadius: '2px',
-                        color: 'var(--accent-red)',
-                        letterSpacing: '0.06em',
-                      }}>
-                        ✗ {f}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+            {/* SEAL */}
+            <div style={{
+              textAlign: 'center',
+              marginBottom: '6px',
+            }}>
+              <img
+                src={veltriaSeal}
+                alt="Veltria Seal"
+                style={{
+                  width: '52px',
+                  height: '52px',
+                  objectFit: 'contain',
+                  display: 'block',
+                  margin: '0 auto',
+                  mixBlendMode: 'multiply',
+                  opacity: 0.92,
+                }}
+              />
             </div>
 
-            {/* Action buttons */}
+            {/* BILL TITLE */}
             <div style={{
-              display: 'flex',
-              gap: '1.5rem',
-              justifyContent: 'center',
-              position: 'relative',
-              zIndex: 1,
+              fontFamily: 'Georgia, serif',
+              fontSize: '19px',
+              fontWeight: '800',
+              fontStyle: 'italic',
+              color: '#0d0a06',
+              textAlign: 'center',
+              lineHeight: '1.25',
+              marginBottom: '4px',
             }}>
-              <button
-                onClick={handleSign}
-                className="choice-btn"
-                style={{
-                  width: 'auto',
-                  minWidth: bill.isVetoable ? '200px' : '260px',
-                  background: 'rgba(74,107,58,0.15)',
-                  borderColor: 'rgba(74,107,58,0.4)',
-                  color: 'var(--accent-green)',
-                  fontSize: '0.82rem',
-                  padding: '0.8rem 1.8rem',
-                }}
-              >
-                {bill.isVetoable ? 'SIGN INTO LAW' : 'ACKNOWLEDGE & ENACT'}
-                <span style={{
-                  display: 'block',
-                  fontSize: '0.55rem',
-                  color: 'var(--muted)',
-                  letterSpacing: '0.1em',
-                  marginTop: '0.2rem',
-                }}>
-                  {bill.isVetoable ? 'Executive Approval' : 'Constitutional Requirement'}
-                </span>
-              </button>
+              {bill.title}
+            </div>
+
+            {/* BILL CODE */}
+            <div style={{
+              fontSize: '9px',
+              letterSpacing: '2px',
+              color: '#6b4f2a',
+              fontWeight: 600,
+              textAlign: 'center',
+              marginBottom: '12px',
+            }}>
+              {bill.shortName} · Week {bill.weekPresented}, 1963
+            </div>
+
+            {/* BILL TEXT - scrollable internally */}
+            <div
+              ref={documentRef}
+              className="bill-text-area"
+              style={{
+                fontFamily: "'Georgia', serif",
+                fontSize: '11.5px',
+                lineHeight: '1.55',
+                color: '#0d0a06',
+                fontWeight: 400,
+                textAlign: 'justify',
+                flex: 1,
+                minHeight: 0,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                whiteSpace: 'pre-line',
+                overflowWrap: 'break-word',
+                paddingRight: '8px',
+                padding: '0 44px',
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(139,115,85,0.2) transparent',
+              }}
+            >
+              {bill.fullText}
+            </div>
+
+            {/* SIGNATURE BLOCK */}
+            <div style={{
+              flexShrink: 0,
+              marginTop: '10px',
+              paddingTop: '10px',
+              borderTop: '1px solid #ccc',
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+              <div style={{
+                width: '280px',
+                height: '126px',
+                borderBottom: '1px solid #333',
+                position: 'relative',
+                marginBottom: '6px',
+              }}>
+                {showSignature && chosenAction === 'signed' && (
+                  <img
+                    src={katerinSignature}
+                    alt="Signature"
+                    style={{
+                      position: 'absolute',
+                      bottom: '-12px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      height: '126px',
+                      width: 'auto',
+                      maxWidth: '585px',
+                      objectFit: 'contain',
+                      mixBlendMode: 'multiply',
+                      filter: 'contrast(1.2)',
+                      animation: 'signatureWrite 900ms ease-out forwards',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                )}
+              </div>
+              <div style={{
+                fontSize: '8px',
+                letterSpacing: '3px',
+                color: '#666',
+                textTransform: 'uppercase',
+                textAlign: 'center',
+              }}>
+                Chancellor of the Republic
+              </div>
+            </div>
+
+            {/* BUTTONS - inside document at bottom */}
+            <div style={{
+              flexShrink: 0,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '10px 32px 12px',
+              borderTop: '1px solid #e0d5c0',
+              marginTop: '16px',
+              width: '100%',
+              boxSizing: 'border-box',
+            }}>
               {bill.isVetoable && (
                 <button
                   onClick={handleVeto}
-                  className="choice-btn"
-                  style={{
-                    width: 'auto',
-                    minWidth: '200px',
-                    background: 'rgba(139,46,46,0.12)',
-                    borderColor: 'rgba(139,46,46,0.4)',
-                    color: 'var(--accent-red)',
-                    fontSize: '0.82rem',
-                    padding: '0.8rem 1.8rem',
+                  disabled={decisionState !== 'pending'}
+                style={{
+                  width: '72px',
+                  height: '72px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle at 38% 32%, #e06868, #8b1515)',
+                  border: '3px solid rgba(255,255,255,0.12)',
+                  color: 'white',
+                  fontFamily: 'Georgia, serif',
+                  fontSize: '12px',
+                    fontWeight: '700',
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    cursor: decisionState !== 'pending' ? 'default' : 'pointer',
+                    boxShadow: '0 6px 28px rgba(139,21,21,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+                    transition: 'all 0.15s ease',
+                    opacity: decisionState !== 'pending' ? 0.4 : 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  onMouseEnter={e => {
+                    if (decisionState !== 'pending') return
+                    e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)'
+                    e.currentTarget.style.boxShadow = '0 10px 36px rgba(139,21,21,0.85), 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'scale(1)'
+                    e.currentTarget.style.boxShadow = '0 6px 28px rgba(139,21,21,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
+                  }}
+                  onMouseDown={e => {
+                    if (decisionState !== 'pending') return
+                    e.currentTarget.style.transform = 'scale(0.97)'
                   }}
                 >
-                  EXERCISE VETO
-                  <span style={{
-                    display: 'block',
-                    fontSize: '0.55rem',
-                    color: 'var(--muted)',
-                    letterSpacing: '0.1em',
-                    marginTop: '0.2rem',
-                  }}>
-                    {assemblyCanOverride ? 'Assembly May Override' : 'Final Rejection'}
-                  </span>
+                  Veto
                 </button>
               )}
+              <button
+                onClick={handleSign}
+                disabled={decisionState !== 'pending'}
+                style={{
+                  width: '72px',
+                  height: '72px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle at 38% 32%, #5dc470, #1a6b2a)',
+                  border: '3px solid rgba(255,255,255,0.12)',
+                  color: 'white',
+                  fontFamily: 'Georgia, serif',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  letterSpacing: '2px',
+                  textTransform: 'uppercase',
+                  cursor: decisionState !== 'pending' ? 'default' : 'pointer',
+                  boxShadow: '0 6px 28px rgba(26,107,42,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)',
+                  textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+                  transition: 'all 0.15s ease',
+                  opacity: decisionState !== 'pending' ? 0.4 : 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                onMouseEnter={e => {
+                  if (decisionState !== 'pending') return
+                  e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 10px 36px rgba(26,107,42,0.85), 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'scale(1)'
+                  e.currentTarget.style.boxShadow = '0 6px 28px rgba(26,107,42,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
+                }}
+                onMouseDown={e => {
+                  if (decisionState !== 'pending') return
+                  e.currentTarget.style.transform = 'scale(0.97)'
+                }}
+              >
+                {bill.isVetoable ? 'Sign' : 'Enact'}
+              </button>
             </div>
-
-            {assemblyCanOverride && bill.isVetoable && (
-              <p style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.55rem',
-                color: 'var(--muted)',
-                textAlign: 'center',
-                marginTop: '1rem',
-                letterSpacing: '0.06em',
-                position: 'relative',
-                zIndex: 1,
-              }}>
-                Under the current constitution, the National Assembly may override a veto with sufficient support.
-              </p>
-            )}
-
-            {!bill.isVetoable && (
-              <p style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.55rem',
-                color: 'var(--muted)',
-                textAlign: 'center',
-                marginTop: '1rem',
-                letterSpacing: '0.06em',
-                fontStyle: 'italic',
-                position: 'relative',
-                zIndex: 1,
-              }}>
-                Under the reformed constitution, the Chancellor's signature is automatic.
-              </p>
-            )}
-          </motion.div>
-        )}
-
-        {decisionState === 'deciding' && (
-          <motion.div
-            key="bill-stamp"
-            initial={{ opacity: 0, scale: 1.2 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center"
-          >
-            <div style={{
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '3rem',
-              color: chosenAction === 'signed' ? 'var(--accent-green)' : 'var(--accent-red)',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              padding: '2rem 3rem',
-              border: `3px solid ${chosenAction === 'signed' ? 'var(--accent-green)' : 'var(--accent-red)'}`,
-              borderRadius: '4px',
-              transform: 'rotate(-3deg)',
-              background: chosenAction === 'signed'
-                ? 'rgba(74,107,58,0.08)'
-                : 'rgba(139,46,46,0.08)',
+          </div>
+        </>
+      ) : decisionState === 'auto_passed' ? (
+        <motion.div
+          key="bill-auto"
+          initial={{ opacity: 0, scale: 1.2 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center"
+        >
+          <div style={{
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '1.5rem',
+            color: 'var(--amber-dim)',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            padding: '1.5rem 2.5rem',
+            border: '2px solid var(--border)',
+            borderRadius: '4px',
+            background: 'rgba(200,144,42,0.06)',
+          }}>
+            Bill {billIndex + 1} of {pendingBills.length} Enacted
+            <span style={{
+              display: 'block',
+              fontSize: '0.6rem',
+              color: 'var(--muted)',
+              marginTop: '0.5rem',
             }}>
-              {chosenAction === 'signed' ? 'Signed into Law' : 'VETOED'}
-            </div>
-
-            {/* Bill signature/stamp animation */}
-            {decisionState === 'deciding' && (
-              <BillSignAnimation type={chosenAction === 'signed' ? 'approval' : 'veto'} />
-            )}
-          </motion.div>
-        )}
-
-        {decisionState === 'auto_passed' && (
-          <motion.div
-            key="bill-auto"
-            initial={{ opacity: 0, scale: 1.2 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center"
-          >
+              Automatic under reformed constitution
+            </span>
+          </div>
+        </motion.div>
+      ) : (
+        /* Reactions screen */
+        <motion.div
+          key="bill-reactions"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative w-full max-w-2xl mx-4"
+          style={{
+            background: 'var(--paper-raised)',
+            border: '1px solid var(--border)',
+            borderRadius: '2px',
+            padding: '2.5rem 3rem',
+          }}
+        >
+          {/* Veto Override Banner */}
+          {overrideResult?.overridden && (
             <div style={{
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '1.5rem',
-              color: 'var(--amber-dim)',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              padding: '1.5rem 2.5rem',
-              border: '2px solid var(--border)',
-              borderRadius: '4px',
-              background: 'rgba(200,144,42,0.06)',
-            }}>
-              Bill {billIndex + 1} of {pendingBills.length} Enacted
-              <span style={{
-                display: 'block',
-                fontSize: '0.6rem',
-                color: 'var(--muted)',
-                marginTop: '0.5rem',
-              }}>
-                Automatic under reformed constitution
-              </span>
-            </div>
-          </motion.div>
-        )}
-
-        {(decisionState === 'decided' || decisionState === 'overridden') && (
-          <motion.div
-            key="bill-reactions"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="relative w-full max-w-2xl mx-4"
-            style={{
-              background: 'var(--paper-raised)',
-              border: '1px solid var(--border)',
+              textAlign: 'center',
+              marginBottom: '2rem',
+              padding: '1rem',
+              background: 'rgba(139,46,46,0.12)',
+              border: '1px solid rgba(139,46,46,0.3)',
               borderRadius: '2px',
-              padding: '2.5rem 3rem',
-            }}
-          >
-            {/* Veto Override Banner */}
-            {overrideResult?.overridden && (
-              <div style={{
-                textAlign: 'center',
-                marginBottom: '2rem',
-                padding: '1rem',
-                background: 'rgba(139,46,46,0.12)',
-                border: '1px solid rgba(139,46,46,0.3)',
-                borderRadius: '2px',
+            }}>
+              <p style={{
+                fontFamily: "'Special Elite', monospace",
+                fontSize: '0.65rem',
+                letterSpacing: '0.15em',
+                color: 'var(--accent-red)',
+                textTransform: 'uppercase',
+                marginBottom: '0.3rem',
+              }}>
+                Veto Overridden
+              </p>
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                color: 'var(--muted)',
+                fontStyle: 'italic',
+              }}>
+                The National Assembly has exercised its constitutional authority to override your veto.
+              </p>
+            </div>
+          )}
+
+          <h3 style={{
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '0.6rem',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: 'var(--amber-dim)',
+            marginBottom: '1.2rem',
+          }}>
+            Reactions
+          </h3>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
+            {reactions.map((r, i) => (
+              <div key={i} style={{
+                padding: '0.8rem 1rem',
+                background: 'rgba(200,144,42,0.04)',
+                borderLeft: '2px solid var(--border)',
               }}>
                 <p style={{
                   fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.65rem',
-                  letterSpacing: '0.15em',
-                  color: 'var(--accent-red)',
+                  fontSize: '0.58rem',
+                  letterSpacing: '0.1em',
+                  color: 'var(--amber)',
+                  marginBottom: '0.15rem',
                   textTransform: 'uppercase',
-                  marginBottom: '0.3rem',
                 }}>
-                  Veto Overridden
+                  {r.speaker}
                 </p>
                 <p style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.82rem',
-                  color: 'var(--muted)',
+                  color: 'var(--cream)',
+                  lineHeight: 1.6,
                   fontStyle: 'italic',
                 }}>
-                  The National Assembly has exercised its constitutional authority to override your veto.
+                  "{r.text}"
                 </p>
               </div>
-            )}
+            ))}
+          </div>
 
-            <h3 style={{
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '0.6rem',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--amber-dim)',
-              marginBottom: '1.2rem',
-            }}>
-              Reactions
-            </h3>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
-              {reactions.map((r, i) => (
-                <div key={i} style={{
-                  padding: '0.8rem 1rem',
-                  background: 'rgba(200,144,42,0.04)',
-                  borderLeft: '2px solid var(--border)',
-                }}>
-                  <p style={{
-                    fontFamily: "'Special Elite', monospace",
-                    fontSize: '0.58rem',
-                    letterSpacing: '0.1em',
-                    color: 'var(--amber)',
-                    marginBottom: '0.15rem',
-                    textTransform: 'uppercase',
-                  }}>
-                    {r.speaker}
-                  </p>
-                  <p style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.82rem',
-                    color: 'var(--cream)',
-                    lineHeight: 1.6,
-                    fontStyle: 'italic',
-                  }}>
-                    "{r.text}"
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-center">
-              <button
-                className="choice-btn"
-                onClick={advanceToNextBill}
-                style={{ width: 'auto', minWidth: '220px' }}
-              >
-                {billIndex + 1 < pendingBills.length ? 'Next Bill →' : 'Proceed to Agenda'}
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div className="flex justify-center">
+            <button
+              className="choice-btn"
+              onClick={advanceToNextBill}
+              style={{ width: 'auto', minWidth: '220px' }}
+            >
+              {billIndex + 1 < pendingBills.length ? 'Next Bill →' : 'Proceed to Agenda'}
+            </button>
+          </div>
+        </motion.div>
+      )}
     </div>
   )
 }

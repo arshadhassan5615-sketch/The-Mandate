@@ -42,5 +42,28 @@
       "type": "internal_thought",
       "text": "Serida does not bring me things that are 'probably nothing.' She brings me things that might be something and wants me to decide which. Two years as head of personal security — she knows the difference between a leak and a journalist doing their job. The question is which one this is. I will find out. Maybe not today. But I will find out."
     }
+  ],
+
+  "choices": [
+    {
+      "id": "mole_w1_acknowledge",
+      "text": "\"Keep an eye on it. Quietly. I want to know if the Gazette runs anything else with this level of detail. If they do, we have a problem. If they don't, it was a lucky guess by a good reporter. Either way, I want to know.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": ["mole_investigation_begun"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "mole_w1_dismiss",
+      "text": "\"It's a newspaper, Serida. Reporters have sources. This is what a free press looks like — we campaigned for this. I'm not going to start my Chancellorship by investigating journalists for doing their jobs. Thank you for flagging it. Let's move on.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["mole_concern_dismissed"],
+      "codexUnlocks": []
+    }
   ]
 }

@@ -1,0 +1,330 @@
+{
+  "id": "act2_week16_morvec_pressure",
+  "title": "The Son Comes",
+  "week": 16,
+  "act": 2,
+  "type": "meeting",
+  "location": "Chancellor's Private Office — Ashenmere Palace",
+  "characters": [
+    "aleksei_morvec",
+    "vyktor_reznik"
+  ],
+  "dialogue": [
+    {
+      "type": "narrative",
+      "text": "Aleksei Morvec arrives without an appointment. Vyktor lets him wait forty minutes before bringing him in. He does not seem bothered by the wait. That is more concerning than if he had been."
+    }
+  ],
+  "monologue": "Stefan sent the son. Stefan never sends the son for good news.",
+
+  "choices": [
+    {
+      "id": "what_does_he_want",
+      "text": "What does he want?",
+      "nextSegment": "aleksei_opens"
+    }
+  ],
+
+  "segments": {
+    "aleksei_opens": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "My father sends his regards. He follows your work closely. He asked me to pass along his concern about the constitutional reform timeline. He feels it is moving faster than the country is ready for. He wanted you to have that perspective directly."
+        }
+      ],
+      "monologue": "Stefan did not send this message. Aleksei added something to it. I can tell because Stefan never uses the word 'concern' through proxies. He comes himself for concerns.",
+      "choices": [
+        {
+          "id": "appreciate_perspective",
+          "text": "I appreciate your father's perspective.",
+          "nextSegment": "appreciate_response"
+        },
+        {
+          "id": "ask_aleksei_own_view",
+          "text": "What is your own view, Aleksei?",
+          "nextSegment": "aleksei_own_view"
+        },
+        {
+          "id": "why_not_stefan_himself",
+          "text": "Why didn't your father come himself?",
+          "nextSegment": "why_not_stefan"
+        }
+      ]
+    },
+
+    "aleksei_own_view": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "My view? My view is that certain structural arrangements that have kept this country stable for forty years are being treated as problems rather than foundations. The people who built those arrangements have long memories. And significant resources. And patience that is not unlimited."
+        }
+      ],
+      "monologue": "There is the threat. Stefan would never say that. Stefan would express concern about unnecessary suffering. The son says 'patience that is not unlimited.' He is thirty years younger than his father and a hundred years more dangerous.",
+      "choices": [
+        {
+          "id": "are_you_threatening",
+          "text": "Are you threatening the government?",
+          "nextSegment": "threat_response"
+        },
+        {
+          "id": "tell_stefan_heard",
+          "text": "Tell your father I heard him.",
+          "nextSegment": "tell_stefan"
+        },
+        {
+          "id": "what_would_satisfy_concerns",
+          "text": "What would satisfy these concerns?",
+          "nextSegment": "what_satisfies"
+        }
+      ]
+    },
+
+    "threat_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "Threatening? No. My father raised me to never threaten. I am simply describing the landscape. Weather is not a threat. It is simply what is coming."
+        }
+      ],
+      "choices": [
+        {
+          "id": "what_is_coming_then",
+          "text": "And what is coming?",
+          "nextSegment": "what_is_coming"
+        },
+        {
+          "id": "leave_my_office",
+          "text": "Leave my office.",
+          "nextSegment": "leave_office"
+        }
+      ]
+    },
+
+    "what_is_coming": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "Capital movement. Nothing dramatic. Simply — funds finding environments that feel more stable. It happens naturally when investors lose confidence. My father has always believed in Veltria. He has made that belief expensive over many decades. He simply wonders if Veltria still believes in him."
+        }
+      ],
+      "choices": [
+        {
+          "id": "request_direct_stefan_talk",
+          "text": "Tell your father we should speak directly.",
+          "nextSegment": "request_stefan"
+        },
+        {
+          "id": "not_negotiable_economic",
+          "text": "Veltria's economic policy is not negotiable.",
+          "nextSegment": "not_negotiable"
+        }
+      ]
+    },
+
+    "why_not_stefan": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "My father is seventy-four, Chancellor. He conserves his energy for conversations he believes will be productive. He sent me to determine whether this one would be."
+        }
+      ],
+      "monologue": "Stefan is testing me through his son. The test is whether I understand that the son is not Stefan.",
+      "choices": [
+        {
+          "id": "direct_talk_with_stefan",
+          "text": "Tell your father I would like to speak with him directly.",
+          "nextSegment": "request_stefan"
+        },
+        {
+          "id": "what_makes_productive",
+          "text": "What would make it productive?",
+          "nextSegment": "what_satisfies"
+        }
+      ]
+    },
+
+    "what_satisfies": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "Consultation. Before decisions are made, not after. The land reform review — there are families affected who have held that land for generations. The northern rail concession renewal — that decision affects four thousand jobs. These are not abstract policy questions. They are people."
+        }
+      ],
+      "choices": [
+        {
+          "id": "will_consider_this",
+          "text": "I will consider this.",
+          "nextSegment": "consider_response"
+        },
+        {
+          "id": "speak_with_stefan",
+          "text": "I will speak with your father directly.",
+          "nextSegment": "request_stefan"
+        }
+      ]
+    },
+
+    "appreciate_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "After Aleksei leaves. He is not his father."
+        }
+      ],
+      "choices": [
+        {
+          "id": "no_he_is_not",
+          "text": "No. He is not.",
+          "nextSegment": "vyktor_assessment_morvec"
+        }
+      ]
+    },
+
+    "tell_stefan": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "He will be glad to hear it. He thinks of you often, Chancellor. He hopes the work is going as you intended."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_he_leaves_1",
+          "text": "After he leaves.",
+          "nextSegment": "vyktor_assessment_morvec"
+        }
+      ]
+    },
+
+    "leave_office": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "Of course. Forgive the interruption. My father will be sorry he missed you."
+        }
+      ],
+      "monologue": "He smiles when I say leave. He was expecting it. They rehearsed for every response.",
+      "choices": [
+        {
+          "id": "after_he_leaves_2",
+          "text": "After he leaves.",
+          "nextSegment": "vyktor_assessment_morvec"
+        }
+      ]
+    },
+
+    "request_stefan": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "I will tell him. He will appreciate that. He has always believed that honest conversation prevents most problems. I think you and he understand each other better than either realizes."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_he_leaves_3",
+          "text": "After he leaves.",
+          "nextSegment": "vyktor_assessment_morvec"
+        }
+      ]
+    },
+
+    "not_negotiable": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "Of course not. My father would never suggest otherwise. He simply believes that good policy and the interests of those who have built this country can coexist. He has always found that they do, with the right government."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_he_leaves_4",
+          "text": "After he leaves.",
+          "nextSegment": "vyktor_assessment_morvec"
+        }
+      ]
+    },
+
+    "consider_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aleksei_morvec",
+          "text": "That is all anyone can ask. My father will be reassured."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_he_leaves_5",
+          "text": "After he leaves.",
+          "nextSegment": "vyktor_assessment_morvec"
+        }
+      ]
+    },
+
+    "vyktor_assessment_morvec": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Stefan sent the son because he wanted us to see the son. He is showing us what happens if we do not deal with him. The son is what happens."
+        }
+      ],
+      "choices": [
+        {
+          "id": "contact_stefan_directly",
+          "text": "Contact Stefan directly.",
+          "statEffects": [
+            { "stat": "morvecInfluence", "value": 5 }
+          ],
+          "flags": ["morvec_pressure_received", "morvec_contact_requested"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "calculating",
+              "text": "I will make the arrangements. He will suggest somewhere neutral. He always does."
+            }
+          ],
+          "journalEntry": {
+            "title": "The Son",
+            "category": "SECURITY",
+            "content": "Aleksei Morvec came today. Stefan sent him deliberately. The message was not what Aleksei said. The message was that Stefan no longer comes himself. Vyktor thinks Stefan is showing us the alternative. I think Vyktor is right again."
+          }
+        },
+        {
+          "id": "wait_see_next",
+          "text": "Wait. See what he does next.",
+          "statEffects": [
+            { "stat": "morvecInfluence", "value": -5 },
+            { "stat": "public_trust", "value": 3 }
+          ],
+          "flags": ["morvec_pressure_received", "morvec_waited"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "uncertain",
+              "text": "Waiting has costs too. But you may be right that showing urgency is worse."
+            }
+          ],
+          "journalEntry": {
+            "title": "The Son",
+            "category": "SECURITY",
+            "content": "I chose to wait. If Stefan Morvec wants a response he can come himself. I will not be managed through his son."
+          }
+        }
+      ]
+    }
+  }
+}

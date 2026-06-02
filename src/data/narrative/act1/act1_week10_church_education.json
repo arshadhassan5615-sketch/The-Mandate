@@ -1,53 +1,710 @@
 {
   "id": "act1_week10_church_education",
-  "title": "The Curriculum Dispute",
+  "title": "The Schools Question",
+  "location": "Justice Ministry — Conference Room",
+  "week": 10,
   "act": 1,
-  "weekAvailable": 10,
-  "weekDeadline": 12,
-  "type": "meeting",
-  "agendaCost": 1,
-  "isMandatory": false,
-  "location": "Archbishop's Study — Cathedral of Saint Aldric",
-  "characters": ["aldric_theron", "stanislov_renek"],
-  "prerequisites": [],
-  "narrative": [
+  "characters": [
+    "katerin_ashavel",
+    "aldric_theron",
+    "archbishop_renek",
+    "vyktor_reznik"
+  ],
+  "dialogue": [
     {
-      "type": "description",
-      "text": "The Archbishop's study is exactly what you expected and nothing like it at the same time. Books line every wall — theological texts, histories, legal commentaries in three languages. The fire is lit despite the mild weather. Aldric Theron is seated in an armchair that is too small for him, leaning forward, his hands describing something in the air that his words are apparently not capturing. Archbishop Renek is behind his desk. He is listening. Or performing listening. The distinction is the whole reason you are here."
+      "type": "narrative",
+      "text": "You hear them before you open the door. Theron is explaining something with his hands. Renek is asking questions that are not quite questions."
     },
     {
       "type": "dialogue",
-      "character": "stanislov_renek",
-      "text": "The curriculum as written presupposes certain conclusions about history."
+      "character": "archbishop_renek",
+      "text": "And you believe that's workable."
     },
     {
       "type": "dialogue",
       "character": "aldric_theron",
-      "text": "The curriculum as written presupposes evidence-based reasoning. That's different."
+      "text": "I believe it's right."
     },
     {
       "type": "dialogue",
-      "character": "stanislov_renek",
-      "text": "Is it."
-    },
-    {
-      "type": "description",
-      "text": "Not a question. Renek's tone has not changed — it is still warm, still grandfatherly — but the temperature of the room has dropped slightly. Theron pauses. The pause is longer than it needs to be."
+      "character": "archbishop_renek",
+      "text": "Those aren't the same thing."
     },
     {
       "type": "dialogue",
       "character": "aldric_theron",
-      "text": "Yes."
+      "text": "No. But one usually follows the other if you're patient."
     },
     {
-      "type": "description",
-      "text": "Renek notices you in the doorway before Theron does. His expression shifts — the argument is folded away, replaced by the practiced welcome of a man who has spent forty years receiving people in this room and knows exactly how long a silence should last before it becomes rude."
+      "type": "narrative",
+      "text": "Renek looks as though he does not believe that. He turns when you enter."
     },
     {
       "type": "dialogue",
-      "character": "stanislov_renek",
-      "text": "Chancellor. Your timing is excellent."
+      "character": "archbishop_renek",
+      "text": "Chancellor. Your timing is excellent. Aldric was just explaining why the Church should teach science."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I was explaining why the constitutional reform's education provisions apply to all schools receiving government funding. The Church schools receive government funding."
+    },
+    {
+      "type": "dialogue",
+      "character": "archbishop_renek",
+      "text": "A distinction without a difference, from where I'm sitting."
     }
   ],
-  "choices": []
+  "monologue": "Renek arrived early. That means he wanted time with Theron before I got here — time to understand the argument before he had to respond to it in front of me. A man who prepares that carefully is not inflexible. He's strategic. The question is what he actually wants and what the Church can live with.",
+
+  "choices": [
+    {
+      "id": "ask_theron_position",
+      "text": "Aldric — explain the constitutional requirement. Plainly.",
+      "nextSegment": "theron_explains"
+    },
+    {
+      "id": "ask_renek_objection",
+      "text": "Archbishop — what specifically is the Church's objection?",
+      "nextSegment": "renek_objection"
+    },
+    {
+      "id": "ask_scope",
+      "text": "How many students are we talking about? What's the actual scale?",
+      "nextSegment": "education_scope"
+    }
+  ],
+
+  "segments": {
+    "theron_explains": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "Article 14 of the constitutional reform draft requires that all institutions receiving state education funding deliver a curriculum that meets national standards in mathematics, natural sciences, history, and civic education. The Church operates two hundred and fourteen schools. They receive thirty-one million Krone annually in state funding. Therefore Article 14 applies to them."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The history curriculum is the point of contention. Our history curriculum covers the formation of the republic, the Halvek years, and the democratic transition. The Church's current history curriculum covers the same period differently."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "It covers it accurately."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "It covers it from a particular perspective. The national curriculum requires a different perspective to be included alongside."
+        }
+      ],
+      "choices": [
+        {
+          "id": "theron_ask_specifically",
+          "text": "What specifically does the Church's history curriculum say about the Halvek years?",
+          "nextSegment": "halvek_history_dispute"
+        },
+        {
+          "id": "theron_to_renek_response",
+          "text": "Archbishop — your response to that framing?",
+          "nextSegment": "renek_response_theron"
+        }
+      ]
+    },
+
+    "halvek_history_dispute": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The Church's curriculum describes the Halvek period as one of 'social stability maintained at moral cost.' The national curriculum draft describes it as 'authoritarian suppression of democratic rights.' Both are defensible characterizations. The law requires that students encounter both."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "The Church taught through that period. Our clergy were present in those years. We have a perspective that did not come from a university library."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "Which is precisely why the national curriculum requires it to be taught alongside the other perspectives. Not instead of them."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "You want to put a government document in our classrooms that tells our teachers what conclusions to draw."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The government document tells teachers what questions to ask. Not what conclusions to draw."
+        }
+      ],
+      "choices": [
+        {
+          "id": "halvek_ask_chancellor",
+          "text": "Archbishop — I'd like to hear your characterization of the Halvek period directly.",
+          "nextSegment": "renek_halvek_view"
+        },
+        {
+          "id": "halvek_to_compromise",
+          "text": "Is there language we can agree on?",
+          "nextSegment": "compromise_discussion"
+        }
+      ]
+    },
+
+    "renek_objection": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "The curriculum as written presupposes certain conclusions about history. About the Church's role in history specifically."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The curriculum presupposes evidence-based reasoning. That's different."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "Is it."
+        },
+        {
+          "type": "narrative",
+          "text": "Not a question."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "Yes."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "Faith is not the absence of evidence. It is a different relationship to evidence. The curriculum does not acknowledge that distinction. Our teachers notice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "objection_ask_faith_science",
+          "text": "Are you saying science and faith can't coexist in the same classroom?",
+          "nextSegment": "faith_science_question"
+        },
+        {
+          "id": "objection_to_what_church_wants",
+          "text": "What would the Church accept? What does acceptable look like?",
+          "nextSegment": "renek_what_he_wants"
+        }
+      ]
+    },
+
+    "faith_science_question": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "Of course they can coexist. They have coexisted in our schools for eighty years. What cannot coexist is the teaching of science as the only valid form of knowledge and the teaching of faith as a personal comfort that has no bearing on truth."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "Our objection is not to the curriculum's content. It is to its posture. The posture says: here is what we know. Faith is in a different column. That column is smaller."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The curriculum doesn't say that."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "It implies it. Our teachers read implications."
+        }
+      ],
+      "choices": [
+        {
+          "id": "faith_science_to_compromise",
+          "text": "That's a language problem, not a principles problem. Can we fix the language?",
+          "nextSegment": "compromise_discussion"
+        },
+        {
+          "id": "faith_science_to_theron",
+          "text": "Aldric — is the Archbishop right that the curriculum implies what he's saying?",
+          "nextSegment": "theron_honest_answer"
+        }
+      ]
+    },
+
+    "renek_halvek_view": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "The Halvek years were years in which the Church continued to baptize children, marry couples, bury the dead, and feed the poor. We did not endorse the regime. We did not resist it loudly. We made the calculation that presence was more valuable than martyrdom."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "Whether that calculation was correct is a question I have asked myself for forty years. I do not think it belongs in a school curriculum. I think it belongs in a confessor's study."
+        },
+        {
+          "type": "narrative",
+          "text": "Theron is very still. Vyktor is looking at his hands."
+        },
+        {
+          "type": "narrative",
+          "text": "You had not expected that."
+        }
+      ],
+      "choices": [
+        {
+          "id": "halvek_view_acknowledge",
+          "text": "I appreciate that honesty, Archbishop. It changes this conversation somewhat.",
+          "nextSegment": "renek_surprised_moment"
+        },
+        {
+          "id": "halvek_view_press",
+          "text": "Then you understand why the curriculum needs to address that period honestly.",
+          "nextSegment": "renek_response_theron"
+        }
+      ]
+    },
+
+    "renek_surprised_moment": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "Renek looks at you for a moment. Something in his expression that wasn't there before."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "My father was a schoolteacher."
+        },
+        {
+          "type": "narrative",
+          "text": "He says it to the middle distance. Not to you. Not to Theron."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "He taught in a village school for thirty-one years. Government curriculum. He taught whatever they told him to teach. He told me once that the curriculum changes but the children don't. The children are always the same."
+        },
+        {
+          "type": "narrative",
+          "text": "A pause. Then, briskly:"
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "What is the Chancellor proposing?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "renek_moment_to_compromise",
+          "text": "A compromise that lets the Church keep its voice in its schools without blocking the national standards. Let's find the language.",
+          "nextSegment": "compromise_discussion"
+        },
+        {
+          "id": "renek_moment_to_final",
+          "text": "I'm ready to decide.",
+          "nextSegment": "final_education_choice"
+        }
+      ]
+    },
+
+    "renek_what_he_wants": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "Three things. The history curriculum's references to Church conduct during the Halvek years use language that the Church and the ministry agree on jointly — not language the ministry drafts alone. The natural sciences curriculum includes an acknowledgment that questions of ultimate meaning fall outside its scope. And the civic education curriculum does not characterize religious practice as a private matter separate from civic life."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The first is possible. The second is technically accurate and I have no objection. The third is going to require a conversation."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "I'm having it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wants_ask_civic",
+          "text": "The third point — religion and civic life. Explain what you mean.",
+          "nextSegment": "civic_religion_debate"
+        },
+        {
+          "id": "wants_to_final",
+          "text": "I've heard what I need. Let me decide.",
+          "nextSegment": "final_education_choice"
+        }
+      ]
+    },
+
+    "civic_religion_debate": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "The draft curriculum treats religious belief as a personal, private matter — equivalent to a preference for music or food. The Church teaches that faith has public implications. That how we treat the poor, the sick, the stranger is a civic act informed by something larger than the state."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The curriculum doesn't prevent students from holding that view. It doesn't characterize it as wrong."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "It privatizes it. Which is the secular state's preferred way of neutralizing it."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "Or it respects it by declining to endorse any particular version of it. There are eleven registered faiths in Veltria."
+        },
+        {
+          "type": "narrative",
+          "text": "Renek is quiet for a moment. Then:"
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "That's the best argument you've made today."
+        }
+      ],
+      "choices": [
+        {
+          "id": "civic_to_compromise",
+          "text": "That sounds like something we can work with. Let's find the language.",
+          "nextSegment": "compromise_discussion"
+        },
+        {
+          "id": "civic_to_final",
+          "text": "I've heard enough.",
+          "nextSegment": "final_education_choice"
+        }
+      ]
+    },
+
+    "education_scope": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "Two hundred and fourteen Church schools. Sixty-seven thousand students. Thirty-one million Krone in annual state funding. The Church schools serve primarily rural areas and small towns — many of them are the only school within forty kilometers."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "That last point is relevant. If the Church withdraws from the funding agreement rather than adopt the curriculum, those students don't have an alternative government school to attend."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "I would not withdraw from the funding agreement. I want to be clear about that. But the situation you've described is accurate and you should understand it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "scope_to_objection",
+          "text": "Archbishop — what specifically does the Church object to?",
+          "nextSegment": "renek_objection"
+        },
+        {
+          "id": "scope_to_theron",
+          "text": "Aldric — given that context, is there room for adjustment?",
+          "nextSegment": "compromise_discussion"
+        }
+      ]
+    },
+
+    "theron_honest_answer": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The Archbishop is partially correct. The curriculum was drafted by academics who work in institutions where the secular framing is assumed. Some of the language could be read as dismissive of faith as a way of knowing."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "Whether that was intentional or simply the water academics swim in — I cannot say."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "It's the water. Which doesn't make it less wet."
+        }
+      ],
+      "choices": [
+        {
+          "id": "theron_honest_to_compromise",
+          "text": "Then let's fix the language. What needs to change?",
+          "nextSegment": "compromise_discussion"
+        }
+      ]
+    },
+
+    "renek_response_theron": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "The constitution is a document. Curricula are documents. They are useful and necessary. But a child's moral formation is not a document. It is a relationship — between the child and the teacher, the child and the family, the child and God. Documents regulate the relationship. They don't constitute it."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "No one is proposing to regulate moral formation. The curriculum covers mathematics, science, history, and civic education."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "The civic education curriculum covers values. Values are not separable from moral formation."
+        }
+      ],
+      "choices": [
+        {
+          "id": "response_to_compromise",
+          "text": "That's a genuine disagreement. Let's see if we can find language that addresses it.",
+          "nextSegment": "compromise_discussion"
+        },
+        {
+          "id": "response_to_final",
+          "text": "I've heard both sides. My decision.",
+          "nextSegment": "final_education_choice"
+        }
+      ]
+    },
+
+    "compromise_discussion": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "There is a practical path. The Church schools adopt the national curriculum standards in mathematics and natural sciences without modification. The history curriculum is jointly reviewed by the Justice Ministry and Church representatives — a six-month process. The civic education language is revised to acknowledge multiple frameworks for values formation."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The joint history review gives the Church a veto it shouldn't have over a national curriculum."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "It gives them a voice. Which is different."
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "A voice I would use carefully."
+        },
+        {
+          "type": "narrative",
+          "text": "The way he says 'carefully' is interesting."
+        }
+      ],
+      "choices": [
+        {
+          "id": "compromise_ask_renek_promise",
+          "text": "Archbishop — what does 'carefully' mean in practice?",
+          "nextSegment": "renek_carefully"
+        },
+        {
+          "id": "compromise_to_final",
+          "text": "I've heard enough to decide.",
+          "nextSegment": "final_education_choice"
+        }
+      ]
+    },
+
+    "renek_carefully": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "It means I am not interested in a curriculum that makes children ashamed of their faith. It does not mean I am interested in a curriculum that hides what happened during the Halvek years."
+        },
+        {
+          "type": "narrative",
+          "text": "A pause. Then, quietly:"
+        },
+        {
+          "type": "dialogue",
+          "character": "archbishop_renek",
+          "text": "The Church carries that period too. We are not asking for absolution from a history curriculum."
+        },
+        {
+          "type": "narrative",
+          "text": "Theron looks up from his notes. This is not what he expected from this meeting."
+        }
+      ],
+      "choices": [
+        {
+          "id": "carefully_to_final",
+          "text": "I believe that. Let me make the decision.",
+          "nextSegment": "final_education_choice"
+        }
+      ]
+    },
+
+    "final_education_choice": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "The three of them wait. Sixty-seven thousand students in two hundred and fourteen schools. Thirty-one million Krone. A history curriculum that everyone in this room carries differently."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Chancellor — the Assembly wants this resolved before the constitutional reform vote. We have four weeks."
+        }
+      ],
+      "monologue": "Renek said his father was a schoolteacher. He said it to no one in particular — not as a card to play but as a thing he needed to say. That tells me something about what he actually wants from this room. Theron wants the principle. Renek wants the Church to survive the next government without being diminished. Those are different things and they might both be achievable.",
+
+      "choices": [
+        {
+          "id": "full_curriculum_mandate",
+          "text": "Full curriculum mandate. The national standards apply to all funded schools without modification. The Church can supplement — it cannot substitute.",
+          "statEffects": [
+            {"stat": "reformist_credibility", "value": 8},
+            {"stat": "church_relations", "value": -10},
+            {"stat": "education_standard", "value": 12}
+          ],
+          "flags": ["education_full_mandate"],
+          "reactions": [
+            {
+              "character": "aldric_theron",
+              "type": "dialogue",
+              "text": "Constitutionally correct. Politically costly in the rural constituencies."
+            },
+            {
+              "character": "archbishop_renek",
+              "type": "action",
+              "text": "He nods. Once. It is not agreement. It is the nod of a man who knew this was possible and has already decided what to do with it."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "silence",
+              "text": "He writes something. You cannot see what."
+            }
+          ],
+          "journalEntry": {
+            "title": "Mandated Full National Curriculum",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "joint_review_path",
+          "text": "Accept Vyktor's compromise. Mathematics and sciences without modification. Joint history review with Church representatives. Revised civic language acknowledging multiple frameworks.",
+          "statEffects": [
+            {"stat": "reformist_credibility", "value": 2},
+            {"stat": "church_relations", "value": 5},
+            {"stat": "education_standard", "value": 5},
+            {"stat": "assembly_support", "value": 4}
+          ],
+          "flags": ["education_joint_review"],
+          "reactions": [
+            {
+              "character": "aldric_theron",
+              "type": "dialogue",
+              "text": "I can work within that framework. The joint review will be uncomfortable. That's not necessarily wrong."
+            },
+            {
+              "character": "archbishop_renek",
+              "type": "dialogue",
+              "text": "The Church will participate in good faith."
+            },
+            {
+              "character": "archbishop_renek",
+              "type": "action",
+              "text": "He says it looking at Theron. Not at you."
+            }
+          ],
+          "journalEntry": {
+            "title": "Accepted Education Compromise",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "church_exemption",
+          "text": "Grant Church schools an exemption from the history and civic components, with mandatory compliance on mathematics and sciences only. Revisit in two years.",
+          "statEffects": [
+            {"stat": "reformist_credibility", "value": -8},
+            {"stat": "church_relations", "value": 12},
+            {"stat": "education_standard", "value": -5},
+            {"stat": "assembly_conservative", "value": 8}
+          ],
+          "flags": ["education_church_exemption"],
+          "reactions": [
+            {
+              "character": "aldric_theron",
+              "type": "dialogue",
+              "text": "That's not constitutionally supportable under the reform draft. I want that noted."
+            },
+            {
+              "character": "archbishop_renek",
+              "type": "dialogue",
+              "text": "The Church is grateful for the consideration."
+            },
+            {
+              "character": "archbishop_renek",
+              "type": "action",
+              "text": "He says it carefully. Without warmth. As a man who has been given more than he expected and is not sure what it costs."
+            }
+          ],
+          "journalEntry": {
+            "title": "Granted Church Education Exemption",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "church_partnership",
+          "text": "Propose a formal Church-State education partnership. The Church implements the full curriculum and in return receives an expanded funding agreement and joint oversight of the history curriculum development process.",
+          "statEffects": [
+            {"stat": "reformist_credibility", "value": 3},
+            {"stat": "church_relations", "value": 10},
+            {"stat": "education_standard", "value": 8},
+            {"stat": "budget", "value": -5}
+          ],
+          "flags": ["education_partnership", "church_state_agreement"],
+          "reactions": [
+            {
+              "character": "archbishop_renek",
+              "type": "action",
+              "text": "He is quiet for longer than usual. Then he reaches into his folder and produces a document."
+            },
+            {
+              "character": "archbishop_renek",
+              "type": "dialogue",
+              "text": "I had something prepared along those lines. In case it came to this."
+            },
+            {
+              "character": "aldric_theron",
+              "type": "dialogue",
+              "text": "He came prepared. I should have expected that."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He almost smiles. Almost."
+            }
+          ],
+          "journalEntry": {
+            "title": "Established Church-State Education Partnership",
+            "category": "policy"
+          }
+        }
+      ]
+    }
+  }
 }

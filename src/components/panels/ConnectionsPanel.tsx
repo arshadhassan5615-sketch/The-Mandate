@@ -54,13 +54,16 @@ const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }
   },
 ]
 
-const CABINET_MEMBERS: { id: string; name: string; role: string; flag?: string }[] = [
+const CABINET_MEMBERS: { id: string; name: string; role: string; flag?: string; sceneRequired?: string }[] = [
   { id: 'character_vyktor_reznik', name: 'Vyktor Reznik', role: 'Chief of Staff' },
   { id: 'character_elara_vostane', name: 'Elara Vostane', role: 'Minister of Finance' },
   { id: 'character_gregor_maric', name: 'Gregor Marić', role: 'Minister of Labor & Welfare' },
   { id: 'character_irina_dusek', name: 'Col. Irina Dusek', role: 'Minister of Defense' },
   { id: 'character_aldric_theron', name: 'Prof. Aldric Theron', role: 'Minister of Justice' },
   { id: 'character_danika_oberlin', name: 'Danika Oberlin', role: 'Minister of the Interior' },
+  { id: 'character_stanislov_renek', name: 'Archbishop Renek', role: 'Religious Affairs Advisor', sceneRequired: 'act1_week10_church_education' },
+  { id: 'character_lucan_vael', name: 'Lucan Vael', role: 'Trade & Industry Liaison', sceneRequired: 'act1_week8_vael_offer' },
+  { id: 'character_stefan_morvec', name: 'Stefan Morvec', role: 'Patriarch — Morvec Holdings', flag: 'morvec_first_contact' },
   { id: 'character_maren_tovik', name: 'Maren Tovik', role: 'BCA Chief', flag: 'bca_created' },
   { id: 'character_viktor_dorne', name: 'Viktor Dorne', role: 'SSD Director', flag: 'ssd_created' },
 ]
@@ -161,11 +164,37 @@ function TabBar({ active, onSelect }: { active: TabId; onSelect: (id: TabId) => 
   )
 }
 
-function CabinetTab({ flags }: { flags: string[] }) {
+function CabinetTab({ flags, visitedSceneIds }: { flags: string[]; visitedSceneIds: string[] }) {
   const openCodex = useCodexStore(s => s.openCodex)
   const viewEntry = useCodexStore(s => s.viewEntry)
 
-  const visibleMembers = CABINET_MEMBERS.filter(m => !m.flag || flags.includes(m.flag))
+  const cabinetAppointed = visitedSceneIds.includes('act1_week2_cabinet_appointments')
+
+  const visibleMembers = CABINET_MEMBERS.filter(m => {
+    if (m.id === 'character_vyktor_reznik') return true
+    if (!cabinetAppointed) return false
+    if (m.flag && !flags.includes(m.flag)) return false
+    if (m.sceneRequired && !visitedSceneIds.includes(m.sceneRequired)) return false
+    return true
+  })
+
+  if (!cabinetAppointed) {
+    return (
+      <div style={{ overflowY: 'auto', flex: 1 }}>
+        <div style={{
+          textAlign: 'center',
+          padding: '40px 24px',
+          color: 'rgba(201,168,76,0.5)',
+          fontFamily: 'Georgia, serif',
+          fontSize: '14px',
+          fontStyle: 'italic',
+          lineHeight: 1.6,
+        }}>
+          The cabinet has not yet been formally appointed. Your ministers await confirmation.
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div style={{ overflowY: 'auto', flex: 1 }}>
@@ -385,7 +414,7 @@ interface ConnectionsPanelProps {
 
 export default function ConnectionsPanel({ onClose }: ConnectionsPanelProps) {
   const [tab, setTab] = useState<TabId>('cabinet')
-  const { activeFlags } = useNarrativeStore()
+  const { activeFlags, visitedSceneIds } = useNarrativeStore()
 
   return (
     <div style={{
@@ -416,7 +445,7 @@ export default function ConnectionsPanel({ onClose }: ConnectionsPanelProps) {
 
       <TabBar active={tab} onSelect={setTab} />
 
-      {tab === 'cabinet' && <CabinetTab flags={activeFlags} />}
+      {tab === 'cabinet' && <CabinetTab flags={activeFlags} visitedSceneIds={visitedSceneIds} />}
       {tab === 'factions' && <FactionsTab />}
       {tab === 'legislative' && <LegislativeTab />}
       {tab === 'judiciary' && <JudiciaryTab />}

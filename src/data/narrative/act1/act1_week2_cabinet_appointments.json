@@ -8,173 +8,830 @@
   "agendaCost": 1,
   "isMandatory": true,
   "location": "Cabinet Room — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
-      "text": "The cabinet room table seats twenty-two. Today there are two chairs occupied: yours, and Vyktor Reznik's across the table. Eleven manila folders are arranged in a row between you, each labeled with a ministerial title in the neat, impersonal hand of someone who has done this before."
+      "text": "The cabinet room is empty except for Vyktor. Nine chairs around a long table. A folder at each place. The folders are blank — no names yet. That's your job today."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "The coalition agreement locks in six appointments. The party leadership won't accept substitutions there without a fight you don't want in week two. The remaining five positions are your discretion. I've prepared candidate pairs for each. Decision needed today — parliament is watching the cabinet list like a weather report."
-    },
-    {
-      "type": "description",
-      "text": "He opens the first folder: Finance. Two photographs, two biographies, two sets of economic projections that lead to different futures."
+      "text": "Five key portfolios. Finance. Interior. Labor. Justice. Defense. Everyone else is supporting cast."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "Finance. Elara Vostane — Arcturian Institute trained, free-market orthodoxy, austerity before stimulus. She'll cut the deficit. She'll also cut everything attached to it. The workers' movement despises her on principle; the business community will calm down the moment they hear her name. The alternative is Mirko Selenko — solid technocrat, believes the deficit can be grown out of with targeted investment. Less ideological, more risk. He won't alarm anyone in either direction. Means he also won't move anyone."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "Interior. Danika Oberlin — former investigative journalist, BNI surveillance discovered by her personally, morally committed to abolishing it. She will be effective and she will be a problem whenever security considerations require something she considers a compromise with the past. The alternative is General-Adjutant Tomek Perov — career security official, technically non-partisan, former deputy director of counterintelligence. He was Halvek-era but not Halvek-aligned. The distinction matters, though your reform base will not accept it."
-    },
-    {
-      "type": "internal_thought",
-      "text": "Every pair is the same argument wearing different clothes: principle versus maneuver, conviction versus competence. The people who will suffer the consequences of these choices are not in this room."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "I've prepared four configurations that build internal coherence. Mixed cabinets can work — but they tend to spend their first year resolving disagreements the cabinet was designed to adjudicate. Pick a direction and staff for it. The country needs a government that knows what it's trying to do, even if it's the wrong thing."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "The four options. I'll describe them plainly: the reform coalition, the technocrat slate, the broad coalition, or the loyalist configuration. Each has a logic. Each has a cost."
-    },
-    {
-      "type": "description",
-      "text": "He sets a single sheet of paper in front of you. Four columns, four sets of names, four different governments. Outside the tall windows, Ashenmere is carrying on its business. It has not yet asked you to deliver anything. That begins the moment you sign."
+      "text": "I have candidates for each. Some of them are good. Some of them are loyal. A few are both. Where do you want to start?"
     }
   ],
-
-  "monologue": "Every pair is the same argument wearing different clothes: principle versus maneuver, conviction versus competence. Vostane will cut the deficit and everything attached to it. Oberlin will be effective and she will be a problem whenever security requires compromise. The people who will suffer the consequences of these choices are not in this room. Vyktor says pick a direction and staff for it — even if it's the wrong thing. The country needs a government that knows what it's trying to do.",
-
+  "monologue": "Nine chairs. Nine people who will sit in those chairs and argue with me and with each other for the next four years. Or less, if things go badly. Vyktor has his preferences. I have mine. The party has its expectations. The question is how many of those expectations I'm willing to meet.",
   "choices": [
     {
-      "id": "cabinet_reform",
-      "text": "\"The reform coalition. Vostane at Finance, Oberlin at Interior, Marić at Labor, Theron at Justice, Dusek at Defense. We govern from our platform and we accept the fight that comes with it.\"",
-      "internalTag": "reformist",
-      "stateChanges": [
-        { "stat": "factions.reformists",      "operation": "add", "value": 8   },
-        { "stat": "factions.workersCoalition","operation": "add", "value": 6   },
-        { "stat": "nation.civilLiberties",    "operation": "add", "value": 5   },
-        { "stat": "factions.businessClass",   "operation": "add", "value": -5  },
-        { "stat": "factions.halvekists",      "operation": "add", "value": -4  },
-        { "stat": "personal.moralCompass",    "operation": "add", "value": 6   }
-      ],
-      "chainTriggers": [{ "targetNodeId": "mole_week2_plant", "delayWeeks": 0 }],
-      "flags": ["cabinet_appointed", "cabinet_reform", "minister_vostane", "minister_oberlin", "minister_maric", "minister_dusek", "minister_theron"],
-      "codexUnlocks": [],
-      "reactions": [
-        {
-          "character": "vyktor_reznik",
-          "type": "action",
-          "text": "He closes the folder. Not with finality — with transition. One government defined. The other three configurations go back into his briefcase."
-        },
-        {
-          "character": "vyktor_reznik",
-          "type": "dialogue",
-          "text": "Reform coalition. Every appointment carries a political cost. The cabinet will define the first year. I will notify the ministers-designate by noon."
-        }
-      ]
-    },
-    {
-      "id": "cabinet_technocrat",
-      "text": "\"The technocrat slate. Vostane at Finance. Perov at Interior with a civilian oversight mandate — he manages the security apparatus, Danika runs an independent review board above him. Competence in the key ministries, ideology in the supporting roles.\"",
+      "id": "start_finance",
+      "text": "Finance. That's where everything starts and ends.",
       "internalTag": "pragmatist",
-      "stateChanges": [
-        { "stat": "factions.businessClass",   "operation": "add", "value": 10  },
-        { "stat": "nation.economyHealth",     "operation": "add", "value": 2   },
-        { "stat": "factions.workersCoalition","operation": "add", "value": -6  },
-        { "stat": "factions.reformists",      "operation": "add", "value": -5  },
-        { "stat": "personal.publicImage",     "operation": "add", "value": 3   },
-        { "stat": "personal.moralCompass",    "operation": "add", "value": -5  }
-      ],
-      "chainTriggers": [{ "targetNodeId": "mole_week2_plant", "delayWeeks": 0 }],
-      "flags": ["cabinet_appointed", "cabinet_technocrat", "minister_vostane", "minister_perov", "minister_maric", "minister_dusek", "minister_theron"],
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
       "codexUnlocks": [],
-      "reactions": [
-        {
-          "character": "vyktor_reznik",
-          "type": "silence",
-          "text": "He does not react. The technocrat slate was the configuration he would have recommended if asked. He was not asked. He is noting that."
-        },
-        {
-          "character": "vyktor_reznik",
-          "type": "dialogue",
-          "text": "Perov will need a civilian oversight mandate in writing. Oberlin will need independence. The tension between them will be productive if managed. It will be destructive if ignored."
-        }
-      ]
+      "nextSegment": "finance_discussion",
+      "reactions": []
     },
     {
-      "id": "cabinet_coalition",
-      "text": "\"The broad coalition. We bring in one ex-VUF technocrat at an economic portfolio — not Interior, not Justice, but enough to signal we're a government of the whole nation. It costs us credibility with our base. It buys us parliamentary breathing room.\"",
-      "internalTag": "compromise",
-      "stateChanges": [
-        { "stat": "factions.halvekists",      "operation": "add", "value": 8   },
-        { "stat": "factions.businessClass",   "operation": "add", "value": 5   },
-        { "stat": "factions.reformists",      "operation": "add", "value": -10 },
-        { "stat": "factions.workersCoalition","operation": "add", "value": -3  },
-        { "stat": "personal.publicImage",     "operation": "add", "value": 4   },
-        { "stat": "personal.moralCompass",    "operation": "add", "value": -8  }
-      ],
-      "chainTriggers": [{ "targetNodeId": "mole_week2_plant", "delayWeeks": 0 }],
-      "flags": ["cabinet_appointed", "cabinet_coalition", "minister_vostane", "minister_oberlin", "minister_dusek", "minister_theron", "vuf_integrated"],
+      "id": "start_interior",
+      "text": "Interior. The BNI question will define us.",
+      "internalTag": "reformist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
       "codexUnlocks": [],
-      "reactions": [
-        {
-          "character": "vyktor_reznik",
-          "type": "action",
-          "text": "He opens a different folder — one that has clearly been waiting for this specific decision. The VUF integration file. It contains four pages of contingency notes that are about to become policy."
-        },
-        {
-          "character": "vyktor_reznik",
-          "type": "dialogue",
-          "text": "Broad coalition. Your reform base will be angry. The ex-VUF technocrat will be watched by both sides. Parliamentary breathing room is purchased at the cost of party unity. I will manage the press."
-        }
-      ]
+      "nextSegment": "interior_discussion",
+      "reactions": []
     },
     {
-      "id": "cabinet_loyalist",
-      "text": "\"The loyalist configuration. Everyone on the list comes from the movement. I want a Deputy Finance from the Workers' Coalition. I want Oberlin at Interior. I want Theron at Justice with full independence. We govern as what we said we were.\"",
-      "internalTag": "radical",
-      "stateChanges": [
-        { "stat": "factions.reformists",      "operation": "add", "value": 14  },
-        { "stat": "factions.workersCoalition","operation": "add", "value": 12  },
-        { "stat": "factions.businessClass",   "operation": "add", "value": -12 },
-        { "stat": "factions.halvekists",      "operation": "add", "value": -6  },
-        { "stat": "nation.civilLiberties",    "operation": "add", "value": 6   },
-        { "stat": "personal.moralCompass",    "operation": "add", "value": 12  }
-      ],
-      "chainTriggers": [
-        {
-          "targetNodeId": "act1_chain_vael_pressure",
-          "delayWeeks": 4
-        },
-        { "targetNodeId": "mole_week2_plant", "delayWeeks": 0 }
-      ],
-      "flags": ["cabinet_appointed", "cabinet_loyalist", "minister_vostane", "minister_oberlin", "minister_maric", "minister_dusek", "minister_theron", "workers_coalition_deputy"],
+      "id": "start_defense",
+      "text": "Defense. The Tyvaren situation is getting worse.",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
       "codexUnlocks": [],
-      "reactions": [
-        {
-          "character": "vyktor_reznik",
-          "type": "silence",
-          "text": "He does not close the binder. He looks at the loyalist column for a measured three seconds. The silence is an audit — he is calculating the governance cost of ideological purity and deciding whether to voice it. He does not."
-        },
-        {
-          "character": "vyktor_reznik",
-          "type": "dialogue",
-          "text": "Loyalist configuration. Maximum mandate. Minimum external trust. The business class will respond within the week. I recommend a public statement by day's end — something about competence over connections."
-        }
-      ]
+      "nextSegment": "defense_discussion",
+      "reactions": []
+    },
+    {
+      "id": "start_overview",
+      "text": "Give me the full picture. All portfolios, all candidates.",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "nextSegment": "full_overview",
+      "reactions": []
     }
-  ]
+  ],
+  "segments": {
+    "finance_discussion": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Two serious candidates. Elara Vostane — former Central Bank analyst. Precise. Apolitical. She sees the economy as a set of equations to be solved. She's usually right about the equations and usually wrong about the people who have to live inside them."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Alternative: Petr Kolvar. Twelve years in the Assembly. Knows how budgets pass through committee. He's a party man — loyal to whoever is in charge, which currently means loyal to you. That will last exactly as long as you're in charge."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_vostane_deficit",
+          "text": "What's Vostane's position on the deficit?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "vostane_detail",
+          "reactions": []
+        },
+        {
+          "id": "ask_kolvar_loyalty",
+          "text": "Kolvar — whose man was he before he was mine?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_detail",
+          "reactions": []
+        },
+        {
+          "id": "ask_vyktor_recommend_finance",
+          "text": "Who do YOU want at Finance, Vyktor?",
+          "internalTag": "personal",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "vyktor_finance_opinion",
+          "reactions": []
+        }
+      ]
+    },
+    "vostane_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "She thinks the deficit is structural, not cyclical. Meaning she'll want to cut before she spends. She'll present it as mathematics. She'll be right about the mathematics and you'll have to decide whether mathematics is enough."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "She also has no allies in the Assembly. That's an advantage — no one owns her. It's also a disadvantage — no one will fight for her budget proposals."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vostane_to_interior",
+          "text": "Good. Tell me about Interior.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_discussion",
+          "reactions": []
+        },
+        {
+          "id": "ask_kolvar_after_vostane",
+          "text": "And Kolvar? What would he do differently?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_detail",
+          "reactions": []
+        }
+      ]
+    },
+    "kolvar_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Kolvar was Halvek's budget committee chair for the last three years. Before that he was nobody. He learned how the system works by serving it. He knows which Assembly members can be bought with road projects and which ones need something bigger."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He's not brilliant. He's effective. There's a difference and it matters more than most people think."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kolvar_to_interior",
+          "text": "Understood. What about Interior?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_discussion",
+          "reactions": []
+        },
+        {
+          "id": "kolvar_concern",
+          "text": "A Halvek man at my Finance Ministry. That sends a message I'm not sure I want to send.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_pushback",
+          "reactions": []
+        }
+      ]
+    },
+    "kolvar_pushback": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "It sends the message that you're practical. That you'll use the tools that work regardless of who built them. Some people will respect that. Others will call it compromise."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The question you should be asking is: do you need the Assembly more than you need a clean image? Because the answer to that question decides half this cabinet."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pushback_to_interior",
+          "text": "Let's talk about Interior.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_discussion",
+          "reactions": []
+        }
+      ]
+    },
+    "vyktor_finance_opinion": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Vostane. She'll make you uncomfortable and she'll be right more often than not. That's what you want from a Finance Minister. You don't want a friend at Finance. You want someone who tells you the number even when the number is bad."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vyktor_opinion_to_interior",
+          "text": "Noted. Let's discuss Interior.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_discussion",
+          "reactions": []
+        }
+      ]
+    },
+    "interior_discussion": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Interior is the dangerous one. Whoever sits in that chair controls the BNI — or disbands it. Two candidates."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Danika Oberlin. Civil rights advocate. Fifteen years documenting BNI abuses. She will push for dissolution on day one. She's principled. She's also relentless. You should know that about her before you put her in the room."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Alternative: General Perov. Military intelligence background. He'd keep the BNI but restructure it under civilian oversight. He believes in the apparatus — he just thinks Halvek used it wrong."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_oberlin_risk",
+          "text": "If Oberlin dissolves the BNI, what happens to the agents?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_detail",
+          "reactions": []
+        },
+        {
+          "id": "ask_perov_trust",
+          "text": "Perov — can he be trusted not to become the next Halvek?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "perov_detail",
+          "reactions": []
+        },
+        {
+          "id": "skip_to_final",
+          "text": "I've heard enough. I know what I want.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "final_cabinet_decision",
+          "reactions": []
+        }
+      ]
+    },
+    "oberlin_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Some go home. Some get absorbed into regular police. Some disappear and do the same work for someone else — just not for us. That's the risk. You disband the apparatus and the apparatus doesn't cease to exist. It just stops being yours."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Oberlin knows this. She'll tell you it's worth the risk. She might be right."
+        }
+      ],
+      "choices": [
+        {
+          "id": "oberlin_to_defense",
+          "text": "What about Defense?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "defense_discussion",
+          "reactions": []
+        },
+        {
+          "id": "oberlin_to_final",
+          "text": "I've heard enough to decide.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "final_cabinet_decision",
+          "reactions": []
+        }
+      ]
+    },
+    "perov_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He served under Halvek. He also disagreed with Halvek — quietly, carefully, in ways that kept his career intact. You can read that two ways. Either he's a principled man who survived a bad regime, or he's a man who's very good at appearing principled when it's convenient."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I've known him for twelve years. I still don't know which one he is."
+        }
+      ],
+      "choices": [
+        {
+          "id": "perov_to_defense",
+          "text": "Defense. Tell me about Dusek.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "defense_discussion",
+          "reactions": []
+        },
+        {
+          "id": "perov_to_final",
+          "text": "I've heard enough.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "final_cabinet_decision",
+          "reactions": []
+        }
+      ]
+    },
+    "defense_discussion": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Defense is straightforward. Colonel Irina Dusek. She's the only serious candidate. Decorated. Respected by the rank and file. No political ambitions — she finds politics distasteful, which is either her best quality or her worst depending on the week."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Tyvaren border is her priority. She's been writing reports about northern defense gaps for three years. Nobody read them. She'd like someone to start reading them."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_dusek_tyvaren",
+          "text": "How serious is the Tyvaren situation in her assessment?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_assessment",
+          "reactions": []
+        },
+        {
+          "id": "dusek_to_final",
+          "text": "I know what I need to know. Let me decide.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "final_cabinet_decision",
+          "reactions": []
+        }
+      ]
+    },
+    "dusek_assessment": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "She thinks we have eighteen months before Tyvaren tests us seriously. Not a full invasion — a provocation. A border incident designed to see how we respond. She wants to be ready before they decide to find out."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dusek_to_final",
+          "text": "Alright. I've heard enough about everyone. Let me decide.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "final_cabinet_decision",
+          "reactions": []
+        }
+      ]
+    },
+    "full_overview": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Finance: Vostane or Kolvar. Interior: Oberlin or Perov. Labor: Marić or Vane — the unions will fight you if you pick the wrong one. Justice: Theron or Garachi — idealist versus institutionalist. Defense: Dusek or Brenner — professional soldier or Iron Covenant insider."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The real decision is Finance and Interior. Everything else falls into place around those two."
+        }
+      ],
+      "choices": [
+        {
+          "id": "overview_finance",
+          "text": "Tell me more about the Finance candidates.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "finance_discussion",
+          "reactions": []
+        },
+        {
+          "id": "overview_interior",
+          "text": "Tell me more about the Interior candidates.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_discussion",
+          "reactions": []
+        },
+        {
+          "id": "overview_to_final",
+          "text": "I know these people. Let me decide.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "final_cabinet_decision",
+          "reactions": []
+        }
+      ]
+    },
+    "final_cabinet_decision": {
+      "narrative": [
+        {
+          "type": "narrative",
+          "text": "You have heard the arguments. You know the strengths and the liabilities. Now you must draw the lines and form the government that will carry your mandate. Vyktor opens a fresh page in his ledger."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Five portfolios, Chancellor. Let's go through them one by one — no more deliberation. We start with Finance. Everything else follows from what you decide here."
+        }
+      ],
+      "choices": [
+        {
+          "id": "start_handpick_finance",
+          "text": "Finance first. Who sits in that chair defines what's possible for every other ministry.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "pick_finance",
+          "reactions": []
+        }
+      ]
+    },
+    "pick_finance": {
+      "narrative": [
+        {
+          "type": "narrative",
+          "text": "Vyktor slides the Finance folder to the top of the stack. Two names. Two very different visions for the Republic's treasury."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Elara Vostane — former Central Bank analyst. She will cut before she spends. She will tell you numbers you don't want to hear. She will be right about those numbers and wrong about the politics. Petr Kolvar — Assembly veteran, twelve years on the budget committee. He knows how to pass a budget because he's passed a hundred of them. He's effective, not brilliant. He was Halvek's man. He could be yours."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pick_finance_vostane",
+          "text": "Appoint Elara Vostane. I want an economist who tells me the truth, not what I want to hear.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -3 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 3 },
+            { "stat": "nation.corruption", "operation": "add", "value": -3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_finance_vostane"],
+          "codexUnlocks": [],
+          "nextSegment": "pick_interior",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "The markets will approve. The Assembly will not. A fair trade, for now. Vostane it is."
+            }
+          ]
+        },
+        {
+          "id": "pick_finance_kolvar",
+          "text": "Appoint Petr Kolvar. He knows the Assembly and he knows how to get things done.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.halvekists", "operation": "add", "value": 5 },
+            { "stat": "factions.reformists", "operation": "add", "value": -5 },
+            { "stat": "nation.corruption", "operation": "add", "value": 3 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_finance_kolvar"],
+          "codexUnlocks": [],
+          "nextSegment": "pick_interior",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Kolvar. Practical. The old guard will see this as a signal that you can be worked with. The reformers will see it as a signal that you can be bought. You will have to prove both of them wrong."
+            }
+          ]
+        }
+      ]
+    },
+    "pick_interior": {
+      "narrative": [
+        {
+          "type": "narrative",
+          "text": "Vyktor makes a note and moves to the next folder. Interior. The ministry that controls the BNI — or dismantles it. This choice will echo through every province in the Republic."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Danika Oberlin — civil rights advocate. Fifteen years documenting BNI abuses. She will push for dissolution on day one. She's relentless. She's principled. She'll make enemies you can't afford to have. General Perov — military intelligence. He'd keep the apparatus but restructure it. Civilian oversight, strict limits. He believes the BNI should exist. He just thinks Halvek used it wrong."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pick_interior_oberlin",
+          "text": "Appoint Danika Oberlin. The BNI must be dismantled, and I want someone who won't flinch.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 7 },
+            { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+            { "stat": "nation.pressFreedom", "operation": "add", "value": 3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_interior_oberlin"],
+          "codexUnlocks": [],
+          "nextSegment": "pick_labor",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Oberlin. She will not thank you for this appointment — she will tell you it is overdue. Then she will get to work. The BNI will not go quietly."
+            }
+          ]
+        },
+        {
+          "id": "pick_interior_perov",
+          "text": "Appoint General Perov. Restructure the BNI — don't burn it down.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
+            { "stat": "factions.reformists", "operation": "add", "value": -4 },
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 2 },
+            { "stat": "nation.civilLiberties", "operation": "add", "value": -3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_interior_perov"],
+          "codexUnlocks": [],
+          "nextSegment": "pick_labor",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Perov. The apparatus survives — under new management. The reformers will call it a betrayal. The security establishment will call it prudence. Both will watch you more carefully now."
+            }
+          ]
+        }
+      ]
+    },
+    "pick_labor": {
+      "narrative": [
+        {
+          "type": "narrative",
+          "text": "Vyktor turns to the Labor folder. The unions are watching. The factories are watching. Half the Republic's workforce has an opinion on this appointment and they are not shy about expressing it."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Gregor Marić is the union choice — has been for a decade. He will push for higher wages, stronger protections, shorter hours. He will fight you when you need him to fight the factory owners instead. Tomas Vane takes a different approach. He negotiated the last three industry-wide contracts from the management side. The unions will hate him. The factories won't strike. Choose your poison."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pick_labor_maric",
+          "text": "Appoint Gregor Marić. The workers deserve a voice at the table — a loud one.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+            { "stat": "factions.businessClass", "operation": "add", "value": -6 },
+            { "stat": "nation.unemployment", "operation": "add", "value": -2 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": -2 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_labor_maric"],
+          "codexUnlocks": [],
+          "nextSegment": "pick_justice",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Marić. The unions will celebrate tonight. The factory owners will start moving money. Be prepared for both."
+            }
+          ]
+        },
+        {
+          "id": "pick_labor_vane",
+          "text": "Appoint Tomas Vane. I need someone who can negotiate, not agitate.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.businessClass", "operation": "add", "value": 6 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -7 },
+            { "stat": "nation.corruption", "operation": "add", "value": 2 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_labor_vane"],
+          "codexUnlocks": [],
+          "nextSegment": "pick_justice",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Vane. The factories stay open. The unions will call it a betrayal. They will be louder about it than the factory owners would have been about Marić. That is the asymmetry of power."
+            }
+          ]
+        }
+      ]
+    },
+    "pick_justice": {
+      "narrative": [
+        {
+          "type": "narrative",
+          "text": "Justice is the quiet ministry. It does not command armies or collect taxes. But whoever holds this portfolio will oversee the courts that interpret your constitutional reforms — or block them."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Professor Aldric Theron — legal scholar, constitutional expert. The man who drafted the reform framework. He believes the law should serve the people, not the other way around. Heron Garachi — twenty years on the High Court. He knows every judge in the country by name. He believes the law IS the system and the system works if you respect it. He will not appreciate reforms that move too fast."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pick_justice_theron",
+          "text": "Appoint Prof. Aldric Theron. The constitutional reforms need a true believer at Justice.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 7 },
+            { "stat": "factions.halvekists", "operation": "add", "value": -6 },
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 4 },
+            { "stat": "nation.corruption", "operation": "add", "value": -3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_justice_theron"],
+          "codexUnlocks": [],
+          "nextSegment": "pick_defense",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Theron. He will write opinions that make you uncomfortable and he will be right. That is what you want from a Justice Minister. The High Court will resist. They always do."
+            }
+          ]
+        },
+        {
+          "id": "pick_justice_garachi",
+          "text": "Appoint Heron Garachi. The courts must be stable while we reform — not in chaos.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.halvekists", "operation": "add", "value": 6 },
+            { "stat": "factions.reformists", "operation": "add", "value": -5 },
+            { "stat": "nation.corruption", "operation": "add", "value": 3 },
+            { "stat": "nation.civilLiberties", "operation": "add", "value": -2 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_justice_garachi"],
+          "codexUnlocks": [],
+          "nextSegment": "pick_defense",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Garachi. The judiciary will breathe easier. They know him. They trust him. The question is whether they trust him to preserve their power rather than reform it — and whether you want them to."
+            }
+          ]
+        }
+      ]
+    },
+    "pick_defense": {
+      "narrative": [
+        {
+          "type": "narrative",
+          "text": "The last folder. Defense. The Iron Covenant has made their preferences known — loudly, publicly, and with barely veiled threats. This appointment will be read as a measure of your relationship with the military."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Colonel Irina Dusek. Decorated. Respected by the rank and file. No political ambitions — she finds politics distasteful. The Tyvaren border is her obsession and she's been right about it for years. General Oskar Brenner — Iron Covenant leadership. He commands loyalty from the officer corps. He will demand a larger military budget, a harder line on Tyvaren, and a seat at every decision table. He will be difficult. He will also keep the Covenant from doing something worse than being difficult."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pick_defense_dusek",
+          "text": "Appoint Col. Irina Dusek. I want a professional soldier, not a political general.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 4 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 3 },
+            { "stat": "nation.corruption", "operation": "add", "value": -2 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_defense_dusek"],
+          "codexUnlocks": [],
+          "nextSegment": "cabinet_handpick_aftermath",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Dusek. She will read your reports and write her own. The Covenant will be furious. Let them be. A furious general is better than a complacent one."
+            }
+          ]
+        },
+        {
+          "id": "pick_defense_brenner",
+          "text": "Appoint Gen. Oskar Brenner. Keep the Iron Covenant inside the tent.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+            { "stat": "factions.reformists", "operation": "add", "value": -5 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -4 },
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 }
+          ],
+          "chainTriggers": [],
+          "flags": ["minister_defense_brenner"],
+          "codexUnlocks": [],
+          "nextSegment": "cabinet_handpick_aftermath",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Brenner. You just bought peace with the military. The price will come due later. It always does with the Covenant. But for now — they are inside the tent."
+            }
+          ]
+        }
+      ]
+    },
+    "cabinet_handpick_aftermath": {
+      "narrative": [
+        {
+          "type": "narrative",
+          "text": "Vyktor closes the ledger. Five names written in ink — no more pencil. He reviews the list in silence, then looks up at you with an expression that is not quite approval and not quite concern."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "A bespoke cabinet, Chancellor. Chosen minister by minister. No one can say you didn't think about each choice. The question is whether they can work together — and whether they can work with you."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I'll have the official appointments drafted within the hour. By morning, every newspaper in the Republic will be writing about who sits in these chairs — and who doesn't. I suggest we be ready for the reaction."
+        },
+        {
+          "type": "narrative",
+          "text": "He stands, straightens his jacket, and pauses at the door. There is something unreadable in his expression — trust, perhaps. Or the beginning of it."
+        }
+      ],
+      "nextSegment": "scene_end"
+    }
+  }
 }

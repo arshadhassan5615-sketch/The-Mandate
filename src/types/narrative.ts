@@ -39,9 +39,16 @@ export interface SceneChoice {
   stateChanges: StateModifier[]
   chainTriggers: ChainTrigger[]
   nextNodeId?: string                       // explicit transition; bypasses auto-advance
+  nextSegment?: string                      // transition to a branch within the same scene
   flags: string[]                           // boolean flags set on pick
   codexUnlocks: string[]
   reactions?: ChoiceReaction[]              // micro-reactions from present characters
+}
+
+export interface NarrativeSegmentSet {
+  narrative: NarrativeSegment[]
+  choices: SceneChoice[]
+  monologue?: string
 }
 
 export type SceneType = 'meeting' | 'event' | 'crisis' | 'personal' | 'diplomacy' | 'emergency' | 'social_event'
@@ -77,6 +84,7 @@ export interface NarrativeNode {
   exclusive?: string[]
   narrative: NarrativeSegment[]
   choices: SceneChoice[]
+  segments?: Record<string, NarrativeSegmentSet>
   monologue?: string
   socialInteractions?: SocialInteraction[]
 }

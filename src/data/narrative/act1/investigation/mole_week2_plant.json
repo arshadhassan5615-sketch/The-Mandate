@@ -39,5 +39,28 @@
       "type": "internal_thought",
       "text": "The Gazette piece. Now Cole requesting a meeting four days into my term. Either my government leaks like a sieve or Cole has the best intelligence operation in the hemisphere. The first is more likely. The second is more dangerous. Both are possible."
     }
+  ],
+
+  "choices": [
+    {
+      "id": "mole_w2_accept_meeting",
+      "text": "\"Schedule the meeting. Sooner rather than later. If Cole wants to talk four days into my term, I want to know what he knows — and what he thinks he knows. Vyktor, sit in on it. I want your read on everything he doesn't say.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": ["cole_meeting_accepted", "mole_investigation_active"],
+      "codexUnlocks": []
+    },
+    {
+      "id": "mole_w2_decline_meeting",
+      "text": "\"Tell the ambassador I look forward to meeting him — in the protocol window. Four days into my term, I have a BNI to dissolve and a budget to pass. Cole can wait his turn like everyone else. If he's trying to send a message, he just got mine.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["cole_meeting_declined", "mole_investigation_active"],
+      "codexUnlocks": []
+    }
   ]
 }

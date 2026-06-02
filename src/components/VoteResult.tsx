@@ -486,6 +486,8 @@ const overlayStyle: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   padding: '2rem',
+  paddingTop: '48px',
+  paddingRight: '60px',
 }
 
 const panelStyle: React.CSSProperties = {

@@ -208,6 +208,34 @@ export default function MorningBriefing() {
   const letterStore = useLetterStore()
 
   const headlines = selectHeadlines(gameState, activeFlags)
+
+  // Fallback headlines for Week 1 — news hasn't been generated yet
+  const displayHeadlines = headlines.length > 0 ? headlines : (currentWeek === 1 ? [
+    {
+      id: 'wk1_economy',
+      headline: 'Kravenstal Steel Output Falls 8% — Vael-Kross Seeks Finance Ministry Meeting',
+      subline: 'Steel output in Kravenstal fell eight percent last quarter. Vael-Kross Holdings has requested a meeting with the Finance Ministry. They will want concessions. I recommend we hear them out before deciding what to offer.',
+      newspaper: 'herald',
+      category: 'economy',
+      weekNumber: 1,
+    },
+    {
+      id: 'wk1_foreign',
+      headline: 'Morivask Crisis Deepens — 47,000 Refugees Registered in Veltria',
+      subline: 'The Morivask situation continues. Forty-seven thousand refugees are now registered in Veltria. The Asturien Forum vote on peacekeeping authorization is expected this week. The Orythian Dominion is expected to veto. This will become your problem regardless of how the vote goes.',
+      newspaper: 'standard',
+      category: 'foreign',
+      weekNumber: 1,
+    },
+    {
+      id: 'wk1_security',
+      headline: 'Tyvaren Border Incident — Patrol Crosses, Retreats Before Engagement',
+      subline: 'There was an incident on the Tyvaren border overnight. A patrol crossing — they turned back before our forces engaged. Colonel Dusek\'s assessment is in your secure briefing. I suggest you read it before the week is out.',
+      newspaper: 'dispatch',
+      category: 'military',
+      weekNumber: 1,
+    },
+  ] as NewsItem[] : [])
   const urgentCount = agendaPool.filter(a => a.isUrgent).length
   const vyktorLines = generateVyktorOpening(currentWeek, headlines, forcedChainIds.length, urgentCount)
 
@@ -240,17 +268,16 @@ export default function MorningBriefing() {
   }
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)' }}>
+    <div className="flex flex-col h-screen w-screen fixed inset-0" style={{ zIndex: 1, background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}>
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
-      <div className="shrink-0 flex items-center justify-between px-8 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
+      <div className="shrink-0 flex items-center px-8 py-3 border-b" style={{ borderColor: 'var(--border)', maxWidth: 'calc(100% - 200px)' }}>
         <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
-        <span className="stamp">Week {currentWeek} of 52 · Morning Briefing</span>
       </div>
 
       {/* ── Scrollable body ───────────────────────────────────────────────── */}
       <div
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-hidden overflow-y-auto"
         style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}
       >
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '2.5rem 2rem 2rem' }}>
@@ -272,6 +299,27 @@ export default function MorningBriefing() {
               ))}
             </div>
           </div>
+
+          {/* Headlines */}
+          {headlines.length > 0 && (
+            <div style={{ marginBottom: '2.5rem' }}>
+              <SectionHeader label={`Overnight Headlines — ${headlines.length} item${headlines.length !== 1 ? 's' : ''}`} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                {headlines.map((h, i) => (
+                  <div key={h.id}>
+                    <NewsCard item={h} />
+                    {i < headlines.length - 1 && (
+                      <div style={{
+                        height: '1px',
+                        background: 'linear-gradient(90deg, transparent, rgba(200,144,42,0.25), transparent)',
+                        marginTop: '1.2rem',
+                      }} />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Diplomatic correspondence notification */}
           {newLettersThisWeek.length > 0 && (
@@ -329,7 +377,7 @@ export default function MorningBriefing() {
       {/* ── Footer ───────────────────────────────────────────────────────── */}
       <div
         className="shrink-0 flex items-center justify-between px-8 py-4 border-t"
-        style={{ borderColor: 'var(--border)' }}
+        style={{ borderColor: 'var(--border)', paddingRight: '70px' }}
       >
         <span className="stamp" style={{ color: 'var(--muted)' }}>
           Review the briefing, then read the press summary
@@ -337,7 +385,7 @@ export default function MorningBriefing() {
         <button
           className="choice-btn"
           onClick={() => { playStamp(); endBriefing() }}
-          style={{ width: 'auto', minWidth: '220px' }}
+          style={{ width: 'auto', minWidth: '220px', whiteSpace: 'nowrap', overflow: 'visible', padding: '0.65rem 1.5rem' }}
         >
           Continue to Press Summary →
         </button>

@@ -392,7 +392,7 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
             {[
               ['Population', `${(province.population / 1000).toFixed(0)}k`],
               ['Population Rank', `${province.populationRanking} of 6`],
-              ['GDP', `${province.gdp}M VK`],
+              ['GDP', `${province.gdp}M ₭`],
               ['GDP Rank', `${province.gdpRanking} of 6`],
               ['Dominant Faction', province.dominantFaction],
               ['Key Industry', province.keyIndustry],

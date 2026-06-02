@@ -15,8 +15,24 @@ export const SCENE_REGISTRY = new Map<string, NarrativeNode>(
   ALL_SCENES.map(s => [s.id, s]),
 )
 
+if (import.meta.env.DEV) {
+  console.log(`[NarrativeEngine] Loaded ${ALL_SCENES.length} scenes into registry`)
+  // Log any duplicate scene IDs
+  const ids = ALL_SCENES.map(s => s.id)
+  const dupes = ids.filter((id, i) => ids.indexOf(id) !== i)
+  if (dupes.length > 0) console.warn('[NarrativeEngine] DUPLICATE SCENE IDs:', [...new Set(dupes)])
+  // Log any scenes missing IDs
+  const missing = ALL_SCENES.filter(s => !s.id)
+  if (missing.length > 0) console.warn('[NarrativeEngine] SCENES MISSING IDs:', missing.length)
+}
+
 export function getScene(id: string): NarrativeNode | undefined {
-  return SCENE_REGISTRY.get(id)
+  const scene = SCENE_REGISTRY.get(id)
+  if (!scene) {
+    console.error('[NarrativeEngine] SCENE NOT FOUND:', id)
+    console.error('[NarrativeEngine] AVAILABLE SCENES:', [...SCENE_REGISTRY.keys()].slice(0, 20))
+  }
+  return scene
 }
 
 /**
@@ -41,10 +57,11 @@ export function getNextAvailableScene(
 
 /** Filters choices whose optional `conditions` array all pass. */
 export function getAvailableChoices(
-  scene: NarrativeNode,
+  scene: NarrativeNode | undefined,
   state: GameState,
   flags: string[],
 ): SceneChoice[] {
+  if (!scene?.choices) return []
   return scene.choices.filter(
     c => !c.conditions || evaluateAll(c.conditions, state, flags),
   )

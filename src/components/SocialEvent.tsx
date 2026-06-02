@@ -361,7 +361,7 @@ export default function SocialEvent() {
   }, [interactions])
 
   return (
-    <div className="fixed inset-0 z-[90] flex flex-col" style={{ background: atmosphere.bg }}>
+    <div className="fixed inset-0 z-[90] flex flex-col" style={{ background: atmosphere.bg, paddingTop: '48px', paddingRight: '60px' }}>
       {/* Vignette overlay */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: atmosphere.vignette, zIndex: 1 }} />
 

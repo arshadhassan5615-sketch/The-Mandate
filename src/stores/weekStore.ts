@@ -22,6 +22,8 @@ import { useLetterStore } from './letterStore'
 import { generateDiaryEntry } from '../engine/DiaryEngine'
 import { generateCliffhanger } from '../engine/CliffhangerEngine'
 import { DIVERGENT_ARTICLES } from '../data/newspapers/divergent_coverage'
+import { useCabinetStore } from './cabinetStore'
+import { generateWeeklyRequests } from '../data/ministerRequests'
 
 // Load all agenda pool JSON files at build time.
 // Each file exports an AgendaItem[].
@@ -208,6 +210,12 @@ interface WeekStore {
   completeWeek:      () => void     // advance week counter → new week
   radioOpen: boolean
   setRadioOpen: (open: boolean) => void
+
+  // Cabinet
+  showCabinetFormation: boolean
+  showCabinetMeeting: boolean
+  triggerCabinetFormation: () => void
+  dismissCabinetMeeting: () => void
 }
 
 export const useWeekStore = create<WeekStore>((set, get) => ({
@@ -232,6 +240,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   gateMessage: null,
   radioOpen: false,
 
+  showCabinetFormation: false,
+  showCabinetMeeting: false,
+
+  triggerCabinetFormation: () => set({ showCabinetFormation: true }),
+  dismissCabinetMeeting: () => set({ showCabinetMeeting: false }),
+
   startCustomization: () => {
     // Full state reset for a clean new game
     useGameStore.getState().resetToInitial()
@@ -249,6 +263,17 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     })
     useChainStore.setState({ scheduled: [] })
     useNewsStore.setState({ articles: [], isOpen: false, lastReadIndex: -1 })
+    useCabinetStore.setState({
+      ministers: {
+        finance: null, interior: null, defense: null, justice: null,
+        labor: null, foreign_affairs: null, education: null, health: null,
+        development: null, resources: null,
+      },
+      formation_complete: false,
+      formation_week: null,
+      pending_requests: [],
+      completed_requests: [],
+    })
     set({
       phase: 'customization',
       agendaPool: [],
@@ -262,6 +287,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       transitionLabel: '',
       pendingMidpointProjectId: null,
       showTermReport: false,
+      showCabinetFormation: false,
+      showCabinetMeeting: false,
       voteConfig: null,
       voteResult: null,
       gateBlocked: false,
@@ -301,6 +328,20 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       }
     }
 
+    // Cabinet — generate minister requests for the week
+    const cabinetStore = useCabinetStore.getState()
+    let showMeeting = false
+    if (cabinetStore.formation_complete) {
+      const newRequests = generateWeeklyRequests(
+        gameState.currentWeek,
+        cabinetStore.ministers
+      )
+      if (newRequests.length > 0) {
+        newRequests.forEach(req => cabinetStore.addRequest(req))
+        showMeeting = true
+      }
+    }
+
     // Auto-select mandatory items
     const mandatoryItems = pool.filter(item => item.isMandatory)
     const mandatoryIds = mandatoryItems.map(item => item.id)
@@ -308,7 +349,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // Note: forcedChainIds is NOT reset here — it is set by completeWeek before initWeek runs.
     // On first load (GameLayout mount), forcedChainIds stays [] from initial state.
     set({
-      phase:        'briefing',
+      phase:        showMeeting ? 'scene' : 'briefing',
       agendaPool:   pool,
       selectedIds:  mandatoryIds,
       slotsUsed:    mandatoryCost,
@@ -320,6 +361,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       voteResult: null,
       transitionLabel: '',
       transitionWeek: null,
+      showCabinetMeeting: showMeeting,
     })
   },
 
@@ -448,7 +490,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     } else if (first.sceneId?.startsWith('__project__')) {
       useNarrativeStore.getState().loadScene(first.sceneId)
       set({ ...base, phase: 'scene' })
+    } else if (first.sceneId?.startsWith('act1_week2_cabinet')) {
+      set({ ...base, phase: 'scene', showCabinetFormation: true })
     } else {
+      console.log('[confirmAgenda] Loading scene:', first.sceneId, 'from item:', first.id, 'title:', first.title)
       useNarrativeStore.getState().loadScene(first.sceneId)
       set({ ...base, phase: 'scene' })
     }
@@ -489,6 +534,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           } else if (item.sceneId === '__vote__') {
             const voteConfig = item.voteConfig ?? null
             set({ phase: voteConfig?.lobbyingEnabled !== false ? 'lobbying' : 'vote_result', voteConfig })
+          } else if (item.sceneId.startsWith('act1_week2_cabinet')) {
+            set({ phase: 'scene', showCabinetFormation: true, transitionLabel: '' })
           } else {
             useNarrativeStore.getState().loadScene(item.sceneId)
             set({ phase: 'scene' })

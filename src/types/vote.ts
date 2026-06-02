@@ -77,7 +77,7 @@ export const SPEND_OPTIONS: SpendOption[] = [
   },
   {
     level: 2000,
-    label: '2,000 VK — routine political outreach and fundraising',
+    label: '2,000 ₭ — routine political outreach and fundraising',
     swingMin: 8,
     swingMax: 12,
     riskLevel: 'low',
@@ -85,7 +85,7 @@ export const SPEND_OPTIONS: SpendOption[] = [
   },
   {
     level: 5000,
-    label: '5,000 VK — significant lobbying and favors called in',
+    label: '5,000 ₭ — significant lobbying and favors called in',
     swingMin: 15,
     swingMax: 22,
     riskLevel: 'medium',
@@ -94,7 +94,7 @@ export const SPEND_OPTIONS: SpendOption[] = [
   },
   {
     level: 10000,
-    label: '10,000 VK — full mobilization, every lever pulled',
+    label: '10,000 ₭ — full mobilization, every lever pulled',
     swingMin: 25,
     swingMax: 35,
     riskLevel: 'high',

@@ -4,7 +4,7 @@
 :root {
   --ink: #1a1410;
   --paper: #0f0d0a;
-  --paper-raised: #1a1714;     /* card / panel surface */
+  --paper-raised: #1a1714;
   --amber: #c8902a;
   --amber-dim: #8a621c;
   --amber-glow: rgba(200, 144, 42, 0.12);
@@ -23,6 +23,28 @@
   --font-body:     'Crimson Text', 'IM Fell English', Georgia, serif;
   --font-mono:     'IBM Plex Mono', 'Special Elite', monospace;
   --font-display:  'Special Elite', monospace;
+  /* Gold visibility palette */
+  --gold: #c9a84c;
+  --gold-dim: rgba(201, 168, 76, 0.6);
+  --gold-bright: #e8d5a3;
+  --dark-bg: rgba(20, 18, 12, 0.85);
+  --text-primary: #e8d5a3;
+  --text-secondary: rgba(200, 185, 155, 0.7);
+}
+
+/* ─── Global font weight uplift ────────────────────────────────────────────── */
+
+button, .clickable, [role="button"] {
+  font-weight: 600;
+}
+
+.stat-value, .stat-number, .budget-value, .wealth-value {
+  font-weight: 700 !important;
+}
+
+.stat-label, [class*="Label"], [class*="label"] {
+  letter-spacing: 2px;
+  font-weight: 600;
 }
 
 * {
@@ -31,19 +53,47 @@
   padding: 0;
 }
 
-html, body, #root {
+html {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
   height: 100%;
   width: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: #000000;
+  font-size: 18px;
 }
 
 body {
-  background-color: var(--paper);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: #000000;
   color: var(--cream);
   font-family: 'IM Fell English', Georgia, serif;
   font-size: 18px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
+  background: #000000;
 }
 
 /* CRT scanline overlay */
@@ -374,30 +424,43 @@ body::before {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 2px;
-  background: var(--border);
+  height: 4px;
+  background: rgba(201,168,76,0.15);
   outline: none;
   cursor: pointer;
-  border-radius: 0;
+  border-radius: 2px;
 }
 .budget-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 12px;
-  height: 12px;
-  background: var(--amber);
+  width: 14px;
+  height: 14px;
+  background: #c9a84c;
   cursor: pointer;
-  border-radius: 0;
-  border: 1px solid var(--amber-dim);
+  border-radius: 50%;
+  border: none;
 }
 .budget-slider::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  background: var(--amber);
+  width: 14px;
+  height: 14px;
+  background: #c9a84c;
   cursor: pointer;
-  border-radius: 0;
-  border: 1px solid var(--amber-dim);
+  border-radius: 50%;
+  border: none;
   box-sizing: border-box;
+}
+.budget-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(201,168,76,0.15);
+}
+
+/* Hide scrollbar on budget sliders container */
+.budget-sliders::-webkit-scrollbar {
+  display: none;
+}
+.budget-sliders {
+  scrollbar-width: none;
 }
 
 /* Portrait speaking glow */
@@ -477,10 +540,6 @@ body::before {
 
 /* ─── Font size overrides ──────────────────────────────────────────────────── */
 
-html {
-  font-size: 18px;
-}
-
 .font-size-large {
   font-size: 22px;
 }
@@ -513,4 +572,86 @@ html {
     transparent 60%,
     rgba(180,130,60,0.05) 100%
   );
+}
+
+/* ─── Bill signing animations ──────────────────────────────────────────────── */
+
+@keyframes signatureWrite {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0% 0 0);
+  }
+}
+
+@keyframes stampSlam {
+  0% { transform: scale(3.5); opacity: 0; }
+  55% { transform: scale(0.94); opacity: 1; }
+  70% { transform: scale(1.04); }
+  85% { transform: scale(0.98); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes stampSlamRejected {
+  0% {
+    transform: translate(-50%, -50%) rotate(12deg) scale(3.5);
+    opacity: 0;
+    filter: blur(8px);
+  }
+  55% {
+    transform: translate(-50%, -50%) rotate(12deg) scale(0.95);
+    opacity: 0.92;
+    filter: blur(0px);
+  }
+  70% {
+    transform: translate(-50%, -50%) rotate(12deg) scale(1.03);
+  }
+  85% {
+    transform: translate(-50%, -50%) rotate(12deg) scale(0.99);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(12deg) scale(1);
+    opacity: 0.88;
+  }
+}
+
+/* ─── Conversation panel overflow protection ─────────────────────────────── */
+
+.conversation-panel {
+  max-height: calc(100vh - 40px) !important;
+  overflow: hidden !important;
+}
+
+.conversation-choices {
+  overflow-y: auto !important;
+  min-height: 0 !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.conversation-choices::-webkit-scrollbar {
+  display: none;
+}
+
+.choice-card {
+  max-height: 180px;
+  overflow: hidden;
+}
+
+/* ─── Bill text scroll area ──────────────────────────────────────────────── */
+
+.bill-text-area::-webkit-scrollbar {
+  width: 3px;
+}
+
+.bill-text-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bill-text-area::-webkit-scrollbar-thumb {
+  background: rgba(139,115,85,0.25);
+  border-radius: 2px;
 }

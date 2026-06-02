@@ -12,7 +12,6 @@ import CharacterCustomization from './CharacterCustomization'
 import ChildhoodPrologue from './ChildhoodPrologue'
 import KaterinHUD from './KaterinHUD'
 import TopBar from './TopBar'
-import SidePanel from './SidePanel'
 import RightSidebar from './RightSidebar'
 import ProjectsPanel from './ProjectsPanel'
 import ProjectMidpointModal from './ProjectMidpointModal'
@@ -37,7 +36,11 @@ import LegacyScreen from './LegacyScreen'
 import TransitionOverlay from './TransitionOverlay'
 import DiaryScreen from './DiaryScreen'
 import CliffhangerScreen from './CliffhangerScreen'
+import { ErrorBoundary } from './ErrorBoundary'
 import { useSettingsStore } from '../stores/settingsStore'
+import { CabinetFormation } from './CabinetFormation'
+import { CabinetMeeting } from './CabinetMeeting'
+import { useCabinetStore } from '../stores/cabinetStore'
 
 function SceneRouter() {
   const currentScene = useNarrativeStore(s => s.currentScene)
@@ -47,9 +50,10 @@ function SceneRouter() {
 }
 
 export default function GameLayout() {
-  const { phase, pendingMidpointProjectId, resolveMidpoint, showTermReport, showLegacy, setRadioOpen, radioOpen, diaryEntry, closeDiary, cliffhangerText, closeCliffhanger, endPress } = useWeekStore()
+  const { phase, pendingMidpointProjectId, resolveMidpoint, showTermReport, showLegacy, setRadioOpen, radioOpen, diaryEntry, closeDiary, cliffhangerText, closeCliffhanger, endPress, showCabinetFormation, showCabinetMeeting, dismissCabinetMeeting } = useWeekStore()
   const journalOpen = useSettingsStore(s => s.journalOpen)
   const letterOpen = useSettingsStore(s => s.letterOpen)
+  const pendingRequests = useCabinetStore(s => s.pending_requests)
   const ambientStarted = useRef(false)
 
   useAudio()
@@ -107,6 +111,24 @@ export default function GameLayout() {
       {/* Diary entry screen — appears before briefing, no chrome */}
       {diaryEntry && <DiaryScreen entry={diaryEntry} onContinue={closeDiary} />}
 
+      {/* Cabinet Formation — full-screen ministry appointment */}
+      {showCabinetFormation && (
+        <CabinetFormation
+          onComplete={() => {
+            useWeekStore.setState({ showCabinetFormation: false })
+            useWeekStore.getState().advanceQueue()
+          }}
+        />
+      )}
+
+      {/* Cabinet Meeting — weekly minister reports */}
+      {showCabinetMeeting && pendingRequests.length > 0 && (
+        <CabinetMeeting
+          requests={pendingRequests}
+          onComplete={dismissCabinetMeeting}
+        />
+      )}
+
       {phase === 'title'         && <MainMenu />}
       {phase === 'customization' && <CharacterCustomization />}
       {phase === 'prologue'      && <ChildhoodPrologue />}
@@ -117,17 +139,36 @@ export default function GameLayout() {
         <div style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 500,
           background: 'rgba(10,8,6,0.98)',
-          borderTop: '1px solid rgba(200,144,42,0.2)',
+          borderTop: '2px solid #c9a84c',
           padding: '0.8rem 2rem',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
-          <span className="stamp" style={{ color: 'var(--muted)' }}>
+          <span style={{
+            fontFamily: "'Georgia', serif",
+            fontWeight: 700,
+            letterSpacing: '3px',
+            fontSize: '12px',
+            color: '#ffffff',
+            textTransform: 'uppercase',
+            textShadow: '0 0 8px rgba(255,255,255,0.2)',
+          }}>
             Review the press coverage, then proceed to the agenda
           </span>
           <button
-            className="choice-btn"
+            style={{
+              color: '#c9a84c',
+              border: '1.5px solid #c9a84c',
+              padding: '8px 24px',
+              background: 'rgba(201,168,76,0.08)',
+              fontFamily: "'Georgia', serif",
+              fontSize: '13px',
+              fontWeight: 700,
+              letterSpacing: '2px',
+              cursor: 'pointer',
+              borderRadius: '2px',
+              boxShadow: '-4px -4px 0 -2px #c9a84c, 4px -4px 0 -2px #c9a84c, -4px 4px 0 -2px #c9a84c, 4px 4px 0 -2px #c9a84c',
+            }}
             onClick={() => { useNewsStore.getState().setOpen(false); endPress() }}
-            style={{ width: 'auto', minWidth: '220px' }}
           >
             Continue to Agenda →
           </button>
@@ -135,7 +176,7 @@ export default function GameLayout() {
       )}
 
       {phase === 'agenda'   && <AgendaSelector />}
-      {phase === 'scene'    && <SceneRouter />}
+      {phase === 'scene'    && <ErrorBoundary><SceneRouter /></ErrorBoundary>}
       {phase === 'budget'       && <BudgetInterface />}
       {phase === 'constitution' && <ConstitutionalReform />}
       {phase === 'lobbying'     && <LobbyingInterface />}
@@ -174,11 +215,6 @@ export default function GameLayout() {
       {/* Katerin portrait HUD — visible during gameplay */}
       {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
         <KaterinHUD />
-      )}
-
-      {/* Side panel — minority & religious indicators */}
-      {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
-        <SidePanel />
       )}
 
       {/* Projects panel — active development projects */}

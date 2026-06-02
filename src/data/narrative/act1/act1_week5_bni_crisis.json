@@ -1,20 +1,23 @@
 {
   "id": "act1_week5_bni_crisis",
-  "title": "What the Bureau Kept",
+  "title": "The Files",
+  "location": "Chancellor's Office — Private Study",
+  "week": 5,
   "act": 1,
-  "weekAvailable": 5,
-  "weekDeadline": 7,
-  "type": "crisis",
-  "agendaCost": 2,
-  "isMandatory": true,
-  "location": "Interior Ministry — Secure Briefing Room",
-  "characters": ["danika_oberlin", "vyktor_reznik", "colonel_dusek"],
-  "prerequisites": [],
-
-  "narrative": [
+  "characters": [
+    "katerin_ashavel",
+    "danika_oberlin",
+    "vyktor_reznik",
+    "colonel_dusek"
+  ],
+  "dialogue": [
     {
-      "type": "description",
-      "text": "The secure briefing room beneath the Interior Ministry is a windowless concrete box designed during the Halvek years for conversations that were never meant to be remembered. Danika Oberlin is alone at the table. She is reading a folder. She does not look up when the door opens."
+      "type": "narrative",
+      "text": "Danika Oberlin is already in your office when you arrive. Not the waiting room. Your office. She is reading something and she does not look up when you enter."
+    },
+    {
+      "type": "narrative",
+      "text": "You notice two things. The folder in her hands has a red stripe down the left edge — BNI classification. And her hands are completely steady."
     },
     {
       "type": "dialogue",
@@ -22,158 +25,560 @@
       "text": "You should read this before they all get here."
     },
     {
-      "type": "description",
-      "text": "She slides the folder across the table. She still hasn't looked up. The folder is thinner than you expected and heavier than you want it to be. You take it. Now she looks up."
+      "type": "narrative",
+      "text": "She slides a folder across your desk without looking up. BNI internal audit — current active surveillance files. You see the first page before you close it."
+    },
+    {
+      "type": "narrative",
+      "text": "One of the names on that page is someone you've known for eleven years."
     },
     {
       "type": "dialogue",
       "character": "danika_oberlin",
-      "text": "Some of the names are people you know."
-    },
-    {
-      "type": "description",
-      "text": "Danika Oberlin has been Interior Minister for four weeks. In that time she has reviewed twelve thousand BNI personnel files, seventeen hundred active operations, and one basement archive that the Bureau's previous director had classified beyond even the Chancellor's clearance level. She has not slept much. When she appears in the secure briefing room beneath the Interior Ministry — a windowless concrete box designed during the Halvek years for conversations that were never meant to be remembered — she is carrying a file that is thinner than you expected and heavier than you want it to be."
-    },
-    {
-      "type": "dialogue",
-      "character": "danika_oberlin",
-      "text": "The BNI's foreign intelligence division has been running an operation inside Tyvaren territory for eleven months. Code name WATCHTOWER. Four field agents, all Veltrian nationals recruited from the Dravenhollow border region. Signals intelligence on Tyvaren military movements along the Gravenmark Pass — it is the only window we have on what Vukov is doing with his armored divisions. If we shut down the foreign operations division — which the reform plan requires — we lose WATCHTOWER. We go blind. [She waits.] I did not know about this when I recommended full dissolution. Now I do. I am telling you because you need to decide: is the principle worth the blindness?"
-    },
-    {
-      "type": "dialogue",
-      "character": "colonel_dusek",
-      "text": "Losing WATCHTOWER is militarily catastrophic. Vukov moved two additional battalions to within striking distance of the Gravenmark Pass in the past three weeks. The Tyvaren general staff operates on a twelve-hour decision cycle. WATCHTOWER provides twelve hours of warning. Without WATCHTOWER, warning time drops to forty minutes. That is the difference between a prepared defensive line and a rout. The Chancellor must factor that difference into the decision."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "Political dimension is equally stark. Preserve WATCHTOWER — selectively, quietly, without disclosure — and we operate exactly as Halvek did. A secret intelligence operation the public would not authorize. Shut it down and Tyvaren attacks, and we dismantled the one system that could have warned us. Kolvar will call it criminal negligence. Will not be entirely wrong. No option here avoids irreplaceable cost."
-    },
-    {
-      "type": "internal_thought",
-      "text": "I ran on ending the BNI. I stood in Republic Square and told sixty thousand people the era of impunity was over. And now the BNI is the only thing standing between my country and a Tyvaren invasion we will not see coming. Halvek built this machine. He built it to spy on his own people. He also built it to watch the border. The machine is amoral. The people who built it were not. I have to decide whether I can use a weapon I promised to destroy — and whether destroying it anyway is principle or suicide."
+      "text": "Some of the names are people you know. I thought you should have a moment with that before we begin."
     }
   ],
-
-  "monologue": "I ran on ending the BNI. The BNI is now the only thing standing between Veltria and a Tyvaren invasion we won't see coming. Halvek built this machine to spy on his own people. He also built it to watch the border. The machine is amoral. The people who built it were not. Danika is asking me to hold the principle. Dusek is asking me to hold the pass. Both are correct. Neither answer lets me be the Chancellor I told sixty thousand people I would be.",
+  "monologue": "A name I know. In a BNI surveillance file. This is what Halvek built — a machine that watched everyone, kept files on everyone, and made everyone slightly complicit by simply existing. Oberlin has been waiting to put this folder in front of a chancellor for fifteen years. I understand why. I also need to understand exactly what's in it before I decide what to do.",
 
   "choices": [
     {
-      "id": "bni_watchtower_preserve_secret",
-      "text": "\"Preserve WATCHTOWER. Classify it above my level — no paper trail, no ministerial review, no parliamentary oversight. Dusek, you take operational control through military intelligence. Danika, you continue the BNI reforms on the domestic side. The foreign division gets quietly transferred to the Defense Ministry. The public never knows. Neither does parliament. If this comes out, I will say I made the call alone and take whatever comes.\"",
-      "internalTag": "pragmatist",
-      "stateChanges": [
-        { "stat": "nation.militaryReadiness",  "operation": "add", "value": 8   },
-        { "stat": "nation.civilLiberties",    "operation": "add", "value": -6  },
-        { "stat": "nation.corruption",        "operation": "add", "value": 3   },
-        { "stat": "factions.ironCovenant",    "operation": "add", "value": 6   },
-        { "stat": "factions.reformists",      "operation": "add", "value": -8  },
-        { "stat": "personal.moralCompass",    "operation": "add", "value": -8  },
-        { "stat": "personal.publicImage",     "operation": "add", "value": -2  }
-      ],
-      "chainTriggers": [
+      "id": "read_the_file",
+      "text": "Read it. All of it.",
+      "nextSegment": "reading_the_file"
+    },
+    {
+      "id": "dont_read",
+      "text": "Close it. I don't want to know names before I make this decision.",
+      "nextSegment": "oberlin_waits"
+    },
+    {
+      "id": "ask_oberlin_first",
+      "text": "Tell me what's in it. Don't make me read it alone.",
+      "nextSegment": "oberlin_explains"
+    }
+  ],
+
+  "segments": {
+    "reading_the_file": {
+      "dialogue": [
         {
-          "targetNodeId": "act1_chain_watchtower_leak",
-          "delayWeeks": 8,
-          "conditions": [
-            { "stat": "flags.bni_reformed", "operator": "==", "value": true }
-          ]
+          "type": "narrative",
+          "text": "You read it. All of it. Forty-seven pages. It takes twenty minutes. When you finish you close the folder and put it face down on the desk."
         },
-        { "targetNodeId": "family_bni_night", "delayWeeks": 0 }
-      ],
-      "flags": ["watchtower_preserved", "bni_foreign_transferred", "bni_crisis_resolved"],
-      "codexUnlocks": ["codex_watchtower_program"],
-      "reactions": [
         {
+          "type": "narrative",
+          "text": "Three people you trusted. One person you still trust, whose file says things that make that trust complicated. Two people who are already dead. One person whose file was clearly fabricated — the handwriting changes three times in a two-page entry."
+        },
+        {
+          "type": "dialogue",
           "character": "danika_oberlin",
-          "text": "That is your decision.",
-          "type": "dialogue"
+          "text": "There are eleven thousand more."
         },
         {
-          "character": "vyktor_reznik",
-          "text": "He closes his folder.",
-          "type": "action"
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Eleven thousand files."
         },
         {
-          "character": "gregor_maric",
-          "text": "I hope you know what you're preserving.",
-          "type": "dialogue"
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Eleven thousand active surveillance files. Plus archives. The archives are larger."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_about_agents",
+          "text": "How many agents are actively maintaining these files?",
+          "nextSegment": "agents_question"
+        },
+        {
+          "id": "ask_about_fabrications",
+          "text": "Some of these are fabricated. How many?",
+          "nextSegment": "fabrications_question"
+        },
+        {
+          "id": "reading_to_cabinet",
+          "text": "I've seen enough. Let's hear from the others.",
+          "nextSegment": "cabinet_arrives"
         }
       ]
     },
-    {
-      "id": "bni_watchtower_shutdown_principle",
-      "text": "\"Shut it down. All of it. I did not take an oath to preserve Halvek's intelligence apparatus. I took an oath to uphold the Constitution, which Halvek's secret police violated for twenty-nine years. Dusek, I need you to develop alternative intelligence sources — diplomatic, human, whatever the military can provide through legitimate channels. It will be harder. It will be slower. It will be constitutional. That is the point.\"",
-      "internalTag": "reformist",
-      "stateChanges": [
-        { "stat": "nation.civilLiberties",    "operation": "add", "value": 10  },
-        { "stat": "factions.reformists",      "operation": "add", "value": 12  },
-        { "stat": "nation.militaryReadiness",  "operation": "add", "value": -10 },
-        { "stat": "factions.ironCovenant",    "operation": "add", "value": -8  },
-        { "stat": "factions.halvekists",      "operation": "add", "value": -6  },
-        { "stat": "personal.moralCompass",    "operation": "add", "value": 12  },
-        { "stat": "personal.publicImage",     "operation": "add", "value": 4   }
-      ],
-      "chainTriggers": [
+
+    "oberlin_waits": {
+      "dialogue": [
         {
-          "targetNodeId": "act1_chain_tyvaren_blind_spot",
-          "delayWeeks": 6
+          "type": "narrative",
+          "text": "You close the folder without reading it. Oberlin looks up for the first time."
         },
-        { "targetNodeId": "family_bni_night", "delayWeeks": 0 }
-      ],
-      "flags": ["watchtower_shut_down", "bni_fully_abolished", "bni_crisis_resolved"],
-      "codexUnlocks": ["codex_bni_abolition", "codex_intelligence_reform"],
-      "reactions": [
         {
+          "type": "dialogue",
           "character": "danika_oberlin",
-          "text": "She exhales. It is very small. You notice it anyway.",
-          "type": "action"
+          "text": "That's one way to do it."
         },
         {
-          "character": "vyktor_reznik",
-          "text": "Noted.",
-          "type": "dialogue"
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "If I read every name before I decide, I'll make a personal decision, not a political one. I need to make the political one first."
         },
         {
-          "character": "gregor_maric",
-          "text": "Finally.",
-          "type": "dialogue"
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "That's a very clean way to think about a very unclean problem."
+        },
+        {
+          "type": "narrative",
+          "text": "She says it without judgment. She says everything without judgment. That is somehow more unsettling than criticism."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_scope",
+          "text": "Tell me the scope. How many files, how many agents.",
+          "nextSegment": "agents_question"
+        },
+        {
+          "id": "wait_for_others",
+          "text": "Let's wait for Vyktor and Dusek.",
+          "nextSegment": "cabinet_arrives"
         }
       ]
     },
-    {
-      "id": "bni_watchtower_oversight_reform",
-      "text": "\"Keep WATCHTOWER operational but bring it under judicial oversight. I want a special tribunal — three judges with security clearance, appointed by the Constitutional Court — to review all foreign intelligence operations quarterly. The BNI's foreign division continues its work but it does so under law, with accountability. If the judges determine an operation is unconstitutional, it ends. No exceptions. Not even for WATCHTOWER.\"",
-      "internalTag": "reformist",
-      "stateChanges": [
-        { "stat": "nation.civilLiberties",    "operation": "add", "value": 6   },
-        { "stat": "nation.militaryReadiness",  "operation": "add", "value": 3   },
-        { "stat": "factions.reformists",      "operation": "add", "value": 6   },
-        { "stat": "factions.ironCovenant",    "operation": "add", "value": -3  },
-        { "stat": "nation.corruption",        "operation": "add", "value": -2  },
-        { "stat": "personal.moralCompass",    "operation": "add", "value": 8   },
-        { "stat": "personal.publicImage",     "operation": "add", "value": 5   }
-      ],
-      "chainTriggers": [{ "targetNodeId": "family_bni_night", "delayWeeks": 0 }],
-      "flags": ["watchtower_oversight", "intelligence_tribunal_created", "bni_crisis_resolved"],
-      "codexUnlocks": ["codex_intelligence_oversight", "codex_judicial_review"],
-      "reactions": [
+
+    "oberlin_explains": {
+      "dialogue": [
         {
+          "type": "dialogue",
           "character": "danika_oberlin",
-          "text": "She picks up her pen. She does not write anything.",
-          "type": "silence"
+          "text": "Eleven thousand active files. Journalists. Academics. Three members of the current National Assembly. A retired judge. Two priests. And approximately four hundred ordinary citizens whose only qualification for surveillance appears to be that someone in the apparatus wanted leverage over someone who knew them."
         },
         {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The name you recognized on the first page has been under surveillance for six years. The file records fourteen private conversations, two of which took place in this building, during the previous administration."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "In this building."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The BNI had access to the Chancellor's residence. Possibly still does. That is one of the reasons I am already in your office."
+        }
+      ],
+      "choices": [
+        {
+          "id": "access_question",
+          "text": "They may still have access to this office?",
+          "nextSegment": "access_detail"
+        },
+        {
+          "id": "shocked_to_cabinet",
+          "text": "Get Vyktor and Dusek here. Now.",
+          "nextSegment": "cabinet_arrives"
+        }
+      ]
+    },
+
+    "access_detail": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Until the apparatus is dissolved or fully restructured, I cannot guarantee the security of any room in this building. That includes this one."
+        },
+        {
+          "type": "narrative",
+          "text": "You look at the walls. You look at the light fixtures. You look at the painting above the fireplace — a hunting scene, horses and dogs and a grey sky. It was here when you arrived. You never chose it."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I swept this room this morning. I found one device. I left it in place so as not to alert whoever is monitoring it. Whatever we discuss here today may be heard."
+        },
+        {
+          "type": "narrative",
+          "text": "The sentence lands in the room like something physical."
+        }
+      ],
+      "choices": [
+        {
+          "id": "let_them_listen",
+          "text": "Let them listen. I want whoever is on the other end to hear exactly what I decide.",
+          "nextSegment": "cabinet_arrives"
+        },
+        {
+          "id": "move_rooms",
+          "text": "We move this meeting. Right now.",
+          "nextSegment": "move_rooms_segment"
+        }
+      ]
+    },
+
+    "move_rooms_segment": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "You move to the garden. November. Cold. The fog is still on the lawn. Vyktor and Dusek find you outside, which is not where they expected to find you."
+        },
+        {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "I'll arrange access.",
-          "type": "dialogue"
+          "text": "The garden?"
         },
         {
-          "character": "gregor_maric",
-          "text": "He stands. He goes to the window. He doesn't ask permission.",
-          "type": "action"
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "The office may be compromised."
+        },
+        {
+          "type": "narrative",
+          "text": "A pause. Then Vyktor looks at Danika, who nods once. Then he looks at Colonel Dusek, who was already looking at the windows of the building behind you."
+        },
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "I'll need the address of whoever installed that device."
+        }
+      ],
+      "choices": [
+        {
+          "id": "garden_continue",
+          "text": "We deal with the device after we deal with the BNI. Talk.",
+          "nextSegment": "bni_argument_begins"
+        }
+      ]
+    },
+
+    "agents_question": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Two hundred and fourteen active field agents. Approximately eight hundred administrative and support staff. They report through a separate command structure that bypasses the Interior Ministry — it reported directly to the previous Chancellor's office."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "As of your inauguration, they report to no one. Technically. There are people in that building who are still writing reports because no one told them to stop."
+        }
+      ],
+      "choices": [
+        {
+          "id": "agents_to_cabinet",
+          "text": "Two hundred agents reporting to no one. Let's hear from Vyktor and Dusek.",
+          "nextSegment": "cabinet_arrives"
+        }
+      ]
+    },
+
+    "fabrications_question": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I can identify clear fabrications in approximately twelve percent of the files I've reviewed. The handwriting changes. The dates don't align. In several cases the subject was verifiably out of the country when the observed conversations supposedly took place."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Twelve percent is a minimum. It may be much higher. The files were designed to be convincing, not accurate."
+        },
+        {
+          "type": "narrative",
+          "text": "You think about the name you recognized. The file on that person was six years old and very detailed. That detail no longer feels like evidence. It feels like construction."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fabrications_to_cabinet",
+          "text": "Fabricated files on eleven thousand people. Bring in the others.",
+          "nextSegment": "cabinet_arrives"
+        }
+      ]
+    },
+
+    "cabinet_arrives": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "Vyktor and Dusek arrive within two minutes of each other. The room has four people in it now. The folder on the desk has not moved."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "You've read it."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "I've read enough."
+        },
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "The defense assessment is this: the BNI's military intelligence function is active and has no civilian equivalent. If you dissolve it entirely, we lose six years of border intelligence overnight. I want that on record before the argument starts."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "On record. Now let the argument start."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_dusek_alternative",
+          "text": "Dusek — is there a way to preserve the military intelligence without the surveillance apparatus?",
+          "nextSegment": "dusek_alternative"
+        },
+        {
+          "id": "ask_vyktor_politics",
+          "text": "Vyktor — politically, which decision can we survive?",
+          "nextSegment": "vyktor_political_read"
+        },
+        {
+          "id": "ask_oberlin_consequence",
+          "text": "Danika — if we dissolve it completely, what happens to the agents?",
+          "nextSegment": "dissolution_consequence"
+        }
+      ]
+    },
+
+    "dusek_alternative": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "Yes. Strip the domestic surveillance mandate. Keep the foreign intelligence and border monitoring functions under military oversight with civilian review. The abuses came from the domestic side. The useful intelligence comes from the foreign side."
+        },
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "It's technically possible. It requires legislation. It takes six months we may not have."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Six months of a domestic surveillance apparatus with no mandate is six months of an apparatus making its own decisions about what its mandate is."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dusek_alt_to_final",
+          "text": "I've heard the arguments. This is my decision.",
+          "nextSegment": "bni_argument_begins"
+        }
+      ]
+    },
+
+    "vyktor_political_read": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Full dissolution costs us the security hardliners in the Assembly — four votes. It gains us the civil liberties coalition — seven votes. Net positive, but those four will be motivated by grievance. Motivated opposition is more dangerous than passive opposition."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Retention with reform looks like we're protecting Halvek's infrastructure. The press will say so regardless of what the reform entails. No-review retention — I can't help you sell that. I won't."
+        }
+      ],
+      "choices": [
+        {
+          "id": "politics_to_final",
+          "text": "Understood. This is what I've decided.",
+          "nextSegment": "bni_argument_begins"
+        }
+      ]
+    },
+
+    "dissolution_consequence": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Approximately two hundred agents without a mandate. Some will be absorbed into regular police — the ones who haven't done anything indefensible. Some will retire. Some will not have that option."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "And some will continue doing what they know how to do for whoever pays them next. The apparatus doesn't disappear when we dissolve it. It disperses. That is a known risk and in my assessment it is smaller than the risk of leaving it intact."
+        }
+      ],
+      "choices": [
+        {
+          "id": "consequence_to_final",
+          "text": "I've heard enough to decide.",
+          "nextSegment": "bni_argument_begins"
+        }
+      ]
+    },
+
+    "bni_argument_begins": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "The four of you have been standing around your desk for thirty minutes. The fog on the lawn, if you're in the garden, or the unchanged hunting painting, if you stayed inside."
+        },
+        {
+          "type": "narrative",
+          "text": "Eleven thousand files. Two hundred agents. Fabricated evidence. Surveillance devices in the Chancellor's office. One name you recognized."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Chancellor. What do we do with the BNI?"
+        }
+      ],
+      "monologue": "This is the decision that defines what kind of government we are. Not the budget — the budget is about priorities. This is about what we're willing to inherit. Halvek built a machine that watched people, kept their secrets, and used those secrets when it needed to. The machine still exists. It's running right now. The only question is whether I turn it off, keep it, or try to change what it's for. All three answers have consequences I can see. All three have consequences I can't.",
+
+      "choices": [
+        {
+          "id": "dissolve_bni",
+          "text": "Dissolve the BNI. All operations cease. Files are destroyed under independent oversight. We build a civilian intelligence review board from scratch.",
+          "statEffects": [
+            {"stat": "civil_liberties", "value": 15},
+            {"stat": "security_rating", "value": -12},
+            {"stat": "assembly_reformist", "value": 8},
+            {"stat": "assembly_hardliner", "value": -8}
+          ],
+          "flags": ["bni_dissolved"],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "She exhales. It is very small and very controlled. You notice it anyway."
+            },
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "I want the foreign intelligence function protected by executive order before the dissolution takes effect. I'll have a draft on your desk by morning."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I'll manage the press. We announce it as fulfilling the reform mandate. Which it is."
+            }
+          ],
+          "journalEntry": {
+            "title": "Dissolved the BNI",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "keep_bni_review",
+          "text": "Keep the BNI but order a full independent review of all files. Suspend domestic surveillance operations pending the review. Strip the domestic mandate if the review confirms the abuses.",
+          "statEffects": [
+            {"stat": "civil_liberties", "value": 5},
+            {"stat": "security_rating", "value": -3},
+            {"stat": "assembly_reformist", "value": 3},
+            {"stat": "assembly_hardliner", "value": -2}
+          ],
+          "flags": ["bni_review", "bni_active"],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "I don't know if that was right."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "She sits down. She does not write anything. She sits with it."
+            },
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "I can work with a review. I'll assign a liaison from Defense to the review board."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He closes his folder."
+            }
+          ],
+          "journalEntry": {
+            "title": "Ordered BNI Review",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "keep_bni_no_review",
+          "text": "Retain the BNI under new Interior Ministry oversight. No public review. Restructure the command chain. Keep the files secure and classified.",
+          "statEffects": [
+            {"stat": "civil_liberties", "value": -8},
+            {"stat": "security_rating", "value": 8},
+            {"stat": "assembly_reformist", "value": -10},
+            {"stat": "assembly_hardliner", "value": 10}
+          ],
+          "flags": ["bni_retained", "bni_active"],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "That is your decision."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "She picks up her folder. She does not look at you again."
+            },
+            {
+              "character": "colonel_dusek",
+              "type": "action",
+              "text": "She nods once. It is not approval. It is acknowledgment."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "silence",
+              "text": "He watches you. Not with judgment. With the particular attention of a man who is updating his model of who you are."
+            }
+          ],
+          "journalEntry": {
+            "title": "Retained the BNI",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "restructure_bni",
+          "text": "Restructure the BNI. Strip domestic surveillance entirely. Keep foreign intelligence and border monitoring under military oversight with a new civilian review board. Danika chairs the board.",
+          "statEffects": [
+            {"stat": "civil_liberties", "value": 10},
+            {"stat": "security_rating", "value": 2},
+            {"stat": "assembly_reformist", "value": 5},
+            {"stat": "assembly_hardliner", "value": -4}
+          ],
+          "flags": ["bni_restructured", "oberlin_review_chair"],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "She looks at you for a long moment. It is the first time today she has looked at you directly."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "I'll need full access and subpoena authority."
+            },
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "The military intelligence function stays under my oversight or I cannot guarantee border security."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "This is defensible. I can work with this."
+            }
+          ],
+          "journalEntry": {
+            "title": "Restructured the BNI",
+            "category": "policy"
+          }
         }
       ]
     }
-  ]
+  }
 }

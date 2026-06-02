@@ -24,6 +24,7 @@ export function generateCliffhanger(week: number): string {
     church: state.factions.church,
     dravenni: state.factions.dravenni,
     vaelInfluence: state.vaelInfluence,
+    morvecInfluence: state.morvecInfluence,
     stateOfEmergency: state.stateOfEmergency,
     seridaAlive: state.seridaAlive,
   }

@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "__project__kravenstal_steel",
   "title": "The Kravenstal Steel Modernization",
   "act": 2,
@@ -10,14 +10,14 @@
   "characters": ["elara_vostane", "gregor_maric"],
   "narrative": [
     { "type": "description", "text": "The Kravenstal Steel Processing Facility is the backbone of Veltrian heavy industry — twelve thousand workers, sixty percent of domestic steel output. It is also running on equipment that was last modernized in 1947. The blast furnaces are inefficient. The rolling mills are dangerously outdated. Without modernization, the facility will be obsolete within a decade. With modernization, it could anchor Veltrian industry for another generation." },
-    { "type": "dialogue", "character": "elara_vostane", "text": "The cost is fifty million VK over twelve weeks. The modernization would replace the blast furnaces, install continuous casting equipment, and add emission controls to meet international environmental standards. The economic return is estimated at fifteen percent efficiency gain within two years. The workforce — twelve thousand employees — would receive retraining rather than layoffs. This is probably the most important industrial investment this government will make." },
+    { "type": "dialogue", "character": "elara_vostane", "text": "The cost is fifty million ₭ over twelve weeks. The modernization would replace the blast furnaces, install continuous casting equipment, and add emission controls to meet international environmental standards. The economic return is estimated at fifteen percent efficiency gain within two years. The workforce — twelve thousand employees — would receive retraining rather than layoffs. This is probably the most important industrial investment this government will make." },
     { "type": "dialogue", "character": "gregor_maric", "text": "The workers have been asking for this modernization since 1955. They know the equipment is dangerous — they work with it every day. They also know that 'modernization' in Halvek's era meant 'privatization followed by layoffs.' If we do this, we need the workers to trust that modernization means improvement, not elimination. A state-owned modernization with worker retraining guarantees. That is the only version I can sell to the union." },
     { "type": "description", "text": "The decision requires a significant budget commitment and will trigger a midpoint review at week six — when the project reaches the critical decision of whether to keep the modernized facility fully state-owned or allow private investment." }
   ],
   "choices": [
     {
       "id": "project_kravenstal_accept",
-      "text": "\"Approve the Kravenstal modernization. Fifty million VK from the infrastructure and industry budgets, phased over twelve weeks. Vostane, structure the financing to minimize debt impact. Maric, establish a worker oversight committee — the people who operate these machines should have a voice in how they are modernized. This is the kind of investment the Halvek administration should have made fifteen years ago. We are making it now.\"",
+      "text": "\"Approve the Kravenstal modernization. Fifty million ₭ from the infrastructure and industry budgets, phased over twelve weeks. Vostane, structure the financing to minimize debt impact. Maric, establish a worker oversight committee — the people who operate these machines should have a voice in how they are modernized. This is the kind of investment the Halvek administration should have made fifteen years ago. We are making it now.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
         { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
@@ -29,7 +29,7 @@
     },
     {
       "id": "project_kravenstal_defer",
-      "text": "\"The modernization is necessary, but not at fifty million VK right now. Defer the decision for six weeks — I want updated cost estimates, a review of whether Arcturian or Orythian equipment would be more cost-effective, and an analysis of whether partial modernization is viable. We will revisit this when the budget picture is clearer.\"",
+      "text": "\"The modernization is necessary, but not at fifty million ₭ right now. Defer the decision for six weeks — I want updated cost estimates, a review of whether Arcturian or Orythian equipment would be more cost-effective, and an analysis of whether partial modernization is viable. We will revisit this when the budget picture is clearer.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
         { "stat": "factions.workersCoalition", "operation": "add", "value": -3 }
@@ -40,7 +40,7 @@
     },
     {
       "id": "project_kravenstal_reject",
-      "text": "\"Fifty million VK is more than the government can responsibly allocate to a single industrial project. The Kravenstal facility will continue operating with its current equipment. When private investors are willing to fund the modernization, we will consider their proposals. Until then, the state's priority is fiscal stability, not industrial expansion.\"",
+      "text": "\"Fifty million ₭ is more than the government can responsibly allocate to a single industrial project. The Kravenstal facility will continue operating with its current equipment. When private investors are willing to fund the modernization, we will consider their proposals. Until then, the state's priority is fiscal stability, not industrial expansion.\"",
       "internalTag": "authoritarian",
       "stateChanges": [
         { "stat": "factions.workersCoalition", "operation": "add", "value": -10 },

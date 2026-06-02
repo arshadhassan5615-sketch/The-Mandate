@@ -115,7 +115,8 @@ function playTone(
 
 // ─── Ambient Loops ─────────────────────────────────────────────────────────────
 
-export function startAmbient(sceneType?: string) {
+export function startAmbient(_sceneType?: string) {
+  return // disabled
   if (!initialized) {
     getCtx()
     initialized = true

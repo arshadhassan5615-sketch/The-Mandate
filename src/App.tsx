@@ -13,6 +13,7 @@ import { useSettingsStore } from './stores/settingsStore'
 import { useCodexStore } from './stores/codexStore'
 import { useWeekStore } from './stores/weekStore'
 import { useLetterStore } from './stores/letterStore'
+import { useJournalStore } from './stores/journalStore'
 import { saveGame, loadGame, listSaves, AUTOSAVE_SLOT } from './engine/SaveManager'
 import { useHotkeys } from './hooks/useHotkeys'
 import { audioManager } from './engine/AudioManager'
@@ -99,6 +100,32 @@ export default function App() {
     }
     document.addEventListener('click', handleFirstInteraction)
     return () => document.removeEventListener('click', handleFirstInteraction)
+  }, [])
+
+  // One-time cleanup: deduplicate any existing journal entries from earlier sessions
+  useEffect(() => {
+    const { entries, deduplicateEntries, clearJournal } = useJournalStore.getState()
+    if (entries.length > 0) {
+      const deduped = deduplicateEntries(entries)
+      if (deduped.length !== entries.length) {
+        clearJournal()
+        // Re-add deduplicated entries (addEntry will rebuild seenKeys)
+        for (const entry of deduped) {
+          useJournalStore.getState().addEntry({
+            sceneId: entry.sceneId,
+            choiceId: entry.choiceId,
+            category: entry.category,
+            alignment: entry.alignment,
+            title: entry.title,
+            description: entry.description,
+            icon: entry.icon,
+            flag: entry.flag,
+            consequences: entry.consequences,
+            currentWeek: entry.weekNumber,
+          })
+        }
+      }
+    }
   }, [])
 
   const bindings = useMemo(() => [

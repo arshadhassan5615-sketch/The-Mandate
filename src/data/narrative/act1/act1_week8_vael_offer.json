@@ -1,20 +1,18 @@
 {
   "id": "act1_week8_vael_offer",
-  "title": "The Margrave's Flowers",
+  "title": "The Offer",
+  "location": "Chancellor's Office — Private Study",
+  "week": 8,
   "act": 1,
-  "weekAvailable": 8,
-  "weekDeadline": 10,
-  "type": "meeting",
-  "agendaCost": 1,
-  "isMandatory": false,
-  "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
-  "prerequisites": [],
-
-  "narrative": [
+  "characters": [
+    "katerin_ashavel",
+    "vyktor_reznik",
+    "lucan_vael"
+  ],
+  "dialogue": [
     {
-      "type": "description",
-      "text": "The morning light in your office is grey — the particular grey of early spring in Ashenmere, when winter hasn't decided whether to leave. Vyktor Reznik is already at the side table. He is reading something. He looks up the moment the door opens. The look on his face is not alarm. It is the look of someone who has been waiting."
+      "type": "narrative",
+      "text": "Vyktor is reading when you arrive. He looks up immediately."
     },
     {
       "type": "dialogue",
@@ -22,8 +20,8 @@
       "text": "He sent an envoy."
     },
     {
-      "type": "description",
-      "text": "He holds up a letter — cream-colored paper, the kind that costs more per sheet than most Veltrians earn in a day. The seal is broken. Vyktor's doing."
+      "type": "narrative",
+      "text": "He holds up a letter. Heavy paper. No letterhead. Handwritten."
     },
     {
       "type": "dialogue",
@@ -31,162 +29,536 @@
       "text": "It arrived this morning. I opened it. You should know I opened it."
     },
     {
-      "type": "description",
-      "text": "He hands it over. The stationery feels like cloth. Vael Group letterhead. Margrave Lucan Vael's personal seal."
+      "type": "dialogue",
+      "character": "katerin_ashavel",
+      "text": "What does it say?"
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "He is more direct than I expected."
-    },
-    {
-      "type": "description",
-      "text": "Vyktor Reznik is reading something. You can tell from the doorway that he has been reading it for some time — the particular stillness of his posture, the way his eyes track across the page not once but twice, the fact that he has not yet looked up despite knowing you are here. The document is in a leather folder that you do not recognize. It was not on your desk this morning."
+      "text": "He wants a meeting. Private. No staff on either side. He says he has a proposal that addresses the infrastructure deficit and the Kravenstal employment situation simultaneously. He says he will not make this offer through formal channels."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "Vael sent flowers."
-    },
-    {
-      "type": "description",
-      "text": "He looks up. He does not put the folder down."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "Margrave Vael. For the inauguration. Arrived three weeks late."
-    },
-    {
-      "type": "description",
-      "text": "He slides the folder across the desk. It is not about flowers. The folder contains a proposal — Vael Industrial Group's offer to underwrite a significant portion of the government's infrastructure spending in exchange for mineral rights in the Gravenmark foothills. The terms are generous. Suspiciously generous. You have been in politics long enough to know that a gift that arrives three weeks late is not a gift. It is a reminder that the giver knows where you live."
-    },
-    {
-      "type": "description",
-      "text": "The flowers themselves are on the side table — an arrangement of winter roses and silver fern, the traditional gift of the Vael family to every incoming administration since the Republic was founded. Yours took longer to arrive than anyone else's. Vyktor has been trying to determine whether that is an insult or an invitation. He suspects it is both."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "The Vael family has financed every government for a century. Halvek gave them steel contracts and shipping routes. Never asked where the revenue went. You are the first Chancellor in two generations who has not taken their money. They are testing whether that is a negotiating position or a principle. Decide before they decide for you."
-    },
-    {
-      "type": "internal_thought",
-      "text": "There is a quality to Vyktor's voice when he talks about Vael that you have not heard before. It is not quite fear. It is the specific caution of a man who has seen what happens to people who underestimate the Margrave."
-    },
-    {
-      "type": "description",
-      "text": "The proposal includes a personal component — an invitation to dine at the Vael family estate, the 'Winter Palace' as the newspapers call it, a sprawling compound in the mountains above Aldenmoor that has hosted every Chancellor since Chancellor Berevin. Berevin died in office. You are not superstitious. But you are not stupid, either."
-    },
-    {
-      "type": "internal_thought",
-      "text": "Vael's reach extends into every ministry, every regulatory commission, every appropriations committee. Accepting his money means accepting his influence. Refusing it means making an enemy of the most powerful private citizen in Veltria. There is no third option. There is only the question of how much you are willing to pay for the privilege of governing on your own terms."
+      "text": "He's more direct than I expected. That's either confidence or desperation. I've known Lucan Vael for twenty years and I still can't always tell which."
     }
   ],
-
-  "monologue": "The flowers arrived three weeks late. That's not an accident — it's a reminder that the giver knows where I live. Vael has financed every government for a century. I'm the first Chancellor in two generations who hasn't taken his money. Vyktor's voice has a quality I haven't heard before — not fear, but the specific caution of someone who has seen what happens to people who underestimate the Margrave. Seventeen Chancellors have been invited to the Winter Palace. Fourteen accepted. Three declined. None of them are in office anymore.",
+  "monologue": "Lucan Vael. The Vael-Kross file in the BNI archives was three years old and had a gap in it — 1951 to 1953, nothing recorded. That gap is too clean to be an accident. A man like Vael doesn't disappear from surveillance records by chance. He disappears because someone decided he should. The question is who decided that and what it cost.",
 
   "choices": [
     {
-      "id": "vael_accept_partnership",
-      "text": "Accept the infrastructure partnership — it brings critical investment and buys time with the business community.",
-      "stateChanges": [
-        { "stat": "factions.businessClass", "operation": "add", "value": 12 },
-        { "stat": "factions.workersCoalition", "operation": "add", "value": -8 },
-        { "stat": "vaelInfluence", "operation": "add", "value": 15 }
-      ],
-      "flags": ["vael_approached", "vael_partner"],
-      "chainTriggers": [
-        { "targetNodeId": "act1_chain_vael_pressure", "delayWeeks": 0 }
-      ],
-      "internalTag": "pragmatist",
-      "reactions": [
+      "id": "ask_about_vael",
+      "text": "Tell me everything you know about him. Not the public record.",
+      "nextSegment": "vael_background"
+    },
+    {
+      "id": "ask_about_proposal",
+      "text": "Infrastructure and Kravenstal employment. What's he actually proposing?",
+      "nextSegment": "proposal_speculation"
+    },
+    {
+      "id": "ask_vyktor_instinct",
+      "text": "Your instinct, Vyktor. Is this a trap?",
+      "nextSegment": "vyktor_instinct"
+    },
+    {
+      "id": "ask_why_no_channels",
+      "text": "Why won't he use formal channels? What's he hiding?",
+      "nextSegment": "why_informal"
+    }
+  ],
+
+  "segments": {
+    "vael_background": {
+      "dialogue": [
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "He makes a single note on a pad — barely a word, more a mark. The mark says: this is recorded, this happened, this will be referenced later. He does not smile. He does not frown. He closes the leather folder.",
-          "type": "narrative"
+          "text": "Lucan Vael. Sixty-one years old. Inherited the Vael-Kross Holdings from his father in 1948. Under his father it was a mining and transport company. Under Marcel it became something larger — infrastructure, energy, banking, media. The media acquisition was 1954. Six months after the gap in the BNI file."
         },
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "Infrastructure begins moving within the month. Vael's people will expect quarterly progress updates. They will also expect... reciprocation. I will manage the interface.",
-          "type": "dialogue"
+          "text": "He has been careful. He never held public office. He never appeared in photographs with Halvek. There is no document that directly connects him to the old regime's more uncomfortable decisions."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "That absence of documentation is itself a kind of documentation."
+        }
+      ],
+      "choices": [
+        {
+          "id": "background_ask_gap",
+          "text": "The BNI file gap — 1951 to 1953. Do you know what's in those years?",
+          "nextSegment": "bni_gap"
+        },
+        {
+          "id": "background_ask_media",
+          "text": "He owns media. Which outlets?",
+          "nextSegment": "media_holdings"
+        },
+        {
+          "id": "background_to_proposal",
+          "text": "What do you think he's actually proposing?",
+          "nextSegment": "proposal_speculation"
         }
       ]
     },
-    {
-      "id": "vael_reject_partnership",
-      "text": "Reject Vael's offer — you won't trade mineral rights for political silence.",
-      "stateChanges": [
-        { "stat": "factions.reformists", "operation": "add", "value": 8 },
-        { "stat": "factions.businessClass", "operation": "add", "value": -10 },
-        { "stat": "vaelInfluence", "operation": "add", "value": -5 },
-        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
-      ],
-      "flags": ["vael_approached", "vael_rejected"],
-      "internalTag": "reformist",
-      "reactions": [
+
+    "bni_gap": {
+      "dialogue": [
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "He closes the folder slowly. The deliberation itself is a form of comment. Rejected. The word hangs in the air — he does not say it out loud. He does not need to.",
-          "type": "narrative"
+          "text": "I don't know. I've suspected for fifteen years and I don't know. What I can tell you is that in 1953 Halvek's government awarded Vael-Kross a series of infrastructure contracts without competitive tender. The total value was approximately forty million Krone over eight years."
         },
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "Vael will respond through proxies first. Business press. Chamber of Commerce. Subtle signals before anything overt. Six weeks. Then we see what he actually does.",
-          "type": "dialogue"
+          "text": "Whether the contracts and the gap are connected is something only the missing files could tell us."
+        },
+        {
+          "type": "narrative",
+          "text": "The BNI files. Which you dissolved, reviewed, or retained depending on your decision three weeks ago. You file that thought away."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gap_to_proposal",
+          "text": "So he benefited from Halvek. Now he wants to make a deal with us. What kind of deal?",
+          "nextSegment": "proposal_speculation"
+        },
+        {
+          "id": "gap_to_meeting",
+          "text": "I want to meet him. I want to look at him when he makes this offer.",
+          "nextSegment": "meeting_preparation"
         }
       ]
     },
-    {
-      "id": "vael_negotiate_terms",
-      "text": "Accept the dinner invitation — negotiate terms face-to-face. You need more information.",
-      "stateChanges": [
-        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
-        { "stat": "vaelInfluence", "operation": "add", "value": 8 }
-      ],
-      "flags": ["vael_approached", "vael_dinner"],
-      "chainTriggers": [
-        { "targetNodeId": "act1_vael_estate_dinner", "delayWeeks": 2 }
-      ],
-      "internalTag": "pragmatist",
-      "reactions": [
+
+    "media_holdings": {
+      "dialogue": [
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "The Dinner. He does not quite say the capital letters but you hear them anyway. The Winter Palace has hosted seventeen Chancellors. Fourteen accepted the invitation. Three declined. All fourteen who accepted left with some kind of arrangement.",
-          "type": "narrative"
+          "text": "The Ashenmere Herald. Three regional papers. The Veltrian Commercial Bulletin. And a forty percent stake in the northern broadcasting consortium."
         },
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "Recommended. Learn what he wants. Learn what he knows. Do not commit to anything before you leave the estate. He will try to get a commitment before dessert. They always do.",
-          "type": "dialogue"
+          "text": "He doesn't control the editorial line directly. He doesn't need to. Editors understand which way the wind blows."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "The Ashenmere Herald endorsed our campaign."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Yes. I noticed that at the time."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_to_instinct",
+          "text": "He endorsed us and now he wants something. What does your instinct say?",
+          "nextSegment": "vyktor_instinct"
+        },
+        {
+          "id": "media_to_proposal",
+          "text": "What's the proposal?",
+          "nextSegment": "proposal_speculation"
         }
       ]
     },
-    {
-      "id": "vael_public_exposure",
-      "text": "Go public about Vael's offer — frame it as political interference by the oligarchy.",
-      "stateChanges": [
-        { "stat": "factions.reformists", "operation": "add", "value": 10 },
-        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
-        { "stat": "factions.businessClass", "operation": "add", "value": -15 },
-        { "stat": "vaelInfluence", "operation": "add", "value": -10 },
-        { "stat": "nation.pressFreedom", "operation": "add", "value": 2 },
-        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
-      ],
-      "flags": ["vael_approached", "vael_exposed"],
-      "internalTag": "reformist",
-      "reactions": [
+
+    "proposal_speculation": {
+      "dialogue": [
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "He is silent for a long time. Then he removes his glasses. That is the equivalent of another man throwing furniture. Public exposure. The most expensive option. He says it like it is a line item on a budget he is already recalculating.",
-          "type": "narrative"
+          "text": "Infrastructure and Kravenstal employment. My guess: he wants to propose a public-private partnership. Vael-Kross funds the Kravenstal modernization and the northern road network. The government provides the regulatory framework and the land access. He gets the contracts, the depreciation tax treatment, and the goodwill."
         },
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "This will not end with one press conference. Vael will retaliate, personally and comprehensively. His reach is not confined to legislation. Prepare for counterattack within 48 hours.",
-          "type": "dialogue"
+          "text": "On paper it addresses your budget problem. On paper the workers in Kravenstal get jobs. On paper it's a good deal."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "What's not on paper?"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "What Vael-Kross gets that isn't in the contract. Influence. Access. The quiet understanding that a government that depends on private infrastructure investment doesn't make decisions that threaten private infrastructure investment."
+        }
+      ],
+      "choices": [
+        {
+          "id": "proposal_ask_alternative",
+          "text": "Is there a version of this deal we could take without giving him that access?",
+          "nextSegment": "clean_deal_question"
+        },
+        {
+          "id": "proposal_ask_what_he_fears",
+          "text": "What does he fear from our government? What is he trying to buy protection from?",
+          "nextSegment": "vael_fears"
+        },
+        {
+          "id": "proposal_to_meeting",
+          "text": "I want to hear it from him directly.",
+          "nextSegment": "meeting_preparation"
+        },
+        {
+          "id": "proposal_refuse_now",
+          "text": "I won't meet with him. Send a formal response through proper channels.",
+          "nextSegment": "refuse_meeting"
+        }
+      ]
+    },
+
+    "vyktor_instinct": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "My instinct is that it's neither a trap nor a gift. It's a negotiation. He needs something from us and he has something we need. That's business."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The question is whether we can negotiate with him without becoming the kind of government that negotiates with Lucan Vael. Those are different questions."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "What's the difference?"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "One is a transaction. The other is a relationship. Transactions can be completed. Relationships don't end when the contract does."
+        }
+      ],
+      "choices": [
+        {
+          "id": "instinct_to_proposal",
+          "text": "What do you think he's proposing?",
+          "nextSegment": "proposal_speculation"
+        },
+        {
+          "id": "instinct_to_meeting",
+          "text": "I want to meet him and make my own judgment.",
+          "nextSegment": "meeting_preparation"
+        }
+      ]
+    },
+
+    "why_informal": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Three possibilities. He doesn't want a paper trail because the proposal involves things that shouldn't be on paper. He doesn't want his competitors to know he's approaching the government. Or he wants to make the offer personal — man to man, or man to chancellor — because he thinks that changes the dynamic."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "All three could be true simultaneously."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Which do you think it is?"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I think he's afraid of the wealth tax. And I think he wants to make an offer that makes you not want to implement it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "informal_to_proposal",
+          "text": "That's useful. What's the proposal itself?",
+          "nextSegment": "proposal_speculation"
+        },
+        {
+          "id": "informal_to_meeting",
+          "text": "Then I definitely want to meet him.",
+          "nextSegment": "meeting_preparation"
+        }
+      ]
+    },
+
+    "clean_deal_question": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Theoretically. You structure the contract with full competitive tender, transparency requirements, and performance bonds. You bring in independent auditors. You make the regulatory framework explicit and public so there are no private understandings."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Whether Vael would accept that version is a different question. A clean deal gives him the infrastructure contract. It doesn't give him the relationship."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "If he declines a clean deal, that tells us something."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Yes. It does."
+        }
+      ],
+      "choices": [
+        {
+          "id": "clean_deal_meet",
+          "text": "I'll meet him and offer the clean version. See what he says.",
+          "nextSegment": "meeting_preparation"
+        },
+        {
+          "id": "clean_deal_refuse",
+          "text": "If the clean version doesn't interest him, there's nothing to discuss.",
+          "nextSegment": "refuse_meeting"
+        }
+      ]
+    },
+
+    "vael_fears": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The wealth tax. Retroactive audit of no-tender contracts from the Halvek era. Media ownership regulations. Any one of those could cost him more than the infrastructure deal is worth. All three together would be existential."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He's not coming to offer us something. He's coming to find out how afraid he should be."
+        },
+        {
+          "type": "narrative",
+          "text": "You think about the missing BNI file. Three years of nothing. Then the contracts. Then the media acquisitions."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fears_to_meeting",
+          "text": "I want to be in the room when he finds out.",
+          "nextSegment": "meeting_preparation"
+        },
+        {
+          "id": "fears_refuse",
+          "text": "I'm not interested in a meeting with a man who's coming to buy security.",
+          "nextSegment": "refuse_meeting"
+        }
+      ]
+    },
+
+    "meeting_preparation": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "If you meet him — no staff on either side means no witnesses. I'd recommend against that. Let me be there as a note-taker. An observer. If he objects to that, the meeting doesn't happen."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Agreed."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "One more thing. He'll try to make you feel like peers. Two powerful people solving a problem together, above the usual politics. He's good at it. I've seen him do it with people who knew exactly what he was doing and still felt it work."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "You're the Chancellor. He's a private citizen. The room is yours."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prepare_to_final",
+          "text": "Set up the meeting.",
+          "nextSegment": "final_vael_choice"
+        },
+        {
+          "id": "prepare_conditions",
+          "text": "Set it up but on my terms. My office. My schedule. He comes to me.",
+          "nextSegment": "final_vael_choice"
+        }
+      ]
+    },
+
+    "refuse_meeting": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I can send a formal response through the Finance Ministry. Polite. Professional. It closes the door without slamming it."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "What happens to the infrastructure problem?"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We find another way. It exists. It's harder and slower and the workers in Kravenstal will wait longer. But it exists."
+        }
+      ],
+      "choices": [
+        {
+          "id": "refuse_confirm",
+          "text": "Send the formal response. We find another way.",
+          "nextSegment": "final_vael_choice"
+        },
+        {
+          "id": "refuse_reconsider",
+          "text": "Actually — I want to hear what he has to say before I close any doors.",
+          "nextSegment": "meeting_preparation"
+        }
+      ]
+    },
+
+    "final_vael_choice": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "Vyktor waits. The letter is still on the desk. Heavy paper. No letterhead. Handwritten. A man who has been careful his entire career is making a personal approach and asking for a personal response."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "What's your answer, Chancellor?"
+        }
+      ],
+      "monologue": "Forty million Krone in contracts. Missing surveillance files. Media ownership. An endorsed campaign. A personal letter. And Vyktor's warning — transactions end, relationships don't. Lucan Vael built his empire by knowing which governments to approach and how. The question is what kind of government we are and whether a meeting changes that or just reveals it.",
+
+      "choices": [
+        {
+          "id": "meet_open",
+          "text": "Meet him with an open agenda. Hear the full proposal before deciding anything. Vyktor present as observer.",
+          "statEffects": [
+            {"stat": "business_confidence", "value": 5},
+            {"stat": "reformist_credibility", "value": -3}
+          ],
+          "flags": ["vael_meeting_accepted", "vael_relationship_open"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I'll arrange it for Thursday. Neutral location — the Finance Ministry conference room, not here. Keeps it official."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He folds the letter and puts it in his own folder. Not yours."
+            }
+          ],
+          "journalEntry": {
+            "title": "Agreed to Meet Lucan Vael",
+            "category": "diplomacy"
+          }
+        },
+        {
+          "id": "meet_conditions",
+          "text": "Meet him but only to offer the clean deal — full tender, transparency, no private understandings. If he accepts those terms, we have a conversation. If he doesn't, we're done.",
+          "statEffects": [
+            {"stat": "business_confidence", "value": 2},
+            {"stat": "reformist_credibility", "value": 3}
+          ],
+          "flags": ["vael_meeting_conditional", "vael_clean_deal_offered"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "He may not accept those terms."
+            },
+            {
+              "character": "katerin_ashavel",
+              "type": "dialogue",
+              "text": "Then we learn something useful."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "A pause. Then he nods. Just once."
+            }
+          ],
+          "journalEntry": {
+            "title": "Set Conditions for Vael Meeting",
+            "category": "diplomacy"
+          }
+        },
+        {
+          "id": "decline_meeting",
+          "text": "Decline the meeting. Send a formal response through the Finance Ministry. We don't do private deals with private citizens.",
+          "statEffects": [
+            {"stat": "business_confidence", "value": -8},
+            {"stat": "reformist_credibility", "value": 8}
+          ],
+          "flags": ["vael_meeting_declined"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Understood. I'll draft the response today. The infrastructure question remains open."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "silence",
+              "text": "He picks up the letter. He looks at it for a moment before filing it."
+            }
+          ],
+          "journalEntry": {
+            "title": "Declined Vael's Approach",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "investigate_vael",
+          "text": "Decline the meeting for now. But I want someone looking at those missing BNI years and those 1953 contracts. Quietly.",
+          "statEffects": [
+            {"stat": "business_confidence", "value": -5},
+            {"stat": "reformist_credibility", "value": 5}
+          ],
+          "flags": ["vael_meeting_declined", "vael_investigation_active"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He is quiet for longer than usual."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I'll handle it personally. No paper trail until we know what we're looking at."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He puts the letter in his own pocket. Not a folder. His pocket."
+            }
+          ],
+          "journalEntry": {
+            "title": "Ordered Quiet Investigation of Vael",
+            "category": "policy"
+          }
         }
       ]
     }
-  ]
+  }
 }

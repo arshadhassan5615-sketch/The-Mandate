@@ -1,0 +1,544 @@
+{
+  "id": "act1_week9_morvec_dinner",
+  "title": "The Aldenmoor Estate",
+  "week": 9,
+  "act": 1,
+  "type": "personal",
+  "location": "Morvec Estate — Aldenmoor Province",
+  "characters": [
+    "stefan_morvec",
+    "aleksei_morvec",
+    "vyktor_reznik"
+  ],
+  "dialogue": [
+    {
+      "type": "narrative",
+      "text": "The invitation arrived on paper thicker than most men's salaries. Dinner at the Morvec estate. Aldenmoor Province. Saturday. No agenda mentioned. Vyktor held the card for a long time before he said anything."
+    }
+  ],
+  "monologue": "Vyktor doesn't hold things for a long time unless he is deciding how worried to be.",
+
+  "choices": [
+    {
+      "id": "ask_about_morvec",
+      "text": "What do you know about him?",
+      "nextSegment": "vyktor_on_morvec"
+    },
+    {
+      "id": "should_go_question",
+      "text": "Should we go?",
+      "nextSegment": "go_question"
+    },
+    {
+      "id": "who_else_present",
+      "text": "Who else will be there?",
+      "nextSegment": "dinner_guests"
+    }
+  ],
+
+  "segments": {
+    "vyktor_on_morvec": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Stefan Morvec. Seventy-four. Widower. His family has held land in this country since before it was a republic. Timber, grain, river transport, the northern rail concession. He is listed in official records as a retired estate manager. He is not a retired estate manager."
+        }
+      ],
+      "choices": [
+        {
+          "id": "how_powerful_question",
+          "text": "How powerful is he really?",
+          "nextSegment": "morvec_power"
+        },
+        {
+          "id": "why_invite_question",
+          "text": "Why is he inviting me?",
+          "nextSegment": "why_invite"
+        }
+      ]
+    },
+
+    "morvec_power": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The last Chancellor who declined a Morvec dinner retired six months later for health reasons. He was fifty-two and perfectly healthy. I am not saying there is a connection. I am saying the pattern exists."
+        }
+      ],
+      "choices": [
+        {
+          "id": "before_that_question",
+          "text": "And the Chancellor before that?",
+          "nextSegment": "morvec_history"
+        },
+        {
+          "id": "we_go_answer",
+          "text": "We go.",
+          "nextSegment": "arrive_at_estate"
+        }
+      ]
+    },
+
+    "morvec_history": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Attended every dinner. Served a full term. Morvec gave a speech at his retirement. Called him a man of great pragmatic wisdom. That is the highest compliment Stefan Morvec pays anyone. It means you did what he needed without making him ask twice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "go_on_our_terms",
+          "text": "We go. But on our terms.",
+          "nextSegment": "arrive_at_estate"
+        },
+        {
+          "id": "what_terms_possible",
+          "text": "What terms are even possible?",
+          "nextSegment": "our_terms"
+        }
+      ]
+    },
+
+    "our_terms": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "You listen. You do not commit to anything. You eat his food, drink his wine, and remember that everything he says means something other than what he says. That is the only terms available."
+        }
+      ],
+      "choices": [
+        {
+          "id": "understood_go",
+          "text": "Understood. We go.",
+          "nextSegment": "arrive_at_estate"
+        }
+      ]
+    },
+
+    "go_question": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We were always going. The question is what we say when we get there."
+        }
+      ],
+      "choices": [
+        {
+          "id": "what_do_we_say",
+          "text": "What do we say?",
+          "nextSegment": "our_terms"
+        }
+      ]
+    },
+
+    "dinner_guests": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Two district judges. The chairman of the northern rail authority. The bishop of Aldenmoor. And us. He builds tables carefully, Stefan Morvec. Every person at that table is there to send a message to every other person at that table."
+        }
+      ],
+      "choices": [
+        {
+          "id": "what_message_sending",
+          "text": "What message are we sending?",
+          "nextSegment": "message_we_send"
+        }
+      ]
+    },
+
+    "message_we_send": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "That we accepted the invitation. The message was sent the moment we opened the envelope."
+        }
+      ],
+      "choices": [
+        {
+          "id": "go_knowing_that",
+          "text": "Then we go knowing that.",
+          "nextSegment": "arrive_at_estate"
+        }
+      ]
+    },
+
+    "arrive_at_estate": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "The estate sits on four hundred hectares above the Aldenmoor valley. The house is two hundred years old and maintained as though time is afraid to touch it. Stefan Morvec meets you at the door himself. He moves slowly. He is in no hurry. He has never been in a hurry."
+        }
+      ],
+      "choices": [
+        {
+          "id": "watch_him_carefully",
+          "text": "Watch him carefully.",
+          "nextSegment": "morvec_greeting"
+        }
+      ]
+    },
+
+    "morvec_greeting": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Chancellor Ashavel. My house is honored. I have followed your first weeks with great interest. You remind me, if I may say so, of your father. He also believed that things could be done correctly. I always admired that about him."
+        }
+      ],
+      "monologue": "He knew my father. Of course he knew my father. I do not know if that is a compliment or a warning.",
+      "choices": [
+        {
+          "id": "knew_my_father",
+          "text": "You knew my father?",
+          "nextSegment": "knew_father"
+        },
+        {
+          "id": "thank_for_invitation",
+          "text": "Thank you for the invitation.",
+          "nextSegment": "invitation_response"
+        },
+        {
+          "id": "what_do_you_mean_correctly",
+          "text": "What do you mean by correctly?",
+          "nextSegment": "correctly_question"
+        }
+      ]
+    },
+
+    "knew_father": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "We had occasion to speak. Several times, over the years. He was a man of principle. Principles are a great luxury in this country. I have always respected those who could afford to keep them."
+        }
+      ],
+      "monologue": "He is telling me something. I am not yet sure what.",
+      "choices": [
+        {
+          "id": "what_can_i_afford",
+          "text": "And what do you believe I can afford?",
+          "nextSegment": "what_you_can_afford"
+        },
+        {
+          "id": "worthy_of_example",
+          "text": "I hope to be worthy of his example.",
+          "nextSegment": "worthy_response"
+        }
+      ]
+    },
+
+    "what_you_can_afford": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "That is a very direct question, Chancellor. I appreciate directness. My son does not — he finds it vulgar. I find it refreshing. Please. Come inside. We can discuss what everyone can afford over dinner."
+        }
+      ],
+      "monologue": "He smiled when I asked. He expected it. He wanted me to ask it.",
+      "choices": [
+        {
+          "id": "follow_him_inside_1",
+          "text": "Follow him inside.",
+          "nextSegment": "dinner_scene"
+        }
+      ]
+    },
+
+    "worthy_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "I have no doubt of it. Please, come inside. My son Aleksei has been looking forward to meeting you. He is very interested in the new government's economic direction."
+        }
+      ],
+      "monologue": "The son. Vyktor mentioned the son. I should pay attention to the son.",
+      "choices": [
+        {
+          "id": "follow_him_inside_2",
+          "text": "Follow him inside.",
+          "nextSegment": "dinner_scene"
+        }
+      ]
+    },
+
+    "correctly_question": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "With patience. With an understanding that the republic is larger than any one government's ambitions. With the knowledge that the men and women who make this country function are not always the ones whose names appear in newspapers. Please — come inside."
+        }
+      ],
+      "monologue": "He just described himself without ever saying his name. I am beginning to understand why Vyktor was careful.",
+      "choices": [
+        {
+          "id": "follow_him_inside_3",
+          "text": "Follow him inside.",
+          "nextSegment": "dinner_scene"
+        }
+      ]
+    },
+
+    "invitation_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "The invitation was overdue. I should have reached out earlier. But I find that first impressions benefit from a little time. I wanted to see what kind of Chancellor you would be before I presumed to introduce myself properly."
+        }
+      ],
+      "choices": [
+        {
+          "id": "what_kind_am_i",
+          "text": "And what kind of Chancellor am I?",
+          "nextSegment": "what_kind"
+        }
+      ]
+    },
+
+    "what_kind": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Careful. Intelligent. Not yet certain what you want this government to be. That is not a criticism, Chancellor. Certainty this early is usually a mistake. Come inside. The wine is from the estate. I think you will find it honest."
+        }
+      ],
+      "choices": [
+        {
+          "id": "follow_him_inside_4",
+          "text": "Follow him inside.",
+          "nextSegment": "dinner_scene"
+        }
+      ]
+    },
+
+    "dinner_scene": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "Three hours. The food is extraordinary. The conversation moves through Veltrian history, economic philosophy, the quality of the northern timber season. Morvec never mentions politics directly. He never needs to. By the time the dessert is cleared, Aleksei has leaned forward twice to say something direct, and both times Stefan has touched his arm and Aleksei has leaned back."
+        }
+      ],
+      "choices": [
+        {
+          "id": "the_real_conversation",
+          "text": "The real conversation.",
+          "nextSegment": "morvec_real_talk"
+        }
+      ]
+    },
+
+    "morvec_real_talk": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "I wonder, Chancellor — and forgive an old man his curiosity — what your government intends with the northern development allocation. I have certain interests in the region. Nothing that would conflict with the public good. I simply find that when old arrangements are disrupted without consultation, everyone suffers unnecessarily."
+        }
+      ],
+      "monologue": "There it is. Not a demand. An expression of concern about unnecessary suffering. He is very good at this.",
+      "choices": [
+        {
+          "id": "what_consultation_mind",
+          "text": "What kind of consultation did you have in mind?",
+          "nextSegment": "consultation_question"
+        },
+        {
+          "id": "public_interest_response",
+          "text": "The allocation will follow the public interest.",
+          "nextSegment": "public_interest_response"
+        },
+        {
+          "id": "tell_me_northern_interests",
+          "text": "Tell me about your interests in the north.",
+          "nextSegment": "northern_interests"
+        }
+      ]
+    },
+
+    "consultation_question": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Nothing formal. I would not presume. Simply — an open door. The ability to raise a concern before it becomes a problem. I have found, over many years, that most problems can be resolved before they require resolution. It is only when communication breaks down that things become — complicated."
+        }
+      ],
+      "monologue": "He is asking for access. Not policy. Access. That is more dangerous than policy.",
+      "choices": [
+        {
+          "id": "door_open_to_all",
+          "text": "My door is open to all citizens.",
+          "nextSegment": "open_door_response"
+        },
+        {
+          "id": "i_can_offer_that",
+          "text": "I can offer that.",
+          "nextSegment": "offer_access"
+        }
+      ]
+    },
+
+    "public_interest_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Of course. I would expect nothing less. I simply mean to say that the public interest and the interests of those who have built this region over generations are not necessarily in conflict. Sometimes they require — translation. I have always been happy to assist with translation."
+        }
+      ],
+      "monologue": "He is not insulted. He expected this. He has contingencies for this.",
+      "choices": [
+        {
+          "id": "what_kind_translation",
+          "text": "What kind of translation?",
+          "nextSegment": "consultation_question"
+        },
+        {
+          "id": "keep_in_mind_response",
+          "text": "I'll keep that in mind.",
+          "nextSegment": "keep_in_mind"
+        }
+      ]
+    },
+
+    "northern_interests": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "The timber concession. The grain storage network — eighteen facilities across four provinces. The river transport cooperative, which my grandfather built and which my family has operated for seventy years. These are not speculative investments, Chancellor. They are the infrastructure of people's livelihoods."
+        }
+      ],
+      "choices": [
+        {
+          "id": "those_interests_substantial",
+          "text": "Those interests are substantial.",
+          "nextSegment": "substantial_response"
+        }
+      ]
+    },
+
+    "substantial_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "They are. And I have managed them responsibly. I say this not to impress you but because I believe you are the kind of person who appreciates honest accounting. I have never hidden what I own. I have simply never been asked to justify it by someone I respected enough to answer honestly."
+        }
+      ],
+      "monologue": "He just told me he respects me. Or he told me he wants me to believe he does. I cannot tell yet which.",
+      "choices": [
+        {
+          "id": "appreciate_honesty",
+          "text": "I appreciate the honesty.",
+          "nextSegment": "final_morvec"
+        }
+      ]
+    },
+
+    "open_door_response": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "Naturally. I would not ask for anything else. Please understand — I am not here to complicate your government, Chancellor. I am here because I believe in this republic and in the people who lead it well. I simply prefer to express that belief in person rather than through intermediaries."
+        }
+      ],
+      "choices": [
+        {
+          "id": "move_to_final_exchange",
+          "text": "Move to the final exchange.",
+          "nextSegment": "final_morvec"
+        }
+      ]
+    },
+
+    "offer_access": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "That is all I ask. Thank you, Chancellor. I think we understand each other. Aleksei — you see? This is how things are done."
+        }
+      ],
+      "monologue": "Aleksei does not look satisfied. He wanted more. Whatever 'more' means to a man like him.",
+      "choices": [
+        {
+          "id": "conclude_evening_1",
+          "text": "Conclude the evening.",
+          "nextSegment": "final_morvec"
+        }
+      ]
+    },
+
+    "keep_in_mind": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "stefan_morvec",
+          "text": "That is all I ask. I am an old man, Chancellor. I do not have the energy for conflict. I find that most things can be resolved with a conversation, if both parties are willing to have it honestly."
+        }
+      ],
+      "choices": [
+        {
+          "id": "conclude_evening_2",
+          "text": "Conclude the evening.",
+          "nextSegment": "final_morvec"
+        }
+      ]
+    },
+
+    "final_morvec": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "He walks you to the car himself. His son stays on the steps. At the door Stefan Morvec takes your hand in both of his — an old man's gesture, warm, firm — and says nothing for a moment. Then: 'Veltria has needed someone like you for a long time. I hope we are both patient enough to see what you become.'"
+        }
+      ],
+      "monologue": "In the car Vyktor is quiet for five minutes. Then he says: 'He is going to be a problem.' I ask him why. He says: 'Because that went too well.'",
+      "choices": [
+        {
+          "id": "record_in_journal",
+          "text": "Record this in the journal.",
+          "statEffects": [
+            { "stat": "morvecInfluence", "value": 10 },
+            { "stat": "public_trust", "value": -2 }
+          ],
+          "flags": ["morvec_first_contact"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "concern",
+              "text": "He knows something about us that we do not know he knows. I am going to find out what it is."
+            },
+            {
+              "character": "stefan_morvec",
+              "type": "satisfied",
+              "text": "She is smarter than the last three. Good."
+            }
+          ],
+          "journalEntry": {
+            "title": "The Aldenmoor Dinner",
+            "category": "PERSONAL",
+            "content": "Stefan Morvec is not what I expected. I expected a man who wanted something. He wants something, but he wants it the way gravity wants things — not urgently, just inevitably. Vyktor thinks it went too well. I think Vyktor is right."
+          }
+        }
+      ]
+    }
+  }
+}

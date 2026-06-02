@@ -260,8 +260,8 @@ export default function CharacterCustomization() {
       {/* Main two-column body */}
       <div style={{
         flex: 1, display: 'flex',
-        padding: '1.5rem 2rem 1rem', gap: '2rem', alignItems: 'flex-start',
-        minHeight: 0,
+        padding: '1.5rem 2rem 2rem', gap: '2rem', alignItems: 'flex-start',
+        minHeight: 'fit-content',
       }}>
         {/* LEFT — Portrait */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', flexShrink: 0 }}>
@@ -338,7 +338,7 @@ export default function CharacterCustomization() {
               fontFamily: "'IM Fell English', Georgia, serif",
               fontStyle: 'italic', fontSize: '0.8rem',
               color: 'var(--muted)', lineHeight: 1.55,
-              marginTop: '0.4rem',
+              marginTop: '0.4rem', marginBottom: '2rem',
               paddingLeft: '0.5rem',
               borderLeft: '2px solid var(--border)',
             }}
@@ -351,6 +351,7 @@ export default function CharacterCustomization() {
       {/* Bottom bar — name / signature / begin */}
       <div style={{
         borderTop: '1px solid var(--border)',
+        marginTop: '1.5rem',
         padding: '0.9rem 2rem 1.2rem',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         background: 'rgba(200,144,42,0.03)', flexShrink: 0,

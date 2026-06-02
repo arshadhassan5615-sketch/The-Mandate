@@ -19,6 +19,7 @@ export interface CliffhangerContext {
   church: number
   dravenni: number
   vaelInfluence: number
+  morvecInfluence: number
   stateOfEmergency: boolean
   seridaAlive: boolean
 }

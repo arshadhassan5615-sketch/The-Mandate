@@ -158,21 +158,25 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
-          width: '40px',
-          height: '40px',
-          borderRadius: '50%',
+          width: '44px',
+          height: '44px',
+          borderRadius: '4px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           background: active
-            ? 'rgba(200,144,42,0.14)'
-            : hovered ? 'rgba(200,144,42,0.08)' : 'rgba(15,12,10,0.8)',
-          border: `1.5px solid ${active ? 'rgba(200,144,42,0.6)' : hovered ? 'rgba(200,144,42,0.45)' : 'rgba(200,144,42,0.22)'}`,
-          color: isLit ? 'var(--amber)' : 'rgba(107,96,80,0.65)',
+            ? 'rgba(201,168,76,0.15)'
+            : hovered ? 'rgba(201,168,76,0.12)' : 'rgba(20,18,12,0.85)',
+          border: `1.5px solid ${active ? 'rgba(201,168,76,0.9)' : hovered ? 'rgba(201,168,76,0.8)' : 'rgba(201,168,76,0.5)'}`,
+          color: isLit ? '#c9a84c' : 'rgba(201,168,76,0.9)',
           cursor: 'pointer',
           transition: 'all 0.15s ease',
           position: 'relative',
-          boxShadow: hovered ? '0 0 8px rgba(200,144,42,0.2)' : 'none',
+          boxShadow: isLit
+            ? '0 0 12px rgba(201,168,76,0.3), inset 0 0 8px rgba(201,168,76,0.1)'
+            : hovered ? '0 0 8px rgba(200,144,42,0.2)' : 'none',
+          opacity: 1,
+          fontWeight: 700,
         }}
         title={label}
       >
@@ -181,24 +185,25 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
         {badge !== undefined && badge > 0 && (
           <div style={{
             position: 'absolute',
-            top: '5px',
-            right: '5px',
-            background: 'var(--accent-red)',
-            color: 'var(--cream)',
+            top: '2px',
+            right: '2px',
+            background: '#c0392b',
+            color: 'white',
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.4rem',
-            fontWeight: 700,
-            minWidth: '14px',
-            height: '14px',
-            borderRadius: '7px',
+            fontSize: '10px',
+            fontWeight: 'bold',
+            minWidth: '16px',
+            height: '16px',
+            borderRadius: '8px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '0 3px',
+            padding: '0 4px',
             lineHeight: 1,
             pointerEvents: 'none',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
           }}>
-            {badge > 9 ? '9+' : badge}
+            {badge > 99 ? '99+' : badge}
           </div>
         )}
       </button>
@@ -213,12 +218,12 @@ function ParliamentPanel({ onClose }: { onClose: () => void }) {
     <div style={{
       position: 'fixed',
       right: '48px',
-      top: '48px',
+      top: '80px',
       width: '200px',
       background: 'rgba(12,10,8,0.97)',
       border: '1px solid var(--border)',
       borderRight: 'none',
-      zIndex: 160,
+      zIndex: 210,
       display: 'flex',
       flexDirection: 'column',
       boxShadow: '-4px 4px 24px rgba(0,0,0,0.6)',
@@ -285,19 +290,16 @@ export default function RightSidebar() {
       <div style={{
         position: 'fixed',
         right: 0,
-        top: '48px',
+        top: '80px',
         bottom: 0,
         width: '52px',
-        zIndex: 150,
+        zIndex: 210,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        background: 'rgba(10,8,6,0.92)',
-        borderLeft: '1px solid rgba(200,144,42,0.14)',
-        backdropFilter: 'blur(4px)',
-        paddingTop: '8px',
-        paddingBottom: '8px',
-        gap: '2px',
+        background: 'transparent',
+        padding: '8px 6px',
+        gap: '4px',
       }}>
         {/* Decorative top rule */}
         <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.2)', marginBottom: '6px', flexShrink: 0 }} />
@@ -378,12 +380,7 @@ export default function RightSidebar() {
           }}
         />
 
-        {/* Spacer */}
-        <div style={{ flex: 1 }} />
-
-        {/* Decorative mid-rule */}
-        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.12)', marginBottom: '4px', flexShrink: 0 }} />
-
+        {/* Journal, Letters, Notepad, Settings — same styling as top group */}
         <SideButton
           icon={<IconJournal />}
           label="Journal"

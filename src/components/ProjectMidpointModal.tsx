@@ -89,7 +89,7 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
               textAlign: 'center',
               marginBottom: '1.5rem',
             }}>
-              Week {project.currentWeek} of {def.durationWeeks} · {project.totalCost}M VK
+              Week {project.currentWeek} of {def.durationWeeks} · {project.totalCost}M ₭
             </div>
 
             <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.5rem' }} />
@@ -127,7 +127,7 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
                   <span style={{ fontFamily: "'IM Fell English', Georgia, serif" }}>{choice.text}</span>
                   {choice.costChange !== undefined && (
                     <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', color: choice.costChange > 0 ? 'var(--accent-red)' : 'var(--accent-green)' }}>
-                      {choice.costChange > 0 ? '+' : ''}{choice.costChange}M VK
+                      {choice.costChange > 0 ? '+' : ''}{choice.costChange}M ₭
                     </span>
                   )}
                 </button>

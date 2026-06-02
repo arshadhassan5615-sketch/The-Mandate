@@ -60,25 +60,33 @@ const INVERSE_STATS = new Set([
 
 // ─── Subcomponents ────────────────────────────────────────────────────────────
 
-const mono: React.CSSProperties = { fontFamily: "'Special Elite', monospace" }
-
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p style={{ ...mono, fontSize: '0.6rem', letterSpacing: '0.22em', color: 'var(--amber-dim)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-      ▸ {children}
+    <p style={{
+      fontFamily: "'Georgia', serif",
+      fontSize: '10px',
+      letterSpacing: '3px',
+      color: '#c9a84c',
+      textTransform: 'uppercase',
+      fontWeight: '700',
+      borderBottom: '1px solid rgba(201,168,76,0.2)',
+      paddingBottom: '6px',
+      marginBottom: '12px',
+    }}>
+      {children}
     </p>
   )
 }
 
 function Rule() {
-  return <div style={{ height: '1px', background: 'var(--border)', margin: '0.5rem 0 1rem' }} />
+  return <div style={{ height: '1px', background: 'rgba(201,168,76,0.2)', margin: '0.5rem 0 1rem' }} />
 }
 
 function RevenueRow({ label, value }: { label: string; value: number }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0', borderBottom: '1px solid rgba(200,144,42,0.07)' }}>
-      <span style={{ ...mono, fontSize: '0.68rem', color: 'var(--muted)', letterSpacing: '0.05em' }}>{label}</span>
-      <span style={{ ...mono, fontSize: '0.68rem', color: 'var(--cream)', letterSpacing: '0.08em' }}>{value}M</span>
+      <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.05em' }}>{label}</span>
+      <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.08em' }}>{value}M</span>
     </div>
   )
 }
@@ -100,20 +108,20 @@ function SliderRow({ config, value, baseline, totalExpenditure, onChange }: Slid
     <div style={{ marginBottom: '1.1rem' }}>
       {/* Label row */}
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '0.3rem', gap: '0.5rem' }}>
-        <span style={{ ...mono, fontSize: '0.68rem', color: atMin ? 'var(--accent-red)' : 'var(--cream)', letterSpacing: '0.06em', flex: 1 }}>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '13px', fontWeight: '600', color: atMin ? 'var(--accent-red)' : '#e8d5a3', letterSpacing: '0.5px', flex: 1 }}>
           {config.label}
           {atMin && config.warning && (
-            <span style={{ marginLeft: '0.8em', fontSize: '0.55rem', color: 'var(--accent-red)', letterSpacing: '0.12em' }}>
+            <span style={{ marginLeft: '0.8em', fontSize: '9px', color: 'var(--accent-red)', letterSpacing: '0.12em' }}>
               ⚠ {config.warning}
             </span>
           )}
         </span>
-        <span style={{ ...mono, fontSize: '0.7rem', color: 'var(--cream)', letterSpacing: '0.08em', minWidth: '3.5rem', textAlign: 'right' }}>
-          {value}M VK
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.08em', minWidth: '3.5rem', textAlign: 'right' }}>
+          {value}M ₭
         </span>
         <span style={{
-          ...mono,
-          fontSize: '0.62rem',
+          fontFamily: "'Georgia', serif",
+          fontSize: '11px',
           letterSpacing: '0.06em',
           minWidth: '3.2rem',
           textAlign: 'right',
@@ -136,13 +144,17 @@ function SliderRow({ config, value, baseline, totalExpenditure, onChange }: Slid
 
       {/* Bar visualization */}
       <div style={{ marginTop: '0.35rem', height: '5px', background: 'rgba(200,144,42,0.08)', position: 'relative' }}>
-        {/* Baseline marker */}
+        {/* Baseline marker — gold diamond */}
         <div style={{
           position: 'absolute',
           left: `${(baseline / config.max) * 100}%`,
-          top: 0, bottom: 0,
-          width: '1px',
-          background: 'rgba(200,144,42,0.3)',
+          top: '-2px',
+          width: '0',
+          height: '0',
+          borderLeft: '4px solid transparent',
+          borderRight: '4px solid transparent',
+          borderBottom: '6px solid rgba(200,144,42,0.5)',
+          transform: 'rotate(0deg)',
         }} />
         {/* Current fill */}
         <div style={{
@@ -162,10 +174,10 @@ function ConsequenceRow({ stat, value }: { stat: string; value: number }) {
   const color = isGood ? 'var(--accent-green)' : 'var(--accent-red)'
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.2rem 0', borderBottom: '1px solid rgba(200,144,42,0.06)' }}>
-      <span style={{ ...mono, fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.04em' }}>
+      <span style={{ fontFamily: "'Georgia', serif", fontSize: '11px', color: '#e8d5a3', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
         {STAT_LABELS[stat] ?? stat}
       </span>
-      <span style={{ ...mono, fontSize: '0.65rem', color, letterSpacing: '0.08em', minWidth: '3rem', textAlign: 'right' }}>
+      <span style={{ fontFamily: "'Georgia', serif", fontSize: '11px', color, letterSpacing: '0.08em', minWidth: '3rem', textAlign: 'right', fontWeight: '700' }}>
         {value > 0 ? '+' : ''}{value}
       </span>
     </div>
@@ -225,32 +237,46 @@ export default function BudgetInterface() {
   }
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)' }}>
+    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(8,6,4,0.92)', paddingTop: '48px' }}>
 
       {/* ── Header ──────────────────────────────────────────────── */}
-      <div className="shrink-0 flex items-center justify-between px-8 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
-        <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
-        <span className="stamp">Week {currentWeek} · Budget Review</span>
+      <div className="shrink-0 flex items-center justify-between px-8 py-3" style={{ borderBottom: '1px solid rgba(201,168,76,0.25)' }}>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '11px', letterSpacing: '2px', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase' }}>
+          The Mandate — Republic of Veltria, 1963
+        </span>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '11px', letterSpacing: '2px', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase' }}>
+          Week {currentWeek} · Budget Review
+        </span>
       </div>
 
       {/* ── Body ────────────────────────────────────────────────── */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden" style={{ paddingRight: '60px' }}>
 
         {/* ── Left: Revenue + Summary ─────────────────────────── */}
         <div
-          className="hidden md:flex flex-col shrink-0 border-r overflow-y-auto"
-          style={{ borderColor: 'var(--border)', width: '230px', padding: '1.8rem 1.4rem' }}
+          className="hidden md:flex flex-col shrink-0 overflow-y-auto"
+          style={{ borderColor: 'rgba(201,168,76,0.25)', borderRight: '1px solid rgba(201,168,76,0.25)', width: '230px', padding: '1.8rem 1.4rem' }}
         >
           {/* Document letterhead */}
           <div style={{ marginBottom: '1.5rem' }}>
-            <p style={{ ...mono, fontSize: '0.58rem', letterSpacing: '0.22em', color: 'var(--amber)', textTransform: 'uppercase', lineHeight: 1.8 }}>
+            <p style={{ fontFamily: "'Georgia', serif", fontSize: '11px', letterSpacing: '2px', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase', lineHeight: '1.8' }}>
               Republic of Veltria<br />
               Office of the Chancellor<br />
               Fiscal Year 1963–64
             </p>
             <div style={{ margin: '0.6rem 0', height: '2px', background: 'var(--border)' }} />
-            <p style={{ ...mono, fontSize: '0.55rem', letterSpacing: '0.14em', color: 'var(--accent-red)', textTransform: 'uppercase' }}>
-              ⬛ Eyes Only — Classified
+            <p style={{
+              background: 'rgba(139,0,0,0.2)',
+              border: '1px solid rgba(139,0,0,0.5)',
+              color: '#ff6b6b',
+              fontSize: '9px',
+              letterSpacing: '2px',
+              padding: '3px 8px',
+              borderRadius: '2px',
+              textTransform: 'uppercase',
+              display: 'inline-block',
+            }}>
+              EYES ONLY — CLASSIFIED
             </p>
           </div>
 
@@ -260,46 +286,45 @@ export default function BudgetInterface() {
           <RevenueRow label="State Industries" value={draft.stateIndustry}  />
           <RevenueRow label="Customs & Tariffs"value={draft.customsTariffs} />
           <RevenueRow label="Foreign Aid"      value={draft.foreignAid}     />
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.4rem 0', marginTop: '0.2rem' }}>
-            <span style={{ ...mono, fontSize: '0.7rem', color: 'var(--amber-dim)', letterSpacing: '0.08em' }}>TOTAL</span>
-            <span style={{ ...mono, fontSize: '0.7rem', color: 'var(--amber)', letterSpacing: '0.08em' }}>{totalRevenue}M VK</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', marginTop: '8px', borderTop: '1px solid rgba(201,168,76,0.3)' }}>
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: '800', color: '#e8d5a3', letterSpacing: '0.08em' }}>TOTAL</span>
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: '800', color: '#c9a84c', letterSpacing: '0.08em' }}>{totalRevenue}M ₭</span>
           </div>
 
           <div style={{ margin: '1.2rem 0 0.8rem', height: '1px', background: 'var(--border)' }} />
 
           <SectionLabel>Fiscal Summary</SectionLabel>
-          <Rule />
 
           {/* Expenditure total */}
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
-            <span style={{ ...mono, fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.04em' }}>Expenditure</span>
-            <span style={{ ...mono, fontSize: '0.65rem', color: 'var(--cream)', letterSpacing: '0.06em' }}>{totalExpenditure}M</span>
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.04em' }}>Expenditure</span>
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.06em' }}>{totalExpenditure}M</span>
           </div>
 
           {/* Deficit */}
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.35rem 0', marginTop: '0.25rem', borderTop: '1px solid var(--border)' }}>
-            <span style={{ ...mono, fontSize: '0.72rem', color: 'var(--cream)', letterSpacing: '0.06em' }}>
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.06em' }}>
               {deficit <= 0 ? 'SURPLUS' : 'DEFICIT'}
             </span>
-            <span style={{ ...mono, fontSize: '0.72rem', color: deficitColor, letterSpacing: '0.08em', fontWeight: 'bold' }}>
-              {deficit > 0 ? '-' : '+'}{Math.abs(deficit)}M VK
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: deficitColor, letterSpacing: '0.08em', fontWeight: '700' }}>
+              {deficit > 0 ? '-' : '+'}{Math.abs(deficit)}M ₭
             </span>
           </div>
 
           {/* Debt */}
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
-            <span style={{ ...mono, fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.04em' }}>National Debt</span>
-            <span style={{ ...mono, fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.06em' }}>340M VK</span>
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.04em' }}>National Debt</span>
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.06em' }}>340M ₭</span>
           </div>
 
           {deficit > 65 && (
-            <p style={{ ...mono, fontSize: '0.58rem', letterSpacing: '0.1em', color: 'var(--accent-red)', textTransform: 'uppercase', marginTop: '0.8rem', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: "'Georgia', serif", fontSize: '10px', letterSpacing: '0.1em', color: 'var(--accent-red)', textTransform: 'uppercase', marginTop: '0.8rem', lineHeight: 1.6 }}>
               ⚠ Deficit exceeds baseline. Debt growth accelerating.
             </p>
           )}
 
           {deficit <= 0 && (
-            <p style={{ ...mono, fontSize: '0.58rem', letterSpacing: '0.1em', color: 'var(--accent-green)', textTransform: 'uppercase', marginTop: '0.8rem', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: "'Georgia', serif", fontSize: '10px', letterSpacing: '0.1em', color: 'var(--accent-green)', textTransform: 'uppercase', marginTop: '0.8rem', lineHeight: 1.6 }}>
               ✓ Budget balanced. Debt service sustainable.
             </p>
           )}
@@ -307,15 +332,21 @@ export default function BudgetInterface() {
 
         {/* ── Centre: Expenditure sliders ──────────────────────── */}
         <div className="flex flex-col flex-1 overflow-hidden">
-          <div className="flex-1 overflow-y-auto" style={{ padding: '1.8rem 2rem', scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}>
+          <div className="flex-1 overflow-y-auto budget-sliders" style={{ padding: '1.8rem 2rem' }}>
 
             <div style={{ marginBottom: '1.5rem' }}>
               <SectionLabel>Expenditure Allocation</SectionLabel>
               <Rule />
-              <p style={{ ...mono, fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.06em', lineHeight: 1.6 }}>
-                Adjust allocations using the sliders. The amber marker shows the previous allocation.
-                Changes take effect immediately upon commitment.
-              </p>
+              <div style={{
+                fontSize: '10px',
+                color: 'rgba(201,168,76,0.4)',
+                letterSpacing: '1px',
+                fontStyle: 'italic',
+                marginBottom: '12px',
+                paddingLeft: '4px',
+              }}>
+                Drag sliders to adjust · Amber marker shows previous allocation
+              </div>
             </div>
 
             {SLIDERS.map(config => (
@@ -330,35 +361,51 @@ export default function BudgetInterface() {
             ))}
 
             {/* Total row */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '0.8rem', marginTop: '0.3rem', borderTop: '2px solid var(--border)' }}>
-              <span style={{ ...mono, fontSize: '0.7rem', color: 'var(--amber-dim)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', marginTop: '8px', borderTop: '1px solid rgba(201,168,76,0.3)' }}>
+              <span style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: '800', color: '#e8d5a3', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Total Expenditure
               </span>
-              <span style={{ ...mono, fontSize: '0.7rem', color: 'var(--cream)', letterSpacing: '0.08em' }}>
-                {totalExpenditure}M VK
+              <span style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: '800', color: '#c9a84c', letterSpacing: '0.08em' }}>
+                {totalExpenditure}M ₭
               </span>
             </div>
           </div>
 
           {/* Commit bar */}
-          <div className="shrink-0 flex items-center justify-between px-8 py-4 border-t" style={{ borderColor: 'var(--border)' }}>
+          <div className="shrink-0 flex items-center justify-between px-8 py-4" style={{ borderTop: '1px solid rgba(201,168,76,0.25)' }}>
             <button
               onClick={handleReset}
               style={{
-                ...mono,
-                fontSize: '0.65rem',
-                letterSpacing: '0.12em',
-                color: 'var(--muted)',
+                fontFamily: "'Georgia', serif",
+                fontSize: '11px',
+                letterSpacing: '2px',
+                color: 'rgba(201,168,76,0.7)',
                 textTransform: 'uppercase',
-                background: 'none',
-                border: '1px solid var(--border)',
-                padding: '0.4rem 0.9rem',
+                background: 'transparent',
+                border: '1px solid rgba(201,168,76,0.4)',
+                padding: '12px 24px',
                 cursor: 'pointer',
               }}
             >
               Reset to Current
             </button>
-            <button className="choice-btn" onClick={handleCommit} style={{ width: 'auto', minWidth: '300px' }}>
+            <button
+              className="choice-btn"
+              onClick={handleCommit}
+              style={{
+                width: 'auto',
+                minWidth: '300px',
+                border: '2px solid #c9a84c',
+                color: '#1a1410',
+                background: '#c9a84c',
+                fontFamily: "'Georgia', serif",
+                fontWeight: '700',
+                letterSpacing: '1px',
+                padding: '12px 32px',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#dbb960')}
+              onMouseLeave={e => (e.currentTarget.style.background = '#c9a84c')}
+            >
               {continueLabel}
             </button>
           </div>
@@ -366,14 +413,14 @@ export default function BudgetInterface() {
 
         {/* ── Right: Projected consequences ───────────────────── */}
         <div
-          className="hidden lg:flex flex-col shrink-0 border-l overflow-y-auto"
-          style={{ borderColor: 'var(--border)', width: '220px', padding: '1.8rem 1.2rem' }}
+          className="hidden lg:flex flex-col shrink-0 overflow-y-auto"
+          style={{ borderLeft: '1px solid rgba(201,168,76,0.25)', width: '200px', padding: '1.8rem 1.2rem', maxWidth: '200px', overflowX: 'hidden' }}
         >
           <SectionLabel>Projected Effects</SectionLabel>
           <Rule />
 
           {aggregated.size === 0 ? (
-            <p style={{ ...mono, fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.04em', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: "'Georgia', serif", fontSize: '11px', color: '#e8d5a3', letterSpacing: '0.04em', lineHeight: 1.6 }}>
               No changes from current allocation.
             </p>
           ) : (
@@ -384,7 +431,7 @@ export default function BudgetInterface() {
 
           <div style={{ marginTop: '2rem' }}>
             <Rule />
-            <p style={{ ...mono, fontSize: '0.57rem', letterSpacing: '0.1em', color: 'var(--muted)', lineHeight: 1.8, textTransform: 'uppercase' }}>
+            <p style={{ fontFamily: "'Georgia', serif", fontSize: '9px', letterSpacing: '0.1em', color: 'rgba(201,168,76,0.4)', lineHeight: 1.8, textTransform: 'uppercase' }}>
               Effects are estimates. Actual outcomes depend on political conditions and implementation.
             </p>
           </div>
@@ -393,10 +440,12 @@ export default function BudgetInterface() {
       </div>
 
       {/* ── Footer ──────────────────────────────────────────────── */}
-      <div className="shrink-0 flex items-center justify-between px-8 py-3 border-t" style={{ borderColor: 'var(--border)' }}>
-        <span className="stamp">Status: Active · Week {currentWeek}</span>
-        <span className="stamp" style={{ color: 'var(--amber-dim)' }}>
-          The Mandate — v0.0.1 &nbsp;·&nbsp; Ctrl+D — debug
+      <div className="shrink-0 flex items-center justify-between px-8 py-3" style={{ borderTop: '1px solid rgba(201,168,76,0.25)' }}>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '9px', letterSpacing: '2px', color: 'rgba(201,168,76,0.4)', textTransform: 'uppercase' }}>
+          STATUS: ACTIVE · WEEK {currentWeek}
+        </span>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '9px', color: 'rgba(255,255,255,0.2)', letterSpacing: '1px' }}>
+          THE MANDATE — V0.0.1 · CTRL+D — DEBUG
         </span>
       </div>
     </div>
