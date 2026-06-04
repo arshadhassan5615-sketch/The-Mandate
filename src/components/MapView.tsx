@@ -325,6 +325,7 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
 
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const hasDragged = useRef(false)
 
   // ─── Status computation ─────────────────────────────────────────────────
   const statuses = useMemo(() => {
@@ -337,8 +338,6 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
 
   const isGameplay = phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue'
   if (!isGameplay) return null
-
-  const hasDragged = useRef(false)
   const isDragging = false  // future: track map drag state for hover suppression
 
   function handleOpenDetail(id: string) {

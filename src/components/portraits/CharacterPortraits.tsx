@@ -509,6 +509,24 @@ export const SeridaValk: FC = () => (
   </svg>
 )
 
+// ── NIKOLAI PEROV — practical, weathered provincial governor ──────────────
+export const NikolaiPerov: FC = () => (
+  <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', display: 'block' }}>
+    <PBG id="bg-np"/>
+    <rect width="100" height="100" fill="url(#bg-np)"/>
+    {/* Short, practical hair — slightly receding */}
+    <path d="M30,44 Q30,20 50,17 Q70,20 70,44 Q67,28 50,26 Q33,28 30,44 Z" fill={H}/>
+    {/* Practical, weathered face */}
+    <ellipse cx="50" cy="46" rx="22" ry="27" fill={S}/>
+    {/* Slight frown lines — experienced */}
+    <path d="M36,38 Q40,36 44,38" fill="none" stroke="#1a1510" strokeWidth="0.8" opacity="0.4"/>
+    <path d="M56,38 Q60,36 64,38" fill="none" stroke="#1a1510" strokeWidth="0.8" opacity="0.4"/>
+    {/* Practical plain suit */}
+    <path d="M0,100 L0,79 Q20,73 44,69 L50,67 L56,69 Q80,73 100,79 L100,100 Z" fill={S}/>
+    <rect x="45" y="65" width="10" height="14" fill={S}/>
+  </svg>
+)
+
 // ── Lookup map ─────────────────────────────────────────────────────────────
 
 export const CHARACTER_PORTRAIT_MAP: Record<string, FC> = {
@@ -520,6 +538,7 @@ export const CHARACTER_PORTRAIT_MAP: Record<string, FC> = {
   danika_oberlin:  DanikaOberlin,
   stanislov_renek: StanislovRenek,
   drazen_kolvar:   DrazenKolvar,
+  nikolai_perov:   NikolaiPerov,
   soraya_khaled:   SorayaKhaled,
   lucan_vael:      LucanVael,
   oskar_brenner:   OskarBrenner,
@@ -554,6 +573,7 @@ export const CHARACTER_COLORS: Record<string, string> = {
   danika_oberlin:  '#C45A5A',
   stanislov_renek: '#9B7B3A',
   drazen_kolvar:   '#6B6B6B',
+  nikolai_perov:   '#4A5560',
   soraya_khaled:   '#8B2E2E',
   lucan_vael:      '#6B8B6B',
   oskar_brenner:   '#5A5A3A',

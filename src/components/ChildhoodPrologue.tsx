@@ -537,6 +537,8 @@ export default function ChildhoodPrologue() {
           overflowX: 'hidden',
           padding: '32px 2rem 2rem 2rem',
           scrollPaddingTop: '16px',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
         }}>
           <div style={{ maxWidth: 680, width: '100%' }}>
 

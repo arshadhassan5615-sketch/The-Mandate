@@ -50,29 +50,29 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
     }
   }
 
-  const handleContinue = () => {
-    if (phase === 'scene') {
-      advanceQueue()
-    }
+  const dismissRadio = () => {
     onClose()
+    if (phase === 'scene') {
+      setTimeout(() => advanceQueue(), 100)
+    }
   }
 
   if (remaining <= 0 && step === 'select') {
     return (
-      <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 350, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div onClick={dismissRadio} style={{ position: 'fixed', inset: 0, zIndex: 350, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div onClick={e => e.stopPropagation()} style={{ background: '#1a1815', border: '1px solid var(--accent-red)', padding: '2rem', maxWidth: '400px', textAlign: 'center' }}>
           <p style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.7rem', color: 'var(--accent-red)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>No Broadcasts Remaining</p>
           <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.85rem', color: 'var(--muted)', fontStyle: 'italic', marginTop: '0.5rem' }}>
             You have used all {MAX_BROADCASTS} of your national radio addresses. The people have heard from you enough. More broadcasts would only dilute your message.
           </p>
-          <button onClick={onClose} style={{ marginTop: '1rem', background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1rem', cursor: 'pointer' }}>Close</button>
+          <button onClick={dismissRadio} style={{ marginTop: '1rem', background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1rem', cursor: 'pointer' }}>Close</button>
         </div>
       </div>
     )
   }
 
   return (
-    <div onClick={step === 'done' ? onClose : undefined} style={{ position: 'fixed', inset: 0, zIndex: 350, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+    <div onClick={step === 'done' ? dismissRadio : undefined} style={{ position: 'fixed', inset: 0, zIndex: 350, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
       <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: '680px', maxHeight: '92vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
         {step === 'select' && (
@@ -110,7 +110,7 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
             </div>
 
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button onClick={onClose} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1rem', cursor: 'pointer' }}>Cancel</button>
+              <button onClick={dismissRadio} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1rem', cursor: 'pointer' }}>Cancel</button>
               <button onClick={() => setStep('preview')} style={{ background: 'var(--amber)', border: 'none', color: 'var(--ink)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1.2rem', cursor: 'pointer', fontWeight: 'bold', letterSpacing: '0.08em' }}>PREVIEW SPEECH</button>
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
               </div>
             )}
 
-            <button onClick={handleContinue} style={{
+            <button onClick={dismissRadio} style={{
               width: '100%', background: 'var(--amber)', border: 'none', color: 'var(--ink)',
               fontFamily: "'Special Elite', monospace", fontSize: '0.6rem', padding: '0.5rem', cursor: 'pointer', letterSpacing: '0.1em', fontWeight: 'bold',
             }}>

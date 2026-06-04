@@ -27,6 +27,7 @@ const CHAR_NAMES: Record<string, string> = {
   aldric_theron: 'Prof. Aldric Theron', stanislov_renek: 'Archbishop Renek',
   jonas_ashavel: 'Jonas Ashavel', liora_ashavel: 'Liora Ashavel',
   tomas_ashavel: 'Tomas Ashavel', drazen_kolvar: 'Dražen Kolvar',
+  nikolai_perov: 'General Perov',
   soraya_khaled: 'Soraya Khaled', lucan_vael: 'Lucan Vael',
   oskar_brenner: 'Gen. Brenner', nadia_voss: 'Nadia Voss',
   harrison_cole: 'Amb. Harrison Cole', yevgeni_stahl: 'Commissar Stahl',
@@ -122,16 +123,17 @@ export default function NarrativeScene() {
   const prevRevealed = useRef(0)
   const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Timeout fallback — if scene doesn't load within 4s, try to recover
+  // Timeout fallback — if scene doesn't load within 4s, try to recover.
+  // Skip if radio or cabinet meeting is open (they are the "current scene").
   useEffect(() => {
     if (!currentScene) {
       loadTimeoutRef.current = setTimeout(() => {
         const store = useWeekStore.getState()
-        console.error('[NarrativeScene] Scene load timeout — advancing queue')
+        if (store.phase !== 'scene') return
+        if (store.radioOpen || store.showCabinetMeeting) return
         if (store.sceneQueue.length > 0) {
+          console.error('[NarrativeScene] Scene load timeout — advancing queue')
           store.advanceQueue()
-        } else {
-          store.completeWeek()
         }
       }, 4000)
     }

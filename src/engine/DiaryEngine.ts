@@ -1,6 +1,7 @@
 import { DIARY_ENTRIES, diaryDate, type DiaryContext } from '../data/diary/diaryEntries'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
+import { useCabinetStore } from '../stores/cabinetStore'
 
 export interface DiaryEntry {
   week: number
@@ -60,6 +61,7 @@ export function generateDiaryEntry(week: number): DiaryEntry {
     stateOfEmergency: state.stateOfEmergency,
     seridaAlive: state.seridaAlive,
     seridaTrust: state.seridaTrust,
+    cabinetFormed: useCabinetStore.getState().formation_complete,
   }
 
   const dinnerText = getDinnerDiaryText(week, activeFlags)

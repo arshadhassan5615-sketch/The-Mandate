@@ -6,7 +6,8 @@ export type NarrativeSegmentType = 'description' | 'dialogue' | 'internal_though
 export interface NarrativeSegment {
   type: NarrativeSegmentType
   text: string
-  character?: string  // only present when type === 'dialogue'
+  character?: string       // only present when type === 'dialogue'
+  primaryCharacter?: string // for description segments: which character's portrait to show
 }
 
 export interface StatCondition {

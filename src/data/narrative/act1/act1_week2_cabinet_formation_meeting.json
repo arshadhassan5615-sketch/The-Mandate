@@ -1,0 +1,2852 @@
+{
+  "id": "act1_w2_formation_meeting",
+  "title": "The Cabinet Formation",
+  "act": 1,
+  "weekAvailable": 2,
+  "weekDeadline": 2,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Cabinet Room — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik",
+    "elara_vostane",
+    "drazen_kolvar",
+    "danika_oberlin",
+    "nikolai_perov",
+    "irina_dusek",
+    "aldric_theron",
+    "roman_kesic",
+    "gregor_maric",
+    "petra_solec",
+    "vera_sorin",
+    "henryk_borac",
+    "marta_solen",
+    "petr_horak",
+    "lena_kaspar",
+    "august_meln",
+    "benedikt_varro",
+    "sofia_drenek",
+    "orin_valdek",
+    "daria_voss"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The cabinet room is ready. Nine chairs around a long mahogany table. Sunlight cuts through the east windows in sharp rectangles. Vyktor stands at the head of the table with a leather folder thick enough to be a novel.",
+      "primaryCharacter": "vyktor_reznik"
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "They are outside. The candidates. I have given each of them fifteen minutes to present themselves — but we both know this is not a presentation. This is a negotiation with four different futures, and you only get one."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Finance. Interior. Defense. The three ministries that will define your first hundred days. The other six can wait. These three cannot."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "One thing before we begin: everything said in this room will find its way into the newspapers by morning. Assume that. Plan for it. Use it or be used by it."
+    }
+  ],
+  "monologue": "Nine chairs. Three ministries. Four futures. Vyktor is right — this is not a presentation. This is the first real test of my judgment. Every candidate outside that door has an agenda and most of them have already decided what they think of me. The question is whether I'm about to see the real person or the campaign version.",
+  "choices": [
+    {
+      "id": "start_finance_first",
+      "text": "Finance first. Everything else depends on the books.",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "nextSegment": "vostane_presents",
+      "reactions": []
+    },
+    {
+      "id": "start_interior_first",
+      "text": "Interior. The BNI is an open wound. I want it addressed first.",
+      "internalTag": "reformist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": ["form_meeting_interior_first"],
+      "codexUnlocks": [],
+      "nextSegment": "oberlin_presents",
+      "reactions": []
+    },
+    {
+      "id": "start_defense_first",
+      "text": "Defense. The Tyvaren border won't wait for committee schedules.",
+      "internalTag": "pragmatist",
+      "stateChanges": [],
+      "chainTriggers": [],
+      "flags": ["form_meeting_defense_first"],
+      "codexUnlocks": [],
+      "nextSegment": "dusek_presents",
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Dusek appreciates directness. She will not waste your time."
+        }
+      ]
+    }
+  ],
+  "segments": {
+    "vostane_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor opens the door. Elara Vostane enters — tall, angular, dressed in grey wool. She carries no notes. She does not need them.",
+          "primaryCharacter": "elara_vostane"
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Chancellor. I will be brief because the situation is brief. The national deficit is three hundred forty million kroner. The debt service consumes nineteen percent of annual revenue. Inflation is eight point seven and rising."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "These are not opinions. They are measurements. I do not have opinions about the budget. I have arithmetic."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "If you appoint me, I will cut government waste by twelve percent in the first quarter. I will renegotiate the Orythian loan terms. I will audit every department with a budget over two million kroner. I will find things. Some of those things will embarrass people you need. This is not a bug. It is a feature."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The deficit is not a number, Chancellor. It is a choice. Every zero represents a hospital ward, a pensioner's heating allowance, a school in Dravenhollow that stays open or closes. I do not make these choices lightly. I make them correctly."
+        }
+      ],
+      "monologue": "She speaks in mathematics. Not because she is cold — I have known cold people, and they are different — but because she believes numbers protect her from having to justify the human cost of her decisions. She is right that we need her. She is wrong about why.",
+      "choices": [
+        {
+          "id": "probe_vostane_cuts",
+          "text": "What specifically gets cut first? Give me details, not percentages.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_vostane"],
+          "codexUnlocks": [],
+          "nextSegment": "vostane_detailed_cuts",
+          "reactions": [
+            {
+              "character": "elara_vostane",
+              "type": "action",
+              "text": "Vostane nods once — the gesture of someone who has been waiting to be asked exactly this question."
+            }
+          ]
+        },
+        {
+          "id": "challenge_vostane_politics",
+          "text": "You have no allies in the Assembly. How do you pass a budget when no one will vote for it?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_challenged_vostane"],
+          "codexUnlocks": [],
+          "nextSegment": "vostane_politics_answer",
+          "reactions": []
+        },
+        {
+          "id": "vostane_to_kolvar",
+          "text": "Thank you. I want to hear Kolvar's approach before making any decisions.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "vostane_detailed_cuts": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "First: state industry subsidies. We spend forty-two million kroner annually propping up factories that have not turned a profit in five years. The Kravenstal collective is an exception — it provides strategic employment. The rest are patronage by another name."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Second: the military procurement pipeline. I am not suggesting we cut readiness. I am suggesting we stop paying three different contractors to produce the same artillery shell because Colonel Dusek's predecessor could not decide whose cousin deserved the contract more."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Third: Halvek's ghost contracts. There are eleven active agreements with companies that no longer exist — payments to empty addresses. Eleven. The system has been hemorrhaging for so long that nobody notices the blood. I notice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vostane_detail_to_kolvar",
+          "text": "Impressive. Now let's hear from Kolvar.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_presents",
+          "reactions": []
+        },
+        {
+          "id": "vostane_detail_concerned",
+          "text": "Ghost contracts. That's either incompetence or deliberate theft. Which one is it?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_ghost_contracts"],
+          "codexUnlocks": [],
+          "nextSegment": "vostane_ghost_detail",
+          "reactions": []
+        }
+      ]
+    },
+    "vostane_ghost_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Both. The system was designed to make theft look like incompetence. That way no one person is ever responsible. Halvek understood accountability as something to be distributed so thinly that it disappears."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I have names. I have account numbers. I have a list of people who will resign rather than face audit. I am not asking for permission to release that list. I am telling you that if I take this office, the list will be released. You should decide whether you are ready for what comes after."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ghost_to_kolvar",
+          "text": "I'm ready. Now send in Kolvar.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_anticorruption_stance"],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_presents",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "She just gave you a weapon and a warning in the same sentence. Keep both."
+            }
+          ]
+        }
+      ]
+    },
+    "vostane_politics_answer": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "You are asking the wrong question. The purpose of a Finance Minister is not to pass budgets through the Assembly. That is your job. My job is to tell you which budgets are worth passing."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "If you want someone to charm the Halvekist caucus into voting for your tax reforms, appoint Kolvar. He is good at that. He has been good at that for twelve years. The deficit has grown for twelve years. These facts are related."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vostane_politics_to_kolvar",
+          "text": "Fair point. Let's see what Kolvar has to say for himself.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "kolvar_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Petr Kolvar enters with the ease of someone who has walked into a hundred rooms like this one. He is shorter than Vostane, rounder, dressed in a suit that costs more than most Veltrians earn in a year. His smile is warm. His eyes are not.",
+          "primaryCharacter": "drazen_kolvar"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Petr Kolvar. Twelve years on the budget committee. Former chair under Halvek. Currently — unattached. He will speak for himself."
+        },
+        {
+          "type": "description",
+          "text": "Kolvar makes a small adjustment to his cuff. The gesture is practiced."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "Chancellor. Thank you for this opportunity. I know what you have been hearing about me — that I am Halvek's man, that I represent the old way of doing things. Let me address that directly."
+        },
+        {
+          "type": "description",
+          "text": "Kolvar turns slightly, addressing Vostane as much as you. She does not react."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "I served in the Assembly under the previous government. I sat on committees. I negotiated budgets. I did my job. If that makes me compromised, then every civil servant who stayed at their desk during the transition is compromised. That is half the government."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "What I offer is not ideology. What I offer is the ability to get sixty-three votes in a chamber where you currently have forty-one. Vostane will give you a beautiful budget that dies in committee. I will give you a budget that passes. Those are your choices."
+        }
+      ],
+      "monologue": "He is smoother than I expected. Vostane speaks in equations. Kolvar speaks in votes. They are both right about each other. That is what makes this hard — not that one is good and the other bad, but that each is incomplete in exactly the way the other compensates for.",
+      "choices": [
+        {
+          "id": "probe_kolvar_connections",
+          "text": "Who exactly are your allies in the Assembly? I want names.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_kolvar"],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_connections",
+          "reactions": []
+        },
+        {
+          "id": "challenge_kolvar_halvek",
+          "text": "You chaired Halvek's budget committee. What did you know about the ghost contracts?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_challenged_kolvar"],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_halvek_answer",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "Vyktor's pen stops moving. The room goes very still."
+            }
+          ]
+        },
+        {
+          "id": "kolvar_to_interior",
+          "text": "I've heard enough from Finance. Let's move to Interior.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "kolvar_connections": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Kolvar nods as though he expected the question."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "The Halvekist caucus — thirty-one members who have no reason to support you except that I can make them. The agricultural bloc — eleven votes, Thornfeld and Gravenmark, protectionist, religious. The business independents — seven members who care about tax stability more than ideology. That is forty-nine votes before we discuss the coalition's natural allies."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "What I am telling you, Chancellor, is that I can build a governing majority from materials that currently consider themselves your opposition. Vostane cannot do that. She does not speak the language."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kolvar_connect_to_confront",
+          "text": "Let's bring Vostane back in. I want to hear you debate each other directly.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "finance_confrontation",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "Kolvar's smile tightens almost imperceptibly. Almost."
+            }
+          ]
+        },
+        {
+          "id": "kolvar_connect_to_interior",
+          "text": "Useful. Let's discuss Interior.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "kolvar_halvek_answer": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Kolvar does not flinch. His voice drops half an octave."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "I knew there were irregularities. I did not know the details. I deliberately did not know the details. That is not a defense. It is a confession. I made a choice — a decade ago — to look the other way on certain things so I could continue doing the parts of my job that actually helped people."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "You can judge me for that. You should. But ask yourself this: how many of the people in this building made the same choice? And of those, how many would admit it to your face on their first day in the room?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "kolvar_halvek_accept",
+          "text": "I appreciate the honesty. Let's bring Vostane back in for a direct debate.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": -1 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_accepted_kolvar_confession"],
+          "codexUnlocks": [],
+          "nextSegment": "finance_confrontation",
+          "reactions": []
+        },
+        {
+          "id": "kolvar_halvek_reject",
+          "text": "You looked away. I can't put someone who looked away at my Finance Ministry.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_rejected_kolvar"],
+          "codexUnlocks": [],
+          "nextSegment": "finance_confrontation",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "Kolvar absorbs the blow without expression. He has been rejected before. He knows how to carry it."
+            }
+          ]
+        }
+      ]
+    },
+    "finance_confrontation": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor gestures. Vostane re-enters. She takes the chair opposite Kolvar. The two of them regard each other like chess players who have played this game before and know exactly how it ends."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "You told her you can deliver forty-nine votes. You did not mention that twenty of those votes come from members who expect something in return. Road contracts. Regulatory exemptions. The same system of favors that created the deficit you claim to want to fix."
+        },
+        {
+          "type": "description",
+          "text": "Kolvar spreads his hands — the gesture of a man who has been misunderstood by people who refuse to understand him."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "Governance is not mathematics, Elara. It is negotiation. You negotiate with the Assembly you have, not the one you wish existed. Forty-nine votes built on relationships that I have spent twelve years cultivating. Not bribes. Relationships."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "You cultivate relationships the way other people cultivate debt. You are generating obligations you will someday be asked to repay. The question is whether you will repay them with policy concessions or with access. Both cost the same thing in the end."
+        },
+        {
+          "type": "description",
+          "text": "Kolvar's voice hardens — the first genuine emotion he has shown."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "And what is your solution? Purity? A government so clean it cannot pass a single bill? I have watched idealists burn through their mandates in six months because they refused to get their hands dirty. You will too."
+        }
+      ],
+      "monologue": "They are both right. Vostane is right about the system. Kolvar is right about the Assembly. The question is which truth is more expensive to ignore. Watching them argue, I realize something uncomfortable: I need both of them. I cannot have both.",
+      "choices": [
+        {
+          "id": "intervene_finance_calm",
+          "text": "Enough. I've heard what I need. Let's move to Interior.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_intervened_finance"],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_presents",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Vyktor makes a note. The note is very short."
+            }
+          ]
+        },
+        {
+          "id": "let_finance_debate_continue",
+          "text": "Keep going. I want to hear where this ends.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_extended_finance_debate"],
+          "codexUnlocks": [],
+          "nextSegment": "finance_debate_extended",
+          "reactions": []
+        }
+      ]
+    },
+    "finance_debate_extended": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The ghost contracts. Eleven of them. Payments to companies that do not exist. You chaired the committee that approved those budgets. You are telling me you did not know."
+        },
+        {
+          "type": "description",
+          "text": "For the first time, Kolvar looks uncomfortable. Not guilty — uncomfortable, the way a man looks when a conversation has moved into territory he did not prepare for."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "The ghost contracts pre-date my committee chairmanship by four years. I inherited them the same way she would inherit the deficit. That is the nature of government — you are always cleaning up someone else's mess while creating messes of your own."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The difference is what you do when you find the mess. I audit it. You accommodate it. Those are different responses to the same problem."
+        }
+      ],
+      "choices": [
+        {
+          "id": "extended_to_interior",
+          "text": "I've heard the core disagreement. Let's discuss Interior.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "oberlin_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Danika Oberlin enters like a storm front — fast, focused, impossible to ignore. She is younger than the Finance candidates by fifteen years. She does not seem to notice or care.",
+          "primaryCharacter": "danika_oberlin"
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Chancellor. I will not waste your time with pleasantries. You know my record. Fifteen years documenting BNI abuses. Four thousand three hundred cases of unlawful detention. Two hundred and eighty-seven documented interrogations that meet the international definition of torture."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "These are not allegations. These are case files with names, dates, and BNI officer identification numbers. I have read every one. Some of the officers are still serving."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "If you appoint me to Interior, I will dissolve the BNI. Not reform it. Not restructure it. Dissolve it. The agents will be reassigned or retired. The files will be opened to an independent commission. The victims will have their day. The perpetrators will face consequences."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "This will make enemies. Powerful ones. People who have been protected by the system for twenty years will fight to keep their protection. Some of them are in this building. Some of them you have already met."
+        }
+      ],
+      "monologue": "She speaks with the certainty of someone who has never had to compromise. I was like that once — before the campaign, before the coalition negotiations, before I learned that certainty is a luxury you trade for power. I envy her. I am also afraid of what she will do when she discovers that governing is not the same as witnessing.",
+      "choices": [
+        {
+          "id": "probe_oberlin_dissolution",
+          "text": "If you dissolve the BNI, what happens to its agents? Four hundred trained operatives don't just disappear.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_oberlin"],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_dissolution_detail",
+          "reactions": []
+        },
+        {
+          "id": "challenge_oberlin_politics",
+          "text": "You've never held office. How do you plan to manage a ministry of thousands?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_challenged_oberlin"],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_experience_answer",
+          "reactions": []
+        },
+        {
+          "id": "oberlin_to_perov",
+          "text": "Important perspective. Now I want to hear General Perov's alternative.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "perov_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "oberlin_dissolution_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "A fair question. I have a ninety-day transition plan. Phase one: suspend all active BNI operations. Phase two: audit the personnel files of every agent — identify who ordered what, who followed orders, who refused. Phase three: reassign clean agents to regular police or civil service. Retire the ones who cannot be reassigned. Prosecute the ones who committed crimes."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The risk is phase three. Some of those prosecutions will reach into this building. They will reach into the Assembly. They may reach into offices you currently consider friendly. I cannot protect you from that. I would not if I could."
+        }
+      ],
+      "choices": [
+        {
+          "id": "oberlin_plan_to_perov",
+          "text": "A ninety-day plan. That's more than most reformers bring. Let's hear Perov.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "perov_presents",
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "I have been preparing for this meeting for three years, Chancellor. I brought receipts."
+            }
+          ]
+        }
+      ]
+    },
+    "oberlin_experience_answer": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "You are right. I have never managed a ministry. I have never written a budget. I have never sat in a cabinet meeting or negotiated with the Assembly."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "What I have done is spent fifteen years proving that the ministry I want to lead has been violating the law it was created to uphold. I know the Interior Ministry better than anyone who has ever run it — not from the inside, but from the outside, where the victims are. Sometimes the best qualification is not having been part of the problem."
+        }
+      ],
+      "choices": [
+        {
+          "id": "oberlin_exp_to_perov",
+          "text": "Point taken. General Perov — your turn.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "perov_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "perov_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "General Perov enters without ceremony. He is in civilian clothes but carries himself with the unmistakable discipline of a career soldier. His handshake is brief and dry."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "Chancellor. Colonel Dusek speaks highly of your judgment. That counts for something."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "I will be direct. The BNI is a tool. Like any tool, it can be used well or used poorly. Halvek used it poorly — as an instrument of political repression. That does not mean the tool itself is worthless. It means we need better hands on the handle."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "My proposal: restructure the BNI under civilian oversight. Independent inspector general with prosecution authority. Strict operational limits. The agents who committed crimes will be identified and removed — not the entire organization, just the bad actors. The apparatus survives, reformed and accountable."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "Oberlin will tell you this is impossible. She will say the BNI is too corrupt to reform. I have reformed military units that had been fighting the wrong wars for years. Reform is hard. Dissolution is harder — because the people you dissolve do not disappear. They go underground. They do the same work for someone who is not accountable to you at all."
+        }
+      ],
+      "monologue": "He makes a compelling case. Not because he is right about Oberlin — he is not — but because he is right about what happens when you dissolve an intelligence apparatus without a plan for its people. The problem is I do not trust him to actually reform it. He speaks of oversight but his definition of oversight is shaped by thirty years of military hierarchy. He thinks transparency means telling your commanding officer.",
+      "choices": [
+        {
+          "id": "probe_perov_iron_covenant",
+          "text": "What is your relationship with the Iron Covenant?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_perov"],
+          "codexUnlocks": [],
+          "nextSegment": "perov_covenant_answer",
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "Oberlin leans forward slightly. This is the question she has been waiting for someone to ask."
+            }
+          ]
+        },
+        {
+          "id": "challenge_perov_surveillance",
+          "text": "You say 'civilian oversight' — but who appoints the overseers? You? The military?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_challenged_perov"],
+          "codexUnlocks": [],
+          "nextSegment": "perov_oversight_answer",
+          "reactions": []
+        },
+        {
+          "id": "perov_to_interior_confront",
+          "text": "I want to hear you and Oberlin debate this directly.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_confrontation",
+          "reactions": []
+        }
+      ]
+    },
+    "perov_covenant_answer": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Perov does not hesitate. This is a question he prepared for."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "I served in the Veltrian armed forces for thirty-one years. The Iron Covenant is a tradition within that institution — a network of officers who share certain beliefs about the military's role in society. I am a member. I am not a zealot."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "The Covenant wants stability. So do you. The Covenant wants a strong military. So do you. The difference is that some members of the Covenant want those things at the expense of civilian authority. I do not. I have spent my career proving that military professionalism and democratic accountability are not contradictory."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "Ask Colonel Dusek. She will tell you the same thing — perhaps in fewer words."
+        }
+      ],
+      "choices": [
+        {
+          "id": "perov_covenant_to_confront",
+          "text": "Let's bring Oberlin in. I want you two to debate this face to face.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_confrontation",
+          "reactions": []
+        }
+      ]
+    },
+    "perov_oversight_answer": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "The Chancellor appoints the Inspector General. The Assembly confirms. The Inspector General reports to both — quarterly public reports, annual classified supplement. It is not a perfect system. It is a better system than dissolution, which leaves you with four hundred unemployed intelligence officers and no idea what they are doing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "perov_oversight_to_confront",
+          "text": "Reasonable. Let's hear the debate.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_confrontation",
+          "reactions": []
+        }
+      ]
+    },
+    "interior_confrontation": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Oberlin and Perov. Reform and restructuring. Dissolution and oversight. They face each other across the table like two versions of the same question: what do you do with an institution that has done terrible things?"
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Perov wants you to believe the BNI can be reformed. He is using the language of oversight while preserving the structure of surveillance. Civilian oversight of a military intelligence apparatus is not oversight — it is a stamp on paperwork that has already been filed."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "With respect, Miss Oberlin, you have spent your career outside the institution. You know what they did. You do not know how they work. The BNI has capabilities we need — border intelligence, counter-espionage, threat assessment. You dissolve it and those capabilities are gone. You reform it and they serve the Republic instead of the Chancellor."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "You keep saying 'reform.' You mean 'rename.' Give the BNI a new letterhead and call it progress. I have spent fifteen years documenting what this institution does when you let it exist. It does not reform. It adapts."
+        },
+        {
+          "type": "description",
+          "text": "Perov's voice is very quiet now — the quiet of a man who has been insulted and is choosing not to respond in kind."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "You are young. You are righteous. You have never been responsible for national security at three in the morning when a threat assessment lands on your desk and you have no organization to analyze it. I hope you never have to be."
+        }
+      ],
+      "monologue": "The room is colder than it was five minutes ago. This is not a policy disagreement. This is a referendum on what kind of government I am building. Oberlin wants to burn the old house down and build a new one. Perov wants to renovate. Both are afraid the other's approach will leave us homeless.",
+      "choices": [
+        {
+          "id": "interior_support_oberlin",
+          "text": "Oberlin is right. The BNI cannot be reformed — it must be dismantled.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 5 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -4 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_sided_oberlin_interior"],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_presents",
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "Oberlin does not smile. She does not need to. Her expression says: I knew you would understand."
+            }
+          ]
+        },
+        {
+          "id": "interior_support_perov",
+          "text": "Perov is right. Dissolving the BNI creates a vacuum. Reform it instead.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 4 },
+            { "stat": "factions.reformists", "operation": "add", "value": -3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_sided_perov_interior"],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_presents",
+          "reactions": [
+            {
+              "character": "nikolai_perov",
+              "type": "action",
+              "text": "Perov nods once — a soldier's acknowledgment. Not gratitude. Recognition."
+            }
+          ]
+        },
+        {
+          "id": "interior_defer_judgment",
+          "text": "I need more information before I decide. Let's discuss Defense.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "dusek_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Colonel Irina Dusek enters. No introduction needed. She is in uniform — not dress uniform, working uniform, the kind that has seen field duty. She places a single folder on the table. It is thin. Dusek does not waste paper.",
+          "primaryCharacter": "irina_dusek"
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Chancellor. I will be brief. The Tyvaren border is not stable. It is not stable in a way that suggests instability is deliberate. Someone on the other side is testing our response times, our readiness, our willingness to escalate."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Seventeen patrol incursions in the last four months. Zero the year before. The pattern is not random. Marshal Vukov is building a picture of our defenses. When he has enough information, he will act on it."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "What I need from you: authorization to increase border patrol frequency. Funding for northern garrison modernization. A clear, public statement that Veltria will defend its territorial integrity. What I do not need: a Defense Minister who sees this posting as a political stepping stone."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "I am not a politician. I do not want your job. I want Tyvaren to understand that crossing our border has consequences. You may appoint whomever you wish to this ministry. If it is not me, I will brief them thoroughly and return to my command. If it is me, I expect to be listened to when I tell you something is wrong."
+        }
+      ],
+      "monologue": "Dusek is the only person in this room who has not tried to sell me anything. She has stated facts and expectations. She does not care whether I like her. She cares whether I will do my job so she can do hers. There is something deeply refreshing about that — and deeply terrifying, because if Dusek is worried about the border, I should be worried too.",
+      "choices": [
+        {
+          "id": "probe_dusek_timeline",
+          "text": "How long before Tyvaren tests us seriously? Give me a number.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_dusek"],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_timeline",
+          "reactions": []
+        },
+        {
+          "id": "probe_dusek_budget",
+          "text": "What specific funding do the northern garrisons need, and what happens if they don't get it?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_dusek_budget"],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_budget_detail",
+          "reactions": []
+        },
+        {
+          "id": "dusek_to_justice",
+          "text": "Thank you, Colonel. Let's continue — Justice Ministry is next.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "justice_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "dusek_timeline": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Fourteen months. Perhaps eighteen. Not an invasion — a provocation designed to test our response. A patrol that does not turn back. A village on the wrong side of the border that suddenly has Tyvaren flags. Vukov will make it ambiguous. He will make it our word against his."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "What happens after depends on how we respond. Respond firmly, with documented evidence and international support, and he backs down. Respond weakly, and he escalates. The next eighteen months define the next eighteen years."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dusek_timeline_to_justice",
+          "text": "I'll remember that. Let's meet the remaining ministry candidates.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_dusek"],
+          "codexUnlocks": [],
+          "nextSegment": "justice_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "dusek_budget_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Eighteen million kroner. Border surveillance equipment — primarily listening posts and night observation capability. The current equipment was installed during Halvek's first term. It has not been upgraded since."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "If the funding is denied, we continue with what we have. We miss things. Eventually we miss something that matters. Vukov notices that we missed it. He adjusts his plans accordingly. The cost of prevention is eighteen million. The cost of response is significantly higher."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dusek_budget_to_justice",
+          "text": "Eighteen million. I'll find it. Now — the remaining ministries.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_dusek_budget"],
+          "codexUnlocks": [],
+          "nextSegment": "justice_presents",
+          "reactions": [
+            {
+              "character": "irina_dusek",
+              "type": "dialogue",
+              "text": "Good. I will hold you to that."
+            }
+          ]
+        }
+      ]
+    },
+    "player_interrogation_hub": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor clears the room except for the candidate you wish to question. The others wait in the corridor. You can hear them — Kolvar's measured tones, Oberlin's passionate cadence, Perov's clipped military rhythm. They are still debating. Good."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Who do you want to question first? Each candidate is outside. I can bring them in one at a time. Ask what you need to ask."
+        }
+      ],
+      "choices": [
+        {
+          "id": "interrogate_vostane",
+          "text": "Vostane. I want to know what she's not telling me about the budget cuts.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_vostane",
+          "reactions": []
+        },
+        {
+          "id": "interrogate_kolvar",
+          "text": "Kolvar. There's something he's hiding about his relationships with the business class.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_kolvar",
+          "reactions": []
+        },
+        {
+          "id": "interrogate_oberlin",
+          "text": "Oberlin. I need to know if her idealism can survive real governance.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_oberlin",
+          "reactions": []
+        },
+        {
+          "id": "interrogate_perov",
+          "text": "Perov. He says he's not a zealot. I want proof.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_perov",
+          "reactions": []
+        },
+        {
+          "id": "interrogate_dusek",
+          "text": "Dusek. She's the only one I trust. I want to know why.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_dusek",
+          "reactions": []
+        },
+        {
+          "id": "interrogate_enough",
+          "text": "I've heard enough. Let's move to final decisions.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "final_decision",
+          "reactions": []
+        }
+      ]
+    },
+    "interrogate_vostane": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vostane returns alone. The room feels larger without the others. She stands by the window, backlit by the afternoon sun, and waits for your question."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "You want to know what I did not say in front of Kolvar. The answer is: I did not say that some of his 'political relationships' involve direct financial arrangements with firms that receive government contracts. I did not say this because I do not have proof. I have patterns. Patterns are not enough to accuse a man of corruption in front of his future Chancellor."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "If you appoint me, I will audit those firms. I will find the proof. I will not share it with you until I am certain — because once I share it, you are implicated. You understand that, yes?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "vostane_interrogate_back",
+          "text": "I understand. Now go back to the others — I need to question Kolvar next.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_interrogated_vostane"],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_kolvar",
+          "reactions": [
+            {
+              "character": "elara_vostane",
+              "type": "action",
+              "text": "Vostane nods — once, sharply. She appreciates being understood without being indulged."
+            }
+          ]
+        },
+        {
+          "id": "vostane_interrogate_enough",
+          "text": "Thank you. I've heard what I need.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_interrogated_vostane"],
+          "codexUnlocks": [],
+          "nextSegment": "player_interrogation_hub",
+          "reactions": []
+        }
+      ]
+    },
+    "interrogate_kolvar": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Kolvar enters alone. He is composed, but you notice his hand adjust his cufflink twice. He is nervous. Good."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "You want to know about my business relationships. Specifically, you want to know whether I have financial ties to firms that bid on government contracts. The answer is yes. Everyone on the budget committee has those relationships. The question is whether they influence my decisions."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "I will put it to you plainly: I have never steered a contract to a firm in exchange for personal benefit. I have supported firms whose owners I know because I know they deliver. That is not corruption. That is competence. The difference is whether there is a quid pro quo. There has never been one."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "Vostane will tell you otherwise. She will tell you that the appearance of impropriety is impropriety. She is right about everything except what actually happens in a room where budgets get passed."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kolvar_interrogate_full_disclosure",
+          "text": "If I appoint you, I want a full disclosure of every business relationship. No exceptions.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_kolvar_disclosure_demand"],
+          "codexUnlocks": [],
+          "nextSegment": "player_interrogation_hub",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "Kolvar hesitates — just for a moment. Then he nods. It costs him something, that nod."
+            }
+          ]
+        },
+        {
+          "id": "kolvar_interrogate_accept",
+          "text": "I believe you. Now send in Oberlin.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_interrogated_kolvar"],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_oberlin",
+          "reactions": []
+        }
+      ]
+    },
+    "interrogate_oberlin": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Oberlin returns. She paces — three steps toward the window, three steps back. She cannot sit still. You suspect she has never been able to sit still."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "You want to know if I am too idealistic for this job. If my principles will survive contact with the machinery of government. I have asked myself the same question."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I have spent fifteen years fighting a system that did not want to be fought. I have been threatened. Surveilled. Arrested twice. I know what it costs to hold principles in a room full of people who have none. I know how to compromise on strategy without compromising on outcomes."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "What I will not do is pretend that the BNI can be reformed. It cannot. Perov is wrong about that — not because he is a bad man, but because he has spent his career inside institutions that protect their own. The BNI has had twenty-three years to reform itself. It has chosen not to. At some point you stop waiting and you act."
+        }
+      ],
+      "choices": [
+        {
+          "id": "oberlin_interrogate_trust",
+          "text": "I believe you. You're right about the BNI. Don't make me regret trusting you.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_trusted_oberlin"],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_perov",
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "I will not make you regret it. That is the only promise I can make and mean."
+            }
+          ]
+        },
+        {
+          "id": "oberlin_interrogate_caution",
+          "text": "Your principles are admirable. Whether they're governable is another question. Send in Perov.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_interrogated_oberlin"],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_perov",
+          "reactions": []
+        }
+      ]
+    },
+    "interrogate_perov": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Perov enters alone. He does not sit. He stands at parade rest — hands behind his back, feet shoulder-width apart. It is not aggression. It is habit. Thirty years of standing at attention."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "You asked about the Iron Covenant. I told you I am a member. I did not tell you that I voted against the Covenant's proposal to demand veto power over the Defense Ministry appointment. I voted against it because it was wrong — not politically wrong, but constitutionally wrong. The military serves the civilian government. That is not negotiable."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "Some of my colleagues in the Covenant will not forgive that vote. That is their problem. Mine is demonstrating to you that my loyalty is to the Republic — not to a faction within it."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "You can verify this. The Covenant keeps minutes. Our meetings are not secret — they are private, which is different. Ask Colonel Dusek. She was at that meeting."
+        }
+      ],
+      "choices": [
+        {
+          "id": "perov_interrogate_respect",
+          "text": "That took courage. I respect it. Let's move to final decisions.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 1 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_respected_perov"],
+          "codexUnlocks": [],
+          "nextSegment": "final_decision",
+          "reactions": [
+            {
+              "character": "nikolai_perov",
+              "type": "action",
+              "text": "Perov's posture does not change. But something in his eyes does — a flicker of recognition from one professional to another."
+            }
+          ]
+        },
+        {
+          "id": "perov_interrogate_skeptical",
+          "text": "One vote doesn't erase thirty years of Covenant membership. I'll take it under advisement.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_interrogated_perov"],
+          "codexUnlocks": [],
+          "nextSegment": "final_decision",
+          "reactions": []
+        }
+      ]
+    },
+    "interrogate_dusek": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Dusek returns. She does not sit either. She stands at the window, looking north — toward the border, you realize. She is always looking north."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "You trust me. I need to know why — because trust in this building is currency, and I need to understand what I am being purchased for."
+        },
+        {
+          "type": "description",
+          "text": "She turns from the window. Her expression is unreadable — Dusek has mastered the art of being present without revealing anything."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "If the answer is that I am the only candidate who has not tried to manipulate you, then your trust is based on my professionalism. That is sustainable. If the answer is that you think I will be easy to control, then you have misunderstood my relationship with authority. I serve the office. I do not serve the person occupying it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dusek_trust_professional",
+          "text": "I trust you because you're the only one who told me the truth without trying to sell it. That's worth more than loyalty.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "advisorTrust.dusek", "operation": "add", "value": 10 }
+          ],
+          "chainTriggers": [],
+          "flags": ["form_meeting_trusted_dusek"],
+          "codexUnlocks": [],
+          "nextSegment": "final_decision",
+          "reactions": [
+            {
+              "character": "irina_dusek",
+              "type": "dialogue",
+              "text": "Then we understand each other. I will not waste your time, and I will expect you not to waste mine. That is the bargain."
+            }
+          ]
+        },
+        {
+          "id": "dusek_trust_cautious",
+          "text": "I trust your competence. Whether I trust your judgment is something you'll have to prove.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_interrogated_dusek"],
+          "codexUnlocks": [],
+          "nextSegment": "final_decision",
+          "reactions": [
+            {
+              "character": "irina_dusek",
+              "type": "action",
+              "text": "Dusek's mouth twitches — the closest thing to a smile you have seen from her. 'Fair enough.'"
+            }
+          ]
+        }
+      ]
+    },
+    "justice_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor opens the door. Two figures enter — one like a professor who forgot to change his clothes, the other like a prosecutor who has never lost a case. Aldric Theron carries a worn copy of the Veltrian Constitution, pages flagged with years of annotations. Roman Kešić carries a leather briefcase. His suit is immaculate.",
+          "primaryCharacter": "aldric_theron"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Professor Aldric Theron. Constitutional scholar at the University of Ashenmere. The mind behind half the reform legislation you campaigned on. Roman Kešić. Chief Prosecutor of Ashenmere District. Twenty years in the courtroom. Theron knows what the law could be. Kešić knows what the law is."
+        },
+        {
+          "type": "description",
+          "text": "Theron adjusts his glasses — the gesture of a man who has been waiting forty years for someone in power to ask."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "Chancellor. The law in this Republic has become a shield for the powerful and a cage for everyone else. Halvek spent a decade appointing judges who interpret the constitution as a suggestion rather than a binding document. The legal framework for judicial independence already exists — it simply has not been enforced."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "I have spent forty years studying every constitutional clause, every judicial precedent. I know which provisions were bent and how to straighten them. If you appoint me, I will publish a constitutional review within ninety days. It will restore the separation of powers. It will be correct. It will also make enemies of every judge Halvek appointed. You should know that before you sign."
+        },
+        {
+          "type": "description",
+          "text": "Kešić waits for Theron to finish. His silence is that of a man who has listened to many passionate arguments and is rarely moved by any of them."
+        },
+        {
+          "type": "dialogue",
+          "character": "roman_kesic",
+          "text": "Chancellor. Professor Theron speaks of law as it should be. I speak of law as it is. I have prosecuted cases in every district of this Republic — not in lecture halls, not in academic journals. I have seen what happens when reform moves faster than the institutions that must implement it. Cases collapse. Convictions are overturned on procedural grounds. The public loses faith."
+        },
+        {
+          "type": "dialogue",
+          "character": "roman_kesic",
+          "text": "Justice delayed is not always justice denied. Sometimes it is justice done properly. If you appoint me, I will reform the judiciary methodically — case by case, provision by provision — with respect for the courts that have held this Republic together for a century. The foundation must be strong before you build higher."
+        }
+      ],
+      "monologue": "Theron sees the law as a weapon for liberation. Kešić sees it as a foundation for order. They are both right and both wrong in the same way — Theron would risk chaos for principle, and Kešić would risk stagnation for stability. The question is which risk I can afford to be wrong about.",
+      "choices": [
+        {
+          "id": "justice_engage_theron",
+          "text": "Professor Theron — tell me more about your vision for the courts.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_justice_theron"],
+          "codexUnlocks": [],
+          "nextSegment": "justice_deep_theron",
+          "reactions": []
+        },
+        {
+          "id": "justice_engage_kesic",
+          "text": "Prosecutor Kešić — I want to hear more about your approach to reform.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_justice_kesic"],
+          "codexUnlocks": [],
+          "nextSegment": "justice_deep_kesic",
+          "reactions": []
+        },
+        {
+          "id": "justice_to_labor",
+          "text": "I've heard enough. Let's discuss the Labor Ministry.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "labor_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "justice_deep_theron": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Kešić returns to the corridor. Theron remains — his worn constitution still open, his eyes bright behind thick spectacles. He has been waiting for this conversation for decades.",
+          "primaryCharacter": "aldric_theron"
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "I have watched six governments promise judicial reform and deliver cosmetic changes. The courts are not broken because the laws are wrong — they are broken because nobody enforces the laws that already exist. The constitution gives the Chancellor the power to review and remove judges for cause. No Chancellor has ever used it. Halvek's appointees know this."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The law must serve justice, not power. Every precedent we set today echoes for generations. If you are serious about reform — and I believe you are — then you need a Justice Minister who will tell you which judges must go, and why, and will stand beside you when the inevitable backlash arrives. I will tell you those things. I have already prepared the list."
+        }
+      ],
+      "choices": [
+        {
+          "id": "justice_theron_priority",
+          "text": "What's your first priority if appointed?",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "labor_presents",
+          "reactions": [
+            {
+              "character": "aldric_theron",
+              "type": "dialogue",
+              "text": "Civil rights restoration. Article Twelve of the constitution guarantees equal protection under law. Eleven Halvek-era statutes violate it — from warrantless surveillance provisions to property seizure without due process. I would ask the High Court to strike them all within sixty days. Every single one. The constitutional argument is sound. The only thing missing is the political will to file the motion."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Eleven statutes. That will not go unnoticed."
+            }
+          ]
+        },
+        {
+          "id": "justice_theron_obstacle",
+          "text": "What's the biggest obstacle you'll face?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "labor_presents",
+          "reactions": [
+            {
+              "character": "aldric_theron",
+              "type": "dialogue",
+              "text": "The judges themselves. Halvek appointed over sixty percent of the sitting judiciary. They will resist any reform that threatens their position — not because they are corrupt, necessarily, but because they have spent their careers defining the law in their own image. They will call it judicial independence. It is judicial self-preservation. The difference between those two things is the first lesson I teach my students."
+            }
+          ]
+        }
+      ]
+    },
+    "justice_deep_kesic": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Theron departs with a nod — not cold, but distant, the way scholars acknowledge colleagues whose work they respect but whose conclusions they reject. Kešić opens his briefcase. The files inside are organized by year and district. He has been preparing for this meeting too.",
+          "primaryCharacter": "roman_kesic"
+        },
+        {
+          "type": "dialogue",
+          "character": "roman_kesic",
+          "text": "Chancellor, I am not a philosopher. I am a prosecutor. My relationship with the law is practical — it is the tool I use to put dangerous people in prison and to keep innocent people out of it. Every reform you pass will be tested in my courtrooms. The question is not whether the reform is morally correct. The question is whether it will survive cross-examination."
+        },
+        {
+          "type": "dialogue",
+          "character": "roman_kesic",
+          "text": "I am not against change. I am against change that falls apart the first time a clever defense attorney finds the procedural gap. The law is the foundation of civilization. We must preserve it, not experiment with it. If you want someone to write brilliant opinions that look good in newspapers, appoint Theron. If you want someone to make sure your reforms actually work inside a courtroom, appoint me."
+        }
+      ],
+      "choices": [
+        {
+          "id": "justice_kesic_priority",
+          "text": "What would you prioritize in your first hundred days?",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.halvekists", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "labor_presents",
+          "reactions": [
+            {
+              "character": "roman_kesic",
+              "type": "dialogue",
+              "text": "Procedural reform. Specifically, the rules of evidence and discovery that govern how cases are brought to trial. Theron wants to change the laws. I want to change how the laws are applied. You can write the most progressive statute in Veltrian history, but if the procedure for enforcing it is broken, it means nothing. I will fix the procedure. Then we can talk about the substance."
+            }
+          ]
+        },
+        {
+          "id": "justice_kesic_challenge",
+          "text": "What do you see as your greatest limitation?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "labor_presents",
+          "reactions": [
+            {
+              "character": "roman_kesic",
+              "type": "dialogue",
+              "text": "I am part of the system Theron wants to tear down. Not the corrupt part — I have never taken a bribe, never suppressed evidence, never looked the other way when a powerful defendant deserved conviction. But I have worked within the system for twenty years. That gives me credibility with the judiciary. It also means I have relationships with people Theron considers the enemy. You must decide whether those relationships are a liability or an asset."
+            }
+          ]
+        }
+      ]
+    },
+    "labor_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor gestures toward the corridor. The next two candidates enter — Gregor Marić in a foreman's jacket with calloused hands and tired eyes, Petra Solec in a sharp suit with a clipboard and the focused expression of someone who measures everything.",
+          "primaryCharacter": "gregor_maric"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Gregor Marić. Chairman of the United Miners Federation. Son of Kravenstal. Organized his first strike at twenty-two. Petra Solec. Director of the National Employment Bureau. Built the tracking system from scratch. Marić will fight the factory owners. Solec will negotiate with them. They represent two different kinds of Labor Ministry."
+        },
+        {
+          "type": "description",
+          "text": "Marić steps forward first. He does not wait to be asked."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "Chancellor. I am not an economist. I am not a policy expert. I am a miner's son who watched his father die of lung disease at forty-seven because the Kravenstal Coal Company refused to install ventilation fans. They cost three thousand kroner each. My father's funeral cost nine hundred."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "These are not statistics. These are families. Real people with real hunger. The unemployment numbers you read in your briefings are my neighbors. The wage figures are whether a family eats three meals a day or two. If you appoint me, I will fight for them. I will not be polite about it. I have tried polite. Polite does not install ventilation fans."
+        },
+        {
+          "type": "description",
+          "text": "Solec lets the silence hang for a moment before speaking. Her voice is calm — the calm of someone who has facts on her side and knows it."
+        },
+        {
+          "type": "dialogue",
+          "character": "petra_solec",
+          "text": "Chancellor. I respect Chairman Marić deeply. His passion is genuine and his cause is just. But passion does not write labor policy. Data does. And the data tells us that the unemployment rate in Thornfeld is 14.3 percent while Kravenstal is at 5.1. That is not an accident. That is a distribution failure."
+        },
+        {
+          "type": "dialogue",
+          "character": "petra_solec",
+          "text": "I have built the systems that track where jobs are and where workers are. The connection between them is broken — not by malice, but by fifty years of bureaucratic inertia. If you appoint me, I will fix it with policy, not protests. Both approaches can work. Mine leaves fewer people angry and more people employed."
+        }
+      ],
+      "monologue": "Marić speaks from the gut. Solec speaks from the spreadsheet. They both want the same thing — dignity for working Veltrians — but they see the enemy differently. For Marić it is the factory owner. For Solec it is the bureaucracy. I suspect both are right.",
+      "choices": [
+        {
+          "id": "labor_engage_maric",
+          "text": "Chairman Marić — I want to hear more about the workers' situation.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_labor_maric"],
+          "codexUnlocks": [],
+          "nextSegment": "labor_deep_maric",
+          "reactions": []
+        },
+        {
+          "id": "labor_engage_solec",
+          "text": "Director Solec — tell me more about your employment strategy.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_labor_solec"],
+          "codexUnlocks": [],
+          "nextSegment": "labor_deep_solec",
+          "reactions": []
+        },
+        {
+          "id": "labor_to_foreign",
+          "text": "Thank you both. Let's move to Foreign Affairs.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "labor_deep_maric": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Solec returns to the corridor. Marić remains — his hands resting on the table, knuckles scarred from years underground. The callouses tell their own story.",
+          "primaryCharacter": "gregor_maric"
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "Chancellor, let me be direct. The factory owners have been writing labor policy in this Republic for thirty years. They call it 'economic stability.' I call it wage theft. The average worker in Kravenstal earns eleven kroner a day. The average factory owner earns eleven thousand. That is not economics. That is theft with better stationery."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "Solec will give you numbers. I will give you names. Every week, I receive letters from workers who cannot afford medicine for their children. Not because there is no medicine — because the wage is too low to buy it. You want to fix unemployment? Start by fixing the wage. A worker with a living wage is a worker who spends money. Spending money creates jobs. This is not complicated."
+        }
+      ],
+      "choices": [
+        {
+          "id": "labor_maric_priority",
+          "text": "What's the single reform that would make the biggest difference?",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 3 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_presents",
+          "reactions": [
+            {
+              "character": "gregor_maric",
+              "type": "dialogue",
+              "text": "Minimum wage indexed to the cost of living. Right now the minimum is set by a commission that meets once every three years. By the time they adjust, the number is already obsolete. I would index it annually. The factory owners will scream. Let them. Their profits have been subsidized by worker poverty for decades. The subsidy ends when I walk into that office."
+            }
+          ]
+        },
+        {
+          "id": "labor_maric_challenge",
+          "text": "What happens when the factories push back — strikes, lockouts, capital flight?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_presents",
+          "reactions": [
+            {
+              "character": "gregor_maric",
+              "type": "dialogue",
+              "text": "They will push back. They always do. The factory in Dravenhollow threatened to move to Lytheira last year during wage negotiations. We called their bluff — the shipping costs alone would have eaten their margin. Most of these threats are theater. The real fight is in the Assembly, where the business bloc will try to block every bill I support. That is your fight, not mine. I can bring fifty thousand workers to the capital. I cannot make the Assembly listen to them. Only you can."
+            }
+          ]
+        }
+      ]
+    },
+    "labor_deep_solec": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Marić exits with a nod — there is respect between these two, even across the ideological divide. Solec opens her clipboard. The pages are covered in neat columns of data.",
+          "primaryCharacter": "petra_solec"
+        },
+        {
+          "type": "dialogue",
+          "character": "petra_solec",
+          "text": "Chancellor, Chairman Marić is right about the suffering. He is wrong about the solution. Raising the minimum wage by decree sounds righteous, but in Thornfeld — where the unemployment rate is 14.3 percent — it would push struggling factories into bankruptcy and make the problem worse. Poverty plus unemployment is not progress."
+        },
+        {
+          "type": "dialogue",
+          "character": "petra_solec",
+          "text": "My approach is different. Wage subsidies for businesses that hire in high-unemployment regions. Retraining programs for displaced miners. Infrastructure investment that creates construction jobs. These are slower solutions — I admit that — but they are sustainable. Marić wants a revolution. I want a transition. Revolutions break things. Transitions build them."
+        }
+      ],
+      "choices": [
+        {
+          "id": "labor_solec_priority",
+          "text": "What would you tackle first — what moves the needle fastest?",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.businessClass", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_presents",
+          "reactions": [
+            {
+              "character": "petra_solec",
+              "type": "dialogue",
+              "text": "The data. Right now, seven different government agencies track employment statistics using seven different methodologies. Nobody has the full picture. My first priority would be to unify those systems — one database, one set of definitions, one source of truth. Once we know what we are actually dealing with, the policy decisions become much clearer. Most labor disputes start with two sides arguing about different numbers. Fix the numbers and you fix half the problem."
+            }
+          ]
+        },
+        {
+          "id": "labor_solec_challenge",
+          "text": "The unions will never accept a technocrat. How do you overcome that?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_presents",
+          "reactions": [
+            {
+              "character": "petra_solec",
+              "type": "dialogue",
+              "text": "By delivering results. The unions do not care whether I speak their language — they care whether their members have jobs and whether those jobs pay enough to live on. I have never led a strike, but I have placed fourteen thousand unemployed workers into positions that did not exist before my bureau identified them. That is fourteen thousand families who can pay rent. The unions will respect results, even if they do not like my methods."
+            }
+          ]
+        }
+      ]
+    },
+    "foreign_affairs_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor opens the door again. The next two candidates enter with a palpable tension between them — Vera Sorin, elegant in diplomatic attire, carrying herself with the ease of someone who has navigated a hundred foreign ministries. Henryk Borač, stiff-shouldered, his civilian suit unable to hide decades of military bearing.",
+          "primaryCharacter": "vera_sorin"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Ambassador Vera Sorin. Our envoy to the Tyvaren Confederation for the past four years. She negotiated the 1961 border incident without firing a shot. Henryk Borač. Deputy Foreign Minister under Halvek — stayed at his post through the transition. Sorin believes in dialogue. Borač believes in preparation. The Tyvaren border requires both."
+        },
+        {
+          "type": "description",
+          "text": "Sorin speaks first. Her voice is measured, multilingual — she has delivered statements in six languages and learned that every word matters."
+        },
+        {
+          "type": "dialogue",
+          "character": "vera_sorin",
+          "text": "Chancellor. I have spent four years in Tyvaren's capital. I have sat across from Marshal Vukov at seventeen state dinners, twelve negotiating sessions, and one rather memorable funeral. I can tell you what he wants — which is not always what he says he wants. That distinction is the entire art of diplomacy."
+        },
+        {
+          "type": "dialogue",
+          "character": "vera_sorin",
+          "text": "The Tyvaren question is not about borders. It is about the balance of power in the entire region. If you appoint me, I will pursue a strategy of managed engagement — open channels, clear red lines, economic incentives for cooperation. War is not inevitable. It is a choice someone makes. I intend to give Vukov reasons not to make it."
+        },
+        {
+          "type": "description",
+          "text": "Borač shifts his weight. His impatience is barely contained — he has been waiting to speak since Sorin's first sentence."
+        },
+        {
+          "type": "dialogue",
+          "character": "henryk_borac",
+          "text": "Chancellor, the Ambassador's diplomatic skills are admirable. But diplomacy is the continuation of preparation by other means. We must be ready to act, not just talk. Vukov respects strength. He has told me as much, directly, at the 1960 summit when I was still Deputy Minister. He did not say it politely."
+        },
+        {
+          "type": "dialogue",
+          "character": "henryk_borac",
+          "text": "I am not advocating for war. I am advocating for a foreign policy that makes war unnecessary because the cost is visibly too high. Missile defense systems. Modernized northern garrisons. A public alliance with Orythia that signals we are not alone. If you appoint me, Tyvaren will understand that Veltria is not a target of opportunity. It is a target of consequences."
+        }
+      ],
+      "monologue": "Sorin wants to talk Vukov down. Borač wants to make him think twice. Neither approach guarantees peace — but together they might. The question is which philosophy leads the Foreign Ministry and which supports it from the sidelines.",
+      "choices": [
+        {
+          "id": "foreign_engage_sorin",
+          "text": "Ambassador Sorin — I want to hear more about your diplomatic strategy.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_foreign_sorin"],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_deep_sorin",
+          "reactions": []
+        },
+        {
+          "id": "foreign_engage_borac",
+          "text": "Deputy Minister Borač — how do you see the security situation?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_foreign_borac"],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_deep_borac",
+          "reactions": []
+        },
+        {
+          "id": "foreign_to_education",
+          "text": "Important perspectives. Let's move to the Education Ministry.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "education_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "foreign_affairs_deep_sorin": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Borač steps back — stiffly, reluctantly. Sorin remains. Up close, you notice the small details: the embassy pin, the slight accent that shifts between languages, the watchful stillness of someone who reads people for a living.",
+          "primaryCharacter": "vera_sorin"
+        },
+        {
+          "type": "dialogue",
+          "character": "vera_sorin",
+          "text": "Chancellor, let me speak plainly. Borač is correct that Vukov respects strength. He is incorrect about what Vukov considers strength. I have spent four years in that man's capital. Vukov is not afraid of missiles — he has missiles. What Vukov fears is a unified western front. Orythia, Lytheira, and Veltria presenting a common diplomatic position. That would isolate him in a way no military threat can match."
+        },
+        {
+          "type": "dialogue",
+          "character": "vera_sorin",
+          "text": "My strategy is not to charm Vukov. It is to make him irrelevant. A regional trade agreement with Orythia. A security cooperation framework with Lytheira. Cultural exchange programs that connect our populations across borders. These are not soft measures — they are structural ones. They change the conditions under which conflict might occur. That is the foreign policy I would build."
+        }
+      ],
+      "choices": [
+        {
+          "id": "foreign_sorin_priority",
+          "text": "What's the first diplomatic move you'd make?",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "education_presents",
+          "reactions": [
+            {
+              "character": "vera_sorin",
+              "type": "dialogue",
+              "text": "A summit with Orythia within sixty days. Their Prime Minister has been waiting for a signal that Veltria is ready to engage. Halvek never gave it — he preferred bilateral deals that enriched his allies. A public summit, with a joint communiqué about regional stability, would send a message to Tyvaren that the landscape has changed. That single document would do more for our security than six months of border reinforcement."
+            }
+          ]
+        },
+        {
+          "id": "foreign_sorin_challenge",
+          "text": "What's the biggest diplomatic liability you would inherit?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "education_presents",
+          "reactions": [
+            {
+              "character": "vera_sorin",
+              "type": "dialogue",
+              "text": "Our reputation. Abroad, Veltria is still seen as Halvek's Republic — an unreliable partner with a history of breaking agreements when they become inconvenient. I can rebuild that trust, but it takes time and consistency. Every broken promise from the previous government is a debt I must repay before I can take out new credit. That is the reality of diplomacy — you inherit the past whether you want to or not."
+            }
+          ]
+        }
+      ]
+    },
+    "foreign_affairs_deep_borac": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Sorin withdraws with diplomatic grace. Borač steps forward — his posture military-straight, his eyes fixed on the northern wall. He is already looking toward the border.",
+          "primaryCharacter": "henryk_borac"
+        },
+        {
+          "type": "dialogue",
+          "character": "henryk_borac",
+          "text": "Chancellor, I will be direct because the situation demands directness. Vukov has been probing our border for four months. Seventeen incursions, as Colonel Dusek no doubt told you. He is not testing our patrols. He is testing our resolve. And every time we respond with a diplomatic note instead of a military repositioning, he learns something about us that he files away for later use."
+        },
+        {
+          "type": "dialogue",
+          "character": "henryk_borac",
+          "text": "Sorin's regional framework is a good idea — for five years from now. Right now we need deterrence. Every kroner spent on northern defense is a kroner Tyvaren must match. Every alliance we formalize is an alliance they must counter. That is not warmongering. That is the arithmetic of security. And the arithmetic says we are currently behind."
+        }
+      ],
+      "choices": [
+        {
+          "id": "foreign_borac_priority",
+          "text": "What's your immediate priority for our security posture?",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "education_presents",
+          "reactions": [
+            {
+              "character": "henryk_borac",
+              "type": "dialogue",
+              "text": "The Orythian defense treaty. It has been sitting on a desk in the Foreign Ministry for three years — Halvek never signed it because it included a transparency clause about military spending. I would sign it tomorrow. It commits Orythia to our defense and signals to Tyvaren that the cost of aggression just doubled. The transparency clause is not a bug — it is a feature. It tells the world we have nothing to hide."
+            }
+          ]
+        },
+        {
+          "id": "foreign_borac_challenge",
+          "text": "You served under Halvek. Why should I trust your judgment now?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "education_presents",
+          "reactions": [
+            {
+              "character": "henryk_borac",
+              "type": "dialogue",
+              "text": "I served the Republic, not the Chancellor. There is a difference, and people in this building forget it too easily. I advised Halvek on seven occasions to pursue diplomatic engagement with Tyvaren. He overruled me on six of them. My advice did not change when the man giving orders changed. If you appoint me, I will give you my honest assessment every time — even when it contradicts your instincts. Especially then."
+            }
+          ]
+        }
+      ]
+    },
+    "education_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor gestures. The next candidates enter — Dr. Marta Solén, a colorful scarf the only sign of rebellion against academic convention, and Petr Horák, the Deputy Minister who has served through three governments. Solén carries a stack of banned books. Horák carries the ministry's organizational chart, annotated in three colors of ink.",
+          "primaryCharacter": "marta_solen"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Dr. Marta Solén. Professor of Civic Philosophy. Published three books on education reform that were banned under Halvek. Petr Horák. Deputy Minister of Education. Twenty years inside the ministry. Solén wants to burn the curriculum and start over. Horák wants to improve it incrementally. The Archbishop will have an opinion on whichever you choose."
+        },
+        {
+          "type": "description",
+          "text": "Solén does not wait for permission. She places the banned books on the table — a statement as much as a prop."
+        },
+        {
+          "type": "dialogue",
+          "character": "marta_solen",
+          "text": "Chancellor. These three books were banned because they taught students to think critically about their government. Not to oppose it — to think about it. That distinction was lost on the previous administration. A population that cannot think is a population that cannot vote, cannot organize, cannot hold power to account."
+        },
+        {
+          "type": "dialogue",
+          "character": "marta_solen",
+          "text": "Every child deserves a classroom, not a factory. Education is liberation — not job training, not obedience school. If you appoint me, I will rewrite the national curriculum to emphasize civic literacy, critical thought, and the rights every Veltrian citizen possesses. The factories will complain — they want workers who do not ask questions. Too bad."
+        },
+        {
+          "type": "description",
+          "text": "Horák folds his hands on the table. His movements are precise, bureaucratic — the gestures of a man who has filed a thousand reports and will file a thousand more."
+        },
+        {
+          "type": "dialogue",
+          "character": "petr_horak",
+          "text": "Chancellor. I respect Dr. Solén's passion. I have been inside the Education Ministry for twenty years, and I can tell you what she will discover in her first week: eighty percent of our schools lack adequate heating. Forty percent share textbooks between three students. The curriculum she wants to rewrite is not the problem — the problem is that half our students cannot read it because they are too cold to concentrate."
+        },
+        {
+          "type": "dialogue",
+          "character": "petr_horak",
+          "text": "Education builds character. Character builds nations. We must not forget the foundations. If you appoint me, I will prioritize infrastructure — buildings, books, and teachers — before ideology. A brilliant curriculum in a freezing classroom is still a failure. Let us fix the roof before we redecorate the walls."
+        }
+      ],
+      "monologue": "Solén wants to teach children to be citizens. Horák wants them to be warm and fed while they learn. Neither is wrong. The question is whether you can have both at once or whether one must come before the other.",
+      "choices": [
+        {
+          "id": "edu_engage_solen",
+          "text": "Dr. Solén — tell me more about your vision for Veltrian education.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_education_solen"],
+          "codexUnlocks": [],
+          "nextSegment": "education_deep_solen",
+          "reactions": []
+        },
+        {
+          "id": "edu_engage_horak",
+          "text": "Deputy Minister Horák — what does reform look like from inside the system?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_education_horak"],
+          "codexUnlocks": [],
+          "nextSegment": "education_deep_horak",
+          "reactions": []
+        },
+        {
+          "id": "education_to_health",
+          "text": "I've heard enough. On to Health Ministry.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "health_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "education_deep_solen": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Horák retreats to his organizational charts. Solén leans forward, her scarf catching the afternoon light. She speaks with the intensity of someone whose ideas have been suppressed long enough that the release is almost physical.",
+          "primaryCharacter": "marta_solen"
+        },
+        {
+          "type": "dialogue",
+          "character": "marta_solen",
+          "text": "Chancellor, Horák is right about the heating bills. He is right about the textbooks. He has been right about them for twenty years and has fixed none of them. The ministry has budgets — they are simply allocated to the wrong things. A new administrative building in Ashenmere. A patronage position for the Archbishop's nephew. A curriculum review committee that has been reviewing the same paragraph since 1957."
+        },
+        {
+          "type": "dialogue",
+          "character": "marta_solen",
+          "text": "I am not an idealist who ignores practical needs. I am a pragmatist who understands that practical needs have been used as an excuse to avoid moral ones. Fix the heating. Of course fix the heating. But also teach the children what the Republic is and why it matters. Those two things are not in competition — unless you want them to be."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edu_solen_priority",
+          "text": "What's the first reform you'd implement?",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "health_presents",
+          "reactions": [
+            {
+              "character": "marta_solen",
+              "type": "dialogue",
+              "text": "Civic education mandate. Every student from age twelve onward receives instruction on constitutional rights, the structure of government, and the history of democratic movements in Veltria. Not patriotism — literacy. The difference is that patriotism tells you to love your country. Literacy tells you how it works so you can decide whether it deserves your love. That is the education I would build."
+            }
+          ]
+        },
+        {
+          "id": "edu_solen_challenge",
+          "text": "The Church will oppose your curriculum. How do you handle that?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "health_presents",
+          "reactions": [
+            {
+              "character": "marta_solen",
+              "type": "dialogue",
+              "text": "With respect and boundaries. The Church runs excellent schools in several provinces — I have visited them. They should continue to do so. But the national curriculum is the Republic's responsibility, not the Archbishop's. I will consult with Church educators. I will incorporate their perspective where it enriches. I will not give them a veto. Faith has a place in education. It does not have the only place."
+            }
+          ]
+        }
+      ]
+    },
+    "education_deep_horak": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Solén gathers her banned books with a small, knowing smile. Horák unfolds his organizational chart across the table. Every school, every district, every budget line — mapped in meticulous detail.",
+          "primaryCharacter": "petr_horak"
+        },
+        {
+          "type": "dialogue",
+          "character": "petr_horak",
+          "text": "Chancellor. Dr. Solén imagines a classroom where students debate constitutional law. I imagine one where the ceiling does not leak. Twenty-three percent of our rural schools were built before 1900. Thirteen of them still use wood stoves for heat. Last winter, a school in Gravenmark closed for six weeks because the road was impassable — not the curriculum, the road."
+        },
+        {
+          "type": "dialogue",
+          "character": "petr_horak",
+          "text": "I know where every problem is because I have been writing reports about them for two decades. Nobody reads the reports. If you appoint me, I will use the existing system — the budgets, the regional boards, the teacher networks — to actually fix the problems instead of documenting them. That is less dramatic than a curriculum overhaul. It is also what actually helps children learn."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edu_horak_priority",
+          "text": "What would you tackle in the first hundred days?",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.party_loyalists", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "health_presents",
+          "reactions": [
+            {
+              "character": "petr_horak",
+              "type": "dialogue",
+              "text": "Emergency infrastructure funding for the forty-one schools rated structurally deficient by the last engineering survey. The money exists in the budget already — it has been redirected to other priorities for seven consecutive years. I would redirect it back. Every day a child spends in an unsafe building is a day the Republic has failed that child. I have the list. I have the cost estimates. I need the authorization."
+            }
+          ]
+        },
+        {
+          "id": "edu_horak_challenge",
+          "text": "Twenty years in the ministry and not much has changed. What makes now different?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "health_presents",
+          "reactions": [
+            {
+              "character": "petr_horak",
+              "type": "dialogue",
+              "text": "My superiors. For twenty years I have served ministers who wanted reports, not results. They used my documentation to demonstrate activity without achieving outcomes. You are not them. I am not asking you to trust my vision — I am asking you to trust my knowledge of the machine. I know which levers to pull. I have been waiting for a Chancellor who would let me pull them."
+            }
+          ]
+        }
+      ]
+    },
+    "health_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor checks his watch — the day is wearing on but the remaining ministries are no less critical. The next two candidates enter: Dr. Lena Kaspar in a white coat over business attire, her eyes carrying the exhaustion of someone who has spent too many nights in hospital wards. Dr. August Meln in a dark suit, silver-haired, the calm administrator who has kept the system running through three administrations.",
+          "primaryCharacter": "lena_kaspar"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Dr. Lena Kaspar. Rebuilt the hospital network after the 1958 epidemic. Her post-crisis report documented every government failure by name and ended three careers. Dr. August Meln. State Health Administrator. A decade running the bureaucracy without scandal. Kaspar will tell you what is broken and fight you until it is fixed. Meln will tell you what is achievable and deliver it on budget."
+        },
+        {
+          "type": "description",
+          "text": "Kaspar speaks first. Her voice carries the practiced calm of a physician delivering difficult news."
+        },
+        {
+          "type": "dialogue",
+          "character": "lena_kaspar",
+          "text": "Chancellor. In 1958, twelve hundred Veltrians died from an epidemic that was entirely preventable. Not difficult to prevent — entirely preventable. The vaccine existed. The distribution system did not. The government had the resources but not the will. I wrote the report. I named the names. Three senior officials resigned. The report was buried."
+        },
+        {
+          "type": "dialogue",
+          "character": "lena_kaspar",
+          "text": "Healthcare is a right, not a privilege. No one in this Republic should choose between medicine and meals. If you appoint me, I will build the public health infrastructure that should have existed twenty years ago — rural clinics, vaccination programs, maternal care in every province. It will cost money. It will upset people who profit from the current inadequacy. It will save lives. Those three things are connected."
+        },
+        {
+          "type": "description",
+          "text": "Meln waits his turn. When he speaks, his tone is measured — the administrator who has sat through a hundred meetings like this one and knows that passion does not balance budgets."
+        },
+        {
+          "type": "dialogue",
+          "character": "august_meln",
+          "text": "Chancellor. Dr. Kaspar is correct about the 1958 failures. She is also correct that the current system is inadequate. Where I differ is on the remedy. She wants to build new infrastructure. I want to fix the infrastructure we already have — which is underutilized not because it does not exist, but because it is poorly managed."
+        },
+        {
+          "type": "dialogue",
+          "character": "august_meln",
+          "text": "We can serve more people with better resource allocation. The Ashenmere General Hospital operates at forty percent capacity in its surgical wing while the Thornfeld Regional turns away patients. That is not a funding problem. That is a logistics problem. Efficiency saves lives too — and it costs less than construction. If you appoint me, I will make the existing system work before I ask you to pay for a new one."
+        }
+      ],
+      "monologue": "Kaspar is a crusader. Meln is a manager. The crusader will fight for every patient. The manager will serve more patients with the same resources. Both approaches have merit. Both have blind spots. A Health Ministry needs both — but it can only have one at the top.",
+      "choices": [
+        {
+          "id": "health_engage_kaspar",
+          "text": "Dr. Kaspar — I want to understand your vision for public health.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_health_kaspar"],
+          "codexUnlocks": [],
+          "nextSegment": "health_deep_kaspar",
+          "reactions": []
+        },
+        {
+          "id": "health_engage_meln",
+          "text": "Dr. Meln — what can the existing system deliver with better management?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_health_meln"],
+          "codexUnlocks": [],
+          "nextSegment": "health_deep_meln",
+          "reactions": []
+        },
+        {
+          "id": "health_to_development",
+          "text": "Thank you both. Let's discuss Development.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "development_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "health_deep_kaspar": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Meln withdraws — calm, professional, the administrator who has learned that losing a debate is not the same as losing the war. Kaspar remains. She does not sit. She stands by the window, looking out at Ashenmere's rooftops. You suspect she is counting the neighborhoods without clinics.",
+          "primaryCharacter": "lena_kaspar"
+        },
+        {
+          "type": "dialogue",
+          "character": "lena_kaspar",
+          "text": "Chancellor, let me give you a number: thirty-seven. That is how many rural Veltrians die every year from conditions that would be treatable if there were a clinic within twenty kilometers. Thirty-seven. Not a statistic — thirty-seven funerals, thirty-seven families, every single year, because the nearest doctor is a day's walk away."
+        },
+        {
+          "type": "dialogue",
+          "character": "lena_kaspar",
+          "text": "Meln will tell you the budget cannot support new clinics. He is wrong. The budget currently spends eighteen million kroner on hospital administration — paperwork, not patients. I can redirect six million of that to rural clinics without asking for a single additional kroner. I know because I audited the administration budget two years ago. The report exists. Nobody read it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "health_kaspar_priority",
+          "text": "What's the single most impactful thing you would do?",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "development_presents",
+          "reactions": [
+            {
+              "character": "lena_kaspar",
+              "type": "dialogue",
+              "text": "Universal vaccination. We have the supply chain — the military uses it for troop deployment medicine. I would extend it to every child in the Republic. The cost is negligible compared to the cost of treating preventable disease. The 1958 epidemic cost this country forty million kroner in lost productivity alone. The vaccination program would cost four. That is not spending. That is investment with a ten-to-one return."
+            }
+          ]
+        },
+        {
+          "id": "health_kaspar_challenge",
+          "text": "You've made powerful enemies. How do you function in a ministry that includes them?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "development_presents",
+          "reactions": [
+            {
+              "character": "lena_kaspar",
+              "type": "dialogue",
+              "text": "The people who resigned after my 1958 report were not my enemies — they were public servants who failed the public. I do not make enemies. I document failures. If documenting a failure makes someone my enemy, then they have defined themselves. My loyalty is to the patients, not to the administrators who failed them. If that makes me difficult, I am comfortable with difficult."
+            }
+          ]
+        }
+      ]
+    },
+    "health_deep_meln": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Kaspar exits with the same intensity she entered — focused, unflinching. Meln adjusts his cuffs. He is comfortable here. He has been comfortable in this building for a decade.",
+          "primaryCharacter": "august_meln"
+        },
+        {
+          "type": "dialogue",
+          "character": "august_meln",
+          "text": "Chancellor. Dr. Kaspar's audit is accurate. Her conclusions are not. The six million kroner in administrative spending she wants to cut — some of that is waste, yes, but some of it is the system that ensures medicine actually reaches the hospitals that need it. Cut too deeply and you do not save money. You create shortages. Shortages kill people too."
+        },
+        {
+          "type": "dialogue",
+          "character": "august_meln",
+          "text": "I am not defending inefficiency. I am arguing for precision. Kaspar approaches health policy like a surgeon — cut here, remove there, aggressive, decisive. I approach it like a diagnostician — observe the entire system, identify all the variables, then prescribe. Both are valid medical approaches. In government, the diagnostician causes fewer unintended casualties."
+        }
+      ],
+      "choices": [
+        {
+          "id": "health_meln_priority",
+          "text": "What would you change first to improve outcomes?",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "development_presents",
+          "reactions": [
+            {
+              "character": "august_meln",
+              "type": "dialogue",
+              "text": "Patient triage and referral systems. Right now, patients in Thornfeld travel to Ashenmere for procedures that could be performed locally — but nobody tells them the local hospital has capacity. A simple coordination system, implemented over ninety days, would reduce wait times by forty percent without building a single new facility. That is what I mean by efficiency. Better outcomes, same budget, no new enemies."
+            }
+          ]
+        },
+        {
+          "id": "health_meln_challenge",
+          "text": "Some say you're too close to the pharmaceutical suppliers. How do you respond?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "development_presents",
+          "reactions": [
+            {
+              "character": "august_meln",
+              "type": "dialogue",
+              "text": "I have worked with pharmaceutical companies for ten years. That is my job — the ministry is the single largest purchaser of medicine in the Republic. Of course I know the suppliers. I know which ones deliver on time and which ones inflate their prices. That knowledge is not corruption. It is competence. If you appoint me, I will publish every supply contract within thirty days. Transparency is the best answer to questions like yours."
+            }
+          ]
+        }
+      ]
+    },
+    "development_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor gestures toward the door. The next candidates present a study in contrasts — Benedikt Varro in work boots and rolled sleeves, his hands those of a man who has poured concrete. Sofia Drenek in modern attire, an architectural roll tucked under her arm, her energy barely contained.",
+          "primaryCharacter": "benedikt_varro"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Benedikt Varro. Chief engineer on the Kravenstal rail expansion. Built three of Veltria's major bridges. Sofia Drenek. Director of Ashenmere Urban Planning. Housed forty thousand families in her last project. Varro thinks in kilometers of road. Drenek thinks in neighborhoods. Both get things built. The question is what gets built."
+        },
+        {
+          "type": "description",
+          "text": "Varro rests his hands on the table — there is dirt under his fingernails. You suspect it has been there for years."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Chancellor. I am not an architect of policy. I am a builder. I have poured foundations in Thornfeld when the ground was frozen, laid rail in Kravenstal when the workers were striking, and finished three bridges on time and under budget. The soil feeds us all. Without farmers and the roads that connect them to markets, there are no cities, no armies, no future."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "The Republic's infrastructure is fifty years behind where it should be. The rail network was last expanded during the monarchy. The northern highway is unpaved for sixty kilometers. If you appoint me, I will build. Not plan — build. I measure success in kilometers, not policy papers. The workers respect me because I have stood where they stand."
+        },
+        {
+          "type": "description",
+          "text": "Drenek unrolls her architectural drawing across the table — a vision of Ashenmere with green spaces, tram lines, and housing that does not look like barracks."
+        },
+        {
+          "type": "dialogue",
+          "character": "sofia_drenek",
+          "text": "Chancellor. Varro builds bridges. I build communities. The difference is not quality — it is vision. A road between two towns is infrastructure. A road that connects workers to jobs, children to schools, and farmers to markets is development. Same concrete. Different purpose."
+        },
+        {
+          "type": "dialogue",
+          "character": "sofia_drenek",
+          "text": "Agricultural output can increase forty percent with proper mechanization and distribution networks — but only if those networks are designed to serve the farmers, not the middlemen. I would prioritize regional planning that integrates housing, transport, and economic development into a single strategy. The Republic deserves more than patched roads. It deserves a future that was designed, not inherited."
+        }
+      ],
+      "monologue": "Varro wants to pour concrete. Drenek wants to design systems. They both understand that infrastructure is not about buildings — it is about connections. Varro connects places. Drenek connects people. The Republic needs both. The question is which kind of connection serves the next decade better.",
+      "choices": [
+        {
+          "id": "dev_engage_varro",
+          "text": "Engineer Varro — what would you build first?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_development_varro"],
+          "codexUnlocks": [],
+          "nextSegment": "development_deep_varro",
+          "reactions": []
+        },
+        {
+          "id": "dev_engage_drenek",
+          "text": "Director Drenek — tell me about your integrated planning approach.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_development_drenek"],
+          "codexUnlocks": [],
+          "nextSegment": "development_deep_drenek",
+          "reactions": []
+        },
+        {
+          "id": "development_to_resources",
+          "text": "Good perspectives. Let's hear from the Resources candidates.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "resources_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "development_deep_varro": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Drenek rolls up her drawings with a confident nod. Varro stays — solid, unmovable, the kind of man who finishes what he starts regardless of the weather.",
+          "primaryCharacter": "benedikt_varro"
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Chancellor. The northern highway. Sixty kilometers of unpaved road between Ashenmere and the Gravenmark agricultural region. Every harvest season, trucks get stuck in mud. Produce rots before it reaches market. Forty percent of Gravenmark's grain spoils in transport. That is not an infrastructure failure — that is a moral failure. We are burning food while four provinces report malnutrition."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "I can pave that road in eighteen months. Cost: twelve million kroner. Return: agricultural distribution increases by forty percent, food prices in Ashenmere drop by fifteen percent. The mathematics is simple. The politics is the hard part — because the middlemen who profit from scarcity will fight it. They are not my problem. The road is."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_varro_priority",
+          "text": "What's the project that would make the biggest immediate impact?",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "resources_presents",
+          "reactions": [
+            {
+              "character": "benedikt_varro",
+              "type": "dialogue",
+              "text": "The northern highway, followed by the Thornfeld rail spur. Together they connect the three agricultural provinces to the capital. Total cost: twenty-two million. Timeline: two years. Impact: food prices drop, rural employment rises, transport costs cut by half. I have already surveyed both routes. The plans exist. They have existed since 1959. Nobody approved them. I am asking you to be the one who does."
+            }
+          ]
+        },
+        {
+          "id": "dev_varro_challenge",
+          "text": "Large projects mean large contracts. How do you prevent corruption in procurement?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "resources_presents",
+          "reactions": [
+            {
+              "character": "benedikt_varro",
+              "type": "dialogue",
+              "text": "Open bidding. Every contract, every supplier, every cost published in the public record. I have never taken a side payment. I have never awarded a contract to a friend. My reputation is the only thing I own that cannot be rebuilt with concrete. If you want someone who will steer contracts to your allies, do not appoint me. If you want someone who will build roads that last fifty years, I am your man."
+            }
+          ]
+        }
+      ]
+    },
+    "development_deep_drenek": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Varro exits with the quiet confidence of a man who has stated his case and will let the concrete make his closing argument. Drenek smooths her drawings and looks at you with the intensity of someone who sees the city not as it is, but as it could be.",
+          "primaryCharacter": "sofia_drenek"
+        },
+        {
+          "type": "dialogue",
+          "character": "sofia_drenek",
+          "text": "Chancellor. Varro is right about the northern highway. He is right about the rail spur. He thinks in infrastructure because infrastructure is what he builds. I think in systems because systems are what make infrastructure work. A paved road with no bus service is a road for the wealthy. A rail spur with no schedule coordination is a rail spur for freight, not for people."
+        },
+        {
+          "type": "dialogue",
+          "character": "sofia_drenek",
+          "text": "My approach is integrated development — housing, transport, employment, and services planned as one system. The Ashenmere urban renewal project housed forty thousand families not by building housing, but by building neighborhoods. Parks. Schools. Tram lines. Markets. That is what I would do for the Republic at scale. Not just roads. Communities."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_drenek_priority",
+          "text": "What's your vision for development across the provinces?",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 2 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "resources_presents",
+          "reactions": [
+            {
+              "character": "sofia_drenek",
+              "type": "dialogue",
+              "text": "Regional development authorities. Right now, infrastructure decisions are made in Ashenmere by people who have never visited the provinces they are planning for. I would establish regional offices with local input — farmers planning farm roads, miners planning mining towns, port workers planning port upgrades. The expertise exists in the provinces. It just has never been asked. My job is to ask and then to fund the answers."
+            }
+          ]
+        },
+        {
+          "id": "dev_drenek_challenge",
+          "text": "You're young for this role. How do you handle established interests that don't take you seriously?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "resources_presents",
+          "reactions": [
+            {
+              "character": "sofia_drenek",
+              "type": "dialogue",
+              "text": "I housed forty thousand families while the established interests were still arguing about zoning regulations. I do not need them to take me seriously. I need them to get out of the way. The people who dismissed me three years ago are now asking me for advice. Results are the only credibility that matters in this field. I have results. They have opinions. I will let you decide which matters more."
+            }
+          ]
+        }
+      ]
+    },
+    "resources_presents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor checks his watch — the final ministry. Two candidates enter: Orin Valdek, heavy-built, with the hands of a man who has spent time underground and the eyes of someone who knows what the ground conceals. Daria Voss, carrying geological survey maps and wearing the earnest expression of someone who has argued with mining executives and refused to lose.",
+          "primaryCharacter": "orin_valdek"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Orin Valdek. Former Director of the State Mining Commission. Knows where every mineral deposit in Veltria sits and what it is worth. Daria Voss. Director of the Environmental Resources Commission. Has fought the mining lobby in three legal challenges and won two. Valdek wants to extract. Voss wants to protect. The Republic needs to do both."
+        },
+        {
+          "type": "description",
+          "text": "Valdek speaks first. His voice is rough — gravel and coal dust."
+        },
+        {
+          "type": "dialogue",
+          "character": "orin_valdek",
+          "text": "Chancellor. Veltria sits on wealth that foreign interests have been trying to access for decades. The Kravenstal coal seam alone is worth an estimated two hundred million kroner at current market prices. We are currently extracting at twelve percent capacity because the previous administration sold extraction rights to Lytheiran companies in exchange for political donations."
+        },
+        {
+          "type": "dialogue",
+          "character": "orin_valdek",
+          "text": "I know every deposit, every claim, every loophole in the mining code. If you appoint me, I will bring extraction back under Veltrian control — national partnerships, not foreign concessions. The revenue from proper resource management could fund every other ministry's ambitions. That is not nationalism. That is arithmetic."
+        },
+        {
+          "type": "description",
+          "text": "Voss places her survey maps on the table beside the mining charts. The juxtaposition is deliberate."
+        },
+        {
+          "type": "dialogue",
+          "character": "daria_voss",
+          "text": "Chancellor. Director Valdek speaks of wealth. I speak of cost. The Kravenstal seam sits beneath a watershed that supplies drinking water to three hundred thousand people. The extraction methods Valdek's commission approved in 1960 contaminated seventeen kilometers of river. Seventeen thousand people were told to boil their water. Some still do."
+        },
+        {
+          "type": "dialogue",
+          "character": "daria_voss",
+          "text": "Our resources are finite. Extraction without stewardship is theft from our children. If you appoint me, I will not block mining — I will ensure it is done responsibly. Environmental impact assessments with enforcement teeth. Reclamation requirements that are actually funded. A resources policy that treats the land as an asset to be managed, not a vault to be emptied."
+        }
+      ],
+      "monologue": "Valdek sees the ground as a bank account. Voss sees it as a trust fund. They both want to manage Veltria's resources — one to extract value now, the other to preserve value for later. The tension between those perspectives will define this ministry for the next decade, whoever leads it.",
+      "choices": [
+        {
+          "id": "resources_engage_valdek",
+          "text": "Director Valdek — tell me more about the revenue potential.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_resources_valdek"],
+          "codexUnlocks": [],
+          "nextSegment": "resources_deep_valdek",
+          "reactions": []
+        },
+        {
+          "id": "resources_engage_voss",
+          "text": "Director Voss — what does responsible extraction look like?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["met_resources_voss"],
+          "codexUnlocks": [],
+          "nextSegment": "resources_deep_voss",
+          "reactions": []
+        },
+        {
+          "id": "resources_to_closing",
+          "text": "I've heard everything I need. Let's wrap this up.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "cabinet_meeting_closing",
+          "reactions": []
+        }
+      ]
+    },
+    "resources_deep_valdek": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Voss gathers her maps with disciplined restraint. Valdek leans forward — he has been waiting to talk numbers.",
+          "primaryCharacter": "orin_valdek"
+        },
+        {
+          "type": "dialogue",
+          "character": "orin_valdek",
+          "text": "Chancellor. Forty million kroner. That is what the Lytheiran companies extracted from Veltrian soil last year while paying six percent in royalties. The international standard is twenty percent. The difference — fourteen percent — went into Lytheiran bank accounts instead of Veltrian schools and hospitals."
+        },
+        {
+          "type": "dialogue",
+          "character": "orin_valdek",
+          "text": "I can renegotiate those contracts. It will be combative. The Lytheirans will threaten to pull out. They will not — the coal is too valuable. I know because I wrote the original geological survey and I know exactly what is in the ground. The leverage is ours. We have simply never used it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_valdek_priority",
+          "text": "What's the first contract you would renegotiate?",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 3 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "cabinet_meeting_closing",
+          "reactions": [
+            {
+              "character": "orin_valdek",
+              "type": "dialogue",
+              "text": "The Lytheira Coal Consortium agreement. Signed in 1958, never reviewed. It grants extraction rights to sixty percent of the Kravenstal seam for royalties that are less than half the market rate. I would reopen it within thirty days — not to cancel, but to renegotiate. Fair royalties, Veltrian hiring requirements, environmental standards that match our own. The Consortium will complain. Then they will sign. The coal is too good to walk away from."
+            }
+          ]
+        },
+        {
+          "id": "resources_valdek_challenge",
+          "text": "Your ties to mining interests are well known. How do I know you'll work for the Republic, not the industry?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "cabinet_meeting_closing",
+          "reactions": [
+            {
+              "character": "orin_valdek",
+              "type": "dialogue",
+              "text": "I have worked with mining companies for fifteen years. Yes, I know them. Yes, I have relationships with them. Those relationships are how I know what they are hiding. I know which companies underreport extraction. I know which ones bribe inspectors. I know because I ran the commission that was supposed to stop them — and I documented every failure. If you want someone the mining companies trust, appoint me. If you want someone they fear, also appoint me. The difference is what you tell me to do with what I know."
+            }
+          ]
+        }
+      ]
+    },
+    "resources_deep_voss": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Valdek withdraws with a rough nod — respect between professionals who disagree. Voss spreads her maps wider. The watersheds are outlined in blue. The contamination sites in red. There is too much red.",
+          "primaryCharacter": "daria_voss"
+        },
+        {
+          "type": "dialogue",
+          "character": "daria_voss",
+          "text": "Chancellor. Look at this map. Every red line is a river segment that does not meet safety standards for drinking or agriculture. There are forty-three red lines on this map. Forty-three. The mining commission has documented twelve of them. The other thirty-one are not even being monitored."
+        },
+        {
+          "type": "dialogue",
+          "character": "daria_voss",
+          "text": "I am not anti-mining. I am anti-lying about the cost of mining. The companies tell you extraction creates jobs. They do not tell you that contaminated water creates disease, that poisoned soil creates food shortages, that the cleanup costs more than the royalties. If you appoint me, I will make the full cost visible — and then let the Republic decide what it is willing to pay."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_voss_priority",
+          "text": "What's the first environmental safeguard you would implement?",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "nation.corruption", "operation": "add", "value": -3 }
+          ],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "cabinet_meeting_closing",
+          "reactions": [
+            {
+              "character": "daria_voss",
+              "type": "dialogue",
+              "text": "Mandatory water quality monitoring at every active extraction site. Real-time data, publicly accessible. Right now, the mining companies self-report — which means they report what they want you to see. Independent monitoring changes the dynamic. When the numbers are public, the companies have to respond to them. Sunlight is the best disinfectant, especially for rivers."
+            }
+          ]
+        },
+        {
+          "id": "resources_voss_challenge",
+          "text": "The mining industry will fight you every step. How do you win?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "cabinet_meeting_closing",
+          "reactions": [
+            {
+              "character": "daria_voss",
+              "type": "dialogue",
+              "text": "By being right. I won two out of three legal challenges against the mining lobby because the science was on my side. The third case — the one I lost — was lost on a technicality, not on the facts. When you make the cost of contamination visible, you change the political calculus. The public supports regulation when they understand what happens without it. My job is to make sure they understand. I am good at my job."
+            }
+          ]
+        }
+      ]
+    },
+    "cabinet_meeting_closing": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor closes his ledger. The afternoon has worn into early evening. Outside the cabinet room windows, Ashenmere's street lamps are beginning to flicker on. The candidates have returned to the corridor — you can hear their voices, still debating, still arguing, still trying to convince each other of things you have already decided.",
+          "primaryCharacter": "vyktor_reznik"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "You have now heard from candidates for all ten ministries. Fourteen people. Fourteen visions for the Republic. Some of them will sit in these chairs. Some of them will go back to their offices and wait for the next government to call."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I will not tell you who to choose — that is your prerogative and your burden. I will tell you that the appointments you make in the next hour will define your government more than any legislation you pass in the next year. Ministers are not employees. They are partners. Choose partners you can work with, even when you disagree. Choose partners who will tell you the truth, even when the truth is uncomfortable."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The appointment folders are ready. Each contains the formal nomination papers. All that remains is your signature. Shall we begin?"
+        }
+      ],
+      "monologue": "Fourteen candidates. Ten ministries. One government. Vyktor is right — these appointments are the architecture of everything that follows. Every crisis I face in the next four years will be handled by someone I choose in the next hour. The weight of that is almost physical. But the Republic does not need a Chancellor who hesitates. It needs a Chancellor who decides.",
+      "choices": [
+        {
+          "id": "proceed_to_appointments_full",
+          "text": "I know who I want. Let's make the appointments.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["cabinet_formation_meeting_complete"],
+          "codexUnlocks": [],
+          "nextSegment": "transition_to_appointments",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Vyktor nods once. 'Very good, Chancellor.' He opens the door to the corridor. The voices outside go quiet. They always know when the decision has been made."
+            }
+          ]
+        }
+      ]
+    },
+    "final_decision": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The candidates have returned to the corridor. Vyktor closes the door. The room is quiet — the kind of quiet that follows an argument when everyone has said their piece and is waiting for judgment."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "You have heard them. Five candidates. Three ministries. Two competing visions for every chair except Defense."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Vostane will give you a clean budget and a hostile Assembly. Kolvar will give you a passed budget and questions about your integrity. Oberlin will dismantle the BNI and make enemies you cannot see coming. Perov will keep the apparatus and test whether civilian oversight actually means anything."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Dusek will defend the border and expect you to listen when she speaks. Every other choice is a trade-off between principles and practicality. Hers is not."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The question now is: what kind of government do you want to lead? And are you ready to pay for it?"
+        }
+      ],
+      "monologue": "Vyktor is right about the question. The answer has been forming all morning — not in the debates, but in the silences between them. In Vostane's refusal to flatter me. In Kolvar's willingness to confess. In Oberlin's unshakeable certainty. In Perov's quiet act of institutional defiance. In Dusek's honesty. I know what I want. Now I have to act on it.",
+      "choices": [
+        {
+          "id": "proceed_to_appointments",
+          "text": "I know who I want. Let's make the appointments.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["cabinet_formation_meeting_complete"],
+          "codexUnlocks": [],
+          "nextSegment": "transition_to_appointments",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Vyktor opens a fresh page in his ledger. 'Very good, Chancellor. Let's begin.'"
+            }
+          ]
+        }
+      ]
+    },
+    "transition_to_appointments": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor stands. He straightens his ledger and walks to the cabinet room door. Beyond it, you can hear the candidates — still debating, still arguing, still trying to convince each other of things you have already decided."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I will begin the formal appointment process. By the time you walk into the chamber, the paperwork will be ready. All that remains is your signature on each portfolio."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "One last thing: whatever you decide in the next ten minutes, you cannot take back. These appointments will define your government. Choose carefully. Choose quickly. The Republic is waiting."
+        },
+        {
+          "type": "description",
+          "text": "He opens the door. The light from the corridor floods the cabinet room. The voices outside go quiet. They know. They always know."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_appointment_screen",
+          "text": "Let's go. The Republic has waited long enough.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "reactions": []
+        }
+      ]
+    }
+  }
+}

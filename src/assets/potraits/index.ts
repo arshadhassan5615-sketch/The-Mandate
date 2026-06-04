@@ -1,5 +1,4 @@
 // Portrait images — folder is "potraits" (existing folder name, not a typo we own)
-// All 25 characters present as .jpeg files
 
 import katerin_ashavel from './katerin_ashavel.jpeg'
 import jonas_ashavel from './jonas_ashavel.jpeg'
@@ -28,6 +27,20 @@ import dragan_vukov from './dragan_vukov.jpeg'
 import idris_kaelen from './idris_kaelen.jpeg'
 import stefan_morvec from './stefan_morvec.jpeg'
 import aleksei_morvec from './aleksei_morvec.jpeg'
+import nikolai_perov from './nikolai_perov.jpeg'
+import general_vass from './general_vass.jpeg'
+import roman_kesic from './roman_kesic.jpeg'
+import petra_solec from './petra_solec.jpeg'
+import vera_sorin from './vera_sorin.jpeg'
+import henryk_borac from './henryk_borac.jpeg'
+import marta_solen from './marta_solen.jpeg'
+import petr_horak from './petr_horak.jpeg'
+import lena_kaspar from './lena_kaspar.jpeg'
+import august_meln from './august_meln.jpeg'
+import benedikt_varro from './benedikt_varro.jpeg'
+import sofia_drenek from './sofia_drenek.jpeg'
+import orin_valdek from './orin_valdek.jpeg'
+import daria_voss from './daria_voss.jpeg'
 
 export const PORTRAITS: Record<string, string> = {
   katerin_ashavel,
@@ -38,6 +51,7 @@ export const PORTRAITS: Record<string, string> = {
   elara_vostane,
   gregor_maric,
   irina_dusek,
+  colonel_dusek: irina_dusek,
   aldric_theron,
   danika_oberlin,
   stanislov_renek,
@@ -45,6 +59,7 @@ export const PORTRAITS: Record<string, string> = {
   soraya_khaled,
   lucan_vael,
   oskar_brenner,
+  general_vass,
   nadia_voss,
   elena_braskov,
   maren_tovik,
@@ -57,6 +72,19 @@ export const PORTRAITS: Record<string, string> = {
   idris_kaelen,
   stefan_morvec,
   aleksei_morvec,
+  nikolai_perov,
+  roman_kesic,
+  petra_solec,
+  vera_sorin,
+  henryk_borac,
+  marta_solen,
+  petr_horak,
+  lena_kaspar,
+  august_meln,
+  benedikt_varro,
+  sofia_drenek,
+  orin_valdek,
+  daria_voss,
 }
 
 export function getPortrait(characterId: string): string | null {

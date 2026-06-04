@@ -52,3 +52,46 @@ export const CATEGORY_COLORS: Record<AgendaCategory, string> = {
   finance:    '#8a7c3a',
   infrastructure: '#6a5acd',
 }
+
+export interface WeeklyStatChange {
+  label: string
+  oldValue: number
+  newValue: number
+  delta: number
+  category: 'faction' | 'nation' | 'personal'
+}
+
+export interface WeeklyEvent {
+  id: string
+  title: string
+  summary: string
+  category: 'political' | 'economic' | 'military' | 'personal' | 'crisis'
+  impact: 'positive' | 'negative' | 'neutral'
+  week: number
+}
+
+export interface WeeklyDecision {
+  title: string
+  consequence: string
+  impact: 'positive' | 'negative' | 'neutral'
+}
+
+export interface UpcomingDeadline {
+  id: string
+  title: string
+  description: string
+  urgency: 'critical' | 'warning' | 'info'
+  timeRemaining: string
+}
+
+export interface NarrativeReflection {
+  text: string
+}
+
+export interface WeeklySummary {
+  statChanges: WeeklyStatChange[]
+  events: WeeklyEvent[]
+  decisions: WeeklyDecision[]
+  deadlines: UpcomingDeadline[]
+  reflection: NarrativeReflection
+}

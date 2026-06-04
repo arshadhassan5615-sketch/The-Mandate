@@ -1,328 +1,366 @@
 import { useWeekStore } from '../stores/weekStore'
 import { useGameStore } from '../stores/gameStore'
 import type { GameState, NationState, FactionState, PersonalState } from '../types/gameState'
-import FamilyStatus from './FamilyStatus'
+import type { WeeklyStatChange, WeeklyEvent, WeeklyDecision, UpcomingDeadline, NarrativeReflection } from '../types/week'
+import { motion, type Variants } from 'framer-motion'
+import StatChange from './EveningReview/StatChange'
+import FamilyStatusPanel from './EveningReview/FamilyStatusPanel'
+import WeeklyHighlights from './EveningReview/WeeklyHighlights'
+import MajorDecisions from './EveningReview/MajorDecisions'
+import UpcomingDeadlines from './EveningReview/UpcomingDeadlines'
 import { useSettingsStore } from '../stores/settingsStore'
 import { saveGame } from '../engine/SaveManager'
 import { playPageTurn } from '../engine/audioEngine'
+import { useBillStore } from '../stores/billStore'
 
-// ─── Delta computation ────────────────────────────────────────────────────────
+// ─── Summary computation ────────────────────────────────────────────────────
 
-interface StatDelta { label: string; delta: number }
-
-function computeDeltas(before: GameState, after: GameState): StatDelta[] {
-  const deltas: StatDelta[] = []
+function computeStatChanges(before: GameState, after: GameState): WeeklyStatChange[] {
+  const changes: WeeklyStatChange[] = []
 
   const nationLabels: Record<keyof NationState, string> = {
-    economyHealth:        'Economy Health',
-    unemployment:         'Unemployment',
-    inflation:            'Inflation',
-    nationalDebt:         'National Debt',
-    corruption:           'Corruption',
-    militaryReadiness:    'Military Readiness',
-    publicOrder:          'Public Order',
-    pressFreedom:         'Press Freedom',
-    mediaControl:         'Media Control',
-    civilLiberties:       'Civil Liberties',
-    internationalStanding:'Intl. Standing',
-    assemblyVoteMargin:   'Assembly Margin',
+    economyHealth: 'Economy Health',
+    unemployment: 'Unemployment',
+    inflation: 'Inflation',
+    nationalDebt: 'National Debt',
+    corruption: 'Corruption',
+    militaryReadiness: 'Military Readiness',
+    publicOrder: 'Public Order',
+    pressFreedom: 'Press Freedom',
+    mediaControl: 'Media Control',
+    civilLiberties: 'Civil Liberties',
+    internationalStanding: 'Intl. Standing',
+    assemblyVoteMargin: 'Assembly Margin',
   }
   for (const [k, label] of Object.entries(nationLabels)) {
     const key = k as keyof NationState
-    const d = after.nation[key] - before.nation[key]
-    if (d !== 0) deltas.push({ label, delta: d })
+    const oldVal = before.nation[key]
+    const newVal = after.nation[key]
+    const delta = newVal - oldVal
+    if (delta !== 0) changes.push({ label, oldValue: oldVal, newValue: newVal, delta, category: 'nation' })
   }
 
   const factionLabels: Record<keyof FactionState, string> = {
-    halvekists:       'Halvekists',
+    halvekists: 'Halvekists',
     workersCoalition: "Workers' Coalition",
-    reformists:       'Reformists',
-    ironCovenant:     'Iron Covenant',
-    church:           'Church',
-    businessClass:    'Business Class',
-    dravenni:         'Dravenni',
+    reformists: 'Reformists',
+    ironCovenant: 'Iron Covenant',
+    church: 'Church',
+    businessClass: 'Business Class',
+    dravenni: 'Dravenni',
   }
   for (const [k, label] of Object.entries(factionLabels)) {
     const key = k as keyof FactionState
-    const d = after.factions[key] - before.factions[key]
-    if (d !== 0) deltas.push({ label, delta: d })
+    const oldVal = before.factions[key]
+    const newVal = after.factions[key]
+    const delta = newVal - oldVal
+    if (delta !== 0) changes.push({ label, oldValue: oldVal, newValue: newVal, delta, category: 'faction' })
   }
 
   const personalLabels: Record<keyof PersonalState, string> = {
-    marriageHealth:    'Marriage Health',
+    marriageHealth: 'Marriage Health',
     lioraRelationship: 'Liora Relationship',
-    tomasWellbeing:    'Tomas Wellbeing',
-    personalWealth:    'Personal Wealth',
-    publicImage:       'Public Image',
-    moralCompass:      'Moral Compass',
+    tomasWellbeing: 'Tomas Wellbeing',
+    personalWealth: 'Personal Wealth',
+    publicImage: 'Public Image',
+    moralCompass: 'Moral Compass',
   }
   for (const [k, label] of Object.entries(personalLabels)) {
     const key = k as keyof PersonalState
-    const d = after.personal[key] - before.personal[key]
-    if (d !== 0) deltas.push({ label, delta: d })
+    const oldVal = before.personal[key]
+    const newVal = after.personal[key]
+    const delta = newVal - oldVal
+    if (delta !== 0) changes.push({ label, oldValue: oldVal, newValue: newVal, delta, category: 'personal' })
   }
 
-  return deltas
+  return changes
 }
 
-// ─── Delta row ────────────────────────────────────────────────────────────────
-
-function DeltaRow({ label, delta }: StatDelta) {
-  const positive = delta > 0
-  const color = positive ? 'var(--accent-green)' : 'var(--accent-red)'
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '0.3rem 0',
-        borderBottom: '1px solid rgba(200,144,42,0.08)',
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.72rem',
-          color: 'var(--muted)',
-          letterSpacing: '0.06em',
-        }}
-      >
-        {label}
-      </span>
-      <span
-        style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.72rem',
-          color,
-          letterSpacing: '0.08em',
-          minWidth: '3rem',
-          textAlign: 'right',
-        }}
-      >
-        {positive ? '+' : ''}{delta.toFixed(0)}
-      </span>
-    </div>
-  )
+function buildEventsFromQueue(
+  queue: ReturnType<typeof useWeekStore.getState>['sceneQueue'],
+  currentWeek: number,
+): WeeklyEvent[] {
+  return queue.map((item) => ({
+    id: item.id,
+    title: item.title,
+    summary: item.description,
+    category: mapCategory(item.category),
+    impact: 'neutral' as const,
+    week: currentWeek,
+  }))
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
+function mapCategory(cat: string): WeeklyEvent['category'] {
+  switch (cat) {
+    case 'security': return 'military'
+    case 'crisis': return 'crisis'
+    case 'personal': return 'personal'
+    case 'finance':
+    case 'infrastructure': return 'economic'
+    default: return 'political'
+  }
+}
+
+function buildDecisionsFromQueue(
+  queue: ReturnType<typeof useWeekStore.getState>['sceneQueue'],
+): WeeklyDecision[] {
+  return queue.map((item) => ({
+    title: item.title,
+    consequence: item.isUrgent
+      ? 'Crisis response — consequences unfolding.'
+      : 'Decision recorded. Effects will manifest over time.',
+    impact: item.isUrgent ? ('negative' as const) : ('neutral' as const),
+  }))
+}
+
+function buildDeadlines(
+  currentWeek: number,
+  agendaPool: ReturnType<typeof useWeekStore.getState>['agendaPool'],
+  activeProjects: ReturnType<typeof useGameStore.getState>['activeProjects'],
+): UpcomingDeadline[] {
+  const deadlines: UpcomingDeadline[] = []
+
+  for (const item of agendaPool) {
+    if (item.weekDeadline && item.weekDeadline > currentWeek && item.weekDeadline <= currentWeek + 3) {
+      const weeksLeft = item.weekDeadline - currentWeek
+      deadlines.push({
+        id: `deadline_${item.id}`,
+        title: item.title,
+        description: item.description.slice(0, 80) + '...',
+        urgency: weeksLeft <= 1 ? 'critical' : weeksLeft <= 2 ? 'warning' : 'info',
+        timeRemaining: weeksLeft === 1 ? 'This week' : `Due in ${weeksLeft} weeks`,
+      })
+    }
+  }
+
+  for (const project of activeProjects) {
+    if (project.phase === 'active' && project.currentWeek > 0) {
+      deadlines.push({
+        id: `project_${project.projectId}`,
+        title: `Project: ${project.projectId}`,
+        description: 'Active development project in progress.',
+        urgency: 'info',
+        timeRemaining: `Week ${project.currentWeek}`,
+      })
+    }
+  }
+
+  return deadlines.slice(0, 5)
+}
+
+function buildReflection(currentWeek: number, gameState: GameState): NarrativeReflection {
+  const p = gameState.personal
+  const n = gameState.nation
+
+  if (n.publicOrder < 40) {
+    return { text: 'The streets grow quieter each evening. You wonder if it\'s fear or exhaustion.' }
+  }
+  if (p.marriageHealth < 40) {
+    return { text: 'Jonas barely speaks at dinner anymore. The weight of this office costs more than you expected.' }
+  }
+  if (p.lioraRelationship < 40) {
+    return { text: 'Liora\'s silence is louder than any argument. Your daughter is drifting somewhere you cannot follow.' }
+  }
+  if (n.economyHealth < -30) {
+    return { text: 'The ledgers show red in every column. Outside these walls, market stalls close one by one.' }
+  }
+  if (n.corruption > 80) {
+    return { text: 'You feel the rot beneath the marble floors. Corruption has its own gravity — it pulls everything toward it.' }
+  }
+  if (gameState.stateOfEmergency) {
+    return { text: 'Emergency powers. You tell yourself it\'s temporary. But every week the justification comes easier.' }
+  }
+  if (n.internationalStanding > 70) {
+    return { text: 'Foreign dispatches speak of Veltria with something almost like respect. The world is watching.' }
+  }
+  if (n.militaryReadiness < 30) {
+    return { text: 'The generals are nervous. A nation with weak borders sleeps uneasily.' }
+  }
+
+  return { text: `Outside the palace windows, Ashenmere settles into night. The Republic continues. Week ${currentWeek} is recorded.` }
+}
+
+// ─── Animation variants ─────────────────────────────────────────────────────
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+}
+
+const panelVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+}
+
+const headerVariants: Variants = {
+  hidden: { opacity: 0, y: -16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' as const } },
+}
+
+// ─── Main component ─────────────────────────────────────────────────────────
 
 export default function EveningReview() {
-  const { sceneQueue, weekStartSnapshot, completeWeek, gateBlocked, gateMessage, dismissGate } = useWeekStore()
+  const { sceneQueue, weekStartSnapshot, completeWeek, gateBlocked, gateMessage, dismissGate, agendaPool } = useWeekStore()
   const gameState = useGameStore()
-  const { currentWeek } = useGameStore()
+  const { currentWeek } = gameState
   const { setSaveMenuOpen, ironmanMode } = useSettingsStore()
+  const bills = useBillStore((s) => s.bills)
 
-  const deltas = weekStartSnapshot ? computeDeltas(weekStartSnapshot, gameState) : []
+  const statChanges = weekStartSnapshot ? computeStatChanges(weekStartSnapshot, gameState) : []
+  const events = buildEventsFromQueue(sceneQueue, currentWeek)
+  const decisions = buildDecisionsFromQueue(sceneQueue)
+  const activeProjects = gameState.activeProjects
+  const deadlines = buildDeadlines(currentWeek, agendaPool, activeProjects)
+  const reflection = buildReflection(currentWeek, gameState)
+
+  const dateStr = (() => {
+    const d = new Date(1963, 0, 1)
+    d.setDate(d.getDate() + (currentWeek - 1) * 7)
+    return d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+  })()
 
   return (
-    <div
-      className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]"
-      style={{ background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px', paddingBottom: '80px', paddingLeft: '16px' }}
-    >
-      {/* ── Header ──────────────────────────────────────────────── */}
-      <div
-        className="shrink-0 flex items-center justify-between px-8 py-3 border-b"
-        style={{ borderColor: 'var(--border)' }}
+    <div className="evening-review">
+      <motion.div
+        className="evening-review-inner"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
-        <span className="stamp" style={{ marginRight: '80px' }}>End of Week {currentWeek} · Evening Review</span>
-      </div>
+        <motion.div className="evening-header" variants={headerVariants}>
+          <h1 className="evening-title">END OF WEEK {currentWeek}</h1>
+          <p className="evening-date">{dateStr} — Ashenmere, Republic of Veltria</p>
+          <div className="evening-divider" />
+        </motion.div>
 
-      {/* ── Body ────────────────────────────────────────────────── */}
-      <div className="flex flex-1 overflow-hidden">
-
-        {/* Left: meetings attended */}
-        <div
-          className="hidden md:flex flex-col shrink-0 border-r overflow-y-auto"
-          style={{
-            borderColor: 'var(--border)',
-            width: '260px',
-            padding: '2rem 1.5rem',
-            paddingBottom: '80px',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '0.65rem',
-              letterSpacing: '0.2em',
-              color: 'var(--amber-dim)',
-              textTransform: 'uppercase',
-              marginBottom: '1rem',
-            }}
-          >
-            ▸ Meetings Attended
-          </p>
-          <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.5rem' }} />
-          {sceneQueue.map((item, i) => (
-            <div key={item.id} style={{ marginBottom: '1rem' }}>
-              <p
-                style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.62rem',
-                  color: 'var(--muted)',
-                  letterSpacing: '0.1em',
-                  marginBottom: '0.2rem',
-                }}
-              >
-                {String(i + 1).padStart(2, '0')}
-              </p>
-              <p
-                style={{
-                  fontFamily: "'IM Fell English', Georgia, serif",
-                  fontSize: '0.9rem',
-                  color: 'var(--cream)',
-                  lineHeight: 1.4,
-                }}
-              >
-                {item.title}
-              </p>
+        <div className="evening-grid">
+          <motion.div className="evening-column" variants={panelVariants}>
+            <div className="evening-panel">
+              <h2 className="evening-panel-title">Weekly Highlights</h2>
+              <WeeklyHighlights events={events} />
             </div>
-          ))}
+            <div className="evening-panel" style={{ marginTop: '24px' }}>
+              <h2 className="evening-panel-title">Family Status</h2>
+              <FamilyStatusPanel />
+            </div>
+          </motion.div>
 
-          {/* Family status — personal life at a glance */}
-          <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(200,144,42,0.12)', paddingTop: '0.5rem' }}>
-            <FamilyStatus />
-          </div>
+          <motion.div className="evening-column" variants={panelVariants}>
+            <div className="evening-panel">
+              <h2 className="evening-panel-title">Stat Changes</h2>
+              {statChanges.length === 0 ? (
+                <div className="evening-empty">
+                  <p>No measurable changes this week.</p>
+                </div>
+              ) : (
+                <div className="evening-stat-changes">
+                  {statChanges.map((sc, i) => (
+                    <StatChange key={`${sc.label}-${i}`} stat={sc} />
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="evening-panel" style={{ marginTop: '24px' }}>
+              <h2 className="evening-panel-title">Decisions Made</h2>
+              <MajorDecisions decisions={decisions} />
+            </div>
+          </motion.div>
+
+          <motion.div className="evening-column" variants={panelVariants}>
+            <div className="evening-panel">
+              <h2 className="evening-panel-title">Active Projects</h2>
+              {activeProjects.filter((p) => p.phase === 'active').length === 0 ? (
+                <div className="evening-empty">
+                  <p>No active development projects.</p>
+                </div>
+              ) : (
+                <div className="evening-projects">
+                  {activeProjects.filter((p) => p.phase === 'active').map((p) => (
+                    <div key={p.projectId} className="evening-project-item">
+                      <span className="evening-project-name">{p.projectId}</span>
+                      <span className="evening-project-week">Wk {p.currentWeek}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="evening-panel" style={{ marginTop: '24px' }}>
+              <h2 className="evening-panel-title">Upcoming Deadlines</h2>
+              <UpcomingDeadlines deadlines={deadlines} />
+            </div>
+            <div className="evening-panel" style={{ marginTop: '24px' }}>
+              <h2 className="evening-panel-title">Pending Bills</h2>
+              {bills.filter((b) => b.weekPresented === currentWeek).length === 0 ? (
+                <div className="evening-empty">
+                  <p>No pending legislation.</p>
+                </div>
+              ) : (
+                <div className="evening-bills">
+                  {bills.filter((b) => b.weekPresented === currentWeek).map((b) => (
+                    <div key={b.id} className="evening-bill-item">
+                      <span className="evening-bill-icon">{'\u2696\uFE0F'}</span>
+                      <span className="evening-bill-title">{b.title}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
         </div>
 
-        {/* Right: stat deltas */}
-        <div className="flex flex-col flex-1 overflow-hidden px-8 py-8 max-w-2xl">
-          <div style={{ marginBottom: '2rem' }}>
-            <p
-              style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.65rem',
-                letterSpacing: '0.2em',
-                color: 'var(--amber-dim)',
-                textTransform: 'uppercase',
-                marginBottom: '0.4rem',
-              }}
-            >
-              ▸ Weekly Consequences
-            </p>
-            <div style={{ height: '1px', background: 'var(--border)' }} />
-          </div>
+        <motion.div className="evening-reflection" variants={panelVariants}>
+          <p>{reflection.text}</p>
+        </motion.div>
 
-          <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}>
-            {deltas.length === 0 ? (
-              <p style={{ color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.8rem' }}>
-                No measurable changes this week.
-              </p>
-            ) : (
-              deltas.map(d => <DeltaRow key={d.label} {...d} />)
-            )}
-
-            {/* Narrative coda */}
-            <div
-              style={{
-                marginTop: '2.5rem',
-                paddingTop: '1.5rem',
-                borderTop: '1px solid var(--border)',
-              }}
-            >
-              <p
-                style={{
-                  fontFamily: "'IM Fell English', Georgia, serif",
-                  fontStyle: 'italic',
-                  color: 'var(--muted)',
-                  fontSize: '0.95rem',
-                  lineHeight: 1.7,
-                }}
-              >
-                Outside the palace windows, Ashenmere settles into night. The Republic continues. Week {currentWeek} is recorded.
-              </p>
-            </div>
-          </div>
-
-          {/* Advance + save buttons */}
-          <div
-            className="shrink-0 pt-6 border-t mt-6"
-            style={{ borderColor: 'var(--border)', display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}
-          >
-            {gateBlocked && (
-              <div style={{ flexBasis: '100%', marginBottom: '0.5rem' }}>
-                <div style={{
-                  padding: '0.8rem 1.2rem',
-                  border: '1px solid var(--accent-red)',
-                  background: 'rgba(139,46,46,0.1)',
-                  borderRadius: '2px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                  <div>
-                    <p style={{
-                      fontFamily: "'Special Elite', monospace",
-                      fontSize: '0.62rem',
-                      letterSpacing: '0.15em',
-                      color: 'var(--accent-red)',
-                      textTransform: 'uppercase',
-                      marginBottom: '0.25rem',
-                    }}>
-                      ▸ Required Before Advancing
-                    </p>
-                    <p style={{
-                      fontFamily: "'IM Fell English', Georgia, serif",
-                      fontStyle: 'italic',
-                      fontSize: '0.85rem',
-                      color: 'var(--muted)',
-                      lineHeight: 1.4,
-                    }}>
-                      {gateMessage}
-                    </p>
-                  </div>
-                  <button
-                    onClick={dismissGate}
-                    style={{
-                      fontFamily: "'Special Elite', monospace",
-                      fontSize: '0.55rem',
-                      color: 'var(--muted)',
-                      background: 'none',
-                      border: '1px solid var(--border)',
-                      cursor: 'pointer',
-                      padding: '0.3rem 0.6rem',
-                      letterSpacing: '0.08em',
-                    }}
-                  >
-                    DISMISS
-                  </button>
-                </div>
+        <motion.div className="evening-footer" variants={panelVariants}>
+          {gateBlocked && (
+            <div className="evening-gate-blocked">
+              <div>
+                <p className="evening-gate-label">REQUIRED BEFORE ADVANCING</p>
+                <p className="evening-gate-message">{gateMessage}</p>
               </div>
-            )}
+              <button className="evening-gate-dismiss" onClick={dismissGate}>
+                DISMISS
+              </button>
+            </div>
+          )}
+          <div className="evening-footer-buttons">
             <button
-              className="choice-btn"
-              onClick={() => { if (!gateBlocked) { playPageTurn(); completeWeek() } }}
-              style={{ width: 'auto', minWidth: '260px', opacity: gateBlocked ? 0.35 : 1, pointerEvents: gateBlocked ? 'none' : 'auto' }}
-              title={gateBlocked ? (gateMessage ?? 'Complete required agenda items first') : undefined}
+              className="advance-button"
+              onClick={() => {
+                if (!gateBlocked) {
+                  playPageTurn()
+                  completeWeek()
+                }
+              }}
+              disabled={gateBlocked}
             >
-              {gateBlocked
-                ? 'Complete Required Items First'
-                : currentWeek >= 52 ? 'The Mandate is Complete →' : `Advance to Week ${currentWeek + 1} →`}
+              {currentWeek >= 52
+                ? 'The Mandate is Complete \u2192'
+                : `Advance to Week ${currentWeek + 1} \u2192`}
             </button>
             {!ironmanMode && (
-              <button
-                className="choice-btn"
-                onClick={() => setSaveMenuOpen(true)}
-                style={{ width: 'auto', minWidth: '160px', opacity: 0.7 }}
-              >
-                Save / Load
-              </button>
-            )}
-            {!ironmanMode && (
-              <button
-                className="choice-btn"
-                onClick={() => saveGame(0, 'AUTOSAVE').then(() => {})}
-                style={{ width: 'auto', minWidth: '160px', opacity: 0.6 }}
-              >
-                Quick Save
-              </button>
+              <>
+                <button
+                  className="evening-save-button"
+                  onClick={() => setSaveMenuOpen(true)}
+                >
+                  Save / Load
+                </button>
+                <button
+                  className="evening-save-button"
+                  onClick={() => { saveGame(0, 'AUTOSAVE').catch(() => {}) }}
+                >
+                  Quick Save
+                </button>
+              </>
             )}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   )
 }

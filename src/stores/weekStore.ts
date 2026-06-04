@@ -245,7 +245,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   showCabinetMeeting: false,
 
   triggerCabinetFormation: () => set({ showCabinetFormation: true }),
-  dismissCabinetMeeting: () => set({ showCabinetMeeting: false }),
+  dismissCabinetMeeting: () => set({ showCabinetMeeting: false, phase: 'briefing' }),
 
   startCustomization: () => {
     // Full state reset for a clean new game
@@ -474,6 +474,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       .sort((a, b) => a.executionOrder - b.executionOrder)
     if (sorted.length === 0) return
 
+    console.log('[confirmAgenda] Queue:', sorted.map((s, i) => `[${i}] ${s.id} (${s.sceneId})`).join(', '))
+
     // Snapshot stats before any scene runs (used by EveningReview for deltas)
     const snapshot = { ...gameState }
     const first = sorted[0]
@@ -526,6 +528,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           }
 
           set({ currentQueueIndex: next, transitionLabel: '' })
+          console.log('[advanceQueue] Loading scene:', item.sceneId, '| queue index:', next, 'of', q.length, '|', item.title)
           if (item.sceneId === '__budget__') {
             set({ phase: 'budget', transitionLabel: '' })
           } else if (item.sceneId === '__constitution__') {
@@ -542,6 +545,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
             set({ phase: 'scene' })
           }
         } else {
+          console.log('[advanceQueue] Queue exhausted — transitioning to review. Queue was:', q.map((s, i) => `[${i}] ${s.id}`).join(', '), '| last index:', next - 1)
           set({ phase: 'review', transitionLabel: '' })
         }
       } catch (e) {

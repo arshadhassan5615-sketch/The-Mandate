@@ -3,6 +3,8 @@ import type { MinistryType } from '../types/minister'
 import { MINISTER_CANDIDATES, getCandidatesForMinistry } from '../data/ministers'
 import { useCabinetStore } from '../stores/cabinetStore'
 import { useGameStore } from '../stores/gameStore'
+import { getPortrait } from '../assets/potraits'
+import { getCharacterPortrait } from './portraits/CharacterPortraits'
 
 const MINISTRY_LABELS: Record<MinistryType, string> = {
   finance: 'Finance',
@@ -28,6 +30,47 @@ const MINISTRY_COLORS: Record<MinistryType, string> = {
   health: '#16a085',
   development: '#d35400',
   resources: '#7f8c8d',
+}
+
+function CandidatePortrait({ candidateId, isChosen }: { candidateId: string; isChosen: boolean }) {
+  const [imgError, setImgError] = useState(false)
+  const imgSrc = getPortrait(candidateId)
+  const SvgComp = getCharacterPortrait(candidateId)
+
+  return (
+    <div style={{
+      width: '56px',
+      height: '56px',
+      borderRadius: '50%',
+      border: `2px solid ${isChosen ? '#2d7a3a' : 'rgba(201,168,76,0.4)'}`,
+      overflow: 'hidden',
+      flexShrink: 0,
+      background: 'rgba(201,168,76,0.1)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      {imgSrc && !imgError ? (
+        <img
+          src={imgSrc}
+          alt={candidateId}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          onError={() => setImgError(true)}
+        />
+      ) : SvgComp ? (
+        <SvgComp />
+      ) : (
+        <span style={{
+          fontSize: '16px',
+          fontWeight: 700,
+          color: 'rgba(201,168,76,0.6)',
+          fontFamily: 'Georgia, serif',
+        }}>
+          {candidateId.split('_').map(w => w[0]).join('').slice(0, 2).toUpperCase()}
+        </span>
+      )}
+    </div>
+  )
 }
 
 interface CabinetFormationProps {
@@ -234,28 +277,10 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
                     marginBottom: '14px',
                     alignItems: 'center',
                   }}>
-                    <div style={{
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
-                      border: `2px solid ${isChosen ? '#2d7a3a' : 'rgba(201,168,76,0.4)'}`,
-                      overflow: 'hidden',
-                      flexShrink: 0,
-                      background: 'rgba(201,168,76,0.1)',
-                    }}>
-                      <img
-                        src={candidate.portrait}
-                        alt={candidate.name}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                        }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none'
-                        }}
-                      />
-                    </div>
+                    <CandidatePortrait
+                      candidateId={candidate.id}
+                      isChosen={isChosen}
+                    />
                     <div>
                       <div style={{
                         fontSize: '15px',

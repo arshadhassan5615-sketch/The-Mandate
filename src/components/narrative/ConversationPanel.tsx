@@ -11,6 +11,7 @@ const CHAR_NAMES: Record<string, string> = {
   aldric_theron: 'Prof. Aldric Theron', stanislov_renek: 'Archbishop Renek',
   jonas_ashavel: 'Jonas Ashavel', liora_ashavel: 'Liora Ashavel',
   tomas_ashavel: 'Tomas Ashavel', drazen_kolvar: 'Dražen Kolvar',
+  nikolai_perov: 'General Perov',
   soraya_khaled: 'Soraya Khaled', lucan_vael: 'Lucan Vael',
   oskar_brenner: 'Gen. Brenner', nadia_voss: 'Nadia Voss',
   harrison_cole: 'Amb. Harrison Cole', yevgeni_stahl: 'Commissar Stahl',
@@ -18,6 +19,18 @@ const CHAR_NAMES: Record<string, string> = {
   radovan_skala: 'Warlord Skala', maren_tovik: 'Maren Tovik',
   viktor_dorne: 'Viktor Dorne', elena_braskov: 'Elena Braskov',
   serida_valk: 'Serida Valk',
+  roman_kesic: 'Roman Kešić',
+  petra_solec: 'Petra Solec',
+  vera_sorin: 'Vera Sorin',
+  henryk_borac: 'Henryk Borač',
+  marta_solen: 'Dr. Marta Solén',
+  petr_horak: 'Petr Horák',
+  lena_kaspar: 'Dr. Lena Kaspar',
+  august_meln: 'Dr. August Meln',
+  benedikt_varro: 'Benedikt Varro',
+  sofia_drenek: 'Sofia Drenek',
+  orin_valdek: 'Orin Valdek',
+  daria_voss: 'Daria Voss',
 }
 
 function charName(id: string): string {
@@ -57,7 +70,7 @@ interface ConversationPanelProps {
 }
 
 export default function ConversationPanel({
-  sceneTitle, sceneLocation, sceneType, currentWeek, sceneCharacters,
+  sceneTitle, sceneLocation, sceneType, currentWeek, sceneCharacters: _sceneCharacters,
   history, activeSegment, activeText, showCursor,
   choices, showChoices, sceneDone, allDone, segmentDone,
   onAdvance: _onAdvance, onChoice, onAdvanceQueue, continueLabel,
@@ -189,12 +202,26 @@ export default function ConversationPanel({
     return () => observer.disconnect()
   }, [choices, actualShowChoices])
 
-  const speakerOrder = sceneCharacters.filter(c => c !== 'katerin_ashavel')
-  if (speakingCharacter && !speakerOrder.includes(speakingCharacter)) {
+  // Build portrait stack from characters who have actually spoken,
+  // NOT from the full scene characters list (which may include non-speaking NPCs).
+  const spokenChars = new Set<string>()
+  history.forEach(entry => {
+    if (entry.characterId && entry.characterId !== 'katerin_ashavel') {
+      spokenChars.add(entry.characterId)
+    }
+  })
+  const speakerOrder = [...spokenChars]
+
+  if (speakingCharacter && speakingCharacter !== 'katerin_ashavel' && !speakerOrder.includes(speakingCharacter)) {
     speakerOrder.push(speakingCharacter)
-  } else if (speakingCharacter) {
+  } else if (speakingCharacter && speakingCharacter !== 'katerin_ashavel') {
     const idx = speakerOrder.indexOf(speakingCharacter)
     if (idx >= 0) { speakerOrder.splice(idx, 1); speakerOrder.push(speakingCharacter) }
+  } else if (activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel' && !speakerOrder.includes(activeSegment.primaryCharacter)) {
+    speakerOrder.push(activeSegment.primaryCharacter)
+  } else if (activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel') {
+    const idx = speakerOrder.indexOf(activeSegment.primaryCharacter)
+    if (idx >= 0) { speakerOrder.splice(idx, 1); speakerOrder.push(activeSegment.primaryCharacter) }
   }
 
   const isEmergency = sceneType === 'emergency'
@@ -249,7 +276,8 @@ export default function ConversationPanel({
           width: '640px', maxWidth: '90vw', pointerEvents: 'all',
           background: 'rgba(10,9,8,0.94)',
           display: 'flex', flexDirection: 'column',
-          maxHeight: 'calc(100vh - 100px)',
+          height: 'calc(100vh - 80px)',
+          maxHeight: 'calc(100vh - 80px)',
           overflow: 'hidden',
           borderLeft: '1px solid rgba(196,148,58,0.15)',
           borderRadius: '2px 0 0 2px',
@@ -281,12 +309,12 @@ export default function ConversationPanel({
         <div
           ref={historyRef}
           style={{
-            flexShrink: 0, maxHeight: '35vh', overflowY: 'auto',
+            flex: 1, minHeight: 0, overflowY: 'auto',
             padding: '14px 18px 8px',
             display: 'flex', flexDirection: 'column', gap: 2,
             scrollBehavior: 'smooth',
-            scrollbarWidth: 'thin',
-            scrollbarColor: 'rgba(200,144,42,0.2) transparent',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
           }}
         >
           {history.map(entry => (
@@ -414,7 +442,7 @@ export default function ConversationPanel({
             ref={choicesRef}
             className="conversation-choices"
             style={{
-              flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden',
+              flexShrink: 0, maxHeight: '45vh', overflowY: 'auto', overflowX: 'hidden',
               padding: '8px 14px 14px',
               borderTop: '1px solid rgba(196,148,58,0.12)',
               scrollbarWidth: 'none',

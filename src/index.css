@@ -655,3 +655,681 @@ body::before {
   background: rgba(139,115,85,0.25);
   border-radius: 2px;
 }
+
+/* Hide scrollbars globally but keep scroll functionality */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EVENING REVIEW SCREEN — Professional End-of-Week Interface
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --evening-bg: rgba(10, 8, 6, 0.98);
+  --evening-panel: rgba(25, 22, 18, 0.95);
+  --evening-border: rgba(201, 168, 76, 0.3);
+  --evening-gold: #C9A84C;
+  --evening-gold-dim: rgba(201, 168, 76, 0.5);
+  --evening-green: #6B9B5F;
+  --evening-red: #B85450;
+  --evening-text: #E8E0D0;
+  --evening-text-muted: rgba(232, 224, 208, 0.6);
+}
+
+.evening-review {
+  position: fixed;
+  inset: 0;
+  background: var(--evening-bg);
+  backdrop-filter: blur(8px);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 32px 32px;
+  overflow-y: auto;
+}
+
+.evening-review-inner {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────── */
+
+.evening-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.evening-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--evening-gold);
+  letter-spacing: 4px;
+  margin: 0;
+  text-shadow: 0 0 40px rgba(201, 168, 76, 0.15);
+}
+
+.evening-date {
+  font-family: 'IBM Plex Mono', 'Special Elite', monospace;
+  font-size: 13px;
+  color: var(--evening-gold-dim);
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+
+.evening-divider {
+  width: 240px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--evening-gold) 20%,
+    var(--evening-gold) 80%,
+    transparent
+  );
+  margin: 24px auto 0;
+  position: relative;
+}
+
+.evening-divider::before,
+.evening-divider::after {
+  content: '\25C8';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--evening-gold);
+  font-size: 11px;
+}
+
+.evening-divider::before { left: -22px; }
+.evening-divider::after { right: -22px; }
+
+/* ─── Grid ────────────────────────────────────────────────────────── */
+
+.evening-grid {
+  display: grid;
+  grid-template-columns: 32% 38% 30%;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.evening-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Panel ───────────────────────────────────────────────────────── */
+
+.evening-panel {
+  background: var(--evening-panel);
+  border: 1px solid var(--evening-border);
+  border-radius: 2px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.evening-panel::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  border: 1px solid rgba(201, 168, 76, 0.08);
+  pointer-events: none;
+  border-radius: 1px;
+}
+
+.evening-panel-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--evening-gold);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--evening-border);
+  letter-spacing: 1px;
+}
+
+/* ─── Stat Changes ────────────────────────────────────────────────── */
+
+.evening-stat-changes {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-change-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+}
+
+.stat-change-row:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-family: 'Crimson Text', 'IM Fell English', Georgia, serif;
+  font-size: 15px;
+  color: var(--evening-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-icon {
+  font-size: 11px;
+  opacity: 0.5;
+  width: 16px;
+  text-align: center;
+}
+
+.stat-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 48px;
+  text-align: right;
+}
+
+.stat-value.positive { color: var(--evening-green); }
+.stat-value.negative { color: var(--evening-red); }
+.stat-value.neutral  { color: var(--evening-gold); }
+
+/* ─── Empty State ─────────────────────────────────────────────────── */
+
+.evening-empty {
+  padding: 12px 0;
+}
+
+.evening-empty p {
+  font-family: 'Crimson Text', 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--evening-text-muted);
+  margin: 0;
+}
+
+/* ─── Highlights ──────────────────────────────────────────────────── */
+
+.evening-highlight-item {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.07);
+}
+
+.evening-highlight-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.evening-highlight-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.evening-highlight-icon {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.evening-highlight-title {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--evening-text);
+  flex: 1;
+}
+
+.evening-highlight-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.evening-highlight-summary {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13px;
+  color: var(--evening-text-muted);
+  margin: 0 0 0 22px;
+  line-height: 1.5;
+}
+
+/* ─── Family ──────────────────────────────────────────────────────── */
+
+.evening-family {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.evening-family-member {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.evening-family-portrait {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.evening-family-initials {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--evening-text);
+}
+
+.evening-family-mood-icon {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 14px;
+  background: var(--evening-panel);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evening-family-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.evening-family-name {
+  display: block;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--evening-text);
+}
+
+.evening-family-role {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--evening-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1px;
+}
+
+.evening-family-bar-track {
+  height: 3px;
+  background: rgba(201, 168, 76, 0.08);
+  margin: 6px 0 3px;
+  border-radius: 1px;
+}
+
+.evening-family-bar-fill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.6s ease;
+}
+
+.evening-family-mood-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ─── Decisions ───────────────────────────────────────────────────── */
+
+.evening-decision-item {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.07);
+}
+
+.evening-decision-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.evening-decision-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 3px;
+}
+
+.evening-decision-check {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.evening-decision-check.positive { color: var(--evening-green); }
+.evening-decision-check.negative { color: var(--evening-red); }
+.evening-decision-check.neutral  { color: var(--evening-gold); }
+
+.evening-decision-title {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--evening-text);
+}
+
+.evening-decision-consequence {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13px;
+  color: var(--evening-text-muted);
+  margin: 0 0 0 24px;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ─── Deadlines ───────────────────────────────────────────────────── */
+
+.evening-deadline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.07);
+}
+
+.evening-deadline-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.evening-deadline-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.evening-deadline-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.evening-deadline-title {
+  display: block;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--evening-text);
+}
+
+.evening-deadline-desc {
+  display: block;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 12px;
+  color: var(--evening-text-muted);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.evening-deadline-time {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ─── Projects ────────────────────────────────────────────────────── */
+
+.evening-project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.07);
+}
+
+.evening-project-item:last-child {
+  border-bottom: none;
+}
+
+.evening-project-name {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 14px;
+  color: var(--evening-text);
+  text-transform: capitalize;
+}
+
+.evening-project-week {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--evening-gold-dim);
+}
+
+/* ─── Bills ───────────────────────────────────────────────────────── */
+
+.evening-bill-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.07);
+}
+
+.evening-bill-item:last-child {
+  border-bottom: none;
+}
+
+.evening-bill-icon {
+  font-size: 13px;
+  opacity: 0.5;
+}
+
+.evening-bill-title {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 14px;
+  color: var(--evening-text);
+}
+
+/* ─── Narrative Reflection ────────────────────────────────────────── */
+
+.evening-reflection {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 36px;
+}
+
+.evening-reflection p {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--evening-text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ─── Footer ───────────────────────────────────────────────────────── */
+
+.evening-footer {
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.evening-footer-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ─── Gate Blocked ─────────────────────────────────────────────────── */
+
+.evening-gate-blocked {
+  padding: 14px 20px;
+  border: 1px solid var(--evening-red);
+  background: rgba(184, 84, 80, 0.08);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  text-align: left;
+  flex-wrap: wrap;
+}
+
+.evening-gate-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--evening-red);
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+
+.evening-gate-message {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--evening-text);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.evening-gate-dismiss {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--evening-text-muted);
+  background: none;
+  border: 1px solid var(--evening-border);
+  cursor: pointer;
+  padding: 6px 14px;
+  letter-spacing: 1px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.evening-gate-dismiss:hover {
+  border-color: var(--evening-gold);
+  color: var(--evening-gold);
+}
+
+/* ─── Advance Button ───────────────────────────────────────────────── */
+
+.advance-button {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--evening-gold);
+  background: transparent;
+  border: 2px solid var(--evening-gold);
+  padding: 14px 44px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 1px;
+}
+
+.advance-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 168, 76, 0.15),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.advance-button:hover::before {
+  left: 100%;
+}
+
+.advance-button:hover {
+  background: rgba(201, 168, 76, 0.08);
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(201, 168, 76, 0.25);
+}
+
+.advance-button:active {
+  transform: scale(0.98);
+}
+
+.advance-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Save Buttons ────────────────────────────────────────────────── */
+
+.evening-save-button {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--evening-gold-dim);
+  background: transparent;
+  border: 1px solid var(--evening-border);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.evening-save-button:hover {
+  border-color: var(--evening-gold);
+  color: var(--evening-gold);
+  background: rgba(201, 168, 76, 0.06);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .evening-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .evening-review {
+    padding: 24px 16px 20px;
+  }
+  .evening-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .evening-title {
+    font-size: 32px;
+  }
+}

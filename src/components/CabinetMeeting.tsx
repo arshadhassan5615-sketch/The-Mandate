@@ -1,6 +1,49 @@
 import { useState } from 'react'
 import type { MinisterRequest, MinisterRequestOption } from '../types/minister'
 import { useCabinetStore } from '../stores/cabinetStore'
+import { getPortrait } from '../assets/potraits'
+import { getCharacterPortrait } from './portraits/CharacterPortraits'
+
+function MinisterPortrait({ ministerId }: { ministerId: string }) {
+  const [imgError, setImgError] = useState(false)
+  const imgSrc = getPortrait(ministerId)
+  const SvgComp = getCharacterPortrait(ministerId)
+
+  return (
+    <div style={{
+      width: '100px',
+      height: '100px',
+      borderRadius: '50%',
+      border: '2px solid rgba(201,168,76,0.4)',
+      overflow: 'hidden',
+      margin: '0 auto 12px',
+      background: 'rgba(201,168,76,0.1)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      {imgSrc && !imgError ? (
+        <img
+          src={imgSrc}
+          alt={ministerId}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          onError={() => setImgError(true)}
+        />
+      ) : SvgComp ? (
+        <SvgComp />
+      ) : (
+        <span style={{
+          fontSize: '28px',
+          fontWeight: 700,
+          color: 'rgba(201,168,76,0.6)',
+          fontFamily: 'Georgia, serif',
+        }}>
+          {ministerId.split('_').map(w => w[0]).join('').slice(0, 2).toUpperCase()}
+        </span>
+      )}
+    </div>
+  )
+}
 
 interface CabinetMeetingProps {
   requests: MinisterRequest[]
@@ -105,28 +148,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
             width: '180px',
             flexShrink: 0,
           }}>
-            <div style={{
-              width: '100px',
-              height: '100px',
-              borderRadius: '50%',
-              border: '2px solid rgba(201,168,76,0.4)',
-              overflow: 'hidden',
-              margin: '0 auto 12px',
-              background: 'rgba(201,168,76,0.1)',
-            }}>
-              <img
-                src={minister.portrait}
-                alt={minister.name}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                }}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none'
-                }}
-              />
-            </div>
+            <MinisterPortrait ministerId={minister.id} />
             <div style={{
               textAlign: 'center',
               fontSize: '13px',
