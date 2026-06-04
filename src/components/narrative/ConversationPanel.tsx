@@ -334,32 +334,11 @@ export default function ConversationPanel({
           flexDirection: 'column',
           overflow: 'hidden',
           pointerEvents: 'all',
-        }}
-      >
-        {/* Fade to transparent at top edge */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '60px',
-          background: 'linear-gradient(to bottom, transparent, rgba(10,8,6,0.92))',
-          zIndex: 2,
-          pointerEvents: 'none',
-        }} />
-
-        {/* Solid dark background below fade */}
-        <div style={{
-          position: 'absolute',
-          top: '60px',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(10,8,6,0.92)',
+          background: 'linear-gradient(to top, rgba(10,8,6,1) 0%, rgba(10,8,6,0.95) 30%, rgba(10,8,6,0.8) 60%, rgba(10,8,6,0) 100%)',
           borderTop: '1px solid rgba(201,168,76,0.25)',
           borderLeft: '1px solid rgba(201,168,76,0.25)',
-          zIndex: 1,
-        }} />
+        }}
+      >
 
         {/* Scrollable dialogue history */}
         <div
@@ -551,33 +530,51 @@ export default function ConversationPanel({
               maxHeight: '40vh',
               overflowY: 'auto',
               overflowX: 'hidden',
-              padding: '10px 16px 14px',
-              borderTop: '1px solid rgba(201,168,76,0.15)',
-              background: 'rgba(10,8,6,0.85)',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
             }}
           >
-            {choices.map((ch, i) => {
-              const isSelected = selectedId === ch.id
-              const isFading = fadingId === ch.id
-              return (
+            <div style={{
+              flexShrink: 0,
+              padding: '8px 16px 16px 16px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px',
+              position: 'relative',
+              zIndex: 3,
+            }}>
+              {choices.map((choice, i) => (
                 <div
-                  key={ch.id}
-                  className={`choice-frame choice-card${isSelected ? ' selected-frame' : ''}${isFading ? ' fading' : ''}`}
-                  style={{ maxHeight: '160px', overflow: 'hidden' }}
+                  key={i}
+                  onClick={() => handleChoice(choice.id)}
+                  style={{
+                    padding: '11px 16px',
+                    background: 'rgba(201,168,76,0.06)',
+                    border: '1px solid rgba(201,168,76,0.25)',
+                    borderRadius: '2px',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    color: '#e8d5a3',
+                    fontFamily: 'Georgia, serif',
+                    lineHeight: '1.5',
+                    transition: 'all 0.15s ease',
+                    userSelect: 'none',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = 'rgba(201,168,76,0.14)'
+                    e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)'
+                    e.currentTarget.style.color = '#ffffff'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(201,168,76,0.06)'
+                    e.currentTarget.style.borderColor = 'rgba(201,168,76,0.25)'
+                    e.currentTarget.style.color = '#e8d5a3'
+                  }}
                 >
-                  <span className="choice-key-hint">{i + 1}</span>
-                  <button
-                    className="choice-btn choice-frame-inner"
-                    onClick={() => handleChoice(ch.id)}
-                    disabled={selectedId !== null || fadingId !== null}
-                  >
-                    {renderWithEntities(ch.text, true)}
-                  </button>
+                  {choice.text}
                 </div>
-              )
-            })}
+              ))}
+            </div>
             {choicesOverflow && (
               <div style={{
                 textAlign: 'center',
