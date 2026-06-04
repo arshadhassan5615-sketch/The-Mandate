@@ -70,7 +70,7 @@ interface ConversationPanelProps {
 }
 
 export default function ConversationPanel({
-  sceneTitle, sceneLocation, sceneType, currentWeek, sceneCharacters: _sceneCharacters,
+  sceneType, sceneCharacters: _sceneCharacters,
   history, activeSegment, activeText, showCursor,
   choices, showChoices, sceneDone, allDone, segmentDone,
   onAdvance: _onAdvance, onChoice, onAdvanceQueue, continueLabel,
@@ -205,7 +205,38 @@ export default function ConversationPanel({
   const isEmergency = sceneType === 'emergency'
   const [portraitImgError, setPortraitImgError] = useState(false)
 
-  // Determine which character's portrait to show outside the panel
+  // Expanding panel state
+  const MAX_PANEL_HEIGHT = Math.floor(window.innerHeight * 0.72)
+  const [panelHeight, setPanelHeight] = useState(180)
+  const prevHistLenRef = useRef(history.length)
+
+  useEffect(() => {
+    const len = history.length + (activeSegment ? 1 : 0)
+    if (len === 0) {
+      setPanelHeight(180)
+      prevHistLenRef.current = 0
+      return
+    }
+    if (len > prevHistLenRef.current) {
+      setPanelHeight(p => {
+        const addition = (len - prevHistLenRef.current) * 80
+        return Math.min(p + addition, MAX_PANEL_HEIGHT)
+      })
+    }
+    if (len < prevHistLenRef.current) {
+      setPanelHeight(180)
+    }
+    prevHistLenRef.current = len
+  }, [history.length, activeSegment, MAX_PANEL_HEIGHT])
+
+  // Auto-scroll history to bottom
+  useEffect(() => {
+    if (historyRef.current) {
+      historyRef.current.scrollTop = historyRef.current.scrollHeight
+    }
+  }, [history, activeText])
+
+  // Determine which character's portrait to show outside the panel (hero portrait)
   const portraitCharId =
     (speakingCharacter && speakingCharacter !== 'katerin_ashavel') ? speakingCharacter
     : activeSegment?.character && activeSegment.character !== 'katerin_ashavel' ? activeSegment.character
@@ -214,23 +245,16 @@ export default function ConversationPanel({
 
   const portraitImg = portraitCharId ? getPortrait(portraitCharId) : null
 
+  // Current speaker ID for name highlighting
+  const currentSpeakerId = portraitCharId
+
   // Reset error state when speaker changes
   useEffect(() => {
     setPortraitImgError(false)
   }, [portraitCharId])
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: '40px',
-      left: '0',
-      right: '60px',
-      bottom: '0',
-      display: 'flex',
-      alignItems: 'center',
-      zIndex: 100,
-      pointerEvents: 'none',
-    }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 100, pointerEvents: 'none' }}>
       {isEmergency && (
         <div style={{
           position: 'fixed', inset: 0,
@@ -239,7 +263,7 @@ export default function ConversationPanel({
         }} />
       )}
 
-      {/* Portrait — floating left of centered panel */}
+      {/* Hero Portrait — floating left of panel */}
       {portraitCharId && (
         <div style={{
           position: 'fixed',
@@ -274,7 +298,7 @@ export default function ConversationPanel({
             ) : (
               <div style={{
                 width: '100%', height: '100%',
-                background: `rgba(201,168,76,0.25)`,
+                background: 'rgba(201,168,76,0.25)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <span style={{
@@ -285,7 +309,6 @@ export default function ConversationPanel({
                 </span>
               </div>
             )}
-            {/* Inner shadow vignette */}
             <div style={{
               position: 'absolute', inset: 0, borderRadius: '50%',
               boxShadow: 'inset 0 0 14px rgba(0,0,0,0.55)',
@@ -295,7 +318,7 @@ export default function ConversationPanel({
         </div>
       )}
 
-      {/* Dark conversation panel — centered vertical strip */}
+      {/* Expanding conversation panel */}
       <div
         className="conversation-panel"
         style={{
@@ -303,165 +326,214 @@ export default function ConversationPanel({
           left: '50%',
           transform: 'translateX(-50%)',
           bottom: '0',
-          width: '480px',
-          minHeight: '180px',
-          maxHeight: '40vh',
-          background: 'rgba(10,8,6,0.92)',
-          borderTop: '1px solid rgba(201,168,76,0.3)',
-          borderLeft: '1px solid rgba(201,168,76,0.3)',
+          width: '520px',
+          height: `${panelHeight}px`,
+          transition: 'height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
+          overflow: 'hidden',
           pointerEvents: 'all',
         }}
       >
-        {/* Scene header */}
+        {/* Fade to transparent at top edge */}
         <div style={{
-          flexShrink: 0, display: 'flex', justifyContent: 'space-between',
-          alignItems: 'center', padding: '6px 14px',
-          borderBottom: '1px solid rgba(196,148,58,0.12)',
-        }}>
-          <span style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.5rem', letterSpacing: '0.12em',
-            color: 'var(--muted)', textTransform: 'uppercase',
-          }}>
-            {sceneTitle} · Week {currentWeek}
-          </span>
-          <span style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.42rem', color: 'rgba(200,144,42,0.3)',
-            letterSpacing: '0.08em',
-          }}>
-            {sceneLocation}
-          </span>
-        </div>
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '60px',
+          background: 'linear-gradient(to bottom, transparent, rgba(10,8,6,0.92))',
+          zIndex: 2,
+          pointerEvents: 'none',
+        }} />
 
-        {/* History + current line */}
+        {/* Solid dark background below fade */}
+        <div style={{
+          position: 'absolute',
+          top: '60px',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(10,8,6,0.92)',
+          borderTop: '1px solid rgba(201,168,76,0.25)',
+          borderLeft: '1px solid rgba(201,168,76,0.25)',
+          zIndex: 1,
+        }} />
+
+        {/* Scrollable dialogue history */}
         <div
           ref={historyRef}
           style={{
-            flex: 1, minHeight: 0, overflowY: 'auto',
-            padding: '16px 24px',
-            display: 'flex', flexDirection: 'column', gap: 2,
-            scrollBehavior: 'smooth',
+            position: 'relative',
+            zIndex: 3,
+            flex: 1,
+            overflowY: 'auto',
+            overflowX: 'hidden',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
           }}
         >
-          {history.map(entry => (
-            <div key={entry.id} style={{ marginBottom: 10 }}>
-              {entry.type === 'narrative' ? (
-                <p style={{
-                  fontFamily: "'Crimson Text', serif",
-                  fontSize: '0.82rem', fontStyle: 'italic',
-                  color: '#8a7d6a', margin: '4px 0', lineHeight: 1.55,
-                }}>
-                  {renderWithEntities(entry.text, true)}
-                </p>
-              ) : (
-                <>
-                  <span style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: '0.56rem', letterSpacing: '0.08em',
-                    textTransform: 'uppercase', fontWeight: 600,
-                    color: entry.type === 'player_spoken'
-                      ? '#e8dcc8' : (entry.characterColor ?? '#c8902a'),
-                  }}>
-                    {entry.type === 'player_spoken' ? 'YOU' : entry.characterName} :
-                  </span>
-                  <p style={{
+          {history.map((entry, i) => {
+            const isLast = i === history.length - 1 && !activeSegment
+            const opacity = isLast ? 1 : i === history.length - 2 ? 0.6 : 0.3
+            const entrySpeakerId = entry.characterId ?? ''
+            const isCurrentSpeaker = entrySpeakerId === currentSpeakerId && entrySpeakerId !== ''
+
+            return (
+              <div
+                key={entry.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '12px',
+                  padding: '6px 16px',
+                  opacity,
+                  transition: 'opacity 0.5s ease',
+                }}
+              >
+                {/* Text content */}
+                <div style={{ flex: 1 }}>
+                  {/* Speaker name */}
+                  {entry.type !== 'narrative' && (
+                    <div style={{
+                      fontSize: '9px',
+                      letterSpacing: '1.5px',
+                      color: entry.type === 'player_spoken'
+                        ? 'rgba(232,220,200,0.7)'
+                        : isCurrentSpeaker ? '#c9a84c' : 'rgba(201,168,76,0.4)',
+                      textTransform: 'uppercase',
+                      marginBottom: '3px',
+                      fontFamily: 'Georgia, serif',
+                      transition: 'color 0.4s ease',
+                    }}>
+                      {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
+                    </div>
+                  )}
+
+                  {/* Dialogue / narrative text */}
+                  <div style={{
+                    fontSize: '13px',
+                    lineHeight: '1.6',
+                    color: entry.type === 'narrative'
+                      ? 'rgba(180,170,150,0.8)'
+                      : 'rgba(232,213,163,0.92)',
                     fontFamily: "'Crimson Text', serif",
-                    fontSize: '0.82rem', lineHeight: 1.55,
-                    color: '#d4c8b0', margin: '1px 0 0', paddingLeft: 2,
+                    fontStyle: entry.type === 'narrative' ? 'italic' : 'normal',
                   }}>
-                    "{renderWithEntities(entry.text, true)}"
-                  </p>
-                </>
-              )}
-            </div>
-          ))}
+                    {entry.type === 'narrative'
+                      ? renderWithEntities(entry.text, true)
+                      : `"${renderWithEntities(entry.text, true)}"`
+                    }
+                  </div>
+                </div>
+              </div>
+            )
+          })}
 
           {/* Active segment typing */}
           {activeSegment && (
-            <div style={{ marginBottom: 8 }}>
-              {activeSegment.type === 'dialogue' ? (
-                <>
-                  <span style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: '0.56rem', letterSpacing: '0.08em',
-                    textTransform: 'uppercase', fontWeight: 600,
-                    color: getCharacterColor(activeSegment.character ?? ''),
+            <div style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '12px',
+              padding: '6px 16px',
+              opacity: 1,
+            }}>
+              <div style={{ flex: 1 }}>
+                {activeSegment.type === 'dialogue' && (
+                  <div style={{
+                    fontSize: '9px',
+                    letterSpacing: '1.5px',
+                    color: '#c9a84c',
+                    textTransform: 'uppercase',
+                    marginBottom: '3px',
+                    fontFamily: 'Georgia, serif',
                   }}>
-                    {charName(activeSegment.character ?? '')} :
-                  </span>
-                  <p style={{
-                    fontFamily: "'Crimson Text', serif",
-                    fontSize: '0.82rem', lineHeight: 1.55,
-                    color: '#d4c8b0', margin: '1px 0 0', paddingLeft: 2,
-                  }}>
-                    "{renderWithEntities(activeText, true)}{showCursor && <span className="typewriter-cursor" />}"
-                  </p>
-                </>
-              ) : (
-                <p style={{
+                    {charName(activeSegment.character ?? '')}
+                  </div>
+                )}
+                <div style={{
+                  fontSize: '13px',
+                  lineHeight: '1.6',
+                  color: activeSegment.type === 'dialogue'
+                    ? 'rgba(232,213,163,0.92)'
+                    : 'rgba(180,170,150,0.8)',
                   fontFamily: "'Crimson Text', serif",
-                  fontSize: '0.82rem', fontStyle: 'italic',
-                  color: '#8a7d6a', margin: '4px 0', lineHeight: 1.55,
+                  fontStyle: activeSegment.type === 'dialogue' ? 'normal' : 'italic',
                 }}>
-                  {renderWithEntities(activeText, true)}{showCursor && <span className="typewriter-cursor" />}
-                </p>
-              )}
+                  {activeSegment.type === 'dialogue' ? '"' : ''}
+                  {renderWithEntities(activeText, true)}
+                  {showCursor && <span className="typewriter-cursor" />}
+                  {activeSegment.type === 'dialogue' ? '"' : ''}
+                </div>
+              </div>
             </div>
           )}
 
-          {/* Click to continue / skip hint */}
+          {/* Continue / skip hint */}
           {!allDone && !sceneDone && !showChoices && (
             <div style={{
-              textAlign: 'right', padding: '4px 0', opacity: segmentDone ? 0.5 : 0.3,
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '0.52rem', color: 'var(--accent-gold)',
-              letterSpacing: '0.08em',
+              textAlign: 'right',
+              padding: '4px 16px',
+              opacity: segmentDone ? 0.5 : 0.25,
+              fontFamily: 'Georgia, serif',
+              fontSize: '10px',
+              color: '#c9a84c',
+              letterSpacing: '1px',
               animation: segmentDone ? 'pulse 1.5s ease-in-out infinite' : undefined,
             }}>
-              {segmentDone ? '▼' : 'skip ▸'}
+              {segmentDone ? '▼' : '▸ skip'}
             </div>
           )}
-          <div ref={dialogueEndRef} />
         </div>
 
         {/* Monologue */}
         {shouldShowMonologue && (
           <div style={{
-            flexShrink: 0,             padding: '16px 24px 10px',
-            borderTop: '1px solid rgba(196,148,58,0.08)',
+            position: 'relative',
+            zIndex: 3,
+            flexShrink: 0,
+            padding: '12px 16px',
+            borderTop: '1px solid rgba(201,168,76,0.15)',
+            background: 'rgba(10,8,6,0.85)',
             opacity: monologueVisible && !monologueFading ? 1 : 0,
             transition: 'opacity 0.5s ease',
           }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-              {/* Pen icon */}
               <span style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: '0.7rem', color: 'var(--amber-dim)', flexShrink: 0,
-                opacity: 0.5, marginTop: '2px',
+                fontSize: '14px',
+                color: 'rgba(201,168,76,0.5)',
+                flexShrink: 0,
+                marginTop: '1px',
+                fontFamily: 'serif',
               }}>
                 ✎
               </span>
               <div style={{ flex: 1 }}>
-                <p style={{
+                <div style={{
+                  fontSize: '12px',
+                  fontStyle: 'italic',
+                  color: 'rgba(180,170,150,0.75)',
+                  lineHeight: '1.6',
+                  margin: 0,
                   fontFamily: "'Crimson Text', serif",
-                  fontSize: '0.82rem', fontStyle: 'italic',
-                  color: '#8a7d6a', lineHeight: 1.6, margin: 0,
                 }}>
                   {monologueText}
-                </p>
-                <p style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: '0.48rem', letterSpacing: '0.08em',
-                  color: 'var(--muted)', margin: '10px 0 0',
-                  opacity: 0.5, textAlign: 'right',
+                </div>
+                <div style={{
+                  fontSize: '9px',
+                  letterSpacing: '1px',
+                  color: 'rgba(201,168,76,0.3)',
+                  margin: '8px 0 0',
+                  textAlign: 'right',
+                  fontFamily: 'Georgia, serif',
                 }}>
                   Press Space to continue
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -473,9 +545,15 @@ export default function ConversationPanel({
             ref={choicesRef}
             className="conversation-choices"
             style={{
-              flexShrink: 0, maxHeight: '45vh', overflowY: 'auto', overflowX: 'hidden',
-              padding: '16px 24px 14px',
-              borderTop: '1px solid rgba(196,148,58,0.12)',
+              position: 'relative',
+              zIndex: 3,
+              flexShrink: 0,
+              maxHeight: '40vh',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              padding: '10px 16px 14px',
+              borderTop: '1px solid rgba(201,168,76,0.15)',
+              background: 'rgba(10,8,6,0.85)',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
             }}
@@ -487,7 +565,7 @@ export default function ConversationPanel({
                 <div
                   key={ch.id}
                   className={`choice-frame choice-card${isSelected ? ' selected-frame' : ''}${isFading ? ' fading' : ''}`}
-                  style={{ maxHeight: '180px', overflow: 'hidden' }}
+                  style={{ maxHeight: '160px', overflow: 'hidden' }}
                 >
                   <span className="choice-key-hint">{i + 1}</span>
                   <button
@@ -504,10 +582,10 @@ export default function ConversationPanel({
               <div style={{
                 textAlign: 'center',
                 color: 'rgba(201,168,76,0.5)',
-                fontSize: '11px',
+                fontSize: '10px',
                 letterSpacing: '2px',
                 padding: '8px',
-                fontFamily: "'Special Elite', monospace",
+                fontFamily: 'Georgia, serif',
                 flexShrink: 0,
               }}>
                 ▼ SCROLL FOR MORE OPTIONS
@@ -519,71 +597,86 @@ export default function ConversationPanel({
         {/* Micro-reactions */}
         {activeReactions && !sceneDone && (
           <div style={{
-            flexShrink: 0, padding: '16px 24px 14px',
-            borderTop: '1px solid rgba(196,148,58,0.08)',
+            position: 'relative',
+            zIndex: 3,
+            flexShrink: 0,
+            padding: '12px 16px 14px',
+            borderTop: '1px solid rgba(201,168,76,0.15)',
+            background: 'rgba(10,8,6,0.85)',
             opacity: reactionsFading ? 0 : 1,
             transition: 'opacity 0.5s ease',
           }}>
             {activeReactions.map((reaction, i) => (
-              <div key={i} style={{ marginBottom: i < activeReactions.length - 1 ? 10 : 0 }}>
+              <div key={i} style={{ marginBottom: i < activeReactions.length - 1 ? 8 : 0 }}>
                 {reaction.type === 'dialogue' && (
                   <>
-                    <span style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: '0.52rem', letterSpacing: '0.08em',
-                      textTransform: 'uppercase', fontWeight: 600,
+                    <div style={{
+                      fontSize: '9px',
+                      letterSpacing: '1.5px',
                       color: getCharacterColor(reaction.character),
+                      textTransform: 'uppercase',
+                      marginBottom: '2px',
+                      fontFamily: 'Georgia, serif',
                     }}>
                       {charName(reaction.character)}
-                    </span>
-                    <p style={{
+                    </div>
+                    <div style={{
+                      fontSize: '12px',
+                      lineHeight: '1.6',
+                      color: 'rgba(200,185,155,0.85)',
                       fontFamily: "'Crimson Text', serif",
-                      fontSize: '0.78rem', lineHeight: 1.5,
-                      color: '#c8bfa0', margin: '1px 0 0', paddingLeft: 2,
                     }}>
                       "{renderWithEntities(reaction.text, true)}"
-                    </p>
+                    </div>
                   </>
                 )}
                 {reaction.type === 'action' && (
-                  <p style={{
+                  <div style={{
+                    fontSize: '12px',
+                    fontStyle: 'italic',
+                    color: 'rgba(180,170,150,0.75)',
+                    lineHeight: '1.5',
                     fontFamily: "'Crimson Text', serif",
-                    fontSize: '0.76rem', fontStyle: 'italic',
-                    color: '#8a7d6a', margin: 0, lineHeight: 1.5,
                   }}>
                     {reaction.text}
-                  </p>
+                  </div>
                 )}
                 {reaction.type === 'silence' && (
                   <>
-                    <span style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: '0.52rem', letterSpacing: '0.08em',
-                      textTransform: 'uppercase', fontWeight: 600,
+                    <div style={{
+                      fontSize: '9px',
+                      letterSpacing: '1.5px',
                       color: getCharacterColor(reaction.character),
+                      textTransform: 'uppercase',
+                      marginBottom: '2px',
+                      fontFamily: 'Georgia, serif',
                     }}>
                       {charName(reaction.character)}&nbsp;
                       <span style={{ opacity: 0.5, fontStyle: 'italic', fontWeight: 400 }}>
                         [silence]
                       </span>
-                    </span>
-                    <p style={{
+                    </div>
+                    <div style={{
+                      fontSize: '11px',
+                      fontStyle: 'italic',
+                      color: 'rgba(180,170,150,0.75)',
+                      lineHeight: '1.5',
                       fontFamily: "'Crimson Text', serif",
-                      fontSize: '0.74rem', fontStyle: 'italic',
-                      color: '#8a7d6a', margin: '1px 0 0', paddingLeft: 2, lineHeight: 1.5,
                     }}>
                       {reaction.text}
-                    </p>
+                    </div>
                   </>
                 )}
                 {reaction.type === 'narrative' && (
-                  <p style={{
+                  <div style={{
+                    fontSize: '12px',
+                    fontStyle: 'italic',
+                    color: 'rgba(180,170,150,0.75)',
+                    lineHeight: '1.5',
                     fontFamily: "'Crimson Text', serif",
-                    fontSize: '0.76rem', fontStyle: 'italic',
-                    color: '#8a7d6a', margin: 0, lineHeight: 1.5,
                   }}>
                     {reaction.text}
-                  </p>
+                  </div>
                 )}
               </div>
             ))}
@@ -593,19 +686,27 @@ export default function ConversationPanel({
         {/* Scene completed — advance button */}
         {sceneDone && (
           <div style={{
-            flexShrink: 0, padding: '16px 24px 14px',
-            borderTop: '1px solid rgba(196,148,58,0.12)',
+            position: 'relative',
+            zIndex: 3,
+            flexShrink: 0,
+            padding: '12px 16px 14px',
+            borderTop: '1px solid rgba(201,168,76,0.15)',
+            background: 'rgba(10,8,6,0.85)',
           }}>
             <button
               onClick={onAdvanceQueue}
               style={{
-                width: '100%', padding: '10px',
-                background: 'rgba(196,148,58,0.08)',
-                border: '1px solid rgba(196,148,58,0.4)',
-                color: 'var(--amber)',
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.62rem', letterSpacing: '0.12em',
-                cursor: 'pointer', textTransform: 'uppercase',
+                width: '100%',
+                padding: '10px',
+                background: 'rgba(201,168,76,0.08)',
+                border: '1px solid rgba(201,168,76,0.35)',
+                borderRadius: '2px',
+                color: '#c9a84c',
+                fontFamily: 'Georgia, serif',
+                fontSize: '12px',
+                letterSpacing: '2px',
+                cursor: 'pointer',
+                textTransform: 'uppercase',
               }}
             >
               {continueLabel}
