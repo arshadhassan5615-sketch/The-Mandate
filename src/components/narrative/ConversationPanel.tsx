@@ -270,7 +270,7 @@ export default function ConversationPanel({
         <div style={{
           position: 'fixed',
           left: 'calc(50% - 320px)',
-          bottom: '90px',
+          bottom: '0',
           zIndex: 101,
           pointerEvents: 'all',
           transition: 'opacity 0.35s ease',
