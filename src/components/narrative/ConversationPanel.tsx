@@ -230,9 +230,9 @@ export default function ConversationPanel({
     <div style={{
       position: 'fixed', inset: 0, top: 40,
       display: 'flex', flexDirection: 'row',
-      alignItems: 'flex-end', justifyContent: 'center',
+      alignItems: 'center', justifyContent: 'flex-end',
       zIndex: 100, pointerEvents: 'none',
-      paddingBottom: '1.5rem', paddingRight: '60px', gap: '0.5rem',
+      paddingRight: '60px',
     }}>
       {isEmergency && (
         <div style={{
@@ -242,41 +242,13 @@ export default function ConversationPanel({
         }} />
       )}
 
-      {/* Portrait stack */}
-      <div style={{
-        width: 110, display: 'flex', flexDirection: 'column',
-        justifyContent: 'flex-end', alignItems: 'center',
-        pointerEvents: 'none', gap: 0, flexShrink: 0,
-        paddingBottom: '1.5rem',
-      }}>
-        {speakerOrder.map((charId, i) => {
-          const isLatest = i === speakerOrder.length - 1
-          const size = isLatest ? 95 : 58
-          return (
-            <div key={charId} style={{
-              marginBottom: isLatest ? 0 : -8,
-              zIndex: i,
-              transition: 'all 0.3s ease',
-            }}>
-              <CharacterPortrait
-                characterId={charId}
-                isActive={isLatest}
-                size={size}
-                showName={false}
-              />
-            </div>
-          )
-        })}
-      </div>
-
-      {/* Conversation panel */}
+      {/* Conversation panel — portrait now lives INSIDE, on the left, beside the dialogue history */}
       <div
         className="conversation-panel"
         style={{
-          width: '640px', maxWidth: '90vw', pointerEvents: 'all',
+          width: '740px', maxWidth: '92vw', pointerEvents: 'all',
           background: 'rgba(10,9,8,0.94)',
           display: 'flex', flexDirection: 'column',
-          height: 'calc(100vh - 80px)',
           maxHeight: 'calc(100vh - 80px)',
           overflow: 'hidden',
           borderLeft: '1px solid rgba(196,148,58,0.15)',
@@ -305,19 +277,56 @@ export default function ConversationPanel({
           </span>
         </div>
 
-        {/* History + current line */}
-        <div
-          ref={historyRef}
-          style={{
-            flex: 1, minHeight: 0, overflowY: 'auto',
-            padding: '14px 18px 8px',
-            display: 'flex', flexDirection: 'column', gap: 2,
-            scrollBehavior: 'smooth',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-        >
-          {history.map(entry => (
+        {/* Body row: Portrait (LEFT) + History (RIGHT), aligned side-by-side */}
+        <div style={{
+          flex: 1, minHeight: 0,
+          display: 'flex', flexDirection: 'row',
+          alignItems: 'stretch',
+        }}>
+          {/* Portrait column — LEFT */}
+          <div style={{
+            flexShrink: 0, width: 120,
+            display: 'flex', flexDirection: 'column',
+            justifyContent: 'center', alignItems: 'center',
+            padding: '14px 6px 14px 14px', gap: 0,
+            borderRight: '1px solid rgba(196,148,58,0.08)',
+          }}>
+            {speakerOrder.length === 0 ? (
+              <div style={{ width: 95, height: 95, opacity: 0 }} />
+            ) : speakerOrder.map((charId, i) => {
+              const isLatest = i === speakerOrder.length - 1
+              const size = isLatest ? 100 : 56
+              return (
+                <div key={charId} style={{
+                  marginBottom: isLatest ? 0 : -8,
+                  zIndex: i,
+                  transition: 'all 0.3s ease',
+                }}>
+                  <CharacterPortrait
+                    characterId={charId}
+                    isActive={isLatest}
+                    size={size}
+                    showName={isLatest}
+                  />
+                </div>
+              )
+            })}
+          </div>
+
+          {/* History + current line — RIGHT */}
+          <div
+            ref={historyRef}
+            style={{
+              flex: 1, minHeight: 0, overflowY: 'auto',
+              padding: '14px 18px 8px',
+              display: 'flex', flexDirection: 'column', gap: 2,
+              scrollBehavior: 'smooth',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              textAlign: 'left',
+            }}
+          >
+            {history.map(entry => (
             <div key={entry.id} style={{ marginBottom: 10 }}>
               {entry.type === 'narrative' ? (
                 <p style={{
@@ -396,6 +405,7 @@ export default function ConversationPanel({
             </div>
           )}
           <div ref={dialogueEndRef} />
+        </div>
         </div>
 
         {/* Monologue */}

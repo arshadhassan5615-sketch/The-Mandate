@@ -87,14 +87,24 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
   const ask = (msg: string, fn: () => void) => setConfirm({ msg, fn })
 
   const handleSave = () => {
-    if (record) {
-      ask(`Overwrite "${record.name}"? This cannot be undone.`, async () => {
-        await saveGame(slot, draftName || `Slot ${slot}`)
+    const doSave = async (name: string) => {
+      try {
+        await saveGame(slot, name)
         setConfirm(null)
         onAction()
+      } catch (e) {
+        setConfirm(null)
+        console.error('[Save] Save failed:', e)
+        alert(`Save failed: ${e instanceof Error ? e.message : 'Unknown error'}`)
+      }
+    }
+
+    if (record) {
+      ask(`Overwrite "${record.name}"? This cannot be undone.`, () => {
+        doSave(draftName || `Slot ${slot}`)
       })
     } else {
-      saveGame(slot, `Slot ${slot}`).then(() => { onAction() })
+      doSave(`Slot ${slot}`)
     }
   }
 
@@ -162,9 +172,14 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
                   onChange={e => setDraftName(e.target.value)}
                   onBlur={async () => {
                     setEditingName(false)
-                    if (draftName.trim() && record) {
-                      await saveGame(slot, draftName.trim())
-                      onAction()
+                    if (draftName.trim() && record && draftName.trim() !== record.name) {
+                      try {
+                        await saveGame(slot, draftName.trim())
+                        onAction()
+                      } catch (e) {
+                        console.error('[Save] Rename failed:', e)
+                        alert(`Rename failed: ${e instanceof Error ? e.message : 'Unknown error'}`)
+                      }
                     }
                   }}
                   onKeyDown={e => { if (e.key === 'Enter') inputRef.current?.blur() }}
@@ -298,7 +313,9 @@ function ActionBtn({
 
 export default function SaveLoadMenu() {
   const { saveMenuOpen, setSaveMenuOpen, ironmanMode, toggleIronmanMode } = useSettingsStore()
-  const [saves, setSaves] = useState<(SaveRecord | undefined)[]>([])
+  const [saves, setSaves] = useState<(SaveRecord | undefined)[]>(
+    () => Array.from({ length: MANUAL_SLOT_COUNT + 1 })
+  )
   const [importing, setImporting] = useState<{ record: SaveRecord } | null>(null)
   const [importTargetSlot, setImportTargetSlot] = useState(1)
   const [ironmanConfirm, setIronmanConfirm] = useState(false)
