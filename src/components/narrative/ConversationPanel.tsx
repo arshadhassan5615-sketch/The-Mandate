@@ -334,7 +334,7 @@ export default function ConversationPanel({
           flexDirection: 'column',
           overflow: 'hidden',
           pointerEvents: 'all',
-          background: 'linear-gradient(to top, rgba(10,8,6,1) 0%, rgba(10,8,6,0.95) 30%, rgba(10,8,6,0.8) 60%, rgba(10,8,6,0) 100%)',
+          background: '#0a0806',
           borderTop: '1px solid rgba(201,168,76,0.25)',
           borderLeft: '1px solid rgba(201,168,76,0.25)',
         }}
