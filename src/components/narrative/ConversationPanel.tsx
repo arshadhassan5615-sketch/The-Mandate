@@ -337,6 +337,7 @@ export default function ConversationPanel({
           background: '#0a0806',
           borderTop: '1px solid rgba(201,168,76,0.25)',
           borderLeft: '1px solid rgba(201,168,76,0.25)',
+          paddingBottom: '40px',
         }}
       >
 
