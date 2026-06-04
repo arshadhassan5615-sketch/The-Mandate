@@ -1,8 +1,8 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
-import CharacterPortrait from '../portraits/CharacterPortrait'
 import { getCharacterColor } from '../portraits/CharacterPortraits'
 import { renderWithEntities } from '../news/EntityLinker'
+import { getPortrait } from '../../assets/potraits'
 
 const CHAR_NAMES: Record<string, string> = {
   vyktor_reznik: 'Vyktor Reznik', danika_oberlin: 'Danika Oberlin',
@@ -202,37 +202,34 @@ export default function ConversationPanel({
     return () => observer.disconnect()
   }, [choices, actualShowChoices])
 
-  // Build portrait stack from characters who have actually spoken,
-  // NOT from the full scene characters list (which may include non-speaking NPCs).
-  const spokenChars = new Set<string>()
-  history.forEach(entry => {
-    if (entry.characterId && entry.characterId !== 'katerin_ashavel') {
-      spokenChars.add(entry.characterId)
-    }
-  })
-  const speakerOrder = [...spokenChars]
-
-  if (speakingCharacter && speakingCharacter !== 'katerin_ashavel' && !speakerOrder.includes(speakingCharacter)) {
-    speakerOrder.push(speakingCharacter)
-  } else if (speakingCharacter && speakingCharacter !== 'katerin_ashavel') {
-    const idx = speakerOrder.indexOf(speakingCharacter)
-    if (idx >= 0) { speakerOrder.splice(idx, 1); speakerOrder.push(speakingCharacter) }
-  } else if (activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel' && !speakerOrder.includes(activeSegment.primaryCharacter)) {
-    speakerOrder.push(activeSegment.primaryCharacter)
-  } else if (activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel') {
-    const idx = speakerOrder.indexOf(activeSegment.primaryCharacter)
-    if (idx >= 0) { speakerOrder.splice(idx, 1); speakerOrder.push(activeSegment.primaryCharacter) }
-  }
-
   const isEmergency = sceneType === 'emergency'
+  const [portraitImgError, setPortraitImgError] = useState(false)
+
+  // Determine which character's portrait to show outside the panel
+  const portraitCharId =
+    (speakingCharacter && speakingCharacter !== 'katerin_ashavel') ? speakingCharacter
+    : activeSegment?.character && activeSegment.character !== 'katerin_ashavel' ? activeSegment.character
+    : activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel' ? activeSegment.primaryCharacter
+    : null
+
+  const portraitImg = portraitCharId ? getPortrait(portraitCharId) : null
+
+  // Reset error state when speaker changes
+  useEffect(() => {
+    setPortraitImgError(false)
+  }, [portraitCharId])
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, top: 40,
-      display: 'flex', flexDirection: 'row',
-      alignItems: 'flex-end', justifyContent: 'center',
-      zIndex: 100, pointerEvents: 'none',
-      paddingBottom: '1.5rem', paddingRight: '60px', gap: '0.5rem',
+      position: 'fixed',
+      top: '40px',
+      left: '0',
+      right: '60px',
+      bottom: '0',
+      display: 'flex',
+      alignItems: 'center',
+      zIndex: 100,
+      pointerEvents: 'none',
     }}>
       {isEmergency && (
         <div style={{
@@ -242,45 +239,79 @@ export default function ConversationPanel({
         }} />
       )}
 
-      {/* Portrait stack */}
-      <div style={{
-        width: 110, display: 'flex', flexDirection: 'column',
-        justifyContent: 'flex-end', alignItems: 'center',
-        pointerEvents: 'none', gap: 0, flexShrink: 0,
-        paddingBottom: '1.5rem',
-      }}>
-        {speakerOrder.map((charId, i) => {
-          const isLatest = i === speakerOrder.length - 1
-          const size = isLatest ? 95 : 58
-          return (
-            <div key={charId} style={{
-              marginBottom: isLatest ? 0 : -8,
-              zIndex: i,
-              transition: 'all 0.3s ease',
-            }}>
-              <CharacterPortrait
-                characterId={charId}
-                isActive={isLatest}
-                size={size}
-                showName={false}
+      {/* Portrait — floating left of centered panel */}
+      {portraitCharId && (
+        <div style={{
+          position: 'fixed',
+          left: 'calc(50% - 320px)',
+          bottom: '90px',
+          zIndex: 101,
+          pointerEvents: 'all',
+          transition: 'opacity 0.35s ease',
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            border: '3px solid #c9a84c',
+            boxShadow: '0 0 0 1px rgba(201,168,76,0.3), 0 4px 20px rgba(0,0,0,0.8)',
+            overflow: 'hidden',
+            background: 'rgba(10,8,6,0.9)',
+          }}>
+            {portraitImg && !portraitImgError ? (
+              <img
+                src={portraitImg}
+                alt={charName(portraitCharId)}
+                onError={() => setPortraitImgError(true)}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center top',
+                  display: 'block',
+                }}
               />
-            </div>
-          )
-        })}
-      </div>
+            ) : (
+              <div style={{
+                width: '100%', height: '100%',
+                background: `rgba(201,168,76,0.25)`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <span style={{
+                  fontFamily: "'Special Elite', monospace",
+                  fontSize: '28px', color: '#c9a84c', fontWeight: 'bold',
+                }}>
+                  {charName(portraitCharId).split(' ').filter(Boolean).map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
+                </span>
+              </div>
+            )}
+            {/* Inner shadow vignette */}
+            <div style={{
+              position: 'absolute', inset: 0, borderRadius: '50%',
+              boxShadow: 'inset 0 0 14px rgba(0,0,0,0.55)',
+              pointerEvents: 'none',
+            }} />
+          </div>
+        </div>
+      )}
 
-      {/* Conversation panel */}
+      {/* Dark conversation panel — centered vertical strip */}
       <div
         className="conversation-panel"
         style={{
-          width: '640px', maxWidth: '90vw', pointerEvents: 'all',
-          background: 'rgba(10,9,8,0.94)',
-          display: 'flex', flexDirection: 'column',
-          height: 'calc(100vh - 80px)',
-          maxHeight: 'calc(100vh - 80px)',
-          overflow: 'hidden',
-          borderLeft: '1px solid rgba(196,148,58,0.15)',
-          borderRadius: '2px 0 0 2px',
+          position: 'fixed',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          bottom: '0',
+          width: '480px',
+          minHeight: '180px',
+          maxHeight: '40vh',
+          background: 'rgba(10,8,6,0.92)',
+          borderTop: '1px solid rgba(201,168,76,0.3)',
+          borderLeft: '1px solid rgba(201,168,76,0.3)',
+          display: 'flex',
+          flexDirection: 'column',
+          pointerEvents: 'all',
         }}
       >
         {/* Scene header */}
@@ -310,7 +341,7 @@ export default function ConversationPanel({
           ref={historyRef}
           style={{
             flex: 1, minHeight: 0, overflowY: 'auto',
-            padding: '14px 18px 8px',
+            padding: '16px 24px',
             display: 'flex', flexDirection: 'column', gap: 2,
             scrollBehavior: 'smooth',
             scrollbarWidth: 'none',
@@ -401,7 +432,7 @@ export default function ConversationPanel({
         {/* Monologue */}
         {shouldShowMonologue && (
           <div style={{
-            flexShrink: 0, padding: '14px 18px 10px',
+            flexShrink: 0,             padding: '16px 24px 10px',
             borderTop: '1px solid rgba(196,148,58,0.08)',
             opacity: monologueVisible && !monologueFading ? 1 : 0,
             transition: 'opacity 0.5s ease',
@@ -443,7 +474,7 @@ export default function ConversationPanel({
             className="conversation-choices"
             style={{
               flexShrink: 0, maxHeight: '45vh', overflowY: 'auto', overflowX: 'hidden',
-              padding: '8px 14px 14px',
+              padding: '16px 24px 14px',
               borderTop: '1px solid rgba(196,148,58,0.12)',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
@@ -488,7 +519,7 @@ export default function ConversationPanel({
         {/* Micro-reactions */}
         {activeReactions && !sceneDone && (
           <div style={{
-            flexShrink: 0, padding: '10px 14px 14px',
+            flexShrink: 0, padding: '16px 24px 14px',
             borderTop: '1px solid rgba(196,148,58,0.08)',
             opacity: reactionsFading ? 0 : 1,
             transition: 'opacity 0.5s ease',
@@ -562,7 +593,7 @@ export default function ConversationPanel({
         {/* Scene completed — advance button */}
         {sceneDone && (
           <div style={{
-            flexShrink: 0, padding: '10px 14px 14px',
+            flexShrink: 0, padding: '16px 24px 14px',
             borderTop: '1px solid rgba(196,148,58,0.12)',
           }}>
             <button
