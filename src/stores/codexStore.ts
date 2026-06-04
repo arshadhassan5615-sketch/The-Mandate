@@ -72,3 +72,9 @@ export const useCodexStore = create<CodexStore>((set, get) => ({
     }
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves seen codex entries across hot reloads
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

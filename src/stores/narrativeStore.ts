@@ -438,3 +438,9 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     })
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves visited scenes, active flags, and codex unlocks across hot reloads
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

@@ -425,3 +425,12 @@ export const useGameStore = create<GameStore>((set) => ({
 
   resetToInitial: () => set(() => ({ ...INITIAL_STATE })),
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// This prevents the game state from resetting when files are saved during local development
+if (import.meta.hot) {
+  import.meta.hot.accept()
+  import.meta.hot.dispose(() => {
+    // Optional: cleanup logic if needed before module is disposed
+  })
+}

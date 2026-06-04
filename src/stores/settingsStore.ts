@@ -214,6 +214,12 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     set({ accumulatedPlayMinutes: minutes, sessionStartTime: Date.now() }),
 }))
 
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves UI panel state (open menus, settings) across hot reloads
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}
+
 export function currentPlayTimeMinutes(): number {
   const { accumulatedPlayMinutes, sessionStartTime } = useSettingsStore.getState()
   return accumulatedPlayMinutes + (Date.now() - sessionStartTime) / 60_000

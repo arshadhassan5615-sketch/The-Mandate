@@ -793,3 +793,9 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }, 1500)
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves week/agenda state across hot reloads during local development
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

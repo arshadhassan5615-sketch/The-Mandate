@@ -58,3 +58,9 @@ export const useLetterStore = create<LetterStore>((set, get) => ({
     }
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves loaded letters and read state across hot reloads
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

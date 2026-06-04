@@ -14,6 +14,7 @@ import { useCodexStore } from './stores/codexStore'
 import { useWeekStore } from './stores/weekStore'
 import { useLetterStore } from './stores/letterStore'
 import { useJournalStore } from './stores/journalStore'
+import { useNarrativeStore } from './stores/narrativeStore'
 import { saveGame, loadGame, listSaves, AUTOSAVE_SLOT } from './engine/SaveManager'
 import { useHotkeys } from './hooks/useHotkeys'
 import { audioManager } from './engine/AudioManager'
@@ -125,6 +126,31 @@ export default function App() {
         }
       }
     }
+  }, [])
+
+  // DEV ONLY: Ctrl+Shift+9 instantly jumps to Week 9 for testing.
+  // Use e.code (not e.key) because Shift+9 produces "(" on US layouts.
+  useEffect(() => {
+    if (!import.meta.env.DEV) return
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.code === 'Digit9') {
+        e.preventDefault()
+        console.log('%c[DEV] Jumping to Week 9...', 'color: #0ff; font-weight: bold;')
+        useGameStore.setState({ currentWeek: 9, currentAct: 1 })
+        useNarrativeStore.getState().resetScene()
+        useWeekStore.setState({
+          transitionLabel: '',
+          transitionWeek: null,
+          cliffhangerText: null,
+          diaryEntry: null,
+          gateBlocked: false,
+          gateMessage: null,
+        })
+        useWeekStore.getState().initWeek()
+      }
+    }
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
   }, [])
 
   const bindings = useMemo(() => [

@@ -150,3 +150,14 @@ export function getUnavailableDueToPrerequisites(
 export function getSceneForGate(gateId: string): NarrativeNode | undefined {
   return SCENE_REGISTRY.get(gateId)
 }
+
+// Enable Hot Module Replacement for the scene registry.
+// Without this, editing any narrative JSON in src/data/narrative/ cascades up
+// through NarrativeEngine -> narrativeStore -> the entire React tree, forcing
+// a full page reload and wiping the player back to the prologue.
+// Accepting here makes NarrativeEngine an HMR boundary: the SCENE_REGISTRY is
+// rebuilt in place, narrative store state is preserved, and the player stays
+// exactly where they were when the JSON file was saved.
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

@@ -74,3 +74,9 @@ export const useBillStore = create<BillStore>((set, get) => ({
     return new Set(history.map(h => h.billId))
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves bill history across hot reloads during local development
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

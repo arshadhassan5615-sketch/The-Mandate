@@ -148,3 +148,9 @@ export const useJournalStore = create<JournalStore>((set, get) => ({
     return deduped
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves journal entries across hot reloads during local development
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

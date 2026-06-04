@@ -74,3 +74,9 @@ export const useNewsStore = create<NewsStore>((set, get) => ({
     return multiPaperEvents
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves news articles and read state across hot reloads
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

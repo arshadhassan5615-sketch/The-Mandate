@@ -132,3 +132,9 @@ export const useCabinetStore = create<CabinetStore>()((set, get) => ({
     return get().pending_requests
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves cabinet ministers and pending requests across hot reloads
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

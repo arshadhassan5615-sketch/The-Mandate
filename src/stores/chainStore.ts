@@ -43,3 +43,9 @@ export const useChainStore = create<ChainStore>((set, get) => ({
     return fired
   },
 }))
+
+// Enable Hot Module Replacement (HMR) for Zustand store
+// Preserves scheduled chain reactions across hot reloads
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}
