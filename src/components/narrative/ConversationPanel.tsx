@@ -253,6 +253,8 @@ export default function ConversationPanel({
     setPortraitImgError(false)
   }, [portraitCharId])
 
+  const monologueFontSize = Math.round(12 + (panelHeight - 180) * 0.025)
+
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 100, pointerEvents: 'none' }}>
       {isEmergency && (
@@ -318,7 +320,7 @@ export default function ConversationPanel({
         </div>
       )}
 
-      {/* Expanding conversation panel */}
+      /* Expanding conversation panel */
       <div
         className="conversation-panel"
         style={{
@@ -341,6 +343,59 @@ export default function ConversationPanel({
         }}
       >
 
+        {/* Monologue — at the very top */}
+        {shouldShowMonologue && (
+          <div style={{
+            position: 'relative',
+            zIndex: 3,
+            flexShrink: 0,
+            padding: '14px 20px',
+            borderBottom: '1px solid rgba(201,168,76,0.15)',
+            background: '#0a0806',
+            opacity: monologueVisible && !monologueFading ? 1 : 0,
+            transition: 'opacity 0.5s ease',
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '12px',
+              width: '100%',
+            }}>
+              <span style={{
+                fontSize: `${Math.max(12, monologueFontSize - 2)}px`,
+                color: 'rgba(201,168,76,0.5)',
+                flexShrink: 0,
+                marginTop: '2px',
+                fontFamily: 'serif',
+              }}>
+                ✎
+              </span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{
+                  fontSize: `${monologueFontSize}px`,
+                  fontStyle: 'italic',
+                  color: 'rgba(180,170,150,0.75)',
+                  lineHeight: '1.5',
+                  margin: 0,
+                  fontFamily: "'Crimson Text', serif",
+                }}>
+                  {monologueText}
+                </div>
+                <div style={{
+                  fontSize: '9px',
+                  letterSpacing: '1px',
+                  color: 'rgba(201,168,76,0.3)',
+                  margin: '10px 0 0',
+                  textAlign: 'right',
+                  fontFamily: 'Georgia, serif',
+                }}>
+                  Press Space to continue
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Scrollable dialogue history */}
         <div
           ref={historyRef}
@@ -354,7 +409,7 @@ export default function ConversationPanel({
             msOverflowStyle: 'none',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'flex-end',
+            justifyContent: 'flex-start',
           }}
         >
           {history.map((entry, i) => {
@@ -470,54 +525,6 @@ export default function ConversationPanel({
             </div>
           )}
         </div>
-
-        {/* Monologue */}
-        {shouldShowMonologue && (
-          <div style={{
-            position: 'relative',
-            zIndex: 3,
-            flexShrink: 0,
-            padding: '12px 16px',
-            borderTop: '1px solid rgba(201,168,76,0.15)',
-            background: 'rgba(10,8,6,0.85)',
-            opacity: monologueVisible && !monologueFading ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-              <span style={{
-                fontSize: '14px',
-                color: 'rgba(201,168,76,0.5)',
-                flexShrink: 0,
-                marginTop: '1px',
-                fontFamily: 'serif',
-              }}>
-                ✎
-              </span>
-              <div style={{ flex: 1 }}>
-                <div style={{
-                  fontSize: '12px',
-                  fontStyle: 'italic',
-                  color: 'rgba(180,170,150,0.75)',
-                  lineHeight: '1.6',
-                  margin: 0,
-                  fontFamily: "'Crimson Text', serif",
-                }}>
-                  {monologueText}
-                </div>
-                <div style={{
-                  fontSize: '9px',
-                  letterSpacing: '1px',
-                  color: 'rgba(201,168,76,0.3)',
-                  margin: '8px 0 0',
-                  textAlign: 'right',
-                  fontFamily: 'Georgia, serif',
-                }}>
-                  Press Space to continue
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Choices */}
         {actualShowChoices && (
