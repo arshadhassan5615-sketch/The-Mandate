@@ -507,7 +507,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   },
 
   advanceQueue: () => {
-    const { currentQueueIndex, transitionLabel } = get()
+    const { currentQueueIndex, transitionLabel, sceneQueue } = get()
+    console.log('[TRACE 1] advanceQueue called. Queue length:', sceneQueue.length, 'next index:', currentQueueIndex + 1, 'transitionLabel:', transitionLabel)
     // Guard against double-tap during transition
     if (transitionLabel) return
 
@@ -545,11 +546,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           } else if (item.sceneId.startsWith('act1_week2_cabinet')) {
             set({ phase: 'scene', showCabinetFormation: true, transitionLabel: '' })
           } else {
+            console.log('[TRACE 2] Next scene determined:', item.sceneId, '| Loading via loadScene...')
             useNarrativeStore.getState().loadScene(item.sceneId)
             set({ phase: 'scene' })
           }
         } else {
-          console.log('[advanceQueue] Queue exhausted — transitioning to review. Queue was:', q.map((s, i) => `[${i}] ${s.id}`).join(', '), '| last index:', next - 1)
+          console.log('[TRACE 2] Queue exhausted — transitioning to review. Queue was:', q.map((s, i) => `[${i}] ${s.id}`).join(', '), '| last index:', next - 1)
           set({ phase: 'review', transitionLabel: '' })
         }
       } catch (e) {

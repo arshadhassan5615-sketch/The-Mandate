@@ -32,13 +32,19 @@ export async function saveGame(slot: number, name: string): Promise<void> {
   }
 
   await db.saves.put(record)
+  console.log('[SaveManager] Saved game to slot:', slot, 'name:', record.name, 'week:', record.weekNumber, 'act:', record.actNumber)
 }
 
 // ─── Read ─────────────────────────────────────────────────────────────────────
 
 export async function loadGame(slot: number): Promise<boolean> {
   const record = await db.saves.get(slot)
-  if (!record) return false
+  if (!record) {
+    console.warn('[SaveManager] No save found at slot:', slot)
+    return false
+  }
+
+  console.log('[SaveManager] Loading save from slot:', slot, 'name:', record.name, 'week:', record.weekNumber, 'act:', record.actNumber)
 
   // Restore state stores — Zustand shallow-merges so actions are preserved
   useGameStore.setState(record.gameState)
@@ -78,7 +84,9 @@ export async function deleteSave(slot: number): Promise<void> {
 export async function listSaves(): Promise<(SaveRecord | undefined)[]> {
   const all = await db.saves.toArray()
   const bySlot = new Map(all.map(s => [s.slot, s]))
-  return Array.from({ length: MANUAL_SLOT_COUNT + 1 }, (_, i) => bySlot.get(i))
+  const result = Array.from({ length: MANUAL_SLOT_COUNT + 1 }, (_, i) => bySlot.get(i))
+  console.log('[SaveManager] listSaves found', all.length, 'records across', result.filter(Boolean).length, 'slots')
+  return result
 }
 
 // ─── Export ───────────────────────────────────────────────────────────────────

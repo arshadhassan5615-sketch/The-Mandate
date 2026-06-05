@@ -161,32 +161,55 @@ export default function NarrativeScene() {
     }
   }, [currentScene])
 
-  // Timeout fallback — if scene doesn't load within 4s, try to recover.
+  // Timeout fallback — if scene doesn't load within 5s, try to recover.
+  // Uses Promise.race to add an async guard around the synchronous load cycle.
   // Skip if radio or cabinet meeting is open (they are the "current scene").
   useEffect(() => {
     if (!currentScene) {
-      loadTimeoutRef.current = setTimeout(() => {
+      const timeoutPromise = new Promise<void>((resolve) => {
+        loadTimeoutRef.current = setTimeout(resolve, 5000)
+      })
+
+      const loadPromise = new Promise<void>((resolve) => {
+        const checkInterval = setInterval(() => {
+          const narrativeState = useNarrativeStore.getState()
+          if (narrativeState.currentScene) {
+            clearInterval(checkInterval)
+            resolve()
+          }
+        }, 100)
+      })
+
+      Promise.race([timeoutPromise, loadPromise]).then(() => {
+        if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current)
         const store = useWeekStore.getState()
         const narrativeState = useNarrativeStore.getState()
-        console.log('[TRACE-TIMEOUT] 4s timeout fired. phase:', store.phase, 'currentScene:', !!narrativeState.currentScene, 'queue:', store.sceneQueue.length, 'index:', store.currentQueueIndex, 'transitionLabel:', store.transitionLabel)
+
         if (store.phase !== 'scene') return
         if (store.radioOpen || store.showCabinetMeeting) return
-        // If a scene loaded during the timeout window, do nothing
         if (narrativeState.currentScene) return
-        // Clear stuck transition label so advanceQueue doesn't bail out
+
+        console.error(
+          '[NarrativeScene] SCENE LOAD TIMEOUT (5s)',
+          '\n  phase:', store.phase,
+          '\n  queue:', store.sceneQueue.map(s => s.sceneId).join(', '),
+          '\n  index:', store.currentQueueIndex,
+          '\n  transitionLabel:', store.transitionLabel,
+        )
+
         if (store.transitionLabel) {
           console.warn('[NarrativeScene] Clearing stuck transitionLabel:', store.transitionLabel)
           useWeekStore.setState({ transitionLabel: '' })
         }
+
         if (store.sceneQueue.length > 0 && store.currentQueueIndex < store.sceneQueue.length - 1) {
           console.error('[NarrativeScene] Scene load timeout — advancing queue')
           store.advanceQueue()
         } else {
-          // Queue is empty or exhausted — transition to review
-          console.error('[NarrativeScene] Scene load timeout with empty/exhausted queue — transitioning to review')
+          console.error('[NarrativeScene] Scene load timeout with empty/exhausted queue — force-transitioning to review')
           useWeekStore.setState({ phase: 'review', transitionLabel: '' })
         }
-      }, 4000)
+      })
     }
     return () => {
       if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current)

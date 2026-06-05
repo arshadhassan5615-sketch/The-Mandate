@@ -86,25 +86,27 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
 
   const ask = (msg: string, fn: () => void) => setConfirm({ msg, fn })
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const doSave = async (name: string) => {
       try {
+        console.log('[SaveLoadMenu] Saving to slot:', slot, 'name:', name)
         await saveGame(slot, name)
+        console.log('[SaveLoadMenu] Save complete, refreshing list')
         setConfirm(null)
         onAction()
       } catch (e) {
         setConfirm(null)
-        console.error('[Save] Save failed:', e)
+        console.error('[SaveLoadMenu] Save failed for slot', slot, ':', e)
         alert(`Save failed: ${e instanceof Error ? e.message : 'Unknown error'}`)
       }
     }
 
     if (record) {
       ask(`Overwrite "${record.name}"? This cannot be undone.`, () => {
-        doSave(draftName || `Slot ${slot}`)
+        void doSave(draftName || `Slot ${slot}`)
       })
     } else {
-      doSave(`Slot ${slot}`)
+      void doSave(`Slot ${slot}`)
     }
   }
 
@@ -321,7 +323,13 @@ export default function SaveLoadMenu() {
   const [ironmanConfirm, setIronmanConfirm] = useState(false)
 
   const refresh = useCallback(async () => {
-    setSaves(await listSaves())
+    try {
+      const result = await listSaves()
+      console.log('[SaveLoadMenu] Refreshed saves list:', result.map((s, i) => s ? `slot ${i}: "${s.name}" (WK ${s.weekNumber})` : `slot ${i}: EMPTY`).join(', '))
+      setSaves(result)
+    } catch (e) {
+      console.error('[SaveLoadMenu] Failed to refresh saves:', e)
+    }
   }, [])
 
   useEffect(() => {

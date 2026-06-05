@@ -205,9 +205,16 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       target = {
         id: `fallback_${id}`,
         title: 'Scene Not Found',
+        act: 1,
+        weekAvailable: 1,
+        type: 'event' as const,
+        agendaCost: 0,
+        isMandatory: false,
         location: 'Unknown',
+        characters: [],
+        prerequisites: [],
         narrative: [{
-          type: 'narrative',
+          type: 'description',
           text: `The scene "${id}" could not be loaded. This is a bug — please report it. You can continue to the next event.`,
         }],
         choices: [],
@@ -459,26 +466,64 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     // nextNodeId chains scenes within the same agenda slot (e.g. a confrontation
     // that immediately spawns a follow-up scene without returning to the agenda).
     let nextScene: NarrativeNode | undefined
-    if (choice.nextNodeId) nextScene = getScene(choice.nextNodeId)
+    if (choice.nextNodeId) {
+      nextScene = getScene(choice.nextNodeId)
+      if (!nextScene) {
+        console.error(
+          '[narrativeStore.processChoice] nextNodeId "' + choice.nextNodeId +
+          '" not found in SCENE_REGISTRY — falling back to current scene',
+        )
+      }
+    }
 
     // nextSegment branches within the current scene — load that segment's
     // narrative and choices into the current scene without ending it.
-    let updatedScene = nextScene ?? null
+    // If neither transition resolves (e.g. a terminal choice), KEEP the
+    // just-completed current scene in the store so the "Continue to Next
+    // Meeting" button inside ConversationPanel can render. Setting
+    // currentScene=null would short-circuit NarrativeScene.tsx's null-check
+    // (line 218) and hide that button — that was the freeze bug.
+    let updatedScene: NarrativeNode | null = null
     let nextSegmentId: string | null = null
-    if (!nextScene && choice.nextSegment && currentScene.segments?.[choice.nextSegment]) {
+    if (nextScene) {
+      updatedScene = nextScene
+    } else if (choice.nextSegment && currentScene.segments?.[choice.nextSegment]) {
       const seg = currentScene.segments[choice.nextSegment]
-      // Create a new scene object with the segment's narrative + choices
-      updatedScene = { ...currentScene, narrative: seg.narrative, choices: seg.choices, monologue: seg.monologue ?? currentScene.monologue }
+      updatedScene = {
+        ...currentScene,
+        narrative: seg.narrative,
+        choices:   seg.choices,
+        monologue: seg.monologue ?? currentScene.monologue,
+      }
       nextSegmentId = choice.nextSegment
+    } else if (choice.nextSegment) {
+      // nextSegment provided but the key is missing from this scene's segments map
+      console.error(
+        '[narrativeStore.processChoice] nextSegment "' + choice.nextSegment +
+        '" not found in scene "' + currentScene.id + '" segments — available:',
+        Object.keys(currentScene.segments ?? {}),
+      )
+      updatedScene = currentScene
+    } else {
+      // Terminal choice — keep the current scene on screen; sceneDone hides
+      // the choice UI and the Continue button takes over.
+      updatedScene = currentScene
+      if (choice.nextNodeId) {
+        console.error(
+          '[narrativeStore.processChoice] Terminal choice has broken nextNodeId:',
+          choice.nextNodeId,
+        )
+      }
     }
 
+    const sceneDone = !nextScene && !nextSegmentId
     set({
       activeFlags:      newFlags,
       unlockedCodexIds: newCodexIds,
       visitedSceneIds:  newVisited,
       currentScene:     updatedScene,
       activeSegmentId:  nextSegmentId,
-      sceneDone:        !updatedScene,
+      sceneDone,
     })
     console.log(
       '[narrativeStore.processChoice] RESOLVED',

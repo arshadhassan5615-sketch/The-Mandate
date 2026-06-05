@@ -234,6 +234,20 @@ export default function ConversationPanel({
     choiceProcessedRef.current.clear()
   }, [choices])
 
+  // Safety: force-reset choice phase when scene transitions to done.
+  // Guards against any edge case where the animation sequencer remains non-idle
+  // after processChoice sets sceneDone but the choices prop hasn't changed yet.
+  useEffect(() => {
+    if (sceneDone && choicePhase !== 'idle') {
+      setSelectedId(null)
+      setFadingId(null)
+      setActiveReactions(null)
+      setReactionsFading(false)
+      setChoicePhase('idle')
+      choiceProcessedRef.current.clear()
+    }
+  }, [sceneDone, choicePhase])
+
   // Fail-safe: if the choice animation sequencer is stuck (e.g. processChoice
   // returned early and the `choices` prop never changed), force a reset after 6s
   // so the player is never permanently frozen. Legitimate pulsing+fading+reactions
@@ -290,7 +304,7 @@ export default function ConversationPanel({
     }
     if (len > prevHistLenRef.current) {
       setPanelHeight(p => {
-        const addition = (len - prevHistLenRef.current) * 80
+        const addition = (len - prevHistLenRef.current) * 110
         return Math.min(p + addition, MAX_PANEL_HEIGHT)
       })
     }
@@ -394,18 +408,21 @@ export default function ConversationPanel({
           style={{
             flex: 1,
             maxWidth: '520px',
-            minHeight: `${Math.min(panelHeight, 180)}px`,
+            height: `${panelHeight}px`,
             maxHeight: `${MAX_PANEL_HEIGHT}px`,
-            transition: 'min-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
             background: '#0a0806',
+            position: 'relative',
             borderTop: '1px solid rgba(201,168,76,0.25)',
             borderLeft: '1px solid rgba(201,168,76,0.25)',
             paddingBottom: '40px',
           }}
         >
+
+
 
         {/* Monologue — at the very top */}
         {shouldShowMonologue && (
@@ -463,6 +480,7 @@ export default function ConversationPanel({
         {/* Scrollable dialogue history */}
         <div
           ref={historyRef}
+          className="dialogue-scroll-area"
           style={{
             position: 'relative',
             zIndex: 3,
@@ -474,6 +492,8 @@ export default function ConversationPanel({
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%)',
           }}
         >
           {history.map((entry, i) => {
