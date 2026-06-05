@@ -350,7 +350,7 @@ export default function ConversationPanel({
         }} />
       )}
 
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '16px', padding: '0 20px 20px 20px', maxWidth: '780px', margin: '0 auto' }}>
+      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '16px', padding: '0 20px 20px 20px', maxWidth: '780px', margin: '0 auto' }}>
 
         {/* Hero Portrait — LEFT side of conversation row */}
         <div style={{
