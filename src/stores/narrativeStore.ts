@@ -193,11 +193,11 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   sceneDone:         false,
 
   loadScene: (id) => {
-    console.log('[TRACE 3] loadScene called for:', id)
+    console.log('[narrativeStore.loadScene] id:', id)
     const gameState  = useGameStore.getState()
     const { activeFlags, metCharacters } = get()
     let target = getScene(id)
-    console.log('[TRACE 4] getScene result:', !!target, target?.title ?? 'null')
+    console.log('[narrativeStore.loadScene] target found:', !!target, target?.title ?? 'null')
 
     // If scene not found, create a fallback so the game never hangs
     if (!target) {
@@ -237,7 +237,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     }
 
     set({ currentScene: target ?? null, sceneDone: !target, metCharacters: newMet })
-    console.log('[TRACE 5] currentScene set to:', target?.id ?? 'null', '| sceneDone:', !target)
+    console.log('[narrativeStore.loadScene] set currentScene:', target?.id ?? 'null')
   },
 
   resetScene: () => {
@@ -250,44 +250,15 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
 
   processChoice: (choiceId) => {
     const { currentScene, visitedSceneIds, activeFlags } = get()
-    const segmentsKeys = currentScene?.segments ? Object.keys(currentScene.segments) : []
-    console.log(
-      '[narrativeStore.processChoice] choiceId:', choiceId,
-      '| sceneId:', currentScene?.id ?? 'null',
-      '| choicesInScene:', currentScene?.choices.map(c => c.id) ?? [],
-      '| hasNextNode:', !!currentScene?.choices.find(c => c.id === choiceId)?.nextNodeId,
-      '| hasNextSegment:', !!currentScene?.choices.find(c => c.id === choiceId)?.nextSegment,
-      '| segmentKeys:', segmentsKeys,
-    )
-
-    if (!currentScene) {
-      console.warn('[narrativeStore.processChoice] BLOCKED: no currentScene loaded')
-      return
-    }
+    if (!currentScene) return
 
     const choice = currentScene.choices.find(c => c.id === choiceId)
-    if (!choice) {
-      console.warn(
-        '[narrativeStore.processChoice] BLOCKED: choice id not in currentScene.choices',
-        '| requested:', choiceId,
-        '| available:', currentScene.choices.map(c => c.id),
-        '| sceneId:', currentScene.id,
-      )
-      return
-    }
+    if (!choice) return
 
     // Guard — choice conditions must pass
     const gameState = useGameStore.getState()
     const available = getAvailableChoices(currentScene, gameState, activeFlags)
-    if (!available.find(c => c.id === choiceId)) {
-      console.warn(
-        '[narrativeStore.processChoice] BLOCKED: choice failed conditions',
-        '| requested:', choiceId,
-        '| passed:', available.map(c => c.id),
-        '| sceneId:', currentScene.id,
-      )
-      return
-    }
+    if (!available.find(c => c.id === choiceId)) return
 
     // Log journal entry for major decisions
     const tag = choice.internalTag
@@ -480,13 +451,6 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       activeSegmentId:  nextSegmentId,
       sceneDone:        !updatedScene,
     })
-    console.log(
-      '[narrativeStore.processChoice] RESOLVED',
-      '| nextScene:', nextScene?.id ?? 'null',
-      '| nextSegment:', nextSegmentId,
-      '| updatedSceneId:', updatedScene?.id ?? 'null',
-      '| sceneDone:', !updatedScene,
-    )
   },
 }))
 

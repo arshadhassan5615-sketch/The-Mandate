@@ -107,27 +107,6 @@ export default function NarrativeScene() {
     }
   }, [advance, sceneDone, allDone, choices, processChoice])
 
-  const handleProcessChoice = useCallback((id: string) => {
-    console.log(
-      '[NarrativeScene] choice click | sceneId:', currentScene?.id,
-      '| choiceId:', id,
-      '| nextNode:', currentScene?.choices.find(c => c.id === id)?.nextNodeId,
-      '| nextSegment:', currentScene?.choices.find(c => c.id === id)?.nextSegment,
-    )
-    try {
-      processChoice(id)
-    } catch (e) {
-      console.error(
-        '[NarrativeScene] processChoice THREW | sceneId:', currentScene?.id,
-        '| choiceId:', id,
-        '| error:', e,
-      )
-      // Unstick the game: clear any loading state and mark scene as done
-      // so the player can advance to the next event instead of being frozen.
-      useNarrativeStore.setState({ sceneDone: true })
-    }
-  }, [currentScene, processChoice])
-
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
@@ -143,23 +122,6 @@ export default function NarrativeScene() {
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const prevRevealed = useRef(0)
   const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const emergencyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  // Emergency safety net — if still stuck after 10s, force to review regardless
-  useEffect(() => {
-    if (!currentScene) {
-      emergencyTimeoutRef.current = setTimeout(() => {
-        const store = useWeekStore.getState()
-        if (store.phase === 'scene' && !useNarrativeStore.getState().currentScene) {
-          console.error('[NarrativeScene] EMERGENCY: 10s timeout — forcing review phase')
-          useWeekStore.setState({ phase: 'review', transitionLabel: '' })
-        }
-      }, 10000)
-    }
-    return () => {
-      if (emergencyTimeoutRef.current) clearTimeout(emergencyTimeoutRef.current)
-    }
-  }, [currentScene])
 
   // Timeout fallback — if scene doesn't load within 4s, try to recover.
   // Skip if radio or cabinet meeting is open (they are the "current scene").
@@ -167,23 +129,19 @@ export default function NarrativeScene() {
     if (!currentScene) {
       loadTimeoutRef.current = setTimeout(() => {
         const store = useWeekStore.getState()
-        const narrativeState = useNarrativeStore.getState()
-        console.log('[TRACE-TIMEOUT] 4s timeout fired. phase:', store.phase, 'currentScene:', !!narrativeState.currentScene, 'queue:', store.sceneQueue.length, 'index:', store.currentQueueIndex, 'transitionLabel:', store.transitionLabel)
         if (store.phase !== 'scene') return
         if (store.radioOpen || store.showCabinetMeeting) return
-        // If a scene loaded during the timeout window, do nothing
-        if (narrativeState.currentScene) return
         // Clear stuck transition label so advanceQueue doesn't bail out
         if (store.transitionLabel) {
           console.warn('[NarrativeScene] Clearing stuck transitionLabel:', store.transitionLabel)
           useWeekStore.setState({ transitionLabel: '' })
         }
-        if (store.sceneQueue.length > 0 && store.currentQueueIndex < store.sceneQueue.length - 1) {
+        if (store.sceneQueue.length > 0) {
           console.error('[NarrativeScene] Scene load timeout — advancing queue')
           store.advanceQueue()
         } else {
-          // Queue is empty or exhausted — transition to review
-          console.error('[NarrativeScene] Scene load timeout with empty/exhausted queue — transitioning to review')
+          // Queue is empty but phase is still 'scene' — transition to review
+          console.error('[NarrativeScene] Scene load timeout with empty queue — transitioning to review')
           useWeekStore.setState({ phase: 'review', transitionLabel: '' })
         }
       }, 4000)
@@ -259,7 +217,7 @@ export default function NarrativeScene() {
         allDone={allDone}
         segmentDone={segmentDone}
         onAdvance={advance}
-        onChoice={handleProcessChoice}
+        onChoice={(id) => processChoice(id)}
         onAdvanceQueue={advanceQueue}
         continueLabel={continueLabel}
         speakingCharacter={speakingCharacter}
@@ -271,7 +229,7 @@ export default function NarrativeScene() {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '0.35rem 1rem', paddingRight: '70px',
         borderTop: '1px solid rgba(196,148,58,0.15)',
-        background: 'rgba(10,9,8,0.85)', pointerEvents: 'none',
+        background: 'rgba(10,9,8,0.85)', pointerEvents: 'all',
       }}>
         <span style={{
           fontFamily: "'Special Elite', monospace",
