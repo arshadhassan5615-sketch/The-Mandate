@@ -69,6 +69,8 @@ interface ConversationPanelProps {
   monologueText?: string
 }
 
+type ChoicePhase = 'idle' | 'pulsing' | 'fading' | 'showing_reactions' | 'reactions_fading' | 'done'
+
 export default function ConversationPanel({
   sceneType, sceneCharacters: _sceneCharacters,
   history, activeSegment, activeText, showCursor,
@@ -89,6 +91,7 @@ export default function ConversationPanel({
   const [monologueFading, setMonologueFading] = useState(false)
   const [monologueVisible, setMonologueVisible] = useState(false)
   const [advanceReady, setAdvanceReady] = useState(false)
+  const [choicePhase, setChoicePhase] = useState<ChoicePhase>('idle')
 
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {
@@ -149,36 +152,77 @@ export default function ConversationPanel({
   }, [shouldShowMonologue, dismissMonologue])
 
   const handleChoice = useCallback((id: string) => {
-    if (selectedId || fadingId) return // prevent double-click
-    if (choiceProcessedRef.current.has(id)) return // prevent StrictMode / effect double-fire
+    if (choicePhase !== 'idle') return
+    if (choiceProcessedRef.current.has(id)) return
+    console.log('[GameLogic] Processing choice:', id)
     choiceProcessedRef.current.add(id)
-    setSelectedId(id)
-    // Find the choice to get its reactions
+
     const choice = choices.find(c => c.id === id)
-    // Pulse animation plays (200ms), then fade + reactions
-    setTimeout(() => {
-      setSelectedId(null)
-      setFadingId(id)
-      // Show reactions if present
-      if (choice?.reactions?.length) {
-        setActiveReactions(choice.reactions)
-        // After reaction display time (2.5s), fade and trigger
-        setTimeout(() => {
+    if (choice?.reactions?.length) {
+      setActiveReactions(choice.reactions)
+    }
+
+    try {
+      onChoice(id)
+    } catch (error) {
+      console.error('[GameLogic] CRITICAL ERROR:', error)
+    }
+
+    setSelectedId(id)
+    setChoicePhase('pulsing')
+  }, [onChoice, choicePhase, choices])
+
+  // Reactive animation sequencer — driven by choicePhase, not blocking game logic
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>
+
+    switch (choicePhase) {
+      case 'pulsing':
+        timer = setTimeout(() => {
+          setSelectedId(null)
+          setFadingId(selectedId)
+          setChoicePhase('fading')
+        }, 200)
+        break
+
+      case 'fading':
+        if (activeReactions) {
+          setChoicePhase('showing_reactions')
+        } else {
+          timer = setTimeout(() => {
+            setFadingId(null)
+            setSelectedId(null)
+            setChoicePhase('done')
+          }, 800)
+        }
+        break
+
+      case 'showing_reactions':
+        timer = setTimeout(() => {
           setReactionsFading(true)
-          setTimeout(() => {
-            setActiveReactions(null)
-            setReactionsFading(false)
-            onChoice(id)
-          }, 500)
+          setChoicePhase('reactions_fading')
         }, 2500)
-      } else {
-        // No reactions, just trigger after fade-out
-        setTimeout(() => {
-          onChoice(id)
-        }, 800)
-      }
-    }, 200)
-  }, [onChoice, selectedId, fadingId, choices])
+        break
+
+      case 'reactions_fading':
+        timer = setTimeout(() => {
+          setActiveReactions(null)
+          setReactionsFading(false)
+          setFadingId(null)
+          setSelectedId(null)
+          setChoicePhase('done')
+        }, 500)
+        break
+
+      case 'done':
+        timer = setTimeout(() => {
+          setChoicePhase('idle')
+        }, 100)
+        break
+    }
+
+    return () => clearTimeout(timer)
+  }, [choicePhase, selectedId, activeReactions])
 
   // Reset selection state when new choices appear
   useEffect(() => {
@@ -186,8 +230,31 @@ export default function ConversationPanel({
     setFadingId(null)
     setActiveReactions(null)
     setReactionsFading(false)
+    setChoicePhase('idle')
     choiceProcessedRef.current.clear()
   }, [choices])
+
+  // Fail-safe: if the choice animation sequencer is stuck (e.g. processChoice
+  // returned early and the `choices` prop never changed), force a reset after 6s
+  // so the player is never permanently frozen. Legitimate pulsing+fading+reactions
+  // cycles complete in well under 4s.
+  useEffect(() => {
+    if (choicePhase === 'idle') return
+    const t = setTimeout(() => {
+      console.warn(
+        '[ConversationPanel] STUCK RECOVERY: choicePhase was',
+        choicePhase,
+        'for >6s without choices prop changing — forcing reset',
+      )
+      setSelectedId(null)
+      setFadingId(null)
+      setActiveReactions(null)
+      setReactionsFading(false)
+      setChoicePhase('idle')
+      choiceProcessedRef.current.clear()
+    }, 6000)
+    return () => clearTimeout(t)
+  }, [choicePhase])
 
   useEffect(() => {
     if (dialogueEndRef.current) {
