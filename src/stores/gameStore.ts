@@ -28,7 +28,7 @@ const INITIAL_BUDGET: BudgetAllocations = {
 }
 
 // GDD Week 1, 1963 — Katerin has just taken office
-const INITIAL_STATE: GameState = {
+export const INITIAL_STATE: GameState = {
   currentWeek: 1,
   currentAct: 1,
 

@@ -241,7 +241,7 @@ export default function ConversationPanel({
     (speakingCharacter && speakingCharacter !== 'katerin_ashavel') ? speakingCharacter
     : activeSegment?.character && activeSegment.character !== 'katerin_ashavel' ? activeSegment.character
     : activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel' ? activeSegment.primaryCharacter
-    : null
+    : 'katerin_ashavel'
 
   const portraitImg = portraitCharId ? getPortrait(portraitCharId) : null
 
@@ -256,7 +256,7 @@ export default function ConversationPanel({
   const monologueFontSize = Math.round(12 + (panelHeight - 180) * 0.025)
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 100, pointerEvents: 'none' }}>
+    <>
       {isEmergency && (
         <div style={{
           position: 'fixed', inset: 0,
@@ -265,24 +265,23 @@ export default function ConversationPanel({
         }} />
       )}
 
-      {/* Hero Portrait — floating left of panel */}
-      {portraitCharId && (
+      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '24px', padding: '0 20px 20px 20px', maxWidth: '780px', margin: '0 auto' }}>
+
+        {/* Hero Portrait — LEFT side of conversation row */}
         <div style={{
-          position: 'fixed',
-          left: 'calc(50% - 320px)',
-          bottom: '0',
+          flexShrink: 0,
           zIndex: 101,
-          pointerEvents: 'all',
-          transition: 'opacity 0.35s ease',
+          marginTop: '8px',
         }}>
           <div style={{
-            width: '80px',
-            height: '80px',
+            width: '140px',
+            height: '140px',
             borderRadius: '50%',
             border: '3px solid #c9a84c',
             boxShadow: '0 0 0 1px rgba(201,168,76,0.3), 0 4px 20px rgba(0,0,0,0.8)',
             overflow: 'hidden',
             background: 'rgba(10,8,6,0.9)',
+            position: 'relative',
           }}>
             {portraitImg && !portraitImgError ? (
               <img
@@ -305,7 +304,7 @@ export default function ConversationPanel({
               }}>
                 <span style={{
                   fontFamily: "'Special Elite', monospace",
-                  fontSize: '28px', color: '#c9a84c', fontWeight: 'bold',
+                  fontSize: '48px', color: '#c9a84c', fontWeight: 'bold',
                 }}>
                   {charName(portraitCharId).split(' ').filter(Boolean).map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
                 </span>
@@ -318,30 +317,24 @@ export default function ConversationPanel({
             }} />
           </div>
         </div>
-      )}
 
-      /* Expanding conversation panel */
-      <div
-        className="conversation-panel"
-        style={{
-          position: 'fixed',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          bottom: '0',
-          width: '520px',
-          height: `${panelHeight}px`,
-          transition: 'height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          zIndex: 100,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          pointerEvents: 'all',
-          background: '#0a0806',
-          borderTop: '1px solid rgba(201,168,76,0.25)',
-          borderLeft: '1px solid rgba(201,168,76,0.25)',
-          paddingBottom: '40px',
-        }}
-      >
+        {/* Expanding conversation panel — RIGHT side of row */}
+        <div
+          className="conversation-panel"
+          style={{
+            flex: 1,
+            maxWidth: '520px',
+            height: `${panelHeight}px`,
+            transition: 'height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            background: '#0a0806',
+            borderTop: '1px solid rgba(201,168,76,0.25)',
+            borderLeft: '1px solid rgba(201,168,76,0.25)',
+            paddingBottom: '40px',
+          }}
+        >
 
         {/* Monologue — at the very top */}
         {shouldShowMonologue && (
@@ -718,7 +711,8 @@ export default function ConversationPanel({
             </button>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -216,7 +216,7 @@ export default function NarrativeScene() {
       />
 
       <div style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101,
+        position: 'fixed', bottom: 0, left: '200px', right: 0, zIndex: 101,
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '0.35rem 1rem', paddingRight: '70px',
         borderTop: '1px solid rgba(196,148,58,0.15)',
