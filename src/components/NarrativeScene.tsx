@@ -216,14 +216,23 @@ export default function NarrativeScene() {
     }
   }, [currentScene])
 
+  // Reset conversation history when a new scene loads (different sceneId)
   useEffect(() => {
-    const currentCount = revealedSegments.length + (activeSegment && segmentDone ? 1 : 0)
-    if (currentCount > prevRevealed.current) {
+    setHistory([])
+    prevRevealed.current = 0
+  }, [currentScene?.id])
+
+  useEffect(() => {
+    // Reset tracking when segments shrink (scene transition or branch)
+    if (revealedSegments.length < prevRevealed.current) {
+      prevRevealed.current = 0
+    }
+    if (revealedSegments.length > prevRevealed.current) {
       const newEntries: HistoryEntry[] = []
       for (let i = prevRevealed.current; i < revealedSegments.length; i++) {
         const seg = revealedSegments[i]
         newEntries.push({
-          id: `rev-${i}`,
+          id: `${currentScene?.id ?? 'scene'}-rev-${i}`,
           type: seg.type === 'dialogue' ? 'dialogue' : 'narrative',
           characterId: seg.character,
           characterName: seg.character ? charName(seg.character) : undefined,
@@ -234,9 +243,9 @@ export default function NarrativeScene() {
       if (newEntries.length > 0) {
         setHistory(h => [...h, ...newEntries])
       }
-      prevRevealed.current = currentCount
+      prevRevealed.current = revealedSegments.length
     }
-  }, [revealedSegments.length, activeSegment, segmentDone])
+  }, [revealedSegments.length, activeSegment, segmentDone, currentScene?.id])
 
   if (!currentScene) {
     console.log('NarrativeScene: NO SCENE LOADED',
