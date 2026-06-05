@@ -265,17 +265,16 @@ export default function ConversationPanel({
         }} />
       )}
 
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '24px', padding: '0 20px 20px 20px', maxWidth: '780px', margin: '0 auto' }}>
+      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '16px', padding: '0 20px 20px 20px', maxWidth: '780px', margin: '0 auto' }}>
 
         {/* Hero Portrait — LEFT side of conversation row */}
         <div style={{
           flexShrink: 0,
           zIndex: 101,
-          marginTop: '8px',
         }}>
           <div style={{
-            width: '140px',
-            height: '140px',
+            width: '80px',
+            height: '80px',
             borderRadius: '50%',
             border: '3px solid #c9a84c',
             boxShadow: '0 0 0 1px rgba(201,168,76,0.3), 0 4px 20px rgba(0,0,0,0.8)',
@@ -304,7 +303,7 @@ export default function ConversationPanel({
               }}>
                 <span style={{
                   fontFamily: "'Special Elite', monospace",
-                  fontSize: '48px', color: '#c9a84c', fontWeight: 'bold',
+                  fontSize: '32px', color: '#c9a84c', fontWeight: 'bold',
                 }}>
                   {charName(portraitCharId).split(' ').filter(Boolean).map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
                 </span>
@@ -312,7 +311,7 @@ export default function ConversationPanel({
             )}
             <div style={{
               position: 'absolute', inset: 0, borderRadius: '50%',
-              boxShadow: 'inset 0 0 14px rgba(0,0,0,0.55)',
+              boxShadow: 'inset 0 0 8px rgba(0,0,0,0.55)',
               pointerEvents: 'none',
             }} />
           </div>
