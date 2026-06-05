@@ -125,6 +125,9 @@ export const NEWS_TEMPLATES: NewsTemplate[] = [
   {
     trigger: 'budget_revised',
     category: 'budget',
+    conditions: [
+      { type: 'flag', flag: 'budget_finalized', value: true },
+    ],
     herald: {
       headline: 'BUDGET REVISION INTRODUCES SPENDING CHANGES',
       body: 'The Chancellor\'s office has announced a revision to the fiscal year 1963-64 budget, adjusting departmental allocations in response to emerging priorities. The changes reflect the government\'s evolving strategy for managing the 65 million Krone deficit while responding to political pressures from coalition partners and provincial governments.',
@@ -573,6 +576,9 @@ export const NEWS_TEMPLATES: NewsTemplate[] = [
   {
     trigger: 'budget_deficit_warning',
     category: 'budget',
+    conditions: [
+      { type: 'flag', flag: 'budget_finalized', value: true },
+    ],
     herald: {
       headline: 'DEFICIT WARNING: FINANCE MINISTRY ISSUES FISCAL ALERT',
       body: 'The Finance Ministry has issued a formal fiscal alert warning that the current deficit trajectory is unsustainable and that emergency measures may be required if revenue targets are not met by the third quarter. Finance Minister Vostane has requested an extraordinary cabinet session to review spending commitments across all departments.',

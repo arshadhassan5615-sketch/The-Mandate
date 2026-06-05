@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWeekStore } from '../stores/weekStore'
 
@@ -18,6 +19,16 @@ function weekToDate(week: number): string {
 
 export default function TransitionOverlay() {
   const { transitionLabel, transitionWeek } = useWeekStore()
+
+  // Safety timeout: force-clear transition if overlay is stuck for >10 seconds
+  useEffect(() => {
+    if (!transitionLabel) return
+    const safetyTimeout = setTimeout(() => {
+      console.warn('[TransitionOverlay] Safety timeout — force-clearing stuck transition:', transitionLabel)
+      useWeekStore.setState({ transitionLabel: '', transitionWeek: null })
+    }, 10000)
+    return () => clearTimeout(safetyTimeout)
+  }, [transitionLabel])
 
   return (
     <AnimatePresence>

@@ -270,7 +270,9 @@ function ChoiceLine({ text, onClick, selected, locked }: {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: 'transparent', border: 'none',
+        background: selected ? 'rgba(200,144,42,0.12)' : 'transparent',
+        border: selected ? '1px solid rgba(200,144,42,0.5)' : 'none',
+        borderRadius: '2px',
         color: selected ? SEPIA.amber
               : hovered  ? SEPIA.choiceHover
               : SEPIA.textDim,
@@ -279,9 +281,12 @@ function ChoiceLine({ text, onClick, selected, locked }: {
         lineHeight: 1.6, cursor: locked ? 'default' : 'pointer',
         textAlign: 'center', width: '100%',
         padding: '0.55rem 1rem',
-        transition: 'color 0.2s',
+        transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
         display: 'block',
         opacity: locked && !selected ? 0.35 : 1,
+        transform: selected ? 'scale(0.97)' : 'scale(1)',
+        boxShadow: selected ? '0 0 16px rgba(200,144,42,0.3)' : 'none',
+        animation: selected ? 'choice-glow-burst 0.4s ease-out' : 'none',
       }}
     >
       {selected && <span style={{ marginRight: '0.5rem', opacity: 0.7 }}>▸</span>}

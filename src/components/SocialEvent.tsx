@@ -146,26 +146,46 @@ function Segment({ seg }: { seg: NarrativeSegment }) {
 function ChoiceChip({ choice, disabled, onPick }: {
   choice: SceneChoice; disabled: boolean; onPick: (id: string) => void
 }) {
+  const [clicked, setClicked] = useState(false)
+
+  const handleClick = () => {
+    if (disabled) return
+    setClicked(true)
+    setTimeout(() => {
+      onPick(choice.id)
+      setClicked(false)
+    }, 150)
+  }
+
   return (
     <button
       disabled={disabled}
-      onClick={() => onPick(choice.id)}
+      onClick={handleClick}
       style={{
         display: 'block',
         width: '100%',
         textAlign: 'left',
         padding: '0.7rem 1rem',
         marginBottom: '0.4rem',
-        background: disabled ? 'rgba(200,144,42,0.03)' : 'rgba(200,144,42,0.06)',
-        border: '1px solid var(--border)',
+        background: clicked
+          ? 'rgba(200,144,42,0.18)'
+          : disabled
+          ? 'rgba(200,144,42,0.03)'
+          : 'rgba(200,144,42,0.06)',
+        border: clicked
+          ? '1px solid rgba(200,144,42,0.6)'
+          : '1px solid var(--border)',
         borderRadius: '2px',
-        color: disabled ? 'var(--muted)' : 'var(--cream)',
+        color: disabled ? 'var(--muted)' : clicked ? '#ffffff' : 'var(--cream)',
         fontFamily: 'var(--font-body)',
         fontSize: '0.82rem',
         lineHeight: 1.6,
         cursor: disabled ? 'default' : 'pointer',
-        transition: 'all 0.2s',
+        transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
         opacity: disabled ? 0.5 : 1,
+        transform: clicked ? 'scale(0.97)' : 'scale(1)',
+        boxShadow: clicked ? '0 0 16px rgba(200,144,42,0.3)' : 'none',
+        animation: clicked ? 'choice-glow-burst 0.4s ease-out' : 'none',
       }}
     >
       {choice.text}

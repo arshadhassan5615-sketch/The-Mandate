@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import type { BudgetAllocations } from '../types/gameState'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
+import { useNarrativeStore } from '../stores/narrativeStore'
 import { computeBudgetModifiers, aggregateModifiers } from '../engine/budgetEffects'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -229,6 +230,7 @@ export default function BudgetInterface() {
   // ── Commit ─────────────────────────────────────────────────────────────────
   function handleCommit() {
     applyBudget(draft)
+    useNarrativeStore.getState().addFlags(['budget_finalized'])
     advanceQueue()
   }
 

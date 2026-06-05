@@ -88,6 +88,18 @@ export default function ConversationPanel({
   const [monologueDone, setMonologueDone] = useState(false)
   const [monologueFading, setMonologueFading] = useState(false)
   const [monologueVisible, setMonologueVisible] = useState(false)
+  const [advanceReady, setAdvanceReady] = useState(false)
+
+  // Delay advance button appearance after scene ends (smoother transition)
+  useEffect(() => {
+    if (sceneDone) {
+      setAdvanceReady(false)
+      const t = setTimeout(() => setAdvanceReady(true), 800)
+      return () => clearTimeout(t)
+    } else {
+      setAdvanceReady(false)
+    }
+  }, [sceneDone])
 
   // When choices area is about to show, check for monologue
   const shouldShowChoices = showChoices && !sceneDone
@@ -102,14 +114,6 @@ export default function ConversationPanel({
     }
     if (!shouldShowMonologue && monologueVisible) {
       setMonologueVisible(false)
-    }
-  }, [shouldShowMonologue, monologueVisible])
-
-  // Auto-advance monologue after 4 seconds
-  useEffect(() => {
-    if (shouldShowMonologue && monologueVisible) {
-      const t = setTimeout(() => dismissMonologue(), 4000)
-      return () => clearTimeout(t)
     }
   }, [shouldShowMonologue, monologueVisible])
 
@@ -323,8 +327,9 @@ export default function ConversationPanel({
           style={{
             flex: 1,
             maxWidth: '520px',
-            height: `${panelHeight}px`,
-            transition: 'height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            minHeight: `${Math.min(panelHeight, 180)}px`,
+            maxHeight: `${MAX_PANEL_HEIGHT}px`,
+            transition: 'min-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
@@ -543,37 +548,84 @@ export default function ConversationPanel({
               position: 'relative',
               zIndex: 3,
             }}>
-              {choices.map((choice, i) => (
+              {choices.map((choice, i) => {
+                const isSelected = selectedId === choice.id
+                const isFading = fadingId === choice.id
+                const isDimmed = fadingId && !isFading
+                return (
                 <div
                   key={i}
                   onClick={() => handleChoice(choice.id)}
                   style={{
                     padding: '11px 16px',
-                    background: 'rgba(201,168,76,0.06)',
-                    border: '1px solid rgba(201,168,76,0.25)',
+                    background: isSelected
+                      ? 'rgba(201,168,76,0.18)'
+                      : isFading
+                      ? 'rgba(201,168,76,0.06)'
+                      : 'rgba(201,168,76,0.06)',
+                    border: isSelected
+                      ? '2px solid rgba(201,168,76,0.7)'
+                      : '1px solid rgba(201,168,76,0.25)',
                     borderRadius: '2px',
                     cursor: 'pointer',
                     fontSize: '13px',
-                    color: '#e8d5a3',
+                    color: isSelected ? '#ffffff' : '#e8d5a3',
                     fontFamily: 'Georgia, serif',
                     lineHeight: '1.5',
-                    transition: 'all 0.15s ease',
+                    transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
                     userSelect: 'none',
+                    transform: isSelected ? 'scale(0.97)' : isDimmed ? 'scale(1)' : 'scale(1)',
+                    opacity: isFading ? 0 : isDimmed ? 0.4 : 1,
+                    boxShadow: isSelected
+                      ? '0 0 20px rgba(201,168,76,0.3)'
+                      : 'none',
+                    animation: isSelected
+                      ? 'choice-glow-burst 0.4s ease-out'
+                      : isFading
+                      ? 'choice-fade-out 0.8s ease forwards'
+                      : isDimmed
+                      ? 'choice-dim-others 0.3s ease forwards'
+                      : 'none',
+                    position: 'relative',
+                    overflow: 'hidden',
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(201,168,76,0.14)'
-                    e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)'
-                    e.currentTarget.style.color = '#ffffff'
+                    if (!selectedId && !fadingId) {
+                      e.currentTarget.style.background = 'rgba(201,168,76,0.14)'
+                      e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)'
+                      e.currentTarget.style.color = '#ffffff'
+                      e.currentTarget.style.transform = 'translateY(-1px)'
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(201,168,76,0.12)'
+                    }
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.background = 'rgba(201,168,76,0.06)'
-                    e.currentTarget.style.borderColor = 'rgba(201,168,76,0.25)'
-                    e.currentTarget.style.color = '#e8d5a3'
+                    if (!selectedId && !fadingId) {
+                      e.currentTarget.style.background = 'rgba(201,168,76,0.06)'
+                      e.currentTarget.style.borderColor = 'rgba(201,168,76,0.25)'
+                      e.currentTarget.style.color = '#e8d5a3'
+                      e.currentTarget.style.transform = 'scale(1)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }
                   }}
                 >
-                  {choice.text}
+                  <span style={{ position: 'relative', zIndex: 1 }}>{choice.text}</span>
+                  {isSelected && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      width: '200%',
+                      height: '200%',
+                      background: 'radial-gradient(circle, rgba(201,168,76,0.25) 0%, transparent 70%)',
+                      transform: 'translate(-50%, -50%) scale(0)',
+                      animation: 'choice-ripple 0.4s ease-out',
+                      pointerEvents: 'none',
+                      zIndex: 0,
+                    }} />
+                  )}
                 </div>
-              ))}
+                )
+              })}
             </div>
             {choicesOverflow && (
               <div style={{
@@ -681,7 +733,7 @@ export default function ConversationPanel({
         )}
 
         {/* Scene completed — advance button */}
-        {sceneDone && (
+        {sceneDone && advanceReady && (
           <div style={{
             position: 'relative',
             zIndex: 3,

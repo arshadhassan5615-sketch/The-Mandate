@@ -472,7 +472,11 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
     const sorted = [...chainItems, ...playerItems]
       .sort((a, b) => a.executionOrder - b.executionOrder)
-    if (sorted.length === 0) return
+    if (sorted.length === 0) {
+      console.warn('[confirmAgenda] No items in queue — transitioning to review')
+      set({ phase: 'review' })
+      return
+    }
 
     console.log('[confirmAgenda] Queue:', sorted.map((s, i) => `[${i}] ${s.id} (${s.sceneId})`).join(', '))
 

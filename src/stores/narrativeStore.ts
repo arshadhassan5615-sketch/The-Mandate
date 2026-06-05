@@ -199,6 +199,21 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     let target = getScene(id)
     console.log('[narrativeStore.loadScene] target found:', !!target, target?.title ?? 'null')
 
+    // If scene not found, create a fallback so the game never hangs
+    if (!target) {
+      console.error(`[narrativeStore.loadScene] SCENE "${id}" NOT FOUND — creating fallback`)
+      target = {
+        id: `fallback_${id}`,
+        title: 'Scene Not Found',
+        location: 'Unknown',
+        narrative: [{
+          type: 'narrative',
+          text: `The scene "${id}" could not be loaded. This is a bug — please report it. You can continue to the next event.`,
+        }],
+        choices: [],
+      }
+    }
+
     // If the scene has prerequisites that don't pass, walk the exclusive list
     // until we find a variant that qualifies (fallback routing for branching events).
     if (target?.prerequisites?.length && !evaluateAll(target.prerequisites, gameState, activeFlags)) {

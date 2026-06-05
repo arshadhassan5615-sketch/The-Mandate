@@ -131,9 +131,18 @@ export default function NarrativeScene() {
         const store = useWeekStore.getState()
         if (store.phase !== 'scene') return
         if (store.radioOpen || store.showCabinetMeeting) return
+        // Clear stuck transition label so advanceQueue doesn't bail out
+        if (store.transitionLabel) {
+          console.warn('[NarrativeScene] Clearing stuck transitionLabel:', store.transitionLabel)
+          useWeekStore.setState({ transitionLabel: '' })
+        }
         if (store.sceneQueue.length > 0) {
           console.error('[NarrativeScene] Scene load timeout — advancing queue')
           store.advanceQueue()
+        } else {
+          // Queue is empty but phase is still 'scene' — transition to review
+          console.error('[NarrativeScene] Scene load timeout with empty queue — transitioning to review')
+          useWeekStore.setState({ phase: 'review', transitionLabel: '' })
         }
       }, 4000)
     }
