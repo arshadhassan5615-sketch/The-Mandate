@@ -46,6 +46,59 @@ interface ConversationHistoryEntry {
   text: string
 }
 
+function DialoguePortrait({ characterId, isCurrentSpeaker, size = 48 }: {
+  characterId: string
+  isCurrentSpeaker: boolean
+  size?: number
+}) {
+  const [imgError, setImgError] = useState(false)
+  const portraitImg = getPortrait(characterId)
+
+  useEffect(() => {
+    setImgError(false)
+  }, [characterId])
+
+  const initials = charName(characterId)
+    .split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase()
+
+  return (
+    <div style={{
+      flexShrink: 0,
+      width: `${size}px`,
+      height: `${size}px`,
+      borderRadius: '50%',
+      border: `2px solid ${isCurrentSpeaker ? '#c9a84c' : 'rgba(201,168,76,0.3)'}`,
+      overflow: 'hidden',
+      opacity: isCurrentSpeaker ? 1 : 0.3,
+      transition: 'opacity 0.4s ease',
+      background: 'rgba(10,8,6,0.8)',
+    }}>
+      {portraitImg && !imgError ? (
+        <img
+          src={portraitImg}
+          alt=""
+          onError={() => setImgError(true)}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+        />
+      ) : (
+        <div style={{
+          width: '100%', height: '100%',
+          background: 'rgba(201,168,76,0.25)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <span style={{
+            fontFamily: "'Special Elite', monospace",
+            fontSize: `${Math.floor(size * 0.375)}px`,
+            color: '#c9a84c', fontWeight: 'bold',
+          }}>
+            {initials}
+          </span>
+        </div>
+      )}
+    </div>
+  )
+}
+
 interface ConversationPanelProps {
   sceneTitle: string
   sceneLocation: string
@@ -152,7 +205,11 @@ export default function ConversationPanel({
   }, [shouldShowMonologue, dismissMonologue])
 
   const handleChoice = useCallback((id: string) => {
-    if (choicePhase !== 'idle') return
+    // Double-click guard uses a ref so it never goes stale.
+    // choicePhase was removed as a guard because if the animation sequencer
+    // hangs (pulsing/fading/showing_reactions/reactions_fading/done), the
+    // game is permanently frozen. The ref + processChoice's own guards
+    // (choice must exist, conditions must pass) are sufficient protection.
     if (choiceProcessedRef.current.has(id)) return
     console.log('[GameLogic] Processing choice:', id)
     choiceProcessedRef.current.add(id)
@@ -162,6 +219,9 @@ export default function ConversationPanel({
       setActiveReactions(choice.reactions)
     }
 
+    // Call processChoice synchronously — no await, no setTimeout.
+    // This ensures the Zustand store update (sceneDone, currentScene)
+    // happens immediately, decoupled from any UI animation timing.
     try {
       onChoice(id)
     } catch (error) {
@@ -170,7 +230,7 @@ export default function ConversationPanel({
 
     setSelectedId(id)
     setChoicePhase('pulsing')
-  }, [onChoice, choicePhase, choices])
+  }, [onChoice, choices])
 
   // Reactive animation sequencer — driven by choicePhase, not blocking game logic
   useEffect(() => {
@@ -288,31 +348,6 @@ export default function ConversationPanel({
   }, [choices, actualShowChoices])
 
   const isEmergency = sceneType === 'emergency'
-  const [portraitImgError, setPortraitImgError] = useState(false)
-
-  // Expanding panel state
-  const MAX_PANEL_HEIGHT = Math.floor(window.innerHeight * 0.72)
-  const [panelHeight, setPanelHeight] = useState(180)
-  const prevHistLenRef = useRef(history.length)
-
-  useEffect(() => {
-    const len = history.length + (activeSegment ? 1 : 0)
-    if (len === 0) {
-      setPanelHeight(180)
-      prevHistLenRef.current = 0
-      return
-    }
-    if (len > prevHistLenRef.current) {
-      setPanelHeight(p => {
-        const addition = (len - prevHistLenRef.current) * 110
-        return Math.min(p + addition, MAX_PANEL_HEIGHT)
-      })
-    }
-    if (len < prevHistLenRef.current) {
-      setPanelHeight(180)
-    }
-    prevHistLenRef.current = len
-  }, [history.length, activeSegment, MAX_PANEL_HEIGHT])
 
   // Auto-scroll history to bottom
   useEffect(() => {
@@ -321,24 +356,7 @@ export default function ConversationPanel({
     }
   }, [history, activeText])
 
-  // Determine which character's portrait to show outside the panel (hero portrait)
-  const portraitCharId =
-    (speakingCharacter && speakingCharacter !== 'katerin_ashavel') ? speakingCharacter
-    : activeSegment?.character && activeSegment.character !== 'katerin_ashavel' ? activeSegment.character
-    : activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel' ? activeSegment.primaryCharacter
-    : 'katerin_ashavel'
-
-  const portraitImg = portraitCharId ? getPortrait(portraitCharId) : null
-
-  // Current speaker ID for name highlighting
-  const currentSpeakerId = portraitCharId
-
-  // Reset error state when speaker changes
-  useEffect(() => {
-    setPortraitImgError(false)
-  }, [portraitCharId])
-
-  const monologueFontSize = Math.round(12 + (panelHeight - 180) * 0.025)
+  const monologueFontSize = 14
 
   return (
     <>
@@ -350,77 +368,26 @@ export default function ConversationPanel({
         }} />
       )}
 
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '16px', padding: '0 20px 20px 20px', maxWidth: '780px', margin: '0 auto' }}>
-
-        {/* Hero Portrait — LEFT side of conversation row */}
-        <div style={{
-          flexShrink: 0,
-          zIndex: 101,
-        }}>
-          <div style={{
-            width: '80px',
-            height: '80px',
-            borderRadius: '50%',
-            border: '3px solid #c9a84c',
-            boxShadow: '0 0 0 1px rgba(201,168,76,0.3), 0 4px 20px rgba(0,0,0,0.8)',
-            overflow: 'hidden',
-            background: 'rgba(10,8,6,0.9)',
-            position: 'relative',
-          }}>
-            {portraitImg && !portraitImgError ? (
-              <img
-                src={portraitImg}
-                alt={charName(portraitCharId)}
-                onError={() => setPortraitImgError(true)}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
-                  display: 'block',
-                }}
-              />
-            ) : (
-              <div style={{
-                width: '100%', height: '100%',
-                background: 'rgba(201,168,76,0.25)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <span style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '32px', color: '#c9a84c', fontWeight: 'bold',
-                }}>
-                  {charName(portraitCharId).split(' ').filter(Boolean).map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
-                </span>
-              </div>
-            )}
-            <div style={{
-              position: 'absolute', inset: 0, borderRadius: '50%',
-              boxShadow: 'inset 0 0 8px rgba(0,0,0,0.55)',
-              pointerEvents: 'none',
-            }} />
-          </div>
-        </div>
-
-        {/* Expanding conversation panel — RIGHT side of row */}
-        <div
-          className="conversation-panel"
-          style={{
-            flex: 1,
-            maxWidth: '520px',
-            height: `${panelHeight}px`,
-            maxHeight: `${MAX_PANEL_HEIGHT}px`,
-            transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            background: '#0a0806',
-            position: 'relative',
-            borderTop: '1px solid rgba(201,168,76,0.25)',
-            borderLeft: '1px solid rgba(201,168,76,0.25)',
-            paddingBottom: '40px',
-          }}
-        >
+      <div
+        className="conversation-panel"
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '90%',
+          maxWidth: '900px',
+          background: 'rgba(10, 8, 6, 0.95)',
+          borderRadius: '4px',
+          border: '1px solid rgba(201, 168, 76, 0.2)',
+          padding: '20px',
+          zIndex: 100,
+          pointerEvents: 'all',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px',
+        }}
+      >
 
 
 
@@ -485,6 +452,7 @@ export default function ConversationPanel({
             position: 'relative',
             zIndex: 3,
             flex: 1,
+            maxHeight: '50vh',
             overflowY: 'auto',
             overflowX: 'hidden',
             scrollbarWidth: 'none',
@@ -492,15 +460,18 @@ export default function ConversationPanel({
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%)',
+            // Subtle edge fade only — 16px top, 24px bottom.
+            // Previous 40px/60px values consumed most of the visible area
+            // on small panels, making it look like the gradient covered text.
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 16px, black calc(100% - 24px), transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 16px, black calc(100% - 24px), transparent 100%)',
           }}
         >
           {history.map((entry, i) => {
             const isLast = i === history.length - 1 && !activeSegment
-            const opacity = isLast ? 1 : i === history.length - 2 ? 0.6 : 0.3
+            const opacity = isLast ? 1 : i === history.length - 2 ? 0.7 : 0.4
             const entrySpeakerId = entry.characterId ?? ''
-            const isCurrentSpeaker = entrySpeakerId === currentSpeakerId && entrySpeakerId !== ''
+            const isCurrentSpeaker = entrySpeakerId === speakingCharacter && entrySpeakerId !== ''
 
             return (
               <div
@@ -509,18 +480,26 @@ export default function ConversationPanel({
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: '12px',
-                  padding: '6px 16px',
+                  padding: '8px 16px',
                   opacity,
                   transition: 'opacity 0.5s ease',
                 }}
               >
+                {/* Portrait per line */}
+                {entry.type !== 'narrative' && entry.characterId && (
+                  <DialoguePortrait
+                    characterId={entry.characterId}
+                    isCurrentSpeaker={isCurrentSpeaker}
+                  />
+                )}
+
                 {/* Text content */}
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, paddingLeft: entry.type === 'narrative' ? '60px' : '0' }}>
                   {/* Speaker name */}
                   {entry.type !== 'narrative' && (
                     <div style={{
                       fontSize: '9px',
-                      letterSpacing: '1.5px',
+                      letterSpacing: '2px',
                       color: entry.type === 'player_spoken'
                         ? 'rgba(232,220,200,0.7)'
                         : isCurrentSpeaker ? '#c9a84c' : 'rgba(201,168,76,0.4)',
@@ -559,14 +538,20 @@ export default function ConversationPanel({
               display: 'flex',
               alignItems: 'flex-start',
               gap: '12px',
-              padding: '6px 16px',
+              padding: '8px 16px',
               opacity: 1,
             }}>
-              <div style={{ flex: 1 }}>
+              {activeSegment.type === 'dialogue' && activeSegment.character && (
+                <DialoguePortrait
+                  characterId={activeSegment.character}
+                  isCurrentSpeaker={true}
+                />
+              )}
+              <div style={{ flex: 1, paddingLeft: activeSegment.type !== 'dialogue' || !activeSegment.character ? '60px' : '0' }}>
                 {activeSegment.type === 'dialogue' && (
                   <div style={{
                     fontSize: '9px',
-                    letterSpacing: '1.5px',
+                    letterSpacing: '2px',
                     color: '#c9a84c',
                     textTransform: 'uppercase',
                     marginBottom: '3px',
@@ -849,7 +834,6 @@ export default function ConversationPanel({
             </button>
           </div>
         )}
-        </div>
       </div>
     </>
   )
