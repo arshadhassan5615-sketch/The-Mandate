@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
 import { getCharacterColor } from '../portraits/CharacterPortraits'
 import { renderWithEntities } from '../news/EntityLinker'
@@ -93,6 +93,45 @@ export default function ConversationPanel({
   const [advanceReady, setAdvanceReady] = useState(false)
   const [choicePhase, setChoicePhase] = useState<ChoicePhase>('idle')
 
+  // Per-portrait image error tracking
+  const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
+
+  // Track the top of the stack for entrance animations
+  const prevTopSpeakerRef = useRef<string | undefined>(undefined)
+
+  // Deterministic stack built from actual history (prevents skipping bugs)
+  const speakerStack = useMemo(() => {
+    const stack: string[] = []
+    const processId = (id: string | undefined) => {
+      if (!id) return
+      const idx = stack.indexOf(id)
+      if (idx > -1) stack.splice(idx, 1)
+      stack.push(id)
+    }
+
+    // 1. Seed with primary character so narrative openings aren't empty
+    if (activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel') {
+      processId(activeSegment.primaryCharacter)
+    }
+
+    // 2. Add everyone who actually spoke in history
+    history.forEach(entry => {
+      if (entry.type !== 'narrative' && entry.characterId) {
+        processId(entry.characterId)
+      }
+    })
+
+    // 3. Add the actively typing speaker
+    if (activeSegment?.type === 'dialogue' && activeSegment.character) {
+      processId(activeSegment.character)
+    }
+
+    return stack
+  }, [history, activeSegment])
+
+  // Which speaker just entered (for entrance animation trigger)
+  const [newSpeakerId, setNewSpeakerId] = useState<string | undefined>(undefined)
+
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {
     if (sceneDone) {
@@ -125,6 +164,7 @@ export default function ConversationPanel({
     setMonologueDone(false)
     setMonologueFading(false)
     setMonologueVisible(false)
+    prevTopSpeakerRef.current = undefined
   }, [monologueText])
 
   const dismissMonologue = useCallback(() => {
@@ -288,7 +328,6 @@ export default function ConversationPanel({
   }, [choices, actualShowChoices])
 
   const isEmergency = sceneType === 'emergency'
-  const [portraitImgError, setPortraitImgError] = useState(false)
 
   // Expanding panel state
   const MAX_PANEL_HEIGHT = Math.floor(window.innerHeight * 0.72)
@@ -321,27 +360,36 @@ export default function ConversationPanel({
     }
   }, [history, activeText])
 
-  // Determine which character's portrait to show outside the panel (hero portrait)
-  const portraitCharId =
-    (speakingCharacter && speakingCharacter !== 'katerin_ashavel') ? speakingCharacter
-    : activeSegment?.character && activeSegment.character !== 'katerin_ashavel' ? activeSegment.character
-    : activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel' ? activeSegment.primaryCharacter
-    : 'katerin_ashavel'
-
-  const portraitImg = portraitCharId ? getPortrait(portraitCharId) : null
-
-  // Current speaker ID for name highlighting
-  const currentSpeakerId = portraitCharId
-
-  // Reset error state when speaker changes
+  // Trigger entrance animation when the active speaker changes
   useEffect(() => {
-    setPortraitImgError(false)
-  }, [portraitCharId])
+    const topSpeaker = speakerStack[speakerStack.length - 1]
+    if (topSpeaker && topSpeaker !== prevTopSpeakerRef.current) {
+      setNewSpeakerId(topSpeaker)
+      const t = setTimeout(() => setNewSpeakerId(undefined), 400)
+      prevTopSpeakerRef.current = topSpeaker
+      return () => clearTimeout(t)
+    }
+  }, [speakerStack])
+
+  // Derive currentSpeakerId for name highlighting in history
+  const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
 
   const monologueFontSize = Math.round(12 + (panelHeight - 180) * 0.025)
 
   return (
     <>
+      <style>{`
+        @keyframes portrait-enter {
+          from {
+            transform: scale(0.82);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      `}</style>
       {isEmergency && (
         <div style={{
           position: 'fixed', inset: 0,
@@ -350,64 +398,142 @@ export default function ConversationPanel({
         }} />
       )}
 
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '16px', padding: '0 20px 20px 20px', maxWidth: '780px', margin: '0 auto' }}>
+      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '12px', padding: '0 16px', width: '100%', maxWidth: '780px', boxSizing: 'border-box' }}>
 
-        {/* Hero Portrait — LEFT side of conversation row */}
-        <div style={{
-          flexShrink: 0,
-          zIndex: 101,
-        }}>
-          <div style={{
-            width: '80px',
-            height: '80px',
-            borderRadius: '50%',
-            border: '3px solid #c9a84c',
-            boxShadow: '0 0 0 1px rgba(201,168,76,0.3), 0 4px 20px rgba(0,0,0,0.8)',
-            overflow: 'hidden',
-            background: 'rgba(10,8,6,0.9)',
-            position: 'relative',
-          }}>
-            {portraitImg && !portraitImgError ? (
-              <img
-                src={portraitImg}
-                alt={charName(portraitCharId)}
-                onError={() => setPortraitImgError(true)}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
-                  display: 'block',
-                }}
-              />
-            ) : (
-              <div style={{
-                width: '100%', height: '100%',
-                background: 'rgba(201,168,76,0.25)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <span style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '32px', color: '#c9a84c', fontWeight: 'bold',
-                }}>
-                  {charName(portraitCharId).split(' ').filter(Boolean).map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
-                </span>
-              </div>
-            )}
-            <div style={{
-              position: 'absolute', inset: 0, borderRadius: '50%',
-              boxShadow: 'inset 0 0 8px rgba(0,0,0,0.55)',
-              pointerEvents: 'none',
-            }} />
-          </div>
+        {/* Portrait Stack — left column, stacks bottom-to-top */}
+        <div
+          style={{
+            flexShrink: 0,
+            zIndex: 101,
+            display: 'flex',
+            flexDirection: 'column-reverse',
+            alignItems: 'center',
+            gap: '6px',
+            maxHeight: '260px',
+            minWidth: '72px',
+            width: '72px',
+            overflow: 'visible',
+            justifyContent: 'flex-end',
+            alignSelf: 'flex-end',
+          }}
+        >
+          {speakerStack.length === 0 ? (
+            <div
+              style={{
+                width: '72px',
+                height: '72px',
+                borderRadius: '50%',
+                border: '2px solid rgba(201,168,76,0.2)',
+                background: 'rgba(10,8,6,0.6)',
+              }}
+            />
+          ) : (
+            [...speakerStack].reverse().map((charId, reversedIdx) => {
+              const isCurrent = reversedIdx === 0
+              const isNew = charId === newSpeakerId
+              const hasError = portraitErrors[charId] ?? false
+              const img = getPortrait(charId)
+              const name = charName(charId)
+              const initials = name
+                .split(' ')
+                .filter(Boolean)
+                .map((w: string) => w[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase()
+
+              const size = isCurrent ? 72 : 52
+              const opacity = isCurrent ? 1 : 0.45
+              const borderColor = isCurrent ? '#c9a84c' : 'rgba(201,168,76,0.3)'
+              const borderWidth = isCurrent ? '3px' : '2px'
+              const boxShadow = isCurrent
+                ? '0 0 0 1px rgba(201,168,76,0.3), 0 4px 20px rgba(0,0,0,0.8)'
+                : '0 2px 8px rgba(0,0,0,0.6)'
+
+              return (
+                <div
+                  key={charId}
+                  style={{
+                    flexShrink: 0,
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    borderRadius: '50%',
+                    border: `${borderWidth} solid ${borderColor}`,
+                    boxShadow,
+                    overflow: 'hidden',
+                    background: 'rgba(10,8,6,0.9)',
+                    position: 'relative',
+                    opacity,
+                    animation: isNew && isCurrent
+                      ? 'portrait-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+                      : 'none',
+                    transition: isCurrent
+                      ? 'opacity 0.3s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease'
+                      : 'opacity 0.3s ease, width 0.3s ease, height 0.3s ease',
+                  }}
+                >
+                  {img && !hasError ? (
+                    <img
+                      src={img}
+                      alt={name}
+                      onError={() =>
+                        setPortraitErrors(prev => ({ ...prev, [charId]: true }))
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center top',
+                        display: 'block',
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        background: 'rgba(201,168,76,0.25)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontFamily: "'Special Elite', monospace",
+                          fontSize: isCurrent ? '28px' : '20px',
+                          color: '#c9a84c',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {initials}
+                      </span>
+                    </div>
+                  )}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      borderRadius: '50%',
+                      boxShadow: 'inset 0 0 8px rgba(0,0,0,0.55)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                </div>
+              )
+            })
+          )}
         </div>
 
         {/* Expanding conversation panel — RIGHT side of row */}
+        <div style={{ position: 'relative', flex: 1, maxWidth: '520px' }}>
         <div
           className="conversation-panel"
           style={{
-            flex: 1,
-            maxWidth: '520px',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
             height: `${panelHeight}px`,
             maxHeight: `${MAX_PANEL_HEIGHT}px`,
             transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
@@ -415,10 +541,8 @@ export default function ConversationPanel({
             flexDirection: 'column',
             overflow: 'hidden',
             background: '#0a0806',
-            position: 'relative',
             borderTop: '1px solid rgba(201,168,76,0.25)',
             borderLeft: '1px solid rgba(201,168,76,0.25)',
-            paddingBottom: '40px',
           }}
         >
 
@@ -497,8 +621,7 @@ export default function ConversationPanel({
           }}
         >
           {history.map((entry, i) => {
-            const isLast = i === history.length - 1 && !activeSegment
-            const opacity = isLast ? 1 : i === history.length - 2 ? 0.6 : 0.3
+            const opacity = 1
             const entrySpeakerId = entry.characterId ?? ''
             const isCurrentSpeaker = entrySpeakerId === currentSpeakerId && entrySpeakerId !== ''
 
@@ -510,8 +633,7 @@ export default function ConversationPanel({
                   alignItems: 'flex-start',
                   gap: '12px',
                   padding: '6px 16px',
-                  opacity,
-                  transition: 'opacity 0.5s ease',
+                  opacity: 1,
                 }}
               >
                 {/* Text content */}
@@ -849,6 +971,7 @@ export default function ConversationPanel({
             </button>
           </div>
         )}
+        </div>
         </div>
       </div>
     </>
