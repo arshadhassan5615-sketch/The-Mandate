@@ -42,7 +42,7 @@ function charName(id: string): string {
 }
 
 export default function NarrativeScene() {
-  const { currentScene, sceneDone, activeFlags, processChoice } = useNarrativeStore()
+  const { currentScene, sceneDone, activeFlags, processChoice, activeSegmentId } = useNarrativeStore()
   const gameState = useGameStore()
   const currentWeek = useGameStore(s => s.currentWeek)
   const { sceneQueue, currentQueueIndex, advanceQueue } = useWeekStore()
@@ -216,11 +216,11 @@ export default function NarrativeScene() {
     }
   }, [currentScene])
 
-  // Reset conversation history when a new scene loads (different sceneId)
+  // Reset conversation history when a new scene or segment loads
   useEffect(() => {
     setHistory([])
     prevRevealed.current = 0
-  }, [currentScene?.id])
+  }, [currentScene?.id, activeSegmentId])
 
   useEffect(() => {
     // Reset tracking when segments shrink (scene transition or branch)

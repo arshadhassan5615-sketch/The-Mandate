@@ -87,6 +87,12 @@ export interface MinisterRequestOption {
   satisfaction_effect: number
   flag?: string
   consequence: string
+  newsImpact?: {
+    publication: string
+    headline: string
+    body: string
+    category?: string
+  }[]
 }
 
 export interface CabinetState {

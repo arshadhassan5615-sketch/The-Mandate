@@ -128,6 +128,21 @@ export default function App() {
     }
   }, [])
 
+  // ── Auto-close all UI panels the instant the game returns to the title screen ──
+  // Prevents overlays (e.g. Settings, SaveMenu, Map, Journal) from persisting
+  // across game sessions when returning from LegacyScreen, page refresh, etc.
+  useEffect(() => {
+    if (phase === 'title' || phase === 'customization' || phase === 'prologue') {
+      setSettingsOpen(false)
+      setSaveMenuOpen(false)
+      setMapOpen(false)
+      setDebugOpen(false)
+      setCharacterMapOpen(false)
+      setJournalOpen(false)
+      setNotepadOpen(false)
+    }
+  }, [phase, setSettingsOpen, setSaveMenuOpen, setMapOpen, setDebugOpen, setCharacterMapOpen, setJournalOpen, setNotepadOpen])
+
   // DEV ONLY: Ctrl+Shift+9 instantly jumps to Week 9 for testing.
   // Use e.code (not e.key) because Shift+9 produces "(" on US layouts.
   useEffect(() => {
@@ -136,6 +151,7 @@ export default function App() {
       if (e.ctrlKey && e.shiftKey && e.code === 'Digit9') {
         e.preventDefault()
         console.log('%c[DEV] Jumping to Week 9...', 'color: #0ff; font-weight: bold;')
+        useSettingsStore.getState().setSettingsOpen(false)
         useGameStore.setState({ currentWeek: 9, currentAct: 1 })
         useNarrativeStore.getState().resetScene()
         useWeekStore.setState({

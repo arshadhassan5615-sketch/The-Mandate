@@ -610,6 +610,9 @@ export default function ConversationPanel({
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%)',
           }}
         >
+          {/* Invisible spacer that pushes all text to the bottom to align with the portrait */}
+          <div style={{ flex: '1 1 auto', minHeight: 0 }} />
+
           {history.map((entry, i) => {
             const opacity = 1
             const entrySpeakerId = entry.characterId ?? ''
@@ -649,9 +652,7 @@ export default function ConversationPanel({
                   <div style={{
                     fontSize: '13px',
                     lineHeight: '1.6',
-                    color: entry.type === 'narrative'
-                      ? 'rgba(180,170,150,0.8)'
-                      : 'rgba(232,213,163,0.92)',
+                    color: 'rgba(232,213,163,0.92)',
                     fontFamily: "'Crimson Text', serif",
                     fontStyle: entry.type === 'narrative' ? 'italic' : 'normal',
                   }}>
@@ -690,9 +691,7 @@ export default function ConversationPanel({
                 <div style={{
                   fontSize: '13px',
                   lineHeight: '1.6',
-                  color: activeSegment.type === 'dialogue'
-                    ? 'rgba(232,213,163,0.92)'
-                    : 'rgba(180,170,150,0.8)',
+                  color: 'rgba(232,213,163,0.92)',
                   fontFamily: "'Crimson Text', serif",
                   fontStyle: activeSegment.type === 'dialogue' ? 'normal' : 'italic',
                 }}>

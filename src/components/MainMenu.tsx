@@ -24,6 +24,7 @@ export default function MainMenu() {
   }, [])
 
   const handleContinue = useCallback(async () => {
+    setSettingsOpen(false)
     setLoading(true)
     const saves = await listSaves()
     let bestSlot = -1
@@ -39,7 +40,7 @@ export default function MainMenu() {
       if (ok) setSaveMenuOpen(false)
     }
     setLoading(false)
-  }, [setSaveMenuOpen])
+  }, [setSaveMenuOpen, setSettingsOpen])
 
   return (
     <motion.div
@@ -92,7 +93,7 @@ export default function MainMenu() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '280px' }}>
         <button
           className="choice-btn"
-          onClick={startCustomization}
+          onClick={() => { setSettingsOpen(false); startCustomization() }}
           style={{ textAlign: 'center' }}
         >
           New Game

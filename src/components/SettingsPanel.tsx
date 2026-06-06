@@ -160,9 +160,10 @@ export default function SettingsPanel() {
     settingsOpen, setSettingsOpen,
   } = useSettingsStore()
   const phase = useWeekStore(s => s.phase)
+  const transitionLabel = useWeekStore(s => s.transitionLabel)
   const isNewGame = phase === 'title'
 
-  if (!settingsOpen) return null
+  if (!settingsOpen || transitionLabel) return null
 
   return (
     <div

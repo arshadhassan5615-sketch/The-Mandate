@@ -303,6 +303,22 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     const gameState  = useGameStore.getState()
     const { activeFlags, visitedSceneIds } = useNarrativeStore.getState()
     const pool = buildPool(gameState.currentWeek, gameState, activeFlags, visitedSceneIds)
+    // Week 32 — Morvec confrontation (mandatory, fires once)
+    if (gameState.currentWeek === 32 && !visitedSceneIds.includes('act3_week32_morvec_confrontation')) {
+      pool.push({
+        id: 'act3_week32_morvec_confrontation',
+        title: 'The Morvec Confrontation',
+        description: 'Stefan Morvec has demanded a private meeting. This cannot be deferred.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act3_week32_morvec_confrontation',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 32,
+        weekDeadline: 32,
+        isMandatory: true,
+      })
+    }
+
     // Add radio broadcast agenda item if player has broadcasts remaining
     if (gameState.radioBroadcastsUsed < MAX_BROADCASTS) {
       pool.push({

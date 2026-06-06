@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWeekStore } from '../stores/weekStore'
+import { useSettingsStore } from '../stores/settingsStore'
 
 const MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -20,9 +21,17 @@ function weekToDate(week: number): string {
 export default function TransitionOverlay() {
   const { transitionLabel, transitionWeek } = useWeekStore()
 
-  // Safety timeout: force-clear transition if overlay is stuck for >10 seconds
+  // Force-close all UI overlays the instant a transition begins
   useEffect(() => {
     if (!transitionLabel) return
+
+    // Immediately close Settings, SaveMenu, and any other open panels
+    // so they never bleed through the black fade.
+    const { settingsOpen, setSettingsOpen, setSaveMenuOpen } = useSettingsStore.getState()
+    if (settingsOpen) setSettingsOpen(false)
+    setSaveMenuOpen(false)
+
+    // Safety timeout: force-clear transition if overlay is stuck for >10 seconds
     const safetyTimeout = setTimeout(() => {
       console.warn('[TransitionOverlay] Safety timeout — force-clearing stuck transition:', transitionLabel)
       useWeekStore.setState({ transitionLabel: '', transitionWeek: null })
@@ -42,7 +51,7 @@ export default function TransitionOverlay() {
           style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 500,
+            zIndex: 9999,
             background: '#0d0a05',
             display: 'flex',
             flexDirection: 'column',

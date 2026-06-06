@@ -40,12 +40,13 @@ export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 
   const segDoneRef   = useRef(false)
   const allDoneRef   = useRef(false)
 
-  // Synchronous state reset using a primitive string hash.
-  // This kills the 1-frame text leak without triggering infinite loops.
+  // Synchronous state reset (Derived State pattern).
+  // This prevents the 1-frame state leak where the old activeIdx
+  // gets applied to a newly loaded segments array.
   if (currentHash !== prevHash) {
     const empty = segments.length === 0
 
-    // Update tracking state
+    // Update local tracking state
     setPrevHash(currentHash)
 
     // Reset React state synchronously

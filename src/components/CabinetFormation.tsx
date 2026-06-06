@@ -3,6 +3,7 @@ import type { MinistryType } from '../types/minister'
 import { MINISTER_CANDIDATES, getCandidatesForMinistry } from '../data/ministers'
 import { useCabinetStore } from '../stores/cabinetStore'
 import { useGameStore } from '../stores/gameStore'
+import { useWeekStore } from '../stores/weekStore'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
 
@@ -107,7 +108,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
       }
     })
     completeFormation(currentWeek)
-    onComplete()
+    useWeekStore.getState().advanceQueue()
   }
 
   const candidates = getCandidatesForMinistry(activeMinistry)

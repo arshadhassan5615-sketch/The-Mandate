@@ -223,7 +223,7 @@ export default function EveningReview() {
   })()
 
   return (
-    <div className="evening-review">
+    <div className="evening-review" style={{ paddingRight: '80px', boxSizing: 'border-box' }}>
       <motion.div
         className="evening-review-inner"
         variants={containerVariants}
