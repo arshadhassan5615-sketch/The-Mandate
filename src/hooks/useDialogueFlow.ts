@@ -30,24 +30,36 @@ export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 
   const [segDone,   setSegDone]   = useState(false)
   const [allDone,   setAllDone]   = useState(false)
 
+  // Generate a stable string hash of the current segments
+  const currentHash = segments.map(s => `${s.id || 'n'}-${s.text.substring(0, 10)}`).join('|')
+  const [prevHash, setPrevHash] = useState(currentHash)
+
   // Refs mirror state for use inside intervals/callbacks without stale closures
   const activeIdxRef = useRef(0)
   const charIdxRef   = useRef(0)
   const segDoneRef   = useRef(false)
   const allDoneRef   = useRef(false)
 
-  // Reset when the segments array changes (new scene loaded)
-  useEffect(() => {
+  // Synchronous state reset using a primitive string hash.
+  // This kills the 1-frame text leak without triggering infinite loops.
+  if (currentHash !== prevHash) {
     const empty = segments.length === 0
-    activeIdxRef.current = 0
-    charIdxRef.current   = 0
-    segDoneRef.current   = empty
-    allDoneRef.current   = empty
+
+    // Update tracking state
+    setPrevHash(currentHash)
+
+    // Reset React state synchronously
     setActiveIdx(0)
     setCharIdx(0)
     setSegDone(empty)
     setAllDone(empty)
-  }, [segments])
+
+    // Reset refs immediately
+    activeIdxRef.current = 0
+    charIdxRef.current   = 0
+    segDoneRef.current   = empty
+    allDoneRef.current   = empty
+  }
 
   // Typewriter driver for the active segment
   useEffect(() => {

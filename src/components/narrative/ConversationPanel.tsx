@@ -103,7 +103,7 @@ export default function ConversationPanel({
   const speakerStack = useMemo(() => {
     const stack: string[] = []
     const processId = (id: string | undefined) => {
-      if (!id) return
+      if (!id || id === 'katerin_ashavel') return
       const idx = stack.indexOf(id)
       if (idx > -1) stack.splice(idx, 1)
       stack.push(id)
@@ -417,17 +417,7 @@ export default function ConversationPanel({
             alignSelf: 'flex-end',
           }}
         >
-          {speakerStack.length === 0 ? (
-            <div
-              style={{
-                width: '72px',
-                height: '72px',
-                borderRadius: '50%',
-                border: '2px solid rgba(201,168,76,0.2)',
-                background: 'rgba(10,8,6,0.6)',
-              }}
-            />
-          ) : (
+          {speakerStack.length === 0 ? null : (
             [...speakerStack].reverse().map((charId, reversedIdx) => {
               const isCurrent = reversedIdx === 0
               const isNew = charId === newSpeakerId
