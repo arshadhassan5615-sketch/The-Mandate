@@ -1,0 +1,56 @@
+{
+  "id": "act3_chain_voss_military_use",
+  "title": "What the Engine Did",
+  "week": 40,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "dialogue": "Dusek requested a classified briefing. Voss was not invited.",
+  "monologue": "Voss was not invited. That is the first signal that what the engine was used for is something Dusek does not want the man who built it to know about.",
+  "choices": [
+    {
+      "id": "voss_military_use_hear",
+      "text": "\"What did you use it for?\"",
+      "nextSegment": "voss_military_use_brief"
+    }
+  ],
+  "segments": {
+    "voss_military_use_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "The engine decrypted fourteen months of Tyvaren northern border command communications. The intelligence was operationally significant. I am prepared to brief you on the details under classification level four."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "I wanted you to know before Voss asks why his engine is running continuous operations rather than research cycles. He will notice. He notices everything."
+        }
+      ],
+      "monologue": "Fourteen months of Tyvaren military communications. Dusek is right — Voss will notice the operational cycle. He will know what it means. The question is whether I tell him before he figures it out himself.",
+      "choices": [
+        {
+          "id": "voss_military_tell_voss",
+          "text": "\"Tell Voss what it is being used for. He deserves to know.\"",
+          "flags": ["voss_military_use_disclosed"],
+          "statEffects": [
+            { "stat": "vossRelation", "value": 5 },
+            { "stat": "nation.militaryReadiness", "value": -2 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "voss_military_keep_classified",
+          "text": "\"Keep it classified. Voss is a civilian technical consultant — operational use is outside his remit.\"",
+          "flags": ["voss_military_use_hidden"],
+          "statEffects": [
+            { "stat": "vossRelation", "value": -8 },
+            { "stat": "nation.militaryReadiness", "value": 3 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

@@ -399,6 +399,22 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Week 24 — Voss introduction (mandatory, fires once)
+    if (gameState.currentWeek === 24 && !visitedSceneIds.includes('act2_week24_voss_introduction')) {
+      pool.push({
+        id: 'act2_week24_voss_introduction',
+        title: 'The Man With Chalk on His Sleeve',
+        description: 'Dr. Emilian Voss has been requesting a government meeting for six weeks.',
+        category: 'meeting' as AgendaCategory,
+        sceneId: 'act2_week24_voss_introduction',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 24,
+        weekDeadline: 24,
+        isMandatory: true,
+      })
+    }
+
     // Week 28 — Hawk arc Morvec option (mandatory, fires once)
     if (gameState.currentWeek === 28 && !visitedSceneIds.includes('act2_shadow_hawk_morvec_option')) {
       pool.push({
@@ -415,6 +431,22 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Week 32 — Voss outcome (mandatory, fires once)
+    if (gameState.currentWeek === 32 && !visitedSceneIds.includes('act2_week32_voss_outcome')) {
+      pool.push({
+        id: 'act2_week32_voss_outcome',
+        title: 'The Price of the Engine',
+        description: 'The engine is complete. Vyktor confirmed it this morning.',
+        category: 'meeting' as AgendaCategory,
+        sceneId: 'act2_week32_voss_outcome',
+        slotCost: 0,
+        executionOrder: 2,
+        weekAvailable: 32,
+        weekDeadline: 32,
+        isMandatory: true,
+      })
+    }
+
     // Week 35 — Hawk arc exposure crisis (mandatory, fires once)
     if (gameState.currentWeek === 35 && !visitedSceneIds.includes('act3_shadow_hawk_exposure_crisis')) {
       pool.push({
@@ -427,6 +459,22 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 35,
         weekDeadline: 35,
+        isMandatory: true,
+      })
+    }
+
+    // Week 28 — Voss crisis (mandatory, fires once)
+    if (gameState.currentWeek === 28 && !visitedSceneIds.includes('act2_week28_voss_crisis')) {
+      pool.push({
+        id: 'act2_week28_voss_crisis',
+        title: 'The Knock at the Door',
+        description: 'Vyktor\'s message arrived at six in the morning. Voss is here. He came himself.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act2_week28_voss_crisis',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 28,
+        weekDeadline: 28,
         isMandatory: true,
       })
     }

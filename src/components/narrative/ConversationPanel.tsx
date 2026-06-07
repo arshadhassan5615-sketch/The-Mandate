@@ -32,6 +32,7 @@ const CHAR_NAMES: Record<string, string> = {
   orin_valdek: 'Orin Valdek',
   daria_voss: 'Daria Voss',
   matthias_krel: 'Matthias Krel',
+  emilian_voss: 'Dr. Emilian Voss',
 }
 
 function charName(id: string): string {

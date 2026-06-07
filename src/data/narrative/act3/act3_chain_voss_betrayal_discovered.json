@@ -1,0 +1,55 @@
+{
+  "id": "act3_chain_voss_betrayal_discovered",
+  "title": "What Voss Found Out",
+  "week": 36,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["emilian_voss", "vyktor_reznik"],
+  "dialogue": "Voss requested the meeting himself. He has never done that before.",
+  "monologue": "He found out about the Orythian deal. I do not know how. With Voss I am never sure whether the answer is that he is more observant than he appears or that I was less careful than I believed.",
+  "choices": [
+    {
+      "id": "voss_betrayal_hear",
+      "text": "\"Come in, Dr. Voss.\"",
+      "nextSegment": "voss_betrayal_scene"
+    }
+  ],
+  "segments": {
+    "voss_betrayal_scene": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "You gave them the framework documentation. I need to know if that is true."
+        },
+        {
+          "type": "description",
+          "text": "He is standing. He has not sat. He is holding the satchel with both hands and he is standing and waiting for an answer."
+        }
+      ],
+      "monologue": "He is standing and waiting. He built it for eleven years and he is standing in my office waiting for me to tell him whether I gave it away. I owe him the truth. I am deciding whether I have the courage for it.",
+      "choices": [
+        {
+          "id": "voss_betrayal_admit",
+          "text": "\"Yes. A controlled subset to Orythia. I should have told you.\"",
+          "flags": ["voss_betrayal_admitted"],
+          "statEffects": [
+            { "stat": "vossRelation", "value": -10 },
+            { "stat": "personal.moralCompass", "value": 8 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "voss_betrayal_deny",
+          "text": "\"The licensing arrangements are classified. I cannot discuss the specifics.\"",
+          "flags": ["voss_betrayal_denied"],
+          "statEffects": [
+            { "stat": "vossRelation", "value": -25 },
+            { "stat": "personal.moralCompass", "value": -10 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}
