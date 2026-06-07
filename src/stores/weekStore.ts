@@ -303,6 +303,134 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     const gameState  = useGameStore.getState()
     const { activeFlags, visitedSceneIds } = useNarrativeStore.getState()
     const pool = buildPool(gameState.currentWeek, gameState, activeFlags, visitedSceneIds)
+    // Week 18 — Morivask oil discovery (mandatory, fires once)
+    if (gameState.currentWeek === 18 && !visitedSceneIds.includes('act2_week18_morivask_oil_discovery')) {
+      pool.push({
+        id: 'act2_week18_morivask_oil_discovery',
+        title: 'Black Smoke on the Eastern Border',
+        description: 'Vyktor has been standing for forty minutes. Morivask has oil. Tyvaren wants it.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act2_week18_morivask_oil_discovery',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 18,
+        weekDeadline: 18,
+        isMandatory: true,
+      })
+    }
+
+    // Week 20 — Oil negotiation (mandatory, fires once)
+    if (gameState.currentWeek === 20 && !visitedSceneIds.includes('act2_week20_oil_negotiation')) {
+      pool.push({
+        id: 'act2_week20_oil_negotiation',
+        title: 'The Tyvaren Shadow',
+        description: 'Tyvaren\'s formal offer has landed. Time to decide.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act2_week20_oil_negotiation',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 20,
+        weekDeadline: 20,
+        isMandatory: true,
+      })
+    }
+
+    // Week 22 — Oil outcome (mandatory, fires once)
+    if (gameState.currentWeek === 22 && !visitedSceneIds.includes('act2_week22_oil_outcome')) {
+      pool.push({
+        id: 'act2_week22_oil_outcome',
+        title: 'The Price of Black Gold',
+        description: 'The Foreign Minister\'s telegram arrived at six in the morning.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act2_week22_oil_outcome',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 22,
+        weekDeadline: 22,
+        isMandatory: true,
+      })
+    }
+
+    // Week 13 — Hawk arc induction (mandatory, fires once)
+    if (gameState.currentWeek === 13 && !visitedSceneIds.includes('act1_shadow_hawk_induction')) {
+      pool.push({
+        id: 'act1_shadow_hawk_induction',
+        title: 'The Man in the Greenhouse',
+        description: 'A note, slipped under the study door. Three words: The greenhouse. Now.',
+        category: 'personal' as AgendaCategory,
+        sceneId: 'act1_shadow_hawk_induction',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 13,
+        weekDeadline: 13,
+        isMandatory: true,
+      })
+    }
+
+    // Week 16 — Hawk arc first operation (mandatory, fires once)
+    if (gameState.currentWeek === 16 && !visitedSceneIds.includes('act1_shadow_hawk_first_operation')) {
+      pool.push({
+        id: 'act1_shadow_hawk_first_operation',
+        title: 'The First Account',
+        description: 'Service corridor. Tonight.',
+        category: 'personal' as AgendaCategory,
+        sceneId: 'act1_shadow_hawk_first_operation',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 16,
+        weekDeadline: 16,
+        isMandatory: true,
+      })
+    }
+
+    // Week 22 — Hawk arc Voss connection (mandatory, fires once)
+    if (gameState.currentWeek === 22 && !visitedSceneIds.includes('act2_shadow_hawk_voss_connection')) {
+      pool.push({
+        id: 'act2_shadow_hawk_voss_connection',
+        title: 'The Same Cell',
+        description: 'The Arcturian intelligence cell watching Dr. Voss — it is the same cell that ran Yelena Dorova.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act2_shadow_hawk_voss_connection',
+        slotCost: 0,
+        executionOrder: 2,
+        weekAvailable: 22,
+        weekDeadline: 22,
+        isMandatory: true,
+      })
+    }
+
+    // Week 28 — Hawk arc Morvec option (mandatory, fires once)
+    if (gameState.currentWeek === 28 && !visitedSceneIds.includes('act2_shadow_hawk_morvec_option')) {
+      pool.push({
+        id: 'act2_shadow_hawk_morvec_option',
+        title: 'The Second Envelope',
+        description: 'One word this time: Greenhouse.',
+        category: 'personal' as AgendaCategory,
+        sceneId: 'act2_shadow_hawk_morvec_option',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 28,
+        weekDeadline: 28,
+        isMandatory: true,
+      })
+    }
+
+    // Week 35 — Hawk arc exposure crisis (mandatory, fires once)
+    if (gameState.currentWeek === 35 && !visitedSceneIds.includes('act3_shadow_hawk_exposure_crisis')) {
+      pool.push({
+        id: 'act3_shadow_hawk_exposure_crisis',
+        title: 'The Pattern',
+        description: 'Danika has been building a list for fourteen months without saying a word.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act3_shadow_hawk_exposure_crisis',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 35,
+        weekDeadline: 35,
+        isMandatory: true,
+      })
+    }
+
     // Week 32 — Morvec confrontation (mandatory, fires once)
     if (gameState.currentWeek === 32 && !visitedSceneIds.includes('act3_week32_morvec_confrontation')) {
       pool.push({

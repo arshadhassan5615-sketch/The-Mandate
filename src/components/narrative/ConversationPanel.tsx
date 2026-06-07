@@ -31,6 +31,7 @@ const CHAR_NAMES: Record<string, string> = {
   sofia_drenek: 'Sofia Drenek',
   orin_valdek: 'Orin Valdek',
   daria_voss: 'Daria Voss',
+  matthias_krel: 'Matthias Krel',
 }
 
 function charName(id: string): string {
@@ -516,7 +517,7 @@ export default function ConversationPanel({
         </div>
 
         {/* Expanding conversation panel — RIGHT side of row */}
-        <div style={{ position: 'relative', flex: 1, maxWidth: '520px' }}>
+        <div style={{ position: 'relative', flex: 1, maxWidth: '520px', height: `${panelHeight}px`, maxHeight: `${MAX_PANEL_HEIGHT}px`, transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}>
         <div
           className="conversation-panel"
           style={{
@@ -524,9 +525,7 @@ export default function ConversationPanel({
             bottom: 0,
             left: 0,
             right: 0,
-            height: `${panelHeight}px`,
-            maxHeight: `${MAX_PANEL_HEIGHT}px`,
-            transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            height: '100%',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
@@ -610,9 +609,6 @@ export default function ConversationPanel({
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%)',
           }}
         >
-          {/* Invisible spacer that pushes all text to the bottom to align with the portrait */}
-          <div style={{ flex: '1 1 auto', minHeight: 0 }} />
-
           {history.map((entry, i) => {
             const opacity = 1
             const entrySpeakerId = entry.characterId ?? ''
@@ -652,7 +648,9 @@ export default function ConversationPanel({
                   <div style={{
                     fontSize: '13px',
                     lineHeight: '1.6',
-                    color: 'rgba(232,213,163,0.92)',
+                    color: entry.type === 'narrative'
+                      ? 'rgba(180,170,150,0.8)'
+                      : 'rgba(232,213,163,0.92)',
                     fontFamily: "'Crimson Text', serif",
                     fontStyle: entry.type === 'narrative' ? 'italic' : 'normal',
                   }}>
@@ -691,7 +689,9 @@ export default function ConversationPanel({
                 <div style={{
                   fontSize: '13px',
                   lineHeight: '1.6',
-                  color: 'rgba(232,213,163,0.92)',
+                  color: activeSegment.type === 'dialogue'
+                    ? 'rgba(232,213,163,0.92)'
+                    : 'rgba(180,170,150,0.8)',
                   fontFamily: "'Crimson Text', serif",
                   fontStyle: activeSegment.type === 'dialogue' ? 'normal' : 'italic',
                 }}>
