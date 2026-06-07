@@ -1,0 +1,59 @@
+{
+  "id": "act3_chain_highway_vael_corruption",
+  "title": "The Contracts Come Due",
+  "week": 36,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "dialogue": "Danika's report arrived without a cover note. That means the contents speak for themselves.",
+  "monologue": "She sends cover notes when the findings are ambiguous. No cover note means the findings are not ambiguous.",
+  "choices": [
+    {
+      "id": "highway_corruption_hear",
+      "text": "\"What did the BCA find?\"",
+      "nextSegment": "highway_corruption_brief"
+    }
+  ],
+  "segments": {
+    "highway_corruption_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Three of the seven highway contracts show evidence of systematic invoice inflation. The amounts are not trivial — approximately four million kroner across fourteen months of construction. The firms involved have corporate structures that trace, through two intermediaries, to a holding company with documented connections to Lucan Vael."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I can prosecute. The evidence is solid. The question is whether you want me to."
+        }
+      ],
+      "monologue": "She asked whether I want her to prosecute. Not whether she should — she already knows she should. She is asking whether I will let her. That is a different question and she knows it.",
+      "choices": [
+        {
+          "id": "highway_corruption_prosecute",
+          "text": "\"Prosecute. Full investigation. The law applies to everyone.\"",
+          "flags": ["highway_corruption_prosecuted"],
+          "statEffects": [
+            { "stat": "vaelInfluence", "value": -20 },
+            { "stat": "factions.reformists", "value": 12 },
+            { "stat": "factions.businessClass", "value": -10 },
+            { "stat": "personal.moralCompass", "value": 10 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "highway_corruption_quiet",
+          "text": "\"Recover the funds through a quiet audit settlement. No prosecution. The highway completes on schedule.\"",
+          "flags": ["highway_corruption_settled"],
+          "statEffects": [
+            { "stat": "vaelInfluence", "value": 5 },
+            { "stat": "factions.reformists", "value": -8 },
+            { "stat": "personal.moralCompass", "value": -12 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

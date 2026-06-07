@@ -1,0 +1,363 @@
+{
+  "id": "act2_week26_megaproject_followup",
+  "title": "What the Ground Looks Like",
+  "week": 26,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["benedikt_varro", "vyktor_reznik"],
+  "dialogue": "Varro's progress report arrived on schedule. It always arrives on schedule. That is either reassuring or a warning that the problems are being managed rather than surfaced.",
+  "monologue": "Six weeks since the Cabinet decision. Varro reports on schedule. Vyktor is here because Vyktor is always here when a minister's report contains something that requires more than a minister.",
+  "choices": [
+    {
+      "id": "dev_followup_hear",
+      "text": "\"Report, Varro.\"",
+      "nextSegment": "dev_followup_branch"
+    }
+  ],
+  "segments": {
+    "dev_followup_branch": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Varro opens his folder. He is, as always, precisely organized. The report is tabbed. Color coded. He has been doing this for three administrations and he knows that the Chancellor who cannot find the relevant section in thirty seconds stops reading the report."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_highway_report",
+          "text": "[Highway was chosen — hear the highway report]",
+          "condition": "flagSet:dev_highway_chosen",
+          "nextSegment": "highway_report"
+        },
+        {
+          "id": "dev_dam_report",
+          "text": "[Dam was chosen — hear the dam report]",
+          "condition": "flagSet:dev_dam_chosen",
+          "nextSegment": "dam_report"
+        },
+        {
+          "id": "dev_port_report",
+          "text": "[Port was chosen — hear the port report]",
+          "condition": "flagSet:dev_port_chosen",
+          "nextSegment": "port_report"
+        }
+      ]
+    },
+    "highway_report": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Construction mobilization is on schedule. The competitive bidding process concluded last week. Seven contracts awarded across the three phases. Of the seven, two went to firms with prior relationships with business interests the oversight committee was monitoring. Both bids were technically compliant — lowest qualified bid, all documentation in order. The oversight committee found no basis for disqualification."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "The complication is the local hiring requirement. Both firms are importing approximately forty percent of their labor from outside the province. They argue the local labor pool does not have the specialized equipment operators the timeline requires. The oversight committee reviewed the claim. It is partially correct — there is a genuine skills gap for certain equipment categories. It is also partially a choice — standard laborers could be sourced locally and are not being."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Marić has been to Dravenhollow twice in the past two weeks. He is meeting with the workers' union leadership. He has not filed a formal objection yet. He will file one if the labor situation does not change."
+        }
+      ],
+      "monologue": "Both contracts went to the firms I was warned about and they are not meeting the local hiring requirement and Marić is in Dravenhollow meeting with union leadership. I told Varro I was choosing to manage the risk rather than ignore it. The risk is now requiring management.",
+      "choices": [
+        {
+          "id": "highway_intervene",
+          "text": "\"Intervene. Issue a formal directive — both firms must meet the local hiring requirement within thirty days or the contracts are suspended pending review.\"",
+          "internalTag": "reformist",
+          "flags": ["dev_highway_intervened"],
+          "statEffects": [
+            { "stat": "vaelInfluence", "value": -8 },
+            { "stat": "factions.businessClass", "value": -5 },
+            { "stat": "factions.workersCoalition", "value": 8 },
+            { "stat": "personal.moralCompass", "value": 5 }
+          ],
+          "nextSegment": "highway_close_intervene"
+        },
+        {
+          "id": "highway_no_intervene",
+          "text": "\"Hold the line. The bids were compliant. If we start suspending compliant contracts on political grounds we undermine every future competitive bidding process.\"",
+          "internalTag": "pragmatist",
+          "flags": ["dev_highway_vael_contracts"],
+          "statEffects": [
+            { "stat": "vaelInfluence", "value": 5 },
+            { "stat": "factions.businessClass", "value": 5 },
+            { "stat": "factions.workersCoalition", "value": -8 },
+            { "stat": "personal.moralCompass", "value": -5 }
+          ],
+          "nextSegment": "highway_close_no_intervene"
+        }
+      ]
+    },
+    "highway_close_intervene": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "I will issue the directive today. The firms will object — formally, through their legal representatives. The objection will not succeed but it will take six to eight weeks to resolve, which compresses the Phase 1 timeline."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Marić will be satisfied. The business community will note it. Vael's people will note it more carefully."
+        }
+      ],
+      "choices": [
+        {
+          "id": "highway_intervene_end",
+          "text": "[End meeting]",
+          "journalEntry": {
+            "title": "The Highway — Six Weeks In",
+            "category": "POLICY",
+            "content": "The contracts went to Vael-connected firms as expected. They are not meeting the local hiring requirement. I issued a directive — comply within thirty days or face suspension. Varro says the firms will object and it will compress the timeline. Vyktor says Vael's people will note it carefully. I chose to manage the risk. This is what managing the risk looks like."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "highway_close_no_intervene": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Understood. The contracts proceed as awarded. I will note in the project record that the local hiring requirement compliance is being monitored and will flag any further deterioration."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Marić will file the formal objection within the week. I would recommend having a response prepared."
+        }
+      ],
+      "choices": [
+        {
+          "id": "highway_no_intervene_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act3_chain_highway_vael_corruption",
+              "delayWeeks": 10,
+              "probability": 0.6
+            }
+          ],
+          "journalEntry": {
+            "title": "The Highway — Six Weeks In",
+            "category": "POLICY",
+            "content": "The contracts went to Vael-connected firms. They are not meeting the local hiring requirement. I held the line — compliant bids stand. Vyktor says Marić will file a formal objection within the week. Varro is monitoring. I told myself this was about procedural integrity. I am not entirely convinced that is the only reason I did not intervene."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "dam_report": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Engineering surveys are complete. The geology is as projected — no surprises in the foundation assessment, which is unusual and welcome. Construction mobilization begins in three weeks. The Lytheiran export agreement is in active negotiation — Elara's office expects a term sheet within the month."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "The relocation process is the variable. Marić's office has been in the valley for four weeks. Three of the four communities have engaged constructively with the relocation framework. The fourth — the village of Staren, approximately four hundred residents — has organized resistance. They are not refusing to relocate. They are refusing the compensation terms and the proposed relocation site, which is twelve kilometers from their current location and does not have the agricultural conditions their community depends on."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "A journalist from the Republic Tribune has been to Staren twice. She has not published yet. She is building a story."
+        }
+      ],
+      "monologue": "One village out of four is holding out and a journalist is building a story. Varro said three communities engaged constructively. That means one did not and he is telling me about it precisely because it is the one that matters.",
+      "choices": [
+        {
+          "id": "dam_staren_address",
+          "text": "\"Address Staren specifically. Find a relocation site that meets their agricultural requirements. Whatever it costs, add it to the relocation budget.\"",
+          "internalTag": "reformist",
+          "flags": ["dev_dam_staren_resolved"],
+          "statEffects": [
+            { "stat": "factions.workersCoalition", "value": 8 },
+            { "stat": "nation.nationalDebt", "value": -3 },
+            { "stat": "personal.moralCompass", "value": 8 }
+          ],
+          "nextSegment": "dam_close_staren_resolved"
+        },
+        {
+          "id": "dam_staren_standard",
+          "text": "\"The framework is the framework. Staren receives the same terms as the other three communities. We cannot create individual exceptions or the entire relocation process unravels.\"",
+          "internalTag": "pragmatist",
+          "flags": ["dev_dam_staren_standard"],
+          "statEffects": [
+            { "stat": "factions.workersCoalition", "value": -5 },
+            { "stat": "personal.moralCompass", "value": -5 }
+          ],
+          "nextSegment": "dam_close_staren_standard"
+        }
+      ]
+    },
+    "dam_close_staren_resolved": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "I will identify alternative relocation sites with equivalent agricultural conditions. It will add approximately six weeks to the Staren process and between one and two million kroner to the relocation budget. I will have options on your desk by end of week."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The journalist will still publish. But the story changes. A government that found a solution is a different story than a government that applied a framework."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dam_staren_resolved_end",
+          "text": "[End meeting]",
+          "journalEntry": {
+            "title": "The Dam — Six Weeks In",
+            "category": "POLICY",
+            "content": "Three communities engaged with the relocation framework. Staren held out — their issue is agricultural conditions at the proposed site, not the principle of relocation. I told Varro to find them a site that works. One to two million more, six weeks delay. Vyktor says the journalist's story changes. A government that found a solution is different from a government that applied a framework. I need to remember that distinction."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "dam_close_staren_standard": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Understood. Standard terms apply uniformly. I will communicate the decision to Marić's office."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The journalist will publish within two weeks. The story will be about Staren. Marić will respond publicly — he will not be able to not respond."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dam_staren_standard_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act3_chain_dam_relocation_crisis",
+              "delayWeeks": 8,
+              "probability": 0.7
+            }
+          ],
+          "journalEntry": {
+            "title": "The Dam — Six Weeks In",
+            "category": "POLICY",
+            "content": "Staren is holding out. I applied the standard framework uniformly. Vyktor says the journalist publishes within two weeks and Marić will respond publicly. I chose consistency over exception. I keep thinking about four hundred people and an agricultural community and a relocation site twelve kilometers away that does not have the right soil. I chose consistency. I am not sure consistency was the right word for it."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "port_report": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Construction contract signed. Site preparation begins next week. The Arcturian shipping companies have moved from informal inquiry to formal negotiation — the Foreign Ministry is leading those discussions and they are progressing well. Two additional shipping operators from neutral Thalassic states have expressed interest since the announcement."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "The Tyvaren foreign ministry filed a formal diplomatic protest fourteen days ago. The protest describes the port as — I am quoting — an infrastructural provocation inconsistent with regional stability agreements. Dusek briefed me this morning. She says the language is consistent with a first-level diplomatic objection, not a precursor to escalation. She also says first-level objections become second-level objections if they are not addressed."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The protest is public. The Arcturian press has covered it favorably — from their perspective, Tyvaren objecting to a commercial port is Tyvaren revealing its regional ambitions. That framing is useful to us if we decide to use it."
+        }
+      ],
+      "monologue": "Dusek said first-level objections become second-level objections if they are not addressed. She was right about this from the beginning. The question is whether addressing it means engaging diplomatically or accelerating construction to make the objection irrelevant before it escalates.",
+      "choices": [
+        {
+          "id": "port_respond_diplomatic",
+          "text": "\"Respond through official channels. Schedule a formal meeting with the Tyvaren foreign minister. We address the objection directly before it becomes something larger.\"",
+          "internalTag": "pragmatist",
+          "flags": ["dev_port_diplomatic_response"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": 5 },
+            { "stat": "tyvarenHostility", "value": -5 },
+            { "stat": "nation.publicOrder", "value": 2 }
+          ],
+          "nextSegment": "port_close_diplomatic"
+        },
+        {
+          "id": "port_accelerate",
+          "text": "\"Accelerate construction. The port will be operational before the diplomatic process resolves anything. Make the objection irrelevant by making the port a fact.\"",
+          "internalTag": "authoritarian",
+          "flags": ["dev_port_accelerated"],
+          "statEffects": [
+            { "stat": "tyvarenHostility", "value": 10 },
+            { "stat": "nation.internationalStanding", "value": -3 },
+            { "stat": "nation.militaryReadiness", "value": -2 }
+          ],
+          "nextSegment": "port_close_accelerate"
+        }
+      ]
+    },
+    "port_close_diplomatic": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "I will coordinate with the Foreign Ministry on the meeting request. Construction continues at standard pace during the diplomatic process."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren will accept the meeting. They filed the protest to create a negotiating table, not to prevent the port. The question is what they want at that table."
+        }
+      ],
+      "choices": [
+        {
+          "id": "port_diplomatic_end",
+          "text": "[End meeting]",
+          "journalEntry": {
+            "title": "The Port — Six Weeks In",
+            "category": "POLICY",
+            "content": "Construction is on schedule. Arcturian shipping negotiations are progressing. Tyvaren filed a formal protest. I responded diplomatically — requested a formal meeting with their foreign minister. Vyktor says they filed the protest to create a negotiating table, not to prevent the port. He says the question is what they want at that table. I have been thinking about that question since he said it."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "port_close_accelerate": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Acceleration is possible. It adds approximately four million kroner in overtime costs and requires pulling two contractor teams from secondary projects. The timeline compresses from twenty-two months to sixteen."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren will view the acceleration as confirmation that the protest was correct — that this is a strategic facility being rushed into operation. I want you to have made this decision knowing that."
+        }
+      ],
+      "choices": [
+        {
+          "id": "port_accelerate_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act3_chain_port_tyvaren_escalation",
+              "delayWeeks": 6,
+              "probability": 0.65
+            }
+          ],
+          "journalEntry": {
+            "title": "The Port — Six Weeks In",
+            "category": "POLICY",
+            "content": "Tyvaren filed a formal protest. I accelerated construction. Sixteen months instead of twenty-two, four million in overtime costs. Vyktor said Tyvaren will view the acceleration as confirmation that the protest was correct. He said I want you to have made this decision knowing that. I made it knowing that. The port will be a fact before the diplomatic process produces anything. Facts are harder to protest than plans."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

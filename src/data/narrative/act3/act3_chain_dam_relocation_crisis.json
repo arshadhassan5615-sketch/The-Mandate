@@ -1,0 +1,64 @@
+{
+  "id": "act3_chain_dam_relocation_crisis",
+  "title": "The Village of Staren",
+  "week": 34,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["gregor_maric", "vyktor_reznik"],
+  "dialogue": "The Republic Tribune ran the story this morning. Marić is already here.",
+  "monologue": "He did not wait to be summoned. That means the story is worse than I expected or he has already been to Staren himself. Probably both.",
+  "choices": [
+    {
+      "id": "dam_relocation_hear",
+      "text": "\"Tell me.\"",
+      "nextSegment": "dam_relocation_brief"
+    }
+  ],
+  "segments": {
+    "dam_relocation_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "The Tribune ran four pages. Photographs of the valley. Interviews with Staren residents. A detailed breakdown of the compensation terms versus the actual cost of rebuilding what those families are losing. The numbers do not look good. The reporter did the arithmetic that we did not do publicly."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "I have been to Staren. I spoke with the community council. They are not obstructing the project — they understand the dam is happening. They are asking for enough to rebuild their lives somewhere that works for them. That is not an unreasonable request."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Three Assembly members have publicly called for a review of the relocation terms. The Halvekists are using the story — they are not wrong about the facts, which makes it harder to manage."
+        }
+      ],
+      "monologue": "The Halvekists are not wrong about the facts. Vyktor said it carefully but that is what he said. I applied a framework uniformly and the framework was inadequate for Staren and now four pages in the Republic Tribune are explaining the arithmetic I did not do publicly.",
+      "choices": [
+        {
+          "id": "dam_relocation_fix",
+          "text": "\"Increase the Staren package. Retroactively. Find them a site that works and fund it properly.\"",
+          "flags": ["dam_staren_fixed_late"],
+          "statEffects": [
+            { "stat": "factions.workersCoalition", "value": 10 },
+            { "stat": "nation.nationalDebt", "value": -4 },
+            { "stat": "personal.moralCompass", "value": 8 },
+            { "stat": "factions.halvekists", "value": -5 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "dam_relocation_hold",
+          "text": "\"The terms are the terms. Changing them retroactively under press pressure sets a precedent I cannot afford.\"",
+          "flags": ["dam_staren_held"],
+          "statEffects": [
+            { "stat": "factions.workersCoalition", "value": -12 },
+            { "stat": "personal.moralCompass", "value": -8 },
+            { "stat": "factions.halvekists", "value": 5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

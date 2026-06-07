@@ -1,0 +1,63 @@
+{
+  "id": "act3_chain_port_tyvaren_escalation",
+  "title": "Second Level",
+  "week": 38,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "dialogue": "Dusek requested the briefing at 0600. Vyktor did not argue with the hour.",
+  "monologue": "Dusek said first-level objections become second-level objections if they are not addressed. She is here at six in the morning which means we have reached the second level.",
+  "choices": [
+    {
+      "id": "port_escalation_hear",
+      "text": "\"What happened?\"",
+      "nextSegment": "port_escalation_brief"
+    }
+  ],
+  "segments": {
+    "port_escalation_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Tyvaren conducted a naval exercise in the Thalassic Sea yesterday. Three vessels, twelve hours, within the legally permitted zone but fourteen kilometers from the Sevagrad construction site. They filed the exercise notification with the regional maritime authority six hours before commencement — the minimum required. They were not hiding it. They wanted it visible."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "This is the second level. They are demonstrating naval presence in the area of the port without violating any agreement. The message is clear: we can be here whenever we choose. The port brings us here permanently."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Construction is sixty percent complete. Stopping now costs more than completing it and managing the diplomatic situation."
+        }
+      ],
+      "monologue": "Sixty percent complete. Dusek is right about the message. Vyktor is right about the cost. The question is whether the diplomatic situation can be managed or whether managed is the wrong word for what is coming.",
+      "choices": [
+        {
+          "id": "port_escalation_diplomatic",
+          "text": "\"Request an emergency meeting with Tyvaren's foreign minister. Address this directly at the highest level before it escalates further.\"",
+          "flags": ["port_tyvaren_emergency_talks"],
+          "statEffects": [
+            { "stat": "tyvarenHostility", "value": -8 },
+            { "stat": "nation.internationalStanding", "value": 5 },
+            { "stat": "nation.publicOrder", "value": -3 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "port_escalation_complete",
+          "text": "\"Complete the port. Maximum pace. A completed port is a different negotiating position than a construction site.\"",
+          "flags": ["port_construction_maximum_pace"],
+          "statEffects": [
+            { "stat": "tyvarenHostility", "value": 12 },
+            { "stat": "nation.militaryReadiness", "value": -5 },
+            { "stat": "nation.internationalStanding", "value": -5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

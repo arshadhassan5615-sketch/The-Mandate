@@ -1,0 +1,486 @@
+{
+  "id": "act2_week20_megaproject_choice",
+  "title": "The Megaproject Dilemma",
+  "week": 20,
+  "type": "meeting",
+  "location": "Cabinet Room — Ashenmere Palace",
+  "characters": ["benedikt_varro", "elara_vostane", "gregor_maric", "irina_dusek"],
+  "dialogue": "Varro has been standing at the presentation board for eleven minutes before the last minister arrives. He does not appear to mind. He has been here before.",
+  "monologue": "Benedikt Varro has served three administrations. He was Development Minister under two of them. He survived by being the person who presents the options clearly and lets whoever is in power make the call. He is the only person in this room who has no stake in which project I choose — because he has learned that the minister who advocates too hard for one option loses the trust of the Chancellor who picks another.",
+  "choices": [
+    {
+      "id": "dev_varro_present",
+      "text": "\"Begin, Minister Varro.\"",
+      "nextSegment": "varro_presentation"
+    }
+  ],
+  "segments": {
+    "varro_presentation": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Thank you, Chancellor. The Development Ministry has completed full feasibility assessments on three infrastructure proposals. Each has been costed, risk-assessed, and reviewed for implementation timeline. I will present each one completely before taking questions. The budget can support one of the three at full funding. Partial funding of multiple projects is not recommended — the infrastructure literature is consistent on this point: underfunded large projects fail at a significantly higher rate than unfunded ones."
+        },
+        {
+          "type": "description",
+          "text": "He turns to the board. Three columns. Highway. Dam. Port. Each with a cost figure, a timeline, and a projected economic impact. The numbers are precise to the third decimal place. Varro does not round."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Project A. The Northern Highway System. Three hundred and forty kilometers connecting Dravenhollow, Kravenstal, and Ashenmere. Last upgraded 1937. Current freight cost premium due to road condition is estimated at twenty-two percent above the regional average. The highway eliminates that premium. Construction timeline: eighteen months. Cost: forty-eight million kroner. Projected jobs created: four thousand two hundred. Implementation risk: moderate. The primary risk factor is contractor availability — only three firms in Veltria have the equipment for the northern terrain. Two of them have prior relationships with business interests the Cabinet is already monitoring."
+        },
+        {
+          "type": "description",
+          "text": "He does not name Vael. He does not need to."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Project B. The Kravenstal Hydroelectric Dam. Primary generation facility on the Kravenstal river. Projected output: sufficient to supply the northern province with surplus available for export to Lytheira. Eliminates fourteen percent of the annual Orythian gas import bill within four years. Construction timeline: twenty-six months. Cost: fifty-four million kroner — plus eight to twelve million for full residential relocation of four affected valley communities, totaling twenty-three hundred residents. The relocation cost is not optional if the project is to proceed without significant legal and political challenge. I am presenting it as a line item, not a caveat."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Project C. The Sevagrad Deepwater Port. Expansion of the existing Sevagrad coastal facility to full deepwater capacity. Opens Veltria to direct maritime trade on the Thalassic Sea. Reduces dependence on Tyvaren and Lytheiran overland transit by an estimated thirty percent for eastern-bound exports. Construction timeline: twenty-two months. Cost: fifty-one million kroner. Three Arcturian shipping companies have made informal interest inquiries. Implementation risk: moderate on the construction side, elevated on the diplomatic side. The Tyvaren foreign ministry has previously described the Thalassic coastal zone as a regional stability interest. I flag this not as a reason to avoid the project but as a variable that requires management."
+        },
+        {
+          "type": "description",
+          "text": "He steps back from the board."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "I will take questions before the Chancellor considers a decision."
+        }
+      ],
+      "monologue": "Three projects. One budget. Varro presented all three with the same precision and the same neutrality and flagged the risks without editorializing about them. He mentioned the contractor relationships without naming Vael. He included the relocation cost as a line item. He flagged Tyvaren as a variable requiring management. He has done this before. He knows exactly which details to surface and exactly how to surface them.",
+      "choices": [
+        {
+          "id": "dev_ask_elara",
+          "text": "\"Vostane — budget assessment.\"",
+          "nextSegment": "elara_assessment"
+        },
+        {
+          "id": "dev_ask_maric",
+          "text": "\"Marić — labor perspective.\"",
+          "nextSegment": "maric_assessment"
+        },
+        {
+          "id": "dev_ask_dusek",
+          "text": "\"Dusek — security implications.\"",
+          "nextSegment": "dusek_assessment"
+        },
+        {
+          "id": "dev_skip_to_decision",
+          "text": "\"I have heard enough. Let me decide.\"",
+          "nextSegment": "dev_decision"
+        }
+      ]
+    },
+    "elara_assessment": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The dam has the strongest long-term revenue profile. The Lytheira export agreement, if concluded, generates recurring income that offsets the construction cost within eleven years. The highway generates economic activity but does not generate direct state revenue — the freight cost reduction benefits private carriers and merchants, not the treasury. The port has strong revenue potential but the timeline to positive return is longer and depends on trade volume projections that I consider optimistic."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "My concern with the highway is the contractor situation Varro referenced. If two of the three qualified firms have relationships with interests this government is monitoring, competitive bidding will be technically compliant but practically limited. We will pay market rate for work that should cost less. The dam avoids that problem — the engineering firm is Veltrian-owned with no concerning relationships."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I recommend the dam. With full relocation funding included as a non-negotiable line item."
+        }
+      ],
+      "choices": [
+        {
+          "id": "elara_to_maric",
+          "text": "\"Marić.\"",
+          "nextSegment": "maric_assessment"
+        },
+        {
+          "id": "elara_to_dusek",
+          "text": "\"Dusek.\"",
+          "nextSegment": "dusek_assessment"
+        },
+        {
+          "id": "elara_to_decision",
+          "text": "\"I have heard enough.\"",
+          "nextSegment": "dev_decision"
+        }
+      ]
+    },
+    "maric_assessment": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "The dam. With the relocation package — the full package, not the minimum. Those twenty-three hundred people in the Kravenstal valley are workers. They have farms, workshops, homes their families have had for three generations. If we tell them their valley is being flooded for the Republic's benefit and hand them the legal minimum in compensation, we are doing to them what every government before us did to people who were inconvenient to progress. I will not support that and I will say so publicly."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "The highway — I want to be honest about this. The highway employs construction workers and that is good. But Varro said two of the three contractors have business relationships this government is monitoring. That means the contracts flow to connected firms and the workers they hire may not be local. I have seen that before. It is not development. It is subsidy with different paperwork."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "The port — the port benefits shipping companies. Arcturian shipping companies made inquiries, Varro said. I want to know who employs the dock workers in Sevagrad before I endorse a project that exists primarily to serve foreign commercial interests."
+        }
+      ],
+      "monologue": "He said he will say it publicly if the relocation package is inadequate. That is not a threat. That is Marić telling me where his line is before we reach it, which is his version of loyalty. A man who threatens privately and acts publicly is an adversary. A man who tells you his line before you cross it is still working with you.",
+      "choices": [
+        {
+          "id": "maric_to_elara",
+          "text": "\"Vostane — anything to add?\"",
+          "nextSegment": "elara_assessment"
+        },
+        {
+          "id": "maric_to_dusek",
+          "text": "\"Dusek.\"",
+          "nextSegment": "dusek_assessment"
+        },
+        {
+          "id": "maric_to_decision",
+          "text": "\"I have heard enough.\"",
+          "nextSegment": "dev_decision"
+        }
+      ]
+    },
+    "dusek_assessment": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "The highway has military transport value. The northern route to the Tyvaren border currently runs through provincial roads that cannot support heavy equipment movement at operational tempo. The highway changes that. It is not a military project but it has military benefit and I would be failing my responsibility if I did not note it."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "The port — I need to be direct. Building a major commercial facility on the Thalassic coast will be read by Tyvaren as a strategic provocation regardless of the commercial justification. Their naval doctrine explicitly identifies the coastal zone as a regional stability interest. I am not saying do not build the port. I am saying do not build the port and then be surprised when Tyvaren responds as if it is a military installation. Because from their doctrine's perspective, it is."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "The dam has no security implications in either direction. It is a domestic energy project. I have no objection and no particular support."
+        }
+      ],
+      "monologue": "Dusek said do not build the port and then be surprised. She did not say do not build it. She said manage the expectation of what follows. That is a soldier's precision — she is not making the policy argument, she is making the consequence argument. Those are different and she knows the difference.",
+      "choices": [
+        {
+          "id": "dusek_to_elara",
+          "text": "\"Vostane — budget assessment.\"",
+          "nextSegment": "elara_assessment"
+        },
+        {
+          "id": "dusek_to_maric",
+          "text": "\"Marić — anything to add?\"",
+          "nextSegment": "maric_assessment"
+        },
+        {
+          "id": "dusek_to_decision",
+          "text": "\"I have heard enough.\"",
+          "nextSegment": "dev_decision"
+        }
+      ]
+    },
+    "dev_decision": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The room is quiet. Varro stands at the board. Elara has her folder closed. Marić has his hands on the table. Dusek sits with the stillness of someone who has delivered her assessment and considers her role in this moment complete. They are all waiting."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Chancellor. If you would like my assessment — I will give it in one sentence and then return to neutral."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_ask_varro",
+          "text": "\"Give me your sentence, Varro.\"",
+          "nextSegment": "varro_one_sentence"
+        },
+        {
+          "id": "dev_skip_varro",
+          "text": "\"I have what I need. My decision:\"",
+          "nextSegment": "dev_final_choice"
+        }
+      ]
+    },
+    "varro_one_sentence": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "The dam is the project that will still be generating value for Veltria in forty years regardless of which government is running the country — and that, in my experience, is the correct criterion for infrastructure decisions."
+        },
+        {
+          "type": "description",
+          "text": "He steps back from the board. He is neutral again."
+        }
+      ],
+      "choices": [
+        {
+          "id": "varro_sentence_to_choice",
+          "text": "\"My decision:\"",
+          "nextSegment": "dev_final_choice"
+        }
+      ]
+    },
+    "dev_final_choice": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Four ministers. Three projects. One budget. The room waits."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_choose_highway",
+          "text": "\"The Northern Highway. Full funding. Varro — I want competitive bidding enforced with an independent oversight committee. The contractor situation you flagged is a risk I am choosing to manage, not ignore.\"",
+          "internalTag": "pragmatist",
+          "flags": ["dev_highway_chosen", "megaproject_decided"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 12 },
+            { "stat": "factions.businessClass", "value": 10 },
+            { "stat": "factions.ironCovenant", "value": 5 },
+            { "stat": "factions.workersCoalition", "value": 3 },
+            { "stat": "nation.nationalDebt", "value": -18 },
+            { "stat": "vaelInfluence", "value": 8 }
+          ],
+          "nextSegment": "dev_close_highway"
+        },
+        {
+          "id": "dev_choose_dam",
+          "text": "\"The Kravenstal Dam. Full funding — including the relocation package. Marić, I need you to work with the valley communities directly. Varro, the relocation timeline runs parallel to construction, not after it.\"",
+          "internalTag": "reformist",
+          "flags": ["dev_dam_chosen", "megaproject_decided"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 8 },
+            { "stat": "nation.nationalDebt", "value": -26 },
+            { "stat": "factions.reformists", "value": 10 },
+            { "stat": "factions.workersCoalition", "value": 8 },
+            { "stat": "factions.businessClass", "value": -5 },
+            { "stat": "factions.church", "value": 5 },
+            { "stat": "nation.energyIndependence", "value": 15 }
+          ],
+          "nextSegment": "dev_close_dam_full"
+        },
+        {
+          "id": "dev_choose_dam_partial",
+          "text": "\"The Kravenstal Dam. Full funding for construction. The relocation package at standard legal compensation — we cannot add eight million to the budget this quarter.\"",
+          "internalTag": "pragmatist",
+          "flags": ["dev_dam_chosen", "dev_dam_partial_relocation", "megaproject_decided"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 8 },
+            { "stat": "nation.nationalDebt", "value": -22 },
+            { "stat": "factions.reformists", "value": 5 },
+            { "stat": "factions.workersCoalition", "value": -5 },
+            { "stat": "personal.moralCompass", "value": -5 },
+            { "stat": "nation.energyIndependence", "value": 15 }
+          ],
+          "nextSegment": "dev_close_dam_partial"
+        },
+        {
+          "id": "dev_choose_port",
+          "text": "\"The Sevagrad Port. Full funding. Dusek — I need a diplomatic strategy for Tyvaren running parallel to construction. We do not pretend the concern does not exist.\"",
+          "internalTag": "authoritarian",
+          "flags": ["dev_port_chosen", "megaproject_decided"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 10 },
+            { "stat": "nation.internationalStanding", "value": 12 },
+            { "stat": "factions.businessClass", "value": 8 },
+            { "stat": "factions.reformists", "value": 5 },
+            { "stat": "nation.nationalDebt", "value": -20 },
+            { "stat": "tyvarenHostility", "value": 15 },
+            { "stat": "nation.militaryReadiness", "value": -3 }
+          ],
+          "nextSegment": "dev_close_port"
+        }
+      ]
+    },
+    "dev_close_highway": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Understood. I will establish the oversight committee and have the competitive bidding framework to your office by end of week. Construction mobilization can begin within thirty days of contract award."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I will monitor the contract awards closely. If the oversight committee identifies irregularities, I want authority to pause the process."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "I want the local hiring requirements in the contract terms. Not a preference — a requirement. Dravenhollow and Kravenstal workers first."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "The military transport benefit will be significant. I appreciate the decision, Chancellor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_highway_end",
+          "text": "[End Cabinet Meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week26_megaproject_followup",
+              "delayWeeks": 6,
+              "probability": 1.0
+            }
+          ],
+          "codexUnlocks": ["codex_northern_highway", "codex_benedikt_varro"],
+          "journalEntry": {
+            "title": "The Megaproject Decision",
+            "category": "POLICY",
+            "content": "I chose the highway. Forty-eight million kroner, eighteen months, four thousand jobs. Varro flagged the contractor situation — two of three qualified firms have relationships with interests I am monitoring. I told him I am choosing to manage the risk rather than ignore it. Elara wants authority to pause the process if irregularities appear. Marić wants local hiring requirements in the contract terms. Dusek appreciated the military transport benefit. Varro said he would have the oversight committee framework by end of week. He is already writing it in his head."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "dev_close_dam_full": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "Full relocation package, parallel timeline. I will need Marić's office coordinating directly with the valley community representatives. The relocation has to be complete before the valley floods — that sounds obvious but project timelines have a way of compressing the human elements."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "My office will be in the valley within the week. I want to hear from those communities directly before the engineers arrive."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The Lytheira export agreement negotiations should begin immediately — the revenue projections depend on having a signed agreement before the dam is operational. I will contact the Lytheiran trade ministry."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "No security concerns. Good luck with the engineering."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_dam_full_end",
+          "text": "[End Cabinet Meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week26_megaproject_followup",
+              "delayWeeks": 6,
+              "probability": 1.0
+            }
+          ],
+          "codexUnlocks": ["codex_kravenstal_dam", "codex_benedikt_varro"],
+          "journalEntry": {
+            "title": "The Megaproject Decision",
+            "category": "POLICY",
+            "content": "I chose the dam. Full relocation package included — parallel timeline, not after construction. Fifty-four million plus ten for relocation. Marić's office will be in the valley within the week. Elara is starting Lytheira export negotiations immediately. Varro said relocation timelines have a way of compressing the human elements. He said it as a project management observation. I heard it as something else."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "dev_close_dam_partial": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Marić looks at the table. He does not argue. He picks up his pen and writes one line in his notebook and closes it."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "Standard legal compensation. I want that noted in the Cabinet record."
+        },
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "It will be noted. I will begin construction mobilization. The relocation process will proceed under the standard framework."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I will begin Lytheira export negotiations. The revenue timeline holds regardless of the relocation package."
+        }
+      ],
+      "monologue": "Marić wrote one line and closed his notebook. He noted his objection for the record and said nothing else. That is not acceptance. That is a man keeping a record of a decision he believes is wrong and does not have the authority to reverse. He will be in the valley communities within the week regardless — not because I sent him, because he cannot not go.",
+      "choices": [
+        {
+          "id": "dev_dam_partial_end",
+          "text": "[End Cabinet Meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week26_megaproject_followup",
+              "delayWeeks": 6,
+              "probability": 1.0
+            }
+          ],
+          "codexUnlocks": ["codex_kravenstal_dam", "codex_benedikt_varro"],
+          "journalEntry": {
+            "title": "The Megaproject Decision",
+            "category": "POLICY",
+            "content": "I chose the dam with standard legal relocation compensation. Fifty-four million for the dam, standard package for the valley communities. Marić asked for it to be noted in the Cabinet record. Varro noted it. The decision is made. I keep thinking about Varro's sentence — relocation timelines have a way of compressing the human elements. He was describing a project management risk. I made the decision that creates exactly that risk."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "dev_close_port": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "benedikt_varro",
+          "text": "The Sevagrad Port. Understood. I will have the construction contract framework ready within two weeks. The Arcturian shipping companies will need formal engagement — I recommend the Foreign Ministry lead that rather than the Development Ministry."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "I will begin the Tyvaren diplomatic strategy immediately. The messaging needs to be consistent from day one — commercial facility, civilian purpose, open to regional partners including Tyvaren. If we establish that framing before they can establish theirs, we have more room to work with."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "I want the dock worker employment terms in the contract before any foreign shipping company agreement is signed. Veltrian workers, Veltrian wages, Veltrian union representation."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The revenue projections depend on trade volume. I would recommend the Foreign Ministry prioritize the Arcturian shipping agreements — they are the most likely to generate early volume."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_port_end",
+          "text": "[End Cabinet Meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week26_megaproject_followup",
+              "delayWeeks": 6,
+              "probability": 1.0
+            }
+          ],
+          "codexUnlocks": ["codex_sevagrad_port", "codex_benedikt_varro"],
+          "journalEntry": {
+            "title": "The Megaproject Decision",
+            "category": "POLICY",
+            "content": "I chose the port. Fifty-one million kroner, twenty-two months, Thalassic Sea access. Dusek is starting the Tyvaren diplomatic strategy immediately. Marić wants dock worker employment terms in the contract before any foreign agreements are signed. Elara wants the Arcturian shipping companies prioritized for early revenue. Varro is already writing the contract framework. Dusek said if we establish the commercial framing before Tyvaren establishes theirs, we have more room to work with. She said it like a woman who knows the room will be smaller than she is describing."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}
