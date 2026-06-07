@@ -1,0 +1,74 @@
+{
+  "id": "act2_chain_mole_returns",
+  "title": "The Thread That Would Not Cut",
+  "week": 25,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "dialogue": "Danika's message arrived without a subject line. It said only: come to my office. Not the Ministry — here.",
+  "monologue": "Danika Oberlin does not summon people. She reports to them. The fact that she asked me to come to her means the information is the kind that should not travel through normal channels.",
+  "choices": [
+    {
+      "id": "mole_returns_hear",
+      "text": "What did you find?",
+      "nextSegment": "mole_returns_brief"
+    }
+  ],
+  "segments": {
+    "mole_returns_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Henrik Petran was released from custody six weeks ago. Time served, good behavior, reduced sentence. He has been living quietly in Thornfeld. Three days ago he contacted a journalist at the Republic Tribune. He told her the confession was coerced. He told her he was given a script and told that if he did not read it convincingly, his family would face consequences. He told her there is a real source and it is still active."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The journalist has not published yet. She is trying to verify. She will not be able to verify — the real investigation was sealed. But she does not need to verify to publish. She needs enough to ask the question in print."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "If the story runs, the question becomes: did this government knowingly accept a false confession to close an active leak? The answer is yes. We chose that answer in week seven. Now it is coming back."
+        }
+      ],
+      "monologue": "We chose that answer in week seven. Vyktor said it without accusation — a statement of fact, not a judgment. But the fact lands the same way regardless of the tone. I closed the investigation. The leak continued. Someone fed cabinet intelligence to the Arcturians for eighteen months while Henrik Petran served time for it. That is the story Petran is now telling a journalist.",
+      "choices": [
+        {
+          "id": "mole_returns_reopen",
+          "text": "Reopen the investigation. Publicly. Before the journalist publishes — announce that new evidence has emerged and the case is being reviewed. Control the narrative by being the one who surfaces it.",
+          "flags": ["mole_investigation_reopened", "mole_returns_public"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": 8 },
+            { "stat": "factions.halvekists", "value": -8 },
+            { "stat": "personal.publicImage", "value": -5 },
+            { "stat": "personal.moralCompass", "value": 10 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "mole_returns_journalist",
+          "text": "Meet with the journalist directly. Off the record. Give her enough context to understand why the confession was accepted — and ask her to hold the story until the new investigation concludes.",
+          "flags": ["mole_returns_journalist_briefed"],
+          "statEffects": [
+            { "stat": "nation.pressFreedom", "value": -3 },
+            { "stat": "personal.moralCompass", "value": -3 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "mole_returns_deny",
+          "text": "The confession was accepted on the evidence available at the time. The case is closed. If Petran wishes to appeal his conviction, the courts are available to him.",
+          "flags": ["mole_returns_denied"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": -10 },
+            { "stat": "personal.moralCompass", "value": -12 },
+            { "stat": "personal.publicImage", "value": -8 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

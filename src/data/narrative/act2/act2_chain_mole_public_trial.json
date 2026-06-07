@@ -1,0 +1,63 @@
+{
+  "id": "act2_chain_mole_public_trial",
+  "title": "The Trial of Yelena Dorova",
+  "week": 15,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "aldric_theron"],
+  "dialogue": "The trial date has been set. Theron requested this meeting before the prosecution opens.",
+  "monologue": "Theron requested the meeting. Not the Justice Ministry — Theron personally. He does not request meetings about procedural matters.",
+  "choices": [
+    {
+      "id": "trial_hear_theron",
+      "text": "What is your concern?",
+      "nextSegment": "trial_theron_brief"
+    }
+  ],
+  "segments": {
+    "trial_theron_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The prosecution intends to argue national security necessity — meaning the details of what was leaked, to whom, and through what channels will be presented in open court. That includes the Arcturian intelligence operation. That includes the names of the officers involved. That includes the methods used to cultivate Yelena Dorova."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "The Arcturian Commonwealth will object through diplomatic channels the moment those details become public record. The ambassador has already been in contact with the Foreign Ministry. They are not threatening. They are signaling that this trial, as currently constructed, creates a diplomatic incident."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The prosecution wants a public trial because it sends a message. The Arcturians want it closed because it protects their methods. Yelena Dorova's attorney wants it public because sympathy is her best defense. Everyone has a reason for the outcome that benefits them. None of those reasons are yours."
+        }
+      ],
+      "monologue": "Vyktor is right. None of the competing interests in this trial are mine. What is mine is the decision — public accountability versus diplomatic cost versus a twenty-three year old woman's chance at a fair hearing.",
+      "choices": [
+        {
+          "id": "trial_proceed_public",
+          "text": "The trial proceeds as planned. Public accountability requires public proceedings. The diplomatic discomfort is Arcturia's problem — they ran an intelligence operation on Veltrian soil.",
+          "flags": ["dorova_trial_public"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": 8 },
+            { "stat": "nation.internationalStanding", "value": -5 },
+            { "stat": "personal.moralCompass", "value": 5 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "trial_closed_sessions",
+          "text": "Request that the intelligence-related portions of the trial be heard in closed session. The verdict is public. The methods are not.",
+          "flags": ["dorova_trial_partial_closed"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": -3 },
+            { "stat": "nation.internationalStanding", "value": 2 },
+            { "stat": "personal.moralCompass", "value": -2 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

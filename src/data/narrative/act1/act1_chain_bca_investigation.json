@@ -1,0 +1,62 @@
+{
+  "id": "act1_chain_bca_investigation",
+  "title": "The BCA Opens Its First Case",
+  "week": 11,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "dialogue": "Maren Tovik has been in the role for six days. She has already opened a case.",
+  "monologue": "Six days. I expected a month of setup and recruitment before anything moved. That was naive.",
+  "choices": [
+    {
+      "id": "bca_first_case_hear",
+      "text": "Who is the target?",
+      "nextSegment": "danika_bca_brief"
+    }
+  ],
+  "segments": {
+    "danika_bca_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Three procurement officers in the Development Ministry. Evidence of systematic contract inflation going back to 2017. The amounts are not catastrophic — perhaps eight hundred thousand kroner over six years — but the pattern is clean and the documentation is solid. Tovik says she can prosecute."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "She is asking for your confirmation that the BCA's independence is real. She wants to know that if this leads somewhere uncomfortable, the investigation continues."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "One of the three officers has a brother who is a regional party organizer. Not ours — Halvekist. If the case becomes public, the Halvekists will frame it as political targeting regardless of the evidence. I am not recommending we stop it. I am recommending we are prepared for that framing."
+        }
+      ],
+      "monologue": "Tovik wants to know the independence is real. Danika told me on the day she agreed to take the Interior post that she would put that question on the record before they began. She was not bluffing.",
+      "choices": [
+        {
+          "id": "bca_case_proceed",
+          "text": "Tell Tovik the investigation proceeds. The BCA's independence is real.",
+          "flags": ["bca_first_case_green_lit"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": 8 },
+            { "stat": "factions.halvekists", "value": -5 },
+            { "stat": "nation.civilLiberties", "value": 3 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "bca_case_pause",
+          "text": "Ask Tovik to pause until the BCA has more institutional weight behind it. A first case this visible, this fast, is a risk.",
+          "flags": ["bca_first_case_delayed"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": -5 },
+            { "stat": "personal.moralCompass", "value": -5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

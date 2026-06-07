@@ -1,0 +1,54 @@
+{
+  "id": "act1_kolvar_opposition_rally",
+  "title": "The Halvekist Response",
+  "week": 3,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "dialogue": "Vyktor sets a newspaper on the desk without comment. The headline reads: KOLVAR CALLS ASHAVEL GOVERNMENT 'REVOLUTIONARY THREAT' AT PARTY RALLY.",
+  "monologue": "Three days after the ball. He moved faster than I expected. That either means he was prepared before I spoke — or I gave him exactly the provocation he needed.",
+  "choices": [
+    {
+      "id": "kolvar_rally_respond",
+      "text": "What is the actual damage?",
+      "nextSegment": "vyktor_rally_brief"
+    }
+  ],
+  "segments": {
+    "vyktor_rally_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Kolvar spoke for forty minutes at the Halvekist Party assembly last night. He described your inaugural remarks as an attack on institutional continuity. Three sitting Assembly members have publicly endorsed his framing. The conservative press is running it as the lead story."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "It is noise, for now. But noise has a way of becoming structure if you do not respond to it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kolvar_rally_noted",
+          "text": "Noted. We govern. Let him talk.",
+          "flags": ["kolvar_rally_ignored"],
+          "statEffects": [
+            { "stat": "factions.halvekists", "value": -3 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "kolvar_rally_counter",
+          "text": "Draft a public response. We do not let the framing stand unchallenged.",
+          "flags": ["kolvar_rally_challenged"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": 5 },
+            { "stat": "factions.halvekists", "value": -5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

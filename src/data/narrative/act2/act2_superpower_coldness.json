@@ -1,0 +1,64 @@
+{
+  "id": "act2_superpower_coldness",
+  "title": "Neither Friend",
+  "week": 21,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "dialogue": "Both the Arcturian Commonwealth and the Orythian Dominion have declined Veltria's routine trade protocol renewal. In the same week. Without explanation.",
+  "monologue": "The same week. That is not a coincidence. That is coordination — or the appearance of coordination, which is functionally the same thing.",
+  "choices": [
+    {
+      "id": "superpower_cold_hear",
+      "text": "What are the practical consequences?",
+      "nextSegment": "vyktor_coldness_brief"
+    }
+  ],
+  "segments": {
+    "vyktor_coldness_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Practical consequences are limited for now — these are protocol renewals, not active trade agreements. The signal is the problem. Both powers are telling us that a government which refuses to align is a government they will not prioritize. We are not being punished. We are being ignored. That is sometimes worse."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The question is whether we respond by choosing a side or by demonstrating that Veltria does not need to choose."
+        }
+      ],
+      "monologue": "Being ignored is sometimes worse than being punished. Vyktor is right. A punished country is still a country worth punishing. An ignored country is just small.",
+      "choices": [
+        {
+          "id": "superpower_cold_west",
+          "text": "Reach out to Ambassador Cole. Warm the western relationship.",
+          "flags": ["superpower_cold_chose_west"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": 4 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "superpower_cold_east",
+          "text": "Reach out to Commissar Stahl. Warm the eastern relationship.",
+          "flags": ["superpower_cold_chose_east"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": 4 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "superpower_cold_neither",
+          "text": "Reach out to both simultaneously. Veltria chooses neither side and will demonstrate why that is a position, not an absence.",
+          "flags": ["superpower_cold_chose_neither"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": -2 },
+            { "stat": "factions.reformists", "value": 5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

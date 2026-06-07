@@ -1,0 +1,57 @@
+{
+  "id": "act1_brenner_defense_briefing",
+  "title": "The General's Assessment",
+  "week": 2,
+  "type": "meeting",
+  "location": "Defense Briefing Room — Ashenmere Palace",
+  "characters": ["oskar_brenner"],
+  "dialogue": "General Brenner arrives without an aide. No briefing papers. He said he would give a soldier's view. He meant it.",
+  "monologue": "No aide. No papers. That is either respect for my request or a test to see if I can hold a conversation without documents in front of me.",
+  "choices": [
+    {
+      "id": "brenner_briefing_begin",
+      "text": "\"General. What is the honest picture?\"",
+      "nextSegment": "brenner_assessment"
+    }
+  ],
+  "segments": {
+    "brenner_assessment": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "oskar_brenner",
+          "text": "Honest picture. Northern border is adequately staffed but the equipment is aging — we are running on a five-year deferred maintenance cycle. The eastern garrison at Sevagrad is understaffed by about twelve percent. The officer corps is loyal to the Republic but there is a generational tension — younger officers came up under Halvek and were taught certain habits. Some of those habits are not compatible with civilian oversight."
+        },
+        {
+          "type": "dialogue",
+          "character": "oskar_brenner",
+          "text": "What I need from you is clarity on the defense budget trajectory and a clear statement that civilian oversight means what it says. The men need to know which direction to face."
+        }
+      ],
+      "monologue": "He said 'certain habits not compatible with civilian oversight' and left it there. That is a general telling a Chancellor that some of her officers are a problem without naming them. He is giving me information and asking me what I will do with it.",
+      "choices": [
+        {
+          "id": "brenner_commit_oversight",
+          "text": "\"Civilian oversight means what it says, General. I expect the officer corps to understand that clearly.\"",
+          "flags": ["brenner_briefing_oversight_stated"],
+          "statEffects": [
+            { "stat": "factions.ironCovenant", "value": -3 },
+            { "stat": "factions.reformists", "value": 5 },
+            { "stat": "nation.militaryReadiness", "value": 2 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "brenner_ask_names",
+          "text": "\"Which officers? I want names, General. If there is a loyalty problem in the corps I need to know specifically where it is.\"",
+          "flags": ["brenner_briefing_names_requested"],
+          "statEffects": [
+            { "stat": "factions.ironCovenant", "value": 5 },
+            { "stat": "nation.militaryReadiness", "value": 5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

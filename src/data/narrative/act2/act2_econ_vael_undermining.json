@@ -1,0 +1,72 @@
+{
+  "id": "act2_econ_vael_undermining",
+  "title": "The Quiet Retaliation",
+  "week": 19,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["elara_vostane", "vyktor_reznik"],
+  "dialogue": "Elara sets three documents on the desk. She does not speak until they are aligned precisely.",
+  "monologue": "When Elara aligns documents before speaking, the numbers in them are the kind that do not improve on second reading.",
+  "choices": [
+    {
+      "id": "vael_undermining_hear",
+      "text": "What is it?",
+      "nextSegment": "vael_undermining_brief"
+    }
+  ],
+  "segments": {
+    "vael_undermining_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Three procurement contracts in the last six weeks. All won by Arcturian-affiliated firms over Veltrian competitors who submitted lower bids. The evaluation committees in each case cited technical capacity assessments that I cannot verify — the underlying documentation was filed through a sub-ministry office that reports to a deputy minister Vael recommended for appointment eight months ago."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I cannot prove Vael is directing this. The chain of influence is indirect. What I can tell you is that the pattern is consistent and the amounts are not trivial — approximately fourteen million kroner in contracts that should have gone to Veltrian firms."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He told you he would compete like everyone else. He is competing. He is simply competing at a level that does not require him to bid."
+        }
+      ],
+      "monologue": "He is competing at a level that does not require him to bid. Vyktor said it without inflection. That is his way of telling me I was naive when I thought rejection was a clean outcome.",
+      "choices": [
+        {
+          "id": "vael_undermining_investigate",
+          "text": "Refer the procurement irregularities to the BCA. If Vael is operating through a deputy minister, I want that documented.",
+          "flags": ["vael_undermining_investigated"],
+          "statEffects": [
+            { "stat": "vaelInfluence", "value": -10 },
+            { "stat": "factions.reformists", "value": 8 },
+            { "stat": "factions.businessClass", "value": -5 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "vael_undermining_confront",
+          "text": "Request a private meeting with Vael. Address this directly before it becomes a formal investigation.",
+          "flags": ["vael_undermining_confronted"],
+          "statEffects": [
+            { "stat": "vaelInfluence", "value": -5 },
+            { "stat": "factions.businessClass", "value": -3 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "vael_undermining_absorb",
+          "text": "Remove the deputy minister quietly. Do not escalate to a formal investigation — the political cost of a public confrontation with Vael outweighs the contracts.",
+          "flags": ["vael_undermining_absorbed"],
+          "statEffects": [
+            { "stat": "vaelInfluence", "value": 5 },
+            { "stat": "personal.moralCompass", "value": -8 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "act1_kolvar_counterattack",
+  "title": "The Counterattack",
+  "week": 4,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "dialogue": "Vyktor arrives before the morning briefing. That is never a good sign.",
+  "monologue": "He only comes early when something cannot wait for the scheduled hour.",
+  "choices": [
+    {
+      "id": "counterattack_hear",
+      "text": "What happened?",
+      "nextSegment": "vyktor_counterattack_brief"
+    }
+  ],
+  "segments": {
+    "vyktor_counterattack_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Kolvar filed a formal Assembly motion last night. He is calling for a parliamentary review of the new government's constitutional mandate — specifically your authority to pursue reforms without Assembly supermajority approval. It is procedurally weak but politically loud."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He is not trying to win this motion. He is trying to make you spend political capital defending yourself instead of governing. That is the attack."
+        }
+      ],
+      "monologue": "He is right. This is not a legal challenge — it is a calendar attack. Every hour I spend responding to Kolvar's motion is an hour not spent on the budget, the BNI, the cabinet. He is trying to govern through obstruction.",
+      "choices": [
+        {
+          "id": "counterattack_legal",
+          "text": "Have Justice prepare a formal rebuttal. Fight it on the procedural merits.",
+          "flags": ["kolvar_counterattack_legal"],
+          "statEffects": [
+            { "stat": "factions.halvekists", "value": -5 },
+            { "stat": "factions.reformists", "value": 3 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "counterattack_ignore",
+          "text": "Do not respond. Govern. Let the motion die without oxygen.",
+          "flags": ["kolvar_counterattack_ignored"],
+          "statEffects": [
+            { "stat": "factions.halvekists", "value": -8 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

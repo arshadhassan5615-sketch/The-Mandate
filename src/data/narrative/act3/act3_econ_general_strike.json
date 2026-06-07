@@ -1,0 +1,84 @@
+{
+  "id": "act3_econ_general_strike",
+  "title": "The Factories Go Quiet",
+  "week": 35,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["gregor_maric", "vyktor_reznik", "elara_vostane"],
+  "dialogue": "The overnight reports confirm it. Seventeen factories across Kravenstal and Dravenhollow did not open this morning.",
+  "monologue": "Marić warned me. He told me the grievances had been waiting. I told him growth would come before the waiting ran out. I was wrong about the timeline.",
+  "choices": [
+    {
+      "id": "strike_hear_maric",
+      "text": "What are their demands?",
+      "nextSegment": "strike_brief"
+    }
+  ],
+  "segments": {
+    "strike_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "Wage floors indexed to inflation. Mandatory worker representation on privatized factory boards. A moratorium on foreign ownership transfers until a workers' protection framework is in place. These are not radical demands. These are the protections I told you they needed two years ago."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "I did not organize this. I want that understood. The workers organized themselves. That is what happens when the government they voted for stops answering them."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Seventeen factories represents approximately nine percent of industrial output. If the strike holds for two weeks, the economic impact becomes material. If it spreads to the eastern provinces, it becomes a crisis."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Halvekists are already framing this as proof that the free market agenda was reckless. They will be in front of every camera by afternoon."
+        }
+      ],
+      "monologue": "He did not organize this. The workers organized themselves. That is what Marić said and the emphasis was deliberate — he is telling me the movement has momentum independent of him, which means he cannot stop it even if he wanted to. Which means I cannot manage this through Marić. I have to address the workers directly.",
+      "choices": [
+        {
+          "id": "strike_negotiate",
+          "text": "Open direct negotiations with the strike organizers. Meet the core demands — wage indexing and worker representation. Not as a concession. As a correction.",
+          "internalTag": "reformist",
+          "flags": ["general_strike_negotiated"],
+          "statEffects": [
+            { "stat": "factions.workersCoalition", "value": 15 },
+            { "stat": "factions.businessClass", "value": -12 },
+            { "stat": "nation.economyHealth", "value": -5 },
+            { "stat": "personal.moralCompass", "value": 10 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "strike_partial",
+          "text": "Offer wage indexing only. Worker board representation requires Assembly approval — promise to introduce the legislation within sixty days.",
+          "internalTag": "pragmatist",
+          "flags": ["general_strike_partial_deal"],
+          "statEffects": [
+            { "stat": "factions.workersCoalition", "value": 5 },
+            { "stat": "factions.businessClass", "value": -5 },
+            { "stat": "nation.economyHealth", "value": -2 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "strike_hold_firm",
+          "text": "Refuse to negotiate under strike conditions. The government does not set policy in response to industrial action. The factories reopen or the consequences escalate.",
+          "internalTag": "authoritarian",
+          "flags": ["general_strike_refused"],
+          "statEffects": [
+            { "stat": "factions.workersCoalition", "value": -20 },
+            { "stat": "factions.halvekists", "value": -5 },
+            { "stat": "nation.publicOrder", "value": -10 },
+            { "stat": "personal.moralCompass", "value": -8 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

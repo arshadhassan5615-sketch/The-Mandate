@@ -1,0 +1,61 @@
+{
+  "id": "act1_chain_both_agencies_conflict",
+  "title": "The First Collision",
+  "week": 11,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "dialogue": "They arrive separately and sit on opposite sides of the room. Vyktor notices. He says nothing.",
+  "monologue": "Six days. It took six days for the tension I created to become visible in a room.",
+  "choices": [
+    {
+      "id": "both_agencies_hear",
+      "text": "What happened?",
+      "nextSegment": "agencies_conflict_brief"
+    }
+  ],
+  "segments": {
+    "agencies_conflict_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Tovik opened an investigation into procurement irregularities in the Development Ministry this morning. Within four hours, two of the three subjects had been warned. Someone told them before the BCA could secure the records. The only people who knew about the investigation were in this building."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Dorne's people were conducting a passive assessment of those same officers — they had been flagged as former BNI-adjacent. His team was observing them, not protecting them. Danika is inferring a leak from Dorne's operation. That inference may be correct. It may also be that the subjects have their own sources."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "If the SSD is contaminating BCA investigations, the BCA cannot function. That is not a complaint. That is a structural incompatibility."
+        }
+      ],
+      "monologue": "Structural incompatibility. She chose that phrase deliberately. She is not asking me to choose between them. She is telling me that I already made that choice when I funded both, and the consequences are arriving on schedule.",
+      "choices": [
+        {
+          "id": "both_agencies_investigate_leak",
+          "text": "Order an internal review. Find the source of the leak before drawing conclusions about the SSD.",
+          "flags": ["agencies_conflict_review_ordered"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": -3 },
+            { "stat": "nation.publicOrder", "value": 2 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "both_agencies_separate_jurisdictions",
+          "text": "Establish a formal jurisdictional separation. BCA and SSD targets must be deconflicted through Vyktor's office before either agency acts.",
+          "flags": ["agencies_deconfliction_protocol"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": 2 },
+            { "stat": "personal.moralCompass", "value": 2 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

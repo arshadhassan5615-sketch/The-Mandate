@@ -1,0 +1,54 @@
+{
+  "id": "act1_renek_sermon",
+  "title": "The Shepherd Speaks",
+  "week": 5,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "dialogue": "The Sunday sermon transcript arrives Monday morning, as it always does. This week Vyktor has underlined three paragraphs.",
+  "monologue": "Renek does not give political speeches. He gives sermons. The difference is that a sermon cannot be fact-checked.",
+  "choices": [
+    {
+      "id": "renek_sermon_read",
+      "text": "Read the underlined sections.",
+      "nextSegment": "vyktor_sermon_brief"
+    }
+  ],
+  "segments": {
+    "vyktor_sermon_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He spoke about 'shepherds who refuse the blessing of the Eternal Flame' and 'the coldness that enters a house when God is shown the door.' He did not name you. He did not need to. The congregation understood. By Monday morning it had been reprinted in four provincial papers."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "It is a warning shot. He is reminding the faithful — and the rural Assembly members who answer to the faithful — that the Church has a long memory and a loud voice."
+        }
+      ],
+      "monologue": "He spoke about shepherds who refuse the blessing and the coldness that enters a house when God is shown the door. He did not name me. He did not need to. That is Renek's method — the sermon is the threat, the silence is the weapon.",
+      "choices": [
+        {
+          "id": "renek_sermon_ignore",
+          "text": "File it. We do not respond to sermons.",
+          "flags": ["renek_sermon_ignored"],
+          "statEffects": [
+            { "stat": "factions.church", "value": -5 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "renek_sermon_reach_out",
+          "text": "Request a private meeting with Renek. Address the tension directly before it calcifies.",
+          "flags": ["renek_sermon_engaged"],
+          "statEffects": [
+            { "stat": "factions.church", "value": 5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

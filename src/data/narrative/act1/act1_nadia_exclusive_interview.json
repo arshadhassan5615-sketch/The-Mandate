@@ -1,0 +1,55 @@
+{
+  "id": "act1_nadia_exclusive_interview",
+  "title": "On The Record",
+  "week": 2,
+  "type": "meeting",
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["nadia_voss"],
+  "dialogue": "Nadia Voss arrives exactly on time, notepad open, recorder on the desk. She does not ask if she can record. She assumes.",
+  "monologue": "She assumes the recorder is acceptable because I offered the interview and the interview implies transparency. That is correct logic. I should remember she reasons that way.",
+  "choices": [
+    {
+      "id": "nadia_interview_begin",
+      "text": "\"Let's begin.\"",
+      "nextSegment": "nadia_first_question"
+    }
+  ],
+  "segments": {
+    "nadia_first_question": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "nadia_voss",
+          "text": "Chancellor. Three questions, as promised. BNI archives — when, specifically? Constitutional reform — what is the first concrete step and by when? And Jonas Ashavel's firm — I have pulled the public contract registry. There are no government contracts. But there are two private contracts with state-adjacent entities from 2019. Do you want to address those?"
+        },
+        {
+          "type": "description",
+          "text": "She has done her research. The 2019 contracts are technically clean — Jonas declared them — but they are the kind of fact that looks worse when it surfaces unexpectedly than when it is addressed directly."
+        }
+      ],
+      "monologue": "She pulled the contract registry. Of course she did. The 2019 contracts are clean but they are the kind of clean that needs explaining or it becomes the kind of story that does not need facts.",
+      "choices": [
+        {
+          "id": "nadia_full_transparency",
+          "text": "Answer all three directly. BNI timeline, constitutional first step, and Jonas's 2019 contracts explained in full.",
+          "flags": ["nadia_interview_transparent"],
+          "statEffects": [
+            { "stat": "nation.pressFreedom", "value": 8 },
+            { "stat": "personal.publicImage", "value": 5 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "nadia_partial",
+          "text": "Answer the first two fully. On Jonas — acknowledge the contracts exist, note they were declared, and decline further comment.",
+          "flags": ["nadia_interview_partial"],
+          "statEffects": [
+            { "stat": "nation.pressFreedom", "value": 4 },
+            { "stat": "personal.publicImage", "value": 2 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

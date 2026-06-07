@@ -1,0 +1,102 @@
+{
+  "id": "act3_econ_vostane_resignation",
+  "title": "The Last Calculation",
+  "week": 33,
+  "type": "meeting",
+  "location": "Ministry of Finance — Vostane's Office",
+  "characters": ["elara_vostane"],
+  "dialogue": "The office is already different. The spreadsheets are gone. The briefing documents are stacked in boxes. She is standing when you arrive.",
+  "monologue": "She is standing. Elara sits for every meeting, every briefing, every argument. She sits because sitting is efficient and she is always efficient. She is standing because this is not a meeting.",
+  "choices": [
+    {
+      "id": "vostane_resignation_hear",
+      "text": "Elara.",
+      "nextSegment": "vostane_resignation_scene"
+    }
+  ],
+  "segments": {
+    "vostane_resignation_scene": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I have been Finance Minister for thirty-one months. In that time I have managed three budget revisions, two currency stabilization interventions, and a debt restructuring that most economists said was impossible. I did all of it because I believed you were listening to the data even when you disagreed with my conclusions."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I told you eighteen months ago that overruling the Arcturian partnership would cost us international standing we could not afford to lose. The data was correct. The cost arrived on schedule. I have prepared a full transition briefing for my successor. It is on the desk."
+        },
+        {
+          "type": "description",
+          "text": "She picks up her coat from the chair. The motion is the same precision she brings to everything — efficient, final, without drama."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I am not angry, Chancellor. I am a Finance Minister whose minister's advice was not followed. That is a data point. I am updating my model accordingly."
+        }
+      ],
+      "monologue": "She said she is not angry. She said it the way she says everything — as a statement of fact, not a performance. Elara Vostane is not angry. She is simply finished. The distinction is devastating.",
+      "choices": [
+        {
+          "id": "vostane_resign_accept",
+          "text": "\"I will not ask you to stay if the conditions that brought you here no longer exist. The transition briefing is thorough — I would expect nothing less. Thank you, Elara. For everything.\"",
+          "flags": ["vostane_resigned", "finance_minister_vacant"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": -10 },
+            { "stat": "factions.businessClass", "value": -8 },
+            { "stat": "nation.economyHealth", "value": -6 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "vostane_resign_ask_stay",
+          "text": "\"Elara. I was wrong about the Arcturian decision. Tell me what you need from this government to stay and I will provide it.\"",
+          "flags": ["vostane_stay_requested"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": 3 },
+            { "stat": "nation.economyHealth", "value": 2 }
+          ],
+          "nextSegment": "vostane_conditions"
+        }
+      ]
+    },
+    "vostane_conditions": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Three things. Restore competitive bidding on the Arcturian technology contracts. Authorize the IMA review you declined eighteen months ago. And the next time I present data that contradicts your policy direction — you read it before you decide, not after."
+        },
+        {
+          "type": "description",
+          "text": "She sets her coat back on the chair. She does not sit. But she does not leave."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vostane_accept_conditions",
+          "text": "\"Done. All three. I will have Vyktor arrange the Arcturian outreach by end of week.\"",
+          "flags": ["vostane_stayed", "arcturian_bidding_restored"],
+          "statEffects": [
+            { "stat": "factions.businessClass", "value": 8 },
+            { "stat": "nation.economyHealth", "value": 5 },
+            { "stat": "personal.moralCompass", "value": 5 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "vostane_reject_conditions",
+          "text": "\"The IMA review and the Arcturian contracts — yes. The third condition I cannot accept as stated. I govern. I read the data. But the decision is mine.\"",
+          "flags": ["vostane_resigned", "finance_minister_vacant"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": -8 },
+            { "stat": "nation.economyHealth", "value": -4 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

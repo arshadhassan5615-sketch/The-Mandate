@@ -1,0 +1,56 @@
+{
+  "id": "act2_chain_double_agent",
+  "title": "Yelena Feeds the Line",
+  "week": 17,
+  "type": "meeting",
+  "location": "Interior Ministry — Danika Oberlin's Office",
+  "characters": ["danika_oberlin"],
+  "dialogue": "Eight weeks since the decision. Danika has a progress report.",
+  "monologue": "Eight weeks of Yelena Dorova sitting at her desk, answering her handler's requests, passing information Danika has carefully constructed to be plausible and false. I think about her every time I sign something classified.",
+  "choices": [
+    {
+      "id": "double_agent_hear",
+      "text": "How is she holding up?",
+      "nextSegment": "double_agent_report"
+    }
+  ],
+  "segments": {
+    "double_agent_report": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Professionally — better than expected. She is precise, she follows the protocol exactly, and she has not broken cover once in eight weeks. The Arcturian handler has not expressed suspicion. We have fed them three sets of false budget projections and a fabricated military procurement schedule. They have acted on at least two of them — we can see the footprint in their diplomatic reporting."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Personally — I do not know. I check in with her twice a week. She does the work. She does not talk about how she feels about the work. I do not push her on it. I am not sure it would help if I did."
+        }
+      ],
+      "monologue": "She does the work and does not talk about how she feels about it. Danika does not push her. I understand why. Some things do not improve with examination. Yelena Dorova is twenty-three years old and she is running a disinformation operation against the foreign power that blackmailed her. That is either justice or cruelty and I am not certain which one it is.",
+      "choices": [
+        {
+          "id": "double_agent_continue",
+          "text": "Continue the operation. The intelligence value is real and she is performing well.",
+          "flags": ["double_agent_operation_continues"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": 3 },
+            { "stat": "nation.militaryReadiness", "value": 2 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "double_agent_close",
+          "text": "Close it. We have enough from the operation. End Yelena's involvement and give her a clean exit — new posting, sealed record, a real chance at something else.",
+          "flags": ["double_agent_operation_closed", "dorova_clean_exit"],
+          "statEffects": [
+            { "stat": "personal.moralCompass", "value": 8 },
+            { "stat": "nation.internationalStanding", "value": -2 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

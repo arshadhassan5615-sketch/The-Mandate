@@ -1,0 +1,171 @@
+{
+  "id": "act3_tyvaren_pressure",
+  "title": "The Eastern Wind",
+  "week": 24,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "elara_vostane"],
+  "dialogue": "Vyktor does not knock. He opens the door, closes it behind him, and stands with his back against it. He has a single folder in his hand.",
+  "monologue": "The Morivask deal closed six weeks ago. We knew retaliation was coming. Elara said sixty days. Vyktor said sooner. They were both right.",
+  "choices": [
+    {
+      "id": "tyvaren_open_folder",
+      "text": "What is it?",
+      "nextSegment": "vyktor_tyvaren_brief"
+    }
+  ],
+  "segments": {
+    "vyktor_tyvaren_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Three things. First — Tyvaren has declined to renew the northern supply contracts with Valdenmoor Steel and Kravenstal Timber. Both contracts expire in forty-five days. Combined they represent fourteen percent of our industrial supply chain."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Second — Tyvaren's ambassador delivered a formal diplomatic note this morning. It describes the Morivask concession as a 'destabilizing act inconsistent with regional partnership obligations.' That is language from their legal framework for sanctions."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Third — their military has conducted two unannounced exercises on the northern border in the past ten days. They were within legal parameters. They were not accidents."
+        }
+      ],
+      "monologue": "Three pressure points simultaneously. Supply chain. Diplomatic. Military. They are not escalating — they are demonstrating. Showing us the levers they have and that they are willing to use them. This is a message, not an attack. The question is what we say back.",
+      "choices": [
+        {
+          "id": "tyvaren_ask_elara",
+          "text": "Elara — how bad is the supply chain exposure?",
+          "nextSegment": "elara_supply_assessment"
+        },
+        {
+          "id": "tyvaren_ask_military",
+          "text": "The border exercises — what does Dusek say?",
+          "nextSegment": "vyktor_dusek_read"
+        }
+      ]
+    },
+    "elara_supply_assessment": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Fourteen percent is painful but survivable. Valdenmoor Steel is the more critical of the two — we have partial alternative sourcing through Lytheira, but it covers perhaps sixty percent of the gap. Kravenstal Timber has domestic alternatives, slower to mobilize."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The real risk is not the immediate gap. It is the signal. If Tyvaren successfully pressures us here and we visibly struggle, they learn the lever works. Then they apply it again."
+        }
+      ],
+      "monologue": "She said 'if they learn the lever works.' That is the correct frame. This is not about steel and timber. This is about what Tyvaren learns about us.",
+      "choices": [
+        {
+          "id": "tyvaren_supply_to_response",
+          "text": "Then we cannot let them see us struggle. What are our response options?",
+          "nextSegment": "response_options"
+        }
+      ]
+    },
+    "vyktor_dusek_read": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Dusek says the exercises are calibrated. Not a prelude to anything — a demonstration of capability. She used the word 'theatrical.' She also said that theatrical demonstrations have a way of becoming real if the audience does not respond correctly."
+        }
+      ],
+      "monologue": "Theatrical. Dusek would know — she has spent thirty years watching Tyvaren's military doctrine. If she says it is theatre, it is theatre. For now.",
+      "choices": [
+        {
+          "id": "tyvaren_military_to_response",
+          "text": "What are our options for responding?",
+          "nextSegment": "response_options"
+        }
+      ]
+    },
+    "response_options": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Three paths. We absorb it — find alternative suppliers, ignore the diplomatic note, say nothing about the exercises. We signal that we are not rattled. Risk: they escalate because silence reads as weakness."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We respond diplomatically — request a formal meeting with Tyvaren's Foreign Minister, put the grievances on a table, negotiate. Risk: it validates their framing that we did something wrong in Morivask."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We counter-pressure — announce the Morivask deal publicly with full detail, make the economics visible, let the regional press do the work. Tyvaren's aggression becomes the story, not the deal. Risk: it hardens their position and closes the diplomatic door."
+        }
+      ],
+      "monologue": "Three options. Absorb, negotiate, or counter. None of them are clean. All of them have a cost. This is what it means to have won something — you spend the next year defending it.",
+      "choices": [
+        {
+          "id": "tyvaren_absorb",
+          "text": "We absorb it. Find the alternative suppliers quietly. Do not give them the reaction they are looking for.",
+          "internalTag": "pragmatist",
+          "flags": ["tyvaren_pressure_absorbed"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": -4 },
+            { "stat": "factions.businessClass", "value": -3 }
+          ],
+          "nextSegment": "pressure_close"
+        },
+        {
+          "id": "tyvaren_negotiate",
+          "text": "Request the meeting. We won Morivask honestly — we can defend it in a room.",
+          "internalTag": "reformist",
+          "flags": ["tyvaren_pressure_diplomatic"],
+          "statEffects": [
+            { "stat": "nation.publicOrder", "value": 2 },
+            { "stat": "factions.reformists", "value": 4 }
+          ],
+          "nextSegment": "pressure_close"
+        },
+        {
+          "id": "tyvaren_counter",
+          "text": "Make the deal public. All of it. Let Veltria see what we won and let Tyvaren explain why they are angry about it.",
+          "internalTag": "authoritarian",
+          "flags": ["tyvaren_pressure_public"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": -5 },
+            { "stat": "nation.publicOrder", "value": -3 }
+          ],
+          "nextSegment": "pressure_close"
+        }
+      ]
+    },
+    "pressure_close": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor nods once and leaves to begin making calls. Elara stays behind long enough to set a second folder on the desk — alternative supplier contacts, already compiled, already organized by cost and lead time. She did not wait to be asked."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The Morivask revenue starts flowing in month four. Whatever Tyvaren costs us in the next sixty days, the deal pays for it by end of year. I want you to hold that number when it gets difficult."
+        }
+      ],
+      "monologue": "She said when it gets difficult. Not if. That is Elara's version of reassurance and somehow it is the most reassuring thing anyone has said to me today.",
+      "choices": [
+        {
+          "id": "tyvaren_pressure_end",
+          "text": "[End — Tyvaren Pressure Logged]",
+          "journalEntry": {
+            "title": "The Eastern Wind",
+            "category": "CRISIS",
+            "content": "Tyvaren moved faster than Elara predicted. Supply contracts cancelled. Diplomatic note with sanctions language. Border exercises. Three levers pulled simultaneously. We chose our response. The Morivask deal is real and it is paying for itself by end of year. That has to be enough for now."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

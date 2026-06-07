@@ -1,0 +1,57 @@
+{
+  "id": "act1_chain_no_agency_vacuum",
+  "title": "What Fills the Space",
+  "week": 14,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "dialogue": "The Interior Ministry's monthly report is thicker than usual. Vyktor has flagged twelve pages.",
+  "monologue": "Twelve pages. Vyktor flags selectively. Twelve pages means something is moving that I told him not to build a structure for.",
+  "choices": [
+    {
+      "id": "vacuum_read_report",
+      "text": "What is in those twelve pages?",
+      "nextSegment": "vacuum_brief"
+    }
+  ],
+  "segments": {
+    "vacuum_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Three separate incidents in the past month. A former BNI officer running what appears to be a private intelligence operation out of a logistics company in Dravenhollow. A provincial administrator in Thornfeld accepting payments from a construction consortium that won four consecutive contracts without competitive tender. And a journalist who was investigating the Halvek-era detention records has received credible threats — she has gone to ground."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "These are not connected. What connects them is the absence of any institutional mechanism to address them. The Interior Ministry can document. Without the BCA it cannot investigate. Without the SSD it cannot neutralize. We are watching the vacuum fill in real time."
+        }
+      ],
+      "monologue": "He said watching the vacuum fill. He told me in week ten what fills vacuums. The same people who created them. He was right and I knew he was right and I chose fiscal discipline anyway. I need to decide whether that was the right call or whether it is still reversible.",
+      "choices": [
+        {
+          "id": "vacuum_reopen_bca",
+          "text": "Reopen the BCA question. Find the budget. This cannot wait for next quarter.",
+          "flags": ["bca_reopened_late"],
+          "statEffects": [
+            { "stat": "factions.reformists", "value": 8 },
+            { "stat": "nation.civilLiberties", "value": 5 },
+            { "stat": "nation.nationalDebt", "value": 10 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "vacuum_hold_course",
+          "text": "Hold the fiscal line. Document the incidents and address them through existing channels.",
+          "flags": ["vacuum_held_course"],
+          "statEffects": [
+            { "stat": "nation.publicOrder", "value": -5 },
+            { "stat": "personal.moralCompass", "value": -5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}
