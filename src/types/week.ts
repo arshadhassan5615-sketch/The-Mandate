@@ -1,7 +1,7 @@
 import type { Condition } from './narrative'
 import type { VoteConfig } from './vote'
 
-export type GamePhase = 'title' | 'customization' | 'prologue' | 'briefing' | 'press' | 'legislation' | 'agenda' | 'scene' | 'budget' | 'constitution' | 'lobbying' | 'vote_result' | 'review' | 'epilogue'
+export type GamePhase = 'title' | 'customization' | 'prologue' | 'briefing' | 'press' | 'legislation' | 'agenda' | 'map' | 'scene' | 'budget' | 'constitution' | 'lobbying' | 'vote_result' | 'review' | 'epilogue'
 
 export type AgendaCategory =
   | 'cabinet'

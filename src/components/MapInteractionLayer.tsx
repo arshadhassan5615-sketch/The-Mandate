@@ -1,0 +1,85 @@
+import { useMemo } from 'react'
+import { useWeekStore } from '../stores/weekStore'
+import { useNarrativeStore } from '../stores/narrativeStore'
+import { useGameStore } from '../stores/gameStore'
+import { groupByProvince, type ProvinceId } from '../engine/LocationResolver'
+import { getScene } from '../engine/NarrativeEngine'
+import MapScenePin from './MapScenePin'
+import type { AgendaItem } from '../types/week'
+
+export default function MapInteractionLayer() {
+  const agendaPool = useWeekStore(s => s.agendaPool)
+  const launchSingleScene = useWeekStore(s => s.launchSingleScene)
+  const completeWeek = useWeekStore(s => s.completeWeek)
+  const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
+  const currentWeek = useGameStore(s => s.currentWeek)
+
+  const groups = useMemo(() => groupByProvince(agendaPool), [agendaPool])
+
+  const isWeekBlocked = useMemo(() => {
+    return agendaPool.some(item => {
+      const scene = getScene(item.sceneId)
+      return scene?.isWeekGate === true && !visitedSceneIds.includes(item.sceneId)
+    })
+  }, [agendaPool, visitedSceneIds])
+
+  return (
+    <>
+      {(Object.keys(groups) as ProvinceId[]).map(provinceId => (
+        <MapScenePin
+          key={provinceId}
+          provinceId={provinceId}
+          items={groups[provinceId]!}
+          currentWeek={currentWeek}
+          onSelectScene={(item: AgendaItem) => launchSingleScene(item)}
+        />
+      ))}
+
+      {agendaPool.length > 0 && (
+        <div style={{
+          position: 'fixed',
+          bottom: '80px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 400,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '6px',
+        }}>
+          <button
+            onClick={completeWeek}
+            disabled={isWeekBlocked}
+            title={isWeekBlocked ? 'Complete all mandatory scenes before ending the week' : undefined}
+            style={{
+              fontFamily: "'Special Elite', monospace",
+              fontSize: '0.65rem',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              padding: '10px 32px',
+              background: isWeekBlocked ? 'rgba(200,168,76,0.08)' : 'rgba(200,168,76,0.18)',
+              border: `1.5px solid ${isWeekBlocked ? 'rgba(200,168,76,0.2)' : 'rgba(200,168,76,0.6)'}`,
+              color: isWeekBlocked ? 'rgba(200,168,76,0.3)' : '#c9a84c',
+              cursor: isWeekBlocked ? 'not-allowed' : 'pointer',
+              borderRadius: '3px',
+              transition: 'all 0.15s ease',
+              boxShadow: isWeekBlocked ? 'none' : '0 0 16px rgba(200,168,76,0.15)',
+            }}
+          >
+            End Week →
+          </button>
+          {isWeekBlocked && (
+            <span style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: '9px',
+              letterSpacing: '0.06em',
+              color: 'rgba(139,46,46,0.7)',
+            }}>
+              Mandatory scenes remain
+            </span>
+          )}
+        </div>
+      )}
+    </>
+  )
+}

@@ -170,6 +170,7 @@ interface WeekStore {
   // Scene phase
   sceneQueue:         AgendaItem[]   // sorted selected items (chain scenes first)
   currentQueueIndex:  number
+  returnToMap:        boolean        // true when launched from map — returns to 'map' after queue
 
   // Evening review
   weekStartSnapshot: GameState | null
@@ -213,6 +214,7 @@ interface WeekStore {
   confirmAgenda:     () => void
   advanceQueue:      () => void     // move to next scene or review phase
   injectScene:       (sceneId: string, title: string) => void  // mid-week emergency interrupt
+  launchSingleScene: (item: AgendaItem) => void                 // map → single scene → back to map
   resolveMidpoint:   () => void                                    // clear pending midpoint modal
   openTermReport:    () => void                                    // show term report after epilogue
   openLegacy:        () => void                                    // show legacy screen after term report
@@ -235,6 +237,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   forcedChainIds:      [],
   sceneQueue:          [],
   currentQueueIndex:   0,
+  returnToMap:         false,
   weekStartSnapshot:   null,
   transitionWeek:      null,
   transitionLabel:     '',
@@ -727,11 +730,11 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     if (pendingBills.length > 0) {
       set({ phase: 'legislation' })
     } else {
-      set({ phase: 'agenda' })
+      set({ phase: 'map' })
     }
   },
 
-  endLegislation: () => set({ phase: 'agenda' }),
+  endLegislation: () => set({ phase: 'map' }),
 
   toggleAgendaItem: (id) => {
     const { agendaPool, selectedIds, slotsUsed } = get()
@@ -890,8 +893,19 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
             set({ phase: 'scene' })
           }
         } else {
-          console.log('[TRACE 2] Queue exhausted — transitioning to review. Queue was:', q.map((s, i) => `[${i}] ${s.id}`).join(', '), '| last index:', next - 1)
-          set({ phase: 'review', transitionLabel: '' })
+          console.log('[TRACE 2] Queue exhausted — transitioning. Queue was:', q.map((s, i) => `[${i}] ${s.id}`).join(', '), '| last index:', next - 1)
+          const { returnToMap } = get()
+          if (returnToMap) {
+            const completedItem = q[q.length - 1]
+            set(s => ({
+              phase: 'map',
+              transitionLabel: '',
+              returnToMap: false,
+              agendaPool: s.agendaPool.filter(a => a.id !== completedItem.id),
+            }))
+          } else {
+            set({ phase: 'review', transitionLabel: '' })
+          }
         }
       } catch (e) {
         console.error('[advanceQueue] CRASHED — clearing transitionLabel to prevent black screen:', e)
@@ -919,6 +933,20 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     const newQueue = [...sceneQueue]
     newQueue.splice(currentQueueIndex + 1, 0, item)
     set({ sceneQueue: newQueue })
+  },
+
+  launchSingleScene: (item) => {
+    const sceneNode = getScene(item.sceneId)
+    if (!sceneNode) return
+    const snapshot = useGameStore.getState()
+    useNarrativeStore.getState().loadScene(item.sceneId)
+    set({
+      phase: 'scene',
+      sceneQueue: [item],
+      currentQueueIndex: 0,
+      weekStartSnapshot: snapshot,
+      returnToMap: true,
+    })
   },
 
   resolveMidpoint: () => set({ pendingMidpointProjectId: null }),

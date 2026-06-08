@@ -37,6 +37,7 @@ import TransitionOverlay from './TransitionOverlay'
 import DiaryScreen from './DiaryScreen'
 import CliffhangerScreen from './CliffhangerScreen'
 import DecreeInbox from './DecreeInbox'
+import MapInteractionLayer from './MapInteractionLayer'
 import { ErrorBoundary } from './ErrorBoundary'
 import { useSettingsStore } from '../stores/settingsStore'
 import { CabinetFormation } from './CabinetFormation'
@@ -183,6 +184,7 @@ export default function GameLayout() {
       )}
 
       {phase === 'agenda'   && <AgendaSelector />}
+      {phase === 'map'      && <MapInteractionLayer />}
       {phase === 'scene'    && <ErrorBoundary><SceneRouter /></ErrorBoundary>}
       {phase === 'budget'       && <BudgetInterface />}
       {phase === 'constitution' && <ConstitutionalReform />}
