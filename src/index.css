@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Playfair+Display+SC:wght@400;700&family=Cinzel+Decorative:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Special+Elite&display=swap');
 @import "tailwindcss";
 
@@ -20,9 +21,12 @@
   --accent-green: #4a6b3a;
   /* Typography scale */
   --font-headline: 'Playfair Display', Georgia, serif;
-  --font-body:     'Crimson Text', 'IM Fell English', Georgia, serif;
-  --font-mono:     'IBM Plex Mono', 'Special Elite', monospace;
-  --font-display:  'Special Elite', monospace;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display-sc: 'Playfair Display SC', Georgia, serif;
+  --font-body: 'Crimson Text', Georgia, serif;
+  --font-ui: 'Special Elite', monospace;
+  --font-mono: 'IBM Plex Mono', 'Special Elite', monospace;
+  --font-decorative: 'Cinzel Decorative', serif;
   /* Gold visibility palette */
   --gold: #c9a84c;
   --gold-dim: rgba(201, 168, 76, 0.6);
@@ -1379,4 +1383,43 @@ body::before {
   .evening-title {
     font-size: 32px;
   }
+}
+
+/* ─── Font Variety System ─────────────────────────────────────────────────── */
+
+/* Scene titles and chapter headers */
+.scene-title,
+.narrative-title {
+  font-family: var(--font-display);
+}
+
+/* Body text and dialogue */
+.dialogue-text,
+.narrative-text,
+.description-text {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Internal monologue */
+.monologue-text {
+  font-family: var(--font-body);
+  font-style: italic;
+}
+
+/* Province names and map labels */
+.province-label,
+.map-label {
+  font-family: var(--font-display);
+}
+
+/* Decree titles */
+.decree-title {
+  font-family: var(--font-display-sc);
+}
+
+/* Newspaper masthead */
+.newspaper-masthead {
+  font-family: var(--font-decorative);
 }

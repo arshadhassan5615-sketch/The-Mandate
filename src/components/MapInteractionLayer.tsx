@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
+import { useSettingsStore } from '../stores/settingsStore'
+import { useNewsStore } from '../stores/newsStore'
 import { groupByProvince, type ProvinceId } from '../engine/LocationResolver'
 import { getScene } from '../engine/NarrativeEngine'
 import MapScenePin from './MapScenePin'
@@ -16,11 +18,22 @@ export default function MapInteractionLayer() {
 
   const groups = useMemo(() => groupByProvince(agendaPool), [agendaPool])
 
+  const newsOpen = useNewsStore(s => s.isOpen)
+  const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
+
   const isWeekBlocked = useMemo(() => {
     return agendaPool.some(item => {
       const scene = getScene(item.sceneId)
       return scene?.isWeekGate === true && !visitedSceneIds.includes(item.sceneId)
     })
+  }, [agendaPool, visitedSceneIds])
+
+  const canShowEndWeek = useMemo(() => {
+    const weekSceneCount = agendaPool.length
+    const visitedThisWeek = agendaPool.filter(
+      item => visitedSceneIds.includes(item.sceneId)
+    ).length
+    return visitedThisWeek > 0 || weekSceneCount === 0
   }, [agendaPool, visitedSceneIds])
 
   return (
@@ -35,7 +48,7 @@ export default function MapInteractionLayer() {
         />
       ))}
 
-      {agendaPool.length > 0 && (
+      {canShowEndWeek && !newsOpen && !decreeInboxOpen && agendaPool.length > 0 && (
         <div style={{
           position: 'fixed',
           bottom: '80px',
