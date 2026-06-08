@@ -303,7 +303,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     const gameState  = useGameStore.getState()
     const { activeFlags, visitedSceneIds } = useNarrativeStore.getState()
     const pool = buildPool(gameState.currentWeek, gameState, activeFlags, visitedSceneIds)
-    // Week 14 — Constitution drafting (mandatory, fires once)
+    // Week 14 — Constitution drafting (fires once)
     if (gameState.currentWeek === 14 && !visitedSceneIds.includes('pipeline_constitution_drafting')) {
       pool.push({
         id: 'pipeline_constitution_drafting',
@@ -315,11 +315,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 14,
         weekDeadline: 14,
-        isMandatory: true,
       })
     }
 
-    // Week 15 — Constitution committee (mandatory, fires once)
+    // Week 15 — Constitution committee (fires once)
     if (gameState.currentWeek === 15 && !visitedSceneIds.includes('pipeline_constitution_committee')) {
       pool.push({
         id: 'pipeline_constitution_committee',
@@ -331,11 +330,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 15,
         weekDeadline: 15,
-        isMandatory: true,
       })
     }
 
-    // Week 16 — Constitution floor vote (mandatory, fires once)
+    // Week 16 — Constitution floor vote (fires once)
     if (gameState.currentWeek === 16 && !visitedSceneIds.includes('pipeline_constitution_floor_vote')) {
       pool.push({
         id: 'pipeline_constitution_floor_vote',
@@ -347,11 +345,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 2,
         weekAvailable: 16,
         weekDeadline: 16,
-        isMandatory: true,
       })
     }
 
-    // Week 18 — Morivask oil discovery (mandatory, fires once)
+    // Week 18 — Morivask oil discovery (fires once)
     if (gameState.currentWeek === 18 && !visitedSceneIds.includes('act2_week18_morivask_oil_discovery')) {
       pool.push({
         id: 'act2_week18_morivask_oil_discovery',
@@ -363,11 +360,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 18,
         weekDeadline: 18,
-        isMandatory: true,
       })
     }
 
-    // Week 20 — Oil negotiation (mandatory, fires once)
+    // Week 20 — Oil negotiation (fires once)
     if (gameState.currentWeek === 20 && !visitedSceneIds.includes('act2_week20_oil_negotiation')) {
       pool.push({
         id: 'act2_week20_oil_negotiation',
@@ -379,11 +375,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 20,
         weekDeadline: 20,
-        isMandatory: true,
       })
     }
 
-    // Week 21 — Megaproject decision (mandatory, fires once)
+    // Week 21 — Megaproject decision (fires once)
     if (gameState.currentWeek === 21 && !visitedSceneIds.includes('act2_week20_megaproject_choice')) {
       pool.push({
         id: 'act2_week20_megaproject_choice',
@@ -395,11 +390,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 21,
         weekDeadline: 21,
-        isMandatory: true,
       })
     }
 
-    // Week 22 — Oil outcome (mandatory, fires once)
+    // Week 22 — Oil outcome (fires once)
     if (gameState.currentWeek === 22 && !visitedSceneIds.includes('act2_week22_oil_outcome')) {
       pool.push({
         id: 'act2_week22_oil_outcome',
@@ -411,11 +405,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 22,
         weekDeadline: 22,
-        isMandatory: true,
       })
     }
 
-    // Week 1 — Cabinet introductions (mandatory, fires once)
+    // Week 1 — Cabinet introductions (fires once)
     if (gameState.currentWeek === 1 && !visitedSceneIds.includes('act1_week1_cabinet_introductions')) {
       pool.push({
         id: 'act1_week1_cabinet_introductions',
@@ -427,11 +420,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 2,
         weekAvailable: 1,
         weekDeadline: 1,
-        isMandatory: true,
       })
     }
 
-    // Week 1 — Inaugural ball (mandatory, fires once)
+    // Week 1 — Inaugural ball (fires once)
     if (gameState.currentWeek === 1 && !visitedSceneIds.includes('social_inaugural_ball_wk1')) {
       pool.push({
         id: 'social_inaugural_ball_wk1',
@@ -443,11 +435,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 3,
         weekAvailable: 1,
         weekDeadline: 1,
-        isMandatory: true,
       })
     }
 
-    // Week 1 — Mole investigation plant (mandatory, fires once)
+    // Week 1 — Mole investigation plant (fires once)
     if (gameState.currentWeek === 1 && !visitedSceneIds.includes('mole_week1_plant')) {
       pool.push({
         id: 'mole_week1_plant',
@@ -459,11 +450,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 4,
         weekAvailable: 1,
         weekDeadline: 2,
-        isMandatory: true,
       })
     }
 
-    // Week 2 — Mole investigation deepens (mandatory, fires once)
+    // Week 2 — Mole investigation deepens (fires once)
     if (gameState.currentWeek === 2 && !visitedSceneIds.includes('mole_week2_plant')) {
       pool.push({
         id: 'mole_week2_plant',
@@ -475,11 +465,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 2,
         weekDeadline: 3,
-        isMandatory: true,
       })
     }
 
-    // Week 3 — Mole investigation choice (mandatory, fires once)
+    // Week 3 — Mole investigation choice (fires once)
     if (gameState.currentWeek === 3 && !visitedSceneIds.includes('mole_week3_choice')) {
       pool.push({
         id: 'mole_week3_choice',
@@ -491,11 +480,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 3,
         weekDeadline: 4,
-        isMandatory: true,
       })
     }
 
-    // Week 5 — Mole complication (mandatory, fires once)
+    // Week 5 — Mole complication (fires once)
     if (gameState.currentWeek === 5 && !visitedSceneIds.includes('mole_week5_complication')) {
       pool.push({
         id: 'mole_week5_complication',
@@ -507,11 +495,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 5,
         weekDeadline: 6,
-        isMandatory: true,
       })
     }
 
-    // Week 13 — Hawk arc induction (mandatory, fires once)
+    // Week 13 — Hawk arc induction (fires once)
     if (gameState.currentWeek === 13 && !visitedSceneIds.includes('act1_shadow_hawk_induction')) {
       pool.push({
         id: 'act1_shadow_hawk_induction',
@@ -523,11 +510,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 13,
         weekDeadline: 13,
-        isMandatory: true,
       })
     }
 
-    // Week 16 — Hawk arc first operation (mandatory, fires once)
+    // Week 16 — Hawk arc first operation (fires once)
     if (gameState.currentWeek === 16 && !visitedSceneIds.includes('act1_shadow_hawk_first_operation')) {
       pool.push({
         id: 'act1_shadow_hawk_first_operation',
@@ -539,11 +525,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 16,
         weekDeadline: 16,
-        isMandatory: true,
       })
     }
 
-    // Week 22 — Hawk arc Voss connection (mandatory, fires once)
+    // Week 22 — Hawk arc Voss connection (fires once)
     if (gameState.currentWeek === 22 && !visitedSceneIds.includes('act2_shadow_hawk_voss_connection')) {
       pool.push({
         id: 'act2_shadow_hawk_voss_connection',
@@ -555,11 +540,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 2,
         weekAvailable: 22,
         weekDeadline: 22,
-        isMandatory: true,
       })
     }
 
-    // Week 24 — Voss introduction (mandatory, fires once)
+    // Week 24 — Voss introduction (fires once)
     if (gameState.currentWeek === 24 && !visitedSceneIds.includes('act2_week24_voss_introduction')) {
       pool.push({
         id: 'act2_week24_voss_introduction',
@@ -571,11 +555,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 24,
         weekDeadline: 24,
-        isMandatory: true,
       })
     }
 
-    // Week 28 — Hawk arc Morvec option (mandatory, fires once)
+    // Week 28 — Hawk arc Morvec option (fires once)
     if (gameState.currentWeek === 28 && !visitedSceneIds.includes('act2_shadow_hawk_morvec_option')) {
       pool.push({
         id: 'act2_shadow_hawk_morvec_option',
@@ -587,11 +570,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 28,
         weekDeadline: 28,
-        isMandatory: true,
       })
     }
 
-    // Week 32 — Voss outcome (mandatory, fires once)
+    // Week 32 — Voss outcome (fires once)
     if (gameState.currentWeek === 32 && !visitedSceneIds.includes('act2_week32_voss_outcome')) {
       pool.push({
         id: 'act2_week32_voss_outcome',
@@ -603,11 +585,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 2,
         weekAvailable: 32,
         weekDeadline: 32,
-        isMandatory: true,
       })
     }
 
-    // Week 35 — Hawk arc exposure crisis (mandatory, fires once)
+    // Week 35 — Hawk arc exposure crisis (fires once)
     if (gameState.currentWeek === 35 && !visitedSceneIds.includes('act3_shadow_hawk_exposure_crisis')) {
       pool.push({
         id: 'act3_shadow_hawk_exposure_crisis',
@@ -619,11 +600,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 35,
         weekDeadline: 35,
-        isMandatory: true,
       })
     }
 
-    // Week 28 — Voss crisis (mandatory, fires once)
+    // Week 28 — Voss crisis (fires once)
     if (gameState.currentWeek === 28 && !visitedSceneIds.includes('act2_week28_voss_crisis')) {
       pool.push({
         id: 'act2_week28_voss_crisis',
@@ -635,11 +615,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 28,
         weekDeadline: 28,
-        isMandatory: true,
       })
     }
 
-    // Week 32 — Morvec confrontation (mandatory, fires once)
+    // Week 32 — Morvec confrontation (fires once)
     if (gameState.currentWeek === 32 && !visitedSceneIds.includes('act3_week32_morvec_confrontation')) {
       pool.push({
         id: 'act3_week32_morvec_confrontation',
@@ -651,7 +630,6 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 32,
         weekDeadline: 32,
-        isMandatory: true,
       })
     }
 
@@ -695,17 +673,13 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       }
     }
 
-    // Auto-select mandatory items
-    const mandatoryItems = pool.filter(item => item.isMandatory)
-    const mandatoryIds = mandatoryItems.map(item => item.id)
-    const mandatoryCost = mandatoryItems.reduce((sum, item) => sum + item.slotCost, 0)
     // Note: forcedChainIds is NOT reset here — it is set by completeWeek before initWeek runs.
     // On first load (GameLayout mount), forcedChainIds stays [] from initial state.
     set({
       phase:        showMeeting ? 'scene' : 'briefing',
       agendaPool:   pool,
-      selectedIds:  mandatoryIds,
-      slotsUsed:    mandatoryCost,
+      selectedIds:  [],
+      slotsUsed:    0,
       sceneQueue:   [],
       currentQueueIndex: 0,
       pendingMidpointProjectId: null,
@@ -752,7 +726,6 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
     const isSelected = selectedIds.includes(id)
     if (isSelected) {
-      if (item.isMandatory) return
       set({
         selectedIds: selectedIds.filter(s => s !== id),
         slotsUsed:   slotsUsed - item.slotCost,

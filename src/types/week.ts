@@ -25,7 +25,6 @@ export interface AgendaItem {
   weekDeadline?: number      // undefined = always available after weekAvailable
   prerequisites?: Condition[]
   isUrgent?: boolean
-  isMandatory?: boolean
   voteConfig?: VoteConfig
 }
 

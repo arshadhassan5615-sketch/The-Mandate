@@ -67,7 +67,6 @@ export interface SocialInteraction {
   character?: string
   title: string
   location: string
-  mandatory?: boolean
   mutualExclusive?: string
   narrative: NarrativeSegment[]
   choices: SceneChoice[]
@@ -81,7 +80,6 @@ export interface NarrativeNode {
   weekDeadline?: number
   type: SceneType
   agendaCost: number
-  isMandatory: boolean
   isWeekGate?: boolean
   gateMessage?: string
   prerequisiteSceneIds?: string[]

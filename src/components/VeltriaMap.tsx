@@ -890,6 +890,52 @@ export default function VeltriaMap({ onProvinceDetail, mapImage }: {
       display: 'flex', flexDirection: 'column',
       fontFamily: "'IBM Plex Mono', 'Special Elite', monospace",
     }}>
+      {/* TEMP DEBUG — remove before release */}
+      {(() => {
+        return (
+          <div style={{
+            position: 'fixed',
+            top: 60,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 9999,
+            background: 'rgba(0,0,0,0.85)',
+            color: '#c9a84c',
+            padding: '12px 24px',
+            borderRadius: 4,
+            border: '1px solid #c9a84c',
+            fontFamily: 'monospace',
+            fontSize: 13,
+            display: 'flex',
+            gap: 16,
+            alignItems: 'center',
+          }}>
+            <span>Phase: <strong>{phase}</strong></span>
+            <button
+              onClick={() => useWeekStore.setState({ phase: 'briefing' })}
+              style={{ background: '#c9a84c', color: '#000', border: 'none',
+                padding: '4px 12px', cursor: 'pointer', fontFamily: 'monospace' }}
+            >
+              → Briefing
+            </button>
+            <button
+              onClick={() => useWeekStore.setState({ phase: 'press' })}
+              style={{ background: '#c9a84c', color: '#000', border: 'none',
+                padding: '4px 12px', cursor: 'pointer', fontFamily: 'monospace' }}
+            >
+              → Press
+            </button>
+            <button
+              onClick={() => useWeekStore.setState({ phase: 'agenda' })}
+              style={{ background: '#c9a84c', color: '#000', border: 'none',
+                padding: '4px 12px', cursor: 'pointer', fontFamily: 'monospace' }}
+            >
+              → Agenda
+            </button>
+          </div>
+        )
+      })()}
+
       {/* Header */}
       <div style={{
         flexShrink: 0, display: 'flex', alignItems: 'center',

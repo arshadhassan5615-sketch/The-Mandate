@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import type {
   BudgetAllocations, GameState, StateModifier,
   PlayerBackground, PlayerPersonality, PlayerAppearance, DiaryEntry,
@@ -191,10 +192,12 @@ function applyModifier(state: GameState, mod: StateModifier): GameState {
   }
 }
 
-export const useGameStore = create<GameStore>((set) => ({
-  ...INITIAL_STATE,
+export const useGameStore = create<GameStore>()(
+  persist(
+    (set) => ({
+      ...INITIAL_STATE,
 
-  applyModifiers: (modifiers) =>
+      applyModifiers: (modifiers) =>
     set((state) => {
       let next: GameState = { ...state }
       for (const mod of modifiers) next = applyModifier(next, mod)
@@ -210,13 +213,26 @@ export const useGameStore = create<GameStore>((set) => ({
     }),
 
   advanceWeek: () =>
-    set((state) => ({
-      currentWeek: state.currentWeek + 1,
-      currentAct: state.currentWeek >= 39 ? 4
-                : state.currentWeek >= 26 ? 3
-                : state.currentWeek >= 13 ? 2
-                : 1,
-    })),
+    set((state) => {
+      const newState = {
+        ...state,
+        currentWeek: state.currentWeek + 1,
+        currentAct: state.currentWeek >= 39 ? 4
+                  : state.currentWeek >= 26 ? 3
+                  : state.currentWeek >= 13 ? 2
+                  : 1,
+      }
+      localStorage.setItem(
+        'the-mandate-autosave',
+        JSON.stringify({
+          savedAt: new Date().toISOString(),
+          week: newState.currentWeek,
+          state: newState,
+        })
+      )
+      console.log(`[AutoSave] Week ${newState.currentWeek} saved.`)
+      return newState
+    }),
 
   setPlayerOptions: ({ background, personality, appearance }) =>
     set(() => ({
@@ -423,8 +439,29 @@ export const useGameStore = create<GameStore>((set) => ({
     diaryEntries: [...state.diaryEntries, entry],
   })),
 
-  resetToInitial: () => set(() => ({ ...INITIAL_STATE })),
-}))
+  resetToInitial: () => {
+    const existingSave = localStorage.getItem('the-mandate-autosave')
+    if (existingSave) {
+      try {
+        const parsed = JSON.parse(existingSave)
+        if (parsed.state && parsed.week > 1) {
+          set(() => ({ ...parsed.state }))
+          console.log(`[AutoSave] Restored save from week ${parsed.week}`)
+          return
+        }
+      } catch (e) {
+        console.warn('[AutoSave] Failed to load save:', e)
+      }
+    }
+    set(() => ({ ...INITIAL_STATE }))
+  },
+    }),
+    {
+      name: 'the-mandate-save',
+      version: 1,
+    }
+  )
+)
 
 // Enable Hot Module Replacement (HMR) for Zustand store
 // This prevents the game state from resetting when files are saved during local development

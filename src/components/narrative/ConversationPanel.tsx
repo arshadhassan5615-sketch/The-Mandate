@@ -424,7 +424,7 @@ export default function ConversationPanel({
         }} />
       )}
 
-      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 100, pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '12px', padding: '0 16px', width: '100%', maxWidth: '780px', boxSizing: 'border-box' }}>
+      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '12px', padding: '0 16px', width: '100%', maxWidth: '780px', boxSizing: 'border-box' }}>
 
         {/* Portrait Stack — left column, stacks bottom-to-top */}
         <div
@@ -630,8 +630,8 @@ export default function ConversationPanel({
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 40px, black calc(100% - 60px), transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 60px), transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 60px), transparent 100%)',
           }}
         >
           {history.map((entry, i) => {

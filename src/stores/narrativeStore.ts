@@ -209,7 +209,6 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
         weekAvailable: 1,
         type: 'event' as const,
         agendaCost: 0,
-        isMandatory: false,
         location: 'Unknown',
         characters: [],
         prerequisites: [],

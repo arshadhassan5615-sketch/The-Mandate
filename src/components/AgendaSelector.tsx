@@ -19,11 +19,10 @@ interface CardProps {
 }
 
 function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
-  const color = CATEGORY_COLORS[item.category as AgendaCategory]
-  const isMandatory = item.isMandatory ?? false
   const scene = getScene(item.sceneId)
   const isGate = scene?.isWeekGate ?? false
-  const effectiveDisabled = (disabled && !selected) || (isMandatory && selected)
+  const effectiveDisabled = disabled && !selected
+  const color = CATEGORY_COLORS[item.category as AgendaCategory] ?? 'var(--amber)'
 
   return (
     <button
@@ -35,7 +34,7 @@ function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
         gap: '0.5rem',
         textAlign: 'left',
         background: selected ? 'var(--amber-glow-strong)' : 'var(--paper-raised)',
-        border: `1px solid ${isGate ? 'var(--amber)' : isMandatory ? 'var(--accent-green)' : selected ? 'var(--amber)' : 'var(--border)'}`,
+        border: `1px solid ${isGate ? 'var(--amber)' : selected ? 'var(--amber)' : 'var(--border)'}`,
         borderLeft: isGate ? '4px solid var(--amber)' : undefined,
         borderRadius: '2px',
         padding: '1rem 1.1rem',
@@ -65,26 +64,8 @@ function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
         </div>
       )}
 
-      {/* Mandatory indicator */}
-      {isMandatory && !isGate && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '0.6rem',
-            right: '0.8rem',
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.58rem',
-            letterSpacing: '0.15em',
-            color: 'var(--accent-green)',
-            textTransform: 'uppercase',
-          }}
-        >
-          Mandatory
-        </div>
-      )}
-
       {/* Urgent indicator */}
-      {item.isUrgent && !isMandatory && (
+      {item.isUrgent && (
         <div
           style={{
             position: 'absolute',
@@ -129,7 +110,7 @@ function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
         >
           {item.slotCost > 0
             ? `${item.slotCost} slot${item.slotCost !== 1 ? 's' : ''}`
-            : 'Mandatory'}
+            : 'Required'}
         </span>
       </div>
 
@@ -357,7 +338,7 @@ export default function AgendaSelector() {
 
   return (
     <div
-      className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]"
+      className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[800]"
       style={{ background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}
     >
       {/* ── Header ──────────────────────────────────────────────── */}

@@ -283,9 +283,6 @@ export default function SocialEvent() {
   const eventId = scene?.id ?? ''
   const atmosphere = EVENT_ATMOSPHERES[eventId] ?? EVENT_ATMOSPHERES.social_inaugural_ball_wk1
 
-  // Find mandatory interaction (the toast)
-  const mandatoryInteraction = interactions.find(i => i.mandatory)
-
   // Map of mutually exclusive interactions
   const exclusivePairs = useMemo(() => {
     const map: Record<string, string> = {}
@@ -310,15 +307,11 @@ export default function SocialEvent() {
 
   const minimumReached = visitedIds.length >= 4
 
-  // Force mandatory interaction first
   const canInteract = useCallback((interaction: SocialInteraction) => {
     if (visitedIds.includes(interaction.id)) return false
     if (unavailableIds.has(interaction.id)) return false
-    if (mandatoryInteraction && !visitedIds.includes(mandatoryInteraction.id) && interaction.id !== mandatoryInteraction.id) {
-      return false
-    }
     return true
-  }, [visitedIds, unavailableIds, mandatoryInteraction])
+  }, [visitedIds, unavailableIds])
 
   const handleOpenInteraction = (interaction: SocialInteraction) => {
     if (!canInteract(interaction)) return
