@@ -303,6 +303,54 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     const gameState  = useGameStore.getState()
     const { activeFlags, visitedSceneIds } = useNarrativeStore.getState()
     const pool = buildPool(gameState.currentWeek, gameState, activeFlags, visitedSceneIds)
+    // Week 14 — Constitution drafting (mandatory, fires once)
+    if (gameState.currentWeek === 14 && !visitedSceneIds.includes('pipeline_constitution_drafting')) {
+      pool.push({
+        id: 'pipeline_constitution_drafting',
+        title: 'The Constitutional Drafting Committee',
+        description: 'The committee meets to begin drafting the Republic\'s constitution.',
+        category: 'meeting' as AgendaCategory,
+        sceneId: 'pipeline_constitution_drafting',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 14,
+        weekDeadline: 14,
+        isMandatory: true,
+      })
+    }
+
+    // Week 15 — Constitution committee (mandatory, fires once)
+    if (gameState.currentWeek === 15 && !visitedSceneIds.includes('pipeline_constitution_committee')) {
+      pool.push({
+        id: 'pipeline_constitution_committee',
+        title: 'The Committee Vote',
+        description: 'The drafting committee is ready to vote on the constitutional framework.',
+        category: 'meeting' as AgendaCategory,
+        sceneId: 'pipeline_constitution_committee',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 15,
+        weekDeadline: 15,
+        isMandatory: true,
+      })
+    }
+
+    // Week 16 — Constitution floor vote (mandatory, fires once)
+    if (gameState.currentWeek === 16 && !visitedSceneIds.includes('pipeline_constitution_floor_vote')) {
+      pool.push({
+        id: 'pipeline_constitution_floor_vote',
+        title: 'The Floor Vote',
+        description: 'The Assembly votes on the constitution.',
+        category: 'meeting' as AgendaCategory,
+        sceneId: 'pipeline_constitution_floor_vote',
+        slotCost: 0,
+        executionOrder: 2,
+        weekAvailable: 16,
+        weekDeadline: 16,
+        isMandatory: true,
+      })
+    }
+
     // Week 18 — Morivask oil discovery (mandatory, fires once)
     if (gameState.currentWeek === 18 && !visitedSceneIds.includes('act2_week18_morivask_oil_discovery')) {
       pool.push({
@@ -363,6 +411,102 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 22,
         weekDeadline: 22,
+        isMandatory: true,
+      })
+    }
+
+    // Week 1 — Cabinet introductions (mandatory, fires once)
+    if (gameState.currentWeek === 1 && !visitedSceneIds.includes('act1_week1_cabinet_introductions')) {
+      pool.push({
+        id: 'act1_week1_cabinet_introductions',
+        title: 'The Cabinet',
+        description: 'Your ministers are waiting to be introduced.',
+        category: 'meeting' as AgendaCategory,
+        sceneId: 'act1_week1_cabinet_introductions',
+        slotCost: 0,
+        executionOrder: 2,
+        weekAvailable: 1,
+        weekDeadline: 1,
+        isMandatory: true,
+      })
+    }
+
+    // Week 1 — Inaugural ball (mandatory, fires once)
+    if (gameState.currentWeek === 1 && !visitedSceneIds.includes('social_inaugural_ball_wk1')) {
+      pool.push({
+        id: 'social_inaugural_ball_wk1',
+        title: 'The Inaugural Ball',
+        description: 'The Republic celebrates. You must be present.',
+        category: 'social' as AgendaCategory,
+        sceneId: 'social_inaugural_ball_wk1',
+        slotCost: 0,
+        executionOrder: 3,
+        weekAvailable: 1,
+        weekDeadline: 1,
+        isMandatory: true,
+      })
+    }
+
+    // Week 1 — Mole investigation plant (mandatory, fires once)
+    if (gameState.currentWeek === 1 && !visitedSceneIds.includes('mole_week1_plant')) {
+      pool.push({
+        id: 'mole_week1_plant',
+        title: 'Something in the Walls',
+        description: 'Danika has flagged an anomaly in the palace communications log.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'mole_week1_plant',
+        slotCost: 0,
+        executionOrder: 4,
+        weekAvailable: 1,
+        weekDeadline: 2,
+        isMandatory: true,
+      })
+    }
+
+    // Week 2 — Mole investigation deepens (mandatory, fires once)
+    if (gameState.currentWeek === 2 && !visitedSceneIds.includes('mole_week2_plant')) {
+      pool.push({
+        id: 'mole_week2_plant',
+        title: 'The Pattern Continues',
+        description: 'The anomaly in the communications log has a pattern.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'mole_week2_plant',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 2,
+        weekDeadline: 3,
+        isMandatory: true,
+      })
+    }
+
+    // Week 3 — Mole investigation choice (mandatory, fires once)
+    if (gameState.currentWeek === 3 && !visitedSceneIds.includes('mole_week3_choice')) {
+      pool.push({
+        id: 'mole_week3_choice',
+        title: 'The Investigation Question',
+        description: 'Danika needs a decision on how far to take this.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'mole_week3_choice',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 3,
+        weekDeadline: 4,
+        isMandatory: true,
+      })
+    }
+
+    // Week 5 — Mole complication (mandatory, fires once)
+    if (gameState.currentWeek === 5 && !visitedSceneIds.includes('mole_week5_complication')) {
+      pool.push({
+        id: 'mole_week5_complication',
+        title: 'The Investigation Complicates',
+        description: 'Something unexpected has emerged in the mole investigation.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'mole_week5_complication',
+        slotCost: 0,
+        executionOrder: 1,
+        weekAvailable: 5,
+        weekDeadline: 6,
         isMandatory: true,
       })
     }
