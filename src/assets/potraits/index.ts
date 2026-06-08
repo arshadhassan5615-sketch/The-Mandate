@@ -41,6 +41,9 @@ import benedikt_varro from './benedikt_varro.jpeg'
 import sofia_drenek from './sofia_drenek.jpeg'
 import orin_valdek from './orin_valdek.jpeg'
 import daria_voss from './daria_voss.jpeg'
+import emilian_voss from './emilian_voss.jpeg'
+import aleksander_igor from './aleksander_igor.jpeg'
+import matthias_krel from './matthias_krel.jpeg'
 
 export const PORTRAITS: Record<string, string> = {
   katerin_ashavel,
@@ -85,6 +88,9 @@ export const PORTRAITS: Record<string, string> = {
   sofia_drenek,
   orin_valdek,
   daria_voss,
+  emilian_voss,
+  aleksander_igor,
+  matthias_krel,
 }
 
 export function getPortrait(characterId: string): string | null {
