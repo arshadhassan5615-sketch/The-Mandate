@@ -35,27 +35,34 @@ const agendaModules = import.meta.glob<AgendaItem[]>(
 const ALL_AGENDA: AgendaItem[] = Object.values(agendaModules).flat()
 
 function buildPool(week: number, state: GameState, flags: string[], visited: string[]): AgendaItem[] {
-  return ALL_AGENDA.filter(item => {
+  const result = ALL_AGENDA.filter(item => {
     if (item.weekAvailable > week) return false
     if (item.weekDeadline !== undefined && week > item.weekDeadline) return false
     if (item.prerequisites?.length) {
       if (!evaluateAll(item.prerequisites, state, flags)) return false
     }
 
-    const scene = getScene(item.sceneId)
-    if (scene) {
-      if (scene.prerequisiteSceneIds?.length) {
-        const allPrereqsMet = scene.prerequisiteSceneIds.every(id => visited.includes(id))
-        if (!allPrereqsMet) return false
-      }
-      if (scene.prerequisiteFlags?.length) {
-        const allFlagsMet = scene.prerequisiteFlags.every(f => flags.includes(f))
-        if (!allFlagsMet) return false
+    // Skip scene-level prerequisite checks for special virtual scenes (__ prefix)
+    if (!item.sceneId.startsWith('__')) {
+      const scene = getScene(item.sceneId)
+      if (scene) {
+        if (scene.prerequisiteSceneIds?.length) {
+          const allPrereqsMet = scene.prerequisiteSceneIds.every(id => visited.includes(id))
+          if (!allPrereqsMet) return false
+        }
+        if (scene.prerequisiteFlags?.length) {
+          const allFlagsMet = scene.prerequisiteFlags.every(f => flags.includes(f))
+          if (!allFlagsMet) return false
+        }
       }
     }
 
     return true
   })
+  console.log('[buildPool] week:', week,
+    'ALL_AGENDA count:', ALL_AGENDA.length,
+    'passed filter:', result.length)
+  return result
 }
 
 // VoteConfig factories for chain-injected votes
@@ -245,7 +252,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   showCabinetMeeting: false,
 
   triggerCabinetFormation: () => set({ showCabinetFormation: true }),
-  dismissCabinetMeeting: () => set({ showCabinetMeeting: false, phase: 'briefing' }),
+  dismissCabinetMeeting: () => {
+    set({ showCabinetMeeting: false, phase: 'briefing' })
+    get().initWeek()
+  },
 
   startCustomization: () => {
     // Full state reset for a clean new game

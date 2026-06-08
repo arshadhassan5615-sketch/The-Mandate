@@ -136,44 +136,46 @@ export default function GameLayout() {
 
       {/* Press phase — newspaper overlays with footer */}
       {phase === 'press' && (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <div style={{ flex: 1 }} />
-          <div style={{
-            background: 'rgba(10,8,6,0.98)',
-            borderTop: '2px solid #c9a84c',
-            padding: '0.8rem 2rem',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        <div style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: '52px',
+          zIndex: 220,
+          background: 'rgba(10,8,6,0.98)',
+          borderTop: '2px solid #c9a84c',
+          padding: '0.8rem 2rem',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+          <span style={{
+            fontFamily: "'Georgia', serif",
+            fontWeight: 700,
+            letterSpacing: '3px',
+            fontSize: '12px',
+            color: '#ffffff',
+            textTransform: 'uppercase',
+            textShadow: '0 0 8px rgba(255,255,255,0.2)',
           }}>
-            <span style={{
+            Review the press coverage, then proceed to the agenda
+          </span>
+          <button
+            style={{
+              color: '#c9a84c',
+              border: '1.5px solid #c9a84c',
+              padding: '8px 24px',
+              background: 'rgba(201,168,76,0.08)',
               fontFamily: "'Georgia', serif",
+              fontSize: '13px',
               fontWeight: 700,
-              letterSpacing: '3px',
-              fontSize: '12px',
-              color: '#ffffff',
-              textTransform: 'uppercase',
-              textShadow: '0 0 8px rgba(255,255,255,0.2)',
-            }}>
-              Review the press coverage, then proceed to the agenda
-            </span>
-            <button
-              style={{
-                color: '#c9a84c',
-                border: '1.5px solid #c9a84c',
-                padding: '8px 24px',
-                background: 'rgba(201,168,76,0.08)',
-                fontFamily: "'Georgia', serif",
-                fontSize: '13px',
-                fontWeight: 700,
-                letterSpacing: '2px',
-                cursor: 'pointer',
-                borderRadius: '2px',
-                boxShadow: '-4px -4px 0 -2px #c9a84c, 4px -4px 0 -2px #c9a84c, -4px 4px 0 -2px #c9a84c, 4px 4px 0 -2px #c9a84c',
-              }}
-              onClick={() => { useNewsStore.getState().setOpen(false); endPress() }}
-            >
-              Continue to Agenda →
-            </button>
-          </div>
+              letterSpacing: '2px',
+              cursor: 'pointer',
+              borderRadius: '2px',
+              boxShadow: '-4px -4px 0 -2px #c9a84c, 4px -4px 0 -2px #c9a84c, -4px 4px 0 -2px #c9a84c, 4px 4px 0 -2px #c9a84c',
+            }}
+            onClick={() => { useNewsStore.getState().setOpen(false); endPress() }}
+          >
+            Continue to Agenda →
+          </button>
         </div>
       )}
 
