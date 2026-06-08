@@ -1,0 +1,762 @@
+import type { Decree } from '../types/decree'
+
+export const ALL_DECREES: Decree[] = [
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // ECONOMIC DECREES
+  // ═══════════════════════════════════════════════════════════════════════════════
+  {
+    id: 'decree_price_controls',
+    title: 'Price Control Act',
+    category: 'economic',
+    proposedBy: 'Workers Coalition',
+    summary: 'Cap prices on essential goods — bread, fuel, medicine.',
+    description: 'The Workers Coalition has proposed statutory price ceilings on twelve categories of essential goods. The measure would prevent profiteering during the current economic transition but risks reducing supply incentives for domestic producers.',
+    weekProposed: 3,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Working families cannot afford basic goods at current market rates.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Price controls historically reduce supply and create black markets.' },
+      { ministerId: 'aldric_theron', stance: 'neutral', reason: 'Legally sound. The constitutional basis is Article 18 — economic necessity provisions.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 8, operation: 'add', description: 'Workers Coalition strongly approves' },
+      { stat: 'factions.businessClass', value: -10, operation: 'add', description: 'Business community strongly opposes' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: -5, operation: 'add', delayWeeks: 4, description: 'Supply incentives reduced over time' },
+    ],
+  },
+  {
+    id: 'decree_foreign_investment',
+    title: 'Foreign Investment Liberalization Act',
+    category: 'economic',
+    proposedBy: 'Ministry of Finance',
+    summary: 'Open Veltrian industry to foreign capital with regulatory oversight.',
+    description: 'Elara Vostane proposes removing restrictions on foreign majority ownership in non-strategic industries. Arcturian and Orythian capital is ready to enter. The oversight framework will be negotiated separately.',
+    weekProposed: 4,
+    ministerPositions: [
+      { ministerId: 'elara_vostane', stance: 'favor', reason: 'Foreign capital accelerates industrial modernization by eight to twelve years.' },
+      { ministerId: 'gregor_maric', stance: 'against', reason: 'Veltrian workers will answer to foreign owners with no accountability to this government.' },
+      { ministerId: 'irina_dusek', stance: 'neutral', reason: 'Strategic industries must be explicitly excluded. I need that list before I can support this.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.businessClass', value: 10, operation: 'add', description: 'Business community strongly approves' },
+      { stat: 'nation.economyHealth', value: 5, operation: 'add', description: 'Immediate investment confidence boost' },
+    ],
+    longTermEffects: [
+      { stat: 'vaelInfluence', value: 5, operation: 'add', delayWeeks: 4, description: 'Oligarch influence grows with foreign partnerships' },
+    ],
+  },
+  {
+    id: 'decree_nationalization',
+    title: 'Strategic Industry Nationalization Act',
+    category: 'economic',
+    proposedBy: 'Workers Coalition',
+    summary: 'Return key industries to state ownership.',
+    description: 'The Workers Coalition proposes renationalizing the three largest private industrial firms — all privatized under Halvek in the final years of his regime. The firms employ forty thousand workers combined. The purchase price is disputed.',
+    weekProposed: 6,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'These firms were sold to party cronies for a fraction of their value. Renationalization corrects a theft.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'The fiscal cost is prohibitive. We cannot afford to buy back what Halvek sold.' },
+      { ministerId: 'drazen_kolvar', stance: 'against', reason: 'This sets a precedent that no private investment in Veltria is secure.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 12, operation: 'add', description: 'Workers Coalition celebrates' },
+      { stat: 'factions.businessClass', value: -15, operation: 'add', description: 'Business community alarmed' },
+      { stat: 'nation.nationalDebt', value: -20, operation: 'add', description: 'Significant budget expenditure' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: -5, operation: 'add', delayWeeks: 8, description: 'State management efficiency loss' },
+    ],
+  },
+  {
+    id: 'decree_austerity',
+    title: 'Fiscal Austerity Measures',
+    category: 'economic',
+    proposedBy: 'Ministry of Finance',
+    summary: 'Cut government spending to reduce the deficit.',
+    description: 'Vostane proposes a fifteen percent across-the-board reduction in discretionary government spending. The deficit cannot be sustained. The cuts will affect every ministry.',
+    weekProposed: 5,
+    ministerPositions: [
+      { ministerId: 'elara_vostane', stance: 'favor', reason: 'The deficit is structural. Every week we delay costs more than the cuts themselves.' },
+      { ministerId: 'gregor_maric', stance: 'against', reason: 'Austerity falls on the people who can least afford it. Not on the ones who caused the deficit.' },
+      { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'Politically costly. Fiscally necessary. The timing is the question.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.nationalDebt', value: 15, operation: 'add', description: 'Deficit reduction begins' },
+      { stat: 'factions.workersCoalition', value: -10, operation: 'add', description: 'Working class bears the cost' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 8, operation: 'add', delayWeeks: 8, description: 'Fiscal stability improves' },
+    ],
+  },
+  {
+    id: 'decree_agricultural_subsidy',
+    title: 'Agricultural Subsidy Program',
+    category: 'economic',
+    proposedBy: 'Ministry of Labor',
+    summary: 'Subsidize rural farming communities to stabilize food production.',
+    description: 'Marić proposes direct subsidies to the forty thousand farming families in the northern and eastern provinces. Food security is national security. The program costs eight million kroner annually.',
+    weekProposed: 7,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Rural communities kept this country fed under Halvek with nothing. They deserve support.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Subsidies distort markets and become permanent once established.' },
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'Food security infrastructure has measurable long-term economic returns.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 5, operation: 'add', description: 'Rural workers approve' },
+      { stat: 'nation.nationalDebt', value: -8, operation: 'add', description: 'Annual subsidy cost' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 3, operation: 'add', delayWeeks: 6, description: 'Food security stabilizes' },
+    ],
+  },
+  {
+    id: 'decree_central_bank',
+    title: 'Central Bank Independence Act',
+    category: 'economic',
+    proposedBy: 'Ministry of Finance',
+    summary: 'Remove political control over the Central Bank.',
+    description: 'Vostane proposes making the Central Bank constitutionally independent — insulated from political pressure on interest rates and monetary policy. The Halvek government used the bank as a personal account. This ends that.',
+    weekProposed: 8,
+    ministerPositions: [
+      { ministerId: 'elara_vostane', stance: 'favor', reason: 'Monetary policy must be insulated from election cycles. This is standard in every stable economy.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Constitutionally sound and historically overdue.' },
+      { ministerId: 'stefan_morvec', stance: 'against', reason: 'Removing political oversight of the Central Bank removes the last lever of executive economic control. I have seen what happens when governments lose that lever.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.businessClass', value: 8, operation: 'add', description: 'Business community approves' },
+      { stat: 'nation.internationalStanding', value: 5, operation: 'add', description: 'International credibility improves' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 5, operation: 'add', delayWeeks: 6, description: 'Monetary stability improves' },
+    ],
+  },
+  {
+    id: 'decree_export_tariffs',
+    title: 'Export Tariff Reduction Act',
+    category: 'economic',
+    proposedBy: 'Foreign Ministry',
+    summary: 'Lower export tariffs to boost Veltrian trade competitiveness.',
+    description: 'The Foreign Ministry proposes reducing export tariffs on manufactured goods by thirty percent. Veltrian exports are currently priced out of regional markets by tariff structures inherited from the Halvek era.',
+    weekProposed: 9,
+    ministerPositions: [
+      { ministerId: 'elara_vostane', stance: 'favor', reason: 'Export revenue grows with competitiveness. The tariff reduction pays for itself within three years.' },
+      { ministerId: 'gregor_maric', stance: 'neutral', reason: 'Depends on whether the growth reaches factory workers or stays with owners.' },
+      { ministerId: 'irina_dusek', stance: 'neutral', reason: 'No security implications. Economically above my expertise.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.internationalStanding', value: 5, operation: 'add', description: 'Trade partners respond positively' },
+      { stat: 'factions.businessClass', value: 5, operation: 'add', description: 'Exporters approve' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 4, operation: 'add', delayWeeks: 4, description: 'Export growth materializes' },
+    ],
+  },
+  {
+    id: 'decree_wealth_tax',
+    title: 'Progressive Wealth Tax Act',
+    category: 'economic',
+    proposedBy: 'Reform Committee',
+    summary: 'Tax accumulated wealth above ten million kroner annually.',
+    description: 'The Reform Committee proposes a two percent annual tax on personal wealth exceeding ten million kroner. Twelve individuals in Veltria would be directly affected. The revenue would fund the education reform program.',
+    weekProposed: 12,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Halvek let them accumulate this wealth through political connections. Taxing it is justice, not punishment.' },
+      { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Revenue projections are sound. Implementation is complex. Capital flight is a real risk.' },
+      { ministerId: 'drazen_kolvar', stance: 'against', reason: 'This is confiscation by another name.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.reformists', value: 10, operation: 'add', description: 'Reform movement approves' },
+      { stat: 'vaelInfluence', value: -8, operation: 'add', description: 'Oligarchs respond negatively' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 3, operation: 'add', delayWeeks: 6, description: 'Education investment returns' },
+      { stat: 'nation.nationalDebt', value: 10, operation: 'add', delayWeeks: 4, description: 'Wealth tax revenue' },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // JUDICIAL DECREES
+  // ═══════════════════════════════════════════════════════════════════════════════
+  {
+    id: 'decree_press_freedom',
+    title: 'Press Freedom Charter',
+    category: 'judicial',
+    proposedBy: 'Reform Committee',
+    summary: 'Constitutionally protect press independence and prohibit government censorship.',
+    description: 'The Reform Committee proposes a charter that enshrines press freedom as a constitutional right. No government may censor, license, or shut down any publication. The charter would be among the strongest press protections in the region.',
+    weekProposed: 2,
+    ministerPositions: [
+      { ministerId: 'danika_oberlin', stance: 'favor', reason: 'A free press is the first institution authoritarian governments attack. We protect it first.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Article 24 of the reformed constitution already implies this. The decree makes it explicit.' },
+      { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'Politically beneficial. Operationally complex if national security intersects with press activity.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.civilLiberties', value: 12, operation: 'add', description: 'Civil liberties expand significantly' },
+      { stat: 'nation.pressFreedom', value: 15, operation: 'add', description: 'Press freedom guaranteed' },
+      { stat: 'factions.halvekists', value: -8, operation: 'add', description: 'Halvekists opposed to press scrutiny' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_anti_corruption_tribunal',
+    title: 'Anti-Corruption Tribunal Act',
+    category: 'judicial',
+    proposedBy: 'Bureau of Civic Accountability',
+    summary: 'Establish an independent tribunal with powers to prosecute corruption at all levels.',
+    description: 'The BCA proposes an independent tribunal with prosecutorial authority over corruption cases. The tribunal would be insulated from political pressure and staffed by vetted prosecutors drawn from both domestic and international legal communities.',
+    weekProposed: 11,
+    ministerPositions: [
+      { ministerId: 'danika_oberlin', stance: 'favor', reason: 'The BCA can investigate. The tribunal gives us the power to prosecute what we find.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Structurally sound. Independence must be genuine — not advisory.' },
+      { ministerId: 'drazen_kolvar', stance: 'against', reason: 'The scope is dangerously broad.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.reformists', value: 10, operation: 'add', description: 'Reform movement strongly approves' },
+      { stat: 'factions.businessClass', value: -8, operation: 'add', description: 'Business community wary of tribunal scope' },
+      { stat: 'personal.moralCompass', value: 8, operation: 'add', description: 'Katerin acts with integrity' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_lustration',
+    title: 'Lustration Law',
+    category: 'judicial',
+    proposedBy: 'Reform Committee',
+    summary: 'Bar former BNI officials from public office for ten years.',
+    description: 'The Reform Committee proposes barring anyone who served in the Bureau of National Integrity under Halvek from holding public office for a decade. The measure is designed to prevent the old security apparatus from reconstituting itself within democratic institutions.',
+    weekProposed: 3,
+    ministerPositions: [
+      { ministerId: 'danika_oberlin', stance: 'favor', reason: 'People who operated the torture apparatus should not run the institutions that replaced it.' },
+      { ministerId: 'aldric_theron', stance: 'neutral', reason: 'Constitutionally defensible but legally complex. Individual cases will be contested.' },
+      { ministerId: 'irina_dusek', stance: 'against', reason: 'Some of those individuals have institutional knowledge we cannot afford to lose.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.halvekists', value: -20, operation: 'add', description: 'Halvekist bloc decimated' },
+      { stat: 'factions.reformists', value: 15, operation: 'add', description: 'Reform movement celebrates' },
+      { stat: 'nation.publicOrder', value: -5, operation: 'add', description: 'Institutional disruption' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_assembly_term_limits',
+    title: 'Assembly Term Limits Act',
+    category: 'judicial',
+    proposedBy: 'Reform Committee',
+    summary: 'Limit Assembly members to three consecutive terms.',
+    description: 'Term limits prevent political entrenchment and force regular democratic renewal. Assembly members would be limited to three consecutive four-year terms, after which they must sit out at least one term before running again.',
+    weekProposed: 14,
+    ministerPositions: [
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Institutional entrenchment is how democracies calcify into oligarchies.' },
+      { ministerId: 'danika_oberlin', stance: 'favor', reason: 'Term limits force accountability by preventing career politicians.' },
+      { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'Politically popular. Loses us experienced allies in the Assembly over time.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.reformists', value: 8, operation: 'add', description: 'Reformists approve' },
+      { stat: 'factions.halvekists', value: -10, operation: 'add', description: 'Entrenched politicians oppose' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_judicial_independence',
+    title: 'Judicial Independence Act',
+    category: 'judicial',
+    proposedBy: 'Ministry of Justice',
+    summary: 'Remove executive appointment power over senior judges.',
+    description: 'Aldric Theron proposes removing the Chancellor\'s power to appoint or dismiss senior judges. Judicial appointments would be made by an independent commission. The executive branch would lose its most powerful lever over the courts.',
+    weekProposed: 8,
+    ministerPositions: [
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Judicial independence is the foundation of rule of law. Without it everything else is theater.' },
+      { ministerId: 'danika_oberlin', stance: 'favor', reason: 'The BCA cannot function if prosecutors answer to political appointees.' },
+      { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'We lose a significant lever of institutional control. That is the point. Worth understanding before signing.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.civilLiberties', value: 10, operation: 'add', description: 'Rule of law strengthened' },
+      { stat: 'personal.moralCompass', value: 5, operation: 'add', description: 'Katerin relinquishes power voluntarily' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_ban_political_imprisonment',
+    title: 'Political Imprisonment Prohibition Act',
+    category: 'judicial',
+    proposedBy: 'Reform Committee',
+    summary: 'Constitutionally prohibit detention without charge for political activity.',
+    description: 'The Halvek government detained four hundred people without charge for political activity. This decree would constitutionally prohibit the practice and establish criminal penalties for any official who orders such detention.',
+    weekProposed: 2,
+    ministerPositions: [
+      { ministerId: 'danika_oberlin', stance: 'favor', reason: 'This is what the BNI did. Prohibiting it explicitly is the minimum.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Overdue. The Halvek era detained four hundred people without charge. Never again.' },
+      { ministerId: 'irina_dusek', stance: 'neutral', reason: 'National security exceptions must be defined carefully or this creates operational gaps.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.civilLiberties', value: 12, operation: 'add', description: 'Political freedoms protected' },
+      { stat: 'factions.ironCovenant', value: -8, operation: 'add', description: 'Security hawks oppose limits on detention' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_emergency_powers',
+    title: 'Executive Emergency Powers Act',
+    category: 'judicial',
+    proposedBy: 'Chief of Staff',
+    summary: 'Grant the Chancellor emergency decree authority during declared crises.',
+    description: 'Reznik proposes granting the Chancellor the power to issue executive decrees during declared national emergencies. The Assembly would retain the ability to revoke the emergency declaration by majority vote within thirty days.',
+    weekProposed: 10,
+    prerequisites: [{ stat: 'nation.publicOrder', operator: '<', value: 40 }],
+    ministerPositions: [
+      { ministerId: 'vyktor_reznik', stance: 'favor', reason: 'A government that cannot act quickly in a crisis is not a government.' },
+      { ministerId: 'irina_dusek', stance: 'favor', reason: 'Military operations require executive decision speed that Assembly process cannot provide.' },
+      { ministerId: 'danika_oberlin', stance: 'against', reason: 'Emergency powers are how democracies end. Every authoritarian in history declared an emergency first.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.publicOrder', value: 8, operation: 'add', description: 'Crisis response capacity improves' },
+      { stat: 'nation.civilLiberties', value: -10, operation: 'add', description: 'Civil liberties constrained' },
+      { stat: 'factions.ironCovenant', value: 8, operation: 'add', description: 'Security establishment approves' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_detention_powers',
+    title: 'Emergency Detention Powers Act',
+    category: 'judicial',
+    proposedBy: 'Interior Ministry',
+    summary: 'Allow detention without charge for up to 72 hours during security emergencies.',
+    description: 'The Interior Ministry proposes allowing security forces to detain suspects without charge for up to seventy-two hours during declared security emergencies. The measure is designed to close what officials describe as a dangerous gap in intelligence operations.',
+    weekProposed: 14,
+    conflictsWith: ['decree_ban_political_imprisonment'],
+    ministerPositions: [
+      { ministerId: 'danika_oberlin', stance: 'against', reason: 'This is the BNI Act with different letterhead. I will not implement it.' },
+      { ministerId: 'irina_dusek', stance: 'favor', reason: '72 hours is operationally necessary for intelligence-led operations.' },
+      { ministerId: 'aldric_theron', stance: 'against', reason: 'Constitutionally incompatible with the prohibition act if both are in force.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.publicOrder', value: 10, operation: 'add', description: 'Security capacity expands' },
+      { stat: 'nation.civilLiberties', value: -15, operation: 'add', description: 'Civil liberties significantly curtailed' },
+      { stat: 'personal.shadowInfluence', value: 8, operation: 'add', description: 'Executive power expands' },
+    ],
+    longTermEffects: [],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // RELIGIOUS DECREES
+  // ═══════════════════════════════════════════════════════════════════════════════
+  {
+    id: 'decree_church_state_separation',
+    title: 'Church-State Separation Act',
+    category: 'religious',
+    proposedBy: 'Reform Committee',
+    summary: 'Formally separate religious institutions from government functions.',
+    description: 'The Reform Committee proposes formal separation of Church and state. Religious institutions would be barred from holding government property, collecting state revenue, or influencing legislative processes. The Church would retain its spiritual role but lose its political one.',
+    weekProposed: 8,
+    ministerPositions: [
+      { ministerId: 'danika_oberlin', stance: 'favor', reason: 'The Church funded Halvek campaigns. Separation removes that political leverage.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Standard in functioning democracies. The constitution implies it. This makes it explicit.' },
+      { ministerId: 'stanislov_renek', stance: 'against', reason: 'The Church has served this nation for four hundred years. Separation is ingratitude.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.church', value: -15, operation: 'add', description: 'Church strongly opposes' },
+      { stat: 'factions.reformists', value: 10, operation: 'add', description: 'Secular reformists approve' },
+      { stat: 'nation.civilLiberties', value: 8, operation: 'add', description: 'Religious pluralism protected' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_religious_education',
+    title: 'Religious Education in Schools Act',
+    category: 'religious',
+    proposedBy: 'Archbishop Renek',
+    summary: 'Mandate religious instruction in public primary schools.',
+    description: 'Archbishop Renek proposes mandatory religious instruction in all public primary schools. The curriculum would cover the tenets of the Veltrian faith and be delivered by Church-approved instructors during regular school hours.',
+    weekProposed: 8,
+    conflictsWith: ['decree_church_state_separation'],
+    ministerPositions: [
+      { ministerId: 'stanislov_renek', stance: 'favor', reason: 'Moral formation begins in childhood. The state school cannot replace what the Church provides.' },
+      { ministerId: 'danika_oberlin', stance: 'against', reason: 'Public schools serve all faiths and none. This is establishment of religion.' },
+      { ministerId: 'gregor_maric', stance: 'neutral', reason: 'Working families vary. Some want it. Some do not. This should be optional.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.church', value: 12, operation: 'add', description: 'Church approves strongly' },
+      { stat: 'factions.reformists', value: -8, operation: 'add', description: 'Secular reformists oppose' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_church_property',
+    title: 'Church Property Rights Act',
+    category: 'religious',
+    proposedBy: 'Archbishop Renek',
+    summary: 'Return properties seized from the Church during the Halvek era.',
+    description: 'Archbishop Renek proposes the return of all Church properties seized under the Halvek government. The seizures violated the 1931 property code. Properties include monasteries, schools, hospitals, and agricultural land across twelve provinces.',
+    weekProposed: 5,
+    ministerPositions: [
+      { ministerId: 'stanislov_renek', stance: 'favor', reason: 'The seizures were illegal under the 1931 property code. Return is justice not favor.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Several of the properties are currently generating state revenue. Return has fiscal cost.' },
+      { ministerId: 'aldric_theron', stance: 'neutral', reason: 'Legally complex. Some properties changed hands legitimately post-seizure. Individual cases required.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.church', value: 10, operation: 'add', description: 'Church approves' },
+      { stat: 'nation.nationalDebt', value: -5, operation: 'add', description: 'Revenue loss from returned properties' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_secularization',
+    title: 'Civil Registry Secularization Act',
+    category: 'religious',
+    proposedBy: 'Reform Committee',
+    summary: 'Transfer birth, marriage, and death registration from Church to civil authority.',
+    description: 'The Reform Committee proposes transferring all civil registration from the Church to state civil authorities. Birth certificates, marriage licenses, and death records would be maintained by the Ministry of Interior rather than parish offices.',
+    weekProposed: 10,
+    ministerPositions: [
+      { ministerId: 'danika_oberlin', stance: 'favor', reason: 'Civil records belong to the state. Church control creates access inequality for non-believers.' },
+      { ministerId: 'stanislov_renek', stance: 'against', reason: 'The Church has maintained these records for three centuries. The state lacks the infrastructure.' },
+      { ministerId: 'benedikt_varro', stance: 'neutral', reason: 'Infrastructure transition is feasible in eighteen months with adequate funding.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.church', value: -10, operation: 'add', description: 'Church opposes loss of civil role' },
+      { stat: 'nation.civilLiberties', value: 8, operation: 'add', description: 'Equal civil access established' },
+      { stat: 'factions.reformists', value: 6, operation: 'add', description: 'Reformists approve' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_religious_holidays',
+    title: 'Religious Holiday Recognition Act',
+    category: 'religious',
+    proposedBy: 'Archbishop Renek',
+    summary: 'Designate three additional Church feast days as national public holidays.',
+    description: 'Archbishop Renek proposes recognizing three additional Church feast days — the Feast of the Founding, the Day of Reckoning, and the Solstice of Mercy — as official national public holidays with mandatory time off for all workers.',
+    weekProposed: 4,
+    ministerPositions: [
+      { ministerId: 'stanislov_renek', stance: 'favor', reason: 'These days are already observed by eighty percent of the population. Recognition is acknowledgment of reality.' },
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Working people deserve more rest days. The reason matters less than the day off.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Three additional public holidays cost the economy approximately forty million kroner in lost productivity annually.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.church', value: 8, operation: 'add', description: 'Church approves' },
+      { stat: 'factions.workersCoalition', value: 3, operation: 'add', description: 'Workers appreciate additional rest' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: -2, operation: 'add', delayWeeks: 4, description: 'Productivity cost materializes' },
+    ],
+  },
+  {
+    id: 'decree_faith_welfare',
+    title: 'Faith-Based Welfare Authorization Act',
+    category: 'religious',
+    proposedBy: 'Archbishop Renek',
+    summary: 'Allow Church organizations to administer state welfare funds directly.',
+    description: 'The Archbishop proposes allowing Church charitable organizations to directly administer state welfare distribution in rural and underserved areas. The Church argues it has the infrastructure and reach that the state bureaucracy lacks.',
+    weekProposed: 12,
+    ministerPositions: [
+      { ministerId: 'stanislov_renek', stance: 'favor', reason: 'The Church reaches communities the state bureaucracy cannot. We are more efficient.' },
+      { ministerId: 'danika_oberlin', stance: 'against', reason: 'State funds administered by religious organizations without independent audit is a corruption vector.' },
+      { ministerId: 'gregor_maric', stance: 'neutral', reason: 'If the welfare reaches the people who need it, I can accept the mechanism.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.church', value: 8, operation: 'add', description: 'Church approves strongly' },
+      { stat: 'factions.workersCoalition', value: 5, operation: 'add', description: 'Welfare reaches more people' },
+      { stat: 'nation.nationalDebt', value: -5, operation: 'add', description: 'Church absorbs some welfare cost' },
+    ],
+    longTermEffects: [],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // WELFARE DECREES
+  // ═══════════════════════════════════════════════════════════════════════════════
+  {
+    id: 'decree_free_transport',
+    title: 'Free Public Transportation Act',
+    category: 'welfare',
+    proposedBy: 'Ministry of Labor',
+    summary: 'Make all municipal public transit free for Veltrian citizens.',
+    description: 'Marić proposes making all municipal public transit — buses, trams, and regional rail — free for Veltrian citizens. The measure would be funded through a combination of state subsidies and reduced military procurement.',
+    weekProposed: 6,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Working people spend twelve percent of their income on transportation. This returns money to those who need it.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Transit systems require maintenance revenue. Free service degrades infrastructure within five years.' },
+      { ministerId: 'benedikt_varro', stance: 'neutral', reason: 'Operationally feasible with state subsidy. Long-term maintenance funding is the unresolved question.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 10, operation: 'add', description: 'Working class strongly approves' },
+      { stat: 'nation.nationalDebt', value: -8, operation: 'add', description: 'Annual transit subsidy cost' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.publicOrder', value: 3, operation: 'add', delayWeeks: 8, description: 'Mobility improves social cohesion' },
+    ],
+  },
+  {
+    id: 'decree_universal_healthcare',
+    title: 'Universal Healthcare Mandate',
+    category: 'welfare',
+    proposedBy: 'Ministry of Health',
+    summary: 'Guarantee free healthcare for all Veltrian citizens regardless of income.',
+    description: 'The Ministry of Health proposes guaranteeing free healthcare for all citizens. The system would be funded through general taxation and would replace the current employer-based insurance system. The transition would take eighteen months.',
+    weekProposed: 10,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'People should not die because they cannot afford a doctor. This is not a political position. It is a moral one.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'The fiscal cost is fifteen million kroner annually at minimum. We do not have it.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Article 12 of the reformed constitution implies a right to health. This implements it.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 12, operation: 'add', description: 'Working class celebrates' },
+      { stat: 'nation.nationalDebt', value: -15, operation: 'add', description: 'Significant ongoing fiscal cost' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.publicOrder', value: 5, operation: 'add', delayWeeks: 10, description: 'Healthier population, more stable society' },
+    ],
+  },
+  {
+    id: 'decree_social_housing',
+    title: 'Social Housing Program',
+    category: 'welfare',
+    proposedBy: 'Ministry of Development',
+    summary: 'Build fifteen thousand units of affordable housing in urban centers.',
+    description: 'Varro proposes a major social housing construction program targeting Ashenmere, Kravenstal, and Thornfeld. Fifteen thousand units would be built over three years, with rents capped at twenty percent of household income for qualifying families.',
+    weekProposed: 12,
+    ministerPositions: [
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'Housing shortage in Ashenmere and Kravenstal is driving urban unrest. Supply is the only solution.' },
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Families living six to a room is not dignity. It is a policy failure we can correct.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Twelve million kroner capital expenditure with uncertain return timeline.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 10, operation: 'add', description: 'Urban workers approve' },
+      { stat: 'nation.nationalDebt', value: -12, operation: 'add', description: 'Construction cost' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 3, operation: 'add', delayWeeks: 8, description: 'Reduced housing cost burden improves productivity' },
+    ],
+  },
+  {
+    id: 'decree_free_university',
+    title: 'Free University Education Act',
+    category: 'welfare',
+    proposedBy: 'Ministry of Education',
+    summary: 'Abolish university tuition fees for all Veltrian citizens.',
+    description: 'The Education Ministry proposes abolishing university tuition at all public universities. The measure would double enrollment within five years and create the most accessible higher education system in the region.',
+    weekProposed: 14,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'The son of a miner should have the same access to university as the son of a minister. Currently he does not.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Eighteen million kroner annually. The long-term return is real but the short-term cost is immediate.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'A democracy requires an educated citizenry. This is infrastructure, not expenditure.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.reformists', value: 8, operation: 'add', description: 'Reform movement strongly approves' },
+      { stat: 'factions.workersCoalition', value: 8, operation: 'add', description: 'Working families approve' },
+      { stat: 'nation.nationalDebt', value: -18, operation: 'add', description: 'Significant annual cost' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 8, operation: 'add', delayWeeks: 12, description: 'Educated workforce drives economic growth' },
+    ],
+  },
+  {
+    id: 'decree_pension_reform',
+    title: 'Pension Reform Act',
+    category: 'welfare',
+    proposedBy: 'Ministry of Labor',
+    summary: 'Increase state pension payments and lower the retirement age to 62.',
+    description: 'Marić proposes increasing the state pension by forty percent and lowering the retirement age from sixty-five to sixty-two. The reform would benefit approximately one hundred and eighty thousand retirees immediately.',
+    weekProposed: 9,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Current pension rates leave retirees in poverty. Workers who built this country deserve better.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Lowering retirement age and increasing payments simultaneously is fiscally irresponsible.' },
+      { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'Politically popular. Fiscally challenging. Timing matters.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 8, operation: 'add', description: 'Workers approve' },
+      { stat: 'nation.nationalDebt', value: -10, operation: 'add', description: 'Pension cost increase' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_child_welfare',
+    title: 'Child Welfare Allowance Act',
+    category: 'welfare',
+    proposedBy: 'Ministry of Health',
+    summary: 'Monthly allowance of 200 kroner per child for families below median income.',
+    description: 'The Ministry of Health proposes a monthly child allowance of two hundred kroner per child for families earning below the national median. The program targets the estimated thirty-five thousand children living in poverty.',
+    weekProposed: 7,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Child poverty is the most preventable kind. Two hundred kroner changes what a family can eat.' },
+      { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Targeted welfare is more fiscally efficient than universal programs. The means-testing is the key.' },
+      { ministerId: 'stanislov_renek', stance: 'favor', reason: 'The Church supports any measure that strengthens families.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 6, operation: 'add', description: 'Families approve' },
+      { stat: 'personal.publicImage', value: 5, operation: 'add', description: 'Katerin seen as caring Chancellor' },
+      { stat: 'nation.nationalDebt', value: -6, operation: 'add', description: 'Allowance program cost' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_disability_support',
+    title: 'Disability Support and Integration Act',
+    category: 'welfare',
+    proposedBy: 'Ministry of Health',
+    summary: 'Establish a national disability support framework with monthly living allowances.',
+    description: 'The Ministry of Health proposes a comprehensive disability support framework including monthly living allowances, workplace accessibility mandates, and integration programs. The framework would be the first of its kind in Veltrian history.',
+    weekProposed: 11,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Disabled citizens were invisible under Halvek. This makes them visible.' },
+      { ministerId: 'elara_vostane', stance: 'neutral', reason: 'The framework cost is manageable. The allowance scale determines fiscal impact.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Article 15 of the constitution implies equal dignity. This implements it.' },
+    ],
+    immediateEffects: [
+      { stat: 'factions.workersCoalition', value: 5, operation: 'add', description: 'Community support' },
+      { stat: 'personal.moralCompass', value: 5, operation: 'add', description: 'Katerin acts with conscience' },
+      { stat: 'nation.nationalDebt', value: -4, operation: 'add', description: 'Program cost' },
+    ],
+    longTermEffects: [],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // DEVELOPMENT DECREES
+  // ═══════════════════════════════════════════════════════════════════════════════
+  {
+    id: 'decree_railway_expansion',
+    title: 'Northern Railway Expansion Decree',
+    category: 'development',
+    proposedBy: 'Ministry of Development',
+    summary: 'Extend the rail network to connect Dravenhollow and Kravenstal to the capital.',
+    description: 'Varro proposes a major rail expansion connecting the northern industrial cities of Dravenhollow and Kravenstal to Ashenmere. The project would reduce freight costs by thirty percent and open northern labor markets to the capital.',
+    weekProposed: 8,
+    ministerPositions: [
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'Rail connectivity reduces freight costs by thirty percent and opens northern labor markets.' },
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Kravenstal workers will have real access to Ashenmere jobs for the first time.' },
+      { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Twenty million kroner. Long return horizon. Fiscally viable if timed correctly.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.nationalDebt', value: -20, operation: 'add', description: 'Major infrastructure investment' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 10, operation: 'add', delayWeeks: 8, description: 'Connectivity drives economic activity' },
+      { stat: 'factions.workersCoalition', value: 5, operation: 'add', delayWeeks: 8, description: 'Northern workers benefit' },
+    ],
+  },
+  {
+    id: 'decree_university_expansion',
+    title: 'University of Ashenmere Expansion Decree',
+    category: 'development',
+    proposedBy: 'Ministry of Education',
+    summary: 'Build two new faculties — engineering and medicine — at the University of Ashenmere.',
+    description: 'The Education Ministry proposes expanding the University of Ashenmere with two new faculties: engineering and medicine. Veltria currently imports both professionals because it does not train enough domestically.',
+    weekProposed: 10,
+    ministerPositions: [
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'Veltria imports engineers and doctors because we do not train enough. This changes that.' },
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'Construction cost is twelve million. The return in skilled graduates is measurable within a decade.' },
+      { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Sound investment. Timing against current deficit is the question.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.nationalDebt', value: -12, operation: 'add', description: 'Construction and faculty cost' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 6, operation: 'add', delayWeeks: 10, description: 'Skilled workforce expands' },
+    ],
+  },
+  {
+    id: 'decree_industrial_zone',
+    title: 'Kravenstal Industrial Development Zone',
+    category: 'development',
+    proposedBy: 'Ministry of Development',
+    summary: 'Designate and develop a special economic zone in Kravenstal for heavy industry.',
+    description: 'Varro proposes creating a special economic zone in Kravenstal with tax incentives, streamlined regulation, and state infrastructure investment to attract heavy industry to the region.',
+    weekProposed: 12,
+    ministerPositions: [
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'Kravenstal has the workforce and the geography. The zone creates the conditions for investment.' },
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Industrial jobs in Kravenstal. That is what the province needs.' },
+      { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Eighteen million setup cost. Returns depend on attracting the right investment.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.nationalDebt', value: -18, operation: 'add', description: 'Zone development cost' },
+      { stat: 'factions.businessClass', value: 5, operation: 'add', description: 'Business community sees opportunity' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 12, operation: 'add', delayWeeks: 8, description: 'Industrial output grows' },
+    ],
+  },
+  {
+    id: 'decree_port_modernization',
+    title: 'Sevagrad Port Modernization Decree',
+    category: 'development',
+    proposedBy: 'Foreign Ministry',
+    summary: 'Upgrade Sevagrad port to handle deep-water international cargo vessels.',
+    description: 'The Foreign Ministry proposes upgrading Sevagrad port to handle deep-water international cargo vessels. The port currently cannot accommodate the largest modern cargo ships, forcing Veltrian trade through Tyvaren intermediaries.',
+    weekProposed: 14,
+    ministerPositions: [
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'Deep-water capacity opens Thalassic trade routes that currently bypass Veltria entirely.' },
+      { ministerId: 'irina_dusek', stance: 'neutral', reason: 'Tyvaren will view enhanced Sevagrad capacity as a strategic development. Manage expectations.' },
+      { ministerId: 'elara_vostane', stance: 'favor', reason: 'Fifteen million investment with strong revenue projections from transit fees.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.nationalDebt', value: -15, operation: 'add', description: 'Port development cost' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.economyHealth', value: 8, operation: 'add', delayWeeks: 10, description: 'Trade revenue grows' },
+      { stat: 'nation.internationalStanding', value: 5, operation: 'add', delayWeeks: 10, description: 'Regional trade hub status' },
+    ],
+  },
+  {
+    id: 'decree_rural_electrification',
+    title: 'Rural Electrification Program Decree',
+    category: 'development',
+    proposedBy: 'Ministry of Development',
+    summary: 'Connect all rural villages to the national electrical grid within three years.',
+    description: 'Varro proposes connecting all four hundred rural villages without reliable electricity to the national grid. The project would take three years and fundamentally change what is possible for rural communities.',
+    weekProposed: 9,
+    ministerPositions: [
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'Four hundred villages have no reliable electricity in 1963. That is the baseline we are working from.' },
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Rural electrification changes what is possible for those communities. Schools. Clinics. Industry.' },
+      { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Fourteen million over three years. Returns are long-term but the social case is clear.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.nationalDebt', value: -14, operation: 'add', description: 'Grid extension cost' },
+    ],
+    longTermEffects: [
+      { stat: 'factions.workersCoalition', value: 8, operation: 'add', delayWeeks: 12, description: 'Rural communities benefit' },
+      { stat: 'nation.economyHealth', value: 5, operation: 'add', delayWeeks: 12, description: 'Rural productivity increases' },
+    ],
+  },
+  {
+    id: 'decree_hospital_network',
+    title: 'National Hospital Network Decree',
+    category: 'development',
+    proposedBy: 'Ministry of Health',
+    summary: 'Build six regional hospitals in underserved provinces.',
+    description: 'The Ministry of Health proposes building six new regional hospitals in underserved provinces. Kravenstal has one hospital for two hundred thousand people. The project would reduce the average travel time for emergency care from four hours to under one.',
+    weekProposed: 16,
+    ministerPositions: [
+      { ministerId: 'gregor_maric', stance: 'favor', reason: 'Kravenstal has one hospital for two hundred thousand people. This is not a reform. It is a correction.' },
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'Construction is straightforward. The staffing challenge is the real complexity.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Twenty million capital plus ongoing operating costs. The fiscal timing is wrong.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.nationalDebt', value: -20, operation: 'add', description: 'Hospital construction cost' },
+    ],
+    longTermEffects: [
+      { stat: 'factions.workersCoalition', value: 10, operation: 'add', delayWeeks: 10, description: 'Healthcare access improves' },
+      { stat: 'nation.publicOrder', value: 5, operation: 'add', delayWeeks: 10, description: 'Healthier population' },
+    ],
+  },
+  {
+    id: 'decree_palace_restoration',
+    title: 'Ashenmere Palace Cultural Restoration',
+    category: 'development',
+    proposedBy: 'Culture Ministry',
+    summary: 'Restore the historic wings of the Ashenmere Palace as a public cultural institution.',
+    description: 'The Culture Ministry proposes restoring the historic wings of the Ashenmere Palace as a public museum and cultural center. The restoration would preserve Veltrian cultural heritage and create a symbol of democratic renewal.',
+    weekProposed: 6,
+    ministerPositions: [
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'The Palace is Veltrian history. Its restoration is a statement that culture survived Halvek.' },
+      { ministerId: 'elara_vostane', stance: 'against', reason: 'Eight million kroner on a building while the deficit runs at sixty-five million is difficult to defend.' },
+      { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'Politically popular. Fiscally minor relative to other commitments. Optics matter.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.nationalDebt', value: -8, operation: 'add', description: 'Restoration cost' },
+      { stat: 'personal.publicImage', value: 5, operation: 'add', description: 'Katerin seen as culturally engaged' },
+    ],
+    longTermEffects: [
+      { stat: 'nation.internationalStanding', value: 3, operation: 'add', delayWeeks: 6, description: 'Cultural prestige grows' },
+    ],
+  },
+]

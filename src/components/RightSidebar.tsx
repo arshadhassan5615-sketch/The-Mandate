@@ -5,6 +5,7 @@ import { useCodexStore } from '../stores/codexStore'
 import { useJournalStore } from '../stores/journalStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useLetterStore } from '../stores/letterStore'
+import { useDecreeStore } from '../stores/decreeStore'
 import ConnectionsPanel from './panels/ConnectionsPanel'
 import OverviewPanel from './panels/OverviewPanel'
 import NotepadPanel from './panels/NotepadPanel'
@@ -106,6 +107,18 @@ function IconSettings() {
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
       <circle cx="12" cy="12" r="3" />
       <path d="M19.4,15 A1.65,1.65 0 0 0 19.82,13.4 L21.17,11.4 A1.65,1.65 0 0 0 19.83,8.9 L18.11,8.14 A1.65,1.65 0 0 0 15.9,8.66 L15.06,7.84 A1.65,1.65 0 0 0 12.55,6.52 L12,4.75 A1.65,1.65 0 0 0 9.45,4.75 L8.9,6.52 A1.65,1.65 0 0 0 6.39,7.84 L5.56,8.66 A1.65,1.65 0 0 0 3.35,8.14 L1.63,8.9 A1.65,1.65 0 0 0 0.29,11.4 L1.64,13.4 A1.65,1.65 0 0 0 2.06,15 L1.63,15.6 A1.65,1.65 0 0 0 2.97,18.1 L4.69,18.86 A1.65,1.65 0 0 0 6.9,18.34 L7.73,19.16 A1.65,1.65 0 0 0 10.24,20.48 L10.79,22.25 A1.65,1.65 0 0 0 13.34,22.25 L13.89,20.48 A1.65,1.65 0 0 0 16.4,19.16 L17.23,18.34 A1.65,1.65 0 0 0 19.44,18.86 L21.16,18.1 A1.65,1.65 0 0 0 22.5,15.6 Z" />
+    </svg>
+  )
+}
+
+function IconDecree() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14,2 L6,2 C4.9,2 4,2.9 4,4 L4,20 C4,21.1 4.9,22 6,22 L18,22 C19.1,22 20,21.1 20,20 L20,8 Z" />
+      <polyline points="14,2 14,8 20,8" />
+      <line x1="8" y1="13" x2="16" y2="13" />
+      <line x1="8" y1="17" x2="13" y2="17" />
+      <line x1="10" y1="10" x2="10.01" y2="10" strokeWidth="2" />
     </svg>
   )
 }
@@ -212,13 +225,14 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
 // ─── RightSidebar ─────────────────────────────────────────────────────────────
 
 export default function RightSidebar() {
-  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen } = useSettingsStore()
+  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen, setDecreeInboxOpen, decreeInboxOpen } = useSettingsStore()
   const setNewsOpen       = useNewsStore(s => s.setOpen)
   const unreadCount       = useNewsStore(s => s.articles.length - (s.lastReadIndex + 1))
   const journalEntryCount = useJournalStore(s => s.entries.length)
   const letterUnread     = useLetterStore(s => s.unreadCount)
   const openLetters      = useLetterStore(s => s.setOpen)
   const { openCodex }     = useCodexStore()
+  const pendingCount      = useDecreeStore(s => s.pendingDecrees.length)
 
   const [connectionsOpen, setConnectionsOpen] = useState(false)
   const [overviewOpen,    setOverviewOpen]    = useState(false)
@@ -323,6 +337,17 @@ export default function RightSidebar() {
           onClick={() => {
             setConnectionsOpen(false)
             setOverviewOpen(prev => !prev)
+          }}
+        />
+
+        <SideButton
+          icon={<IconDecree />}
+          label="Decrees"
+          badge={pendingCount}
+          onClick={() => {
+            setConnectionsOpen(false)
+            setOverviewOpen(false)
+            setDecreeInboxOpen(!decreeInboxOpen)
           }}
         />
 

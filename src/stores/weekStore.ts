@@ -10,6 +10,7 @@ import { useNarrativeStore } from './narrativeStore'
 import { useChainStore } from './chainStore'
 import { useBillStore } from './billStore'
 import { useNewsStore } from './newsStore'
+import { useDecreeStore } from './decreeStore'
 import { NEWS_TEMPLATES } from '../data/news/newsTemplates'
 import { processCorruptionDiscovery, shouldTriggerImpeachment } from '../engine/CorruptionEngine'
 import projectDefinitions from '../data/projects.json'
@@ -683,6 +684,9 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       }
     }
 
+    // Decrees — filter eligible decrees for the current week
+    useDecreeStore.getState().initDecrees(gameState.currentWeek, gameState, activeFlags)
+
     // Note: forcedChainIds is NOT reset here — it is set by completeWeek before initWeek runs.
     // On first load (GameLayout mount), forcedChainIds stays [] from initial state.
     set({
@@ -1120,6 +1124,21 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         const { activeFlags: flags2 } = useNarrativeStore.getState()
         const fired = useChainStore.getState().process(newWeek, nextState, flags2)
         set({ forcedChainIds: fired, transitionWeek: null, transitionLabel: '' })
+
+        // Process pending long-term decree effects
+        const decreeState = useDecreeStore.getState()
+        const dueEffects = decreeState.pendingLongTermEffects.filter(e => e.applyAtWeek <= newWeek)
+        if (dueEffects.length > 0) {
+          const mods = dueEffects.map(e => ({
+            stat: e.stat,
+            operation: e.operation as 'add' | 'set' | 'multiply',
+            value: e.value,
+          }))
+          useGameStore.getState().applyModifiers(mods)
+          useDecreeStore.setState(s => ({
+            pendingLongTermEffects: s.pendingLongTermEffects.filter(e => e.applyAtWeek > newWeek),
+          }))
+        }
 
         // Generate cliffhanger for the week that just ended (old week, before advance)
         // The cliffhanger reflects on the old week's events

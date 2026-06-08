@@ -37,6 +37,7 @@ const CHAR_NAMES: Record<string, string> = {
   serida_valk:     'Serida Valk',
   gavril_soren:    'Marshal Soren',
   idris_kaelen:    'Idris Kaelen',
+  stefan_morvec:   'Stefan Morvec',
 }
 
 function getInitials(id: string): string {

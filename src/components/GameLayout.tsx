@@ -36,6 +36,7 @@ import LegacyScreen from './LegacyScreen'
 import TransitionOverlay from './TransitionOverlay'
 import DiaryScreen from './DiaryScreen'
 import CliffhangerScreen from './CliffhangerScreen'
+import DecreeInbox from './DecreeInbox'
 import { ErrorBoundary } from './ErrorBoundary'
 import { useSettingsStore } from '../stores/settingsStore'
 import { CabinetFormation } from './CabinetFormation'
@@ -53,6 +54,8 @@ export default function GameLayout() {
   const { phase, pendingMidpointProjectId, resolveMidpoint, showTermReport, showLegacy, setRadioOpen, radioOpen, diaryEntry, closeDiary, cliffhangerText, closeCliffhanger, endPress, showCabinetFormation, showCabinetMeeting, dismissCabinetMeeting } = useWeekStore()
   const journalOpen = useSettingsStore(s => s.journalOpen)
   const letterOpen = useSettingsStore(s => s.letterOpen)
+  const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
+  const setDecreeInboxOpen = useSettingsStore(s => s.setDecreeInboxOpen)
   const pendingRequests = useCabinetStore(s => s.pending_requests)
   const ambientStarted = useRef(false)
 
@@ -251,6 +254,9 @@ export default function GameLayout() {
 
       {/* Radio address modal */}
       {radioOpen && <RadioAddressView onClose={() => setRadioOpen(false)} />}
+
+      {/* Decree inbox */}
+      {decreeInboxOpen && <DecreeInbox onClose={() => setDecreeInboxOpen(false)} />}
 
       {/* Scene / week transition overlay */}
       <TransitionOverlay />

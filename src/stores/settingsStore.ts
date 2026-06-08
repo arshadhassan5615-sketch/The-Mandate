@@ -49,6 +49,7 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   journalOpen: boolean
   letterOpen: boolean
   notepadOpen: boolean
+  decreeInboxOpen: boolean
 
   // Audio actions
   setMasterVolume: (v: number) => void
@@ -72,6 +73,7 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   setJournalOpen: (open: boolean) => void
   setLetterOpen: (open: boolean) => void
   setNotepadOpen: (open: boolean) => void
+  setDecreeInboxOpen: (open: boolean) => void
   setPlayTime: (minutes: number) => void
 }
 
@@ -132,6 +134,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   journalOpen: false,
   letterOpen: false,
   notepadOpen: false,
+  decreeInboxOpen: false,
 
   ...initialAudio,
   ...initialAccess,
@@ -209,6 +212,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   setJournalOpen: (open) => set({ journalOpen: open }),
   setLetterOpen: (open) => set({ letterOpen: open }),
   setNotepadOpen: (open) => set({ notepadOpen: open }),
+  setDecreeInboxOpen: (open) => set({ decreeInboxOpen: open }),
 
   setPlayTime: (minutes) =>
     set({ accumulatedPlayMinutes: minutes, sessionStartTime: Date.now() }),
