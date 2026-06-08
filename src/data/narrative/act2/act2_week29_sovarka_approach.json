@@ -1,0 +1,593 @@
+{
+  "id": "act2_week29_sovarka_approach",
+  "title": "The Schoolteacher's Republic",
+  "week": 29,
+  "type": "meeting",
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["matthias_krel", "vyktor_reznik", "andrei_luca"],
+  "dialogue": "Krel's note arrived before dawn. One word, as always. Study.",
+  "monologue": "One word before dawn means the information is time-sensitive. Krel does not use urgency as a stylistic choice. When he moves early he moves because the window is closing.",
+  "choices": [
+    {
+      "id": "sovarka_krel_enter",
+      "text": "Go to the study.",
+      "nextSegment": "krel_discovery_brief"
+    }
+  ],
+  "segments": {
+    "krel_discovery_brief": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He is already there. He is always already there. He is standing at the window looking at the palace gardens in the early light with the patient attention of a man who finds gardens interesting in the same way he finds everything interesting — as a system with inputs and outputs and points of leverage."
+        },
+        {
+          "type": "description",
+          "text": "He turns. He sets two documents on the desk. He steps back."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "A small republic on the Thalassic coast. Sovarka. Population eight hundred thousand. Capital Mirev. Functionally ignored by both major powers for fifteen years because it had nothing they wanted."
+        },
+        {
+          "type": "description",
+          "text": "He pauses. One beat."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "It now has something they want."
+        }
+      ],
+      "monologue": "He said it now has something they want. The pause before it was deliberate — he wanted me to understand that the situation has changed recently, not gradually. Something shifted and he is here before dawn because of when it shifted.",
+      "choices": [
+        {
+          "id": "sovarka_krel_ask_what",
+          "text": "\"What did they find?\"",
+          "nextSegment": "krel_minerals_brief"
+        },
+        {
+          "id": "sovarka_krel_ask_who",
+          "text": "\"Who is they?\"",
+          "nextSegment": "krel_powers_brief"
+        }
+      ]
+    },
+    "krel_powers_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Tyvaren filed three geological survey requests with the Sovarkan government over the past two years. The third was filed four months ago. They have not yet received a formal response. My people intercepted the summary of their second survey — the one they conducted without waiting for permission. Arcturia has had commercial survey teams in the Sovarka highlands for eighteen months. Registered as private enterprise. The funding traces to Arcturian government-adjacent sources."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "When Tyvaren and Arcturia are both interested in the same ground at the same time, the ground is worth examining."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_powers_to_minerals",
+          "text": "\"What did the survey find?\"",
+          "nextSegment": "krel_minerals_brief"
+        }
+      ]
+    },
+    "krel_minerals_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The Tyvaren survey summary my people intercepted describes significant rare earth mineral deposits in the Sovarka highland districts. Specifically dysprosium and neodymium — both critical for advanced electronics manufacturing. The deposit is not the largest in the world. It is the largest known deposit in this region by a considerable margin."
+        },
+        {
+          "type": "description",
+          "text": "He picks up the first document and sets it closer to you. It is a single page — a summary in Tyvaren, with handwritten translation notes in the margin in Krel's precise script."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The Sovarkan government does not have an independent assessment. They suspect something significant is in the highlands — they can read the pattern of foreign interest the same way I can. But they do not have the confirmation."
+        },
+        {
+          "type": "description",
+          "text": "He picks up the second document."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "This is why I am here before dawn. A Sovarkan official made quiet inquiries about Veltrian diplomatic contacts three days ago. Through a trade attaché in Mirev. The Sovarkan President's office has requested a private meeting with this office. The request will reach Vyktor by morning through official channels. I wanted you to have the context before it arrived."
+        }
+      ],
+      "monologue": "He intercepted the Tyvaren survey summary and discovered the Sovarkan diplomatic inquiry and came here before dawn so I would have the full picture before the meeting request arrived through official channels. He is not just gathering intelligence. He is sequencing it — making sure I see the board before the first piece moves. That is the difference between a spy and a strategist.",
+      "choices": [
+        {
+          "id": "sovarka_krel_ask_timeline",
+          "text": "\"How long before Tyvaren makes a formal approach to Sovarka?\"",
+          "nextSegment": "krel_timeline_brief"
+        },
+        {
+          "id": "sovarka_krel_ask_luca",
+          "text": "\"What do you know about the Sovarkan President?\"",
+          "nextSegment": "krel_luca_brief"
+        },
+        {
+          "id": "sovarka_krel_skip_to_meeting",
+          "text": "\"Accept the meeting request. I will see the President today.\"",
+          "nextSegment": "krel_meeting_setup"
+        }
+      ]
+    },
+    "krel_timeline_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "My estimate is six to ten weeks before Tyvaren formalizes an offer. They are waiting for the results of their third survey before committing to a number. The third survey team is currently in the field. They will have results within the month."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "After that, the window moves quickly. Tyvaren does not negotiate slowly when they have confirmed intelligence. They will present an offer Sovarka cannot match independently — capital, infrastructure, technical assistance. The only counter to a Tyvaren offer of that scale is something Tyvaren cannot offer. Which is what Veltria might be able to provide, if the conversation goes correctly."
+        }
+      ],
+      "monologue": "Six to ten weeks. Tyvaren's third survey team is in the field right now. When they come back with confirmation the window closes. Krel said the only counter to a Tyvaren financial offer is something Tyvaren cannot offer. He is telling me the leverage is not money. It is the thing we are that Tyvaren is not.",
+      "choices": [
+        {
+          "id": "sovarka_timeline_to_luca",
+          "text": "\"Tell me about the President.\"",
+          "nextSegment": "krel_luca_brief"
+        },
+        {
+          "id": "sovarka_timeline_to_meeting",
+          "text": "\"Accept the meeting. I will see him today.\"",
+          "nextSegment": "krel_meeting_setup"
+        }
+      ]
+    },
+    "krel_luca_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Andrei Luca. Age fifty-one. Former secondary school mathematics teacher in Mirev. Entered politics in 1955 through the civic reform movement — the same movement that pushed out the colonial administration. Elected President in 1961 on a platform of institutional development and regional neutrality. No significant corruption in his record — which, for a president of a small nation between large ones, is either exceptional integrity or exceptional concealment. My assessment is integrity."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "He is not naive. He understands that Sovarka's neutrality is only viable if it has something worth protecting. He came to Veltria because we are the only regional power that is not already trying to absorb him. That is his reasoning and it is sound."
+        },
+        {
+          "type": "description",
+          "text": "He picks up both documents from the desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "One recommendation. When you meet him — decide in advance whether to show him the Tyvaren survey summary. Showing it establishes that Veltria has capabilities he did not know about. It changes what the partnership means to him. It also changes what he thinks he is walking into. Both effects are significant."
+        }
+      ],
+      "monologue": "He told me to decide in advance whether to show Luca the survey summary. He is right that it changes everything — the partnership, the dynamic, what Luca thinks Veltria is. A schoolteacher who became a president and came here because we were the only power not trying to absorb him. He is about to discover that we have been watching his country for reasons of our own. I need to decide what I want that discovery to mean.",
+      "choices": [
+        {
+          "id": "sovarka_luca_to_meeting",
+          "text": "\"Accept the meeting. I will see him today.\"",
+          "nextSegment": "krel_meeting_setup"
+        }
+      ]
+    },
+    "krel_meeting_setup": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The meeting request will arrive through official channels within the hour. Accept it as a routine diplomatic courtesy — private study, no official record beyond a note of a private academic delegation. Vyktor will manage the administrative side."
+        },
+        {
+          "type": "description",
+          "text": "He collects the two documents from the desk. He folds them into his coat."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The footprint from this operation is four. I will continue monitoring the Tyvaren survey team in the field. When they come back with results you will know before Luca does."
+        },
+        {
+          "type": "description",
+          "text": "He moves to the door. He stops."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "He came to you first, Chancellor. That is worth something. Make sure the meeting reflects that."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_krel_depart",
+          "text": "[Krel leaves — wait for the official meeting request]",
+          "nextSegment": "luca_arrival_day"
+        }
+      ]
+    },
+    "luca_arrival_day": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The meeting request arrives through official channels at 0840, exactly as Krel predicted. Vyktor flags it within minutes — a private request from a Sovarkan government representative, listed as an academic delegation, requesting a brief courtesy meeting at the Chancellor's convenience. Vyktor's annotation in the margin: unusual routing. Worth your time."
+        },
+        {
+          "type": "description",
+          "text": "By midafternoon President Andrei Luca of the Sovarkan Republic is sitting in the private study. He enters without ceremony. He is fifty-one, slightly stocky, wearing a suit that is well-kept but not expensive. He has the careful eyes of a schoolteacher — someone who has spent years reading rooms full of people who would rather be somewhere else and learning to hold their attention anyway."
+        },
+        {
+          "type": "description",
+          "text": "He sits. He folds his hands on the table. He looks at you directly."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Chancellor Ashavel. Thank you for seeing me outside the formal channels. I asked for this meeting quietly because what I want to discuss is not yet something I can discuss officially — and because I believe that if I approach this through official channels, certain parties will know about the approach before you do. That would be disadvantageous. For both of us."
+        }
+      ],
+      "monologue": "He said certain parties will know before I do. He routed around the official channels to protect the conversation. He does not know that certain parties already told me. He does not know I have the Tyvaren survey summary in my desk drawer. He came here to inform me. I need to decide whether to let him.",
+      "choices": [
+        {
+          "id": "sovarka_let_luca_explain",
+          "text": "Say nothing. Let him explain. See how much he knows and how he frames it.",
+          "nextSegment": "luca_explains"
+        },
+        {
+          "id": "sovarka_hawk_reveal_early",
+          "text": "[HAWK INTEL] \"President Luca — before you begin. I want you to know that Veltria is already aware of the situation in your highlands. And of Tyvaren's interest. Sit with that for a moment and then tell me what you came to say.\"",
+          "condition": "flagSet:hawk_inducted",
+          "nextSegment": "luca_hawk_reveal_reaction"
+        }
+      ]
+    },
+    "luca_hawk_reveal_reaction": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He is still. He looks at you. He is processing — not panicking, processing. The schoolteacher's instinct: when the situation is different from what you expected, stop and think before you speak."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "You already know."
+        },
+        {
+          "type": "description",
+          "text": "Not a question. A confirmation."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "How much do you know?"
+        }
+      ],
+      "monologue": "He asked how much. Not who told me. Not how. How much — because the amount I know determines what kind of conversation this is. He is already recalibrating.",
+      "choices": [
+        {
+          "id": "sovarka_reveal_full",
+          "text": "\"The Tyvaren survey summary. The Arcturian commercial teams. The deposit profile — dysprosium, neodymium, largest known regional concentration. And Tyvaren's timeline. You have six to ten weeks before their formal offer.\"",
+          "nextSegment": "luca_full_reveal_reaction"
+        },
+        {
+          "id": "sovarka_reveal_partial",
+          "text": "\"Enough to know you came to the right place. Tell me the rest in your own words.\"",
+          "nextSegment": "luca_explains"
+        }
+      ]
+    },
+    "luca_full_reveal_reaction": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He looks at his hands. He looks at the window. He looks back at you. The expression is the expression of a man who prepared for a difficult negotiation and has just discovered the negotiation is a different shape than he expected — not worse, different."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Six to ten weeks. I thought I had more time."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "You know more about my country than my own geological service does. I came here to ask for help finding out what I have. You already know what I have."
+        },
+        {
+          "type": "description",
+          "text": "He unfolds his hands. He places both palms flat on the table."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Then let me ask the real question. Not — will you help me find out what I have. But — what does Veltria want, and what are you prepared to offer in exchange for it?"
+        }
+      ],
+      "monologue": "He skipped the preamble entirely. The revelation changed the meeting from a proposal to a negotiation. He is a schoolteacher who became a president and he just demonstrated why — he recalibrated in thirty seconds and went straight to the real question. I respect that enormously. I also need to answer it.",
+      "choices": [
+        {
+          "id": "sovarka_reveal_to_proposal",
+          "text": "\"Veltria wants a partnership. Not ownership — partnership. Let me tell you what that means.\"",
+          "nextSegment": "katerin_proposal"
+        }
+      ]
+    },
+    "luca_explains": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Over the past two years my government has received three geological survey requests from Tyvaren's state geological service. We have also had eighteen months of Arcturian commercial survey activity in the highland districts. Both powers are interested in something in the Sovarka highlands. I do not yet have an independent assessment of what that something is — but when Tyvaren and Arcturia are both circling the same ground, the ground is usually worth more than it appears."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "I am proposing a partnership. I would like Veltria to fund an independent geological survey. In exchange, if the survey confirms significant deposits, Veltria receives first right of refusal on any minerals agreement Sovarka concludes. I am not asking you to buy something I cannot prove exists. I am asking you to help me find out what I have — and to be the partner I negotiate with when I find out."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Veltria is the only regional power that is not either a superpower or a Tyvaren client. For a country the size of Sovarka, that is actually quite a lot."
+        }
+      ],
+      "monologue": "He made the same case he would have made if I had not revealed what I know — clean, honest, precisely framed. He came here with a proposal and he delivered it. The question is whether I respond to what he said or to what I know.",
+      "choices": [
+        {
+          "id": "sovarka_explain_to_proposal",
+          "text": "\"President Luca — I want to show you something before I respond.\"",
+          "nextSegment": "katerin_shows_survey"
+        },
+        {
+          "id": "sovarka_explain_to_direct",
+          "text": "\"I appreciate the proposal. My answer is yes. Let me tell you what Veltria can offer.\"",
+          "nextSegment": "katerin_proposal"
+        }
+      ]
+    },
+    "katerin_shows_survey": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You open the desk drawer. You set the Tyvaren survey summary on the table between you. The handwritten translation notes in the margins. The mineral deposit profile. The timeline estimate."
+        },
+        {
+          "type": "description",
+          "text": "Luca looks at it. He reads it. He reads it again."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "This is — this is Tyvaren's survey. Their internal summary."
+        },
+        {
+          "type": "description",
+          "text": "He looks up."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "You have been watching Sovarka."
+        },
+        {
+          "type": "description",
+          "text": "Not an accusation. An observation. He is deciding what it means."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "You have been watching Sovarka and you agreed to see me the same day my request arrived. Which means you did not need me to tell you anything. You already knew. You wanted to see what I would say."
+        },
+        {
+          "type": "description",
+          "text": "He is quiet for a moment. Then something shifts in his expression — not anger, recognition. The recognition of a man who has just understood the full shape of the situation he walked into."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "I came here to ask for a partner. I think I may have found one that is more capable than I anticipated. That is — not a bad problem to have."
+        }
+      ],
+      "monologue": "He said not a bad problem to have. He could have been alarmed. He could have been offended. He chose to be pragmatic. That tells me everything I need to know about whether this partnership can work.",
+      "choices": [
+        {
+          "id": "sovarka_survey_to_proposal",
+          "text": "\"Let me tell you what Veltria wants and what we can offer.\"",
+          "nextSegment": "katerin_proposal"
+        }
+      ]
+    },
+    "katerin_proposal": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "If I may — before the Chancellor outlines the terms. President Luca, the window on this negotiation is six to ten weeks. Tyvaren's third survey team returns within the month. After that their offer will be on your desk within days. What Veltria can offer that Tyvaren cannot is not capital — Tyvaren has more. It is not infrastructure alone. It is a partnership without the consequences that come attached to Tyvaren's version of partnership. We are asking you to make a decision about what kind of future Sovarka wants, not just what price it can get."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "I understand the distinction. I have been living with it for two years. It is why I am in this room."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_make_offer",
+          "text": "\"Veltria funds the independent survey immediately — through official channels, on the record as a bilateral partnership. In exchange: first right of refusal on all minerals agreements, below-market preferred pricing, and Sovarkan exports route through the Sevagrad port. We stand with you publicly. When Tyvaren makes their offer, they do so knowing Veltria is already your partner.\"",
+          "internalTag": "reformist",
+          "flags": ["sovarka_engaged", "sovarka_relation_high", "andrei_luca_met"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": 5 },
+            { "stat": "nation.economyHealth", "value": -4 },
+            { "stat": "factions.reformists", "value": 5 },
+            { "stat": "shadowFootprint", "value": 4 }
+          ],
+          "nextSegment": "sovarka_close_full"
+        },
+        {
+          "id": "sovarka_make_quiet_offer",
+          "text": "\"Veltria funds the survey through private channels — deniable until the results are confirmed and the agreement is formalized. When Tyvaren makes their offer, we will already have a signed agreement in place that they cannot undo. Speed over visibility.\"",
+          "internalTag": "pragmatist",
+          "flags": ["sovarka_quiet", "andrei_luca_met"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": -2 },
+            { "stat": "shadowFootprint", "value": 12 }
+          ],
+          "nextSegment": "sovarka_close_quiet"
+        },
+        {
+          "id": "sovarka_defer_still",
+          "text": "\"I want to see the independent survey results before Veltria commits formally. We will fund the survey privately — but the partnership is conditional on confirmation.\"",
+          "internalTag": "authoritarian",
+          "flags": ["sovarka_deferred", "andrei_luca_met"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": -3 },
+            { "stat": "factions.reformists", "value": -3 }
+          ],
+          "nextSegment": "sovarka_close_defer"
+        }
+      ]
+    },
+    "sovarka_close_full": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Luca looks at you for a moment. Then at Vyktor. Then back at you."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Official. On the record. Veltria stands with Sovarka publicly before Tyvaren makes their offer.\" He pauses. \"That is — that is more than I came here asking for. Yes. That is yes."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "One commitment in return. If Tyvaren approaches me — and they will — I tell you immediately. Before I respond to them. Before I tell anyone else. You will know within hours. That is the partnership I am offering."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We will also be monitoring independently. You will not be navigating this alone."
+        },
+        {
+          "type": "description",
+          "text": "Luca nods. He extends his hand across the table. The handshake of a schoolteacher who became a president and has just made the most consequential decision of his administration."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_full_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week33_sovarka_survey",
+              "delayWeeks": 4,
+              "probability": 1.0
+            }
+          ],
+          "codexUnlocks": ["codex_sovarka", "codex_andrei_luca"],
+          "journalEntry": {
+            "title": "The Schoolteacher's Republic",
+            "category": "DIPLOMACY",
+            "content": "Krel came before dawn with the Tyvaren survey summary. Rare earth minerals in the Sovarka highlands — dysprosium and neodymium, largest known regional deposit. Six to ten weeks before Tyvaren formalizes. Luca arrived by midafternoon. I showed him the survey summary. He recalibrated in thirty seconds and asked the real question. I offered a full public partnership — official, on the record, Veltria stands with Sovarka before Tyvaren makes their offer. He said yes. He committed to telling me immediately if Tyvaren approaches. Vyktor told him we would be monitoring independently. He understood what that meant and shook my hand anyway."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "sovarka_close_quiet": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Private channels. Speed over visibility. Yes — I understand the logic. A signed agreement in place before Tyvaren can respond is worth more than a public commitment they can outbid."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "I want to say one thing. When the agreement is formalized — when it is signed and Tyvaren knows — I want Veltria to stand beside it publicly. The quiet approach gets us to the agreement. But Sovarka needs the public partnership to exist afterward. Eight hundred thousand people need to see that they chose correctly."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "When the agreement is signed and confirmed, Veltria will stand beside it fully. You have my word on that."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_quiet_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week33_sovarka_survey",
+              "delayWeeks": 4,
+              "probability": 1.0
+            }
+          ],
+          "codexUnlocks": ["codex_sovarka", "codex_andrei_luca"],
+          "journalEntry": {
+            "title": "The Schoolteacher's Republic",
+            "category": "DIPLOMACY",
+            "content": "Krel came before dawn. Tyvaren survey summary, mineral profile, six to ten week window. Luca arrived midafternoon. I took the quiet route — private channels, deniable until signed. Luca accepted but asked for one thing: when the agreement is formalized, Veltria stands beside it publicly. Eight hundred thousand people need to see they chose correctly. Vyktor gave his word. I need to make sure we keep it."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "sovarka_close_defer": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Luca is still. He was prepared for this answer. That is the quality of a man who has been running a small country between large ones — he prepares for every answer."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Conditional on confirmation. I understand. The survey will proceed — I will fund it through the University of Mirev. When the results arrive I will bring them to you directly."
+        },
+        {
+          "type": "description",
+          "text": "He stands. He picks up the Tyvaren survey summary from the table and sets it back in front of you."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Keep this. It is more useful to you than to me — I cannot officially acknowledge having seen it. When my survey confirms what yours already shows, I will come back. I hope the window is still open."
+        },
+        {
+          "type": "description",
+          "text": "He leaves. Vyktor watches the door close."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He left the Tyvaren document with us. That is either trust or a negotiating gesture. Possibly both. Either way — he will be back. The question is what the board looks like when he returns."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_defer_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week33_sovarka_survey",
+              "delayWeeks": 4,
+              "probability": 1.0
+            }
+          ],
+          "codexUnlocks": ["codex_sovarka", "codex_andrei_luca"],
+          "journalEntry": {
+            "title": "The Schoolteacher's Republic",
+            "category": "DIPLOMACY",
+            "content": "Krel came before dawn with the Tyvaren survey summary. Luca arrived midafternoon. I showed him the document. He accepted the conditional answer — survey first, partnership after confirmation. He left the Tyvaren document with us. Vyktor said it was either trust or a negotiating gesture. Possibly both. Six to ten weeks before Tyvaren formalizes. I chose caution over commitment. I will find out if that was wisdom or hesitation when Luca comes back."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

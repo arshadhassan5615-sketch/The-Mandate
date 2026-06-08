@@ -1,0 +1,372 @@
+{
+  "id": "act3_week37_sovarka_outcome",
+  "title": "What Veltria Built",
+  "week": 37,
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "elara_vostane"],
+  "dialogue": "Four weeks since the survey call. Vyktor has the summary.",
+  "monologue": "Four weeks. Enough time for a decision to become a reality or a mistake.",
+  "choices": [
+    {
+      "id": "sovarka_outcome_hear",
+      "text": "\"Tell me where we are.\"",
+      "nextSegment": "sovarka_outcome_branch"
+    }
+  ],
+  "segments": {
+    "sovarka_outcome_branch": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor opens his folder. He reads the room first — the habit of a man who has delivered both good news and bad news in this room and knows the delivery matters."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_outcome_full_deal",
+          "text": "[Full deal was signed]",
+          "condition": "flagSet:sovarka_deal_signed",
+          "nextSegment": "outcome_full_deal"
+        },
+        {
+          "id": "sovarka_outcome_limited_deal",
+          "text": "[Limited deal was signed]",
+          "condition": "flagSet:sovarka_limited_deal",
+          "nextSegment": "outcome_limited_deal"
+        },
+        {
+          "id": "sovarka_outcome_lost",
+          "text": "[Deal was deferred — Tyvaren moved first]",
+          "condition": "flagSet:sovarka_deferred",
+          "nextSegment": "outcome_lost"
+        }
+      ]
+    },
+    "outcome_full_deal": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Sovarka-Veltria Minerals Partnership Agreement was signed Thursday morning, eighteen hours before Tyvaren's ambassador arrived in Luca's office. The ambassador was informed that Sovarka had concluded a preferred partnership with Veltria and was not accepting competing offers for the primary deposits. He filed a formal diplomatic protest the same afternoon. The protest was noted and filed."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Luca held a press conference in Mirev on Friday. He described the agreement as a partnership between equals — his phrase. The Sovarkan press covered it as a foreign policy victory. Three smaller Thalassic coastal states have made informal inquiries about similar arrangements with Veltria in the past two weeks."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "First mineral shipments are projected to arrive at Sevagrad port within six months of extraction infrastructure completion. Revenue to the state begins in month eight. The fifteen-year preferred pricing arrangement generates a projected annual contribution to the budget that exceeds the Kravenstal dam's energy export revenue in years three through fifteen."
+        },
+        {
+          "type": "description",
+          "text": "She closes her folder. That is her version of emphasis."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The eastern europium deposit remains unannounced. Luca has agreed to defer that discussion for eighteen months. By then we will know how to use it."
+        }
+      ],
+      "monologue": "Three smaller Thalassic coastal states made inquiries in two weeks. Luca called it a partnership between equals and the phrase traveled. He was right that eight hundred thousand people choosing correctly is a signal to other small countries watching to see which direction is safe. The signal was received. That is either the beginning of something or a coincidence. With Vyktor I never have to ask which one he thinks it is.",
+      "choices": [
+        {
+          "id": "sovarka_full_ask_tyvaren",
+          "text": "\"What is Tyvaren's response beyond the protest?\"",
+          "nextSegment": "tyvaren_full_response"
+        },
+        {
+          "id": "sovarka_full_ask_three_states",
+          "text": "\"Tell me about the three states that made inquiries.\"",
+          "nextSegment": "three_states_brief"
+        },
+        {
+          "id": "sovarka_full_end_direct",
+          "text": "\"Good. What is next?\"",
+          "nextSegment": "sovarka_outcome_close_full"
+        }
+      ]
+    },
+    "tyvaren_full_response": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Beyond the formal protest — three things. They have increased naval exercise frequency in the Thalassic zone by forty percent over the past three weeks. They have declined to renew two bilateral trade agreements with Veltria that were due for renewal this month. And their ambassador in Ashenmere requested an urgent meeting with the Foreign Ministry yesterday. The meeting is scheduled for tomorrow."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren is angry. They are demonstrating anger through calibrated pressure rather than escalation. That is consistent with their doctrine — they apply pressure to test resolve before deciding whether to escalate. The correct response is to not flinch."
+        }
+      ],
+      "monologue": "Do not flinch. Vyktor said it the way he says things he has said before to different Chancellors in different rooms. The advice is always the same because the situation is always the same — a larger power applying calibrated pressure to see if the smaller one blinks. The answer has to be the same too.",
+      "choices": [
+        {
+          "id": "tyvaren_response_to_close",
+          "text": "\"We do not flinch. What is the Foreign Ministry meeting agenda?\"",
+          "nextSegment": "sovarka_outcome_close_full"
+        }
+      ]
+    },
+    "three_states_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Valdenmoor, a fishing republic on the western Thalassic coast — population four hundred thousand, currently in a trade dispute with Tyvaren over fishing rights. Orethmark, a small inland agricultural state on the Morivask border — watching the Sovarkan deal as a potential model for their own position between Veltria and Morivask. And Dressia, a port city-state at the southern end of the Thalassic — they have been a Tyvaren client for twenty years and are apparently reconsidering."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "None of these inquiries are formal. All three are deniable. But they represent the beginning of a pattern. Luca was right — small countries are watching."
+        }
+      ],
+      "monologue": "Dressia has been a Tyvaren client for twenty years and is reconsidering. That is the one that matters. Not because Dressia is large — it is not. But because a Tyvaren client reconsidering is a signal that travels in the opposite direction of the one Tyvaren sent when they applied pressure this week. Two signals moving in opposite directions. The question is which one is louder.",
+      "choices": [
+        {
+          "id": "three_states_to_close",
+          "text": "\"Monitor all three. Do nothing official yet. Let the signal travel further before we respond to it.\"",
+          "nextSegment": "sovarka_outcome_close_full"
+        }
+      ]
+    },
+    "sovarka_outcome_close_full": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor makes a note. Elara begins a new projection sheet. The machinery of government turning on a decision made four weeks ago in a phone call with a schoolteacher who became a president."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "For what it is worth — this was correctly executed. The intelligence, the timing, the terms. Luca is a reliable partner. The agreement is real. Tyvaren's pressure is manageable. Three small states are watching. That is a good result."
+        }
+      ],
+      "monologue": "Vyktor said it was correctly executed. He does not say that. He describes. He does not evaluate. The fact that he said it means something. I am choosing to let it mean something.",
+      "choices": [
+        {
+          "id": "sovarka_full_complete",
+          "text": "[End — Sovarka arc complete]",
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 5 },
+            { "stat": "nation.internationalStanding", "value": 5 }
+          ],
+          "flags": ["sovarka_arc_complete", "sovarka_won"],
+          "journalEntry": {
+            "title": "What Veltria Built",
+            "category": "DIPLOMACY",
+            "content": "The agreement is signed. Luca held his press conference. Partnership between equals — his phrase. Three Thalassic states made inquiries in two weeks. Tyvaren is applying calibrated pressure. Vyktor said it was correctly executed. The eastern europium deposit stays quiet for eighteen months. First mineral revenue in month eight. Krel's network made this possible — the Tyvaren survey summary, the meeting schedule, the three days of warning. I keep thinking about what this would have looked like without him. I try not to think about it too long."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "outcome_limited_deal": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Sovarka-Veltria preferred partnership agreement was signed Thursday morning. Luca's cabinet approved it by a margin of seven to two — the two dissenting votes wanted a higher Veltrian capital commitment before signing. Tyvaren's ambassador arrived Friday and presented their offer. Luca informed him that Sovarka had a preferred partnership in place but remained open to non-exclusive secondary arrangements."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren accepted. They signed a secondary minerals agreement with Sovarka covering approximately thirty percent of projected annual output at market rate. Luca is selling to both parties. He told us he would do this — the non-exclusive terms we offered made it possible."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Our preferred pricing and port access terms are intact. The budget contribution is forty percent below the full-deal projection — Tyvaren is absorbing a significant portion of the supply we could have had exclusively. It is still a positive result. It is not the full result."
+        }
+      ],
+      "monologue": "Luca is selling to both of us. That is what non-exclusive means and I knew it when I offered it. The preferred pricing and port access are intact. Tyvaren has thirty percent of the supply. The eastern europium deposit is still unannounced and undivided. The limited deal is not a failure. It is a smaller victory than was available. Those are different things.",
+      "choices": [
+        {
+          "id": "sovarka_limited_push_exclusive",
+          "text": "\"Approach Luca about the eastern europium deposit. Offer exclusivity there in exchange for closing out the Tyvaren secondary arrangement.\"",
+          "flags": ["sovarka_europium_push"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 5 },
+            { "stat": "tyvarenHostility", "value": 8 }
+          ],
+          "nextSegment": "sovarka_outcome_close_limited"
+        },
+        {
+          "id": "sovarka_limited_accept",
+          "text": "\"Accept the result. The preferred partnership is real and the terms are honored. Let Luca manage both relationships — that is his right.\"",
+          "flags": ["sovarka_limited_accepted"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": 3 }
+          ],
+          "nextSegment": "sovarka_outcome_close_limited"
+        }
+      ]
+    },
+    "sovarka_outcome_close_limited": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The preferred partnership generates positive budget contribution beginning in month eight. The Sevagrad port transit revenue begins when first shipments arrive. The result is below the maximum available outcome. It is above the minimum acceptable one."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren did not escalate. The non-exclusive structure gave them something — which means they have less reason to apply pressure than they would have if we had shut them out entirely. The diplomatic situation is stable."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_limited_complete",
+          "text": "[End — Sovarka arc complete]",
+          "flags": ["sovarka_arc_complete", "sovarka_partial_win"],
+          "journalEntry": {
+            "title": "What Veltria Built",
+            "category": "DIPLOMACY",
+            "content": "The limited deal held. Luca signed with us Thursday, signed with Tyvaren Friday. Non-exclusive as offered. We have preferred pricing and port access. Tyvaren has thirty percent of supply at market rate. Elara says the result is below the maximum available and above the minimum acceptable. Vyktor says the diplomatic situation is stable because Tyvaren got something. The eastern europium deposit is still unannounced. That decision comes later."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "outcome_lost": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren signed with Sovarka on Tuesday. Full exclusive minerals agreement — eighty-eight million kroner in infrastructure and capital commitment over twelve years. The signing ceremony was in Mirev. Luca attended. He looked like a man who had made the best deal available to him and was not entirely comfortable with what it cost."
+        },
+        {
+          "type": "description",
+          "text": "He sets the report on the desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The independent survey results — our survey — confirmed the deposits two days after the signing. Including the eastern europium district that Tyvaren's team missed. Luca does not know about the eastern district. Tyvaren does not know about it either. It is in the agreement's survey scope but has not been assessed. It will be assessed within the year."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The Sevagrad port loses its projected Sovarkan transit revenue. The budget projections I prepared in week twenty-nine are no longer valid. The economic impact is not catastrophic. It is significant and it compounds — every year Tyvaren controls that supply is a year Veltrian electronics manufacturing depends on Tyvaren-aligned pricing."
+        }
+      ],
+      "monologue": "Luca looked like a man who made the best deal available to him and was not entirely comfortable with what it cost. Vyktor described his expression at a signing ceremony I was not present for. That is the distance between a decision and its consequences — you make the call in a room, the consequences happen somewhere else, and someone describes the expression of the person who lived them.",
+      "choices": [
+        {
+          "id": "sovarka_lost_ask_luca",
+          "text": "\"Is the relationship with Luca recoverable?\"",
+          "nextSegment": "sovarka_lost_luca_question"
+        },
+        {
+          "id": "sovarka_lost_ask_europium",
+          "text": "\"The eastern europium district — Tyvaren doesn't know about it yet.\"",
+          "nextSegment": "sovarka_lost_europium"
+        }
+      ]
+    },
+    "sovarka_lost_luca_question": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He came to Veltria first. He waited for a commitment that did not come in time. He signed with Tyvaren because he had no other viable option before their deadline. He is not hostile — he is disappointed. Those are recoverable from different positions."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The europium deposit gives us a specific reason to re-engage. When Tyvaren's assessment team reaches the eastern district — and they will — Luca will discover that his agreement may not cover something significant. That is a conversation Veltria can be part of, if we move before Tyvaren realizes what they have."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_lost_to_europium",
+          "text": "\"Tell me about the europium.\"",
+          "nextSegment": "sovarka_lost_europium"
+        }
+      ]
+    },
+    "sovarka_lost_europium": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The eastern district europium deposit was not included in Tyvaren's survey scope because their team did not reach it. The Tyvaren-Sovarka agreement covers extraction rights across the surveyed districts. The eastern district falls within the agreement's geographic boundaries but has not been formally assessed and is not specifically enumerated in the minerals schedule."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Whether the agreement covers the eastern district as written is a legal question. Luca's government could argue it was not within the assessed scope. Tyvaren will argue the geographic boundaries are definitive. This dispute will arise within the year when Tyvaren's assessment team reaches the district."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "If Veltria contacts Luca now — before Tyvaren reaches the eastern district — we can offer legal and technical assistance on the scope dispute. We become his resource on a question that will define whether the Tyvaren agreement covers his most valuable asset. That is a significant re-entry point."
+        }
+      ],
+      "monologue": "We lost the primary deposits. We may still have a path to the most valuable one. That is not the result I wanted. It is a result I can work with. The question is whether working with it is the right use of political capital or whether accepting the loss and finding the next opportunity is wiser. Elara laid out the path. Vyktor described the risk. I have to decide which kind of Chancellor I am — the one who fights for what was lost or the one who moves to the next opportunity.",
+      "choices": [
+        {
+          "id": "sovarka_lost_reengage",
+          "text": "\"Contact Luca. Offer legal and technical assistance on the eastern district scope question. We re-enter through the dispute.\"",
+          "flags": ["sovarka_europium_reentry"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": 3 },
+            { "stat": "tyvarenHostility", "value": 8 },
+            { "stat": "nation.economyHealth", "value": 3 }
+          ],
+          "nextSegment": "sovarka_lost_close"
+        },
+        {
+          "id": "sovarka_lost_accept",
+          "text": "\"Accept the loss. Find the next opportunity. Veltria does not re-enter a deal that closed against us through a legal dispute — that is not the kind of partner we want to be.\"",
+          "flags": ["sovarka_loss_accepted"],
+          "statEffects": [
+            { "stat": "nation.internationalStanding", "value": 5 },
+            { "stat": "factions.reformists", "value": 3 }
+          ],
+          "nextSegment": "sovarka_lost_close"
+        }
+      ]
+    },
+    "sovarka_lost_close": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Halvekist press ran three pieces this week describing the Sovarka outcome as proof that the Ashavel government's foreign policy is naive and reactive. They are not wrong about the outcome. They are wrong about the reason."
+        },
+        {
+          "type": "description",
+          "text": "He closes his folder."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The reason was that we waited for certainty when the situation required commitment. That is a lesson. It is an expensive one. It will not compound if we apply it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sovarka_lost_complete",
+          "text": "[End — Sovarka arc complete]",
+          "flags": ["sovarka_arc_complete", "sovarka_lost_flag"],
+          "statEffects": [
+            { "stat": "factions.halvekists", "value": 8 },
+            { "stat": "nation.economyHealth", "value": -5 },
+            { "stat": "nation.internationalStanding", "value": -8 }
+          ],
+          "journalEntry": {
+            "title": "What Veltria Built",
+            "category": "DIPLOMACY",
+            "content": "Tyvaren signed with Sovarka on Tuesday. Eighty-eight million kroner, twelve years, exclusive. Luca looked uncomfortable at the signing. Our survey confirmed the deposits two days later — including the eastern europium district Tyvaren missed. The Halvekists ran three pieces about naive foreign policy. Vyktor said the reason was waiting for certainty when the situation required commitment. He said it will not compound if we apply it. I wrote that down."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "act3_church_active_opposition",
+  "title": "The Shepherd Acts",
+  "week": 38,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "stanislov_renek"],
+  "dialogue": "Archbishop Renek has moved from sermons to action. Vyktor has the details.",
+  "monologue": "He was warm on the surface and surgical beneath. He told me that at the inaugural ball. I chose not to fully believe it. I am about to find out what surgical looks like.",
+  "choices": [
+    {
+      "id": "church_opposition_hear",
+      "text": "\"What did he do?\"",
+      "nextSegment": "church_opposition_brief"
+    }
+  ],
+  "segments": {
+    "church_opposition_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Church has formally withdrawn its cooperation from the education curriculum working group. Archbishop Renek issued a pastoral letter to all provincial clergy yesterday — it describes the government's education policy as incompatible with the moral formation of Veltrian children. The letter was read from pulpits across the country this morning."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Fourteen rural Assembly members have received constituent pressure since the letter was circulated. Three have already contacted the government asking for a meeting. The education reform timeline is at risk."
+        }
+      ],
+      "monologue": "Fourteen rural Assembly members in one morning. He spent months building to this. The sermons were preparation. This is the action.",
+      "choices": [
+        {
+          "id": "church_opposition_engage",
+          "text": "\"Request a meeting with Renek. Address this directly before it spreads further.\"",
+          "flags": ["church_opposition_engaged"],
+          "statEffects": [
+            { "stat": "factions.church", "value": 5 },
+            { "stat": "factions.reformists", "value": -3 }
+          ],
+          "nextSegment": null
+        },
+        {
+          "id": "church_opposition_hold",
+          "text": "\"Hold the education reform line. The Church does not set curriculum policy in a secular Republic.\"",
+          "flags": ["church_opposition_held"],
+          "statEffects": [
+            { "stat": "factions.church", "value": -10 },
+            { "stat": "factions.reformists", "value": 8 },
+            { "stat": "nation.publicOrder", "value": -5 }
+          ],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

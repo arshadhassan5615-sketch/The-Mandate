@@ -1,0 +1,329 @@
+{
+  "id": "act2_week33_sovarka_survey",
+  "title": "What the Ground Confirms",
+  "week": 33,
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["matthias_krel", "vyktor_reznik", "elara_vostane", "andrei_luca"],
+  "dialogue": "Two things arrived this morning. The survey results. And Krel.",
+  "monologue": "When two pieces of information arrive simultaneously it is never a coincidence. Krel does not coincide. He sequences.",
+  "choices": [
+    {
+      "id": "sovarka_survey_begin",
+      "text": "\"Krel first.\"",
+      "nextSegment": "krel_tyvaren_moving"
+    }
+  ],
+  "segments": {
+    "krel_tyvaren_moving": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Tyvaren's third survey team returned to Mirev four days ago. My people intercepted the preliminary findings before they reached the Tyvaren embassy. The deposit confirmation is significant — their internal assessment uses the phrase strategic priority, which is language their geological service does not use lightly."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Tyvaren's ambassador in Mirev requested an urgent meeting with President Luca's office yesterday afternoon. The meeting is scheduled for this Friday. Three days from now."
+        },
+        {
+          "type": "description",
+          "text": "He sets a single page on the desk. Tyvaren internal communication — intercepted, translated, annotated."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "They are bringing an offer. My estimate of the number, based on their internal cost authorization, is between eighty and one hundred million kroner in infrastructure and capital commitment over ten years. It is a large offer. It will be structured to look like a partnership and function like a dependency."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "You have three days."
+        }
+      ],
+      "monologue": "Three days. Tyvaren's offer lands Friday. Krel has the preliminary findings and the meeting schedule and the internal cost authorization. He has been in Tyvaren's files while they were reading their own survey results. Three days is not much time. It is more time than I would have had without him.",
+      "choices": [
+        {
+          "id": "sovarka_survey_ask_number",
+          "text": "\"Can we match eighty to one hundred million?\"",
+          "nextSegment": "elara_numbers"
+        },
+        {
+          "id": "sovarka_survey_ask_results",
+          "text": "\"What do our survey results say?\"",
+          "nextSegment": "survey_results"
+        }
+      ]
+    },
+    "elara_numbers": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Not in cash. Not at the scale Tyvaren can deploy. Their state infrastructure fund has capital reserves we cannot match directly. What we can offer that has equivalent or greater value is the Sevagrad port access — the trade route alone is worth more than the headline number over twenty years if the deposit is as significant as the surveys suggest. Technology partnership through the University. Political guarantees that do not come with the obligations Tyvaren's partnership implies."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The financial comparison Luca will make is not just the number. It is the number plus the cost of what comes attached to it. Our offer is smaller in kroner. It is larger in what it does not cost him."
+        }
+      ],
+      "monologue": "Elara said our offer is larger in what it does not cost him. That is the argument. Not the capital figure — the total cost of the deal including the obligations Tyvaren wraps around every partnership they make. I need Luca to understand that arithmetic before Friday.",
+      "choices": [
+        {
+          "id": "elara_to_results",
+          "text": "\"What do the survey results confirm?\"",
+          "nextSegment": "survey_results"
+        },
+        {
+          "id": "elara_to_luca",
+          "text": "\"Get Luca on a secure line. Now.\"",
+          "nextSegment": "luca_contact"
+        }
+      ]
+    },
+    "survey_results": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The independent survey confirms significant rare earth mineral deposits across three highland districts. Dysprosium concentration is approximately forty percent above the Tyvaren preliminary estimate — their survey underreported, possibly deliberately to suppress the headline number before their offer. Neodymium deposits are consistent with their assessment. Total extractable volume at current technology is sufficient for approximately thirty years of regional electronics manufacturing demand."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The survey also identified a secondary deposit in the eastern highland district that Tyvaren's team did not reach. That deposit contains trace amounts of europium — rarer, more valuable, and currently in high demand for precision optics manufacturing. Tyvaren does not know about the eastern district."
+        },
+        {
+          "type": "description",
+          "text": "He sets the survey report on the desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We know more about Sovarka's minerals than Tyvaren does. That is the negotiating position."
+        }
+      ],
+      "monologue": "We know about the eastern district and Tyvaren does not. Thirty years of regional manufacturing demand plus a europium deposit they missed. That is not just a minerals agreement — that is a strategic position that compounds over decades. Luca needs to know about the eastern district before he walks into the meeting with Tyvaren's ambassador on Friday.",
+      "choices": [
+        {
+          "id": "results_to_luca",
+          "text": "\"Get Luca on a secure line immediately.\"",
+          "nextSegment": "luca_contact"
+        },
+        {
+          "id": "results_ask_krel",
+          "text": "\"Krel — can you delay the Friday meeting?\"",
+          "nextSegment": "krel_delay_option"
+        }
+      ]
+    },
+    "krel_delay_option": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Possible. A diplomatic scheduling conflict routed through the Sovarkan foreign ministry — a request from a neutral third party that creates a plausible reason for Luca to ask for postponement. It buys three to five days. No more. Tyvaren will not accept a longer delay without suspicion."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The footprint cost is eight. And it tells Tyvaren that someone is creating friction around the meeting, which tells them someone else is in the negotiation. They will accelerate after the delay, not slow down."
+        }
+      ],
+      "monologue": "Eight footprint and it signals to Tyvaren that there is competition. Three to five days bought at the cost of Tyvaren knowing we are here. That is a bad trade. We do not need the delay — we need Luca to understand the full picture before Friday. That does not require delay. It requires a conversation.",
+      "choices": [
+        {
+          "id": "krel_no_delay",
+          "text": "\"No delay. We work with three days. Get Luca on the line.\"",
+          "nextSegment": "luca_contact"
+        },
+        {
+          "id": "krel_yes_delay",
+          "text": "\"Buy the five days. The footprint cost is worth the time.\"",
+          "flags": ["sovarka_tyvaren_delayed"],
+          "statEffects": [
+            { "stat": "shadowFootprint", "value": 8 }
+          ],
+          "nextSegment": "luca_contact"
+        }
+      ]
+    },
+    "luca_contact": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The secure line to Mirev takes eleven minutes to establish. When Luca comes on he sounds as though he has been awake since the meeting request arrived — which he probably has."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Chancellor. Tyvaren's ambassador requested a meeting for Friday. I was going to contact you this morning."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We know. We also have the survey results and information about Tyvaren's offer structure. The Chancellor needs to speak with you directly."
+        }
+      ],
+      "monologue": "He said he was going to contact me this morning. He kept his commitment — he told me immediately, before responding. That matters. That is the foundation of what we are building here.",
+      "choices": [
+        {
+          "id": "luca_tell_everything",
+          "text": "\"President Luca — our survey confirms the deposits. Dysprosium forty percent above Tyvaren's estimate, neodymium consistent, and a secondary europium deposit in the eastern district that Tyvaren did not find. You know more about your highlands than they do. Walk into Friday knowing that.\"",
+          "nextSegment": "luca_informed_reaction"
+        },
+        {
+          "id": "luca_tell_partial",
+          "text": "\"The survey confirms significant deposits — the full details are in the report we are sending now. Tyvaren's offer will be large. Our offer is structured differently. Before you meet with their ambassador I want you to understand the full comparison.\"",
+          "nextSegment": "luca_informed_reaction"
+        }
+      ]
+    },
+    "luca_informed_reaction": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Silence on the line. Luca is reading. Processing."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "The eastern district. They missed the eastern district."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Chancellor — what is Veltria's offer? Specifically. I need to walk into Friday with two complete offers, not one offer and a preference."
+        }
+      ],
+      "monologue": "He asked for the specific offer. He is right — a preference is not a negotiating position. A signed term sheet is. I need to give him something concrete enough to hold against whatever Tyvaren brings on Friday.",
+      "choices": [
+        {
+          "id": "sovarka_full_offer",
+          "text": "\"Full partnership. Preferred minerals pricing — twenty percent below market rate for Veltrian purchasers for the first fifteen years. Sevagrad port access for all Sovarkan mineral exports at preferential transit rates. Veltrian technical assistance for extraction infrastructure. And a mutual defense consultation clause — not a military alliance, a commitment to consult before either party makes decisions affecting the other's security. We stand with you. Publicly and completely.\"",
+          "internalTag": "reformist",
+          "flags": ["sovarka_deal_signed", "sovarka_full_terms"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 15 },
+            { "stat": "nation.internationalStanding", "value": 10 },
+            { "stat": "tyvarenHostility", "value": 20 },
+            { "stat": "nation.nationalDebt", "value": -8 },
+            { "stat": "factions.reformists", "value": 8 }
+          ],
+          "nextSegment": "sovarka_survey_close_full"
+        },
+        {
+          "id": "sovarka_limited_offer",
+          "text": "\"Preferred partner status — first right of refusal on all minerals agreements, below-market pricing for Veltrian purchasers, Sevagrad port access for Sovarkan exports. Non-exclusive — Sovarka retains the right to sell to other buyers at market rate after Veltrian allocation is met. We are asking for partnership, not monopoly.\"",
+          "internalTag": "pragmatist",
+          "flags": ["sovarka_limited_deal", "sovarka_limited_terms"],
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 8 },
+            { "stat": "nation.internationalStanding", "value": 5 },
+            { "stat": "tyvarenHostility", "value": 10 },
+            { "stat": "factions.reformists", "value": 3 }
+          ],
+          "nextSegment": "sovarka_survey_close_limited"
+        }
+      ]
+    },
+    "sovarka_survey_close_full": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Silence on the line. Longer this time."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Mutual defense consultation. That is — Tyvaren will not offer that. They will offer money and infrastructure and they will call it partnership. What you are offering is different. What you are offering is that Sovarka's security interests are considered before decisions are made that affect them. That is what eight hundred thousand people actually need."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "I will go into Friday with your terms. If Tyvaren's offer is what you describe, I will tell their ambassador that Sovarka has already concluded a preferred partnership with Veltria and that we are not accepting competing offers for the primary deposits. The eastern district — the europium — we may discuss separately with other parties at a later stage. That is my flexibility to you."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We will have the term sheet to your office within twenty-four hours. Sign it before Friday."
+        }
+      ],
+      "monologue": "He said he will go into Friday with our terms. He is not negotiating with both sides simultaneously — he is closing with us before Tyvaren arrives. That is a schoolteacher's decision: when you know the right answer, commit to it before the wrong answer has a chance to sound more appealing.",
+      "choices": [
+        {
+          "id": "sovarka_full_survey_end",
+          "text": "[End call — begin term sheet preparation]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act3_week37_sovarka_outcome",
+              "delayWeeks": 4,
+              "probability": 1.0
+            },
+            {
+              "targetNodeId": "act3_chain_sovarka_tyvaren_response",
+              "delayWeeks": 6,
+              "probability": 0.7
+            }
+          ],
+          "journalEntry": {
+            "title": "What the Ground Confirms",
+            "category": "DIPLOMACY",
+            "content": "Krel intercepted Tyvaren's preliminary findings and their meeting schedule — Friday, three days from now, eighty to one hundred million kroner offer. Our survey confirms the deposits plus a secondary europium deposit in the eastern district that Tyvaren missed. I gave Luca the full picture and the full offer — preferred pricing, Sevagrad port access, technical assistance, mutual defense consultation. He said he will go into Friday with our terms. Vyktor is preparing the term sheet. Sign before Friday. If this works, Veltria controls access to the largest regional rare earth supply for a generation."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "sovarka_survey_close_limited": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Luca is quiet for a moment."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "Non-exclusive. Sovarka retains the right to sell at market rate after Veltrian allocation. That is — more flexible than I expected. More honest than most offers I will receive."
+        },
+        {
+          "type": "dialogue",
+          "character": "andrei_luca",
+          "text": "I will present your terms to my cabinet tomorrow. I cannot commit before Friday without cabinet approval — our constitution requires it for agreements of this scale. I will have an answer by Thursday morning."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Thursday morning is acceptable. We will have the term sheet ready for immediate signature."
+        }
+      ],
+      "monologue": "He needs cabinet approval. That is good governance — a president who cannot bypass his own constitution to close a deal faster is a president whose signature means something. Thursday morning. One day before Tyvaren's ambassador arrives. The window is tight but it exists.",
+      "choices": [
+        {
+          "id": "sovarka_limited_survey_end",
+          "text": "[End call — wait for Thursday]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act3_week37_sovarka_outcome",
+              "delayWeeks": 4,
+              "probability": 1.0
+            },
+            {
+              "targetNodeId": "act3_chain_sovarka_tyvaren_response",
+              "delayWeeks": 6,
+              "probability": 0.55
+            }
+          ],
+          "journalEntry": {
+            "title": "What the Ground Confirms",
+            "category": "DIPLOMACY",
+            "content": "Krel had Tyvaren's schedule before we had our own survey results. The deposits are confirmed — plus the eastern europium district Tyvaren missed. I offered limited non-exclusive terms. Luca needs cabinet approval — he will have an answer by Thursday morning, one day before Tyvaren's ambassador arrives. The window is tight. Krel's footprint is at a manageable level. We wait for Thursday."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}
