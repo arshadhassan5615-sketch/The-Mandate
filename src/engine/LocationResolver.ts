@@ -3,11 +3,11 @@ import { getScene } from './NarrativeEngine'
 
 export type ProvinceId =
   | 'ashenmere' | 'kravenstal' | 'dravenhollow'
-  | 'thornfeld' | 'aldenmoor' | 'sevagrad' | 'foreign'
+  | 'thornfeld' | 'aldenmoor' | 'sevagrad' | 'sovarka' | 'foreign'
 
-// Rendered map dimensions (image fixed at 2800px wide; height from ~16:9 aspect ratio)
-export const MAP_RENDER_WIDTH = 2800
-export const MAP_RENDER_HEIGHT = 1575
+// Rendered map dimensions (image exact at 2752x1536, the natural pixel size of the JPEG)
+export const MAP_RENDER_WIDTH = 2752
+export const MAP_RENDER_HEIGHT = 1536
 
 export function resolveLocation(locationString: string): ProvinceId {
   const loc = locationString.toLowerCase()
@@ -16,9 +16,8 @@ export function resolveLocation(locationString: string): ProvinceId {
   if (loc.includes('thornfeld')) return 'thornfeld'
   if (loc.includes('aldenmoor')) return 'aldenmoor'
   if (loc.includes('sevagrad')) return 'sevagrad'
+  if (loc.includes('sovarka') || loc.includes('mirev')) return 'sovarka'
   if (
-    loc.includes('mirev') ||
-    loc.includes('sovarka') ||
     loc.includes('morivask') ||
     loc.includes('tyvaren') ||
     loc.includes('arcturia') ||
@@ -30,16 +29,16 @@ export function resolveLocation(locationString: string): ProvinceId {
   return 'ashenmere'
 }
 
-// Pin positions in pixels relative to the 2800×1575 rendered map image.
-// x = MAP_RENDER_WIDTH * fraction, y = MAP_RENDER_HEIGHT * fraction
+// Pin positions in pixels relative to the 2752×1536 rendered map image.
 export const PROVINCE_PIN_POSITIONS: Record<ProvinceId, { x: number; y: number }> = {
-  ashenmere:    { x: Math.round(2800 * 0.52), y: Math.round(1575 * 0.52) },   // capital, center
-  kravenstal:   { x: Math.round(2800 * 0.32), y: Math.round(1575 * 0.52) },   // west industrial
-  dravenhollow: { x: Math.round(2800 * 0.52), y: Math.round(1575 * 0.30) },   // north mountains
-  thornfeld:    { x: Math.round(2800 * 0.34), y: Math.round(1575 * 0.65) },   // southwest farmland
-  aldenmoor:    { x: Math.round(2800 * 0.57), y: Math.round(1575 * 0.68) },   // south coast
-  sevagrad:     { x: Math.round(2800 * 0.72), y: Math.round(1575 * 0.50) },   // east border
-  foreign:      { x: Math.round(2800 * 0.88), y: Math.round(1575 * 0.12) },   // off-map foreign
+  ashenmere:    { x: 1045, y: 799  },
+  kravenstal:   { x: 770,  y: 768  },
+  dravenhollow: { x: 1018, y: 430  },
+  thornfeld:    { x: 688,  y: 1030 },
+  aldenmoor:    { x: 1100, y: 1105 },
+  sevagrad:     { x: 1376, y: 799  },
+  sovarka:      { x: 1871, y: 1260 },
+  foreign:      { x: 2500, y: 200  },
 }
 
 export const PROVINCE_NAMES: Record<ProvinceId, string> = {
@@ -49,6 +48,7 @@ export const PROVINCE_NAMES: Record<ProvinceId, string> = {
   thornfeld:    'Thornfeld',
   aldenmoor:    'Aldenmoor',
   sevagrad:     'Sevagrad',
+  sovarka:      'Sovarka',
   foreign:      'Foreign Affairs',
 }
 

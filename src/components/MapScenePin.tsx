@@ -3,7 +3,7 @@ import type { AgendaItem } from '../types/week'
 import { CATEGORY_COLORS, CATEGORY_LABELS } from '../types/week'
 import type { ProvinceId } from '../engine/LocationResolver'
 import { PROVINCE_PIN_POSITIONS, PROVINCE_NAMES } from '../engine/LocationResolver'
-import { useSettingsStore } from '../stores/settingsStore'
+import mapPinImg from '../assets/images/map_pin.png'
 
 interface MapScenePinProps {
   provinceId: ProvinceId
@@ -12,58 +12,14 @@ interface MapScenePinProps {
   onSelectScene: (item: AgendaItem) => void
 }
 
-function getCategoryIcon(category: string) {
-  switch (category) {
-    case 'crisis':
-    case 'security':
-      return (
-        <>
-          <path d="M30 22 L38 36 L22 36 Z"
-            fill="none" stroke="#e85c5c" strokeWidth="1.5" strokeLinejoin="round"/>
-          <line x1="30" y1="27" x2="30" y2="32"
-            stroke="#e85c5c" strokeWidth="1.5"/>
-          <circle cx="30" cy="34" r="1"
-            fill="#e85c5c"/>
-        </>
-      )
-    case 'personal':
-    case 'social':
-      return (
-        <>
-          <path d="M24 38 L24 30 Q24 24 30 24 Q36 24 36 30 L36 38"
-            fill="none" stroke="#c9a84c" strokeWidth="1.5"/>
-          <circle cx="30" cy="21" r="3"
-            fill="none" stroke="#c9a84c" strokeWidth="1.5"/>
-        </>
-      )
-    default:
-      return (
-        <path d="M22 38 L22 26 L30 20 L38 26 L38 38 Z
-                 M26 38 L26 32 L34 32 L34 38"
-          fill="none" stroke="#c9a84c" strokeWidth="1.5" strokeLinejoin="round"/>
-      )
-  }
-}
-
-function getDominantCategory(items: AgendaItem[]): string {
-  const counts: Record<string, number> = {}
-  for (const item of items) {
-    counts[item.category] = (counts[item.category] || 0) + 1
-  }
-  return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'cabinet'
-}
-
 export default function MapScenePin({ provinceId, items, currentWeek, onSelectScene }: MapScenePinProps) {
   const [open, setOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
   const popoverRef = useRef<HTMLDivElement>(null)
   const pos = PROVINCE_PIN_POSITIONS[provinceId]
-  const pan = useSettingsStore(s => s.mapPan)
 
   const hasMandatory = items.some(i => i.slotCost === 0)
   const hasUrgent = items.some(i => i.weekDeadline === currentWeek)
-  const isMulti = items.length > 1
-  const dominantCategory = getDominantCategory(items)
 
   useEffect(() => {
     if (!open) return
@@ -76,67 +32,66 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
     return () => document.removeEventListener('mousedown', handler)
   }, [open])
 
+  const isPulsing = hasMandatory
   const pinFilter = hasUrgent
-    ? 'drop-shadow(0 0 8px rgba(220,60,60,0.9))'
-    : hasMandatory
-      ? 'drop-shadow(0 0 8px rgba(201,168,76,0.9))'
-      : 'drop-shadow(0 0 4px rgba(201,168,76,0.4))'
+    ? 'drop-shadow(0 0 12px rgba(220,60,60,0.9))'
+    : isPulsing
+      ? 'drop-shadow(0 0 12px rgba(201,168,76,0.9))'
+      : 'drop-shadow(0 0 6px rgba(201,168,76,0.5))'
 
   const pinAnimation = hasUrgent
     ? 'medallion-pulse-red 2s ease-in-out infinite'
-    : hasMandatory
+    : isPulsing
       ? 'medallion-pulse 2s ease-in-out infinite'
       : undefined
 
   return (
     <div style={{
-      position: 'fixed',
-      left: pos.x + pan.x,
-      top: pos.y + pan.y,
-      transform: `translate(-50%, -50%) scale(${hovered ? 1.1 : 1.0})`,
-      transition: 'transform 0.15s ease',
-      zIndex: open ? 600 : 10,
+      position: 'absolute',
+      left: pos.x,
+      top: pos.y,
+      transform: `translate(-50%, -100%) scale(${hovered ? 1.15 : 1.0})`,
+      transition: 'transform 0.15s ease, filter 0.15s ease',
+      zIndex: open ? 600 : 300,
       cursor: 'pointer',
-    }}>
-      <svg
-        width="60" height="60" viewBox="0 0 60 60"
-        style={{ display: 'block', filter: pinFilter, animation: pinAnimation }}
-        onClick={() => setOpen(prev => !prev)}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        <circle cx="30" cy="30" r="28" fill="none" stroke="#c9a84c" strokeWidth="1.5" opacity="0.6"/>
-        <circle cx="30" cy="30" r="22" fill="none" stroke="#c9a84c" strokeWidth="0.8" opacity="0.4"/>
-        <circle cx="30" cy="30" r="19" fill="rgba(10, 8, 4, 0.92)" stroke="#c9a84c" strokeWidth="1.5"/>
-        <circle cx="30" cy="2" r="1.5" fill="#c9a84c" opacity="0.8"/>
-        <circle cx="30" cy="58" r="1.5" fill="#c9a84c" opacity="0.8"/>
-        <circle cx="2" cy="30" r="1.5" fill="#c9a84c" opacity="0.8"/>
-        <circle cx="58" cy="30" r="1.5" fill="#c9a84c" opacity="0.8"/>
-        {getCategoryIcon(dominantCategory)}
-        {isMulti && (
-          <g>
-            <circle cx="46" cy="14" r="8" fill="#8B1A1A"/>
-            <text x="46" y="18" textAnchor="middle" fill="white" fontSize="9" fontFamily="Special Elite">{items.length}</text>
-          </g>
-        )}
-      </svg>
+      filter: pinFilter,
+      animation: pinAnimation,
+    }}
+    onClick={() => setOpen(prev => !prev)}
+    onMouseEnter={() => setHovered(true)}
+    onMouseLeave={() => setHovered(false)}
+    >
+      <img
+        src={mapPinImg}
+        alt={PROVINCE_NAMES[provinceId] ?? provinceId}
+        style={{
+          width: '64px',
+          height: 'auto',
+          display: 'block',
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+        draggable={false}
+      />
 
-      <span style={{
+      {/* Province name label below pin */}
+      <div style={{
         position: 'absolute',
-        bottom: '-18px',
+        top: '100%',
         left: '50%',
         transform: 'translateX(-50%)',
-        fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: '8px',
-        letterSpacing: '0.12em',
-        color: 'rgba(200,185,155,0.5)',
+        marginTop: '4px',
+        color: '#c9a84c',
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '10px',
+        letterSpacing: '2px',
         textTransform: 'uppercase',
-        textShadow: '1px 1px 3px rgba(0,0,0,0.9)',
         whiteSpace: 'nowrap',
+        textShadow: '0 1px 3px rgba(0,0,0,0.9)',
         pointerEvents: 'none',
       }}>
-        {PROVINCE_NAMES[provinceId]}
-      </span>
+        {PROVINCE_NAMES[provinceId] ?? provinceId}
+      </div>
 
       {open && (
         <div

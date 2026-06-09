@@ -5,6 +5,8 @@ import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
 import type { GameState } from '../types/gameState'
 import { MAP_RENDER_WIDTH, MAP_RENDER_HEIGHT, PROVINCE_PIN_POSITIONS } from '../engine/LocationResolver'
+import { MapPins } from './MapInteractionLayer'
+import veltriaMapImg from '../assets/images/veltria_map_full.jpeg'
 
 // ─── Province click zones (pixel-based, relative to map image dimensions) ─────
 
@@ -163,12 +165,15 @@ function TooltipRow({ index, hoveredRow, onHover, onClick, icon, label }: {
 
 // ─── Map Header ──────────────────────────────────────────────────────────────
 
+const HEADER_H = 42
+
 function MapHeader({ currentWeek, onClose }: { currentWeek: number; onClose: () => void }) {
   return (
     <div style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10010,
+      height: `${HEADER_H}px`,
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '0.6rem 2rem',
+      padding: '0 2rem',
       background: 'rgba(10,8,6,0.95)',
       borderBottom: '1px solid rgba(200,144,42,0.2)',
     }}>
@@ -203,39 +208,32 @@ function MapHeader({ currentWeek, onClose }: { currentWeek: number; onClose: () 
 
 // ─── Pan helpers ─────────────────────────────────────────────────────────────
 
-const HEADER_H = 42
-
-function clampPan(x: number, y: number, reservedTop = 0): { x: number; y: number } {
+function clampPan(x: number, y: number): { x: number; y: number } {
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
   const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
-  const minX = -(MAP_RENDER_WIDTH - vw)
-  const minY = -(MAP_RENDER_HEIGHT - (vh - reservedTop))
   return {
-    x: Math.min(0, Math.max(minX, x)),
-    y: Math.min(0, Math.max(minY, y)),
+    x: Math.max(vw - MAP_RENDER_WIDTH, Math.min(0, x)),
+    y: Math.max(vh - MAP_RENDER_HEIGHT, Math.min(0, y)),
   }
 }
 
-function centeredOnAshenmere(reservedTop = 0): { x: number; y: number } {
+function centeredOnAshenmere(): { x: number; y: number } {
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
   const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
   const ash = PROVINCE_PIN_POSITIONS.ashenmere
   return clampPan(
-    vw / 2 - ash.x,
-    (vh - reservedTop) / 2 - ash.y,
-    reservedTop,
+    Math.round(vw / 2 - ash.x),
+    Math.round(vh / 2 - ash.y),
   )
 }
 
 // ─── Main MapView ─────────────────────────────────────────────────────────────
 
-export default function MapView({ backgroundImage, onProvinceDetail }: {
-  backgroundImage: string
+export default function MapView({ onProvinceDetail }: {
   onProvinceDetail?: (id: string) => void
 }) {
-  const mapOpen   = useSettingsStore(s => s.mapOpen)
+  const mapOpen    = useSettingsStore(s => s.mapOpen)
   const setMapOpen = useSettingsStore(s => s.setMapOpen)
-  const setMapPan  = useSettingsStore(s => s.setMapPan)
   const phase      = useWeekStore(s => s.phase)
   const currentWeek = useGameStore(s => s.currentWeek)
   const gameState  = useGameStore()
@@ -245,26 +243,48 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [mousePos, setMousePos]   = useState({ x: 0, y: 0 })
 
-  const [pan, setPan] = useState(() => centeredOnAshenmere(HEADER_H))
+  const [pan, setPan] = useState({ x: 0, y: 0 })
   const dragging    = useRef(false)
   const dragOrigin  = useRef({ mx: 0, my: 0, px: 0, py: 0 })
   const hasDragged  = useRef(false)
-  // Track cursor style reactively
   const [isCursorGrabbing, setIsCursorGrabbing] = useState(false)
+
+  // Center on Ashenmere on first mount
+  useEffect(() => {
+    setPan(centeredOnAshenmere())
+  }, [])
 
   // Re-center when map overlay opens
   useEffect(() => {
-    if (mapOpen) setPan(centeredOnAshenmere(HEADER_H))
+    if (mapOpen) setPan(centeredOnAshenmere())
   }, [mapOpen])
-
-  // Publish pan to store so MapScenePin can follow
-  useEffect(() => { setMapPan(pan) }, [pan, setMapPan])
 
   const statuses = useMemo(() => {
     const map = new Map<string, 0 | 1 | 2>()
     for (const p of PROVINCE_ZONES) map.set(p.id, computeCrisisLevel(p.id, gameState, activeFlags))
     return map
   }, [gameState, activeFlags])
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if (e.button !== 0) return
+    dragging.current = true
+    hasDragged.current = false
+    dragOrigin.current = { mx: e.clientX, my: e.clientY, px: pan.x, py: pan.y }
+    setIsCursorGrabbing(true)
+  }, [pan])
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!dragging.current) return
+    const dx = e.clientX - dragOrigin.current.mx
+    const dy = e.clientY - dragOrigin.current.my
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true
+    setPan(clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy))
+  }, [])
+
+  const onMouseUp = useCallback(() => {
+    dragging.current = false
+    setIsCursorGrabbing(false)
+  }, [])
 
   const isGameplay = phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue'
   if (!isGameplay) return null
@@ -280,32 +300,11 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
     setMousePos({ x, y })
   }
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    if (e.button !== 0) return
-    dragging.current = true
-    hasDragged.current = false
-    dragOrigin.current = { mx: e.clientX, my: e.clientY, px: pan.x, py: pan.y }
-    setIsCursorGrabbing(true)
-  }, [pan])
-
-  const onMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!dragging.current) return
-    const dx = e.clientX - dragOrigin.current.mx
-    const dy = e.clientY - dragOrigin.current.my
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true
-    setPan(clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy, HEADER_H))
-  }, [])
-
-  const onMouseUp = useCallback(() => {
-    dragging.current = false
-    setIsCursorGrabbing(false)
-  }, [])
-
   const hoveredZone = hoveredId ? PROVINCE_ZONES.find(z => z.id === hoveredId) ?? null : null
 
-  // Background mode — always visible, centered, non-interactive pan
+  // ── Background mode: map behind game UI, centered, not pannable ─────────────
   if (!mapOpen) {
-    const bgPan = centeredOnAshenmere(0)
+    const bgPan = centeredOnAshenmere()
     return (
       <div style={{
         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -313,21 +312,30 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
         background: '#7a9aaa',
         cursor: 'default',
       }}>
-        <img
-          src={backgroundImage}
-          alt="Veltria Map"
-          draggable={false}
-          style={{
-            position: 'absolute',
-            width: `${MAP_RENDER_WIDTH}px`,
-            height: 'auto',
-            top: bgPan.y,
-            left: bgPan.x,
-            userSelect: 'none',
-            pointerEvents: 'none',
-            opacity: 0.75,
-          }}
-        />
+        {/* Transform div: map image + scene pins move together */}
+        <div style={{
+          position: 'absolute',
+          transform: `translate(${bgPan.x}px, ${bgPan.y}px)`,
+          willChange: 'transform',
+          userSelect: 'none',
+        }}>
+          <img
+            src={veltriaMapImg}
+            alt="Veltria Map"
+            draggable={false}
+            style={{
+              display: 'block',
+              width: `${MAP_RENDER_WIDTH}px`,
+              height: `${MAP_RENDER_HEIGHT}px`,
+              pointerEvents: 'none',
+              userSelect: 'none',
+            }}
+          />
+          {/* Scene pins — absolute inside transform, move with map */}
+          <MapPins />
+        </div>
+
+        {/* Province medallions — fixed, computed from bgPan */}
         {PROVINCE_ZONES.map(zone => {
           const crisisLevel = statuses.get(zone.id) ?? 0
           const isUrgent = crisisLevel === 2
@@ -390,7 +398,7 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
     )
   }
 
-  // Interactive overlay mode — pannable
+  // ── Interactive overlay mode: full-screen pannable map ──────────────────────
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 200,
@@ -399,11 +407,11 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
     }}>
       <MapHeader currentWeek={currentWeek} onClose={() => setMapOpen(false)} />
 
-      {/* Pannable container */}
+      {/* Pannable container — covers full viewport, header floats on top */}
       <div
         style={{
           position: 'absolute',
-          top: HEADER_H, left: 0, right: 0, bottom: 0,
+          inset: 0,
           overflow: 'hidden',
           cursor: isCursorGrabbing ? 'grabbing' : 'grab',
         }}
@@ -412,7 +420,7 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseUp}
       >
-        {/* Single transform div: map image + zones + medallions move together */}
+        {/* Transform div: map image + zones + medallions + scene pins move together */}
         <div style={{
           position: 'absolute',
           transform: `translate(${pan.x}px, ${pan.y}px)`,
@@ -420,13 +428,13 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
           userSelect: 'none',
         }}>
           <img
-            src={backgroundImage}
+            src={veltriaMapImg}
             alt="Veltria Map"
             draggable={false}
             style={{
               display: 'block',
               width: `${MAP_RENDER_WIDTH}px`,
-              height: 'auto',
+              height: `${MAP_RENDER_HEIGHT}px`,
               pointerEvents: 'none',
               userSelect: 'none',
             }}
@@ -502,6 +510,9 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
               </button>
             )
           })}
+
+          {/* Scene pins — absolute inside transform, move with map */}
+          <MapPins />
         </div>
       </div>
 
