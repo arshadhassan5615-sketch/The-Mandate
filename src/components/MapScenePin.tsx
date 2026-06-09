@@ -3,6 +3,7 @@ import type { AgendaItem } from '../types/week'
 import { CATEGORY_COLORS, CATEGORY_LABELS } from '../types/week'
 import type { ProvinceId } from '../engine/LocationResolver'
 import { PROVINCE_PIN_POSITIONS, PROVINCE_NAMES } from '../engine/LocationResolver'
+import { useSettingsStore } from '../stores/settingsStore'
 
 interface MapScenePinProps {
   provinceId: ProvinceId
@@ -11,43 +12,58 @@ interface MapScenePinProps {
   onSelectScene: (item: AgendaItem) => void
 }
 
-const CATEGORY_ICONS: Record<string, string> = {
-  cabinet: '🏛',
-  meeting: '🏛',
-  crisis: '⚠',
-  security: '⚠',
-  personal: '🏠',
-  social: '🥂',
-  finance: '💰',
-  diplomacy: '🤝',
-  parliament: '⚖',
-  infrastructure: '🏗',
+function getCategoryIcon(category: string) {
+  switch (category) {
+    case 'crisis':
+    case 'security':
+      return (
+        <>
+          <path d="M30 22 L38 36 L22 36 Z"
+            fill="none" stroke="#e85c5c" strokeWidth="1.5" strokeLinejoin="round"/>
+          <line x1="30" y1="27" x2="30" y2="32"
+            stroke="#e85c5c" strokeWidth="1.5"/>
+          <circle cx="30" cy="34" r="1"
+            fill="#e85c5c"/>
+        </>
+      )
+    case 'personal':
+    case 'social':
+      return (
+        <>
+          <path d="M24 38 L24 30 Q24 24 30 24 Q36 24 36 30 L36 38"
+            fill="none" stroke="#c9a84c" strokeWidth="1.5"/>
+          <circle cx="30" cy="21" r="3"
+            fill="none" stroke="#c9a84c" strokeWidth="1.5"/>
+        </>
+      )
+    default:
+      return (
+        <path d="M22 38 L22 26 L30 20 L38 26 L38 38 Z
+                 M26 38 L26 32 L34 32 L34 38"
+          fill="none" stroke="#c9a84c" strokeWidth="1.5" strokeLinejoin="round"/>
+      )
+  }
 }
 
-function getSceneIcon(category: string): string {
-  return CATEGORY_ICONS[category] ?? '📜'
+function getDominantCategory(items: AgendaItem[]): string {
+  const counts: Record<string, number> = {}
+  for (const item of items) {
+    counts[item.category] = (counts[item.category] || 0) + 1
+  }
+  return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'cabinet'
 }
 
 export default function MapScenePin({ provinceId, items, currentWeek, onSelectScene }: MapScenePinProps) {
   const [open, setOpen] = useState(false)
+  const [hovered, setHovered] = useState(false)
   const popoverRef = useRef<HTMLDivElement>(null)
   const pos = PROVINCE_PIN_POSITIONS[provinceId]
+  const pan = useSettingsStore(s => s.mapPan)
 
   const hasMandatory = items.some(i => i.slotCost === 0)
   const hasUrgent = items.some(i => i.weekDeadline === currentWeek)
   const isMulti = items.length > 1
-
-  const borderColor = hasUrgent ? 'var(--accent-red)' : hasMandatory ? 'var(--amber)' : '#6b6050'
-  const glowColor = hasUrgent
-    ? 'rgba(139,46,46,0.5)'
-    : hasMandatory
-      ? 'rgba(200,144,42,0.4)'
-      : 'rgba(107,96,80,0.2)'
-  const pulseClass = hasUrgent
-    ? 'map-pin-pulse-urgent'
-    : hasMandatory
-      ? 'map-pin-pulse-gold'
-      : ''
+  const dominantCategory = getDominantCategory(items)
 
   useEffect(() => {
     if (!open) return
@@ -60,61 +76,50 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
     return () => document.removeEventListener('mousedown', handler)
   }, [open])
 
-  return (
-    <div style={{ position: 'absolute', left: `${pos.x}%`, top: `${pos.y}%`, transform: 'translate(-50%, -50%)', zIndex: open ? 600 : 10 }}>
-      <button
-        onClick={() => setOpen(prev => !prev)}
-        className={pulseClass}
-        style={{
-          width: '44px',
-          height: '44px',
-          borderRadius: '50%',
-          background: 'rgba(20,18,12,0.9)',
-          border: `2px solid ${borderColor}`,
-          outline: `1px solid ${glowColor}`,
-          outlineOffset: '3px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          boxShadow: `0 0 12px ${glowColor}, 0 2px 8px rgba(0,0,0,0.5)`,
-          transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-          position: 'relative',
-          zIndex: open ? 600 : 1,
-        }}
-      >
-        <span style={{
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '10px',
-          fontWeight: 700,
-          color: borderColor,
-          letterSpacing: '0.02em',
-        }}>
-          {items.length}
-        </span>
+  const pinFilter = hasUrgent
+    ? 'drop-shadow(0 0 8px rgba(220,60,60,0.9))'
+    : hasMandatory
+      ? 'drop-shadow(0 0 8px rgba(201,168,76,0.9))'
+      : 'drop-shadow(0 0 4px rgba(201,168,76,0.4))'
 
+  const pinAnimation = hasUrgent
+    ? 'medallion-pulse-red 2s ease-in-out infinite'
+    : hasMandatory
+      ? 'medallion-pulse 2s ease-in-out infinite'
+      : undefined
+
+  return (
+    <div style={{
+      position: 'fixed',
+      left: pos.x + pan.x,
+      top: pos.y + pan.y,
+      transform: `translate(-50%, -50%) scale(${hovered ? 1.1 : 1.0})`,
+      transition: 'transform 0.15s ease',
+      zIndex: open ? 600 : 10,
+      cursor: 'pointer',
+    }}>
+      <svg
+        width="60" height="60" viewBox="0 0 60 60"
+        style={{ display: 'block', filter: pinFilter, animation: pinAnimation }}
+        onClick={() => setOpen(prev => !prev)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <circle cx="30" cy="30" r="28" fill="none" stroke="#c9a84c" strokeWidth="1.5" opacity="0.6"/>
+        <circle cx="30" cy="30" r="22" fill="none" stroke="#c9a84c" strokeWidth="0.8" opacity="0.4"/>
+        <circle cx="30" cy="30" r="19" fill="rgba(10, 8, 4, 0.92)" stroke="#c9a84c" strokeWidth="1.5"/>
+        <circle cx="30" cy="2" r="1.5" fill="#c9a84c" opacity="0.8"/>
+        <circle cx="30" cy="58" r="1.5" fill="#c9a84c" opacity="0.8"/>
+        <circle cx="2" cy="30" r="1.5" fill="#c9a84c" opacity="0.8"/>
+        <circle cx="58" cy="30" r="1.5" fill="#c9a84c" opacity="0.8"/>
+        {getCategoryIcon(dominantCategory)}
         {isMulti && (
-          <span style={{
-            position: 'absolute',
-            bottom: '-3px',
-            right: '-3px',
-            width: '14px',
-            height: '14px',
-            borderRadius: '50%',
-            background: 'rgba(20,18,12,0.95)',
-            border: `1px solid ${borderColor}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '7px',
-            color: borderColor,
-            fontWeight: 700,
-          }}>
-            {items.length}
-          </span>
+          <g>
+            <circle cx="46" cy="14" r="8" fill="#8B1A1A"/>
+            <text x="46" y="18" textAnchor="middle" fill="white" fontSize="9" fontFamily="Special Elite">{items.length}</text>
+          </g>
         )}
-      </button>
+      </svg>
 
       <span style={{
         position: 'absolute',
@@ -206,9 +211,6 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,144,42,0.06)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
               >
-                <span style={{ fontSize: '16px', lineHeight: 1.2, flexShrink: 0 }}>
-                  {getSceneIcon(item.category)}
-                </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
                     fontFamily: "'Crimson Text', Georgia, serif",

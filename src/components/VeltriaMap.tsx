@@ -421,6 +421,14 @@ function MapSVG({ statuses, hoveredId, selectedId, onHover, onSelect, onMouseMov
           <stop offset="0%" stopColor="#14101e" stopOpacity="0.7" />
           <stop offset="100%" stopColor="#1a1428" stopOpacity="1" />
         </linearGradient>
+        {/* Province hover glow filter */}
+        <filter id="province-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>
 
       {/* ── Map background ──────────────────────────────────────────── */}
@@ -504,10 +512,12 @@ function MapSVG({ statuses, hoveredId, selectedId, onHover, onSelect, onMouseMov
         const isHovered  = hoveredId === p.id
         const isSelected = selectedId === p.id
         const fill = isHovered || isSelected ? p.hoverColor : p.color
-        const strokeColor = isSelected
-          ? 'rgba(200,144,42,0.9)'
-          : isHovered ? 'rgba(200,144,42,0.65)' : 'rgba(160,120,50,0.22)'
-        const strokeWidth = isSelected ? 1.5 : isHovered ? 1.2 : 0.7
+        const strokeColor = isHovered
+          ? '#c9a84c'
+          : isSelected
+            ? 'rgba(200,144,42,0.9)'
+            : 'rgba(0,0,0,0.4)'
+        const strokeWidth = isHovered ? 2.5 : isSelected ? 1.5 : 1
 
         return (
           <g key={p.id}>
@@ -518,6 +528,7 @@ function MapSVG({ statuses, hoveredId, selectedId, onHover, onSelect, onMouseMov
               stroke={strokeColor}
               strokeWidth={strokeWidth}
               strokeDasharray={isSelected || isHovered ? 'none' : '5,2'}
+              filter={isHovered ? 'url(#province-glow)' : undefined}
               style={{ cursor: interactive ? 'pointer' : 'default', transition: 'fill 0.18s ease, stroke 0.18s ease' }}
               onMouseEnter={interactive ? () => onHover(p.id) : undefined}
               onClick={interactive ? () => onSelect(p.id) : undefined}
@@ -970,7 +981,7 @@ export default function VeltriaMap({ onProvinceDetail, mapImage }: {
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
         {/* SVG map area */}
         <div style={{ flex: 1, padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-          <div style={{ width: '100%', maxWidth: '840px', aspectRatio: '780 / 600' }}>
+          <div style={{ width: '100%', maxWidth: '840px', aspectRatio: '780 / 600', position: 'relative' }}>
             <MapSVG
               statuses={statuses}
               hoveredId={hoveredId} selectedId={selectedId}
@@ -980,6 +991,25 @@ export default function VeltriaMap({ onProvinceDetail, mapImage }: {
               militaryReadiness={militaryReadiness}
               refugeeCount={refugeeCount}
             />
+            {hoveredId && (
+              <div style={{
+                position: 'absolute',
+                bottom: 20,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(10,8,4,0.9)',
+                border: '1px solid rgba(201,168,76,0.5)',
+                color: '#c9a84c',
+                padding: '4px 14px',
+                fontFamily: "'Special Elite', monospace",
+                fontSize: 11,
+                letterSpacing: '2px',
+                pointerEvents: 'none',
+                zIndex: 100,
+              }}>
+                {PROVINCES.find(p => p.id === hoveredId)?.name.toUpperCase()}
+              </div>
+            )}
           </div>
         </div>
 

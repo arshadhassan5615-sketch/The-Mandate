@@ -50,6 +50,9 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   letterOpen: boolean
   notepadOpen: boolean
   decreeInboxOpen: boolean
+  mapPan: { x: number; y: number }
+
+  setMapPan: (pan: { x: number; y: number }) => void
 
   // Audio actions
   setMasterVolume: (v: number) => void
@@ -135,6 +138,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   letterOpen: false,
   notepadOpen: false,
   decreeInboxOpen: false,
+  mapPan: { x: 0, y: 0 },
 
   ...initialAudio,
   ...initialAccess,
@@ -207,6 +211,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   setSaveMenuOpen: (open) => set({ saveMenuOpen: open }),
   setSettingsOpen: (open) => set({ settingsOpen: open }),
   setMapOpen: (open) => set({ mapOpen: open }),
+  setMapPan: (pan) => set({ mapPan: pan }),
   setDebugOpen: (open) => set({ debugOpen: open }),
   setCharacterMapOpen: (open) => set({ characterMapOpen: open }),
   setJournalOpen: (open) => set({ journalOpen: open }),

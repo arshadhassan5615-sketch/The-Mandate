@@ -1,27 +1,46 @@
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
 import type { GameState } from '../types/gameState'
+import { MAP_RENDER_WIDTH, MAP_RENDER_HEIGHT, PROVINCE_PIN_POSITIONS } from '../engine/LocationResolver'
 
-// ─── Province click zones (percentage-based) ─────────────────────────────────
+// ─── Province click zones (pixel-based, relative to map image dimensions) ─────
 
 interface ProvinceZone {
   id: string
   name: string
   label: string
-  top: string; left: string; width: string; height: string
+  left: number; top: number; width: number; height: number
   primaryFaction: keyof GameState['factions']
 }
 
 const PROVINCE_ZONES: ProvinceZone[] = [
-  { id: 'ashenmere',    name: 'Ashenmere',    label: 'Capital Region',       top: '44%', left: '48%', width: '20%', height: '20%', primaryFaction: 'reformists' },
-  { id: 'kravenstal',   name: 'Kravenstal',  label: 'Industrial Heartland',  top: '42%', left: '24%', width: '22%', height: '22%', primaryFaction: 'workersCoalition' },
-  { id: 'thornfeld',    name: 'Thornfeld',    label: 'Agricultural South',    top: '62%', left: '28%', width: '20%', height: '22%', primaryFaction: 'halvekists' },
-  { id: 'sevagrad',     name: 'Sevagrad',     label: 'Eastern Border',        top: '46%', left: '64%', width: '18%', height: '22%', primaryFaction: 'ironCovenant' },
-  { id: 'aldenmoor',    name: 'Aldenmoor',    label: 'Amber Coast',           top: '64%', left: '50%', width: '20%', height: '22%', primaryFaction: 'businessClass' },
-  { id: 'dravenhollow', name: 'Dravenhollow', label: 'Northern Mountains',    top: '22%', left: '44%', width: '22%', height: '22%', primaryFaction: 'dravenni' },
+  { id: 'ashenmere',    name: 'Ashenmere',    label: 'Capital Region',
+    left: Math.round(MAP_RENDER_WIDTH * 0.42), top: Math.round(MAP_RENDER_HEIGHT * 0.36),
+    width: Math.round(MAP_RENDER_WIDTH * 0.18), height: Math.round(MAP_RENDER_HEIGHT * 0.22),
+    primaryFaction: 'reformists' },
+  { id: 'kravenstal',   name: 'Kravenstal',   label: 'Industrial Heartland',
+    left: Math.round(MAP_RENDER_WIDTH * 0.20), top: Math.round(MAP_RENDER_HEIGHT * 0.34),
+    width: Math.round(MAP_RENDER_WIDTH * 0.20), height: Math.round(MAP_RENDER_HEIGHT * 0.24),
+    primaryFaction: 'workersCoalition' },
+  { id: 'thornfeld',    name: 'Thornfeld',    label: 'Agricultural South',
+    left: Math.round(MAP_RENDER_WIDTH * 0.22), top: Math.round(MAP_RENDER_HEIGHT * 0.55),
+    width: Math.round(MAP_RENDER_WIDTH * 0.20), height: Math.round(MAP_RENDER_HEIGHT * 0.20),
+    primaryFaction: 'halvekists' },
+  { id: 'sevagrad',     name: 'Sevagrad',     label: 'Eastern Border',
+    left: Math.round(MAP_RENDER_WIDTH * 0.62), top: Math.round(MAP_RENDER_HEIGHT * 0.36),
+    width: Math.round(MAP_RENDER_WIDTH * 0.18), height: Math.round(MAP_RENDER_HEIGHT * 0.24),
+    primaryFaction: 'ironCovenant' },
+  { id: 'aldenmoor',    name: 'Aldenmoor',    label: 'Amber Coast',
+    left: Math.round(MAP_RENDER_WIDTH * 0.45), top: Math.round(MAP_RENDER_HEIGHT * 0.58),
+    width: Math.round(MAP_RENDER_WIDTH * 0.20), height: Math.round(MAP_RENDER_HEIGHT * 0.20),
+    primaryFaction: 'businessClass' },
+  { id: 'dravenhollow', name: 'Dravenhollow', label: 'Northern Mountains',
+    left: Math.round(MAP_RENDER_WIDTH * 0.40), top: Math.round(MAP_RENDER_HEIGHT * 0.14),
+    width: Math.round(MAP_RENDER_WIDTH * 0.22), height: Math.round(MAP_RENDER_HEIGHT * 0.22),
+    primaryFaction: 'dravenni' },
 ]
 
 const FACTION_LABELS: Record<string, string> = {
@@ -64,7 +83,7 @@ function computeCrisisLevel(provinceId: string, state: GameState, flags: string[
   }
 }
 
-// ─── Province tooltip ───────────────────────────────────────────────────────
+// ─── Province tooltip ────────────────────────────────────────────────────────
 
 function HoverLabel({ zone, crisisLevel, onOpenDetail, mouseX, mouseY }: {
   zone: ProvinceZone
@@ -76,7 +95,6 @@ function HoverLabel({ zone, crisisLevel, onOpenDetail, mouseX, mouseY }: {
   const crisisColor = crisisLevel === 2 ? 'var(--accent-red)' : crisisLevel === 1 ? '#c47a3a' : 'var(--accent-green)'
   const [hoveredRow, setHoveredRow] = useState<number | null>(null)
 
-  // Prevent tooltip from going off-screen
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
   const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
   const tipW = 240; const tipH = 130
@@ -95,7 +113,6 @@ function HoverLabel({ zone, crisisLevel, onOpenDetail, mouseX, mouseY }: {
       pointerEvents: 'all',
       boxShadow: '0 4px 24px rgba(0,0,0,0.6)',
     }}>
-      {/* Header */}
       <div style={{ padding: '10px 14px 6px', borderBottom: '1px solid rgba(200,144,42,0.15)' }}>
         <p style={{
           fontFamily: "'Playfair Display', serif", fontSize: '0.95rem', fontWeight: 600,
@@ -110,26 +127,13 @@ function HoverLabel({ zone, crisisLevel, onOpenDetail, mouseX, mouseY }: {
           {zone.label} · <span style={{ color: crisisColor }}>{crisisLabel}</span>
         </p>
       </div>
-
-      {/* Menu items */}
       <div style={{ padding: '4px 0' }}>
-        <TooltipRow
-          index={0}
-          hoveredRow={hoveredRow}
-          onHover={setHoveredRow}
-          onClick={onOpenDetail}
-          icon={<span style={{ fontSize: '0.7rem' }}>🔍</span>}
-          label="Open Province Info"
-        />
+        <TooltipRow index={0} hoveredRow={hoveredRow} onHover={setHoveredRow}
+          onClick={onOpenDetail} icon={<span style={{ fontSize: '0.7rem' }}>🔍</span>} label="Open Province Info" />
         {crisisLevel > 0 && (
-          <TooltipRow
-            index={1}
-            hoveredRow={hoveredRow}
-            onHover={setHoveredRow}
-            onClick={onOpenDetail}
-            icon={<span style={{ fontSize: '0.7rem' }}>📋</span>}
-            label={`View Active Events (${crisisLevel})`}
-          />
+          <TooltipRow index={1} hoveredRow={hoveredRow} onHover={setHoveredRow}
+            onClick={onOpenDetail} icon={<span style={{ fontSize: '0.7rem' }}>📋</span>}
+            label={`View Active Events (${crisisLevel})`} />
         )}
       </div>
     </div>
@@ -141,16 +145,11 @@ function TooltipRow({ index, hoveredRow, onHover, onClick, icon, label }: {
   onClick: () => void; icon: React.ReactNode; label: string
 }) {
   return (
-    <button
-      onClick={onClick}
-      onMouseEnter={() => onHover(index)}
-      onMouseLeave={() => onHover(null)}
+    <button onClick={onClick} onMouseEnter={() => onHover(index)} onMouseLeave={() => onHover(null)}
       style={{
-        display: 'flex', alignItems: 'center', gap: '8px',
-        width: '100%', textAlign: 'left',
+        display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left',
         background: hoveredRow === index ? 'rgba(200,144,42,0.1)' : 'transparent',
-        border: 'none', cursor: 'pointer',
-        padding: '6px 14px',
+        border: 'none', cursor: 'pointer', padding: '6px 14px',
         color: hoveredRow === index ? 'var(--amber)' : 'var(--muted)',
         fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.55rem',
         letterSpacing: '0.04em', transition: 'all 0.12s',
@@ -162,140 +161,35 @@ function TooltipRow({ index, hoveredRow, onHover, onClick, icon, label }: {
   )
 }
 
-// ─── Event medallion ────────────────────────────────────────────────────────
-
-function EventMedallion({ zone, crisisLevel, onOpenDetail }: {
-  zone: ProvinceZone
-  crisisLevel: 0 | 1 | 2
-  onOpenDetail: () => void
-}) {
-  const isUrgent = crisisLevel === 2
-  const isTense = crisisLevel === 1
-
-  const borderColor = isUrgent ? 'rgba(220,60,40,0.9)' : isTense ? 'rgba(201,168,76,0.9)' : '#c9a84c'
-  const animation = isUrgent ? 'event-pulse-urgent 1.2s ease-in-out infinite'
-    : isTense ? 'event-pulse 2s ease-in-out infinite' : undefined
-  const icon = isUrgent ? '⚠' : isTense ? '📋' : '✦'
-
-  return (
-    <button
-      onClick={onOpenDetail}
-      style={{
-        position: 'absolute',
-        top: zone.top, left: zone.left,
-        width: zone.width, height: zone.height,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'transparent', border: 'none', cursor: 'pointer',
-        pointerEvents: 'all',
-      }}
-    >
-      <div style={{
-        width: '44px', height: '44px', borderRadius: '50%',
-        background: 'rgba(20,18,12,0.85)',
-        border: '2px solid #c9a84c',
-        outline: '1px solid rgba(201,168,76,0.3)',
-        outlineOffset: '3px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        boxShadow: isUrgent
-          ? '0 0 16px rgba(220,60,40,0.4), 0 2px 8px rgba(0,0,0,0.5)'
-          : '0 0 8px rgba(201,168,76,0.3), 0 2px 6px rgba(0,0,0,0.4)',
-        animation,
-        color: borderColor,
-        transition: 'transform 0.2s ease',
-        opacity: 1,
-      }}>
-        <span style={{ fontSize: '18px' }}>{icon}</span>
-      </div>
-      {/* Province name label */}
-      <span style={{
-        position: 'absolute',
-        bottom: '-2px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        fontFamily: "'Special Elite', monospace",
-        fontSize: '9px',
-        fontWeight: 700,
-        color: '#c9a84c',
-        letterSpacing: '2px',
-        textTransform: 'uppercase',
-        textShadow: '1px 1px 3px rgba(0,0,0,0.9)',
-        whiteSpace: 'nowrap',
-        pointerEvents: 'none',
-      }}>
-        {zone.name}
-      </span>
-    </button>
-  )
-}
-
-// ─── Province click zone ────────────────────────────────────────────────────
-
-function ProvinceClickZone({ zone, onHover, onOpenDetail, hoveredId }: {
-  zone: ProvinceZone
-  onHover: (id: string | null, x: number, y: number) => void
-  onOpenDetail: (id: string) => void
-  hoveredId: string | null
-}) {
-  const isHovered = hoveredId === zone.id
-
-  return (
-    <div
-      onMouseEnter={(e) => onHover(zone.id, e.clientX, e.clientY)}
-      onMouseMove={(e) => { if (isHovered) onHover(zone.id, e.clientX, e.clientY) }}
-      onMouseLeave={() => onHover(null, 0, 0)}
-      onClick={() => onOpenDetail(zone.id)}
-      style={{
-        position: 'absolute',
-        top: zone.top, left: zone.left,
-        width: zone.width, height: zone.height,
-        background: isHovered ? 'rgba(200,144,42,0.08)' : 'transparent',
-        border: isHovered ? '1px solid rgba(200,144,42,0.2)' : '1px solid transparent',
-        cursor: 'pointer',
-        transition: 'background 0.3s ease, border-color 0.3s ease',
-        pointerEvents: 'all',
-        zIndex: isHovered ? 3 : 1,
-        borderRadius: '2px',
-      }}
-    />
-  )
-}
-
-// ─── Map Header ─────────────────────────────────────────────────────────────
+// ─── Map Header ──────────────────────────────────────────────────────────────
 
 function MapHeader({ currentWeek, onClose }: { currentWeek: number; onClose: () => void }) {
   return (
     <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10,
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10010,
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '0.6rem 2rem',
       background: 'rgba(10,8,6,0.95)',
       borderBottom: '1px solid rgba(200,144,42,0.2)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-        <span style={{
-          fontFamily: "'Playfair Display', serif", fontSize: '0.8rem',
-          letterSpacing: '0.08em', color: 'var(--amber)', fontStyle: 'italic',
-        }}>
+        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.8rem', letterSpacing: '0.08em', color: 'var(--amber)', fontStyle: 'italic' }}>
           Republic of Veltria — Strategic Overview
         </span>
-        <span style={{
-          fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.58rem',
-          letterSpacing: '0.12em', color: 'var(--muted)',
-        }}>
+        <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.58rem', letterSpacing: '0.12em', color: 'var(--muted)' }}>
           Week {currentWeek} · 1963
         </span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <span style={{ fontSize: '0.52rem', letterSpacing: '0.08em', color: 'var(--muted)' }}>
-          Hover provinces for info · M to close
+          Drag to pan · hover provinces · M to close
         </span>
         <button
           onClick={onClose}
           style={{
             background: 'none', border: '1px solid var(--border)', color: 'var(--muted)',
             cursor: 'pointer', padding: '0.3rem 0.8rem', fontSize: '0.58rem',
-            letterSpacing: '0.1em', fontFamily: "'IBM Plex Mono', monospace",
-            transition: 'all 0.15s',
+            letterSpacing: '0.1em', fontFamily: "'IBM Plex Mono', monospace", transition: 'all 0.15s',
           }}
           onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--amber)'; e.currentTarget.style.color = 'var(--amber)' }}
           onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }}
@@ -307,38 +201,73 @@ function MapHeader({ currentWeek, onClose }: { currentWeek: number; onClose: () 
   )
 }
 
-// ─── Main MapView ────────────────────────────────────────────────────────────
+// ─── Pan helpers ─────────────────────────────────────────────────────────────
+
+const HEADER_H = 42
+
+function clampPan(x: number, y: number, reservedTop = 0): { x: number; y: number } {
+  const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
+  const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
+  const minX = -(MAP_RENDER_WIDTH - vw)
+  const minY = -(MAP_RENDER_HEIGHT - (vh - reservedTop))
+  return {
+    x: Math.min(0, Math.max(minX, x)),
+    y: Math.min(0, Math.max(minY, y)),
+  }
+}
+
+function centeredOnAshenmere(reservedTop = 0): { x: number; y: number } {
+  const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
+  const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
+  const ash = PROVINCE_PIN_POSITIONS.ashenmere
+  return clampPan(
+    vw / 2 - ash.x,
+    (vh - reservedTop) / 2 - ash.y,
+    reservedTop,
+  )
+}
+
+// ─── Main MapView ─────────────────────────────────────────────────────────────
 
 export default function MapView({ backgroundImage, onProvinceDetail }: {
   backgroundImage: string
   onProvinceDetail?: (id: string) => void
 }) {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  const mapOpen = useSettingsStore(s => s.mapOpen)
+  const mapOpen   = useSettingsStore(s => s.mapOpen)
   const setMapOpen = useSettingsStore(s => s.setMapOpen)
-  const phase = useWeekStore(s => s.phase)
+  const setMapPan  = useSettingsStore(s => s.setMapPan)
+  const phase      = useWeekStore(s => s.phase)
   const currentWeek = useGameStore(s => s.currentWeek)
-  const gameState = useGameStore()
-  const factions = useGameStore(s => s.factions)
+  const gameState  = useGameStore()
+  const factions   = useGameStore(s => s.factions)
   const { activeFlags } = useNarrativeStore()
 
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  const hasDragged = useRef(false)
+  const [mousePos, setMousePos]   = useState({ x: 0, y: 0 })
 
-  // ─── Status computation ─────────────────────────────────────────────────
+  const [pan, setPan] = useState(() => centeredOnAshenmere(HEADER_H))
+  const dragging    = useRef(false)
+  const dragOrigin  = useRef({ mx: 0, my: 0, px: 0, py: 0 })
+  const hasDragged  = useRef(false)
+  // Track cursor style reactively
+  const [isCursorGrabbing, setIsCursorGrabbing] = useState(false)
+
+  // Re-center when map overlay opens
+  useEffect(() => {
+    if (mapOpen) setPan(centeredOnAshenmere(HEADER_H))
+  }, [mapOpen])
+
+  // Publish pan to store so MapScenePin can follow
+  useEffect(() => { setMapPan(pan) }, [pan, setMapPan])
+
   const statuses = useMemo(() => {
     const map = new Map<string, 0 | 1 | 2>()
-    for (const p of PROVINCE_ZONES) {
-      map.set(p.id, computeCrisisLevel(p.id, gameState, activeFlags))
-    }
+    for (const p of PROVINCE_ZONES) map.set(p.id, computeCrisisLevel(p.id, gameState, activeFlags))
     return map
   }, [gameState, activeFlags])
 
   const isGameplay = phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue'
   if (!isGameplay) return null
-  const isDragging = false  // future: track map drag state for hover suppression
 
   function handleOpenDetail(id: string) {
     if (hasDragged.current) return
@@ -346,213 +275,303 @@ export default function MapView({ backgroundImage, onProvinceDetail }: {
   }
 
   function handleHover(id: string | null, x: number, y: number) {
-    if (isDragging) return
+    if (dragging.current) return
     setHoveredId(id)
     setMousePos({ x, y })
   }
 
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if (e.button !== 0) return
+    dragging.current = true
+    hasDragged.current = false
+    dragOrigin.current = { mx: e.clientX, my: e.clientY, px: pan.x, py: pan.y }
+    setIsCursorGrabbing(true)
+  }, [pan])
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!dragging.current) return
+    const dx = e.clientX - dragOrigin.current.mx
+    const dy = e.clientY - dragOrigin.current.my
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true
+    setPan(clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy, HEADER_H))
+  }, [])
+
+  const onMouseUp = useCallback(() => {
+    dragging.current = false
+    setIsCursorGrabbing(false)
+  }, [])
+
   const hoveredZone = hoveredId ? PROVINCE_ZONES.find(z => z.id === hoveredId) ?? null : null
 
-  // ── Background mode (always visible) ──
+  // Background mode — always visible, centered, non-interactive pan
   if (!mapOpen) {
+    const bgPan = centeredOnAshenmere(0)
     return (
-      <div
-        ref={containerRef}
-        style={{
-          position: 'fixed',
-          top: 0, left: 0, right: 0, bottom: 0,
-          width: '100vw', height: '100vh',
-          overflow: 'hidden', zIndex: 0,
-          background: '#000000',
-          cursor: 'default',
-        }}
-      >
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+        overflow: 'hidden', zIndex: 0,
+        background: '#7a9aaa',
+        cursor: 'default',
+      }}>
         <img
           src={backgroundImage}
           alt="Veltria Map"
           draggable={false}
           style={{
             position: 'absolute',
-            width: '180%',
+            width: `${MAP_RENDER_WIDTH}px`,
             height: 'auto',
-            minHeight: '100vh',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -48%)',
+            top: bgPan.y,
+            left: bgPan.x,
             userSelect: 'none',
             pointerEvents: 'none',
+            opacity: 0.75,
           }}
         />
-
-        {/* Province click zones */}
-        {PROVINCE_ZONES.map(zone => (
-          <ProvinceClickZone
-            key={zone.id}
-            zone={zone}
-            onHover={handleHover}
-            onOpenDetail={handleOpenDetail}
-            hoveredId={hoveredId}
-          />
-        ))}
-
-        {/* Event medallions */}
         {PROVINCE_ZONES.map(zone => {
           const crisisLevel = statuses.get(zone.id) ?? 0
+          const isUrgent = crisisLevel === 2
+          const isTense = crisisLevel === 1
+          const borderColor = isUrgent ? 'rgba(220,60,40,0.9)' : isTense ? 'rgba(201,168,76,0.9)' : '#c9a84c'
+          const anim = isUrgent ? 'event-pulse-urgent 1.2s ease-in-out infinite'
+            : isTense ? 'event-pulse 2s ease-in-out infinite' : undefined
+          const icon = isUrgent ? '⚠' : isTense ? '📋' : '✦'
+          const cx = bgPan.x + zone.left + zone.width / 2
+          const cy = bgPan.y + zone.top + zone.height / 2
           return (
-            <EventMedallion
-              key={`med-${zone.id}`}
-              zone={zone}
-              crisisLevel={crisisLevel}
-              onOpenDetail={() => handleOpenDetail(zone.id)}
-            />
+            <button
+              key={zone.id}
+              onClick={() => handleOpenDetail(zone.id)}
+              onMouseEnter={(e) => handleHover(zone.id, e.clientX, e.clientY)}
+              onMouseMove={(e) => { if (hoveredId === zone.id) handleHover(zone.id, e.clientX, e.clientY) }}
+              onMouseLeave={() => handleHover(null, 0, 0)}
+              style={{
+                position: 'fixed',
+                left: cx - 22, top: cy - 22,
+                width: '44px', height: '44px',
+                background: 'transparent', border: 'none', cursor: 'pointer',
+                pointerEvents: 'all', padding: 0, zIndex: 5,
+              }}
+            >
+              <div style={{
+                width: '44px', height: '44px', borderRadius: '50%',
+                background: 'rgba(20,18,12,0.85)',
+                border: '2px solid #c9a84c',
+                outline: '1px solid rgba(201,168,76,0.3)', outlineOffset: '3px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: isUrgent
+                  ? '0 0 16px rgba(220,60,40,0.4), 0 2px 8px rgba(0,0,0,0.5)'
+                  : '0 0 8px rgba(201,168,76,0.3), 0 2px 6px rgba(0,0,0,0.4)',
+                animation: anim, color: borderColor,
+              }}>
+                <span style={{ fontSize: '18px' }}>{icon}</span>
+              </div>
+              <span style={{
+                position: 'absolute', bottom: '-16px', left: '50%',
+                transform: 'translateX(-50%)',
+                fontFamily: "'Special Elite', monospace", fontSize: '9px', fontWeight: 700,
+                color: '#c9a84c', letterSpacing: '2px', textTransform: 'uppercase',
+                textShadow: '1px 1px 3px rgba(0,0,0,0.9)', whiteSpace: 'nowrap', pointerEvents: 'none',
+              }}>
+                {zone.name}
+              </span>
+            </button>
           )
         })}
-
-        {/* Hover label */}
-        {hoveredId && (statuses.get(hoveredId) ?? 0) > 0 && hoveredZone && (
+        {hoveredId && hoveredZone && (
           <HoverLabel
             zone={hoveredZone}
             crisisLevel={statuses.get(hoveredZone.id) ?? 0}
             onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
-            mouseX={mousePos.x}
-            mouseY={mousePos.y}
+            mouseX={mousePos.x} mouseY={mousePos.y}
           />
         )}
       </div>
     )
   }
 
-  // ── Full interactive overlay mode (static map) ──────────────────────────
+  // Interactive overlay mode — pannable
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 200,
-      background: 'rgba(8,6,4,0.98)',
-      display: 'flex', flexDirection: 'column',
+      background: '#7a9aaa',
       fontFamily: "'IBM Plex Mono', 'Special Elite', monospace",
     }}>
       <MapHeader currentWeek={currentWeek} onClose={() => setMapOpen(false)} />
 
-      {/* Map content area */}
+      {/* Pannable container */}
       <div
-        ref={containerRef}
         style={{
-          flex: 1, position: 'relative', overflow: 'hidden',
-          cursor: 'default',
-          marginTop: '42px',
+          position: 'absolute',
+          top: HEADER_H, left: 0, right: 0, bottom: 0,
+          overflow: 'hidden',
+          cursor: isCursorGrabbing ? 'grabbing' : 'grab',
         }}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
       >
-        <img
-          src={backgroundImage}
-          alt="Veltria Map"
-          draggable={false}
-          style={{
-            position: 'absolute',
-            width: '180%',
-            height: 'auto',
-            minHeight: '100%',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -48%)',
-            userSelect: 'none',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Province click zones */}
-        {PROVINCE_ZONES.map(zone => (
-          <ProvinceClickZone
-            key={zone.id}
-            zone={zone}
-            onHover={handleHover}
-            onOpenDetail={handleOpenDetail}
-            hoveredId={hoveredId}
-          />
-        ))}
-
-        {/* Event medallions */}
-        {PROVINCE_ZONES.map(zone => {
-          const crisisLevel = statuses.get(zone.id) ?? 0
-          return (
-            <EventMedallion
-              key={`med-${zone.id}`}
-              zone={zone}
-              crisisLevel={crisisLevel}
-              onOpenDetail={() => handleOpenDetail(zone.id)}
-            />
-          )
-        })}
-
-        {/* Hover label */}
-        {hoveredId && (statuses.get(hoveredId) ?? 0) > 0 && hoveredZone && (
-          <HoverLabel
-            zone={hoveredZone}
-            crisisLevel={statuses.get(hoveredZone.id) ?? 0}
-            onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
-            mouseX={mousePos.x}
-            mouseY={mousePos.y}
-          />
-        )}
-
-        {/* Province list sidebar — fixed, does NOT move with map */}
+        {/* Single transform div: map image + zones + medallions move together */}
         <div style={{
-          position: 'absolute', right: 0, top: 0, bottom: 0,
-          width: '220px', background: 'rgba(12,10,8,0.95)',
-          borderLeft: '1px solid rgba(200,144,42,0.2)',
-          overflowY: 'auto', scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(200,144,42,0.2) transparent',
-          padding: '1rem 0.5rem',
+          position: 'absolute',
+          transform: `translate(${pan.x}px, ${pan.y}px)`,
+          willChange: 'transform',
+          userSelect: 'none',
         }}>
-          <p style={{
-            fontFamily: "'Playfair Display', serif", fontSize: '0.75rem',
-            color: 'var(--amber)', margin: '0 0 0.6rem 0.5rem', letterSpacing: '0.03em', fontStyle: 'italic',
-          }}>
-            Provinces
-          </p>
+          <img
+            src={backgroundImage}
+            alt="Veltria Map"
+            draggable={false}
+            style={{
+              display: 'block',
+              width: `${MAP_RENDER_WIDTH}px`,
+              height: 'auto',
+              pointerEvents: 'none',
+              userSelect: 'none',
+            }}
+          />
+
+          {/* Province click zones — absolute on image, move with pan */}
+          {PROVINCE_ZONES.map(zone => (
+            <div
+              key={zone.id}
+              onMouseEnter={(e) => { e.stopPropagation(); handleHover(zone.id, e.clientX, e.clientY) }}
+              onMouseMove={(e) => { e.stopPropagation(); if (hoveredId === zone.id) handleHover(zone.id, e.clientX, e.clientY) }}
+              onMouseLeave={(e) => { e.stopPropagation(); handleHover(null, 0, 0) }}
+              onClick={(e) => { e.stopPropagation(); handleOpenDetail(zone.id) }}
+              style={{
+                position: 'absolute',
+                left: zone.left, top: zone.top,
+                width: zone.width, height: zone.height,
+                background: hoveredId === zone.id ? 'rgba(200,144,42,0.08)' : 'transparent',
+                border: hoveredId === zone.id ? '1px solid rgba(200,144,42,0.2)' : '1px solid transparent',
+                cursor: 'pointer',
+                transition: 'background 0.3s ease, border-color 0.3s ease',
+                zIndex: hoveredId === zone.id ? 3 : 1,
+                borderRadius: '2px',
+              }}
+            />
+          ))}
+
+          {/* Event medallions — absolute on image, move with pan */}
           {PROVINCE_ZONES.map(zone => {
             const crisisLevel = statuses.get(zone.id) ?? 0
-            const dotColor = crisisLevel === 2 ? 'var(--accent-red)' : crisisLevel === 1 ? '#c47a3a' : 'var(--accent-green)'
-            const factionScore = factions[zone.primaryFaction] ?? 40
+            const isUrgent = crisisLevel === 2
+            const isTense = crisisLevel === 1
+            const borderColor = isUrgent ? 'rgba(220,60,40,0.9)' : isTense ? 'rgba(201,168,76,0.9)' : '#c9a84c'
+            const anim = isUrgent ? 'event-pulse-urgent 1.2s ease-in-out infinite'
+              : isTense ? 'event-pulse 2s ease-in-out infinite' : undefined
+            const icon = isUrgent ? '⚠' : isTense ? '📋' : '✦'
+            const cx = zone.left + zone.width / 2
+            const cy = zone.top + zone.height / 2
             return (
               <button
-                key={zone.id}
-                onClick={() => handleOpenDetail(zone.id)}
+                key={`med-${zone.id}`}
+                onClick={(e) => { e.stopPropagation(); handleOpenDetail(zone.id) }}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: '0.5rem',
-                  width: '100%', background: 'none', border: 'none', cursor: 'pointer',
-                  padding: '0.4rem 0.5rem', marginBottom: '1px',
-                  transition: 'background 0.15s',
+                  position: 'absolute',
+                  left: cx - 22, top: cy - 22,
+                  width: '44px', height: '44px',
+                  background: 'transparent', border: 'none', cursor: 'pointer',
+                  pointerEvents: 'all', padding: 0, zIndex: 5,
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,144,42,0.05)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'none' }}
               >
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: dotColor, flexShrink: 0 }} />
-                <div style={{ textAlign: 'left', flex: 1 }}>
-                  <span style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.72rem', color: '#d4c8b0', display: 'block' }}>
-                    {zone.name}
-                  </span>
-                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.4rem', color: 'var(--muted)', letterSpacing: '0.04em' }}>
-                    {FACTION_LABELS[zone.primaryFaction] ?? zone.primaryFaction} · {stance(factionScore)}
-                  </span>
+                <div style={{
+                  width: '44px', height: '44px', borderRadius: '50%',
+                  background: 'rgba(20,18,12,0.85)',
+                  border: '2px solid #c9a84c',
+                  outline: '1px solid rgba(201,168,76,0.3)', outlineOffset: '3px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: isUrgent
+                    ? '0 0 16px rgba(220,60,40,0.4), 0 2px 8px rgba(0,0,0,0.5)'
+                    : '0 0 8px rgba(201,168,76,0.3), 0 2px 6px rgba(0,0,0,0.4)',
+                  animation: anim, color: borderColor,
+                }}>
+                  <span style={{ fontSize: '18px' }}>{icon}</span>
                 </div>
+                <span style={{
+                  position: 'absolute', bottom: '-16px', left: '50%',
+                  transform: 'translateX(-50%)',
+                  fontFamily: "'Special Elite', monospace", fontSize: '9px', fontWeight: 700,
+                  color: '#c9a84c', letterSpacing: '2px', textTransform: 'uppercase',
+                  textShadow: '1px 1px 3px rgba(0,0,0,0.9)', whiteSpace: 'nowrap', pointerEvents: 'none',
+                }}>
+                  {zone.name}
+                </span>
               </button>
             )
           })}
         </div>
       </div>
 
+      {/* Province list sidebar — fixed, does NOT pan */}
+      <div style={{
+        position: 'fixed', right: 0, top: HEADER_H, bottom: 0,
+        width: '220px', background: 'rgba(12,10,8,0.95)',
+        borderLeft: '1px solid rgba(200,144,42,0.2)',
+        overflowY: 'auto', scrollbarWidth: 'thin',
+        scrollbarColor: 'rgba(200,144,42,0.2) transparent',
+        padding: '1rem 0.5rem',
+        zIndex: 10005,
+      }}>
+        <p style={{
+          fontFamily: "'Playfair Display', serif", fontSize: '0.75rem',
+          color: 'var(--amber)', margin: '0 0 0.6rem 0.5rem', letterSpacing: '0.03em', fontStyle: 'italic',
+        }}>
+          Provinces
+        </p>
+        {PROVINCE_ZONES.map(zone => {
+          const crisisLevel = statuses.get(zone.id) ?? 0
+          const dotColor = crisisLevel === 2 ? 'var(--accent-red)' : crisisLevel === 1 ? '#c47a3a' : 'var(--accent-green)'
+          const factionScore = factions[zone.primaryFaction] ?? 40
+          return (
+            <button
+              key={zone.id}
+              onClick={() => handleOpenDetail(zone.id)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+                padding: '0.4rem 0.5rem', marginBottom: '1px', transition: 'background 0.15s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,144,42,0.05)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'none' }}
+            >
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: dotColor, flexShrink: 0 }} />
+              <div style={{ textAlign: 'left', flex: 1 }}>
+                <span style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.72rem', color: '#d4c8b0', display: 'block' }}>
+                  {zone.name}
+                </span>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.4rem', color: 'var(--muted)', letterSpacing: '0.04em' }}>
+                  {FACTION_LABELS[zone.primaryFaction] ?? zone.primaryFaction} · {stance(factionScore)}
+                </span>
+              </div>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Hover label — fixed, always on top */}
+      {hoveredId && hoveredZone && (
+        <HoverLabel
+          zone={hoveredZone}
+          crisisLevel={statuses.get(hoveredZone.id) ?? 0}
+          onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
+          mouseX={mousePos.x} mouseY={mousePos.y}
+        />
+      )}
+
       {/* Footer */}
       <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0,
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '0.4rem 2rem', borderTop: '1px solid rgba(200,144,42,0.2)',
-        background: 'rgba(10,8,6,0.95)',
+        background: 'rgba(10,8,6,0.95)', zIndex: 10005,
       }}>
         <span style={{ fontSize: '0.48rem', letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>
           Province status reflects current national conditions
         </span>
-        <span style={{
-          fontFamily: "'Playfair Display', serif", fontSize: '0.52rem', letterSpacing: '0.06em',
-          color: 'var(--amber-dim)', fontStyle: 'italic',
-        }}>
+        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.52rem', letterSpacing: '0.06em', color: 'var(--amber-dim)', fontStyle: 'italic' }}>
           Classified — Chancellor Eyes Only
         </span>
       </div>

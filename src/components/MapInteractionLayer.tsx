@@ -16,7 +16,19 @@ export default function MapInteractionLayer() {
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const currentWeek = useGameStore(s => s.currentWeek)
 
-  const groups = useMemo(() => groupByProvince(agendaPool), [agendaPool])
+  const groups = useMemo(() => {
+    const allGroups = groupByProvince(agendaPool)
+    const nextPerProvince: Partial<Record<ProvinceId, AgendaItem>> = {}
+    for (const provinceId of Object.keys(allGroups) as ProvinceId[]) {
+      const items = allGroups[provinceId]!
+      const sorted = [...items].sort((a, b) => a.executionOrder - b.executionOrder)
+      const next = sorted.find(item => !visitedSceneIds.includes(item.sceneId))
+      if (next) {
+        nextPerProvince[provinceId] = next
+      }
+    }
+    return nextPerProvince
+  }, [agendaPool, visitedSceneIds])
 
   const newsOpen = useNewsStore(s => s.isOpen)
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
@@ -38,13 +50,13 @@ export default function MapInteractionLayer() {
 
   return (
     <>
-      {(Object.keys(groups) as ProvinceId[]).map(provinceId => (
+      {Object.entries(groups).map(([provinceId, item]) => (
         <MapScenePin
           key={provinceId}
-          provinceId={provinceId}
-          items={groups[provinceId]!}
+          provinceId={provinceId as ProvinceId}
+          items={[item]}
           currentWeek={currentWeek}
-          onSelectScene={(item: AgendaItem) => launchSingleScene(item)}
+          onSelectScene={(selected: AgendaItem) => launchSingleScene(selected)}
         />
       ))}
 

@@ -19,7 +19,7 @@ import { saveGame, loadGame, listSaves, AUTOSAVE_SLOT } from './engine/SaveManag
 import { useHotkeys } from './hooks/useHotkeys'
 import { audioManager } from './engine/AudioManager'
 import allLetters from './data/letters/diplomatic_letters.json'
-import mapVeltriaFull from './assets/maps/map_veltria_full.jpg'
+import mapVeltriaFull from './assets/maps/veltria_map_full.jpeg'
 
 // DIAGNOSTIC error boundary — remove after debugging
 class MapErrorBoundary extends Component<{ children: React.ReactNode }, { error: Error | null }> {
