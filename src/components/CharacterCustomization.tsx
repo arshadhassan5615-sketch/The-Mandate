@@ -4,6 +4,7 @@ import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import type { PlayerBackground, PlayerPersonality, PlayerAppearance, StateModifier } from '../types/gameState'
+import ChapterTransition from './ChapterTransition'
 import katerinImg from '../assets/potraits/katerin_ashavel.jpeg'
 
 // ─── Background effect data ───────────────────────────────────────────────────
@@ -202,13 +203,14 @@ export default function CharacterCustomization() {
   const [appearance,  setAppearance]  = useState<PlayerAppearance>('Professional')
   const [background,  setBackground]  = useState<PlayerBackground>('Academic')
   const [personality, setPersonality] = useState<PlayerPersonality>('Measured')
+  const [showTransition, setShowTransition] = useState(false)
 
   const applyModifiers  = useGameStore(s => s.applyModifiers)
   const setPlayerOptions = useGameStore(s => s.setPlayerOptions)
   const addFlags        = useNarrativeStore(s => s.addFlags)
   const startPrologue   = useWeekStore(s => s.startPrologue)
 
-  function handleBegin() {
+  function runBeginLogic() {
     setPlayerOptions({ background, personality, appearance })
 
     const fx = BACKGROUND_FX[background]
@@ -222,6 +224,10 @@ export default function CharacterCustomization() {
     addFlags([...fx.flags, `personality_${personality.toLowerCase()}`])
 
     startPrologue()
+  }
+
+  function handleBegin() {
+    setShowTransition(true)
   }
 
   const fx = BACKGROUND_FX[background]
@@ -404,6 +410,17 @@ export default function CharacterCustomization() {
           <StampCorner pos="bl"/><StampCorner pos="br"/>
         </motion.button>
       </div>
+
+      {showTransition && (
+        <ChapterTransition
+          actNumber={1}
+          actTitle="The Beginning"
+          onComplete={() => {
+            setShowTransition(false)
+            runBeginLogic()
+          }}
+        />
+      )}
     </motion.div>
   )
 }

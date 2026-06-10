@@ -317,7 +317,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       })
     }
 
-    useGameStore.getState().applyModifiers(choice.stateChanges)
+    useGameStore.getState().applyModifiers(choice.stateChanges ?? [])
 
     // Schedule any delayed consequences from this choice.
     // delayWeeks: 0 triggers are mid-week emergency interrupts — injected directly
@@ -372,7 +372,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       }
     }
 
-    for (const flag of choice.flags) {
+    for (const flag of choice.flags ?? []) {
       if (flag in FLAG_HANDLERS) {
         // Skip the accused_* family — handled above as a single accusation.
         if (flag.startsWith('accused_')) continue
@@ -422,7 +422,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
 
     // Detect project-start flags and kick off the project (multi-store flow:
     // activeProjects entry + chain-store scheduling for contractor + mid-crisis).
-    for (const flag of choice.flags) {
+    for (const flag of choice.flags ?? []) {
       const projectId = PROJECT_START_FLAGS[flag]
       if (!projectId) continue
       useGameStore.getState().startProject(projectId)
@@ -446,14 +446,14 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       }
     }
 
-    const newFlags      = [...new Set([...activeFlags, ...choice.flags, ...moleConsequenceFlags])]
+    const newFlags      = [...new Set([...activeFlags, ...(choice.flags ?? []), ...moleConsequenceFlags])]
     const prevCodex     = get().unlockedCodexIds
     const newCodexIds   = [...new Set([...prevCodex, ...(choice.codexUnlocks ?? [])])]
     const newVisited    = [...visitedSceneIds, currentScene.id]
 
     // Generate news articles for this choice + any flags just set
     generateNews(choice.id, useGameStore.getState(), newFlags)
-    for (const flag of choice.flags) {
+    for (const flag of choice.flags ?? []) {
       generateNews(flag, useGameStore.getState(), newFlags)
     }
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useNewsStore } from '../stores/newsStore'
@@ -38,6 +38,7 @@ import DiaryScreen from './DiaryScreen'
 import CliffhangerScreen from './CliffhangerScreen'
 import DecreeInbox from './DecreeInbox'
 import MapInteractionLayer from './MapInteractionLayer'
+import ActTransition from './ActTransition'
 import { ErrorBoundary } from './ErrorBoundary'
 import { useSettingsStore } from '../stores/settingsStore'
 import { CabinetFormation } from './CabinetFormation'
@@ -58,7 +59,10 @@ export default function GameLayout() {
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
   const setDecreeInboxOpen = useSettingsStore(s => s.setDecreeInboxOpen)
   const pendingRequests = useCabinetStore(s => s.pending_requests)
+  const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const ambientStarted = useRef(false)
+  const [showActTransition, setShowActTransition] = useState(false)
+  const [actShown, setActShown] = useState(false)
 
   useAudio()
 
@@ -95,6 +99,17 @@ export default function GameLayout() {
     if (phase === 'epilogue') stopAmbient()
   }, [phase])
 
+  // Show Act I transition after inauguration scene completes
+  useEffect(() => {
+    if (
+      visitedSceneIds.includes('act1_week1_inauguration') &&
+      !actShown
+    ) {
+      setShowActTransition(true)
+      setActShown(true)
+    }
+  }, [visitedSceneIds, actShown])
+
   // Auto-open news overlay when entering press phase
   useEffect(() => {
     if (phase === 'press') {
@@ -109,6 +124,15 @@ export default function GameLayout() {
 
   return (
     <>
+      {/* Act transition — appears on first entry to briefing */}
+      {showActTransition && (
+        <ActTransition
+          actNumber={1}
+          actTitle="The Beginning"
+          onComplete={() => setShowActTransition(false)}
+        />
+      )}
+
       {/* Cliffhanger screen — plays before diary, after week transition */}
       {cliffhangerText && <CliffhangerScreen text={cliffhangerText} onContinue={closeCliffhanger} />}
 

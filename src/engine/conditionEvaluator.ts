@@ -26,6 +26,16 @@ function resolveStatValue(
     const key   = path.slice(dot + 1)
     const sub   = state[group] as unknown as Record<string, unknown> | undefined
     if (sub && key in sub) return sub[key] as number
+  } else {
+    // Dotless path — check the top-level gameState directly so that
+    // flat stats like vaelInfluence, shadowInfluence, tyvarenHostility,
+    // vossRelation, morvecInfluence, sovarka_relation resolve correctly.
+    if (path in state) {
+      const value = (state as unknown as Record<string, unknown>)[path]
+      if (typeof value === 'number' || typeof value === 'string' || typeof value === 'boolean') {
+        return value
+      }
+    }
   }
 
   // Unknown path — return undefined so caller can detect the failure

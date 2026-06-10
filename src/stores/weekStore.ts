@@ -262,22 +262,22 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   },
 
   startCustomization: () => {
-    // Full state reset for a clean new game
+    // Full state reset for a clean new game.
+    // Stores that have a reset() action (e.g. gameStore.resetToInitial)
+    // are called via ?.(); stores without one use setState to wipe state.
     useGameStore.getState().resetToInitial()
     // Randomize the mole identity for this playthrough
     useGameStore.getState().randomizeMoleIdentity()
     // Snapshot the initial state for end-game comparison
     useGameStore.getState().captureSnapshot()
-    useNarrativeStore.setState({
-      visitedSceneIds: [],
-      activeFlags:     [],
-      unlockedCodexIds: [],
-      metCharacters:   [],
-      currentScene:    null,
-      sceneDone:       false,
+    useDecreeStore.setState({
+      pendingDecrees: [],
+      signedDecrees: [],
+      rejectedDecrees: [],
+      tabledDecrees: [],
+      selectedDecree: null,
+      pendingLongTermEffects: [],
     })
-    useChainStore.setState({ scheduled: [] })
-    useNewsStore.setState({ articles: [], isOpen: false, lastReadIndex: -1 })
     useCabinetStore.setState({
       ministers: {
         finance: null, interior: null, defense: null, justice: null,
@@ -289,6 +289,24 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       pending_requests: [],
       completed_requests: [],
     })
+    useBillStore.setState({
+      bills: [],
+      history: [],
+      pendingBill: null,
+      isOverlayOpen: false,
+      vetoOverrideResult: null,
+    })
+    useNarrativeStore.setState({
+      currentScene:      null,
+      activeSegmentId:   null,
+      visitedSceneIds:   [],
+      activeFlags:       [],
+      unlockedCodexIds:  [],
+      metCharacters:     [],
+      sceneDone:         false,
+    })
+    useChainStore.setState({ scheduled: [] })
+    useNewsStore.setState({ articles: [], isOpen: false, lastReadIndex: -1 })
     set({
       phase: 'customization',
       agendaPool: [],

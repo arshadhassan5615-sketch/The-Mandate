@@ -170,7 +170,34 @@ function clamp(stat: string, value: number): number {
 
 // Resolve dot-notation path and apply an operation to the correct sub-object
 function applyModifier(state: GameState, mod: StateModifier): GameState {
-  const [group, key] = mod.stat.split('.') as [keyof GameState, string]
+  const dot = mod.stat.indexOf('.')
+
+  // Dotless stat — operates directly on a top-level gameState field
+  // (e.g. vaelInfluence, shadowInfluence, tyvarenHostility, morvecInfluence).
+  if (dot === -1) {
+    const field = mod.stat as keyof GameState
+    if (!(field in state)) {
+      console.warn(`[gameStore] Unknown stat path: ${mod.stat}`)
+      return state
+    }
+    const current = state[field] as unknown as number
+    if (typeof current !== 'number') {
+      console.warn(`[gameStore] Stat path is not numeric: ${mod.stat}`)
+      return state
+    }
+    let next: number
+    switch (mod.operation) {
+      case 'add':      next = current + mod.value; break
+      case 'set':      next = mod.value; break
+      case 'multiply': next = current * mod.value; break
+    }
+    next = clamp(mod.stat, next)
+    return { ...state, [field]: next }
+  }
+
+  // Dotted stat — group.key into nation / factions / personal / etc.
+  const group = mod.stat.slice(0, dot) as keyof GameState
+  const key   = mod.stat.slice(dot + 1)
   const subState = state[group] as unknown as Record<string, number>
   if (typeof subState !== 'object' || !(key in subState)) {
     console.warn(`[gameStore] Unknown stat path: ${mod.stat}`)
@@ -440,19 +467,8 @@ export const useGameStore = create<GameStore>()(
   })),
 
   resetToInitial: () => {
-    const existingSave = localStorage.getItem('the-mandate-autosave')
-    if (existingSave) {
-      try {
-        const parsed = JSON.parse(existingSave)
-        if (parsed.state && parsed.week > 1) {
-          set(() => ({ ...parsed.state }))
-          console.log(`[AutoSave] Restored save from week ${parsed.week}`)
-          return
-        }
-      } catch (e) {
-        console.warn('[AutoSave] Failed to load save:', e)
-      }
-    }
+    // Unconditional reset — do NOT read from localStorage. A "New Game"
+    // must always start from INITIAL_STATE, never restore an old save.
     set(() => ({ ...INITIAL_STATE }))
   },
     }),
