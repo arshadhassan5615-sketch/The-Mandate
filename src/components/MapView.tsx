@@ -327,6 +327,8 @@ export default function MapView({ onProvinceDetail }: {
               display: 'block',
               width: `${MAP_RENDER_WIDTH}px`,
               height: `${MAP_RENDER_HEIGHT}px`,
+              maxWidth: 'none',
+              maxHeight: 'none',
               pointerEvents: 'none',
               userSelect: 'none',
             }}
@@ -435,6 +437,8 @@ export default function MapView({ onProvinceDetail }: {
               display: 'block',
               width: `${MAP_RENDER_WIDTH}px`,
               height: `${MAP_RENDER_HEIGHT}px`,
+              maxWidth: 'none',
+              maxHeight: 'none',
               pointerEvents: 'none',
               userSelect: 'none',
             }}

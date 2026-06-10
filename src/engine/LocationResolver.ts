@@ -31,13 +31,13 @@ export function resolveLocation(locationString: string): ProvinceId {
 
 // Pin positions in pixels relative to the 2752×1536 rendered map image.
 export const PROVINCE_PIN_POSITIONS: Record<ProvinceId, { x: number; y: number }> = {
-  ashenmere:    { x: 1045, y: 799  },
-  kravenstal:   { x: 770,  y: 768  },
-  dravenhollow: { x: 1018, y: 430  },
-  thornfeld:    { x: 688,  y: 1030 },
-  aldenmoor:    { x: 1100, y: 1105 },
-  sevagrad:     { x: 1376, y: 799  },
-  sovarka:      { x: 1871, y: 1260 },
+  ashenmere:    { x: 1377, y: 785  },
+  kravenstal:   { x: 869,  y: 730  },
+  dravenhollow: { x: 1449, y: 461  },
+  thornfeld:    { x: 941,  y: 985  },
+  aldenmoor:    { x: 1600, y: 1020 },
+  sevagrad:     { x: 1855, y: 827  },
+  sovarka:      { x: 2125, y: 1301 },
   foreign:      { x: 2500, y: 200  },
 }
 
