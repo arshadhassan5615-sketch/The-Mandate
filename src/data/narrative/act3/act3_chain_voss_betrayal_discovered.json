@@ -4,7 +4,10 @@
   "week": 36,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["emilian_voss", "vyktor_reznik"],
+  "characters": [
+    "emilian_voss",
+    "vyktor_reznik"
+  ],
   "dialogue": "Voss requested the meeting himself. He has never done that before.",
   "monologue": "He found out about the Orythian deal. I do not know how. With Voss I am never sure whether the answer is that he is more observant than he appears or that I was less careful than I believed.",
   "choices": [
@@ -32,24 +35,41 @@
         {
           "id": "voss_betrayal_admit",
           "text": "\"Yes. A controlled subset to Orythia. I should have told you.\"",
-          "flags": ["voss_betrayal_admitted"],
+          "flags": [
+            "voss_betrayal_admitted"
+          ],
           "statEffects": [
-            { "stat": "vossRelation", "value": -10 },
-            { "stat": "personal.moralCompass", "value": 8 }
+            {
+              "stat": "vossRelation",
+              "value": -10
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": 8
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "voss_betrayal_deny",
           "text": "\"The licensing arrangements are classified. I cannot discuss the specifics.\"",
-          "flags": ["voss_betrayal_denied"],
+          "flags": [
+            "voss_betrayal_denied"
+          ],
           "statEffects": [
-            { "stat": "vossRelation", "value": -25 },
-            { "stat": "personal.moralCompass", "value": -10 }
+            {
+              "stat": "vossRelation",
+              "value": -25
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -10
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

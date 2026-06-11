@@ -4,7 +4,10 @@
   "week": 36,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "characters": [
+    "danika_oberlin",
+    "vyktor_reznik"
+  ],
   "dialogue": "Danika's report arrived without a cover note. That means the contents speak for themselves.",
   "monologue": "She sends cover notes when the findings are ambiguous. No cover note means the findings are not ambiguous.",
   "choices": [
@@ -33,27 +36,53 @@
         {
           "id": "highway_corruption_prosecute",
           "text": "\"Prosecute. Full investigation. The law applies to everyone.\"",
-          "flags": ["highway_corruption_prosecuted"],
+          "flags": [
+            "highway_corruption_prosecuted"
+          ],
           "statEffects": [
-            { "stat": "vaelInfluence", "value": -20 },
-            { "stat": "factions.reformists", "value": 12 },
-            { "stat": "factions.businessClass", "value": -10 },
-            { "stat": "personal.moralCompass", "value": 10 }
+            {
+              "stat": "vaelInfluence",
+              "value": -20
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 12
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": -10
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": 10
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "highway_corruption_quiet",
           "text": "\"Recover the funds through a quiet audit settlement. No prosecution. The highway completes on schedule.\"",
-          "flags": ["highway_corruption_settled"],
+          "flags": [
+            "highway_corruption_settled"
+          ],
           "statEffects": [
-            { "stat": "vaelInfluence", "value": 5 },
-            { "stat": "factions.reformists", "value": -8 },
-            { "stat": "personal.moralCompass", "value": -12 }
+            {
+              "stat": "vaelInfluence",
+              "value": 5
+            },
+            {
+              "stat": "factions.reformists",
+              "value": -8
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -12
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

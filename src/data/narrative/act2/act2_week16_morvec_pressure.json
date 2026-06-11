@@ -16,7 +16,6 @@
     }
   ],
   "monologue": "Stefan sent the son. Stefan never sends the son for good news.",
-
   "choices": [
     {
       "id": "what_does_he_want",
@@ -24,7 +23,6 @@
       "nextSegment": "aleksei_opens"
     }
   ],
-
   "segments": {
     "aleksei_opens": {
       "dialogue": [
@@ -53,7 +51,6 @@
         }
       ]
     },
-
     "aleksei_own_view": {
       "dialogue": [
         {
@@ -81,7 +78,6 @@
         }
       ]
     },
-
     "threat_response": {
       "dialogue": [
         {
@@ -103,7 +99,6 @@
         }
       ]
     },
-
     "what_is_coming": {
       "dialogue": [
         {
@@ -125,7 +120,6 @@
         }
       ]
     },
-
     "why_not_stefan": {
       "dialogue": [
         {
@@ -148,7 +142,6 @@
         }
       ]
     },
-
     "what_satisfies": {
       "dialogue": [
         {
@@ -170,7 +163,6 @@
         }
       ]
     },
-
     "appreciate_response": {
       "dialogue": [
         {
@@ -187,7 +179,6 @@
         }
       ]
     },
-
     "tell_stefan": {
       "dialogue": [
         {
@@ -204,7 +195,6 @@
         }
       ]
     },
-
     "leave_office": {
       "dialogue": [
         {
@@ -222,7 +212,6 @@
         }
       ]
     },
-
     "request_stefan": {
       "dialogue": [
         {
@@ -239,7 +228,6 @@
         }
       ]
     },
-
     "not_negotiable": {
       "dialogue": [
         {
@@ -256,7 +244,6 @@
         }
       ]
     },
-
     "consider_response": {
       "dialogue": [
         {
@@ -273,7 +260,6 @@
         }
       ]
     },
-
     "vyktor_assessment_morvec": {
       "dialogue": [
         {
@@ -287,9 +273,15 @@
           "id": "contact_stefan_directly",
           "text": "Contact Stefan directly.",
           "statEffects": [
-            { "stat": "morvecInfluence", "value": 5 }
+            {
+              "stat": "morvecInfluence",
+              "value": 5
+            }
           ],
-          "flags": ["morvec_pressure_received", "morvec_contact_requested"],
+          "flags": [
+            "morvec_pressure_received",
+            "morvec_contact_requested"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
@@ -307,10 +299,19 @@
           "id": "wait_see_next",
           "text": "Wait. See what he does next.",
           "statEffects": [
-            { "stat": "morvecInfluence", "value": -5 },
-            { "stat": "public_trust", "value": 3 }
+            {
+              "stat": "morvecInfluence",
+              "value": -5
+            },
+            {
+              "stat": "public_trust",
+              "value": 3
+            }
           ],
-          "flags": ["morvec_pressure_received", "morvec_waited"],
+          "flags": [
+            "morvec_pressure_received",
+            "morvec_waited"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
@@ -326,5 +327,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

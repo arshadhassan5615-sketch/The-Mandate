@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState, Component } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import GameLayout from './components/GameLayout'
 import DebugPanel from './components/DebugPanel'
 import MapView from './components/MapView'
@@ -8,6 +8,7 @@ import CharacterMap from './components/CharacterMap'
 import ProvinceDetail from './components/panels/ProvinceDetail'
 import DiplomaticLetterPanel from './components/panels/DiplomaticLetterPanel'
 import InlineCodexPanel from './components/panels/InlineCodexPanel'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { useGameStore } from './stores/gameStore'
 import { useSettingsStore } from './stores/settingsStore'
 import { useCodexStore } from './stores/codexStore'
@@ -15,41 +16,12 @@ import { useWeekStore } from './stores/weekStore'
 import { useLetterStore } from './stores/letterStore'
 import { useJournalStore } from './stores/journalStore'
 import { useNarrativeStore } from './stores/narrativeStore'
+import { useNewsStore } from './stores/newsStore'
 import { saveGame, loadGame, listSaves, AUTOSAVE_SLOT } from './engine/SaveManager'
 import { useHotkeys } from './hooks/useHotkeys'
 import { audioManager } from './engine/AudioManager'
 import allLetters from './data/letters/diplomatic_letters.json'
 
-// DIAGNOSTIC error boundary — remove after debugging
-class MapErrorBoundary extends Component<{ children: React.ReactNode }, { error: Error | null }> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props)
-    this.state = { error: null }
-  }
-  static getDerivedStateFromError(error: Error) {
-    return { error }
-  }
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
-    console.error('%c[MapErrorBoundary] MapView CRASHED', 'color: red; font-weight: bold;', error, info)
-  }
-  render() {
-    if (this.state.error) {
-      return (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 99999,
-          background: '#200', color: '#f88',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'monospace', fontSize: '14px', padding: '2rem',
-        }}>
-          <h2 style={{ marginBottom: '1rem' }}>MapView Error</h2>
-          <pre style={{ whiteSpace: 'pre-wrap', maxWidth: '80vw' }}>{String(this.state.error)}</pre>
-        </div>
-      )
-    }
-    return this.props.children
-  }
-}
 
 export default function App() {
   const {
@@ -60,6 +32,8 @@ export default function App() {
     characterMapOpen, setCharacterMapOpen,
     journalOpen, setJournalOpen,
     notepadOpen, setNotepadOpen,
+    letterOpen, setLetterOpen,
+    decreeInboxOpen, setDecreeInboxOpen,
   } = useSettingsStore()
   const { openCodex, closeCodex, isOpen: codexOpen } = useCodexStore()
   const phase = useWeekStore(s => s.phase)
@@ -74,6 +48,7 @@ export default function App() {
 
   // DIAGNOSTIC LOGGING — remove after debugging black screen
   useEffect(() => {
+    if (!import.meta.env.DEV) return
     console.log(
       '%c[App.tsx] RENDER',
       'color: #ff0; font-weight: bold;',
@@ -142,6 +117,22 @@ export default function App() {
     }
   }, [phase, setSettingsOpen, setSaveMenuOpen, setMapOpen, setDebugOpen, setCharacterMapOpen, setJournalOpen, setNotepadOpen])
 
+  // Auto-resume: on mount, check for an autosave and load it if the player was past Week 1
+  useEffect(() => {
+    const checkAndResume = async () => {
+      try {
+        const saves = await listSaves()
+        const autosave = saves.find(s => s.slot === AUTOSAVE_SLOT)
+        if (autosave && autosave.gameState?.currentWeek > 1) {
+          await loadGame(AUTOSAVE_SLOT)
+        }
+      } catch (e) {
+        console.warn('[App] Auto-resume failed:', e)
+      }
+    }
+    checkAndResume()
+  }, [])
+
   // DEV ONLY: Ctrl+Shift+9 instantly jumps to Week 9 for testing.
   // Use e.code (not e.key) because Shift+9 produces "(" on US layouts.
   useEffect(() => {
@@ -178,13 +169,18 @@ export default function App() {
       else if (settingsOpen) setSettingsOpen(false)
       else if (mapOpen) setMapOpen(false)
       else if (debugOpen) setDebugOpen(false)
+      // M14 — also close overlays that were previously skipped
+      else if (notepadOpen) setNotepadOpen(false)
+      else if (letterOpen) setLetterOpen(false)
+      else if (decreeInboxOpen) setDecreeInboxOpen(false)
+      else if (useNewsStore.getState().isOpen) useNewsStore.getState().setOpen(false)
     }},
 
     // Ctrl+S: save menu
     { key: 's', ctrl: true, handler: () => setSaveMenuOpen(true) },
 
     // S: quick save to autosave slot (gameplay only)
-    { key: 's', handler: () => { saveGame(AUTOSAVE_SLOT, 'QUICKSAVE').catch(() => {}) }, enabled: () => isGameplay },
+    { key: 's', handler: () => { saveGame(AUTOSAVE_SLOT, 'QUICKSAVE').catch((e) => console.warn('Autosave failed:', e)) }, enabled: () => isGameplay },
 
     // L: quick load most recent save (gameplay only)
     { key: 'l', handler: async () => {
@@ -211,19 +207,15 @@ export default function App() {
 
     // N: toggle notepad
     { key: 'n', handler: () => setNotepadOpen(!notepadOpen) },
-  ], [saveMenuOpen, codexOpen, characterMapOpen, settingsOpen, mapOpen, debugOpen, journalOpen, notepadOpen, isGameplay,
-      setSaveMenuOpen, closeCodex, setCharacterMapOpen, setSettingsOpen, setMapOpen, setDebugOpen, setJournalOpen, setNotepadOpen,
+  ], [saveMenuOpen, codexOpen, characterMapOpen, settingsOpen, mapOpen, debugOpen, journalOpen, notepadOpen, letterOpen, decreeInboxOpen, isGameplay,
+      setSaveMenuOpen, closeCodex, setCharacterMapOpen, setSettingsOpen, setMapOpen, setDebugOpen, setJournalOpen, setNotepadOpen, setLetterOpen, setDecreeInboxOpen,
       openCodex])
 
   useHotkeys(bindings)
 
   return (
-    <>
-      <MapErrorBoundary>
-        {(phase === 'map' || mapOpen) && (
-          <MapView onProvinceDetail={setProvinceDetailId} />
-        )}
-      </MapErrorBoundary>
+    <ErrorBoundary>
+      <MapView onProvinceDetail={setProvinceDetailId} />
       <GameLayout />
       {debugOpen && <DebugPanel />}
       {characterMapOpen && <CharacterMap />}
@@ -232,6 +224,6 @@ export default function App() {
       {provinceDetailId && <ProvinceDetail initialProvince={provinceDetailId} onClose={() => setProvinceDetailId(null)} />}
       <DiplomaticLetterPanel />
       <InlineCodexPanel />
-    </>
+    </ErrorBoundary>
   )
 }

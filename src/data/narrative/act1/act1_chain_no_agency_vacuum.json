@@ -4,7 +4,9 @@
   "week": 14,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "dialogue": "The Interior Ministry's monthly report is thicker than usual. Vyktor has flagged twelve pages.",
   "monologue": "Twelve pages. Vyktor flags selectively. Twelve pages means something is moving that I told him not to build a structure for.",
   "choices": [
@@ -33,25 +35,45 @@
         {
           "id": "vacuum_reopen_bca",
           "text": "Reopen the BCA question. Find the budget. This cannot wait for next quarter.",
-          "flags": ["bca_reopened_late"],
+          "flags": [
+            "bca_reopened_late"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": 8 },
-            { "stat": "nation.civilLiberties", "value": 5 },
-            { "stat": "nation.nationalDebt", "value": 10 }
+            {
+              "stat": "factions.reformists",
+              "value": 8
+            },
+            {
+              "stat": "nation.civilLiberties",
+              "value": 5
+            },
+            {
+              "stat": "nation.nationalDebt",
+              "value": 10
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "vacuum_hold_course",
           "text": "Hold the fiscal line. Document the incidents and address them through existing channels.",
-          "flags": ["vacuum_held_course"],
+          "flags": [
+            "vacuum_held_course"
+          ],
           "statEffects": [
-            { "stat": "nation.publicOrder", "value": -5 },
-            { "stat": "personal.moralCompass", "value": -5 }
+            {
+              "stat": "nation.publicOrder",
+              "value": -5
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -5
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

@@ -60,7 +60,7 @@ function AlignmentBar({ stats }: { stats: JournalStats }) {
       <div style={{ display: 'flex', height: '6px', borderRadius: '1px', overflow: 'hidden', marginBottom: '0.3rem' }}>
         {widths.map((w, i) => (
           <div
-            key={i}
+            key={w.label ?? i}
             style={{
               flex: w.count,
               background: w.color,
@@ -72,7 +72,7 @@ function AlignmentBar({ stats }: { stats: JournalStats }) {
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
         {widths.map((w, i) => (
-          <span key={i} style={{
+          <span key={w.label ?? i} style={{
             fontFamily: "'IBM Plex Mono', monospace",
             fontSize: '0.38rem',
             letterSpacing: '0.06em',

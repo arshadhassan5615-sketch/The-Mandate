@@ -220,7 +220,7 @@ export default function ConversationPanel({
   const handleChoice = useCallback((id: string) => {
     if (choicePhase !== 'idle') return
     if (choiceProcessedRef.current.has(id)) return
-    console.log('[GameLogic] Processing choice:', id)
+    if (import.meta.env.DEV) console.log('[GameLogic] Processing choice:', id)
     choiceProcessedRef.current.add(id)
 
     const choice = choices.find(c => c.id === id)
@@ -777,7 +777,7 @@ export default function ConversationPanel({
                 const isDimmed = fadingId && !isFading
                 return (
                 <div
-                  key={i}
+                  key={choice.id ?? i}
                   onClick={() => handleChoice(choice.id)}
                   style={{
                     padding: '11px 16px',
@@ -879,7 +879,7 @@ export default function ConversationPanel({
             transition: 'opacity 0.5s ease',
           }}>
             {activeReactions.map((reaction, i) => (
-              <div key={i} style={{ marginBottom: i < activeReactions.length - 1 ? 8 : 0 }}>
+              <div key={`${reaction.character}_${i}`} style={{ marginBottom: i < activeReactions.length - 1 ? 8 : 0 }}>
                 {reaction.type === 'dialogue' && (
                   <>
                     <div style={{

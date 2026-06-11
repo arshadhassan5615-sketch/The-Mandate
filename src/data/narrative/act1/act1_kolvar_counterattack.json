@@ -4,7 +4,9 @@
   "week": 4,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "dialogue": "Vyktor arrives before the morning briefing. That is never a good sign.",
   "monologue": "He only comes early when something cannot wait for the scheduled hour.",
   "choices": [
@@ -33,23 +35,37 @@
         {
           "id": "counterattack_legal",
           "text": "Have Justice prepare a formal rebuttal. Fight it on the procedural merits.",
-          "flags": ["kolvar_counterattack_legal"],
+          "flags": [
+            "kolvar_counterattack_legal"
+          ],
           "statEffects": [
-            { "stat": "factions.halvekists", "value": -5 },
-            { "stat": "factions.reformists", "value": 3 }
+            {
+              "stat": "factions.halvekists",
+              "value": -5
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 3
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "counterattack_ignore",
           "text": "Do not respond. Govern. Let the motion die without oxygen.",
-          "flags": ["kolvar_counterattack_ignored"],
+          "flags": [
+            "kolvar_counterattack_ignored"
+          ],
           "statEffects": [
-            { "stat": "factions.halvekists", "value": -8 }
+            {
+              "stat": "factions.halvekists",
+              "value": -8
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

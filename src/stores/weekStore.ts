@@ -21,11 +21,34 @@ import { evaluateAssassinationTrigger, getAssassinationSceneId } from '../engine
 import { computeJonasStage } from '../engine/JonasEngine'
 import { MAX_BROADCASTS } from '../engine/RadioEngine'
 import { useLetterStore } from './letterStore'
+import { useJournalStore } from './journalStore'
 import { generateDiaryEntry } from '../engine/DiaryEngine'
 import { generateCliffhanger } from '../engine/CliffhangerEngine'
 import { DIVERGENT_ARTICLES } from '../data/newspapers/divergent_coverage'
 import { useCabinetStore } from './cabinetStore'
 import { generateWeeklyRequests } from '../data/ministerRequests'
+
+// ─── Pending transition timeouts ──────────────────────────────────────────────
+// Track setTimeout IDs so resetToInitial / startCustomization can cancel them
+// and prevent stale state mutations from running after a new game begins.
+const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
+
+function trackedTimeout(fn: () => void, delay: number): ReturnType<typeof setTimeout> {
+  const id = setTimeout(() => {
+    const idx = pendingTimeouts.indexOf(id)
+    if (idx >= 0) pendingTimeouts.splice(idx, 1)
+    fn()
+  }, delay)
+  pendingTimeouts.push(id)
+  return id
+}
+
+function clearAllTimeouts(): void {
+  while (pendingTimeouts.length > 0) {
+    const id = pendingTimeouts.pop()
+    if (id !== undefined) clearTimeout(id)
+  }
+}
 
 // Load all agenda pool JSON files at build time.
 // Each file exports an AgendaItem[].
@@ -60,7 +83,7 @@ function buildPool(week: number, state: GameState, flags: string[], visited: str
 
     return true
   })
-  console.log('[buildPool] week:', week,
+  if (import.meta.env.DEV) console.log('[buildPool] week:', week,
     'ALL_AGENDA count:', ALL_AGENDA.length,
     'passed filter:', result.length)
   return result
@@ -212,13 +235,14 @@ interface WeekStore {
   endLegislation:    () => void     // legislation → agenda
   toggleAgendaItem:  (id: string) => void
   confirmAgenda:     () => void
-  advanceQueue:      () => void     // move to next scene or review phase
+  advanceQueue:      () => Promise<void>     // move to next scene or review phase
   injectScene:       (sceneId: string, title: string) => void  // mid-week emergency interrupt
   launchSingleScene: (item: AgendaItem) => void                 // map → single scene → back to map
   resolveMidpoint:   () => void                                    // clear pending midpoint modal
   openTermReport:    () => void                                    // show term report after epilogue
   openLegacy:        () => void                                    // show legacy screen after term report
-  completeWeek:      () => void     // advance week counter → new week
+  completeWeek:      () => Promise<void>     // advance week counter → new week
+  clearPendingTimeouts: () => void  // cancel any in-flight transition timeouts
   radioOpen: boolean
   setRadioOpen: (open: boolean) => void
 
@@ -262,6 +286,9 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   },
 
   startCustomization: () => {
+    // Cancel any pending transition timeouts so they can't mutate state
+    // after a new game has begun.
+    clearAllTimeouts()
     // Full state reset for a clean new game.
     // Stores that have a reset() action (e.g. gameStore.resetToInitial)
     // are called via ?.(); stores without one use setState to wipe state.
@@ -306,7 +333,9 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       sceneDone:         false,
     })
     useChainStore.setState({ scheduled: [] })
-    useNewsStore.setState({ articles: [], isOpen: false, lastReadIndex: -1 })
+    useNewsStore.setState({ articles: [], isOpen: false, lastReadIndex: -1, readRecords: {} })
+    useJournalStore.setState({ entries: [], seenKeys: new Set<string>() })
+    useLetterStore.setState({ letters: [], readIds: new Set<string>(), currentIndex: 0, isOpen: false, unreadCount: 0 })
     set({
       phase: 'customization',
       agendaPool: [],
@@ -440,6 +469,21 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Week 1 — Address the Nation (fires once)
+    if (gameState.currentWeek === 1 && !visitedSceneIds.includes('act1_week1_address_nation')) {
+      pool.push({
+        id: 'act1_week1_address_nation',
+        title: 'Address the Nation',
+        description: 'The Republic is listening. Your first words as Chancellor will define this government.',
+        category: 'ceremony' as AgendaCategory,
+        sceneId: 'act1_week1_address_nation',
+        slotCost: 0,
+        executionOrder: 2,
+        weekAvailable: 1,
+        weekDeadline: 2,
+      })
+    }
+
     // Week 1 — Cabinet introductions (fires once)
     if (gameState.currentWeek === 1 && !visitedSceneIds.includes('act1_week1_cabinet_introductions')) {
       pool.push({
@@ -449,7 +493,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         category: 'meeting' as AgendaCategory,
         sceneId: 'act1_week1_cabinet_introductions',
         slotCost: 0,
-        executionOrder: 2,
+        executionOrder: 3,
         weekAvailable: 1,
         weekDeadline: 1,
       })
@@ -464,7 +508,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         category: 'social' as AgendaCategory,
         sceneId: 'social_inaugural_ball_wk1',
         slotCost: 0,
-        executionOrder: 3,
+        executionOrder: 5,
         weekAvailable: 1,
         weekDeadline: 1,
       })
@@ -479,7 +523,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         category: 'crisis' as AgendaCategory,
         sceneId: 'mole_week1_plant',
         slotCost: 0,
-        executionOrder: 4,
+        executionOrder: 6,
         weekAvailable: 1,
         weekDeadline: 2,
       })
@@ -838,7 +882,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       return
     }
 
-    console.log('[confirmAgenda] Queue:', sorted.map((s, i) => `[${i}] ${s.id} (${s.sceneId})`).join(', '))
+    if (import.meta.env.DEV) console.log('[confirmAgenda] Queue:', sorted.map((s, i) => `[${i}] ${s.id} (${s.sceneId})`).join(', '))
 
     // Snapshot stats before any scene runs (used by EveningReview for deltas)
     const snapshot = { ...gameState }
@@ -860,15 +904,15 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     } else if (first.sceneId?.startsWith('act1_week2_cabinet')) {
       set({ ...base, phase: 'scene', showCabinetFormation: true })
     } else {
-      console.log('[confirmAgenda] Loading scene:', first.sceneId, 'from item:', first.id, 'title:', first.title)
+      if (import.meta.env.DEV) console.log('[confirmAgenda] Loading scene:', first.sceneId, 'from item:', first.id, 'title:', first.title)
       useNarrativeStore.getState().loadScene(first.sceneId)
       set({ ...base, phase: 'scene' })
     }
   },
 
-  advanceQueue: () => {
+  advanceQueue: async () => {
     const { currentQueueIndex, transitionLabel, sceneQueue } = get()
-    console.log('[TRACE 1] advanceQueue called. Queue length:', sceneQueue.length, 'next index:', currentQueueIndex + 1, 'transitionLabel:', transitionLabel)
+    if (import.meta.env.DEV) console.log('[TRACE 1] advanceQueue called. Queue length:', sceneQueue.length, 'next index:', currentQueueIndex + 1, 'transitionLabel:', transitionLabel)
     // Guard against double-tap during transition
     if (transitionLabel) return
 
@@ -877,7 +921,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     useNarrativeStore.getState().resetScene()
     // Scene-to-scene fade transition (500ms)
     set({ transitionLabel: 'scene' })
-    setTimeout(() => {
+    trackedTimeout(async () => {
       try {
         const { sceneQueue: q } = get()
         if (next < q.length) {
@@ -893,7 +937,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           }
 
           set({ currentQueueIndex: next, transitionLabel: '' })
-          console.log('[advanceQueue] Loading scene:', item.sceneId, '| queue index:', next, 'of', q.length, '|', item.title)
+          if (import.meta.env.DEV) console.log('[advanceQueue] Loading scene:', item.sceneId, '| queue index:', next, 'of', q.length, '|', item.title)
           if (item.sceneId === '__budget__') {
             set({ phase: 'budget', transitionLabel: '' })
           } else if (item.sceneId === '__constitution__') {
@@ -906,12 +950,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           } else if (item.sceneId.startsWith('act1_week2_cabinet')) {
             set({ phase: 'scene', showCabinetFormation: true, transitionLabel: '' })
           } else {
-            console.log('[TRACE 2] Next scene determined:', item.sceneId, '| Loading via loadScene...')
+            if (import.meta.env.DEV) console.log('[TRACE 2] Next scene determined:', item.sceneId, '| Loading via loadScene...')
             useNarrativeStore.getState().loadScene(item.sceneId)
             set({ phase: 'scene' })
           }
         } else {
-          console.log('[TRACE 2] Queue exhausted — transitioning. Queue was:', q.map((s, i) => `[${i}] ${s.id}`).join(', '), '| last index:', next - 1)
+          if (import.meta.env.DEV) console.log('[TRACE 2] Queue exhausted — transitioning. Queue was:', q.map((s, i) => `[${i}] ${s.id}`).join(', '), '| last index:', next - 1)
           const { returnToMap } = get()
           if (returnToMap) {
             const completedItem = q[q.length - 1]
@@ -921,13 +965,21 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
               returnToMap: false,
               agendaPool: s.agendaPool.filter(a => a.id !== completedItem.id),
             }))
+            // Autosave after every completed scene
+            try {
+              await saveGame(AUTOSAVE_SLOT, 'AUTOSAVE')
+              if (import.meta.env.DEV) console.log('[Autosave] Saved after scene:', completedItem.id)
+            } catch (e) {
+              console.warn('[Autosave] Failed:', e)
+            }
           } else {
             set({ phase: 'review', transitionLabel: '' })
           }
         }
       } catch (e) {
         console.error('[advanceQueue] CRASHED — clearing transitionLabel to prevent black screen:', e)
-        set({ transitionLabel: '', phase: 'review' })
+        const { returnToMap: rtMap } = get()
+        set({ transitionLabel: '', phase: rtMap ? 'map' : 'review' })
       }
     }, 500)
   },
@@ -936,6 +988,15 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   // current week's queue directly after the currently-playing scene.
   injectScene: (sceneId, title) => {
     const { sceneQueue, currentQueueIndex } = get()
+    // M4 cycle guard — never inject a scene the player has already
+    // visited in this playthrough.
+    const { visitedSceneIds } = useNarrativeStore.getState()
+    if (visitedSceneIds.includes(sceneId)) {
+      if (import.meta.env.DEV) {
+        console.warn('[weekStore.injectScene] cycle guard blocked re-injection of', sceneId)
+      }
+      return
+    }
     const gameState = useGameStore.getState()
     const item: AgendaItem = {
       id: `__emergency__${sceneId}`,
@@ -955,7 +1016,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
   launchSingleScene: (item) => {
     const sceneNode = getScene(item.sceneId)
-    if (!sceneNode) return
+    if (!sceneNode) {
+      console.warn('[launchSingleScene] Scene not found:', item.sceneId)
+      return
+    }
     const snapshot = useGameStore.getState()
     useNarrativeStore.getState().loadScene(item.sceneId)
     set({
@@ -974,6 +1038,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   setRadioOpen: (open) => set({ radioOpen: open }),
   dismissGate: () => set({ gateBlocked: false, gateMessage: null }),
 
+  clearPendingTimeouts: () => clearAllTimeouts(),
+
   closeCliffhanger: () => {
     const state = useGameStore.getState()
     const newWeek = state.currentWeek
@@ -985,11 +1051,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       const store = useNewsStore.getState()
       const eventsCount = store.getEventsWithMultiplePapers()
       if (eventsCount >= 2) {
-        // Inject Vyktor press briefing as a forced chain
-        useChainStore.getState().schedule(
-          [{ targetNodeId: 'vyktor_press_briefing', delayWeeks: 0 }],
-          newWeek,
-          'vyktor_press_intelligence',
+        // M5 — fire the Vyktor briefing immediately in the current week's
+        // pool by injecting it as an emergency scene, rather than
+        // scheduling it for the next chain-process tick.
+        useWeekStore.getState().injectScene(
+          'vyktor_press_briefing',
+          'Vyktor — The Press Briefing',
         )
       }
     }
@@ -1005,7 +1072,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     get().initWeek()
   },
 
-  completeWeek: () => {
+  completeWeek: async () => {
     const gameState = useGameStore.getState()
     const { visitedSceneIds } = useNarrativeStore.getState()
 
@@ -1021,7 +1088,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // Week 52 → epilogue transition (game over)
     if (gameState.currentWeek >= 52) {
       set({ transitionWeek: null, transitionLabel: 'epilogue' })
-      setTimeout(() => set({ transitionLabel: '', phase: 'epilogue' }), 1200)
+      trackedTimeout(() => set({ transitionLabel: '', phase: 'epilogue' }), 1200)
       return
     }
 
@@ -1136,7 +1203,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       const pub = newWeek % 2 === 0 ? 'ashenmere_herald' as const : 'peoples_standard' as const
       const content = pub === 'ashenmere_herald' ? summaryTemplate.herald : summaryTemplate.standard
       useNewsStore.getState().addArticles([{
-        id: `news_week_${newWeek}_${Date.now()}`,
+        id: `news_week_${newWeek}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
         headline: content.headline,
         body: content.body,
         publication: pub,
@@ -1165,7 +1232,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
     // Show week number transition for 1.5s, then cliffhanger
     set({ transitionWeek: newWeek, transitionLabel: 'week' })
-    setTimeout(() => {
+    trackedTimeout(() => {
       try {
         const { activeFlags: flags2 } = useNarrativeStore.getState()
         const fired = useChainStore.getState().process(newWeek, nextState, flags2)
@@ -1197,6 +1264,14 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         set({ transitionWeek: null, transitionLabel: '', cliffhangerText: 'Your week has concluded. The Republic continues.' })
       }
     }, 1500)
+
+    // Autosave after week completes
+    try {
+      await saveGame(AUTOSAVE_SLOT, 'AUTOSAVE')
+      if (import.meta.env.DEV) console.log('[Autosave] Saved after week', useGameStore.getState().currentWeek)
+    } catch (e) {
+      console.warn('[Autosave] Failed:', e)
+    }
   },
 }))
 

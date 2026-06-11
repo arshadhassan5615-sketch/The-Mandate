@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import { setAudioSettings } from '../engine/audioEngine'
 
 const LS_IRONMAN = 'mandate_ironman'
@@ -125,7 +126,7 @@ const initialAccess = loadAccessibility()
 applyAccessibilityToDom(initialAccess)
 applyAudioToEngine(initialAudio)
 
-export const useSettingsStore = create<SettingsStore>((set, get) => ({
+export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
   ironmanMode: localStorage.getItem(LS_IRONMAN) === 'true',
   sessionStartTime: Date.now(),
   accumulatedPlayMinutes: 0,
@@ -182,6 +183,9 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   // ── Accessibility actions ──────────────────────────────────────────────────
 
   setTextSpeed: (s) => {
+    // Validate TextSpeed before persisting
+    const validSpeeds: TextSpeed[] = ['slow', 'medium', 'fast', 'instant']
+    if (!validSpeeds.includes(s)) return
     localStorage.setItem(LS_TEXT_SPEED, s)
     set({ textSpeed: s })
   },
@@ -194,6 +198,9 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   },
 
   setFontSize: (s) => {
+    // Validate FontSize before persisting
+    const validFontSizes: FontSize[] = ['normal', 'large', 'xlarge']
+    if (!validFontSizes.includes(s)) return
     localStorage.setItem(LS_FONT_SIZE, s)
     applyAccessibilityToDom({ ...get(), fontSize: s })
     set({ fontSize: s })
@@ -221,6 +228,20 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
   setPlayTime: (minutes) =>
     set({ accumulatedPlayMinutes: minutes, sessionStartTime: Date.now() }),
+}), {
+  name: 'mandate-settings',
+  partialize: (state) => ({
+    // Only persist actual settings, not session state
+    masterVolume: state.masterVolume,
+    ambientVolume: state.ambientVolume,
+    uiVolume: state.uiVolume,
+    musicVolume: state.musicVolume,
+    masterMuted: state.masterMuted,
+    textSpeed: state.textSpeed,
+    highContrast: state.highContrast,
+    fontSize: state.fontSize,
+    ironmanMode: state.ironmanMode,
+  }),
 }))
 
 // Enable Hot Module Replacement (HMR) for Zustand store

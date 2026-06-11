@@ -4,7 +4,10 @@
   "week": 37,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik", "elara_vostane"],
+  "characters": [
+    "vyktor_reznik",
+    "elara_vostane"
+  ],
   "dialogue": "Four weeks since the survey call. Vyktor has the summary.",
   "monologue": "Four weeks. Enough time for a decision to become a reality or a mistake.",
   "choices": [
@@ -151,10 +154,19 @@
           "id": "sovarka_full_complete",
           "text": "[End — Sovarka arc complete]",
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 5 },
-            { "stat": "nation.internationalStanding", "value": 5 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 5
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 5
+            }
           ],
-          "flags": ["sovarka_arc_complete", "sovarka_won"],
+          "flags": [
+            "sovarka_arc_complete",
+            "sovarka_won"
+          ],
           "journalEntry": {
             "title": "What Veltria Built",
             "category": "DIPLOMACY",
@@ -187,19 +199,32 @@
         {
           "id": "sovarka_limited_push_exclusive",
           "text": "\"Approach Luca about the eastern europium deposit. Offer exclusivity there in exchange for closing out the Tyvaren secondary arrangement.\"",
-          "flags": ["sovarka_europium_push"],
+          "flags": [
+            "sovarka_europium_push"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 5 },
-            { "stat": "tyvarenHostility", "value": 8 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 5
+            },
+            {
+              "stat": "tyvarenHostility",
+              "value": 8
+            }
           ],
           "nextSegment": "sovarka_outcome_close_limited"
         },
         {
           "id": "sovarka_limited_accept",
           "text": "\"Accept the result. The preferred partnership is real and the terms are honored. Let Luca manage both relationships — that is his right.\"",
-          "flags": ["sovarka_limited_accepted"],
+          "flags": [
+            "sovarka_limited_accepted"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 3 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 3
+            }
           ],
           "nextSegment": "sovarka_outcome_close_limited"
         }
@@ -222,7 +247,10 @@
         {
           "id": "sovarka_limited_complete",
           "text": "[End — Sovarka arc complete]",
-          "flags": ["sovarka_arc_complete", "sovarka_partial_win"],
+          "flags": [
+            "sovarka_arc_complete",
+            "sovarka_partial_win"
+          ],
           "journalEntry": {
             "title": "What Veltria Built",
             "category": "DIPLOMACY",
@@ -312,21 +340,40 @@
         {
           "id": "sovarka_lost_reengage",
           "text": "\"Contact Luca. Offer legal and technical assistance on the eastern district scope question. We re-enter through the dispute.\"",
-          "flags": ["sovarka_europium_reentry"],
+          "flags": [
+            "sovarka_europium_reentry"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 3 },
-            { "stat": "tyvarenHostility", "value": 8 },
-            { "stat": "nation.economyHealth", "value": 3 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 3
+            },
+            {
+              "stat": "tyvarenHostility",
+              "value": 8
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": 3
+            }
           ],
           "nextSegment": "sovarka_lost_close"
         },
         {
           "id": "sovarka_lost_accept",
           "text": "\"Accept the loss. Find the next opportunity. Veltria does not re-enter a deal that closed against us through a legal dispute — that is not the kind of partner we want to be.\"",
-          "flags": ["sovarka_loss_accepted"],
+          "flags": [
+            "sovarka_loss_accepted"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 5 },
-            { "stat": "factions.reformists", "value": 3 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 5
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 3
+            }
           ],
           "nextSegment": "sovarka_lost_close"
         }
@@ -353,11 +400,23 @@
         {
           "id": "sovarka_lost_complete",
           "text": "[End — Sovarka arc complete]",
-          "flags": ["sovarka_arc_complete", "sovarka_lost_flag"],
+          "flags": [
+            "sovarka_arc_complete",
+            "sovarka_lost_flag"
+          ],
           "statEffects": [
-            { "stat": "factions.halvekists", "value": 8 },
-            { "stat": "nation.economyHealth", "value": -5 },
-            { "stat": "nation.internationalStanding", "value": -8 }
+            {
+              "stat": "factions.halvekists",
+              "value": 8
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -5
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": -8
+            }
           ],
           "journalEntry": {
             "title": "What Veltria Built",
@@ -368,5 +427,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

@@ -4,7 +4,10 @@
   "week": 11,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "characters": [
+    "danika_oberlin",
+    "vyktor_reznik"
+  ],
   "dialogue": "Maren Tovik has been in the role for six days. She has already opened a case.",
   "monologue": "Six days. I expected a month of setup and recruitment before anything moved. That was naive.",
   "choices": [
@@ -38,25 +41,45 @@
         {
           "id": "bca_case_proceed",
           "text": "Tell Tovik the investigation proceeds. The BCA's independence is real.",
-          "flags": ["bca_first_case_green_lit"],
+          "flags": [
+            "bca_first_case_green_lit"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": 8 },
-            { "stat": "factions.halvekists", "value": -5 },
-            { "stat": "nation.civilLiberties", "value": 3 }
+            {
+              "stat": "factions.reformists",
+              "value": 8
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": -5
+            },
+            {
+              "stat": "nation.civilLiberties",
+              "value": 3
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "bca_case_pause",
           "text": "Ask Tovik to pause until the BCA has more institutional weight behind it. A first case this visible, this fast, is a risk.",
-          "flags": ["bca_first_case_delayed"],
+          "flags": [
+            "bca_first_case_delayed"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": -5 },
-            { "stat": "personal.moralCompass", "value": -5 }
+            {
+              "stat": "factions.reformists",
+              "value": -5
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -5
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

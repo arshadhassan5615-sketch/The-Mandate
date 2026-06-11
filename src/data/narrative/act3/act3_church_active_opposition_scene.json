@@ -4,7 +4,10 @@
   "week": 38,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik", "stanislov_renek"],
+  "characters": [
+    "vyktor_reznik",
+    "stanislov_renek"
+  ],
   "dialogue": "Archbishop Renek has moved from sermons to action. Vyktor has the details.",
   "monologue": "He was warm on the surface and surgical beneath. He told me that at the inaugural ball. I chose not to fully believe it. I am about to find out what surgical looks like.",
   "choices": [
@@ -33,25 +36,45 @@
         {
           "id": "church_opposition_engage",
           "text": "\"Request a meeting with Renek. Address this directly before it spreads further.\"",
-          "flags": ["church_opposition_engaged"],
+          "flags": [
+            "church_opposition_engaged"
+          ],
           "statEffects": [
-            { "stat": "factions.church", "value": 5 },
-            { "stat": "factions.reformists", "value": -3 }
+            {
+              "stat": "factions.church",
+              "value": 5
+            },
+            {
+              "stat": "factions.reformists",
+              "value": -3
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "church_opposition_hold",
           "text": "\"Hold the education reform line. The Church does not set curriculum policy in a secular Republic.\"",
-          "flags": ["church_opposition_held"],
+          "flags": [
+            "church_opposition_held"
+          ],
           "statEffects": [
-            { "stat": "factions.church", "value": -10 },
-            { "stat": "factions.reformists", "value": 8 },
-            { "stat": "nation.publicOrder", "value": -5 }
+            {
+              "stat": "factions.church",
+              "value": -10
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 8
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": -5
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

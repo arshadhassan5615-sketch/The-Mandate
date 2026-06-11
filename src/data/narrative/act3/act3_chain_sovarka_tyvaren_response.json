@@ -4,7 +4,10 @@
   "week": 43,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik", "irina_dusek"],
+  "characters": [
+    "vyktor_reznik",
+    "irina_dusek"
+  ],
   "dialogue": "Tyvaren has moved beyond diplomatic protests. Dusek requested the briefing.",
   "monologue": "When Dusek requests a briefing rather than waiting for the scheduled one, the situation has moved faster than the schedule.",
   "choices": [
@@ -38,26 +41,49 @@
         {
           "id": "tyvaren_response_hold",
           "text": "\"Hold the line. The partnership stands. Find alternative trade arrangements to replace the suspended agreements.\"",
-          "flags": ["tyvaren_response_held"],
+          "flags": [
+            "tyvaren_response_held"
+          ],
           "statEffects": [
-            { "stat": "tyvarenHostility", "value": -5 },
-            { "stat": "nation.internationalStanding", "value": 8 },
-            { "stat": "nation.economyHealth", "value": -5 }
+            {
+              "stat": "tyvarenHostility",
+              "value": -5
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 8
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -5
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "tyvaren_response_negotiate",
           "text": "\"Open a back channel to Tyvaren. The partnership with Sovarka is not negotiable. The trade agreements may be.\"",
-          "flags": ["tyvaren_response_negotiated"],
+          "flags": [
+            "tyvaren_response_negotiated"
+          ],
           "statEffects": [
-            { "stat": "tyvarenHostility", "value": -10 },
-            { "stat": "nation.internationalStanding", "value": 3 },
-            { "stat": "nation.economyHealth", "value": -2 }
+            {
+              "stat": "tyvarenHostility",
+              "value": -10
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 3
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -2
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

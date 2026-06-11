@@ -693,7 +693,7 @@ function DecreeDetail({ decree, currentWeek, isConflict, conflictTitle, onSign, 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {decree.immediateEffects.map((effect, i) => (
                 <div
-                  key={i}
+                  key={effect.description ?? i}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -736,7 +736,7 @@ function DecreeDetail({ decree, currentWeek, isConflict, conflictTitle, onSign, 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {decree.longTermEffects.map((effect, i) => (
                 <div
-                  key={i}
+                  key={effect.description ?? i}
                   style={{
                     display: 'flex',
                     alignItems: 'center',

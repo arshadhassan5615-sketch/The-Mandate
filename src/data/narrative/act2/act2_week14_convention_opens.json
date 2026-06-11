@@ -55,7 +55,6 @@
     }
   ],
   "monologue": "Kolvar has been asking questions that aren't questions since the drafting committee formed. Every question is a probe — testing where the resistance is, who can be moved, who can't. He's not obstructing. He's mapping. The question is what he intends to do with the map.",
-
   "choices": [
     {
       "id": "ask_kolvar_objection",
@@ -73,7 +72,6 @@
       "nextSegment": "vyktor_delegate_count"
     }
   ],
-
   "segments": {
     "kolvar_concern": {
       "dialogue": [
@@ -116,7 +114,6 @@
         }
       ]
     },
-
     "kolvar_alternative": {
       "dialogue": [
         {
@@ -152,7 +149,6 @@
         }
       ]
     },
-
     "kolvar_pushback_response": {
       "dialogue": [
         {
@@ -184,7 +180,6 @@
         }
       ]
     },
-
     "theron_status": {
       "dialogue": [
         {
@@ -216,7 +211,6 @@
         }
       ]
     },
-
     "uncertain_delegates": {
       "dialogue": [
         {
@@ -248,7 +242,6 @@
         }
       ]
     },
-
     "theron_worry": {
       "dialogue": [
         {
@@ -293,7 +286,6 @@
         }
       ]
     },
-
     "vyktor_delegate_count": {
       "dialogue": [
         {
@@ -325,7 +317,6 @@
         }
       ]
     },
-
     "mirova_detail": {
       "dialogue": [
         {
@@ -352,7 +343,6 @@
         }
       ]
     },
-
     "kolvar_removed": {
       "dialogue": [
         {
@@ -389,7 +379,6 @@
         }
       ]
     },
-
     "kolvar_watched": {
       "dialogue": [
         {
@@ -421,7 +410,6 @@
         }
       ]
     },
-
     "kolvar_confronted": {
       "dialogue": [
         {
@@ -470,7 +458,6 @@
         }
       ]
     },
-
     "kolvar_real_want": {
       "dialogue": [
         {
@@ -501,7 +488,6 @@
         }
       ]
     },
-
     "regional_question": {
       "dialogue": [
         {
@@ -528,7 +514,6 @@
         }
       ]
     },
-
     "article7_compromise": {
       "dialogue": [
         {
@@ -560,7 +545,6 @@
         }
       ]
     },
-
     "investigate_corruption": {
       "dialogue": [
         {
@@ -592,7 +576,6 @@
         }
       ]
     },
-
     "vyktor_recommendation": {
       "dialogue": [
         {
@@ -629,7 +612,6 @@
         }
       ]
     },
-
     "kolvar_final_position": {
       "dialogue": [
         {
@@ -656,7 +638,6 @@
         }
       ]
     },
-
     "theron_private": {
       "dialogue": [
         {
@@ -692,7 +673,6 @@
         }
       ]
     },
-
     "final_convention_choice": {
       "dialogue": [
         {
@@ -706,16 +686,23 @@
         }
       ],
       "monologue": "Sixty-seven votes. No margin. Kolvar and his six. Mirova and the approach that was made to her. Theron's folder. The Vael-Kross Foundation for Constitutional Studies founded fourteen months ago. Everything connects to something and I have ten minutes to decide how much of that I'm prepared to act on before I walk into a room and open the convention that defines this government.",
-
       "choices": [
         {
           "id": "open_full_draft",
           "text": "Open the convention with the full draft as written. Take the vote on its merits. Sixty-seven should hold.",
           "statEffects": [
-            {"stat": "reformist_credibility", "value": 10},
-            {"stat": "convention_stability", "value": -5}
+            {
+              "stat": "reformist_credibility",
+              "value": 10
+            },
+            {
+              "stat": "convention_stability",
+              "value": -5
+            }
           ],
-          "flags": ["convention_opened_full_draft"],
+          "flags": [
+            "convention_opened_full_draft"
+          ],
           "reactions": [
             {
               "character": "aldric_theron",
@@ -737,11 +724,23 @@
           "id": "open_amended_article7",
           "text": "Open with the draft but signal willingness to amend Article 7 before the final reading. Keep Kolvar's faction in the process.",
           "statEffects": [
-            {"stat": "reformist_credibility", "value": 5},
-            {"stat": "convention_stability", "value": 8},
-            {"stat": "assembly_support", "value": 5}
+            {
+              "stat": "reformist_credibility",
+              "value": 5
+            },
+            {
+              "stat": "convention_stability",
+              "value": 8
+            },
+            {
+              "stat": "assembly_support",
+              "value": 5
+            }
           ],
-          "flags": ["convention_article7_amendment", "kolvar_in_process"],
+          "flags": [
+            "convention_article7_amendment",
+            "kolvar_in_process"
+          ],
           "reactions": [
             {
               "character": "aldric_theron",
@@ -763,11 +762,22 @@
           "id": "open_with_regional_concessions",
           "text": "Open with the draft plus the regional seat guarantee. Bring the eight rural delegates in before the vote.",
           "statEffects": [
-            {"stat": "reformist_credibility", "value": 3},
-            {"stat": "convention_stability", "value": 10},
-            {"stat": "regional_support", "value": 12}
+            {
+              "stat": "reformist_credibility",
+              "value": 3
+            },
+            {
+              "stat": "convention_stability",
+              "value": 10
+            },
+            {
+              "stat": "regional_support",
+              "value": 12
+            }
           ],
-          "flags": ["convention_regional_concession"],
+          "flags": [
+            "convention_regional_concession"
+          ],
           "reactions": [
             {
               "character": "aldric_theron",
@@ -789,11 +799,23 @@
           "id": "open_corruption_public",
           "text": "Before opening, announce that an approach was made to a delegate and that the matter is under investigation. Let that be the first act of the convention.",
           "statEffects": [
-            {"stat": "reformist_credibility", "value": 15},
-            {"stat": "convention_stability", "value": -15},
-            {"stat": "public_trust", "value": 10}
+            {
+              "stat": "reformist_credibility",
+              "value": 15
+            },
+            {
+              "stat": "convention_stability",
+              "value": -15
+            },
+            {
+              "stat": "public_trust",
+              "value": 10
+            }
           ],
-          "flags": ["corruption_announced", "convention_delayed"],
+          "flags": [
+            "corruption_announced",
+            "convention_delayed"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
@@ -818,5 +840,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

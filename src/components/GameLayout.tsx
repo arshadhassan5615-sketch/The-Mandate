@@ -102,13 +102,14 @@ export default function GameLayout() {
   // Show Act I transition after inauguration scene completes
   useEffect(() => {
     if (
+      phase === 'map' &&
       visitedSceneIds.includes('act1_week1_inauguration') &&
       !actShown
     ) {
       setShowActTransition(true)
       setActShown(true)
     }
-  }, [visitedSceneIds, actShown])
+  }, [phase, visitedSceneIds, actShown])
 
   // Auto-open news overlay when entering press phase
   useEffect(() => {

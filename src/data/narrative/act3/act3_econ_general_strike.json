@@ -4,7 +4,11 @@
   "week": 35,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["gregor_maric", "vyktor_reznik", "elara_vostane"],
+  "characters": [
+    "gregor_maric",
+    "vyktor_reznik",
+    "elara_vostane"
+  ],
   "dialogue": "The overnight reports confirm it. Seventeen factories across Kravenstal and Dravenhollow did not open this morning.",
   "monologue": "Marić warned me. He told me the grievances had been waiting. I told him growth would come before the waiting ran out. I was wrong about the timeline.",
   "choices": [
@@ -44,12 +48,26 @@
           "id": "strike_negotiate",
           "text": "Open direct negotiations with the strike organizers. Meet the core demands — wage indexing and worker representation. Not as a concession. As a correction.",
           "internalTag": "reformist",
-          "flags": ["general_strike_negotiated"],
+          "flags": [
+            "general_strike_negotiated"
+          ],
           "statEffects": [
-            { "stat": "factions.workersCoalition", "value": 15 },
-            { "stat": "factions.businessClass", "value": -12 },
-            { "stat": "nation.economyHealth", "value": -5 },
-            { "stat": "personal.moralCompass", "value": 10 }
+            {
+              "stat": "factions.workersCoalition",
+              "value": 15
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": -12
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -5
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": 10
+            }
           ],
           "nextSegment": null
         },
@@ -57,11 +75,22 @@
           "id": "strike_partial",
           "text": "Offer wage indexing only. Worker board representation requires Assembly approval — promise to introduce the legislation within sixty days.",
           "internalTag": "pragmatist",
-          "flags": ["general_strike_partial_deal"],
+          "flags": [
+            "general_strike_partial_deal"
+          ],
           "statEffects": [
-            { "stat": "factions.workersCoalition", "value": 5 },
-            { "stat": "factions.businessClass", "value": -5 },
-            { "stat": "nation.economyHealth", "value": -2 }
+            {
+              "stat": "factions.workersCoalition",
+              "value": 5
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": -5
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -2
+            }
           ],
           "nextSegment": null
         },
@@ -69,16 +98,31 @@
           "id": "strike_hold_firm",
           "text": "Refuse to negotiate under strike conditions. The government does not set policy in response to industrial action. The factories reopen or the consequences escalate.",
           "internalTag": "authoritarian",
-          "flags": ["general_strike_refused"],
+          "flags": [
+            "general_strike_refused"
+          ],
           "statEffects": [
-            { "stat": "factions.workersCoalition", "value": -20 },
-            { "stat": "factions.halvekists", "value": -5 },
-            { "stat": "nation.publicOrder", "value": -10 },
-            { "stat": "personal.moralCompass", "value": -8 }
+            {
+              "stat": "factions.workersCoalition",
+              "value": -20
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": -5
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": -10
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -8
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

@@ -4,7 +4,10 @@
   "week": 25,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "characters": [
+    "danika_oberlin",
+    "vyktor_reznik"
+  ],
   "dialogue": "Danika's message arrived without a subject line. It said only: come to my office. Not the Ministry — here.",
   "monologue": "Danika Oberlin does not summon people. She reports to them. The fact that she asked me to come to her means the information is the kind that should not travel through normal channels.",
   "choices": [
@@ -38,37 +41,72 @@
         {
           "id": "mole_returns_reopen",
           "text": "Reopen the investigation. Publicly. Before the journalist publishes — announce that new evidence has emerged and the case is being reviewed. Control the narrative by being the one who surfaces it.",
-          "flags": ["mole_investigation_reopened", "mole_returns_public"],
+          "flags": [
+            "mole_investigation_reopened",
+            "mole_returns_public"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": 8 },
-            { "stat": "factions.halvekists", "value": -8 },
-            { "stat": "personal.publicImage", "value": -5 },
-            { "stat": "personal.moralCompass", "value": 10 }
+            {
+              "stat": "factions.reformists",
+              "value": 8
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": -8
+            },
+            {
+              "stat": "personal.publicImage",
+              "value": -5
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": 10
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "mole_returns_journalist",
           "text": "Meet with the journalist directly. Off the record. Give her enough context to understand why the confession was accepted — and ask her to hold the story until the new investigation concludes.",
-          "flags": ["mole_returns_journalist_briefed"],
+          "flags": [
+            "mole_returns_journalist_briefed"
+          ],
           "statEffects": [
-            { "stat": "nation.pressFreedom", "value": -3 },
-            { "stat": "personal.moralCompass", "value": -3 }
+            {
+              "stat": "nation.pressFreedom",
+              "value": -3
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -3
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "mole_returns_deny",
           "text": "The confession was accepted on the evidence available at the time. The case is closed. If Petran wishes to appeal his conviction, the courts are available to him.",
-          "flags": ["mole_returns_denied"],
+          "flags": [
+            "mole_returns_denied"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": -10 },
-            { "stat": "personal.moralCompass", "value": -12 },
-            { "stat": "personal.publicImage", "value": -8 }
+            {
+              "stat": "factions.reformists",
+              "value": -10
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -12
+            },
+            {
+              "stat": "personal.publicImage",
+              "value": -8
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

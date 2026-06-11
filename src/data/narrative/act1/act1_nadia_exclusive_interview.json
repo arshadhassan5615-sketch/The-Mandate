@@ -4,7 +4,9 @@
   "week": 2,
   "type": "meeting",
   "location": "Chancellor's Private Study — Ashenmere Palace",
-  "characters": ["nadia_voss"],
+  "characters": [
+    "nadia_voss"
+  ],
   "dialogue": "Nadia Voss arrives exactly on time, notepad open, recorder on the desk. She does not ask if she can record. She assumes.",
   "monologue": "She assumes the recorder is acceptable because I offered the interview and the interview implies transparency. That is correct logic. I should remember she reasons that way.",
   "choices": [
@@ -32,24 +34,41 @@
         {
           "id": "nadia_full_transparency",
           "text": "Answer all three directly. BNI timeline, constitutional first step, and Jonas's 2019 contracts explained in full.",
-          "flags": ["nadia_interview_transparent"],
+          "flags": [
+            "nadia_interview_transparent"
+          ],
           "statEffects": [
-            { "stat": "nation.pressFreedom", "value": 8 },
-            { "stat": "personal.publicImage", "value": 5 }
+            {
+              "stat": "nation.pressFreedom",
+              "value": 8
+            },
+            {
+              "stat": "personal.publicImage",
+              "value": 5
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "nadia_partial",
           "text": "Answer the first two fully. On Jonas — acknowledge the contracts exist, note they were declared, and decline further comment.",
-          "flags": ["nadia_interview_partial"],
+          "flags": [
+            "nadia_interview_partial"
+          ],
           "statEffects": [
-            { "stat": "nation.pressFreedom", "value": 4 },
-            { "stat": "personal.publicImage", "value": 2 }
+            {
+              "stat": "nation.pressFreedom",
+              "value": 4
+            },
+            {
+              "stat": "personal.publicImage",
+              "value": 2
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

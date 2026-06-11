@@ -4,7 +4,9 @@
   "week": 3,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "dialogue": "Vyktor sets a newspaper on the desk without comment. The headline reads: KOLVAR CALLS ASHAVEL GOVERNMENT 'REVOLUTIONARY THREAT' AT PARTY RALLY.",
   "monologue": "Three days after the ball. He moved faster than I expected. That either means he was prepared before I spoke — or I gave him exactly the provocation he needed.",
   "choices": [
@@ -32,23 +34,37 @@
         {
           "id": "kolvar_rally_noted",
           "text": "Noted. We govern. Let him talk.",
-          "flags": ["kolvar_rally_ignored"],
+          "flags": [
+            "kolvar_rally_ignored"
+          ],
           "statEffects": [
-            { "stat": "factions.halvekists", "value": -3 }
+            {
+              "stat": "factions.halvekists",
+              "value": -3
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "kolvar_rally_counter",
           "text": "Draft a public response. We do not let the framing stand unchallenged.",
-          "flags": ["kolvar_rally_challenged"],
+          "flags": [
+            "kolvar_rally_challenged"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": 5 },
-            { "stat": "factions.halvekists", "value": -5 }
+            {
+              "stat": "factions.reformists",
+              "value": 5
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": -5
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

@@ -202,7 +202,7 @@ export default function ConstitutionalReform() {
   const publicImage = useGameStore(s => s.personal.publicImage)
   const currentWeek = useGameStore(s => s.currentWeek)
   const applyModifiers = useGameStore(s => s.applyModifiers)
-  const { advanceQueue, sceneQueue, currentQueueIndex } = useWeekStore()
+  const { advanceQueue, sceneQueue, currentQueueIndex, returnToMap } = useWeekStore()
 
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(() => ({}))
   const [finalized, setFinalized] = useState(false)
@@ -259,7 +259,7 @@ export default function ConstitutionalReform() {
   }
 
   const isLastScene = currentQueueIndex >= sceneQueue.length - 1
-  const continueLabel = isLastScene ? 'Proceed to Evening Review →' : `Continue →`
+  const continueLabel = isLastScene ? (returnToMap ? 'Continue →' : 'Proceed to Evening Review →') : `Continue →`
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}>

@@ -4,7 +4,10 @@
   "week": 34,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["gregor_maric", "vyktor_reznik"],
+  "characters": [
+    "gregor_maric",
+    "vyktor_reznik"
+  ],
   "dialogue": "The Republic Tribune ran the story this morning. Marić is already here.",
   "monologue": "He did not wait to be summoned. That means the story is worse than I expected or he has already been to Staren himself. Probably both.",
   "choices": [
@@ -38,27 +41,53 @@
         {
           "id": "dam_relocation_fix",
           "text": "\"Increase the Staren package. Retroactively. Find them a site that works and fund it properly.\"",
-          "flags": ["dam_staren_fixed_late"],
+          "flags": [
+            "dam_staren_fixed_late"
+          ],
           "statEffects": [
-            { "stat": "factions.workersCoalition", "value": 10 },
-            { "stat": "nation.nationalDebt", "value": -4 },
-            { "stat": "personal.moralCompass", "value": 8 },
-            { "stat": "factions.halvekists", "value": -5 }
+            {
+              "stat": "factions.workersCoalition",
+              "value": 10
+            },
+            {
+              "stat": "nation.nationalDebt",
+              "value": -4
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": 8
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": -5
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "dam_relocation_hold",
           "text": "\"The terms are the terms. Changing them retroactively under press pressure sets a precedent I cannot afford.\"",
-          "flags": ["dam_staren_held"],
+          "flags": [
+            "dam_staren_held"
+          ],
           "statEffects": [
-            { "stat": "factions.workersCoalition", "value": -12 },
-            { "stat": "personal.moralCompass", "value": -8 },
-            { "stat": "factions.halvekists", "value": 5 }
+            {
+              "stat": "factions.workersCoalition",
+              "value": -12
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -8
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": 5
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

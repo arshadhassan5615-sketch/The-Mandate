@@ -4,7 +4,9 @@
   "week": 5,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "dialogue": "The Sunday sermon transcript arrives Monday morning, as it always does. This week Vyktor has underlined three paragraphs.",
   "monologue": "Renek does not give political speeches. He gives sermons. The difference is that a sermon cannot be fact-checked.",
   "choices": [
@@ -33,22 +35,33 @@
         {
           "id": "renek_sermon_ignore",
           "text": "File it. We do not respond to sermons.",
-          "flags": ["renek_sermon_ignored"],
+          "flags": [
+            "renek_sermon_ignored"
+          ],
           "statEffects": [
-            { "stat": "factions.church", "value": -5 }
+            {
+              "stat": "factions.church",
+              "value": -5
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "renek_sermon_reach_out",
           "text": "Request a private meeting with Renek. Address the tension directly before it calcifies.",
-          "flags": ["renek_sermon_engaged"],
+          "flags": [
+            "renek_sermon_engaged"
+          ],
           "statEffects": [
-            { "stat": "factions.church", "value": 5 }
+            {
+              "stat": "factions.church",
+              "value": 5
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

@@ -4,7 +4,9 @@
   "week": 13,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "dialogue": "Danika's counterintelligence report identified four Arcturian diplomatic personnel operating as intelligence officers under embassy cover. The question now is what to do with that information.",
   "monologue": "Four names. Four people who recruited a twenty-three year old woman, blackmailed her with her brother's debt, and ran a cabinet-level intelligence operation inside Veltria's government for the better part of a year. The law is clear. The diplomatic calculus is not.",
   "choices": [
@@ -18,8 +20,7 @@
       "text": "Expel the primary handler only — the one who recruited Yelena Dorova. Inform the Arcturian ambassador privately. No public statement.",
       "nextSegment": "arcturian_quiet_expulsion"
     }
-  ]
-  ,
+  ],
   "segments": {
     "arcturian_expulsion_brief": {
       "narrative": [
@@ -38,11 +39,23 @@
         {
           "id": "arcturian_expulsion_meet_cole",
           "text": "Meet with Ambassador Cole. Lay out the evidence. Veltria's action was lawful and proportionate.",
-          "flags": ["arcturian_officers_expelled", "arcturian_relations_strained"],
+          "flags": [
+            "arcturian_officers_expelled",
+            "arcturian_relations_strained"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": -3 },
-            { "stat": "nation.militaryReadiness", "value": 3 },
-            { "stat": "factions.reformists", "value": 5 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": -3
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": 3
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 5
+            }
           ],
           "nextSegment": null
         }
@@ -65,14 +78,24 @@
         {
           "id": "arcturian_quiet_noted",
           "text": "Noted. Monitor for any replacement operation.",
-          "flags": ["arcturian_handler_expelled_quietly", "arcturian_relations_neutral"],
+          "flags": [
+            "arcturian_handler_expelled_quietly",
+            "arcturian_relations_neutral"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 3 },
-            { "stat": "nation.militaryReadiness", "value": 2 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 3
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": 2
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

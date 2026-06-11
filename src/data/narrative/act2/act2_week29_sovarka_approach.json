@@ -4,7 +4,11 @@
   "week": 29,
   "type": "meeting",
   "location": "Chancellor's Private Study — Ashenmere Palace",
-  "characters": ["matthias_krel", "vyktor_reznik", "andrei_luca"],
+  "characters": [
+    "matthias_krel",
+    "vyktor_reznik",
+    "andrei_luca"
+  ],
   "dialogue": "Krel's note arrived before dawn. One word, as always. Study.",
   "monologue": "One word before dawn means the information is time-sensitive. Krel does not use urgency as a stylistic choice. When he moves early he moves because the window is closing.",
   "choices": [
@@ -419,12 +423,28 @@
           "id": "sovarka_make_offer",
           "text": "\"Veltria funds the independent survey immediately — through official channels, on the record as a bilateral partnership. In exchange: first right of refusal on all minerals agreements, below-market preferred pricing, and Sovarkan exports route through the Sevagrad port. We stand with you publicly. When Tyvaren makes their offer, they do so knowing Veltria is already your partner.\"",
           "internalTag": "reformist",
-          "flags": ["sovarka_engaged", "sovarka_relation_high", "andrei_luca_met"],
+          "flags": [
+            "sovarka_engaged",
+            "sovarka_relation_high",
+            "andrei_luca_met"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 5 },
-            { "stat": "nation.economyHealth", "value": -4 },
-            { "stat": "factions.reformists", "value": 5 },
-            { "stat": "shadowFootprint", "value": 4 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 5
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -4
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 5
+            },
+            {
+              "stat": "shadowFootprint",
+              "value": 4
+            }
           ],
           "nextSegment": "sovarka_close_full"
         },
@@ -432,10 +452,19 @@
           "id": "sovarka_make_quiet_offer",
           "text": "\"Veltria funds the survey through private channels — deniable until the results are confirmed and the agreement is formalized. When Tyvaren makes their offer, we will already have a signed agreement in place that they cannot undo. Speed over visibility.\"",
           "internalTag": "pragmatist",
-          "flags": ["sovarka_quiet", "andrei_luca_met"],
+          "flags": [
+            "sovarka_quiet",
+            "andrei_luca_met"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": -2 },
-            { "stat": "shadowFootprint", "value": 12 }
+            {
+              "stat": "nation.economyHealth",
+              "value": -2
+            },
+            {
+              "stat": "shadowFootprint",
+              "value": 12
+            }
           ],
           "nextSegment": "sovarka_close_quiet"
         },
@@ -443,10 +472,19 @@
           "id": "sovarka_defer_still",
           "text": "\"I want to see the independent survey results before Veltria commits formally. We will fund the survey privately — but the partnership is conditional on confirmation.\"",
           "internalTag": "authoritarian",
-          "flags": ["sovarka_deferred", "andrei_luca_met"],
+          "flags": [
+            "sovarka_deferred",
+            "andrei_luca_met"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": -3 },
-            { "stat": "factions.reformists", "value": -3 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": -3
+            },
+            {
+              "stat": "factions.reformists",
+              "value": -3
+            }
           ],
           "nextSegment": "sovarka_close_defer"
         }
@@ -486,10 +524,13 @@
             {
               "targetNodeId": "act2_week33_sovarka_survey",
               "delayWeeks": 4,
-              "probability": 1.0
+              "probability": 1
             }
           ],
-          "codexUnlocks": ["codex_sovarka", "codex_andrei_luca"],
+          "codexUnlocks": [
+            "codex_sovarka",
+            "codex_andrei_luca"
+          ],
           "journalEntry": {
             "title": "The Schoolteacher's Republic",
             "category": "DIPLOMACY",
@@ -525,10 +566,13 @@
             {
               "targetNodeId": "act2_week33_sovarka_survey",
               "delayWeeks": 4,
-              "probability": 1.0
+              "probability": 1
             }
           ],
-          "codexUnlocks": ["codex_sovarka", "codex_andrei_luca"],
+          "codexUnlocks": [
+            "codex_sovarka",
+            "codex_andrei_luca"
+          ],
           "journalEntry": {
             "title": "The Schoolteacher's Republic",
             "category": "DIPLOMACY",
@@ -576,10 +620,13 @@
             {
               "targetNodeId": "act2_week33_sovarka_survey",
               "delayWeeks": 4,
-              "probability": 1.0
+              "probability": 1
             }
           ],
-          "codexUnlocks": ["codex_sovarka", "codex_andrei_luca"],
+          "codexUnlocks": [
+            "codex_sovarka",
+            "codex_andrei_luca"
+          ],
           "journalEntry": {
             "title": "The Schoolteacher's Republic",
             "category": "DIPLOMACY",
@@ -589,5 +636,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

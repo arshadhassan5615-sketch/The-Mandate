@@ -4,7 +4,12 @@
   "week": 33,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["matthias_krel", "vyktor_reznik", "elara_vostane", "andrei_luca"],
+  "characters": [
+    "matthias_krel",
+    "vyktor_reznik",
+    "elara_vostane",
+    "andrei_luca"
+  ],
   "dialogue": "Two things arrived this morning. The survey results. And Krel.",
   "monologue": "When two pieces of information arrive simultaneously it is never a coincidence. Krel does not coincide. He sequences.",
   "choices": [
@@ -142,9 +147,14 @@
         {
           "id": "krel_yes_delay",
           "text": "\"Buy the five days. The footprint cost is worth the time.\"",
-          "flags": ["sovarka_tyvaren_delayed"],
+          "flags": [
+            "sovarka_tyvaren_delayed"
+          ],
           "statEffects": [
-            { "stat": "shadowFootprint", "value": 8 }
+            {
+              "stat": "shadowFootprint",
+              "value": 8
+            }
           ],
           "nextSegment": "luca_contact"
         }
@@ -204,13 +214,31 @@
           "id": "sovarka_full_offer",
           "text": "\"Full partnership. Preferred minerals pricing — twenty percent below market rate for Veltrian purchasers for the first fifteen years. Sevagrad port access for all Sovarkan mineral exports at preferential transit rates. Veltrian technical assistance for extraction infrastructure. And a mutual defense consultation clause — not a military alliance, a commitment to consult before either party makes decisions affecting the other's security. We stand with you. Publicly and completely.\"",
           "internalTag": "reformist",
-          "flags": ["sovarka_deal_signed", "sovarka_full_terms"],
+          "flags": [
+            "sovarka_deal_signed",
+            "sovarka_full_terms"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 15 },
-            { "stat": "nation.internationalStanding", "value": 10 },
-            { "stat": "tyvarenHostility", "value": 20 },
-            { "stat": "nation.nationalDebt", "value": -8 },
-            { "stat": "factions.reformists", "value": 8 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 15
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 10
+            },
+            {
+              "stat": "tyvarenHostility",
+              "value": 20
+            },
+            {
+              "stat": "nation.nationalDebt",
+              "value": -8
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 8
+            }
           ],
           "nextSegment": "sovarka_survey_close_full"
         },
@@ -218,12 +246,27 @@
           "id": "sovarka_limited_offer",
           "text": "\"Preferred partner status — first right of refusal on all minerals agreements, below-market pricing for Veltrian purchasers, Sevagrad port access for Sovarkan exports. Non-exclusive — Sovarka retains the right to sell to other buyers at market rate after Veltrian allocation is met. We are asking for partnership, not monopoly.\"",
           "internalTag": "pragmatist",
-          "flags": ["sovarka_limited_deal", "sovarka_limited_terms"],
+          "flags": [
+            "sovarka_limited_deal",
+            "sovarka_limited_terms"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 8 },
-            { "stat": "nation.internationalStanding", "value": 5 },
-            { "stat": "tyvarenHostility", "value": 10 },
-            { "stat": "factions.reformists", "value": 3 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 8
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 5
+            },
+            {
+              "stat": "tyvarenHostility",
+              "value": 10
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 3
+            }
           ],
           "nextSegment": "sovarka_survey_close_limited"
         }
@@ -260,7 +303,7 @@
             {
               "targetNodeId": "act3_week37_sovarka_outcome",
               "delayWeeks": 4,
-              "probability": 1.0
+              "probability": 1
             },
             {
               "targetNodeId": "act3_chain_sovarka_tyvaren_response",
@@ -308,7 +351,7 @@
             {
               "targetNodeId": "act3_week37_sovarka_outcome",
               "delayWeeks": 4,
-              "probability": 1.0
+              "probability": 1
             },
             {
               "targetNodeId": "act3_chain_sovarka_tyvaren_response",
@@ -325,5 +368,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

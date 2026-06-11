@@ -191,7 +191,7 @@ export default function BudgetInterface() {
   const storedBudget  = useGameStore(s => s.budget)
   const { currentWeek } = useGameStore()
   const applyBudget   = useGameStore(s => s.applyBudget)
-  const { advanceQueue, sceneQueue, currentQueueIndex } = useWeekStore()
+  const { advanceQueue, sceneQueue, currentQueueIndex, returnToMap } = useWeekStore()
 
   const [draft, setDraft] = useState<BudgetAllocations>(() => ({ ...storedBudget }))
 
@@ -224,7 +224,7 @@ export default function BudgetInterface() {
   // ── Queue label ────────────────────────────────────────────────────────────
   const isLastScene = currentQueueIndex >= sceneQueue.length - 1
   const continueLabel = isLastScene
-    ? 'Commit & Proceed to Evening Review →'
+    ? (returnToMap ? 'Commit & Continue →' : 'Commit & Proceed to Evening Review →')
     : `Commit & Continue (${currentQueueIndex + 2}/${sceneQueue.length}) →`
 
   // ── Commit ─────────────────────────────────────────────────────────────────

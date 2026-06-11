@@ -95,7 +95,7 @@ function generateNews(
     }
 
     articles.push({
-      id: `news_${trigger}_${articles.length}_${Date.now()}`,
+      id: `news_${trigger}_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
       headline: content.headline,
       body: content.body,
       publication,
@@ -107,7 +107,7 @@ function generateNews(
 
     if (template.worker) {
       articles.push({
-        id: `news_${trigger}_worker_${articles.length}_${Date.now()}`,
+        id: `news_${trigger}_worker_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
         headline: template.worker.headline,
         body: template.worker.body,
         publication: 'kravenstal_worker' as Publication,
@@ -120,7 +120,7 @@ function generateNews(
 
     if (template.times) {
       articles.push({
-        id: `news_${trigger}_times_${articles.length}_${Date.now()}`,
+        id: `news_${trigger}_times_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
         headline: template.times.headline,
         body: template.times.body,
         publication: 'veltrian_voice' as Publication,
@@ -133,7 +133,7 @@ function generateNews(
 
     if (template.gazette) {
       articles.push({
-        id: `news_${trigger}_gazette_${articles.length}_${Date.now()}`,
+        id: `news_${trigger}_gazette_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
         headline: template.gazette.headline,
         body: template.gazette.body,
         publication: 'thornfeld_gazette' as Publication,
@@ -146,7 +146,7 @@ function generateNews(
 
     if (pressFreedom > 60 && mediaControl > 60 && pubIndex === 0) {
       articles.push({
-        id: `news_${trigger}_voice_${articles.length}_${Date.now()}`,
+        id: `news_${trigger}_voice_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
         headline: template.standard.headline,
         body: `[The Veltrian Voice — Independent Press] ${template.standard.body}`,
         publication: 'veltrian_voice' as Publication,
@@ -193,11 +193,11 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   sceneDone:         false,
 
   loadScene: (id) => {
-    console.log('[TRACE 3] loadScene called for:', id)
+    if (import.meta.env.DEV) console.log('[TRACE 3] loadScene called for:', id)
     const gameState  = useGameStore.getState()
     const { activeFlags, metCharacters } = get()
     let target = getScene(id)
-    console.log('[TRACE 4] getScene result:', !!target, target?.title ?? 'null')
+    if (import.meta.env.DEV) console.log('[TRACE 4] getScene result:', !!target, target?.title ?? 'null')
 
     // If scene not found, create a fallback so the game never hangs
     if (!target) {
@@ -243,7 +243,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     }
 
     set({ currentScene: target ?? null, sceneDone: !target, metCharacters: newMet })
-    console.log('[TRACE 5] currentScene set to:', target?.id ?? 'null', '| sceneDone:', !target)
+    if (import.meta.env.DEV) console.log('[TRACE 5] currentScene set to:', target?.id ?? 'null', '| sceneDone:', !target)
   },
 
   resetScene: () => {
@@ -257,7 +257,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   processChoice: (choiceId) => {
     const { currentScene, visitedSceneIds, activeFlags } = get()
     const segmentsKeys = currentScene?.segments ? Object.keys(currentScene.segments) : []
-    console.log(
+    if (import.meta.env.DEV) console.log(
       '[narrativeStore.processChoice] choiceId:', choiceId,
       '| sceneId:', currentScene?.id ?? 'null',
       '| choicesInScene:', currentScene?.choices.map(c => c.id) ?? [],
@@ -449,7 +449,10 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     const newFlags      = [...new Set([...activeFlags, ...(choice.flags ?? []), ...moleConsequenceFlags])]
     const prevCodex     = get().unlockedCodexIds
     const newCodexIds   = [...new Set([...prevCodex, ...(choice.codexUnlocks ?? [])])]
-    const newVisited    = [...visitedSceneIds, currentScene.id]
+    // M9 — dedup visitedSceneIds to prevent unbounded growth across chain loops
+    const newVisited    = visitedSceneIds.includes(currentScene.id)
+      ? visitedSceneIds
+      : [...visitedSceneIds, currentScene.id]
 
     // Generate news articles for this choice + any flags just set
     generateNews(choice.id, useGameStore.getState(), newFlags)
@@ -524,7 +527,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       activeSegmentId:  nextSegmentId,
       sceneDone,
     })
-    console.log(
+    if (import.meta.env.DEV) console.log(
       '[narrativeStore.processChoice] RESOLVED',
       '| nextScene:', nextScene?.id ?? 'null',
       '| nextSegment:', nextSegmentId,

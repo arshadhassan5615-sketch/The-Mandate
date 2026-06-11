@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import type { AgendaItem } from '../types/week'
-import { CATEGORY_COLORS, CATEGORY_LABELS } from '../types/week'
 import type { ProvinceId } from '../engine/LocationResolver'
 import { PROVINCE_PIN_POSITIONS, PROVINCE_NAMES } from '../engine/LocationResolver'
+import { getScene } from '../engine/NarrativeEngine'
 import mapPinImg from '../assets/images/map_pin.png'
 
 interface MapScenePinProps {
@@ -15,6 +15,7 @@ interface MapScenePinProps {
 export default function MapScenePin({ provinceId, items, currentWeek, onSelectScene }: MapScenePinProps) {
   const [open, setOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
+  const [sceneError, setSceneError] = useState<string | null>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
   const pos = PROVINCE_PIN_POSITIONS[provinceId]
 
@@ -143,10 +144,28 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
           </div>
 
           <div style={{ maxHeight: '320px', overflowY: 'auto', scrollbarWidth: 'thin' }}>
-            {items.map(item => (
+            {sceneError && (
+              <div style={{
+                padding: '10px 12px',
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: '10px',
+                color: 'var(--accent-red)',
+                letterSpacing: '0.04em',
+              }}>
+                {sceneError}
+              </div>
+            )}
+            {items.map(item => {
+              const sceneExists = item.sceneId.startsWith('__') || !!getScene(item.sceneId)
+              return (
               <button
                 key={item.id}
                 onClick={() => {
+                  if (!sceneExists) {
+                    setSceneError(`Scene not found: ${item.sceneId}`)
+                    return
+                  }
+                  setSceneError(null)
                   setOpen(false)
                   onSelectScene(item)
                 }}
@@ -159,11 +178,12 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
                   background: 'transparent',
                   border: 'none',
                   borderBottom: '1px solid rgba(200,144,42,0.08)',
-                  cursor: 'pointer',
+                  cursor: sceneExists ? 'pointer' : 'not-allowed',
                   textAlign: 'left',
                   transition: 'background 0.12s ease',
+                  opacity: sceneExists ? 1 : 0.5,
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,144,42,0.06)' }}
+                onMouseEnter={e => { if (sceneExists) e.currentTarget.style.background = 'rgba(200,144,42,0.06)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
               >
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -191,46 +211,19 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
                     {item.description}
                   </div>
                   <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
                     marginTop: '4px',
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: '8px',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: item.slotCost === 0 ? 'var(--amber)' : 'rgba(200,185,155,0.35)',
                   }}>
-                    <span style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: '8px',
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      color: item.slotCost === 0 ? 'var(--amber)' : 'rgba(200,185,155,0.35)',
-                      background: item.slotCost === 0 ? 'rgba(200,144,42,0.12)' : 'transparent',
-                      border: item.slotCost === 0 ? '1px solid rgba(200,144,42,0.3)' : '1px solid rgba(200,144,42,0.1)',
-                      padding: '1px 5px',
-                      borderRadius: '2px',
-                    }}>
-                      {item.slotCost === 0 ? 'Mandatory' : `Slot ${item.slotCost}`}
-                    </span>
-                    <span style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: '8px',
-                      letterSpacing: '0.06em',
-                      color: CATEGORY_COLORS[item.category] ?? 'rgba(200,185,155,0.3)',
-                    }}>
-                      {CATEGORY_LABELS[item.category]}
-                    </span>
-                    {item.weekDeadline === currentWeek && (
-                      <span style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: '8px',
-                        letterSpacing: '0.06em',
-                        color: 'var(--accent-red)',
-                      }}>
-                        Deadline
-                      </span>
-                    )}
+                    {item.slotCost === 0 ? '★ Mandatory' : 'Optional'}
                   </div>
                 </div>
               </button>
-            ))}
+              )
+            })}
           </div>
         </div>
       )}

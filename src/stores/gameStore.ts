@@ -249,15 +249,21 @@ export const useGameStore = create<GameStore>()(
                   : state.currentWeek >= 13 ? 2
                   : 1,
       }
-      localStorage.setItem(
-        'the-mandate-autosave',
-        JSON.stringify({
-          savedAt: new Date().toISOString(),
-          week: newState.currentWeek,
-          state: newState,
-        })
-      )
-      console.log(`[AutoSave] Week ${newState.currentWeek} saved.`)
+      try {
+        localStorage.setItem(
+          'the-mandate-autosave',
+          JSON.stringify({
+            savedAt: new Date().toISOString(),
+            week: newState.currentWeek,
+            state: newState,
+          })
+        )
+      } catch (e) {
+        console.warn('Storage quota exceeded:', e)
+      }
+      if (import.meta.env.DEV) {
+        console.log(`[AutoSave] Week ${newState.currentWeek} saved.`)
+      }
       return newState
     }),
 
@@ -474,7 +480,16 @@ export const useGameStore = create<GameStore>()(
     }),
     {
       name: 'the-mandate-save',
-      version: 1,
+      version: 2,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 0 || version === 1) {
+          return {
+            ...INITIAL_STATE,
+            ...(persistedState as object),
+          }
+        }
+        return persistedState
+      },
     }
   )
 )

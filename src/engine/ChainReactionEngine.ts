@@ -65,11 +65,17 @@ export function resolveChains(
 
     // Conditions evaluated at fire time, not at schedule time
     if (chain.conditions?.length && !evaluateAll(chain.conditions, state, flags)) {
+      if (import.meta.env.DEV) {
+        console.warn('[Chain] dropped (conditions failed):', chain.targetNodeId, chain.id)
+      }
       continue  // conditions failed — event no longer relevant
     }
 
     // Probability roll
     if (chain.probability !== undefined && Math.random() > chain.probability) {
+      if (import.meta.env.DEV) {
+        console.warn('[Chain] dropped (probability roll failed):', chain.targetNodeId, chain.id)
+      }
       continue  // didn't happen this run
     }
 

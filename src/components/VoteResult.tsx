@@ -310,7 +310,7 @@ export default function VoteResult() {
                     && nbStartYes + swingVotes.slice(0, i + 1).filter(x => x.vote === 'YES').length === threshold
                   return (
                     <motion.div
-                      key={i}
+                      key={v.name ?? i}
                       initial={{ opacity: 0, x: -12 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.25 }}

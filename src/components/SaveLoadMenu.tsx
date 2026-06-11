@@ -79,6 +79,7 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
   const [editingName, setEditingName] = useState(false)
   const [draftName, setDraftName] = useState(record?.name ?? '')
   const [confirm, setConfirm] = useState<{ msg: string; fn: () => void } | null>(null)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => { setDraftName(record?.name ?? '') }, [record?.name])
@@ -89,15 +90,15 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
   const handleSave = async () => {
     const doSave = async (name: string) => {
       try {
-        console.log('[SaveLoadMenu] Saving to slot:', slot, 'name:', name)
+        if (import.meta.env.DEV) console.log('[SaveLoadMenu] Saving to slot:', slot, 'name:', name)
         await saveGame(slot, name)
-        console.log('[SaveLoadMenu] Save complete, refreshing list')
+        if (import.meta.env.DEV) console.log('[SaveLoadMenu] Save complete, refreshing list')
         setConfirm(null)
         onAction()
       } catch (e) {
         setConfirm(null)
         console.error('[SaveLoadMenu] Save failed for slot', slot, ':', e)
-        alert(`Save failed: ${e instanceof Error ? e.message : 'Unknown error'}`)
+        setErrorMsg(`Save failed: ${e instanceof Error ? e.message : 'Unknown error'}`)
       }
     }
 
@@ -138,6 +139,21 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
           onConfirm={confirm.fn}
           onCancel={() => setConfirm(null)}
         />
+      )}
+      {errorMsg && (
+        <div
+          role="alert"
+          onClick={() => setErrorMsg(null)}
+          style={{
+            position: 'fixed', top: '1rem', right: '1rem', zIndex: 99999,
+            background: '#7a1f1f', color: '#fff', padding: '0.75rem 1rem',
+            border: '1px solid #c9a84c', borderRadius: '4px', cursor: 'pointer',
+            maxWidth: '360px', fontFamily: "'Special Elite', monospace", fontSize: '0.8rem',
+          }}
+          title="Click to dismiss"
+        >
+          {errorMsg}
+        </div>
       )}
 
       <div style={{
@@ -180,7 +196,7 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
                         onAction()
                       } catch (e) {
                         console.error('[Save] Rename failed:', e)
-                        alert(`Rename failed: ${e instanceof Error ? e.message : 'Unknown error'}`)
+                        setErrorMsg(`Rename failed: ${e instanceof Error ? e.message : 'Unknown error'}`)
                       }
                     }
                   }}
@@ -325,7 +341,7 @@ export default function SaveLoadMenu() {
   const refresh = useCallback(async () => {
     try {
       const result = await listSaves()
-      console.log('[SaveLoadMenu] Refreshed saves list:', result.map((s, i) => s ? `slot ${i}: "${s.name}" (WK ${s.weekNumber})` : `slot ${i}: EMPTY`).join(', '))
+      if (import.meta.env.DEV) console.log('[SaveLoadMenu] Refreshed saves list:', result.map((s, i) => s ? `slot ${i}: "${s.name}" (WK ${s.weekNumber})` : `slot ${i}: EMPTY`).join(', '))
       setSaves(result)
     } catch (e) {
       console.error('[SaveLoadMenu] Failed to refresh saves:', e)

@@ -4,7 +4,9 @@
   "week": 21,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "dialogue": "Both the Arcturian Commonwealth and the Orythian Dominion have declined Veltria's routine trade protocol renewal. In the same week. Without explanation.",
   "monologue": "The same week. That is not a coincidence. That is coordination — or the appearance of coordination, which is functionally the same thing.",
   "choices": [
@@ -33,32 +35,51 @@
         {
           "id": "superpower_cold_west",
           "text": "Reach out to Ambassador Cole. Warm the western relationship.",
-          "flags": ["superpower_cold_chose_west"],
+          "flags": [
+            "superpower_cold_chose_west"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 4 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 4
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "superpower_cold_east",
           "text": "Reach out to Commissar Stahl. Warm the eastern relationship.",
-          "flags": ["superpower_cold_chose_east"],
+          "flags": [
+            "superpower_cold_chose_east"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 4 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 4
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "superpower_cold_neither",
           "text": "Reach out to both simultaneously. Veltria chooses neither side and will demonstrate why that is a position, not an absence.",
-          "flags": ["superpower_cold_chose_neither"],
+          "flags": [
+            "superpower_cold_chose_neither"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": -2 },
-            { "stat": "factions.reformists", "value": 5 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": -2
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 5
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

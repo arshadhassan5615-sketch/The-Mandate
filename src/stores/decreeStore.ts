@@ -18,12 +18,12 @@ function evaluatePrerequisites(
     }
     const val = req.value as number
     switch (req.operator) {
-      case '<':  if (!(current as number) < val)  return false; break
-      case '<=': if (!(current as number) <= val) return false; break
-      case '>':  if (!(current as number) > val)  return false; break
-      case '>=': if (!(current as number) >= val) return false; break
-      case '==': if (current != val)              return false; break
-      case '===': if (current !== val)            return false; break
+      case '<':  if (!((current as number) < val))  return false; break
+      case '<=': if (!((current as number) <= val)) return false; break
+      case '>':  if (!((current as number) > val))  return false; break
+      case '>=': if (!((current as number) >= val)) return false; break
+      case '==': if ((current as number) != val)    return false; break
+      case '===': if (current !== val)              return false; break
     }
   }
   return true

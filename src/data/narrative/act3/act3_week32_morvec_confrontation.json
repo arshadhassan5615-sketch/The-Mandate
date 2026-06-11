@@ -4,7 +4,10 @@
   "week": 32,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["stefan_morvec", "vyktor_reznik"],
+  "characters": [
+    "stefan_morvec",
+    "vyktor_reznik"
+  ],
   "dialogue": "The afternoon sun casts long, harsh shadows across the carpet. The door opens. Vyktor does not walk in. He stands in the frame. His face is entirely blank.",
   "monologue": "When Vyktor is angry, he clips his words. When he is afraid, he stops speaking entirely. He is not speaking.",
   "choices": [
@@ -118,21 +121,27 @@
           "id": "morvec_response_defy",
           "text": "The house isn't shifting, Stefan. I am tearing it down. And I am building a new one.",
           "internalTag": "reformist",
-          "flags": ["morvec_antagonized"],
+          "flags": [
+            "morvec_antagonized"
+          ],
           "nextSegment": "morvec_resolution_defy"
         },
         {
           "id": "morvec_response_threaten",
           "text": "If you try to freeze this country, I will have Dusek arrest you before your car reaches the gate.",
           "internalTag": "authoritarian",
-          "flags": ["morvec_threatened"],
+          "flags": [
+            "morvec_threatened"
+          ],
           "nextSegment": "morvec_resolution_threaten"
         },
         {
           "id": "morvec_response_deal",
           "text": "What is the price to keep the heat on? Tell me exactly what you want.",
           "internalTag": "pragmatist",
-          "flags": ["morvec_appeased"],
+          "flags": [
+            "morvec_appeased"
+          ],
           "nextSegment": "morvec_resolution_deal"
         }
       ]
@@ -158,7 +167,10 @@
         {
           "id": "end_scene_defy",
           "text": "Get out of my office.",
-          "flags": ["scene_morvec_confrontation_done", "aleksei_leash_warning"],
+          "flags": [
+            "scene_morvec_confrontation_done",
+            "aleksei_leash_warning"
+          ],
           "nextSegment": "the_departure_hostile"
         }
       ]
@@ -189,7 +201,10 @@
         {
           "id": "end_scene_threaten",
           "text": "We will see whose ink runs dry first. Leave.",
-          "flags": ["scene_morvec_confrontation_done", "aleksei_leash_warning"],
+          "flags": [
+            "scene_morvec_confrontation_done",
+            "aleksei_leash_warning"
+          ],
           "nextSegment": "the_departure_hostile"
         }
       ]
@@ -216,7 +231,9 @@
         {
           "id": "end_scene_deal",
           "text": "The arrangements will be made. Now get out of my office.",
-          "flags": ["scene_morvec_confrontation_done"],
+          "flags": [
+            "scene_morvec_confrontation_done"
+          ],
           "nextSegment": "the_departure_peaceful"
         }
       ]
@@ -246,7 +263,10 @@
         {
           "id": "finish_morvec_scene_hostile",
           "text": "[End Meeting]",
-          "flags": ["scene_morvec_confrontation_done", "morvec_hostile_exit"],
+          "flags": [
+            "scene_morvec_confrontation_done",
+            "morvec_hostile_exit"
+          ],
           "nextSegment": null
         }
       ]
@@ -271,10 +291,14 @@
         {
           "id": "finish_morvec_scene_peaceful",
           "text": "[End Meeting]",
-          "flags": ["scene_morvec_confrontation_done", "morvec_peaceful_exit"],
+          "flags": [
+            "scene_morvec_confrontation_done",
+            "morvec_peaceful_exit"
+          ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

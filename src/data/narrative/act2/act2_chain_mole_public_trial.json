@@ -4,7 +4,10 @@
   "week": 15,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik", "aldric_theron"],
+  "characters": [
+    "vyktor_reznik",
+    "aldric_theron"
+  ],
   "dialogue": "The trial date has been set. Theron requested this meeting before the prosecution opens.",
   "monologue": "Theron requested the meeting. Not the Justice Ministry — Theron personally. He does not request meetings about procedural matters.",
   "choices": [
@@ -38,26 +41,49 @@
         {
           "id": "trial_proceed_public",
           "text": "The trial proceeds as planned. Public accountability requires public proceedings. The diplomatic discomfort is Arcturia's problem — they ran an intelligence operation on Veltrian soil.",
-          "flags": ["dorova_trial_public"],
+          "flags": [
+            "dorova_trial_public"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": 8 },
-            { "stat": "nation.internationalStanding", "value": -5 },
-            { "stat": "personal.moralCompass", "value": 5 }
+            {
+              "stat": "factions.reformists",
+              "value": 8
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": -5
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": 5
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "trial_closed_sessions",
           "text": "Request that the intelligence-related portions of the trial be heard in closed session. The verdict is public. The methods are not.",
-          "flags": ["dorova_trial_partial_closed"],
+          "flags": [
+            "dorova_trial_partial_closed"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": -3 },
-            { "stat": "nation.internationalStanding", "value": 2 },
-            { "stat": "personal.moralCompass", "value": -2 }
+            {
+              "stat": "factions.reformists",
+              "value": -3
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 2
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -2
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

@@ -4,7 +4,10 @@
   "week": 3,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["lucan_vael", "vyktor_reznik"],
+  "characters": [
+    "lucan_vael",
+    "vyktor_reznik"
+  ],
   "dialogue": "Lucan Vael arrives with a leather portfolio and a smile that has been calibrated for this exact room.",
   "monologue": "He prepared for this meeting. The portfolio is for show — men like Vael have the numbers memorized. The portfolio is for me, so I have something to look at while he talks.",
   "choices": [
@@ -33,25 +36,45 @@
         {
           "id": "vael_meeting_interested",
           "text": "\"Send the specific regulations you want reviewed to Elara Vostane. She will assess them on the merits.\"",
-          "flags": ["vael_regulatory_review_opened"],
+          "flags": [
+            "vael_regulatory_review_opened"
+          ],
           "statEffects": [
-            { "stat": "vaelInfluence", "value": 10 },
-            { "stat": "factions.businessClass", "value": 8 }
+            {
+              "stat": "vaelInfluence",
+              "value": 10
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": 8
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "vael_meeting_decline",
           "text": "\"Regulatory reform goes through the standard parliamentary process. I am not in the business of bespoke frameworks for private interests.\"",
-          "flags": ["vael_regulatory_declined"],
+          "flags": [
+            "vael_regulatory_declined"
+          ],
           "statEffects": [
-            { "stat": "vaelInfluence", "value": -5 },
-            { "stat": "factions.businessClass", "value": -5 },
-            { "stat": "factions.reformists", "value": 8 }
+            {
+              "stat": "vaelInfluence",
+              "value": -5
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": -5
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 8
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

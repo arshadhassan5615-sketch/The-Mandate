@@ -247,6 +247,7 @@ export default function MapView({ onProvinceDetail }: {
   const dragging    = useRef(false)
   const dragOrigin  = useRef({ mx: 0, my: 0, px: 0, py: 0 })
   const hasDragged  = useRef(false)
+  const panRafRef   = useRef<number | null>(null)
   const [isCursorGrabbing, setIsCursorGrabbing] = useState(false)
 
   // Center on Ashenmere on first mount
@@ -278,7 +279,15 @@ export default function MapView({ onProvinceDetail }: {
     const dx = e.clientX - dragOrigin.current.mx
     const dy = e.clientY - dragOrigin.current.my
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true
-    setPan(clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy))
+    const newX = clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy).x
+    const newY = clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy).y
+    // M10 — throttle setPan to one update per frame to avoid
+    // re-rendering on every mousemove event.
+    if (panRafRef.current !== null) cancelAnimationFrame(panRafRef.current)
+    panRafRef.current = requestAnimationFrame(() => {
+      setPan({ x: newX, y: newY })
+      panRafRef.current = null
+    })
   }, [])
 
   const onMouseUp = useCallback(() => {

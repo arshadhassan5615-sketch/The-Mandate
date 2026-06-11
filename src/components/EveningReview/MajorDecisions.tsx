@@ -18,7 +18,7 @@ export default function MajorDecisions({ decisions }: { decisions: WeeklyDecisio
   return (
     <div className="evening-decisions">
       {decisions.map((decision, i) => (
-        <div key={i} className="evening-decision-item">
+        <div key={decision.title ?? i} className="evening-decision-item">
           <div className="evening-decision-header">
             <span className={`evening-decision-check ${decision.impact}`}>
               {IMPACT_ICONS[decision.impact]}

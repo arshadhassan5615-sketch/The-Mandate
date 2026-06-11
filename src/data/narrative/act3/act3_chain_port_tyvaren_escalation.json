@@ -4,7 +4,10 @@
   "week": 38,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["irina_dusek", "vyktor_reznik"],
+  "characters": [
+    "irina_dusek",
+    "vyktor_reznik"
+  ],
   "dialogue": "Dusek requested the briefing at 0600. Vyktor did not argue with the hour.",
   "monologue": "Dusek said first-level objections become second-level objections if they are not addressed. She is here at six in the morning which means we have reached the second level.",
   "choices": [
@@ -38,26 +41,49 @@
         {
           "id": "port_escalation_diplomatic",
           "text": "\"Request an emergency meeting with Tyvaren's foreign minister. Address this directly at the highest level before it escalates further.\"",
-          "flags": ["port_tyvaren_emergency_talks"],
+          "flags": [
+            "port_tyvaren_emergency_talks"
+          ],
           "statEffects": [
-            { "stat": "tyvarenHostility", "value": -8 },
-            { "stat": "nation.internationalStanding", "value": 5 },
-            { "stat": "nation.publicOrder", "value": -3 }
+            {
+              "stat": "tyvarenHostility",
+              "value": -8
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 5
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": -3
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "port_escalation_complete",
           "text": "\"Complete the port. Maximum pace. A completed port is a different negotiating position than a construction site.\"",
-          "flags": ["port_construction_maximum_pace"],
+          "flags": [
+            "port_construction_maximum_pace"
+          ],
           "statEffects": [
-            { "stat": "tyvarenHostility", "value": 12 },
-            { "stat": "nation.militaryReadiness", "value": -5 },
-            { "stat": "nation.internationalStanding", "value": -5 }
+            {
+              "stat": "tyvarenHostility",
+              "value": 12
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": -5
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": -5
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

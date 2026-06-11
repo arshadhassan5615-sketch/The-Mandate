@@ -49,7 +49,6 @@
     }
   ],
   "monologue": "A separate offer to someone in my government. Vyktor won't tell me who before the meeting because he doesn't want my face to give it away. He's right. But knowing there's someone in that government who Vael thinks is approachable — that changes every conversation I've had in the last six months. I need to be in this room for the next two hours and not think about that. That is not possible. I'll try anyway.",
-
   "choices": [
     {
       "id": "ask_who_anyway",
@@ -67,7 +66,6 @@
       "nextSegment": "the_other_offer"
     }
   ],
-
   "segments": {
     "vyktor_refuses": {
       "dialogue": [
@@ -109,7 +107,6 @@
         }
       ]
     },
-
     "the_other_offer": {
       "dialogue": [
         {
@@ -135,7 +132,6 @@
         }
       ]
     },
-
     "entering_the_room": {
       "dialogue": [
         {
@@ -180,7 +176,6 @@
         }
       ]
     },
-
     "vael_concerns": {
       "dialogue": [
         {
@@ -216,7 +211,6 @@
         }
       ]
     },
-
     "the_woman": {
       "dialogue": [
         {
@@ -257,7 +251,6 @@
         }
       ]
     },
-
     "vael_wants_clarity": {
       "dialogue": [
         {
@@ -294,7 +287,6 @@
         }
       ]
     },
-
     "vael_challenged": {
       "dialogue": [
         {
@@ -325,7 +317,6 @@
         }
       ]
     },
-
     "vael_concerned_about_answer": {
       "dialogue": [
         {
@@ -355,7 +346,6 @@
         }
       ]
     },
-
     "negotiation_begins": {
       "dialogue": [
         {
@@ -401,7 +391,6 @@
         }
       ]
     },
-
     "vael_audit_response": {
       "dialogue": [
         {
@@ -432,7 +421,6 @@
         }
       ]
     },
-
     "vael_personal_moment": {
       "dialogue": [
         {
@@ -467,7 +455,6 @@
         }
       ]
     },
-
     "vael_satisfied_audit": {
       "dialogue": [
         {
@@ -498,7 +485,6 @@
         }
       ]
     },
-
     "vael_presses": {
       "dialogue": [
         {
@@ -529,7 +515,6 @@
         }
       ]
     },
-
     "katerin_sets_terms": {
       "dialogue": [
         {
@@ -566,7 +551,6 @@
         }
       ]
     },
-
     "final_oligarch_choice": {
       "dialogue": [
         {
@@ -584,18 +568,32 @@
         }
       ],
       "monologue": "Forty percent of Veltria's private investment capacity is in this room. The workers in Kravenstal need those investments to mean jobs. The constitutional reform needs the stability that comes from economic confidence. And somewhere in my cabinet is a person who Vael thought could be bought. I need to give this room an answer and I need to give it without knowing which of my people is compromised. That is what governing actually feels like.",
-
       "choices": [
         {
           "id": "partnership_deal",
           "text": "A public-private infrastructure partnership. Full tender process, independent oversight, published timelines. The wealth tax decision by Q3. The audit scope published before year end. That's what the government offers.",
           "statEffects": [
-            {"stat": "economy", "value": 10},
-            {"stat": "budget", "value": 8},
-            {"stat": "reformist_credibility", "value": -5},
-            {"stat": "business_confidence", "value": 15}
+            {
+              "stat": "economy",
+              "value": 10
+            },
+            {
+              "stat": "budget",
+              "value": 8
+            },
+            {
+              "stat": "reformist_credibility",
+              "value": -5
+            },
+            {
+              "stat": "business_confidence",
+              "value": 15
+            }
           ],
-          "flags": ["oligarch_deal_made", "infrastructure_partnership"],
+          "flags": [
+            "oligarch_deal_made",
+            "infrastructure_partnership"
+          ],
           "reactions": [
             {
               "character": "lucan_vael",
@@ -622,12 +620,26 @@
           "id": "limited_engagement",
           "text": "Infrastructure partnership on competitive tender terms only. No commitments on tax or audit timeline. The government's policy is its own business.",
           "statEffects": [
-            {"stat": "economy", "value": 5},
-            {"stat": "budget", "value": 3},
-            {"stat": "reformist_credibility", "value": 5},
-            {"stat": "business_confidence", "value": 5}
+            {
+              "stat": "economy",
+              "value": 5
+            },
+            {
+              "stat": "budget",
+              "value": 3
+            },
+            {
+              "stat": "reformist_credibility",
+              "value": 5
+            },
+            {
+              "stat": "business_confidence",
+              "value": 5
+            }
           ],
-          "flags": ["oligarch_limited_deal"],
+          "flags": [
+            "oligarch_limited_deal"
+          ],
           "reactions": [
             {
               "character": "lucan_vael",
@@ -649,11 +661,22 @@
           "id": "no_deal",
           "text": "The government is not in a position to offer this room anything today. The policy questions will resolve on their own timeline. Thank you for the meeting.",
           "statEffects": [
-            {"stat": "economy", "value": -5},
-            {"stat": "reformist_credibility", "value": 12},
-            {"stat": "business_confidence", "value": -10}
+            {
+              "stat": "economy",
+              "value": -5
+            },
+            {
+              "stat": "reformist_credibility",
+              "value": 12
+            },
+            {
+              "stat": "business_confidence",
+              "value": -10
+            }
           ],
-          "flags": ["oligarch_no_deal"],
+          "flags": [
+            "oligarch_no_deal"
+          ],
           "reactions": [
             {
               "character": "lucan_vael",
@@ -680,11 +703,23 @@
           "id": "confront_vael_offer",
           "text": "Before we conclude — I'm aware of the separate offer made to a member of my government. I want you to know I'm aware of it. The rest of this meeting's outcomes stand on their own.",
           "statEffects": [
-            {"stat": "reformist_credibility", "value": 10},
-            {"stat": "business_confidence", "value": -8},
-            {"stat": "public_trust", "value": 8}
+            {
+              "stat": "reformist_credibility",
+              "value": 10
+            },
+            {
+              "stat": "business_confidence",
+              "value": -8
+            },
+            {
+              "stat": "public_trust",
+              "value": 8
+            }
           ],
-          "flags": ["vael_confronted_directly", "mole_exposed"],
+          "flags": [
+            "vael_confronted_directly",
+            "mole_exposed"
+          ],
           "reactions": [
             {
               "character": "lucan_vael",
@@ -714,5 +749,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

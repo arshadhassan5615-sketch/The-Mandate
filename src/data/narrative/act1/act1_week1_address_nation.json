@@ -1,0 +1,138 @@
+{
+  "id": "act1_week1_address_nation",
+  "title": "Address the Nation",
+  "act": 1,
+  "weekAvailable": 1,
+  "weekDeadline": 2,
+  "type": "ceremony",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Republic Broadcasting House — Ashenmere",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The oath is two hours old. The crowd has not fully dispersed — they are still in the square, still in the side streets, still talking about what they just witnessed. Vyktor has arranged a radio address. Twenty minutes from now, the entire Republic will be listening."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Every Chancellor addresses the nation after the ceremony. It is expected. What is not expected — what no one can predict — is what you say."
+    },
+    {
+      "type": "description",
+      "text": "You sit before the microphone. The broadcast engineer holds up three fingers. Two. One."
+    },
+    {
+      "type": "monologue",
+      "text": "Sixty thousand people heard you take the oath. Twenty million will hear this."
+    }
+  ],
+  "choices": [
+    {
+      "id": "address_unity",
+      "text": "Speak of unity. Veltria has been divided long enough.",
+      "nextSegment": "address_unity_speech",
+      "flags": ["address_unity_chosen"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "address_reform",
+      "text": "Speak of change. The old ways end today.",
+      "nextSegment": "address_reform_speech",
+      "flags": ["address_reform_chosen"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "address_strength",
+      "text": "Speak of strength. Veltria will not be intimidated.",
+      "nextSegment": "address_strength_speech",
+      "flags": ["address_strength_chosen"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "address_unity_speech": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You speak for eleven minutes. You talk about the fathers who built this Republic, the mothers who kept it alive during the Halvek years, the children who deserve better than what was left for them. You do not mention the opposition by name. You do not need to. When you finish, the broadcast engineer is crying."
+        }
+      ],
+      "choices": [
+        {
+          "id": "address_unity_end",
+          "text": "Return to the Palace.",
+          "nextSegment": null,
+          "flags": ["address_nation_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "address_reform_speech": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You speak for fourteen minutes. You name three things that will change in the first month. You name three institutions that failed the people. You name no individuals — you are not interested in vengeance, you say, only in results. The phones at the broadcasting house begin ringing before you finish the final sentence."
+        }
+      ],
+      "choices": [
+        {
+          "id": "address_reform_end",
+          "text": "Return to the Palace.",
+          "nextSegment": null,
+          "flags": ["address_nation_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "address_strength_speech": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You speak for nine minutes. Short and direct. You tell the Republic — and the nations listening beyond its borders — that Veltria will defend its interests, honor its people, and answer weakness with resolve. Vyktor, listening in the booth, nods once. High praise from him."
+        }
+      ],
+      "choices": [
+        {
+          "id": "address_strength_end",
+          "text": "Return to the Palace.",
+          "nextSegment": null,
+          "flags": ["address_nation_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

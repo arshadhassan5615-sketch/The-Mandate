@@ -4,7 +4,10 @@
   "week": 26,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["benedikt_varro", "vyktor_reznik"],
+  "characters": [
+    "benedikt_varro",
+    "vyktor_reznik"
+  ],
   "dialogue": "Varro's progress report arrived on schedule. It always arrives on schedule. That is either reassuring or a warning that the problems are being managed rather than surfaced.",
   "monologue": "Six weeks since the Cabinet decision. Varro reports on schedule. Vyktor is here because Vyktor is always here when a minister's report contains something that requires more than a minister.",
   "choices": [
@@ -67,12 +70,26 @@
           "id": "highway_intervene",
           "text": "\"Intervene. Issue a formal directive — both firms must meet the local hiring requirement within thirty days or the contracts are suspended pending review.\"",
           "internalTag": "reformist",
-          "flags": ["dev_highway_intervened"],
+          "flags": [
+            "dev_highway_intervened"
+          ],
           "statEffects": [
-            { "stat": "vaelInfluence", "value": -8 },
-            { "stat": "factions.businessClass", "value": -5 },
-            { "stat": "factions.workersCoalition", "value": 8 },
-            { "stat": "personal.moralCompass", "value": 5 }
+            {
+              "stat": "vaelInfluence",
+              "value": -8
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": -5
+            },
+            {
+              "stat": "factions.workersCoalition",
+              "value": 8
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": 5
+            }
           ],
           "nextSegment": "highway_close_intervene"
         },
@@ -80,12 +97,26 @@
           "id": "highway_no_intervene",
           "text": "\"Hold the line. The bids were compliant. If we start suspending compliant contracts on political grounds we undermine every future competitive bidding process.\"",
           "internalTag": "pragmatist",
-          "flags": ["dev_highway_vael_contracts"],
+          "flags": [
+            "dev_highway_vael_contracts"
+          ],
           "statEffects": [
-            { "stat": "vaelInfluence", "value": 5 },
-            { "stat": "factions.businessClass", "value": 5 },
-            { "stat": "factions.workersCoalition", "value": -8 },
-            { "stat": "personal.moralCompass", "value": -5 }
+            {
+              "stat": "vaelInfluence",
+              "value": 5
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": 5
+            },
+            {
+              "stat": "factions.workersCoalition",
+              "value": -8
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -5
+            }
           ],
           "nextSegment": "highway_close_no_intervene"
         }
@@ -174,11 +205,22 @@
           "id": "dam_staren_address",
           "text": "\"Address Staren specifically. Find a relocation site that meets their agricultural requirements. Whatever it costs, add it to the relocation budget.\"",
           "internalTag": "reformist",
-          "flags": ["dev_dam_staren_resolved"],
+          "flags": [
+            "dev_dam_staren_resolved"
+          ],
           "statEffects": [
-            { "stat": "factions.workersCoalition", "value": 8 },
-            { "stat": "nation.nationalDebt", "value": -3 },
-            { "stat": "personal.moralCompass", "value": 8 }
+            {
+              "stat": "factions.workersCoalition",
+              "value": 8
+            },
+            {
+              "stat": "nation.nationalDebt",
+              "value": -3
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": 8
+            }
           ],
           "nextSegment": "dam_close_staren_resolved"
         },
@@ -186,10 +228,18 @@
           "id": "dam_staren_standard",
           "text": "\"The framework is the framework. Staren receives the same terms as the other three communities. We cannot create individual exceptions or the entire relocation process unravels.\"",
           "internalTag": "pragmatist",
-          "flags": ["dev_dam_staren_standard"],
+          "flags": [
+            "dev_dam_staren_standard"
+          ],
           "statEffects": [
-            { "stat": "factions.workersCoalition", "value": -5 },
-            { "stat": "personal.moralCompass", "value": -5 }
+            {
+              "stat": "factions.workersCoalition",
+              "value": -5
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -5
+            }
           ],
           "nextSegment": "dam_close_staren_standard"
         }
@@ -278,11 +328,22 @@
           "id": "port_respond_diplomatic",
           "text": "\"Respond through official channels. Schedule a formal meeting with the Tyvaren foreign minister. We address the objection directly before it becomes something larger.\"",
           "internalTag": "pragmatist",
-          "flags": ["dev_port_diplomatic_response"],
+          "flags": [
+            "dev_port_diplomatic_response"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 5 },
-            { "stat": "tyvarenHostility", "value": -5 },
-            { "stat": "nation.publicOrder", "value": 2 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 5
+            },
+            {
+              "stat": "tyvarenHostility",
+              "value": -5
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": 2
+            }
           ],
           "nextSegment": "port_close_diplomatic"
         },
@@ -290,11 +351,22 @@
           "id": "port_accelerate",
           "text": "\"Accelerate construction. The port will be operational before the diplomatic process resolves anything. Make the objection irrelevant by making the port a fact.\"",
           "internalTag": "authoritarian",
-          "flags": ["dev_port_accelerated"],
+          "flags": [
+            "dev_port_accelerated"
+          ],
           "statEffects": [
-            { "stat": "tyvarenHostility", "value": 10 },
-            { "stat": "nation.internationalStanding", "value": -3 },
-            { "stat": "nation.militaryReadiness", "value": -2 }
+            {
+              "stat": "tyvarenHostility",
+              "value": 10
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": -3
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": -2
+            }
           ],
           "nextSegment": "port_close_accelerate"
         }
@@ -359,5 +431,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

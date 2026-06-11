@@ -4,7 +4,12 @@
   "week": 20,
   "type": "meeting",
   "location": "Cabinet Room — Ashenmere Palace",
-  "characters": ["benedikt_varro", "elara_vostane", "gregor_maric", "irina_dusek"],
+  "characters": [
+    "benedikt_varro",
+    "elara_vostane",
+    "gregor_maric",
+    "irina_dusek"
+  ],
   "dialogue": "Varro has been standing at the presentation board for eleven minutes before the last minister arrives. He does not appear to mind. He has been here before.",
   "monologue": "Benedikt Varro has served three administrations. He was Development Minister under two of them. He survived by being the person who presents the options clearly and lets whoever is in power make the call. He is the only person in this room who has no stake in which project I choose — because he has learned that the minister who advocates too hard for one option loses the trust of the Chancellor who picks another.",
   "choices": [
@@ -246,14 +251,35 @@
           "id": "dev_choose_highway",
           "text": "\"The Northern Highway. Full funding. Varro — I want competitive bidding enforced with an independent oversight committee. The contractor situation you flagged is a risk I am choosing to manage, not ignore.\"",
           "internalTag": "pragmatist",
-          "flags": ["dev_highway_chosen", "megaproject_decided"],
+          "flags": [
+            "dev_highway_chosen",
+            "megaproject_decided"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 12 },
-            { "stat": "factions.businessClass", "value": 10 },
-            { "stat": "factions.ironCovenant", "value": 5 },
-            { "stat": "factions.workersCoalition", "value": 3 },
-            { "stat": "nation.nationalDebt", "value": -18 },
-            { "stat": "vaelInfluence", "value": 8 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 12
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": 10
+            },
+            {
+              "stat": "factions.ironCovenant",
+              "value": 5
+            },
+            {
+              "stat": "factions.workersCoalition",
+              "value": 3
+            },
+            {
+              "stat": "nation.nationalDebt",
+              "value": -18
+            },
+            {
+              "stat": "vaelInfluence",
+              "value": 8
+            }
           ],
           "nextSegment": "dev_close_highway"
         },
@@ -261,15 +287,39 @@
           "id": "dev_choose_dam",
           "text": "\"The Kravenstal Dam. Full funding — including the relocation package. Marić, I need you to work with the valley communities directly. Varro, the relocation timeline runs parallel to construction, not after it.\"",
           "internalTag": "reformist",
-          "flags": ["dev_dam_chosen", "megaproject_decided"],
+          "flags": [
+            "dev_dam_chosen",
+            "megaproject_decided"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 8 },
-            { "stat": "nation.nationalDebt", "value": -26 },
-            { "stat": "factions.reformists", "value": 10 },
-            { "stat": "factions.workersCoalition", "value": 8 },
-            { "stat": "factions.businessClass", "value": -5 },
-            { "stat": "factions.church", "value": 5 },
-            { "stat": "nation.energyIndependence", "value": 15 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 8
+            },
+            {
+              "stat": "nation.nationalDebt",
+              "value": -26
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 10
+            },
+            {
+              "stat": "factions.workersCoalition",
+              "value": 8
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": -5
+            },
+            {
+              "stat": "factions.church",
+              "value": 5
+            },
+            {
+              "stat": "nation.energyIndependence",
+              "value": 15
+            }
           ],
           "nextSegment": "dev_close_dam_full"
         },
@@ -277,14 +327,36 @@
           "id": "dev_choose_dam_partial",
           "text": "\"The Kravenstal Dam. Full funding for construction. The relocation package at standard legal compensation — we cannot add eight million to the budget this quarter.\"",
           "internalTag": "pragmatist",
-          "flags": ["dev_dam_chosen", "dev_dam_partial_relocation", "megaproject_decided"],
+          "flags": [
+            "dev_dam_chosen",
+            "dev_dam_partial_relocation",
+            "megaproject_decided"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 8 },
-            { "stat": "nation.nationalDebt", "value": -22 },
-            { "stat": "factions.reformists", "value": 5 },
-            { "stat": "factions.workersCoalition", "value": -5 },
-            { "stat": "personal.moralCompass", "value": -5 },
-            { "stat": "nation.energyIndependence", "value": 15 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 8
+            },
+            {
+              "stat": "nation.nationalDebt",
+              "value": -22
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 5
+            },
+            {
+              "stat": "factions.workersCoalition",
+              "value": -5
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -5
+            },
+            {
+              "stat": "nation.energyIndependence",
+              "value": 15
+            }
           ],
           "nextSegment": "dev_close_dam_partial"
         },
@@ -292,15 +364,39 @@
           "id": "dev_choose_port",
           "text": "\"The Sevagrad Port. Full funding. Dusek — I need a diplomatic strategy for Tyvaren running parallel to construction. We do not pretend the concern does not exist.\"",
           "internalTag": "authoritarian",
-          "flags": ["dev_port_chosen", "megaproject_decided"],
+          "flags": [
+            "dev_port_chosen",
+            "megaproject_decided"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 10 },
-            { "stat": "nation.internationalStanding", "value": 12 },
-            { "stat": "factions.businessClass", "value": 8 },
-            { "stat": "factions.reformists", "value": 5 },
-            { "stat": "nation.nationalDebt", "value": -20 },
-            { "stat": "tyvarenHostility", "value": 15 },
-            { "stat": "nation.militaryReadiness", "value": -3 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 10
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 12
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": 8
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 5
+            },
+            {
+              "stat": "nation.nationalDebt",
+              "value": -20
+            },
+            {
+              "stat": "tyvarenHostility",
+              "value": 15
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": -3
+            }
           ],
           "nextSegment": "dev_close_port"
         }
@@ -337,10 +433,13 @@
             {
               "targetNodeId": "act2_week26_megaproject_followup",
               "delayWeeks": 5,
-              "probability": 1.0
+              "probability": 1
             }
           ],
-          "codexUnlocks": ["codex_northern_highway", "codex_benedikt_varro"],
+          "codexUnlocks": [
+            "codex_northern_highway",
+            "codex_benedikt_varro"
+          ],
           "journalEntry": {
             "title": "The Megaproject Decision",
             "category": "POLICY",
@@ -381,10 +480,13 @@
             {
               "targetNodeId": "act2_week26_megaproject_followup",
               "delayWeeks": 5,
-              "probability": 1.0
+              "probability": 1
             }
           ],
-          "codexUnlocks": ["codex_kravenstal_dam", "codex_benedikt_varro"],
+          "codexUnlocks": [
+            "codex_kravenstal_dam",
+            "codex_benedikt_varro"
+          ],
           "journalEntry": {
             "title": "The Megaproject Decision",
             "category": "POLICY",
@@ -425,10 +527,13 @@
             {
               "targetNodeId": "act2_week26_megaproject_followup",
               "delayWeeks": 5,
-              "probability": 1.0
+              "probability": 1
             }
           ],
-          "codexUnlocks": ["codex_kravenstal_dam", "codex_benedikt_varro"],
+          "codexUnlocks": [
+            "codex_kravenstal_dam",
+            "codex_benedikt_varro"
+          ],
           "journalEntry": {
             "title": "The Megaproject Decision",
             "category": "POLICY",
@@ -469,10 +574,13 @@
             {
               "targetNodeId": "act2_week26_megaproject_followup",
               "delayWeeks": 5,
-              "probability": 1.0
+              "probability": 1
             }
           ],
-          "codexUnlocks": ["codex_sevagrad_port", "codex_benedikt_varro"],
+          "codexUnlocks": [
+            "codex_sevagrad_port",
+            "codex_benedikt_varro"
+          ],
           "journalEntry": {
             "title": "The Megaproject Decision",
             "category": "POLICY",
@@ -482,5 +590,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

@@ -4,7 +4,10 @@
   "week": 38,
   "type": "crisis",
   "location": "Defense Briefing Room — Ashenmere Palace",
-  "characters": ["vyktor_reznik", "irina_dusek"],
+  "characters": [
+    "vyktor_reznik",
+    "irina_dusek"
+  ],
   "dialogue": "Colonel Dusek requested the briefing at 0400. Vyktor did not argue with the hour.",
   "monologue": "Dusek does not request early briefings. She schedules them when asked. The fact that she requested means the information did not wait for morning.",
   "choices": [
@@ -39,10 +42,18 @@
           "id": "standoff_diplomatic",
           "text": "File an immediate formal protest through the regional treaty commission. Demand withdrawal within 48 hours. Make the violation public before Tyvaren can frame it.",
           "internalTag": "reformist",
-          "flags": ["tyvaren_standoff_diplomatic"],
+          "flags": [
+            "tyvaren_standoff_diplomatic"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 5 },
-            { "stat": "nation.publicOrder", "value": -3 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 5
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": -3
+            }
           ],
           "nextSegment": null
         },
@@ -50,11 +61,22 @@
           "id": "standoff_military_posture",
           "text": "Move two Veltrian units to the border — not into the buffer zone, but visible. Match their posture without crossing the line. Force them to decide whether to escalate or withdraw.",
           "internalTag": "authoritarian",
-          "flags": ["tyvaren_standoff_military_posture"],
+          "flags": [
+            "tyvaren_standoff_military_posture"
+          ],
           "statEffects": [
-            { "stat": "nation.militaryReadiness", "value": 5 },
-            { "stat": "nation.publicOrder", "value": -5 },
-            { "stat": "factions.ironCovenant", "value": 8 }
+            {
+              "stat": "nation.militaryReadiness",
+              "value": 5
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": -5
+            },
+            {
+              "stat": "factions.ironCovenant",
+              "value": 8
+            }
           ],
           "nextSegment": null
         },
@@ -62,14 +84,23 @@
           "id": "standoff_backchannel",
           "text": "Contact Tyvaren's foreign minister directly through back channels. No public statement. Communicate that we see the violation, we will not escalate, and we expect withdrawal within 24 hours or the treaty commission becomes unavoidable.",
           "internalTag": "pragmatist",
-          "flags": ["tyvaren_standoff_backchannel"],
+          "flags": [
+            "tyvaren_standoff_backchannel"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 3 },
-            { "stat": "nation.publicOrder", "value": 2 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 3
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": 2
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

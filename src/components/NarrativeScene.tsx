@@ -45,7 +45,7 @@ export default function NarrativeScene() {
   const { currentScene, sceneDone, activeFlags, processChoice, activeSegmentId } = useNarrativeStore()
   const gameState = useGameStore()
   const currentWeek = useGameStore(s => s.currentWeek)
-  const { sceneQueue, currentQueueIndex, advanceQueue } = useWeekStore()
+  const { sceneQueue, currentQueueIndex, advanceQueue, returnToMap } = useWeekStore()
   const setSaveMenuOpen = useSettingsStore(s => s.setSaveMenuOpen)
   const setCharacterMapOpen = useSettingsStore(s => s.setCharacterMapOpen)
   const setNotepadOpen = useSettingsStore(s => s.setNotepadOpen)
@@ -108,7 +108,7 @@ export default function NarrativeScene() {
   }, [advance, sceneDone, allDone, choices, processChoice])
 
   const handleProcessChoice = useCallback((id: string) => {
-    console.log(
+    if (import.meta.env.DEV) console.log(
       '[NarrativeScene] choice click | sceneId:', currentScene?.id,
       '| choiceId:', id,
       '| nextNode:', currentScene?.choices.find(c => c.id === id)?.nextNodeId,
@@ -135,7 +135,7 @@ export default function NarrativeScene() {
 
   const isLastScene = currentQueueIndex >= sceneQueue.length - 1
   const continueLabel = isLastScene
-    ? 'Proceed to Evening Review →'
+    ? (returnToMap ? 'Continue →' : 'Proceed to Evening Review →')
     : `Continue to Next Meeting (${currentQueueIndex + 2}/${sceneQueue.length}) →`
 
   const sceneCharacters = currentScene?.characters ?? []
@@ -152,7 +152,7 @@ export default function NarrativeScene() {
         const store = useWeekStore.getState()
         if (store.phase === 'scene' && !useNarrativeStore.getState().currentScene) {
           console.error('[NarrativeScene] EMERGENCY: 10s timeout — forcing review phase')
-          useWeekStore.setState({ phase: 'review', transitionLabel: '' })
+          useWeekStore.setState({ phase: store.returnToMap ? 'map' : 'review', transitionLabel: '' })
         }
       }, 10000)
     }
@@ -206,8 +206,8 @@ export default function NarrativeScene() {
           console.error('[NarrativeScene] Scene load timeout — advancing queue')
           store.advanceQueue()
         } else {
-          console.error('[NarrativeScene] Scene load timeout with empty/exhausted queue — force-transitioning to review')
-          useWeekStore.setState({ phase: 'review', transitionLabel: '' })
+          console.error('[NarrativeScene] Scene load timeout with empty/exhausted queue — force-transitioning')
+          useWeekStore.setState({ phase: store.returnToMap ? 'map' : 'review', transitionLabel: '' })
         }
       })
     }
@@ -248,7 +248,7 @@ export default function NarrativeScene() {
   }, [revealedSegments.length, activeSegment, segmentDone, currentScene?.id])
 
   if (!currentScene) {
-    console.log('NarrativeScene: NO SCENE LOADED',
+    if (import.meta.env.DEV) console.log('NarrativeScene: NO SCENE LOADED',
       'sceneQueue:', sceneQueue.map(s => s.sceneId),
       'queueIndex:', currentQueueIndex)
     return (

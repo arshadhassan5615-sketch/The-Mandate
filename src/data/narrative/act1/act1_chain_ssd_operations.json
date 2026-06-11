@@ -4,7 +4,9 @@
   "week": 11,
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "dialogue": "The report arrives in a plain envelope. No letterhead. No signature. Vyktor sets it on the desk and steps back.",
   "monologue": "No letterhead. That is how Dorne works — everything deniable, everything at arm's length. I chose this.",
   "choices": [
@@ -33,25 +35,45 @@
         {
           "id": "ssd_authorize_surveillance",
           "text": "Authorize the surveillance. Four targets, eyes only, no action without further authorization.",
-          "flags": ["ssd_surveillance_authorized"],
+          "flags": [
+            "ssd_surveillance_authorized"
+          ],
           "statEffects": [
-            { "stat": "nation.publicOrder", "value": 5 },
-            { "stat": "nation.civilLiberties", "value": -5 },
-            { "stat": "personal.shadowInfluence", "value": 8 }
+            {
+              "stat": "nation.publicOrder",
+              "value": 5
+            },
+            {
+              "stat": "nation.civilLiberties",
+              "value": -5
+            },
+            {
+              "stat": "personal.shadowInfluence",
+              "value": 8
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "ssd_limit_scope",
           "text": "Authorize passive monitoring only. No active surveillance. Dorne collects information, does not generate it.",
-          "flags": ["ssd_limited_mandate"],
+          "flags": [
+            "ssd_limited_mandate"
+          ],
           "statEffects": [
-            { "stat": "nation.publicOrder", "value": 2 },
-            { "stat": "nation.civilLiberties", "value": -2 }
+            {
+              "stat": "nation.publicOrder",
+              "value": 2
+            },
+            {
+              "stat": "nation.civilLiberties",
+              "value": -2
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

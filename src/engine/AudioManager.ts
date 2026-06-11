@@ -496,7 +496,7 @@ class AudioManager {
         !this.isMuted &&
         this.userHasInteracted
       ) {
-        console.log('[AudioManager] Heartbeat detected stopped music, resuming...')
+        if (import.meta.env.DEV) console.log('[AudioManager] Heartbeat detected stopped music, resuming...')
         this.currentTrack.play().catch(() => {})
       }
     }, 3000)

@@ -4,7 +4,10 @@
   "week": 24,
   "type": "crisis",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik", "elara_vostane"],
+  "characters": [
+    "vyktor_reznik",
+    "elara_vostane"
+  ],
   "dialogue": "Vyktor does not knock. He opens the door, closes it behind him, and stands with his back against it. He has a single folder in his hand.",
   "monologue": "The Morivask deal closed six weeks ago. We knew retaliation was coming. Elara said sixty days. Vyktor said sooner. They were both right.",
   "choices": [
@@ -110,10 +113,18 @@
           "id": "tyvaren_absorb",
           "text": "We absorb it. Find the alternative suppliers quietly. Do not give them the reaction they are looking for.",
           "internalTag": "pragmatist",
-          "flags": ["tyvaren_pressure_absorbed"],
+          "flags": [
+            "tyvaren_pressure_absorbed"
+          ],
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": -4 },
-            { "stat": "factions.businessClass", "value": -3 }
+            {
+              "stat": "nation.economyHealth",
+              "value": -4
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": -3
+            }
           ],
           "nextSegment": "pressure_close"
         },
@@ -121,10 +132,18 @@
           "id": "tyvaren_negotiate",
           "text": "Request the meeting. We won Morivask honestly — we can defend it in a room.",
           "internalTag": "reformist",
-          "flags": ["tyvaren_pressure_diplomatic"],
+          "flags": [
+            "tyvaren_pressure_diplomatic"
+          ],
           "statEffects": [
-            { "stat": "nation.publicOrder", "value": 2 },
-            { "stat": "factions.reformists", "value": 4 }
+            {
+              "stat": "nation.publicOrder",
+              "value": 2
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 4
+            }
           ],
           "nextSegment": "pressure_close"
         },
@@ -132,10 +151,18 @@
           "id": "tyvaren_counter",
           "text": "Make the deal public. All of it. Let Veltria see what we won and let Tyvaren explain why they are angry about it.",
           "internalTag": "authoritarian",
-          "flags": ["tyvaren_pressure_public"],
+          "flags": [
+            "tyvaren_pressure_public"
+          ],
           "statEffects": [
-            { "stat": "factions.reformists", "value": -5 },
-            { "stat": "nation.publicOrder", "value": -3 }
+            {
+              "stat": "factions.reformists",
+              "value": -5
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": -3
+            }
           ],
           "nextSegment": "pressure_close"
         }
@@ -167,5 +194,6 @@
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }

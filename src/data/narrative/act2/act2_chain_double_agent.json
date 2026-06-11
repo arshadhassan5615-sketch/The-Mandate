@@ -4,7 +4,9 @@
   "week": 17,
   "type": "meeting",
   "location": "Interior Ministry — Danika Oberlin's Office",
-  "characters": ["danika_oberlin"],
+  "characters": [
+    "danika_oberlin"
+  ],
   "dialogue": "Eight weeks since the decision. Danika has a progress report.",
   "monologue": "Eight weeks of Yelena Dorova sitting at her desk, answering her handler's requests, passing information Danika has carefully constructed to be plausible and false. I think about her every time I sign something classified.",
   "choices": [
@@ -33,24 +35,42 @@
         {
           "id": "double_agent_continue",
           "text": "Continue the operation. The intelligence value is real and she is performing well.",
-          "flags": ["double_agent_operation_continues"],
+          "flags": [
+            "double_agent_operation_continues"
+          ],
           "statEffects": [
-            { "stat": "nation.internationalStanding", "value": 3 },
-            { "stat": "nation.militaryReadiness", "value": 2 }
+            {
+              "stat": "nation.internationalStanding",
+              "value": 3
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": 2
+            }
           ],
           "nextSegment": null
         },
         {
           "id": "double_agent_close",
           "text": "Close it. We have enough from the operation. End Yelena's involvement and give her a clean exit — new posting, sealed record, a real chance at something else.",
-          "flags": ["double_agent_operation_closed", "dorova_clean_exit"],
+          "flags": [
+            "double_agent_operation_closed",
+            "dorova_clean_exit"
+          ],
           "statEffects": [
-            { "stat": "personal.moralCompass", "value": 8 },
-            { "stat": "nation.internationalStanding", "value": -2 }
+            {
+              "stat": "personal.moralCompass",
+              "value": 8
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": -2
+            }
           ],
           "nextSegment": null
         }
       ]
     }
-  }
+  },
+  "weekAvailable": 1
 }
