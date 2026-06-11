@@ -123,7 +123,7 @@ export default function App() {
       try {
         const saves = await listSaves()
         const autosave = saves.find(s => s.slot === AUTOSAVE_SLOT)
-        if (autosave && autosave.gameState?.currentWeek > 1) {
+        if (autosave && autosave.visitedSceneIds?.length > 0) {
           await loadGame(AUTOSAVE_SLOT)
         }
       } catch (e) {
