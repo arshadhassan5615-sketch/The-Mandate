@@ -133,9 +133,20 @@ export default function NarrativeScene() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
 
+  // Auto-advance queue when scene is done and returnToMap is true (no button click needed)
+  useEffect(() => {
+    if (sceneDone && returnToMap) {
+      const t = setTimeout(() => {
+        const store = useWeekStore.getState()
+        store.advanceQueue()
+      }, 800)
+      return () => clearTimeout(t)
+    }
+  }, [sceneDone, returnToMap])
+
   const isLastScene = currentQueueIndex >= sceneQueue.length - 1
   const continueLabel = isLastScene
-    ? (returnToMap ? 'Continue →' : 'Proceed to Evening Review →')
+    ? (returnToMap ? '' : 'Proceed to Evening Review →')
     : `Continue to Next Meeting (${currentQueueIndex + 2}/${sceneQueue.length}) →`
 
   const sceneCharacters = currentScene?.characters ?? []
@@ -152,7 +163,7 @@ export default function NarrativeScene() {
         const store = useWeekStore.getState()
         if (store.phase === 'scene' && !useNarrativeStore.getState().currentScene) {
           console.error('[NarrativeScene] EMERGENCY: 10s timeout — forcing review phase')
-          useWeekStore.setState({ phase: store.returnToMap ? 'map' : 'review', transitionLabel: '' })
+          useWeekStore.setState({ phase: store.returnToMap || store.agendaPool?.length > 0 ? 'map' : 'review', transitionLabel: '' })
         }
       }, 10000)
     }
@@ -207,7 +218,7 @@ export default function NarrativeScene() {
           store.advanceQueue()
         } else {
           console.error('[NarrativeScene] Scene load timeout with empty/exhausted queue — force-transitioning')
-          useWeekStore.setState({ phase: store.returnToMap ? 'map' : 'review', transitionLabel: '' })
+          useWeekStore.setState({ phase: store.returnToMap || store.agendaPool?.length > 0 ? 'map' : 'review', transitionLabel: '' })
         }
       })
     }

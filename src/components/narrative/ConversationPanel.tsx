@@ -711,14 +711,33 @@ export default function ConversationPanel({
                     {charName(activeSegment.character ?? '')}
                   </div>
                 )}
+                {activeSegment.type === 'internal_thought' && (
+                  <div style={{
+                    fontFamily: "'Special Elite', monospace",
+                    fontSize: '9px',
+                    letterSpacing: '2px',
+                    color: 'rgba(201,168,76,0.5)',
+                    textTransform: 'uppercase',
+                    marginBottom: '4px',
+                  }}>
+                    Katerin Ashavel
+                  </div>
+                )}
                 <div style={{
-                  fontSize: '13px',
-                  lineHeight: '1.6',
+                  fontSize: activeSegment.type === 'internal_thought' ? '16px' : '13px',
+                  lineHeight: '1.8',
                   color: activeSegment.type === 'dialogue'
                     ? 'rgba(232,213,163,0.92)'
-                    : 'rgba(180,170,150,0.8)',
+                    : activeSegment.type === 'internal_thought'
+                    ? '#c9a84c'
+                    : 'rgba(220,210,190,0.85)',
                   fontFamily: "'Crimson Text', serif",
-                  fontStyle: activeSegment.type === 'dialogue' ? 'normal' : 'italic',
+                  fontStyle: 'italic',
+                  borderLeft: activeSegment.type === 'internal_thought'
+                    ? '2px solid rgba(201,168,76,0.4)'
+                    : 'none',
+                  paddingLeft: activeSegment.type === 'internal_thought' ? '16px' : '0',
+                  marginLeft: activeSegment.type === 'internal_thought' ? '8px' : '0',
                 }}>
                   {activeSegment.type === 'dialogue' ? '"' : ''}
                   {renderWithEntities(activeText, true)}
@@ -956,7 +975,7 @@ export default function ConversationPanel({
         )}
 
         {/* Scene completed — advance button */}
-        {sceneDone && advanceReady && (
+        {sceneDone && advanceReady && continueLabel && (
           <div style={{
             position: 'relative',
             zIndex: 3,

@@ -3,6 +3,7 @@ import type { AgendaItem } from '../types/week'
 import type { ProvinceId } from '../engine/LocationResolver'
 import { PROVINCE_PIN_POSITIONS, PROVINCE_NAMES } from '../engine/LocationResolver'
 import { getScene } from '../engine/NarrativeEngine'
+import { useWeekStore } from '../stores/weekStore'
 import mapPinImg from '../assets/images/map_pin.png'
 
 interface MapScenePinProps {
@@ -18,6 +19,14 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
   const [sceneError, setSceneError] = useState<string | null>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
   const pos = PROVINCE_PIN_POSITIONS[provinceId]
+
+  const phase = useWeekStore(s => s.phase)
+
+  useEffect(() => {
+    if (phase === 'scene') {
+      setOpen(false)
+    }
+  }, [phase])
 
   const hasMandatory = items.some(i => i.slotCost === 0)
   const hasUrgent = items.some(i => i.weekDeadline === currentWeek)
@@ -58,7 +67,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
       filter: pinFilter,
       animation: pinAnimation,
     }}
-    onClick={() => setOpen(prev => !prev)}
+    onClick={(e) => { e.stopPropagation(); setOpen(prev => !prev) }}
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
@@ -160,7 +169,8 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
               return (
               <button
                 key={item.id}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation()
                   if (!sceneExists) {
                     setSceneError(`Scene not found: ${item.sceneId}`)
                     return
