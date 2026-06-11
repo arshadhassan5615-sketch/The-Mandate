@@ -3,130 +3,223 @@
   "title": "The Ledger",
   "act": 1,
   "weekAvailable": 1,
+  "weekDeadline": 2,
   "type": "meeting",
   "agendaCost": 1,
   "isMandatory": true,
   "location": "Chancellor's Private Study — Ashenmere Palace",
   "characters": ["vyktor_reznik"],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
-      "text": "The study smells of old wood and someone else's cigarettes. The previous Chancellor left in a hurry — there are still framed photographs on the wall, faces you don't recognize, men who ran this country for twenty-six years without asking permission. You have not taken them down yet. You're not sure why."
+      "text": "The study is quiet. Outside, the last of the inaugural crowd is still dispersing from Republic Square. You can hear them faintly — music, voices, someone laughing. In here it is just you and Vyktor and a leather folder on the desk between you."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "I waited until after the ball. You deserved one evening. But it is morning now and there are things you need to know before the Assembly session on Thursday."
     },
     {
       "type": "description",
-      "text": "Vyktor Reznik arrives at 6:47 AM, exactly when he said he would. He carries a binder thick enough to stop a bullet. He does not congratulate you. He sets the binder on the desk and opens it."
+      "text": "He opens the folder. Does not hand it to you. Just opens it and begins."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "Campaign intelligence understated the debt. Real figure is 340 million Krone. That is 16 percent of GDP. Interest payments alone consume 75 million a year. We're spending 65 million more than we take in."
+      "text": "The budget. Halvek left us a deficit of three hundred and forty million kroner. That is not a rounding error. That is structural. It was built over eleven years through a combination of state contracts awarded to party-connected firms, a pension freeze that was never disclosed publicly, and military procurement that bypassed the Finance Ministry entirely."
+    },
+    {
+      "type": "monologue",
+      "text": "Three hundred and forty million. You knew the number. Seeing it in a folder, at this desk, in this chair — that is different."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "Unemployment is 19 percent. Higher in Kravenstal and Sevagrad. Inflation is rising — 9 percent and accelerating. The Halvek regime cooked the books for the last three years. What was reported publicly was fiction."
-    },
-    {
-      "type": "internal_thought",
-      "text": "I knew it was bad. Everyone knew it was bad. But there is a difference between knowing a number and sitting across from a man who reads it aloud with the affect of someone announcing the weather."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "There's more. The military budget is overextended. Infrastructure maintenance has been deferred for 11 years. The BNI payroll alone is 20 million annually, for a service that officially doesn't exist. Can give you the full breakdown. Or can tell you what I think you need to hear first."
+      "text": "Unemployment is at nineteen percent. The official figure is eleven. The gap is people who stopped being counted — seasonal workers, the informal economy, the foundry towns that were written off a decade ago. Kravenstal. Parts of Thornfeld. They exist in the real numbers but not the published ones."
     },
     {
       "type": "description",
-      "text": "He waits. He is very good at waiting."
+      "text": "He turns a page. His voice does not change. This is a man who has been carrying these numbers for months, waiting for someone to give them to."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Inflation is running at nine percent. The Central Bank has been holding the rate artificially low — Halvek's instruction, never formalized, never documented. The Bank Governor will want to correct it. When he does, borrowing costs go up. That affects the deficit. Everything connects to everything else."
+    },
+    {
+      "type": "monologue",
+      "text": "You think about the speech you gave this morning. The hope in it. You meant every word. You still do. But hope does not close a three hundred and forty million kroner gap."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is one more thing. Halvek left something in the palace archives — a set of files, sealed under his personal authority, that were never transferred to the incoming government through normal channels. My office found them this morning. I have not opened them. That decision belongs to you."
+    },
+    {
+      "type": "description",
+      "text": "He places a second, smaller folder on top of the first. It has no label. Just a wax seal — Halvek's personal mark, a bird with closed wings."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Whatever is in there — it changes things. It always does. You can open it tonight, or you can give it to me and I will tell you what is in it when you are ready. Or —"
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You can leave it sealed. Some chancellors have. There is an argument for not knowing what you cannot yet act on."
+    },
+    {
+      "type": "monologue",
+      "text": "The folder sits there. Small. Heavy in a way that has nothing to do with paper."
     }
   ],
-
-  "monologue": "The previous Chancellor left photographs on the wall. Faces I don't recognize. I haven't taken them down yet. Not sure why. Vyktor reads the numbers with the affect of someone announcing the weather: 340 million in debt, 19 percent unemployment, a deficit of 65 million a year. I knew it was bad. Everyone knew. But there is a difference between knowing a number and sitting across from a man who reads it aloud while the previous Chancellor's photographs watch from the wall.",
-
   "choices": [
     {
-      "id": "demand_full_picture",
-      "text": "\"Give me everything. All of it. I need to understand the full shape of this before I make a single decision.\"",
-      "internalTag": "reformist",
+      "id": "open_files_yourself",
+      "text": "Open them yourself. Tonight.",
+      "nextSegment": "files_opened",
+      "flags": ["halvek_files_opened", "files_decision_direct"],
       "stateChanges": [
-        { "stat": "nation.pressFreedom",    "operation": "add", "value": 4  },
-        { "stat": "nation.corruption",       "operation": "add", "value": -4 },
-        { "stat": "factions.reformists",     "operation": "add", "value": 5  },
-        { "stat": "personal.publicImage",    "operation": "add", "value": 2  },
-        { "stat": "personal.moralCompass",   "operation": "add", "value": 6  }
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "personal.shadowInfluence", "operation": "add", "value": 3 }
       ],
-      "chainTriggers": [],
-      "flags": ["vyktor_briefing_done", "briefing_approach_full"],
-      "codexUnlocks": [],
       "reactions": [
         {
           "character": "vyktor_reznik",
-          "type": "dialogue",
-          "text": "Everything. Understood."
-        },
+          "text": "He nods once. No expression. 'I will leave you to it. I will be in my office.'",
+          "type": "neutral"
+        }
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "give_to_vyktor",
+      "text": "Give them to Vyktor. Tell you what is in them when the time is right.",
+      "nextSegment": "files_delegated",
+      "flags": ["halvek_files_delegated", "files_decision_vyktor"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -2 }
+      ],
+      "reactions": [
         {
           "character": "vyktor_reznik",
-          "type": "action",
-          "text": "He turns the page. The motion is precise — a single page, but behind it are three hundred more. He begins reading aloud. He does not stop for three hours."
+          "text": "'Understood.' He takes the folder. 'I will be careful with it.'",
+          "type": "approval"
+        }
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "leave_sealed",
+      "text": "Leave it sealed. You will deal with it when you are ready.",
+      "nextSegment": "files_sealed",
+      "flags": ["halvek_files_sealed", "files_decision_deferred"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 2 }
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "text": "'All right.' He closes the outer folder over it. 'It will be here when you want it.'",
+          "type": "neutral"
+        }
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "files_opened": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor leaves. The door closes. You sit alone with the folder and Halvek's wax seal."
+        },
+        {
+          "type": "monologue",
+          "text": "The seal breaks cleanly. Inside — three documents, a photograph, and a handwritten note on Palace letterhead. You read for forty minutes. When you finish you sit very still for a long time."
+        },
+        {
+          "type": "description",
+          "text": "You will not read them again tonight. But you will not forget what is in them either."
+        }
+      ],
+      "choices": [
+        {
+          "id": "files_opened_end",
+          "text": "Set the folder aside. Get some sleep.",
+          "nextSegment": null,
+          "flags": ["halvek_files_read"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-    {
-      "id": "focus_on_debt",
-      "text": "\"The deficit is the ceiling. Everything else is secondary until we have a plan to stop the bleeding. Walk me through the revenue options.\"",
-      "internalTag": "pragmatist",
-      "stateChanges": [
-        { "stat": "nation.economyHealth",    "operation": "add", "value": 3  },
-        { "stat": "factions.businessClass",  "operation": "add", "value": 5  },
-        { "stat": "factions.workersCoalition","operation": "add", "value": -3 },
-        { "stat": "personal.publicImage",    "operation": "add", "value": 3  },
-        { "stat": "personal.moralCompass",   "operation": "add", "value": -3 }
-      ],
-      "chainTriggers": [],
-      "flags": ["vyktor_briefing_done", "briefing_approach_fiscal"],
-      "codexUnlocks": [],
-      "reactions": [
+    "files_delegated": {
+      "narrative": [
         {
-          "character": "vyktor_reznik",
-          "type": "dialogue",
-          "text": "Revenue options. Three primary, two secondary. I will present by end of day."
+          "type": "description",
+          "text": "Vyktor takes the folder. He does not open it here — just places it under his arm with the careful deliberateness of a man who handles dangerous things for a living."
         },
         {
+          "type": "dialogue",
           "character": "vyktor_reznik",
-          "type": "action",
-          "text": "He flips to a different tab in the binder — a section apparently already prepared for this exact question. He slides a single sheet across the desk. It is a list of every tax lever available to the government, ranked by political cost."
+          "text": "I will read them tonight. I will tell you what you need to know and nothing more than that. Some things are easier to carry if you receive them in pieces."
+        },
+        {
+          "type": "monologue",
+          "text": "You trust him. You have to. That is what it means to have a chief of staff."
+        }
+      ],
+      "choices": [
+        {
+          "id": "files_delegated_end",
+          "text": "Thank him. Get some sleep.",
+          "nextSegment": null,
+          "flags": ["halvek_files_with_vyktor"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-    {
-      "id": "take_a_moment",
-      "text": "\"Give me a moment.\" You stand, move to the window. The city is still mostly dark. \"Tell me what Halvek would have done in week one. I want to know what I'm inheriting before I decide what to burn.\"",
-      "internalTag": "personal",
-      "stateChanges": [
-        { "stat": "factions.halvekists",     "operation": "add", "value": -3 },
-        { "stat": "factions.reformists",     "operation": "add", "value": -2 },
-        { "stat": "personal.marriageHealth", "operation": "add", "value": 3  },
-        { "stat": "personal.moralCompass",   "operation": "add", "value": 8  },
-        { "stat": "personal.publicImage",    "operation": "add", "value": -2 }
-      ],
-      "chainTriggers": [],
-      "flags": ["vyktor_briefing_done", "briefing_approach_legacy"],
-      "codexUnlocks": [],
-      "reactions": [
+    "files_sealed": {
+      "narrative": [
         {
-          "character": "vyktor_reznik",
-          "type": "silence",
-          "text": "He does not answer immediately. The question was not procedural. He is deciding whether the answer is safe to give."
+          "type": "description",
+          "text": "The folder stays on the desk. Vyktor covers it with the budget report — out of sight, not out of existence."
         },
         {
-          "character": "vyktor_reznik",
           "type": "dialogue",
-          "text": "Halvek would have called Oskar Brenner. Asked for a loyalty assessment of the general staff. Then cut the deficit by reducing the food subsidy. Then held a press conference praising the military. Three moves. Two of them are still viable."
+          "character": "vyktor_reznik",
+          "text": "There is no wrong answer here. Only different kinds of readiness."
+        },
+        {
+          "type": "monologue",
+          "text": "You wonder, briefly, if that is true. Then you decide to believe it. For tonight."
+        }
+      ],
+      "choices": [
+        {
+          "id": "files_sealed_end",
+          "text": "Leave the study. Get some sleep.",
+          "nextSegment": null,
+          "flags": ["halvek_files_ignored"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }
-  ]
+  }
 }
