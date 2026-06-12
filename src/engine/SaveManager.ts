@@ -14,6 +14,49 @@ import { useLetterStore } from '../stores/letterStore'
 export const AUTOSAVE_SLOT = 0
 export const MANUAL_SLOT_COUNT = 10
 
+// ─── localStorage fallback ───────────────────────────────────────────────────
+
+const LS_PREFIX = 'mandate-save-slot-'
+
+async function saveToLocalStorage(record: SaveRecord): Promise<void> {
+  const key = `${LS_PREFIX}${record.slot}`
+  const json = JSON.stringify(record)
+  localStorage.setItem(key, json)
+  console.log('[SaveManager] Fallback localStorage save succeeded, slot:', record.slot)
+}
+
+async function loadFromLocalStorage(slot: number): Promise<SaveRecord | null> {
+  try {
+    const key = `${LS_PREFIX}${slot}`
+    const json = localStorage.getItem(key)
+    if (!json) return null
+    return JSON.parse(json) as SaveRecord
+  } catch {
+    return null
+  }
+}
+
+function listLocalStorageSaves(): Map<number, SaveRecord> {
+  const result = new Map<number, SaveRecord>()
+  for (let i = 0; i <= MANUAL_SLOT_COUNT; i++) {
+    const key = `${LS_PREFIX}${i}`
+    const json = localStorage.getItem(key)
+    if (json) {
+      try {
+        const record = JSON.parse(json) as SaveRecord
+        result.set(i, record)
+      } catch {
+        // skip corrupt entry
+      }
+    }
+  }
+  return result
+}
+
+function deleteLocalStorageSave(slot: number): void {
+  localStorage.removeItem(`${LS_PREFIX}${slot}`)
+}
+
 // ─── Write ────────────────────────────────────────────────────────────────────
 
 export async function saveGame(slot: number, name: string): Promise<void> {
@@ -28,7 +71,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
   const newsState = useNewsStore.getState()
   const letterState = useLetterStore.getState()
 
-  const record: SaveRecord = {
+  let record: SaveRecord = {
     version: 2,
     slot,
     name: slot === AUTOSAVE_SLOT ? 'AUTOSAVE' : name,
@@ -36,7 +79,51 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     weekNumber: gameState.currentWeek,
     actNumber:  gameState.currentAct,
     playTimeMinutes: currentPlayTimeMinutes(),
-    gameState:  { ...gameState },
+    gameState: {
+      currentWeek: gameState.currentWeek,
+      currentAct: gameState.currentAct,
+      nation: { ...gameState.nation },
+      factions: { ...gameState.factions },
+      personal: { ...gameState.personal },
+      budget: { ...gameState.budget },
+      playerBackground: gameState.playerBackground,
+      playerPersonality: gameState.playerPersonality,
+      playerAppearance: gameState.playerAppearance,
+      termFocus: gameState.termFocus,
+      advisorTrust: { ...gameState.advisorTrust },
+      vaelInfluence: gameState.vaelInfluence,
+      morvecInfluence: gameState.morvecInfluence,
+      shadowInfluence: gameState.shadowInfluence,
+      refugeeCount: gameState.refugeeCount,
+      religiousAdherence: gameState.religiousAdherence,
+      stateOfEmergency: gameState.stateOfEmergency,
+      stateOfEmergencyWeek: gameState.stateOfEmergencyWeek,
+      stateOfEmergencyExtensions: gameState.stateOfEmergencyExtensions,
+      emergencyDecreesIssued: gameState.emergencyDecreesIssued,
+      seridaAlive: gameState.seridaAlive,
+      moleIdentity: gameState.moleIdentity,
+      clues: gameState.clues,
+      moleDiscovered: gameState.moleDiscovered,
+      moleWronglyAccused: gameState.moleWronglyAccused,
+      sorenImmunityRevoked: gameState.sorenImmunityRevoked,
+      sorenTrialOutcome: gameState.sorenTrialOutcome,
+      sorenFilesRevealed: gameState.sorenFilesRevealed,
+      sorenLinkedToMikhael: gameState.sorenLinkedToMikhael,
+      economicDirection: gameState.economicDirection,
+      jonasPublicStage: gameState.jonasPublicStage,
+      seridaTrust: gameState.seridaTrust,
+      seridaMorale: gameState.seridaMorale,
+      sentLetters: gameState.sentLetters,
+      radioBroadcastsUsed: gameState.radioBroadcastsUsed,
+      corruptionLedger: gameState.corruptionLedger,
+      corruptionDiscoveredCount: gameState.corruptionDiscoveredCount,
+      voteSpendingTotal: gameState.voteSpendingTotal,
+      activeProjects: gameState.activeProjects,
+      completedProjects: gameState.completedProjects,
+      personalNotes: gameState.personalNotes,
+      diaryEntries: gameState.diaryEntries,
+      initialSnapshot: null, // Never save initialSnapshot — it contains Zustand actions and can't be cloned by IndexedDB
+    } as GameState,
     visitedSceneIds,
     activeFlags,
     unlockedCodexIds,
@@ -76,16 +163,60 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     },
   }
 
-  await db.saves.put(record)
-  if (import.meta.env.DEV) {
-    console.log('[SaveManager] Saved game to slot:', slot, 'name:', record.name, 'week:', record.weekNumber, 'act:', record.actNumber)
+  // Step 2 diagnostics
+  console.log('[SaveManager] db.isOpen():', db.isOpen(), 'slot:', record.slot)
+
+  // Step 3 — size guard: trim news articles if record exceeds 4 MB
+  const recordJson = JSON.stringify(record)
+  console.log('[SaveManager] Record size:', recordJson.length, 'bytes')
+  if (recordJson.length > 4_000_000) {
+    console.warn('[SaveManager] Record too large, trimming news articles')
+    record = {
+      ...record,
+      newsState: {
+        ...record.newsState!,
+        articles: (record.newsState?.articles ?? []).slice(-50),
+      },
+    }
+  }
+
+  // Step 4 — ensure database is open
+  if (!db.isOpen()) {
+    console.log('[SaveManager] Database not open, opening...')
+    await db.open()
+  }
+
+  // Step 1 + 5 — try Dexie, fall back to localStorage
+  try {
+    await db.saves.put(record)
+    console.log('[SaveManager] Dexie save succeeded, slot:', slot, 'week:', record.weekNumber)
+  } catch (e) {
+    const err = e as Error & { name?: string; message?: string; inner?: unknown }
+    console.error('[SaveManager] Dexie save failed:', JSON.stringify({
+      name: err?.name,
+      message: err?.message,
+      inner: String(err?.inner),
+    }))
+    console.warn('[SaveManager] Falling back to localStorage')
+    await saveToLocalStorage(record)
   }
 }
 
 // ─── Read ─────────────────────────────────────────────────────────────────────
 
 export async function loadGame(slot: number): Promise<boolean> {
-  const record = await db.saves.get(slot)
+  // Try Dexie first, fall back to localStorage
+  let record: SaveRecord | undefined
+  try {
+    record = await db.saves.get(slot)
+  } catch {
+    console.warn('[SaveManager] Dexie load failed, trying localStorage')
+  }
+  if (!record) {
+    const fallback = await loadFromLocalStorage(slot)
+    if (fallback) record = fallback
+  }
+
   if (!record) {
     if (import.meta.env.DEV) {
       console.warn('[SaveManager] No save found at slot:', slot)
@@ -248,7 +379,13 @@ export async function loadGame(slot: number): Promise<boolean> {
 // ─── Delete ───────────────────────────────────────────────────────────────────
 
 export async function deleteSave(slot: number): Promise<void> {
-  await db.saves.delete(slot)
+  // Delete from both storages
+  try {
+    await db.saves.delete(slot)
+  } catch {
+    // Dexie may fail silently
+  }
+  deleteLocalStorageSave(slot)
 }
 
 // ─── List ─────────────────────────────────────────────────────────────────────
@@ -256,11 +393,27 @@ export async function deleteSave(slot: number): Promise<void> {
 // Returns an array of length MANUAL_SLOT_COUNT + 1.
 // Index = slot number. Undefined = empty slot.
 export async function listSaves(): Promise<(SaveRecord | undefined)[]> {
-  const all = await db.saves.toArray()
-  const bySlot = new Map(all.map(s => [s.slot, s]))
-  const result = Array.from({ length: MANUAL_SLOT_COUNT + 1 }, (_, i) => bySlot.get(i))
+  // Merge Dexie saves with localStorage fallback saves
+  const dexieSaves = new Map<number, SaveRecord>()
+  try {
+    const all = await db.saves.toArray()
+    for (const s of all) dexieSaves.set(s.slot, s)
+  } catch {
+    console.warn('[SaveManager] Dexie listSaves failed, checking localStorage')
+  }
+
+  const lsSaves = listLocalStorageSaves()
+
+  // Dexie takes priority; localStorage fills gaps
+  const result = Array.from({ length: MANUAL_SLOT_COUNT + 1 }, (_, i): SaveRecord | undefined => {
+    if (dexieSaves.has(i)) return dexieSaves.get(i)
+    if (lsSaves.has(i)) return lsSaves.get(i)
+    return undefined
+  })
+
   if (import.meta.env.DEV) {
-    console.log('[SaveManager] listSaves found', all.length, 'records across', result.filter(Boolean).length, 'slots')
+    const count = result.filter(Boolean).length
+    console.log('[SaveManager] listSaves found', count, 'slots (Dexie:', dexieSaves.size, 'localStorage:', lsSaves.size, ')')
   }
   return result
 }
@@ -316,5 +469,11 @@ export function triggerImportPicker(onImport: (record: SaveRecord, json: string)
 }
 
 export async function importSaveToSlot(record: SaveRecord, slot: number): Promise<void> {
-  await db.saves.put({ ...record, slot })
+  const withSlot = { ...record, slot }
+  // Try Dexie, fall back to localStorage
+  try {
+    await db.saves.put(withSlot)
+  } catch {
+    await saveToLocalStorage(withSlot)
+  }
 }

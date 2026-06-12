@@ -9,10 +9,10 @@ import type { NewsArticle } from '../types/news'
 import type { DiplomaticLetter } from '../types/letters'
 
 export interface SaveRecord {
-  version: number         // 2 = current; 0/1 = legacy
-  slot: number            // 0 = autosave, 1-10 = manual
-  name: string            // player-editable label
-  timestamp: number       // Date.now()
+  version: number
+  slot: number
+  name: string
+  timestamp: number
   weekNumber: number
   actNumber: number
   playTimeMinutes: number
@@ -23,8 +23,6 @@ export interface SaveRecord {
   metCharacters: string[]
   scheduledChains: ScheduledChain[]
   forcedChainIds: string[]
-
-  // v2 additions — captured for the 6 stores that were previously dropped
   decreeState?: {
     pendingDecrees: Decree[]
     signedDecrees: Decree[]
@@ -59,8 +57,10 @@ class MandateDB extends Dexie {
   saves!: Table<SaveRecord, number>
 
   constructor() {
-    super('the-mandate-v1')
-    this.version(1).stores({ saves: 'slot' })
+    super('the-mandate-v2')
+    this.version(1).stores({
+      saves: 'slot, name, timestamp, weekNumber'
+    })
   }
 }
 

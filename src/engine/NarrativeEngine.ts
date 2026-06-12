@@ -28,7 +28,7 @@ if (import.meta.env.DEV) {
 
 export function getScene(id: string): NarrativeNode | undefined {
   const scene = SCENE_REGISTRY.get(id)
-  if (!scene) {
+  if (!scene && !id.startsWith('__')) {
     console.error('[NarrativeEngine] SCENE NOT FOUND:', id)
     console.error('[NarrativeEngine] AVAILABLE SCENES:', [...SCENE_REGISTRY.keys()].slice(0, 20))
   }

@@ -120,11 +120,14 @@ export default function App() {
   // Auto-resume: on mount, check for an autosave and load it if the player was past Week 1
   useEffect(() => {
     const checkAndResume = async () => {
+      // Small delay to let Zustand persist finish hydrating before we override it
+      await new Promise(resolve => setTimeout(resolve, 100))
       try {
         const saves = await listSaves()
-        const autosave = saves.find(s => s.slot === AUTOSAVE_SLOT)
-        if (autosave && autosave.visitedSceneIds?.length > 0) {
+        const autosave = saves.find(s => s != null && s.slot === AUTOSAVE_SLOT)
+        if (autosave && autosave.weekNumber >= 1 && autosave.gameState) {
           await loadGame(AUTOSAVE_SLOT)
+          console.log('[App] Auto-resumed from week', autosave.weekNumber)
         }
       } catch (e) {
         console.warn('[App] Auto-resume failed:', e)

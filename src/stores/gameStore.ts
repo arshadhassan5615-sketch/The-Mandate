@@ -249,20 +249,9 @@ export const useGameStore = create<GameStore>()(
                   : state.currentWeek >= 13 ? 2
                   : 1,
       }
-      try {
-        localStorage.setItem(
-          'the-mandate-autosave',
-          JSON.stringify({
-            savedAt: new Date().toISOString(),
-            week: newState.currentWeek,
-            state: newState,
-          })
-        )
-      } catch (e) {
-        console.warn('Storage quota exceeded:', e)
-      }
+      // Dexie SaveManager is the only save system — no localStorage fallback
       if (import.meta.env.DEV) {
-        console.log(`[AutoSave] Week ${newState.currentWeek} saved.`)
+        console.log(`[gameStore] Week ${newState.currentWeek} advanced.`)
       }
       return newState
     }),
@@ -481,6 +470,57 @@ export const useGameStore = create<GameStore>()(
     {
       name: 'the-mandate-save',
       version: 2,
+      // Only persist plain data fields — never functions (actions)
+      partialize: (state) => ({
+        currentWeek: state.currentWeek,
+        currentAct: state.currentAct,
+        nation: state.nation,
+        factions: state.factions,
+        personal: state.personal,
+        budget: state.budget,
+        playerBackground: state.playerBackground,
+        playerPersonality: state.playerPersonality,
+        playerAppearance: state.playerAppearance,
+        termFocus: state.termFocus,
+        advisorTrust: state.advisorTrust,
+        vaelInfluence: state.vaelInfluence,
+        morvecInfluence: state.morvecInfluence,
+        shadowInfluence: state.shadowInfluence,
+        shadowFootprint: state.shadowFootprint,
+        tyvarenHostility: state.tyvarenHostility,
+        vossRelation: state.vossRelation,
+        sovarka_relation: state.sovarka_relation,
+        danika_loyalty: state.danika_loyalty,
+        refugeeCount: state.refugeeCount,
+        religiousAdherence: state.religiousAdherence,
+        stateOfEmergency: state.stateOfEmergency,
+        stateOfEmergencyWeek: state.stateOfEmergencyWeek,
+        stateOfEmergencyExtensions: state.stateOfEmergencyExtensions,
+        emergencyDecreesIssued: state.emergencyDecreesIssued,
+        seridaAlive: state.seridaAlive,
+        moleIdentity: state.moleIdentity,
+        clues: state.clues,
+        moleDiscovered: state.moleDiscovered,
+        moleWronglyAccused: state.moleWronglyAccused,
+        sorenImmunityRevoked: state.sorenImmunityRevoked,
+        sorenTrialOutcome: state.sorenTrialOutcome,
+        sorenFilesRevealed: state.sorenFilesRevealed,
+        sorenLinkedToMikhael: state.sorenLinkedToMikhael,
+        economicDirection: state.economicDirection,
+        jonasPublicStage: state.jonasPublicStage,
+        seridaTrust: state.seridaTrust,
+        seridaMorale: state.seridaMorale,
+        sentLetters: state.sentLetters,
+        radioBroadcastsUsed: state.radioBroadcastsUsed,
+        corruptionLedger: state.corruptionLedger,
+        corruptionDiscoveredCount: state.corruptionDiscoveredCount,
+        voteSpendingTotal: state.voteSpendingTotal,
+        activeProjects: state.activeProjects,
+        completedProjects: state.completedProjects,
+        personalNotes: state.personalNotes,
+        diaryEntries: state.diaryEntries,
+        initialSnapshot: state.initialSnapshot,
+      }),
       migrate: (persistedState: unknown, version: number) => {
         if (version === 0 || version === 1) {
           return {
