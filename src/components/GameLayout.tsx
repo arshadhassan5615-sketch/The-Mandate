@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback, useState } from 'react'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useNewsStore } from '../stores/newsStore'
+import { saveGame, loadGame } from '../engine/SaveManager'
 import { startAmbient, stopAmbient, resumeAudioContext } from '../engine/audioEngine'
 import { audioManager } from '../engine/AudioManager'
 import { loadAllBills } from '../engine/BillEngine'
@@ -40,6 +41,7 @@ import DecreeInbox from './DecreeInbox'
 import MapInteractionLayer from './MapInteractionLayer'
 import ActTransition from './ActTransition'
 import { ErrorBoundary } from './ErrorBoundary'
+import SaveSlotScreen from './SaveSlotScreen'
 import { useSettingsStore } from '../stores/settingsStore'
 import { CabinetFormation } from './CabinetFormation'
 import { CabinetMeeting } from './CabinetMeeting'
@@ -63,6 +65,7 @@ export default function GameLayout() {
   const ambientStarted = useRef(false)
   const [showActTransition, setShowActTransition] = useState(false)
   const [actShown, setActShown] = useState(false)
+  const [slotScreenMode, setSlotScreenMode] = useState<'load' | 'save' | null>(null)
 
   useAudio()
 
@@ -241,6 +244,34 @@ export default function GameLayout() {
         <RightSidebar />
       )}
 
+      {/* In-game save button — bottom left during gameplay */}
+      {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
+        <button
+          onClick={() => setSlotScreenMode('save')}
+          style={{
+            position: 'fixed',
+            bottom: '1rem',
+            left: '1rem',
+            zIndex: 100,
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '0.5rem',
+            letterSpacing: '0.1em',
+            background: 'rgba(201,168,76,0.1)',
+            border: '1px solid rgba(201,168,76,0.3)',
+            color: 'rgba(201,168,76,0.7)',
+            padding: '0.35rem 0.8rem',
+            cursor: 'pointer',
+            borderRadius: '2px',
+            textTransform: 'uppercase' as const,
+            transition: 'all 0.15s ease',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = '#c9a84c'; e.currentTarget.style.color = '#c9a84c' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'; e.currentTarget.style.color = 'rgba(201,168,76,0.7)' }}
+        >
+          SAVE
+        </button>
+      )}
+
       {/* Top bar — visible during gameplay */}
       {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
         <TopBar />
@@ -287,6 +318,22 @@ export default function GameLayout() {
 
       {/* Scene / week transition overlay */}
       <TransitionOverlay />
+
+      {/* Save slot screen */}
+      {slotScreenMode && (
+        <SaveSlotScreen
+          mode={slotScreenMode}
+          onClose={() => setSlotScreenMode(null)}
+          onSlotSelected={(slot: number) => {
+            if (slotScreenMode === 'save') {
+              saveGame(slot, `Playthrough ${slot}`).catch(() => {})
+            } else {
+              loadGame(slot).then(() => setSlotScreenMode(null))
+            }
+            setSlotScreenMode(null)
+          }}
+        />
+      )}
     </>
   )
 }

@@ -253,6 +253,10 @@ interface WeekStore {
   radioOpen: boolean
   setRadioOpen: (open: boolean) => void
 
+  // Active save slot
+  activeSlot: number
+  setActiveSlot: (slot: number) => void
+
   // Cabinet
   showCabinetFormation: boolean
   showCabinetMeeting: boolean
@@ -282,9 +286,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   gateBlocked: false,
   gateMessage: null,
   radioOpen: false,
+  activeSlot: 0,
 
   showCabinetFormation: false,
   showCabinetMeeting: false,
+
+  setActiveSlot: (slot) => set({ activeSlot: slot }),
 
   triggerCabinetFormation: () => set({ showCabinetFormation: true }),
   dismissCabinetMeeting: () => {
@@ -1454,6 +1461,11 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         })
 
         saveGame(AUTOSAVE_SLOT, 'AUTOSAVE').catch(console.error)
+        // Also save to active manual slot if one is assigned
+        const { activeSlot: aSlot } = get()
+        if (aSlot > 0) {
+          saveGame(aSlot, 'AUTOSAVE').catch(console.error)
+        }
       } catch (e) {
         console.error('[completeWeek] setTimeout CRASHED — clearing transitionLabel to prevent black screen:', e)
         set({ transitionWeek: null, transitionLabel: '', cliffhangerText: 'Your week has concluded. The Republic continues.' })

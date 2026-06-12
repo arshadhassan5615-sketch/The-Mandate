@@ -253,7 +253,7 @@ export async function loadGame(slot: number): Promise<boolean> {
   useChainStore.setState({ scheduled: record.scheduledChains ?? [] })
 
   // Set forcedChainIds before initWeek so it sees the right value
-  useWeekStore.setState({ forcedChainIds: record.forcedChainIds ?? [] })
+  useWeekStore.setState({ forcedChainIds: record.forcedChainIds ?? [], activeSlot: record.slot })
 
   // Restore decree state (with default fallback for legacy saves)
   if (record.decreeState) {

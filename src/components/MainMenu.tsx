@@ -2,20 +2,29 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useWeekStore } from '../stores/weekStore'
 import { useSettingsStore } from '../stores/settingsStore'
-import { listSaves, loadGame } from '../engine/SaveManager'
+import { loadGame, saveGame } from '../engine/SaveManager'
 import { audioManager } from '../engine/AudioManager'
+import SaveSlotScreen from './SaveSlotScreen'
 
 export default function MainMenu() {
   const startCustomization = useWeekStore(s => s.startCustomization)
+  const setActiveSlot = useWeekStore(s => s.setActiveSlot)
   const setSettingsOpen = useSettingsStore(s => s.setSettingsOpen)
-  const setSaveMenuOpen = useSettingsStore(s => s.setSaveMenuOpen)
   const [hasSaves, setHasSaves] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [slotScreenMode, setSlotScreenMode] = useState<'load' | 'save' | null>(null)
 
   useEffect(() => {
-    listSaves().then(saves => {
-      setHasSaves(saves.some(s => s !== undefined))
-    })
+    const check = async () => {
+      try {
+        const { listSaves } = await import('../engine/SaveManager')
+        const saves = await listSaves()
+        setHasSaves(saves.some(s => s !== undefined))
+      } catch {
+        // ignore
+      }
+    }
+    check()
   }, [])
 
   useEffect(() => {
@@ -24,8 +33,8 @@ export default function MainMenu() {
   }, [])
 
   const handleContinue = useCallback(async () => {
-    setSettingsOpen(false)
     setLoading(true)
+    const { listSaves } = await import('../engine/SaveManager')
     const saves = await listSaves()
     let bestSlot = -1
     let bestTime = 0
@@ -37,10 +46,27 @@ export default function MainMenu() {
     }
     if (bestSlot >= 0) {
       const ok = await loadGame(bestSlot)
-      if (ok) setSaveMenuOpen(false)
+      if (ok) setSettingsOpen(false)
     }
     setLoading(false)
-  }, [setSaveMenuOpen, setSettingsOpen])
+  }, [setSettingsOpen])
+
+  const handleSlotSelected = useCallback((slot: number) => {
+    if (slotScreenMode === 'load') {
+      loadGame(slot).then(ok => {
+        if (ok) {
+          setSettingsOpen(false)
+          setSlotScreenMode(null)
+        }
+      })
+    } else {
+      setActiveSlot(slot)
+      saveGame(slot, `Playthrough ${slot}`).catch(() => {})
+      setSlotScreenMode(null)
+      setSettingsOpen(false)
+      startCustomization()
+    }
+  }, [slotScreenMode, setActiveSlot, setSettingsOpen, startCustomization])
 
   return (
     <motion.div
@@ -114,6 +140,27 @@ export default function MainMenu() {
 
         <button
           className="choice-btn"
+          onClick={() => setSlotScreenMode('load')}
+          disabled={!hasSaves}
+          style={{
+            textAlign: 'center',
+            opacity: hasSaves ? 1 : 0.35,
+            pointerEvents: hasSaves ? 'auto' : 'none',
+          }}
+        >
+          Load Game
+        </button>
+
+        <button
+          className="choice-btn"
+          onClick={() => setSlotScreenMode('save')}
+          style={{ textAlign: 'center' }}
+        >
+          New Game +
+        </button>
+
+        <button
+          className="choice-btn"
           onClick={() => setSettingsOpen(true)}
           style={{ textAlign: 'center' }}
         >
@@ -125,6 +172,15 @@ export default function MainMenu() {
       <p className="stamp" style={{ position: 'absolute', bottom: '2rem', opacity: 0.4 }}>
         A Political Narrative RPG
       </p>
+
+      {/* Save slot screen overlay */}
+      {slotScreenMode && (
+        <SaveSlotScreen
+          mode={slotScreenMode}
+          onClose={() => setSlotScreenMode(null)}
+          onSlotSelected={handleSlotSelected}
+        />
+      )}
     </motion.div>
   )
 }
