@@ -383,10 +383,24 @@ function FinalTransition({ onDone }: { onDone: () => void }) {
   const [phase, setPhase] = useState(0)
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(1), 3000)
-    const t2 = setTimeout(() => setPhase(2), 4000)
-    const t3 = setTimeout(() => setPhase(3), 6000)
-    const t4 = setTimeout(onDone,           8000)
+    const t1 = setTimeout(() => setPhase(1), 800)
+    const t2 = setTimeout(() => setPhase(2), 1800)
+    const t3 = setTimeout(() => setPhase(3), 3000)
+    const t4 = setTimeout(() => {
+      try {
+        onDone()
+      } catch(e) {
+        console.error('[FinalTransition] onDone failed:', e)
+      }
+      // Force phase advance as fallback
+      setTimeout(() => {
+        const { phase } = useWeekStore.getState()
+        if (phase === 'prologue') {
+          console.warn('[FinalTransition] forcing briefing phase')
+          useWeekStore.getState().initWeek()
+        }
+      }, 500)
+    }, 4500)
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4) }
   }, [onDone])
 
@@ -395,12 +409,16 @@ function FinalTransition({ onDone }: { onDone: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2, ease: 'easeIn' }}
+      onClick={() => {
+        onDone()
+      }}
       style={{
         position: 'fixed', inset: 0, zIndex: 300,
         background: '#000',
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
         gap: '1.5rem',
+        cursor: 'pointer',
       }}
     >
       <AnimatePresence>

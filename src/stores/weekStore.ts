@@ -974,6 +974,67 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           const { returnToMap } = get()
           if (returnToMap) {
             const completedItem = q[q.length - 1]
+
+            // Inject inauguration news after oath completes
+            if (completedItem?.sceneId === 'act1_week1_inauguration') {
+              const d = new Date(1963, 2, 15) // March 15 1963
+              const dateStr = d.toLocaleDateString('en-US', {
+                day: 'numeric', month: 'long', year: 'numeric'
+              })
+              useNewsStore.getState().addArticles([
+                {
+                  id: `news_inauguration_herald_${Date.now()}`,
+                  headline: 'ASHAVEL SWORN IN AS CHANCELLOR',
+                  body: 'Katerin Ashavel was sworn in as Chancellor before sixty thousand people in Republic Square this morning. In her address to the nation she spoke of unity and accountability. Markets opened flat. The kroner held steady. Former Chancellor Halvek was not present and issued no statement.',
+                  publication: 'ashenmere_herald' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'inauguration_herald',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_inauguration_worker_${Date.now()}`,
+                  headline: 'SHE CAME FROM US',
+                  body: "Her father worked the foundries. Her mother took in mending to keep the lights on. Today their daughter took the oath in Republic Square. Workers across Kravenstal gathered around radio sets to hear the ceremony. When it was over nobody went back to work immediately. They just sat with it. Our demands remain: restore the pension freeze adjustments, reinstate collective bargaining rights stripped in 1957, invest in the northern infrastructure neglected for a decade. We wish Chancellor Ashavel well. We will be watching.",
+                  publication: 'kravenstal_worker' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'inauguration_worker',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_inauguration_gazette_${Date.now()}`,
+                  headline: 'A NEW HAND ON THE WHEEL',
+                  body: "The eastern provinces watched the inauguration with hope and familiar caution. Chancellor Ashavel's speech made no specific mention of the eastern provinces. This was noted. Across the border Morivask state media offered a brief neutral report — two paragraphs, no analysis. The Tyvaren Confederation's response was a single line: we acknowledge the change of government and expect continuity of existing agreements. The Gazette congratulates Chancellor Ashavel and reminds her that Veltria extends to the eastern coast.",
+                  publication: 'thornfeld_gazette' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'inauguration_gazette',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_inauguration_standard_${Date.now()}`,
+                  headline: 'THE REPUBLIC SPEAKS',
+                  body: "By a margin that surprised even her supporters, Katerin Ashavel has become the first Chancellor in Veltrian history whose family did not appear in the pre-war Registry of Notable Persons. She is the daughter of a foundry worker and a seamstress. She has a doctorate in constitutional law and sixteen years in elected office. Whether that combination produces good governance or merely good symbolism remains to be seen. The People's Standard endorsed her candidacy. We do not regret it. We will hold her to everything she said today.",
+                  publication: 'peoples_standard' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'inauguration_standard',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_inauguration_times_${Date.now()}`,
+                  headline: 'A CHANCELLOR FOR A CHANGED REPUBLIC',
+                  body: 'The Veltrian Times congratulates Chancellor Ashavel on her historic inauguration. The ceremony was conducted with dignity. The speech was measured and thoughtful. The transition of power was peaceful — something that cannot be taken for granted in this region or this era. We note that the new government inherits a structural deficit, a fragile coalition, and neighbors who are watching closely. The Chancellor is aware of these realities. She demonstrated as much today. The Times will report on what follows without favor and without prejudice.',
+                  publication: 'veltrian_times' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'inauguration_times',
+                  category: 'governance' as const,
+                },
+              ])
+            }
+
             set(s => ({
               phase: 'map',
               transitionLabel: '',

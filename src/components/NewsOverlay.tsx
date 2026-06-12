@@ -102,37 +102,277 @@ function renderMasthead(
   }
 }
 
-function ArticleBlock({ article, paper }: { article: NewsArticle; paper: NewspaperDef }) {
+function ArticleBlock({
+  article,
+  paper,
+  isLead = false
+}: {
+  article: NewsArticle
+  paper: NewspaperDef
+  isLead?: boolean
+}) {
+
+  // Paper-specific style overrides
+  const paperStyles: Record<string, {
+    headlineSize: string
+    headlineWeight: number
+    headlineTransform: string
+    headlineColor: string
+    headlineFamily: string
+    bodyFamily: string
+    bodySize: string
+    accentRule: string
+    categoryStyle: React.CSSProperties
+    bylineStyle: React.CSSProperties
+    containerStyle: React.CSSProperties
+  }> = {
+    ashenmere_herald: {
+      headlineSize: isLead ? '2.1rem' : '0.9rem',
+      headlineWeight: 800,
+      headlineTransform: 'uppercase',
+      headlineColor: '#1a1a2e',
+      headlineFamily: "'Playfair Display', Georgia, serif",
+      bodyFamily: "'Crimson Text', Georgia, serif",
+      bodySize: isLead ? '0.8rem' : '0.65rem',
+      accentRule: '3px solid #1a1a2e',
+      categoryStyle: {
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.38rem',
+        letterSpacing: '0.25em',
+        color: '#5a5040',
+        textTransform: 'uppercase' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        marginBottom: '6px',
+        borderBottom: '1px solid #d0c8b0',
+        paddingBottom: '3px',
+      },
+      bylineStyle: {
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.4rem',
+        color: '#5a5040',
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        margin: '4px 0 8px',
+      },
+      containerStyle: {
+        borderTop: isLead ? 'none' : '1px solid #d0c8b0',
+        paddingTop: isLead ? '0' : '12px',
+        borderLeft: isLead ? 'none' : '4px solid #1a1a2e',
+      },
+    },
+
+    peoples_standard: {
+      headlineSize: isLead ? '2.2rem' : '1rem',
+      headlineWeight: 900,
+      headlineTransform: 'uppercase',
+      headlineColor: '#8b1a1a',
+      headlineFamily: "'Libre Baskerville', Georgia, serif",
+      bodyFamily: "'Crimson Text', Georgia, serif",
+      bodySize: isLead ? '0.76rem' : '0.63rem',
+      accentRule: '4px solid #8b1a1a',
+      categoryStyle: {
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.38rem',
+        letterSpacing: '0.2em',
+        color: '#f5f0e8',
+        textTransform: 'uppercase' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        marginBottom: '6px',
+        background: '#8b1a1a',
+        padding: '2px 8px',
+        display: 'inline-block' as const,
+      },
+      bylineStyle: {
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.4rem',
+        color: '#8b1a1a',
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        margin: '4px 0 8px',
+        fontWeight: 700,
+      },
+      containerStyle: {
+        background: isLead ? 'rgba(139,26,26,0.04)' : 'transparent',
+        padding: isLead ? '12px' : '0',
+        borderLeft: isLead ? 'none' : '3px solid #8b1a1a',
+        paddingLeft: isLead ? '12px' : '10px',
+      },
+    },
+
+    kravenstal_worker: {
+      headlineSize: isLead ? '2.2rem' : '1rem',
+      headlineWeight: 900,
+      headlineTransform: 'uppercase',
+      headlineColor: '#c0392b',
+      headlineFamily: "'IBM Plex Serif', Georgia, serif",
+      bodyFamily: "'IBM Plex Serif', Georgia, serif",
+      bodySize: isLead ? '0.74rem' : '0.62rem',
+      accentRule: '4px solid #c0392b',
+      categoryStyle: {
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.38rem',
+        letterSpacing: '0.2em',
+        color: '#c0392b',
+        textTransform: 'uppercase' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        marginBottom: '6px',
+        fontWeight: 700,
+      },
+      bylineStyle: {
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.4rem',
+        color: '#6a5a40',
+        letterSpacing: '0.06em',
+        textTransform: 'uppercase' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        margin: '4px 0 8px',
+      },
+      containerStyle: {
+        borderTop: isLead ? '3px solid #1c1410' : '1px solid #d0c8b0',
+        paddingTop: '10px',
+      },
+    },
+
+    veltrian_times: {
+      headlineSize: isLead ? '1.8rem' : '0.88rem',
+      headlineWeight: 700,
+      headlineTransform: 'uppercase',
+      headlineColor: '#1a2a3a',
+      headlineFamily: "'Crimson Text', Georgia, serif",
+      bodyFamily: "'Crimson Text', Georgia, serif",
+      bodySize: isLead ? '0.78rem' : '0.64rem',
+      accentRule: '2px solid #2c3e50',
+      categoryStyle: {
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.38rem',
+        letterSpacing: '0.3em',
+        color: '#f5f0e8',
+        textTransform: 'uppercase' as const,
+        textAlign: isLead ? 'left' as const : 'left' as const,
+        marginBottom: '8px',
+        background: '#2c3e50',
+        padding: '2px 10px',
+        display: 'inline-block' as const,
+      },
+      bylineStyle: {
+        fontFamily: "'Crimson Text', Georgia, serif",
+        fontSize: '0.5rem',
+        color: '#4a5a6a',
+        letterSpacing: '0.04em',
+        textTransform: 'none' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        margin: '4px 0 8px',
+        fontStyle: 'italic' as const,
+      },
+      containerStyle: {
+        borderTop: '4px solid #2c3e50',
+        paddingTop: '14px',
+      },
+    },
+
+    thornfeld_gazette: {
+      headlineSize: isLead ? '1.9rem' : '0.88rem',
+      headlineWeight: 700,
+      headlineTransform: 'uppercase',
+      headlineColor: '#2d4a1e',
+      headlineFamily: "'EB Garamond', Georgia, serif",
+      bodyFamily: "'EB Garamond', Georgia, serif",
+      bodySize: isLead ? '0.76rem' : '0.63rem',
+      accentRule: '2px solid #4a4a2a',
+      categoryStyle: {
+        fontFamily: "'EB Garamond', Georgia, serif",
+        fontSize: '0.5rem',
+        letterSpacing: '0.15em',
+        color: '#6a5a3a',
+        textTransform: 'uppercase' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        marginBottom: '6px',
+        fontVariant: 'small-caps' as const,
+        fontStyle: 'italic' as const,
+      },
+      bylineStyle: {
+        fontFamily: "'EB Garamond', Georgia, serif",
+        fontSize: '0.52rem',
+        color: '#6a5a3a',
+        letterSpacing: '0.04em',
+        textTransform: 'none' as const,
+        textAlign: isLead ? 'center' as const : 'left' as const,
+        margin: '4px 0 8px',
+        fontStyle: 'italic' as const,
+      },
+      containerStyle: {
+        background: 'rgba(74,74,42,0.04)',
+        padding: isLead ? '12px 16px' : '0',
+        border: isLead ? '2px solid #4a4a2a' : 'none',
+        boxShadow: isLead ? 'inset 0 0 0 4px rgba(74,74,42,0.08)' : 'none',
+      },
+    },
+  }
+
+  const ps = paperStyles[paper.id] ?? paperStyles.ashenmere_herald
+
   return (
-    <div style={{ marginBottom: '12px' }}>
+    <div style={{ marginBottom: isLead ? '20px' : '16px', ...ps.containerStyle }}>
+
+      {/* Category */}
+      <div style={ps.categoryStyle}>
+        {article.category.toUpperCase()}
+      </div>
+
+      {/* Headline */}
       <h2 style={{
-        fontFamily: paper.fontFamily,
-        fontSize: article.category === 'crisis' || article.category === 'war' ? '0.95rem' : '0.78rem',
-        fontWeight: article.category === 'crisis' || article.category === 'war' ? 800 : 700,
-        lineHeight: 1.2,
-        margin: '0 0 2px',
-        letterSpacing: article.category === 'crisis' || article.category === 'war' ? '0.02em' : '0.01em',
-        color: paper.textColor,
-        textTransform: article.category === 'crisis' || article.category === 'war' ? 'uppercase' : 'none',
+        fontFamily: ps.headlineFamily,
+        fontSize: ps.headlineSize,
+        fontWeight: ps.headlineWeight,
+        lineHeight: isLead ? 1.1 : 1.25,
+        margin: isLead ? '0 0 8px' : '0 0 4px',
+        color: ps.headlineColor,
+        textTransform: ps.headlineTransform as React.CSSProperties['textTransform'],
+        textAlign: isLead ? 'center' : 'left',
       }}>
         {article.headline}
       </h2>
-      <p style={{
-        fontFamily: "'Special Elite', monospace",
-        fontSize: '0.4rem',
-        color: '#8a7a60',
-        letterSpacing: '0.06em',
-        margin: '0 0 4px',
-        textTransform: 'uppercase',
-      }}>
+
+      {/* Decorative rule under lead headline */}
+      {isLead && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          margin: '6px 0 8px',
+        }}>
+          <div style={{ flex: 1, height: '2px', background: ps.headlineColor, opacity: 0.7 }} />
+          <div style={{
+            width: '5px', height: '5px',
+            background: ps.headlineColor,
+            transform: 'rotate(45deg)',
+            opacity: 0.5, flexShrink: 0,
+          }} />
+          <div style={{ flex: 1, height: '1px', background: ps.headlineColor, opacity: 0.3 }} />
+        </div>
+      )}
+
+      {/* Byline */}
+      <p style={ps.bylineStyle}>
         By {paper.reporterName} · {article.date}
       </p>
+
+      {/* Body */}
       <p style={{
-        fontFamily: paper.bodyFontFamily,
-        fontSize: '0.64rem',
-        lineHeight: 1.55,
+        fontFamily: ps.bodyFamily,
+        fontSize: ps.bodySize,
+        lineHeight: isLead ? 1.7 : 1.55,
         color: paper.textColor,
         margin: 0,
+        textAlign: isLead ? 'justify' : 'left',
+        opacity: 0.92,
+        ...(isLead ? {
+          columnCount: 2,
+          columnGap: '24px',
+          columnRule: '1px solid rgba(0,0,0,0.1)',
+        } : {}),
       }}>
         {renderWithEntities(article.body)}
       </p>
@@ -186,9 +426,6 @@ export default function NewsOverlay() {
   }, [articles, lastReadIndex])
 
   const activePaper = NEWSPAPERS[activeTab]
-  const mid = Math.ceil(tabArticles.length / 2)
-  const leftColumn = tabArticles.slice(0, mid)
-  const rightColumn = tabArticles.slice(mid)
 
   if (!isOpen) return null
 
@@ -257,48 +494,228 @@ export default function NewsOverlay() {
 
             {/* Body */}
             {totalPages === 0 || tabArticles.length === 0 ? (
-              <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                <p style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.8rem', color: '#8a8060', letterSpacing: '0.1em' }}>
-                  {totalPages === 0 ? 'NO NEWS THIS WEEK' : `No articles in ${activePaper.shortName} for Week ${currentWeek}`}
+              <div style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                gap: '12px',
+                paddingTop: '40px',
+              }}>
+                <p style={{
+                  fontFamily: "'Special Elite', monospace",
+                  fontSize: '0.8rem',
+                  color: '#8a8060',
+                  letterSpacing: '0.1em',
+                }}>
+                  NO COVERAGE THIS WEEK
                 </p>
-                <p style={{ fontFamily: activePaper.fontFamily, fontStyle: 'italic', fontSize: '0.85rem', color: '#a09070' }}>
-                  {totalPages === 0 ? 'Your decisions have not yet made the papers. The press is watching.' : 'Try another newspaper for coverage of this week.'}
+                <p style={{
+                  fontFamily: activePaper.fontFamily,
+                  fontStyle: 'italic',
+                  fontSize: '0.85rem',
+                  color: '#a09070',
+                }}>
+                  Try another publication for coverage.
                 </p>
               </div>
             ) : (
-              <div style={{ flex: 1, display: 'flex', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
-                <div style={{ flex: 1, display: 'flex', padding: '16px 20px 16px 28px', gap: '24px', overflowY: 'auto' }}>
-                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    {leftColumn.map(article => (
-                      <div key={article.id}>
-                        <ArticleBlock article={article} paper={activePaper} />
-                        <div style={{ height: '1px', background: '#d0c8b0', marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ background: activePaper.paperColor, padding: '0 8px', color: '#c0b898', fontSize: '0.5rem' }}>✦</span>
+              <div style={{
+                flex: 1,
+                display: 'flex',
+                overflow: 'hidden',
+                position: 'relative',
+                zIndex: 1,
+              }}>
+                <div style={{
+                  flex: 1,
+                  padding: '16px 28px 16px 28px',
+                  overflowY: 'auto',
+                }}>
+                  {tabArticles.length > 0 && (() => {
+                    const lead = tabArticles[0]
+                    const rest = tabArticles.slice(1)
+                    return (
+                      <div>
+                        {/* BANNER HEADLINE — full width */}
+                        <div style={{
+                          borderBottom: '3px solid #1a1a2e',
+                          marginBottom: '12px',
+                          paddingBottom: '10px',
+                        }}>
+                          {/* Category tag */}
+                          <div style={{
+                            fontFamily: "'Special Elite', monospace",
+                            fontSize: '0.38rem',
+                            letterSpacing: '0.25em',
+                            color: activePaper.accentColor ?? '#5a5040',
+                            textTransform: 'uppercase' as const,
+                            textAlign: 'center' as const,
+                            marginBottom: '6px',
+                          }}>
+                            ── {lead.category.toUpperCase()} ──
+                          </div>
+
+                          {/* MASSIVE headline spanning full width */}
+                          <h2 style={{
+                            fontFamily: activePaper.fontFamily,
+                            fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+                            fontWeight: 900,
+                            lineHeight: 1.05,
+                            margin: '0 0 4px',
+                            color: activePaper.textColor,
+                            textTransform: 'uppercase' as const,
+                            textAlign: 'center' as const,
+                            letterSpacing: '-0.01em',
+                            width: '100%',
+                          }}>
+                            {lead.headline}
+                          </h2>
+
+                          {/* Byline centered */}
+                          <p style={{
+                            fontFamily: "'Special Elite', monospace",
+                            fontSize: '0.4rem',
+                            color: '#8a7a60',
+                            letterSpacing: '0.1em',
+                            margin: '6px 0 0',
+                            textTransform: 'uppercase' as const,
+                            textAlign: 'center' as const,
+                          }}>
+                            By {activePaper.reporterName} · {lead.date}
+                          </p>
                         </div>
+
+                        <p style={{
+                          fontFamily: activePaper.bodyFontFamily,
+                          fontSize: '0.7rem',
+                          lineHeight: 1.7,
+                          color: activePaper.textColor,
+                          margin: 0,
+                          textAlign: 'justify',
+                        }}>
+                          {renderWithEntities(lead.body)}
+                        </p>
+
+                        {/* Divider before secondary stories */}
+                        {rest.length > 0 && (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            marginBottom: '14px',
+                            borderTop: '2px solid #1a1a2e',
+                            borderBottom: '1px solid #1a1a2e',
+                            padding: '3px 0',
+                          }}>
+                            <span style={{
+                              fontFamily: "'Special Elite', monospace",
+                              fontSize: '0.38rem',
+                              letterSpacing: '0.2em',
+                              color: '#5a5040',
+                              textTransform: 'uppercase' as const,
+                              width: '100%',
+                              textAlign: 'center' as const,
+                            }}>
+                              Further Coverage
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Secondary stories in 2 columns */}
+                        {rest.length > 0 && (
+                          <div style={{
+                            display: 'flex',
+                            gap: '20px',
+                          }}>
+                            <div style={{
+                              flex: 1,
+                              display: 'flex',
+                              flexDirection: 'column' as const,
+                              gap: '14px',
+                            }}>
+                              {rest
+                                .filter((_, i) => i % 2 === 0)
+                                .map(article => (
+                                  <div key={article.id}>
+                                    <ArticleBlock
+                                      article={article}
+                                      paper={activePaper}
+                                      isLead={false}
+                                    />
+                                    <div style={{
+                                      height: '1px',
+                                      background: '#d0c8b0',
+                                      marginTop: '10px',
+                                    }} />
+                                  </div>
+                                ))}
+                            </div>
+
+                            <div style={{
+                              width: '1px',
+                              background: '#d0c8b0',
+                              flexShrink: 0,
+                            }} />
+
+                            <div style={{
+                              flex: 1,
+                              display: 'flex',
+                              flexDirection: 'column' as const,
+                              gap: '14px',
+                            }}>
+                              {rest
+                                .filter((_, i) => i % 2 === 1)
+                                .map(article => (
+                                  <div key={article.id}>
+                                    <ArticleBlock
+                                      article={article}
+                                      paper={activePaper}
+                                      isLead={false}
+                                    />
+                                    <div style={{
+                                      height: '1px',
+                                      background: '#d0c8b0',
+                                      marginTop: '10px',
+                                    }} />
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Empty state */}
+                        {tabArticles.length === 0 && (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'column' as const,
+                            gap: '12px',
+                            paddingTop: '60px',
+                          }}>
+                            <p style={{
+                              fontFamily: "'Special Elite', monospace",
+                              fontSize: '0.8rem',
+                              color: '#8a8060',
+                              letterSpacing: '0.1em',
+                            }}>
+                              NO NEWS THIS WEEK
+                            </p>
+                            <p style={{
+                              fontFamily: activePaper.fontFamily,
+                              fontStyle: 'italic',
+                              fontSize: '0.85rem',
+                              color: '#a09070',
+                            }}>
+                              Your decisions have not yet made the papers.
+                            </p>
+                          </div>
+                        )}
                       </div>
-                    ))}
-                    {leftColumn.length === 0 && rightColumn.length > 0 && (
-                      <p style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.65rem', color: '#a09070', textAlign: 'center' }}>
-                        Articles in right column →
-                      </p>
-                    )}
-                  </div>
-                  <div style={{ width: '1px', background: '#d0c8b0', flexShrink: 0, margin: '8px 0' }} />
-                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    {rightColumn.map(article => (
-                      <div key={article.id}>
-                        <ArticleBlock article={article} paper={activePaper} />
-                        <div style={{ height: '1px', background: '#d0c8b0', marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ background: activePaper.paperColor, padding: '0 8px', color: '#c0b898', fontSize: '0.5rem' }}>✦</span>
-                        </div>
-                      </div>
-                    ))}
-                    {rightColumn.length === 0 && leftColumn.length > 0 && (
-                      <p style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.65rem', color: '#a09070', textAlign: 'center' }}>
-                        Articles in left column ←
-                      </p>
-                    )}
-                  </div>
+                    )
+                  })()}
                 </div>
               </div>
             )}
