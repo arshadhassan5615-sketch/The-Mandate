@@ -51,15 +51,22 @@ function clearAllTimeouts(): void {
 }
 
 // Load all agenda pool JSON files at build time.
-// Each file exports an AgendaItem[].
+// Each file exports { week: number, agenda: AgendaItem[] }.
 const agendaModules = import.meta.glob<AgendaItem[]>(
   '../data/agenda/*.json',
   { eager: true, import: 'default' },
 )
-const ALL_AGENDA: AgendaItem[] = Object.values(agendaModules).flat()
+const ALL_AGENDA: AgendaItem[] = Object.values(agendaModules)
+  .flatMap((mod: unknown) => {
+    if (Array.isArray(mod)) return mod
+    const m = mod as { agenda?: AgendaItem[] }
+    return Array.isArray(m?.agenda) ? m.agenda : []
+  })
 
 function buildPool(week: number, state: GameState, flags: string[], visited: string[]): AgendaItem[] {
   const result = ALL_AGENDA.filter(item => {
+    // Broad guard: drop any agenda item missing required fields before further processing
+    if (item == null || item.sceneId == null) return false
     if (item.weekAvailable > week) return false
     if (item.weekDeadline !== undefined && week > item.weekDeadline) return false
     if (item.prerequisites?.length) {
@@ -751,6 +758,14 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
     // Decrees — filter eligible decrees for the current week
     useDecreeStore.getState().initDecrees(gameState.currentWeek, gameState, activeFlags)
+
+    // Sort pool by executionOrder so downstream readers (e.g. MapInteractionLayer)
+    // always see items in canonical sequence. Items missing executionOrder
+    // sink to the end (coerced to 99).
+    pool.sort((a, b) =>
+      (a.executionOrder ?? 99) -
+      (b.executionOrder ?? 99)
+    )
 
     // Note: forcedChainIds is NOT reset here — it is set by completeWeek before initWeek runs.
     // On first load (GameLayout mount), forcedChainIds stays [] from initial state.
