@@ -1035,6 +1035,122 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
               ])
             }
 
+            if (completedItem?.sceneId === 'act1_week1_address_nation') {
+              const d = new Date(1963, 2, 15)
+              const dateStr = d.toLocaleDateString('en-US', {
+                day: 'numeric', month: 'long', year: 'numeric'
+              })
+              const flags = useNarrativeStore.getState().activeFlags
+
+              // Determine which speech was given
+              const speechType = flags.includes('address_unity_chosen')
+                ? 'unity'
+                : flags.includes('address_reform_chosen')
+                  ? 'reform'
+                  : flags.includes('address_strength_chosen')
+                    ? 'strength'
+                    : 'unity'
+
+              const headlines: Record<string, {
+                herald: string, standard: string,
+                worker: string, times: string, gazette: string,
+                heraldBody: string, standardBody: string,
+                workerBody: string, timesBody: string, gazetteBody: string
+              }> = {
+                unity: {
+                  herald: 'CHANCELLOR CALLS FOR NATIONAL UNITY',
+                  heraldBody: 'In her first address as Chancellor, Katerin Ashavel appealed directly to the Republic\'s divisions — acknowledging them without exploiting them. The speech lasted eleven minutes. The broadcast engineer was in tears when it ended. Political observers called it statesmanlike. The opposition called it vague. Both reactions suggest she struck exactly the right note.',
+                  standard: 'A VOICE FOR ALL OF US',
+                  standardBody: 'She did not pretend the divisions do not exist. She named them and asked us to set them aside — not permanently, but long enough to build something. That is not weakness. That is the hardest thing a leader can ask. The People\'s Standard endorses the spirit of what she said today. Now we watch what she does.',
+                  worker: 'UNITY IS NOT ENOUGH',
+                  workerBody: 'The Chancellor spoke of unity. Workers in Kravenstal respect the sentiment. But unity without justice is silence with better lighting. We need the pension freeze reversed. We need the collective bargaining rights back. We will keep saying it until someone in that building writes it down.',
+                  times: 'THE CHANCELLOR CHOOSES CONCILIATION',
+                  timesBody: 'The address was carefully constructed — inclusive language, no enemies named, no specific commitments made. Whether this reflects genuine statesmanship or political caution remains to be seen. The Times notes that unity speeches are easiest to give and hardest to honour. The Republic will be watching.',
+                  gazette: 'ASHENMERE SPEAKS OF UNITY. THE EAST LISTENS.',
+                  gazetteBody: 'The Chancellor spoke of a Republic that belongs to everyone. The Thornfeld Gazette heard that word — everyone — and noted that the eastern provinces were not mentioned once by name. We do not doubt the Chancellor\'s sincerity. We ask only that unity include us.',
+                },
+                reform: {
+                  herald: 'CHANCELLOR NAMES THE PENSION FREEZE IN FIRST ADDRESS',
+                  heraldBody: 'In a striking departure from inaugural convention, Chancellor Ashavel named the pension freeze of 1959 directly in her first national address — promising reversal within thirty days. She also committed to opening the BNI files to an independent commission. The Finance Ministry had no comment. Markets fell two points in the first hour of trading before recovering.',
+                  standard: 'SHE SAID IT. OUT LOUD. ON THE RADIO.',
+                  standardBody: 'The pension freeze. The stolen contracts. The judicial appointments handed to party loyalists. She named them. Not metaphorically. By name. In her first hour as Chancellor. The People\'s Standard has been writing about this for four years. Today the Chancellor of the Republic said it into a microphone and the whole country heard it. This is what change sounds like.',
+                  worker: 'THIRTY DAYS. WE ARE COUNTING.',
+                  workerBody: 'She gave us a timeline. Thirty days to open the BNI files. Thirty days to begin pension restoration. Workers across Kravenstal have set their calendars. We will be here on day thirty-one. We will remember every word she said today. We wish her the strength to keep them.',
+                  times: 'A CHANCELLOR WHO NAMES NAMES',
+                  timesBody: 'The address was remarkable for its specificity. The pension freeze of 1959. The BNI files. Thirty days. These are not platitudes — they are commitments that can be measured and held to account. The Times welcomes the clarity. We note that the Finance Ministry faces an immediate crisis of confidence and that the Halvekist bloc in the Assembly will not forgive this speech.',
+                  gazette: 'REFORM REACHES THE RADIO',
+                  gazetteBody: 'The Chancellor\'s address was heard in every farmhouse and workshop in Thornfeld. The pension freeze affected fourteen thousand families in this province alone. They heard her name it today. The Gazette is cautious by nature. But we will say this: she did not speak like someone who intends to forget.',
+                },
+                strength: {
+                  herald: 'CHANCELLOR SENDS SIGNAL TO TYVAREN IN FIRST ADDRESS',
+                  heraldBody: 'Chancellor Ashavel\'s first national address contained what diplomatic observers are calling a clear message to the Tyvaren Confederation — delivered without naming them. The phrase "we will not mistake patience for weakness" was parsed immediately by foreign affairs analysts. The Tyvaren embassy filed a formal note of acknowledgment within the hour.',
+                  standard: 'STRENGTH IS NOT ENOUGH WITHOUT JUSTICE',
+                  standardBody: 'The Chancellor spoke of defending borders and answering weakness with resolve. The People\'s Standard respects strength. But the workers of Veltria need more than a strong posture toward Tyvaren. They need their pensions restored. They need their rights back. Strength turned inward — toward the people who were robbed — is what we are waiting for.',
+                  worker: 'SHE IS NOT AFRAID. NEITHER ARE WE.',
+                  workerBody: 'Short. Direct. Nine minutes. The Chancellor told the Republic and its neighbors that Veltria is not afraid. Workers in Kravenstal have never been afraid either. We built this country with our hands while others profited. We are glad the Chancellor has a spine. We hope she uses it for us too.',
+                  times: 'A CHANCELLOR WHO SPEAKS TO NEIGHBORS AS MUCH AS CITIZENS',
+                  timesBody: 'The address was as much foreign policy statement as domestic speech. The Iron Covenant will be satisfied. The Foreign Ministry will be busy. Whether this posture serves Veltria\'s interests depends entirely on what follows. Strength is a position, not a policy. The Times will be watching for the policy.',
+                  gazette: 'THORNFELD HEARD A DIFFERENT SPEECH THAN ASHENMERE',
+                  gazetteBody: 'The Chancellor spoke of strength and sovereignty. In the eastern provinces, where Tyvaren\'s shadow falls most directly, those words land differently than in the capital. Farmers along the border know what it means when the government in Ashenmere decides to be bold with Tyvaren. The Gazette hopes the Chancellor\'s resolve comes with a plan.',
+                },
+              }
+
+              const h = headlines[speechType]
+
+              useNewsStore.getState().addArticles([
+                {
+                  id: `news_address_herald_${Date.now()}`,
+                  headline: h.herald,
+                  body: h.heraldBody,
+                  publication: 'ashenmere_herald' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'address_herald',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_address_standard_${Date.now()}`,
+                  headline: h.standard,
+                  body: h.standardBody,
+                  publication: 'peoples_standard' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'address_standard',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_address_worker_${Date.now()}`,
+                  headline: h.worker,
+                  body: h.workerBody,
+                  publication: 'kravenstal_worker' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'address_worker',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_address_times_${Date.now()}`,
+                  headline: h.times,
+                  body: h.timesBody,
+                  publication: 'veltrian_times' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'address_times',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_address_gazette_${Date.now()}`,
+                  headline: h.gazette,
+                  body: h.gazetteBody,
+                  publication: 'thornfeld_gazette' as const,
+                  weekNumber: 1,
+                  date: dateStr,
+                  templateId: 'address_gazette',
+                  category: 'governance' as const,
+                },
+              ])
+            }
+
             set(s => ({
               phase: 'map',
               transitionLabel: '',
@@ -1332,7 +1448,10 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         // Generate cliffhanger for the week that just ended (old week, before advance)
         // The cliffhanger reflects on the old week's events
         const cliffhanger = generateCliffhanger(gameState.currentWeek)
-        set({ cliffhangerText: cliffhanger })
+        set({
+          cliffhangerText: cliffhanger,
+          phase: 'review',
+        })
 
         saveGame(AUTOSAVE_SLOT, 'AUTOSAVE').catch(console.error)
       } catch (e) {

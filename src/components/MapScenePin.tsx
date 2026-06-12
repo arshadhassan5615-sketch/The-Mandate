@@ -75,7 +75,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
         src={mapPinImg}
         alt={PROVINCE_NAMES[provinceId] ?? provinceId}
         style={{
-          width: '64px',
+          width: '48px',
           height: 'auto',
           display: 'block',
           pointerEvents: 'none',
@@ -84,31 +84,12 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
         draggable={false}
       />
 
-      {/* Province name label below pin */}
-      <div style={{
-        position: 'absolute',
-        top: '100%',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        marginTop: '4px',
-        color: '#c9a84c',
-        fontFamily: "'Special Elite', monospace",
-        fontSize: '10px',
-        letterSpacing: '2px',
-        textTransform: 'uppercase',
-        whiteSpace: 'nowrap',
-        textShadow: '0 1px 3px rgba(0,0,0,0.9)',
-        pointerEvents: 'none',
-      }}>
-        {PROVINCE_NAMES[provinceId] ?? provinceId}
-      </div>
-
       {open && (
         <div
           ref={popoverRef}
           style={{
             position: 'absolute',
-            bottom: '54px',
+            bottom: '110%',
             left: '50%',
             transform: 'translateX(-50%)',
             width: '280px',

@@ -13,22 +13,26 @@
   "narrative": [
     {
       "type": "description",
-      "text": "The cabinet room is not yet a cabinet room. Not really. It is a room where people who might become a cabinet are standing around a table that has seen seventeen previous governments — some that succeeded, some that didn't, one that ended with the Chancellor being carried out by security. You can feel the history in the furniture. Vyktor Reznik and Gregor Marić are already here. They are not having a conversation. They are having the kind of exchange that happens before a conversation, when positions are being staked out like territory."
+      "text": "The cabinet room is not yet a cabinet room. Not really. It is a room where people who might become a cabinet are standing around a table that has seen seventeen previous governments — some that succeeded, some that didn't, one that ended with the Chancellor being carried out by security. You can feel the history in the furniture."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor Reznik and Gregor Marić are already here. They are not having a conversation. They are having the kind of exchange that happens before a conversation, when positions are being staked out like territory."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "First week."
+      "text": "First week. The files from the Halvek transition are still being catalogued. We don't have a complete picture yet."
     },
     {
       "type": "dialogue",
       "character": "gregor_maric",
-      "text": "We don't know what's in those files yet."
+      "text": "We don't know what's in those files yet. That concerns me."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "That's the point."
+      "text": "That's the point. We find out before we act, not after."
     },
     {
       "type": "dialogue",
@@ -47,8 +51,200 @@
     {
       "type": "dialogue",
       "character": "gregor_maric",
-      "text": "Chancellor. Good. Tell him."
+      "text": "Chancellor. Good. Tell him. We have forty thousand people waiting on pension restoration. We cannot wait for a full file review before we act."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "And I am saying that acting without complete information is how the last government made its worst mistakes. We take one week. We read what Halvek left behind. Then we decide."
+    },
+    {
+      "type": "description",
+      "text": "Both of them are looking at you now. This is your first decision as Chancellor — not a policy decision, not a budget decision. A decision about how this government will make decisions. That matters more than it seems."
+    },
+    {
+      "type": "monologue",
+      "text": "Marić is right that people are waiting. Vyktor is right that incomplete information is dangerous. You are going to have to choose which instinct to lead with — because they will both be watching which one you validate."
     }
   ],
-  "choices": []
+  "choices": [
+    {
+      "id": "cabinet_side_maric",
+      "text": "Marić is right. The pension freeze was theft. We begin restoration this week — with whatever information we have.",
+      "nextSegment": "cabinet_maric_wins",
+      "flags": ["cabinet_reform_first", "maric_early_trust"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+      ],
+      "reactions": [
+        {
+          "character": "gregor_maric",
+          "text": "Finally. Someone who understands what this government was elected to do.",
+          "type": "approval"
+        },
+        {
+          "character": "vyktor_reznik",
+          "text": "Noted. I will prepare the implementation framework. And the contingency plan for when complications arise.",
+          "type": "neutral"
+        }
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet_side_vyktor",
+      "text": "Vyktor is right. One week to read the files. We do not inherit problems we could have seen coming.",
+      "nextSegment": "cabinet_vyktor_wins",
+      "flags": ["cabinet_caution_first", "vyktor_early_trust"],
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "text": "A sound instinct. I will have a full brief on your desk by Thursday.",
+          "type": "approval"
+        },
+        {
+          "character": "gregor_maric",
+          "text": "The people waiting on those pensions will be told their Chancellor needed more information.",
+          "type": "disapproval"
+        }
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet_own_path",
+      "text": "Both of you are right. We begin the review and the restoration simultaneously. I want weekly progress reports on both.",
+      "nextSegment": "cabinet_both",
+      "flags": ["cabinet_balanced_start"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "text": "That will require significant coordination. But it is achievable.",
+          "type": "neutral"
+        },
+        {
+          "character": "gregor_maric",
+          "text": "I can work with that.",
+          "type": "approval"
+        }
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "cabinet_maric_wins": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Marić straightens. For the first time since you walked in, the tension in his shoulders releases slightly."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "I will have the first implementation proposals ready by end of week. Fourteen thousand families in Kravenstal alone."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I will prepare the legal framework. And the list of complications. There will be complications."
+        },
+        {
+          "type": "description",
+          "text": "The table that has seen seventeen governments settles into a different kind of silence. Not the silence of an argument paused. The silence of people who have decided something and are beginning to understand what that means."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cabinet_maric_end",
+          "text": "Let's get to work.",
+          "nextSegment": null,
+          "flags": ["cabinet_introductions_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "cabinet_vyktor_wins": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor gives a small, precise nod. The kind that means he is already three steps ahead in the planning."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Thursday. Full brief. Everything Halvek left behind that we know about — and my best estimate of what he left behind that we don't."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "One week. I am holding you to that."
+        },
+        {
+          "type": "description",
+          "text": "He says it to Vyktor but he is looking at you. The message is clear: one week of patience is what he is offering. Not more."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cabinet_vyktor_end",
+          "text": "Thursday, then. Let's begin.",
+          "nextSegment": null,
+          "flags": ["cabinet_introductions_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "cabinet_both": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "A moment of silence. Then both of them begin talking at the same time — stopping, looking at each other, then at you."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I will coordinate with Marić's office on sequencing. We will need to be careful about which files relate directly to the pension question."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "Agreed. For once."
+        },
+        {
+          "type": "description",
+          "text": "It is not warmth exactly. But it is the beginning of something functional. In a cabinet room that has seen seventeen governments, functional is how most of the good ones started."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cabinet_both_end",
+          "text": "Good. Let's get to work.",
+          "nextSegment": null,
+          "flags": ["cabinet_introductions_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }

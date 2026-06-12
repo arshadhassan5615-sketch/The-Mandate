@@ -158,7 +158,6 @@ function ArticleBlock({
       containerStyle: {
         borderTop: isLead ? 'none' : '1px solid #d0c8b0',
         paddingTop: isLead ? '0' : '12px',
-        borderLeft: isLead ? 'none' : '4px solid #1a1a2e',
       },
     },
 
@@ -196,8 +195,7 @@ function ArticleBlock({
       containerStyle: {
         background: isLead ? 'rgba(139,26,26,0.04)' : 'transparent',
         padding: isLead ? '12px' : '0',
-        borderLeft: isLead ? 'none' : '3px solid #8b1a1a',
-        paddingLeft: isLead ? '12px' : '10px',
+        borderLeft: 'none',
       },
     },
 
