@@ -409,6 +409,11 @@ export default function ConversationPanel({
             opacity: 1;
           }
         }
+        @keyframes panel-fade-in {
+          0% { opacity: 0; }
+          30% { opacity: 0; }
+          100% { opacity: 1; }
+        }
       `}</style>
       {isEmergency && (
         <div style={{
@@ -419,7 +424,7 @@ export default function ConversationPanel({
       )}
 
       {currentScene && (
-      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '640px' }}>
+      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '640px', animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
 
         <div style={{
           position: 'relative',
