@@ -390,9 +390,9 @@ export default function ConversationPanel({
   // Derive currentSpeakerId for name highlighting in history
   const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
 
-  const displayStack = speakerStack.length > 0
-    ? speakerStack
-    : ['katerin_ashavel']
+  const displayStack = speakerStack.filter(
+    id => id !== 'katerin_ashavel'
+  )
 
   if (phase !== 'scene') return null
 
@@ -426,6 +426,7 @@ export default function ConversationPanel({
       {currentScene && (
       <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '640px', animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
 
+        {displayStack.length > 0 && (
         <div style={{
           position: 'relative',
           width: '80px',
@@ -515,6 +516,7 @@ export default function ConversationPanel({
             )
           })}
         </div>
+        )}
 
         {/* Expanding conversation panel — RIGHT side of row */}
         <div style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', maxHeight: '70vh', overflowY: 'auto' }}>
