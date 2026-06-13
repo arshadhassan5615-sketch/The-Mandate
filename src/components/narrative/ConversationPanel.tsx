@@ -134,6 +134,8 @@ export default function ConversationPanel({
 
   // Track the top of the stack for entrance animations
   const prevTopSpeakerRef = useRef<string | undefined>(undefined)
+  const panelInnerRef = useRef<HTMLDivElement>(null)
+  const panelWrapperRef = useRef<HTMLDivElement>(null)
 
   // Deterministic stack built from actual history (prevents skipping bugs)
   const speakerStack = useMemo(() => {
@@ -387,6 +389,21 @@ export default function ConversationPanel({
     }
   }, [speakerStack])
 
+  // Track inner content height and animate wrapper
+  useEffect(() => {
+    const inner = panelInnerRef.current
+    const wrapper = panelWrapperRef.current
+    if (!inner || !wrapper) return
+    const ro = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const h = entry.contentRect.height
+        wrapper.style.height = `${Math.min(h, window.innerHeight * 0.7)}px`
+      }
+    })
+    ro.observe(inner)
+    return () => ro.disconnect()
+  }, [])
+
   // Derive currentSpeakerId for name highlighting in history
   const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
 
@@ -426,7 +443,6 @@ export default function ConversationPanel({
       {currentScene && (
       <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '640px', animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
 
-        {displayStack.length > 0 && (
         <div style={{
           position: 'relative',
           width: '80px',
@@ -443,6 +459,8 @@ export default function ConversationPanel({
           alignSelf: 'flex-end',
           background: 'transparent',
           zIndex: 601,
+          transition: 'opacity 0.3s ease',
+          visibility: displayStack.length > 0 ? 'visible' : 'hidden',
         }}>
           {displayStack.map((charId, idx) => {
             const isCurrent = idx === displayStack.length - 1
@@ -516,11 +534,11 @@ export default function ConversationPanel({
             )
           })}
         </div>
-        )}
 
         {/* Expanding conversation panel — RIGHT side of row */}
-        <div style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', maxHeight: '70vh', overflowY: 'auto' }}>
+        <div ref={panelWrapperRef} style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', maxHeight: '70vh', overflowY: 'auto', height: '0px', transition: 'height 0.45s cubic-bezier(0.22, 1, 0.36, 1)' }}>
         <div
+          ref={panelInnerRef}
           className="conversation-panel"
           style={{
             position: 'relative',
