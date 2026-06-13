@@ -424,6 +424,10 @@ export default function ConversationPanel({
     MAX_PANEL_HEIGHT
   )
 
+  const displayStack = speakerStack.length > 0
+    ? speakerStack
+    : ['katerin_ashavel']
+
   if (phase !== 'scene') return null
 
   return (
@@ -451,75 +455,45 @@ export default function ConversationPanel({
       {currentScene && (
       <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '12px', padding: '0 16px', width: '100%', maxWidth: '780px', boxSizing: 'border-box' }}>
 
-        {/* Portrait Stack — left column, stacks bottom-to-top */}
-        <div
-          style={{
-            flexShrink: 0,
-            zIndex: 101,
-            display: 'flex',
-            flexDirection: 'column-reverse',
-            alignItems: 'center',
-            gap: '6px',
-            maxHeight: '260px',
-            minWidth: '72px',
-            width: '72px',
-            overflow: 'visible',
-            justifyContent: 'flex-end',
-            alignSelf: 'flex-end',
-          }}
-        >
-          {speakerStack.length === 0 || !currentScene ? null : (
-            [...speakerStack].reverse().map((charId, reversedIdx) => {
-              const isCurrent = reversedIdx === 0
-              const isNew = charId === newSpeakerId
-              const hasError = portraitErrors[charId] ?? false
-              const img = getPortrait(charId)
-              const name = charName(charId)
-              const initials = name
-                .split(' ')
-                .filter(Boolean)
-                .map((w: string) => w[0])
-                .join('')
-                .slice(0, 2)
-                .toUpperCase()
-
-              const size = isCurrent ? 72 : 52
-              const opacity = isCurrent ? 1 : 0.45
-              const borderColor = isCurrent ? '#c9a84c' : 'rgba(201,168,76,0.3)'
-              const borderWidth = isCurrent ? '3px' : '2px'
-              const boxShadow = isCurrent
-                ? '0 0 0 1px rgba(201,168,76,0.3), 0 4px 20px rgba(0,0,0,0.8)'
-                : '0 2px 8px rgba(0,0,0,0.6)'
-
-              return (
-                <div
-                  key={charId}
-                  style={{
-                    flexShrink: 0,
-                    width: `${size}px`,
-                    height: `${size}px`,
-                    borderRadius: '50%',
-                    border: `${borderWidth} solid ${borderColor}`,
-                    boxShadow,
-                    overflow: 'hidden',
-                    background: 'rgba(10,8,6,0.9)',
-                    position: 'relative',
-                    opacity,
-                    animation: isNew && isCurrent
-                      ? 'portrait-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
-                      : 'none',
-                    transition: isCurrent
-                      ? 'opacity 0.3s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease'
-                      : 'opacity 0.3s ease, width 0.3s ease, height 0.3s ease',
-                  }}
-                >
-                  {img && !hasError ? (
+        <div style={{
+          width: '80px',
+          flexShrink: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: '8px',
+          paddingBottom: '12px',
+          alignSelf: 'flex-end',
+          zIndex: 601,
+        }}>
+          {displayStack.map((charId, idx) => {
+            const isCurrent = idx === displayStack.length - 1
+            const img = getPortrait(charId)
+            const name = charName(charId)
+            const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()
+            return (
+              <div key={charId} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '4px',
+              }}>
+                <div style={{
+                  width: isCurrent ? '72px' : '48px',
+                  height: isCurrent ? '72px' : '48px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: isCurrent ? '2px solid #c9a84c' : '1px solid rgba(201,168,76,0.3)',
+                  boxShadow: isCurrent ? '0 0 12px rgba(201,168,76,0.5)' : 'none',
+                  opacity: isCurrent ? 1 : 0.45,
+                  background: 'rgba(10,8,6,0.95)',
+                  flexShrink: 0,
+                }}>
+                  {img ? (
                     <img
                       src={img}
                       alt={name}
-                      onError={() =>
-                        setPortraitErrors(prev => ({ ...prev, [charId]: true }))
-                      }
                       style={{
                         width: '100%',
                         height: '100%',
@@ -529,41 +503,41 @@ export default function ConversationPanel({
                       }}
                     />
                   ) : (
-                    <div
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        background: 'rgba(201,168,76,0.25)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "'Special Elite', monospace",
-                          fontSize: isCurrent ? '28px' : '20px',
-                          color: '#c9a84c',
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {initials}
-                      </span>
+                    <div style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'rgba(201,168,76,0.2)',
+                    }}>
+                      <span style={{
+                        fontFamily: "'Special Elite', monospace",
+                        fontSize: isCurrent ? '24px' : '16px',
+                        color: '#c9a84c',
+                      }}>{initials}</span>
                     </div>
                   )}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      borderRadius: '50%',
-                      boxShadow: 'inset 0 0 8px rgba(0,0,0,0.55)',
-                      pointerEvents: 'none',
-                    }}
-                  />
                 </div>
-              )
-            })
-          )}
+                {isCurrent && (
+                  <span style={{
+                    fontFamily: "'Special Elite', monospace",
+                    fontSize: '8px',
+                    letterSpacing: '1px',
+                    color: 'rgba(201,168,76,0.7)',
+                    textTransform: 'uppercase',
+                    textAlign: 'center',
+                    maxWidth: '72px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    {name.split(' ')[0]}
+                  </span>
+                )}
+              </div>
+            )
+          })}
         </div>
 
         {/* Expanding conversation panel — RIGHT side of row */}
@@ -583,7 +557,7 @@ export default function ConversationPanel({
             scrollbarWidth: 'thin',
             background: '#0a0806',
             borderTop: '1px solid rgba(201,168,76,0.25)',
-            borderLeft: '1px solid rgba(201,168,76,0.25)',
+            borderLeft: 'none',
           }}
         >
 
@@ -683,8 +657,8 @@ export default function ConversationPanel({
                   {/* Speaker name */}
                   {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && (
                     <div style={{
-                      fontSize: '9px',
-                      letterSpacing: '1.5px',
+                      fontSize: '10px',
+                      letterSpacing: '0.12em',
                       color: entry.type === 'player_spoken'
                         ? 'rgba(232,220,200,0.7)'
                         : isCurrentSpeaker ? '#c9a84c' : 'rgba(201,168,76,0.4)',
@@ -699,8 +673,8 @@ export default function ConversationPanel({
                   {entry.type === 'internal_thought' && (
                     <div style={{
                       fontFamily: "'Special Elite', monospace",
-                      fontSize: '9px',
-                      letterSpacing: '2px',
+                      fontSize: '10px',
+                      letterSpacing: '0.12em',
                       color: 'rgba(201,168,76,0.5)',
                       textTransform: 'uppercase',
                       marginBottom: '3px',
@@ -711,16 +685,16 @@ export default function ConversationPanel({
 
                   {/* Dialogue / narrative text */}
                   <div style={{
-                    fontSize: '13px',
-                    lineHeight: '1.6',
+                    fontSize: '15px',
+                    lineHeight: '1.65',
                     color: entry.type === 'narrative' || entry.type === 'description'
                       ? 'rgba(180,170,150,0.8)'
                       : entry.type === 'internal_thought'
                       ? '#c9a84c'
                       : 'rgba(232,213,163,0.92)',
-                    fontFamily: "'Crimson Text', serif",
+                    fontFamily: "'Crimson Text', Georgia, serif",
                     fontStyle: entry.type === 'narrative' || entry.type === 'description' || entry.type === 'internal_thought' ? 'italic' : 'normal',
-                    borderLeft: entry.type === 'internal_thought' ? '2px solid rgba(201,168,76,0.4)' : 'none',
+                    borderLeft: 'none',
                     paddingLeft: entry.type === 'internal_thought' ? '16px' : '0',
                     marginLeft: entry.type === 'internal_thought' ? '8px' : '0',
                   }}>
@@ -750,8 +724,8 @@ export default function ConversationPanel({
                     <>
                       {activeType === 'dialogue' && (
                         <div style={{
-                          fontSize: '9px',
-                          letterSpacing: '1.5px',
+                          fontSize: '10px',
+                          letterSpacing: '0.12em',
                           color: '#c9a84c',
                           textTransform: 'uppercase',
                           marginBottom: '3px',
@@ -763,8 +737,8 @@ export default function ConversationPanel({
                       {activeType === 'internal_thought' && (
                         <div style={{
                           fontFamily: "'Special Elite', monospace",
-                          fontSize: '9px',
-                          letterSpacing: '2px',
+                          fontSize: '10px',
+                          letterSpacing: '0.12em',
                           color: 'rgba(201,168,76,0.5)',
                           textTransform: 'uppercase',
                           marginBottom: '4px',
@@ -773,18 +747,16 @@ export default function ConversationPanel({
                         </div>
                       )}
                       <div style={{
-                        fontSize: activeType === 'internal_thought' ? '16px' : '13px',
-                        lineHeight: '1.8',
+                        fontSize: '15px',
+                        lineHeight: '1.65',
                         color: activeType === 'dialogue'
                           ? 'rgba(232,213,163,0.92)'
                           : activeType === 'internal_thought'
                           ? '#c9a84c'
                           : 'rgba(220,210,190,0.85)',
-                        fontFamily: "'Crimson Text', serif",
+                        fontFamily: "'Crimson Text', Georgia, serif",
                         fontStyle: 'italic',
-                        borderLeft: activeType === 'internal_thought'
-                          ? '2px solid rgba(201,168,76,0.4)'
-                          : 'none',
+                        borderLeft: 'none',
                         paddingLeft: activeType === 'internal_thought' ? '16px' : '0',
                         marginLeft: activeType === 'internal_thought' ? '8px' : '0',
                       }}>
