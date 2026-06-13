@@ -23,7 +23,7 @@ async function saveToLocalStorage(record: SaveRecord): Promise<void> {
   const key = `${LS_PREFIX}${record.slot}`
   const json = JSON.stringify(record)
   localStorage.setItem(key, json)
-  console.log('[SaveManager] Fallback localStorage save succeeded, slot:', record.slot)
+  if (import.meta.env.DEV) console.log('[SaveManager] Fallback localStorage save succeeded, slot:', record.slot)
 }
 
 async function loadFromLocalStorage(slot: number): Promise<SaveRecord | null> {
@@ -72,10 +72,22 @@ export async function saveGame(slot: number, name: string): Promise<void> {
   const newsState = useNewsStore.getState()
   const letterState = useLetterStore.getState()
 
+  let saveName = name
+  if (slot !== AUTOSAVE_SLOT && name === 'AUTOSAVE') {
+    try {
+      const existing = await db.saves.get(slot)
+      if (existing?.name && existing.name !== 'AUTOSAVE') {
+        saveName = existing.name
+      }
+    } catch {
+      // ignore — use provided name
+    }
+  }
+
   let record: SaveRecord = {
     version: 2,
     slot,
-    name: slot === AUTOSAVE_SLOT ? 'AUTOSAVE' : name,
+    name: slot === AUTOSAVE_SLOT ? 'AUTOSAVE' : saveName,
     timestamp: Date.now(),
     weekNumber: gameState.currentWeek,
     actNumber:  gameState.currentAct,
@@ -170,11 +182,11 @@ export async function saveGame(slot: number, name: string): Promise<void> {
   }
 
   // Step 2 diagnostics
-  console.log('[SaveManager] db.isOpen():', db.isOpen(), 'slot:', record.slot)
+  if (import.meta.env.DEV) console.log('[SaveManager] db.isOpen():', db.isOpen(), 'slot:', record.slot)
 
   // Step 3 — size guard: trim news articles if record exceeds 4 MB
   const recordJson = JSON.stringify(record)
-  console.log('[SaveManager] Record size:', recordJson.length, 'bytes')
+  if (import.meta.env.DEV) console.log('[SaveManager] Record size:', recordJson.length, 'bytes')
   if (recordJson.length > 4_000_000) {
     console.warn('[SaveManager] Record too large, trimming news articles')
     record = {
@@ -188,14 +200,14 @@ export async function saveGame(slot: number, name: string): Promise<void> {
 
   // Step 4 — ensure database is open
   if (!db.isOpen()) {
-    console.log('[SaveManager] Database not open, opening...')
+    if (import.meta.env.DEV) console.log('[SaveManager] Database not open, opening...')
     await db.open()
   }
 
   // Step 1 + 5 — try Dexie, fall back to localStorage
   try {
     await db.saves.put(record)
-    console.log('[SaveManager] Dexie save succeeded, slot:', slot, 'week:', record.weekNumber)
+    if (import.meta.env.DEV) console.log('[SaveManager] Dexie save succeeded, slot:', slot, 'week:', record.weekNumber)
   } catch (e) {
     const err = e as Error & { name?: string; message?: string; inner?: unknown }
     console.error('[SaveManager] Dexie save failed:', JSON.stringify({

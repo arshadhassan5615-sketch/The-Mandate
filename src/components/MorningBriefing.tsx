@@ -104,7 +104,7 @@ export default function MorningBriefing() {
       useChainStore.getState().schedule(triggers, currentWeek, 'family_dinner_init')
       useNarrativeStore.getState().addFlags(['family_dinner_chains_scheduled'])
     }
-  }, [])
+  }, [activeFlags, currentWeek])
 
   // Fallback headlines for Week 1 — news hasn't been generated yet
   const displayHeadlines = headlines.length > 0 ? headlines : (currentWeek === 1 ? [

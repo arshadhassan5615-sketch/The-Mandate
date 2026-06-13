@@ -17,6 +17,7 @@ import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
 import type { NewsCategory } from '../types/news'
 import { saveGame, AUTOSAVE_SLOT } from '../engine/SaveManager'
+import { useSettingsStore } from './settingsStore'
 import { evaluateAssassinationTrigger, getAssassinationSceneId } from '../engine/AssassinationEngine'
 import { computeJonasStage } from '../engine/JonasEngine'
 import { MAX_BROADCASTS } from '../engine/RadioEngine'
@@ -303,6 +304,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // Cancel any pending transition timeouts so they can't mutate state
     // after a new game has begun.
     clearAllTimeouts()
+    // Reset playtime
+    useSettingsStore.getState().resetPlaytime()
+    // Reset codex seen entries
+    try {
+      localStorage.removeItem('mandate-codex-seen')
+    } catch { /* ignore */ }
     // Full state reset for a clean new game.
     // Stores that have a reset() action (e.g. gameStore.resetToInitial)
     // are called via ?.(); stores without one use setState to wipe state.
@@ -352,6 +359,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     useLetterStore.setState({ letters: [], readIds: new Set<string>(), currentIndex: 0, isOpen: false, unreadCount: 0 })
     set({
       phase: 'customization',
+      activeSlot: 0,
       agendaPool: [],
       selectedIds: [],
       slotsUsed: 0,
@@ -892,8 +900,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
     // Player-selected items
     const playerItems = selectedIds
-      .map(id => agendaPool.find(a => a.id === id)!)
-      .filter(Boolean)
+      .map(id => agendaPool.find(a => a.id === id))
+      .filter((item): item is AgendaItem => item != null)
       .sort((a, b) => a.executionOrder - b.executionOrder)
 
     const sorted = [...chainItems, ...playerItems]
@@ -1465,7 +1473,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         // Also save to active manual slot if one is assigned
         const { activeSlot: aSlot } = get()
         if (aSlot > 0) {
-          saveGame(aSlot, 'AUTOSAVE').catch(console.error)
+          saveGame(aSlot, 'PROGRESS SAVE').catch(console.error)
         }
       } catch (e) {
         console.error('[completeWeek] setTimeout CRASHED — clearing transitionLabel to prevent black screen:', e)

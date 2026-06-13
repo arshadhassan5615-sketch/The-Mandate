@@ -119,9 +119,9 @@ export function applySpending(
 
   // Swing from undecided first, then from NO if undecided exhausted
   let remainingSwing = swing
-  let fromUndecided = Math.min(remainingSwing, projection.undecidedSeats)
+  const fromUndecided = Math.min(remainingSwing, projection.undecidedSeats)
   remainingSwing -= fromUndecided
-  let fromNo = Math.min(remainingSwing, projection.noSeats)
+  const fromNo = Math.min(remainingSwing, projection.noSeats)
 
   const newYes = projection.yesSeats + fromUndecided + fromNo
   const newUndecided = projection.undecidedSeats - fromUndecided

@@ -56,7 +56,7 @@ export default function KaterinHUD() {
   const currentAct = useGameStore(s => s.currentAct)
   const phase = useWeekStore(s => s.phase)
 
-  if (phase === 'agenda') return null
+  if (phase === 'agenda' || phase === 'scene') return null
 
   return (
     <div style={{

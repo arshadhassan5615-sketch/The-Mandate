@@ -45,6 +45,7 @@ export default function MainMenu() {
       }
     }
     if (bestSlot >= 0) {
+      sessionStorage.setItem('mandate-manual-load', '1')
       const ok = await loadGame(bestSlot)
       if (ok) setSettingsOpen(false)
     }
@@ -53,6 +54,7 @@ export default function MainMenu() {
 
   const handleSlotSelected = useCallback((slot: number) => {
     if (slotScreenMode === 'load') {
+      sessionStorage.setItem('mandate-manual-load', '1')
       loadGame(slot).then(ok => {
         if (ok) {
           setSettingsOpen(false)

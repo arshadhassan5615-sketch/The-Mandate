@@ -181,17 +181,35 @@ export default function GameLayout() {
           padding: '0.8rem 2rem',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
-          <span style={{
-            fontFamily: "'Georgia', serif",
-            fontWeight: 700,
-            letterSpacing: '3px',
-            fontSize: '12px',
-            color: '#ffffff',
-            textTransform: 'uppercase',
-            textShadow: '0 0 8px rgba(255,255,255,0.2)',
-          }}>
-            Review the press coverage, then proceed to the agenda
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <button
+              style={{
+                fontFamily: "'Special Elite', monospace",
+                fontSize: '11px',
+                letterSpacing: '2px',
+                background: 'transparent',
+                border: '1px solid rgba(201,168,76,0.4)',
+                color: 'rgba(201,168,76,0.7)',
+                padding: '8px 20px',
+                cursor: 'pointer',
+                borderRadius: '2px',
+              }}
+              onClick={() => setMenuConfirmOpen(true)}
+            >
+              MENU
+            </button>
+            <span style={{
+              fontFamily: "'Georgia', serif",
+              fontWeight: 700,
+              letterSpacing: '3px',
+              fontSize: '12px',
+              color: '#ffffff',
+              textTransform: 'uppercase',
+              textShadow: '0 0 8px rgba(255,255,255,0.2)',
+            }}>
+              Review the press coverage, then proceed to the agenda
+            </span>
+          </div>
           <button
             style={{
               color: '#c9a84c',

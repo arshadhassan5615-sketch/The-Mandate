@@ -120,7 +120,13 @@ export default function App() {
   // Auto-resume: on mount, check for an autosave and load it if the player was past Week 1
   useEffect(() => {
     const checkAndResume = async () => {
-      // Small delay to let Zustand persist finish hydrating before we override it
+      const manualLoad = sessionStorage.getItem('mandate-manual-load')
+      if (manualLoad) {
+        sessionStorage.removeItem('mandate-manual-load')
+        console.log('[App] Skipping auto-resume — manual load detected')
+        return
+      }
+
       await new Promise(resolve => setTimeout(resolve, 100))
       try {
         const saves = await listSaves()

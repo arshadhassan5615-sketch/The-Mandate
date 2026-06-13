@@ -95,37 +95,52 @@ class AudioManager {
   private fadeInterval: ReturnType<typeof setInterval> | null = null
   private heartbeatInterval: ReturnType<typeof setInterval> | null = null
   private userHasInteracted: boolean = false
+  private timeoutIds: ReturnType<typeof setTimeout>[] = []
+  private cleanupFns: (() => void)[] = []
 
   constructor() {
     if (typeof document !== 'undefined') {
-      document.addEventListener('visibilitychange', () => {
+      const onVisChange = () => {
         if (document.visibilityState === 'visible') {
-          setTimeout(() => {
+          const t = setTimeout(() => {
             if (this.currentTrack && this.currentTrack.paused) {
               this.currentTrack.play().catch(() => {})
             }
           }, 300)
+          this.timeoutIds.push(t)
         }
-      })
+      }
+      document.addEventListener('visibilitychange', onVisChange)
+      this.cleanupFns.push(() => document.removeEventListener('visibilitychange', onVisChange))
 
-      window.addEventListener('focus', () => {
-        setTimeout(() => {
+      const onFocus = () => {
+        const t = setTimeout(() => {
           if (this.currentTrack && this.currentTrack.paused) {
             this.currentTrack.play().catch(() => {})
           }
         }, 300)
-      })
+        this.timeoutIds.push(t)
+      }
+      window.addEventListener('focus', onFocus)
+      this.cleanupFns.push(() => window.removeEventListener('focus', onFocus))
     }
 
     if (typeof navigator !== 'undefined' && navigator.mediaDevices?.addEventListener) {
-      navigator.mediaDevices.addEventListener('devicechange', () => {
-        setTimeout(() => {
+      const onDeviceChange = () => {
+        const t = setTimeout(() => {
           if (this.currentTrack && this.currentTrack.paused) {
             this.currentTrack.volume = 0
             this.currentTrack.play().catch(() => {})
             this.fadeIn(this.currentTrack, 1000)
           }
         }, 500)
+        this.timeoutIds.push(t)
+      }
+      navigator.mediaDevices.addEventListener('devicechange', onDeviceChange)
+      this.cleanupFns.push(() => {
+        if (navigator.mediaDevices?.removeEventListener) {
+          navigator.mediaDevices.removeEventListener('devicechange', onDeviceChange)
+        }
       })
     }
 
@@ -273,7 +288,7 @@ class AudioManager {
       }
 
       audio.onpause = () => {
-        setTimeout(() => {
+        const t = setTimeout(() => {
           if (
             this.currentTrack === audio &&
             audio.paused &&
@@ -283,13 +298,14 @@ class AudioManager {
             audio.play().catch(() => {})
           }
         }, 500)
+        this.timeoutIds.push(t)
       }
 
       this.currentTrack = audio
       this.currentTrackName = trackName
 
       this.fadeIn(audio, duration, targetVolume)
-    } catch (error) {
+    } catch {
       console.warn(`[AudioManager] Failed to load track: ${trackName}`)
     }
   }
@@ -323,7 +339,7 @@ class AudioManager {
       }
 
       audio.onpause = () => {
-        setTimeout(() => {
+        const t = setTimeout(() => {
           if (
             this.currentTrack === audio &&
             audio.paused &&
@@ -333,13 +349,14 @@ class AudioManager {
             audio.play().catch(() => {})
           }
         }, 500)
+        this.timeoutIds.push(t)
       }
 
       this.currentTrack = audio
       this.currentTrackName = trackName
 
       this.fadeIn(audio, fadeInDuration ?? 1500)
-    } catch (error) {
+    } catch {
       console.warn(`[AudioManager] Failed to load track: ${trackName}`)
     }
   }
@@ -454,7 +471,7 @@ class AudioManager {
       }
 
       audio.onpause = () => {
-        setTimeout(() => {
+        const t = setTimeout(() => {
           if (
             this.currentTrack === audio &&
             audio.paused &&
@@ -464,13 +481,14 @@ class AudioManager {
             audio.play().catch(() => {})
           }
         }, 500)
+        this.timeoutIds.push(t)
       }
 
       this.currentTrack = audio
       this.currentTrackName = trackName
 
       this.fadeIn(audio, duration, targetVolume)
-    } catch (error) {
+    } catch {
       console.warn(`[AudioManager] Failed to load track: ${trackName}`)
     }
   }
@@ -538,6 +556,12 @@ class AudioManager {
       clearInterval(this.heartbeatInterval)
       this.heartbeatInterval = null
     }
+    while (this.timeoutIds.length > 0) {
+      const id = this.timeoutIds.pop()
+      if (id !== undefined) clearTimeout(id)
+    }
+    for (const fn of this.cleanupFns) fn()
+    this.cleanupFns = []
     if (this.currentTrack) {
       this.currentTrack.onended = null
       this.currentTrack.onpause = null

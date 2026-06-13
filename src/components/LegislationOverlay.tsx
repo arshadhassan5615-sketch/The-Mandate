@@ -156,6 +156,13 @@ export default function LegislationOverlay() {
   const [, setShowStamp] = useState(false)
   const [showSignature, setShowSignature] = useState(false)
   const documentRef = useRef<HTMLDivElement>(null)
+  const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([])
+
+  useEffect(() => {
+    return () => {
+      timeoutRefs.current.forEach(clearTimeout)
+    }
+  }, [])
 
   const vetoRemoved = useMemo(() => isVetoPowerRemoved(activeFlags), [activeFlags])
   const assemblyCanOverride = useMemo(() => canAssemblyOverride(activeFlags), [activeFlags])
@@ -220,18 +227,18 @@ export default function LegislationOverlay() {
     applyBillEffects(bill.signEffects, bill.signFlags)
 
     // Stamp slams at 600ms
-    setTimeout(() => {
+    timeoutRefs.current.push(setTimeout(() => {
       setShowStamp(true)
-    }, 600)
+    }, 600))
 
     // Panel closes at 3000ms
-    setTimeout(() => {
+    timeoutRefs.current.push(setTimeout(() => {
       const reactTexts = generateReactionText(bill, 'signed')
       setReactions(reactTexts)
       setDecisionState('decided')
       setShowSignature(false)
       setShowStamp(false)
-    }, 3000)
+    }, 3000))
   }
 
   const handleVeto = () => {
@@ -247,7 +254,7 @@ export default function LegislationOverlay() {
     if (assemblyCanOverride) {
       const result = calculateVetoOverrideChance(bill, gameState)
       if (result.overridden) {
-        setTimeout(() => {
+        timeoutRefs.current.push(setTimeout(() => {
           setOverrideResult({ overridden: true, assemblyVote: result.assemblyVote })
           applyBillEffects(bill.signEffects, bill.signFlags)
           const reactTexts = generateReactionText(bill, 'overridden')
@@ -257,18 +264,18 @@ export default function LegislationOverlay() {
           ])
           setDecisionState('overridden')
           setShowStamp(false)
-        }, 2000)
+        }, 2000))
         return
       }
     }
 
     applyBillEffects(bill.vetoEffects, bill.vetoFlags)
-    setTimeout(() => {
+    timeoutRefs.current.push(setTimeout(() => {
       const reactTexts = generateReactionText(bill, 'vetoed')
       setReactions(reactTexts)
       setDecisionState('decided')
       setShowStamp(false)
-    }, 2200)
+    }, 2200))
   }
 
   const handleAutoPass = () => {
@@ -276,12 +283,12 @@ export default function LegislationOverlay() {
     setDecisionState('auto_passed')
     playStamp()
 
-    setTimeout(() => {
+    timeoutRefs.current.push(setTimeout(() => {
       applyBillEffects(bill.signEffects, bill.signFlags)
       setReactions([
         { speaker: 'Vyktor Reznik', text: 'Under the reformed constitution, the Chancellor\'s signature is automatic. The Assembly has spoken.' },
       ])
-    }, 400)
+    }, 400))
   }
 
   const advanceToNextBill = () => {
@@ -340,50 +347,6 @@ export default function LegislationOverlay() {
             position: 'relative',
             padding: '16px 44px 0',
           }}>
-            {/* STAMP - top right corner when decision made */}
-            {false && (
-              <div style={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                width: '80px',
-                height: '80px',
-                animation: 'stampSlam 350ms cubic-bezier(0.25,0.46,0.45,0.94) forwards',
-                zIndex: 10,
-                pointerEvents: 'none',
-              }}>
-                <svg viewBox="0 0 80 80" width="80" height="80">
-                  <circle cx="40" cy="40" r="37"
-                    fill="none"
-                    stroke={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
-                    strokeWidth="4" />
-                  <circle cx="40" cy="40" r="29"
-                    fill="none"
-                    stroke={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
-                    strokeWidth="2" />
-                  <text x="40" y="32" fill={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
-                    fontSize="8" textAnchor="middle" letterSpacing="1"
-                    fontFamily="Georgia,serif">★ ★ ★</text>
-                  <text x="40" y="47"
-                    fill={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
-                    fontSize={chosenAction === 'signed' ? '14' : '13'}
-                    fontWeight="900"
-                    fontFamily="Georgia,serif"
-                    textAnchor="middle"
-                    letterSpacing="0.5"
-                    fontStyle="italic">
-                    {chosenAction === 'signed' ? 'SIGNED' : 'VETOED'}
-                  </text>
-                  <text x="40" y="60"
-                    fill={chosenAction === 'signed' ? '#1a6b2a' : '#8b1515'}
-                    fontSize="6.5" textAnchor="middle"
-                    letterSpacing="1" fontFamily="Georgia,serif">
-                    {chosenAction === 'signed' ? 'INTO LAW' : 'BY EXEC.'}
-                  </text>
-                </svg>
-              </div>
-            )}
-
             {/* SEAL */}
             <div style={{
               textAlign: 'center',

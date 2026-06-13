@@ -52,6 +52,7 @@ export default function MapInteractionLayer() {
 
   const newsOpen = useNewsStore(s => s.isOpen)
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
+  const settingsOpen = useSettingsStore(s => s.settingsOpen)
 
   const visitedThisWeek = useMemo(() => {
     return agendaPool.some(item =>
@@ -66,7 +67,7 @@ export default function MapInteractionLayer() {
     )
   }, [agendaPool, visitedSceneIds])
 
-  if (!visitedThisWeek || newsOpen || decreeInboxOpen) return null
+  if (!visitedThisWeek || newsOpen || decreeInboxOpen || settingsOpen) return null
 
   return (
     <div style={{

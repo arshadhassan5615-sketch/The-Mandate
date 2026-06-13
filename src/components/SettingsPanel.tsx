@@ -1,5 +1,8 @@
+import { useState } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
+import { saveGame, AUTOSAVE_SLOT } from '../engine/SaveManager'
+import { useGameStore } from '../stores/gameStore'
 
 function Slider({ label, value, onChange, min = 0, max = 100 }: {
   label: string; value: number; onChange: (v: number) => void; min?: number; max?: number
@@ -162,6 +165,20 @@ export default function SettingsPanel() {
   const phase = useWeekStore(s => s.phase)
   const transitionLabel = useWeekStore(s => s.transitionLabel)
   const isNewGame = phase === 'title'
+  const [confirming, setConfirming] = useState(false)
+
+  const handleReturnToMenu = async () => {
+    if (!confirming) {
+      setConfirming(true)
+      return
+    }
+    const slot = useWeekStore.getState().activeSlot
+    await saveGame(slot, 'PROGRESS SAVE')
+    await saveGame(0, 'AUTOSAVE')
+    useGameStore.getState().resetToInitial()
+    useWeekStore.setState({ phase: 'title' })
+    setSettingsOpen(false)
+  }
 
   if (!settingsOpen || transitionLabel) return null
 
@@ -349,6 +366,40 @@ export default function SettingsPanel() {
             UI sounds include typewriter clicks, paper shuffles, and confirmation tones.
             Music is streamed from MP3 tracks composed for each scene type.
           </p>
+
+          <div style={{
+            height: '1px',
+            background: 'rgba(201,168,76,0.15)',
+            margin: '24px 0 20px',
+          }} />
+
+          <button
+            onClick={handleReturnToMenu}
+            style={{
+              fontFamily: "'Special Elite', monospace",
+              fontSize: '11px',
+              letterSpacing: '2px',
+              color: confirming ? '#c9a84c' : 'rgba(201,168,76,0.8)',
+              background: 'transparent',
+              border: confirming ? '1px solid #c9a84c' : '1px solid rgba(201,168,76,0.3)',
+              padding: '10px 24px',
+              cursor: 'pointer',
+              width: '100%',
+              borderRadius: '2px',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = '#c9a84c'
+              e.currentTarget.style.color = '#c9a84c'
+            }}
+            onMouseLeave={e => {
+              if (!confirming) {
+                e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'
+                e.currentTarget.style.color = 'rgba(201,168,76,0.8)'
+              }
+            }}
+          >
+            {confirming ? 'CONFIRM — PROGRESS WILL BE AUTOSAVED' : 'RETURN TO MAIN MENU'}
+          </button>
         </div>
 
         {/* Footer */}

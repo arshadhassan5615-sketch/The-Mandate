@@ -28,7 +28,7 @@ export function useAudio() {
         audioManager.setIntensity('medium')
       }
     }
-  }, [phase, currentScene?.id])
+  }, [phase, currentScene])
 
   // Play music for current phase/scene
   useEffect(() => {
@@ -45,7 +45,7 @@ export function useAudio() {
       const track = audioManager.getTrackForPhase(phase)
       audioManager.playTrack(track)
     }
-  }, [phase, currentScene?.id])
+  }, [phase, currentScene, activeFlags])
 
   // Preview meeting music when agenda selection changes
   const prevSelectedIds = useRef<string[]>([])

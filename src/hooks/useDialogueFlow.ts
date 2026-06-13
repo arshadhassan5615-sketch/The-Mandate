@@ -44,23 +44,20 @@ export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 
   // This prevents the 1-frame state leak where the old activeIdx
   // gets applied to a newly loaded segments array.
   if (currentHash !== prevHash) {
-    const empty = segments.length === 0
-
-    // Update local tracking state
     setPrevHash(currentHash)
-
-    // Reset React state synchronously
     setActiveIdx(0)
     setCharIdx(0)
-    setSegDone(empty)
-    setAllDone(empty)
+    setSegDone(segments.length === 0)
+    setAllDone(segments.length === 0)
+  }
 
-    // Reset refs immediately
+  // Reset refs in an effect — never in the render body.
+  useEffect(() => {
     activeIdxRef.current = 0
     charIdxRef.current   = 0
-    segDoneRef.current   = empty
-    allDoneRef.current   = empty
-  }
+    segDoneRef.current   = segments.length === 0
+    allDoneRef.current   = segments.length === 0
+  }, [currentHash, segments.length])
 
   // Typewriter driver for the active segment
   useEffect(() => {

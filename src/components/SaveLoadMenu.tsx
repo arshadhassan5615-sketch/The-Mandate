@@ -113,6 +113,7 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
 
   const handleLoad = () => {
     ask(`Load "${record!.name}"? Unsaved progress will be lost.`, async () => {
+      sessionStorage.setItem('mandate-manual-load', '1')
       await loadGame(slot)
       setConfirm(null)
       useSettingsStore.getState().setSaveMenuOpen(false)

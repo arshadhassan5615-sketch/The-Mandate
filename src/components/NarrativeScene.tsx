@@ -260,7 +260,7 @@ export default function NarrativeScene() {
       }
       prevRevealed.current = revealedSegments.length
     }
-  }, [revealedSegments.length, activeSegment, segmentDone, currentScene?.id])
+  }, [revealedSegments, revealedSegments.length, activeSegment, segmentDone, currentScene?.id])
 
   if (!currentScene) {
     if (import.meta.env.DEV) console.log('NarrativeScene: NO SCENE LOADED',

@@ -1,5 +1,7 @@
 import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
+import { useNarrativeStore } from '../../stores/narrativeStore'
+import { useWeekStore } from '../../stores/weekStore'
 import { getCharacterColor } from '../portraits/CharacterPortraits'
 import { renderWithEntities } from '../news/EntityLinker'
 import { getPortrait } from '../../assets/potraits'
@@ -124,6 +126,8 @@ export default function ConversationPanel({
   const [monologueVisible, setMonologueVisible] = useState(false)
   const [advanceReady, setAdvanceReady] = useState(false)
   const [choicePhase, setChoicePhase] = useState<ChoicePhase>('idle')
+  const { currentScene } = useNarrativeStore()
+  const phase = useWeekStore(s => s.phase)
 
   // Per-portrait image error tracking
   const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
@@ -420,6 +424,8 @@ export default function ConversationPanel({
     MAX_PANEL_HEIGHT
   )
 
+  if (phase !== 'scene') return null
+
   return (
     <>
       <style>{`
@@ -442,6 +448,7 @@ export default function ConversationPanel({
         }} />
       )}
 
+      {currentScene && (
       <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '12px', padding: '0 16px', width: '100%', maxWidth: '780px', boxSizing: 'border-box' }}>
 
         {/* Portrait Stack — left column, stacks bottom-to-top */}
@@ -461,7 +468,7 @@ export default function ConversationPanel({
             alignSelf: 'flex-end',
           }}
         >
-          {speakerStack.length === 0 ? null : (
+          {speakerStack.length === 0 || !currentScene ? null : (
             [...speakerStack].reverse().map((charId, reversedIdx) => {
               const isCurrent = reversedIdx === 0
               const isNew = charId === newSpeakerId
@@ -1058,6 +1065,7 @@ export default function ConversationPanel({
         </div>
         </div>
       </div>
+      )}
     </>
   )
 }

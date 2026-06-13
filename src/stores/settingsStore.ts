@@ -79,6 +79,7 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   setNotepadOpen: (open: boolean) => void
   setDecreeInboxOpen: (open: boolean) => void
   setPlayTime: (minutes: number) => void
+  resetPlaytime: () => void
 }
 
 function loadAudio(): AudioSettings {
@@ -228,6 +229,9 @@ export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
 
   setPlayTime: (minutes) =>
     set({ accumulatedPlayMinutes: minutes, sessionStartTime: Date.now() }),
+
+  resetPlaytime: () =>
+    set({ sessionStartTime: Date.now(), accumulatedPlayMinutes: 0 }),
 }), {
   name: 'mandate-settings',
   partialize: (state) => ({
