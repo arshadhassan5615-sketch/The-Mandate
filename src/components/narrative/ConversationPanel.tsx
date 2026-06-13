@@ -695,8 +695,8 @@ export default function ConversationPanel({
                     marginLeft: '0',
                   }}>
                     {entry.type === 'dialogue' || entry.type === 'player_spoken'
-                      ? `"${renderWithEntities(entry.text, true)}"`
-                      : renderWithEntities(entry.text, true)
+                      ? <>{'"'}{renderWithEntities(entry.text, true)}{'"'}</>
+                      : <>{renderWithEntities(entry.text, true)}</>
                     }
                   </div>
                 </div>
@@ -943,7 +943,7 @@ export default function ConversationPanel({
                       color: 'rgba(200,185,155,0.85)',
                       fontFamily: "'Crimson Text', serif",
                     }}>
-                      "{renderWithEntities(reaction.text, true)}"
+                      <>{'"'}{renderWithEntities(reaction.text, true)}{'"'}</>
                     </div>
                   </>
                 )}

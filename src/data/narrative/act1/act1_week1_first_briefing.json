@@ -71,6 +71,7 @@
     {
       "id": "priority_economy",
       "text": "\"The economy first. Security requires resources we don't have. Reform requires political capital we burn every day the deficit grows. Fix the fiscal foundation and everything else becomes possible. Let the other fires burn down to something manageable.\"",
+      "nextSegment": "priority_economy",
       "internalTag": "pragmatist",
       "stateChanges": [
         { "stat": "nation.economyHealth",     "operation": "add", "value": 3   },
@@ -104,6 +105,7 @@
     {
       "id": "priority_security",
       "text": "\"The Tyvaren repositioning is the existential threat. If they move while we're doing budget arithmetic, none of the rest matters. I want a full military readiness assessment on my desk by end of week and I want it kept out of the press.\"",
+      "nextSegment": "priority_security",
       "internalTag": "realist",
       "stateChanges": [
         { "stat": "nation.militaryReadiness", "operation": "add", "value": 5   },
@@ -136,6 +138,7 @@
     {
       "id": "priority_reform",
       "text": "\"The BNI. That's the first act of this government. Every other decision I make — on the budget, on Tyvaren, on the constitution — is contaminated if we begin by running Halvek's surveillance apparatus. We shut it down. We accept the intelligence cost. We find another way.\"",
+      "nextSegment": "priority_reform",
       "internalTag": "reformist",
       "stateChanges": [
         { "stat": "nation.civilLiberties",    "operation": "add", "value": 8   },
@@ -171,5 +174,123 @@
         }
       ]
     }
-  ]
+  ],
+
+  "segments": {
+    "priority_economy": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "The economy. We cannot defend a country that cannot pay its civil servants. Vostane — I want the full audit on my desk by Thursday. Every hidden account, every deferred liability. We begin there."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Understood. The other three crises do not pause while we do this."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "I know. We manage them. But we fix the foundation first or everything else collapses anyway."
+        },
+        {
+          "type": "description",
+          "text": "Dusek gives a small nod. Oberlin makes a note. Vyktor closes his binder — which means he agrees, or at least accepts. With Vyktor, those are often the same thing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "economy_end",
+          "text": "Begin the audit. Dismissed.",
+          "nextSegment": null,
+          "flags": ["briefing_complete", "priority_economy_set"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "priority_security": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "The Tyvaren repositioning. Three battalions at the Gravenmark Passes is not an exercise. Colonel — I want daily intelligence updates directly to my office. Not summaries. Raw reports."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "You will have them. I should tell you — the previous government was receiving these reports and filing them without response. Vukov knows we have seen the buildup and done nothing."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Then he is about to learn that has changed. Vyktor — I want a diplomatic channel opened to the Tyvaren foreign ministry. Quiet. No press."
+        },
+        {
+          "type": "description",
+          "text": "The room is very still. This is the kind of decision that does not get unmade."
+        }
+      ],
+      "choices": [
+        {
+          "id": "security_end",
+          "text": "Get me those reports. Dismissed.",
+          "nextSegment": null,
+          "flags": ["briefing_complete", "priority_security_set"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "priority_reform": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "The BNI. Forty thousand files on citizens who have done nothing except exist in a country with a paranoid government. Oberlin — I want a review committee formed this week. Independent. No BCA personnel on the committee."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "That will be... complicated internally. The Bureau does not review itself easily."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "I know. That is why I am asking you to do it rather than someone who would find it easy. The files that were used as leverage — I want those destroyed. Documented destruction. Public."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Halvekists will call it evidence destruction."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Let them. The people whose lives were in those files will call it justice."
+        },
+        {
+          "type": "description",
+          "text": "Oberlin writes something down. Whatever it is, she underlines it twice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reform_end",
+          "text": "Form the committee. Dismissed.",
+          "nextSegment": null,
+          "flags": ["briefing_complete", "priority_reform_set"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }

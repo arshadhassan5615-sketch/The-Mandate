@@ -506,21 +506,6 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
-    // Week 1 — Cabinet introductions (fires once)
-    if (gameState.currentWeek === 1 && !visitedSceneIds.includes('act1_week1_cabinet_introductions')) {
-      pool.push({
-        id: 'act1_week1_cabinet_introductions',
-        title: 'The Cabinet',
-        description: 'Your ministers are waiting to be introduced.',
-        category: 'meeting' as AgendaCategory,
-        sceneId: 'act1_week1_cabinet_introductions',
-        slotCost: 0,
-        executionOrder: 3,
-        weekAvailable: 1,
-        weekDeadline: 1,
-      })
-    }
-
     // Week 1 — Inaugural ball (fires once)
     if (gameState.currentWeek === 1 && !visitedSceneIds.includes('social_inaugural_ball_wk1')) {
       pool.push({

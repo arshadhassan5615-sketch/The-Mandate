@@ -119,8 +119,7 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
 
   return (
     <div style={{
-      position: 'fixed', right: '60px', top: '50px', zIndex: 170,
-      width: '360px', height: 'calc(100vh - 120px)',
+      position: 'fixed', top: '60px', right: '16px', bottom: '60px', width: '320px', zIndex: 500,
       background: '#f0e6d0',
       border: '1px solid rgba(139,106,40,0.3)',
       borderRight: 'none',
