@@ -453,9 +453,10 @@ export default function ConversationPanel({
       )}
 
       {currentScene && (
-      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '12px', padding: '0 16px', width: '100%', maxWidth: '780px', boxSizing: 'border-box' }}>
+      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '652px' }}>
 
         <div style={{
+          position: 'relative',
           width: '80px',
           flexShrink: 0,
           display: 'flex',
@@ -465,6 +466,7 @@ export default function ConversationPanel({
           gap: '8px',
           paddingBottom: '12px',
           alignSelf: 'flex-end',
+          background: 'transparent',
           zIndex: 601,
         }}>
           {displayStack.map((charId, idx) => {
@@ -541,7 +543,7 @@ export default function ConversationPanel({
         </div>
 
         {/* Expanding conversation panel — RIGHT side of row */}
-        <div style={{ position: 'relative', flex: 1, maxWidth: '520px', height: `${effectiveHeight}px`, maxHeight: `${MAX_PANEL_HEIGHT}px`, transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}>
+        <div style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', height: `${Math.max(effectiveHeight, 200)}px`, minHeight: '200px', maxHeight: `${MAX_PANEL_HEIGHT}px`, transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}>
         <div
           className="conversation-panel"
           style={{
