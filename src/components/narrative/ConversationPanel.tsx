@@ -673,8 +673,8 @@ export default function ConversationPanel({
                     fontFamily: "'Crimson Text', Georgia, serif",
                     fontStyle: entry.type === 'narrative' || entry.type === 'description' || entry.type === 'internal_thought' ? 'italic' : 'normal',
                     borderLeft: 'none',
-                    paddingLeft: entry.type === 'internal_thought' ? '16px' : '0',
-                    marginLeft: entry.type === 'internal_thought' ? '8px' : '0',
+                    paddingLeft: '0',
+                    marginLeft: '0',
                   }}>
                     {entry.type === 'dialogue' || entry.type === 'player_spoken'
                       ? `"${renderWithEntities(entry.text, true)}"`
@@ -735,8 +735,8 @@ export default function ConversationPanel({
                         fontFamily: "'Crimson Text', Georgia, serif",
                         fontStyle: 'italic',
                         borderLeft: 'none',
-                        paddingLeft: activeType === 'internal_thought' ? '16px' : '0',
-                        marginLeft: activeType === 'internal_thought' ? '8px' : '0',
+                        paddingLeft: '0',
+                        marginLeft: '0',
                       }}>
                         {activeType === 'dialogue' ? '"' : ''}
                         {renderWithEntities(activeText, true)}

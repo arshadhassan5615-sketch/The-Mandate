@@ -193,7 +193,7 @@ export default function SaveSlotScreen({ mode, onClose, onSlotSelected }: SaveSl
                 </div>
                 {mode === 'load' && (
                   <button
-                    onClick={() => onSlotSelected(0)}
+                    onClick={() => { sessionStorage.setItem('mandate-manual-load', '1'); onSlotSelected(0) }}
                     style={{
                       fontFamily: "'Special Elite', monospace",
                       fontSize: '0.55rem',
@@ -282,7 +282,7 @@ export default function SaveSlotScreen({ mode, onClose, onSlotSelected }: SaveSl
                         </div>
                         <div style={{ marginTop: '0.5rem' }}>
                           <button
-                            onClick={() => onSlotSelected(slot)}
+                            onClick={() => { sessionStorage.setItem('mandate-manual-load', '1'); onSlotSelected(slot) }}
                             style={{
                               fontFamily: "'Special Elite', monospace",
                               fontSize: '0.5rem',
@@ -411,7 +411,7 @@ export default function SaveSlotScreen({ mode, onClose, onSlotSelected }: SaveSl
                         }}>
                           {mode === 'load' && (
                             <button
-                              onClick={() => onSlotSelected(slot)}
+                              onClick={() => { sessionStorage.setItem('mandate-manual-load', '1'); onSlotSelected(slot) }}
                               style={{
                                 fontFamily: "'Special Elite', monospace",
                                 fontSize: '0.5rem',
