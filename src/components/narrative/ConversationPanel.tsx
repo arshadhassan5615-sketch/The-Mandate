@@ -365,35 +365,9 @@ export default function ConversationPanel({
 
   const isEmergency = sceneType === 'emergency'
 
-  // Expanding panel state
-  const MAX_PANEL_HEIGHT = Math.floor(window.innerHeight * 0.85 - 80)
-  const [panelHeight, setPanelHeight] = useState(180)
-  const prevHistLenRef = useRef(history.length)
-
-  // Add extra height when choices are present so they aren't clipped
-  const choiceExtraHeight =
-    (choices && choices.length > 0 && !sceneDone)
-      ? choices.length * 80
-      : 0
-
-  useEffect(() => {
-    const len = history.length + (activeSegment ? 1 : 0)
-    if (len === 0) {
-      setPanelHeight(180)
-      prevHistLenRef.current = 0
-      return
-    }
-    if (len > prevHistLenRef.current) {
-      setPanelHeight(p => {
-        const addition = (len - prevHistLenRef.current) * 110
-        return Math.min(p + addition, MAX_PANEL_HEIGHT)
-      })
-    }
-    if (len < prevHistLenRef.current) {
-      setPanelHeight(180)
-    }
-    prevHistLenRef.current = len
-  }, [history.length, activeSegment, MAX_PANEL_HEIGHT])
+  // Panel height now wraps content naturally (max-height + overflow).
+  // All fixed-height state calculations removed.
+  const monologueFontSize = 12
 
   // Auto-scroll history to bottom
   useEffect(() => {
@@ -415,14 +389,6 @@ export default function ConversationPanel({
 
   // Derive currentSpeakerId for name highlighting in history
   const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
-
-  const monologueFontSize = Math.round(12 + (panelHeight - 180) * 0.025)
-
-  // Effective height accounts for choice buttons needing space
-  const effectiveHeight = Math.min(
-    panelHeight + choiceExtraHeight,
-    MAX_PANEL_HEIGHT
-  )
 
   const displayStack = speakerStack.length > 0
     ? speakerStack
@@ -453,7 +419,7 @@ export default function ConversationPanel({
       )}
 
       {currentScene && (
-      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '652px' }}>
+      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '640px' }}>
 
         <div style={{
           position: 'relative',
@@ -464,7 +430,10 @@ export default function ConversationPanel({
           alignItems: 'center',
           justifyContent: 'flex-end',
           gap: '8px',
-          paddingBottom: '12px',
+          paddingTop: '8px',
+          paddingLeft: '4px',
+          paddingRight: '4px',
+          paddingBottom: '0px',
           alignSelf: 'flex-end',
           background: 'transparent',
           zIndex: 601,
@@ -543,15 +512,15 @@ export default function ConversationPanel({
         </div>
 
         {/* Expanding conversation panel — RIGHT side of row */}
-        <div style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', height: `${Math.max(effectiveHeight, 200)}px`, minHeight: '200px', maxHeight: `${MAX_PANEL_HEIGHT}px`, transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}>
+        <div style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', maxHeight: '70vh', overflowY: 'auto' }}>
         <div
           className="conversation-panel"
           style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '100%',
+            position: 'relative',
+            bottom: 'auto',
+            left: 'auto',
+            right: 'auto',
+            height: 'auto',
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
