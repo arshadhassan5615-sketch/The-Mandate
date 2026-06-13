@@ -385,7 +385,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
                 decree={detailDecree}
                 currentWeek={currentWeek}
                 isConflict={isConflict}
-                conflictTitle={conflictTitle}
+                conflictTitle={conflictTitle ?? null}
                 onSign={() => { signDecree(detailDecree.id) }}
                 onReject={() => { rejectDecree(detailDecree.id) }}
                 onTable={() => { tableDecree(detailDecree.id) }}
@@ -514,7 +514,7 @@ interface DecreeDetailProps {
   onTable: () => void
 }
 
-function DecreeDetail({ decree, currentWeek, isConflict, conflictTitle, onSign, onReject, onTable }: DecreeDetailProps) {
+function DecreeDetail({ decree, currentWeek: _currentWeek, isConflict, conflictTitle, onSign, onReject, onTable }: DecreeDetailProps) {
   const isSigned = decree.signed
   const color = CATEGORY_COLORS[decree.category]
 

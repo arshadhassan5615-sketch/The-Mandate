@@ -119,7 +119,7 @@ export default function MainMenu() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '280px' }}>
         <button
           className="choice-btn"
-          onClick={() => { setSettingsOpen(false); startCustomization() }}
+          onClick={() => setSlotScreenMode('save')}
           style={{ textAlign: 'center' }}
         >
           New Game
@@ -149,14 +149,6 @@ export default function MainMenu() {
           }}
         >
           Load Game
-        </button>
-
-        <button
-          className="choice-btn"
-          onClick={() => setSlotScreenMode('save')}
-          style={{ textAlign: 'center' }}
-        >
-          New Game +
         </button>
 
         <button

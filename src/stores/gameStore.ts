@@ -77,6 +77,11 @@ export const INITIAL_STATE: GameState = {
   vaelInfluence: 15,
   morvecInfluence: 0,
   shadowInfluence: 5,
+  shadowFootprint: 0,
+  tyvarenHostility: 0,
+  vossRelation: 0,
+  sovarka_relation: 0,
+  danika_loyalty: 50,
   refugeeCount: 2800,
   religiousAdherence: 72,
   stateOfEmergency: false,
@@ -170,6 +175,29 @@ function clamp(stat: string, value: number): number {
 
 // Resolve dot-notation path and apply an operation to the correct sub-object
 function applyModifier(state: GameState, mod: StateModifier): GameState {
+  // ── H1 fix: legacy stat-path aliases ───────────────────────────────
+  // Older scene JSONs reference flat or misnamed stats. Map them to the
+  // canonical top-level / dotted paths so modifiers land on the right field.
+  const PATH_ALIASES: Record<string, string> = {
+    'public_trust': 'factions.reformists',
+    'reformist_credibility': 'factions.reformists',
+    'budget': 'nation.nationalDebt',
+    'business_confidence': 'factions.businessClass',
+    'economy': 'nation.economyHealth',
+    'assembly_support': 'factions.reformists',
+    'labor_approval': 'factions.workersCoalition',
+    'security_rating': 'factions.ironCovenant',
+    'civil_liberties': 'nation.civilLiberties',
+    'international_standing': 'nation.internationalStanding',
+    'tyvaren_tension': 'tyvarenHostility',
+    'personal.wealth': 'personal.publicImage',
+    'personal.stressLevel': 'personal.moralCompass',
+    'personal.shadowInfluence': 'shadowInfluence',
+    'nationalDebt': 'nation.nationalDebt',
+  }
+  const resolvedStat = PATH_ALIASES[mod.stat] ?? mod.stat
+  mod = { ...mod, stat: resolvedStat }
+
   const dot = mod.stat.indexOf('.')
 
   // Dotless stat — operates directly on a top-level gameState field

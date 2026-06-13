@@ -78,7 +78,7 @@ interface CabinetFormationProps {
   onComplete: () => void
 }
 
-export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }) => {
+export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete: _onComplete }) => {
   const [selections, setSelections] = useState<Partial<Record<MinistryType, string>>>({})
   const [activeMinistry, setActiveMinistry] = useState<MinistryType>('finance')
   const [hoveredCandidate, setHoveredCandidate] = useState<string | null>(null)

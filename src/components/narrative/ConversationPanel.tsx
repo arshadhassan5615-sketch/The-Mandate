@@ -63,9 +63,15 @@ function charName(id: string): string {
   return CHAR_NAMES[id] ?? id.replace(/_/g, ' ')
 }
 
+function effectiveSegmentType(type: NarrativeSegment['type']): 'description' | 'dialogue' | 'internal_thought' {
+  if (type === 'monologue') return 'internal_thought'
+  if (type === 'narrative') return 'description'
+  return type
+}
+
 interface ConversationHistoryEntry {
   id: string
-  type: 'dialogue' | 'narrative' | 'player_spoken'
+  type: 'description' | 'dialogue' | 'narrative' | 'internal_thought' | 'player_spoken'
   characterId?: string
   characterName?: string
   characterColor?: string
@@ -142,7 +148,7 @@ export default function ConversationPanel({
 
     // 2. Add everyone who actually spoke in history
     history.forEach(entry => {
-      if (entry.type !== 'narrative' && entry.characterId) {
+      if (entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && entry.characterId) {
         processId(entry.characterId)
       }
     })
@@ -356,9 +362,15 @@ export default function ConversationPanel({
   const isEmergency = sceneType === 'emergency'
 
   // Expanding panel state
-  const MAX_PANEL_HEIGHT = Math.floor(window.innerHeight * 0.72)
+  const MAX_PANEL_HEIGHT = Math.floor(window.innerHeight * 0.85 - 80)
   const [panelHeight, setPanelHeight] = useState(180)
   const prevHistLenRef = useRef(history.length)
+
+  // Add extra height when choices are present so they aren't clipped
+  const choiceExtraHeight =
+    (choices && choices.length > 0 && !sceneDone)
+      ? choices.length * 80
+      : 0
 
   useEffect(() => {
     const len = history.length + (activeSegment ? 1 : 0)
@@ -401,6 +413,12 @@ export default function ConversationPanel({
   const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
 
   const monologueFontSize = Math.round(12 + (panelHeight - 180) * 0.025)
+
+  // Effective height accounts for choice buttons needing space
+  const effectiveHeight = Math.min(
+    panelHeight + choiceExtraHeight,
+    MAX_PANEL_HEIGHT
+  )
 
   return (
     <>
@@ -542,7 +560,7 @@ export default function ConversationPanel({
         </div>
 
         {/* Expanding conversation panel — RIGHT side of row */}
-        <div style={{ position: 'relative', flex: 1, maxWidth: '520px', height: `${panelHeight}px`, maxHeight: `${MAX_PANEL_HEIGHT}px`, transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}>
+        <div style={{ position: 'relative', flex: 1, maxWidth: '520px', height: `${effectiveHeight}px`, maxHeight: `${MAX_PANEL_HEIGHT}px`, transition: 'height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}>
         <div
           className="conversation-panel"
           style={{
@@ -553,7 +571,9 @@ export default function ConversationPanel({
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            overflow: 'hidden',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            scrollbarWidth: 'thin',
             background: '#0a0806',
             borderTop: '1px solid rgba(201,168,76,0.25)',
             borderLeft: '1px solid rgba(201,168,76,0.25)',
@@ -634,8 +654,9 @@ export default function ConversationPanel({
             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 60px), transparent 100%)',
           }}
         >
-          {history.map((entry, i) => {
+          {history.map((entry, _i) => {
             const opacity = 1
+            void opacity
             const entrySpeakerId = entry.characterId ?? ''
             const isCurrentSpeaker = entrySpeakerId === currentSpeakerId && entrySpeakerId !== ''
 
@@ -653,7 +674,7 @@ export default function ConversationPanel({
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
                   {/* Speaker name */}
-                  {entry.type !== 'narrative' && (
+                  {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && (
                     <div style={{
                       fontSize: '9px',
                       letterSpacing: '1.5px',
@@ -668,20 +689,37 @@ export default function ConversationPanel({
                       {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
                     </div>
                   )}
+                  {entry.type === 'internal_thought' && (
+                    <div style={{
+                      fontFamily: "'Special Elite', monospace",
+                      fontSize: '9px',
+                      letterSpacing: '2px',
+                      color: 'rgba(201,168,76,0.5)',
+                      textTransform: 'uppercase',
+                      marginBottom: '3px',
+                    }}>
+                      Katerin Ashavel
+                    </div>
+                  )}
 
                   {/* Dialogue / narrative text */}
                   <div style={{
                     fontSize: '13px',
                     lineHeight: '1.6',
-                    color: entry.type === 'narrative'
+                    color: entry.type === 'narrative' || entry.type === 'description'
                       ? 'rgba(180,170,150,0.8)'
+                      : entry.type === 'internal_thought'
+                      ? '#c9a84c'
                       : 'rgba(232,213,163,0.92)',
                     fontFamily: "'Crimson Text', serif",
-                    fontStyle: entry.type === 'narrative' ? 'italic' : 'normal',
+                    fontStyle: entry.type === 'narrative' || entry.type === 'description' || entry.type === 'internal_thought' ? 'italic' : 'normal',
+                    borderLeft: entry.type === 'internal_thought' ? '2px solid rgba(201,168,76,0.4)' : 'none',
+                    paddingLeft: entry.type === 'internal_thought' ? '16px' : '0',
+                    marginLeft: entry.type === 'internal_thought' ? '8px' : '0',
                   }}>
-                    {entry.type === 'narrative'
-                      ? renderWithEntities(entry.text, true)
-                      : `"${renderWithEntities(entry.text, true)}"`
+                    {entry.type === 'dialogue' || entry.type === 'player_spoken'
+                      ? `"${renderWithEntities(entry.text, true)}"`
+                      : renderWithEntities(entry.text, true)
                     }
                   </div>
                 </div>
@@ -699,51 +737,58 @@ export default function ConversationPanel({
               opacity: 1,
             }}>
               <div style={{ flex: 1 }}>
-                {activeSegment.type === 'dialogue' && (
-                  <div style={{
-                    fontSize: '9px',
-                    letterSpacing: '1.5px',
-                    color: '#c9a84c',
-                    textTransform: 'uppercase',
-                    marginBottom: '3px',
-                    fontFamily: 'Georgia, serif',
-                  }}>
-                    {charName(activeSegment.character ?? '')}
-                  </div>
-                )}
-                {activeSegment.type === 'internal_thought' && (
-                  <div style={{
-                    fontFamily: "'Special Elite', monospace",
-                    fontSize: '9px',
-                    letterSpacing: '2px',
-                    color: 'rgba(201,168,76,0.5)',
-                    textTransform: 'uppercase',
-                    marginBottom: '4px',
-                  }}>
-                    Katerin Ashavel
-                  </div>
-                )}
-                <div style={{
-                  fontSize: activeSegment.type === 'internal_thought' ? '16px' : '13px',
-                  lineHeight: '1.8',
-                  color: activeSegment.type === 'dialogue'
-                    ? 'rgba(232,213,163,0.92)'
-                    : activeSegment.type === 'internal_thought'
-                    ? '#c9a84c'
-                    : 'rgba(220,210,190,0.85)',
-                  fontFamily: "'Crimson Text', serif",
-                  fontStyle: 'italic',
-                  borderLeft: activeSegment.type === 'internal_thought'
-                    ? '2px solid rgba(201,168,76,0.4)'
-                    : 'none',
-                  paddingLeft: activeSegment.type === 'internal_thought' ? '16px' : '0',
-                  marginLeft: activeSegment.type === 'internal_thought' ? '8px' : '0',
-                }}>
-                  {activeSegment.type === 'dialogue' ? '"' : ''}
-                  {renderWithEntities(activeText, true)}
-                  {showCursor && <span className="typewriter-cursor" />}
-                  {activeSegment.type === 'dialogue' ? '"' : ''}
-                </div>
+                {(() => {
+                  const activeType = effectiveSegmentType(activeSegment.type)
+                  return (
+                    <>
+                      {activeType === 'dialogue' && (
+                        <div style={{
+                          fontSize: '9px',
+                          letterSpacing: '1.5px',
+                          color: '#c9a84c',
+                          textTransform: 'uppercase',
+                          marginBottom: '3px',
+                          fontFamily: 'Georgia, serif',
+                        }}>
+                          {charName(activeSegment.character ?? '')}
+                        </div>
+                      )}
+                      {activeType === 'internal_thought' && (
+                        <div style={{
+                          fontFamily: "'Special Elite', monospace",
+                          fontSize: '9px',
+                          letterSpacing: '2px',
+                          color: 'rgba(201,168,76,0.5)',
+                          textTransform: 'uppercase',
+                          marginBottom: '4px',
+                        }}>
+                          Katerin Ashavel
+                        </div>
+                      )}
+                      <div style={{
+                        fontSize: activeType === 'internal_thought' ? '16px' : '13px',
+                        lineHeight: '1.8',
+                        color: activeType === 'dialogue'
+                          ? 'rgba(232,213,163,0.92)'
+                          : activeType === 'internal_thought'
+                          ? '#c9a84c'
+                          : 'rgba(220,210,190,0.85)',
+                        fontFamily: "'Crimson Text', serif",
+                        fontStyle: 'italic',
+                        borderLeft: activeType === 'internal_thought'
+                          ? '2px solid rgba(201,168,76,0.4)'
+                          : 'none',
+                        paddingLeft: activeType === 'internal_thought' ? '16px' : '0',
+                        marginLeft: activeType === 'internal_thought' ? '8px' : '0',
+                      }}>
+                        {activeType === 'dialogue' ? '"' : ''}
+                        {renderWithEntities(activeText, true)}
+                        {showCursor && <span className="typewriter-cursor" />}
+                        {activeType === 'dialogue' ? '"' : ''}
+                      </div>
+                    </>
+                  )
+                })()}
               </div>
             </div>
           )}
@@ -774,16 +819,17 @@ export default function ConversationPanel({
               position: 'relative',
               zIndex: 3,
               flexShrink: 0,
-              maxHeight: '40vh',
-              overflowY: 'auto',
+              maxHeight: '280px',
+              overflowY: 'auto' as const,
               overflowX: 'hidden',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
+              paddingBottom: '16px',
+              scrollbarWidth: 'thin' as const,
+              msOverflowStyle: 'auto',
             }}
           >
             <div style={{
               flexShrink: 0,
-              padding: '8px 16px 16px 16px',
+              padding: '8px 16px 36px 16px',
               display: 'flex',
               flexDirection: 'column',
               gap: '6px',
@@ -899,7 +945,7 @@ export default function ConversationPanel({
           }}>
             {activeReactions.map((reaction, i) => (
               <div key={`${reaction.character}_${i}`} style={{ marginBottom: i < activeReactions.length - 1 ? 8 : 0 }}>
-                {reaction.type === 'dialogue' && (
+                {(reaction.type === 'dialogue' || reaction.type === 'concern' || reaction.type === 'satisfied') && (
                   <>
                     <div style={{
                       fontSize: '9px',
@@ -910,6 +956,11 @@ export default function ConversationPanel({
                       fontFamily: 'Georgia, serif',
                     }}>
                       {charName(reaction.character)}
+                      {reaction.type !== 'dialogue' && (
+                        <span style={{ opacity: 0.6, fontStyle: 'italic', marginLeft: '6px' }}>
+                          [{reaction.type}]
+                        </span>
+                      )}
                     </div>
                     <div style={{
                       fontSize: '12px',

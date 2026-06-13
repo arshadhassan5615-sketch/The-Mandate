@@ -11,27 +11,50 @@ function resolveStatValue(
   state: GameState,
   flags: string[],
 ): number | string | boolean | undefined {
-  if (path === 'currentWeek') return state.currentWeek
-  if (path === 'currentAct')  return state.currentAct
+  // ── H1 fix: legacy stat-path aliases ───────────────────────────────
+  // Older scene JSONs reference flat or misnamed stats. Map them to the
+  // canonical top-level / dotted paths so conditions and prerequisites
+  // still resolve.
+  const PATH_ALIASES: Record<string, string> = {
+    'public_trust': 'factions.reformists',
+    'reformist_credibility': 'factions.reformists',
+    'budget': 'nation.nationalDebt',
+    'business_confidence': 'factions.businessClass',
+    'economy': 'nation.economyHealth',
+    'assembly_support': 'factions.reformists',
+    'labor_approval': 'factions.workersCoalition',
+    'security_rating': 'factions.ironCovenant',
+    'civil_liberties': 'nation.civilLiberties',
+    'international_standing': 'nation.internationalStanding',
+    'tyvaren_tension': 'tyvarenHostility',
+    'personal.wealth': 'personal.publicImage',
+    'personal.stressLevel': 'personal.moralCompass',
+    'personal.shadowInfluence': 'shadowInfluence',
+    'nationalDebt': 'nation.nationalDebt',
+  }
+  const stat = PATH_ALIASES[path] ?? path
+
+  if (stat === 'currentWeek') return state.currentWeek
+  if (stat === 'currentAct')  return state.currentAct
 
   // flags.some_flag → boolean membership check
-  if (path.startsWith('flags.')) {
-    return flags.includes(path.slice(6))
+  if (stat.startsWith('flags.')) {
+    return flags.includes(stat.slice(6))
   }
 
   // dot-notation into nation / factions / personal
-  const dot = path.indexOf('.')
+  const dot = stat.indexOf('.')
   if (dot !== -1) {
-    const group = path.slice(0, dot) as keyof GameState
-    const key   = path.slice(dot + 1)
+    const group = stat.slice(0, dot) as keyof GameState
+    const key   = stat.slice(dot + 1)
     const sub   = state[group] as unknown as Record<string, unknown> | undefined
     if (sub && key in sub) return sub[key] as number
   } else {
     // Dotless path — check the top-level gameState directly so that
     // flat stats like vaelInfluence, shadowInfluence, tyvarenHostility,
     // vossRelation, morvecInfluence, sovarka_relation resolve correctly.
-    if (path in state) {
-      const value = (state as unknown as Record<string, unknown>)[path]
+    if (stat in state) {
+      const value = (state as unknown as Record<string, unknown>)[stat]
       if (typeof value === 'number' || typeof value === 'string' || typeof value === 'boolean') {
         return value
       }

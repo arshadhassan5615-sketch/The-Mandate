@@ -1274,8 +1274,9 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   completeWeek: async () => {
     const gameState = useGameStore.getState()
     const { visitedSceneIds } = useNarrativeStore.getState()
+    const { agendaPool } = get()
 
-    const gateResult = canAdvanceWeek(gameState.currentWeek, visitedSceneIds)
+    const gateResult = canAdvanceWeek(gameState.currentWeek, visitedSceneIds, agendaPool)
     if (!gateResult.canAdvance && gateResult.blockedBy) {
       set({
         gateBlocked: true,

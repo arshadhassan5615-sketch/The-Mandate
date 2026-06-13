@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { NarrativeNode, ChainTrigger } from '../types/narrative'
 import type { NewsArticle, Publication } from '../types/news'
-import type { GameState } from '../types/gameState'
+import type { GameState, StateModifier } from '../types/gameState'
 import { getScene, getAvailableChoices } from '../engine/NarrativeEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { useGameStore } from './gameStore'
@@ -232,10 +232,21 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       }
     }
 
+    // C3 fix: some scenes store their top-level content under `dialogue`
+    // instead of `narrative`. Normalize them before the scene goes live.
+    if (target && !target.narrative && target.dialogue) {
+      target = {
+        ...target,
+        narrative: Array.isArray(target.dialogue)
+          ? target.dialogue
+          : [{ type: 'description', text: target.dialogue }],
+      }
+    }
+
     // Track characters encountered in dialogue segments
     let newMet = metCharacters
     if (target) {
-      const charsInScene = target.narrative
+      const charsInScene = (target.narrative ?? [])
         .filter(seg => seg.type === 'dialogue' && seg.character)
         .map(seg => `character_${seg.character}`)
       const toAdd = charsInScene.filter(c => !newMet.includes(c))
@@ -256,13 +267,14 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
 
   processChoice: (choiceId) => {
     const { currentScene, visitedSceneIds, activeFlags } = get()
+    const sceneChoices = currentScene?.choices ?? []
     const segmentsKeys = currentScene?.segments ? Object.keys(currentScene.segments) : []
     if (import.meta.env.DEV) console.log(
       '[narrativeStore.processChoice] choiceId:', choiceId,
       '| sceneId:', currentScene?.id ?? 'null',
-      '| choicesInScene:', currentScene?.choices.map(c => c.id) ?? [],
-      '| hasNextNode:', !!currentScene?.choices.find(c => c.id === choiceId)?.nextNodeId,
-      '| hasNextSegment:', !!currentScene?.choices.find(c => c.id === choiceId)?.nextSegment,
+      '| choicesInScene:', sceneChoices.map(c => c.id),
+      '| hasNextNode:', !!sceneChoices.find(c => c.id === choiceId)?.nextNodeId,
+      '| hasNextSegment:', !!sceneChoices.find(c => c.id === choiceId)?.nextSegment,
       '| segmentKeys:', segmentsKeys,
     )
 
@@ -271,12 +283,12 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       return
     }
 
-    const choice = currentScene.choices.find(c => c.id === choiceId)
+    const choice = sceneChoices.find(c => c.id === choiceId)
     if (!choice) {
       console.warn(
         '[narrativeStore.processChoice] BLOCKED: choice id not in currentScene.choices',
         '| requested:', choiceId,
-        '| available:', currentScene.choices.map(c => c.id),
+        '| available:', sceneChoices.map(c => c.id),
         '| sceneId:', currentScene.id,
       )
       return
@@ -317,7 +329,23 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       })
     }
 
-    useGameStore.getState().applyModifiers(choice.stateChanges ?? [])
+    // ── C6 fix: legacy `statEffects` alias for `stateChanges` ──────────
+    // Many Act 1–3 scene JSON files use `statEffects: [{ stat, value }]`
+    // instead of the canonical `stateChanges: [{ stat, operation, value }]`.
+    // When `stateChanges` is empty/missing, fall back to `statEffects`
+    // mapped to operation = 'add'. This makes all 119 legacy choices
+    // mechanically active without rewriting any JSON files.
+    const effectiveChanges: StateModifier[] = (
+      (choice.stateChanges?.length ?? 0) > 0
+        ? (choice.stateChanges ?? [])
+        : (choice.statEffects ?? []).map(e => ({
+            stat: e.stat,
+            operation: 'add' as const,
+            value: e.value,
+          }))
+    )
+
+    useGameStore.getState().applyModifiers(effectiveChanges)
 
     // Schedule any delayed consequences from this choice.
     // delayWeeks: 0 triggers are mid-week emergency interrupts — injected directly
@@ -359,14 +387,14 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
 
     const stateForHandlers = useGameStore.getState()
     let stateUpdates: Partial<GameState> = {}
-    const moleConsequenceFlags: string[] = []
+    let moleConsequenceFlags: string[] = []
 
     // Mole accusation runs at most once per choice (mutually exclusive flags,
     // and we don't want to apply consequences multiple times).
-    const accusationResult = handleMoleAccusation(choice.flags, stateForHandlers)
+    const accusationResult = handleMoleAccusation(choice.flags ?? [], stateForHandlers)
     if (accusationResult) {
       stateUpdates = { ...stateUpdates, ...accusationResult.stateUpdates }
-      moleConsequenceFlags.push(...accusationResult.consequenceFlags)
+      moleConsequenceFlags = [...moleConsequenceFlags, ...accusationResult.consequenceFlags]
       if (accusationResult.statChanges.length) {
         useGameStore.getState().applyModifiers(accusationResult.statChanges)
       }
@@ -491,10 +519,16 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       updatedScene = nextScene
     } else if (choice.nextSegment && currentScene.segments?.[choice.nextSegment]) {
       const seg = currentScene.segments[choice.nextSegment]
+      const segNarrative = seg.narrative ??
+        (seg.dialogue ? (
+          Array.isArray(seg.dialogue)
+            ? seg.dialogue
+            : [{ type: 'description', text: seg.dialogue }]
+        ) : [])
       updatedScene = {
         ...currentScene,
-        narrative: seg.narrative,
-        choices:   seg.choices,
+        narrative: segNarrative,
+        choices:   seg.choices ?? [],
         monologue: seg.monologue ?? currentScene.monologue,
       }
       nextSegmentId = choice.nextSegment

@@ -13,11 +13,9 @@ interface Props {
 
 export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
   const [resolved, setResolved] = useState(false)
-  const def = defs.find(d => d.id === projectId)
-  if (!def) return null
-
   const project = useGameStore(s => s.activeProjects.find(p => p.projectId === projectId))
-  if (!project || project.midpointResolved) return null
+  const def = defs.find(d => d.id === projectId)
+  if (!def || !project || project.midpointResolved) return null
 
   const handleChoice = (choiceId: string) => {
     useGameStore.getState().resolveMidpoint(projectId, choiceId)

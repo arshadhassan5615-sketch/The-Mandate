@@ -11,7 +11,7 @@ export default function ActTransition({
   actTitle,
   onComplete
 }: ActTransitionProps) {
-  const [phase, setPhase] = useState<'fadein' | 'hold' | 'fadeout'>('fadein')
+  const [, setPhase] = useState<'fadein' | 'hold' | 'fadeout'>('fadein')
   const [opacity, setOpacity] = useState(0)
 
   useEffect(() => {

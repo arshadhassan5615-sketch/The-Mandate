@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import { useWeekStore } from '../stores/weekStore'
+import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useNewsStore } from '../stores/newsStore'
 import { saveGame, loadGame } from '../engine/SaveManager'
@@ -66,6 +67,7 @@ export default function GameLayout() {
   const [showActTransition, setShowActTransition] = useState(false)
   const [actShown, setActShown] = useState(false)
   const [slotScreenMode, setSlotScreenMode] = useState<'load' | 'save' | null>(null)
+  const [menuConfirmOpen, setMenuConfirmOpen] = useState(false)
 
   useAudio()
 
@@ -244,32 +246,141 @@ export default function GameLayout() {
         <RightSidebar />
       )}
 
-      {/* In-game save button — bottom left during gameplay */}
+      {/* In-game save & menu buttons — bottom left during gameplay */}
       {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
-        <button
-          onClick={() => setSlotScreenMode('save')}
+        <div style={{ position: 'fixed', bottom: '1rem', left: '1rem', zIndex: 100, display: 'flex', gap: '0.5rem' }}>
+          <button
+            onClick={() => setSlotScreenMode('save')}
+            style={{
+              fontFamily: "'Special Elite', monospace",
+              fontSize: '0.5rem',
+              letterSpacing: '0.1em',
+              background: 'rgba(201,168,76,0.1)',
+              border: '1px solid rgba(201,168,76,0.3)',
+              color: 'rgba(201,168,76,0.7)',
+              padding: '0.35rem 0.8rem',
+              cursor: 'pointer',
+              borderRadius: '2px',
+              textTransform: 'uppercase' as const,
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = '#c9a84c'; e.currentTarget.style.color = '#c9a84c' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'; e.currentTarget.style.color = 'rgba(201,168,76,0.7)' }}
+          >
+            SAVE
+          </button>
+          <button
+            onClick={() => setMenuConfirmOpen(true)}
+            style={{
+              fontFamily: "'Special Elite', monospace",
+              fontSize: '0.5rem',
+              letterSpacing: '0.1em',
+              background: 'rgba(201,168,76,0.1)',
+              border: '1px solid rgba(201,168,76,0.3)',
+              color: 'rgba(201,168,76,0.7)',
+              padding: '0.35rem 0.8rem',
+              cursor: 'pointer',
+              borderRadius: '2px',
+              textTransform: 'uppercase' as const,
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = '#c9a84c'; e.currentTarget.style.color = '#c9a84c' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'; e.currentTarget.style.color = 'rgba(201,168,76,0.7)' }}
+          >
+            MENU
+          </button>
+        </div>
+      )}
+
+      {/* Return-to-menu confirmation modal */}
+      {menuConfirmOpen && (
+        <div
           style={{
-            position: 'fixed',
-            bottom: '1rem',
-            left: '1rem',
-            zIndex: 100,
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.5rem',
-            letterSpacing: '0.1em',
-            background: 'rgba(201,168,76,0.1)',
-            border: '1px solid rgba(201,168,76,0.3)',
-            color: 'rgba(201,168,76,0.7)',
-            padding: '0.35rem 0.8rem',
-            cursor: 'pointer',
-            borderRadius: '2px',
-            textTransform: 'uppercase' as const,
-            transition: 'all 0.15s ease',
+            position: 'fixed', inset: 0,
+            background: 'rgba(10,8,6,0.97)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            zIndex: 9000,
           }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = '#c9a84c'; e.currentTarget.style.color = '#c9a84c' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'; e.currentTarget.style.color = 'rgba(201,168,76,0.7)' }}
+          onClick={() => setMenuConfirmOpen(false)}
         >
-          SAVE
-        </button>
+          <div
+            style={{
+              background: '#0a0806',
+              border: '1px solid rgba(201,168,76,0.4)',
+              padding: '2.5rem 3rem',
+              borderRadius: '2px',
+              maxWidth: '420px',
+              width: '90%',
+              textAlign: 'center',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{
+              fontFamily: "'Special Elite', monospace",
+              fontSize: '1rem',
+              letterSpacing: '0.15em',
+              color: '#c9a84c',
+              marginBottom: '1rem',
+            }}>
+              RETURN TO MAIN MENU?
+            </div>
+            <div style={{
+              fontFamily: "'Crimson Text', serif",
+              fontSize: '0.9rem',
+              color: 'rgba(180,170,150,0.8)',
+              marginBottom: '2rem',
+              lineHeight: '1.5',
+            }}>
+              Your progress has been autosaved.
+            </div>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+              <button
+                onClick={() => setMenuConfirmOpen(false)}
+                style={{
+                  fontFamily: "'Special Elite', monospace",
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.12em',
+                  background: 'transparent',
+                  border: '1px solid rgba(201,168,76,0.25)',
+                  color: 'rgba(201,168,76,0.5)',
+                  padding: '0.6rem 1.4rem',
+                  cursor: 'pointer',
+                  borderRadius: '2px',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)'; e.currentTarget.style.color = 'rgba(201,168,76,0.8)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.25)'; e.currentTarget.style.color = 'rgba(201,168,76,0.5)' }}
+              >
+                STAY
+              </button>
+              <button
+                onClick={async () => {
+                  const slot = useWeekStore.getState().activeSlot
+                  await saveGame(slot, 'AUTOSAVE')
+                  useGameStore.getState().resetToInitial()
+                  useWeekStore.setState({ phase: 'title' })
+                  setMenuConfirmOpen(false)
+                }}
+                style={{
+                  fontFamily: "'Special Elite', monospace",
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.12em',
+                  background: 'rgba(201,168,76,0.15)',
+                  border: '1px solid rgba(201,168,76,0.6)',
+                  color: '#c9a84c',
+                  padding: '0.6rem 1.4rem',
+                  cursor: 'pointer',
+                  borderRadius: '2px',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,168,76,0.25)'; e.currentTarget.style.borderColor = '#c9a84c' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(201,168,76,0.15)'; e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)' }}
+              >
+                MAIN MENU
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Top bar — visible during gameplay */}

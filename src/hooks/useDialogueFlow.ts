@@ -31,7 +31,7 @@ export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 
   const [allDone,   setAllDone]   = useState(false)
 
   // Generate a stable string hash of the current segments
-  const currentHash = segments.map(s => `${s.id || 'n'}-${s.text.substring(0, 10)}`).join('|')
+  const currentHash = segments.map(s => `${(s as { id?: string }).id || 'n'}-${s.text.substring(0, 10)}`).join('|')
   const [prevHash, setPrevHash] = useState(currentHash)
 
   // Refs mirror state for use inside intervals/callbacks without stale closures

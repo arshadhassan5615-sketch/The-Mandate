@@ -13,7 +13,7 @@ import ConversationPanel from './narrative/ConversationPanel'
 
 interface HistoryEntry {
   id: string
-  type: 'dialogue' | 'narrative' | 'player_spoken'
+  type: 'description' | 'dialogue' | 'narrative' | 'internal_thought' | 'player_spoken'
   characterId?: string
   characterName?: string
   characterColor?: string
@@ -59,7 +59,7 @@ export default function NarrativeScene() {
       const dinnerCtx = computeDinnerContext(gameState, activeFlags)
       const injected = dinnerCtx.injectedSegments
         .filter(id => currentScene.segments![id])
-        .flatMap(id => currentScene.segments![id].narrative)
+        .flatMap(id => currentScene.segments![id].narrative ?? [])
       return [...baseSegments, ...injected]
     }
     return baseSegments
@@ -111,8 +111,8 @@ export default function NarrativeScene() {
     if (import.meta.env.DEV) console.log(
       '[NarrativeScene] choice click | sceneId:', currentScene?.id,
       '| choiceId:', id,
-      '| nextNode:', currentScene?.choices.find(c => c.id === id)?.nextNodeId,
-      '| nextSegment:', currentScene?.choices.find(c => c.id === id)?.nextSegment,
+      '| nextNode:', (currentScene?.choices ?? []).find(c => c.id === id)?.nextNodeId,
+      '| nextSegment:', (currentScene?.choices ?? []).find(c => c.id === id)?.nextSegment,
     )
     try {
       processChoice(id)
@@ -242,9 +242,13 @@ export default function NarrativeScene() {
       const newEntries: HistoryEntry[] = []
       for (let i = prevRevealed.current; i < revealedSegments.length; i++) {
         const seg = revealedSegments[i]
+        const effectiveType =
+          seg.type === 'monologue' ? 'internal_thought' :
+          seg.type === 'narrative' ? 'description' :
+          seg.type
         newEntries.push({
           id: `${currentScene?.id ?? 'scene'}-rev-${i}`,
-          type: seg.type === 'dialogue' ? 'dialogue' : 'narrative',
+          type: effectiveType,
           characterId: seg.character,
           characterName: seg.character ? charName(seg.character) : undefined,
           characterColor: seg.character ? getCharacterColor(seg.character) : undefined,

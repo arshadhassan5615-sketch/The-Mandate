@@ -4,181 +4,22 @@ import { useCodexStore } from '../../stores/codexStore'
 import { useGameStore } from '../../stores/gameStore'
 import { renderWithEntities } from '../news/EntityLinker'
 
-function Skyline({ type }: { type: ProvinceData['skylineType'] }) {
-  const h = 120; const w = 500
-  switch (type) {
-    case 'city':
-      return (
-        <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto' }} preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="city-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#1a1410" />
-              <stop offset="60%" stopColor="#2a2218" />
-              <stop offset="100%" stopColor="#3a3020" />
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width={w} height={h} fill="url(#city-sky)" />
-          <rect x="0" y="90" width={w} height="30" fill="rgba(15,12,10,0.7)" />
-          <rect x="30" y="55" width="18" height="35" fill="rgba(80,70,50,0.35)" />
-          <rect x="55" y="45" width="22" height="45" fill="rgba(90,75,55,0.4)" />
-          <rect x="55" y="42" width="22" height="3" fill="rgba(200,144,42,0.15)" />
-          <rect x="85" y="60" width="16" height="30" fill="rgba(70,60,45,0.3)" />
-          <rect x="110" y="35" width="26" height="55" fill="rgba(95,80,60,0.38)" />
-          <rect x="110" y="32" width="26" height="3" fill="rgba(200,144,42,0.2)" />
-          <rect x="145" y="50" width="20" height="40" fill="rgba(85,70,50,0.35)" />
-          <rect x="175" y="28" width="30" height="62" fill="rgba(100,85,65,0.42)" />
-          <rect x="175" y="24" width="30" height="4" fill="rgba(200,144,42,0.25)" />
-          <rect x="215" y="65" width="14" height="25" fill="rgba(65,55,40,0.28)" />
-          <rect x="240" y="42" width="24" height="48" fill="rgba(90,75,55,0.36)" />
-          <rect x="275" y="22" width="32" height="68" fill="rgba(105,88,68,0.44)" />
-          <rect x="275" y="18" width="32" height="4" fill="rgba(200,144,42,0.28)" />
-          <rect x="318" y="55" width="22" height="35" fill="rgba(85,70,52,0.34)" />
-          <rect x="350" y="40" width="26" height="50" fill="rgba(92,78,58,0.38)" />
-          <rect x="385" y="62" width="18" height="28" fill="rgba(72,60,44,0.3)" />
-          <rect x="412" y="48" width="24" height="42" fill="rgba(80,68,50,0.34)" />
-          <rect x="445" y="58" width="20" height="32" fill="rgba(70,58,42,0.28)" />
-          <rect x="0" y="75" width={w} height="8" fill="rgba(20,15,10,0.25)" />
-        </svg>
-      )
-    case 'industrial':
-      return (
-        <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto' }} preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="ind-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#1a1410" />
-              <stop offset="70%" stopColor="#2a1e14" />
-              <stop offset="100%" stopColor="#3a2818" />
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width={w} height={h} fill="url(#ind-sky)" />
-          <rect x="0" y="92" width={w} height="28" fill="rgba(15,12,10,0.65)" />
-          <rect x="20" y="45" width="35" height="47" fill="rgba(65,45,30,0.45)" />
-          <rect x="25" y="35" width="25" height="10" fill="rgba(60,40,25,0.35)" />
-          <rect x="22" y="30" width="6" height="8" fill="rgba(200,100,30,0.2)" />
-          <rect x="70" y="35" width="45" height="57" fill="rgba(70,50,35,0.48)" />
-          <rect x="75" y="25" width="35" height="10" fill="rgba(65,45,30,0.38)" />
-          <rect x="78" y="20" width="8" height="10" fill="rgba(200,100,30,0.22)" />
-          <rect x="130" y="50" width="30" height="42" fill="rgba(60,40,28,0.4)" />
-          <rect x="175" y="30" width="55" height="62" fill="rgba(75,52,36,0.5)" />
-          <rect x="182" y="20" width="40" height="12" fill="rgba(68,48,32,0.38)" />
-          <rect x="186" y="15" width="10" height="10" fill="rgba(210,110,35,0.25)" />
-          <rect x="245" y="42" width="40" height="50" fill="rgba(68,46,32,0.44)" />
-          <rect x="250" y="32" width="30" height="12" fill="rgba(62,42,28,0.36)" />
-          <rect x="255" y="28" width="7" height="9" fill="rgba(200,100,30,0.2)" />
-          <rect x="300" y="48" width="35" height="44" fill="rgba(62,42,30,0.42)" />
-          <rect x="350" y="38" width="50" height="54" fill="rgba(72,50,34,0.46)" />
-          <rect x="356" y="28" width="38" height="12" fill="rgba(65,45,30,0.37)" />
-          <rect x="360" y="24" width="9" height="9" fill="rgba(210,110,35,0.24)" />
-          <rect x="415" y="50" width="32" height="42" fill="rgba(60,42,28,0.4)" />
-          <rect x="300" y="38" width={w-300} height="1" fill="rgba(100,80,50,0.1)" />
-          <rect x="130" y="40" width={w-130} height="1" fill="rgba(100,80,50,0.08)" />
-        </svg>
-      )
-    case 'rural':
-      return (
-        <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto' }} preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="rural-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#1a1610" />
-              <stop offset="50%" stopColor="#2a2218" />
-              <stop offset="100%" stopColor="#3a3020" />
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width={w} height={h} fill="url(#rural-sky)" />
-          <rect x="0" y="85" width={w} height="35" fill="rgba(30,25,15,0.6)" />
-          <circle cx="420" cy="30" r="16" fill="rgba(200,160,42,0.12)" />
-          <rect x="70" y="55" width="28" height="35" fill="rgba(80,60,40,0.22)" />
-          <polygon points="84,35 60,55 108,55" fill="rgba(75,55,35,0.18)" />
-          <rect x="250" y="58" width="26" height="32" fill="rgba(75,55,38,0.2)" />
-          <polygon points="263,40 242,58 284,58" fill="rgba(70,52,34,0.16)" />
-          <rect x="370" y="52" width="30" height="38" fill="rgba(82,62,42,0.22)" />
-          <polygon points="385,32 360,52 410,52" fill="rgba(78,58,36,0.18)" />
-          <circle cx="130" cy="40" r="10" fill="rgba(140,120,60,0.08)" />
-          <circle cx="310" cy="42" r="12" fill="rgba(140,120,60,0.07)" />
-          <rect x="0" y="75" width={w} height="3" fill="rgba(100,80,40,0.06)" />
-        </svg>
-      )
-    case 'fortress':
-      return (
-        <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto' }} preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="fort-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#141210" />
-              <stop offset="60%" stopColor="#201a18" />
-              <stop offset="100%" stopColor="#2a2418" />
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width={w} height={h} fill="url(#fort-sky)" />
-          <rect x="0" y="88" width={w} height="32" fill="rgba(20,18,15,0.7)" />
-          <rect x="160" y="35" width="180" height="55" fill="rgba(55,45,35,0.28)" />
-          <rect x="140" y="32" width="18" height="14" fill="rgba(70,50,35,0.25)" />
-          <rect x="175" y="28" width="22" height="18" fill="rgba(72,52,36,0.28)" />
-          <rect x="216" y="26" width="20" height="20" fill="rgba(74,54,38,0.3)" />
-          <rect x="254" y="30" width="20" height="16" fill="rgba(70,50,35,0.26)" />
-          <rect x="290" y="32" width="16" height="12" fill="rgba(68,48,33,0.24)" />
-          <rect x="325" y="34" width="18" height="14" fill="rgba(72,52,36,0.26)" />
-          <rect x="170" y="62" width="40" height="28" fill="rgba(30,25,18,0.32)" />
-          <rect x="230" y="64" width="40" height="26" fill="rgba(32,28,20,0.3)" />
-          <rect x="290" y="60" width="40" height="30" fill="rgba(30,25,18,0.32)" />
-          <rect x="0" y="78" width={w} height="5" fill="rgba(60,40,20,0.08)" />
-        </svg>
-      )
-    case 'harbor':
-      return (
-        <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto' }} preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="harbor-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#121820" />
-              <stop offset="55%" stopColor="#1a222e" />
-              <stop offset="100%" stopColor="#202a28" />
-            </linearGradient>
-            <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#0a2a38" />
-              <stop offset="100%" stopColor="#063040" />
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width={w} height={h} fill="url(#harbor-sky)" />
-          <rect x="0" y="82" width={w} height="38" fill="url(#water)" />
-          <rect x="20" y="55" width="28" height="30" fill="rgba(50,65,85,0.22)" />
-          <rect x="60" y="50" width="32" height="35" fill="rgba(55,70,95,0.25)" />
-          <rect x="105" y="45" width="36" height="40" fill="rgba(60,78,100,0.28)" />
-          <rect x="155" y="58" width="30" height="28" fill="rgba(48,62,82,0.22)" />
-          <rect x="200" y="48" width="34" height="38" fill="rgba(58,75,96,0.26)" />
-          <rect x="250" y="55" width="28" height="30" fill="rgba(52,68,88,0.23)" />
-          <rect x="300" y="44" width="38" height="42" fill="rgba(62,80,102,0.3)" />
-          <rect x="355" y="52" width="32" height="34" fill="rgba(55,72,90,0.25)" />
-          <rect x="405" y="48" width="36" height="38" fill="rgba(58,76,96,0.27)" />
-          <rect x="455" y="56" width="30" height="30" fill="rgba(50,65,85,0.23)" />
-          <rect x="40" y="78" width="60" height="4" fill="rgba(40,80,100,0.08)" />
-          <rect x="220" y="75" width="80" height="5" fill="rgba(40,80,100,0.1)" />
-          <rect x="380" y="80" width="55" height="3" fill="rgba(40,80,100,0.06)" />
-        </svg>
-      )
-    case 'mountain':
-      return (
-        <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto' }} preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="mtn-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#141820" />
-              <stop offset="60%" stopColor="#1a2028" />
-              <stop offset="100%" stopColor="#202820" />
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width={w} height={h} fill="url(#mtn-sky)" />
-          <polygon points="30,80 90,25 150,80" fill="rgba(45,42,55,0.25)" />
-          <polygon points="85,80 165,20 245,80" fill="rgba(50,48,62,0.3)" />
-          <polygon points="195,80 275,30 355,80" fill="rgba(48,44,58,0.28)" />
-          <polygon points="120,80 200,42 280,80" fill="rgba(42,40,52,0.22)" />
-          <polygon points="300,80 370,35 440,80" fill="rgba(46,42,56,0.24)" />
-          <polygon points="390,80 458,28 530,80" fill="rgba(48,44,58,0.26)" />
-          <polygon points="90,42 100,34 110,42" fill="rgba(150,155,165,0.12)" />
-          <polygon points="168,32 180,22 192,32" fill="rgba(155,160,170,0.14)" />
-          <polygon points="275,42 286,32 297,42" fill="rgba(152,158,168,0.12)" />
-          <polygon points="370,44 382,34 394,44" fill="rgba(148,154,164,0.11)" />
-          <rect x="0" y="72" width={w} height="48" fill="rgba(20,22,28,0.7)" />
-        </svg>
-      )
-  }
+import kravenstalBanner from '../../assets/images/provinces/kravenstal_banner.jpeg'
+import ashenmereBanner from '../../assets/images/provinces/ashenmere_banner.jpeg'
+import dravenhollowBanner from '../../assets/images/provinces/dravenhollow_banner.jpeg'
+import thornfeldBanner from '../../assets/images/provinces/thornfeld_banner.jpeg'
+import aldenmoorBanner from '../../assets/images/provinces/aldenmoor_banner.jpeg'
+import sevagradBanner from '../../assets/images/provinces/sevagrad_banner.jpeg'
+import sovarkaBanner from '../../assets/images/provinces/sovarka_banner.jpeg'
+
+const PROVINCE_BANNERS: Record<string, string> = {
+  ashenmere: ashenmereBanner,
+  kravenstal: kravenstalBanner,
+  dravenhollow: dravenhollowBanner,
+  thornfeld: thornfeldBanner,
+  aldenmoor: aldenmoorBanner,
+  sevagrad: sevagradBanner,
+  sovarka: sovarkaBanner,
 }
 
 const ICON_POPULATION = (
@@ -391,9 +232,19 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
           }}>✕</button>
         </div>
 
-        {/* ── Skyline illustration ──────────────────────────── */}
         <div style={{ padding: '10px 28px 0' }}>
-          <Skyline type={province.skylineType} />
+          <img
+            src={PROVINCE_BANNERS[province.id] ?? ashenmereBanner}
+            alt={province.name}
+            style={{
+              width: '100%',
+              height: '200px',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              display: 'block',
+              borderBottom: '1px solid rgba(201,168,76,0.2)',
+            }}
+          />
         </div>
 
         {/* ── Status icons row ──────────────────────────────── */}

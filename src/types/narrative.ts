@@ -1,7 +1,14 @@
 // GDD Section 14.2 — Narrative Engine types
 import type { StateModifier } from './gameState'
 
-export type NarrativeSegmentType = 'description' | 'dialogue' | 'internal_thought'
+export type NarrativeSegmentType =
+  | 'description'
+  | 'dialogue'
+  | 'internal_thought'
+  // Legacy aliases used in older Act 1–3 scene JSON files. The renderer maps
+  // them to their canonical equivalents at runtime.
+  | 'narrative'
+  | 'monologue'
 
 export interface NarrativeSegment {
   type: NarrativeSegmentType
@@ -36,27 +43,35 @@ export type ChoiceTag = 'reformist' | 'pragmatist' | 'authoritarian' | 'populist
 export interface ChoiceReaction {
   character: string
   text: string
-  type: 'dialogue' | 'narrative' | 'action' | 'silence'
+  type: 'dialogue' | 'narrative' | 'action' | 'silence' | 'concern' | 'satisfied'
 }
 
 export interface SceneChoice {
   id: string
   text: string
-  internalTag: ChoiceTag
+  internalTag?: ChoiceTag
   tooltip?: string
   conditions?: Condition[]                  // gates whether this choice is shown
-  stateChanges: StateModifier[]
-  chainTriggers: ChainTrigger[]
+  stateChanges?: StateModifier[]
+  // Legacy key used in older Act 1–3 scene JSON files. The engine treats
+  // `statEffects` as an alias for `stateChanges` (operation = 'add') when
+  // `stateChanges` is empty or missing, so adding this field keeps the
+  // existing JSON files compatible without a data migration.
+  statEffects?: Array<{ stat: string; value: number }>
+  chainTriggers?: ChainTrigger[]
   nextNodeId?: string                       // explicit transition; bypasses auto-advance
   nextSegment?: string                      // transition to a branch within the same scene
-  flags: string[]                           // boolean flags set on pick
-  codexUnlocks: string[]
+  flags?: string[]                           // boolean flags set on pick
+  codexUnlocks?: string[]
   reactions?: ChoiceReaction[]              // micro-reactions from present characters
 }
 
 export interface NarrativeSegmentSet {
-  narrative: NarrativeSegment[]
-  choices: SceneChoice[]
+  narrative?: NarrativeSegment[]
+  // Legacy alias: some segments store content under `dialogue` instead of
+  // `narrative`. The engine normalizes this at load / choice time.
+  dialogue?: NarrativeSegment[] | string
+  choices?: SceneChoice[]
   monologue?: string
 }
 
@@ -89,8 +104,11 @@ export interface NarrativeNode {
   characters: string[]
   prerequisites: Condition[]
   exclusive?: string[]
-  narrative: NarrativeSegment[]
-  choices: SceneChoice[]
+  narrative?: NarrativeSegment[]
+  // Legacy alias: some scenes store their top-level content under `dialogue`
+  // instead of `narrative`. The engine normalizes this at load time.
+  dialogue?: NarrativeSegment[] | string
+  choices?: SceneChoice[]
   segments?: Record<string, NarrativeSegmentSet>
   monologue?: string
   socialInteractions?: SocialInteraction[]

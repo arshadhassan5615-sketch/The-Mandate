@@ -60,7 +60,7 @@ export const FLAG_HANDLERS: Record<string, FlagHandler> = {
   'soren_immunity_limited_revoked': () => ({ sorenImmunityRevoked: true }),
   'soren_files_revealed': (_state, choice) => ({
     sorenFilesRevealed: true,
-    sorenLinkedToMikhael: choice.flags.includes('soren_linked_to_mikhael'),
+    sorenLinkedToMikhael: (choice.flags ?? []).includes('soren_linked_to_mikhael'),
   }),
   'soren_trial_public': () => ({ sorenTrialOutcome: 'public_trial' }),
   'soren_trial_plea':   () => ({ sorenTrialOutcome: 'plea_deal' }),

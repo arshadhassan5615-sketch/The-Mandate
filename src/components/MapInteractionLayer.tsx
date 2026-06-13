@@ -5,7 +5,6 @@ import { useGameStore } from '../stores/gameStore'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useNewsStore } from '../stores/newsStore'
 import { groupByProvince, type ProvinceId } from '../engine/LocationResolver'
-import { getScene } from '../engine/NarrativeEngine'
 import MapScenePin from './MapScenePin'
 import type { AgendaItem } from '../types/week'
 
@@ -54,21 +53,20 @@ export default function MapInteractionLayer() {
   const newsOpen = useNewsStore(s => s.isOpen)
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
 
-  const isWeekBlocked = useMemo(() => {
-    return agendaPool.some(item => {
-      const scene = getScene(item.sceneId)
-      return scene?.isWeekGate === true && !visitedSceneIds.includes(item.sceneId)
-    })
+  const visitedThisWeek = useMemo(() => {
+    return agendaPool.some(item =>
+      visitedSceneIds.includes(item.sceneId)
+    ) || visitedSceneIds.length > 0
   }, [agendaPool, visitedSceneIds])
 
-  const canShowEndWeek = useMemo(() => {
-    const visitedThisWeek = agendaPool.filter(
-      item => visitedSceneIds.includes(item.sceneId)
-    ).length
-    return visitedThisWeek > 0 || agendaPool.length === 0
+  const hasUnvisitedMandatory = useMemo(() => {
+    return agendaPool.some(item =>
+      item.slotCost === 0 &&
+      !visitedSceneIds.includes(item.sceneId)
+    )
   }, [agendaPool, visitedSceneIds])
 
-  if (!canShowEndWeek || newsOpen || decreeInboxOpen || agendaPool.length === 0) return null
+  if (!visitedThisWeek || newsOpen || decreeInboxOpen) return null
 
   return (
     <div style={{
@@ -84,33 +82,33 @@ export default function MapInteractionLayer() {
     }}>
       <button
         onClick={completeWeek}
-        disabled={isWeekBlocked}
-        title={isWeekBlocked ? 'Complete all mandatory scenes before ending the week' : undefined}
+        disabled={hasUnvisitedMandatory}
+        title={hasUnvisitedMandatory ? 'Complete all mandatory scenes first' : undefined}
         style={{
           fontFamily: "'Special Elite', monospace",
           fontSize: '0.65rem',
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
           padding: '10px 32px',
-          background: isWeekBlocked ? 'rgba(200,168,76,0.08)' : 'rgba(200,168,76,0.18)',
-          border: `1.5px solid ${isWeekBlocked ? 'rgba(200,168,76,0.2)' : 'rgba(200,168,76,0.6)'}`,
-          color: isWeekBlocked ? 'rgba(200,168,76,0.3)' : '#c9a84c',
-          cursor: isWeekBlocked ? 'not-allowed' : 'pointer',
+          background: hasUnvisitedMandatory ? 'rgba(200,168,76,0.08)' : 'rgba(200,168,76,0.18)',
+          border: `1.5px solid ${hasUnvisitedMandatory ? 'rgba(200,168,76,0.2)' : 'rgba(200,168,76,0.6)'}`,
+          color: hasUnvisitedMandatory ? 'rgba(200,168,76,0.3)' : '#c9a84c',
+          cursor: hasUnvisitedMandatory ? 'not-allowed' : 'pointer',
           borderRadius: '3px',
           transition: 'all 0.15s ease',
-          boxShadow: isWeekBlocked ? 'none' : '0 0 16px rgba(200,168,76,0.15)',
+          boxShadow: hasUnvisitedMandatory ? 'none' : '0 0 16px rgba(200,168,76,0.15)',
         }}
       >
         End Week →
       </button>
-      {isWeekBlocked && (
+      {hasUnvisitedMandatory && (
         <span style={{
           fontFamily: "'IBM Plex Mono', monospace",
           fontSize: '9px',
           letterSpacing: '0.06em',
           color: 'rgba(139,46,46,0.7)',
         }}>
-          Mandatory scenes remain
+          Complete all mandatory scenes first
         </span>
       )}
     </div>

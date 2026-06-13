@@ -129,6 +129,11 @@ export interface GameState {
   vaelInfluence: number        // 0-100 — Margrave Vael's grip on your government
   morvecInfluence: number      // 0-100 — Stefan Morvec's influence over your government
   shadowInfluence: number       // 0-100 — off-the-books political power
+  shadowFootprint: number       // 0-100 — accumulated blowback from shadowInfluence actions
+  tyvarenHostility: number      // 0-100 — Tyvaren foreign-relations tension
+  vossRelation: number          // -100..100 — Kael Voss's personal disposition
+  sovarka_relation: number      // -100..100 — Sovarka foreign-relations warmth
+  danika_loyalty: number        // 0-100 — Danika's loyalty to the player
   refugeeCount: number          // 0-50000 — Morivask refugees currently in Veltria
   religiousAdherence: number    // 0-100 — % of population regularly attending Church
   // State of Emergency
@@ -206,6 +211,11 @@ export const STAT_RANGES: Record<string, [number, number]> = {
   'vaelInfluence':              [0, 100],
   'morvecInfluence':            [0, 100],
   'shadowInfluence':            [0, 100],
+  'shadowFootprint':            [0, 100],
+  'tyvarenHostility':           [0, 100],
+  'vossRelation':               [-100, 100],
+  'sovarka_relation':           [-100, 100],
+  'danika_loyalty':             [0, 100],
   'refugeeCount':               [0, 50000],
   'religiousAdherence':         [0, 100],
   'corruptionDiscoveredCount':  [0, Infinity],

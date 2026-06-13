@@ -1,6 +1,7 @@
 import { db, type SaveRecord } from '../db/mandateDb'
 import { useGameStore, INITIAL_STATE } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
+import type { GameState } from '../types/gameState'
 import { useChainStore } from '../stores/chainStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useSettingsStore, currentPlayTimeMinutes } from '../stores/settingsStore'
@@ -94,6 +95,11 @@ export async function saveGame(slot: number, name: string): Promise<void> {
       vaelInfluence: gameState.vaelInfluence,
       morvecInfluence: gameState.morvecInfluence,
       shadowInfluence: gameState.shadowInfluence,
+      shadowFootprint: gameState.shadowFootprint,
+      tyvarenHostility: gameState.tyvarenHostility,
+      vossRelation: gameState.vossRelation,
+      sovarka_relation: gameState.sovarka_relation,
+      danika_loyalty: gameState.danika_loyalty,
       refugeeCount: gameState.refugeeCount,
       religiousAdherence: gameState.religiousAdherence,
       stateOfEmergency: gameState.stateOfEmergency,

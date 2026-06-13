@@ -99,7 +99,12 @@ const INTERACTION_TITLES: Record<string, string> = {
 
 // ─── Segment renderer ────────────────────────────────────────────────────────
 function Segment({ seg }: { seg: NarrativeSegment }) {
-  if (seg.type === 'dialogue') {
+  const effectiveType =
+    seg.type === 'monologue' ? 'internal_thought' :
+    seg.type === 'narrative' ? 'description' :
+    seg.type
+
+  if (effectiveType === 'dialogue') {
     const id = seg.character ?? ''
     const name = charName(id)
     const color = getCharacterColor(id)
@@ -119,7 +124,7 @@ function Segment({ seg }: { seg: NarrativeSegment }) {
       </div>
     )
   }
-  if (seg.type === 'internal_thought') {
+  if (effectiveType === 'internal_thought') {
     return (
       <p style={{
         fontStyle: 'italic', color: 'var(--muted)',
@@ -325,9 +330,9 @@ export default function SocialEvent() {
     const choice = activeInteraction.choices.find(c => c.id === choiceId)
     if (!choice) return
 
-    gameState.applyModifiers(choice.stateChanges)
-    if (choice.flags.length) {
-      useNarrativeStore.getState().addFlags(choice.flags)
+    gameState.applyModifiers(choice.stateChanges ?? [])
+    if ((choice.flags ?? []).length) {
+      useNarrativeStore.getState().addFlags(choice.flags ?? [])
     }
 
     setInteractionResolved(true)
@@ -354,8 +359,6 @@ export default function SocialEvent() {
     })
   }, [activeInteraction, gameState, activeFlags])
 
-  if (!scene || !interactions.length) return null
-
   // Build character clusters for the room view
   // Group characters by interaction
   const interactionCharacters = useMemo(() => {
@@ -371,6 +374,8 @@ export default function SocialEvent() {
     }
     return chars
   }, [interactions])
+
+  if (!scene || !interactions.length) return null
 
   return (
     <div className="fixed inset-0 z-[90] flex flex-col" style={{ background: atmosphere.bg, paddingTop: '48px', paddingRight: '60px' }}>
@@ -439,7 +444,7 @@ export default function SocialEvent() {
                 textAlign: 'center',
                 marginBottom: '2.5rem',
               }}>
-                {scene.narrative.slice(0, 2).map((seg, i) => (
+                {(scene.narrative ?? []).slice(0, 2).map((seg, i) => (
                   <p key={i} style={{
                     fontFamily: 'var(--font-body)',
                     fontSize: '1rem',
