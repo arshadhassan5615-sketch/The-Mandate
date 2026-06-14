@@ -668,7 +668,7 @@ export default function ConversationPanel({
                   )}
                   {/* internal_thought / monologue — no label, ✦ symbol */}
                   {entry.type === 'internal_thought' && (
-                    <div style={{ padding: '2px 8px 2px 20px', margin: '2px 0' }}>
+                    <div style={{ padding: '2px 8px 2px 0px', margin: '2px 0' }}>
                       <p style={{
                         fontFamily: "'Crimson Text', Georgia, serif",
                         fontStyle: 'italic',
@@ -754,7 +754,7 @@ export default function ConversationPanel({
                       )}
                       {/* internal_thought / monologue — no label, ✦ symbol */}
                       {activeType === 'internal_thought' && (
-                        <div style={{ padding: '2px 8px 2px 20px', margin: '2px 0' }}>
+                        <div style={{ padding: '2px 8px 2px 0px', margin: '2px 0' }}>
                           <p style={{
                             fontFamily: "'Crimson Text', Georgia, serif",
                             fontStyle: 'italic',
