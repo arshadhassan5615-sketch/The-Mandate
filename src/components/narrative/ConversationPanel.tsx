@@ -141,7 +141,7 @@ export default function ConversationPanel({
   const speakerStack = useMemo(() => {
     const stack: string[] = []
     const processId = (id: string | undefined) => {
-      if (!id || id === 'katerin_ashavel') return
+      if (!id) return
       const idx = stack.indexOf(id)
       if (idx > -1) stack.splice(idx, 1)
       stack.push(id)
@@ -407,9 +407,7 @@ export default function ConversationPanel({
   // Derive currentSpeakerId for name highlighting in history
   const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
 
-  const displayStack = speakerStack.filter(
-    id => id !== 'katerin_ashavel'
-  )
+  const displayStack = speakerStack
 
   if (phase !== 'scene') return null
 
