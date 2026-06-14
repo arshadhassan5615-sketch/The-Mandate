@@ -666,42 +666,61 @@ export default function ConversationPanel({
                       {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
                     </div>
                   )}
+                  {/* internal_thought / monologue — no label, ✦ symbol */}
                   {entry.type === 'internal_thought' && (
-                    <div style={{
-                      fontFamily: "'Special Elite', monospace",
-                      fontSize: '8px',
-                      letterSpacing: '0.15em',
-                      color: 'rgba(255,255,255,0.35)',
-                      textTransform: 'uppercase',
-                      marginBottom: '3px',
-                    }}>
-                      Katerin Ashavel
+                    <div style={{ padding: '2px 8px 2px 20px', margin: '2px 0' }}>
+                      <p style={{
+                        fontFamily: "'Crimson Text', Georgia, serif",
+                        fontStyle: 'italic',
+                        fontSize: '13px',
+                        color: 'rgba(255,255,255,0.55)',
+                        lineHeight: '1.65',
+                        margin: 0,
+                        textAlign: 'left',
+                      }}>
+                        <span style={{
+                          color: 'rgba(201,168,76,0.4)',
+                          marginRight: '8px',
+                          fontSize: '10px',
+                        }}>✦</span>
+                        {renderWithEntities(entry.text, true)}
+                      </p>
                     </div>
                   )}
 
-                  {/* Dialogue / narrative text */}
-                  <div style={{
-                    fontSize: '15px',
-                    lineHeight: '1.65',
-                    color: entry.type === 'narrative' || entry.type === 'description'
-                      ? 'rgba(180,170,150,0.8)'
-                      : entry.type === 'internal_thought'
-                      ? 'rgba(255,255,255,0.55)'
-                      : 'rgba(232,213,163,0.92)',
-                    fontFamily: "'Crimson Text', Georgia, serif",
-                    fontSize: entry.type === 'internal_thought' ? '13px' : '15px',
-                    lineHeight: entry.type === 'internal_thought' ? '1.6' : '1.65',
-                    letterSpacing: entry.type === 'internal_thought' ? '0.01em' : undefined,
-                    fontStyle: entry.type === 'narrative' || entry.type === 'description' || entry.type === 'internal_thought' ? 'italic' : 'normal',
-                    borderLeft: 'none',
-                    paddingLeft: '0',
-                    marginLeft: '0',
-                  }}>
-                    {entry.type === 'dialogue' || entry.type === 'player_spoken'
-                      ? <>{'"'}{renderWithEntities(entry.text, true)}{'"'}</>
-                      : <>{renderWithEntities(entry.text, true)}</>
-                    }
-                  </div>
+                  {/* description / narrative — left-aligned, faded, no label */}
+                  {(entry.type === 'description' || entry.type === 'narrative') && (
+                    <div style={{ padding: '4px 0px', margin: '4px 0' }}>
+                      <p style={{
+                        fontFamily: "'Crimson Text', Georgia, serif",
+                        fontStyle: 'italic',
+                        fontSize: '14px',
+                        color: 'rgba(255,255,255,0.38)',
+                        lineHeight: '1.8',
+                        margin: 0,
+                        textAlign: 'left',
+                        letterSpacing: '0.02em',
+                      }}>
+                        {renderWithEntities(entry.text, true)}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* dialogue / player_spoken — character label + quoted text */}
+                  {(entry.type === 'dialogue' || entry.type === 'player_spoken') && (
+                    <div style={{
+                      fontSize: '15px',
+                      lineHeight: '1.65',
+                      color: 'rgba(232,213,163,0.92)',
+                      fontFamily: "'Crimson Text', Georgia, serif",
+                      fontStyle: 'normal',
+                      borderLeft: 'none',
+                      paddingLeft: '0',
+                      marginLeft: '0',
+                    }}>
+                      {'"'}{renderWithEntities(entry.text, true)}{'"'}
+                    </div>
+                  )}
                 </div>
               </div>
             )
@@ -733,38 +752,65 @@ export default function ConversationPanel({
                           {charName(activeSegment.character ?? '')}
                         </div>
                       )}
+                      {/* internal_thought / monologue — no label, ✦ symbol */}
                       {activeType === 'internal_thought' && (
-                        <div style={{
-                          fontFamily: "'Special Elite', monospace",
-                          fontSize: '8px',
-                          letterSpacing: '0.15em',
-                          color: 'rgba(255,255,255,0.35)',
-                          textTransform: 'uppercase',
-                          marginBottom: '4px',
-                        }}>
-                          Katerin Ashavel
+                        <div style={{ padding: '2px 8px 2px 20px', margin: '2px 0' }}>
+                          <p style={{
+                            fontFamily: "'Crimson Text', Georgia, serif",
+                            fontStyle: 'italic',
+                            fontSize: '13px',
+                            color: 'rgba(255,255,255,0.55)',
+                            lineHeight: '1.65',
+                            margin: 0,
+                            textAlign: 'left',
+                          }}>
+                            <span style={{
+                              color: 'rgba(201,168,76,0.4)',
+                              marginRight: '8px',
+                              fontSize: '10px',
+                            }}>✦</span>
+                            {renderWithEntities(activeText, true)}
+                            {showCursor && <span className="typewriter-cursor" />}
+                          </p>
                         </div>
                       )}
-                      <div style={{
-                        fontSize: activeType === 'internal_thought' ? '13px' : '15px',
-                        lineHeight: activeType === 'internal_thought' ? '1.6' : '1.65',
-                        color: activeType === 'dialogue'
-                          ? 'rgba(232,213,163,0.92)'
-                          : activeType === 'internal_thought'
-                          ? 'rgba(255,255,255,0.55)'
-                          : 'rgba(220,210,190,0.85)',
-                        fontFamily: "'Crimson Text', Georgia, serif",
-                        fontStyle: 'italic',
-                        borderLeft: 'none',
-                        paddingLeft: '0',
-                        marginLeft: '0',
-                        letterSpacing: activeType === 'internal_thought' ? '0.01em' : undefined,
-                      }}>
-                        {activeType === 'dialogue' ? '"' : ''}
-                        {renderWithEntities(activeText, true)}
-                        {showCursor && <span className="typewriter-cursor" />}
-                        {activeType === 'dialogue' ? '"' : ''}
-                      </div>
+
+                      {/* description — left-aligned, faded, no label */}
+                      {activeType === 'description' && (
+                        <div style={{ padding: '4px 0px', margin: '4px 0' }}>
+                          <p style={{
+                            fontFamily: "'Crimson Text', Georgia, serif",
+                            fontStyle: 'italic',
+                            fontSize: '14px',
+                            color: 'rgba(255,255,255,0.38)',
+                            lineHeight: '1.8',
+                            margin: 0,
+                            textAlign: 'left',
+                            letterSpacing: '0.02em',
+                          }}>
+                            {renderWithEntities(activeText, true)}
+                            {showCursor && <span className="typewriter-cursor" />}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* dialogue — character label + quoted text */}
+                      {activeType === 'dialogue' && (
+                        <div style={{
+                          fontSize: '15px',
+                          lineHeight: '1.65',
+                          color: 'rgba(232,213,163,0.92)',
+                          fontFamily: "'Crimson Text', Georgia, serif",
+                          fontStyle: 'normal',
+                          borderLeft: 'none',
+                          paddingLeft: '0',
+                          marginLeft: '0',
+                        }}>
+                          {'"'}{renderWithEntities(activeText, true)}
+                          {showCursor && <span className="typewriter-cursor" />}
+                          {'"'}
+                        </div>
+                      )}
                     </>
                   )
                 })()}

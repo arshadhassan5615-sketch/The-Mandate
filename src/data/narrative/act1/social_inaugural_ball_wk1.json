@@ -22,6 +22,11 @@
     {
       "type": "monologue",
       "text": "Six conversations you could have tonight. Six people who want something from you. The question is who you choose to speak with — and what that choice signals to everyone watching."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor. Room is arranged as expected. Kolvar's people near the east balcony — watching you since you arrived. Archbishop has already blessed the canapés. Unasked. General Brenner is in full dress uniform by the west bar. Vael has been circling the foreign table. You have perhaps two hours before protocol demands your exit. Choose conversations carefully — you cannot speak to everyone."
     }
   ],
   "choices": [
@@ -81,7 +86,7 @@
       "narrative": [
         {
           "type": "description",
-          "text": "You find a quiet corner near the east windows. The city lights of Ashenmere stretch out below. Jonas hands you a glass of water — not champagne. He knows you."
+          "text": "You find Jonas near the east windows, holding two glasses — champagne for appearances, water for you. He knows. He always knows."
         },
         {
           "type": "dialogue",
@@ -96,11 +101,21 @@
         {
           "type": "dialogue",
           "character": "jonas_ashavel",
-          "text": "You have about three. Vyktor is already moving through the room toward someone who looks important."
+          "text": "You have about three. Vyktor is already moving toward someone who looks important and uncomfortable."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Then we waste none of it. How are you?"
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "Proud. Worried. Both at once. The usual."
         },
         {
           "type": "description",
-          "text": "You both laugh. It is the first real laugh of the day."
+          "text": "You both laugh. It is the first real laugh of the day. In a room full of calculation, it is the only thing that feels true."
         }
       ],
       "choices": [
@@ -120,7 +135,7 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Lucan Vael is exactly where you expected — at the center of a circle of businessmen, performing ease. He excuses himself when he sees you approach. That itself is information."
+          "text": "Lucan Vael is exactly where Vyktor said — circling the foreign table, performing ease. He excuses himself the moment he sees you move toward him. That itself is information. He has been waiting."
         },
         {
           "type": "dialogue",
@@ -135,20 +150,50 @@
         {
           "type": "dialogue",
           "character": "lucan_vael",
-          "text": "The same thing that brings everyone. To see what kind of government this will be. I think I am beginning to understand."
+          "text": "The same thing that brings everyone. To see what kind of government this will be. Whether certain — arrangements — from the previous administration will be honored."
         },
         {
           "type": "monologue",
-          "text": "He means it as a compliment. You are not entirely sure it is one."
+          "text": "There it is. Not a greeting. An audit."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Every arrangement will be reviewed, Mr. Vael. The ones that served the Republic will continue. The others will not."
+        },
+        {
+          "type": "dialogue",
+          "character": "lucan_vael",
+          "text": "Of course. I would expect nothing less from you, Chancellor. I look forward to those reviews."
+        },
+        {
+          "type": "description",
+          "text": "He smiles and returns to his circle. The conversation lasted four minutes. You are fairly certain it will define your relationship with him for the next four years."
         }
       ],
       "choices": [
         {
-          "id": "vael_end",
-          "text": "Move on. The room is watching this conversation.",
+          "id": "vael_friendly",
+          "text": "Smile back. Keep options open.",
           "nextSegment": null,
-          "flags": ["ball_complete"],
-          "stateChanges": [],
+          "flags": ["ball_complete", "vael_ball_contact", "vael_friendly_approach"],
+          "stateChanges": [
+            { "stat": "vaelInfluence", "operation": "add", "value": 4 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "vael_cold",
+          "text": "Give him nothing. Let him wonder.",
+          "nextSegment": null,
+          "flags": ["ball_complete", "vael_ball_contact", "vael_cold_approach"],
+          "stateChanges": [
+            { "stat": "vaelInfluence", "operation": "add", "value": -2 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+          ],
           "reactions": [],
           "chainTriggers": [],
           "codexUnlocks": []
@@ -159,22 +204,36 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Archbishop Renek stands near the chapel alcove, as if the building itself has provided him a sanctuary. He does not come to you. He waits. You go to him."
+          "text": "Archbishop Renek stands near the chapel alcove as if the building has provided him sanctuary. He does not come to you. You go to him. This is already a negotiation."
         },
         {
           "type": "dialogue",
           "character": "stanislov_renek",
-          "text": "Chancellor. The Church prays for this government. We have prayed for seventeen governments. We are patient people."
+          "text": "Chancellor. The Church prays for this government as we have prayed for seventeen before it. We are a patient institution."
         },
         {
           "type": "dialogue",
           "character": "katerin_ashavel",
-          "text": "I hope patience will not be necessary, Archbishop. I intend to move quickly."
+          "text": "I hope patience will not be necessary, Archbishop. I intend to move quickly on several fronts."
         },
         {
           "type": "dialogue",
           "character": "stanislov_renek",
-          "text": "Speed and righteousness do not always travel together. But we will see. The Church is watching — with hope, not suspicion. For now."
+          "text": "Speed and righteousness do not always travel together. The education reform proposals circulating in your coalition — the Church has concerns."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Those proposals are early drafts. Nothing has been decided."
+        },
+        {
+          "type": "dialogue",
+          "character": "stanislov_renek",
+          "text": "Good. Then there is still time for conversation. The Church is watching this government with hope, Chancellor. We would prefer to keep it that way."
+        },
+        {
+          "type": "monologue",
+          "text": "A warning delivered in the language of goodwill. He is better at this than you expected."
         }
       ],
       "choices": [
@@ -194,26 +253,36 @@
       "narrative": [
         {
           "type": "description",
-          "text": "General Brenner is not hard to find — he is the only person in the room who looks actively uncomfortable in formal dress. He is standing near the bar, not drinking."
+          "text": "General Brenner is near the west bar, not drinking, actively uncomfortable in formal dress. He straightens when he sees you approach — not a bow, a soldier's acknowledgment."
         },
         {
           "type": "dialogue",
           "character": "oskar_brenner",
-          "text": "Chancellor. I will be direct — I prefer it. The military has no political position. We serve the Republic. Whoever holds this office is who we serve."
+          "text": "Chancellor. I will be direct — I am better at it than at parties. The military has no political position. We serve the Republic. We serve whoever holds this office."
         },
         {
           "type": "dialogue",
           "character": "katerin_ashavel",
-          "text": "I appreciate the directness, General. I intend to earn that service."
+          "text": "I appreciate that, General. And I intend to be worth serving."
         },
         {
           "type": "dialogue",
           "character": "oskar_brenner",
-          "text": "Good. Then we will get along. The Tyvaren situation — whenever you are ready to discuss it seriously, I am available. Not at a ball. In a room with maps."
+          "text": "Good. Then I have one item. The Tyvaren repositioning at Gravenmark. When you are ready to discuss it seriously — not at a ball, in a room with maps — I am available. Day or night."
         },
         {
-          "type": "monologue",
-          "text": "You like him immediately. That is either a good sign or a warning."
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Tomorrow morning. My office. Seven o'clock."
+        },
+        {
+          "type": "dialogue",
+          "character": "oskar_brenner",
+          "text": "I will be there at six fifty-five."
+        },
+        {
+          "type": "description",
+          "text": "He returns to his post by the bar. You like him immediately. In your experience, that is either a very good sign or a warning you will only understand later."
         }
       ],
       "choices": [

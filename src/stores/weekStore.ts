@@ -763,8 +763,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // always see items in canonical sequence. Items missing executionOrder
     // sink to the end (coerced to 99).
     pool.sort((a, b) =>
-      (a.executionOrder ?? 99) -
-      (b.executionOrder ?? 99)
+      (a.executionOrder ?? 999) -
+      (b.executionOrder ?? 999)
     )
 
     // Note: forcedChainIds is NOT reset here — it is set by completeWeek before initWeek runs.
