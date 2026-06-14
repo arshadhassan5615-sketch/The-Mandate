@@ -669,9 +669,9 @@ export default function ConversationPanel({
                   {entry.type === 'internal_thought' && (
                     <div style={{
                       fontFamily: "'Special Elite', monospace",
-                      fontSize: '10px',
-                      letterSpacing: '0.12em',
-                      color: 'rgba(201,168,76,0.5)',
+                      fontSize: '8px',
+                      letterSpacing: '0.15em',
+                      color: 'rgba(255,255,255,0.35)',
                       textTransform: 'uppercase',
                       marginBottom: '3px',
                     }}>
@@ -686,9 +686,12 @@ export default function ConversationPanel({
                     color: entry.type === 'narrative' || entry.type === 'description'
                       ? 'rgba(180,170,150,0.8)'
                       : entry.type === 'internal_thought'
-                      ? '#c9a84c'
+                      ? 'rgba(255,255,255,0.55)'
                       : 'rgba(232,213,163,0.92)',
                     fontFamily: "'Crimson Text', Georgia, serif",
+                    fontSize: entry.type === 'internal_thought' ? '13px' : '15px',
+                    lineHeight: entry.type === 'internal_thought' ? '1.6' : '1.65',
+                    letterSpacing: entry.type === 'internal_thought' ? '0.01em' : undefined,
                     fontStyle: entry.type === 'narrative' || entry.type === 'description' || entry.type === 'internal_thought' ? 'italic' : 'normal',
                     borderLeft: 'none',
                     paddingLeft: '0',
@@ -733,9 +736,9 @@ export default function ConversationPanel({
                       {activeType === 'internal_thought' && (
                         <div style={{
                           fontFamily: "'Special Elite', monospace",
-                          fontSize: '10px',
-                          letterSpacing: '0.12em',
-                          color: 'rgba(201,168,76,0.5)',
+                          fontSize: '8px',
+                          letterSpacing: '0.15em',
+                          color: 'rgba(255,255,255,0.35)',
                           textTransform: 'uppercase',
                           marginBottom: '4px',
                         }}>
@@ -743,18 +746,19 @@ export default function ConversationPanel({
                         </div>
                       )}
                       <div style={{
-                        fontSize: '15px',
-                        lineHeight: '1.65',
+                        fontSize: activeType === 'internal_thought' ? '13px' : '15px',
+                        lineHeight: activeType === 'internal_thought' ? '1.6' : '1.65',
                         color: activeType === 'dialogue'
                           ? 'rgba(232,213,163,0.92)'
                           : activeType === 'internal_thought'
-                          ? '#c9a84c'
+                          ? 'rgba(255,255,255,0.55)'
                           : 'rgba(220,210,190,0.85)',
                         fontFamily: "'Crimson Text', Georgia, serif",
                         fontStyle: 'italic',
                         borderLeft: 'none',
                         paddingLeft: '0',
                         marginLeft: '0',
+                        letterSpacing: activeType === 'internal_thought' ? '0.01em' : undefined,
                       }}>
                         {activeType === 'dialogue' ? '"' : ''}
                         {renderWithEntities(activeText, true)}
