@@ -77,21 +77,6 @@ export function canAdvanceWeek(
   completedSceneIds: string[],
   agendaPool?: ReadonlyArray<{ sceneId: string }>,
 ): GateCheckResult {
-  // A gate scene only blocks advancement if it is actually in the current
-  // week's agendaPool. Orphan gates (available by week but never added to
-  // the pool) must not lock the player out.
-  const poolSceneIds = new Set((agendaPool ?? []).map(item => item.sceneId))
-  const gateScenes = ALL_SCENES.filter(scene =>
-    scene.isWeekGate &&
-    scene.weekAvailable <= currentWeek &&
-    !completedSceneIds.includes(scene.id) &&
-    poolSceneIds.has(scene.id),
-  )
-
-  if (gateScenes.length > 0) {
-    return { canAdvance: false, blockedBy: gateScenes[0] }
-  }
-
   return { canAdvance: true }
 }
 

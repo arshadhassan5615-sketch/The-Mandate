@@ -482,6 +482,7 @@ export default function ConversationPanel({
                   opacity: isCurrent ? 1 : 0.45,
                   background: 'rgba(10,8,6,0.95)',
                   flexShrink: 0,
+                  transition: 'width 0.35s cubic-bezier(0.22,1,0.36,1), height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease, border 0.35s ease, box-shadow 0.35s ease',
                 }}>
                   {img ? (
                     <img

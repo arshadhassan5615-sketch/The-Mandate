@@ -20,7 +20,6 @@ interface CardProps {
 
 function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
   const scene = item.sceneId.startsWith('__') ? undefined : getScene(item.sceneId)
-  const isGate = scene?.isWeekGate ?? false
   const effectiveDisabled = disabled && !selected
   const color = CATEGORY_COLORS[item.category as AgendaCategory] ?? 'var(--amber)'
 
@@ -34,8 +33,7 @@ function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
         gap: '0.5rem',
         textAlign: 'left',
         background: selected ? 'var(--amber-glow-strong)' : 'var(--paper-raised)',
-        border: `1px solid ${isGate ? 'var(--amber)' : selected ? 'var(--amber)' : 'var(--border)'}`,
-        borderLeft: isGate ? '4px solid var(--amber)' : undefined,
+        border: `1px solid ${selected ? 'var(--amber)' : 'var(--border)'}`,
         borderRadius: '2px',
         padding: '1rem 1.1rem',
         cursor: effectiveDisabled ? 'default' : 'pointer',
@@ -43,27 +41,8 @@ function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
         transition: 'border-color 0.15s, background 0.15s, opacity 0.15s',
         position: 'relative',
         width: '100%',
-        animation: isGate ? 'gate-pulse 2s ease-in-out infinite' : undefined,
       }}
     >
-      {/* Gate indicator */}
-      {isGate && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '0.6rem',
-            right: '0.8rem',
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.58rem',
-            letterSpacing: '0.15em',
-            color: 'var(--amber)',
-            textTransform: 'uppercase',
-          }}
-        >
-          Required
-        </div>
-      )}
-
       {/* Urgent indicator */}
       {item.isUrgent && (
         <div

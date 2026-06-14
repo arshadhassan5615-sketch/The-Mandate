@@ -95,7 +95,6 @@ export interface NarrativeNode {
   weekDeadline?: number
   type: SceneType
   agendaCost: number
-  isWeekGate?: boolean
   gateMessage?: string
   prerequisiteSceneIds?: string[]
   prerequisiteFlags?: string[]

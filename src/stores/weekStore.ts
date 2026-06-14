@@ -521,21 +521,6 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
-    // Week 1 — Mole investigation plant (fires once)
-    if (gameState.currentWeek === 1 && !visitedSceneIds.includes('mole_week1_plant')) {
-      pool.push({
-        id: 'mole_week1_plant',
-        title: 'Something in the Walls',
-        description: 'Danika has flagged an anomaly in the palace communications log.',
-        category: 'crisis' as AgendaCategory,
-        sceneId: 'mole_week1_plant',
-        slotCost: 0,
-        executionOrder: 6,
-        weekAvailable: 1,
-        weekDeadline: 2,
-      })
-    }
-
     // Week 2 — Mole investigation deepens (fires once)
     if (gameState.currentWeek === 2 && !visitedSceneIds.includes('mole_week2_plant')) {
       pool.push({
