@@ -19,7 +19,6 @@ import ProjectsPanel from './ProjectsPanel'
 import ProjectMidpointModal from './ProjectMidpointModal'
 import NewsOverlay from './NewsOverlay'
 import LegislationOverlay from './LegislationOverlay'
-import SocialEvent from './SocialEvent'
 import MorningBriefing from './MorningBriefing'
 import AgendaSelector from './AgendaSelector'
 import NarrativeScene from './NarrativeScene'
@@ -51,7 +50,6 @@ import { useCabinetStore } from '../stores/cabinetStore'
 function SceneRouter() {
   const currentScene = useNarrativeStore(s => s.currentScene)
   if (!currentScene) return <NarrativeScene />
-  if (currentScene.type === 'social_event') return <SocialEvent />
   return <NarrativeScene />
 }
 
