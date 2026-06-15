@@ -25,6 +25,7 @@ const CHAR_NAMES: Record<string, string> = {
   elena_braskov: 'Elena Braskov',
   nikolai_perov: 'General Perov',
   general_brenner: 'General Brenner',
+  general_vass: 'General Vass',
   oskar_brenner: 'Gen. Brenner',
   soraya_khaled: 'Soraya Khaled',
   lucan_vael: 'Lucan Vael',
