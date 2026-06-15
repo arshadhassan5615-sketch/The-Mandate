@@ -94,6 +94,22 @@ function buildPool(week: number, state: GameState, flags: string[], visited: str
   if (import.meta.env.DEV) console.log('[buildPool] week:', week,
     'ALL_AGENDA count:', ALL_AGENDA.length,
     'passed filter:', result.length)
+
+  // Week 1 — Address the Nation (fires once, rebuilt every time pool is rebuilt)
+  if (week === 1 && !visited.includes('act1_week1_address_nation')) {
+    result.push({
+      id: 'act1_week1_address_nation',
+      title: 'Address the Nation',
+      description: 'The Republic is listening. Your first words as Chancellor will define this government.',
+      category: 'ceremony' as AgendaCategory,
+      sceneId: 'act1_week1_address_nation',
+      slotCost: 0,
+      executionOrder: 2,
+      weekAvailable: 1,
+      weekDeadline: 2,
+    })
+  }
+
   return result
 }
 
@@ -491,21 +507,6 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
-    // Week 1 — Address the Nation (fires once)
-    if (gameState.currentWeek === 1 && !visitedSceneIds.includes('act1_week1_address_nation')) {
-      pool.push({
-        id: 'act1_week1_address_nation',
-        title: 'Address the Nation',
-        description: 'The Republic is listening. Your first words as Chancellor will define this government.',
-        category: 'ceremony' as AgendaCategory,
-        sceneId: 'act1_week1_address_nation',
-        slotCost: 0,
-        executionOrder: 2,
-        weekAvailable: 1,
-        weekDeadline: 2,
-      })
-    }
-
     // Week 1 — Inaugural ball (fires once)
     if (gameState.currentWeek === 1 && !visitedSceneIds.includes('social_inaugural_ball_wk1')) {
       pool.push({
@@ -702,7 +703,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     // Add radio broadcast agenda item if player has broadcasts remaining
-    if (gameState.radioBroadcastsUsed < MAX_BROADCASTS) {
+    if (gameState.radioBroadcastsUsed < MAX_BROADCASTS && gameState.currentWeek > 1) {
       pool.push({
         id: '__radio_address__',
         title: `Address the Nation (${MAX_BROADCASTS - gameState.radioBroadcastsUsed} of ${MAX_BROADCASTS} remaining)`,
@@ -1026,6 +1027,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
                 day: 'numeric', month: 'long', year: 'numeric'
               })
               const flags = useNarrativeStore.getState().activeFlags
+              console.log('[NEWS DEBUG] address_nation flags:', flags)
+              console.log('[NEWS DEBUG] speechType will be:', flags.includes('address_unity_chosen') ? 'unity' : flags.includes('address_reform_chosen') ? 'reform' : flags.includes('address_strength_chosen') ? 'strength' : 'unity (DEFAULT)')
 
               // Determine which speech was given
               const speechType = flags.includes('address_unity_chosen')
@@ -1044,39 +1047,39 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
               }> = {
                 unity: {
                   herald: 'CHANCELLOR CALLS FOR NATIONAL UNITY',
-                  heraldBody: 'In her first address as Chancellor, Katerin Ashavel appealed directly to the Republic\'s divisions — acknowledging them without exploiting them. The speech lasted eleven minutes. The broadcast engineer was in tears when it ended. Political observers called it statesmanlike. The opposition called it vague. Both reactions suggest she struck exactly the right note.',
+                  heraldBody: 'Katerin Ashavel was sworn in as Chancellor before sixty thousand people in Republic Square this morning. In her address to the nation she spoke of unity and accountability. Markets opened flat. The kroner held steady. Former Chancellor Halvek was not present and issued no statement.',
                   standard: 'A VOICE FOR ALL OF US',
-                  standardBody: 'She did not pretend the divisions do not exist. She named them and asked us to set them aside — not permanently, but long enough to build something. That is not weakness. That is the hardest thing a leader can ask. The People\'s Standard endorses the spirit of what she said today. Now we watch what she does.',
+                  standardBody: 'By a margin that surprised even her supporters, Katerin Ashavel has become the first Chancellor in Veltrian history whose family did not appear in the pre-war Registry of Notable Persons. She is the daughter of a foundry worker and a seamstress. She has a doctorate in constitutional law and sixteen years in elected office. Whether that combination produces good governance or merely good symbolism remains to be seen. The People\'s Standard endorsed her candidacy. We do not regret it. We will hold her to everything she said today.',
                   worker: 'UNITY IS NOT ENOUGH',
-                  workerBody: 'The Chancellor spoke of unity. Workers in Kravenstal respect the sentiment. But unity without justice is silence with better lighting. We need the pension freeze reversed. We need the collective bargaining rights back. We will keep saying it until someone in that building writes it down.',
+                  workerBody: 'Her father worked the foundries. Her mother took in mending to keep the lights on. Today their daughter took the oath in Republic Square. Workers across Kravenstal gathered around radio sets to hear the ceremony. When it was over nobody went back to work immediately. They just sat with it. Our demands remain: restore the pension freeze adjustments, reinstate collective bargaining rights stripped in 1957, invest in the northern infrastructure neglected for a decade. We wish Chancellor Ashavel well. We will be watching.',
                   times: 'THE CHANCELLOR CHOOSES CONCILIATION',
-                  timesBody: 'The address was carefully constructed — inclusive language, no enemies named, no specific commitments made. Whether this reflects genuine statesmanship or political caution remains to be seen. The Times notes that unity speeches are easiest to give and hardest to honour. The Republic will be watching.',
+                  timesBody: 'Chancellor Ashavel\'s inaugural address was notable less for what it promised than for what it did not promise. No specific timelines. No named targets. No figures attached to reform commitments. The Veltrian Times notes this as either admirable caution or studied vagueness. The new government has goodwill. It has, by our estimate, approximately six weeks before that goodwill requires evidence.',
                   gazette: 'ASHENMERE SPEAKS OF UNITY. THE EAST LISTENS.',
-                  gazetteBody: 'The Chancellor spoke of a Republic that belongs to everyone. The Thornfeld Gazette heard that word — everyone — and noted that the eastern provinces were not mentioned once by name. We do not doubt the Chancellor\'s sincerity. We ask only that unity include us.',
+                  gazetteBody: 'The eastern provinces watched the inauguration with hope and familiar caution. Chancellor Ashavel\'s speech made no specific mention of the eastern provinces. This was noted. Across the border Morivask state media offered a brief neutral report — two paragraphs, no analysis. The Tyvaren Confederation\'s response was a single line: we acknowledge the change of government and expect continuity of existing agreements. The Gazette congratulates Chancellor Ashavel and reminds her that Veltria extends to the eastern coast.',
                 },
                 reform: {
                   herald: 'CHANCELLOR NAMES THE PENSION FREEZE IN FIRST ADDRESS',
                   heraldBody: 'In a striking departure from inaugural convention, Chancellor Ashavel named the pension freeze of 1959 directly in her first national address — promising reversal within thirty days. She also committed to opening the BNI files to an independent commission. The Finance Ministry had no comment. Markets fell two points in the first hour of trading before recovering.',
                   standard: 'SHE SAID IT. OUT LOUD. ON THE RADIO.',
-                  standardBody: 'The pension freeze. The stolen contracts. The judicial appointments handed to party loyalists. She named them. Not metaphorically. By name. In her first hour as Chancellor. The People\'s Standard has been writing about this for four years. Today the Chancellor of the Republic said it into a microphone and the whole country heard it. This is what change sounds like.',
+                  standardBody: 'The pension freeze. The stolen contracts. The judicial appointments handed to party loyalists. She named them. Not metaphorically. By name. In her first hour as Chancellor. The People\'s Standard has been writing about this for four years. Today the Chancellor of the Republic said it into a microphone and the whole country heard it. This is what courage sounds like.',
                   worker: 'THIRTY DAYS. WE ARE COUNTING.',
                   workerBody: 'She gave us a timeline. Thirty days to open the BNI files. Thirty days to begin pension restoration. Workers across Kravenstal have set their calendars. We will be here on day thirty-one. We will remember every word she said today. We wish her the strength to keep them.',
                   times: 'A CHANCELLOR WHO NAMES NAMES',
-                  timesBody: 'The address was remarkable for its specificity. The pension freeze of 1959. The BNI files. Thirty days. These are not platitudes — they are commitments that can be measured and held to account. The Times welcomes the clarity. We note that the Finance Ministry faces an immediate crisis of confidence and that the Halvekist bloc in the Assembly will not forgive this speech.',
+                  timesBody: 'Chancellor Ashavel\'s first address was the most substantive inaugural speech delivered from this podium in a generation. Whether the commitments made today — pension restoration, BNI review, contract accountability — can be delivered within the stated timelines is a question the Times will track carefully. The Finance Ministry\'s silence speaks volumes. The Assembly\'s reaction tomorrow will speak more.',
                   gazette: 'REFORM REACHES THE RADIO',
                   gazetteBody: 'The Chancellor\'s address was heard in every farmhouse and workshop in Thornfeld. The pension freeze affected fourteen thousand families in this province alone. They heard her name it today. The Gazette is cautious by nature. But we will say this: she did not speak like someone who intends to forget.',
                 },
                 strength: {
                   herald: 'CHANCELLOR SENDS SIGNAL TO TYVAREN IN FIRST ADDRESS',
-                  heraldBody: 'Chancellor Ashavel\'s first national address contained what diplomatic observers are calling a clear message to the Tyvaren Confederation — delivered without naming them. The phrase "we will not mistake patience for weakness" was parsed immediately by foreign affairs analysts. The Tyvaren embassy filed a formal note of acknowledgment within the hour.',
+                  heraldBody: 'Chancellor Ashavel used her first national address to send a direct message to Veltria\'s neighbors — without naming them. Sovereignty, she said, is not negotiable. Borders are not negotiable. Patience, she said, should not be mistaken for weakness. The Tyvaren Confederation\'s embassy filed a report within the hour. The Iron Covenant issued a statement of support. The Foreign Ministry issued nothing.',
                   standard: 'STRENGTH IS NOT ENOUGH WITHOUT JUSTICE',
-                  standardBody: 'The Chancellor spoke of defending borders and answering weakness with resolve. The People\'s Standard respects strength. But the workers of Veltria need more than a strong posture toward Tyvaren. They need their pensions restored. They need their rights back. Strength turned inward — toward the people who were robbed — is what we are waiting for.',
+                  standardBody: 'The Chancellor chose strength. We understand the instinct. We do not fully share it. A government that leads with its fist before it has fed its people is a government that has confused priorities. We note that the word pension was not spoken today. We note that the word worker was not spoken today. We will give the Chancellor time. We are not yet convinced she knows where Kravenstal is.',
                   worker: 'SHE IS NOT AFRAID. NEITHER ARE WE.',
-                  workerBody: 'Short. Direct. Nine minutes. The Chancellor told the Republic and its neighbors that Veltria is not afraid. Workers in Kravenstal have never been afraid either. We built this country with our hands while others profited. We are glad the Chancellor has a spine. We hope she uses it for us too.',
+                  workerBody: 'She is not afraid. Neither are we. But fear of Tyvaren is not what fills the gap in a pension check. Courage at the border does not rehire the men laid off at the Sevagrad foundry. We heard the speech. We will wait to see the budget. Then we will know what kind of Chancellor she intends to be.',
                   times: 'A CHANCELLOR WHO SPEAKS TO NEIGHBORS AS MUCH AS CITIZENS',
-                  timesBody: 'The address was as much foreign policy statement as domestic speech. The Iron Covenant will be satisfied. The Foreign Ministry will be busy. Whether this posture serves Veltria\'s interests depends entirely on what follows. Strength is a position, not a policy. The Times will be watching for the policy.',
+                  timesBody: 'A Chancellor who addresses her neighbors in her first speech is a Chancellor who has decided what kind of government this will be before the government has properly begun. The Veltrian Times neither endorses nor condemns this choice. We note that it is a choice with consequences — some of which will arrive before the end of this term.',
                   gazette: 'THORNFELD HEARD A DIFFERENT SPEECH THAN ASHENMERE',
-                  gazetteBody: 'The Chancellor spoke of strength and sovereignty. In the eastern provinces, where Tyvaren\'s shadow falls most directly, those words land differently than in the capital. Farmers along the border know what it means when the government in Ashenmere decides to be bold with Tyvaren. The Gazette hopes the Chancellor\'s resolve comes with a plan.',
+                  gazetteBody: 'Thornfeld heard a different speech than Ashenmere. In the capital they heard a Chancellor. In the east they heard someone who knows we share a border with people who do not wish us well. The Gazette has been saying this for eleven years. We are glad someone in the Palace is finally listening. We will reserve full judgment for the moment she mentions the eastern road infrastructure.',
                 },
               }
 
@@ -1134,14 +1137,18 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
                   category: 'governance' as const,
                 },
               ])
+              console.log('[NEWS DEBUG] articles added, total now:', useNewsStore.getState().articles.length)
+              console.log('[NEWS DEBUG] article publications:', useNewsStore.getState().articles.map(a => a.publication + ':' + a.weekNumber))
             }
 
-            set(s => ({
+            const { activeFlags, visitedSceneIds: vs } = useNarrativeStore.getState()
+            const freshPool = buildPool(useGameStore.getState().currentWeek, useGameStore.getState(), activeFlags, vs)
+            set({
               phase: 'map',
               transitionLabel: '',
               returnToMap: false,
-              agendaPool: s.agendaPool.filter(a => a.id !== completedItem.id),
-            }))
+              agendaPool: freshPool,
+            })
             // Autosave after every completed scene
             try {
               await saveGame(AUTOSAVE_SLOT, 'AUTOSAVE')
@@ -1192,13 +1199,90 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   },
 
   launchSingleScene: (item) => {
+    console.log('[DEBUG] launchSingleScene called with:', item.sceneId)
+    const snapshot = useGameStore.getState()
+
+    // Special agenda items are not narrative scenes; they switch to dedicated
+    // phases/UI just like advanceQueue and confirmAgenda do for queued items.
+    if (item.sceneId === '__radio__') {
+      set({
+        phase: 'scene',
+        sceneQueue: [item],
+        currentQueueIndex: 0,
+        weekStartSnapshot: snapshot,
+        returnToMap: true,
+        radioOpen: true,
+      })
+      console.log('[DEBUG] launchSingleScene: radio address started')
+      return
+    }
+
+    if (item.sceneId === '__budget__') {
+      set({
+        phase: 'budget',
+        sceneQueue: [item],
+        currentQueueIndex: 0,
+        weekStartSnapshot: snapshot,
+        returnToMap: true,
+      })
+      return
+    }
+
+    if (item.sceneId === '__constitution__') {
+      set({
+        phase: 'constitution',
+        sceneQueue: [item],
+        currentQueueIndex: 0,
+        weekStartSnapshot: snapshot,
+        returnToMap: true,
+      })
+      return
+    }
+
+    if (item.sceneId === '__vote__') {
+      const voteConfig = item.voteConfig ?? null
+      set({
+        phase: voteConfig?.lobbyingEnabled !== false ? 'lobbying' : 'vote_result',
+        sceneQueue: [item],
+        currentQueueIndex: 0,
+        weekStartSnapshot: snapshot,
+        returnToMap: true,
+        voteConfig,
+      })
+      return
+    }
+
+    if (item.sceneId?.startsWith('__project__')) {
+      useNarrativeStore.getState().loadScene(item.sceneId)
+      set({
+        phase: 'scene',
+        sceneQueue: [item],
+        currentQueueIndex: 0,
+        weekStartSnapshot: snapshot,
+        returnToMap: true,
+      })
+      return
+    }
+
+    if (item.sceneId?.startsWith('act1_week2_cabinet')) {
+      set({
+        phase: 'scene',
+        sceneQueue: [item],
+        currentQueueIndex: 0,
+        weekStartSnapshot: snapshot,
+        returnToMap: true,
+        showCabinetFormation: true,
+      })
+      return
+    }
+
     const sceneNode = getScene(item.sceneId)
     if (!sceneNode) {
       console.warn('[launchSingleScene] Scene not found:', item.sceneId)
       return
     }
-    const snapshot = useGameStore.getState()
     useNarrativeStore.getState().loadScene(item.sceneId)
+    console.log('[DEBUG] launchSingleScene: phase about to set to scene. currentScene:', useNarrativeStore.getState().currentScene?.id)
     set({
       phase: 'scene',
       sceneQueue: [item],
@@ -1206,6 +1290,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       weekStartSnapshot: snapshot,
       returnToMap: true,
     })
+    console.log('[DEBUG] launchSingleScene: state set. phase:', useWeekStore.getState().phase, 'sceneQueue:', useWeekStore.getState().sceneQueue.map(s => s.sceneId))
   },
 
   resolveMidpoint: () => set({ pendingMidpointProjectId: null }),
