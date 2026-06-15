@@ -104,15 +104,16 @@ export default function GameLayout() {
 
   // Show Act I transition after inauguration scene completes
   useEffect(() => {
-    if (
-      phase === 'map' &&
-      visitedSceneIds.includes('act1_week1_inauguration') &&
-      !actShown
-    ) {
-      setShowActTransition(true)
-      setActShown(true)
-    }
-  }, [phase, visitedSceneIds, actShown])
+    if (phase !== 'map' || actShown) return
+    const t = setTimeout(() => {
+      const { visitedSceneIds: vs } = useNarrativeStore.getState()
+      if (vs.includes('act1_week1_inauguration')) {
+        setShowActTransition(true)
+        setActShown(true)
+      }
+    }, 300)
+    return () => clearTimeout(t)
+  }, [phase, actShown])
 
   // Auto-open news overlay when entering press phase
   useEffect(() => {
