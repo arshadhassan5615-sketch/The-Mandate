@@ -1,0 +1,463 @@
+{
+  "id": "act1_week19_informant_network",
+  "title": "The Informant Network",
+  "act": 1,
+  "weekAvailable": 19,
+  "weekDeadline": 20,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik",
+    "danika_oberlin"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Commissioner requested the meeting through Serida. Not through the Interior Ministry. Not through Vyktor. Directly through Serida, which means the Commissioner did not want the Interior Minister to know the meeting was being requested. That detail arrived before the Commissioner did."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Commissioner is outside. They asked to speak with you without the Interior Minister present. I told them that was unusual. They said: I know."
+    },
+    {
+      "type": "monologue",
+      "text": "A Commissioner who bypasses the Interior Minister to reach the Chancellor directly is either protecting information from the Minister, protecting the Minister from the information, or protecting themselves. All three possibilities are interesting. None of them are comfortable."
+    }
+  ],
+  "choices": [
+    {
+      "id": "hear_commissioner_alone",
+      "text": "Send Vyktor out. Hear the Commissioner alone.",
+      "nextSegment": "commissioner_alone",
+      "flags": ["informant_network_heard_alone"],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "hear_commissioner_with_vyktor",
+      "text": "Vyktor stays. Whatever the Commissioner has to say, I want a witness.",
+      "nextSegment": "commissioner_with_vyktor",
+      "flags": ["informant_network_heard_with_vyktor"],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "bring_oberlin_too",
+      "text": "Bring Oberlin in as well. If this concerns the Interior Ministry, she should hear it.",
+      "nextSegment": "commissioner_with_oberlin",
+      "flags": ["informant_network_heard_with_oberlin"],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "commissioner_alone": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Commissioner enters. Vyktor closes the door from outside. Whatever expression the Commissioner wore in the corridor is gone — replaced with the careful neutrality of someone who has decided exactly how much to say and in what order."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Chancellor. I came directly to you because I am not certain how far this goes inside the ministry. I want that on record before I say anything else."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Three weeks ago my office began a routine audit of the personnel rotation records — officers who transferred from BNI liaison roles into regular police assignments in the last five years. Standard post-reform procedure. What we found is not standard."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Eleven officers. Across four districts. All former BNI liaison roles. All still active. All reporting — not to their district commanders, not to my office, not to any official chain of command I can identify. Someone is still running them. Not the BNI. Not the police. Someone else."
+        },
+        {
+          "type": "monologue",
+          "text": "Eleven officers. Active, organized, reporting to an unidentified handler. The BNI was dissolved — or is being reformed, depending on which Interior Minister I appointed. Either way, there should be no active informant network operating inside the police force outside official channels. The fact that there is one means either the dissolution was incomplete, or someone rebuilt it, or it was never actually part of the BNI in the first place. All three possibilities point somewhere I do not want to look."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I have the eleven names. I have their districts. I do not have their handler. That is why I am here rather than resolving this through the ministry. If the handler is inside the ministry, bringing this through official channels tells the handler we know."
+        }
+      ],
+      "choices": [
+        {
+          "id": "alone_ask_suspicions",
+          "text": "Who do you suspect is running them?",
+          "nextSegment": "commissioner_suspicions",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "alone_decide_method",
+          "text": "I don't need the suspects yet. I need to decide how we investigate this.",
+          "nextSegment": "investigation_method",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "commissioner_with_vyktor": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Commissioner enters. Their eyes move to Vyktor, register his presence, return to you. A small recalculation — not retreat, adjustment."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Chancellor. This is — broader than I expected to share. But all right."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Eleven officers across four districts. Former BNI liaison roles. Still active, still reporting outside official channels. Someone is running an informant network inside the police force that the police force does not know about."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "How long have they been active?"
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The earliest transfer I can trace is four years ago. Before your government. Before the last government. This network predates the most recent administration."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Then it survived the transition deliberately. Someone made sure these officers were transferred into regular police assignments where they would be harder to identify. That requires either foreknowledge of the transition or preparation for it."
+        },
+        {
+          "type": "monologue",
+          "text": "Vyktor said it before I did. This network was prepared for the transition. Someone knew the government would change and moved their assets into positions that would survive the change. That level of foresight means either Halvek prepared it as a failsafe, or someone outside the government ran it from the beginning. Both explanations are worse than I want to consider before noon."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vyktor_ask_suspicions",
+          "text": "Who had the foreknowledge and the capability to set this up?",
+          "nextSegment": "commissioner_suspicions",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "vyktor_decide_method",
+          "text": "We decide the investigation method first. Then the suspects.",
+          "nextSegment": "investigation_method",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "commissioner_with_oberlin": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Commissioner enters and stops. Oberlin is already seated. The Commissioner looks at her for exactly one second — not hostility, something more complicated — and then sits."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Chancellor. I came to you because I was not certain the ministry should hear this first. I see you have made a different decision. All right."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Eleven officers. Four districts. Former BNI liaison roles. Still active, still reporting outside official channels. Someone is running them. I do not know who."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Minister Oberlin — I am telling you this because the Chancellor has decided you should know. I want you to know that I considered not telling you. Not because I suspect you. Because I do not yet know where the handler sits and I did not want to tell anyone inside the ministry until I did. That calculation may have been wrong. I hope it was wrong."
+        },
+        {
+          "type": "monologue",
+          "text": "The Commissioner is being exceptionally precise about their own uncertainty. That precision is either integrity or performance. Oberlin's expression is giving me nothing — she is processing, not reacting, which is either professionalism or preparation. I brought Oberlin into this room. I need to decide quickly whether that was right."
+        }
+      ],
+      "choices": [
+        {
+          "id": "oberlin_reassure",
+          "text": "Minister Oberlin — your reaction to this information is your answer. What do you want to do about it?",
+          "nextSegment": "oberlin_response",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "oberlin_decide_method",
+          "text": "We decide the investigation method together. All three of us.",
+          "nextSegment": "investigation_method",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "oberlin_response": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I want to find the handler. I want to know who has been running an intelligence operation inside the national police force without my knowledge or authorization. And then I want to dismantle it — completely, publicly, with every officer's name in the accountability report."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "If the handler is inside the ministry, I want to know that too. Especially if the handler is inside the ministry."
+        },
+        {
+          "type": "monologue",
+          "text": "She said it without hesitation. Either she is not the handler, or she is the most composed person I have ever met. I am going to proceed as though she is not the handler — because if she is, I have already lost, and proceeding on that assumption accomplishes nothing. What I can control is the investigation method."
+        }
+      ],
+      "choices": [
+        {
+          "id": "oberlin_response_to_method",
+          "text": "Then let's decide how to find the handler.",
+          "nextSegment": "investigation_method",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "commissioner_suspicions": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Three possibilities. One: Halvek's inner circle. Someone who knew the transition was coming and prepared these officers as a long-term asset. They would be waiting to use them — for what, I do not know. Two: a foreign service. The network's structure is similar to Arcturian cell architecture. I am not an intelligence expert but I have read enough reports to recognize the pattern. Three: domestic. Business interests, faction interests — someone who wanted leverage inside the police force regardless of which government held office."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "All three are possible. All three point to different handlers in different places. The method of investigation has to account for all of them without alerting any of them."
+        }
+      ],
+      "choices": [
+        {
+          "id": "suspicions_to_method",
+          "text": "Then the method has to be quiet. Let's discuss options.",
+          "nextSegment": "investigation_method",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "investigation_method": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Three options. Official investigation through the Interior Ministry — visible, documented, legally clean. The handler knows within days. Second: the Commissioner runs a quiet internal audit — slower, deniable, the handler may not notice until it is too late. Third—"
+        },
+        {
+          "type": "description",
+          "text": "He pauses. He looks at you."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Third, if you have access to external intelligence resources, this is precisely the kind of problem they are suited to. Someone who can move in the spaces between official channels. Someone the handler is not watching because the handler does not know they exist."
+        },
+        {
+          "type": "monologue",
+          "text": "Vyktor knows about Krel. He has always known — he told me Krel's name the night of the greenhouse. He is offering me the third option without naming it, which means he is also giving me the choice of whether to acknowledge it. If I name Krel in this room, the Commissioner knows. If I do not name him, I can use him without the Commissioner knowing I have that resource. Both have consequences."
+        }
+      ],
+      "choices": [
+        {
+          "id": "method_official",
+          "text": "Official investigation. Ministry-led. Document everything. I will not investigate my own police force through back channels.",
+          "nextSegment": "method_official_end",
+          "flags": ["informant_network_official_investigation"],
+          "stateChanges": [
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 4 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "method_quiet_internal",
+          "text": "Quiet internal audit. The Commissioner runs it personally. Nothing leaves this office until we have a name.",
+          "nextSegment": "method_quiet_end",
+          "flags": ["informant_network_quiet_audit"],
+          "stateChanges": [
+            { "stat": "shadowFootprint", "operation": "add", "value": 3 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "method_krel",
+          "text": "I have someone. External. Completely off-books. They will find the handler before the handler knows they are being watched.",
+          "nextSegment": "method_krel_end",
+          "flags": ["informant_network_krel_assigned", "hawk_assigned_to_network"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 6 }
+          ],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He nods once. He does not ask who."
+            }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "method_official_end": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I will open the investigation today. All eleven officers will be placed under administrative review — standard procedure, nothing that flags as extraordinary. The investigation will take time. The handler will likely know within a week."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "When the handler knows, they will either go dark or accelerate. Either way, we will see movement. Movement tells us who they are even if we cannot intercept them directly."
+        },
+        {
+          "type": "monologue",
+          "text": "The clean path is also the slower path. The handler will know. They will adapt. We may get the network but lose the handler. That is an acceptable outcome — eleven officers removed from an unauthorized network is eleven fewer points of leverage against this government. Whether we get the person who ran them is a secondary question. I have decided to treat it as secondary. I am not certain that is right."
+        }
+      ],
+      "choices": [
+        {
+          "id": "official_end_close",
+          "text": "Open the investigation. Keep me informed at every stage.",
+          "nextSegment": null,
+          "flags": ["informant_network_scene_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "method_quiet_end": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Understood. I will run it personally. No assistants, no documentation trail until we have something conclusive. The eleven officers will not know they are being watched. It will take longer — three to four weeks for a full picture. But the handler stays in the dark."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "If the handler is inside the ministry, the Commissioner's personal involvement is both the strength and the vulnerability of this approach. It depends entirely on the Commissioner's own security."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I am aware of that. I would not have requested this meeting the way I did if I were not taking my own security seriously."
+        },
+        {
+          "type": "monologue",
+          "text": "Three to four weeks. In three to four weeks the Commissioner will have a name or not. If they have a name, I will have to decide what to do with it through channels I cannot entirely control. If they do not — if the handler is better than the Commissioner — I will have spent a month watching an empty room. The quiet path is the careful path. Careful is not the same as right."
+        }
+      ],
+      "choices": [
+        {
+          "id": "quiet_end_close",
+          "text": "Three weeks. Then you report directly to me. No one else.",
+          "nextSegment": null,
+          "flags": ["informant_network_scene_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "method_krel_end": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Commissioner looks at you. They do not ask who. They have spent enough time in institutions to know when a question is not meant to be asked."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I will give you the eleven names and their districts. Whoever your resource is — they will need that to start. I do not need to know anything else."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I will ensure the information reaches the appropriate party tonight."
+        },
+        {
+          "type": "description",
+          "text": "After the Commissioner leaves, Vyktor remains. He looks at you for a moment."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Krel will find the handler. He will also have information about eleven serving police officers, their patterns, their vulnerabilities. That information does not disappear when the investigation concludes."
+        },
+        {
+          "type": "monologue",
+          "text": "Vyktor is telling me that using Krel on this has a cost beyond the investigation. Eleven officers — their patterns, their vulnerabilities. Krel will have files on them. Files that do not exist in any official system. Files that serve whoever holds them. I gave Krel this assignment. I hold those files now, in the sense that matters. The Ambassador assessed me as willing to compromise on method to protect outcome. Three months into my Chancellorship, I am assigning an off-books operative to investigate serving police officers. The Ambassador continues to be right."
+        }
+      ],
+      "choices": [
+        {
+          "id": "krel_end_proceed",
+          "text": "Tell Krel: find the handler. Everything else is secondary.",
+          "nextSegment": null,
+          "flags": ["informant_network_scene_complete"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

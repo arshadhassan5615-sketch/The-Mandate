@@ -1,0 +1,400 @@
+{
+  "id": "act2_shadow_hawk_morvec_option",
+  "title": "The Second Envelope",
+  "act": 2,
+  "weekAvailable": 28,
+  "weekDeadline": 28,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Palace Greenhouse — Ashenmere",
+  "characters": ["matthias_krel"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The greenhouse again. He chose it deliberately — the same location as the first meeting, which means he wants you to remember the first meeting while you hear this one. With Krel, everything is placed."
+    },
+    {
+      "type": "description",
+      "text": "The orchids are different. Someone has been tending them — they are healthier than when you last stood here. He is standing at the same bench. He turns when you enter and sets an envelope on the potting surface."
+    },
+    {
+      "type": "dialogue",
+      "character": "matthias_krel",
+      "text": "Stefan Morvec. You have met him. You have managed him. What you have not had is this."
+    },
+    {
+      "type": "description",
+      "text": "He does not open the envelope."
+    },
+    {
+      "type": "dialogue",
+      "character": "matthias_krel",
+      "text": "In 1958, Stefan Morvec transferred controlling interest in three Aldenmoor mining concerns to a holding company registered in Orythia. The transfer was legal. What was not legal was the source of the capital used to establish the holding company — funds from a state infrastructure contract awarded to a Morvec firm that same year. He used public money to privatize public-adjacent assets and then placed those assets beyond Veltrian jurisdiction."
+    },
+    {
+      "type": "monologue",
+      "text": "1958. Five years ago. Halvek's government awarded the contract. Morvec used the proceeds to move assets offshore. The transaction was legal on its face — structured to be legal. But the capital source is traceable if you know where to look. Krel knows where to look. He has been looking since before I took office. The question is what he wants me to do with what he found."
+    },
+    {
+      "type": "dialogue",
+      "character": "matthias_krel",
+      "text": "The envelope contains the transfer documentation, the contract award records, and a financial analysis prepared by someone who used to work for the Finance Ministry and no longer does. It is enough for a formal investigation. It is also enough for a conversation with Morvec that does not require an investigation."
+    }
+  ],
+  "choices": [
+    {
+      "id": "morvec_ask_why_now",
+      "text": "Why bring this to me now? You have had this for how long?",
+      "nextSegment": "krel_why_now",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "morvec_open_envelope",
+      "text": "Open the envelope.",
+      "nextSegment": "envelope_contents",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "krel_why_now": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "I have had the transfer documentation for two years. I have had the financial analysis for four months. I brought it now because the referendum is in two weeks and Morvec has been funding the opposition campaign through the Orythian holding company. The money is untraceable by conventional means. It is not untraceable by mine."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "He is using public money — stolen public money, routed through five years of offshore structure — to fund the campaign against the constitution you are trying to pass. I thought you should know that before the vote."
+        },
+        {
+          "type": "monologue",
+          "text": "He is funding the referendum opposition with money that traces back to a state contract. If that is true — and Krel does not bring me things that are not true — then the referendum campaign against the constitution is being partially funded by money that belongs to the Veltrian public. That changes what the referendum is. It does not change what I do about it. Or rather: it changes every option I have, none of them cleanly."
+        }
+      ],
+      "choices": [
+        {
+          "id": "why_now_open",
+          "text": "Show me the documentation.",
+          "nextSegment": "envelope_contents",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "envelope_contents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Three documents. The transfer records are dense — legal language, holding company structures, Orythian registration numbers. The contract award is simpler: a government infrastructure project, 1958, awarded to a Morvec subsidiary, value forty-seven million kroner. The financial analysis is the clearest: a flowchart, two pages, showing where forty-seven million kroner went between 1958 and 1963. The Orythian holding company is at the end of the flow. The referendum opposition fund is at the end of a separate branch that connects to the same holding company."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The flowchart was prepared by a former Finance Ministry analyst named Petra Holec. She left the ministry in 2061 after raising concerns about the 1958 contract that were not investigated. She has been living in Sevagrad for two years. She will testify if asked. She will require protection if she testifies."
+        },
+        {
+          "type": "monologue",
+          "text": "Petra Holec. She raised concerns in 2061 and was ignored — or more likely, quietly encouraged to leave. She has been sitting in Sevagrad for two years with this knowledge and no one to bring it to. Krel found her. Of course he found her. He has been building this for years. And now he is giving it to me two weeks before the referendum because the timing is deliberate — everything Krel does is deliberate — and the question is what kind of deliberate this is."
+        }
+      ],
+      "choices": [
+        {
+          "id": "contents_ask_krel_intent",
+          "text": "What do you want me to do with this?",
+          "nextSegment": "krel_options",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "contents_confront_morvec",
+          "text": "I want to use this to confront Morvec directly. Before the referendum.",
+          "nextSegment": "morvec_confrontation_path",
+          "flags": ["hawk_morvec_confront_chosen"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "krel_options": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Four options. One: formal investigation. Hand the documents to Finance Ministry or Justice. Prosecution timeline is six to twelve months. Morvec will know within days and will spend those months moving assets and preparing his defense. The referendum will have passed or failed before any finding."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Two: use it as leverage. A private meeting with Morvec. You show him what you have. He withdraws his funding from the referendum opposition. No public disclosure, no investigation. The problem goes away for the referendum. It does not go away permanently — you will owe him the non-investigation, which is its own form of debt."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Three: public disclosure. Release the documents through a channel that cannot be traced to you — a journalist, an anonymous submission to the opposition press. The referendum becomes a story about corruption rather than a story about the constitution. This may help or harm the vote depending on how the public reads it."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Four: hold it. The referendum proceeds as planned. After the vote, regardless of outcome, you open a formal investigation with this as the foundation. Slower. Cleaner. No leverage used. No debt incurred."
+        },
+        {
+          "type": "monologue",
+          "text": "Four options. Each one is a different kind of Chancellor. The one who uses formal process and accepts the delay. The one who uses leverage and accepts the debt. The one who releases information through back channels and accepts the loss of control over the narrative. The one who holds the information and accepts that the referendum outcome may be shaped by money that should not exist. Krel laid them out with the same neutrality he uses for everything. He does not have a preference. He has done his job. The choice is mine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "option_formal",
+          "text": "Formal investigation. Hand it to the Justice Ministry today.",
+          "nextSegment": "option_formal_end",
+          "flags": ["hawk_morvec_formal_investigation"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+            { "stat": "morvecInfluence", "operation": "add", "value": -5 },
+            { "stat": "shadowFootprint", "operation": "add", "value": -3 },
+            { "stat": "nation.corruption", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "option_leverage",
+          "text": "Private meeting with Morvec. Show him what I have. He withdraws the funding.",
+          "nextSegment": "option_leverage_end",
+          "flags": ["hawk_morvec_leverage_used"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": -8 },
+            { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 8 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "option_disclose",
+          "text": "Public disclosure. Give it to Nadia Voss — she will know what to do with it.",
+          "nextSegment": "option_disclose_end",
+          "flags": ["hawk_morvec_public_disclosure"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": -6 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 5 },
+            { "stat": "nation.pressFreedom", "operation": "add", "value": 4 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "option_hold",
+          "text": "Hold it. The referendum runs clean. Investigation opens after the vote.",
+          "nextSegment": "option_hold_end",
+          "flags": ["hawk_morvec_held"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 1 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "morvec_confrontation_path": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Before the referendum. That gives you two weeks. I will arrange the meeting through a channel Morvec will not question — he will come because he believes it is a routine political negotiation. He will not know what you have until you show him."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "When you show him — he will calculate. He is not a man who panics. He will look at the documents and he will assess what it costs him to comply versus what it costs him to fight. You will need to have decided in advance what you want from him. Withdrawal of the referendum funding is one demand. There are others you could make."
+        },
+        {
+          "type": "monologue",
+          "text": "Others I could make. Krel is telling me that this moment — Morvec in a room, documents on the table between us — is a door that opens onto several rooms. I could demand referendum funding withdrawal. I could demand asset repatriation. I could demand cooperation on the formal investigation. I could demand all three and get none of them if I overreach. I need to decide what I actually want from Stefan Morvec before he sits across from me."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confront_referendum_only",
+          "text": "One demand: withdraw the referendum funding. Nothing else.",
+          "nextSegment": "option_leverage_end",
+          "flags": ["hawk_morvec_leverage_used", "hawk_morvec_confront_referendum"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": -8 },
+            { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 8 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "confront_full_cooperation",
+          "text": "Full cooperation with a formal investigation. The referendum funding is the first demand, not the only one.",
+          "nextSegment": "option_formal_end",
+          "flags": ["hawk_morvec_formal_investigation", "hawk_morvec_confront_full"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": -10 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+            { "stat": "nation.corruption", "operation": "add", "value": -6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "option_formal_end": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "I will prepare the dossier for Justice Ministry use — sourced in a way that Holec's role is protected until she is ready to be named. The investigation will take time. Morvec will know within a week and will begin preparing. The referendum outcome will not be affected by this decision."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "One thing. Holec will need to leave Sevagrad before the investigation is visible. Morvec has people there. I will arrange it."
+        },
+        {
+          "type": "monologue",
+          "text": "He will arrange Holec's relocation. Another thing Krel does that does not appear in any record. A woman who did the right thing five years ago and paid for it is being moved to safety by a man who officially does not exist, on the instruction of a Chancellor who cannot acknowledge the instruction. The formal investigation is the clean option. The clean option is not actually clean. Nothing in this greenhouse ever is."
+        }
+      ],
+      "choices": [
+        {
+          "id": "formal_end_close",
+          "text": "Proceed. And protect Holec.",
+          "nextSegment": null,
+          "flags": ["hawk_morvec_option_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "option_leverage_end": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "I will arrange the meeting. Morvec will come. He will look at the documents. He will agree to withdraw the funding — not because he is afraid of you, but because the calculation favors compliance. He will also note that you chose leverage over prosecution. That tells him something about how you operate. He will use that information."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "He will also owe you nothing. You will owe him a non-investigation. The debt runs one direction."
+        },
+        {
+          "type": "monologue",
+          "text": "The debt runs one direction. Krel says it without judgment. He has watched this transaction happen before, under other governments, with other oligarchs. The leverage produces the immediate result. The immediate result creates a relationship — not a good one, not a clean one, but a relationship in which Morvec knows that this Chancellor negotiates privately when the alternative is public accountability. He will test that knowledge. Not today. Eventually."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leverage_end_close",
+          "text": "Arrange the meeting. I will handle Morvec myself.",
+          "nextSegment": null,
+          "flags": ["hawk_morvec_option_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "option_disclose_end": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Nadia Voss. She will verify independently before publishing — she is careful. It will take her four to six days. The story will run before the referendum. Morvec will know the source is someone close to the Chancellor. He will not be able to prove it."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The referendum becomes a story about corruption. That may help the constitution — corruption by the opposition is a useful narrative. It may also obscure the constitutional arguments, which is what you actually want the referendum to be about. You are trading one kind of control for another."
+        },
+        {
+          "type": "monologue",
+          "text": "Nadia Voss. I kept her in the dark about the Arcturian cell because transparency had a cost I was not willing to pay. Now I am considering using her as a channel for information I cannot release officially, about a man whose corruption I have evidence of but cannot prosecute in time. I am deciding whether that is using the press or informing it. The distinction matters. I am not sure it survives contact with the actual decision."
+        }
+      ],
+      "choices": [
+        {
+          "id": "disclose_end_close",
+          "text": "Get the documents to Voss. Through a channel that cannot trace back to this office.",
+          "nextSegment": null,
+          "flags": ["hawk_morvec_option_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "option_hold_end": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "After the vote. I will hold the documents until then. Holec remains in Sevagrad — I will increase the monitoring around her. The referendum proceeds without this information in play."
+        },
+        {
+          "type": "description",
+          "text": "He picks up the envelope. He places it inside his jacket."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "If the referendum fails, you will need to decide whether this investigation still serves you or whether Morvec's cooperation becomes more valuable than his prosecution. I will bring the documents back after the vote. The decision will look different depending on the result."
+        },
+        {
+          "type": "monologue",
+          "text": "The decision will look different depending on the result. He is telling me that holding it is not a decision — it is a deferral of a decision to a moment when I will know more and have fewer options. That is governance. Most of what I do in this office is defer decisions to moments when I know more and have fewer options. I have decided to let the referendum be what it is. I have decided that one clean thing is worth more than the leverage Morvec does not know I have. I hope that is true. I will find out in two weeks."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hold_end_close",
+          "text": "After the vote. Keep Holec safe.",
+          "nextSegment": null,
+          "flags": ["hawk_morvec_option_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

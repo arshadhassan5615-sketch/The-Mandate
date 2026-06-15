@@ -1,0 +1,442 @@
+{
+  "id": "act3_shadow_hawk_exposure_crisis",
+  "title": "The Pattern",
+  "act": 3,
+  "weekAvailable": 35,
+  "weekDeadline": 35,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "danika_oberlin",
+    "vyktor_reznik"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Oberlin requested the meeting through official channels. Not through Serida. Not through Vyktor. A formal written request, logged with the scheduling office, with a subject line that says only: Operational Anomalies — Interior Ministry Review."
+    },
+    {
+      "type": "description",
+      "text": "She enters with a folder. She sits without being invited to sit. She places the folder on your desk and does not open it."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "I have been building this list for fourteen months. I want you to know that before I show you what is in it — so you understand that I have been thinking about this conversation for a long time and I have decided to have it anyway."
+    },
+    {
+      "type": "monologue",
+      "text": "She has been building a list for fourteen months. Since approximately week four of this government — which means she started noticing anomalies almost immediately and has been cataloguing them ever since without saying a word. That is either extraordinary patience or extraordinary care, and with Danika Oberlin I am not sure there is a difference between those two things."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Seventeen events over twenty-two months. A personnel file that was accessed and then not accessed — the access log shows a read at 2:14am by a credentialed user whose credentials were issued to someone who retired in 2059. A financial analysis prepared by Petra Holec that arrived at the Justice Ministry with no documented chain of custody. Petr Solan's reassignment — I processed the paperwork, but the recommendation originated from a source I cannot identify in the HR system. The informant network investigation — you told me you had someone external. The network was identified in eleven days. I have been trying to replicate that result through official means for six months. I cannot."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Seventeen anomalies. All of them benefited this government. All of them are consistent with a single coordinated intelligence operation running parallel to official channels. I do not know who is running it. I know that you do."
+    }
+  ],
+  "monologue": "She does not know who. She knows that I do. Fourteen months of careful observation and she has arrived at the correct conclusion through the wrong door — she does not have Krel's name, she does not have the greenhouse, she does not have the corridor or the study. She has the pattern. And she is sitting in my office with a formal written request on record, which means this conversation is already documented, which means she has protected herself before having it. Danika Oberlin has been thinking about this conversation for fourteen months and she has thought of everything.",
+  "choices": [
+    {
+      "id": "exposure_confirm",
+      "text": "Close the folder. Tell me what you want to do with this.",
+      "nextSegment": "oberlin_wants",
+      "flags": ["hawk_exposure_confronted"],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "exposure_deny",
+      "text": "I don't know what you're describing. Anomalies in institutional records are common — this could be system errors, legacy credentials, informal processes.",
+      "nextSegment": "oberlin_denial_response",
+      "flags": ["hawk_exposure_denied"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "exposure_admit_partial",
+      "text": "I have used external intelligence resources on sensitive matters. I am not going to discuss the specifics.",
+      "nextSegment": "oberlin_partial_response",
+      "flags": ["hawk_exposure_partial_admit"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "oberlin_wants": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I want three things. First: I want you to tell me whether the operation is still active. Not who is running it. Not what it has produced. Whether it is active."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Second: I want assurance that nothing produced by this operation has been or will be used against members of this government — ministers, staff, anyone in this building — without my knowledge. I am the Interior Minister. If there is an intelligence operation touching this building's personnel, I need to know it exists."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Third: I want this conversation to remain between us. Not because I am asking you to keep secrets — I am not. Because if this becomes a cabinet discussion, it becomes a political question, and I am asking a governance question. There is a difference."
+        },
+        {
+          "type": "monologue",
+          "text": "Three things. None of them ask for Krel's name. None of them ask to shut the operation down. She is not demanding closure — she is demanding awareness. She is asking to be brought inside the circle, not to dissolve it. That is either wisdom or a very sophisticated way of making herself complicit. With Danika Oberlin I do not think those are different things either."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wants_give_all_three",
+          "text": "The operation is active. It will not be used against anyone in this building without your knowledge. And this conversation stays between us.",
+          "nextSegment": "oberlin_accepted_end",
+          "flags": ["hawk_oberlin_brought_in", "hawk_exposure_resolved"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": -3 },
+            { "stat": "shadowFootprint", "operation": "add", "value": -5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+          ],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "She closes the folder. She stands. She takes the folder with her."
+            }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "wants_give_first_two",
+          "text": "The operation is active. It will not touch anyone in this building without your knowledge. I cannot promise this conversation stays between us — that depends on what happens next.",
+          "nextSegment": "oberlin_partial_deal",
+          "flags": ["hawk_oberlin_partial_in", "hawk_exposure_partial_resolved"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+            { "stat": "shadowFootprint", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "wants_shut_down",
+          "text": "The operation is active. And as of this conversation, it is not going to be active much longer.",
+          "nextSegment": "hawk_shutdown_path",
+          "flags": ["hawk_shutdown_ordered", "hawk_exposure_resolved"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+            { "stat": "shadowInfluence", "operation": "add", "value": -15 },
+            { "stat": "shadowFootprint", "operation": "add", "value": -10 }
+          ],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "I did not ask you to shut it down. I asked you to acknowledge it."
+            }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "oberlin_denial_response": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "She looks at you. The expression does not change. She has prepared for this answer too."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "System errors do not have consistent beneficiaries. Legacy credentials do not produce intelligence that closes active investigations in eleven days. Informal processes do not move Petra Holec out of Sevagrad forty-eight hours before her name appeared in a Justice Ministry brief."
+        },
+        {
+          "type": "description",
+          "text": "She pauses."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I am not asking you to confirm something I already know. I am giving you the opportunity to tell me yourself — because the alternative is that I continue building this list, and the list eventually becomes something I cannot keep in a folder."
+        },
+        {
+          "type": "monologue",
+          "text": "She moved Petra Holec in my records. She noticed when Holec left Sevagrad. She noticed that it happened forty-eight hours before Holec's name appeared in the Justice brief. I did not know she was watching that closely. Krel did not know she was watching that closely — or if he did, he did not tell me. The denial has accomplished nothing except telling her that I am willing to lie to her face. I need to reconsider."
+        }
+      ],
+      "choices": [
+        {
+          "id": "denial_to_admit",
+          "text": "You are right. I have used external intelligence resources. Tell me what you want.",
+          "nextSegment": "oberlin_wants",
+          "flags": ["hawk_denial_reversed"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "denial_hold",
+          "text": "I understand your concern. I will look into the anomalies you have identified and get back to you.",
+          "nextSegment": "denial_held_end",
+          "flags": ["hawk_exposure_deflected"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 8 }
+          ],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "She stands. She takes the folder. Her expression has not changed. 'Of course, Chancellor. I will wait for your response.' She has been waiting for fourteen months. She can wait longer."
+            }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "oberlin_partial_response": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "External intelligence resources. That is a careful phrase."
+        },
+        {
+          "type": "description",
+          "text": "She opens the folder. She slides one page across the desk — the flowchart of the Holec chain of custody."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "External intelligence resources that move people out of cities forty-eight hours before their names appear in ministry briefs. That know the access credentials of retired BNI officers. That produced a financial analysis on Morvec that the Finance Ministry has been trying to replicate for six months and cannot. These resources have been operating inside the perimeter of this government for over a year. I am the Interior Minister. I need to know they exist. I need the assurance that they are not being used against the people in this building."
+        },
+        {
+          "type": "monologue",
+          "text": "She is not asking for the name. She is asking for the boundary. She wants to know that Krel — whom she does not know as Krel — will not be turned on the people who work for this government. That is a reasonable thing to want. It is also a thing I cannot fully promise, because Krel answers to me and I make decisions in the moment that I cannot always predict in advance. I am going to promise it anyway. And I am going to mean it when I say it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_to_wants",
+          "text": "Tell me exactly what assurances you need.",
+          "nextSegment": "oberlin_wants",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "oberlin_accepted_end": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "She takes the folder and leaves. The door closes quietly. Vyktor, who has been standing at the window saying nothing, turns."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "She will keep her word. She is telling you that she will keep her word by taking the folder with her — the evidence leaves the room with her, which means she controls whether it ever becomes a matter of record. She is giving you that control as a demonstration of trust."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "She is also telling you that the trust is conditional. The folder still exists."
+        },
+        {
+          "type": "monologue",
+          "text": "The folder still exists. Fourteen months of anomalies in a folder that Danika Oberlin is carrying out of my office. She has given me the assurance I asked for and kept the evidence that makes the assurance meaningful. That is not a threat. It is accountability — the kind that does not require an audience. I have been Chancellor for thirty-five weeks. This is the first time someone in this building has held me accountable in a way that felt like governance rather than politics. I am not sure what to do with that feeling. I think I should probably just let myself feel it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accepted_end_close",
+          "text": "Let her go. Then call Krel.",
+          "nextSegment": null,
+          "flags": ["hawk_exposure_crisis_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "oberlin_partial_deal": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "That is honest. I appreciate honest more than reassuring."
+        },
+        {
+          "type": "description",
+          "text": "She closes the folder. She does not take it with her — she leaves it on your desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The folder stays here. It is yours. I have copies — that is not a threat, it is a fact you should know. But the original is yours. Do with it what you think is right."
+        },
+        {
+          "type": "monologue",
+          "text": "She left the folder. She has copies — of course she has copies, she is Danika Oberlin — but she left the original on my desk as a gesture that I cannot fully read. It is either trust or a test of what I do with the original when she is not watching. Possibly both. I have thirty-five weeks of governing this Republic and I still cannot entirely tell the difference between trust and a test with the people I respect most."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_deal_close",
+          "text": "Thank her. Then read the folder again.",
+          "nextSegment": null,
+          "flags": ["hawk_exposure_crisis_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "hawk_shutdown_path": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I did not ask you to shut it down."
+        },
+        {
+          "type": "description",
+          "text": "She says it simply. No reproach. A correction."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The operation has produced results that the official apparatus could not produce. Shutting it down because I noticed it is a reaction, not a decision. If you shut it down because you have decided it is the wrong kind of governance — that is a different thing. I can respect that. But do not shut it down because I am sitting in this room. That would be the wrong reason."
+        },
+        {
+          "type": "monologue",
+          "text": "Do not shut it down because I am sitting in this room. She is telling me that accountability does not require termination. She is telling me that the reason for the decision matters as much as the decision. I said I was shutting it down. I am now less certain of that than I was thirty seconds ago. Danika Oberlin has been the most useful person in this building for thirty-five weeks and she has just demonstrated why — she will not let me make a decision for the wrong reason even when the decision itself might be right."
+        }
+      ],
+      "choices": [
+        {
+          "id": "shutdown_maintain",
+          "text": "You are right. I am not shutting it down because you noticed it. Tell me what you actually need.",
+          "nextSegment": "oberlin_wants",
+          "flags": ["hawk_shutdown_reversed"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 8 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "shutdown_confirm",
+          "text": "I have decided it is the wrong kind of governance. Shut it down — and help me do it cleanly.",
+          "nextSegment": "shutdown_confirmed_end",
+          "flags": ["hawk_shutdown_confirmed"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+            { "stat": "shadowInfluence", "operation": "add", "value": -20 },
+            { "stat": "shadowFootprint", "operation": "add", "value": -15 }
+          ],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "She nods once. She opens the folder. 'Then we start with the seventeen anomalies and work backward. It will take time. Some of what was done cannot be undone — it will need to be documented and disclosed.' She has been preparing for this conversation too."
+            }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "shutdown_confirmed_end": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "She stays for two hours. By the end there is a list — not Krel's list, a different list. What was done, what was produced, what can be disclosed and what cannot, what the government will say if asked. Vyktor takes notes without being asked. He has been doing that for thirty-five weeks."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The person who ran the operation. You will need to inform them. I do not need to know who they are. But they will need to know that the documentation exists and that it may eventually become public. That is the cost of a clean shutdown."
+        },
+        {
+          "type": "monologue",
+          "text": "Tell Krel that the documentation exists and may eventually become public. Tell the man who has spent nine years building a network that keeps no records that there is now a record, prepared by the Interior Minister, that may eventually become public. Tell him that the Chancellor decided the operation was the wrong kind of governance and shut it down in the thirty-fifth week. He will say: I know. Or he will say nothing. Either way he will have anticipated this too. I have never met anyone who anticipated everything the way Krel anticipates everything. I am going to miss the orchids."
+        }
+      ],
+      "choices": [
+        {
+          "id": "shutdown_end_close",
+          "text": "Thank Oberlin. Then go tell Krel.",
+          "nextSegment": null,
+          "flags": ["hawk_exposure_crisis_complete", "hawk_operation_terminated"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "denial_held_end": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "She leaves. The folder leaves with her. Vyktor watches the door close and then turns to look at you."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "She will wait. And while she waits, the list will continue. Whatever she does not have now she will have in another month. The anomalies are not going to stop producing themselves."
+        },
+        {
+          "type": "monologue",
+          "text": "The anomalies are not going to stop producing themselves. Krel is still active. The pattern Oberlin has been building for fourteen months is still being built. I told her I would look into it and get back to her. I have not told Krel to change anything. The next anomaly will appear and she will add it to the list and the list will become something she cannot keep in a folder. I have delayed this conversation. I have not ended it. The ending is still coming and it will arrive in a moment I did not choose, which is worse than the moment I had."
+        }
+      ],
+      "choices": [
+        {
+          "id": "denial_held_close",
+          "text": "Let her go. Think about what comes next.",
+          "nextSegment": null,
+          "flags": ["hawk_exposure_crisis_complete", "hawk_exposure_unresolved"],
+          "stateChanges": [
+            { "stat": "shadowFootprint", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

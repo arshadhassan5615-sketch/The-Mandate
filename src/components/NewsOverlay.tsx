@@ -412,6 +412,16 @@ export default function NewsOverlay() {
     }
   }, [activeTab, pageIndex, tabArticles, markArticleRead])
 
+  // When overlay opens, show the page with the most recently added article
+  useEffect(() => {
+    if (!isOpen) return
+    if (articles.length === 0) return
+    const lastArticle = articles[articles.length - 1]
+    const weekOfLastArticle = lastArticle.weekNumber
+    const pageIdx = weekMap.findIndex(([week]) => week === weekOfLastArticle)
+    if (pageIdx !== -1) setPageIndex(pageIdx)
+  }, [isOpen])
+
   const tabUnreadCounts = useMemo(() => {
     const counts: Record<string, number> = {}
     for (const a of articles) {
@@ -557,16 +567,35 @@ export default function NewsOverlay() {
 
                           {/* MASSIVE headline spanning full width */}
                           <h2 style={{
-                            fontFamily: activePaper.fontFamily,
-                            fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-                            fontWeight: 900,
+                            fontFamily: activeTab === 'peoples_standard' ? "'SispectlyHarmonies', 'Libre Baskerville', Georgia, serif"
+                              : activeTab === 'kravenstal_worker' ? "'BulletinGothic', 'Special Elite', monospace"
+                              : activeTab === 'thornfeld_gazette' ? "'Mesuho', 'EB Garamond', Georgia, serif"
+                              : activeTab === 'veltrian_times' ? "'Crimson Text', Georgia, serif"
+                              : activePaper.fontFamily,
+                            fontSize: activeTab === 'kravenstal_worker' ? 'clamp(2rem, 4.5vw, 3.2rem)'
+                              : activeTab === 'veltrian_times' ? 'clamp(1.5rem, 3.2vw, 2.2rem)'
+                              : activeTab === 'thornfeld_gazette' ? 'clamp(2.2rem, 5vw, 3.6rem)'
+                              : 'clamp(1.8rem, 4vw, 2.8rem)',
+                            fontWeight: activeTab === 'veltrian_times' ? 700
+                              : activeTab === 'thornfeld_gazette' ? 600
+                              : 900,
                             lineHeight: 1.05,
                             margin: '0 0 4px',
-                            color: activePaper.textColor,
-                            textTransform: 'uppercase' as const,
+                            color: activeTab === 'peoples_standard' ? '#6b0f1a'
+                              : activeTab === 'kravenstal_worker' ? '#1c1410'
+                              : activeTab === 'thornfeld_gazette' ? '#2d4a1e'
+                              : activeTab === 'veltrian_times' ? '#2c3e50'
+                              : activePaper.textColor,
+                            textTransform: activeTab === 'veltrian_times' ? 'none' as const
+                              : activeTab === 'thornfeld_gazette' ? 'none' as const
+                              : 'uppercase' as const,
                             textAlign: 'center' as const,
-                            letterSpacing: '-0.01em',
+                            letterSpacing: activeTab === 'kravenstal_worker' ? '0.12em'
+                              : activeTab === 'peoples_standard' ? '0.06em'
+                              : activeTab === 'veltrian_times' ? '0.02em'
+                              : '-0.01em',
                             width: '100%',
+                            fontStyle: activeTab === 'thornfeld_gazette' ? 'italic' as const : 'normal' as const,
                           }}>
                             {lead.headline}
                           </h2>

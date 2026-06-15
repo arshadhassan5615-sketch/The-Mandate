@@ -1,0 +1,349 @@
+{
+  "id": "act2_shadow_hawk_voss_connection",
+  "title": "The Same Cell",
+  "act": 2,
+  "weekAvailable": 22,
+  "weekDeadline": 22,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["matthias_krel", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "One word on the card this time: Study. Not greenhouse. Not corridor. Study — which means he wants to be seen coming in, or he wants to be seen leaving, or he wants whatever happens in this room to be on record in some form. With Krel, the location is always the first message."
+    },
+    {
+      "type": "description",
+      "text": "He enters without knocking. He sets a photograph on your desk. He steps back."
+    },
+    {
+      "type": "dialogue",
+      "character": "matthias_krel",
+      "text": "The Arcturian cell. The one that ran Solan. The one that ran the informant network inside the police force. It is not new. It has been operating in Veltria for at least eleven years."
+    },
+    {
+      "type": "description",
+      "text": "A pause. One beat."
+    },
+    {
+      "type": "dialogue",
+      "character": "matthias_krel",
+      "text": "You will recognize the name Yelena Dorova. BNI mole. Exposed nine years ago under Halvek. She was prosecuted. The prosecution was real. What was not real was the assumption that the cell died with her exposure. It did not. It adapted. New assets, same architecture, same handler structure. Same cell."
+    },
+    {
+      "type": "monologue",
+      "text": "Yelena Dorova. I was a junior assemblywoman when that trial happened. I remember it as the last time Halvek's government did something that looked like accountability — prosecuting a mole with apparent transparency while the rest of the apparatus continued exactly as before. Now Krel is telling me the cell that ran Dorova is the same cell that has been running assets inside my government for nine months. Which means the Dorova prosecution was not accountability. It was the cell cutting a compromised asset loose."
+    }
+  ],
+  "choices": [
+    {
+      "id": "voss_connection_listen",
+      "text": "What does this have to do with Dr. Voss?",
+      "nextSegment": "krel_voss_connection",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "voss_connection_dorova_first",
+      "text": "Tell me everything you know about the cell's history. Start with Dorova.",
+      "nextSegment": "krel_dorova_history",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "krel_dorova_history": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Yelena Dorova was a BNI communications officer. She passed signal intercepts to Arcturian intelligence for four years before she was identified. What the official record does not show: she was not found by the BNI. She was identified by the cell itself, flagged as a security risk after she made contact with a journalist, and handed to BNI counterintelligence with enough evidence to convict. The cell burned her before she could burn them."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The handler who ran her was never identified in the prosecution. The prosecution documents describe him as 'unknown Arcturian national.' He is not unknown to me. He has been operating in Veltria continuously since 1957. The Arcturian Ambassador's second secretary. The same man who met Solan every three weeks at the restaurant in the old quarter."
+        },
+        {
+          "type": "monologue",
+          "text": "The same handler. Fifteen years. Three governments. He burned Dorova when she became a liability and replaced her with Solan. He burned Solan — or Solan was burned for him, depending on what I chose in week sixteen — and the cell adapted again. A handler who has operated continuously for fifteen years inside Veltria without official identification is either extraordinarily careful or extraordinarily protected. Possibly both."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dorova_to_voss",
+          "text": "What connects this cell to Dr. Voss?",
+          "nextSegment": "krel_voss_connection",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "krel_voss_connection": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Dr. Emilian Voss. University of Ashenmere. Applied cryptography. He has been requesting a government meeting for six weeks — you have not yet taken the meeting. The cell has been watching his research for eighteen months."
+        },
+        {
+          "type": "description",
+          "text": "He picks up the photograph from your desk and holds it toward you. A man in a lecture hall, shot from a distance with a long lens. Chalk dust on his sleeve."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The cell is not watching him because of what he has built. They are watching him because of what he might build. His current research — an encryption framework, civilian application, applied to government communications — would make Veltrian state communications substantially harder to intercept. The cell is monitoring whether this government will fund it, acquire it, or allow it to be acquired by someone else."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "There is a second element. The journalist. Nadia Voss. She is his daughter."
+        },
+        {
+          "type": "description",
+          "text": "He says it the way he says everything — as a fact that has been verified and does not require elaboration."
+        },
+        {
+          "type": "monologue",
+          "text": "Nadia Voss is Emilian Voss's daughter. The journalist who has been receiving managed leaks — possibly from the Arcturian cell, possibly genuinely from principled government sources, she herself does not know which — is the daughter of the physicist the cell is watching. The cell may be using her reporting to monitor what the government knows about her father's work. Or they may be using the relationship as leverage over him. Or they may simply be watching both of them and waiting. Krel is telling me all of this two weeks before I was scheduled to take Dr. Voss's meeting. That timing is not accidental."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_ask_leverage",
+          "text": "Is the cell using Nadia as leverage over her father?",
+          "nextSegment": "krel_leverage_question",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "voss_ask_what_now",
+          "text": "What do you recommend I do with this?",
+          "nextSegment": "krel_recommendations",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "krel_leverage_question": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Not yet. They are preserving the option. Leverage is more valuable unused — once you use it, it is gone. They are watching whether Dr. Voss cooperates with your government willingly. If he does, they will approach him directly. If he does not, or if the government acquires his work before they can, they may use the daughter to complicate the acquisition."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The cleanest outcome for the cell is that Dr. Voss's work goes nowhere — your government declines the meeting, the research is underfunded, Voss eventually sells the framework to a private buyer, and the cell controls that buyer. They have done this with three other research projects in Veltria in the last decade. The pattern is consistent."
+        },
+        {
+          "type": "monologue",
+          "text": "The pattern is consistent. Three other research projects. Krel has been watching this cell for how long to know that? He told me in the greenhouse that he has been watching Veltria's intelligence landscape for nine years. He has been building this picture since before I took office. I am looking at nine years of his work in a single briefing. I am not sure whether to be grateful or unsettled. Both, I think."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leverage_to_recommendations",
+          "text": "What do you recommend?",
+          "nextSegment": "krel_recommendations",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "krel_recommendations": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Take the meeting with Dr. Voss. Two weeks from now — you have an appointment already pending. Take it. Do not tell him about the cell. Do not tell him about his daughter's connection to it. Assess his work on its merits. If it is what I believe it is, acquire it."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "In parallel: I will continue watching the handler. The second secretary. He has been in place long enough that removing him through official channels — declaring him persona non grata, expelling him — would require evidence that I cannot provide officially. But I can make his operation more expensive. I can introduce noise into the channels he uses. I can make him uncertain whether what he is receiving is real."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "What I do not recommend: telling Nadia Voss. She is a journalist. She will investigate. Her investigation will alert the cell. The cell will accelerate. Whatever leverage they are holding in reserve will become current."
+        },
+        {
+          "type": "monologue",
+          "text": "Do not tell Nadia Voss that the information she has been receiving may be managed by the same cell that has been running assets inside my government. Do not tell her that her father is being watched. Do not tell her that her own reporting may be part of an operation she does not know she is part of. Krel is right that telling her would accelerate the cell's timeline. He is also asking me to keep a journalist in the dark about her own manipulation. I am the Chancellor who gave Nadia Voss full access to the budget working group to demonstrate that this government is different from the one it replaced. Now I am being asked to decide whether different means anything when the alternative is worse."
+        }
+      ],
+      "choices": [
+        {
+          "id": "recommendations_accept",
+          "text": "Take the Voss meeting. Continue watching the handler. Don't tell Nadia.",
+          "nextSegment": "krel_accepted_end",
+          "flags": ["hawk_voss_connection_accepted", "voss_meeting_flagged", "nadia_kept_dark"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 8 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "recommendations_tell_nadia",
+          "text": "I'm going to tell Nadia. She deserves to know she's being used.",
+          "nextSegment": "krel_nadia_warning",
+          "flags": ["hawk_voss_connection_nadia_warned"],
+          "stateChanges": [
+            { "stat": "shadowFootprint", "operation": "add", "value": -3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+            { "stat": "nation.pressFreedom", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "recommendations_official",
+          "text": "Take this to the Interior Ministry. This is too large for an off-books operation.",
+          "nextSegment": "krel_official_path",
+          "flags": ["hawk_voss_connection_official"],
+          "stateChanges": [
+            { "stat": "shadowFootprint", "operation": "add", "value": -5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "krel_accepted_end": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Good. I will have a report on the handler's current operations within ten days. After you take the Voss meeting, tell me what you decide about the framework. The cell will learn about the meeting within twenty-four hours — how you respond after that meeting will tell them what the government intends. Make sure you know what you intend before they do."
+        },
+        {
+          "type": "description",
+          "text": "He picks up the photograph. He leaves. The study is quiet."
+        },
+        {
+          "type": "monologue",
+          "text": "Make sure you know what you intend before they do. In nine years of watching Veltrian intelligence, Krel has learned that the cell's greatest advantage is that it acts while governments deliberate. I have two weeks before the Voss meeting. I should use them to decide what I think about encryption frameworks and physicists and what this Republic owes to the people who build things inside it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accepted_end_close",
+          "text": "The Voss meeting. Two weeks.",
+          "nextSegment": null,
+          "flags": ["hawk_same_cell_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "krel_nadia_warning": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Something shifts in Krel's expression. Not alarm. Recalibration."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "If you tell her, tell her carefully. She is a journalist. Everything you say to her is potential copy. Tell her she is being used. Do not tell her by whom. Do not tell her about the cell's structure or the handler or anything that would give her a story she could publish. Give her enough to protect herself. Not enough to investigate."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "She will try to investigate anyway. She is Nadia Voss. That is what she does."
+        },
+        {
+          "type": "monologue",
+          "text": "He is right. She will investigate. And her investigation will either expose the cell — which accelerates their timeline and puts her at risk — or it will lead nowhere, and she will know she was warned and given nothing useful, and she will write that story instead. I am going to tell her anyway. Krel said when not if about my willingness to compromise on method. He was right about that. He may also be right that this decision will make everything harder. I have decided that harder is acceptable. Keeping a journalist in the dark about her own manipulation is not."
+        }
+      ],
+      "choices": [
+        {
+          "id": "nadia_warning_proceed",
+          "text": "I'll talk to her. Carefully. After the Voss meeting.",
+          "nextSegment": null,
+          "flags": ["hawk_same_cell_complete", "nadia_will_be_warned"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "krel_official_path": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Understood. I will prepare a dossier — sourced carefully, nothing that traces back to my methods. The Interior Ministry will have enough to open a formal counterintelligence investigation. They will find the handler within six to eight weeks, assuming he does not know the investigation has started."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "He will know within four."
+        },
+        {
+          "type": "description",
+          "text": "He says it without inflection. A fact, not a criticism."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "When he knows, he will accelerate his operation against Dr. Voss. Take the Voss meeting before the investigation is visible. You have perhaps three weeks."
+        },
+        {
+          "type": "monologue",
+          "text": "Three weeks. The official investigation will eventually succeed — the handler will be expelled or arrested, the cell's Veltrian operation will be disrupted. The cost is that Voss will be at risk during the investigation window. Krel is not arguing against the decision. He is telling me its consequences. That, I have come to understand, is as close as he comes to advice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "official_path_close",
+          "text": "Prepare the dossier. And I'll take the Voss meeting this week.",
+          "nextSegment": null,
+          "flags": ["hawk_same_cell_complete", "hawk_cell_referred_official"],
+          "stateChanges": [
+            { "stat": "shadowFootprint", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

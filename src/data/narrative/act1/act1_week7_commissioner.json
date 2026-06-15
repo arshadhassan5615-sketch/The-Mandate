@@ -1,0 +1,273 @@
+{
+  "id": "act1_week7_commissioner",
+  "title": "The Commissioner's Chair",
+  "location": "Cabinet Room — Ashenmere Palace",
+  "weekAvailable": 7,
+  "act": 1,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "prerequisites": [],
+  "characters": [
+    "katerin_ashavel",
+    "vyktor_reznik",
+    "danika_oberlin",
+    "colonel_dusek"
+  ],
+  "narrative": [
+    {
+      "type": "narrative",
+      "text": "Vyktor has placed three folders on your desk. Thin folders. The decisions that matter most always fit on fewer pages than you expect."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Three candidates. Three very different answers to the question of what the national police force becomes after Kravenstal. The Commissioner's resignation took effect this morning. The chair is empty as of now."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "I have reviewed all three files. I have opinions. I will share them after you have read the summaries. My opinions are not neutral."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Neither are mine. But I will be brief. The police force is watching this appointment more closely than any other. Whoever sits in that chair will define police culture for a generation. Choose someone who understands institutions."
+    }
+  ],
+  "monologue": "Three names. Three futures for the national police force. The Commissioner's chair has been occupied by the same kind of person for twenty years — career officers who rose through the ranks by not making trouble. All three of these candidates are different. Each represents a different answer to the question Oberlin has been asking for fifteen years: can the police force be reformed, or must it be replaced?",
+  "choices": [
+    {
+      "id": "review_vasic",
+      "text": "Commandant Rena Vasić. Lowest use-of-force record in the country.",
+      "nextSegment": "vasic_presents"
+    },
+    {
+      "id": "review_solc",
+      "text": "Dr. Mirko Šolc. Civilian academic. Never worn a uniform.",
+      "nextSegment": "solc_presents"
+    },
+    {
+      "id": "review_stanko",
+      "text": "Deputy Commissioner Lev Stańko. Institutional continuity. Knows the force from the inside.",
+      "nextSegment": "stanko_presents"
+    }
+  ],
+  "segments": {
+    "vasic_presents": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Commandant Rena Vasić. Six years commanding the Thornfeld Regional Police. During her tenure use-of-force incidents dropped by sixty percent. She testified against fellow officers twice. The police association called her difficult."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Vasić is the reform candidate. She has done the thing she claims to believe in. That is rarer than you think."
+        },
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "She will face resistance from the senior command. They will not follow her willingly. She knows this. She expects to fight an internal war for the first two years. She told me that herself."
+        },
+        {
+          "type": "narrative",
+          "text": "Vasić's file includes a single disciplinary note: 'Refused a direct order to reassign an officer accused of excessive force. Requested investigation instead. Investigation confirmed the accusation.' She was suspended for three days. She returned to work on day four."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vasic_confirm",
+          "text": "Vasić. Reform from within. The force needs to know the rules have changed.",
+          "nextSegment": "final_appointment"
+        },
+        {
+          "id": "vasic_to_solc",
+          "text": "Interesting. Let me hear about Šolc.",
+          "nextSegment": "solc_presents"
+        },
+        {
+          "id": "vasic_to_stanko",
+          "text": "Tell me about Stańko.",
+          "nextSegment": "stanko_presents"
+        }
+      ]
+    },
+    "solc_presents": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Dr. Mirko Šolc. Professor of Criminology at the University of Ashenmere. Authored the standard text on community policing. Has consulted for police forces in four countries. Has never served in one."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "A civilian commissioner is unprecedented. It is also exactly what the police force needs — someone who does not think like a police officer. The institution has spent twenty years protecting its own. An outsider is the only way to break that cycle."
+        },
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "He will have no operational credibility with the rank and file. None. They will not follow him because he cannot command them — he has never done their job. If he orders a dispersal, will a sergeant with fifteen years of service listen? I do not know. Neither does he."
+        },
+        {
+          "type": "narrative",
+          "text": "Šolc's published framework proposes a police force organized around community accountability boards, civilian review panels, and de-escalation training as standard practice. It has never been implemented at national scale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "solc_confirm",
+          "text": "Šolc. An outsider. Exactly what a system that protects its own needs.",
+          "nextSegment": "final_appointment"
+        },
+        {
+          "id": "solc_to_vasic",
+          "text": "Let me reconsider Vasić.",
+          "nextSegment": "vasic_presents"
+        },
+        {
+          "id": "solc_to_stanko",
+          "text": "Tell me about Stańko.",
+          "nextSegment": "stanko_presents"
+        }
+      ]
+    },
+    "stanko_presents": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Deputy Commissioner Lev Stańko. Seventeen years in the force. Rose through the ranks without a single disciplinary note — which, in this force, either means he is exceptional or he is careful. He was not at Kravenstal."
+        },
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "Stańko knows the force. He can manage it. He will not make enemies and he will not make dramatic changes. If you want stability — if you want the police to function while the investigation proceeds — he is the correct choice."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Stańko is the continuity candidate. He worked under the Commissioner who ordered the surveillance programs. He said nothing. He filed no complaints. He is not responsible for what happened — but he also never stopped it. A man who does not make trouble in a troubled institution has made a choice."
+        },
+        {
+          "type": "narrative",
+          "text": "Stańko's personnel file is clean. In a force where 'clean' sometimes means 'nobody looked,' this is either reassuring or suspicious."
+        }
+      ],
+      "choices": [
+        {
+          "id": "stanko_confirm",
+          "text": "Stańko. Stability. The investigation proceeds without institutional chaos.",
+          "nextSegment": "final_appointment"
+        },
+        {
+          "id": "stanko_to_vasic",
+          "text": "Let me reconsider Vasić.",
+          "nextSegment": "vasic_presents"
+        },
+        {
+          "id": "stanko_to_solc",
+          "text": "What about Šolc?",
+          "nextSegment": "solc_presents"
+        }
+      ]
+    },
+    "final_appointment": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "Vyktor closes the folders. The room is quiet. Three candidates. Three futures for the national police force."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Whoever you choose, the announcement goes out within the hour. The police force will be watching. The country will be watching. Make sure the choice is one you can defend for four years."
+        }
+      ],
+      "monologue": "The Commissioner's chair has been occupied by men who protected the institution first and the public second for twenty years. That ends today. Whoever I choose, the signal is the same: the police force answers to the Republic, not to itself. The difference is in how that signal is received — by the rank and file, by the senior command, by the public, and by the families of men like Teodor Vranić.",
+      "choices": [
+        {
+          "id": "appoint_vasic",
+          "text": "Appoint Commandant Rena Vasić. Reform from within. The force changes because the person at the top demands it.",
+          "statEffects": [
+            { "stat": "labor_approval", "value": 10 },
+            { "stat": "public_trust", "value": 12 },
+            { "stat": "law_order", "value": -3 }
+          ],
+          "flags": ["commissioner_vasic_appointed"],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Vasić is the right choice. She will need support against her own command. Give it to her."
+            },
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "She will fight the senior command for two years. Support her or she will lose."
+            }
+          ],
+          "journalEntry": {
+            "title": "Appointed Rena Vasić as Police Commissioner",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "appoint_solc",
+          "text": "Appoint Dr. Mirko Šolc. A civilian. The most significant reform appointment this government will make.",
+          "statEffects": [
+            { "stat": "labor_approval", "value": 8 },
+            { "stat": "public_trust", "value": 15 },
+            { "stat": "law_order", "value": -8 },
+            { "stat": "factions.halvekists", "value": -5 }
+          ],
+          "flags": ["commissioner_solc_appointed"],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "An academic. In the Commissioner's chair. This is either brilliant or catastrophic. I suspect it is both."
+            },
+            {
+              "character": "colonel_dusek",
+              "type": "action",
+              "text": "Dusek says nothing. Her silence is louder than any objection."
+            }
+          ],
+          "journalEntry": {
+            "title": "Appointed Dr. Mirko Šolc as Police Commissioner",
+            "category": "policy"
+          }
+        },
+        {
+          "id": "appoint_stanko",
+          "text": "Appoint Deputy Commissioner Lev Stańko. Stability. The investigation proceeds without chaos.",
+          "statEffects": [
+            { "stat": "labor_approval", "value": -2 },
+            { "stat": "law_order", "value": 7 },
+            { "stat": "factions.reformists", "value": -4 }
+          ],
+          "flags": ["commissioner_stanko_appointed"],
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Stańko will not make trouble. That is exactly what the last Commissioner did. The problem is not that he is bad. The problem is that he is comfortable."
+            },
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "The force will accept him. That matters. A commissioner the force rejects cannot implement any policy at all."
+            }
+          ],
+          "journalEntry": {
+            "title": "Appointed Lev Stańko as Police Commissioner",
+            "category": "policy"
+          }
+        }
+      ]
+    }
+  }
+}

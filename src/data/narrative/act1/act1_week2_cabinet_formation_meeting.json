@@ -610,10 +610,26 @@
           "type": "dialogue",
           "character": "danika_oberlin",
           "text": "This will make enemies. Powerful ones. People who have been protected by the system for twenty years will fight to keep their protection. Some of them are in this building. Some of them you have already met."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "And the national police force — which has operated as an extension of the BNI under Halvek — will be separated entirely. Demilitarized. Returned to civilian command with a civilian mandate. Police should investigate crimes and protect citizens. Not surveil them."
         }
       ],
       "monologue": "She speaks with the certainty of someone who has never had to compromise. I was like that once — before the campaign, before the coalition negotiations, before I learned that certainty is a luxury you trade for power. I envy her. I am also afraid of what she will do when she discovers that governing is not the same as witnessing.",
       "choices": [
+        {
+          "id": "probe_oberlin_police",
+          "text": "What happens to the national police force under your Interior Ministry?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_oberlin_police"],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_police_answer",
+          "reactions": []
+        },
         {
           "id": "probe_oberlin_dissolution",
           "text": "If you dissolve the BNI, what happens to its agents? Four hundred trained operatives don't just disappear.",
@@ -707,6 +723,44 @@
         }
       ]
     },
+    "oberlin_police_answer": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "The national police force has been contaminated by two decades of BNI culture. Officers who should be investigating robberies and protecting neighborhoods have been used to follow dissidents, monitor union organizers, and intimidate journalists. That is not what police are for."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "My first year: new chain of command, new civilian oversight board, new training standards. Officers who participated in political surveillance will be reviewed. The ones who followed illegal orders will face the same accountability process as the BNI agents. The ones who refused will be promoted. I want the police to know that the rules have changed — and that following illegal orders is no longer a career strategy."
+        }
+      ],
+      "choices": [
+        {
+          "id": "oberlin_police_to_perov",
+          "text": "I want to hear Perov's model for comparison.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "perov_presents",
+          "reactions": []
+        },
+        {
+          "id": "oberlin_police_move_on",
+          "text": "Understood. Let's continue.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "perov_presents",
+          "reactions": []
+        }
+      ]
+    },
     "perov_presents": {
       "primaryCharacter": "nikolai_perov",
       "narrative": [
@@ -733,10 +787,26 @@
           "type": "dialogue",
           "character": "nikolai_perov",
           "text": "Oberlin will tell you this is impossible. She will say the BNI is too corrupt to reform. I have reformed military units that had been fighting the wrong wars for years. Reform is hard. Dissolution is harder — because the people you dissolve do not disappear. They go underground. They do the same work for someone who is not accountable to you at all."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "On the question of policing: I disagree with Oberlin's separation model. The national police and the intelligence apparatus need coordination, not walls between them. What I will change is the direction of that coordination — from political surveillance to genuine criminal investigation. The police investigate crimes. The BNI monitors external threats. Both report to you, through me, with documented oversight."
         }
       ],
       "monologue": "He makes a compelling case. Not because he is right about Oberlin — he is not — but because he is right about what happens when you dissolve an intelligence apparatus without a plan for its people. The problem is I do not trust him to actually reform it. He speaks of oversight but his definition of oversight is shaped by thirty years of military hierarchy. He thinks transparency means telling your commanding officer.",
       "choices": [
+        {
+          "id": "probe_perov_police",
+          "text": "How do you plan to reform the national police force, not just the BNI?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_perov_police"],
+          "codexUnlocks": [],
+          "nextSegment": "perov_police_answer",
+          "reactions": []
+        },
         {
           "id": "probe_perov_iron_covenant",
           "text": "What is your relationship with the Iron Covenant?",
@@ -814,6 +884,33 @@
           "flags": [],
           "codexUnlocks": [],
           "nextSegment": "interior_confrontation",
+          "reactions": []
+        }
+      ]
+    },
+    "perov_police_answer": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "The police problem is simpler than Oberlin makes it. The officers were following orders. Change the orders, change the behavior. I have done this with military units — you replace the command structure at the top, establish clear rules of engagement, and hold the new commanders accountable for what happens below them."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "What I will not do is separate the police from the intelligence apparatus entirely. That separation creates gaps. Criminals and threats do not stay in neat categories. A drug network and an intelligence asset are sometimes the same person. You need coordination. What you change is the purpose of that coordination — from protecting the regime to protecting the Republic."
+        }
+      ],
+      "choices": [
+        {
+          "id": "perov_police_move_on",
+          "text": "I have what I need on Interior. Let's move forward.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "player_interrogation_hub",
           "reactions": []
         }
       ]
@@ -1003,14 +1100,14 @@
           "reactions": []
         },
         {
-          "id": "dusek_to_justice",
-          "text": "Thank you, Colonel. Let's continue — Justice Ministry is next.",
+          "id": "dusek_hear_vass",
+          "text": "Before we move on — I want to hear the other defense candidate.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "justice_presents",
+          "nextSegment": "vass_presents",
           "reactions": []
         }
       ]
@@ -1029,6 +1126,17 @@
         }
       ],
       "choices": [
+        {
+          "id": "dusek_timeline_hear_vass",
+          "text": "Before Justice — I want to hear General Vass.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_dusek"],
+          "codexUnlocks": [],
+          "nextSegment": "vass_presents",
+          "reactions": []
+        },
         {
           "id": "dusek_timeline_to_justice",
           "text": "I'll remember that. Let's meet the remaining ministry candidates.",
@@ -1059,6 +1167,17 @@
       ],
       "choices": [
         {
+          "id": "dusek_budget_hear_vass",
+          "text": "Before Justice — I want to hear General Vass.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_dusek_budget"],
+          "codexUnlocks": [],
+          "nextSegment": "vass_presents",
+          "reactions": []
+        },
+        {
           "id": "dusek_budget_to_justice",
           "text": "Eighteen million. I'll find it. Now — the remaining ministries.",
           "internalTag": "pragmatist",
@@ -1076,6 +1195,91 @@
               "text": "Good. I will hold you to that."
             }
           ]
+        }
+      ]
+    },
+    "vass_presents": {
+      "primaryCharacter": "general_vass",
+      "narrative": [
+        {
+          "type": "description",
+          "text": "General Vass enters. He is broader than Dusek, older, with the careful stillness of a man who has spent decades making other men nervous. He does not place anything on the table. He does not need props."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "Chancellor. I will tell you what Colonel Dusek will not. Intelligence does not win wars. Presence wins wars. Tyvaren is not watching our surveillance capability. They are watching whether our soldiers are visible, funded, and ready to move. Right now, they are not."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "Seventeen incursions. Dusek counts them as data points. I count them as invitations. Every one that goes unanswered tells Vukov he can send eighteen. Then twenty. Then he stops sending patrols and sends something else entirely."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "What I need: three additional battalions rotated to the northern border on a visible schedule. Public announcement of that rotation. Not a threat — a fact. Facts are more persuasive than intelligence reports, Chancellor. Vukov has read enough intelligence reports to know they can be ignored. He cannot ignore boots on the ground."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "Dusek wants to listen better. I want Tyvaren to have nothing worth listening to — because they have already decided that provoking us is not worth the cost."
+        }
+      ],
+      "monologue": "Vass is not wrong about presence. But he is also not entirely right. Deterrence through visibility works until it provokes the very escalation it is meant to prevent. Vukov is a calculated man — he will not back down from a public show of force. He will match it. And then we are in a different conversation entirely.",
+      "choices": [
+        {
+          "id": "probe_vass_iron_covenant",
+          "text": "You have Iron Covenant support. How does that not compromise your independence as Defense Minister?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_vass"],
+          "codexUnlocks": [],
+          "nextSegment": "vass_probe",
+          "reactions": []
+        },
+        {
+          "id": "vass_to_justice",
+          "text": "Thank you, General. Let's continue — Justice Ministry is next.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "justice_presents",
+          "reactions": []
+        }
+      ]
+    },
+    "vass_probe": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "The Iron Covenant is a political faction. I am a soldier. I have taken their endorsement because their platform includes military funding. I have not taken their money, their instructions, or their loyalty commitments. You can verify that."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "If you appoint me, I will answer to you. Not to the Covenant, not to the Assembly, not to Marshal Vukov across the border. To you. If you ever find evidence otherwise, remove me. I will not contest it."
+        },
+        {
+          "type": "description",
+          "text": "He says it without flinching. Either he means it entirely, or he is the best liar in the room. You are not yet sure which."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vass_probe_to_justice",
+          "text": "I will hold you to that. Let's continue to Justice.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_vass"],
+          "codexUnlocks": [],
+          "nextSegment": "justice_presents",
+          "reactions": []
         }
       ]
     },
@@ -1145,6 +1349,17 @@
           "flags": [],
           "codexUnlocks": [],
           "nextSegment": "interrogate_dusek",
+          "reactions": []
+        },
+        {
+          "id": "interrogate_vass",
+          "text": "Vass. The Iron Covenant endorsement worries me.",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interrogate_vass",
           "reactions": []
         },
         {
@@ -1474,12 +1689,57 @@
         }
       ]
     },
+    "interrogate_vass": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vass enters alone. He takes the chair opposite you without being invited. A small thing. You notice it."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "You want to know if the Covenant owns me. They do not. I have explained this."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "What you should actually want to know is whether I can work with Dusek if you appoint her instead of me. The answer is yes. She is a competent officer. We disagree on doctrine, not on the fundamental task. The border needs defending. We both understand that."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "What you should also want to know: if you appoint me, I will not undermine her. If you appoint her, I will not undermine you. I am not Kolvar. I do not play politics with institutional loyalty."
+        },
+        {
+          "type": "monologue",
+          "text": "He answered a question I did not ask. Either he reads people well — or he anticipated exactly this conversation and prepared for it. Both possibilities make him more interesting than I expected."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vass_interrogate_back",
+          "text": "That's more than I expected from you. You can go.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_interrogated_vass"],
+          "codexUnlocks": [],
+          "nextSegment": "player_interrogation_hub",
+          "reactions": [
+            {
+              "character": "general_vass",
+              "type": "action",
+              "text": "Vass stands, straightens his jacket, and leaves without ceremony. The door closes quietly behind him."
+            }
+          ]
+        }
+      ]
+    },
     "justice_presents": {
       "narrative": [
         {
           "type": "description",
-          "text": "Vyktor opens the door. Two figures enter — one like a professor who forgot to change his clothes, the other like a prosecutor who has never lost a case. Aldric Theron carries a worn copy of the Veltrian Constitution, pages flagged with years of annotations. Roman Kešić carries a leather briefcase. His suit is immaculate.",
-          "primaryCharacter": "aldric_theron"
+          "text": "Vyktor opens the door. Two figures enter — one like a professor who forgot to change his clothes, the other like a prosecutor who has never lost a case. Aldric Theron carries a worn copy of the Veltrian Constitution, pages flagged with years of annotations. Roman Kešić carries a leather briefcase. His suit is immaculate."
         },
         {
           "type": "dialogue",
@@ -1719,8 +1979,7 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Vyktor gestures toward the corridor. The next two candidates enter — Gregor Marić in a foreman's jacket with calloused hands and tired eyes, Petra Solec in a sharp suit with a clipboard and the focused expression of someone who measures everything.",
-          "primaryCharacter": "gregor_maric"
+          "text": "Vyktor gestures toward the corridor. The next two candidates enter — Gregor Marić in a foreman's jacket with calloused hands and tired eyes, Petra Solec in a sharp suit with a clipboard and the focused expression of someone who measures everything."
         },
         {
           "type": "dialogue",
@@ -1899,8 +2158,7 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Vyktor opens the door again. The next two candidates enter with a palpable tension between them — Vera Sorin, elegant in diplomatic attire, carrying herself with the ease of someone who has navigated a hundred foreign ministries. Henryk Borač, stiff-shouldered, his civilian suit unable to hide decades of military bearing.",
-          "primaryCharacter": "vera_sorin"
+          "text": "Vyktor opens the door again. The next two candidates enter with a palpable tension between them — Vera Sorin, elegant in diplomatic attire, carrying herself with the ease of someone who has navigated a hundred foreign ministries. Henryk Borač, stiff-shouldered, his civilian suit unable to hide decades of military bearing."
         },
         {
           "type": "dialogue",
@@ -2079,8 +2337,7 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Vyktor gestures. The next candidates enter — Dr. Marta Solén, a colorful scarf the only sign of rebellion against academic convention, and Petr Horák, the Deputy Minister who has served through three governments. Solén carries a stack of banned books. Horák carries the ministry's organizational chart, annotated in three colors of ink.",
-          "primaryCharacter": "marta_solen"
+          "text": "Vyktor gestures. The next candidates enter — Dr. Marta Solén, a colorful scarf the only sign of rebellion against academic convention, and Petr Horák, the Deputy Minister who has served through three governments. Solén carries a stack of banned books. Horák carries the ministry's organizational chart, annotated in three colors of ink."
         },
         {
           "type": "dialogue",
@@ -2259,8 +2516,7 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Vyktor checks his watch — the day is wearing on but the remaining ministries are no less critical. The next two candidates enter: Dr. Lena Kaspar in a white coat over business attire, her eyes carrying the exhaustion of someone who has spent too many nights in hospital wards. Dr. August Meln in a dark suit, silver-haired, the calm administrator who has kept the system running through three administrations.",
-          "primaryCharacter": "lena_kaspar"
+          "text": "Vyktor checks his watch — the day is wearing on but the remaining ministries are no less critical. The next two candidates enter: Dr. Lena Kaspar in a white coat over business attire, her eyes carrying the exhaustion of someone who has spent too many nights in hospital wards. Dr. August Meln in a dark suit, silver-haired, the calm administrator who has kept the system running through three administrations."
         },
         {
           "type": "dialogue",
@@ -2439,8 +2695,7 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Vyktor gestures toward the door. The next candidates present a study in contrasts — Benedikt Varro in work boots and rolled sleeves, his hands those of a man who has poured concrete. Sofia Drenek in modern attire, an architectural roll tucked under her arm, her energy barely contained.",
-          "primaryCharacter": "benedikt_varro"
+          "text": "Vyktor gestures toward the door. The next candidates present a study in contrasts — Benedikt Varro in work boots and rolled sleeves, his hands those of a man who has poured concrete. Sofia Drenek in modern attire, an architectural roll tucked under her arm, her energy barely contained."
         },
         {
           "type": "dialogue",
@@ -2619,8 +2874,7 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Vyktor checks his watch — the final ministry. Two candidates enter: Orin Valdek, heavy-built, with the hands of a man who has spent time underground and the eyes of someone who knows what the ground conceals. Daria Voss, carrying geological survey maps and wearing the earnest expression of someone who has argued with mining executives and refused to lose.",
-          "primaryCharacter": "orin_valdek"
+          "text": "Vyktor checks his watch — the final ministry. Two candidates enter: Orin Valdek, heavy-built, with the hands of a man who has spent time underground and the eyes of someone who knows what the ground conceals. Daria Voss, carrying geological survey maps and wearing the earnest expression of someone who has argued with mining executives and refused to lose."
         },
         {
           "type": "dialogue",
@@ -2805,7 +3059,7 @@
         {
           "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "You have now heard from candidates for all ten ministries. Fourteen people. Fourteen visions for the Republic. Some of them will sit in these chairs. Some of them will go back to their offices and wait for the next government to call."
+          "text": "You have now heard from candidates for all nine ministries. Eighteen people. Eighteen visions for the Republic. Some of them will sit in these chairs. Some of them will go back to their offices and wait for the next government to call."
         },
         {
           "type": "dialogue",
@@ -2818,7 +3072,7 @@
           "text": "The appointment folders are ready. Each contains the formal nomination papers. All that remains is your signature. Shall we begin?"
         }
       ],
-      "monologue": "Fourteen candidates. Ten ministries. One government. Vyktor is right — these appointments are the architecture of everything that follows. Every crisis I face in the next four years will be handled by someone I choose in the next hour. The weight of that is almost physical. But the Republic does not need a Chancellor who hesitates. It needs a Chancellor who decides.",
+      "monologue": "Eighteen candidates. Nine ministries. One government. Vyktor is right — these appointments are the architecture of everything that follows. Every crisis I face in the next four years will be handled by someone I choose in the next hour. The weight of that is almost physical. But the Republic does not need a Chancellor who hesitates. It needs a Chancellor who decides.",
       "choices": [
         {
           "id": "proceed_to_appointments_full",
@@ -2860,7 +3114,7 @@
         {
           "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "Dusek will defend the border and expect you to listen when she speaks. Every other choice is a trade-off between principles and practicality. Hers is not."
+          "text": "For Defense: Dusek will read the border like a surgeon. Vass will make Tyvaren feel it like a fist. Both will defend Veltria. The question is which kind of signal you want to send in your first year."
         },
         {
           "type": "dialogue",
@@ -2868,7 +3122,7 @@
           "text": "The question now is: what kind of government do you want to lead? And are you ready to pay for it?"
         }
       ],
-      "monologue": "Vyktor is right about the question. The answer has been forming all morning — not in the debates, but in the silences between them. In Vostane's refusal to flatter me. In Kolvar's willingness to confess. In Oberlin's unshakeable certainty. In Perov's quiet act of institutional defiance. In Dusek's honesty. I know what I want. Now I have to act on it.",
+      "monologue": "Vyktor is right about the question. The answer has been forming all morning — not in the debates, but in the silences between them. In Vostane's refusal to flatter me. In Kolvar's willingness to confess. In Oberlin's unshakeable certainty. In Perov's quiet act of institutional defiance. In Dusek's honesty. In Vass's calculated candor. I know what I want. Now I have to act on it.",
       "choices": [
         {
           "id": "proceed_to_appointments",
@@ -2880,12 +3134,68 @@
             "cabinet_formation_meeting_complete"
           ],
           "codexUnlocks": [],
-          "nextSegment": "transition_to_appointments",
+          "nextSegment": "defense_choice",
           "reactions": [
             {
               "character": "vyktor_reznik",
               "type": "dialogue",
               "text": "Vyktor opens a fresh page in his ledger. 'Very good, Chancellor. Let's begin.'"
+            }
+          ]
+        }
+      ]
+    },
+    "defense_choice": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "One appointment before the others. Defense. Dusek or Vass. They cannot both serve in the same ministry — their doctrines are incompatible and both of them know it."
+        },
+        {
+          "type": "description",
+          "text": "Vyktor slides two folders across the table. Thin, both of them. The decisions that matter most always fit on one page."
+        }
+      ],
+      "choices": [
+        {
+          "id": "appoint_dusek",
+          "text": "Dusek. Intelligence over presence. We read the border before we show it our teeth.",
+          "internalTag": "reformist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -3 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 3 }
+          ],
+          "chainTriggers": [],
+          "flags": ["defense_minister_dusek", "cabinet_formation_meeting_complete"],
+          "codexUnlocks": [],
+          "nextSegment": "transition_to_appointments",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Dusek. Good. She will not thank you. She will simply do the work."
+            }
+          ]
+        },
+        {
+          "id": "appoint_vass",
+          "text": "Vass. Presence over intelligence. Let Tyvaren see us before they hear us.",
+          "internalTag": "pragmatist",
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 6 },
+            { "stat": "tyvarenHostility", "operation": "add", "value": 4 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+          ],
+          "chainTriggers": [],
+          "flags": ["defense_minister_vass", "cabinet_formation_meeting_complete"],
+          "codexUnlocks": [],
+          "nextSegment": "transition_to_appointments",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "Vass. The Iron Covenant will be pleased. Tyvaren will notice. Make sure that is the signal you intend to send."
             }
           ]
         }
@@ -3485,17 +3795,6 @@
       ],
       "choices": [
         {
-          "id": "valdek_to_voss",
-          "text": "Director Voss, I want to hear your perspective on the ministry.",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "reactions": [],
-          "nextSegment": "resources_deep_voss"
-        },
-        {
           "id": "valdek_to_closing",
           "text": "I've heard everything I need. Vyktor, we are done here.",
           "internalTag": "pragmatist",
@@ -3513,21 +3812,10 @@
         {
           "type": "dialogue",
           "character": "orin_valdek",
-          "text": "I have worked with mining companies for fifteen years. Yes, I know them. Yes, I have relationships with them. Those relationships are how I know what they are hiding. I know which companies underreport extraction. I know which ones bribe inspectors. I know because I ran the commission that was supposed to stop them — and I documented every failure. If you want someone the mining companies trust, appoint me. If you want someone they fear, also appoint me. The difference is what you tell me to do with what I know."
+          "text": "I have worked with mining companies for fifteen years. Yes, I know them. Yes, I have relationships with them. I also know where the bodies are buried — which contracts were rigged, which inspections were bought, which deposits were underreported. That knowledge is more useful to you than any reformer who has never sat across the table from them. I am not asking you to trust the industry. I am asking you to use someone who understands it against itself."
         }
       ],
       "choices": [
-        {
-          "id": "valdek_to_voss_2",
-          "text": "Director Voss, what is your approach?",
-          "internalTag": "reformist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "reactions": [],
-          "nextSegment": "resources_deep_voss"
-        },
         {
           "id": "valdek_to_closing_2",
           "text": "I've heard everything I need. Vyktor, we are done here.",
@@ -3551,17 +3839,6 @@
       ],
       "choices": [
         {
-          "id": "voss_to_valdek",
-          "text": "Director Valdek, I want to hear your perspective.",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "reactions": [],
-          "nextSegment": "resources_deep_valdek"
-        },
-        {
           "id": "voss_to_closing",
           "text": "I've heard everything I need. Vyktor, we are done here.",
           "internalTag": "pragmatist",
@@ -3583,17 +3860,6 @@
         }
       ],
       "choices": [
-        {
-          "id": "voss_to_valdek_2",
-          "text": "Director Valdek, what is your approach?",
-          "internalTag": "reformist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "reactions": [],
-          "nextSegment": "resources_deep_valdek"
-        },
         {
           "id": "voss_to_closing_2",
           "text": "I've heard everything I need. Vyktor, we are done here.",

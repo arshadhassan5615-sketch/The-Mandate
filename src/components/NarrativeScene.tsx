@@ -197,7 +197,7 @@ export default function NarrativeScene() {
         const narrativeState = useNarrativeStore.getState()
 
         if (store.phase !== 'scene') return
-        if (store.radioOpen || store.showCabinetMeeting) return
+        if (store.showCabinetMeeting) return
         if (narrativeState.currentScene) return
 
         console.error(

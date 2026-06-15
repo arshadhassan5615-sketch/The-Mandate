@@ -110,6 +110,36 @@ function buildPool(week: number, state: GameState, flags: string[], visited: str
     })
   }
 
+  // Week 6 — Kravenstal police incident (fires once, chains from labor tensions)
+  if (week === 6 && !visited.includes('act1_week6_police_incident')) {
+    result.push({
+      id: 'act1_week6_police_incident',
+      title: 'The Kravenstal Incident',
+      description: 'Three workers were hospitalized during the factory dispersal. A photograph is already moving. The Commissioner has not called.',
+      category: 'crisis' as AgendaCategory,
+      sceneId: 'act1_week6_police_incident',
+      slotCost: 0,
+      executionOrder: 7,
+      weekAvailable: 6,
+      weekDeadline: 7,
+    })
+  }
+
+  // Week 7 — Commissioner replacement (fires once, follows Kravenstal incident)
+  if (week === 7 && !visited.includes('act1_week7_commissioner')) {
+    result.push({
+      id: 'act1_week7_commissioner',
+      title: "The Commissioner's Chair",
+      description: 'The Commissioner has submitted his resignation. Three candidates wait to replace him. This appointment will define the national police force for years.',
+      category: 'meeting' as AgendaCategory,
+      sceneId: 'act1_week7_commissioner',
+      slotCost: 1,
+      executionOrder: 3,
+      weekAvailable: 7,
+      weekDeadline: 8,
+    })
+  }
+
   return result
 }
 
@@ -462,6 +492,21 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Week 19 — Informant Network (fires once)
+    if (gameState.currentWeek === 19 && !visitedSceneIds.includes('act1_week19_informant_network')) {
+      pool.push({
+        id: 'act1_week19_informant_network',
+        title: 'The Informant Network',
+        description: 'The Commissioner has requested an urgent meeting. They bypassed the Interior Ministry to reach you directly.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act1_week19_informant_network',
+        slotCost: 1,
+        executionOrder: 2,
+        weekAvailable: 19,
+        weekDeadline: 20,
+      })
+    }
+
     // Week 20 — Oil negotiation (fires once)
     if (gameState.currentWeek === 20 && !visitedSceneIds.includes('act2_week20_oil_negotiation')) {
       pool.push({
@@ -612,6 +657,21 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Week 22 — Protest or Riot (fires once)
+    if (gameState.currentWeek === 22 && !visitedSceneIds.includes('act2_week22_protest_or_riot')) {
+      pool.push({
+        id: 'act2_week22_protest_or_riot',
+        title: 'Protest or Riot',
+        description: 'Twelve thousand in Republic Square. A counter-demonstration has appeared. The Commissioner is requesting guidance.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act2_week22_protest_or_riot',
+        slotCost: 0,
+        executionOrder: 3,
+        weekAvailable: 22,
+        weekDeadline: 23,
+      })
+    }
+
     // Week 24 — Voss introduction (fires once)
     if (gameState.currentWeek === 24 && !visitedSceneIds.includes('act2_week24_voss_introduction')) {
       pool.push({
@@ -699,6 +759,21 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 1,
         weekAvailable: 32,
         weekDeadline: 32,
+      })
+    }
+
+    // Week 44 — The Loyal Force (police loyalty check)
+    if (gameState.currentWeek === 44 && !visitedSceneIds.includes('act3_week44_loyal_force')) {
+      pool.push({
+        id: 'act3_week44_loyal_force',
+        title: 'The Loyal Force',
+        description: 'The Commissioner has requested a meeting without stating a reason. In thirty-seven weeks, they have always stated a reason.',
+        category: 'meeting' as AgendaCategory,
+        sceneId: 'act3_week44_loyal_force',
+        slotCost: 1,
+        executionOrder: 2,
+        weekAvailable: 44,
+        weekDeadline: 45,
       })
     }
 
@@ -1139,6 +1214,106 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
               ])
               console.log('[NEWS DEBUG] articles added, total now:', useNewsStore.getState().articles.length)
               console.log('[NEWS DEBUG] article publications:', useNewsStore.getState().articles.map(a => a.publication + ':' + a.weekNumber))
+            }
+
+            if (completedItem?.sceneId === 'act1_week7_commissioner') {
+              const d = new Date(1963, 2, 29)
+              const dateStr = d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+              const flags = useNarrativeStore.getState().activeFlags
+              const commType = flags.includes('commissioner_vasic_appointed') ? 'vasic'
+                : flags.includes('commissioner_solc_appointed') ? 'solc'
+                : 'stanko'
+              const headlines = {
+                vasic: {
+                  herald: 'CHANCELLOR DISMISSES COMMISSIONER, APPOINTS REFORM CANDIDATE',
+                  heraldBody: 'Chancellor Ashavel has dismissed the National Police Commissioner following the Kravenstal incident and appointed Commandant Rena Vasić as his replacement. Vasić, known for the lowest use-of-force record in the country during her tenure in Thornfeld, has already requested full personnel files from the dispersal. The Chancellor called the appointment a signal that accountability in this government is not a statement — it is a process.',
+                  standard: 'SHE FIRED HIM. AND REPLACED HIM WITH SOMEONE WHO WILL ACTUALLY INVESTIGATE.',
+                  standardBody: 'The Commissioner is gone. Not resigned — dismissed. There is a difference and the Chancellor made sure everyone knew it. His replacement is Commandant Rena Vasić, who once testified against her own colleagues in a misconduct hearing. The People\'s Standard has been waiting for this kind of appointment for eleven years. We will hold Vasić to the same standard she has held others.',
+                  worker: 'FOR TEODOR VRANIĆ',
+                  workerBody: 'Teodor Vranić is recovering. The man who ordered the baton charge has been suspended. The Commissioner who knew and said nothing is dismissed. His replacement has already asked for the personnel files of every officer at the Kravenstal dispersal. The Kravenstal Worker does not celebrate government decisions — we evaluate them. This one, today, looks like accountability. We will watch to see if it stays that way.',
+                  times: 'A COMMISSIONER DISMISSED, A PRECEDENT SET',
+                  timesBody: 'The Chancellor\'s decision to formally dismiss rather than accept the resignation of the outgoing Commissioner is a studied choice. It asserts that accountability flows downward from the Chancellor\'s office — not upward from the resignations of those caught. Commandant Vasić\'s appointment reinforces this reading. The Times notes that institutional reform requires sustained pressure, not single appointments. We will track whether this precedent holds.',
+                  gazette: 'THORNFELD\'S OWN VASIĆ APPOINTED NATIONAL COMMISSIONER',
+                  gazetteBody: 'Rena Vasić ran the Thornfeld Regional Police for six years. During that time, use-of-force incidents dropped by sixty percent. She testified against fellow officers twice. The police association called her difficult. The communities she served called her fair. She is now the National Commissioner. The Gazette is proud that the appointment began here, in the east, in a region that has too often been told that standards are for other places.'
+                },
+                stanko: {
+                  herald: 'COMMISSIONER REPLACED WITH DEPUTY IN STABILITY APPOINTMENT',
+                  heraldBody: 'Deputy Commissioner Lev Stańko has been appointed National Police Commissioner following the resignation of his predecessor over the Kravenstal incident. The appointment maintains continuity in the force while a full accountability review proceeds. Chancellor Ashavel stated that the review will run to completion regardless of its findings.',
+                  standard: 'STABILITY. WE HAVE HEARD THAT WORD BEFORE.',
+                  standardBody: 'The Commissioner is gone. His deputy has his chair. The People\'s Standard is not satisfied. Stability is what the police force has had for twenty years — stability that protected officers who broke the law and punished workers who demanded their rights. We will watch the accountability review. If it closes before it is complete, we will say so.',
+                  worker: 'THE DEPUTY TAKES THE CHAIR. WE TAKE NOTES.',
+                  workerBody: 'Stańko was not at Kravenstal. That is the argument for his appointment. The Kravenstal Worker notes that the institution that produced the Kravenstal dispersal is still largely intact. We will watch the accountability review. We have set a calendar reminder for thirty days.',
+                  times: 'A MEASURED APPOINTMENT IN AN UNMEASURED MOMENT',
+                  timesBody: 'The appointment of Deputy Commissioner Stańko is the choice of institutional continuity over institutional reform. It may prove wise — the force needs stability to function. It may prove insufficient — the force needs accountability to regain public trust. The Times will evaluate this appointment by its outcomes, not its intentions.',
+                  gazette: 'ACCOUNTABILITY REVIEW ORDERED — GAZETTE WILL TRACK IT',
+                  gazetteBody: 'The Chancellor has ordered a full accountability review of the Kravenstal incident and replaced the Commissioner. The Gazette notes that review processes are only as meaningful as their outcomes. We will publish the results when they are available. We will notice if they are not.'
+                },
+                solc: {
+                  herald: 'CIVILIAN APPOINTED NATIONAL POLICE COMMISSIONER IN UNPRECEDENTED MOVE',
+                  heraldBody: 'Dr. Mirko Šolc, a civilian academic with no prior service in the national police force, has been appointed Commissioner by Chancellor Ashavel following the Kravenstal incident. The appointment is without precedent in Veltrian history. The police association has expressed serious concerns. Three senior commanders have requested urgent meetings with the Interior Ministry. Dr. Šolc has already requested five years of personnel files.',
+                  standard: 'A CIVILIAN IN THE COMMISSIONER\'S CHAIR. YES.',
+                  standardBody: 'The Chancellor has appointed a civilian to run the national police force. Dr. Mirko Šolc has never worn a uniform. He has spent fifteen years studying what police forces do wrong and what communities need them to do right. The People\'s Standard believes this is the most significant appointment this government has made. The force will resist him. That resistance will tell us everything about whether reform is possible.',
+                  worker: 'THEY SENT AN ACADEMIC. WE SENT OUR VOTE.',
+                  workerBody: 'Dr. Šolc has never made an arrest. He has never ordered a dispersal. He has spent his career documenting what happens when police forces become instruments of institutional power rather than community safety. The Kravenstal Worker has read his published framework. His first act was to request personnel files. We will watch what he does with them.',
+                  times: 'THE BOLDEST APPOINTMENT OF THE ASHAVEL GOVERNMENT',
+                  timesBody: 'The appointment of Dr. Šolc is either the most consequential reform decision this government will make or its most significant political miscalculation. The Times cannot yet determine which. What we can say is that the appointment signals a Chancellor willing to make enemies for the sake of a principle. Whether that principle survives contact with institutional resistance remains to be seen. We will watch very carefully.',
+                  gazette: 'AN ACADEMIC RUNS THE POLICE. THE EAST WAITS TO BE CONVINCED.',
+                  gazetteBody: 'The Gazette has read Dr. Šolc\'s published work on community policing. His frameworks have worked in Lythairan cities. Whether they work in Veltria — where the police force has spent two decades as a political tool — is a different question. The Gazette congratulates the Chancellor on the boldness of the appointment. We reserve judgment on its wisdom until we see what Dr. Šolc does on day thirty-one.'
+                }
+              }
+              const h = headlines[commType]
+              useNewsStore.getState().addArticles([
+                {
+                  id: `news_commissioner_herald_${Date.now()}`,
+                  headline: h.herald,
+                  body: h.heraldBody,
+                  publication: 'ashenmere_herald' as const,
+                  weekNumber: gameState.currentWeek,
+                  date: dateStr,
+                  templateId: 'commissioner_herald',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_commissioner_standard_${Date.now()}`,
+                  headline: h.standard,
+                  body: h.standardBody,
+                  publication: 'peoples_standard' as const,
+                  weekNumber: gameState.currentWeek,
+                  date: dateStr,
+                  templateId: 'commissioner_standard',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_commissioner_worker_${Date.now()}`,
+                  headline: h.worker,
+                  body: h.workerBody,
+                  publication: 'kravenstal_worker' as const,
+                  weekNumber: gameState.currentWeek,
+                  date: dateStr,
+                  templateId: 'commissioner_worker',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_commissioner_times_${Date.now()}`,
+                  headline: h.times,
+                  body: h.timesBody,
+                  publication: 'veltrian_times' as const,
+                  weekNumber: gameState.currentWeek,
+                  date: dateStr,
+                  templateId: 'commissioner_times',
+                  category: 'governance' as const,
+                },
+                {
+                  id: `news_commissioner_gazette_${Date.now()}`,
+                  headline: h.gazette,
+                  body: h.gazetteBody,
+                  publication: 'thornfeld_gazette' as const,
+                  weekNumber: gameState.currentWeek,
+                  date: dateStr,
+                  templateId: 'commissioner_gazette',
+                  category: 'governance' as const,
+                },
+              ])
             }
 
             const { activeFlags, visitedSceneIds: vs } = useNarrativeStore.getState()

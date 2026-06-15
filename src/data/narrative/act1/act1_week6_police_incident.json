@@ -1,0 +1,276 @@
+{
+  "id": "act1_week6_police_incident",
+  "title": "The Kravenstal Incident",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "weekAvailable": 6,
+  "act": 1,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "prerequisites": [],
+  "characters": [
+    "katerin_ashavel",
+    "vyktor_reznik",
+    "colonel_dusek",
+    "danika_oberlin"
+  ],
+  "narrative": [
+    {
+      "type": "narrative",
+      "text": "Vyktor does not knock. He opens your door at 6:42 am and the expression on his face makes you set down your coffee before he speaks."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There was an incident at Kravenstal. Early this morning. The local police attempted to disperse the occupation. Three workers are in hospital. One of them — Teodor Vranić — has a fractured skull."
+    },
+    {
+      "type": "narrative",
+      "text": "He places a photograph on your desk. It shows a police officer with a baton raised above a man who is already on the ground. The photograph is clear. It will be on the front page of every newspaper in the Republic by noon."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Commissioner has not called. That is the second thing you need to know."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "I would like to know who gave the dispersal order. The national guard was explicitly stood down. Someone went around me."
+    },
+    {
+      "type": "narrative",
+      "text": "Dusek is already in the doorway. She was not summoned. She does not need to be."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The photograph was taken by a worker at the factory. It has already been transmitted to three newspapers. The Commissioner's office is preparing a statement that will use the words 'regrettable' and 'under review.'"
+    },
+    {
+      "type": "narrative",
+      "text": "Oberlin enters behind Dusek. The three of them are in your office before seven in the morning. None of them look like they have slept."
+    }
+  ],
+  "monologue": "A man named Teodor Vranić has a fractured skull. The Commissioner has not called. Someone in the local police decided to disperse an occupation that I had ordered handled through negotiation. The photograph will be on front pages before noon. This is not a crisis that can be managed with a statement. This is a crisis that requires an answer — and the answer cannot be that the Chancellor did not know what her own police were doing.",
+  "choices": [
+    {
+      "id": "demand_commissioner_report",
+      "text": "Get the Commissioner on the line. Now. I want to hear his explanation directly.",
+      "nextSegment": "commissioner_call"
+    },
+    {
+      "id": "order_internal_investigation",
+      "text": "Oberlin — I want a full internal investigation. Names, orders, chain of command. Every officer at that dispersal.",
+      "nextSegment": "investigation_ordered"
+    },
+    {
+      "id": "visit_vranic",
+      "text": "Where is Teodor Vranić right now? I want to visit him.",
+      "nextSegment": "vranic_hospital"
+    },
+    {
+      "id": "public_statement_first",
+      "text": "I'm making a statement before the newspapers do. Vyktor — draft it.",
+      "nextSegment": "public_statement"
+    }
+  ],
+  "segments": {
+    "commissioner_call": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He is on the line. He sounds like a man who has been awake since three in the morning and has not found anything useful to say."
+        },
+        {
+          "type": "narrative",
+          "text": "The Commissioner's voice comes through the speaker. It is defensive. He uses the word 'operational decision' twice, 'chain of command' three times, and 'regrettable' four times. He does not use the word 'wrong.' He does not use the name Teodor Vranić."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He says the local commander made the call. He says he was not informed until after. He says he is reviewing the situation internally."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "He knew. The Commissioner always knows. The question is not whether he was informed. The question is whether he considered the dispersal acceptable enough not to stop it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commissioner_to_investigation",
+          "text": "I want the investigation. I don't need the Commissioner's permission.",
+          "nextSegment": "investigation_ordered"
+        },
+        {
+          "id": "commissioner_dismiss",
+          "text": "The Commissioner is relieved of his duties effective immediately. I will notify him personally.",
+          "nextSegment": "final_decision"
+        }
+      ]
+    },
+    "investigation_ordered": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I will need access to the local police personnel files. Every officer on duty. Every supervisor who authorized the duty roster. Every commander who could have countermanded the order."
+        },
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "The local commander is Captain Drazen Petrov. He has been in that posting for four years. I know him. He does not initiate operations without authorization from above. Someone told him to move."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The question is whether the order came from the Commissioner's office, the Interior Ministry, or somewhere else entirely. Each answer leads to a different place."
+        }
+      ],
+      "choices": [
+        {
+          "id": "investigation_to_final",
+          "text": "Start the investigation. Full scope. I want the Commissioner here by noon.",
+          "nextSegment": "final_decision"
+        },
+        {
+          "id": "investigation_to_hospital",
+          "text": "Start the investigation. But first — where is Vranić?",
+          "nextSegment": "vranic_hospital"
+        }
+      ]
+    },
+    "vranic_hospital": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "Kravenstal Regional Hospital. He is stable. The fracture is serious but the doctors say he will recover."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "If you visit him personally, it becomes the defining image of this government's response. The press will frame it as the Chancellor at a hospital bedside. That is a powerful image — but it is also a commitment to a particular kind of response."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "He is a worker. His name is Teodor Vranić. He has a wife and two daughters. Someone from this government should go."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vranic_go_personally",
+          "text": "I'm going. Tell the press after I arrive.",
+          "nextSegment": "final_decision"
+        },
+        {
+          "id": "vranic_send_oberlin",
+          "text": "Oberlin — you go. You know how to talk to families. I need to deal with the Commissioner.",
+          "nextSegment": "final_decision"
+        }
+      ]
+    },
+    "public_statement": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "A statement before the newspapers publish means we control the framing. It also means everything we say commits us to actions we must then take."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Use his name. Teodor Vranić. If the government names the victim before the newspapers do, the story is about accountability, not about a photograph finding its way to the press."
+        },
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "Do not say 'regrettable.' Do not say 'under review.' Say what you are going to do and then do it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "statement_strong",
+          "text": "Name Vranić. Announce the investigation. Summon the Commissioner publicly.",
+          "nextSegment": "final_decision"
+        },
+        {
+          "id": "statement_measured",
+          "text": "Express concern. Promise a review. Keep options open until we have full information.",
+          "nextSegment": "final_decision"
+        }
+      ]
+    },
+    "final_decision": {
+      "dialogue": [
+        {
+          "type": "narrative",
+          "text": "The photograph is still on your desk. Teodor Vranić is still in the hospital. The Commissioner has still not called."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Whatever you decide, decide it now. The newspapers do not wait."
+        }
+      ],
+      "monologue": "This is the first moment of my government that will be measured by what I do, not by what I say. The photograph on my desk will be on front pages within hours. The Commissioner's silence is a statement. My response will be another. I need it to be the right one.",
+      "choices": [
+        {
+          "id": "final_dismiss_commissioner",
+          "text": "Dismiss the Commissioner. Announce his replacement will be named within the week. Full investigation.",
+          "statEffects": [
+            { "stat": "labor_approval", "value": 12 },
+            { "stat": "public_trust", "value": 8 },
+            { "stat": "law_order", "value": -5 }
+          ],
+          "flags": ["commissioner_dismissed", "kravenstal_investigation_ordered"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "The Commissioner will not take this quietly. He has allies. They will surface."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "Oberlin is already writing the investigation mandate on the back of an envelope. She does not look up."
+            }
+          ],
+          "journalEntry": {
+            "title": "Dismissed Police Commissioner",
+            "category": "crisis"
+          }
+        },
+        {
+          "id": "final_accept_resignation",
+          "text": "Accept the Commissioner's likely resignation. Order an independent review. No immediate changes.",
+          "statEffects": [
+            { "stat": "labor_approval", "value": -3 },
+            { "stat": "law_order", "value": 5 },
+            { "stat": "public_trust", "value": -2 }
+          ],
+          "flags": ["commissioner_resigned", "kravenstal_review_ordered"],
+          "reactions": [
+            {
+              "character": "colonel_dusek",
+              "type": "action",
+              "text": "Dusek's expression does not change. She had expected this. She had hoped for something else."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "A review is not an investigation. You understand the difference."
+            }
+          ],
+          "journalEntry": {
+            "title": "Accepted Commissioner's Resignation",
+            "category": "crisis"
+          }
+        }
+      ]
+    }
+  }
+}

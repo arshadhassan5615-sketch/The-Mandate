@@ -54,13 +54,14 @@ export default function MapInteractionLayer() {
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
   const settingsOpen = useSettingsStore(s => s.settingsOpen)
 
-  const visitedThisWeek = useMemo(() => {
-    return agendaPool.some(item =>
+  const allVisited = useMemo(() => {
+    if (agendaPool.length === 0) return false
+    return agendaPool.every(item =>
       visitedSceneIds.includes(item.sceneId)
-    ) || visitedSceneIds.length > 0
+    )
   }, [agendaPool, visitedSceneIds])
 
-  if (!visitedThisWeek || newsOpen || decreeInboxOpen || settingsOpen) return null
+  if (!allVisited || newsOpen || decreeInboxOpen || settingsOpen) return null
 
   return (
     <div style={{

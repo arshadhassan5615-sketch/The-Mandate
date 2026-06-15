@@ -1,0 +1,497 @@
+{
+  "id": "act2_week22_protest_or_riot",
+  "title": "Protest or Riot",
+  "act": 2,
+  "weekAvailable": 22,
+  "weekDeadline": 23,
+  "type": "crisis",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik",
+    "gregor_maric",
+    "danika_oberlin"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The demonstration started at noon in Republic Square — the same square where you took the oath twenty-two weeks ago. By two o'clock it had spread to the ministry district. By four, the Commissioner was on the line."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Twelve thousand people in the square. Reformist coalition, workers' groups, three student organizations. The immediate cause is the constitutional referendum timeline — they want an accelerated vote, they are not willing to wait for the Assembly process. The deeper cause is everything that has been building since week six."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "These are our people. The people who voted for this government. They are not rioting — they are demonstrating. There is a difference and how we respond tonight will determine whether that difference holds."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Commissioner is requesting guidance. They have three companies of police on standby. The crowd is currently peaceful. The Commissioner's assessment is that it will remain peaceful if nothing changes. The Commissioner's concern is that something may change — there are counter-demonstrators forming on the eastern side of the square."
+    },
+    {
+      "type": "monologue",
+      "text": "Counter-demonstrators. Someone organized a counter-demonstration at the same time, at the same location, as a demonstration by the people who elected this government. That does not happen by accident. Someone wanted this to become complicated. The question is whether I let it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ask_commissioner_assessment",
+      "text": "Get the Commissioner on the line. I want their read directly.",
+      "nextSegment": "commissioner_call",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "ask_maric_crowd",
+      "text": "Gregor — you know these people. Who is in that square?",
+      "nextSegment": "maric_crowd_read",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "go_to_square",
+      "text": "I'm going to the square.",
+      "nextSegment": "chancellor_goes_square",
+      "flags": ["chancellor_went_to_square"],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "commissioner_call": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Commissioner picks up immediately. Their voice is controlled — the voice of someone who has been managing a situation for two hours and has decided exactly what they need from this call."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Chancellor. Current situation: twelve thousand on the reformist side, approximately eight hundred counter-demonstrators on the eastern approach. The two groups are separated by forty meters and two police lines. The reformist crowd is organized — marshals, designated speakers, a clear route. The counter-demonstrators are not organized in the same way. I have three concerns."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "First: the counter-demonstration was not registered. It appeared two hours after the registered demonstration began. Someone mobilized eight hundred people without a permit in two hours. That requires resources and coordination I cannot account for. Second: there are individuals in the counter-demonstration I recognize from the Iron Covenant's previous events. Third: my officers on the eastern line are reporting that the counter-demonstrators are pushing toward the police line. Not breaking it. Testing it."
+        },
+        {
+          "type": "monologue",
+          "text": "Iron Covenant. Unregistered. Eight hundred people mobilized in two hours. The Commissioner has given me three concerns and all three point to the same conclusion — this counter-demonstration was planned before today, by people who knew the reformist demonstration was coming, and who wanted a confrontation. Whether I give them one is my decision."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "I need guidance on threshold. If the counter-demonstrators breach the police line and make contact with the reformist crowd — what do I do? Standard crowd control, which means batons and pepper spray and the risk of another Kravenstal. Or I hold the line and absorb the pressure until one side backs down. Or I separate the groups preemptively, which means moving the counter-demonstrators back, which they will resist."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commissioner_hold_line",
+          "text": "Hold the line. Do not engage either group. If the counter-demonstrators breach, separate — do not strike.",
+          "nextSegment": "hold_line_response",
+          "flags": ["protest_hold_line_order"],
+          "stateChanges": [
+            { "stat": "nation.publicOrder", "operation": "add", "value": -2 },
+            { "stat": "factions.reformists", "operation": "add", "value": 6 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "commissioner_separate_preemptive",
+          "text": "Move the counter-demonstrators back now. Before contact. I will not wait for a confrontation I can prevent.",
+          "nextSegment": "preemptive_separation",
+          "flags": ["protest_preemptive_order"],
+          "stateChanges": [
+            { "stat": "nation.publicOrder", "operation": "add", "value": 4 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "commissioner_standard_protocol",
+          "text": "Standard crowd control protocol. The Commissioner has the authority and the training. I trust their judgment on the ground.",
+          "nextSegment": "standard_protocol",
+          "flags": ["protest_standard_protocol"],
+          "stateChanges": [
+            { "stat": "nation.publicOrder", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "maric_crowd_read": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "Union organizers from Kravenstal — some of the same people from the factory occupation. Students from the University of Ashenmere, the law faculty and the political science department. The reformist coalition's youth wing. Teachers. A significant number of people who do not belong to any organization — people who came because they wanted to be counted."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "These are not agitators. These are citizens. The march organizers have been in contact with my ministry for three weeks — they filed the permit, they briefed us on their route, they have their own marshals keeping order. Someone else organized the counter-demonstration without telling anyone."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Iron Covenant held a closed meeting four days ago. We did not have visibility into the agenda. I think we do now."
+        },
+        {
+          "type": "monologue",
+          "text": "Four days ago. The Iron Covenant knew this demonstration was coming and prepared a counter-demonstration to meet it. They want a confrontation in Republic Square. They want images of police responding to chaos at a reformist rally. They want the story to be about disorder, not about twelve thousand citizens exercising their rights. I am the Chancellor who replaced the Commissioner after Kravenstal to prevent exactly this. Now I have to decide whether that means anything."
+        }
+      ],
+      "choices": [
+        {
+          "id": "maric_to_commissioner",
+          "text": "Get the Commissioner on the line. I want their operational read.",
+          "nextSegment": "commissioner_call",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "maric_go_square",
+          "text": "I'm going to the square. If these are our people, they should see me.",
+          "nextSegment": "chancellor_goes_square",
+          "flags": ["chancellor_went_to_square"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "maric_to_decision",
+          "text": "I have what I need. Give the Commissioner the guidance — hold the line, protect the demonstrators.",
+          "nextSegment": "hold_line_response",
+          "flags": ["protest_hold_line_order"],
+          "stateChanges": [
+            { "stat": "nation.publicOrder", "operation": "add", "value": -2 },
+            { "stat": "factions.reformists", "operation": "add", "value": 6 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "chancellor_goes_square": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Silence in the room. Then Vyktor speaks."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Security arrangements will take twenty minutes. The press will be there before you arrive. Whatever you say in the square becomes the story — not the demonstration, not the counter-demonstration. You."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "Good. Let it be about her. Let the country see the Chancellor standing with citizens who are exercising their rights."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "If the counter-demonstrators provoke an incident while the Chancellor is present, the story becomes: Chancellor present at riot. I want that possibility on record before we proceed."
+        },
+        {
+          "type": "monologue",
+          "text": "If the counter-demonstrators provoke an incident while I am present. Vyktor is right that it is a risk. He is also right that my presence changes the situation — the Commissioner will be less likely to use force with me in the square. The Iron Covenant organizers will be less likely to push for confrontation with the Chancellor visible. My presence is itself a decision about policing, made without saying a word about policing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "square_confirm",
+          "text": "Twenty minutes. Tell the Commissioner I am coming and to hold all force orders until I arrive.",
+          "nextSegment": "chancellor_in_square",
+          "flags": ["chancellor_went_to_square", "protest_chancellor_present"],
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 12 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+          ],
+          "reactions": [
+            {
+              "character": "gregor_maric",
+              "type": "action",
+              "text": "He is already at the door."
+            },
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I will brief the press office. Do not speak until you are on the steps. And know what you are going to say."
+            }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "square_reconsider",
+          "text": "On reflection — stay here. Give the Commissioner the guidance instead.",
+          "nextSegment": "commissioner_call",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "chancellor_in_square": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The square is louder than you expected. Twelve thousand people make a particular sound — not a roar, a hum, something alive and collective. You can feel it before you hear individual voices. The crowd sees you before you reach the steps."
+        },
+        {
+          "type": "description",
+          "text": "The sound changes. It takes three seconds for the recognition to spread — then it is not a hum anymore. Your security detail is tighter than you would like. The Commissioner is ten meters to your left, watching the eastern line."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Chancellor. The counter-demonstrators have pulled back thirty meters since your arrival. They are still present but the pressure on the line has reduced. Your being here has changed the calculation for whoever is running them."
+        },
+        {
+          "type": "description",
+          "text": "You climb the steps. The crowd quiets — not silence, but attention. Twelve thousand people and the square is quiet enough that you could speak without a microphone if you had to. You do not have to. Someone has set one up."
+        },
+        {
+          "type": "monologue",
+          "text": "Twelve thousand people. The same square. Twenty-two weeks ago I stood here and took an oath and they were in the cold watching. Now they are here because they believe this government is not moving fast enough on the promises of that oath. They are not wrong. I have not moved fast enough. I am standing on these steps because I cannot stand in the palace and send police to manage citizens who came out in the cold to hold me accountable. I know what I am going to say. I have known since I decided to come."
+        }
+      ],
+      "choices": [
+        {
+          "id": "square_speech_accountability",
+          "text": "\"You are right to be here. You are right to push. That is what citizens do in a republic. I hear you. Let me tell you what I am going to do about it.\"",
+          "nextSegment": "square_speech_end",
+          "flags": ["protest_chancellor_spoke", "protest_accountability_speech"],
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 8 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "square_speech_patience",
+          "text": "\"Change takes time. This government is working. I am asking for your patience and I am asking you to trust the process we are building together.\"",
+          "nextSegment": "square_speech_end",
+          "flags": ["protest_chancellor_spoke", "protest_patience_speech"],
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 2 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "square_speech_end": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The crowd response is immediate and loud. Not unanimous — there are people who wanted more, people who wanted different, people who came because they are angry and a speech does not resolve anger. But the square does not feel like a confrontation anymore. It feels like a conversation."
+        },
+        {
+          "type": "description",
+          "text": "The counter-demonstrators have dispersed. The Commissioner informs you quietly that they began leaving ten minutes into your remarks. Whoever organized them decided the confrontation they planned was no longer available."
+        },
+        {
+          "type": "monologue",
+          "text": "They left because the story they came to create — disorder at a reformist rally, a Chancellor managing chaos — did not happen. I came to the square and the story became something else. The Iron Covenant will have another opportunity. There will be another demonstration, another counter-demonstration, another calculation about whether confrontation serves them. Tonight it did not. That is tonight. Tomorrow is a different question."
+        }
+      ],
+      "choices": [
+        {
+          "id": "square_end",
+          "text": "Return to the palace.",
+          "nextSegment": null,
+          "flags": ["protest_scene_complete"],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "hold_line_response": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Commissioner executes the order with precision. The police lines hold. The counter-demonstrators push twice and are met with linked arms and no movement. By six o'clock the pressure has reduced. By seven the counter-demonstrators begin dispersing."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The reformist demonstration concluded peacefully at eight. The Commissioner reports zero injuries, four individuals detained for public disorder — all from the counter-demonstration, none from the reformist group."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "The Kravenstal Worker is already running the story. 'Police protect demonstrators.' The People's Standard has photographs of the linked arms. This is what it looks like when the police work for the citizens instead of against them."
+        },
+        {
+          "type": "monologue",
+          "text": "Four detained from the counter-demonstration. Zero from the reformist crowd. The story tonight is the story the Iron Covenant did not want written. The Commissioner held the line — whichever Commissioner I appointed, they held the line I gave them. That matters. Kravenstal was six months ago. Tonight was different. I want to believe that is because I made it different. I also know that the Iron Covenant will study tonight and try again."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hold_line_end",
+          "text": "Good. Commend the Commissioner. And find out who organized the counter-demonstration.",
+          "nextSegment": null,
+          "flags": ["protest_scene_complete", "protest_peaceful_outcome", "iron_covenant_counter_investigated"],
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "preemptive_separation": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Commissioner executes the preemptive separation. Three companies advance on the counter-demonstration's position. There is resistance — pushing, shouting, four officers taken off their feet before the line is established. No batons drawn. No injuries requiring hospital treatment. The counter-demonstrators are moved back two hundred meters and held there."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Iron Covenant is already calling it a suppression of free assembly. Their statement went out within twenty minutes of the operation. They had it drafted before it happened."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "They came looking for a confrontation. We gave them a different one than they planned. The reformist demonstration continued peacefully. That is the story."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The story the Iron Covenant is telling is: Chancellor orders police to push back peaceful counter-demonstrators while allowing reformist rally to proceed. The footage will be edited to support that narrative. We need a response before morning."
+        },
+        {
+          "type": "monologue",
+          "text": "They had the statement drafted before it happened. They planned for this outcome — either confrontation between the crowds, which gave them chaos, or preemptive police action against them, which gives them suppression. I chose the option that kept twelve thousand reformist citizens safe. The cost is a narrative that the Iron Covenant controls. I am going to have to decide whether that cost is acceptable before morning."
+        }
+      ],
+      "choices": [
+        {
+          "id": "preemptive_own_it",
+          "text": "Issue a statement tonight. The preemptive separation was necessary and proportionate. I stand by it.",
+          "nextSegment": null,
+          "flags": ["protest_scene_complete", "protest_preemptive_defended"],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "preemptive_reframe",
+          "text": "Issue a statement focusing on the peaceful reformist demonstration. Do not address the counter-demonstrators directly.",
+          "nextSegment": null,
+          "flags": ["protest_scene_complete", "protest_preemptive_reframed"],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 2 },
+            { "stat": "factions.reformists", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "standard_protocol": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Commissioner applies standard crowd control protocol. The evening is tense for three hours. At six forty-five, a group of counter-demonstrators breach the eastern police line and make contact with the edge of the reformist crowd. Seven minutes of disorder — pushing, shouting, a fire set in a waste bin, two injuries, one serious. The Commissioner restores order with pepper spray and temporary detentions."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Two injuries. One serious — a reformist demonstrator, fractured wrist, struck by a counter-demonstrator. The Commissioner has restored order. The demonstration concluded at eight. The story tonight is the breach and the injuries."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "The Kravenstal Worker is already calling for an inquiry. The people in that square tonight voted for this government. One of them is in hospital."
+        },
+        {
+          "type": "monologue",
+          "text": "Standard protocol produced the outcome the Iron Covenant planned. A breach. Injuries. A reformist demonstrator in hospital. Marić is right that they came to vote for this government and one of them is in hospital because I gave the Commissioner standard protocol and the Commissioner applied it after the breach rather than before it. The Commissioner acted correctly within the parameters I gave them. The parameters I gave them were insufficient. That is on me."
+        }
+      ],
+      "choices": [
+        {
+          "id": "standard_protocol_inquiry",
+          "text": "Order a full inquiry into the evening's events. I want to know who organized the counter-demonstration and how the breach happened.",
+          "nextSegment": null,
+          "flags": ["protest_scene_complete", "protest_inquiry_ordered"],
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -4 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "standard_protocol_statement",
+          "text": "Issue a statement condemning the counter-demonstrators and expressing concern for the injured. Visit the hospital tonight.",
+          "nextSegment": null,
+          "flags": ["protest_scene_complete", "protest_hospital_visit"],
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

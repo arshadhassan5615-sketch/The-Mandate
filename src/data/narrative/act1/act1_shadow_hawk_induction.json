@@ -1,0 +1,373 @@
+{
+  "id": "act1_shadow_hawk_induction",
+  "title": "The Man in the Greenhouse",
+  "week": 13,
+  "type": "personal",
+  "location": "Ashenmere Palace Greenhouse — 02:00",
+  "characters": ["matthias_krel"],
+  "act": 1,
+  "weekAvailable": 13,
+  "weekDeadline": 13,
+  "agendaCost": 0,
+  "isMandatory": false,
+  "prerequisites": [],
+  "dialogue": "You were not summoned. There was simply a note, slipped under the study door sometime after midnight. Three words in a hand you do not recognize: The greenhouse. Now.",
+  "monologue": "Three words. No signature. No letterhead. The kind of note that should go directly to Vyktor. I did not give it to Vyktor.",
+  "choices": [
+    {
+      "id": "hawk_induction_enter",
+      "text": "Go to the greenhouse.",
+      "chainTriggers": [],
+      "codexUnlocks": [],
+      "reactions": [],
+      "nextSegment": "greenhouse_arrival"
+    }
+  ],
+  "segments": {
+    "greenhouse_arrival": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The greenhouse runs along the eastern wall of the palace — a Victorian structure of iron and glass, built for a Chancellor three administrations ago who believed orchids were calming. The orchids survived every regime change. They are the most politically stable things in this building."
+        },
+        {
+          "type": "description",
+          "text": "He is already there. Of course he is already there. A man in his sixties, lean, grey, standing at the potting bench with his back to you, trimming an orchid with the focused patience of someone who has waited in worse places for much longer. He does not turn when you enter. He finishes the cut first."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Chancellor. Thank you for coming without your chief of staff."
+        },
+        {
+          "type": "description",
+          "text": "He sets down the pruning shears. He turns. His face is the kind of face that has practiced being forgettable and has succeeded too well — grey eyes, no particular expression, the posture of a man who has spent decades making himself the least interesting person in every room he enters."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "I have something for you."
+        },
+        {
+          "type": "description",
+          "text": "He sets a leather document wallet on the potting bench. He does not open it. He steps back and waits."
+        }
+      ],
+      "monologue": "He set it down and stepped back. Not a presentation — a transfer. He is telling me that whatever is in that wallet is already mine, whether I open it or not. The decision was made when I walked through the door.",
+      "choices": [
+        {
+          "id": "hawk_open_wallet",
+          "text": "Open the wallet.",
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "wallet_contents"
+        },
+        {
+          "id": "hawk_dont_open_yet",
+          "text": "\"Who are you?\"",
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "krel_identity"
+        }
+      ]
+    },
+    "krel_identity": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "You received a newspaper clipping in your first week. The Thornfeld Gazette. Details about a private BNI meeting that no journalist should have known. You have been looking for the source. I know the source."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "My name is not important tonight. What is important is what I know — and what I know is this: you have a leak you have not found yet. You have an oil negotiation whose terms Tyvaren knew before your Foreign Minister landed in Morivask. And you have a project at the University of Ashenmere that three foreign services are watching. I have been watching all of it longer than any of them."
+        },
+        {
+          "type": "description",
+          "text": "He pauses. Not for effect — he simply does not waste words on transitions."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "I am not here to impress you. I am here because you are the only person in this building worth working for. Open the wallet."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hawk_open_wallet_2",
+          "text": "Open the wallet.",
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "wallet_contents"
+        }
+      ]
+    },
+    "wallet_contents": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Arcturian Ambassador's private correspondence. Six weeks of it. Unencrypted. Letters to his foreign ministry, letters to his intelligence directorate, letters to a banking contact in Geneva. His assessment of your government's weaknesses is detailed and largely accurate. His assessment of your personal vulnerabilities is shorter — three lines — and those three lines are the most unsettling thing you have read since the inauguration."
+        },
+        {
+          "type": "description",
+          "text": "You look up. He is watching the orchids."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "The Ambassador believes you will not survive your second year. He has allocated resources accordingly. I disagree with his assessment. That is why I am here."
+        }
+      ],
+      "monologue": "Three lines about my personal vulnerabilities. Accurate. The Ambassador has been reading me correctly for six weeks and I had no idea. This man has the Ambassador's private correspondence and he is standing in my greenhouse at two in the morning telling me he disagrees with an Arcturian intelligence assessment of my survival. I need to decide what that means before I say another word.",
+      "choices": [
+        {
+          "id": "hawk_ask_how",
+          "text": "\"How did you get this?\"",
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "krel_how"
+        },
+        {
+          "id": "hawk_skip_to_offer",
+          "text": "\"What do you want?\"",
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "krel_offer"
+        }
+      ]
+    },
+    "krel_how": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "That is the wrong question."
+        },
+        {
+          "type": "description",
+          "text": "He says it without reproach. A correction, not a rebuke."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "How I got it tells you about my methods. What you need to know is what I can get — and what it costs to have someone who can get it working for you rather than against you. The right question is: what do I want?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "hawk_ask_what_he_wants",
+          "text": "\"All right. What do you want?\"",
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "krel_offer"
+        }
+      ]
+    },
+    "krel_offer": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "A small budget. Untraceable. No minister signs off on it, no committee reviews it, no audit touches it. In exchange, I give you what no official agency can — information before it becomes a crisis, leverage before you need it, and the ability to move in spaces where the BCA cannot go and the SSD does not know to look."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "I answer to no minister, no judge, and no general. I answer only to you. And I answer completely — you will know everything my people find. No filtered briefings. No editorial decisions made below your level. Everything."
+        },
+        {
+          "type": "description",
+          "text": "He picks up the pruning shears again. Not a threat — he simply has more orchids to tend. He is telling you he has time, and that your decision does not change his evening either way."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Take your time. The orchids need another ten minutes."
+        }
+      ],
+      "monologue": "He said 'my people.' Not 'I.' There are others. He is not a lone operative — he is a network with a face attached. A face that is currently trimming an orchid at two in the morning while the Chancellor of the Republic decides whether to authorize an intelligence operation that does not exist and cannot be acknowledged. I need to think about what kind of Chancellor I am — and whether that Chancellor and the one standing in this greenhouse are the same person.",
+      "choices": [
+        {
+          "id": "hawk_full_authority",
+          "text": "\"You have the budget. Full authority. I want to know everything your people find, and I want it before anyone else does.\"",
+          "internalTag": "authoritarian",
+          "flags": ["hawk_active_full", "hawk_inducted"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 5 }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "hawk_accepted_full"
+        },
+        {
+          "id": "hawk_deniable",
+          "text": "\"You work for me. But if your people are ever found, I have never heard your name. That is the arrangement.\"",
+          "internalTag": "pragmatist",
+          "flags": ["hawk_active_deniable", "hawk_inducted"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 3 }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "hawk_accepted_deniable"
+        },
+        {
+          "id": "hawk_refuse_budget",
+          "text": "\"No budget. No sanction. I will not authorize what I cannot account for. But I will not pretend this conversation did not happen either.\"",
+          "internalTag": "reformist",
+          "flags": ["hawk_active_ghost", "hawk_inducted"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 1 }
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": "hawk_refused_budget"
+        }
+      ]
+    },
+    "hawk_accepted_full": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He sets the pruning shears down with the same precision he has applied to everything tonight. He does not smile. He nods once — the nod of a man who has been told what he already knew was coming."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Good. The budget should be routed through the palace maintenance account — the one that covers the greenhouse, appropriately enough. I will handle the mechanism. You will see a monthly line item for horticultural supplies that is larger than any greenhouse requires. Do not adjust it."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "My first report will reach you in ten days. Not through Vyktor. Directly. You will find it in the left drawer of the desk in the private study — the one you have not yet told anyone about. You should probably wonder how I know about it."
+        },
+        {
+          "type": "description",
+          "text": "He picks up the orchid he was tending and examines it one final time. Sets it back precisely."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Good night, Chancellor. Lock the greenhouse when you leave."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hawk_induction_end_full",
+          "text": "[Leave the greenhouse]",
+          "journalEntry": {
+            "title": "The Greenhouse",
+            "category": "PERSONAL",
+            "content": "A man I do not officially know gave me documents I cannot officially have and asked for a budget I cannot officially authorize. I gave it to him. I told myself it was pragmatism. I am not sure that is the word for it. His first report arrives in ten days. I should probably not be looking forward to reading it."
+          },
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": null
+        }
+      ]
+    },
+    "hawk_accepted_deniable": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Something shifts in his expression — not disappointment, recalibration. A man updating a model."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Deniability is a reasonable position. I have worked under it before. The arrangement works as follows: you do not ask how I fund operations, I do not ask you to acknowledge results in any official capacity. If my people are found, there is no line from them to you. The line runs to a trading company registered in Lytheira that does not exist."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "One condition. If the deniability ever becomes an obstacle — if you need to use what I find and using it means acknowledging where it came from — I need you to tell me before you decide. Not after."
+        },
+        {
+          "type": "description",
+          "text": "He holds your gaze for exactly one second. Then he picks up the orchid."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "I will be in touch."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hawk_induction_end_deniable",
+          "text": "[Leave the greenhouse]",
+          "journalEntry": {
+            "title": "The Greenhouse",
+            "category": "PERSONAL",
+            "content": "A man I do not officially know gave me documents I cannot officially have. I told him if he is ever caught I have never heard his name. He said that was a reasonable position. I think he has heard that before. I think he has heard everything before."
+          },
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": null
+        }
+      ]
+    },
+    "hawk_refused_budget": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He is quiet for a moment. He looks at the orchid in his hand. Then he sets it down on the bench with the same precision he has applied to everything else tonight."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "That is a reasonable position. I will work within it."
+        },
+        {
+          "type": "description",
+          "text": "He picks up the document wallet and holds it out. He is giving it back."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Keep the wallet. You did not get it from me. You found it — wherever you found it. The Arcturian Ambassador's correspondence is worth reading regardless of what you decide to do with the man who gave it to you."
+        },
+        {
+          "type": "description",
+          "text": "He turns back to the orchids. The conversation is over. He has not left. He is simply finished."
+        },
+        {
+          "type": "dialogue",
+          "character": "matthias_krel",
+          "text": "Lock the greenhouse when you leave, Chancellor."
+        }
+      ],
+      "monologue": "He said he will work within it. He did not say he will stop. He said he will work within my refusal — which is not the same thing at all. I refused to authorize him and he accepted the refusal and is going to do it anyway. I am not sure I have the vocabulary for what just happened.",
+      "choices": [
+        {
+          "id": "hawk_induction_end_refused",
+          "text": "[Leave the greenhouse]",
+          "journalEntry": {
+            "title": "The Greenhouse",
+            "category": "PERSONAL",
+            "content": "I refused to authorize him. He accepted my refusal and told me he would work within it. I do not know what that means. I know that the Arcturian Ambassador's correspondence is in my desk and a man I cannot name is tending orchids in the palace greenhouse at two in the morning. I should tell Vyktor. I did not tell Vyktor."
+          },
+          "chainTriggers": [],
+          "codexUnlocks": [],
+          "reactions": [],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}
