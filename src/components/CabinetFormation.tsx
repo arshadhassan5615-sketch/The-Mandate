@@ -78,7 +78,7 @@ interface CabinetFormationProps {
   onComplete: () => void
 }
 
-export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete: _onComplete }) => {
+export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }) => {
   const [selections, setSelections] = useState<Partial<Record<MinistryType, string>>>({})
   const [activeMinistry, setActiveMinistry] = useState<MinistryType>('finance')
   const [hoveredCandidate, setHoveredCandidate] = useState<string | null>(null)
@@ -109,6 +109,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete: 
     })
     completeFormation(currentWeek)
     useWeekStore.getState().advanceQueue()
+    onComplete()
   }
 
   const candidates = getCandidatesForMinistry(activeMinistry)
