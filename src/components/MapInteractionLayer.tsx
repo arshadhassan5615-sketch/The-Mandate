@@ -60,13 +60,6 @@ export default function MapInteractionLayer() {
     ) || visitedSceneIds.length > 0
   }, [agendaPool, visitedSceneIds])
 
-  const hasUnvisitedMandatory = useMemo(() => {
-    return agendaPool.some(item =>
-      item.slotCost === 0 &&
-      !visitedSceneIds.includes(item.sceneId)
-    )
-  }, [agendaPool, visitedSceneIds])
-
   if (!visitedThisWeek || newsOpen || decreeInboxOpen || settingsOpen) return null
 
   return (
@@ -83,35 +76,35 @@ export default function MapInteractionLayer() {
     }}>
       <button
         onClick={completeWeek}
-        disabled={hasUnvisitedMandatory}
-        title={hasUnvisitedMandatory ? 'Complete all mandatory scenes first' : undefined}
         style={{
           fontFamily: "'Special Elite', monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.12em',
+          fontSize: '0.72rem',
+          letterSpacing: '0.18em',
           textTransform: 'uppercase',
-          padding: '10px 32px',
-          background: hasUnvisitedMandatory ? 'rgba(200,168,76,0.08)' : 'rgba(200,168,76,0.18)',
-          border: `1.5px solid ${hasUnvisitedMandatory ? 'rgba(200,168,76,0.2)' : 'rgba(200,168,76,0.6)'}`,
-          color: hasUnvisitedMandatory ? 'rgba(200,168,76,0.3)' : '#c9a84c',
-          cursor: hasUnvisitedMandatory ? 'not-allowed' : 'pointer',
+          padding: '12px 40px',
+          background: 'rgba(10,8,6,0.85)',
+          border: '2px solid #c9a84c',
+          color: '#c9a84c',
+          cursor: 'pointer',
           borderRadius: '3px',
           transition: 'all 0.15s ease',
-          boxShadow: hasUnvisitedMandatory ? 'none' : '0 0 16px rgba(200,168,76,0.15)',
+          boxShadow: '0 0 24px rgba(200,168,76,0.35), inset 0 0 12px rgba(200,168,76,0.05)',
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.background = 'rgba(10,8,6,0.95)'
+          e.currentTarget.style.borderColor = '#e8d5a3'
+          e.currentTarget.style.color = '#e8d5a3'
+          e.currentTarget.style.boxShadow = '0 0 32px rgba(200,168,76,0.5), inset 0 0 16px rgba(200,168,76,0.1)'
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.background = 'rgba(10,8,6,0.85)'
+          e.currentTarget.style.borderColor = '#c9a84c'
+          e.currentTarget.style.color = '#c9a84c'
+          e.currentTarget.style.boxShadow = '0 0 24px rgba(200,168,76,0.35), inset 0 0 12px rgba(200,168,76,0.05)'
         }}
       >
         End Week →
       </button>
-      {hasUnvisitedMandatory && (
-        <span style={{
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '9px',
-          letterSpacing: '0.06em',
-          color: 'rgba(139,46,46,0.7)',
-        }}>
-          Complete all mandatory scenes first
-        </span>
-      )}
     </div>
   )
 }
