@@ -29,19 +29,19 @@
         {
           "id": "sovarka_outcome_full_deal",
           "text": "[Full deal was signed]",
-          "condition": "flagSet:sovarka_deal_signed",
+          "conditions": [{ "type": "flag", "flag": "sovarka_deal_signed", "value": true }],
           "nextSegment": "outcome_full_deal"
         },
         {
           "id": "sovarka_outcome_limited_deal",
           "text": "[Limited deal was signed]",
-          "condition": "flagSet:sovarka_limited_deal",
+          "conditions": [{ "type": "flag", "flag": "sovarka_limited_deal", "value": true }],
           "nextSegment": "outcome_limited_deal"
         },
         {
           "id": "sovarka_outcome_lost",
           "text": "[Deal was deferred — Tyvaren moved first]",
-          "condition": "flagSet:sovarka_deferred",
+          "conditions": [{ "type": "flag", "flag": "sovarka_deferred", "value": true }],
           "nextSegment": "outcome_lost"
         }
       ]

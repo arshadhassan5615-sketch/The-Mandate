@@ -1,0 +1,338 @@
+{
+  "id": "act2_week18_morivask_oil_discovery",
+  "title": "Black Smoke on the Eastern Border",
+  "act": 2,
+  "weekAvailable": 18,
+  "weekDeadline": 19,
+  "agendaCost": 1,
+  "isMandatory": false,
+  "prerequisites": [],
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "aleksander_igor"],
+  "dialogue": "The morning briefing runs long. Vyktor has been standing for forty minutes and has not sat down, which means he does not intend to leave quickly.",
+  "monologue": "When Vyktor stands for the whole briefing, it means the news is the kind that changes the shape of the week. Sometimes the shape of the year.",
+  "choices": [
+    {
+      "id": "week18_ask_vyktor",
+      "text": "What is it?",
+      "nextSegment": "vyktor_oil_brief"
+    }
+  ],
+  "segments": {
+    "vyktor_oil_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Morivask. Their state geological survey published preliminary findings three days ago. A significant hydrocarbon deposit near the Kravenstal border. The estimate is conservative — they always are — but even the conservative number is substantial. Tyvaren's ambassador was in Morivask's capital before the ink dried on the survey."
+        },
+        {
+          "type": "description",
+          "text": "He sets a single sheet of paper on the desk. A map. The deposit sits twelve kilometers from the Veltrian border, inside Morivask territory, but the infrastructure to drill it runs through terrain that Veltria controls."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Morivask cannot drill it alone. They do not have the capital or the equipment. Whoever partners with them gets the oil. Whoever does not gets a Tyvaren energy corridor on their eastern border. That is the situation."
+        }
+      ],
+      "monologue": "Tyvaren already controls the northern trade routes. If they lock up Morivask's energy supply too, Veltria gets squeezed from two directions at once. This is not just an economic opportunity. This is a strategic necessity dressed up as one.",
+      "choices": [
+        {
+          "id": "week18_ask_tyvaren",
+          "text": "How serious is the Tyvaren interest?",
+          "nextSegment": "vyktor_tyvaren_detail"
+        },
+        {
+          "id": "week18_ask_timeline",
+          "text": "How much time do we have?",
+          "nextSegment": "vyktor_timeline"
+        }
+      ]
+    },
+    "vyktor_tyvaren_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Serious. Their ambassador brought two energy ministry officials and a representative from Tyvaren State Oil. They are not exploring. They are negotiating. Our contact in Morivask's foreign ministry says the first formal offer arrives within the month."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren's offer will be larger than anything we can match through state channels alone. They have the capital. We do not. Not right now."
+        }
+      ],
+      "monologue": "He said 'not right now' like a door left open. He already has something in mind.",
+      "choices": [
+        {
+          "id": "week18_ask_vyktor_idea",
+          "text": "You have someone in mind.",
+          "nextSegment": "vyktor_igor_intro"
+        },
+        {
+          "id": "week18_ask_timeline_2",
+          "text": "How much time before Tyvaren's offer lands?",
+          "nextSegment": "vyktor_timeline"
+        }
+      ]
+    },
+    "vyktor_timeline": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Three weeks, maybe four before Tyvaren formalizes. After that, Morivask starts the clock. They will take the better offer. They have no reason not to — unless we give them one."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week18_timeline_to_igor",
+          "text": "Who do we have that can match Tyvaren's capital?",
+          "nextSegment": "vyktor_igor_intro"
+        }
+      ]
+    },
+    "vyktor_igor_intro": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Aleksander Igor. He owns Black Seam Industries — coal and gas, mostly, but he has been positioning for oil for three years. He has the equipment, the technical team, and enough capital to match Tyvaren if the state backs the deal structurally. He has been requesting a meeting since the Morivask survey went public."
+        },
+        {
+          "type": "description",
+          "text": "Vyktor's expression does not change. But he is watching you carefully."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He is waiting in the anteroom. I told him nothing was decided. That is still true."
+        }
+      ],
+      "monologue": "Vyktor scheduled the meeting before telling me about it. He knew I would say yes. That is either loyalty or presumption and I am not sure which one I prefer right now.",
+      "choices": [
+        {
+          "id": "week18_bring_in_igor",
+          "text": "Send him in.",
+          "nextSegment": "igor_entrance"
+        },
+        {
+          "id": "week18_wait_igor",
+          "text": "Not yet. I want to understand what we are walking into before I shake his hand.",
+          "nextSegment": "vyktor_igor_background"
+        }
+      ]
+    },
+    "vyktor_igor_background": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Self-made. Started with a single coal concession in Kravenstal in 1941, expanded through the reconstruction years when everyone else was consolidating. He is not old money. He does not have Morvec's patience or Vael's connections. What he has is technical competence and a very strong opinion about what Veltria's energy future should look like — and Black Seam Industries at the center of it."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He is not subtle about what he wants. That is either a virtue or a problem depending on what you want from him."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week18_igor_in_after_brief",
+          "text": "All right. Send him in.",
+          "nextSegment": "igor_entrance"
+        }
+      ]
+    },
+    "igor_entrance": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Aleksander Igor enters the way men who have built things tend to enter rooms — measuring the space, noting the exits, deciding within three seconds whether the person across the desk is worth his full attention. He decides you are. He sits without being offered a chair."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Chancellor. Thank you for seeing me quickly. I know your schedule. I will not waste your morning."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Morivask has oil. Tyvaren wants it. Veltria needs it. Black Seam can get it for you. That is the meeting."
+        }
+      ],
+      "monologue": "He said it in twelve seconds. Vyktor was right — not subtle. But not stupid either. He came with a position, not a pitch. There is a difference.",
+      "choices": [
+        {
+          "id": "week18_igor_terms",
+          "text": "What are your terms?",
+          "nextSegment": "igor_terms"
+        },
+        {
+          "id": "week18_igor_challenge",
+          "text": "You sat down without being invited. Start again.",
+          "nextSegment": "igor_challenge_response"
+        }
+      ]
+    },
+    "igor_challenge_response": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He looks at you for a moment. Then he stands, straightens his jacket, and sits back down in exactly the same chair."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "My apologies, Chancellor. Force of habit. I spend most of my days in rooms where no one waits to be invited. I will remember where I am."
+        },
+        {
+          "type": "description",
+          "text": "He is not embarrassed. He is recalibrating. You have told him something about how this relationship works, and he has filed it."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week18_challenge_to_terms",
+          "text": "Good. Now — your terms.",
+          "nextSegment": "igor_terms"
+        }
+      ]
+    },
+    "igor_terms": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Black Seam Industries operates as the primary drilling and refining partner. State of Veltria takes thirty percent of net revenue — that is ten points above the standard regional rate, because I want this to happen and I want you to want it too. I take forty percent. The remaining thirty goes into a joint infrastructure fund for the pipeline and the refinery. Morivask gets the infrastructure as a permanent asset at the end of the concession term."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "It is a good deal for Veltria. It is a good deal for Morivask. And yes, it is a good deal for me. I am not pretending otherwise."
+        }
+      ],
+      "monologue": "Forty percent for himself is aggressive. But the thirty to the state is genuinely above market. He wants this enough to price it fairly for everyone else. That tells me something about how much he needs it — and how much leverage I actually have.",
+      "choices": [
+        {
+          "id": "week18_response_interested",
+          "text": "I am not opposed to the structure. I need to discuss this with my Finance and Foreign Ministers before anything moves forward.",
+          "internalTag": "pragmatist",
+          "flags": ["igor_initial_meeting_done", "oil_negotiation_engaged"],
+          "nextSegment": "igor_closing_positive"
+        },
+        {
+          "id": "week18_response_public",
+          "text": "The revenue split interests me. The ownership structure does not. I want to discuss a model where the state holds the operating license and Black Seam contracts as a service provider — not a partner.",
+          "internalTag": "reformist",
+          "flags": ["igor_initial_meeting_done", "oil_negotiation_public_model"],
+          "nextSegment": "igor_closing_reformist"
+        },
+        {
+          "id": "week18_response_state_only",
+          "text": "I appreciate the offer. But I am not certain private partnership is the right structure for a strategic national resource. I need to explore state-led options first.",
+          "internalTag": "authoritarian",
+          "flags": ["igor_initial_meeting_done", "oil_negotiation_state_only"],
+          "nextSegment": "igor_closing_cold"
+        }
+      ]
+    },
+    "igor_closing_positive": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Of course. Take the time you need. But not more time than we have — which is about three weeks before Tyvaren makes this conversation irrelevant."
+        },
+        {
+          "type": "description",
+          "text": "He stands, buttons his jacket, and shakes your hand with the grip of someone who is genuinely pleased. He leaves the room already thinking about the next step."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week18_end_positive",
+          "text": "[End Meeting]",
+          "journalEntry": {
+            "title": "The Morivask Question",
+            "category": "DIPLOMACY",
+            "content": "Aleksander Igor came to the office today. Owns Black Seam Industries. Wants the Morivask oil rights, willing to give the state an above-market share to make it happen. The deal structure is reasonable. The timeline is not. Three weeks before Tyvaren formalizes. I need Elara and the Foreign Minister in a room before the end of the week."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "igor_closing_reformist": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Something shifts in his expression. Not anger — recalculation. He was expecting negotiation on price. Not on structure."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "A service contract. You want Black Seam to drill your oil and hand you the keys. Chancellor — with respect — the state does not have the technical staff to run an oil operation. I have been building this capability for ten years. A service contract puts all the risk on my side and all the reward on yours. That is not a partnership. That is a procurement."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "I will think about it. But I want you to think about something too: Tyvaren is offering Morivask a partnership. Not a procurement. If your model looks like a government takeover, Morivask picks Tyvaren. And you lose the oil and the argument."
+        }
+      ],
+      "monologue": "He is not wrong. A pure service model is cleaner in principle and almost impossible to execute in practice given Veltria's current technical capacity. He knows that. He is waiting to see if I know it too.",
+      "choices": [
+        {
+          "id": "week18_end_reformist",
+          "text": "[End Meeting]",
+          "journalEntry": {
+            "title": "The Morivask Question",
+            "category": "DIPLOMACY",
+            "content": "I pushed Igor on the ownership model. He pushed back. He is right that a pure state service contract is technically thin — we do not have the people to run it. But a full private partnership hands him a strategic national resource for a generation. There has to be a middle position. I need to find it before week 20."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "igor_closing_cold": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He is still. The enthusiasm he walked in with has not disappeared — it has been carefully contained, the way a man contains something he does not want to show."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "I understand. The state-led option is theoretically available. I would only ask that you run the numbers on what state-led infrastructure deployment looks like against a three-week window. The answer is not encouraging."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Black Seam's door remains open, Chancellor. I hope yours does too."
+        },
+        {
+          "type": "description",
+          "text": "He leaves. Vyktor watches him go. Neither of you says anything for a moment."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He will be back. The question is whether he comes back as an asset or a problem."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week18_end_cold",
+          "text": "[End Meeting]",
+          "journalEntry": {
+            "title": "The Morivask Question",
+            "category": "DIPLOMACY",
+            "content": "Sent Igor away without a commitment. Vyktor thinks he will come back. I think so too. But the clock is running and the state-led model needs numbers I do not have yet. If the numbers do not work, the principled position becomes the costly one."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

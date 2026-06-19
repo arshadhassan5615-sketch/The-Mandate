@@ -246,7 +246,7 @@
         {
           "id": "sovarka_hawk_reveal_early",
           "text": "[HAWK INTEL] \"President Luca — before you begin. I want you to know that Veltria is already aware of the situation in your highlands. And of Tyvaren's interest. Sit with that for a moment and then tell me what you came to say.\"",
-          "condition": "flagSet:hawk_inducted",
+          "conditions": [{ "type": "flag", "flag": "hawk_inducted", "value": true }],
           "nextSegment": "luca_hawk_reveal_reaction"
         }
       ]

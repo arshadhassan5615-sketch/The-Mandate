@@ -1,0 +1,474 @@
+{
+  "id": "act2_week24_voss_introduction",
+  "title": "The Man With Chalk on His Sleeve",
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik",
+    "emilian_voss"
+  ],
+  "dialogue": "The letter arrived six weeks ago. It was redirected three times through official channels before Vyktor intercepted it and put it on the desk with a single annotation in the margin: read this one.",
+  "monologue": "Vyktor annotates perhaps four letters a year. I have learned to read the annotation rather than the letter first.",
+  "choices": [
+    {
+      "id": "voss_read_letter",
+      "text": "Read the letter.",
+      "nextSegment": "vyktor_letter_brief"
+    }
+  ],
+  "segments": {
+    "vyktor_letter_brief": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Dr. Emilian Voss. Faculty, Department of Applied Mathematics, University of Ashenmere. He has been requesting a government meeting for six weeks through the standard academic liaison office. He was redirected to the Science Ministry, then to the Development Ministry, then to the Ministry of Education, who sent a form letter explaining that his research did not meet the criteria for state funding review. He then wrote directly to this office."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The letter is three pages. The first two are an apology for the length. The third page describes, in language that is either brilliant or incomprehensible depending on your background in applied mathematics, a device he has constructed that he believes may be of national interest."
+        },
+        {
+          "type": "description",
+          "text": "He sets the letter on the desk. The third page is face up. The writing is dense, technical, and interrupted twice by what appear to be mid-sentence corrections where the author changed direction before finishing the thought."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I had it reviewed by a retired signals officer from the Defense Ministry. He read it twice and told me, and I am quoting directly: 'If this works the way he says it works, we have been having the wrong conversations about national security for three years.'"
+        }
+      ],
+      "monologue": "A retired signals officer who reads it twice and tells Vyktor we have been having the wrong conversations. That is not a bureaucrat hedging. That is a professional telling another professional that something is real.",
+      "choices": [
+        {
+          "id": "voss_bring_him_in",
+          "text": "\"Bring him in.\"",
+          "nextSegment": "voss_entrance"
+        },
+        {
+          "id": "voss_ask_vyktor_more",
+          "text": "\"What do you know about him?\"",
+          "nextSegment": "vyktor_voss_background"
+        }
+      ]
+    },
+    "vyktor_voss_background": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Age forty-four. Son of a Kravenstal foundry worker. State scholarship under Halvek — one of the academic merit programs, not a political appointment. Doctorate from the University of Ashenmere in 1946. Has been on faculty since. Eleven published papers, three of which were cited in Arcturian and Orythian academic journals in the past five years. No political affiliation on record. No BNI file — which, given his scholarship origins, is either a genuine clean record or a file that was sealed and I have not yet found."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "His research funding has been declined four times in the past decade. Each time by a different ministry. Each time on different grounds. The pattern is consistent enough that I looked at who was on the review committees. Three of the four committees included at least one member with documented Halvekist connections."
+        }
+      ],
+      "monologue": "His funding was declined four times and three of the four committees had Halvekist connections. They were not evaluating his research. They were managing it. A physicist with Arcturian and Orythian citations building something in an underfunded university laboratory for a decade without state support. I need to know what he built.",
+      "choices": [
+        {
+          "id": "voss_background_bring_in",
+          "text": "\"Bring him in.\"",
+          "nextSegment": "voss_entrance"
+        }
+      ]
+    },
+    "voss_entrance": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He enters carrying a leather satchel that has seen better decades and wearing a jacket that was probably grey when it was purchased and is now the particular colour of a jacket that has been worn to a laboratory every day for fifteen years. There is chalk on the left sleeve. He does not notice the chalk. He notices everything else — the room, the desk, the position of the chairs — with the rapid inventory of someone whose mind processes space as a set of variables."
+        },
+        {
+          "type": "description",
+          "text": "He stops three paces from the desk. He looks at you. He opens his mouth to speak, closes it, reconsiders, and begins again."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Chancellor. Thank you for — I had rather given up on — that is, the liaison office was not — thank you. For seeing me."
+        },
+        {
+          "type": "description",
+          "text": "He sits. He puts the satchel on his lap and holds it there with both hands, which makes him look simultaneously like a man in a waiting room and a man who has carried something important for a very long time and is not yet ready to put it down."
+        }
+      ],
+      "monologue": "He almost finished three sentences before he finished one. His mind is moving faster than his mouth and his mouth is moving faster than the social situation requires. He is not nervous — he is excited. There is a difference. Nervous people slow down. Excited people accelerate and cannot stop.",
+      "choices": [
+        {
+          "id": "voss_put_at_ease",
+          "text": "\"Take your time, Dr. Voss. Tell me what you built.\"",
+          "nextSegment": "voss_explanation"
+        },
+        {
+          "id": "voss_direct",
+          "text": "\"Your letter described a device. Start there.\"",
+          "nextSegment": "voss_explanation"
+        }
+      ]
+    },
+    "voss_explanation": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Something changes in him when you say the word built. The social nervousness drops away entirely. He opens the satchel."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Right. Yes. The device. The — I call it the Cipher Engine, which is not a very elegant name but accuracy before elegance, that is the — right. The core function is electromechanical cryptanalysis. Which means it breaks codes. Not slowly, the way the current methods work, where you need a team of analysts and six weeks and a great deal of luck. Quickly. The engine operates on a mathematical framework I developed in — well, the framework took eight years, the physical implementation took three more, but the — the point is it works."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The current best method for breaking a standard diplomatic cipher takes approximately forty days with a skilled team. The engine does it in — depending on the complexity of the cipher — between three and seven minutes."
+        },
+        {
+          "type": "description",
+          "text": "He stops. He looks at you. He has been looking at the satchel while he spoke — now he looks at you, checking whether you have understood what three to seven minutes means."
+        }
+      ],
+      "monologue": "Three to seven minutes. Every diplomatic communication encrypted by every foreign power running through Veltrian territory or intercepted by Veltrian signals — three to seven minutes. The Arcturian ambassador's messages to his foreign ministry. Tyvaren's military communications. Every encrypted channel that every foreign intelligence service assumed was secure. Three to seven minutes.",
+      "choices": [
+        {
+          "id": "voss_ask_demonstration",
+          "text": "\"Can you demonstrate it?\"",
+          "nextSegment": "voss_demonstration"
+        },
+        {
+          "id": "voss_ask_limitations",
+          "text": "\"What are its limitations?\"",
+          "nextSegment": "voss_limitations"
+        }
+      ]
+    },
+    "voss_limitations": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "It requires a physical cipher sample to work from — it cannot break a code it has never seen a fragment of. The current build is the size of a large wardrobe and requires a stable power supply. It is not portable. And there are cipher architectures I have not yet solved — specifically a variant used in Tyvaren military communications that has a rotating key structure I am still — I am perhaps eighty percent of the way there on that one."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "But standard diplomatic ciphers — Arcturian, Orythian, Lytheiran, the regional trade commission encryption — those it handles completely."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_limitations_to_demo",
+          "text": "\"Show me.\"",
+          "nextSegment": "voss_demonstration"
+        }
+      ]
+    },
+    "voss_demonstration": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I — yes, I brought a sample output. I do not have the engine here, obviously, it is at the laboratory, but I brought — here."
+        },
+        {
+          "type": "description",
+          "text": "He produces a folder from the satchel. Inside: a single sheet of encrypted text — columns of apparently random letters — and beneath it, a second sheet showing the decrypted content. He sets both on the desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "That cipher is from a BNI internal communication — 1958, I found it in the public archive of documents released after the transition. The archive listed it as unresolved. The engine solved it in four minutes and seventeen seconds."
+        },
+        {
+          "type": "description",
+          "text": "You read the decrypted content. Then you read it again. You look up at Vyktor. Vyktor has already read it. His expression is the particular blankness he wears when he is processing something significant and has decided not to react until he has finished processing."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I will need a copy of this."
+        }
+      ],
+      "monologue": "The decrypted content names three individuals who were receiving payments from a foreign intelligence service in 1958. Two of them are dead. The third is currently serving as a deputy minister in the Theron Justice Ministry. I need to sit with that information before I do anything with it. I need to sit with the fact that a physicist with chalk on his sleeve just handed me something that changes the political landscape of my own government.",
+      "choices": [
+        {
+          "id": "voss_demo_ask_request",
+          "text": "\"What do you need from us, Dr. Voss?\"",
+          "nextSegment": "voss_request"
+        }
+      ]
+    },
+    "voss_request": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Two things. The first is funding — to build a second engine, more powerful, with the rotating key capability I have not yet solved. The current build cost approximately twelve thousand kroner over eleven years from my own salary and a small private grant. A properly funded build could be completed in eighteen months. I have the schematics."
+        },
+        {
+          "type": "description",
+          "text": "He produces another folder. The schematics are dense, precise, covered in handwritten annotations in three different inks — the record of eleven years of incremental revision."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The second thing is — and I want to be clear that this is not a condition, it is a — I am asking, not demanding — I would like the project to remain in civilian hands. University administration. Not military, not intelligence services. The engine is a research instrument. It has — there are implications to its use that I think require — that is, I built it to solve a mathematical problem. What it is used for is a different question and I would like that question to remain in civilian hands."
+        },
+        {
+          "type": "description",
+          "text": "He stops. He looks at his hands. He has said the thing he has been afraid to say for the entire meeting and the fear has left his face, replaced by the particular exhaustion of someone who has been carrying a concern for a long time and has finally put it on the table."
+        }
+      ],
+      "monologue": "He built it to solve a mathematical problem. Eleven years. Twelve thousand kroner from his own salary. He did not build it for the state, he built it because the problem existed and he was the person who could solve it. And now he is sitting in the Chancellor's office asking me to promise that what he built will not be taken from him and turned into something he did not intend. That is a reasonable request. Whether I can honor it is a different question.",
+      "choices": [
+        {
+          "id": "voss_fund_civilian",
+          "text": "\"Full funding. And the civilian mandate is written into the agreement — not a promise, a formal condition. The engine stays under University administration.\"",
+          "internalTag": "reformist",
+          "flags": [
+            "voss_funded",
+            "voss_civilian_mandate",
+            "voss_introduced"
+          ],
+          "statEffects": [
+            {
+              "stat": "vossRelation",
+              "value": 20
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -8
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 5
+            }
+          ],
+          "nextSegment": "voss_close_civilian"
+        },
+        {
+          "id": "voss_fund_deflect",
+          "text": "\"Full funding. The question of administration we can work out as the project develops — the priority right now is getting the second engine built.\"",
+          "internalTag": "pragmatist",
+          "flags": [
+            "voss_funded",
+            "voss_funding_no_guarantee",
+            "voss_introduced"
+          ],
+          "statEffects": [
+            {
+              "stat": "vossRelation",
+              "value": 5
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -8
+            }
+          ],
+          "nextSegment": "voss_close_deflect"
+        },
+        {
+          "id": "voss_military_first",
+          "text": "\"Dr. Voss, a device with this capability has significant national security implications. I need Colonel Dusek in this conversation before we discuss funding or administration.\"",
+          "internalTag": "authoritarian",
+          "flags": [
+            "voss_funded",
+            "voss_military_oversight",
+            "voss_introduced"
+          ],
+          "statEffects": [
+            {
+              "stat": "vossRelation",
+              "value": -15
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": 5
+            },
+            {
+              "stat": "factions.ironCovenant",
+              "value": 5
+            }
+          ],
+          "nextSegment": "voss_close_military"
+        }
+      ]
+    },
+    "voss_close_civilian": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He looks at you for a moment. Then he looks at the schematics folder on the desk. Then back at you. The expression is one you have not seen before — relief that has been held so long it has forgotten how to be expressed quickly."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Written into the agreement. Yes. That is — yes. I can have the full specifications to your office by the end of the week. The second engine schematics, the power requirements, the staffing list — I have been working on the staffing list for two years, actually, there are four people I need who are currently — but that is a detail, we can — yes. Thank you, Chancellor."
+        },
+        {
+          "type": "description",
+          "text": "He stands. He picks up the satchel. He takes three steps toward the door and stops."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The document in the demonstration. The third name. I do not know who it is. I solved the cipher — I did not — that is not my area. But I thought you should know that I noticed there were three names and that one of them appeared in a different context in another document I solved last year. I kept a record. It is in the satchel."
+        },
+        {
+          "type": "description",
+          "text": "He produces a single folded page and sets it on the desk. He leaves before you can respond."
+        }
+      ],
+      "monologue": "He noticed the third name appeared in another document and kept a record and did not mention it until he was leaving. He has been sitting in that chair for forty minutes with that page in his satchel. He built a device that breaks codes and he is careful about what the codes say. That is rarer than the device.",
+      "choices": [
+        {
+          "id": "voss_close_civilian_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week28_voss_crisis",
+              "delayWeeks": 4,
+              "probability": 1
+            }
+          ],
+          "codexUnlocks": [
+            "codex_voss_cipher_engine",
+            "codex_emilian_voss"
+          ],
+          "journalEntry": {
+            "title": "The Man With Chalk on His Sleeve",
+            "category": "POLICY",
+            "content": "Dr. Emilian Voss came to the office today. He has built an electromechanical device that breaks diplomatic ciphers in three to seven minutes. He funded it himself over eleven years on twelve thousand kroner. He asked for two things: funding and a promise that the engine stays in civilian hands. I gave him both in writing. On his way out he left a page from his satchel — a record of a third name that appeared in two separate decrypted documents. I read the name. I need to talk to Vyktor about the name. I need to talk to Danika about the name. I need to do both before I decide what to do about the fact that a mathematician just handed me something that changes everything."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "voss_close_deflect": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He is still for a moment. He heard the deflection. He is deciding whether to press it."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The administration question is — I understand it needs to be worked out. I only want to be part of that conversation. When it happens. I would like to be in the room."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Dr. Voss will be kept informed of all administrative decisions regarding the project."
+        },
+        {
+          "type": "description",
+          "text": "Voss looks at Vyktor. He is parsing the difference between kept informed and in the room. He files it."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I will send the specifications by end of week. Thank you, Chancellor."
+        },
+        {
+          "type": "description",
+          "text": "He stands. He takes three steps toward the door and stops. He produces a folded page from the satchel and sets it on the desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The third name in the demonstration document. It appeared in another context last year. I kept a record. In case it was useful."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_close_deflect_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week28_voss_crisis",
+              "delayWeeks": 4,
+              "probability": 1
+            }
+          ],
+          "codexUnlocks": [
+            "codex_voss_cipher_engine",
+            "codex_emilian_voss"
+          ],
+          "journalEntry": {
+            "title": "The Man With Chalk on His Sleeve",
+            "category": "POLICY",
+            "content": "Dr. Voss came to the office. The engine is real. I funded it and deflected on the civilian administration question. He noticed the deflection — he asked to be in the room when that decision is made. Vyktor told him he would be kept informed. Voss filed the distinction. He left a page from his satchel about a third name that appeared in two decrypted documents. I need to find out who that name belongs to before Voss does."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "voss_close_military": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Something changes in his face. Not surprise — he prepared for this possibility. The preparation does not make it easier."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I — yes. Of course. National security. I understand."
+        },
+        {
+          "type": "description",
+          "text": "He closes the schematics folder and puts it back in the satchel. The motion is precise and controlled — the motion of someone putting something away that they were not sure they would be allowed to keep."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I will — whenever Colonel Dusek is available. I am available whenever is convenient. I have been available for six weeks so — yes. Whenever."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We will be in touch, Dr. Voss."
+        },
+        {
+          "type": "description",
+          "text": "He stands. He picks up the satchel. He does not leave the folded page. He walks to the door, stops, and then — after a moment — reaches into the satchel and sets the folded page on the desk anyway."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The third name in the demonstration. Two appearances in separate documents. I kept a record. Whatever happens with the project — that seemed like something you should have."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_close_military_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week28_voss_crisis",
+              "delayWeeks": 4,
+              "probability": 1
+            }
+          ],
+          "codexUnlocks": [
+            "codex_voss_cipher_engine",
+            "codex_emilian_voss"
+          ],
+          "journalEntry": {
+            "title": "The Man With Chalk on His Sleeve",
+            "category": "POLICY",
+            "content": "Dr. Voss came to the office with a device that breaks diplomatic ciphers in three to seven minutes. I told him I needed Dusek in the conversation before anything was decided. He put the schematics back in his satchel. He left anyway — on his way out he left a page about a third name that appeared in two decrypted documents. He left it even after I effectively told him the military would be taking his work. That tells me something about why he built it."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  },
+  "act": 2,
+  "weekAvailable": 24,
+  "weekDeadline": 25,
+  "agendaCost": 1,
+  "isMandatory": false,
+  "prerequisites": []
+}

@@ -1,0 +1,392 @@
+{
+  "id": "act2_week20_oil_negotiation",
+  "title": "The Tyvaren Shadow",
+  "act": 2,
+  "weekAvailable": 20,
+  "weekDeadline": 21,
+  "agendaCost": 1,
+  "isMandatory": false,
+  "prerequisites": [],
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "aleksander_igor", "elara_vostane"],
+  "dialogue": "The Foreign Minister's report arrived this morning. Two pages. The second page is the one that matters.",
+  "monologue": "Two weeks since Igor sat in that chair. Tyvaren's formal offer landed in Morivask's capital four days ago. We have the number now. It is larger than I wanted it to be.",
+  "choices": [
+    {
+      "id": "week20_open_report",
+      "text": "Read the report aloud, Vyktor.",
+      "nextSegment": "vyktor_foreign_report"
+    }
+  ],
+  "segments": {
+    "vyktor_foreign_report": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren's offer: forty-two percent of net revenue to Morivask, full infrastructure construction at Tyvaren state expense, and a fifteen-year supply guarantee at fixed prices. It is a strong offer. The fixed price guarantee is the part that worries me — it locks Morivask into Tyvaren's economy for a generation."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Morivask's Prime Minister has not accepted. But he has not rejected either. Our contact says he is nervous about the dependency. Tyvaren is large and close and has a history of making its partners into something closer to clients. He wants a competing offer before he decides."
+        },
+        {
+          "type": "description",
+          "text": "Elara Vostane sets a folder on the desk without being asked. Her expression is the one she wears when the numbers work but she does not like what they mean."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "I have run three models. A pure state offer cannot match Tyvaren's capital commitment — not this year, not with the current budget position. A state-plus-Black Seam hybrid can match it if we restructure the infrastructure fund and accept a shorter initial concession term. The numbers are tight but they are real."
+        }
+      ],
+      "monologue": "She said the numbers are real. Elara does not say things like that unless she has checked them twice. Which means the hybrid model is the only model that actually works.",
+      "choices": [
+        {
+          "id": "week20_ask_elara_hybrid",
+          "text": "Walk me through the hybrid structure.",
+          "nextSegment": "elara_hybrid_detail"
+        },
+        {
+          "id": "week20_ask_morivask_fear",
+          "text": "What exactly does Morivask fear about Tyvaren?",
+          "nextSegment": "vyktor_morivask_fear"
+        }
+      ]
+    },
+    "vyktor_morivask_fear": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "History. In 1948 Tyvaren offered Lytheira a similar infrastructure partnership on the western rail lines. Within seven years Tyvaren controlled the scheduling, the pricing, and effectively the economy of three Lytheiran border provinces. Morivask's Prime Minister was a junior trade official in 1948. He remembers."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "What Veltria can offer that Tyvaren cannot is a guarantee of non-interference. We are smaller. We are not trying to absorb anyone. That is our actual competitive advantage — not capital, not infrastructure. It is the fact that we are not Tyvaren."
+        }
+      ],
+      "monologue": "He is right. Our weakness in money is a strength in politics. Morivask does not want a patron. They want a partner who will stay a partner. We can be that. The question is whether we can back the promise with enough capital to make it credible.",
+      "choices": [
+        {
+          "id": "week20_morivask_to_hybrid",
+          "text": "Then we need the hybrid model to make the numbers credible. Elara — walk me through it.",
+          "nextSegment": "elara_hybrid_detail"
+        }
+      ]
+    },
+    "elara_hybrid_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "State of Veltria holds the operating license — Morivask signs with us, not with Black Seam directly. That is the public ownership structure you wanted. Black Seam operates under a technical services agreement with the state, ten-year term, renewable. They take twenty-eight percent of gross revenue as their fee. The state takes thirty-five percent. Morivask takes thirty-seven percent plus the infrastructure at end of term."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Morivask gets a better revenue share than Tyvaren is offering. We get the license. Black Seam gets a guaranteed operating contract without equity risk. The structure is defensible publicly — the state controls the asset, private capital provides the technical capability."
+        },
+        {
+          "type": "description",
+          "text": "She closes the folder. That is her version of emphasis."
+        }
+      ],
+      "monologue": "It is elegant. State holds the license — that is the reformist principle intact. Black Seam operates — that is the practical reality. Morivask gets more money than Tyvaren offers. The only question is whether Igor accepts twenty-eight percent of gross instead of forty percent of net. Those are not the same number.",
+      "choices": [
+        {
+          "id": "week20_bring_in_igor",
+          "text": "Bring Igor in. I want to hear his reaction to this structure directly.",
+          "nextSegment": "igor_enters_week20"
+        },
+        {
+          "id": "week20_ask_elara_igor_reaction",
+          "text": "Has Igor seen these numbers?",
+          "nextSegment": "elara_igor_preview"
+        }
+      ]
+    },
+    "elara_igor_preview": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "No. I wanted you to see them first. He is in the building — Vyktor arranged it. But I would not characterize him as patient this morning."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week20_igor_in_after_preview",
+          "text": "Send him in.",
+          "nextSegment": "igor_enters_week20"
+        }
+      ]
+    },
+    "igor_enters_week20": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Igor enters. He is dressed the same way as two weeks ago but he carries himself differently — tighter, more controlled. A man who has been watching a clock and does not like what it is telling him."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Chancellor. Tyvaren filed their formal offer four days ago. I assume you have seen it."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "I also assume you have a counter-proposal or I would not be in this room."
+        }
+      ],
+      "monologue": "He is right on both counts. The pleasantries are gone. Good — they were never his natural register anyway.",
+      "choices": [
+        {
+          "id": "week20_present_hybrid",
+          "text": "We have a structure. State holds the operating license. Black Seam operates under a technical services agreement. You take twenty-eight percent of gross. Morivask takes thirty-seven. We take thirty-five.",
+          "nextSegment": "igor_hybrid_reaction"
+        }
+      ]
+    },
+    "igor_hybrid_reaction": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He is quiet for longer than is comfortable. He is running the numbers in his head. You can see it."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Twenty-eight of gross versus forty of net. Depending on operating costs — which I control — those converge. The gross figure is actually safer for me in a high-cost environment." 
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "The license structure I do not love. Black Seam takes all the operational risk with no equity position. If the geology is worse than the survey suggests, I absorb the loss. The state does not."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "\"But.\" He pauses. \"Tyvaren getting this deposit is worse for Black Seam than a bad geology surprise. If Tyvaren controls Morivask's energy, they will price us out of every eastern supply contract within five years. So.\" Another pause. \"What is the term on the services agreement?\""
+        }
+      ],
+      "monologue": "He just talked himself into it while pretending to negotiate. He knows the numbers work. He is deciding how much to concede on structure in exchange for getting the deal done. This is the moment.",
+      "choices": [
+        {
+          "id": "week20_offer_twelve_years",
+          "text": "Twelve years, renewable by mutual agreement.",
+          "internalTag": "pragmatist",
+          "nextSegment": "igor_accepts_deal"
+        },
+        {
+          "id": "week20_offer_ten_years",
+          "text": "Ten years. Standard term.",
+          "internalTag": "reformist",
+          "nextSegment": "igor_negotiates_term"
+        },
+        {
+          "id": "week20_offer_eight_years",
+          "text": "Eight years. With performance benchmarks at year four.",
+          "internalTag": "authoritarian",
+          "nextSegment": "igor_pushes_back_hard"
+        }
+      ]
+    },
+    "igor_negotiates_term": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Ten years is thin for the capital investment I am making. I need at least eleven to break even on the equipment deployment alone. Give me eleven with a right of first renewal and I will sign today."
+        }
+      ],
+      "monologue": "Eleven versus ten. He is not bluffing — the equipment amortization on a ten-year term is genuinely tight. This is not a negotiating position. It is arithmetic.",
+      "choices": [
+        {
+          "id": "week20_accept_eleven",
+          "text": "Eleven years. Right of first renewal. Done.",
+          "internalTag": "reformist",
+          "flags": ["oil_deal_hybrid_signed", "igor_services_agreement_11yr"],
+          "nextSegment": "deal_signed_hybrid"
+        },
+        {
+          "id": "week20_hold_ten",
+          "text": "Ten years is the term. If the operation performs, renewal is automatic.",
+          "internalTag": "authoritarian",
+          "nextSegment": "igor_tense_standoff"
+        }
+      ]
+    },
+    "igor_pushes_back_hard": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Eight years with performance benchmarks."
+        },
+        {
+          "type": "description",
+          "text": "He sets both hands flat on the desk. Not threatening. Deliberate."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Chancellor. I have been building Black Seam for twenty-two years. I have never walked away from a viable deal over terms. But eight years does not cover my capital deployment. I lose money on eight years even if the geology is perfect. I need at least ten. This is not a negotiation tactic. It is the break-even number."
+        }
+      ],
+      "monologue": "He is not performing. The flatness in his voice when he said twenty-two years — that was real. He built something and he is not going to let arithmetic destroy it.",
+      "choices": [
+        {
+          "id": "week20_move_to_ten",
+          "text": "Ten years. With the benchmarks dropped.",
+          "internalTag": "pragmatist",
+          "flags": ["oil_deal_hybrid_signed", "igor_services_agreement_10yr"],
+          "nextSegment": "deal_signed_hybrid"
+        },
+        {
+          "id": "week20_hold_eight",
+          "text": "Eight years is the term. The benchmarks protect both of us.",
+          "nextSegment": "igor_walks"
+        }
+      ]
+    },
+    "igor_tense_standoff": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The silence in the room is different from the silences before. Elara has stopped writing. Vyktor is watching Igor."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Ten years with automatic renewal is functionally eleven years. You know that. I know that. Say eleven and we are done."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week20_standoff_accept",
+          "text": "Eleven years. We are done.",
+          "flags": ["oil_deal_hybrid_signed", "igor_services_agreement_11yr"],
+          "nextSegment": "deal_signed_hybrid"
+        },
+        {
+          "id": "week20_standoff_refuse",
+          "text": "Ten years. Final.",
+          "nextSegment": "igor_walks"
+        }
+      ]
+    },
+    "igor_accepts_deal": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "\"Twelve years with mutual renewal. State license, Black Seam operations, twenty-eight gross, thirty-seven to Morivask, thirty-five to Veltria.\" He exhales once — controlled, almost inaudible. \"Yes. I can work with that.\""
+        },
+        {
+          "type": "description",
+          "text": "He extends his hand across the desk. The grip is the same as two weeks ago — the grip of someone genuinely pleased. But there is something else in it now. Relief."
+        }
+      ],
+      "flags": ["oil_deal_hybrid_signed", "igor_services_agreement_12yr"],
+      "choices": [
+        {
+          "id": "week20_to_signed",
+          "text": "Then let's get the Foreign Minister on a plane to Morivask.",
+          "nextSegment": "deal_signed_hybrid"
+        }
+      ]
+    },
+    "deal_signed_hybrid": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Elara begins drafting the term sheet before Igor has left the building. Vyktor is already on the phone to the Foreign Ministry. The machine is moving."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "I will have the Foreign Minister on a flight to Morivask by Thursday. If Morivask accepts — and I think they will — Tyvaren's ambassador will know by Friday. That conversation will not be pleasant."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Tyvaren will apply pressure. Economic, probably. Possibly diplomatic. We should expect retaliation within sixty days of signing."
+        }
+      ],
+      "monologue": "We got the deal. State holds the license — the principle is intact. Black Seam operates — the reality is acknowledged. Morivask gets more than Tyvaren offered. Elara is right that Tyvaren will push back. But the alternative was letting them own our eastern border's energy supply for a generation. This was the correct decision. I think.",
+      "choices": [
+        {
+          "id": "week20_end_success",
+          "text": "[End Meeting]",
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 12 },
+            { "stat": "nation.publicOrder", "value": 3 },
+            { "stat": "factions.reformists", "value": -5 },
+            { "stat": "factions.businessClass", "value": 10 }
+          ],
+          "flags": ["morivask_oil_deal_complete", "tyvaren_hostile_energy"],
+          "chainTriggers": [
+            { "targetNodeId": "act2_week22_oil_outcome", "delayWeeks": 2, "probability": 1.0 }
+          ],
+          "journalEntry": {
+            "title": "The Tyvaren Shadow — Deal Signed",
+            "category": "DIPLOMACY",
+            "content": "We signed with Igor. State license, Black Seam operations. The hybrid model Elara designed. Morivask gets a better deal than Tyvaren offered and we get the eastern corridor. Tyvaren will retaliate. Elara said sixty days. Vyktor thinks sooner. I am choosing to believe sixty days is enough time to make the deal irreversible before the pressure starts."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "igor_walks": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He stands. There is no drama in it — no pushed chair, no raised voice. He simply stands, the way a man stands when a meeting is over."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "I have spent twenty-two years making deals, Chancellor. The ones that fail on small numbers are the ones I remember longest. Not because of the money. Because of what they meant about the people across the table."
+        },
+        {
+          "type": "description",
+          "text": "He buttons his jacket. His hands are steady. That is almost worse than anger."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Good luck with the state-led model. I genuinely mean that. Veltria needs the oil either way."
+        },
+        {
+          "type": "description",
+          "text": "He leaves. The room is very quiet. Elara closes her folder. Vyktor writes one line in his notebook and stops."
+        }
+      ],
+      "monologue": "He said he genuinely means it and I believe him. That is the worst part. He wanted this deal. We wanted this deal. And it died on a year.",
+      "choices": [
+        {
+          "id": "week20_end_failed",
+          "text": "[End Meeting]",
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": -6 },
+            { "stat": "factions.businessClass", "value": -8 }
+          ],
+          "flags": ["oil_deal_failed", "igor_frustrated"],
+          "chainTriggers": [
+            { "targetNodeId": "act2_week22_oil_outcome", "delayWeeks": 2, "probability": 1.0 }
+          ],
+          "journalEntry": {
+            "title": "The Tyvaren Shadow — Deal Collapsed",
+            "category": "DIPLOMACY",
+            "content": "Igor walked. One year. The deal collapsed on one year of term length. I held the line and the line cost me the deal. Tyvaren will formalize with Morivask within the month. I need to decide what that means for the eastern border before it becomes a crisis I cannot manage."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

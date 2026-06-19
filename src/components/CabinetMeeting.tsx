@@ -146,7 +146,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
     <div style={{
       position: 'fixed',
       inset: 0,
-      top: '40px',
+      top: 0,
       background: 'rgba(8,6,4,0.95)',
       zIndex: 200,
       display: 'flex',

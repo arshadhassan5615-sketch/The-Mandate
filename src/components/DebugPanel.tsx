@@ -2,6 +2,7 @@ import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useChainStore } from '../stores/chainStore'
 import { useSettingsStore } from '../stores/settingsStore'
+import { useWeekStore } from '../stores/weekStore'
 
 interface StatRowProps {
   label: string
@@ -171,6 +172,67 @@ export default function DebugPanel() {
 
       <div style={{ fontSize: '9px', color: '#4a4035', textAlign: 'center', marginTop: '8px' }}>
         Red bar = danger threshold reached
+      </div>
+
+      {/* Time Travel */}
+      <div style={{ marginTop: '16px', borderTop: '1px solid rgba(201,168,76,0.2)', paddingTop: '12px' }}>
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '10px', letterSpacing: '1px', color: '#c9a84c', textTransform: 'uppercase', marginBottom: '8px' }}>
+          Dev: Time Travel
+        </div>
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          {[1, 2, 3, 5, 7, 10, 13, 16, 19, 22, 24, 28, 32, 35, 40, 44, 48, 52].map(week => (
+            <button
+              key={week}
+              onClick={() => {
+                useGameStore.getState().setState({ currentWeek: week })
+                useNarrativeStore.getState().reset?.()
+                useWeekStore.getState().initWeek()
+              }}
+              style={{
+                background: currentWeek === week ? 'rgba(201,168,76,0.3)' : 'rgba(201,168,76,0.08)',
+                border: '1px solid rgba(201,168,76,0.4)',
+                color: '#c9a84c',
+                fontFamily: "'Special Elite', monospace",
+                fontSize: '9px',
+                padding: '3px 7px',
+                cursor: 'pointer',
+                borderRadius: '2px',
+              }}
+            >
+              W{week}
+            </button>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: '6px', marginTop: '8px', alignItems: 'center' }}>
+          <input
+            type="number"
+            min={1}
+            max={52}
+            placeholder="Week #"
+            style={{
+              background: 'rgba(10,8,6,0.8)',
+              border: '1px solid rgba(201,168,76,0.4)',
+              color: '#c9a84c',
+              fontFamily: "'Special Elite', monospace",
+              fontSize: '10px',
+              padding: '3px 8px',
+              width: '70px',
+              borderRadius: '2px',
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                const val = parseInt((e.target as HTMLInputElement).value)
+                if (val >= 1 && val <= 52) {
+                  useGameStore.getState().setState({ currentWeek: val })
+                  useWeekStore.getState().initWeek()
+                }
+              }
+            }}
+          />
+          <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '9px', color: 'rgba(201,168,76,0.5)' }}>
+            Press Enter to jump
+          </span>
+        </div>
       </div>
     </div>
   )

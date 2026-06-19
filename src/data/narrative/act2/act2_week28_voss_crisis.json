@@ -1,0 +1,562 @@
+{
+  "id": "act2_week28_voss_crisis",
+  "title": "The Knock at the Door",
+  "type": "crisis",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik",
+    "emilian_voss",
+    "irina_dusek"
+  ],
+  "dialogue": "Vyktor's message arrived at six in the morning. Two sentences: Voss is here. He came himself.",
+  "monologue": "Voss does not come to the palace unannounced. He sends specifications, corrections, annotated schematics with questions in the margins. He does not come himself unless something has happened that cannot be put in writing.",
+  "choices": [
+    {
+      "id": "voss_crisis_hear",
+      "text": "\"Send him in.\"",
+      "nextSegment": "voss_crisis_arrival"
+    }
+  ],
+  "segments": {
+    "voss_crisis_arrival": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He enters without the satchel. That is the first wrong thing — Voss without the satchel is Voss without his laboratory, without his work, without the physical object that anchors him to what he knows. He sits. He puts his hands on his knees. He looks at the desk rather than at you."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Someone came to the laboratory three days ago. A man I did not recognize. He said he was from the University administration — a facilities review, routine, he had paperwork. The paperwork looked correct. I let him in."
+        },
+        {
+          "type": "description",
+          "text": "He stops. He is deciding how to say the next part."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "He spent forty minutes in the laboratory. He said he was measuring the power consumption infrastructure. He had instruments. I was working — I did not watch him the entire time. When he left I checked the schematics cabinet. The lock had been — there were marks on the lock. Someone had opened it. I do not know what he photographed."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "And then yesterday a different man came. No paperwork this time. He said he represented a research foundation in Tyvaren. He said they had heard about my work — he did not say how — and they wanted to offer me a fully funded research position. Their own laboratory. No teaching obligations. A budget that was — the number he quoted was larger than the University's entire annual research allocation."
+        },
+        {
+          "type": "description",
+          "text": "He looks up."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I told him I needed to think about it. I came here instead."
+        }
+      ],
+      "monologue": "He told the Tyvaren man he needed to think about it and came here instead. He did not say no. He did not say yes. He bought time and came to tell me. That is either loyalty or the instinct of a man who has spent eleven years being underfunded and knows that an offer this large has a price attached that he cannot see yet.",
+      "choices": [
+        {
+          "id": "voss_crisis_ask_schematics",
+          "text": "\"What was in the schematics cabinet?\"",
+          "nextSegment": "voss_schematics_detail"
+        },
+        {
+          "id": "voss_crisis_ask_tyvaren",
+          "text": "\"Tell me everything about the Tyvaren man.\"",
+          "nextSegment": "voss_tyvaren_detail"
+        }
+      ]
+    },
+    "voss_schematics_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The full engine schematics. The mathematical framework documentation — eight years of derivations. The cipher architecture analysis for the Arcturian and Orythian diplomatic systems. And the partial work on the Tyvaren rotating key problem. Everything. If he photographed everything in that cabinet, whoever sent him has a complete picture of what the engine is and how it works."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "They cannot build it from the photographs alone — the physical implementation requires knowledge that is not in the schematics, it is in — it is in here."
+        },
+        {
+          "type": "description",
+          "text": "He touches his temple."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "But they know what it does. And they know that I know how to build the next one."
+        }
+      ],
+      "monologue": "The schematics are compromised. The framework is compromised. But the implementation knowledge is in Voss himself. Which means Voss is now the most valuable and most vulnerable thing in this building.",
+      "choices": [
+        {
+          "id": "voss_schematics_to_tyvaren",
+          "text": "\"Tell me about the Tyvaren man.\"",
+          "nextSegment": "voss_tyvaren_detail"
+        }
+      ]
+    },
+    "voss_tyvaren_detail": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Forty, perhaps forty-five. Veltrian accent but not native — the rhythm was slightly wrong, like someone who learned the language formally rather than growing up in it. He knew the correct names for the mathematical frameworks I have published — not just the titles, the specific terminology inside the papers. He had read them carefully. He said the foundation he represented had been following my work for three years."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "He knew about the funding rejections. He mentioned them specifically — said the foundation was aware that the Veltrian system had failed to recognize the significance of my research. He said it carefully, like he was reading from a briefing."
+        }
+      ],
+      "monologue": "He knew about the funding rejections. He mentioned them specifically. Someone briefed him on Voss's professional grievances before sending him — they did not just identify a target, they profiled one. They know what Voss wants to hear.",
+      "choices": [
+        {
+          "id": "voss_tyvaren_bring_dusek",
+          "text": "\"Vyktor — get Dusek here now.\"",
+          "nextSegment": "dusek_arrives"
+        },
+        {
+          "id": "voss_tyvaren_ask_voss_feeling",
+          "text": "\"What did you think of the offer, Dr. Voss? Honestly.\"",
+          "nextSegment": "voss_honest_reaction"
+        }
+      ]
+    },
+    "voss_honest_reaction": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "He is quiet for a moment. He looks at his hands."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I thought — for approximately thirty seconds, I thought about what it would mean to work in a laboratory with a real budget. Equipment that is not held together with — I have a centrifuge that I repaired seven times with parts from a clock shop in Kravenstal. Seven times. And someone is offering me a facility where that is not the problem."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "And then I thought about what they would do with the engine. And the thirty seconds ended."
+        },
+        {
+          "type": "description",
+          "text": "He looks up."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I came here instead."
+        }
+      ],
+      "monologue": "Thirty seconds. He gave it thirty seconds and then thought about what they would do with the engine and the thirty seconds ended. That is the answer to the question I have been asking myself since he walked in without the satchel — whether he can be trusted. Thirty seconds is a honest answer. A man performing loyalty would not have admitted the thirty seconds.",
+      "choices": [
+        {
+          "id": "voss_honest_to_dusek",
+          "text": "\"Vyktor — get Dusek here.\"",
+          "nextSegment": "dusek_arrives"
+        },
+        {
+          "id": "voss_honest_reassure",
+          "text": "\"The thirty seconds does not concern me, Dr. Voss. You came here. That is what matters. Now — we need to discuss what happens next.\"",
+          "nextSegment": "dusek_arrives"
+        }
+      ]
+    },
+    "dusek_arrives": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Dusek arrives in fourteen minutes. She reads the room in two seconds — Voss's posture, Vyktor's expression, the absence of the satchel. She does not ask for a summary. She sits."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "The laboratory visit was intelligence preparation. Standard pre-acquisition protocol — establish what exists before deciding how to acquire it. The Tyvaren approach three days later is not a coincidence. The two operations are connected."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "They have the schematics. They know the engine works. The Tyvaren offer is the first approach — if Voss declines, there will be a second. If the second fails, they move to acquisition by other means. The schematics cannot be uncompromised. What can be protected is the implementation knowledge."
+        },
+        {
+          "type": "description",
+          "text": "She looks at Voss."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "You are the most important person in this room, Dr. Voss. I want you to understand that in terms of national security asset value, not as a compliment."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "That is — yes. That is a very direct way to put it."
+        }
+      ],
+      "monologue": "She told him he is the most important person in the room as a national security asset, not a compliment. Voss looked like a man who has spent his career being told his work is interesting but not fundable and has just been told it is interesting enough to be worth stealing. I do not know if that is better or worse.",
+      "choices": [
+        {
+          "id": "voss_crisis_options",
+          "text": "\"What are our options?\"",
+          "nextSegment": "crisis_options"
+        }
+      ]
+    },
+    "crisis_options": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Three. Relocate Voss and the engine to a secure facility — military or state — under full protection. The engine completes development under controlled conditions. Voss loses his laboratory independence but gains physical security. The Tyvaren approach becomes irrelevant because access to Voss is controlled."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Transfer the engine and schematics to military custody now. Voss continues as a civilian technical consultant. The military provides security and operational control. The development continues under Defense Ministry oversight."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The third option: Voss accepts the Tyvaren meeting. He goes back, expresses continued interest, asks for more details. We use the contact to identify who is behind the approach and what they know. Controlled engagement."
+        },
+        {
+          "type": "description",
+          "text": "Voss looks at Vyktor."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "You want me to — pretend to consider working for Tyvaren."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "For a limited time. To gather information."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I — yes. I understand. I am just — yes. I can do that."
+        }
+      ],
+      "monologue": "He said yes before he finished the sentence. He is not a spy. He is a physicist who repaired a centrifuge seven times with clock parts and spent eleven years solving a problem because it existed. But he said yes.",
+      "choices": [
+        {
+          "id": "voss_protect_relocate",
+          "text": "\"Relocate Voss and the engine. Secure facility, civilian oversight maintained. The engine completes development under protection.\"",
+          "internalTag": "reformist",
+          "flags": [
+            "voss_secure_civilian",
+            "voss_crisis_resolved"
+          ],
+          "statEffects": [
+            {
+              "stat": "vossRelation",
+              "value": 15
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": -5
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": -3
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": 3
+            }
+          ],
+          "nextSegment": "voss_crisis_close_relocate"
+        },
+        {
+          "id": "voss_military_transfer",
+          "text": "\"Transfer the engine to military custody. Voss continues as consultant. Defense Ministry provides the security this project requires.\"",
+          "internalTag": "authoritarian",
+          "flags": [
+            "voss_military_transfer",
+            "voss_crisis_resolved"
+          ],
+          "statEffects": [
+            {
+              "stat": "vossRelation",
+              "value": -10
+            },
+            {
+              "stat": "nation.militaryReadiness",
+              "value": 10
+            },
+            {
+              "stat": "factions.ironCovenant",
+              "value": 8
+            }
+          ],
+          "nextSegment": "voss_crisis_close_military"
+        },
+        {
+          "id": "voss_go_public",
+          "text": "\"Announce the engine publicly. Before Tyvaren can frame the narrative — we control the announcement. Make the project visible enough that interference becomes a diplomatic incident.\"",
+          "internalTag": "pragmatist",
+          "flags": [
+            "voss_public_announcement",
+            "voss_crisis_resolved"
+          ],
+          "statEffects": [
+            {
+              "stat": "vossRelation",
+              "value": 5
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 8
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": -8
+            },
+            {
+              "stat": "factions.reformists",
+              "value": -5
+            }
+          ],
+          "nextSegment": "voss_crisis_close_public"
+        },
+        {
+          "id": "voss_foreign_deal",
+          "text": "\"Vyktor's option — but expanded. We open back-channel negotiations. Sell limited access rights to one foreign power to neutralize the other. Control the damage by controlling the transaction.\"",
+          "internalTag": "pragmatist",
+          "flags": [
+            "voss_foreign_deal",
+            "voss_crisis_resolved"
+          ],
+          "statEffects": [
+            {
+              "stat": "vossRelation",
+              "value": -20
+            },
+            {
+              "stat": "nation.economyHealth",
+              "value": 10
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -10
+            }
+          ],
+          "nextSegment": "voss_crisis_close_foreign"
+        }
+      ]
+    },
+    "voss_crisis_close_relocate": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "I will identify suitable facilities by end of week. Civilian administration, military security perimeter. The transition can be completed within ten days."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Ten days. My current — there is equipment calibration that cannot be interrupted mid-cycle, and I have two research assistants who will need to be — can they come with the project? They know the engine. Replacing them would set back the timeline by months."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "They will be security-assessed. If they clear, yes."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "They will clear. They are mathematicians."
+        },
+        {
+          "type": "description",
+          "text": "Dusek looks at him. Something in her expression shifts — not warmth, but recognition. One professional acknowledging another."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_relocate_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week32_voss_outcome",
+              "delayWeeks": 4,
+              "probability": 1
+            }
+          ],
+          "journalEntry": {
+            "title": "The Knock at the Door",
+            "category": "CRISIS",
+            "content": "Someone broke into Voss's laboratory and photographed the schematics. Tyvaren made a direct approach — a research foundation cover, a number large enough to be insulting in its transparency. Voss came to me instead of accepting. I am relocating him and the engine to a secure facility under civilian administration with military security. Dusek is handling the transition. Voss asked if his research assistants could come. Dusek said they will be security-assessed. Voss said they will clear — they are mathematicians. I think he meant it as a complete answer."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "voss_crisis_close_military": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "I will arrange the transfer. The engine moves to the Defense Ministry research facility in Sevagrad. Voss will have a dedicated workspace and full access to the project as technical director."
+        },
+        {
+          "type": "description",
+          "text": "Voss looks at you. Not at Dusek — at you. The look contains a question he is not asking aloud."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Technical director. Under Defense Ministry oversight."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Correct."
+        },
+        {
+          "type": "description",
+          "text": "He nods. The nod of a man who expected this and prepared for it and is now discovering that preparation did not make it easier."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I understand. When do we move?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_military_end",
+          "text": "[End meeting]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week32_voss_outcome",
+              "delayWeeks": 4,
+              "probability": 1
+            }
+          ],
+          "journalEntry": {
+            "title": "The Knock at the Door",
+            "category": "CRISIS",
+            "content": "Voss's laboratory was breached. Tyvaren made a direct approach. I transferred the engine to military custody — Defense Ministry facility in Sevagrad, Voss as technical director. He looked at me when Dusek said Defense Ministry oversight. He did not argue. He asked when we move. I keep thinking about that look. He built it himself, funded it himself, asked for one thing. I gave him the funding and moved the goalposts on the other thing when it became inconvenient. He knows. He came anyway."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "voss_crisis_close_public": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "A public announcement at this stage means every foreign intelligence service that did not know about the project will know within forty-eight hours. We gain diplomatic protection and lose operational security simultaneously."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "It also means Tyvaren cannot move on the project without it becoming a public diplomatic incident. That is a genuine deterrent."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "A public announcement means the University is publicly associated with the project. My faculty colleagues will — there will be questions about the nature of the research. Some of them will object on — there are people in the department who have views about military applications of mathematical research."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I am not saying no. I am saying there will be consequences inside the University that I will have to manage."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_public_end",
+          "text": "[End meeting — prepare announcement]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week32_voss_outcome",
+              "delayWeeks": 4,
+              "probability": 1
+            }
+          ],
+          "journalEntry": {
+            "title": "The Knock at the Door",
+            "category": "CRISIS",
+            "content": "The laboratory was breached. Tyvaren approached directly. I am making the engine public — controlled announcement, before anyone else can frame the narrative. Voss said there will be consequences inside the University he will have to manage. He said he is not saying no. He said it like a man who has been managing consequences his entire career and has simply identified one more."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "voss_crisis_close_foreign": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Limited access rights to which power? Arcturia or Orythia — the choice matters. Arcturia has the stronger intelligence presence here, Orythia has the stronger economic leverage."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Orythia. They have less existing intelligence on the project and more to offer in exchange. The access rights become a diplomatic instrument rather than a security concession."
+        },
+        {
+          "type": "description",
+          "text": "Voss has been quiet since you spoke. He is looking at the desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Limited access meaning — they would see the schematics. The framework documentation."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "A controlled subset. Not the implementation knowledge."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I see."
+        },
+        {
+          "type": "description",
+          "text": "He says nothing else. He does not agree. He does not object. He simply says I see and looks at the desk and says nothing else."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_foreign_end",
+          "text": "[End meeting — open Orythian back channel]",
+          "chainTriggers": [
+            {
+              "targetNodeId": "act2_week32_voss_outcome",
+              "delayWeeks": 4,
+              "probability": 1
+            },
+            {
+              "targetNodeId": "act3_chain_voss_betrayal_discovered",
+              "delayWeeks": 8,
+              "probability": 0.7
+            }
+          ],
+          "journalEntry": {
+            "title": "The Knock at the Door",
+            "category": "CRISIS",
+            "content": "The laboratory was breached. Tyvaren approached. I opened a back channel to Orythia — limited access rights to a controlled subset of the schematics in exchange for diplomatic and economic leverage. Voss said I see when Vyktor explained what limited access meant. He said nothing else. He looked at the desk. I have been thinking about those two words for the rest of the day."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  },
+  "act": 2,
+  "weekAvailable": 28,
+  "weekDeadline": 29,
+  "agendaCost": 0,
+  "isMandatory": false,
+  "prerequisites": []
+}

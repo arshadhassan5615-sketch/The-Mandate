@@ -44,8 +44,16 @@ export const INITIAL_STATE: GameState = {
     pressFreedom: 28,       // Halvek gutted it; independent radio just emerging
     mediaControl: 25,      // Elena Braskov dominates — but competition is emerging
     civilLiberties: 22,     // Halvek constitution still in force
+    lawOrder: 50,
     internationalStanding: 42, // New democracy, watched cautiously
     assemblyVoteMargin: 0,   // No vote has been held yet
+    assemblyConservative: 30,
+    assemblyHardliner: 20,
+    assemblyReformist: 40,
+    energyIndependence: 40,
+    conventionStability: 50,
+    educationStandard: 45,
+    regionalSupport: 30,
   },
 
   factions: {
@@ -56,6 +64,7 @@ export const INITIAL_STATE: GameState = {
     church: 47,             // Backed Halvek; now hedging bets
     businessClass: 44,      // Uncertain about new chancellor's economic direction
     dravenni: 38,           // Suppressed under Halvek; hopeful but not won over
+    partyLoyalists: 50,
   },
 
   personal: {
@@ -65,6 +74,8 @@ export const INITIAL_STATE: GameState = {
     personalWealth: 12000,  // 12,000 ₭ per GDD
     publicImage: 55,        // Honeymoon with caveats — significant opposition press
     moralCompass: 0,        // Blank slate; every decision will define this
+    stressLevel: 15,
+    fiscalRestraint: 50,
   },
 
   budget: INITIAL_BUDGET,
@@ -187,13 +198,24 @@ function applyModifier(state: GameState, mod: StateModifier): GameState {
     'assembly_support': 'factions.reformists',
     'labor_approval': 'factions.workersCoalition',
     'security_rating': 'factions.ironCovenant',
+    'church_relations': 'factions.church',
+    'military_confidence': 'factions.ironCovenant',
     'civil_liberties': 'nation.civilLiberties',
+    'law_order': 'nation.lawOrder',
+    'assembly_conservative': 'nation.assemblyConservative',
+    'assembly_hardliner': 'nation.assemblyHardliner',
+    'assembly_reformist': 'nation.assemblyReformist',
     'international_standing': 'nation.internationalStanding',
     'tyvaren_tension': 'tyvarenHostility',
-    'personal.wealth': 'personal.publicImage',
-    'personal.stressLevel': 'personal.moralCompass',
+    'personal.wealth': 'personal.personalWealth',
+    'personal.stressLevel': 'personal.stressLevel',
     'personal.shadowInfluence': 'shadowInfluence',
+    'moralCompass': 'personal.moralCompass',
     'nationalDebt': 'nation.nationalDebt',
+    'factions.party_loyalists': 'factions.partyLoyalists',
+    'convention_stability': 'nation.conventionStability',
+    'education_standard': 'nation.educationStandard',
+    'regional_support': 'nation.regionalSupport',
   }
   const resolvedStat = PATH_ALIASES[mod.stat] ?? mod.stat
   mod = { ...mod, stat: resolvedStat }

@@ -4,6 +4,7 @@ import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import type { StateModifier } from '../types/gameState'
+import prologueFrame from '../assets/images/Prologue.jpg'
 
 // ─── Scene data ───────────────────────────────────────────────────────────────
 
@@ -270,22 +271,22 @@ function ChoiceLine({ text, onClick, selected, locked }: {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: selected ? 'rgba(200,144,42,0.12)' : 'transparent',
-        border: selected ? '1px solid rgba(200,144,42,0.5)' : 'none',
+        background: selected ? 'rgba(200,144,42,0.22)' : 'rgba(20,12,4,0.55)',
+        border: selected ? '1px solid rgba(225,170,80,0.7)' : '1px solid rgba(200,144,42,0.2)',
         borderRadius: '2px',
-        color: selected ? SEPIA.amber
-              : hovered  ? SEPIA.choiceHover
-              : SEPIA.textDim,
+        color: selected ? '#f0d896'
+              : hovered  ? '#f0d896'
+              : '#e8dcc8',
         fontFamily: "'IM Fell English', Georgia, serif",
         fontStyle: 'italic', fontSize: '1.05rem',
         lineHeight: 1.6, cursor: locked ? 'default' : 'pointer',
-        textAlign: 'center', width: '100%',
-        padding: '0.55rem 1rem',
+        textAlign: 'left', width: '100%',
+        padding: '0.6rem 1.2rem',
         transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
         display: 'block',
-        opacity: locked && !selected ? 0.35 : 1,
+        opacity: locked && !selected ? 0.4 : 1,
         transform: selected ? 'scale(0.97)' : 'scale(1)',
-        boxShadow: selected ? '0 0 16px rgba(200,144,42,0.3)' : 'none',
+        boxShadow: selected ? '0 0 16px rgba(200,144,42,0.3)' : '0 1px 3px rgba(0,0,0,0.4)',
         animation: selected ? 'choice-glow-burst 0.4s ease-out' : 'none',
       }}
     >
@@ -540,14 +541,14 @@ export default function ChildhoodPrologue() {
       >
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0,
-          opacity: 0.04,
+          opacity: 0.10,
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`,
           backgroundSize: '256px 256px',
         }}/>
 
         <div style={{
           position: 'relative', zIndex: 1, flexShrink: 0,
-          paddingBottom: '8px',
+          paddingBottom: '0px',
         }}>
           <TimelineBar currentIndex={sceneIndex}/>
         </div>
@@ -563,7 +564,16 @@ export default function ChildhoodPrologue() {
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
         }}>
-          <div style={{ maxWidth: 680, width: '100%' }}>
+          <div style={{
+            maxWidth: 680, width: '100%',
+            position: 'relative',
+            padding: '4rem 3.5rem 3rem',
+            backgroundImage: `url(${prologueFrame})`,
+            backgroundSize: '100% 100%',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            boxShadow: '0 12px 50px rgba(0,0,0,0.65)',
+          }}>
 
             <p style={{
               fontFamily: "'Special Elite', monospace",

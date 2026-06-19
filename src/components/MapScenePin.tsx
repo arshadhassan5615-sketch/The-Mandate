@@ -89,7 +89,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
           ref={popoverRef}
           style={{
             position: 'absolute',
-            bottom: '110%',
+            bottom: 'calc(100% + 16px)',
             left: '50%',
             transform: 'translateX(-50%)',
             width: '280px',
@@ -202,16 +202,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
                   }}>
                     {item.description}
                   </div>
-                  <div style={{
-                    marginTop: '4px',
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: '8px',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: item.slotCost === 0 ? 'var(--amber)' : 'rgba(200,185,155,0.35)',
-                  }}>
-                    {item.slotCost === 0 ? '★ Mandatory' : 'Optional'}
-                  </div>
+
                 </div>
               </button>
               )

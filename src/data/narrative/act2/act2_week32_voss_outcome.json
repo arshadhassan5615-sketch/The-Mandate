@@ -1,0 +1,314 @@
+{
+  "id": "act2_week32_voss_outcome",
+  "title": "The Price of the Engine",
+  "type": "meeting",
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": [
+    "vyktor_reznik",
+    "emilian_voss",
+    "elara_vostane"
+  ],
+  "dialogue": "The engine is complete. Vyktor confirmed it this morning in two words: Voss called.",
+  "monologue": "Two words from Vyktor means the news is clean. If it were complicated he would have used more.",
+  "choices": [
+    {
+      "id": "voss_outcome_begin",
+      "text": "\"Bring them in.\"",
+      "nextSegment": "voss_outcome_opens"
+    }
+  ],
+  "segments": {
+    "voss_outcome_opens": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Voss arrives with the satchel. That is the first right thing — he has it back, or he brought it again, and the chalk is on the left sleeve exactly where it always is. He sits. He opens the satchel and produces a single bound document, perhaps forty pages, and sets it on the desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The second engine is operational. Full cipher architecture — Arcturian diplomatic, Orythian diplomatic, Lytheiran commercial, regional trade commission, and the Tyvaren rotating key variant. All of them. The rotating key took longer than I projected but the solution is — it is clean. I am satisfied with it."
+        },
+        {
+          "type": "description",
+          "text": "He says I am satisfied with it the way other people say this is the most important thing I have built in my life."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Three foreign governments have made formal inquiries through diplomatic channels in the past six weeks. Arcturia, Orythia, and the Lytheiran trade authority. All three are asking about purchase or licensing arrangements. The numbers in the preliminary inquiries are significant."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren has not made a formal inquiry. They made an informal one — through an intermediary, deniable. They want to know if the engine is available for joint development. The word joint is doing considerable work in that sentence."
+        }
+      ],
+      "monologue": "Three formal inquiries and one deniable informal. The engine has been operational for perhaps seventy-two hours and there are already four foreign governments asking what they can buy. Elara said the numbers are significant. That is Elara's way of saying the numbers are large enough to change the budget conversation for the rest of the term.",
+      "choices": [
+        {
+          "id": "voss_outcome_ask_voss",
+          "text": "\"Dr. Voss — what is your view on export?\"",
+          "nextSegment": "voss_export_view"
+        },
+        {
+          "id": "voss_outcome_ask_elara",
+          "text": "\"Elara — what are the numbers?\"",
+          "nextSegment": "elara_export_numbers"
+        }
+      ]
+    },
+    "elara_export_numbers": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Arcturia's preliminary inquiry suggested a licensing figure of approximately sixty million kroner annually for a ten-year term. Orythia's inquiry was less specific but the range implied was comparable. Lytheira is smaller — perhaps fifteen million annually. If all three licensing arrangements were concluded, the engine generates more annual revenue than the entire University of Ashenmere's operating budget."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "That is the income argument. The strategic argument is different and I will leave it to others."
+        }
+      ],
+      "choices": [
+        {
+          "id": "elara_numbers_to_voss",
+          "text": "\"Dr. Voss — what is your view?\"",
+          "nextSegment": "voss_export_view"
+        }
+      ]
+    },
+    "voss_export_view": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I built the engine to solve a mathematical problem. The problem is solved. What happens next is — I am a physicist, not a diplomat. But I will tell you what I think."
+        },
+        {
+          "type": "description",
+          "text": "He looks at the bound document on the desk."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "If the engine is licensed to Arcturia, Arcturia uses it to read Orythian communications. If it is licensed to Orythia, they use it to read Arcturian communications. If it is licensed to both, they both know the other has it and the advantage cancels. The only scenario where the engine remains a genuine strategic asset for Veltria is the scenario where no one else has it."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I am aware that sixty million kroner annually is not a mathematical abstraction. I am telling you what the mathematics of the strategic situation looks like. The policy decision is yours."
+        }
+      ],
+      "monologue": "He gave me the strategic analysis of his own invention without being asked and then explicitly declined to make the policy recommendation. He understands the difference between his domain and mine better than most of the people I have appointed to Cabinet.",
+      "choices": [
+        {
+          "id": "voss_export_allies",
+          "text": "\"License to friendly nations only. Lytheira and neutral states. Not Arcturia, not Orythia, not Tyvaren.\"",
+          "internalTag": "reformist",
+          "flags": [
+            "voss_export_allies",
+            "voss_arc_complete_clean"
+          ],
+          "statEffects": [
+            {
+              "stat": "nation.economyHealth",
+              "value": 8
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": 10
+            },
+            {
+              "stat": "vossRelation",
+              "value": 5
+            },
+            {
+              "stat": "factions.reformists",
+              "value": 5
+            }
+          ],
+          "nextSegment": "voss_outcome_close_allies"
+        },
+        {
+          "id": "voss_export_none",
+          "text": "\"No export. No licensing. The engine is a state secret and remains one.\"",
+          "internalTag": "authoritarian",
+          "flags": [
+            "voss_export_none",
+            "voss_arc_complete_isolated"
+          ],
+          "statEffects": [
+            {
+              "stat": "nation.militaryReadiness",
+              "value": 8
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": -5
+            },
+            {
+              "stat": "vossRelation",
+              "value": 8
+            },
+            {
+              "stat": "factions.ironCovenant",
+              "value": 8
+            }
+          ],
+          "nextSegment": "voss_outcome_close_none"
+        },
+        {
+          "id": "voss_export_open",
+          "text": "\"Open licensing. We sell to anyone who can pay. The revenue funds the next decade of Veltrian research.\"",
+          "internalTag": "pragmatist",
+          "flags": [
+            "voss_export_open",
+            "voss_arc_complete_open"
+          ],
+          "statEffects": [
+            {
+              "stat": "nation.economyHealth",
+              "value": 20
+            },
+            {
+              "stat": "nation.internationalStanding",
+              "value": -8
+            },
+            {
+              "stat": "personal.moralCompass",
+              "value": -8
+            },
+            {
+              "stat": "vossRelation",
+              "value": -10
+            }
+          ],
+          "nextSegment": "voss_outcome_close_open"
+        }
+      ]
+    },
+    "voss_outcome_close_allies": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Lytheira and neutral states represents approximately fifteen to twenty million kroner annually. Less than the Arcturian or Orythian figures but sustainable and politically defensible."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Arcturia and Orythia will both interpret being excluded as a signal about which direction Veltria is orienting. We should be prepared for diplomatic friction from both directions."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "The engine remains a genuine Veltrian advantage against both major powers. That was the correct strategic outcome."
+        },
+        {
+          "type": "description",
+          "text": "He says it without emphasis. A conclusion reached, a problem solved, a variable confirmed."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_allies_end",
+          "text": "[End — Voss arc complete]",
+          "journalEntry": {
+            "title": "The Price of the Engine",
+            "category": "POLICY",
+            "content": "The engine is complete. Tyvaren rotating key included — Voss said the solution is clean and he is satisfied with it. I licensed to Lytheira and neutral states only. Arcturia and Orythia are excluded. Vyktor says both will interpret the exclusion as a signal about Veltria's orientation. He is right. I am choosing to let them interpret it that way. Voss said keeping the advantage against both major powers was the correct strategic outcome. He said it the way he says everything — as a conclusion, not a compliment."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "voss_outcome_close_none": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "No export revenue. The engine's value is entirely strategic. I will adjust the budget projections accordingly."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "All three foreign inquiries will receive a formal non-response — no explanation, no alternative offer. That is itself a statement."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Good. That is — yes. That is the correct decision. The engine should not be — yes."
+        },
+        {
+          "type": "description",
+          "text": "He does not finish the sentence. He does not need to. He picks up the satchel. He looks like a man who has been carrying something for eleven years and has finally been told it can stay where it is."
+        }
+      ],
+      "choices": [
+        {
+          "id": "voss_none_end",
+          "text": "[End — Voss arc complete]",
+          "journalEntry": {
+            "title": "The Price of the Engine",
+            "category": "POLICY",
+            "content": "The engine is complete. I classified it entirely — no export, no licensing, no response to foreign inquiries. Elara adjusted the budget projections. Vyktor noted the non-response is itself a statement. Voss said good, that is the correct decision, and did not finish the sentence. He picked up the satchel. He looked like a man who built something for eleven years and has finally been told it can stay where it is."
+          },
+          "nextSegment": null
+        }
+      ]
+    },
+    "voss_outcome_close_open": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Open licensing to all parties will generate maximum revenue in the short term. The strategic implications are significant — within eighteen months every major power will have equivalent cipher capability and the Veltrian advantage disappears entirely."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "We will have the revenue and none of the advantage. That is a coherent choice if the budget situation requires it."
+        },
+        {
+          "type": "description",
+          "text": "Voss has not spoken. He is looking at the bound document on the desk — the forty pages of the complete engine specification, the solution to the rotating key problem, eleven years of work. He picks it up."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "Open licensing. I see."
+        },
+        {
+          "type": "description",
+          "text": "He puts the document back in the satchel. He closes the satchel. He stands."
+        },
+        {
+          "type": "dialogue",
+          "character": "emilian_voss",
+          "text": "I will make myself available for any technical questions during the licensing process. Good day, Chancellor."
+        }
+      ],
+      "monologue": "He said I will make myself available for any technical questions during the licensing process. That is Voss being professional about a decision he finds wrong. I know he finds it wrong because he picked up the document and put it back in the satchel and said I see. Eleven years. He said I see and put it away.",
+      "choices": [
+        {
+          "id": "voss_open_end",
+          "text": "[End — Voss arc complete]",
+          "journalEntry": {
+            "title": "The Price of the Engine",
+            "category": "POLICY",
+            "content": "The engine is complete. I licensed it to everyone. Maximum revenue, minimum strategic advantage. Elara confirmed the advantage disappears within eighteen months as all major powers reach equivalent capability. Voss picked up the document and said I see and put it back in his satchel and told me he would make himself available for technical questions during the licensing process. I keep thinking about those eleven years and what I see means when a man who spent them says it and picks up his work and closes the bag."
+          },
+          "nextSegment": null
+        }
+      ]
+    }
+  },
+  "act": 2,
+  "weekAvailable": 32,
+  "weekDeadline": 33,
+  "agendaCost": 1,
+  "isMandatory": false,
+  "prerequisites": []
+}

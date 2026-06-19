@@ -531,6 +531,7 @@ export const FACTION_SEATS: Record<keyof FactionState, number> = {
   church: 15,
   businessClass: 10,
   dravenni: 5,
+  partyLoyalists: 0,
 }
 
 // ─── Assembly Vote Calculator ────────────────────────────────────────────────────

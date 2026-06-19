@@ -29,19 +29,19 @@
         {
           "id": "dev_highway_report",
           "text": "[Highway was chosen — hear the highway report]",
-          "condition": "flagSet:dev_highway_chosen",
+          "conditions": [{ "type": "flag", "flag": "dev_highway_chosen", "value": true }],
           "nextSegment": "highway_report"
         },
         {
           "id": "dev_dam_report",
           "text": "[Dam was chosen — hear the dam report]",
-          "condition": "flagSet:dev_dam_chosen",
+          "conditions": [{ "type": "flag", "flag": "dev_dam_chosen", "value": true }],
           "nextSegment": "dam_report"
         },
         {
           "id": "dev_port_report",
           "text": "[Port was chosen — hear the port report]",
-          "condition": "flagSet:dev_port_chosen",
+          "conditions": [{ "type": "flag", "flag": "dev_port_chosen", "value": true }],
           "nextSegment": "port_report"
         }
       ]

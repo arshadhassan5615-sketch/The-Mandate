@@ -3,6 +3,7 @@ import type { MinistryType } from '../types/minister'
 import { MINISTER_CANDIDATES, getCandidatesForMinistry } from '../data/ministers'
 import { useCabinetStore } from '../stores/cabinetStore'
 import { useGameStore } from '../stores/gameStore'
+import { useNarrativeStore } from '../stores/narrativeStore'
 import { useWeekStore } from '../stores/weekStore'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
@@ -108,6 +109,12 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
       }
     })
     completeFormation(currentWeek)
+    const { visitedSceneIds } = useNarrativeStore.getState()
+    if (!visitedSceneIds.includes('act1_week2_cabinet_appointments')) {
+      useNarrativeStore.setState({
+        visitedSceneIds: [...visitedSceneIds, 'act1_week2_cabinet_appointments'],
+      })
+    }
     useWeekStore.getState().advanceQueue()
     onComplete()
   }

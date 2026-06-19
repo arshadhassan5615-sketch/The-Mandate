@@ -29,8 +29,16 @@ function computeStatChanges(before: GameState, after: GameState): WeeklyStatChan
     pressFreedom: 'Press Freedom',
     mediaControl: 'Media Control',
     civilLiberties: 'Civil Liberties',
+    lawOrder: 'Law & Order',
     internationalStanding: 'Intl. Standing',
     assemblyVoteMargin: 'Assembly Margin',
+    assemblyConservative: 'Conservative Bloc',
+    assemblyHardliner: 'Hardliner Bloc',
+    assemblyReformist: 'Reformist Bloc',
+    energyIndependence: 'Energy Independence',
+    conventionStability: 'Convention Stability',
+    educationStandard: 'Education Standard',
+    regionalSupport: 'Regional Support',
   }
   for (const [k, label] of Object.entries(nationLabels)) {
     const key = k as keyof NationState
@@ -48,6 +56,7 @@ function computeStatChanges(before: GameState, after: GameState): WeeklyStatChan
     church: 'Church',
     businessClass: 'Business Class',
     dravenni: 'Dravenni',
+    partyLoyalists: 'Party Loyalists',
   }
   for (const [k, label] of Object.entries(factionLabels)) {
     const key = k as keyof FactionState
@@ -64,6 +73,8 @@ function computeStatChanges(before: GameState, after: GameState): WeeklyStatChan
     personalWealth: 'Personal Wealth',
     publicImage: 'Public Image',
     moralCompass: 'Moral Compass',
+    stressLevel: 'Stress Level',
+    fiscalRestraint: 'Fiscal Restraint',
   }
   for (const [k, label] of Object.entries(personalLabels)) {
     const key = k as keyof PersonalState

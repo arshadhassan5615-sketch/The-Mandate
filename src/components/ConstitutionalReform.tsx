@@ -34,6 +34,7 @@ const FACTION_DISPLAY: Record<keyof FactionState, { short: string; full: string;
   church:           { short: 'Church',          full: 'Church of the Eternal Flame',      color: '#c8902a' },
   businessClass:    { short: 'Business',        full: 'Business Consortium',              color: '#4a8a4a' },
   dravenni:         { short: 'Dravenni',        full: 'Dravenni Liberation Front',        color: '#5a7a8a' },
+  partyLoyalists:   { short: 'Loyalists',       full: 'Party Loyalists',                  color: '#7f8c8d' },
 }
 
 function ProvisionCard({

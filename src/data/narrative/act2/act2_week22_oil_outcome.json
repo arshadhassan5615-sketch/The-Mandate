@@ -1,0 +1,434 @@
+{
+  "id": "act2_week22_oil_outcome",
+  "title": "The Price of Black Gold",
+  "act": 2,
+  "weekAvailable": 22,
+  "weekDeadline": 23,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "aleksander_igor", "elara_vostane"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Foreign Minister's telegram arrived at six in the morning. Vyktor was already awake."
+    }
+  ],
+  "monologue": "Two weeks since the meeting with Igor. Whatever happened in that room is about to become real.",
+  "choices": [
+    {
+      "id": "week22_read_telegram",
+      "text": "Read it.",
+      "nextSegment": "vyktor_reads_telegram",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "vyktor_reads_telegram": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Morivask has made their decision."
+        },
+        {
+          "type": "description",
+          "text": "He sets the telegram on the desk face up. One paragraph. The language is diplomatic but the meaning is not ambiguous."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week22_deal_success_path",
+          "text": "[Continue — deal was signed]",
+          "conditions": [{ "type": "flag", "flag": "oil_deal_hybrid_signed", "value": true }],
+          "nextSegment": "outcome_success",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "week22_deal_failed_path",
+          "text": "[Continue — deal collapsed]",
+          "conditions": [{ "type": "flag", "flag": "oil_deal_failed", "value": true }],
+          "nextSegment": "outcome_failed",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "outcome_success": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Morivask accepts. They are signing with Veltria. The Foreign Minister countersigned on our behalf at midnight local time. The concession is ours."
+        },
+        {
+          "type": "description",
+          "text": "The silence that follows is not empty. It is the silence of something large becoming real."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "First revenue projection in eighteen months, assuming Black Seam hits the drilling timeline. Initial state income from the operating license begins in month four. The budget numbers improve materially by end of year."
+        }
+      ],
+      "monologue": "We got it. The eastern corridor stays open. Morivask is ours — not owned, not absorbed, but partnered. That distinction matters. I need it to keep mattering.",
+      "choices": [
+        {
+          "id": "week22_success_ask_tyvaren",
+          "text": "What is Tyvaren's reaction?",
+          "nextSegment": "tyvaren_retaliation",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        },
+        {
+          "id": "week22_success_ask_igor",
+          "text": "Where is Igor?",
+          "nextSegment": "igor_success_reaction",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "igor_success_reaction": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "As if on cue, Vyktor's phone rings. He listens for twelve seconds and hangs up."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Igor is downstairs. He heard from the Foreign Minister directly — apparently they have already spoken twice this week. He is asking if you have five minutes."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week22_bring_igor_success",
+          "text": "Send him up.",
+          "nextSegment": "igor_enters_success",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "igor_enters_success": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Igor enters differently than he has before. The controlled tension is gone. He looks like a man who has been carrying something heavy for a long time and has just been told he can set it down."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Chancellor. Black Seam's drilling team lands in Morivask in ten days. We will have a preliminary bore site assessment within three weeks of arrival."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "I have been working toward this for eleven years. I want you to know I understand what you gave me here. And I understand what you kept for the state. The license structure — it was the right call. I did not think so at the time. I do now."
+        }
+      ],
+      "monologue": "He said it simply, without performance. That is harder to receive than a calculated compliment. A calculated compliment I know what to do with.",
+      "choices": [
+        {
+          "id": "week22_acknowledge_igor",
+          "text": "Black Seam earned it. Do not make me regret the term length.",
+          "nextSegment": "tyvaren_retaliation",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        },
+        {
+          "id": "week22_warn_igor",
+          "text": "The state license means the state audits. Every quarter. I want that understood before your team lands.",
+          "nextSegment": "igor_acknowledges_audit",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "igor_acknowledges_audit": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Quarterly audits. Understood and agreed. Black Seam has nothing to hide in Morivask. I built this company on the premise that the numbers should always be readable. That is not going to change because the stakes got larger."
+        },
+        {
+          "type": "description",
+          "text": "He nods once, precisely, and turns toward the door. He stops."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Tyvaren will make this difficult. They will go after our supply contracts in the north first — it is the cheapest pressure point. If that happens, I want a direct line to your Foreign Minister. Not through channels. Direct."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week22_grant_direct_line",
+          "text": "You will have it.",
+          "flags": ["igor_direct_foreign_ministry_access"],
+          "nextSegment": "tyvaren_retaliation",
+          "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        },
+        {
+          "id": "week22_deny_direct_line",
+          "text": "Everything goes through Vyktor. That is how this office works.",
+          "nextSegment": "tyvaren_retaliation",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "tyvaren_retaliation": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren's ambassador requested an urgent meeting with our Foreign Ministry this morning. The request used the word 'consequences' twice in one paragraph. That is not diplomatic language. That is a warning."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Their most likely move is economic. They have three northern supply contracts with Veltrian companies that come up for renewal in the next six months. If they decline to renew, it creates a gap in our industrial supply chain — not catastrophic, but painful and visible."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "They could also apply pressure on Morivask directly — delay border crossings, create friction on trade routes that run through Tyvaren territory. Make the partnership look costly before it pays off."
+        }
+      ],
+      "monologue": "We knew this was coming. Elara said sixty days. It has been fourteen. They are moving faster than expected which means they are angrier than expected. Or more afraid. Sometimes those look the same.",
+      "choices": [
+        {
+          "id": "week22_prepare_diplomatic",
+          "text": "Schedule a meeting with Tyvaren's ambassador. We absorb the first contact diplomatically before they escalate.",
+          "internalTag": "pragmatist",
+          "flags": ["tyvaren_diplomatic_response"],
+          "nextSegment": "outcome_success_close",
+          "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        },
+        {
+          "id": "week22_prepare_economic",
+          "text": "Get ahead of the supply contract renewals. Find alternative sources before Tyvaren declines them.",
+          "internalTag": "reformist",
+          "flags": ["tyvaren_economic_preparation"],
+          "nextSegment": "outcome_success_close",
+          "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        },
+        {
+          "id": "week22_prepare_public",
+          "text": "Make the Morivask deal public before Tyvaren can frame it. Control the announcement.",
+          "internalTag": "authoritarian",
+          "flags": ["tyvaren_public_announcement"],
+          "nextSegment": "outcome_success_close",
+          "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "outcome_success_close": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor makes three calls. Elara begins a new set of projections. The morning that started with one telegram is ending with a dozen moving parts, each one connected to a decision made two weeks ago in this room."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "For what it is worth — this was the right call. The numbers work. The principle held. Tyvaren will push, but they will push on a door that is already closed and locked. That is a different problem than the one we had a month ago."
+        }
+      ],
+      "monologue": "Vyktor does not say things like that. He describes situations. He does not evaluate them. The fact that he said it means something. I am choosing to let it mean something.",
+      "choices": [
+        {
+          "id": "week22_end_success",
+          "text": "[End — Oil Arc Complete]",
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 8 },
+            { "stat": "factions.reformists", "operation": "add", "value": 5 },
+            { "stat": "factions.businessClass", "operation": "add", "value": 8 }
+          ],
+          "flags": ["oil_arc_complete", "black_seam_state_partner"],
+          "chainTriggers": [],
+          "reactions": [],
+          "codexUnlocks": [],
+          "nextSegment": null
+        }
+      ]
+    },
+    "outcome_failed": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Morivask accepted Tyvaren's offer. The signing ceremony was yesterday. Tyvaren State Oil has a forty-year concession on the eastern deposit. Their infrastructure team arrives next month."
+        },
+        {
+          "type": "description",
+          "text": "He sets the telegram down. He does not look at you when he says the next part."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Forty years. That is not a business arrangement. That is a generation."
+        }
+      ],
+      "monologue": "Forty years. Morivask's eastern economy will be Tyvaren's economy within a decade. Their government will make decisions based on what Tyvaren wants. We will have a client state on our eastern border and nothing we can do about it for forty years. This is what losing looks like when it happens slowly.",
+      "choices": [
+        {
+          "id": "week22_failed_ask_igor",
+          "text": "Where is Igor?",
+          "nextSegment": "igor_failed_reaction",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        },
+        {
+          "id": "week22_failed_ask_damage",
+          "text": "What is the immediate damage to Veltria?",
+          "nextSegment": "elara_damage_assessment",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "elara_damage_assessment": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Immediate — minimal. The deposit was not yet generating revenue so we have not lost income we were counting on. Medium term — significant. Tyvaren will use the Morivask corridor to apply pricing pressure on our eastern industrial imports within two years. Long term — the eastern border becomes a strategic liability. Every decision we make about Tyvaren will be made in the shadow of their energy position on our border."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The budget does not recover what we could have had. It simply does not improve the way it would have."
+        }
+      ],
+      "monologue": "She said 'does not improve.' That is Elara's way of saying we will feel this for years without ever being able to point to a single moment when it became a crisis. Death by the absence of gains. That is sometimes worse than a clean loss.",
+      "choices": [
+        {
+          "id": "week22_damage_to_igor",
+          "text": "And Igor?",
+          "nextSegment": "igor_failed_reaction",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "igor_failed_reaction": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor's phone rings. He answers, listens for four seconds, and holds it out."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "It is Igor. He is asking to speak with you directly. His exact words were — and I am quoting — 'Tell the Chancellor I am not angry. I am just going to need her to understand what this cost.'"
+        }
+      ],
+      "monologue": "Not angry. That is almost worse. Angry men make noise and move on. Men who are not angry remember precisely.",
+      "choices": [
+        {
+          "id": "week22_take_igor_call",
+          "text": "Put him through.",
+          "nextSegment": "igor_call_failed",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        },
+        {
+          "id": "week22_decline_igor_call",
+          "text": "Tell him I will meet with him next week. Not today.",
+          "nextSegment": "igor_call_declined",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "igor_call_declined": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He says he understands. He says he will be in touch."
+        },
+        {
+          "type": "description",
+          "text": "The way Vyktor says 'he will be in touch' makes it sound less like a promise and more like a warning."
+        }
+      ],
+      "choices": [
+        {
+          "id": "week22_declined_to_close",
+          "text": "[Continue]",
+          "nextSegment": "outcome_failed_close",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "igor_call_failed": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "Chancellor. I am not going to tell you I told you so. That is not useful to either of us."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "What I am going to tell you is this: Black Seam had forty-three employees ready to deploy to Morivask. Equipment staged in Kravenstal. Supply contracts pre-negotiated. I spent eight months and eleven million kroner preparing for a deal that did not happen because of one year of term length."
+        },
+        {
+          "type": "dialogue",
+          "character": "aleksander_igor",
+          "text": "I am not asking for compensation. I am asking you to remember that number the next time you decide how much a year is worth."
+        },
+        {
+          "type": "description",
+          "text": "He hangs up without waiting for a response. The silence on the line is different from the silence in the room. It is the silence of a door that has not closed but is no longer open the way it was."
+        }
+      ],
+      "monologue": "Eleven million kroner. Forty-three people. He built the machine before the deal was signed because he believed in it that much. And I let it collapse on a year. I need to sit with that.",
+      "choices": [
+        {
+          "id": "week22_after_call",
+          "text": "[Continue]",
+          "nextSegment": "outcome_failed_close",
+          "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": []
+        }
+      ]
+    },
+    "outcome_failed_close": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Tyvaren's ambassador has requested a meeting. His tone in the request was — cordial. Almost warm. That is more unsettling than the hostility would have been."
+        },
+        {
+          "type": "description",
+          "text": "He is right. A Tyvaren that is angry is a Tyvaren that is reacting. A Tyvaren that is warm is a Tyvaren that has already won and knows it."
+        }
+      ],
+      "monologue": "We did not just lose an oil deal. We told Tyvaren something about how we make decisions under pressure. They will remember that. They will use it.",
+      "choices": [
+        {
+          "id": "week22_end_failed",
+          "text": "[End — Oil Arc Complete]",
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": -8 },
+            { "stat": "factions.businessClass", "operation": "add", "value": -12 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": -4 }
+          ],
+          "flags": ["oil_arc_complete", "tyvaren_morivask_secured", "igor_frustrated", "black_seam_damaged"],
+          "chainTriggers": [],
+          "reactions": [],
+          "codexUnlocks": [],
+          "nextSegment": null
+        }
+      ]
+    }
+  }
+}

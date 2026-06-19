@@ -42,6 +42,14 @@ export interface NationState {
   civilLiberties: number       // 0 to 100
   internationalStanding: number // 0 to 100
   assemblyVoteMargin: number    // 0 to 250 — margin of last Assembly vote
+  lawOrder: number
+  assemblyConservative: number
+  assemblyHardliner: number
+  assemblyReformist: number
+  energyIndependence: number
+  conventionStability: number
+  educationStandard: number
+  regionalSupport: number
 }
 
 export interface FactionState {
@@ -52,6 +60,7 @@ export interface FactionState {
   church: number           // 0-100
   businessClass: number    // 0-100
   dravenni: number         // 0-100
+  partyLoyalists: number   // 0-100
 }
 
 export interface PersonalState {
@@ -61,6 +70,8 @@ export interface PersonalState {
   personalWealth: number    // ₭ amount
   publicImage: number       // 0-100
   moralCompass: number      // -100 to +100
+  stressLevel: number
+  fiscalRestraint: number
 }
 
 export interface CorruptionEntry {
@@ -190,8 +201,12 @@ export const STAT_RANGES: Record<string, [number, number]> = {
   'nation.pressFreedom': [0, 100],
   'nation.mediaControl': [0, 100],
   'nation.civilLiberties': [0, 100],
+  'nation.lawOrder': [0, 100],
   'nation.internationalStanding': [0, 100],
   'nation.assemblyVoteMargin': [0, 250],
+  'nation.assemblyConservative': [0, 100],
+  'nation.assemblyHardliner': [0, 100],
+  'nation.assemblyReformist': [0, 100],
   'factions.halvekists': [0, 100],
   'factions.workersCoalition': [0, 100],
   'factions.reformists': [0, 100],
@@ -205,6 +220,13 @@ export const STAT_RANGES: Record<string, [number, number]> = {
   'personal.personalWealth': [0, Infinity],
   'personal.publicImage': [0, 100],
   'personal.moralCompass': [-100, 100],
+  'personal.stressLevel': [0, 100],
+  'personal.fiscalRestraint': [0, 100],
+  'nation.energyIndependence': [0, 100],
+  'nation.conventionStability': [0, 100],
+  'nation.educationStandard': [0, 100],
+  'nation.regionalSupport': [0, 100],
+  'factions.partyLoyalists': [0, 100],
   'advisorTrust.theron': [0, 100],
   'advisorTrust.soraya': [0, 100],
   'advisorTrust.dusek':  [0, 100],
