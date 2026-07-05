@@ -2,6 +2,10 @@ import { useMemo } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import type { BudgetAllocations } from '../types/gameState'
 import veltriaSeal from '../assets/images/veltria_seal.png'
+import iconEconomy from '../assets/images/ui/icon_economy.png'
+import iconTreasury from '../assets/images/ui/icon_treasury.png'
+import iconWealth from '../assets/images/ui/icon_wealth.png'
+import iconApproval from '../assets/images/ui/icon_approval.png'
 
 function computeBudgetBalance(budget: BudgetAllocations): number {
   const revenue = budget.taxRevenue + budget.stateIndustry + budget.customsTariffs + budget.foreignAid
@@ -79,8 +83,8 @@ export default function TopBar() {
       <GoldHairline />
 
       {/* SLOT 1 — ECONOMY */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 80 }}>
-        <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Economy</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+        <img src={iconEconomy} alt="Economy" style={{ height: 28, width: 28, filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
         <div style={{ display: 'flex', gap: 3 }}>
           {(() => {
             const red = '#e05c4a'; const yellow = '#c9a84c'; const grey = 'rgba(255,255,255,0.1)'
@@ -93,7 +97,7 @@ export default function TopBar() {
             else colors = [brightGreen, brightGreen, brightGreen, brightGreen, brightGreen]
             return colors.map((c, i) => (
               <div key={i} style={{ 
-                width: 10, height: 4, borderRadius: 1, 
+                width: 4, height: 14, borderRadius: 1, 
                 background: c, 
                 boxShadow: c !== grey ? `0 0 6px ${c}80` : 'none',
                 transition: 'background 0.4s ease'
@@ -106,39 +110,37 @@ export default function TopBar() {
       <GoldHairline />
 
       {/* SLOT 2 — TREASURY */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Treasury</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+        <img src={iconTreasury} alt="Treasury" style={{ height: 34, width: 34, marginTop: '4px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
         <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
           color: balance < 0 ? '#e05c4a' : '#e8dcc8', lineHeight: 1, textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.4)' : '0 0 8px rgba(201,168,76,0.2)' }}>
-          {'\u20AD'} {balance.toLocaleString()}
+          {balance.toLocaleString()}
         </span>
       </div>
 
       <GoldHairline />
 
       {/* SLOT 3 — PRIVY PURSE */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Privy Purse</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+        <img src={iconWealth} alt="Wealth" style={{ height: 28, width: 28, marginTop: '4px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
         <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
           color: '#c9a84c', lineHeight: 1, textShadow: '0 0 8px rgba(201,168,76,0.3)' }}>
-          {'\u20AD'} {personalWealth.toLocaleString()}
+          {personalWealth.toLocaleString()}
         </span>
       </div>
 
       <GoldHairline />
 
       {/* SLOT 4 — APPROVAL */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 90 }}>
-        <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Approval</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
-            color: approvalColor, lineHeight: 1, minWidth: 35, textShadow: `0 0 8px ${approvalColor}40` }}>
-            {publicImage}%
-          </span>
-          <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
-            <div style={{ width: `${publicImage}%`, height: '100%', background: approvalColor,
-              boxShadow: `0 0 8px ${approvalColor}80`, borderRadius: 2, transition: 'width 0.5s ease' }} />
-          </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+        <img src={iconApproval} alt="Approval" style={{ height: 28, width: 28, marginTop: '4px', filter: `brightness(1.8) contrast(1.2) drop-shadow(0 0 8px ${approvalColor}CC)` }} />
+        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
+          color: approvalColor, lineHeight: 1, minWidth: 30, textShadow: `0 0 8px ${approvalColor}40` }}>
+          {publicImage}%
+        </span>
+        <div style={{ width: 40, height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
+          <div style={{ width: `${publicImage}%`, height: '100%', background: approvalColor,
+            boxShadow: `0 0 8px ${approvalColor}80`, borderRadius: 2, transition: 'width 0.5s ease' }} />
         </div>
       </div>
 
