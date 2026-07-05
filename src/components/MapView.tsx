@@ -206,27 +206,6 @@ function MapHeader({ currentWeek, onClose }: { currentWeek: number; onClose: () 
   )
 }
 
-// ─── Pan helpers ─────────────────────────────────────────────────────────────
-
-function clampPan(x: number, y: number): { x: number; y: number } {
-  const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
-  const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
-  return {
-    x: Math.max(vw - MAP_RENDER_WIDTH, Math.min(0, x)),
-    y: Math.max(vh - MAP_RENDER_HEIGHT, Math.min(0, y)),
-  }
-}
-
-function centeredOnAshenmere(): { x: number; y: number } {
-  const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
-  const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
-  const ash = PROVINCE_PIN_POSITIONS.ashenmere
-  return clampPan(
-    Math.round(vw / 2 - ash.x),
-    Math.round(vh / 2 - ash.y),
-  )
-}
-
 // ─── Main MapView ─────────────────────────────────────────────────────────────
 
 export default function MapView({ onProvinceDetail }: {
@@ -249,6 +228,41 @@ export default function MapView({ onProvinceDetail }: {
   const hasDragged  = useRef(false)
   const panRafRef   = useRef<number | null>(null)
   const [isCursorGrabbing, setIsCursorGrabbing] = useState(false)
+
+  const [dynamicZoom, setDynamicZoom] = useState(1)
+  useEffect(() => {
+    const calcZoom = () => {
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const veltriaWidth = MAP_RENDER_WIDTH * 0.65
+      const veltriaHeight = MAP_RENDER_HEIGHT * 0.70
+      const scaleW = (vw - 80) / veltriaWidth
+      const scaleH = (vh - 80) / veltriaHeight
+      setDynamicZoom(Math.min(scaleW, scaleH))
+    }
+    calcZoom()
+    window.addEventListener('resize', calcZoom)
+    return () => window.removeEventListener('resize', calcZoom)
+  }, [])
+
+  function clampPan(x: number, y: number): { x: number; y: number } {
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
+    const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
+    return {
+      x: Math.max(vw - MAP_RENDER_WIDTH * dynamicZoom, Math.min(0, x)),
+      y: Math.max(vh - MAP_RENDER_HEIGHT * dynamicZoom, Math.min(0, y)),
+    }
+  }
+
+  function centeredOnAshenmere(): { x: number; y: number } {
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
+    const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
+    const ash = PROVINCE_PIN_POSITIONS.ashenmere
+    return clampPan(
+      Math.round(vw / 2 - ash.x * dynamicZoom),
+      Math.round(vh / 2 - ash.y * dynamicZoom),
+    )
+  }
 
   // Center on Ashenmere on first mount
   useEffect(() => {
@@ -324,7 +338,8 @@ export default function MapView({ onProvinceDetail }: {
         {/* Transform div: map image + scene pins move together */}
         <div style={{
           position: 'absolute',
-          transform: `translate(${bgPan.x}px, ${bgPan.y}px)`,
+          transform: `translate(${bgPan.x}px, ${bgPan.y}px) scale(${dynamicZoom})`,
+          transformOrigin: '0 0',
           willChange: 'transform',
           userSelect: 'none',
         }}>
@@ -355,8 +370,8 @@ export default function MapView({ onProvinceDetail }: {
           const anim = isUrgent ? 'event-pulse-urgent 1.2s ease-in-out infinite'
             : isTense ? 'event-pulse 2s ease-in-out infinite' : undefined
           const icon = isUrgent ? '⚠' : isTense ? '📋' : '✦'
-          const cx = bgPan.x + zone.left + zone.width / 2
-          const cy = bgPan.y + zone.top + zone.height / 2
+          const cx = bgPan.x + (zone.left + zone.width / 2) * dynamicZoom
+          const cy = bgPan.y + (zone.top + zone.height / 2) * dynamicZoom
           return (
             <button
               key={zone.id}
@@ -434,7 +449,8 @@ export default function MapView({ onProvinceDetail }: {
         {/* Transform div: map image + zones + medallions + scene pins move together */}
         <div style={{
           position: 'absolute',
-          transform: `translate(${pan.x}px, ${pan.y}px)`,
+          transform: `translate(${pan.x}px, ${pan.y}px) scale(${dynamicZoom})`,
+          transformOrigin: '0 0',
           willChange: 'transform',
           userSelect: 'none',
         }}>

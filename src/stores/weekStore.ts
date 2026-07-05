@@ -283,6 +283,7 @@ interface WeekStore {
   // Actions
   startCustomization: () => void    // new game → character sheet (resets all state)
   startPrologue:      () => void    // customization → childhood prologue
+  startCinematic:     () => void    // cinematic sequence
   initWeek:          () => void
   endBriefing:       () => void     // briefing → press (then agenda)
   endPress:          () => void     // press → agenda (or legislation if bills)
@@ -427,6 +428,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   },
 
   startPrologue: () => set({ phase: 'prologue' }),
+
+  startCinematic: () => set({ phase: 'cinematic' }),
 
   initWeek: () => {
     const gameState  = useGameStore.getState()
@@ -848,7 +851,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   },
 
   endBriefing: () => {
-    set({ phase: 'press' })
+    const gameState = useGameStore.getState()
+    if (gameState.currentWeek === 1) {
+      set({ phase: 'map' })
+    } else {
+      set({ phase: 'press' })
+    }
   },
 
   endPress: () => {

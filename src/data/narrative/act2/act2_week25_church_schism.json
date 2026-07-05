@@ -1,0 +1,66 @@
+{
+  "id": "act2_week25_church_schism",
+  "title": "A House Divided",
+  "act": 2,
+  "weekAvailable": 25,
+  "weekDeadline": 27,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Aldenmoor",
+  "characters": ["archbishop_renek"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "The letter from Aldenmoor's diocesan council is longer than any that has crossed your desk from the Church, and considerably less careful in its language. A dozen parish priests have signed a public statement breaking with Archbishop Renek's position on education." },
+    { "type": "description", "text": "They call themselves, in the statement's own words, the Reformist Clergy of Aldenmoor — priests who serve congregations of Dravenni families, tenant farmers, and Kravenstal transplants, and who have decided the Archdiocese's hard line has cost them more parishioners than it has protected." },
+    { "type": "dialogue", "character": "archbishop_renek", "text": "Chancellor, I will not pretend this doesn't wound. Twelve priests do not speak for the Church of Veltria, whatever they call themselves in a newspaper column. But I would be lying if I told you their departure costs nothing. Schism is a slow bleed, not a single wound." },
+    { "type": "monologue", "text": "He came to me himself rather than send a letter. That tells me more than his words do. Renek is not asking me to discipline them — he could not, even if he wished it, without making twelve martyrs into twelve hundred. He is asking me something else, though he has not said it plainly yet." },
+    { "type": "dialogue", "character": "archbishop_renek", "text": "What I will say plainly is this: the government's choices these past months did not create this split, but they gave it a reason to happen now rather than in ten years. I do not say that as an accusation. I say it because you should understand your own hand in it." },
+    { "type": "description", "text": "Through the window you can see Aldenmoor's cathedral spire, older than the Republic, older than the monarchy before it. It has outlasted every government that ever thought it could be managed. You are aware, distantly, that you are not the first Chancellor to sit in this room and feel small in front of that fact." }
+  ],
+  "choices": [
+    {
+      "id": "w25_back_reformists",
+      "text": "Publicly welcome the reformist clergy's statement. Offer them state recognition as a distinct pastoral body if the Archdiocese will not accommodate them.",
+      "nextSegment": null,
+      "flags": ["church_schism_reformists_backed"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.church", "operation": "add", "value": -12 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w25_back_renek",
+      "text": "Reaffirm the state's relationship with the Archdiocese as it stands. Tell Renek the schism is the Church's affair to settle, not the government's to referee.",
+      "nextSegment": null,
+      "flags": ["church_schism_renek_backed"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 8 },
+        { "stat": "factions.reformists", "operation": "add", "value": -6 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w25_stay_neutral",
+      "text": "Decline to take a side publicly. Tell Renek privately that the state has no interest in choosing winners inside the Church, whatever the cost to either of you.",
+      "nextSegment": null,
+      "flags": ["church_schism_neutral"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -2 },
+        { "stat": "factions.reformists", "operation": "add", "value": 1 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {}
+}

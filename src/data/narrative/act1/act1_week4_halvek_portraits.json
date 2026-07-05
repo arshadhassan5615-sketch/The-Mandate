@@ -1,0 +1,65 @@
+{
+  "id": "act1_week4_halvek_portraits",
+  "title": "The Faces on the Wall",
+  "act": 1,
+  "weekAvailable": 4,
+  "weekDeadline": 6,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Ashenmere",
+  "characters": ["vyktor_reznik", "danika_oberlin"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "A memorandum arrives from the Ministry of the Interior, three paragraphs long, marked routine. It is not routine. Every government office in Veltria — every post building, every schoolroom, every customs post at every border crossing — still has a framed portrait of Chancellor Halvek on the wall behind the counter." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "Someone has to decide what happens to eleven thousand portraits, Chancellor. The clerks are asking. They can't very well serve the public under a dead man's photograph, and they can't very well take it down without instruction either — some of them are afraid to, and some of them don't want to." },
+    { "type": "dialogue", "character": "danika_oberlin", "text": "My office has opinions, for what they're worth. Ordering them torn down by decree photographs well for one news cycle and creates martyrs for the next twenty. Quietly replacing them over a few months draws no attention at all — and draws no headlines either." },
+    { "type": "monologue", "text": "Eleven thousand small frames. It should not matter this much. But I remember exactly where the one in my old schoolroom hung, and exactly how the teacher's voice changed when she spoke under it. Symbols outlast the men who commission them. That is precisely the danger, and precisely the opportunity." }
+  ],
+  "choices": [
+    {
+      "id": "w4_public_removal",
+      "text": "Order public removal. A single decree, a single date. The nation should watch the portraits come down together — the break should be visible.",
+      "nextSegment": null,
+      "flags": ["portraits_removed_public"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 3 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w4_quiet_archive",
+      "text": "Replace them quietly over the coming months, office by office, no announcement. Let the change happen the way most real change happens — slowly, and without a camera present.",
+      "nextSegment": null,
+      "flags": ["portraits_archived_quiet"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 2 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w4_leave_portraits",
+      "text": "Leave them exactly where they are for now. There are forty-one miners still recovering in Kravenstal and a treasury on fire. A dead man's photograph is not this week's emergency.",
+      "nextSegment": null,
+      "flags": ["portraits_left"],
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {}
+}

@@ -246,23 +246,40 @@ export default function RightSidebar() {
       {overviewOpen && <OverviewPanel onClose={() => setOverviewOpen(false)} />}
       {notepadOpen && <NotepadPanel onClose={() => setNotepadOpen(false)} />}
 
-      {/* Vertical icon strip */}
+      {/* Registry panel */}
       <div style={{
         position: 'fixed',
         right: 0,
         top: '80px',
         bottom: 0,
-        width: '52px',
+        width: '60px',
         zIndex: 210,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        background: 'transparent',
-        padding: '8px 6px',
-        gap: '4px',
+        background: 'linear-gradient(180deg, #1a1510 0%, #12100b 100%)',
+        borderLeft: '1px solid rgba(201,168,76,0.35)',
+        boxShadow: '-2px 0 12px rgba(0,0,0,0.4)',
+        padding: '10px 8px',
+        gap: '3px',
+        overflowY: 'auto',
+        scrollbarWidth: 'none',
       }}>
-        {/* Decorative top rule */}
-        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.2)', marginBottom: '6px', flexShrink: 0 }} />
+        {/* Header */}
+        <div style={{
+          writingMode: 'vertical-rl',
+          textOrientation: 'mixed',
+          fontFamily: "'Special Elite', monospace",
+          fontSize: '7px',
+          letterSpacing: '0.2em',
+          color: 'rgba(201,168,76,0.55)',
+          textTransform: 'uppercase',
+          marginBottom: '8px',
+          flexShrink: 0,
+        }}>
+          REGISTRY
+        </div>
+        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.25)', marginBottom: '6px', flexShrink: 0 }} />
 
         {/* CLASSIFIED investigation badge */}
         {showMoleBadge && (
@@ -289,16 +306,8 @@ export default function RightSidebar() {
           </div>
         )}
 
-        <SideButton
-          icon={<IconNews />}
-          label="News Dispatch"
-          badge={unreadCount}
-          onClick={() => {
-            setConnectionsOpen(false)
-            setOverviewOpen(false)
-            setNewsOpen(true)
-          }}
-        />
+        {/* GOVERNANCE group */}
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.35)', marginBottom: '2px', flexShrink: 0 }}>GOV</div>
 
         <SideButton
           icon={<IconParliament />}
@@ -307,26 +316,6 @@ export default function RightSidebar() {
           onClick={() => {
             setOverviewOpen(false)
             setConnectionsOpen(prev => !prev)
-          }}
-        />
-
-        <SideButton
-          icon={<IconCodex />}
-          label="Codex"
-          onClick={() => {
-            setConnectionsOpen(false)
-            setOverviewOpen(false)
-            openCodex()
-          }}
-        />
-
-        <SideButton
-          icon={<IconDossiers />}
-          label="Dossiers"
-          onClick={() => {
-            setConnectionsOpen(false)
-            setOverviewOpen(false)
-            setCharacterMapOpen(true)
           }}
         />
 
@@ -351,7 +340,47 @@ export default function RightSidebar() {
           }}
         />
 
-        {/* Journal, Letters, Notepad, Settings — same styling as top group */}
+        <div style={{ width: '20px', height: '1px', background: 'rgba(200,144,42,0.15)', margin: '4px 0', flexShrink: 0 }} />
+
+        {/* INTELLIGENCE group */}
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.35)', marginBottom: '2px', flexShrink: 0 }}>INTEL</div>
+
+        <SideButton
+          icon={<IconNews />}
+          label="News Dispatch"
+          badge={unreadCount}
+          onClick={() => {
+            setConnectionsOpen(false)
+            setOverviewOpen(false)
+            setNewsOpen(true)
+          }}
+        />
+
+        <SideButton
+          icon={<IconCodex />}
+          label="Codex"
+          onClick={() => {
+            setConnectionsOpen(false)
+            setOverviewOpen(false)
+            openCodex()
+          }}
+        />
+
+        <SideButton
+          icon={<IconDossiers />}
+          label="Dossiers"
+          onClick={() => {
+            setConnectionsOpen(false)
+            setOverviewOpen(false)
+            setCharacterMapOpen(true)
+          }}
+        />
+
+        <div style={{ width: '20px', height: '1px', background: 'rgba(200,144,42,0.15)', margin: '4px 0', flexShrink: 0 }} />
+
+        {/* PERSONAL group */}
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.35)', marginBottom: '2px', flexShrink: 0 }}>PERSONAL</div>
+
         <SideButton
           icon={<IconJournal />}
           label="Journal"
@@ -395,8 +424,7 @@ export default function RightSidebar() {
           }}
         />
 
-        {/* Decorative bottom rule */}
-        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.2)', marginTop: '6px', flexShrink: 0 }} />
+        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.25)', marginTop: '6px', flexShrink: 0 }} />
       </div>
     </>
   )

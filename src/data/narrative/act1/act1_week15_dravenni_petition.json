@@ -1,0 +1,66 @@
+{
+  "id": "act1_week15_dravenni_petition",
+  "title": "The Petition from Dravenhollow",
+  "act": 1,
+  "weekAvailable": 15,
+  "weekDeadline": 17,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ashenmere",
+  "characters": ["delegate_kolvar", "archbishop_renek"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "A delegation from Dravenhollow has waited two hours in the outer chamber, patient in the particular way of people who have learned that patience is often the only leverage they are permitted." },
+    { "type": "dialogue", "character": "delegate_kolvar", "text": "Chancellor, we ask for one thing only. Dravenni children may be taught in their own language in the state schools of Dravenhollow, as the 1947 minorities charter already promises on paper. We are not asking you to grant a right. We are asking you to stop denying one you already recognized." },
+    { "type": "monologue", "text": "Kolvar is right, and being right has done his people no good for sixteen years. The charter exists. Enforcement never followed. I could sign this in an afternoon and call it justice, if it cost nothing. It will not cost nothing." },
+    { "type": "description", "text": "Before the delegation has finished, a second letter arrives — hand-delivered from the Archdiocese, faster than any letter should travel unless it was already written and waiting." },
+    { "type": "dialogue", "character": "archbishop_renek", "text": "Chancellor, the Church operates one hundred and twelve schools in Dravenhollow province under state charter, all of them in the national language, all of them in good order. Introduce a second language of instruction and the Church cannot in good conscience continue administering them. We would have no choice but to withdraw from state education there entirely." },
+    { "type": "monologue", "text": "One hundred and twelve schools. If Renek pulls them, Dravenhollow has no education system left to speak of — not a compromise, a collapse. He knows this. He is not threatening me. He is informing me of arithmetic." }
+  ],
+  "choices": [
+    {
+      "id": "w15_grant_rights",
+      "text": "Grant the petition in full. Dravenni becomes a language of instruction in Dravenhollow's state schools, charter or no charter. Renek can withdraw if his conscience demands it — the state will find other hands to teach.",
+      "nextSegment": null,
+      "flags": ["dravenni_rights_granted", "church_dravenni_tension"],
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 12 },
+        { "stat": "factions.church", "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w15_refuse_petition",
+      "text": "Decline for now. The Church's schools are the only functioning education system Dravenhollow has. Protecting what exists takes precedence over the principle of what should exist.",
+      "nextSegment": null,
+      "flags": ["dravenni_rights_refused", "church_dravenni_tension"],
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": -10 },
+        { "stat": "factions.church", "operation": "add", "value": 6 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w15_partial_compromise",
+      "text": "Offer a phased compromise: Dravenni taught as a secondary subject within the existing Church schools, not as the language of instruction. Neither delegation leaves satisfied — both leave still talking to you.",
+      "nextSegment": null,
+      "flags": ["dravenni_rights_partial", "church_dravenni_tension"],
+      "stateChanges": [
+        { "stat": "factions.dravenni", "operation": "add", "value": 3 },
+        { "stat": "factions.church", "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {}
+}

@@ -1,0 +1,52 @@
+{
+  "id": "act2_week27_347",
+  "title": "3:47",
+  "act": 2,
+  "weekAvailable": 27,
+  "weekDeadline": 28,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ashenmere",
+  "characters": ["danika_oberlin"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Danika brings the file herself rather than send it through channels, which is how you have learned to know a file matters before she has said a word about it." },
+    { "type": "dialogue", "character": "danika_oberlin", "text": "A labor organizer, Chancellor. Sarenka connections, some contact with the Kravenstal strikers, and — according to the surveillance report — meetings with someone Voss's people flagged as Tyvaren-linked. The recommendation is a predawn detention. Quiet, no press, standard protective custody while we confirm the contact." },
+    { "type": "monologue", "text": "Protective custody. Predawn. I have read those exact words in a file before, though not one with my name on the signature line." },
+    { "type": "description", "text": "You ask what time. She checks the operational plan without understanding why you asked." },
+    { "type": "dialogue", "character": "danika_oberlin", "text": "Three forty-seven. That's when the surveillance shift changes, so the house is quietest then. Chancellor — is something wrong?" },
+    { "type": "monologue", "text": "Two men. A coat already on. A door closing slowly because they had all the time in the world. I was twelve years old at that clock face and I have never once forgotten what the hands looked like." }
+  ],
+  "choices": [
+    {
+      "id": "w27_authorize",
+      "text": "Authorize it. The Tyvaren connection cannot be ignored, whatever the hour reminds you of.",
+      "nextSegment": null,
+      "flags": ["detention_347_authorized"],
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "danika_loyalty", "operation": "add", "value": 4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w27_refuse",
+      "text": "Refuse it. Order a daylight interview instead, with counsel present, or no detention at all.",
+      "nextSegment": null,
+      "flags": ["detention_347_refused"],
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "danika_loyalty", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {}
+}

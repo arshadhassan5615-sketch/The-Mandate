@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
@@ -203,10 +203,17 @@ export default function CharacterCustomization() {
   const [background,  setBackground]  = useState<PlayerBackground>('Academic')
   const [personality, setPersonality] = useState<PlayerPersonality>('Measured')
 
+  const hasBegunRef = useRef(false)
+  useEffect(() => {
+    if (hasBegunRef.current) return
+    hasBegunRef.current = true
+    runBeginLogic()
+  }, [])
+
   const applyModifiers  = useGameStore(s => s.applyModifiers)
   const setPlayerOptions = useGameStore(s => s.setPlayerOptions)
   const addFlags        = useNarrativeStore(s => s.addFlags)
-  const startPrologue   = useWeekStore(s => s.startPrologue)
+  const startCinematic   = useWeekStore(s => s.startCinematic)
 
   function runBeginLogic() {
     setPlayerOptions({ background, personality, appearance })
@@ -221,7 +228,7 @@ export default function CharacterCustomization() {
     applyModifiers(mods)
     addFlags([...fx.flags, `personality_${personality.toLowerCase()}`])
 
-    startPrologue()
+    startCinematic()
   }
 
   function handleBegin() {
@@ -230,186 +237,7 @@ export default function CharacterCustomization() {
 
   const fx = BACKGROUND_FX[background]
 
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, ease: 'easeOut' }}
-      style={{
-        position: 'fixed', inset: 0, zIndex: 200,
-        background: 'var(--paper)',
-        display: 'flex', flexDirection: 'column',
-        overflowY: 'auto',
-        minHeight: '100vh',
-      }}
-    >
-      {/* Header */}
-      <div style={{
-        padding: '1.2rem 2.5rem 0.9rem',
-        borderBottom: '1px solid var(--border)',
-        textAlign: 'center',
-      }}>
-        <p className="stamp" style={{ color: 'var(--amber)', opacity: 0.8, fontSize: '0.62rem' }}>
-          REPUBLIC OF VELTRIA — OFFICE OF THE CHANCELLOR-ELECT — MARCH 1963
-        </p>
-        <h2 style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontSize: '1.35rem', fontWeight: 600,
-          color: 'var(--cream)', marginTop: '0.25rem', letterSpacing: '0.04em',
-        }}>
-          Chancellor's Dossier
-        </h2>
-      </div>
-
-      {/* Main two-column body */}
-      <div style={{
-        flex: 1, display: 'flex',
-        padding: '1.5rem 2rem 2rem', gap: '2rem', alignItems: 'flex-start',
-        minHeight: 'fit-content',
-      }}>
-        {/* LEFT — Portrait */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', flexShrink: 0 }}>
-          <OrnateFrame>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={appearance}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                style={{ width: '100%', height: '100%' }}
-              >
-                <PortraitContent appearance={appearance}/>
-              </motion.div>
-            </AnimatePresence>
-          </OrnateFrame>
-          <p className="stamp" style={{ fontSize: '0.58rem', opacity: 0.35 }}>
-            Official Government Portrait
-          </p>
-        </div>
-
-        {/* RIGHT — Options */}
-        <div style={{ flex: 1, maxWidth: 460, minWidth: 300 }}>
-          <CycleControl
-            label="Appearance"
-            value={appearance}
-            onPrev={() => setAppearance(cycle(APPEARANCES, appearance, -1))}
-            onNext={() => setAppearance(cycle(APPEARANCES, appearance, 1))}
-          />
-          <p
-            key={`app-${appearance}`}
-            style={{
-              fontFamily: "'IM Fell English', Georgia, serif",
-              fontStyle: 'italic', fontSize: '0.8rem',
-              color: 'var(--muted)', lineHeight: 1.55,
-              marginTop: '0.4rem', marginBottom: '1rem',
-              paddingLeft: '0.5rem',
-              borderLeft: '2px solid var(--border)',
-            }}
-          >
-            {APPEARANCE_HINTS[appearance]}
-          </p>
-
-          <CycleControl
-            label="Background"
-            value={fx.label}
-            onPrev={() => setBackground(cycle(BACKGROUNDS, background, -1))}
-            onNext={() => setBackground(cycle(BACKGROUNDS, background, 1))}
-          />
-          <p
-            key={`bg-${background}`}
-            style={{
-              fontFamily: "'IM Fell English', Georgia, serif",
-              fontStyle: 'italic', fontSize: '0.8rem',
-              color: 'var(--muted)', lineHeight: 1.55,
-              marginTop: '0.4rem', marginBottom: '1rem',
-              paddingLeft: '0.5rem',
-              borderLeft: '2px solid var(--border)',
-            }}
-          >
-            {fx.description}
-          </p>
-
-          <CycleControl
-            label="Disposition"
-            value={personality}
-            onPrev={() => setPersonality(cycle(PERSONALITIES, personality, -1))}
-            onNext={() => setPersonality(cycle(PERSONALITIES, personality, 1))}
-          />
-          <p
-            key={`per-${personality}`}
-            style={{
-              fontFamily: "'IM Fell English', Georgia, serif",
-              fontStyle: 'italic', fontSize: '0.8rem',
-              color: 'var(--muted)', lineHeight: 1.55,
-              marginTop: '0.4rem', marginBottom: '2rem',
-              paddingLeft: '0.5rem',
-              borderLeft: '2px solid var(--border)',
-            }}
-          >
-            {PERSONALITY_DESC[personality]}
-          </p>
-        </div>
-      </div>
-
-      {/* Bottom bar — name / signature / begin */}
-      <div style={{
-        borderTop: '1px solid var(--border)',
-        marginTop: '1.5rem',
-        padding: '0.9rem 2rem 1.2rem',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        background: 'rgba(200,144,42,0.03)', flexShrink: 0,
-        flexWrap: 'wrap', gap: '1rem',
-      }}>
-        <div>
-          <h1 style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-            fontSize: '1.55rem', fontWeight: 700,
-            color: 'var(--amber)', letterSpacing: '0.08em', margin: 0,
-          }}>
-            KATERIN ASHAVEL
-          </h1>
-          <p style={{
-            fontFamily: "'IM Fell English', Georgia, serif",
-            fontStyle: 'italic', color: 'var(--muted)',
-            fontSize: '0.88rem', marginTop: '0.15rem',
-          }}>
-            Chancellor-Elect of the Republic of Veltria
-          </p>
-          {/* Stylized signature */}
-          <svg viewBox="0 0 200 36" style={{ width: 200, height: 36, marginTop: '0.25rem', display: 'block', opacity: 0.45 }}>
-            <path
-              d="M8,28 C18,8 28,32 44,22 C54,15 60,30 76,18 C86,10 92,26 108,20 C120,14 126,28 142,22 C152,18 158,26 174,20 C182,17 187,23 194,20"
-              fill="none" stroke="var(--amber)" strokeWidth="1.4" strokeLinecap="round"
-            />
-            <path d="M12,30 Q40,26 65,32" fill="none" stroke="var(--amber)" strokeWidth="0.8" strokeLinecap="round" opacity="0.5"/>
-          </svg>
-        </div>
-
-        {/* Official stamp button */}
-        <motion.button
-          onClick={handleBegin}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          style={{
-            background: 'transparent',
-            border: '2px solid var(--amber)',
-            color: 'var(--amber)',
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.8rem', letterSpacing: '0.22em',
-            padding: '0.85rem 2.2rem',
-            cursor: 'pointer', textTransform: 'uppercase',
-            boxShadow: '0 0 0 4px rgba(200,144,42,0.07), inset 0 0 0 1px rgba(200,144,42,0.08)',
-            position: 'relative',
-          }}
-        >
-          Begin
-          <StampCorner pos="tl"/><StampCorner pos="tr"/>
-          <StampCorner pos="bl"/><StampCorner pos="br"/>
-        </motion.button>
-      </div>
-    </motion.div>
-  )
+  return null
 }
 
 function StampCorner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {

@@ -139,7 +139,7 @@ export default function MorningBriefing() {
   )
 
   return (
-    <div className="flex flex-col h-screen w-screen fixed inset-0" style={{ zIndex: 1, background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}>
+    <div className="flex flex-col h-screen w-screen fixed inset-0" style={{ zIndex: 1, background: 'rgba(15,13,10,1)', paddingTop: '48px', paddingRight: '60px' }}>
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
       <div className="shrink-0 flex items-center px-8 py-3 border-b" style={{ borderColor: 'var(--border)', maxWidth: 'calc(100% - 200px)' }}>

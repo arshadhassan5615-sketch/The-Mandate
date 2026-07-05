@@ -1,0 +1,68 @@
+{
+  "id": "act1_week9_thornfeld_cooperatives",
+  "title": "The Cooperative Question",
+  "act": 1,
+  "weekAvailable": 9,
+  "weekDeadline": 11,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Thornfeld",
+  "characters": ["gregor_maric", "generic"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Thornfeld sends its business to Ashenmere rarely and only when it cannot be avoided. A delegation of tenant farmers has traveled two days by rail to avoid it no longer." },
+    { "type": "dialogue", "character": "gregor_maric", "text": "Chancellor, they've been pooling equipment and seed informally for two seasons already, farm by farm, without asking anyone's permission. Now they're asking you to formalize it — a proper cooperative, shared quotas, state backing for the machinery they can't afford alone." },
+    { "type": "description", "text": "The delegation's spokesman speaks plainly, in the unhurried cadence of a man who has said this exact thing to three governments before yours and expects to say it to a fourth after." },
+    { "type": "dialogue", "character": "generic", "text": "We aren't asking you to take anyone's land, Chancellor. We're asking you to recognize what we've already built ourselves. Six farms, one harvest, shared fair. It works. It only needs your signature to stop being fragile." },
+    { "type": "monologue", "text": "It sounds reasonable because it is reasonable. But I know exactly how this reads forty kilometers away, in the parlors of Thornfeld's older landowning families — not as recognition, as precedent. Today six farms pool a harvest. Next year the reformists in my own cabinet will ask why every farm shouldn't." },
+    { "type": "description", "text": "A second letter waits on your desk, sent ahead by post from the Thornfeld Landholders' Association — three signatures, careful language, the particular courtesy of people who are frightened and do not want to sound frightened." },
+    { "type": "monologue", "text": "They are not wrong to be afraid. I have not decided anything yet, and they can already see the shape of where this leads." }
+  ],
+  "choices": [
+    {
+      "id": "w9_mandate_cooperatives",
+      "text": "Formalize it fully. State-backed cooperative status, shared quotas, machinery subsidies — and an open door for any Thornfeld farms that want to join.",
+      "nextSegment": null,
+      "flags": ["thornfeld_cooperative_mandated"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 9 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w9_protect_landowners",
+      "text": "Decline. Thornfeld's farms stay as they are, individually held. Tell the delegation the informal arrangement can continue — it simply won't carry the state's signature.",
+      "nextSegment": null,
+      "flags": ["thornfeld_cooperative_refused", "thornfeld_organizer_spurned"],
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 7 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w9_voluntary_framework",
+      "text": "Offer a voluntary framework — cooperatives can register for limited state support, but nothing is mandated and no farm is pressured to join.",
+      "nextSegment": null,
+      "flags": ["thornfeld_cooperative_voluntary"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 2 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -1 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {}
+}

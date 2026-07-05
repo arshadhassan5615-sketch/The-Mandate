@@ -1,0 +1,114 @@
+{
+  "id": "act3_week38_two_letters",
+  "title": "The Two Letters",
+  "act": 3,
+  "weekAvailable": 38,
+  "weekDeadline": 39,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ashenmere",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Two letters arrive on the same morning, by two separate couriers who arrive within a minute of each other, which is either coincidence or is not." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "One from Morvec's office, one from Vael's. Chancellor, I have worked in this building through three governments, and I have never once seen those two men move on the same day before, let alone the same hour." },
+    { "type": "description", "text": "Morvec's letter is characteristically brief. It itemizes, in the dry language of an accountant rather than a threat, every favor extended across your term — the Sarenka rescue, whatever else your term's choices made true — and requests, politely, a single vote in the coming Assembly session. Not a demand. A reminder of arithmetic." },
+    { "type": "description", "text": "Vael's letter is longer, warmer in tone, and considerably more dangerous for it. It does not itemize. It simply notes, in one paragraph near the end, that certain ledgers — the ones you may remember, he writes, as if being helpful — remain in a drawer that has not yet been opened to anyone else." },
+    { "type": "monologue", "text": "Five years of governing, and it comes to this: two men, two letters, one morning, and the sudden understanding that I have spent my whole term paying two debts I told myself were separate, when they were always the same debt wearing two different names." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "You do not have to answer both today, Chancellor. But you should know — they will both know, within the week, if you have answered one and not the other. Men like this compare notes." }
+  ],
+  "choices": [
+    {
+      "id": "w47_break_vael",
+      "text": "Answer Vael first, and answer him with the Justice Ministry. Release everything — the ledger, the kickbacks, all of it — and let Morvec understand exactly what happens to men who write him letters like that.",
+      "nextSegment": "seg_vael_broken",
+      "flags": ["endgame_vael_broken"],
+      "stateChanges": [
+        { "stat": "vaelInfluence", "operation": "add", "value": -30 },
+        { "stat": "morvecInfluence", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w47_break_morvec",
+      "text": "Answer Morvec first. Refuse the vote publicly, on principle, and let every future favor of his go unrepaid starting today — whatever that costs the treasury.",
+      "nextSegment": "seg_morvec_broken",
+      "flags": ["endgame_morvec_broken"],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": -30 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w47_break_both",
+      "text": "Answer both at once. Give the vote to neither, release nothing, and let both men learn simultaneously that their letters bought them exactly nothing this year.",
+      "nextSegment": "seg_both_broken",
+      "flags": ["endgame_both_broken"],
+      "conditions": [{ "type": "flag", "flag": "ledger_prosecute", "value": true }],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": -20 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w47_pay_both",
+      "text": "Honor both letters. The vote goes as Morvec asked. The drawer stays closed as Vael asked. Five years of careful debts, paid in full, quietly, the way they were always going to be paid.",
+      "nextSegment": "seg_owned_quietly",
+      "flags": ["endgame_owned_quietly"],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": 10 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -12 },
+        { "stat": "personal.shadowInfluence", "operation": "add", "value": 8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_vael_broken": {
+      "narrative": [
+        { "type": "description", "text": "The Justice Ministry's raid on Vael Construction makes every front page in the country. He does not contact you again. Morvec sends a single line by courier two days later: 'Noted, Chancellor. I will not require reminding twice.'" },
+        { "type": "monologue", "text": "One house down. One still standing, and now watching me with considerably more attention than before." }
+      ],
+      "choices": []
+    },
+    "seg_morvec_broken": {
+      "narrative": [
+        { "type": "description", "text": "Morvec's response arrives not as a letter but as silence — no favors called in, no rescues offered, ever again, in any crisis this term has left to run. Vael, by contrast, sends flowers to your office, which you understand is its own kind of message." },
+        { "type": "monologue", "text": "I have made an enemy of the patient one and a friend of the dangerous one. History will have opinions about which of those is the worse trade." }
+      ],
+      "choices": []
+    },
+    "seg_both_broken": {
+      "narrative": [
+        { "type": "description", "text": "It costs the treasury more than either house alone would have. It costs you, by the week's end, two of the most powerful men in Veltria as open enemies rather than uneasy creditors. It is also, for the first time in five years, entirely clean." },
+        { "type": "monologue", "text": "I do not know yet if history rewards the clean choice or merely records it. I find, for tonight, that I do not need it to reward anything." }
+      ],
+      "choices": []
+    },
+    "seg_owned_quietly": {
+      "narrative": [
+        { "type": "description", "text": "Nothing changes visibly. The Assembly vote passes as arranged. The drawer stays shut. No newspaper ever runs a story about this morning, because there is, on paper, no story to run." },
+        { "type": "monologue", "text": "I have governed a nation for five years and I have just discovered, quietly, on an ordinary Tuesday, exactly who I answer to when no one else is in the room." }
+      ],
+      "choices": []
+    }
+  }
+}

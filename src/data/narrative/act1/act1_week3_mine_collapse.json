@@ -1,0 +1,196 @@
+{
+  "id": "act1_week3_mine_collapse",
+  "title": "The Weight of Kravenstal",
+  "act": 1,
+  "weekAvailable": 3,
+  "weekDeadline": 4,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Kravenstal",
+  "characters": ["gregor_maric", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "The call comes at 5:40 in the morning. You are already awake. You have been Chancellor for nineteen days and you have learned that the telephone never rings early with good news." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "The Sarenka pit. Kravenstal. Gallery Seven came down at the shift change — forty-one men on the register, eleven accounted for. The mine belongs to Veltrian Consolidated Collieries." },
+    { "type": "monologue", "text": "Sarenka. You know that pit. Your father's cousin worked Gallery Four for eleven years and coughed black for the rest of his life. Consolidated Collieries — that is a Morvec company. Everyone in Kravenstal knows whose company it is, even if the paperwork passes through three holding firms in Ashenmere first." },
+    { "type": "description", "text": "By eight o'clock the wire services have the story. By nine, the first photographs: women standing at the pit gate in the rain, not crying, not shouting. Waiting. Kravenstal women have done this before." },
+    { "type": "dialogue", "character": "gregor_maric", "text": "Chancellor, the rescue engineering is beyond the company's site crew. They need the army's tunneling section and they need pumps from Sevagrad, and both need authorization and money moving today. Every hour we spend deciding, the water table decides for us." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "There is one more thing. A letter arrived at seven — by courier, not post. Stefan Morvec offers to underwrite the entire rescue operation privately. Equipment, wages, compensation for the families. He asks for nothing in return. His words." },
+    { "type": "monologue", "text": "Nothing in return. A man does not build what Morvec has built by asking for nothing in return. But forty-one men are under the ground of the province that raised you, and the treasury you inherited is a drained pond. The arithmetic is ugly and he knows it. That is why the letter came by courier — so you would know it before the newspapers knew the death toll." },
+    { "type": "description", "text": "Marić waits by the window. Vyktor waits by the door. On your desk: a rescue plan requiring signatures, and a rich man's letter requiring an answer. Outside, it is still raining in two provinces." }
+  ],
+  "choices": [
+    {
+      "id": "w3_go_kravenstal",
+      "text": "Go to Kravenstal yourself. Authorize the army tunneling section en route. The Chancellor stands at the pit gate with the families.",
+      "nextSegment": "seg_pit_gate",
+      "flags": ["kravenstal_visited", "widow_havelka_seen"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w3_send_maric",
+      "text": "Send Marić with full authority. A Labor Minister at a mine speaks the right language — and the Chancellor is not seen governing by spectacle.",
+      "nextSegment": "seg_maric_dispatched",
+      "flags": ["maric_sent_kravenstal"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w3_manage_capital",
+      "text": "Manage it from Ashenmere. Signatures move rescue crews faster than motorcades do. Sentiment is not your department this week; survival is.",
+      "nextSegment": "seg_capital_desk",
+      "flags": ["w3_managed_remotely"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_pit_gate": {
+      "narrative": [
+        { "type": "description", "text": "The motorcade reaches Sarenka by early afternoon. The rain has thinned to something colder. At the pit gate the crowd parts without being asked — not deference, recognition. You grew up forty kilometers from this gate." },
+        { "type": "description", "text": "A woman stands slightly apart from the others, a coat too big for her over her shoulders, a man's coat. She does not approach you and she does not look away. Someone murmurs her name: Havelka. Her husband is in Gallery Seven. When your eyes meet she says, loud enough for exactly you to hear: 'They told us this pit was safe in March. Somebody signed that paper, Chancellor. Papers have names on them.'" },
+        { "type": "monologue", "text": "Papers have names on them. She is right, and the name on the March inspection certificate is going to lead somewhere I may not want to follow. But I will follow it." },
+        { "type": "description", "text": "By nightfall the army tunneling section has cut a bypass into Gallery Six. The pumps from Sevagrad arrive at midnight. And in your coat pocket, unanswered, Morvec's letter has been quietly waiting the entire day." }
+      ],
+      "choices": [
+        {
+          "id": "w3_accept_morvec",
+          "text": "Accept Morvec's money. The treasury cannot carry this and he knows it. Let him pay — and let him believe that settles something.",
+          "nextSegment": null,
+          "flags": ["morvec_rescue_accepted", "morvec_debt_1"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": 8 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "w3_refuse_morvec",
+          "text": "Refuse the letter. The state rescues its own miners from a Morvec company's mine — and the state will also be reading that March inspection certificate very closely.",
+          "nextSegment": null,
+          "flags": ["morvec_refused_w3", "sarenka_inspection_flagged"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": -5 },
+            { "stat": "nation.nationalDebt", "operation": "add", "value": 3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "w3_accept_public",
+          "text": "Accept the money — publicly. Announce that Consolidated Collieries is funding the rescue of its own mine, as is only proper. Take his money and hand him the bill in the same sentence.",
+          "nextSegment": null,
+          "flags": ["morvec_money_publicized"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": 3 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+            { "stat": "factions.businessClass", "operation": "add", "value": -4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_maric_dispatched": {
+      "narrative": [
+        { "type": "description", "text": "Marić leaves within the hour, taking two engineers and the authority to sign anything under fifty thousand krone. It is the correct decision executed correctly, and all afternoon it sits in your chest like a stone." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The evening papers will note the Chancellor remained in the capital. Some will call it steady. The Kravenstal Herald will not call it steady." },
+        { "type": "monologue", "text": "The Herald is printed six streets from the house I grew up in. I know exactly what word they will use, because it is the word I would have used at their desk: absent." },
+        { "type": "description", "text": "At dusk, Marić telephones from the pit office. The army section is cutting toward Gallery Six. Then, lower: 'There is a letter here for you, Chancellor. From Morvec's office. He is offering to pay for all of it. The site manager made sure I saw it — which means Morvec made sure the site manager made sure.'" }
+      ],
+      "choices": [
+        {
+          "id": "w3_accept_morvec_remote",
+          "text": "Tell Marić to accept the funding through the ministry — quietly, correctly, in writing.",
+          "nextSegment": null,
+          "flags": ["morvec_rescue_accepted", "morvec_debt_1"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": 8 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "w3_refuse_morvec_remote",
+          "text": "Refuse it. State funds, state rescue, and a state inspector's eyes on that mine's paperwork when this is over.",
+          "nextSegment": null,
+          "flags": ["morvec_refused_w3", "sarenka_inspection_flagged"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": -5 },
+            { "stat": "nation.nationalDebt", "operation": "add", "value": 3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_capital_desk": {
+      "narrative": [
+        { "type": "description", "text": "You govern it from the desk. Authorizations at 9:15. The army tunneling section rolling by 11:00. Pumps requisitioned from Sevagrad by early afternoon, a full six hours faster than any minister on a train could have managed it." },
+        { "type": "description", "text": "The rescue arithmetic is flawless. The political arithmetic arrives with the evening editions: a photograph of the pit gate, the waiting women, and no Chancellor in the frame. The caption does not accuse. It does not need to." },
+        { "type": "monologue", "text": "Nineteen days in office and I have already learned the cruelest rule of this work: doing the thing correctly and being seen to care are two different currencies, and Kravenstal only accepts one of them." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "One more item before you close the day. The Morvec letter. He has telephoned twice — politely — to ask whether the Chancellor received it. He will not ask a third time. Men like Morvec count refusals differently than the rest of us." }
+      ],
+      "choices": [
+        {
+          "id": "w3_accept_morvec_desk",
+          "text": "Accept the funding. Tonight the only number that matters is forty-one, and his money moves pumps.",
+          "nextSegment": null,
+          "flags": ["morvec_rescue_accepted", "morvec_debt_1"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": 8 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "w3_refuse_morvec_desk",
+          "text": "Decline with thanks. The state does not take private money for public duties — and file a note to review Consolidated Collieries' inspection record.",
+          "nextSegment": null,
+          "flags": ["morvec_refused_w3", "sarenka_inspection_flagged"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": -5 },
+            { "stat": "nation.nationalDebt", "operation": "add", "value": 3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "act1_week12_brenner_parade",
+  "title": "Army Day",
+  "act": 1,
+  "weekAvailable": 12,
+  "weekDeadline": 13,
+  "type": "ceremony",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ashenmere",
+  "characters": ["general_brenner", "irina_dusek"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "General Brenner requests an audience in person rather than sending a memorandum, which is itself a kind of message. He arrives in full dress uniform for a meeting that did not require one." },
+    { "type": "dialogue", "character": "general_brenner", "text": "Army Day falls in eleven days, Chancellor. Tradition calls for a parade through Ashenmere — armor, the honor guard, the air wing overhead. Halvek never missed one in twenty years. The men expect it. Morale expects it." },
+    { "type": "monologue", "text": "The men expect it. Not the nation — the men. Brenner has just told me, in the politest possible language, that the army answers to its own customs before it answers to my signature. This is not a request for a parade. It is a request to learn how much I will let him have." },
+    { "type": "dialogue", "character": "irina_dusek", "text": "Chancellor, a word before you decide. Tyvaren's border command reads every column of Veltrian armor as a message addressed to them, whether we intend one or not. A full parade this close to the frontier will not read as tradition in Tyvaren's briefing rooms. It will read as a threat." },
+    { "type": "description", "text": "Brenner watches you without expression, the particular stillness of a man who has already decided what your answer means about you, whichever answer you give." }
+  ],
+  "choices": [
+    {
+      "id": "w12_full_parade",
+      "text": "Approve it in full — armor, honor guard, air wing overhead. Give the General his tradition and let him report to his officers that the Chancellor understands the army.",
+      "nextSegment": null,
+      "flags": ["brenner_appeased", "brenner_parade_full"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w12_modify_parade",
+      "text": "Approve a modified parade — honor guard and veterans, no armor, no air wing. A commemoration, not a demonstration. Frame it publicly as fiscal restraint.",
+      "nextSegment": null,
+      "flags": ["brenner_parade_modified"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 1 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w12_refuse_parade",
+      "text": "Refuse it. Army Day will be marked with a private ceremony at the war memorial — no armor in the capital's streets. Make clear the army parades when the Chancellor's office says it parades.",
+      "nextSegment": null,
+      "flags": ["brenner_defied", "brenner_parade_refused"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -12 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": -5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {}
+}

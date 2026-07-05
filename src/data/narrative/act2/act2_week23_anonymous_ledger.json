@@ -1,0 +1,68 @@
+{
+  "id": "act2_week23_anonymous_ledger",
+  "title": "The Ledger",
+  "act": 2,
+  "weekAvailable": 23,
+  "weekDeadline": 25,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ashenmere",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "The envelope arrives with the morning post, unmarked, hand-delivered rather than mailed — no stamp, no return address, no note explaining how it found your desk instead of the hundred other desks it might have reached first." },
+    { "type": "description", "text": "Inside: photocopied ledger pages. Account numbers, transfer dates, contractor names — the financial skeleton of the highway project, and several entries circled in red ink. The circled figures do not match the public budget by a wide, deliberate margin." },
+    { "type": "monologue", "text": "I know these account numbers. I have seen them before, in a briefing I signed off on without reading closely enough. Lucan Vael's signature is nowhere on these pages, which is exactly how a man like Vael ensures his signature is nowhere on anything." },
+    { "type": "description", "text": "At the bottom of the last page, in the margin, three words are written by hand — not typed, not photocopied. A hand you have seen somewhere. You cannot say where. You turn the page toward the window light, as if better light might make you certain. It does not." },
+    { "type": "dialogue", "character": "vyktor_reznik", "text": "Whoever sent it wants you to act, Chancellor, but wanting isn't the same as being right to. Ledgers like this can be genuine evidence or genuine bait, and from where you're sitting they look identical." },
+    { "type": "monologue", "text": "He says it plainly, the way he says most things. I find myself watching his hands anyway, which is unfair to him, and I do it regardless." }
+  ],
+  "choices": [
+    {
+      "id": "w23_prosecute",
+      "text": "Open a formal investigation into the highway contracts. Let the Justice Ministry follow the ledger wherever it leads, publicly, on the record.",
+      "nextSegment": null,
+      "flags": ["ledger_prosecute", "vael_investigation_opened"],
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": -8 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w23_leverage",
+      "text": "Say nothing publicly. Summon Vael privately, show him one page — not all of them — and let him understand exactly what you are choosing not to release.",
+      "nextSegment": null,
+      "flags": ["ledger_leverage", "vael_leveraged"],
+      "stateChanges": [
+        { "stat": "vaelInfluence", "operation": "add", "value": 6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+        { "stat": "personal.shadowInfluence", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w23_bury",
+      "text": "File it away, unopened by anyone else, unanswered. Whatever this costs later, it is a cost for a version of you that has more time than you do this week.",
+      "nextSegment": null,
+      "flags": ["ledger_buried"],
+      "stateChanges": [
+        { "stat": "vaelInfluence", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {}
+}

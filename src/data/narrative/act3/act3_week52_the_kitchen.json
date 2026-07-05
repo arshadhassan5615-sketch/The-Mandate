@@ -1,0 +1,108 @@
+{
+  "id": "act3_week52_the_kitchen",
+  "title": "The Kitchen",
+  "act": 3,
+  "weekAvailable": 52,
+  "weekDeadline": 52,
+  "type": "personal",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Kravenstal",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "You have not stood in this kitchen in over thirty years. The house sold twice since your mother died, but the new owners were glad to let a former Chancellor visit for an afternoon, and gladder still to leave you alone in it when you asked." },
+    { "type": "description", "text": "The table is not the same table. The stove is not the same stove. But the window over the sink faces the same street, and the light at this hour falls exactly the way you remember it falling, thin and gray, the particular gray of a Kravenstal winter." },
+    { "type": "description", "text": "Jonas sits where your father used to sit. He has a letter in his hands — the last one, the formal one, the Assembly's closing acknowledgment of your term, forwarded here because you asked for it to find you at this address instead of the capital." },
+    { "type": "monologue", "text": "Your hands are shaking, he says, and you tell him it is only the cold. He does not believe you, and he is kind enough not to say so." },
+    { "type": "dialogue", "character": "jonas_ashavel", "text": "You don't have to read it today. You don't have to read it at all, if you'd rather not." }
+  ],
+  "choices": [
+    {
+      "id": "w52_reflect_clean_break",
+      "text": "Think of the two letters you answered five years ago, and the two houses you broke rather than owed.",
+      "nextSegment": "seg_reflect_clean",
+      "conditions": [{ "type": "flag", "flag": "endgame_both_broken", "value": true }],
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w52_reflect_vael",
+      "text": "Think of Vael's construction firm, raided and broken, and Morvec's letters that never stopped arriving after.",
+      "nextSegment": "seg_reflect_vael",
+      "conditions": [{ "type": "flag", "flag": "endgame_vael_broken", "value": true }],
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w52_reflect_morvec",
+      "text": "Think of Morvec's silence, total and permanent, and the flowers Vael sent that you never did throw away.",
+      "nextSegment": "seg_reflect_morvec",
+      "conditions": [{ "type": "flag", "flag": "endgame_morvec_broken", "value": true }],
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w52_reflect_owned",
+      "text": "Think of the drawer that never opened, the vote that passed as arranged, and the ordinary Tuesday you learned who you answered to.",
+      "nextSegment": "seg_reflect_owned",
+      "conditions": [{ "type": "flag", "flag": "endgame_owned_quietly", "value": true }],
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w52_reflect_general",
+      "text": "Think of everything, all at once, the way it actually happened rather than the way you would tell it.",
+      "nextSegment": "seg_reflect_general",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_reflect_clean": {
+      "narrative": [
+        { "type": "monologue", "text": "It cost the treasury more than either house alone would have. It made enemies of both of them, openly, permanently. I have wondered, some nights, whether that was courage or simply the one door I could walk through without checking first who was on the other side of it." }
+      ],
+      "choices": []
+    },
+    "seg_reflect_vael": {
+      "narrative": [
+        { "type": "monologue", "text": "Morvec never called in another favor after that. I told myself his silence was respect. I have never fully believed myself." }
+      ],
+      "choices": []
+    },
+    "seg_reflect_morvec": {
+      "narrative": [
+        { "type": "monologue", "text": "I made an enemy of the patient one and, without quite meaning to, a friend of the dangerous one. I still do not know which of those was the worse trade. I am not certain I ever will." }
+      ],
+      "choices": []
+    },
+    "seg_reflect_owned": {
+      "narrative": [
+        { "type": "monologue", "text": "No newspaper ever ran that story, because there was, on paper, no story to run. I have spent five years since being the only person alive who knows it happened at all." }
+      ],
+      "choices": []
+    },
+    "seg_reflect_general": {
+      "narrative": [
+        { "type": "monologue", "text": "Every choice, every letter, every man in every gallery and every kitchen. It does not resolve into a single shape, the way I always assumed a life would when looked back on from far enough away. It only ever adds up to itself." }
+      ],
+      "choices": []
+    }
+  }
+}

@@ -12,6 +12,7 @@ import { useAudio } from '../hooks/useAudio'
 import MainMenu from './MainMenu'
 import CharacterCustomization from './CharacterCustomization'
 import ChildhoodPrologue from './ChildhoodPrologue'
+import CinematicOpening from './CinematicOpening'
 import KaterinHUD from './KaterinHUD'
 import TopBar from './TopBar'
 import RightSidebar from './RightSidebar'
@@ -39,6 +40,7 @@ import DiaryScreen from './DiaryScreen'
 import CliffhangerScreen from './CliffhangerScreen'
 import DecreeInbox from './DecreeInbox'
 import MapInteractionLayer from './MapInteractionLayer'
+import MapChromeFrame from './MapChromeFrame'
 import ActTransition from './ActTransition'
 import { ErrorBoundary } from './ErrorBoundary'
 import SaveSlotScreen from './SaveSlotScreen'
@@ -164,6 +166,7 @@ export default function GameLayout() {
 
       {phase === 'title'         && <MainMenu />}
       {phase === 'customization' && <CharacterCustomization />}
+      {phase === 'cinematic'     && <CinematicOpening />}
       {phase === 'prologue'      && <ChildhoodPrologue />}
       {phase === 'briefing' && <MorningBriefing />}
 
@@ -232,6 +235,7 @@ export default function GameLayout() {
 
       {phase === 'agenda'   && <AgendaSelector />}
       {phase === 'map'      && <MapInteractionLayer />}
+      {phase === 'map'      && <MapChromeFrame />}
       {phase === 'scene'    && <ErrorBoundary><SceneRouter /></ErrorBoundary>}
       {phase === 'budget'       && <BudgetInterface />}
       {phase === 'constitution' && <ConstitutionalReform />}

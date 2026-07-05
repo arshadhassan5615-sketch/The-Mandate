@@ -71,18 +71,80 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
-      <img
-        src={mapPinImg}
-        alt={PROVINCE_NAMES[provinceId] ?? provinceId}
-        style={{
-          width: '48px',
-          height: 'auto',
-          display: 'block',
-          pointerEvents: 'none',
-          userSelect: 'none',
-        }}
-        draggable={false}
-      />
+      <div style={{ position: 'relative', display: 'inline-block', pointerEvents: 'none' }}>
+        {/* Grounding shadow — sits under the pin tip */}
+        <div style={{
+          position: 'absolute',
+          bottom: -4,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 34,
+          height: 10,
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%)',
+        }}/>
+
+        <img
+          src={mapPinImg}
+          alt={PROVINCE_NAMES[provinceId] ?? provinceId}
+          style={{
+            width: '52px',
+            height: 'auto',
+            display: 'block',
+            pointerEvents: 'none',
+            userSelect: 'none',
+            position: 'relative',
+          }}
+          draggable={false}
+        />
+
+        {/* Scene-count pip — only when more than one scene waits */}
+        {items.length > 1 && (
+          <div style={{
+            position: 'absolute',
+            top: -2,
+            right: -4,
+            minWidth: 16,
+            height: 16,
+            borderRadius: '50%',
+            background: 'linear-gradient(180deg, #2a2115 0%, #171208 100%)',
+            border: '1px solid rgba(201,168,76,0.7)',
+            color: '#c9a84c',
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '9px',
+            lineHeight: '15px',
+            textAlign: 'center',
+            padding: '0 3px',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.6)',
+          }}>
+            {items.length}
+          </div>
+        )}
+
+        {/* Nameplate ribbon beneath the pin */}
+        <div style={{
+          position: 'absolute',
+          top: 'calc(100% + 2px)',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          whiteSpace: 'nowrap',
+          background: 'linear-gradient(180deg, rgba(26,21,16,0.92) 0%, rgba(14,11,7,0.92) 100%)',
+          border: '1px solid rgba(201,168,76,0.45)',
+          borderRadius: '2px',
+          padding: '2px 8px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.55)',
+        }}>
+          <span style={{
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '8px',
+            letterSpacing: '0.22em',
+            color: hasUrgent ? '#e08a7a' : '#c9a84c',
+            textTransform: 'uppercase',
+          }}>
+            {PROVINCE_NAMES[provinceId] ?? provinceId}
+          </span>
+        </div>
+      </div>
 
       {open && (
         <div

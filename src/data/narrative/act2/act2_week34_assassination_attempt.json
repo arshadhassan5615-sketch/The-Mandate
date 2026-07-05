@@ -1,0 +1,142 @@
+{
+  "id": "act3_week29_assassination_attempt",
+  "title": "The Shot",
+  "act": 3,
+  "weekAvailable": 29,
+  "weekDeadline": 30,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Ashenmere",
+  "characters": ["irina_dusek", "danika_oberlin"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "The ribbon-cutting at the new Ashenmere transit hall is the kind of appearance your calendar calls routine — five minutes of remarks, a photograph, a handshake with the engineers. You have done forty of these since March." },
+    { "type": "description", "text": "The shot comes from the gallery above the hall, not the crowd. One report, then a second half a beat behind it, then Colonel Dusek's body is already between you and the balcony before your own mind has finished registering the sound as a sound rather than something structural failing." },
+    { "type": "description", "text": "You are on the ground. There is shouting that sounds very far away, and then, all at once, very close. Someone is pressing a hand flat against the side of your head, and it comes away red, though the wound turns out to be a graze — a centimeter, the surgeon will say later, as if a centimeter were a unit of mercy rather than luck." },
+    { "type": "monologue", "text": "There is a sound in my left ear now that was not there this morning — a thin, high, constant note, like a kettle two rooms away that never quite finishes boiling. The surgeon says it may fade. He says may the way surgeons say may when they mean it will not." },
+    { "type": "dialogue", "character": "irina_dusek", "text": "The shooter is dead, Chancellor. My men returned fire before he could be taken alive. We have the rifle, the gallery access badge he used, and very little else yet. I am sorry — I should have had a man in that gallery before you ever stepped onto that stage." },
+    { "type": "monologue", "text": "She says I should have. I find I cannot make myself agree or disagree. Somewhere under the ringing in my ear I am doing arithmetic I do not want to be doing — counting backward through every choice that might have put that man in that gallery with that rifle." }
+  ],
+  "choices": [
+    {
+      "id": "w34_address_immediately",
+      "text": "Address the nation within the hour, from the hospital, on your feet if you can manage it. Let Veltria see that the attempt failed to do what it was meant to do.",
+      "nextSegment": "seg_investigation",
+      "flags": ["post_attempt_injury", "week34_addressed_immediately"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w34_withdraw_private",
+      "text": "Withdraw from public view. Let Vyktor issue a brief statement while you take the days the doctors are telling you, in careful language, that you actually need.",
+      "nextSegment": "seg_investigation",
+      "flags": ["post_attempt_injury", "week34_withdrew"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "w34_demand_response",
+      "text": "Demand an immediate, visible security response before the investigation concludes anything. The nation should see the state answer force with force.",
+      "nextSegment": "seg_investigation",
+      "flags": ["post_attempt_injury", "week34_demanded_response"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -7 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_investigation": {
+      "narrative": [
+        { "type": "description", "text": "Three days later, Danika brings what the investigation has actually found, which is less than the newspapers are already claiming to know." },
+        { "type": "dialogue", "character": "danika_oberlin", "text": "The shooter carried no identification by design, Chancellor. What we have is circumstantial — an access badge traced through two intermediaries, a rifle with the serial filed but not filed well. It points in more than one direction. I won't pretend to you it points in only one." },
+        { "type": "monologue", "text": "More than one direction. Danika is being honest, which is rarer from her office than it should be. The truth is I already have a direction in mind, and I suspect it says more about the choices I have made than about the evidence in front of me." }
+      ],
+      "choices": [
+        {
+          "id": "w34_theory_halvekist",
+          "text": "The badge traces to a printing contractor with old ties to the Halvek regime. Pursue it as retaliation for the portraits, and for everything they symbolized.",
+          "nextSegment": null,
+          "flags": ["shooter_halvekist_theory"],
+          "conditions": [{ "type": "flag", "flag": "portraits_removed_public", "value": true }],
+          "stateChanges": [
+            { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+            { "stat": "factions.reformists", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "w34_theory_labor",
+          "text": "The rifle was purchased near Thornfeld, weeks after a cooperative organizer was turned away from your desk with nothing. Pursue it as a betrayal answered in kind.",
+          "nextSegment": null,
+          "flags": ["shooter_labor_theory"],
+          "conditions": [{ "type": "flag", "flag": "thornfeld_organizer_spurned", "value": true }],
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -8 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "w34_theory_military",
+          "text": "The gallery access badge traces back through a supply officer who answers, three names up the chain, to General Brenner. Pursue it, knowing exactly what that accusation costs you if you are wrong.",
+          "nextSegment": null,
+          "flags": ["shooter_military_theory"],
+          "conditions": [{ "type": "flag", "flag": "brenner_defied", "value": true }],
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+            { "stat": "personal.shadowInfluence", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "w34_theory_foreign",
+          "text": "The rifle is a Tyvaren military pattern, not standard on the domestic market. Pursue it as a message from across the northern border, delivered the only way Tyvaren delivers messages it can later deny.",
+          "nextSegment": null,
+          "flags": ["shooter_foreign_theory"],
+          "conditions": [{ "type": "flag", "flag": "brenner_parade_full", "value": true }],
+          "stateChanges": [
+            { "stat": "tyvarenHostility", "operation": "add", "value": 12 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "w34_theory_undetermined",
+          "text": "Order the investigation to continue without publicly assigning motive. Some answers are worth being patient for, even when patience is the hardest thing to offer a frightened country.",
+          "nextSegment": null,
+          "flags": ["shooter_undetermined"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 4 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

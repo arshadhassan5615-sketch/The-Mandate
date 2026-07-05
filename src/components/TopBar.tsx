@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import type { BudgetAllocations } from '../types/gameState'
+import veltriaSeal from '../assets/images/veltria_seal.png'
 
 function computeBudgetBalance(budget: BudgetAllocations): number {
   const revenue = budget.taxRevenue + budget.stateIndustry + budget.customsTariffs + budget.foreignAid
@@ -17,6 +18,19 @@ function weekToDate(week: number): string {
   return `${day} ${month} ${year}`
 }
 
+// ─── Separator ─────────────────────────────────────────────────────────────────
+
+function GoldHairline() {
+  return (
+    <div style={{
+      width: 1, height: 28,
+      background: 'linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.3) 50%, transparent 100%)',
+      margin: '0 16px',
+      flexShrink: 0,
+    }} />
+  )
+}
+
 // ─── TopBar ────────────────────────────────────────────────────────────────────
 
 export default function TopBar() {
@@ -29,237 +43,124 @@ export default function TopBar() {
   const soeWeek = useGameStore(s => s.stateOfEmergencyWeek)
 
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
-  const wealthThousands = Math.round(personalWealth / 1000)
-
-  const approvalValue = publicImage
-  const approvalColor =
-    approvalValue >= 70 ? '#00cc44' :
-    approvalValue >= 50 ? '#f0c040' :
-    approvalValue >= 30 ? '#ff8800' :
-    '#ff3333'
-  const approvalGlow =
-    approvalValue >= 70 ? 'rgba(0,204,68,0.6)' :
-    approvalValue >= 50 ? 'rgba(240,192,64,0.6)' :
-    approvalValue >= 30 ? 'rgba(255,136,0,0.6)' :
-    'rgba(255,51,51,0.6)'
   const date = useMemo(() => weekToDate(currentWeek), [currentWeek])
-  const soeDaysLeft = useMemo(() => {
-    if (!stateOfEmergency || !soeWeek) return 0
-    return Math.max(0, 90 - (currentWeek - soeWeek) * 7)
-  }, [stateOfEmergency, soeWeek, currentWeek])
+
+  const approvalColor =
+    publicImage >= 60 ? '#7fa65a' :
+    publicImage >= 35 ? '#c9a84c' :
+    '#e05c4a'
 
   return (
-    <>
-      {/* ===== COMPACT LEFT STATS BAR ===== */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          zIndex: 210,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 0,
-          height: '40px',
-          background: 'transparent',
-          borderBottom: 'none',
-          borderRight: 'none',
-          borderBottomRightRadius: '0',
-          padding: '0',
-          width: 'fit-content',
-          minWidth: '0',
-          boxShadow: 'none',
-          backdropFilter: 'none',
-        }}
-      >
-        {/* Economy — colored squares only */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '2px',
-          padding: '0 8px',
-          borderRight: '1px solid rgba(201,168,76,0.3)',
-        }}>
-          <span style={{
-            fontSize: '12px',
-            marginRight: '4px',
-            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.9))',
-          }}>📊</span>
-          <div style={{ display: 'flex', gap: '2px' }}>
-            {(() => {
-              const red = '#ff3333'
-              const yellow = '#ffaa00'
-              const grey = 'rgba(255,255,255,0.15)'
-              const green = '#00cc44'
-              const brightGreen = '#00e64d'
-              let colors: string[] = []
-              if (economyHealth < -60) colors = [red, red, red, red, red]
-              else if (economyHealth < -20) colors = [red, red, red, yellow, grey]
-              else if (economyHealth < 20) colors = [red, red, yellow, grey, grey]
-              else if (economyHealth < 60) colors = [green, green, green, green, green]
-              else colors = [brightGreen, brightGreen, brightGreen, brightGreen, brightGreen]
-              return colors.map((c, i) => (
-                <div key={i} style={{ width: '8px', height: '14px', borderRadius: '2px', background: c }} />
-              ))
-            })()}
-          </div>
-        </div>
-
-        {/* Budget — coin icon + number only */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '5px',
-          padding: '0 10px',
-          borderRight: '1px solid rgba(201,168,76,0.3)',
-        }}>
-          <span style={{
-            fontSize: '16px',
-            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.9))',
-          }}>💰</span>
-          <span style={{
-            fontSize: '16px',
-            fontWeight: '900',
-            color: '#ff4444',
-            fontFamily: 'Georgia, serif',
-            textShadow: '0 1px 4px rgba(0,0,0,1), 0 0 10px rgba(255,68,68,0.7)',
-          }}>
-            {balance}
+    <div style={{
+      position: 'fixed', top: 0, left: 0, right: 0, height: 52,
+      zIndex: 210,
+      background: 'linear-gradient(180deg, rgba(18,16,12,0.85) 0%, rgba(10,8,6,0.95) 100%)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(201,168,76,0.2)',
+      boxShadow: '0 4px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,220,160,0.05)',
+      display: 'flex', alignItems: 'center', gap: 0,
+      padding: '0 20px',
+      fontFamily: "'IBM Plex Mono', monospace",
+    }}>
+      {/* LEFT SECTION — Republic identity */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <img src={veltriaSeal} alt="Veltria Seal" style={{ height: 32, opacity: 0.9, filter: 'drop-shadow(0 0 8px rgba(201,168,76,0.3))' }} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.4)' }}>
+            REPUBLIC OF VELTRIA
+          </span>
+          <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
+            OFFICE OF THE CHANCELLOR
           </span>
         </div>
+      </div>
 
-        {/* Wealth — bank icon + number only */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '5px',
-          padding: '0 10px',
-        }}>
-          <span style={{
-            fontSize: '16px',
-            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.9))',
-          }}>🏛️</span>
-          <span style={{
-            fontSize: '16px',
-            fontWeight: '900',
-            color: '#f0c040',
-            fontFamily: 'Georgia, serif',
-            textShadow: '0 1px 4px rgba(0,0,0,1), 0 0 10px rgba(240,192,64,0.7)',
-          }}>
-            {wealthThousands}
-          </span>
-        </div>
+      <GoldHairline />
 
-        {/* Approval — public image */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '5px',
-          padding: '0 10px',
-          borderLeft: '1px solid rgba(201,168,76,0.3)',
-        }}>
-          <span style={{
-            fontSize: '16px',
-            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.9))',
-          }}>👥</span>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '2px',
-          }}>
-            <span style={{
-              fontSize: '14px',
-              fontWeight: '900',
-              color: approvalColor,
-              fontFamily: 'Georgia, serif',
-              textShadow: `0 1px 4px rgba(0,0,0,1), 0 0 10px ${approvalGlow}`,
-              lineHeight: 1,
-            }}>
-              {approvalValue}%
-            </span>
-            <div style={{
-              width: '36px',
-              height: '3px',
-              background: 'rgba(255,255,255,0.1)',
-              borderRadius: '2px',
-              overflow: 'hidden',
-            }}>
-              <div style={{
-                width: `${approvalValue}%`,
-                height: '100%',
-                background: approvalColor,
-                borderRadius: '2px',
-                transition: 'width 0.5s ease',
+      {/* SLOT 1 — ECONOMY */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 80 }}>
+        <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Economy</span>
+        <div style={{ display: 'flex', gap: 3 }}>
+          {(() => {
+            const red = '#e05c4a'; const yellow = '#c9a84c'; const grey = 'rgba(255,255,255,0.1)'
+            const green = '#7fa65a'; const brightGreen = '#a5d678'
+            let colors: string[] = []
+            if (economyHealth < -60) colors = [red, red, red, red, red]
+            else if (economyHealth < -20) colors = [red, red, red, yellow, grey]
+            else if (economyHealth < 20) colors = [yellow, yellow, grey, grey, grey]
+            else if (economyHealth < 60) colors = [green, green, green, grey, grey]
+            else colors = [brightGreen, brightGreen, brightGreen, brightGreen, brightGreen]
+            return colors.map((c, i) => (
+              <div key={i} style={{ 
+                width: 10, height: 4, borderRadius: 1, 
+                background: c, 
+                boxShadow: c !== grey ? `0 0 6px ${c}80` : 'none',
+                transition: 'background 0.4s ease'
               }} />
-            </div>
+            ))
+          })()}
+        </div>
+      </div>
+
+      <GoldHairline />
+
+      {/* SLOT 2 — TREASURY */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Treasury</span>
+        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
+          color: balance < 0 ? '#e05c4a' : '#e8dcc8', lineHeight: 1, textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.4)' : '0 0 8px rgba(201,168,76,0.2)' }}>
+          {'\u20AD'} {balance.toLocaleString()}
+        </span>
+      </div>
+
+      <GoldHairline />
+
+      {/* SLOT 3 — PRIVY PURSE */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Privy Purse</span>
+        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
+          color: '#c9a84c', lineHeight: 1, textShadow: '0 0 8px rgba(201,168,76,0.3)' }}>
+          {'\u20AD'} {personalWealth.toLocaleString()}
+        </span>
+      </div>
+
+      <GoldHairline />
+
+      {/* SLOT 4 — APPROVAL */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 90 }}>
+        <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Approval</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
+            color: approvalColor, lineHeight: 1, minWidth: 35, textShadow: `0 0 8px ${approvalColor}40` }}>
+            {publicImage}%
+          </span>
+          <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
+            <div style={{ width: `${publicImage}%`, height: '100%', background: approvalColor,
+              boxShadow: `0 0 8px ${approvalColor}80`, borderRadius: 2, transition: 'width 0.5s ease' }} />
           </div>
         </div>
       </div>
 
-      {/* ===== STATE OF EMERGENCY INDICATOR ===== */}
+      {/* STATE OF EMERGENCY */}
       {stateOfEmergency && (
-        <div style={{
-          position: 'fixed',
-          top: '10px',
-          right: '170px',
-        zIndex: 25,
-          background: 'rgba(220,50,50,0.15)',
-          border: '1px solid #c0392b',
-          padding: '3px 10px',
-          borderRadius: '2px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-        }}>
-          <span style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '9px',
-            letterSpacing: '1.5px',
-            color: '#ff6b6b',
-            textTransform: 'uppercase',
-            lineHeight: 1,
-            fontWeight: 'bold',
-          }}>
-            STATE OF EMERGENCY
-          </span>
-          <span style={{
-            fontFamily: 'monospace',
-            fontSize: '9px',
-            color: '#c9a84c',
-            lineHeight: 1,
-          }}>
-            {soeDaysLeft}d left
+        <div style={{ marginLeft: 16, background: 'rgba(160,40,30,0.2)', border: '1px solid rgba(200,60,40,0.6)',
+          padding: '4px 12px', borderRadius: 2, backdropFilter: 'blur(4px)' }}>
+          <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: '#e05c4a', textTransform: 'uppercase', whiteSpace: 'nowrap', textShadow: '0 0 8px rgba(224,92,74,0.5)' }}>
+            EMERGENCY · WK {soeWeek}
           </span>
         </div>
       )}
 
-      {/* ===== SVG EMBLEM + WEEK ===== */}
-      <div style={{
-        position: 'fixed',
-        top: '8px',
-        right: '12px',
-        zIndex: 30,
-        textAlign: 'right',
-      }}>
-        <div style={{
-          fontSize: '11px',
-          fontWeight: '700',
-          color: '#c9a84c',
-          letterSpacing: '2px',
-          fontFamily: 'Georgia, serif',
-          textShadow: '0 1px 3px rgba(0,0,0,0.9)',
-        }}>
-          WEEK {currentWeek} OF 52
-        </div>
-        <div style={{
-          fontSize: '9px',
-          color: 'rgba(201,168,76,0.5)',
-          letterSpacing: '1px',
-        }}>
+      {/* RIGHT SECTION — Dispatch stamp */}
+      <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 }}>
+        <span style={{ fontSize: '0.8rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.3)' }}>
+          WEEK {currentWeek} / 52
+        </span>
+        <span style={{ fontSize: '0.6rem', letterSpacing: '0.1em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
           {date}
-        </div>
+        </span>
       </div>
-    </>
+    </div>
   )
 }
