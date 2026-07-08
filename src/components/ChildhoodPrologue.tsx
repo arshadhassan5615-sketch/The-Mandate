@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
+import prologueMusic from '../assets/audio/music/mandate_distorted_cello_drone.mp3'
 
 const splashImages = import.meta.glob<{ default: string }>(
   '../assets/images/prologue/splash_*.{jpg,jpeg,png}',
@@ -257,6 +258,33 @@ export default function ChildhoodPrologue() {
   const [paraIndex,     setParaIndex]     = useState(-1)   // -1 = chapter card showing
   const [done,          setDone]          = useState(false)
   const [splashDone,   setSplashDone]     = useState(false)
+
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    const audio = new Audio(prologueMusic)
+    audio.loop = true
+    audio.volume = 0.6
+    audio.play().catch(() => console.log("Autoplay blocked, will play on interaction"))
+    audioRef.current = audio
+
+    // Attempt to play on first interaction if blocked by browser autoplay policy
+    const playOnInteraction = () => {
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().catch(() => {})
+      }
+    }
+    document.addEventListener('click', playOnInteraction)
+    document.addEventListener('keydown', playOnInteraction)
+
+    return () => {
+      audio.pause()
+      audio.src = ''
+      audioRef.current = null
+      document.removeEventListener('click', playOnInteraction)
+      document.removeEventListener('keydown', playOnInteraction)
+    }
+  }, [])
 
   const applyModifiers = useGameStore(s => s.applyModifiers)
   const addFlags       = useNarrativeStore(s => s.addFlags)

@@ -17,12 +17,11 @@ const ACT_LABELS: Record<number, string> = {
   4: 'Act IV',
 }
 
-const PORTRAIT_SIZE = 52
+const PORTRAIT_SIZE = 60
 const FRAME_SIZE    = PORTRAIT_SIZE + 10   // frame ring padding
 
 function MiniOrnateFrame({ children }: { children: React.ReactNode }) {
   const A  = '#c8902a'
-  const AD = '#8a621c'
   const C  = FRAME_SIZE / 2
   const R  = C - 1
   return (
@@ -31,9 +30,8 @@ function MiniOrnateFrame({ children }: { children: React.ReactNode }) {
         viewBox={`0 0 ${FRAME_SIZE} ${FRAME_SIZE}`}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 2 }}
       >
-        <circle cx={C} cy={C} r={R}   fill="none" stroke={AD} strokeWidth="0.75"/>
-        <circle cx={C} cy={C} r={R-3} fill="none" stroke={A}  strokeWidth="1.5"/>
-        <circle cx={C} cy={C} r={R-6} fill="none" stroke={AD} strokeWidth="0.5" opacity="0.5"/>
+        <circle cx={C} cy={C} r={R}   fill="none" stroke={A} strokeWidth="1" opacity="0.6"/>
+        <circle cx={C} cy={C} r={R-3} fill="none" stroke={A}  strokeWidth="1.5" opacity="0.9"/>
         <polygon points={`${C},1 ${C+3},4 ${C},7 ${C-3},4`} fill={A}/>
         <polygon points={`${C},${FRAME_SIZE-1} ${C+3},${FRAME_SIZE-4} ${C},${FRAME_SIZE-7} ${C-3},${FRAME_SIZE-4}`} fill={A}/>
       </svg>
@@ -41,9 +39,9 @@ function MiniOrnateFrame({ children }: { children: React.ReactNode }) {
         position: 'absolute',
         top: 6, left: 6, right: 6, bottom: 6,
         borderRadius: '50%', overflow: 'hidden',
-        border: `2px solid ${A}`,
+        border: `1.5px solid ${A}`,
         zIndex: 1,
-        boxShadow: `0 0 12px rgba(200,144,42,0.12)`,
+        boxShadow: `0 0 12px rgba(201,168,76,0.2), inset 0 0 8px rgba(0,0,0,0.5)`,
       }}>
         {children}
       </div>
@@ -61,17 +59,20 @@ export default function KaterinHUD() {
   return (
     <div style={{
       position: 'fixed',
-      bottom: '16px',
-      left: '16px',
+      bottom: '20px',
+      left: '20px',
       zIndex: 250,
       display: 'flex',
       alignItems: 'center',
-      gap: '0.6rem',
-      background: 'rgba(8,6,4,0.95)',
-      border: '1px solid rgba(201,168,76,0.3)',
-      borderRadius: '2px',
-      padding: '6px 12px 6px 6px',
-      backdropFilter: 'blur(4px)',
+      gap: '0.8rem',
+      background: 'linear-gradient(180deg, rgba(18,16,12,0.85) 0%, rgba(10,8,6,0.95) 100%)',
+      border: '1px solid rgba(201,168,76,0.2)',
+      borderRadius: '4px',
+      padding: '8px 16px 8px 8px',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      boxShadow: '0 4px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,220,160,0.05)',
+      fontFamily: "'IBM Plex Mono', monospace",
     }}>
       <MiniOrnateFrame>
         <img
@@ -89,38 +90,25 @@ export default function KaterinHUD() {
         />
       </MiniOrnateFrame>
 
-      <div>
-        <p style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.52rem',
-          letterSpacing: '0.12em',
-          color: 'var(--amber)',
-          textTransform: 'uppercase',
-          lineHeight: 1,
-          marginBottom: '0.2rem',
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        <span style={{ 
+          fontSize: '0.55rem', letterSpacing: '0.2em', color: '#c9a84c', 
+          textTransform: 'uppercase', lineHeight: 1, textShadow: '0 0 8px rgba(201,168,76,0.3)' 
         }}>
           {ACT_LABELS[currentAct] ?? 'Act I'}
-        </p>
-        <p style={{
-          fontFamily: "'IM Fell English', Georgia, serif",
-          fontSize: '0.72rem',
-          color: 'var(--cream)',
-          lineHeight: 1.1,
-          opacity: 0.8,
+        </span>
+        <span style={{ 
+          fontFamily: "'Playfair Display', serif", fontSize: '1rem', fontWeight: 600,
+          color: '#e8dcc8', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.2)' 
         }}>
           Katerin Ashavel
-        </p>
-        <p style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.48rem',
-          letterSpacing: '0.08em',
-          color: 'var(--muted)',
-          textTransform: 'uppercase',
-          lineHeight: 1,
-          marginTop: '0.15rem',
+        </span>
+        <span style={{ 
+          fontSize: '0.5rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', 
+          textTransform: 'uppercase', lineHeight: 1 
         }}>
           Chancellor
-        </p>
+        </span>
       </div>
     </div>
   )

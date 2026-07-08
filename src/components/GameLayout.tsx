@@ -91,13 +91,27 @@ export default function GameLayout() {
   }, [])
 
   useEffect(() => {
-    document.addEventListener('click', startAmbientOnce, { once: true })
-    document.addEventListener('keydown', startAmbientOnce, { once: true })
-    return () => {
-      document.removeEventListener('click', startAmbientOnce)
-      document.removeEventListener('keydown', startAmbientOnce)
+    // Don't start ambient audio if we are in the prologue
+    if (phase === 'prologue') return
+
+    const handler = () => {
+      if (ambientStarted.current) return
+      resumeAudioContext()
+      audioManager.resume()
+      audioManager.setUserInteracted()
+      startAmbient()
+      ambientStarted.current = true
+      document.removeEventListener('click', handler)
+      document.removeEventListener('keydown', handler)
     }
-  }, [startAmbientOnce])
+
+    document.addEventListener('click', handler)
+    document.addEventListener('keydown', handler)
+    return () => {
+      document.removeEventListener('click', handler)
+      document.removeEventListener('keydown', handler)
+    }
+  }, [startAmbientOnce, phase])
 
   // Stop ambient when entering epilogue
   useEffect(() => {

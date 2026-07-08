@@ -9,119 +9,16 @@ import { useDecreeStore } from '../stores/decreeStore'
 import ConnectionsPanel from './panels/ConnectionsPanel'
 import OverviewPanel from './panels/OverviewPanel'
 import NotepadPanel from './panels/NotepadPanel'
-
-// ─── SVG Icon components ───────────────────────────────────────────────────────
-
-function IconNews() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="1" />
-      <line x1="7" y1="8" x2="17" y2="8" />
-      <line x1="7" y1="12" x2="17" y2="12" />
-      <line x1="7" y1="16" x2="13" y2="16" />
-    </svg>
-  )
-}
-
-function IconParliament() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" strokeLinecap="round">
-      <rect x="2" y="20" width="20" height="2" rx="0.5" />
-      <rect x="2" y="8" width="20" height="2" rx="0.5" />
-      <rect x="11" y="3" width="2" height="6" rx="0.5" />
-      <rect x="4" y="10" width="2" height="10" rx="0.5" />
-      <rect x="8" y="10" width="2" height="10" rx="0.5" />
-      <rect x="14" y="10" width="2" height="10" rx="0.5" />
-      <rect x="18" y="10" width="2" height="10" rx="0.5" />
-    </svg>
-  )
-}
-
-function IconCodex() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-      <rect x="5" y="2" width="14" height="20" rx="1" />
-      <line x1="5" y1="2" x2="5" y2="22" strokeWidth="3" />
-      <line x1="9" y1="8" x2="16" y2="8" />
-      <line x1="9" y1="12" x2="16" y2="12" />
-      <line x1="9" y1="16" x2="13" y2="16" />
-    </svg>
-  )
-}
-
-function IconDossiers() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-      <circle cx="9" cy="7" r="3" />
-      <path d="M3,21 C3,16.5 5.5,14 9,14 C12.5,14 15,16.5 15,21" />
-      <circle cx="17" cy="7" r="2.5" />
-      <path d="M15,14 C17,14 21,15.5 21,20" />
-    </svg>
-  )
-}
-
-function IconBudget() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" />
-    </svg>
-  )
-}
-
-function IconNotepad() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="6" y="2" width="12" height="20" rx="1.5" />
-      <line x1="10" y1="6" x2="14" y2="6" />
-      <line x1="10" y1="10" x2="16" y2="10" />
-      <line x1="10" y1="14" x2="14" y2="14" />
-      <polyline points="18,6 20,7 20,22 4,22 4,7 6,6" />
-    </svg>
-  )
-}
-
-function IconJournal() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="5" y="3" width="14" height="18" rx="1.5" />
-      <line x1="5" y1="3" x2="5" y2="21" strokeWidth="3" />
-      <line x1="10" y1="8" x2="17" y2="8" />
-      <line x1="10" y1="12" x2="17" y2="12" />
-      <line x1="10" y1="16" x2="14" y2="16" />
-    </svg>
-  )
-}
-
-function IconLetter() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="5" width="18" height="14" rx="1" />
-      <polyline points="3,5 12,14 21,5" />
-      <line x1="12" y1="14" x2="12" y2="19" />
-    </svg>
-  )
-}
-
-function IconSettings() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4,15 A1.65,1.65 0 0 0 19.82,13.4 L21.17,11.4 A1.65,1.65 0 0 0 19.83,8.9 L18.11,8.14 A1.65,1.65 0 0 0 15.9,8.66 L15.06,7.84 A1.65,1.65 0 0 0 12.55,6.52 L12,4.75 A1.65,1.65 0 0 0 9.45,4.75 L8.9,6.52 A1.65,1.65 0 0 0 6.39,7.84 L5.56,8.66 A1.65,1.65 0 0 0 3.35,8.14 L1.63,8.9 A1.65,1.65 0 0 0 0.29,11.4 L1.64,13.4 A1.65,1.65 0 0 0 2.06,15 L1.63,15.6 A1.65,1.65 0 0 0 2.97,18.1 L4.69,18.86 A1.65,1.65 0 0 0 6.9,18.34 L7.73,19.16 A1.65,1.65 0 0 0 10.24,20.48 L10.79,22.25 A1.65,1.65 0 0 0 13.34,22.25 L13.89,20.48 A1.65,1.65 0 0 0 16.4,19.16 L17.23,18.34 A1.65,1.65 0 0 0 19.44,18.86 L21.16,18.1 A1.65,1.65 0 0 0 22.5,15.6 Z" />
-    </svg>
-  )
-}
-
-function IconDecree() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14,2 L6,2 C4.9,2 4,2.9 4,4 L4,20 C4,21.1 4.9,22 6,22 L18,22 C19.1,22 20,21.1 20,20 L20,8 Z" />
-      <polyline points="14,2 14,8 20,8" />
-      <line x1="8" y1="13" x2="16" y2="13" />
-      <line x1="8" y1="17" x2="13" y2="17" />
-      <line x1="10" y1="10" x2="10.01" y2="10" strokeWidth="2" />
-    </svg>
-  )
-}
+import iconConnections from '../assets/images/ui/icon_nav_connections.png'
+import iconOverview from '../assets/images/ui/icon_nav_overview.png'
+import iconDecree from '../assets/images/ui/icon_nav_decrees.png'
+import iconNews from '../assets/images/ui/icon_nav_news.png'
+import iconCodex from '../assets/images/ui/icon_nav_codex.png'
+import iconDossiers from '../assets/images/ui/icon_nav_dossiers.png'
+import iconJournal from '../assets/images/ui/icon_nav_journal.png'
+import iconLetters from '../assets/images/ui/icon_nav_letters.png'
+import iconNotepad from '../assets/images/ui/icon_nav_notepad.png'
+import iconSettings from '../assets/images/ui/icon_nav_settings.png'
 
 // ─── Sidebar button ────────────────────────────────────────────────────────────
 
@@ -144,7 +41,7 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
       {hovered && (
         <div style={{
           position: 'absolute',
-          right: '52px',
+          right: '56px',
           top: '50%',
           transform: 'translateY(-50%)',
           background: 'rgba(10,8,6,0.97)',
@@ -169,23 +66,23 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
-          width: '44px',
-          height: '44px',
-          borderRadius: '4px',
+          width: '48px',
+          height: '48px',
+          borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           background: active
-            ? 'rgba(201,168,76,0.15)'
-            : hovered ? 'rgba(201,168,76,0.12)' : 'rgba(20,18,12,0.85)',
-          border: `1.5px solid ${active ? 'rgba(201,168,76,0.9)' : hovered ? 'rgba(201,168,76,0.8)' : 'rgba(201,168,76,0.5)'}`,
+            ? 'rgba(201,168,76,0.25)'
+            : hovered ? 'rgba(201,168,76,0.15)' : 'rgba(15,12,8,0.85)',
+          border: `1.5px solid ${active ? 'rgba(201,168,76,0.95)' : hovered ? 'rgba(201,168,76,0.85)' : 'rgba(201,168,76,0.6)'}`,
           color: isLit ? '#c9a84c' : 'rgba(201,168,76,0.9)',
           cursor: 'pointer',
           transition: 'all 0.15s ease',
           position: 'relative',
           boxShadow: isLit
-            ? '0 0 12px rgba(201,168,76,0.3), inset 0 0 8px rgba(201,168,76,0.1)'
-            : hovered ? '0 0 8px rgba(200,144,42,0.2)' : 'none',
+            ? '0 0 18px rgba(201,168,76,0.5), inset 0 0 10px rgba(201,168,76,0.15)'
+            : hovered ? '0 0 14px rgba(200,144,42,0.4)' : '0 2px 6px rgba(0,0,0,0.4)',
           opacity: 1,
           fontWeight: 700,
         }}
@@ -240,6 +137,9 @@ export default function RightSidebar() {
   const moleResolved = useNarrativeStore(s => s.activeFlags.includes('mole_case_resolved'))
   const showMoleBadge = moleActive && !moleResolved
 
+  // Reusable icon style for maximum visibility
+  const iconStyle = { width: '40px', height: '40px', opacity: 1, filter: 'brightness(1.9) contrast(1.35) drop-shadow(0 0 10px rgba(201,168,76,0.8))' }
+
   return (
     <>
       {connectionsOpen && <ConnectionsPanel onClose={() => setConnectionsOpen(false)} />}
@@ -250,20 +150,20 @@ export default function RightSidebar() {
       <div style={{
         position: 'fixed',
         right: 0,
-        top: '80px',
-        bottom: 0,
-        width: '60px',
+        top: '60px',
+        width: '68px',
         zIndex: 210,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        background: 'linear-gradient(180deg, #1a1510 0%, #12100b 100%)',
-        borderLeft: '1px solid rgba(201,168,76,0.35)',
-        boxShadow: '-2px 0 12px rgba(0,0,0,0.4)',
         padding: '10px 8px',
-        gap: '3px',
-        overflowY: 'auto',
-        scrollbarWidth: 'none',
+        gap: '8px',
+        // Glassmorphic background to cover map gaps and anchor the HUD
+        background: 'rgba(8, 6, 4, 0.85)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderLeft: '1px solid rgba(200,144,42,0.25)',
+        boxShadow: '-4px 0 15px rgba(0,0,0,0.6)',
       }}>
         {/* Header */}
         <div style={{
@@ -272,23 +172,23 @@ export default function RightSidebar() {
           fontFamily: "'Special Elite', monospace",
           fontSize: '7px',
           letterSpacing: '0.2em',
-          color: 'rgba(201,168,76,0.55)',
+          color: 'rgba(201,168,76,0.65)',
           textTransform: 'uppercase',
           marginBottom: '8px',
           flexShrink: 0,
         }}>
           REGISTRY
         </div>
-        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.25)', marginBottom: '6px', flexShrink: 0 }} />
+        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.35)', marginBottom: '6px', flexShrink: 0 }} />
 
         {/* CLASSIFIED investigation badge */}
         {showMoleBadge && (
           <div style={{
-            width: '40px', height: '40px', borderRadius: '50%',
-            background: 'rgba(180,30,20,0.15)',
-            border: '1.5px solid rgba(200,80,60,0.4)',
+            width: '44px', height: '44px', borderRadius: '50%',
+            background: 'rgba(180,30,20,0.2)',
+            border: '1.5px solid rgba(200,80,60,0.5)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            marginBottom: '4px', flexShrink: 0,
+            marginBottom: '0', flexShrink: 0,
             animation: 'event-pulse-urgent 2s ease-in-out infinite',
             cursor: 'default',
           }}
@@ -296,8 +196,8 @@ export default function RightSidebar() {
           >
             <span style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '0.38rem', fontWeight: 700,
-              color: '#c8503c', letterSpacing: '0.06em',
+              fontSize: '0.4rem', fontWeight: 700,
+              color: '#e85a44', letterSpacing: '0.06em',
               textTransform: 'uppercase', textAlign: 'center',
               lineHeight: 1.1,
             }}>
@@ -307,10 +207,10 @@ export default function RightSidebar() {
         )}
 
         {/* GOVERNANCE group */}
-        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.35)', marginBottom: '2px', flexShrink: 0 }}>GOV</div>
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.45)', marginBottom: '0', flexShrink: 0 }}>GOV</div>
 
         <SideButton
-          icon={<IconParliament />}
+          icon={<img src={iconConnections} alt="Connections" style={iconStyle} />}
           label="Connections"
           active={connectionsOpen}
           onClick={() => {
@@ -320,7 +220,7 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<IconBudget />}
+          icon={<img src={iconOverview} alt="Overview" style={iconStyle} />}
           label="Overview"
           active={overviewOpen}
           onClick={() => {
@@ -330,7 +230,7 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<IconDecree />}
+          icon={<img src={iconDecree} alt="Decrees" style={iconStyle} />}
           label="Decrees"
           badge={pendingCount}
           onClick={() => {
@@ -340,13 +240,13 @@ export default function RightSidebar() {
           }}
         />
 
-        <div style={{ width: '20px', height: '1px', background: 'rgba(200,144,42,0.15)', margin: '4px 0', flexShrink: 0 }} />
+        <div style={{ width: '20px', height: '1px', background: 'rgba(200,144,42,0.25)', margin: '0', flexShrink: 0 }} />
 
         {/* INTELLIGENCE group */}
-        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.35)', marginBottom: '2px', flexShrink: 0 }}>INTEL</div>
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.45)', marginBottom: '0', flexShrink: 0 }}>INTEL</div>
 
         <SideButton
-          icon={<IconNews />}
+          icon={<img src={iconNews} alt="News" style={iconStyle} />}
           label="News Dispatch"
           badge={unreadCount}
           onClick={() => {
@@ -357,7 +257,7 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<IconCodex />}
+          icon={<img src={iconCodex} alt="Codex" style={iconStyle} />}
           label="Codex"
           onClick={() => {
             setConnectionsOpen(false)
@@ -367,7 +267,7 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<IconDossiers />}
+          icon={<img src={iconDossiers} alt="Dossiers" style={iconStyle} />}
           label="Dossiers"
           onClick={() => {
             setConnectionsOpen(false)
@@ -376,13 +276,13 @@ export default function RightSidebar() {
           }}
         />
 
-        <div style={{ width: '20px', height: '1px', background: 'rgba(200,144,42,0.15)', margin: '4px 0', flexShrink: 0 }} />
+        <div style={{ width: '20px', height: '1px', background: 'rgba(200,144,42,0.25)', margin: '0', flexShrink: 0 }} />
 
         {/* PERSONAL group */}
-        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.35)', marginBottom: '2px', flexShrink: 0 }}>PERSONAL</div>
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.45)', marginBottom: '0', flexShrink: 0 }}>PERSONAL</div>
 
         <SideButton
-          icon={<IconJournal />}
+          icon={<img src={iconJournal} alt="Journal" style={iconStyle} />}
           label="Journal"
           badge={journalEntryCount}
           onClick={() => {
@@ -393,7 +293,7 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<IconLetter />}
+          icon={<img src={iconLetters} alt="Letters" style={iconStyle} />}
           label="Diplomatic Letters"
           badge={letterUnread > 0 ? letterUnread : undefined}
           onClick={() => {
@@ -404,7 +304,7 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<IconNotepad />}
+          icon={<img src={iconNotepad} alt="Notepad" style={iconStyle} />}
           label="Notepad"
           active={notepadOpen}
           onClick={() => {
@@ -415,7 +315,7 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<IconSettings />}
+          icon={<img src={iconSettings} alt="Settings" style={iconStyle} />}
           label="Settings"
           onClick={() => {
             setConnectionsOpen(false)
@@ -424,7 +324,7 @@ export default function RightSidebar() {
           }}
         />
 
-        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.25)', marginTop: '6px', flexShrink: 0 }} />
+        <div style={{ width: '24px', height: '1px', background: 'rgba(200,144,42,0.35)', marginTop: '6px', flexShrink: 0 }} />
       </div>
     </>
   )

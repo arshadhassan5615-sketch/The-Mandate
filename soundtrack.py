@@ -9,34 +9,25 @@ API_KEY = "sk-or-v1-0892b0061a3207ffb95dfc54614a9d34a451c17eff0b6d71b111cd4ffcc5
 music_folder = r"C:\Users\arsha\OneDrive\Documents\game\the-mandate\src\assets\audio\music"
 os.makedirs(music_folder, exist_ok=True)
 
-# ─── V2: rebuilt to match the RDR2 intro's actual sonic signature ─────────────
-# Key corrections from v1:
-#   - ELECTRIC baritone guitar with heavy reverb/delay (not nylon classical)
-#   - F major / D minor relative ambiguity (not pure D minor)
-#   - 67 bpm rubato (matching the reference)
-#   - "Neo-western dark ambient" genre anchor — Lyria has strong
-#     associations with this vocabulary
-#   - Shorter, denser prompt — every phrase earns its place
+# ─── V9: Dystopian Distorted Cello (Inspired by Krux, 100% Original) ──────────
+# We translate the breakdown into pure sound-design keywords.
+# We force the AI to distort the cello and use sub-bass, while banning beats.
 
-track_name = "cinematic_prologue_v2"
+track_name = "mandate_distorted_cello_drone"
 prompt = (
-    "Instrumental only. Neo-western dark ambient cinematic score in the style "
-    "of a slow mournful game opening theme. Key of F major drifting into its "
-    "relative D minor, never resolving. 67 bpm played rubato, free and "
-    "expressive, not locked to a grid. "
-    "Soft felt piano playing heavy solitary bass chords in the lowest octaves, "
-    "F and C root notes, each chord struck once and left to slowly decay into "
-    "silence. "
-    "Electric baritone guitar drenched in heavy reverb and tape delay echo, "
-    "playing isolated high single notes and two-note dyads, each note echoing "
-    "out and fading like sound reflecting off a vast frozen empty landscape. "
-    "A continuous low-frequency drone bed of bowed strings sitting at the "
-    "absolute bottom of the mix, eerie and barely audible. "
-    "Enormous negative space, long silences between every phrase, the silence "
-    "as important as the notes. "
-    "A dark elegy, a funeral song for the end of an era, weary and final, "
-    "stripped of all heroism. "
-    "No drums, no percussion, no vocals, no strumming, no melody repetition."
+    "Instrumental dark ambient cinematic drone. Dystopian industrial sound design. "
+    "The track features a solitary cello passed through heavy distortion and "
+    "overdrive effects, creating harsh, metallic, and corrupted harmonics. "
+    "The cello plays slow, sustained, dissonant notes with subtle pitch bends, "
+    "sounding like a corrupted human voice. "
+    "A deep, continuous sub-bass synthesizer drone anchors the track, creating "
+    "a physical sense of claustrophobia and heavy dread. "
+    "The sound is drenched in massive cavernous reverb, making the cello echo "
+    "as if trapped inside an abandoned concrete facility. "
+    "The structure is slow, linear, and atmospheric, building in tension and "
+    "then slowly decaying into silence. "
+    "Absolutely no drums, no percussion, no beats, no rhythm, no piano, no "
+    "choir, no melody. Pure atmospheric texture."
 )
 
 def generate_track(track_name, prompt):
@@ -129,10 +120,10 @@ def generate_track(track_name, prompt):
         return False
 
 
-# Try up to 3 times (the [[token]] failure mode is random and retry fixes it)
+# Try up to 5 times to brute-force past the [[token]] random failures
 print(f"Generating: {track_name}...")
 success = False
-for attempt in range(1, 4):
+for attempt in range(1, 6):
     if attempt > 1:
         print(f"\nAttempt {attempt}: {track_name}...")
         time.sleep(3)
@@ -145,5 +136,5 @@ if success:
     print(f"SAVED: {music_folder}\\{track_name}.mp3")
     print("Listen and compare against the RDR2 reference before deciding.")
 else:
-    print(f"FAILED after 3 attempts: {track_name}")
+    print(f"FAILED after 5 attempts: {track_name}")
     print(f"Debug file: {music_folder}\\{track_name}_debug.txt")
