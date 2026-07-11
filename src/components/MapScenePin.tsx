@@ -1,19 +1,32 @@
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import type { AgendaItem } from '../types/week'
 import type { ProvinceId } from '../engine/LocationResolver'
 import { PROVINCE_PIN_POSITIONS, PROVINCE_NAMES } from '../engine/LocationResolver'
 import { getScene } from '../engine/NarrativeEngine'
 import { useWeekStore } from '../stores/weekStore'
-import mapPinImg from '../assets/images/map_pin.png'
+import pinExclamation from '../assets/images/pins/pin_exclamation.png'
+
+/**
+ * Badge anchor relative to the province pin position.
+ * X = 0 so translate(-50%, ...) aligns with the building's own horizontal center.
+ * Y = −182 targets the building's top edge (140 rendered height × 1.3 translate factor).
+ * May need a small manual nudge once seen against actual artwork — source images
+ * can have blank margin above the visible silhouette.
+ */
+const BADGE_OFFSET_X = 0
+const BADGE_OFFSET_Y = -150
 
 interface MapScenePinProps {
   provinceId: ProvinceId
   items: AgendaItem[]
   currentWeek: number
   onSelectScene: (item: AgendaItem) => void
+  onFocusProvince?: (id: string) => void
+  onUnfocusProvince?: () => void
 }
 
-export default function MapScenePin({ provinceId, items, currentWeek, onSelectScene }: MapScenePinProps) {
+export default function MapScenePin({ provinceId, items, currentWeek, onSelectScene, onFocusProvince, onUnfocusProvince }: MapScenePinProps) {
   const [open, setOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [sceneError, setSceneError] = useState<string | null>(null)
@@ -25,6 +38,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
   useEffect(() => {
     if (phase === 'scene') {
       setOpen(false)
+      onUnfocusProvince?.()
     }
   }, [phase])
 
@@ -36,6 +50,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
     const handler = (e: MouseEvent) => {
       if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
         setOpen(false)
+        onUnfocusProvince?.()
       }
     }
     document.addEventListener('mousedown', handler)
@@ -58,8 +73,8 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
   return (
     <div style={{
       position: 'absolute',
-      left: pos.x,
-      top: pos.y,
+      left: pos.x + BADGE_OFFSET_X,
+      top: pos.y + BADGE_OFFSET_Y,
       transform: `translate(-50%, -100%) scale(${hovered ? 1.15 : 1.0})`,
       transition: 'transform 0.15s ease, filter 0.15s ease',
       zIndex: open ? 600 : 300,
@@ -67,99 +82,48 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
       filter: pinFilter,
       animation: pinAnimation,
     }}
-    onClick={(e) => { e.stopPropagation(); setOpen(prev => !prev) }}
+    onClick={(e) => {
+      e.stopPropagation()
+      setOpen(prev => {
+        const next = !prev
+        if (next) onFocusProvince?.(provinceId)
+        else onUnfocusProvince?.()
+        return next
+      })
+    }}
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
       <div style={{ position: 'relative', display: 'inline-block', pointerEvents: 'none' }}>
-        {/* Grounding shadow — sits under the pin tip */}
-        <div style={{
-          position: 'absolute',
-          bottom: -4,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 34,
-          height: 10,
-          borderRadius: '50%',
-          background: 'radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%)',
-        }}/>
-
-        <img
-          src={mapPinImg}
-          alt={PROVINCE_NAMES[provinceId] ?? provinceId}
-          style={{
-            width: '52px',
-            height: 'auto',
-            display: 'block',
-            pointerEvents: 'none',
-            userSelect: 'none',
-            position: 'relative',
-          }}
-          draggable={false}
-        />
-
-        {/* Scene-count pip — only when more than one scene waits */}
-        {items.length > 1 && (
-          <div style={{
-            position: 'absolute',
-            top: -2,
-            right: -4,
-            minWidth: 16,
-            height: 16,
-            borderRadius: '50%',
-            background: 'linear-gradient(180deg, #2a2115 0%, #171208 100%)',
-            border: '1px solid rgba(201,168,76,0.7)',
-            color: '#c9a84c',
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '9px',
-            lineHeight: '15px',
-            textAlign: 'center',
-            padding: '0 3px',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.6)',
-          }}>
-            {items.length}
-          </div>
+        {!open && (
+          <img
+            src={pinExclamation}
+            alt=""
+            draggable={false}
+            style={{
+              width: '80px',
+              height: '80px',
+              pointerEvents: 'none',
+              userSelect: 'none',
+            }}
+          />
         )}
-
-        {/* Nameplate ribbon beneath the pin */}
-        <div style={{
-          position: 'absolute',
-          top: 'calc(100% + 2px)',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          whiteSpace: 'nowrap',
-          background: 'linear-gradient(180deg, rgba(26,21,16,0.92) 0%, rgba(14,11,7,0.92) 100%)',
-          border: '1px solid rgba(201,168,76,0.45)',
-          borderRadius: '2px',
-          padding: '2px 8px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.55)',
-        }}>
-          <span style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '8px',
-            letterSpacing: '0.22em',
-            color: hasUrgent ? '#e08a7a' : '#c9a84c',
-            textTransform: 'uppercase',
-          }}>
-            {PROVINCE_NAMES[provinceId] ?? provinceId}
-          </span>
-        </div>
       </div>
 
-      {open && (
+      {open && createPortal(
         <div
           ref={popoverRef}
           style={{
-            position: 'absolute',
-            bottom: 'calc(100% + 16px)',
+            position: 'fixed',
+            top: '50%',
             left: '50%',
-            transform: 'translateX(-50%)',
-            width: '280px',
+            transform: 'translate(-50%, -50%)',
+            width: '340px',
             background: 'rgba(10, 8, 6, 0.96)',
             border: '1px solid rgba(200,144,42,0.35)',
             borderRadius: '4px',
             boxShadow: '0 4px 24px rgba(0,0,0,0.6), 0 0 12px rgba(200,144,42,0.08)',
-            zIndex: 600,
+            zIndex: 9999,
             overflow: 'hidden',
           }}
         >
@@ -172,7 +136,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
           }}>
             <span style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '9px',
+              fontSize: '11px',
               letterSpacing: '0.1em',
               color: 'var(--amber)',
               textTransform: 'uppercase',
@@ -180,7 +144,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
               {PROVINCE_NAMES[provinceId]}
             </span>
             <button
-              onClick={() => setOpen(false)}
+              onClick={() => { setOpen(false); onUnfocusProvince?.() }}
               style={{
                 background: 'none',
                 border: 'none',
@@ -221,6 +185,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
                   }
                   setSceneError(null)
                   setOpen(false)
+                  onUnfocusProvince?.()
                   onSelectScene(item)
                 }}
                 style={{
@@ -243,7 +208,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
                     fontFamily: "'Crimson Text', Georgia, serif",
-                    fontSize: '13px',
+                    fontSize: '15px',
                     fontWeight: 600,
                     color: '#d4c9b0',
                     lineHeight: 1.3,
@@ -253,8 +218,8 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
                   </div>
                   <div style={{
                     fontFamily: "'Crimson Text', Georgia, serif",
-                    fontSize: '11px',
-                    color: 'rgba(200,185,155,0.45)',
+                    fontSize: '13px',
+                    color: 'rgba(200,185,155,0.8)',
                     lineHeight: 1.4,
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -270,7 +235,8 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
               )
             })}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )

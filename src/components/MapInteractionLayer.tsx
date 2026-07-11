@@ -10,7 +10,12 @@ import type { AgendaItem } from '../types/week'
 
 // ─── MapPins: renders scene pins as absolute children of the pannable map div ──
 
-export function MapPins() {
+interface MapPinsProps {
+  onFocusProvince?: (id: string) => void
+  onUnfocusProvince?: () => void
+}
+
+export function MapPins({ onFocusProvince, onUnfocusProvince }: MapPinsProps = {}) {
   const agendaPool = useWeekStore(s => s.agendaPool)
   const launchSingleScene = useWeekStore(s => s.launchSingleScene)
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
@@ -37,6 +42,8 @@ export function MapPins() {
           items={[item]}
           currentWeek={currentWeek}
           onSelectScene={(selected: AgendaItem) => launchSingleScene(selected)}
+          onFocusProvince={onFocusProvince}
+          onUnfocusProvince={onUnfocusProvince}
         />
       ))}
     </>

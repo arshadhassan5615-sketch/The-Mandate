@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
-import prologueMusic from '../assets/audio/music/mandate_distorted_cello_drone.mp3'
 
 const splashImages = import.meta.glob<{ default: string }>(
   '../assets/images/prologue/splash_*.{jpg,jpeg,png}',
@@ -15,8 +14,6 @@ function getSplashForYear(year: number): string | null {
   }
   return null
 }
-
-// ─── Cinematic scenes ─────────────────────────────────────────────────────────
 
 type CinematicScene = {
   year: number
@@ -95,22 +92,19 @@ const SCENES: CinematicScene[] = [
   },
 ]
 
-// Default stat bonuses applied to all players — balanced starting position
 const DEFAULT_MODIFIERS = [
-  { stat: 'personal.moralCompass',       operation: 'add' as const, value: 10 },
-  { stat: 'personal.publicImage',        operation: 'add' as const, value: 8  },
-  { stat: 'factions.reformists',         operation: 'add' as const, value: 8  },
-  { stat: 'factions.workersCoalition',   operation: 'add' as const, value: 5  },
-  { stat: 'personal.marriageHealth',     operation: 'add' as const, value: 5  },
+  { stat: 'personal.moralCompass',     operation: 'add' as const, value: 10 },
+  { stat: 'personal.publicImage',      operation: 'add' as const, value: 8  },
+  { stat: 'factions.reformists',       operation: 'add' as const, value: 8  },
+  { stat: 'factions.workersCoalition', operation: 'add' as const, value: 5  },
+  { stat: 'personal.marriageHealth',   operation: 'add' as const, value: 5  },
 ]
 
 const DEFAULT_FLAGS = ['prologue_cinematic', 'forged_in_loss', 'academic_fire']
 
-const PARA_INTERVAL   = 2800   // ms per paragraph
-const SCENE_HOLD      = 1200   // ms pause after last paragraph before next scene
-const TITLE_HOLD      = 2200   // ms to show chapter card before paragraphs begin
-
-// ─── Timeline bar ─────────────────────────────────────────────────────────────
+const PARA_INTERVAL = 4500
+const SCENE_HOLD    = 1200
+const TITLE_HOLD    = 3000
 
 const YEARS = [1931, 1938, 1943, 1951, 1958, 1962]
 
@@ -158,8 +152,6 @@ function TimelineBar({ currentIndex }: { currentIndex: number }) {
   )
 }
 
-// ─── Chapter card ─────────────────────────────────────────────────────────────
-
 function ChapterCard({ scene }: { scene: CinematicScene }) {
   return (
     <motion.div
@@ -205,16 +197,24 @@ function ChapterCard({ scene }: { scene: CinematicScene }) {
 
 function InkSplashReveal({ src, onDone }: { src: string; onDone: () => void }) {
   const [phase, setPhase] = useState<'bloom' | 'hold' | 'recede'>('bloom')
+  
+  const onDoneRef = useRef(onDone)
+  onDoneRef.current = onDone
+  
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase('hold'), 2600)
+    const t1 = setTimeout(() => setPhase('hold'),   2600)
     const t2 = setTimeout(() => setPhase('recede'), 5800)
-    const t3 = setTimeout(onDone, 7600)
+    const t3 = setTimeout(() => onDoneRef.current(), 7600)
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
-  }, [onDone])
-  const r = phase === 'recede' ? '0%' : '75%'
-  const dur = phase === 'bloom' ? 2.6 : phase === 'recede' ? 1.8 : 0
+  }, [])
+  
+  const r   = phase === 'recede' ? '0%' : '75%'
+  const dur = phase === 'bloom'  ? 2.6  : phase === 'recede' ? 1.8 : 0
   return (
-    <div onClick={onDone} style={{ position: 'absolute', inset: 0, zIndex: 3, cursor: 'pointer' }}>
+    <div
+      onClick={() => onDoneRef.current()}
+      style={{ position: 'absolute', inset: 0, zIndex: 3, cursor: 'pointer' }}
+    >
       <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
         <defs>
           <filter id="ink-distort" x="-60%" y="-60%" width="220%" height="220%">
@@ -251,77 +251,61 @@ function InkSplashReveal({ src, onDone }: { src: string; onDone: () => void }) {
   )
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
-
 export default function ChildhoodPrologue() {
-  const [sceneIndex,    setSceneIndex]    = useState(0)
-  const [paraIndex,     setParaIndex]     = useState(-1)   // -1 = chapter card showing
-  const [done,          setDone]          = useState(false)
-  const [splashDone,   setSplashDone]     = useState(false)
-
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  useEffect(() => {
-    const audio = new Audio(prologueMusic)
-    audio.loop = true
-    audio.volume = 0.6
-    audio.play().catch(() => console.log("Autoplay blocked, will play on interaction"))
-    audioRef.current = audio
-
-    // Attempt to play on first interaction if blocked by browser autoplay policy
-    const playOnInteraction = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play().catch(() => {})
-      }
-    }
-    document.addEventListener('click', playOnInteraction)
-    document.addEventListener('keydown', playOnInteraction)
-
-    return () => {
-      audio.pause()
-      audio.src = ''
-      audioRef.current = null
-      document.removeEventListener('click', playOnInteraction)
-      document.removeEventListener('keydown', playOnInteraction)
-    }
-  }, [])
+  const [sceneIndex, setSceneIndex] = useState(0)
+  const [paraIndex,  setParaIndex]  = useState(-1)
+  const [splashDone, setSplashDone] = useState(false)
+  const [done,       setDone]       = useState(false)
 
   const applyModifiers = useGameStore(s => s.applyModifiers)
   const addFlags       = useNarrativeStore(s => s.addFlags)
   const initWeek       = useWeekStore(s => s.initWeek)
 
-  const scene = SCENES[sceneIndex]
-  const showChapterCard = paraIndex === -1
+  // Stable refs — store selectors can change identity on every render
+  const applyRef  = useRef(applyModifiers)
+  const flagsRef  = useRef(addFlags)
+  const weekRef   = useRef(initWeek)
+  applyRef.current = applyModifiers
+  flagsRef.current = addFlags
+  weekRef.current  = initWeek
 
-  const splashSrc = getSplashForYear(scene.year)
-  const showSplash = !!splashSrc && !splashDone
+  const doneRef = useRef(done)
+  doneRef.current = done
 
   const finish = useCallback(() => {
-    if (done) return
+    if (doneRef.current) return
     setDone(true)
-    applyModifiers(DEFAULT_MODIFIERS)
-    addFlags(DEFAULT_FLAGS)
-    initWeek()
-  }, [done, applyModifiers, addFlags, initWeek])
+    applyRef.current(DEFAULT_MODIFIERS)
+    flagsRef.current(DEFAULT_FLAGS)
+    weekRef.current()
+  }, [])  // empty deps — all values accessed via refs
+
+  const scene           = SCENES[sceneIndex]
+  const showChapterCard = paraIndex === -1
+  const splashSrc       = getSplashForYear(scene.year)
+  const showSplash      = !!splashSrc && !splashDone
+
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    if (done) return
-    if (showSplash) return
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+
+    if (done || showSplash) return
 
     if (showChapterCard) {
-      // Show chapter card for TITLE_HOLD ms then start paragraphs
-      const t = setTimeout(() => setParaIndex(0), TITLE_HOLD)
-      return () => clearTimeout(t)
+      timerRef.current = setTimeout(() => setParaIndex(0), TITLE_HOLD)
+      return
     }
 
     if (paraIndex < scene.paragraphs.length - 1) {
-      // Advance to next paragraph
-      const t = setTimeout(() => setParaIndex(i => i + 1), PARA_INTERVAL)
-      return () => clearTimeout(t)
+      timerRef.current = setTimeout(() => setParaIndex(i => i + 1), PARA_INTERVAL)
+      return
     }
 
-    // Last paragraph of this scene
-    const t = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       if (sceneIndex < SCENES.length - 1) {
         setSceneIndex(i => i + 1)
         setParaIndex(-1)
@@ -330,10 +314,14 @@ export default function ChildhoodPrologue() {
         finish()
       }
     }, SCENE_HOLD)
-    return () => clearTimeout(t)
-  }, [sceneIndex, paraIndex, done, showChapterCard, showSplash, scene.paragraphs.length, finish])
 
-  const handleSkip = () => finish()
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+        timerRef.current = null
+      }
+    }
+  }, [sceneIndex, paraIndex, done, showChapterCard, showSplash, scene.paragraphs.length])
 
   return (
     <>
@@ -342,7 +330,7 @@ export default function ChildhoodPrologue() {
         initial={{ opacity: 0 }}
         animate={{ opacity: done ? 0 : 1 }}
         transition={{ duration: done ? 0.8 : 0.7, ease: 'easeOut' }}
-        onClick={handleSkip}
+        onClick={() => finish()}
         style={{
           position: 'fixed', inset: 0, zIndex: 200,
           background: '#0a0906',
@@ -365,7 +353,7 @@ export default function ChildhoodPrologue() {
           background: 'radial-gradient(ellipse 75% 65% at 50% 50%, transparent 30%, rgba(0,0,0,0.75) 100%)',
         }}/>
 
-        {/* Timeline */}
+        {/* Timeline — floating overlay, does not affect layout */}
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0, zIndex: 4,
           background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%)',
@@ -374,6 +362,14 @@ export default function ChildhoodPrologue() {
           <TimelineBar currentIndex={sceneIndex}/>
         </div>
 
+        {/* Ink splash image */}
+        {showSplash && (
+          <InkSplashReveal
+            src={splashSrc!}
+            onDone={() => setSplashDone(true)}
+          />
+        )}
+
         {/* Content area */}
         <div style={{
           flex: 1, position: 'relative', zIndex: 1,
@@ -381,11 +377,9 @@ export default function ChildhoodPrologue() {
           alignItems: 'center', justifyContent: 'center',
           padding: '2rem',
         }}>
-          {showSplash && <InkSplashReveal src={splashSrc} onDone={() => setSplashDone(true)} />}
           <div style={{ maxWidth: 680, width: '100%', textAlign: 'center' }}>
-
             <AnimatePresence mode="wait">
-              {showChapterCard ? (
+              {showSplash ? null : showChapterCard ? (
                 <ChapterCard key={`card-${sceneIndex}`} scene={scene} />
               ) : (
                 <motion.div
@@ -407,7 +401,7 @@ export default function ChildhoodPrologue() {
                       style={{
                         fontFamily: "'IM Fell English', Georgia, serif",
                         fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
-                        color: '#c8bfaa',
+                        color: '#e8dcc8',
                         lineHeight: 1.9, textAlign: 'center',
                         marginBottom: i < scene.paragraphs.length - 1 ? '1.2em' : 0,
                       }}
@@ -418,7 +412,6 @@ export default function ChildhoodPrologue() {
                 </motion.div>
               )}
             </AnimatePresence>
-
           </div>
         </div>
 
@@ -438,7 +431,6 @@ export default function ChildhoodPrologue() {
         >
           Click anywhere to skip
         </motion.p>
-
       </motion.div>
     </>
   )

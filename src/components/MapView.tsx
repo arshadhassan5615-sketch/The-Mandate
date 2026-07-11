@@ -4,9 +4,24 @@ import { useNarrativeStore } from '../stores/narrativeStore'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
 import type { GameState } from '../types/gameState'
-import { MAP_RENDER_WIDTH, MAP_RENDER_HEIGHT, PROVINCE_PIN_POSITIONS } from '../engine/LocationResolver'
+import { MAP_RENDER_WIDTH, MAP_RENDER_HEIGHT, PROVINCE_PIN_POSITIONS, groupByProvince } from '../engine/LocationResolver'
 import { MapPins } from './MapInteractionLayer'
-import veltriaMapImg from '../assets/images/veltria_map_full.jpeg'
+import veltriaMapImg from '../assets/maps/veltria_map_full.jpeg'
+import pinAshenmere    from '../assets/images/pins/pin_ashenmere.png'
+import pinKravenstal   from '../assets/images/pins/pin_kravenstal.png'
+import pinDravenhollow from '../assets/images/pins/pin_dravenhollow.png'
+import pinThornfeld    from '../assets/images/pins/pin_thornfeld.png'
+import pinAldenmoor    from '../assets/images/pins/pin_aldenmoor.png'
+import pinSevagrad     from '../assets/images/pins/pin_sevagrad.png'
+
+const PROVINCE_BUILDINGS = [
+  { id: 'ashenmere',    img: pinAshenmere    },
+  { id: 'kravenstal',   img: pinKravenstal   },
+  { id: 'dravenhollow', img: pinDravenhollow },
+  { id: 'thornfeld',    img: pinThornfeld    },
+  { id: 'aldenmoor',    img: pinAldenmoor    },
+  { id: 'sevagrad',     img: pinSevagrad     },
+] as const
 
 // ─── Province click zones (pixel-based, relative to map image dimensions) ─────
 
@@ -84,6 +99,36 @@ function computeCrisisLevel(provinceId: string, state: GameState, flags: string[
     default: return 0
   }
 }
+
+// ─── Road / railway organic path (Veltria's 6 provinces only) ────────────────
+
+function organicPath(
+  p1: { x: number; y: number },
+  p2: { x: number; y: number },
+  bow: number = 0.12
+): string {
+  const dx = p2.x - p1.x
+  const dy = p2.y - p1.y
+  const dist = Math.sqrt(dx * dx + dy * dy)
+  const nx = -dy / dist
+  const ny = dx / dist
+  const offset = dist * bow
+
+  const c1x = p1.x + dx * 0.3 + nx * offset
+  const c1y = p1.y + dy * 0.3 + ny * offset
+  const c2x = p1.x + dx * 0.7 + nx * offset * 0.55
+  const c2y = p1.y + dy * 0.7 + ny * offset * 0.55
+
+  return `M ${p1.x},${p1.y} C ${c1x},${c1y} ${c2x},${c2y} ${p2.x},${p2.y}`
+}
+
+// Pin anchors for road network — references into PROVINCE_PIN_POSITIONS only
+const ASHENMERE = PROVINCE_PIN_POSITIONS.ashenmere
+const DRAVENHOLLOW = PROVINCE_PIN_POSITIONS.dravenhollow
+const KRAVENSTAL = PROVINCE_PIN_POSITIONS.kravenstal
+const THORNFELD = PROVINCE_PIN_POSITIONS.thornfeld
+const ALDENMOOR = PROVINCE_PIN_POSITIONS.aldenmoor
+const SEVAGRAD = PROVINCE_PIN_POSITIONS.sevagrad
 
 // ─── Province tooltip ────────────────────────────────────────────────────────
 
@@ -218,6 +263,20 @@ export default function MapView({ onProvinceDetail }: {
   const gameState  = useGameStore()
   const factions   = useGameStore(s => s.factions)
   const { activeFlags } = useNarrativeStore()
+  const agendaPool      = useWeekStore(s => s.agendaPool)
+  const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
+  const [hoveredBuilding, setHoveredBuilding] = useState<string | null>(null)
+
+  const provincesWithScenes = useMemo(() => {
+    const active = new Set<string>()
+    agendaPool.forEach(item => {
+      if (!visitedSceneIds.includes(item.sceneId)) {
+        const groups = groupByProvince([item])
+        Object.keys(groups).forEach(p => active.add(p))
+      }
+    })
+    return active
+  }, [agendaPool, visitedSceneIds])
 
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [mousePos, setMousePos]   = useState({ x: 0, y: 0 })
@@ -228,6 +287,9 @@ export default function MapView({ onProvinceDetail }: {
   const hasDragged  = useRef(false)
   const panRafRef   = useRef<number | null>(null)
   const [isCursorGrabbing, setIsCursorGrabbing] = useState(false)
+
+  const [focusedProvinceId, setFocusedProvinceId] = useState<string | null>(null)
+  const FOCUS_ZOOM_MULTIPLIER = 1.6
 
   const [dynamicZoom, setDynamicZoom] = useState(1)
   useEffect(() => {
@@ -245,7 +307,9 @@ export default function MapView({ onProvinceDetail }: {
     return () => window.removeEventListener('resize', calcZoom)
   }, [])
 
-  function clampPan(x: number, y: number): { x: number; y: number } {
+  const effectiveZoom = focusedProvinceId ? dynamicZoom * FOCUS_ZOOM_MULTIPLIER : dynamicZoom
+
+  function clampPan(x: number, y: number, zoom: number = effectiveZoom): { x: number; y: number } {
     const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
     const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
     return {
@@ -262,6 +326,28 @@ export default function MapView({ onProvinceDetail }: {
       Math.round(vw / 2 - ash.x * dynamicZoom),
       Math.round(vh / 2 - ash.y * dynamicZoom),
     )
+  }
+
+  function centerOnProvince(id: string, zoom: number): { x: number; y: number } {
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
+    const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
+    const pos = PROVINCE_PIN_POSITIONS[id as keyof typeof PROVINCE_PIN_POSITIONS]
+    if (!pos) return centeredOnAshenmere()
+    return clampPan(
+      Math.round(vw / 2 - pos.x * zoom),
+      Math.round(vh / 2 - pos.y * zoom),
+      zoom,
+    )
+  }
+
+  const handleFocusProvince = (id: string) => {
+    const targetZoom = dynamicZoom * FOCUS_ZOOM_MULTIPLIER
+    setFocusedProvinceId(id)
+    setPan(centerOnProvince(id, targetZoom))
+  }
+  const handleUnfocusProvince = () => {
+    setFocusedProvinceId(null)
+    setPan(centerOnProvince('ashenmere', dynamicZoom))
   }
 
   // Center on Ashenmere on first mount
@@ -357,61 +443,136 @@ export default function MapView({ onProvinceDetail }: {
               userSelect: 'none',
             }}
           />
-          {/* Scene pins — absolute inside transform, move with map */}
-          <MapPins />
-        </div>
+          {/* Road and railway network overlay — Veltria 6 provinces only (no Sovarka) */}
+          <svg
+            className="road-network-overlay"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: 2752,
+              height: 1536,
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          >
+            {/* Roads — solid, warm brown, organic curves. Veltria's 6 provinces
+                only. Sovarka and foreign are excluded — not part of the nation. */}
+            <path d={organicPath(ASHENMERE, DRAVENHOLLOW, 0.10)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(DRAVENHOLLOW, KRAVENSTAL, -0.12)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(KRAVENSTAL, THORNFELD, 0.09)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(THORNFELD, ASHENMERE, -0.15)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(ASHENMERE, ALDENMOOR, 0.18)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(ASHENMERE, SEVAGRAD, -0.10)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(ALDENMOOR, SEVAGRAD, 0.13)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
 
-        {/* Province medallions — fixed, computed from bgPan */}
-        {PROVINCE_ZONES.map(zone => {
-          const crisisLevel = statuses.get(zone.id) ?? 0
-          const isUrgent = crisisLevel === 2
-          const isTense = crisisLevel === 1
-          const borderColor = isUrgent ? 'rgba(220,60,40,0.9)' : isTense ? 'rgba(201,168,76,0.9)' : '#c9a84c'
-          const anim = isUrgent ? 'event-pulse-urgent 1.2s ease-in-out infinite'
-            : isTense ? 'event-pulse 2s ease-in-out infinite' : undefined
-          const icon = isUrgent ? '⚠' : isTense ? '📋' : '✦'
-          const cx = bgPan.x + (zone.left + zone.width / 2) * dynamicZoom
-          const cy = bgPan.y + (zone.top + zone.height / 2) * dynamicZoom
-          return (
-            <button
-              key={zone.id}
-              onClick={() => handleOpenDetail(zone.id)}
-              onMouseEnter={(e) => handleHover(zone.id, e.clientX, e.clientY)}
-              onMouseMove={(e) => { if (hoveredId === zone.id) handleHover(zone.id, e.clientX, e.clientY) }}
-              onMouseLeave={() => handleHover(null, 0, 0)}
-              style={{
-                position: 'fixed',
-                left: cx - 22, top: cy - 22,
-                width: '44px', height: '44px',
-                background: 'transparent', border: 'none', cursor: 'pointer',
-                pointerEvents: 'all', padding: 0, zIndex: 5,
-              }}
-            >
-              <div style={{
-                width: '44px', height: '44px', borderRadius: '50%',
-                background: 'rgba(20,18,12,0.85)',
-                border: '2px solid #c9a84c',
-                outline: '1px solid rgba(201,168,76,0.3)', outlineOffset: '3px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: isUrgent
-                  ? '0 0 16px rgba(220,60,40,0.4), 0 2px 8px rgba(0,0,0,0.5)'
-                  : '0 0 8px rgba(201,168,76,0.3), 0 2px 6px rgba(0,0,0,0.4)',
-                animation: anim, color: borderColor,
-              }}>
-                <span style={{ fontSize: '18px' }}>{icon}</span>
+            {/* Railway — dark slate, dash-dot, thinner. Single trunk line through
+                the capital. */}
+            <path d={organicPath(KRAVENSTAL, ASHENMERE, -0.08)}
+              stroke="#3d3a35" strokeWidth={1.8} strokeDasharray="2,5"
+              fill="none" strokeLinecap="round" opacity={0.7} />
+            <path d={organicPath(ASHENMERE, SEVAGRAD, 0.06)}
+              stroke="#3d3a35" strokeWidth={1.8} strokeDasharray="2,5"
+              fill="none" strokeLinecap="round" opacity={0.7} />
+          </svg>
+          {/* Always-visible province buildings */}
+          {PROVINCE_BUILDINGS.map(({ id, img }) => {
+            const pos = PROVINCE_PIN_POSITIONS[id as keyof typeof PROVINCE_PIN_POSITIONS]
+            if (!pos) return null
+            const hasScenes  = provincesWithScenes.has(id)
+            const isHovered  = hoveredBuilding === id
+            return (
+              <div
+                key={id}
+                style={{
+                  position: 'absolute',
+                  left: pos.x,
+                  top: pos.y,
+                  transform: `translate(-50%, -130%) scale(${isHovered ? 1.12 : 1.0})`,
+                  transition: 'transform 0.18s ease, filter 0.18s ease',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                  zIndex: isHovered ? 50 : 10,
+                }}
+                onMouseEnter={() => setHoveredBuilding(id)}
+                onMouseLeave={() => setHoveredBuilding(null)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onProvinceDetail?.(id)
+                }}
+              >
+                <img
+                  src={img}
+                  alt={id}
+                  style={{
+                    width: 140,
+                    height: 'auto',
+                    display: 'block',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    opacity: 0.92,
+                    filter: hasScenes
+                      ? `drop-shadow(0 0 12px rgba(201,168,76,0.8)) drop-shadow(0 4px 8px rgba(0,0,0,0.45))`
+                      : `drop-shadow(0 4px 8px rgba(0,0,0,0.45))`,
+                  }}
+                  draggable={false}
+                />
+                {/* Province name tooltip on hover */}
+                {isHovered && (
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 'calc(100% + 6px)',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    whiteSpace: 'nowrap',
+                    background: 'linear-gradient(180deg, rgba(26,21,16,0.95) 0%, rgba(14,11,7,0.95) 100%)',
+                    border: '1px solid rgba(201,168,76,0.5)',
+                    borderRadius: '3px',
+                    padding: '4px 10px',
+                    pointerEvents: 'none',
+                    zIndex: 100,
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.6)',
+                  }}>
+                    <div style={{
+                      fontFamily: "'Special Elite', monospace",
+                      fontSize: '9px',
+                      letterSpacing: '0.2em',
+                      color: '#c9a84c',
+                      textTransform: 'uppercase',
+                    }}>
+                      {id.charAt(0).toUpperCase() + id.slice(1)}
+                    </div>
+                    {hasScenes && (
+                      <div style={{
+                        fontFamily: "'Special Elite', monospace",
+                        fontSize: '7px',
+                        letterSpacing: '0.15em',
+                        color: 'rgba(201,168,76,0.6)',
+                        textTransform: 'uppercase',
+                        marginTop: '2px',
+                      }}>
+                        Events available
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-              <span style={{
-                position: 'absolute', bottom: '-16px', left: '50%',
-                transform: 'translateX(-50%)',
-                fontFamily: "'Special Elite', monospace", fontSize: '9px', fontWeight: 700,
-                color: '#c9a84c', letterSpacing: '2px', textTransform: 'uppercase',
-                textShadow: '1px 1px 3px rgba(0,0,0,0.9)', whiteSpace: 'nowrap', pointerEvents: 'none',
-              }}>
-                {zone.name}
-              </span>
-            </button>
-          )
-        })}
+            )
+          })}
         {hoveredId && hoveredZone && (
           <HoverLabel
             zone={hoveredZone}
@@ -420,6 +581,7 @@ export default function MapView({ onProvinceDetail }: {
             mouseX={mousePos.x} mouseY={mousePos.y}
           />
         )}
+        </div>
       </div>
     )
   }
@@ -449,7 +611,7 @@ export default function MapView({ onProvinceDetail }: {
         {/* Transform div: map image + zones + medallions + scene pins move together */}
         <div style={{
           position: 'absolute',
-          transform: `translate(${pan.x}px, ${pan.y}px) scale(${dynamicZoom})`,
+          transform: `translate(${pan.x}px, ${pan.y}px) scale(${effectiveZoom})`,
           transformOrigin: '0 0',
           willChange: 'transform',
           userSelect: 'none',
@@ -491,7 +653,7 @@ export default function MapView({ onProvinceDetail }: {
             />
           ))}
 
-          {/* Event medallions — absolute on image, move with pan */}
+          {/* HIDDEN — replaced by MapScenePin building images
           {PROVINCE_ZONES.map(zone => {
             const crisisLevel = statuses.get(zone.id) ?? 0
             const isUrgent = crisisLevel === 2
@@ -539,56 +701,145 @@ export default function MapView({ onProvinceDetail }: {
               </button>
             )
           })}
+          */}
 
-          {/* Scene pins — absolute inside transform, move with map */}
-          <MapPins />
-        </div>
-      </div>
+          {/* Road and railway network overlay — Veltria 6 provinces only (no Sovarka) */}
+          <svg
+            className="road-network-overlay"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: 2752,
+              height: 1536,
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          >
+            {/* Roads — solid, warm brown, organic curves. Veltria's 6 provinces
+                only. Sovarka and foreign are excluded — not part of the nation. */}
+            <path d={organicPath(ASHENMERE, DRAVENHOLLOW, 0.10)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(DRAVENHOLLOW, KRAVENSTAL, -0.12)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(KRAVENSTAL, THORNFELD, 0.09)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(THORNFELD, ASHENMERE, -0.15)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(ASHENMERE, ALDENMOOR, 0.18)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(ASHENMERE, SEVAGRAD, -0.10)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
+            <path d={organicPath(ALDENMOOR, SEVAGRAD, 0.13)}
+              stroke="#8b6b47" strokeWidth={3} fill="none"
+              strokeLinecap="round" opacity={0.55} />
 
-      {/* Province list sidebar — fixed, does NOT pan */}
-      <div style={{
-        position: 'fixed', right: 0, top: HEADER_H, bottom: 0,
-        width: '220px', background: 'rgba(12,10,8,0.95)',
-        borderLeft: '1px solid rgba(200,144,42,0.2)',
-        overflowY: 'auto', scrollbarWidth: 'thin',
-        scrollbarColor: 'rgba(200,144,42,0.2) transparent',
-        padding: '1rem 0.5rem',
-        zIndex: 10005,
-      }}>
-        <p style={{
-          fontFamily: "'Playfair Display', serif", fontSize: '0.75rem',
-          color: 'var(--amber)', margin: '0 0 0.6rem 0.5rem', letterSpacing: '0.03em', fontStyle: 'italic',
-        }}>
-          Provinces
-        </p>
-        {PROVINCE_ZONES.map(zone => {
-          const crisisLevel = statuses.get(zone.id) ?? 0
-          const dotColor = crisisLevel === 2 ? 'var(--accent-red)' : crisisLevel === 1 ? '#c47a3a' : 'var(--accent-green)'
-          const factionScore = factions[zone.primaryFaction] ?? 40
-          return (
-            <button
-              key={zone.id}
-              onClick={() => handleOpenDetail(zone.id)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.5rem',
-                width: '100%', background: 'none', border: 'none', cursor: 'pointer',
-                padding: '0.4rem 0.5rem', marginBottom: '1px', transition: 'background 0.15s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,144,42,0.05)' }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'none' }}
-            >
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: dotColor, flexShrink: 0 }} />
-              <div style={{ textAlign: 'left', flex: 1 }}>
-                <span style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.72rem', color: '#d4c8b0', display: 'block' }}>
-                  {zone.name}
-                </span>
-                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.4rem', color: 'var(--muted)', letterSpacing: '0.04em' }}>
-                  {FACTION_LABELS[zone.primaryFaction] ?? zone.primaryFaction} · {stance(factionScore)}
-                </span>
+            {/* Railway — dark slate, dash-dot, thinner. Single trunk line through
+                the capital. */}
+            <path d={organicPath(KRAVENSTAL, ASHENMERE, -0.08)}
+              stroke="#3d3a35" strokeWidth={1.8} strokeDasharray="2,5"
+              fill="none" strokeLinecap="round" opacity={0.7} />
+            <path d={organicPath(ASHENMERE, SEVAGRAD, 0.06)}
+              stroke="#3d3a35" strokeWidth={1.8} strokeDasharray="2,5"
+              fill="none" strokeLinecap="round" opacity={0.7} />
+          </svg>
+
+          {/* Always-visible province buildings */}
+          {PROVINCE_BUILDINGS.map(({ id, img }) => {
+            const pos = PROVINCE_PIN_POSITIONS[id as keyof typeof PROVINCE_PIN_POSITIONS]
+            if (!pos) return null
+            const hasScenes  = provincesWithScenes.has(id)
+            const isHovered  = hoveredBuilding === id
+            return (
+              <div
+                key={id}
+                style={{
+                  position: 'absolute',
+                  left: pos.x,
+                  top: pos.y,
+                  transform: `translate(-50%, -130%) scale(${isHovered ? 1.12 : 1.0})`,
+                  transition: 'transform 0.18s ease, filter 0.18s ease',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                  zIndex: isHovered ? 50 : 10,
+                }}
+                onMouseEnter={() => setHoveredBuilding(id)}
+                onMouseLeave={() => setHoveredBuilding(null)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onProvinceDetail?.(id)
+                }}
+              >
+                <img
+                  src={img}
+                  alt={id}
+                  style={{
+                    width: 140,
+                    height: 'auto',
+                    display: 'block',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    opacity: 0.92,
+                    filter: hasScenes
+                      ? `drop-shadow(0 0 12px rgba(201,168,76,0.8)) drop-shadow(0 4px 8px rgba(0,0,0,0.45))`
+                      : `drop-shadow(0 4px 8px rgba(0,0,0,0.45))`,
+                  }}
+                  draggable={false}
+                />
+                {/* Province name tooltip on hover */}
+                {isHovered && (
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 'calc(100% + 6px)',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    whiteSpace: 'nowrap',
+                    background: 'linear-gradient(180deg, rgba(26,21,16,0.95) 0%, rgba(14,11,7,0.95) 100%)',
+                    border: '1px solid rgba(201,168,76,0.5)',
+                    borderRadius: '3px',
+                    padding: '4px 10px',
+                    pointerEvents: 'none',
+                    zIndex: 100,
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.6)',
+                  }}>
+                    <div style={{
+                      fontFamily: "'Special Elite', monospace",
+                      fontSize: '9px',
+                      letterSpacing: '0.2em',
+                      color: '#c9a84c',
+                      textTransform: 'uppercase',
+                    }}>
+                      {id.charAt(0).toUpperCase() + id.slice(1)}
+                    </div>
+                    {hasScenes && (
+                      <div style={{
+                        fontFamily: "'Special Elite', monospace",
+                        fontSize: '7px',
+                        letterSpacing: '0.15em',
+                        color: 'rgba(201,168,76,0.6)',
+                        textTransform: 'uppercase',
+                        marginTop: '2px',
+                      }}>
+                        Events available
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-            </button>
-          )
-        })}
+            )
+          })}
+          {/* Scene pins — absolute inside transform, move with map */}
+          <MapPins
+            onFocusProvince={handleFocusProvince}
+            onUnfocusProvince={handleUnfocusProvince}
+          />
+        </div>
       </div>
 
       {/* Hover label — fixed, always on top */}
