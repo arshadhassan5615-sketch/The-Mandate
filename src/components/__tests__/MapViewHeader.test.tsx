@@ -41,7 +41,7 @@ describe('MapView MapHeader helper', () => {
     expect(helper.style.color).toBe('var(--muted)')
     expect(cluster.style.position).toBe('fixed')
     expect(cluster.style.right).toBe('12px')
-    expect(cluster.style.top).toBe('12px')
+    expect(cluster.style.top).toBe('64px')
     // Not a full-width spanning header
     expect(cluster.style.left).not.toBe('0px')
     expect(cluster.style.width).not.toBe('100%')

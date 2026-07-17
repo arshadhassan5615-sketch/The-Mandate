@@ -130,84 +130,6 @@ const THORNFELD = PROVINCE_PIN_POSITIONS.thornfeld
 const ALDENMOOR = PROVINCE_PIN_POSITIONS.aldenmoor
 const SEVAGRAD = PROVINCE_PIN_POSITIONS.sevagrad
 
-// ─── Province tooltip ────────────────────────────────────────────────────────
-
-function HoverLabel({ zone, crisisLevel, onOpenDetail, mouseX, mouseY }: {
-  zone: ProvinceZone
-  crisisLevel: 0 | 1 | 2
-  onOpenDetail: () => void
-  mouseX: number; mouseY: number
-}) {
-  const crisisLabel = crisisLevel === 2 ? 'Crisis' : crisisLevel === 1 ? 'Tense' : 'Stable'
-  const crisisColor = crisisLevel === 2 ? 'var(--accent-red)' : crisisLevel === 1 ? '#c47a3a' : 'var(--accent-green)'
-  const [hoveredRow, setHoveredRow] = useState<number | null>(null)
-
-  const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
-  const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
-  const tipW = 240; const tipH = 130
-  let left = mouseX + 16; let top = mouseY - 20
-  if (left + tipW > vw - 20) left = mouseX - tipW - 16
-  if (top + tipH > vh - 20) top = vh - tipH - 20
-  if (top < 20) top = 20
-
-  return (
-    <div style={{
-      position: 'fixed', left, top, zIndex: 10001,
-      minWidth: '220px', maxWidth: '250px',
-      background: 'rgba(12,10,8,0.95)',
-      border: '1px solid rgba(200,144,42,0.4)',
-      borderRadius: '2px',
-      pointerEvents: 'all',
-      boxShadow: '0 4px 24px rgba(0,0,0,0.6)',
-    }}>
-      <div style={{ padding: '10px 14px 6px', borderBottom: '1px solid rgba(200,144,42,0.15)' }}>
-        <p style={{
-          fontFamily: "'Playfair Display', serif", fontSize: '0.95rem', fontWeight: 600,
-          color: 'var(--cream)', margin: 0, lineHeight: 1.2,
-        }}>
-          {zone.name}
-        </p>
-        <p style={{
-          fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.55rem',
-          color: 'var(--amber-dim)', margin: '2px 0 0', letterSpacing: '0.06em',
-        }}>
-          {zone.label} · <span style={{ color: crisisColor }}>{crisisLabel}</span>
-        </p>
-      </div>
-      <div style={{ padding: '4px 0' }}>
-        <TooltipRow index={0} hoveredRow={hoveredRow} onHover={setHoveredRow}
-          onClick={onOpenDetail} icon={<span style={{ fontSize: '0.7rem' }}>🔍</span>} label="Open Province Info" />
-        {crisisLevel > 0 && (
-          <TooltipRow index={1} hoveredRow={hoveredRow} onHover={setHoveredRow}
-            onClick={onOpenDetail} icon={<span style={{ fontSize: '0.7rem' }}>📋</span>}
-            label={`View Active Events (${crisisLevel})`} />
-        )}
-      </div>
-    </div>
-  )
-}
-
-function TooltipRow({ index, hoveredRow, onHover, onClick, icon, label }: {
-  index: number; hoveredRow: number | null; onHover: (i: number | null) => void
-  onClick: () => void; icon: React.ReactNode; label: string
-}) {
-  return (
-    <button onClick={onClick} onMouseEnter={() => onHover(index)} onMouseLeave={() => onHover(null)}
-      style={{
-        display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left',
-        background: hoveredRow === index ? 'rgba(200,144,42,0.1)' : 'transparent',
-        border: 'none', cursor: 'pointer', padding: '6px 14px',
-        color: hoveredRow === index ? 'var(--amber)' : 'var(--muted)',
-        fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.55rem',
-        letterSpacing: '0.04em', transition: 'all 0.12s',
-      }}
-    >
-      {icon}
-      <span>{label}</span>
-    </button>
-  )
-}
-
 // ─── Map Header ──────────────────────────────────────────────────────────────
 // Compact close-control cluster (not a full-width bar) so TopBar chips stay free
 // and the pan/hotkey helper stays docked to CLOSE MAP.
@@ -217,7 +139,7 @@ function MapHeader({ onClose }: { onClose: () => void }) {
     <div
       data-testid="map-header-close-cluster"
       style={{
-        position: 'fixed', top: '12px', right: '12px', zIndex: 10010,
+        position: 'fixed', top: '64px', right: '12px', zIndex: 10010,
         display: 'flex', alignItems: 'center', gap: '0.65rem',
         padding: '6px 10px',
         background: 'rgba(10,8,6,0.85)',
@@ -277,8 +199,8 @@ export default function MapView({ onProvinceDetail }: {
     return active
   }, [agendaPool, visitedSceneIds])
 
+  // Zone highlight only (no mouse-following tooltip)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const [mousePos, setMousePos]   = useState({ x: 0, y: 0 })
 
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const dragging    = useRef(false)
@@ -313,8 +235,8 @@ export default function MapView({ onProvinceDetail }: {
     const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
     const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
     return {
-      x: Math.max(vw - MAP_RENDER_WIDTH * dynamicZoom, Math.min(0, x)),
-      y: Math.max(vh - MAP_RENDER_HEIGHT * dynamicZoom, Math.min(0, y)),
+      x: Math.max(vw - MAP_RENDER_WIDTH * zoom, Math.min(0, x)),
+      y: Math.max(vh - MAP_RENDER_HEIGHT * zoom, Math.min(0, y)),
     }
   }
 
@@ -406,14 +328,6 @@ export default function MapView({ onProvinceDetail }: {
     if (hasDragged.current) return
     onProvinceDetail?.(id)
   }
-
-  function handleHover(id: string | null, x: number, y: number) {
-    if (dragging.current) return
-    setHoveredId(id)
-    setMousePos({ x, y })
-  }
-
-  const hoveredZone = hoveredId ? PROVINCE_ZONES.find(z => z.id === hoveredId) ?? null : null
 
   // ── Background mode: map behind game UI, centered, not pannable ─────────────
   if (!mapOpen) {
@@ -577,14 +491,6 @@ export default function MapView({ onProvinceDetail }: {
               </div>
             )
           })}
-        {hoveredId && hoveredZone && (
-          <HoverLabel
-            zone={hoveredZone}
-            crisisLevel={statuses.get(hoveredZone.id) ?? 0}
-            onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
-            mouseX={mousePos.x} mouseY={mousePos.y}
-          />
-        )}
         </div>
       </div>
     )
@@ -642,9 +548,16 @@ export default function MapView({ onProvinceDetail }: {
           {PROVINCE_ZONES.map(zone => (
             <div
               key={zone.id}
-              onMouseEnter={(e) => { e.stopPropagation(); handleHover(zone.id, e.clientX, e.clientY) }}
-              onMouseMove={(e) => { e.stopPropagation(); if (hoveredId === zone.id) handleHover(zone.id, e.clientX, e.clientY) }}
-              onMouseLeave={(e) => { e.stopPropagation(); handleHover(null, 0, 0) }}
+              onMouseEnter={(e) => {
+                e.stopPropagation()
+                if (dragging.current) return
+                setHoveredId(zone.id)
+              }}
+              onMouseLeave={(e) => {
+                e.stopPropagation()
+                if (dragging.current) return
+                setHoveredId(null)
+              }}
               onClick={(e) => { e.stopPropagation(); handleOpenDetail(zone.id) }}
               style={{
                 position: 'absolute',
@@ -848,16 +761,6 @@ export default function MapView({ onProvinceDetail }: {
           />
         </div>
       </div>
-
-      {/* Hover label — fixed, always on top */}
-      {hoveredId && hoveredZone && (
-        <HoverLabel
-          zone={hoveredZone}
-          crisisLevel={statuses.get(hoveredZone.id) ?? 0}
-          onOpenDetail={() => handleOpenDetail(hoveredZone.id)}
-          mouseX={mousePos.x} mouseY={mousePos.y}
-        />
-      )}
 
       {/* Footer */}
       <div style={{
