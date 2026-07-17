@@ -41,16 +41,6 @@ export default function MapChromeFrame() {
         position: 'absolute', inset: 0,
         background: 'radial-gradient(ellipse 85% 80% at 50% 48%, transparent 55%, rgba(10,8,5,0.42) 100%)',
       }}/>
-
-      {/* Top and bottom gradient rails for HUD legibility */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 64,
-        background: 'linear-gradient(180deg, rgba(10,8,5,0.55) 0%, transparent 100%)',
-      }}/>
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: 56,
-        background: 'linear-gradient(0deg, rgba(10,8,5,0.5) 0%, transparent 100%)',
-      }}/>
     </div>
   )
 }

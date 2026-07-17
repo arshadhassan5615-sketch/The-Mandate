@@ -27,9 +27,9 @@ function weekToDate(week: number): string {
 function GoldHairline() {
   return (
     <div style={{
-      width: 1, height: 28,
+      width: 1, height: 22,
       background: 'linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.3) 50%, transparent 100%)',
-      margin: '0 16px',
+      margin: '0 8px',
       flexShrink: 0,
     }} />
   )
@@ -54,115 +54,128 @@ export default function TopBar() {
     publicImage >= 35 ? '#c9a84c' :
     '#e05c4a'
 
+  const chipChrome: React.CSSProperties = {
+    zIndex: 210,
+    background: 'rgba(10,8,6,0.85)',
+    borderRadius: '6px',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: '1px solid rgba(201,168,76,0.2)',
+    boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+    fontFamily: "'IBM Plex Mono', monospace",
+  }
+
   return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, height: 52,
-      zIndex: 210,
-      background: 'linear-gradient(180deg, rgba(18,16,12,0.85) 0%, rgba(10,8,6,0.95) 100%)',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
-      borderBottom: '1px solid rgba(201,168,76,0.2)',
-      boxShadow: '0 4px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,220,160,0.05)',
-      display: 'flex', alignItems: 'center', gap: 0,
-      padding: '0 20px',
-      fontFamily: "'IBM Plex Mono', monospace",
-    }}>
-      {/* LEFT SECTION — Republic identity */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <img src={veltriaSeal} alt="Veltria Seal" style={{ height: 32, opacity: 0.9, filter: 'drop-shadow(0 0 8px rgba(201,168,76,0.3))' }} />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.4)' }}>
-            REPUBLIC OF VELTRIA
-          </span>
-          <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
-            OFFICE OF THE CHANCELLOR
-          </span>
+    <>
+      {/* LEFT CLUSTER — seal + resources (top-left chip, not full-width bar) */}
+      <div style={{
+        ...chipChrome,
+        position: 'fixed', top: '12px', left: '12px', width: 'auto',
+        display: 'flex', alignItems: 'center', gap: 0,
+        padding: '6px 10px',
+      }}>
+        {/* LEFT SECTION — Republic identity */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <img src={veltriaSeal} alt="Veltria Seal" style={{ height: 26, opacity: 0.9, filter: 'drop-shadow(0 0 8px rgba(201,168,76,0.3))' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <span style={{ fontSize: '0.54rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.4)' }}>
+              REPUBLIC OF VELTRIA
+            </span>
+            <span style={{ fontSize: '0.46rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
+              OFFICE OF THE CHANCELLOR
+            </span>
+          </div>
         </div>
-      </div>
 
-      <GoldHairline />
+        <GoldHairline />
 
-      {/* SLOT 1 — ECONOMY */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
-        <img src={iconEconomy} alt="Economy" style={{ height: 28, width: 28, filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
-        <div style={{ display: 'flex', gap: 3 }}>
-          {(() => {
-            const red = '#e05c4a'; const yellow = '#c9a84c'; const grey = 'rgba(255,255,255,0.1)'
-            const green = '#7fa65a'; const brightGreen = '#a5d678'
-            let colors: string[] = []
-            if (economyHealth < -60) colors = [red, red, red, red, red]
-            else if (economyHealth < -20) colors = [red, red, red, yellow, grey]
-            else if (economyHealth < 20) colors = [yellow, yellow, grey, grey, grey]
-            else if (economyHealth < 60) colors = [green, green, green, grey, grey]
-            else colors = [brightGreen, brightGreen, brightGreen, brightGreen, brightGreen]
-            return colors.map((c, i) => (
-              <div key={i} style={{ 
-                width: 4, height: 14, borderRadius: 1, 
-                background: c, 
-                boxShadow: c !== grey ? `0 0 6px ${c}80` : 'none',
-                transition: 'background 0.4s ease'
-              }} />
-            ))
-          })()}
+        {/* SLOT 1 — ECONOMY */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+          <img src={iconEconomy} alt="Economy" style={{ height: 22, width: 22, filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
+          <div style={{ display: 'flex', gap: 2 }}>
+            {(() => {
+              const red = '#e05c4a'; const yellow = '#c9a84c'; const grey = 'rgba(255,255,255,0.1)'
+              const green = '#7fa65a'; const brightGreen = '#a5d678'
+              let colors: string[] = []
+              if (economyHealth < -60) colors = [red, red, red, red, red]
+              else if (economyHealth < -20) colors = [red, red, red, yellow, grey]
+              else if (economyHealth < 20) colors = [yellow, yellow, grey, grey, grey]
+              else if (economyHealth < 60) colors = [green, green, green, grey, grey]
+              else colors = [brightGreen, brightGreen, brightGreen, brightGreen, brightGreen]
+              return colors.map((c, i) => (
+                <div key={i} style={{
+                  width: 3, height: 12, borderRadius: 1,
+                  background: c,
+                  boxShadow: c !== grey ? `0 0 6px ${c}80` : 'none',
+                  transition: 'background 0.4s ease'
+                }} />
+              ))
+            })()}
+          </div>
         </div>
-      </div>
 
-      <GoldHairline />
+        <GoldHairline />
 
-      {/* SLOT 2 — TREASURY */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
-        <img src={iconTreasury} alt="Treasury" style={{ height: 34, width: 34, marginTop: '4px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
-        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
-          color: balance < 0 ? '#e05c4a' : '#e8dcc8', lineHeight: 1, textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.4)' : '0 0 8px rgba(201,168,76,0.2)' }}>
-          {balance.toLocaleString()}
-        </span>
-      </div>
-
-      <GoldHairline />
-
-      {/* SLOT 3 — PRIVY PURSE */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
-        <img src={iconWealth} alt="Wealth" style={{ height: 28, width: 28, marginTop: '4px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
-        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
-          color: '#c9a84c', lineHeight: 1, textShadow: '0 0 8px rgba(201,168,76,0.3)' }}>
-          {personalWealth.toLocaleString()}
-        </span>
-      </div>
-
-      <GoldHairline />
-
-      {/* SLOT 4 — APPROVAL */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
-        <img src={iconApproval} alt="Approval" style={{ height: 28, width: 28, marginTop: '4px', filter: `brightness(1.8) contrast(1.2) drop-shadow(0 0 8px ${approvalColor}CC)` }} />
-        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
-          color: approvalColor, lineHeight: 1, minWidth: 30, textShadow: `0 0 8px ${approvalColor}40` }}>
-          {publicImage}%
-        </span>
-        <div style={{ width: 40, height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
-          <div style={{ width: `${publicImage}%`, height: '100%', background: approvalColor,
-            boxShadow: `0 0 8px ${approvalColor}80`, borderRadius: 2, transition: 'width 0.5s ease' }} />
-        </div>
-      </div>
-
-      {/* STATE OF EMERGENCY */}
-      {stateOfEmergency && (
-        <div style={{ marginLeft: 16, background: 'rgba(160,40,30,0.2)', border: '1px solid rgba(200,60,40,0.6)',
-          padding: '4px 12px', borderRadius: 2, backdropFilter: 'blur(4px)' }}>
-          <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: '#e05c4a', textTransform: 'uppercase', whiteSpace: 'nowrap', textShadow: '0 0 8px rgba(224,92,74,0.5)' }}>
-            EMERGENCY · WK {soeWeek}
+        {/* SLOT 2 — TREASURY */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+          <img src={iconTreasury} alt="Treasury" style={{ height: 26, width: 26, marginTop: '2px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
+          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.9rem', fontWeight: 600,
+            color: balance < 0 ? '#e05c4a' : '#e8dcc8', lineHeight: 1, textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.4)' : '0 0 8px rgba(201,168,76,0.2)' }}>
+            {balance.toLocaleString()}
           </span>
         </div>
-      )}
 
-      {/* RIGHT SECTION — Dispatch stamp */}
-      <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 }}>
-        <span style={{ fontSize: '0.8rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.3)' }}>
+        <GoldHairline />
+
+        {/* SLOT 3 — PRIVY PURSE */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+          <img src={iconWealth} alt="Wealth" style={{ height: 22, width: 22, marginTop: '2px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
+          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.9rem', fontWeight: 600,
+            color: '#c9a84c', lineHeight: 1, textShadow: '0 0 8px rgba(201,168,76,0.3)' }}>
+            {personalWealth.toLocaleString()}
+          </span>
+        </div>
+
+        <GoldHairline />
+
+        {/* SLOT 4 — APPROVAL */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+          <img src={iconApproval} alt="Approval" style={{ height: 22, width: 22, marginTop: '2px', filter: `brightness(1.8) contrast(1.2) drop-shadow(0 0 8px ${approvalColor}CC)` }} />
+          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.9rem', fontWeight: 600,
+            color: approvalColor, lineHeight: 1, minWidth: 26, textShadow: `0 0 8px ${approvalColor}40` }}>
+            {publicImage}%
+          </span>
+          <div style={{ width: 32, height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
+            <div style={{ width: `${publicImage}%`, height: '100%', background: approvalColor,
+              boxShadow: `0 0 8px ${approvalColor}80`, borderRadius: 2, transition: 'width 0.5s ease' }} />
+          </div>
+        </div>
+
+        {/* STATE OF EMERGENCY */}
+        {stateOfEmergency && (
+          <div style={{ marginLeft: 10, background: 'rgba(160,40,30,0.2)', border: '1px solid rgba(200,60,40,0.6)',
+            padding: '3px 8px', borderRadius: 2, backdropFilter: 'blur(4px)' }}>
+            <span style={{ fontSize: '0.5rem', letterSpacing: '0.2em', color: '#e05c4a', textTransform: 'uppercase', whiteSpace: 'nowrap', textShadow: '0 0 8px rgba(224,92,74,0.5)' }}>
+              EMERGENCY · WK {soeWeek}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* RIGHT CHIP — week/date (independent top-right, not marginLeft auto) */}
+      <div style={{
+        ...chipChrome,
+        position: 'fixed', top: '12px', right: '12px', width: 'auto',
+        display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2,
+        padding: '6px 10px',
+      }}>
+        <span style={{ fontSize: '0.66rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.3)' }}>
           WEEK {currentWeek} / 52
         </span>
-        <span style={{ fontSize: '0.6rem', letterSpacing: '0.1em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
+        <span style={{ fontSize: '0.5rem', letterSpacing: '0.1em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
           {date}
         </span>
       </div>
-    </div>
+    </>
   )
 }
