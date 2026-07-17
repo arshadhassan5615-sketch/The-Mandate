@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { AgendaItem } from '../types/week'
 import type { ProvinceId } from '../engine/LocationResolver'
 import { PROVINCE_PIN_POSITIONS, PROVINCE_NAMES } from '../engine/LocationResolver'
@@ -110,23 +111,31 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
         )}
       </div>
 
-      {open && createPortal(
-        <div
-          ref={popoverRef}
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '340px',
-            background: 'rgba(10, 8, 6, 0.96)',
-            border: '1px solid rgba(200,144,42,0.35)',
-            borderRadius: '4px',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.6), 0 0 12px rgba(200,144,42,0.08)',
-            zIndex: 9999,
-            overflow: 'hidden',
-          }}
-        >
+      {createPortal(
+        <AnimatePresence>
+          {open && (
+            <div style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 9999,
+            }}>
+              <motion.div
+                ref={popoverRef}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 340, damping: 28, mass: 0.9 }}
+                style={{
+                  width: '340px',
+                  background: 'rgba(10, 8, 6, 0.96)',
+                  border: '1px solid rgba(200,144,42,0.35)',
+                  borderRadius: '4px',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.6), 0 0 12px rgba(200,144,42,0.08)',
+                  overflow: 'hidden',
+                }}
+              >
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -235,7 +244,10 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
               )
             })}
           </div>
-        </div>,
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
         document.body
       )}
     </div>
