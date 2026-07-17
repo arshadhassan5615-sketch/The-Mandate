@@ -64,7 +64,13 @@ export interface AppointedMinister extends MinisterCandidate {
   current_loyalty: number
   satisfaction: number
   last_report_week: number
+  status: 'active' | 'dismissed'
   active_request?: MinisterRequest
+}
+
+export interface DismissedMinister extends AppointedMinister {
+  dismissed_week: number
+  dismissal_reason: 'reshuffled' | 'scandal' | 'loyalty_collapse'
 }
 
 export interface MinisterRequest {
@@ -97,6 +103,7 @@ export interface MinisterRequestOption {
 
 export interface CabinetState {
   ministers: Record<MinistryType, AppointedMinister | null>
+  dismissedMinisters: DismissedMinister[]
   formation_complete: boolean
   formation_week: number | null
   pending_requests: MinisterRequest[]

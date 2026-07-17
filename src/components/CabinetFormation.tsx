@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { MinistryType } from '../types/minister'
 import { MINISTER_CANDIDATES, getCandidatesForMinistry } from '../data/ministers'
 import { useCabinetStore } from '../stores/cabinetStore'
@@ -77,17 +77,27 @@ function CandidatePortrait({ candidateId, isChosen }: { candidateId: string; isC
 
 interface CabinetFormationProps {
   onComplete: () => void
+  reshuffleMinistry?: MinistryType
+  reshuffleMode?: boolean
 }
 
-export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }) => {
+export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, reshuffleMinistry, reshuffleMode }) => {
   const [selections, setSelections] = useState<Partial<Record<MinistryType, string>>>({})
-  const [activeMinistry, setActiveMinistry] = useState<MinistryType>('finance')
+  const [activeMinistry, setActiveMinistry] = useState<MinistryType>(reshuffleMinistry ?? 'finance')
   const [hoveredCandidate, setHoveredCandidate] = useState<string | null>(null)
 
-  const { appointMinister, completeFormation } = useCabinetStore()
+  const isReshuffle = !!(reshuffleMinistry || reshuffleMode)
+
+  useEffect(() => {
+    if (reshuffleMinistry) setActiveMinistry(reshuffleMinistry)
+  }, [reshuffleMinistry])
+
+  const { appointMinister, reshuffleMinister, completeFormation } = useCabinetStore()
   const currentWeek = useGameStore.getState().currentWeek
 
-  const ministries = Object.keys(MINISTRY_LABELS) as MinistryType[]
+  const ministries = isReshuffle
+    ? [reshuffleMinistry]
+    : (Object.keys(MINISTRY_LABELS) as MinistryType[])
   const allSelected = ministries.every(m => selections[m])
   const selectedCount = Object.keys(selections).length
 
@@ -99,6 +109,29 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
   }
 
   const handleConfirm = () => {
+    if (isReshuffle && reshuffleMinistry) {
+      const candidateId = selections[reshuffleMinistry]
+      if (!candidateId) return
+      const candidate = MINISTER_CANDIDATES.find(c => c.id === candidateId)
+      if (!candidate) return
+
+      reshuffleMinister(reshuffleMinistry, candidate, currentWeek, 'reshuffled')
+
+      // Political cost: public_trust -8, outgoing minister's primary faction -10
+      const outgoing = useCabinetStore.getState().dismissedMinisters.at(-1)
+      const mods: { stat: string; operation: 'add'; value: number }[] = [
+        { stat: 'public_trust', operation: 'add', value: -8 },
+      ]
+      if (outgoing?.faction_ties?.[0]) {
+        mods.push({ stat: `factions.${outgoing.faction_ties[0]}`, operation: 'add', value: -10 })
+      }
+      useGameStore.getState().applyModifiers(mods)
+
+      onComplete()
+      return
+    }
+
+    // Original formation flow — all 10 ministries
     ministries.forEach(ministry => {
       const candidateId = selections[ministry]
       if (candidateId) {
@@ -145,7 +178,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
           color: 'rgba(201,168,76,0.6)',
           marginBottom: '4px',
         }}>
-          WEEK {currentWeek} · CABINET FORMATION
+          WEEK {currentWeek} · {isReshuffle ? 'CABINET RESHUFFLE' : 'CABINET FORMATION'}
         </div>
         <div style={{
           fontSize: '22px',
@@ -153,15 +186,30 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
           fontWeight: 700,
           fontStyle: 'italic',
         }}>
-          Appoint Your Cabinet
+          {isReshuffle
+            ? `Reshuffle: Ministry of ${MINISTRY_LABELS[reshuffleMinistry!]}`
+            : 'Appoint Your Cabinet'
+          }
         </div>
-        <div style={{
-          fontSize: '12px',
-          color: 'rgba(201,168,76,0.5)',
-          marginTop: '4px',
-        }}>
-          {selectedCount} of {ministries.length} ministries filled
-        </div>
+        {isReshuffle && (
+          <div style={{
+            fontSize: '11px',
+            color: 'rgba(255,150,150,0.7)',
+            marginTop: '4px',
+            fontStyle: 'italic',
+          }}>
+            Dismissing a minister carries a political cost — public trust will suffer.
+          </div>
+        )}
+        {!isReshuffle && (
+          <div style={{
+            fontSize: '12px',
+            color: 'rgba(201,168,76,0.5)',
+            marginTop: '4px',
+          }}>
+            {selectedCount} of {ministries.length} ministries filled
+          </div>
+        )}
       </div>
 
       <div style={{
@@ -170,52 +218,54 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
         minHeight: 0,
         overflow: 'hidden',
       }}>
-        {/* Left — Ministry List */}
-        <div style={{
-          width: '200px',
-          flexShrink: 0,
-          borderRight: '1px solid rgba(201,168,76,0.2)',
-          overflowY: 'auto',
-          padding: '12px 0',
-        }}>
-          {ministries.map(ministry => {
-            const isSelected = !!selections[ministry]
-            const isActive = ministry === activeMinistry
-            const color = MINISTRY_COLORS[ministry]
-            return (
-              <div
-                key={ministry}
-                onClick={() => setActiveMinistry(ministry)}
-                style={{
-                  padding: '12px 20px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  background: isActive ? 'rgba(201,168,76,0.1)' : 'transparent',
-                  borderLeft: isActive ? `3px solid ${color}` : '3px solid transparent',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                <div style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: isSelected ? '#2d7a3a' : 'rgba(255,255,255,0.2)',
-                  flexShrink: 0,
-                }} />
-                <span style={{
-                  fontSize: '12px',
-                  color: isActive ? '#e8d5a3' : 'rgba(201,168,76,0.6)',
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase',
-                }}>
-                  {MINISTRY_LABELS[ministry]}
-                </span>
-              </div>
-            )
-          })}
-        </div>
+        {/* Left — Ministry List (hidden in single-ministry reshuffle mode) */}
+        {!(reshuffleMinistry) && (
+          <div style={{
+            width: '200px',
+            flexShrink: 0,
+            borderRight: '1px solid rgba(201,168,76,0.2)',
+            overflowY: 'auto',
+            padding: '12px 0',
+          }}>
+            {Object.keys(MINISTRY_LABELS).map(ministry => {
+              const isSelected = !!selections[ministry as MinistryType]
+              const isActive = ministry === activeMinistry
+              const color = MINISTRY_COLORS[ministry as MinistryType]
+              return (
+                <div
+                  key={ministry}
+                  onClick={() => setActiveMinistry(ministry as MinistryType)}
+                  style={{
+                    padding: '12px 20px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    background: isActive ? 'rgba(201,168,76,0.1)' : 'transparent',
+                    borderLeft: isActive ? `3px solid ${color}` : '3px solid transparent',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <div style={{
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    background: isSelected ? '#2d7a3a' : 'rgba(255,255,255,0.2)',
+                    flexShrink: 0,
+                  }} />
+                  <span style={{
+                    fontSize: '12px',
+                    color: isActive ? '#e8d5a3' : 'rgba(201,168,76,0.6)',
+                    letterSpacing: '1px',
+                    textTransform: 'uppercase',
+                  }}>
+                    {MINISTRY_LABELS[ministry as MinistryType]}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        )}
 
         {/* Right — Candidate Cards */}
         <div style={{
@@ -442,17 +492,23 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
           color: 'rgba(201,168,76,0.5)',
           fontStyle: 'italic',
         }}>
-          {allSelected
-            ? 'Cabinet is complete. These appointments cannot be undone easily.'
-            : `${ministries.length - selectedCount} ministries still need appointments.`
+          {isReshuffle
+            ? (allSelected
+              ? 'Replacement selected. Public trust will decline.'
+              : 'Select a replacement minister.')
+            : (allSelected
+              ? 'Cabinet is complete. These appointments cannot be undone easily.'
+              : `${ministries.length - selectedCount} ministries still need appointments.`)
           }
         </div>
         <button
           onClick={handleConfirm}
           disabled={!allSelected}
           style={{
-            background: allSelected ? '#c9a84c' : 'rgba(201,168,76,0.2)',
-            color: allSelected ? '#1a1410' : 'rgba(201,168,76,0.4)',
+            background: allSelected
+              ? (isReshuffle ? '#c0392b' : '#c9a84c')
+              : 'rgba(201,168,76,0.2)',
+            color: allSelected ? '#fff' : 'rgba(201,168,76,0.4)',
             border: 'none',
             padding: '12px 36px',
             fontFamily: 'Georgia, serif',
@@ -464,7 +520,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete }
             transition: 'all 0.15s ease',
           }}
         >
-          Confirm Cabinet &rarr;
+          {isReshuffle ? 'Confirm Reshuffle →' : 'Confirm Cabinet →'}
         </button>
       </div>
     </div>

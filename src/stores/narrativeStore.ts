@@ -5,6 +5,7 @@ import type { GameState, StateModifier } from '../types/gameState'
 import { getScene, getAvailableChoices } from '../engine/NarrativeEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { useGameStore } from './gameStore'
+import { useCabinetStore } from './cabinetStore'
 import { useChainStore } from './chainStore'
 import { useWeekStore } from './weekStore'
 import { useNewsStore } from './newsStore'
@@ -198,6 +199,15 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     const { activeFlags, metCharacters } = get()
     let target = getScene(id)
     if (import.meta.env.DEV) console.log('[TRACE 4] getScene result:', !!target, target?.title ?? 'null')
+
+    // Minister-variant redirect: swap scene if interior minister is Perov
+    if (id === 'security_posture_choice') {
+      const interior = useCabinetStore.getState().getMinister('interior')
+      if (interior?.id === 'nikolai_perov') {
+        const alt = getScene('security_posture_choice_perov')
+        if (alt) target = alt
+      }
+    }
 
     // If scene not found, create a fallback so the game never hangs
     if (!target) {

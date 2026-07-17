@@ -22,6 +22,17 @@ const GRADE_BG: Record<LegacyGrade, string> = {
 
 const mono: React.CSSProperties = { fontFamily: "'Special Elite', monospace" }
 
+function selectReflections(reflections: Array<{ week: number; text: string; date: string }>) {
+  if (reflections.length <= 4) return reflections
+  const first = reflections[0]
+  const last = reflections[reflections.length - 1]
+  const middle = reflections[Math.floor(reflections.length / 2)]
+  // Pick one random additional entry (not first/middle/last)
+  const pool = reflections.filter(e => e !== first && e !== middle && e !== last)
+  const extra = pool[Math.floor(Math.random() * pool.length)]
+  return [first, middle, last, extra].sort((a, b) => a.week - b.week)
+}
+
 export default function LegacyScreen({ onContinue }: { onContinue: () => void }) {
   const state = useGameStore()
   const flags = useNarrativeStore(s => s.activeFlags)
@@ -106,6 +117,31 @@ export default function LegacyScreen({ onContinue }: { onContinue: () => void })
                   </div>
                 ))}
               </div>
+
+              {/* ── Chancellor's Own Hand ─────────────────────────── */}
+              {state.journalReflections.length > 0 && (
+                <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1rem', marginTop: '1.5rem' }}>
+                  <p style={{ ...mono, fontSize: '0.55rem', color: 'var(--amber)', textTransform: 'uppercase', marginBottom: '0.8rem' }}>
+                    From the Chancellor's Own Hand
+                  </p>
+                  {selectReflections(state.journalReflections).map((entry) => (
+                    <div key={entry.week} style={{
+                      marginBottom: '1rem', padding: '0.6rem 0.8rem',
+                      background: 'rgba(200,144,42,0.04)', borderLeft: '2px solid rgba(200,144,42,0.2)',
+                    }}>
+                      <p style={{ ...mono, fontSize: '0.45rem', color: 'var(--muted)', marginBottom: '0.3rem' }}>
+                        Week {entry.week} — {entry.date}
+                      </p>
+                      <p style={{
+                        fontFamily: "'Caveat', cursive", fontSize: '0.85rem',
+                        color: 'var(--cream)', lineHeight: 1.5, fontStyle: 'italic',
+                      }}>
+                        &ldquo;{entry.text}&rdquo;
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
         )}

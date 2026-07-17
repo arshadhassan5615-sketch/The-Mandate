@@ -56,7 +56,7 @@ function SceneRouter() {
 }
 
 export default function GameLayout() {
-  const { phase, pendingMidpointProjectId, resolveMidpoint, showTermReport, showLegacy, setRadioOpen, radioOpen, diaryEntry, closeDiary, cliffhangerText, closeCliffhanger, endPress, showCabinetFormation, showCabinetMeeting, dismissCabinetMeeting } = useWeekStore()
+  const { phase, pendingMidpointProjectId, resolveMidpoint, showTermReport, showLegacy, setRadioOpen, radioOpen, diaryEntry, closeDiary, cliffhangerText, closeCliffhanger, endPress, showCabinetFormation, showCabinetMeeting, dismissCabinetMeeting, reshuffleMinistry, reshuffleMode } = useWeekStore()
   const journalOpen = useSettingsStore(s => s.journalOpen)
   const letterOpen = useSettingsStore(s => s.letterOpen)
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
@@ -163,8 +163,10 @@ export default function GameLayout() {
       {/* Cabinet Formation — full-screen ministry appointment */}
       {showCabinetFormation && (
         <CabinetFormation
+          reshuffleMinistry={reshuffleMinistry}
+          reshuffleMode={reshuffleMode}
           onComplete={() => {
-            useWeekStore.setState({ showCabinetFormation: false })
+            useWeekStore.setState({ showCabinetFormation: false, reshuffleMinistry: undefined, reshuffleMode: false })
             useWeekStore.getState().advanceQueue()
           }}
         />

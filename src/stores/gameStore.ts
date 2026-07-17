@@ -9,6 +9,7 @@ import { STAT_RANGES } from '../types/gameState'
 import type { RadioTheme } from '../engine/RadioEngine'
 import type { ActiveProject } from '../types/projects'
 import { computeBudgetModifiers } from '../engine/budgetEffects'
+import { useNarrativeStore } from './narrativeStore'
 import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
 
@@ -32,6 +33,7 @@ const INITIAL_BUDGET: BudgetAllocations = {
 export const INITIAL_STATE: GameState = {
   currentWeek: 1,
   currentAct: 1,
+  furthestWeek: 1,
 
   nation: {
     economyHealth: -18,     // Stagnant, slight contraction (GDD: GDP ~2.1B, slight contraction)
@@ -110,6 +112,7 @@ export const INITIAL_STATE: GameState = {
   sorenLinkedToMikhael: false,
   economicDirection: null,
   jonasPublicStage: 'supportive_spouse',
+  securityPosture: 'standard',
   seridaTrust: 50,
   seridaMorale: 70,
   sentLetters: [] as import('../types/gameState').SentLetter[],
@@ -120,6 +123,7 @@ export const INITIAL_STATE: GameState = {
   activeProjects: [] as ActiveProject[],
   completedProjects: [] as string[],
   personalNotes: '',
+  journalReflections: [] as Array<{ week: number; text: string; date: string }>,
   diaryEntries: [] as DiaryEntry[],
   initialSnapshot: null,
 }
@@ -170,6 +174,7 @@ interface GameStore extends GameState {
   cancelProject:     (projectId: string) => void
   resolveMidpoint:   (projectId: string, choiceId: string) => void
   setPersonalNotes:  (notes: string) => void
+  addJournalReflection: (week: number, text: string) => void
   addDiaryEntry:     (entry: DiaryEntry) => void
   captureSnapshot:            () => void
   resetToInitial:             () => void
@@ -215,7 +220,12 @@ function applyModifier(state: GameState, mod: StateModifier): GameState {
     'factions.party_loyalists': 'factions.partyLoyalists',
     'convention_stability': 'nation.conventionStability',
     'education_standard': 'nation.educationStandard',
+    'education_index': 'nation.educationStandard',
     'regional_support': 'nation.regionalSupport',
+    'military_readiness': 'nation.militaryReadiness',
+    'public_order': 'nation.publicOrder',
+    'reformist_support': 'factions.reformists',
+    'oligarch_relations': 'factions.businessClass',
   }
   const resolvedStat = PATH_ALIASES[mod.stat] ?? mod.stat
   mod = { ...mod, stat: resolvedStat }
@@ -283,21 +293,24 @@ export const useGameStore = create<GameStore>()(
 
   applyBudget: (next) =>
     set((state) => {
-      const mods = computeBudgetModifiers(state.budget, next)
+      const { modifiers, flags } = computeBudgetModifiers(state.budget, next)
       let nextState: GameState = { ...state, budget: next }
-      for (const mod of mods) nextState = applyModifier(nextState, mod)
+      for (const mod of modifiers) nextState = applyModifier(nextState, mod)
+      if (flags) useNarrativeStore.getState().addFlags(flags)
       return nextState
     }),
 
   advanceWeek: () =>
     set((state) => {
+      const newWeek = state.currentWeek + 1
       const newState = {
         ...state,
-        currentWeek: state.currentWeek + 1,
+        currentWeek: newWeek,
         currentAct: state.currentWeek >= 39 ? 4
                   : state.currentWeek >= 26 ? 3
                   : state.currentWeek >= 13 ? 2
                   : 1,
+        furthestWeek: Math.max(state.furthestWeek, newWeek),
       }
       // Dexie SaveManager is the only save system — no localStorage fallback
       if (import.meta.env.DEV) {
@@ -506,6 +519,24 @@ export const useGameStore = create<GameStore>()(
   },
 
   setPersonalNotes: (notes) => set({ personalNotes: notes.slice(0, 50000) }),
+
+  addJournalReflection: (week, text) => {
+    const trimmed = text.trim()
+    if (!trimmed) return
+    const d = new Date(1963, 0, 1)
+    d.setDate(d.getDate() + (week - 1) * 7)
+    const date = d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+    const entry = { week, text: trimmed.slice(0, 2000), date }
+    set((state) => {
+      const existing = state.journalReflections.findIndex(e => e.week === week)
+      if (existing >= 0) {
+        const updated = [...state.journalReflections]
+        updated[existing] = entry
+        return { journalReflections: updated }
+      }
+      return { journalReflections: [...state.journalReflections, entry] }
+    })
+  },
 
   addDiaryEntry: (entry) => set((state) => ({
     diaryEntries: [...state.diaryEntries, entry],

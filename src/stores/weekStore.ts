@@ -308,7 +308,10 @@ interface WeekStore {
   // Cabinet
   showCabinetFormation: boolean
   showCabinetMeeting: boolean
+  reshuffleMinistry: import('../types/minister').MinistryType | undefined
+  reshuffleMode: boolean
   triggerCabinetFormation: () => void
+  triggerReshuffle: (ministry: import('../types/minister').MinistryType) => void
   dismissCabinetMeeting: () => void
 }
 
@@ -338,10 +341,13 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
   showCabinetFormation: false,
   showCabinetMeeting: false,
+  reshuffleMinistry: undefined,
+  reshuffleMode: false,
 
   setActiveSlot: (slot) => set({ activeSlot: slot }),
 
   triggerCabinetFormation: () => set({ showCabinetFormation: true }),
+  triggerReshuffle: (ministry) => set({ showCabinetFormation: true, reshuffleMinistry: ministry, reshuffleMode: true }),
   dismissCabinetMeeting: () => {
     set({ showCabinetMeeting: false, phase: 'briefing' })
     get().initWeek()
@@ -812,7 +818,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     if (cabinetStore.formation_complete) {
       const newRequests = generateWeeklyRequests(
         gameState.currentWeek,
-        cabinetStore.ministers
+        cabinetStore.ministers,
+        activeFlags
       )
       if (newRequests.length > 0) {
         newRequests.forEach(req => cabinetStore.addRequest(req))
@@ -975,6 +982,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
     if (first.sceneId === '__budget__') {
       set({ ...base, phase: 'budget' })
+    } else if (first.sceneId === '__cabinet_reshuffle__') {
+      set({ ...base, phase: 'scene', showCabinetFormation: true, reshuffleMinistry: undefined, reshuffleMode: true })
     } else if (first.sceneId === '__constitution__') {
       set({ ...base, phase: 'constitution' })
     } else if (first.sceneId === '__radio__') {
@@ -1024,6 +1033,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           if (import.meta.env.DEV) console.log('[advanceQueue] Loading scene:', item.sceneId, '| queue index:', next, 'of', q.length, '|', item.title)
           if (item.sceneId === '__budget__') {
             set({ phase: 'budget', transitionLabel: '' })
+          } else if (item.sceneId === '__cabinet_reshuffle__') {
+            set({ phase: 'scene', showCabinetFormation: true, reshuffleMinistry: undefined, reshuffleMode: true, transitionLabel: '' })
           } else if (item.sceneId === '__constitution__') {
             set({ phase: 'constitution', transitionLabel: '' })
           } else if (item.sceneId === '__radio__') {
@@ -1406,6 +1417,20 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         sceneQueue: [item],
         currentQueueIndex: 0,
         weekStartSnapshot: snapshot,
+        returnToMap: true,
+      })
+      return
+    }
+
+    if (item.sceneId === '__cabinet_reshuffle__') {
+      set({
+        phase: 'scene',
+        sceneQueue: [item],
+        currentQueueIndex: 0,
+        weekStartSnapshot: snapshot,
+        showCabinetFormation: true,
+        reshuffleMinistry: undefined,
+        reshuffleMode: true,
         returnToMap: true,
       })
       return

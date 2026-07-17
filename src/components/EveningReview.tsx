@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useWeekStore } from '../stores/weekStore'
 import { useGameStore } from '../stores/gameStore'
 import type { GameState, NationState, FactionState, PersonalState } from '../types/gameState'
@@ -191,6 +192,27 @@ function buildReflection(currentWeek: number, gameState: GameState): NarrativeRe
   return { text: `Outside the palace windows, Ashenmere settles into night. The Republic continues. Week ${currentWeek} is recorded.` }
 }
 
+function generateReflectionPrompt(
+  statChanges: WeeklyStatChange[],
+  decisions: WeeklyDecision[],
+): string {
+  // Prefer a narratively significant decision over a stat number
+  if (decisions.length > 0) {
+    const urgent = decisions.find(d => d.impact === 'negative')
+    if (urgent) return `You decided: "${urgent.title}". What does that mean to you?`
+    return `This week brought: "${decisions[0].title}". What stays with you?`
+  }
+
+  // Fall back to the largest stat delta
+  if (statChanges.length > 0) {
+    const biggest = statChanges.reduce((a, b) => Math.abs(b.delta) > Math.abs(a.delta) ? b : a)
+    const direction = biggest.delta > 0 ? 'rose' : 'fell'
+    return `${biggest.label} ${direction} ${Math.abs(biggest.delta)} points this week. What are you thinking?`
+  }
+
+  return 'A quiet week. Sometimes those are the most important.'
+}
+
 // ─── Animation variants ─────────────────────────────────────────────────────
 
 const containerVariants: Variants = {
@@ -219,6 +241,8 @@ export default function EveningReview() {
   const { currentWeek } = gameState
   const { setSaveMenuOpen, ironmanMode } = useSettingsStore()
   const bills = useBillStore((s) => s.bills)
+  const addJournalReflection = useGameStore(s => s.addJournalReflection)
+  const journalReflections = useGameStore(s => s.journalReflections)
 
   const statChanges = weekStartSnapshot ? computeStatChanges(weekStartSnapshot, gameState) : []
   const events = buildEventsFromQueue(sceneQueue, currentWeek)
@@ -226,6 +250,14 @@ export default function EveningReview() {
   const activeProjects = gameState.activeProjects
   const deadlines = buildDeadlines(currentWeek, agendaPool, activeProjects)
   const reflection = buildReflection(currentWeek, gameState)
+
+  // Pre-populate with any existing entry for this week
+  const existingEntry = journalReflections.find(e => e.week === currentWeek)
+  const [reflectionText, setReflectionText] = useState(existingEntry?.text ?? '')
+  const [reflectionSaved, setReflectionSaved] = useState(false)
+
+  // Generate contextual prompt from the most significant change this week
+  const prompt = generateReflectionPrompt(statChanges, decisions)
 
   const dateStr = (() => {
     const d = new Date(1963, 0, 1)
@@ -326,6 +358,81 @@ export default function EveningReview() {
           <p>{reflection.text}</p>
         </motion.div>
 
+        {/* ── Private Reflection ──────────────────────────────────── */}
+        <motion.div variants={panelVariants} style={{
+          maxWidth: '700px', margin: '0 auto', width: '100%',
+          padding: '1.5rem 0',
+        }}>
+          <p style={{
+            fontFamily: "'Special Elite', monospace", fontSize: '0.55rem',
+            letterSpacing: '0.2em', textTransform: 'uppercase',
+            color: 'var(--amber)', marginBottom: '0.6rem',
+          }}>
+            Private Reflection
+          </p>
+          {prompt && (
+            <p style={{
+              fontFamily: "'Crimson Text', Georgia, serif", fontSize: '0.8rem',
+              color: 'rgba(201,168,76,0.5)', fontStyle: 'italic', marginBottom: '0.8rem',
+            }}>
+              {prompt}
+            </p>
+          )}
+          <div style={{ position: 'relative' }}>
+            {/* Ruled lines background */}
+            <div style={{
+              position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0,
+              backgroundImage: 'repeating-linear-gradient(transparent, transparent 23px, rgba(139,106,40,0.08) 23px, rgba(139,106,40,0.08) 24px)',
+              borderRadius: '2px',
+            }} />
+            {/* Red margin line */}
+            <div style={{
+              position: 'absolute', left: '24px', top: 0, bottom: 0,
+              width: '1px', background: 'rgba(200,80,60,0.2)', zIndex: 0,
+              pointerEvents: 'none',
+            }} />
+            <textarea
+              value={reflectionText}
+              onChange={e => { setReflectionText(e.target.value); setReflectionSaved(false) }}
+              placeholder="Write nothing, or write what you won't say aloud."
+              maxLength={2000}
+              style={{
+                position: 'relative', zIndex: 1,
+                width: '100%', minHeight: '80px', maxHeight: '160px',
+                background: 'rgba(200,144,42,0.03)',
+                border: '1px solid rgba(200,144,42,0.12)',
+                borderRadius: '2px',
+                outline: 'none', resize: 'vertical',
+                fontFamily: "'Caveat', cursive",
+                fontSize: '15px', lineHeight: '24px',
+                color: 'var(--cream)',
+                padding: '8px 14px 8px 32px',
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(139,106,40,0.2) transparent',
+              }}
+            />
+          </div>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            marginTop: '0.4rem',
+          }}>
+            <span style={{
+              fontFamily: "'Special Elite', monospace", fontSize: '0.45rem',
+              color: 'var(--muted)', letterSpacing: '0.1em',
+            }}>
+              {reflectionText.length} / 2000
+            </span>
+            {reflectionSaved && (
+              <span style={{
+                fontFamily: "'Special Elite', monospace", fontSize: '0.45rem',
+                color: 'var(--accent-green)', letterSpacing: '0.1em',
+              }}>
+                Saved
+              </span>
+            )}
+          </div>
+        </motion.div>
+
         <motion.div className="evening-footer" variants={panelVariants}>
           {gateBlocked && (
             <div className="evening-gate-blocked">
@@ -343,6 +450,11 @@ export default function EveningReview() {
               className="advance-button"
               onClick={() => {
                 if (!gateBlocked) {
+                  // Save reflection before advancing (empty text = skip silently)
+                  if (reflectionText.trim()) {
+                    addJournalReflection(currentWeek, reflectionText)
+                    setReflectionSaved(true)
+                  }
                   playPageTurn()
                   completeWeek()
                 }

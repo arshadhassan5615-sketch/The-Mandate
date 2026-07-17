@@ -1,0 +1,172 @@
+{
+  "id": "intelligence_briefing_recurring",
+  "title": "Weekly Intelligence Briefing",
+  "act": 0,
+  "weekAvailable": 0,
+  "type": "meeting",
+  "agendaCost": 0,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Secure Wing",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The security briefing is short this week. It usually is. Vyktor has a standard folder — thin, unmarked, the same one he brings every Tuesday. He sets it on the desk without commentary and sits down across from you. The coffee is already poured. That means he has something to say before the folder is opened."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor. The week's intelligence summary. Nothing that requires immediate action — which, in this building, is itself noteworthy."
+    }
+  ],
+  "choices": [
+    {
+      "id": "briefing_continue",
+      "text": "Open the folder. Let the briefing begin.",
+      "internalTag": "security",
+      "stateChanges": [],
+      "flags": [],
+      "codexUnlocks": [],
+      "chainTriggers": [],
+      "nextSegment": "briefing_choices"
+    }
+  ],
+  "segments": {
+    "briefing_mole_progress": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The investigation is progressing. We have identified several new data points — patterns in the communication intercepts, anomalies in the financial records. The picture is becoming clearer. Not yet clear enough to act. But clearer. I want you to know that the leak is being treated with the urgency it deserves. Every day we do not find them is a day they are still transmitting."
+        }
+      ],
+      "choices": []
+    },
+    "briefing_faction_unrest": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Iron Covenant is restless. Not openly — they are not foolish enough for open defiance yet. But the signals are there: increased private meetings, correspondence with provincial commanders, a shift in the tone of their public statements from supportive to conditional. The hardliners in the Assembly are also consolidating. I am not predicting a crisis. I am telling you that the ground is shifting beneath the furniture, and we should be aware of it before someone trips."
+        }
+      ],
+      "choices": []
+    },
+    "briefing_tyvaren_movement": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor slides a satellite photograph across the desk. The image is grainy but legible: a staging area, forty kilometers from the Gravenmark Pass, with vehicle signatures consistent with a motorized infantry battalion. The date stamp is three days ago."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Routine rotation, according to our assessment. The Tyvarens rotate units through the border zone on a ninety-day cycle. This is consistent with that cycle. It is also consistent with a force buildup disguised as a rotation. Colonel Dusek is monitoring. I mention it because 'routine' and 'threatening' look identical until the moment they do not."
+        }
+      ],
+      "choices": []
+    },
+    "briefing_morivask_instability": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The Morivask situation remains unresolved. Refugee crossings have stabilized at approximately three thousand per week — not increasing, but not decreasing. The oil field access negotiations are stalled. The Morivask government is preoccupied with its own internal conflicts and is not in a position to deliver on any agreement we might reach. This is a slow-burning problem. It will become a fast-burning one the moment someone decides the refugee camps are a resource rather than a burden."
+        }
+      ],
+      "choices": []
+    },
+    "briefing_minister_corruption": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "There are certain financial irregularities being monitored in one of the ministries. I will not name the ministry in this briefing — not because the information is classified, but because the irregularities may have a perfectly legitimate explanation that further investigation will reveal. I am flagging it for your awareness. If the explanation is not legitimate, we will need to decide how to handle it before it becomes public. Quietly, preferably."
+        }
+      ],
+      "choices": []
+    },
+    "briefing_oligarch_activity": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Increased contact between the Vael consortium and several ministry officials over the past two weeks. Nothing unusual in the substance — routine consultations about regulatory frameworks and investment timelines. The pattern is what merits attention: the frequency has doubled, and the contacts are distributed across ministries that do not normally coordinate with each other. Margrave Vael is either expanding his interests or consolidating his position. Either way, it is worth noting."
+        }
+      ],
+      "choices": []
+    },
+    "briefing_routine_quiet": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Nothing this week, Chancellor. The border is quiet. The ministries are functioning. The opposition is doing what oppositions do — making noise about things that do not matter and staying silent about things that do. It is, by any reasonable standard, a quiet week. Which is its own kind of report."
+        },
+        {
+          "type": "description",
+          "text": "He closes the folder. The coffee has gone cold. Outside, the capital is going about its business — buses running, markets open, children walking home from school. For a moment, the normalcy feels like the most significant intelligence of the week."
+        }
+      ],
+      "choices": []
+    },
+    "briefing_choices": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor waits. He is always waiting — for the question you will ask, the decision you will make, the thing you will say that tells him something he needs to know about how you are governing. The folder is closed. The briefing is technically over. What happens next is up to you."
+        }
+      ],
+      "choices": [
+        {
+          "id": "briefing_fuller_report",
+          "text": "Request a fuller report on the items that concern you most. Not because the briefing was insufficient — because engagement is how you catch what summaries miss.",
+          "internalTag": "security",
+          "stateChanges": [
+            { "stat": "advisorTrust.dusek", "operation": "add", "value": 3 }
+          ],
+          "flags": ["briefing_engaged"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "He nods — the smallest movement, the kind he uses when you have done something he expected but hoped for. He reopens the folder. The briefing continues. It will be longer than usual. It will be worth it."
+            }
+          ]
+        },
+        {
+          "id": "briefing_standard",
+          "text": "The standard briefing is sufficient. You have what you need.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "flags": ["briefing_standard_acknowledged"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "silence",
+              "text": "He gathers the folder, stands, and pauses at the door. A brief nod. The door closes quietly behind him. The office is still. The week's intelligence is filed, categorized, and awaiting the moment it becomes relevant. Most of it will not become relevant. The part that does will matter enormously."
+            }
+          ]
+        },
+        {
+          "id": "briefing_dismiss",
+          "text": "You do not have time for this today. There are more pressing matters.",
+          "internalTag": "authoritarian",
+          "stateChanges": [
+            { "stat": "advisorTrust.dusek", "operation": "add", "value": -4 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -2 }
+          ],
+          "flags": ["briefing_dismissed"],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "silence",
+              "text": "He does not react visibly. He folds the folder once — a crease along the spine that should not be there — and sets it on the edge of your desk. The folder will be there when you need it. The question is whether what is inside it will still be manageable by then. He leaves without speaking."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

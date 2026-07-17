@@ -1,0 +1,84 @@
+{
+  "id": "security_posture_choice_perov",
+  "title": "The Chancellor's Security",
+  "act": 1,
+  "weekAvailable": 4,
+  "weekDeadline": 28,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Interior Ministry Briefing",
+  "characters": ["nikolai_perov"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Nikolai Perov arrives with a folder and the particular stillness of a man who has spent thirty years in rooms where decisions are made by the people who speak last. He sets the folder on your desk and sits down without being asked."
+    },
+    {
+      "type": "dialogue",
+      "character": "nikolai_perov",
+      "text": "Chancellor. I want to discuss your protection detail. The current arrangement is adequate for a minister. You are not a minister — you are the head of government in a country where half the old guard considers your office illegitimate. I am not suggesting we redesign your security from scratch. I am suggesting we have an honest conversation about how visible that security should be, because the visibility itself sends a message."
+    },
+    {
+      "type": "dialogue",
+      "character": "nikolai_perov",
+      "text": "Three options, each with trade-offs I want you to understand before you choose. Maximum protection — armored vehicle, extended detail, venue sweeps, restricted zones around the residence. Effective. Also sends a message that the Chancellor fears her own capital. Standard protocol — what you have now. Reasonable for a functioning government. We are not yet a fully functioning government. Minimal visible security — you move through public spaces the way any citizen does. Projects confidence. Also projects vulnerability, which in the wrong circumstances becomes an invitation. The choice is yours. I would recommend deciding before the first state visit."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "security_posture_high_choice",
+      "text": "\"Maximum protection. I'd rather be safe than liked. The symbolism of visible security is a price I will pay for staying alive long enough to govern.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "civil_liberties", "operation": "add", "value": -6 },
+        { "stat": "public_trust", "operation": "add", "value": -4 }
+      ],
+      "flags": ["security_posture_high"],
+      "reactions": [
+        {
+          "character": "nikolai_perov",
+          "type": "action",
+          "text": "He nods — a single, measured nod, the kind a former governor gives when a decision has been made and the implementation is already underway. He opens the folder. The first page is a deployment schedule with three contingency variants. He was ready before you decided. That is what good ministers do."
+        }
+      ],
+      "codexUnlocks": []
+    },
+    {
+      "id": "security_posture_standard_choice",
+      "text": "\"Standard protocol is sufficient. I did not run on fear and I will not govern from behind an armored windshield.\"",
+      "internalTag": "reformist",
+      "stateChanges": [],
+      "flags": ["security_posture_standard"],
+      "reactions": [
+        {
+          "character": "nikolai_perov",
+          "type": "silence",
+          "text": "He closes the folder. The silence is the sound of a man who disagrees with the decision but has learned, over thirty years of provincial governance, that the person who makes the decision bears the consequences. He stands, tucks the folder under his arm, and pauses at the door. Standard protocol, he repeats, as if testing whether the words hold weight. It is your decision, Chancellor. I will make it work as well as it can be made to work."
+        }
+      ],
+      "codexUnlocks": []
+    },
+    {
+      "id": "security_posture_minimal_choice",
+      "text": "\"Minimal visible security. I want to be seen as one of them, not above them. The day I start hiding behind armored vehicles is the day I become the thing I was elected to replace.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "public_trust", "operation": "add", "value": 5 },
+        { "stat": "reformist_support", "operation": "add", "value": 3 }
+      ],
+      "flags": ["security_posture_minimal"],
+      "reactions": [
+        {
+          "character": "nikolai_perov",
+          "type": "dialogue",
+          "text": "He looks at you for a moment — the particular look of a man who has spent decades watching leaders make decisions that sound principled and turn out dangerous. Chancellor, he says, I governed Thornfeld for twelve years. I walked without a detail for the first six months. Then a man with a grievance about a mining closure put a knife in my tire. No one was hurt. But I learned something: the people who want to harm you do not care about your symbolism. They care about the opportunity. He does not argue further. He takes the folder and leaves. It contains a contingency plan for what happens when the minimal-security Chancellor is in the wrong place at the wrong time. He does not want you to see it."
+        }
+      ],
+      "codexUnlocks": []
+    }
+  ]
+}

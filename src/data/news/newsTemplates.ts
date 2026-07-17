@@ -664,4 +664,45 @@ export const NEWS_TEMPLATES: NewsTemplate[] = [
       body: "It did not take long. The independent newspaper collective that dared to investigate government procurement has been shut down — using the very regulatory powers that Halvek used to silence dissidents. The Veltrian Voice is gone. Its journalists are scattered. And Elena Braskov's monopoly over what Veltrians are allowed to know is complete. The Chancellor made her choice. History will record what it cost.",
     },
   },
+
+  // ─── PRESS CONFERENCE OUTCOMES ─────────────────────────────────────────────
+
+  {
+    trigger: 'press_conference_triumph',
+    category: 'media',
+    herald: {
+      headline: 'CHANCELLOR DELIVERS DEFINITIVE PRESS CONFERENCE AFTER REFERENDUM',
+      body: 'In a display of political confidence that observers described as remarkable given the narrow referendum margin, Chancellor Ashavel faced the press corps today and made three concrete commitments: a bipartisan constitutional implementation committee, a review of politically-motivated security clearance denials, and a meeting with the Workers\' Coalition leadership. Political analysts noted the specificity of the commitments — each one comes with a public deadline that the opposition can use to hold the government accountable. The Chancellor appears to be betting that accountability is a stronger political asset than ambiguity.',
+    },
+    standard: {
+      headline: 'ASHAVEL TURNS PRESS CONFERENCE INTO GOVERNANCE MOMENT',
+      body: "In a move that surprised political observers, Chancellor Ashavel transformed what could have been a defensive press briefing into a series of concrete policy announcements. The bipartisan implementation committee, the security clearance review, and the Workers' Coalition cabinet meeting are each individually significant; together they represent a coordinated response to the referendum's narrow margin. The question is whether the commitments can be delivered on the timeline the Chancellor has set. The press will be watching. That is, presumably, the point.",
+    },
+  },
+
+  {
+    trigger: 'press_conference_mixed',
+    category: 'media',
+    herald: {
+      headline: 'REFERENDUM AFTERMIX: CHANCELLOR FACES QUESTIONS WITH MIXED RESULTS',
+      body: 'Chancellor Ashavel\'s post-referendum press conference produced more questions than answers, according to political commentators. While the Chancellor acknowledged the narrow margin and pledged to govern for all Veltrians, specific policy commitments were scarce. The implementation committee announcement was welcomed by reformist allies, but the failure to address concrete concerns about security clearance practices drew criticism from both opposition and independent observers. The Halvekist bloc called the briefing "an exercise in managed ambiguity."',
+    },
+    standard: {
+      headline: 'ASHAVEL NAVIGATES TERRITORY AFTER REFERENDUM — SUCCESS DEBATED',
+      body: "The Chancellor faced the press today with the weight of a narrow referendum victory and the knowledge that forty-eight percent of the country voted against her signature policy. Her responses were measured, her tone was conciliatory, and her specific commitments were limited. Political analysts are divided on whether this represents prudent governance or missed opportunity. The implementation committee is a genuine step forward, but the absence of concrete action on security concerns and coalition vacancies left critics with ammunition. The story of this press conference will be written by what happens next — whether the Chancellor follows through on what she promised.",
+    },
+  },
+
+  {
+    trigger: 'press_conference_disaster',
+    category: 'media',
+    herald: {
+      headline: 'CHANCELLOR COMBATIVE IN POST-REFERENDUM BRIEFING — PRESS RELATIONS STRAINED',
+      body: 'Chancellor Ashavel\'s post-referendum press briefing descended into an extended confrontation with senior journalists today, leaving press relations at their lowest point since the inauguration. When pressed on specific governance concerns — security clearances, coalition vacancies, and opposition outreach — the Chancellor responded with what multiple observers described as dismissive and defensive. The exchange with Nadia Voss of the Ashenmere Herald, in which the Chancellor suggested the press should focus on "what has been done rather than what has been announced," drew particular criticism from media freedom advocates. The Veltrian Journalists\' Union issued a statement expressing concern about the "tone of the exchange."',
+    },
+    standard: {
+      headline: 'ASHAVEL ATTACKS PRESS IN DISASTROUS POST-REFERENDUM BRIEFING',
+      body: "What should have been a routine post-referendum press conference became a political disaster for the Ashavel government today. The Chancellor's refusal to answer specific questions about governance — particularly regarding security clearance practices and coalition vacancies — drew sharp criticism from reporters and media freedom organizations alike. The confrontation with Nadia Voss, during which the Chancellor suggested journalists should 'look at what has been done rather than what has been announced,' was described by one veteran political correspondent as 'the most hostile exchange between a Veltrian Chancellor and the press in living memory.' The story tomorrow is not about the referendum. It is about a government that does not want to be questioned.",
+    },
+  },
 ]

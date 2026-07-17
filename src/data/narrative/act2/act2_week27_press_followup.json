@@ -1,0 +1,108 @@
+{
+  "id": "act2_week27_press_followup",
+  "title": "Facing the Press — The Follow-Up",
+  "act": 2,
+  "weekAvailable": 27,
+  "weekDeadline": 28,
+  "type": "event",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Chancellery Press Room — Ashenmere",
+  "characters": ["nadia_voss", "vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You are reaching for the podium notes to close the briefing when Nadia Voss stands. She does not raise her hand. She simply stands, which in a press room is the equivalent of being recognized — because everyone knows that when Nadia Voss stands, the question she asks will be the one that matters."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Chancellor, one final question. You have spoken about unity, about governing for all Veltrians, about the constitution working for everyone. But the record shows something different. Since the referendum, three Halvekist parliamentary aides have been denied security clearances. The Interior Ministry has 'reassigned' two senior officials who were seen at a Kolvar-organized dinner. The Workers' Coalition is demanding a cabinet seat that you have not filled. Unity is a word. What specifically — what action, what policy, what concrete step — are you taking to govern for the forty-eight percent who said no?"
+    },
+    {
+      "type": "internal_thought",
+      "text": "She has been saving this. The first question was about the referendum — that was the headline. This question is about governance — that is the story. She has done her research: the security clearances, the reassignments, the cabinet vacancy. She is not asking about unity as an abstraction. She is asking whether I am doing the things I say I am doing, or whether I am saying things while doing different things. The difference between those two is the difference between a government that governs and a government that performs."
+    }
+  ],
+
+  "monologue": "She has been saving this. The first question was the headline. This one is the story. She has done her research — the security clearances, the reassignments, the cabinet vacancy. She is asking whether I am doing what I say I am doing, or saying things while doing different things.",
+
+  "choices": [
+    {
+      "id": "press_followup_specific",
+      "text": "\"Specific actions. You want specific actions. Here they are: I am appointing a bipartisan constitutional implementation committee with representation from every parliamentary faction, including the Halvekists. I am directing the Interior Ministry to review every security clearance denial from the past thirty days and reverse any that were politically motivated. And I am meeting with Soraya Khaled this week to discuss the Workers' Coalition cabinet seat. Those are not words. Those are calendar entries. I will announce the implementation committee composition before the end of this week. I will expect you to hold me to it.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 4 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "flags": ["press_followup_specific"],
+      "codexUnlocks": ["codex_press_conference"],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "action",
+          "text": "She sits down. She does not write anything. She does not need to. The room understands what just happened: the Chancellor of the Republic just made three specific commitments on the record, in front of cameras, with a journalist who will not let her forget them. That is either the most courageous thing a politician can do or the most foolish. Nadia will decide which by the time her story files."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He steps forward as you step back from the podium. 'The Chancellor will take no further questions at this time. Thank you for attending.' His voice is perfectly neutral. His eyes are not. He is already composing the implementation committee membership list in his head, because he understood before you finished speaking that you just committed him to three things that need to happen by Friday."
+        }
+      ],
+      "nextNodeId": "act2_week27_press_outcome"
+    },
+    {
+      "id": "press_followup_deflect",
+      "text": "\"The forty-eight percent are Veltrians. They are already governed by this government — they have been since the election. The constitution does not create two classes of citizens. It creates one. The specific steps are the same steps I have been taking for twenty-seven weeks: governing. I do not need to announce special measures for the people who voted no, because the measures I am taking apply to everyone. That is what unity means. It does not mean different policies for different voters. It means one policy for all.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 },
+        { "stat": "nation.mediaControl", "operation": "add", "value": 2 }
+      ],
+      "flags": ["press_followup_deflect"],
+      "codexUnlocks": ["codex_press_conference"],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "dialogue",
+          "text": "She remains standing for a moment. 'Chancellor, you did not address the security clearances or the cabinet seat. The record will show that those questions were asked and not answered.' She sits down. The pen goes back to the notebook. She is already writing."
+        }
+      ],
+      "nextNodeId": "act2_week27_press_outcome"
+    },
+    {
+      "id": "press_followup_combative",
+      "text": "\"Ms. Voss, I have been governing for twenty-seven weeks. I have made more consequential decisions in that time than most Chancellors make in a term. The security clearances were reviewed through proper channels. The cabinet positions will be filled when I am ready to fill them. I am not going to run my government by press conference — I am going to run it by making decisions, implementing them, and letting the results speak. If you want to write about what I am doing, I suggest you look at what has been done rather than what has been announced.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+      ],
+      "flags": ["press_followup_combative"],
+      "codexUnlocks": ["codex_press_conference"],
+      "reactions": [
+        {
+          "character": "nadia_voss",
+          "type": "silence",
+          "text": "She does not sit down immediately. She holds your gaze for five seconds — an eternity in a press room — and then she closes her notebook with a deliberate click of the binding. The click is louder than it should be. Everyone in the room hears it. It is the sound of a journalist who has just been told that the Chancellor of the Republic does not answer questions from the press. She sits down. She does not look at you again."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He steps forward immediately — too quickly, which is unlike him. 'The Chancellor has answered the questions put to her. This briefing is concluded.' He moves toward you with the particular urgency of a man who needs to speak to you privately in the next thirty seconds. The room begins to file out. The camera red lights go off. The story writes itself."
+        }
+      ],
+      "nextNodeId": "act2_week27_press_outcome"
+    }
+  ]
+}

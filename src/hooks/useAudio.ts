@@ -37,6 +37,7 @@ export function useAudio() {
         currentScene.type,
         currentScene.id,
         activeFlags,
+        useGameStore.getState(),
       )
       audioManager.playTrack(track)
     } else if (phase === 'epilogue') {

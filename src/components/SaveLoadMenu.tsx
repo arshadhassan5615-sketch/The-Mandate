@@ -3,6 +3,7 @@ import { useSettingsStore } from '../stores/settingsStore'
 import {
   saveGame, loadGame, deleteSave, listSaves,
   downloadSaveJson, triggerImportPicker, importSaveToSlot,
+  checkLoadSafety,
   AUTOSAVE_SLOT, MANUAL_SLOT_COUNT,
 } from '../engine/SaveManager'
 import type { SaveRecord } from '../db/mandateDb'
@@ -112,12 +113,25 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
   }
 
   const handleLoad = () => {
-    ask(`Load "${record!.name}"? Unsaved progress will be lost.`, async () => {
+    const safety = checkLoadSafety(record!)
+    if (safety.safe) {
+      // Forward or same-point load — proceed without friction
       sessionStorage.setItem('mandate-manual-load', '1')
-      await loadGame(slot)
-      setConfirm(null)
-      useSettingsStore.getState().setSaveMenuOpen(false)
-    })
+      void loadGame(slot).then(() => {
+        useSettingsStore.getState().setSaveMenuOpen(false)
+      })
+    } else {
+      // Backward load — require explicit confirmation
+      ask(
+        `Loading this save will discard ${safety.weeksLost} week${safety.weeksLost === 1 ? '' : 's'} of progress made since this point. This cannot be undone.\n\nAre you certain you want to proceed?`,
+        async () => {
+          sessionStorage.setItem('mandate-manual-load', '1')
+          await loadGame(slot)
+          setConfirm(null)
+          useSettingsStore.getState().setSaveMenuOpen(false)
+        }
+      )
+    }
   }
 
   const handleDelete = () => {

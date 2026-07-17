@@ -126,6 +126,7 @@ export interface Clue {
 export interface GameState {
   currentWeek: number
   currentAct: number
+  furthestWeek: number         // monotonically forward — tracks the highest week ever reached (anti-scum)
   nation: NationState
   factions: FactionState
   personal: PersonalState
@@ -167,6 +168,8 @@ export interface GameState {
   economicDirection: EconomicDirection // free_market | planned | mixed | pragmatic
   // Jonas public role
   jonasPublicStage: JonasPublicStage     // supportive_spouse | advocate | activist | force | decision
+  // Security posture (affects assassination trigger thresholds)
+  securityPosture: 'minimal' | 'standard' | 'high'
   // Serida Valk tracking
   seridaTrust: number                    // 0-100 — her trust in you as a leader
   seridaMorale: number                   // 0-100 — her emotional state (100 = hopeful, 0 = broken)
@@ -183,6 +186,7 @@ export interface GameState {
   completedProjects: string[]
   // Personal notepad
   personalNotes: string
+  journalReflections: Array<{ week: number; text: string; date: string }>
   // Diary entries
   diaryEntries: DiaryEntry[]
   // Initial snapshot for end-game comparison

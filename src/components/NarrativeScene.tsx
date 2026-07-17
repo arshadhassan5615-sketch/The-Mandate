@@ -9,6 +9,7 @@ import { useCodexStore } from '../stores/codexStore'
 import { playTypewriterKeyThrottled, startAmbient } from '../engine/audioEngine'
 import { getCharacterColor } from './portraits/CharacterPortraits'
 import { computeDinnerContext } from '../engine/FamilyDinnerEngine'
+import { computeBriefingContext } from '../engine/IntelligenceBriefingEngine'
 import ConversationPanel from './narrative/ConversationPanel'
 
 interface HistoryEntry {
@@ -58,6 +59,13 @@ export default function NarrativeScene() {
     if (currentScene?.id === 'family_dinner_recurring' && currentScene.segments) {
       const dinnerCtx = computeDinnerContext(gameState, activeFlags)
       const injected = dinnerCtx.injectedSegments
+        .filter(id => currentScene.segments![id])
+        .flatMap(id => currentScene.segments![id].narrative ?? [])
+      return [...baseSegments, ...injected]
+    }
+    if (currentScene?.id === 'intelligence_briefing_recurring' && currentScene.segments) {
+      const briefingCtx = computeBriefingContext(gameState, activeFlags)
+      const injected = briefingCtx.injectedSegments
         .filter(id => currentScene.segments![id])
         .flatMap(id => currentScene.segments![id].narrative ?? [])
       return [...baseSegments, ...injected]

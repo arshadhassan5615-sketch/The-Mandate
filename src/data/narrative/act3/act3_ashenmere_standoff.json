@@ -50,7 +50,12 @@
         { "stat": "nation.militaryReadiness",      "operation": "add", "value": 4 }
       ],
       "chainTriggers": [
-        { "targetNodeId": "act3_military_democracy_bond", "delayWeeks": 2 }
+        { "targetNodeId": "act3_military_democracy_bond", "delayWeeks": 2 },
+        {
+          "targetNodeId": "act3_dusek_command_debrief",
+          "delayWeeks": 1,
+          "conditions": [{ "stat": "flags.dusek_acting_commander", "operator": "==", "value": true }]
+        }
       ],
       "flags": ["chancellor_addressed_soldiers", "standoff_resolved_peacefully", "personal_courage_displayed", "soldiers_heard_chancellor"],
       "codexUnlocks": ["codex_victory_avenue_standoff", "codex_soldiers_oath"]
@@ -70,7 +75,12 @@
         { "stat": "nation.internationalStanding",  "operation": "add", "value": 4 }
       ],
       "chainTriggers": [
-        { "targetNodeId": "act3_brenner_negotiation", "delayWeeks": 0 }
+        { "targetNodeId": "act3_brenner_negotiation", "delayWeeks": 0 },
+        {
+          "targetNodeId": "act3_dusek_command_debrief",
+          "delayWeeks": 1,
+          "conditions": [{ "stat": "flags.dusek_acting_commander", "operator": "==", "value": true }]
+        }
       ],
       "flags": ["standoff_deescalated", "defensive_posture_held", "no_bloodshed", "communication_established"],
       "codexUnlocks": ["codex_deescalation_protocol", "codex_direct_communication_channel"]
@@ -91,7 +101,12 @@
       ],
       "chainTriggers": [
         { "targetNodeId": "act4_civil_conflict_arc", "delayWeeks": 3, "probability": 0.7 },
-        { "targetNodeId": "act3_face_to_face_brenner", "delayWeeks": 0, "probability": 0.3 }
+        { "targetNodeId": "act3_face_to_face_brenner", "delayWeeks": 0, "probability": 0.3 },
+        {
+          "targetNodeId": "act3_dusek_command_debrief",
+          "delayWeeks": 1,
+          "conditions": [{ "stat": "flags.dusek_acting_commander", "operator": "==", "value": true }]
+        }
       ],
       "flags": ["brenner_ultimatum_issued", "surrender_demanded", "constitutional_line_drawn", "standoff_unresolved"],
       "codexUnlocks": ["codex_constitutional_chain_of_command", "codex_chancellor_war_powers"]

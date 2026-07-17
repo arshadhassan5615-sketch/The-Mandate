@@ -5,7 +5,8 @@ const makeId = () => `req_${++requestCounter}_${Date.now()}`
 
 export const generateWeeklyRequests = (
   week: number,
-  ministers: Record<MinistryType, unknown>
+  ministers: Record<MinistryType, unknown>,
+  activeFlags: string[] = [],
 ): MinisterRequest[] => {
   const requests: MinisterRequest[] = []
 
@@ -14,6 +15,7 @@ export const generateWeeklyRequests = (
   const dm = ministers.defense as { id: string } | null
   const em = ministers.education as { id: string } | null
   const hm = ministers.health as { id: string } | null
+  const fa = ministers.foreign_affairs as { id: string } | null
 
   // Finance minister report every 2 weeks
   if (week % 2 === 0 && fm) {
@@ -239,6 +241,54 @@ export const generateWeeklyRequests = (
           loyalty_effect: -10,
           satisfaction_effect: -15,
           consequence: 'Avoids conflict but the situation continues to deteriorate.',
+        },
+      ],
+      urgent: false,
+    })
+  }
+
+  // Foreign affairs — one-shot ambassador appointment (week 4+)
+  if (
+    week >= 4 &&
+    fa &&
+    !activeFlags.includes('tyvaren_ambassador_appointed') &&
+    !activeFlags.includes('tyvaren_ambassador_political_pick')
+  ) {
+    requests.push({
+      id: makeId(),
+      minister_id: fa.id,
+      week,
+      type: 'policy',
+      title: 'Tyvaren Ambassador Appointment',
+      description: fa.id === 'vera_sorin'
+        ? `Chancellor. The ambassadorship to Tyvaren has sat vacant for six weeks — an unusual gap that the Confederation has noticed. I have two candidates. One is a career diplomat who has spent a decade building trust across that border. The other is politically useful to you domestically, but Tyvaren does not know him, and unfamiliarity at that particular border makes me uneasy.`
+        : `The Tyvaren posting needs to be filled. I have two names for you. I will say plainly — one of them I would send. The other I would not, but you may have reasons I don't.`,
+      options: [
+        {
+          id: 'appoint_career_diplomat',
+          text: 'Appoint the career diplomat to Tyvaren',
+          stat_effects: { international_standing: 8, tyvaren_tension: -6 },
+          loyalty_effect: 6,
+          satisfaction_effect: 8,
+          flag: 'tyvaren_ambassador_appointed',
+          consequence: 'Strengthens diplomatic ties with Tyvaren but offers no domestic political benefit.',
+        },
+        {
+          id: 'appoint_political_ally',
+          text: 'Appoint the domestically useful candidate',
+          stat_effects: { international_standing: -3, tyvaren_tension: 4 },
+          loyalty_effect: -2,
+          satisfaction_effect: -5,
+          flag: 'tyvaren_ambassador_political_pick',
+          consequence: 'Strengthens a domestic political relationship but unsettles Tyvaren.',
+        },
+        {
+          id: 'delay_appointment',
+          text: 'Delay the appointment further',
+          stat_effects: { international_standing: -5, tyvaren_tension: 3 },
+          loyalty_effect: -4,
+          satisfaction_effect: -6,
+          consequence: 'The vacancy continues to be noticed and increasingly resented.',
         },
       ],
       urgent: false,

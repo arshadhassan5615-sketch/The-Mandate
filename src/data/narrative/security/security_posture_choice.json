@@ -1,0 +1,84 @@
+{
+  "id": "security_posture_choice",
+  "title": "The Chancellor's Security",
+  "act": 1,
+  "weekAvailable": 4,
+  "weekDeadline": 28,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Interior Ministry Briefing",
+  "characters": ["danika_oberlin"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Danika Oberlin arrives with a folder and a particular expression — the one she wears when she is about to discuss something she considers non-negotiable. She sets the folder on your desk without opening it."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Chancellor. We need to talk about your security. Right now you have a standard protection detail — two officers on rotation, a vehicle sweep, and the palace security perimeter. That is what every minister gets. You are not every minister. You are the first woman to hold this office, the reformist government that half the old guard wants destroyed, and a target for anyone who considers the transition a threat. I am not asking you to live in a bunker. I am asking you to tell me how visible you want your protection to be — because the visibility of the security is itself a political statement."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Three options. Maximum protection — armored vehicle, four-officer detail, sweep of every venue before you arrive, restricted access zones around the residence. It works. It also makes you look like a dictator's wife. Standard protocol — what you have now. It is adequate for a normal government in a normal country. We are not a normal country yet. Minimal visible security — no armor, no visible detail, you walk into rooms the way ordinary people do. It projects confidence. It also projects vulnerability. The choice is yours. But I need it before the first state visit next month."
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "security_posture_high_choice",
+      "text": "\"Maximum protection. I'd rather be safe than liked. The symbolism of visible security is a price I will pay for staying alive long enough to govern.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "civil_liberties", "operation": "add", "value": -6 },
+        { "stat": "public_trust", "operation": "add", "value": -4 }
+      ],
+      "flags": ["security_posture_high"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "action",
+          "text": "She nods once — the nod of someone who has been given the answer she expected and is already composing the operational plan in her head. She opens the folder. The first page is a deployment schedule. She was ready before you decided."
+        }
+      ],
+      "codexUnlocks": []
+    },
+    {
+      "id": "security_posture_standard_choice",
+      "text": "\"Standard protocol is sufficient. I did not run on fear and I will not govern from behind an armored windshield.\"",
+      "internalTag": "reformist",
+      "stateChanges": [],
+      "flags": ["security_posture_standard"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "silence",
+          "text": "She closes the folder. The silence is the sound of a minister who disagrees with the decision but respects the authority to make it. She stands, tucks the folder under her arm, and pauses at the door. Standard protocol, she repeats, as if tasting the words and finding them insufficient. It is your choice, Chancellor. I will make it work."
+        }
+      ],
+      "codexUnlocks": []
+    },
+    {
+      "id": "security_posture_minimal_choice",
+      "text": "\"Minimal visible security. I want to be seen as one of them, not above them. The day I start hiding behind armored vehicles is the day I become the thing I was elected to replace.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "public_trust", "operation": "add", "value": 5 },
+        { "stat": "reformist_support", "operation": "add", "value": 3 }
+      ],
+      "flags": ["security_posture_minimal"],
+      "reactions": [
+        {
+          "character": "danika_oberlin",
+          "type": "dialogue",
+          "text": "She looks at you for a long moment. Then she says, very quietly: Your father said something similar, once. He was wrong then. I hope you are right now. She does not argue. She does not push. She takes the folder and leaves. The folder is heavier than it was when she came in — it now contains a contingency plan for what happens when the minimal-security Chancellor is attacked, and she does not want you to see it."
+        }
+      ],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { useNarrativeStore } from '../stores/narrativeStore'
 import { getScene, getUnavailableDueToPrerequisites } from '../engine/NarrativeEngine'
 import { checkForEmergencies } from '../engine/EmergencyDecreeEngine'
 import { checkIntelligenceIntegrity } from '../engine/WhisperNetworkEngine'
+import { checkForBudgetCrisis } from '../engine/BudgetCrisisEngine'
 import { playPaperShuffle } from '../engine/audioEngine'
 
 // ─── Agenda card ──────────────────────────────────────────────────────────────
@@ -298,6 +299,11 @@ export default function AgendaSelector() {
     [gameState, activeFlags, emergency],
   )
 
+  const budgetCrisis = useMemo(
+    () => emergency ? null : checkForBudgetCrisis(gameState, activeFlags),
+    [gameState, activeFlags, emergency],
+  )
+
   const pipelineSceneId = useMemo(() => {
     if (currentWeek === 14 && !activeFlags.includes('constitution_pipeline_stage_1_done')) {
       return 'pipeline_constitution_drafting'
@@ -428,6 +434,24 @@ export default function AgendaSelector() {
                 </p>
                 <div style={{ height: '1px', background: 'rgba(200,144,42,0.3)', marginBottom: '0.8rem' }} />
                 <ForcedEventCard sceneId={intel.sceneId} />
+              </div>
+            )}
+
+            {/* Budget crisis scene */}
+            {budgetCrisis && (
+              <div style={{ marginBottom: '1.5rem' }}>
+                <p style={{
+                  fontFamily: "'Special Elite', monospace",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.2em',
+                  color: 'var(--accent-red)',
+                  textTransform: 'uppercase',
+                  marginBottom: '0.6rem',
+                }}>
+                  ▸ Fiscal Emergency — {budgetCrisis.crisisName}
+                </p>
+                <div style={{ height: '1px', background: 'rgba(139,46,46,0.3)', marginBottom: '0.8rem' }} />
+                <ForcedEventCard sceneId={budgetCrisis.sceneId} />
               </div>
             )}
 

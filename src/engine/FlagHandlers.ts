@@ -55,6 +55,11 @@ export const FLAG_HANDLERS: Record<string, FlagHandler> = {
   // ===== Serida assassination =====
   'serida_died_bombing': () => ({ seridaAlive: false }),
 
+  // ===== Security posture =====
+  'security_posture_high':     () => ({ securityPosture: 'high' as const }),
+  'security_posture_standard': () => ({ securityPosture: 'standard' as const }),
+  'security_posture_minimal':  () => ({ securityPosture: 'minimal' as const }),
+
   // ===== Soren prosecution =====
   'soren_immunity_revoked':        () => ({ sorenImmunityRevoked: true }),
   'soren_immunity_limited_revoked': () => ({ sorenImmunityRevoked: true }),

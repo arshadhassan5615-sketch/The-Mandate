@@ -1,0 +1,67 @@
+{
+  "id": "act3_dusek_command_debrief",
+  "title": "The Chain of Command",
+  "act": 3,
+  "weekAvailable": 38,
+  "weekDeadline": 40,
+  "type": "personal",
+  "agendaCost": 1,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["colonel_dusek"],
+  "prerequisiteFlags": ["dusek_acting_commander"],
+
+  "narrative": [
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "The counter-orders you issued last night — under Article Four, in my name — have held."
+    },
+    {
+      "type": "description",
+      "text": "Colonel Dusek stands at attention, though the war is not yet over. She has not slept. Neither have you. The office looks the same as it did before the tanks came — the same desk, the same window onto the palace gardens, the same smell of old paper and cold coffee. It is not the same office. The same way Veltria is not quite the same republic."
+    },
+    {
+      "type": "internal_thought",
+      "text": "I gave her the authority. She never once used it to ask for more."
+    }
+  ],
+
+  "monologue": "She held the constitutional chain the same way she holds everything — with both hands, at exactly the weight it was given to her.",
+
+  "choices": [
+    {
+      "id": "debrief_acknowledge_command",
+      "text": "\"You held the chain of command last night, Colonel. Every unit that stayed loyal did so because you reached them first, and because the authority I gave you was real and they knew it. I want that acknowledged — not as a formality. As a fact of record.\"",
+      "internalTag": "personal",
+      "tooltip": "Formally recognize Dusek's role in the constitutional defense.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",   "operation": "add", "value": 6 },
+        { "stat": "factions.reformists",        "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 5 },
+        { "stat": "advisorTrust.dusek",         "operation": "add", "value": 12 }
+      ],
+      "flags": ["dusek_command_acknowledged"],
+      "codexUnlocks": ["codex_article_four"],
+      "reactions": [
+        {
+          "character": "colonel_dusek",
+          "type": "dialogue",
+          "text": "I held the chain of command, Chancellor. Nothing more. Nothing less."
+        }
+      ]
+    },
+    {
+      "id": "debrief_move_forward",
+      "text": "\"The Republic held. That's what matters. Let's talk about what comes next.\"",
+      "internalTag": "pragmatist",
+      "tooltip": "Acknowledge the night briefly and turn to the work ahead.",
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness",   "operation": "add", "value": 4 },
+        { "stat": "personal.moralCompass",      "operation": "add", "value": 2 },
+        { "stat": "advisorTrust.dusek",         "operation": "add", "value": 6 }
+      ],
+      "flags": ["dusek_command_acknowledged"],
+      "codexUnlocks": []
+    }
+  ]
+}

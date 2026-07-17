@@ -1,0 +1,114 @@
+{
+  "id": "crisis_deficit_emergency",
+  "title": "The Fiscal Emergency",
+  "type": "crisis",
+  "location": "Treasury Office — Ashenmere",
+  "characters": ["elara_vostane"],
+  "dialogue": "Elara Vostane does not wait to be summoned. She is already in your office when you arrive, a single ledger open on your desk. She has underlined one number three times.",
+  "monologue": "I know what number it is before I look.",
+  "choices": [
+    {
+      "text": "Show me the numbers.",
+      "nextSegment": "vostane_numbers"
+    }
+  ],
+  "segments": {
+    "vostane_numbers": {
+      "speaker": "elara_vostane",
+      "dialogue": "The deficit has crossed the point where I can manage it quietly, Chancellor. Debt service alone will consume more than a quarter of next year's revenue if this continues. I have three options. None of them are good. All of them are better than pretending this isn't happening.",
+      "choices": [
+        {
+          "text": "What are the options?",
+          "nextSegment": "vostane_options"
+        }
+      ]
+    },
+    "vostane_options": {
+      "speaker": "elara_vostane",
+      "dialogue": "Emergency austerity — immediate cuts across every ministry, effective next week. It will work. It will also make you very unpopular very quickly. Continued borrowing — we manage the immediate crisis but the debt compounds, and eventually someone else asks the question I'm asking you now. Or — public acknowledgment. Tell the country the truth, ask for patience, and accept that patience is not something the opposition will grant you.",
+      "choices": [
+        {
+          "text": "Emergency austerity across every ministry.",
+          "nextSegment": "final_deficit_choice"
+        },
+        {
+          "text": "Continue borrowing for now.",
+          "nextSegment": "final_deficit_choice"
+        },
+        {
+          "text": "Tell the country the truth.",
+          "nextSegment": "final_deficit_choice"
+        }
+      ]
+    },
+    "final_deficit_choice": {
+      "speaker": "narrator",
+      "dialogue": "Vostane waits. She has already decided which option she thinks is correct. She has not said which one.",
+      "choices": [
+        {
+          "text": "Order emergency austerity across every ministry.",
+          "statEffects": [
+            { "stat": "nation.economyHealth", "value": 8 },
+            { "stat": "factions.workersCoalition", "value": -15 },
+            { "stat": "factions.reformists", "value": -8 },
+            { "stat": "personal.publicImage", "value": -6 }
+          ],
+          "flags": ["deficit_crisis_resolved", "budget_crisis_resolved_this_week", "austerity_ordered"],
+          "reactions": [
+            {
+              "character": "elara_vostane",
+              "type": "dialogue",
+              "text": "It will hold the line. It will not make anyone love you for it."
+            }
+          ],
+          "journalEntry": {
+            "title": "The Fiscal Emergency",
+            "category": "FINANCE",
+            "content": "I ordered the cuts. Vostane says it was correct. The workers' coalition will not see it that way, and they will not be wrong to feel abandoned."
+          }
+        },
+        {
+          "text": "Continue borrowing for now.",
+          "statEffects": [
+            { "stat": "nation.nationalDebt", "value": 40 },
+            { "stat": "nation.economyHealth", "value": -5 }
+          ],
+          "flags": ["deficit_crisis_resolved", "budget_crisis_resolved_this_week", "debt_deferred"],
+          "reactions": [
+            {
+              "character": "elara_vostane",
+              "type": "dialogue",
+              "text": "Then we are borrowing against a future Chancellor's patience, not just their treasury."
+            }
+          ],
+          "journalEntry": {
+            "title": "The Fiscal Emergency",
+            "category": "FINANCE",
+            "content": "I chose to borrow rather than cut. Vostane did not argue. She simply wrote the number down and underlined it again, for whoever reads this ledger next."
+          }
+        },
+        {
+          "text": "Tell the country the truth.",
+          "statEffects": [
+            { "stat": "personal.publicImage", "value": -4 },
+            { "stat": "nation.economyHealth", "value": 2 },
+            { "stat": "factions.reformists", "value": 5 }
+          ],
+          "flags": ["deficit_crisis_resolved", "budget_crisis_resolved_this_week", "deficit_acknowledged_publicly"],
+          "reactions": [
+            {
+              "character": "elara_vostane",
+              "type": "dialogue",
+              "text": "That is either the bravest thing you've done in this office, or the most reckless. I genuinely don't know which yet."
+            }
+          ],
+          "journalEntry": {
+            "title": "The Fiscal Emergency",
+            "category": "FINANCE",
+            "content": "I told them the truth. The Herald will not be kind about it tomorrow. Neither, I suspect, will history — one way or the other."
+          }
+        }
+      ]
+    }
+  }
+}

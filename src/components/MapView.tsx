@@ -287,6 +287,7 @@ export default function MapView({ onProvinceDetail }: {
   const hasDragged  = useRef(false)
   const panRafRef   = useRef<number | null>(null)
   const [isCursorGrabbing, setIsCursorGrabbing] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
 
   const [focusedProvinceId, setFocusedProvinceId] = useState<string | null>(null)
   const FOCUS_ZOOM_MULTIPLIER = 1.6
@@ -342,12 +343,16 @@ export default function MapView({ onProvinceDetail }: {
 
   const handleFocusProvince = (id: string) => {
     const targetZoom = dynamicZoom * FOCUS_ZOOM_MULTIPLIER
+    setIsAnimating(true)
     setFocusedProvinceId(id)
     setPan(centerOnProvince(id, targetZoom))
+    setTimeout(() => setIsAnimating(false), 500)
   }
   const handleUnfocusProvince = () => {
+    setIsAnimating(true)
     setFocusedProvinceId(null)
     setPan(centerOnProvince('ashenmere', dynamicZoom))
+    setTimeout(() => setIsAnimating(false), 500)
   }
 
   // Center on Ashenmere on first mount
@@ -615,6 +620,9 @@ export default function MapView({ onProvinceDetail }: {
           transformOrigin: '0 0',
           willChange: 'transform',
           userSelect: 'none',
+          transition: isAnimating
+            ? 'transform 480ms cubic-bezier(0.4, 0, 0.2, 1)'
+            : 'none',
         }}>
           <img
             src={veltriaMapImg}

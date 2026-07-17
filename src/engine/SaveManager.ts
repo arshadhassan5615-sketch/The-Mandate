@@ -95,6 +95,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     gameState: {
       currentWeek: gameState.currentWeek,
       currentAct: gameState.currentAct,
+      furthestWeek: gameState.furthestWeek,
       nation: { ...gameState.nation },
       factions: { ...gameState.factions },
       personal: { ...gameState.personal },
@@ -139,6 +140,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
       activeProjects: gameState.activeProjects,
       completedProjects: gameState.completedProjects,
       personalNotes: gameState.personalNotes,
+      journalReflections: gameState.journalReflections,
       diaryEntries: gameState.diaryEntries,
       initialSnapshot: null, // Never save initialSnapshot — it contains Zustand actions and can't be cloned by IndexedDB
     } as GameState,
@@ -493,5 +495,28 @@ export async function importSaveToSlot(record: SaveRecord, slot: number): Promis
     await db.saves.put(withSlot)
   } catch {
     await saveToLocalStorage(withSlot)
+  }
+}
+
+// ─── Anti-scum: backward-load safety check ─────────────────────────────────
+
+export interface LoadSafetyResult {
+  safe: boolean
+  weeksLost: number
+}
+
+/**
+ * Checks whether loading a save would go backward in progress.
+ * Does NOT block the load — only reports whether it's a backward load
+ * and by how many weeks. The UI layer handles the confirmation dialog.
+ */
+export function checkLoadSafety(targetSave: SaveRecord): LoadSafetyResult {
+  const currentFurthest = useGameStore.getState().furthestWeek
+  const targetWeek = targetSave.weekNumber ?? targetSave.gameState?.currentWeek ?? 1
+
+  const weeksLost = currentFurthest - targetWeek
+  return {
+    safe: weeksLost <= 0,
+    weeksLost: Math.max(0, weeksLost),
   }
 }

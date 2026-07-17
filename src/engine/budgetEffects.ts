@@ -48,10 +48,15 @@ const BUDGET_EFFECTS: Record<keyof Pick<BudgetAllocations,
   ],
 }
 
+export interface BudgetModifierResult {
+  modifiers: StateModifier[]
+  flags?: string[]
+}
+
 export function computeBudgetModifiers(
   prev: BudgetAllocations,
   next: BudgetAllocations,
-): StateModifier[] {
+): BudgetModifierResult {
   const mods: StateModifier[] = []
 
   for (const [category, effects] of Object.entries(BUDGET_EFFECTS)) {
@@ -65,7 +70,29 @@ export function computeBudgetModifiers(
     }
   }
 
-  return mods
+  // ── Budget balance consequences ──────────────────────────────────────────
+  // Revenue = the four revenue streams; expenditure = the eight spend categories.
+  // A deficit weakens the economy and grows debt; a surplus strengthens the
+  // economy and pays debt down. Mirrors the per-10M scale used by category effects.
+  const revenue = next.taxRevenue + next.stateIndustry + next.customsTariffs + next.foreignAid
+  const expenditure = next.military + next.debtService + next.govtAdmin + next.infrastructure
+    + next.education + next.healthcare + next.welfare + next.bniSecurity
+  const balance = revenue - expenditure
+
+  const flags: string[] = []
+
+  if (balance < 0) {
+    // economyHealth decreases 1 per 10M deficit; debt grows 1 per 10M deficit
+    mods.push({ stat: 'nation.economyHealth', operation: 'add', value: Math.round(balance / 10) * -1 })
+    mods.push({ stat: 'nation.nationalDebt', operation: 'add', value: Math.round(Math.abs(balance) / 10) })
+    if (balance < -100) flags.push('severe_deficit_crisis')
+  } else if (balance > 0) {
+    // surplus strengthens economy (+0.5 / 10M) and reduces debt (-0.5 / 10M)
+    mods.push({ stat: 'nation.economyHealth', operation: 'add', value: Math.round((balance / 10) * 0.5) })
+    mods.push({ stat: 'nation.nationalDebt', operation: 'add', value: Math.round((balance / 10) * -0.5) })
+  }
+
+  return { modifiers: mods, flags: flags.length ? flags : undefined }
 }
 
 // Aggregate modifiers that affect the same stat into one net value.

@@ -230,6 +230,7 @@ function EconomyTab({ n, flags }: { n: NationState; flags: string[] }) {
 
 function MilitaryTab({ n, flags }: { n: NationState; flags: string[] }) {
   const [section, setSection] = useState<SectionId>('situations')
+  const tyvarenHostility = useGameStore(s => s.tyvarenHostility)
   return (
     <div style={{ flex: 1, overflowY: 'auto' }}>
       <SectionToggle section={section} onChange={setSection} />
@@ -244,7 +245,7 @@ function MilitaryTab({ n, flags }: { n: NationState; flags: string[] }) {
       ) : (
         <div>
           <StatRow label="Military Readiness" value={n.militaryReadiness >= 65 ? 'Strong' : n.militaryReadiness >= 45 ? 'Adequate' : n.militaryReadiness >= 30 ? 'Low' : 'Critical'} color={n.militaryReadiness >= 45 ? 'var(--accent-green)' : 'var(--accent-red)'} />
-          <StatRow label="Tyvaren Threat" value={n.internationalStanding < 30 ? 'High' : n.internationalStanding < 50 ? 'Medium' : 'Low'} color={n.internationalStanding < 30 ? 'var(--accent-red)' : '#d4c8b0'} />
+          <StatRow label="Tyvaren Threat" value={tyvarenHostility >= 70 ? 'Extreme' : tyvarenHostility >= 50 ? 'High' : tyvarenHostility >= 30 ? 'Medium' : 'Low'} color={tyvarenHostility >= 50 ? 'var(--accent-red)' : tyvarenHostility >= 30 ? '#c47a3a' : 'var(--accent-green)'} />
           <StatRow label="Border Status" value={n.militaryReadiness < 35 ? 'Mobilized' : n.internationalStanding < 40 ? 'Tense' : 'Calm'} color={n.militaryReadiness < 35 ? 'var(--accent-red)' : n.internationalStanding < 40 ? '#c47a3a' : 'var(--accent-green)'} />
           <StatRow label="Defense Budget" value={`${45}M ₭`} />
           <StatRow label="Iron Covenant Support" value={`${useGameStore.getState().factions.ironCovenant}%`} />
@@ -332,6 +333,7 @@ function SecurityTab({ n, flags }: { n: NationState; flags: string[] }) {
 
 function DiplomacyTab({ n, flags }: { n: NationState; flags: string[] }) {
   const [section, setSection] = useState<SectionId>('situations')
+  const tyvarenHostility = useGameStore(s => s.tyvarenHostility)
   return (
     <div style={{ flex: 1, overflowY: 'auto' }}>
       <SectionToggle section={section} onChange={setSection} />
@@ -345,14 +347,25 @@ function DiplomacyTab({ n, flags }: { n: NationState; flags: string[] }) {
         </div>
       ) : (
         <div>
-          <RelationBar label="Tyvaren" level={n.internationalStanding < 20 ? 10 : n.internationalStanding < 35 ? 25 : n.internationalStanding < 50 ? 40 : 55} color="#8b2e2e" />
-          <RelationBar label="Morivask" level={40} color="#c47a3a" />
-          <RelationBar label="Lytheira" level={35} color="#7b6b4a" />
-          <RelationBar label="Arcturians" level={60} color="#3a5a7c" />
-          <RelationBar label="Orythians" level={45} color="#5a7a5a" />
+          <RelationBar label="Tyvaren" level={Math.max(5, Math.min(95, 100 - tyvarenHostility))} color="#8b2e2e" />
+          <RelationBar label="Morivask" level={flags.includes('morivask_oil_deal_complete') ? 60 : 40} color="#c47a3a" />
+          <RelationBar label="Lytheira" level={
+            flags.includes('lytheira_debt_forgiven') ? 65 :
+            flags.includes('lytheira_debt_rejected') ? 20 :
+            flags.includes('lytheira_debt_halved') ? 45 :
+            35
+          } color="#7b6b4a" />
+          <RelationBar label="Arcturians" level={flags.includes('arcturian_alliance_full') ? 75 : 60} color="#3a5a7c" />
+          <RelationBar label="Orythians" level={
+            flags.includes('orythian_alliance_full') || flags.includes('superpower_aligned_orythian') ? 70 :
+            flags.includes('orythian_military_deal') || flags.includes('orythia_aligned') ? 55 :
+            flags.includes('orythian_loan_only') || flags.includes('superpower_partial_orythian') ? 50 :
+            flags.includes('orythian_declined') || flags.includes('orythian_offer_refused') ? 25 :
+            40
+          } color="#5a7a5a" />
           <div style={{ padding: '8px 10px' }}>
             <StatRow label="Intl. Standing" value={n.internationalStanding >= 60 ? 'Strong' : n.internationalStanding >= 40 ? 'Moderate' : 'Weak'} color={n.internationalStanding >= 40 ? '#d4c8b0' : 'var(--accent-red)'} />
-            <StatRow label="Trade Balance" value={`${n.economyHealth > 0 ? '+' : ''}${n.economyHealth}M ₭`} />
+            <StatRow label="Economic Health" value={n.economyHealth >= 20 ? 'Robust' : n.economyHealth >= 0 ? 'Stable' : n.economyHealth >= -25 ? 'Weakening' : 'Crisis'} color={n.economyHealth >= 0 ? 'var(--accent-green)' : n.economyHealth >= -25 ? '#c47a3a' : 'var(--accent-red)'} />
             <StatRow label="Alliances" value={flags.includes('arcturian_alliance') ? '1 Active' : '0'} />
           </div>
         </div>

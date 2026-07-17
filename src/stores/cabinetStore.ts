@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import type {
   CabinetState,
   AppointedMinister,
+  DismissedMinister,
   MinistryType,
   MinisterCandidate,
   MinisterRequest,
@@ -10,6 +11,13 @@ import type {
 interface CabinetStore extends CabinetState {
   appointMinister: (candidate: MinisterCandidate, week: number) => void
   removeMinister: (ministry: MinistryType) => void
+  reshuffleMinister: (
+    ministry: MinistryType,
+    newCandidate: MinisterCandidate,
+    week: number,
+    reason: 'reshuffled' | 'scandal' | 'loyalty_collapse'
+  ) => void
+  canReshuffle: (ministry: MinistryType, currentWeek: number) => boolean
   updateLoyalty: (ministry: MinistryType, delta: number) => void
   updateSatisfaction: (ministry: MinistryType, delta: number) => void
   addRequest: (request: MinisterRequest) => void
@@ -35,6 +43,7 @@ const EMPTY_CABINET: Record<MinistryType, null> = {
 
 export const useCabinetStore = create<CabinetStore>()((set, get) => ({
   ministers: { ...EMPTY_CABINET },
+  dismissedMinisters: [],
   formation_complete: false,
   formation_week: null,
   pending_requests: [],
@@ -50,6 +59,7 @@ export const useCabinetStore = create<CabinetStore>()((set, get) => ({
           current_loyalty: candidate.loyalty,
           satisfaction: 70,
           last_report_week: week,
+          status: 'active',
           active_request: undefined,
         },
       },
@@ -62,6 +72,35 @@ export const useCabinetStore = create<CabinetStore>()((set, get) => ({
         [ministry]: null,
       },
     })),
+
+  reshuffleMinister: (ministry, newCandidate, week, reason) =>
+    set(state => {
+      const current = state.ministers[ministry]
+      const dismissed: DismissedMinister[] = current
+        ? [{ ...current, dismissed_week: week, dismissal_reason: reason, status: 'dismissed' }]
+        : []
+      return {
+        dismissedMinisters: [...state.dismissedMinisters, ...dismissed],
+        ministers: {
+          ...state.ministers,
+          [ministry]: {
+            ...newCandidate,
+            appointed_week: week,
+            current_loyalty: Math.max(0, newCandidate.loyalty - 15),
+            satisfaction: 70,
+            last_report_week: week,
+            status: 'active',
+            active_request: undefined,
+          },
+        },
+      }
+    }),
+
+  canReshuffle: (ministry, currentWeek) => {
+    const minister = get().ministers[ministry]
+    if (!minister) return false
+    return currentWeek - minister.appointed_week >= 6
+  },
 
   updateLoyalty: (ministry, delta) =>
     set(state => {

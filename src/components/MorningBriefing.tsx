@@ -6,6 +6,7 @@ import { useWeekStore } from '../stores/weekStore'
 import { useLetterStore } from '../stores/letterStore'
 import { useChainStore } from '../stores/chainStore'
 import { buildDinnerChainTriggers } from '../engine/FamilyDinnerEngine'
+import { buildBriefingChainTriggers } from '../engine/IntelligenceBriefingEngine'
 import { playStamp } from '../engine/audioEngine'
 import { useEffect } from 'react'
 
@@ -103,6 +104,15 @@ export default function MorningBriefing() {
     if (triggers.length > 0) {
       useChainStore.getState().schedule(triggers, currentWeek, 'family_dinner_init')
       useNarrativeStore.getState().addFlags(['family_dinner_chains_scheduled'])
+    }
+  }, [activeFlags, currentWeek])
+
+  useEffect(() => {
+    if (activeFlags.includes('intelligence_briefing_chains_scheduled')) return
+    const triggers = buildBriefingChainTriggers(currentWeek)
+    if (triggers.length > 0) {
+      useChainStore.getState().schedule(triggers, currentWeek, 'intelligence_briefing_init')
+      useNarrativeStore.getState().addFlags(['intelligence_briefing_chains_scheduled'])
     }
   }, [activeFlags, currentWeek])
 

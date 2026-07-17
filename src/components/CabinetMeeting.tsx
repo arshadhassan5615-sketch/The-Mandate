@@ -3,6 +3,8 @@ import type { MinisterRequest, MinisterRequestOption } from '../types/minister'
 import { useCabinetStore } from '../stores/cabinetStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useGameStore } from '../stores/gameStore'
+import { useNarrativeStore } from '../stores/narrativeStore'
+import { useWeekStore } from '../stores/weekStore'
 import type { NewsArticle } from '../types/news'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
@@ -73,6 +75,26 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
 
   const minister = getAllMinisters().find(m => m.id === current.minister_id) ?? null
 
+  // --- REACTIVE RESHUFFLE TRIGGER ---
+  // If a minister's loyalty has collapsed or they've been exposed for corruption
+  // with low satisfaction, surface a forced dismissal choice instead of their
+  // normal request. This bypasses the 6-week cooldown and has no public_trust
+  // penalty — the player is reacting to a genuine crisis.
+  const { activeFlags } = useNarrativeStore.getState()
+  const loyaltyCollapse = minister && minister.current_loyalty < 25
+  const scandalCollapse = minister
+    && activeFlags.includes(`${minister.id}_corruption_exposed`)
+    && minister.satisfaction < 20
+  const forcedDismissal = (loyaltyCollapse || scandalCollapse) ? minister : null
+  const forcedReason = loyaltyCollapse ? 'loyalty_collapse' as const : 'scandal' as const
+
+  const handleForcedDismiss = () => {
+    if (!forcedDismissal) return
+    completeRequest(current.id)
+    useWeekStore.setState({ showCabinetMeeting: false })
+    useWeekStore.getState().triggerReshuffle(forcedDismissal.ministry)
+  }
+
   const handleDecision = (option: MinisterRequestOption) => {
     setSelectedOption(option.id)
     completeRequest(current.id)
@@ -81,6 +103,35 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
       updateSatisfaction(minister.ministry, option.satisfaction_effect)
     }
     setResolved(prev => [...prev, current.id])
+
+    // --- WIRE MINISTER CONSEQUENCE DATA ---
+    // 1. Apply declared stat effects through the canonical gameStore pipeline
+    //    (same StateModifier[] pattern used by bills and projects).
+    const statMods = Object.entries(option.stat_effects).map(
+      ([stat, value]) => ({ stat, operation: 'add' as const, value })
+    )
+    if (statMods.length > 0) {
+      useGameStore.getState().applyModifiers(statMods)
+    }
+
+    // 2. Collect flags to push into narrativeStore.activeFlags via addFlags.
+    const flagsToAdd: string[] = []
+    if (option.flag) flagsToAdd.push(option.flag)
+
+    // 3. Track corruption exposure: a corrupt minister (corruption_risk > 25)
+    //    who is repeatedly denied (negative satisfaction) gains a motive for
+    //    scandal/betrayal.
+    if (
+      minister &&
+      minister.corruption_risk > 25 &&
+      option.satisfaction_effect < 0
+    ) {
+      flagsToAdd.push(`${minister.id}_corruption_exposed`)
+    }
+
+    if (flagsToAdd.length > 0) {
+      useNarrativeStore.getState().addFlags(flagsToAdd)
+    }
 
     // --- PROCEDURAL MEDIA ENGINE ---
     const currentWeek = useGameStore.getState().currentWeek
@@ -321,8 +372,99 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
             </div>
           </div>
 
-          {/* Options */}
-          {!selectedOption ? (
+          {/* Forced Dismissal — reactive reshuffle trigger */}
+          {forcedDismissal && !selectedOption && (
+            <div style={{
+              background: 'rgba(192,57,43,0.08)',
+              border: '1px solid rgba(192,57,43,0.3)',
+              borderLeft: '3px solid #c0392b',
+              borderRadius: '2px',
+              padding: '20px 24px',
+              marginBottom: '24px',
+            }}>
+              <div style={{
+                fontSize: '10px',
+                letterSpacing: '3px',
+                color: '#c0392b',
+                marginBottom: '8px',
+                fontFamily: "'Special Elite', monospace",
+              }}>
+                ► MINISTERIAL CRISIS
+              </div>
+              <div style={{
+                fontSize: '13px',
+                color: '#e8d5a3',
+                lineHeight: '1.6',
+                marginBottom: '16px',
+                fontFamily: "'Crimson Text', serif",
+              }}>
+                {forcedReason === 'loyalty_collapse'
+                  ? `${forcedDismissal.name}'s loyalty has fallen to ${forcedDismissal.current_loyalty}%. Their position has become untenable. You may dismiss them now, or continue with the political risk of keeping them.`
+                  : `${forcedDismissal.name}'s corruption has been exposed and their satisfaction is at ${forcedDismissal.satisfaction}%. Keeping them invites scandal. You may dismiss them now, or continue with the political risk.`
+                }
+              </div>
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <div
+                  onClick={handleForcedDismiss}
+                  style={{
+                    padding: '12px 24px',
+                    background: 'rgba(192,57,43,0.15)',
+                    border: '1px solid rgba(192,57,43,0.4)',
+                    borderRadius: '2px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    color: '#e8d5a3',
+                    fontWeight: 700,
+                    letterSpacing: '1px',
+                    textTransform: 'uppercase',
+                    fontFamily: 'Georgia, serif',
+                    transition: 'all 0.15s ease',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = 'rgba(192,57,43,0.3)'
+                    e.currentTarget.style.borderColor = '#c0392b'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(192,57,43,0.15)'
+                    e.currentTarget.style.borderColor = 'rgba(192,57,43,0.4)'
+                  }}
+                >
+                  Dismiss Minister
+                </div>
+                <div
+                  onClick={() => {
+                    // Skip this request without dismissing — continue with political risk
+                    completeRequest(current.id)
+                    setResolved(prev => [...prev, current.id])
+                    setSelectedOption('__skip__')
+                  }}
+                  style={{
+                    padding: '12px 24px',
+                    background: 'rgba(201,168,76,0.05)',
+                    border: '1px solid rgba(201,168,76,0.2)',
+                    borderRadius: '2px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    color: 'rgba(201,168,76,0.6)',
+                    letterSpacing: '1px',
+                    fontFamily: 'Georgia, serif',
+                    transition: 'all 0.15s ease',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = 'rgba(201,168,76,0.1)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(201,168,76,0.05)'
+                  }}
+                >
+                  Keep for Now
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Options — normal request flow (hidden during forced dismissal) */}
+          {!selectedOption && !forcedDismissal ? (
             <div>
               <div style={{
                 fontSize: '10px',
@@ -394,17 +536,23 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
               <div style={{
                 fontSize: '10px',
                 letterSpacing: '3px',
-                color: '#2d7a3a',
+                color: selectedOption === '__skip__' ? 'rgba(201,168,76,0.6)' : '#2d7a3a',
                 marginBottom: '16px',
                 fontFamily: "'Special Elite', monospace",
               }}>
-                ► DIRECTIVE CONFIRMED
+                {selectedOption === '__skip__' ? '► RISK ACCEPTED' : '► DIRECTIVE CONFIRMED'}
               </div>
               <div style={{
                 padding: '16px 20px',
-                background: 'linear-gradient(90deg, rgba(45,122,58,0.1) 0%, rgba(10,8,6,0.5) 100%)',
-                border: '1px solid rgba(45,122,58,0.2)',
-                borderLeft: '3px solid #2d7a3a',
+                background: selectedOption === '__skip__'
+                  ? 'linear-gradient(90deg, rgba(201,168,76,0.05) 0%, rgba(10,8,6,0.5) 100%)'
+                  : 'linear-gradient(90deg, rgba(45,122,58,0.1) 0%, rgba(10,8,6,0.5) 100%)',
+                border: selectedOption === '__skip__'
+                  ? '1px solid rgba(201,168,76,0.15)'
+                  : '1px solid rgba(45,122,58,0.2)',
+                borderLeft: selectedOption === '__skip__'
+                  ? '3px solid rgba(201,168,76,0.3)'
+                  : '3px solid #2d7a3a',
                 borderRadius: '2px',
                 marginBottom: '24px',
                 fontSize: '15px',
@@ -412,7 +560,10 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
                 fontFamily: "'Crimson Text', serif",
                 fontStyle: 'italic',
               }}>
-                "{selectedData?.text}"
+                {selectedOption === '__skip__'
+                  ? `You keep ${minister?.name ?? 'the minister'} despite the risk. The political cost of inaction may come later.`
+                  : `"${selectedData?.text}"`
+                }
               </div>
               <button
                 onClick={handleNext}

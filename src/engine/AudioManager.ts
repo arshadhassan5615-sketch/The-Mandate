@@ -1,4 +1,5 @@
 import theme_main from '../assets/audio/music/theme_main.mp3'
+import type { GameState } from '../types/gameState'
 import theme_briefing from '../assets/audio/music/theme_briefing.mp3'
 import theme_cabinet from '../assets/audio/music/theme_cabinet.mp3'
 import theme_crisis from '../assets/audio/music/theme_crisis.mp3'
@@ -399,7 +400,36 @@ class AudioManager {
 
   private currentIntensity: 'low' | 'medium' | 'high' = 'medium'
 
-  getTrackForScene(sceneType: string, sceneId: string, _activeFlags?: string[]): string {
+  /** Matches any minister corruption-exposed flag (e.g. "elara_vostane_corruption_exposed"). */
+  private corruptionExposedPattern = /^.+_corruption_exposed$/
+
+  getTrackForScene(sceneType: string, sceneId: string, activeFlags?: string[], gameState?: GameState): string {
+    // ── State-driven overrides (highest priority) ──────────────────────────
+    // Checked before scene-ID/type/phase resolution. A crisis state should
+    // dominate over a routine scene's default track.
+
+    if (activeFlags) {
+      // 1. Severe deficit crisis
+      if (activeFlags.includes('severe_deficit_crisis')) return 'theme_crisis'
+
+      // 2. Any minister corruption exposed → scandal music
+      if (activeFlags.some(f => this.corruptionExposedPattern.test(f))) return 'theme_scandal'
+    }
+
+    if (gameState) {
+      // 3. Public order critically low → crisis
+      if (gameState.nation.publicOrder < 20) return 'theme_crisis'
+
+      // 4. Oligarch dominance → oligarch theme
+      if (gameState.vaelInfluence > 60 || gameState.morvecInfluence > 50) return 'theme_oligarch'
+
+      // 5. Iron Covenant dangerously low → internal instability (tyvaren theme reused
+      //    for military/security tension, which fits both foreign and domestic instability)
+      if (gameState.factions.ironCovenant < 25) return 'theme_crisis'
+    }
+
+    // ── Existing scene-ID/type/phase resolution (unchanged) ────────────────
+
     // 1. Exact scene ID match in flaggedSceneMap
     for (const [track, scenes] of Object.entries(flaggedSceneMap)) {
       if (scenes.includes(sceneId)) {

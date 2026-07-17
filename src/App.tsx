@@ -17,7 +17,7 @@ import { useLetterStore } from './stores/letterStore'
 import { useJournalStore } from './stores/journalStore'
 import { useNarrativeStore } from './stores/narrativeStore'
 import { useNewsStore } from './stores/newsStore'
-import { saveGame, loadGame, listSaves, AUTOSAVE_SLOT } from './engine/SaveManager'
+import { saveGame, AUTOSAVE_SLOT } from './engine/SaveManager'
 import { useHotkeys } from './hooks/useHotkeys'
 import { audioManager } from './engine/AudioManager'
 import allLetters from './data/letters/diplomatic_letters.json'
@@ -175,17 +175,6 @@ export default function App() {
 
     // S: quick save to autosave slot (gameplay only)
     { key: 's', handler: () => { saveGame(AUTOSAVE_SLOT, 'QUICKSAVE').catch((e) => console.warn('Autosave failed:', e)) }, enabled: () => isGameplay },
-
-    // L: quick load most recent save (gameplay only)
-    { key: 'l', handler: async () => {
-      const saves = await listSaves()
-      let best = -1; let bestTime = 0
-      for (let i = 0; i < saves.length; i++) {
-        const s = saves[i]
-        if (s && s.timestamp > bestTime) { bestTime = s.timestamp; best = i }
-      }
-      if (best >= 0) await loadGame(best)
-    }, enabled: () => isGameplay },
 
     // C: toggle codex
     { key: 'c', handler: () => codexOpen ? closeCodex() : openCodex() },
