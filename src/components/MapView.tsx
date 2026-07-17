@@ -222,7 +222,10 @@ export default function MapView({ onProvinceDetail }: {
       const veltriaHeight = MAP_RENDER_HEIGHT * 0.70
       const scaleW = (vw - 80) / veltriaWidth
       const scaleH = (vh - 80) / veltriaHeight
-      setDynamicZoom(Math.min(scaleW, scaleH))
+      const fitZoom = Math.min(scaleW, scaleH)
+      // Never go below full-viewport coverage (prevents exposed background)
+      const coverZoom = Math.max(vw / MAP_RENDER_WIDTH, vh / MAP_RENDER_HEIGHT)
+      setDynamicZoom(Math.max(fitZoom, coverZoom))
     }
     calcZoom()
     window.addEventListener('resize', calcZoom)
@@ -230,6 +233,8 @@ export default function MapView({ onProvinceDetail }: {
   }, [])
 
   const effectiveZoom = focusedProvinceId ? dynamicZoom * FOCUS_ZOOM_MULTIPLIER : dynamicZoom
+  const effectiveZoomRef = useRef(effectiveZoom)
+  effectiveZoomRef.current = effectiveZoom
 
   function clampPan(x: number, y: number, zoom: number = effectiveZoom): { x: number; y: number } {
     const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
@@ -305,8 +310,8 @@ export default function MapView({ onProvinceDetail }: {
     const dx = e.clientX - dragOrigin.current.mx
     const dy = e.clientY - dragOrigin.current.my
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true
-    const newX = clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy).x
-    const newY = clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy).y
+    const newX = clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy, effectiveZoomRef.current).x
+    const newY = clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy, effectiveZoomRef.current).y
     // M10 — throttle setPan to one update per frame to avoid
     // re-rendering on every mousemove event.
     if (panRafRef.current !== null) cancelAnimationFrame(panRafRef.current)
