@@ -131,10 +131,10 @@ const ALDENMOOR = PROVINCE_PIN_POSITIONS.aldenmoor
 const SEVAGRAD = PROVINCE_PIN_POSITIONS.sevagrad
 
 // ─── Map Header ──────────────────────────────────────────────────────────────
-// Compact close-control cluster (not a full-width bar) so TopBar chips stay free
-// and the pan/hotkey helper stays docked to CLOSE MAP.
+// Compact helper cluster (not a full-width bar) so TopBar chips stay free.
+// Shows pan/hotkey guidance only — map closes via M, not a header button.
 
-function MapHeader({ onClose }: { onClose: () => void }) {
+function MapHeader() {
   return (
     <div
       data-testid="map-header-close-cluster"
@@ -148,18 +148,6 @@ function MapHeader({ onClose }: { onClose: () => void }) {
         boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
       }}
     >
-      <button
-        onClick={onClose}
-        style={{
-          background: 'none', border: '1px solid var(--border)', color: 'var(--muted)',
-          cursor: 'pointer', padding: '0.3rem 0.8rem', fontSize: '0.58rem',
-          letterSpacing: '0.1em', fontFamily: "'IBM Plex Mono', monospace", transition: 'all 0.15s',
-        }}
-        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--amber)'; e.currentTarget.style.color = 'var(--amber)' }}
-        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }}
-      >
-        CLOSE MAP
-      </button>
       <span style={{
         fontSize: '0.52rem',
         letterSpacing: '0.08em',
@@ -179,7 +167,6 @@ export default function MapView({ onProvinceDetail }: {
   onProvinceDetail?: (id: string) => void
 }) {
   const mapOpen    = useSettingsStore(s => s.mapOpen)
-  const setMapOpen = useSettingsStore(s => s.setMapOpen)
   const phase      = useWeekStore(s => s.phase)
   const gameState  = useGameStore()
   const factions   = useGameStore(s => s.factions)
@@ -508,7 +495,7 @@ export default function MapView({ onProvinceDetail }: {
       background: '#7a9aaa',
       fontFamily: "'IBM Plex Mono', 'Special Elite', monospace",
     }}>
-      <MapHeader onClose={() => setMapOpen(false)} />
+      <MapHeader />
 
       {/* Pannable container — covers full viewport, header floats on top */}
       <div

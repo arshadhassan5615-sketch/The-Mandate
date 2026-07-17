@@ -1,10 +1,14 @@
-// MapHeader close-cluster: pan helper must stay docked next to CLOSE MAP.
+// MapHeader helper cluster: pan/hotkey guidance only (no CLOSE MAP button).
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import MapView from '../MapView'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useGameStore } from '../../stores/gameStore'
 import { useWeekStore } from '../../stores/weekStore'
+
+const MAPVIEW_SRC = readFileSync(resolve(__dirname, '../MapView.tsx'), 'utf8')
 
 function openMap() {
   useGameStore.getState().resetToInitial()
@@ -17,25 +21,21 @@ describe('MapView MapHeader helper', () => {
     useSettingsStore.setState({ mapOpen: false })
   })
 
-  it('keeps the pan/hotkey helper adjacent to CLOSE MAP in the close cluster', () => {
+  it('shipped MapView source has zero CLOSE MAP strings', () => {
+    expect(MAPVIEW_SRC).not.toMatch(/CLOSE MAP/)
+    expect(MAPVIEW_SRC).toMatch(/Drag to pan · hover provinces · M to close/)
+  })
+
+  it('shows pan/hotkey helper without a CLOSE MAP button', () => {
     openMap()
     render(<MapView />)
 
-    const closeBtn = screen.getByRole('button', { name: /CLOSE MAP/i })
+    expect(screen.queryByRole('button', { name: /CLOSE MAP/i })).toBeNull()
     const helper = screen.getByText('Drag to pan · hover provinces · M to close')
-    expect(closeBtn).toBeInTheDocument()
     expect(helper).toBeInTheDocument()
 
     const cluster = screen.getByTestId('map-header-close-cluster')
-    expect(cluster.contains(closeBtn)).toBe(true)
     expect(cluster.contains(helper)).toBe(true)
-
-    // Helper is docked to the right of CLOSE MAP (DOM order: button then helper)
-    const children = Array.from(cluster.children)
-    const btnIdx = children.indexOf(closeBtn)
-    const helperIdx = children.indexOf(helper)
-    expect(btnIdx).toBeGreaterThanOrEqual(0)
-    expect(helperIdx).toBe(btnIdx + 1)
 
     // Muted helper styling — not a free-floating full-width bar child
     expect(helper.style.color).toBe('var(--muted)')
