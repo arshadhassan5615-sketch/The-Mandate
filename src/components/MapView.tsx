@@ -209,44 +209,44 @@ function TooltipRow({ index, hoveredRow, onHover, onClick, icon, label }: {
 }
 
 // ─── Map Header ──────────────────────────────────────────────────────────────
+// Compact close-control cluster (not a full-width bar) so TopBar chips stay free
+// and the pan/hotkey helper stays docked to CLOSE MAP.
 
-const HEADER_H = 42
-
-function MapHeader({ currentWeek, onClose }: { currentWeek: number; onClose: () => void }) {
+function MapHeader({ onClose }: { onClose: () => void }) {
   return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10010,
-      height: `${HEADER_H}px`,
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '0 2rem',
-      background: 'rgba(10,8,6,0.95)',
-      borderBottom: '1px solid rgba(200,144,42,0.2)',
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.8rem', letterSpacing: '0.08em', color: 'var(--amber)', fontStyle: 'italic' }}>
-          Republic of Veltria — Strategic Overview
-        </span>
-        <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.58rem', letterSpacing: '0.12em', color: 'var(--muted)' }}>
-          Week {currentWeek} · 1963
-        </span>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <span style={{ fontSize: '0.52rem', letterSpacing: '0.08em', color: 'var(--muted)' }}>
-          Drag to pan · hover provinces · M to close
-        </span>
-        <button
-          onClick={onClose}
-          style={{
-            background: 'none', border: '1px solid var(--border)', color: 'var(--muted)',
-            cursor: 'pointer', padding: '0.3rem 0.8rem', fontSize: '0.58rem',
-            letterSpacing: '0.1em', fontFamily: "'IBM Plex Mono', monospace", transition: 'all 0.15s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--amber)'; e.currentTarget.style.color = 'var(--amber)' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }}
-        >
-          CLOSE MAP
-        </button>
-      </div>
+    <div
+      data-testid="map-header-close-cluster"
+      style={{
+        position: 'fixed', top: '12px', right: '12px', zIndex: 10010,
+        display: 'flex', alignItems: 'center', gap: '0.65rem',
+        padding: '6px 10px',
+        background: 'rgba(10,8,6,0.85)',
+        borderRadius: '6px',
+        border: '1px solid rgba(201,168,76,0.2)',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+      }}
+    >
+      <button
+        onClick={onClose}
+        style={{
+          background: 'none', border: '1px solid var(--border)', color: 'var(--muted)',
+          cursor: 'pointer', padding: '0.3rem 0.8rem', fontSize: '0.58rem',
+          letterSpacing: '0.1em', fontFamily: "'IBM Plex Mono', monospace", transition: 'all 0.15s',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--amber)'; e.currentTarget.style.color = 'var(--amber)' }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }}
+      >
+        CLOSE MAP
+      </button>
+      <span style={{
+        fontSize: '0.52rem',
+        letterSpacing: '0.08em',
+        color: 'var(--muted)',
+        whiteSpace: 'nowrap',
+        fontFamily: "'IBM Plex Mono', monospace",
+      }}>
+        Drag to pan · hover provinces · M to close
+      </span>
     </div>
   )
 }
@@ -259,7 +259,6 @@ export default function MapView({ onProvinceDetail }: {
   const mapOpen    = useSettingsStore(s => s.mapOpen)
   const setMapOpen = useSettingsStore(s => s.setMapOpen)
   const phase      = useWeekStore(s => s.phase)
-  const currentWeek = useGameStore(s => s.currentWeek)
   const gameState  = useGameStore()
   const factions   = useGameStore(s => s.factions)
   const { activeFlags } = useNarrativeStore()
@@ -598,7 +597,7 @@ export default function MapView({ onProvinceDetail }: {
       background: '#7a9aaa',
       fontFamily: "'IBM Plex Mono', 'Special Elite', monospace",
     }}>
-      <MapHeader currentWeek={currentWeek} onClose={() => setMapOpen(false)} />
+      <MapHeader onClose={() => setMapOpen(false)} />
 
       {/* Pannable container — covers full viewport, header floats on top */}
       <div

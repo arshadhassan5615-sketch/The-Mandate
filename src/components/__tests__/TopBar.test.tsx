@@ -42,14 +42,18 @@ describe('TopBar', () => {
     expect(left).toBeTruthy()
     expect(right).toBeTruthy()
 
+    // Top edges and outer padding must match exactly (shared chipChrome)
     expect(left!.style.top).toBe('12px')
     expect(right!.style.top).toBe('12px')
+    expect(left!.style.top).toBe(right!.style.top)
+    expect(left!.style.padding).toBe('6px 10px')
+    expect(right!.style.padding).toBe('6px 10px')
+    expect(left!.style.padding).toBe(right!.style.padding)
+
     expect(left!.style.width).toBe('auto')
     expect(right!.style.width).toBe('auto')
     expect(left!.style.borderRadius).toBe('6px')
     expect(right!.style.borderRadius).toBe('6px')
-    expect(left!.style.padding).toBe('6px 10px')
-    expect(right!.style.padding).toBe('6px 10px')
 
     // Chip fill (jsdom keeps the authored string; normalize spaces)
     const bg = left!.style.background.replace(/\s/g, '')

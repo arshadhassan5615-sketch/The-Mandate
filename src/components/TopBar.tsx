@@ -54,7 +54,13 @@ export default function TopBar() {
     publicImage >= 35 ? '#c9a84c' :
     '#e05c4a'
 
+  // Shared chrome so left/right chips cannot drift on top/padding independently.
+  const CHIP_TOP = '12px'
+  const CHIP_PADDING = '6px 10px'
   const chipChrome: React.CSSProperties = {
+    position: 'fixed',
+    top: CHIP_TOP,
+    width: 'auto',
     zIndex: 210,
     background: 'rgba(10,8,6,0.85)',
     borderRadius: '6px',
@@ -63,6 +69,10 @@ export default function TopBar() {
     border: '1px solid rgba(201,168,76,0.2)',
     boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
     fontFamily: "'IBM Plex Mono', monospace",
+    padding: CHIP_PADDING,
+    boxSizing: 'border-box',
+    display: 'flex',
+    alignItems: 'center',
   }
 
   return (
@@ -70,9 +80,8 @@ export default function TopBar() {
       {/* LEFT CLUSTER — seal + resources (top-left chip, not full-width bar) */}
       <div style={{
         ...chipChrome,
-        position: 'fixed', top: '12px', left: '12px', width: 'auto',
-        display: 'flex', alignItems: 'center', gap: 0,
-        padding: '6px 10px',
+        left: '12px',
+        gap: 0,
       }}>
         {/* LEFT SECTION — Republic identity */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -165,9 +174,11 @@ export default function TopBar() {
       {/* RIGHT CHIP — week/date (independent top-right, not marginLeft auto) */}
       <div style={{
         ...chipChrome,
-        position: 'fixed', top: '12px', right: '12px', width: 'auto',
-        display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2,
-        padding: '6px 10px',
+        right: '12px',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        gap: 2,
       }}>
         <span style={{ fontSize: '0.66rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.3)' }}>
           WEEK {currentWeek} / 52
