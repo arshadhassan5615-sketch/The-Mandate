@@ -100,7 +100,10 @@ export function pointsToPolyline(points: ChartPoint[]): string {
 // ─── Panel ────────────────────────────────────────────────────────────────────
 
 interface DebtPanelProps {
-  onClose: () => void
+  /** Required for standalone; optional when embedded inside StatsPanel. */
+  onClose?: () => void
+  /** When true, render body only (no fixed shell, seal, title, or close). */
+  embedded?: boolean
 }
 
 const CHART_W = 280
@@ -119,7 +122,7 @@ const filterNavBtnStyle = (disabled: boolean): CSSProperties => ({
   fontFamily: "'IBM Plex Mono', monospace",
 })
 
-export default function DebtPanel({ onClose }: DebtPanelProps) {
+export default function DebtPanel({ onClose, embedded = false }: DebtPanelProps) {
   const nationalDebt = useGameStore(s => s.nation.nationalDebt)
   const debtHistory = useGameStore(s => s.debtHistory)
   const currentAct = useGameStore(s => s.currentAct)
@@ -169,50 +172,11 @@ export default function DebtPanel({ onClose }: DebtPanelProps) {
     }
   }
 
-  return (
-    <div
-      data-testid="debt-panel"
-      style={{
-        position: 'fixed', left: '52px', top: '50px', width: '320px',
-        height: 'calc(100vh - 110px)', zIndex: 550,
-        background: 'rgba(12,10,8,0.96)',
-        border: '1px solid rgba(196,148,58,0.25)', borderRight: 'none',
-        display: 'flex', flexDirection: 'column',
-        boxShadow: '-4px 4px 24px rgba(0,0,0,0.6)',
-        overflow: 'hidden',
-      }}
-    >
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '10px 14px', borderBottom: '1px solid rgba(196,148,58,0.15)',
-        flexShrink: 0,
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <img
-            src={veltriaSeal}
-            alt=""
-            style={{
-              width: '48px',
-              height: '48px',
-              display: 'block',
-              margin: '0 auto 8px auto',
-              opacity: 0.9,
-            }}
-          />
-          <h2 style={{
-            fontFamily: "'Playfair Display', serif", fontSize: '1.1rem',
-            fontWeight: 600, color: 'var(--amber)', margin: 0, letterSpacing: '0.03em',
-          }}>
-            NATIONAL DEBT
-          </h2>
-        </div>
-        <button onClick={onClose} style={{
-          background: 'transparent', border: 'none', color: 'var(--muted)',
-          cursor: 'pointer', fontSize: '1rem', padding: 0, lineHeight: 1,
-        }}>✕</button>
-      </div>
-
-      <div style={{ flex: 1, overflowY: 'auto', padding: '16px 14px' }}>
+  const body = (
+      <div
+        data-testid="debt-panel-body"
+        style={{ flex: 1, overflowY: 'auto', padding: '16px 14px' }}
+      >
         <div style={{ textAlign: 'center', marginBottom: '18px' }}>
           <p style={{
             fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.48rem',
@@ -511,6 +475,55 @@ export default function DebtPanel({ onClose }: DebtPanelProps) {
           </div>
         </div>
       </div>
+  )
+
+  if (embedded) {
+    return <>{body}</>
+  }
+
+  return (
+    <div
+      data-testid="debt-panel"
+      style={{
+        position: 'fixed', left: '52px', top: '50px', width: '320px',
+        height: 'calc(100vh - 110px)', zIndex: 550,
+        background: 'rgba(12,10,8,0.96)',
+        border: '1px solid rgba(196,148,58,0.25)', borderRight: 'none',
+        display: 'flex', flexDirection: 'column',
+        boxShadow: '-4px 4px 24px rgba(0,0,0,0.6)',
+        overflow: 'hidden',
+      }}
+    >
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '10px 14px', borderBottom: '1px solid rgba(196,148,58,0.15)',
+        flexShrink: 0,
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <img
+            src={veltriaSeal}
+            alt=""
+            style={{
+              width: '48px',
+              height: '48px',
+              display: 'block',
+              margin: '0 auto 8px auto',
+              opacity: 0.9,
+            }}
+          />
+          <h2 style={{
+            fontFamily: "'Playfair Display', serif", fontSize: '1.1rem',
+            fontWeight: 600, color: 'var(--amber)', margin: 0, letterSpacing: '0.03em',
+          }}>
+            NATIONAL DEBT
+          </h2>
+        </div>
+        <button onClick={() => onClose?.()} style={{
+          background: 'transparent', border: 'none', color: 'var(--muted)',
+          cursor: 'pointer', fontSize: '1rem', padding: 0, lineHeight: 1,
+        }}>✕</button>
+      </div>
+      {body}
     </div>
   )
 }

@@ -2,10 +2,13 @@ import { useState } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useDecreeStore } from '../stores/decreeStore'
-import EconomyPanel from './panels/EconomyPanel'
+import StatsPanel from './panels/StatsPanel'
 import iconNews from '../assets/images/ui/icon_nav_news.png'
 import iconDecree from '../assets/images/ui/icon_nav_decrees.png'
+// PLACEHOLDER: no dedicated stats/line-graph icon on disk yet.
+// Swap to real asset when generated.
 import iconEconomy from '../assets/images/ui/icon_economy.png'
+const iconStats = iconEconomy
 
 // ─── Sidebar button (mirrored tooltip: opens to the right of the icon) ─────────
 
@@ -15,16 +18,23 @@ interface SideButtonProps {
   active?: boolean
   badge?: number
   onClick: () => void
+  'data-testid'?: string
 }
 
-function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
+function SideButton({
+  icon,
+  label,
+  active,
+  badge,
+  onClick,
+  'data-testid': testId,
+}: SideButtonProps) {
   const [hovered, setHovered] = useState(false)
 
   const isLit = active || hovered
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Tooltip label — left rail: sit to the right of the icon */}
       {hovered && (
         <div style={{
           position: 'absolute',
@@ -49,6 +59,7 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
       )}
 
       <button
+        data-testid={testId}
         onClick={onClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -78,7 +89,6 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
         title={label}
       >
         {icon}
-        {/* Notification badge */}
         {badge !== undefined && badge > 0 && (
           <div style={{
             position: 'absolute',
@@ -108,7 +118,7 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
   )
 }
 
-// ─── LeftSidebar — News + Decrees + Economy ───────────────────────────────────
+// ─── LeftSidebar — News + Decrees + National Statistics ───────────────────────
 
 export default function LeftSidebar() {
   const { setDecreeInboxOpen, decreeInboxOpen } = useSettingsStore()
@@ -116,7 +126,7 @@ export default function LeftSidebar() {
   const unreadCount = useNewsStore(s => s.articles.length - (s.lastReadIndex + 1))
   const pendingCount = useDecreeStore(s => s.pendingDecrees.length)
 
-  const [economyOpen, setEconomyOpen] = useState(false)
+  const [statsOpen, setStatsOpen] = useState(false)
 
   const iconStyle = {
     width: '40px',
@@ -129,7 +139,7 @@ export default function LeftSidebar() {
 
   return (
     <>
-      {economyOpen && <EconomyPanel onClose={() => setEconomyOpen(false)} />}
+      {statsOpen && <StatsPanel onClose={() => setStatsOpen(false)} />}
 
       <div
         data-testid="left-sidebar-cluster"
@@ -143,7 +153,6 @@ export default function LeftSidebar() {
           alignItems: 'center',
           padding: '10px 0',
           gap: '8px',
-          // No glass panel behind icons (icon-only left cluster)
           background: 'transparent',
         }}
       >
@@ -166,12 +175,11 @@ export default function LeftSidebar() {
         />
 
         <SideButton
-          icon={<img src={iconEconomy} alt="Economy" style={iconStyle} />}
-          label="Economy"
-          active={economyOpen}
-          onClick={() => {
-            setEconomyOpen(prev => !prev)
-          }}
+          data-testid="stats-button"
+          icon={<img src={iconStats} alt="Statistics" style={iconStyle} />}
+          label="National Statistics"
+          active={statsOpen}
+          onClick={() => setStatsOpen(prev => !prev)}
         />
       </div>
     </>
