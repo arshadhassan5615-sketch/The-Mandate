@@ -8,6 +8,7 @@ import { useSettingsStore, currentPlayTimeMinutes } from '../stores/settingsStor
 import { useDecreeStore } from '../stores/decreeStore'
 import { useCabinetStore } from '../stores/cabinetStore'
 import { useBillStore } from '../stores/billStore'
+import { useParliamentStore } from '../stores/parliamentStore'
 import { useJournalStore } from '../stores/journalStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useLetterStore } from '../stores/letterStore'
@@ -68,6 +69,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
   const decreeState = useDecreeStore.getState()
   const cabinetState = useCabinetStore.getState()
   const billState = useBillStore.getState()
+  const parliamentState = useParliamentStore.getState()
   const journalState = useJournalStore.getState()
   const newsState = useNewsStore.getState()
   const letterState = useLetterStore.getState()
@@ -174,6 +176,11 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     billState: {
       bills: billState.bills,
       history: billState.history,
+    },
+    // Catalog reloads from JSON each session; currentSittingResults is
+    // deliberately transient (interrupted mid-sitting resets on load).
+    parliamentState: {
+      sittingHistory: parliamentState.sittingHistory,
     },
     journalState: {
       entries: journalState.entries,
@@ -343,6 +350,20 @@ export async function loadGame(slot: number): Promise<boolean> {
       pendingBill: null,
       isOverlayOpen: false,
       vetoOverrideResult: null,
+    })
+  }
+
+  // Restore parliament sitting history (catalog not restored — reloads from JSON)
+  if (record.parliamentState) {
+    useParliamentStore.setState({
+      sittingHistory: record.parliamentState.sittingHistory ?? [],
+      currentSittingResults: null,
+    })
+  } else {
+    // Legacy / pre-parliament saves: empty history
+    useParliamentStore.setState({
+      sittingHistory: [],
+      currentSittingResults: null,
     })
   }
 

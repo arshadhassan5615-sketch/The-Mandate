@@ -29,3 +29,13 @@ export interface ParliamentBillResult {
   isStrongMajority: boolean
   marginPercent: number // used later for veto-override odds
 }
+
+/** Persistable record of a bill decided during a parliament sitting. */
+export interface SittingHistoryEntry {
+  billId: string
+  weekPresented: number
+  weekDecided: number
+  passed: boolean
+  isStrongMajority: boolean
+  marginPercent: number
+}

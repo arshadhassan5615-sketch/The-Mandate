@@ -4,6 +4,8 @@ import {
   resolveParliamentBill,
   computeOverrideChance,
   shouldTriggerParliament,
+  selectEligibleBills,
+  selectBillsForSitting,
 } from '../ParliamentEngine'
 import type { ParliamentBill } from '../../types/parliament'
 
@@ -299,5 +301,85 @@ describe('shouldTriggerParliament', () => {
     expect(rateAt5).toBeLessThan(0.85)
     // later in the window should fire more often than earlier
     expect(rateAt5).toBeGreaterThan(rateAt4)
+  })
+})
+
+describe('selectEligibleBills', () => {
+  const catalog = [
+    makeBill({ id: 'pb_a', weekAvailable: 5 }),
+    makeBill({ id: 'pb_b', weekAvailable: 10, weekDeadline: 12 }),
+    makeBill({ id: 'pb_c', weekAvailable: 8 }),
+    makeBill({ id: 'pb_d', weekAvailable: 15 }),
+  ]
+
+  it('excludes already-decided bills', () => {
+    // week 11: pb_b still within deadline (12); pb_d not yet available
+    const eligible = selectEligibleBills(catalog, 11, new Set(['pb_a', 'pb_c']))
+    expect(eligible.map(b => b.id)).toEqual(['pb_b'])
+
+    // Open-ended bills only — decided set is the sole filter among available content
+    const open = [
+      makeBill({ id: 'open_1', weekAvailable: 1 }),
+      makeBill({ id: 'open_2', weekAvailable: 1 }),
+      makeBill({ id: 'open_3', weekAvailable: 1 }),
+    ]
+    const openEligible = selectEligibleBills(open, 20, new Set(['open_2']))
+    expect(openEligible.map(b => b.id)).toEqual(['open_1', 'open_3'])
+  })
+
+  it('excludes bills not yet available', () => {
+    const eligible = selectEligibleBills(catalog, 7, new Set())
+    expect(eligible.map(b => b.id)).toEqual(['pb_a'])
+  })
+
+  it('excludes bills past their weekDeadline', () => {
+    // week 13 > deadline 12 for pb_b
+    const eligible = selectEligibleBills(catalog, 13, new Set())
+    expect(eligible.map(b => b.id).sort()).toEqual(['pb_a', 'pb_c'].sort())
+    expect(eligible.some(b => b.id === 'pb_b')).toBe(false)
+  })
+
+  it('includes a bill on its exact deadline week', () => {
+    const eligible = selectEligibleBills(catalog, 12, new Set())
+    expect(eligible.some(b => b.id === 'pb_b')).toBe(true)
+  })
+})
+
+describe('selectBillsForSitting', () => {
+  it('caps at 3 bills', () => {
+    const many = [
+      makeBill({ id: 'pb_1', weekAvailable: 1 }),
+      makeBill({ id: 'pb_2', weekAvailable: 2 }),
+      makeBill({ id: 'pb_3', weekAvailable: 3 }),
+      makeBill({ id: 'pb_4', weekAvailable: 4 }),
+      makeBill({ id: 'pb_5', weekAvailable: 5 }),
+    ]
+    const selected = selectBillsForSitting(many)
+    expect(selected).toHaveLength(3)
+  })
+
+  it('preserves deterministic ordering by weekAvailable then id', () => {
+    const scrambled = [
+      makeBill({ id: 'pb_z', weekAvailable: 5 }),
+      makeBill({ id: 'pb_a', weekAvailable: 3 }),
+      makeBill({ id: 'pb_m', weekAvailable: 5 }),
+      makeBill({ id: 'pb_b', weekAvailable: 3 }),
+    ]
+    const selected = selectBillsForSitting(scrambled)
+    expect(selected.map(b => b.id)).toEqual(['pb_a', 'pb_b', 'pb_m'])
+  })
+
+  it('returns fewer than 3 when fewer are eligible (never pads)', () => {
+    const few = [
+      makeBill({ id: 'pb_only', weekAvailable: 1 }),
+      makeBill({ id: 'pb_two', weekAvailable: 2 }),
+    ]
+    const selected = selectBillsForSitting(few)
+    expect(selected).toHaveLength(2)
+    expect(selected.map(b => b.id)).toEqual(['pb_only', 'pb_two'])
+  })
+
+  it('returns empty array when given empty eligible list', () => {
+    expect(selectBillsForSitting([])).toEqual([])
   })
 })

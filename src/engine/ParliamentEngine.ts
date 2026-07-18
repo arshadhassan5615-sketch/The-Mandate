@@ -83,3 +83,51 @@ export function shouldTriggerParliament(
     (MAX_WEEKS_BETWEEN_SITTINGS - MIN_WEEKS_BETWEEN_SITTINGS)
   return Math.random() < chance
 }
+
+const MAX_BILLS_PER_SITTING = 3
+
+let parliamentBillCache: ParliamentBill[] | null = null
+
+/**
+ * Load authored parliament bills via Vite glob.
+ * Zero matches → empty object → empty array (no throw). Directory may be empty until content is authored.
+ */
+export async function loadAllParliamentBills(): Promise<ParliamentBill[]> {
+  if (parliamentBillCache) return parliamentBillCache
+
+  const billModules = import.meta.glob('../data/parliament/*.json', { eager: true }) as Record<
+    string,
+    { default: ParliamentBill }
+  >
+  parliamentBillCache = Object.values(billModules).map(m => m.default)
+  parliamentBillCache.sort((a, b) => a.weekAvailable - b.weekAvailable || a.id.localeCompare(b.id))
+  return parliamentBillCache
+}
+
+export function getParliamentBillsSync(): ParliamentBill[] {
+  return parliamentBillCache ?? []
+}
+
+export function selectEligibleBills(
+  allBills: ParliamentBill[],
+  currentWeek: number,
+  decidedBillIds: Set<string>,
+): ParliamentBill[] {
+  return allBills.filter(bill => {
+    if (decidedBillIds.has(bill.id)) return false
+    if (bill.weekAvailable > currentWeek) return false
+    if (bill.weekDeadline !== undefined && currentWeek > bill.weekDeadline) return false
+    return true
+  })
+}
+
+export function selectBillsForSitting(
+  eligibleBills: ParliamentBill[],
+): ParliamentBill[] {
+  // Deterministic, not random — oldest available content first,
+  // capped at MAX_BILLS_PER_SITTING. Avoids "stacking random
+  // bills" while still surfacing everything eligible over time.
+  return [...eligibleBills]
+    .sort((a, b) => a.weekAvailable - b.weekAvailable || a.id.localeCompare(b.id))
+    .slice(0, MAX_BILLS_PER_SITTING)
+}

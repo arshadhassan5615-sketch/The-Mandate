@@ -4,6 +4,7 @@ import type { ScheduledChain } from '../engine/ChainReactionEngine'
 import type { Decree, PendingLongTermEffect } from '../types/decree'
 import type { CabinetState, MinisterRequest } from '../types/minister'
 import type { Bill, BillHistoryEntry } from '../types/bills'
+import type { SittingHistoryEntry } from '../types/parliament'
 import type { JournalEntry } from '../types/journal'
 import type { NewsArticle } from '../types/news'
 import type { DiplomaticLetter } from '../types/letters'
@@ -37,6 +38,10 @@ export interface SaveRecord {
   billState?: {
     bills: Bill[]
     history: BillHistoryEntry[]
+  }
+  /** Persist sitting decisions only — catalog reloads from JSON; currentSittingResults is transient. */
+  parliamentState?: {
+    sittingHistory: SittingHistoryEntry[]
   }
   journalState?: {
     entries: JournalEntry[]
