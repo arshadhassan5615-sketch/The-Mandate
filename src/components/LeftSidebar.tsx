@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { EASE_STANDARD_CSS, DURATION_FAST } from '../styles/motion'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useDecreeStore } from '../stores/decreeStore'
@@ -17,6 +18,7 @@ interface SideButtonProps {
 
 function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
   const [hovered, setHovered] = useState(false)
+  const [isPressed, setIsPressed] = useState(false)
 
   const isLit = active || hovered
 
@@ -49,7 +51,9 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
       <button
         onClick={onClick}
         onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseLeave={() => { setHovered(false); setIsPressed(false) }}
+        onMouseDown={() => setIsPressed(true)}
+        onMouseUp={() => setIsPressed(false)}
         style={{
           width: '48px',
           height: '48px',
@@ -63,7 +67,8 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
           border: `1.5px solid ${active ? 'rgba(201,168,76,0.95)' : hovered ? 'rgba(201,168,76,0.85)' : 'rgba(201,168,76,0.6)'}`,
           color: isLit ? '#c9a84c' : 'rgba(201,168,76,0.9)',
           cursor: 'pointer',
-          transition: 'all 0.15s ease',
+          transform: `scale(${isPressed ? 0.94 : 1})`,
+          transition: `all ${DURATION_FAST}ms ${EASE_STANDARD_CSS}`,
           position: 'relative',
           boxShadow: isLit
             ? '0 0 18px rgba(201,168,76,0.5), inset 0 0 10px rgba(201,168,76,0.15)'
