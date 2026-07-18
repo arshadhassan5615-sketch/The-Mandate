@@ -7,7 +7,10 @@ import { saveGame, loadGame } from '../engine/SaveManager'
 import { startAmbient, stopAmbient, resumeAudioContext } from '../engine/audioEngine'
 import { audioManager } from '../engine/AudioManager'
 import { loadAllBills } from '../engine/BillEngine'
+import { loadAllParliamentBills, billFromParliamentResult } from '../engine/ParliamentEngine'
 import { useBillStore } from '../stores/billStore'
+import { useParliamentStore } from '../stores/parliamentStore'
+import type { ParliamentBillResult } from '../types/parliament'
 import { useAudio } from '../hooks/useAudio'
 import MainMenu from './MainMenu'
 import CharacterCustomization from './CharacterCustomization'
@@ -21,6 +24,7 @@ import ProjectsPanel from './ProjectsPanel'
 import ProjectMidpointModal from './ProjectMidpointModal'
 import NewsOverlay from './NewsOverlay'
 import LegislationOverlay from './LegislationOverlay'
+import ParliamentOverlay from './ParliamentOverlay'
 import MorningBriefing from './MorningBriefing'
 import AgendaSelector from './AgendaSelector'
 import NarrativeScene from './NarrativeScene'
@@ -69,6 +73,7 @@ export default function GameLayout() {
   const [actShown, setActShown] = useState(false)
   const [slotScreenMode, setSlotScreenMode] = useState<'load' | 'save' | null>(null)
   const [menuConfirmOpen, setMenuConfirmOpen] = useState(false)
+  const parliamentResults = useParliamentStore(s => s.currentSittingResults) ?? []
 
   useAudio()
 
@@ -77,6 +82,24 @@ export default function GameLayout() {
     loadAllBills().then(bills => {
       useBillStore.getState().loadBills(bills)
     })
+    loadAllParliamentBills().then(bills => {
+      useParliamentStore.getState().loadParliamentBills(bills)
+    })
+  }, [])
+
+  /** Parliament sitting finished — inject passed bills, finalize, route phase. */
+  const handleParliamentComplete = useCallback((results: ParliamentBillResult[]) => {
+    const passedResults = results.filter(r => r.passed)
+    for (const result of passedResults) {
+      useBillStore.getState().injectRuntimeBill(billFromParliamentResult(result))
+    }
+    useParliamentStore.getState().finalizeSitting(useGameStore.getState().currentWeek)
+
+    if (passedResults.length > 0) {
+      useWeekStore.setState({ phase: 'legislation' })
+    } else {
+      useWeekStore.setState({ phase: 'map' })
+    }
   }, [])
 
   // Start ambient audio on first user interaction anywhere in the game
@@ -452,6 +475,14 @@ export default function GameLayout() {
 
       {/* Legislation overlay */}
       <LegislationOverlay />
+
+      {/* Parliament sitting — only when phase is set with non-empty prepareSitting results */}
+      {phase === 'parliament' && (
+        <ParliamentOverlay
+          results={parliamentResults}
+          onComplete={handleParliamentComplete}
+        />
+      )}
 
       {/* Settings modal */}
       <SettingsPanel />

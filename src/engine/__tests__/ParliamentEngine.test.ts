@@ -6,8 +6,9 @@ import {
   shouldTriggerParliament,
   selectEligibleBills,
   selectBillsForSitting,
+  billFromParliamentResult,
 } from '../ParliamentEngine'
-import type { ParliamentBill } from '../../types/parliament'
+import type { ParliamentBill, ParliamentBillResult } from '../../types/parliament'
 
 function makeBill(overrides: Partial<ParliamentBill> = {}): ParliamentBill {
   return {
@@ -381,5 +382,53 @@ describe('selectBillsForSitting', () => {
 
   it('returns empty array when given empty eligible list', () => {
     expect(selectBillsForSitting([])).toEqual([])
+  })
+})
+
+describe('billFromParliamentResult', () => {
+  function makeResult(overrides: Partial<ParliamentBillResult> = {}): ParliamentBillResult {
+    return {
+      bill: makeBill({
+        id: 'pb_factory',
+        title: 'Factory Safety Act',
+        proposingBloc: 'reformist',
+        fullText: 'Full text body.',
+        signEffects: [{ stat: 'nation.pressFreedom', operation: 'add', value: 5 }],
+        vetoEffects: [{ stat: 'nation.pressFreedom', operation: 'add', value: -5 }],
+        signFlags: ['fs_signed'],
+        vetoFlags: ['fs_vetoed'],
+      }),
+      computedStances: {
+        conservative: 'against',
+        hardliner: 'against',
+        reformist: 'for',
+      },
+      forWeight: 50,
+      againstWeight: 20,
+      passed: true,
+      isStrongMajority: false,
+      marginPercent: 30,
+      ...overrides,
+    }
+  }
+
+  it('sets isVetoable false for strong majority', () => {
+    const bill = billFromParliamentResult(
+      makeResult({ isStrongMajority: true, marginPercent: 45 }),
+    )
+    expect(bill.isVetoable).toBe(false)
+    expect(bill.parliamentMarginPercent).toBe(45)
+    expect(bill.id).toBe('parliament_pb_factory')
+  })
+
+  it('sets isVetoable true for narrow majority and carries margin', () => {
+    const bill = billFromParliamentResult(
+      makeResult({ isStrongMajority: false, marginPercent: 12 }),
+    )
+    expect(bill.isVetoable).toBe(true)
+    expect(bill.parliamentMarginPercent).toBe(12)
+    expect(bill.title).toBe('Factory Safety Act')
+    expect(bill.proposer).toBe('reformist bloc')
+    expect(bill.signFlags).toEqual(['fs_signed'])
   })
 })

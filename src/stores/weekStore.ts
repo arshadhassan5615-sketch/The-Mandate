@@ -9,8 +9,10 @@ import { useGameStore } from './gameStore'
 import { useNarrativeStore } from './narrativeStore'
 import { useChainStore } from './chainStore'
 import { useBillStore } from './billStore'
+import { useParliamentStore } from './parliamentStore'
 import { useNewsStore } from './newsStore'
 import { useDecreeStore } from './decreeStore'
+import { shouldTriggerParliament } from '../engine/ParliamentEngine'
 import { NEWS_TEMPLATES } from '../data/news/newsTemplates'
 import { processCorruptionDiscovery, shouldTriggerImpeachment } from '../engine/CorruptionEngine'
 import projectDefinitions from '../data/projects.json'
@@ -871,6 +873,33 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     const { activeFlags } = useNarrativeStore.getState()
     const { bills, history } = useBillStore.getState()
 
+    // Parliament sitting check BEFORE legislation — passed bills route to
+    // legislation afterward via GameLayout.handleParliamentComplete.
+    const shouldFireParliament = shouldTriggerParliament(
+      gameState.currentWeek,
+      gameState.lastParliamentWeek,
+      gameState.emergencyParliamentFlag,
+    )
+
+    if (shouldFireParliament) {
+      const blocStrengths = {
+        conservative: gameState.nation.assemblyConservative,
+        hardliner: gameState.nation.assemblyHardliner,
+        reformist: gameState.nation.assemblyReformist,
+      }
+      const results = useParliamentStore.getState().prepareSitting(
+        gameState.currentWeek,
+        blocStrengths,
+      )
+      if (results.length > 0) {
+        set({ phase: 'parliament' })
+        return
+      }
+      // No eligible bill content this cycle — fall through to the
+      // existing legislation/map check below, do NOT set phase:
+      // 'parliament' with zero results (softlock guard)
+    }
+
     const pendingBills = bills.filter(b => {
       if (b.weekPresented !== gameState.currentWeek) return false
       if (history.some(h => h.billId === b.id)) return false
@@ -879,20 +908,6 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       }
       return true
     })
-
-    // TODO (Sub-phase E/F): once ParliamentOverlay exists, gate
-    // phase transition on shouldTriggerParliament(...) here,
-    // mirroring the legislation pattern above.
-    // Ready call (do NOT enable until ParliamentOverlay mounts — empty
-    // 'parliament' phase would softlock with no UI listener):
-    //   if (shouldTriggerParliament(
-    //     gameState.currentWeek,
-    //     gameState.lastParliamentWeek,
-    //     gameState.emergencyParliamentFlag,
-    //   )) {
-    //     set({ phase: 'parliament' })
-    //     return
-    //   }
 
     if (pendingBills.length > 0) {
       set({ phase: 'legislation' })

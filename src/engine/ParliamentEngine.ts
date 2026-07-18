@@ -4,6 +4,7 @@ import type {
   ParliamentBillResult,
   Stance,
 } from '../types/parliament'
+import type { Bill } from '../types/bills'
 
 const WEAK_BLOC_THRESHOLD = 25 // below this, a bloc can't mount
 // real support or opposition — baseline stance softens to neutral
@@ -130,4 +131,29 @@ export function selectBillsForSitting(
   return [...eligibleBills]
     .sort((a, b) => a.weekAvailable - b.weekAvailable || a.id.localeCompare(b.id))
     .slice(0, MAX_BILLS_PER_SITTING)
+}
+
+/**
+ * Convert a resolved parliament result into a Bill for injectRuntimeBill /
+ * LegislationOverlay sign-veto review. Strong majorities are non-vetoable.
+ */
+export function billFromParliamentResult(
+  result: ParliamentBillResult,
+): Bill {
+  return {
+    id: `parliament_${result.bill.id}`,
+    title: result.bill.title,
+    shortName: result.bill.title,
+    proposer: `${result.bill.proposingBloc} bloc`,
+    faction: result.bill.proposingBloc,
+    weekPresented: 0, // overwritten by injectRuntimeBill
+    fullText: result.bill.fullText,
+    budgetCost: 0,
+    signEffects: result.bill.signEffects,
+    vetoEffects: result.bill.vetoEffects,
+    signFlags: result.bill.signFlags,
+    vetoFlags: result.bill.vetoFlags,
+    isVetoable: !result.isStrongMajority,
+    parliamentMarginPercent: result.marginPercent,
+  }
 }

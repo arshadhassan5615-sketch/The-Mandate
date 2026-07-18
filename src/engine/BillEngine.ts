@@ -2,6 +2,7 @@ import type { Bill, VetoOverrideResult } from '../types/bills'
 import type { StateModifier } from '../types/gameState'
 import { evaluateAll } from './conditionEvaluator'
 import { useGameStore } from '../stores/gameStore'
+import { computeOverrideChance } from './ParliamentEngine'
 
 let billCache: Bill[] | null = null
 
@@ -41,6 +42,17 @@ export function calculateVetoOverrideChance(
   bill: Bill,
   gameState: ReturnType<typeof useGameStore.getState>,
 ): VetoOverrideResult {
+  // Parliament-passed bills: narrow sitting margin → low override chance
+  if (bill.parliamentMarginPercent !== undefined) {
+    const chance = computeOverrideChance(bill.parliamentMarginPercent)
+    const roll = Math.random()
+    return {
+      overridden: roll < chance,
+      assemblyVote: Math.round(chance * 100),
+      threshold: 50,
+    }
+  }
+
   const factions = gameState.factions
   let supportForOverride = 0
 

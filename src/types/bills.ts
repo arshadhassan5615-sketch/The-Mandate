@@ -19,6 +19,8 @@ export interface Bill {
   isPipelineBill?: boolean
   pipelineRiders?: string[]
   pipelineWhipSuccess?: boolean
+  /** When set (Parliament-passed bills), override chance uses computeOverrideChance instead of faction formula. */
+  parliamentMarginPercent?: number
 }
 
 export interface BillHistoryEntry {
