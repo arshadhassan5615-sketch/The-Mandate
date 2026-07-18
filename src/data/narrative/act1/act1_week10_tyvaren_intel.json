@@ -1,0 +1,420 @@
+{
+  "id": "act1_week10_tyvaren_intel",
+  "title": "Eastern Border Intelligence Update",
+  "location": "Chancellor's Office — Private Study",
+  "weekAvailable": 10,
+  "act": 1,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "prerequisites": [],
+  "characters": [
+    "katerin_ashavel",
+    "danika_oberlin",
+    "colonel_dusek",
+    "vyktor_reznik"
+  ],
+  "narrative": [
+    {
+      "type": "narrative",
+      "text": "Danika places a sealed envelope on your desk. Not a folder. Not a brief with a distribution list. An envelope — cream stock, Interior Ministry seal broken only at the edge where she has already opened it."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "This did not go through the regular channels. I wanted you to see it before the Cabinet did."
+    },
+    {
+      "type": "narrative",
+      "text": "Dusek is already standing by the map of the Gravenmark. She does not sit. Vyktor closes the door himself."
+    },
+    {
+      "type": "dialogue",
+      "character": "colonel_dusek",
+      "text": "Three weeks since the airspace incident. This is what Tyvaren has done with your response."
+    }
+  ],
+  "monologue": "Three weeks. Enough time for a probe to become a posture, and for a posture to become a habit. Whatever is in that envelope is the answer to the question I answered over the situation-room map.",
+  "choices": [
+    {
+      "id": "proceed_diplomatic",
+      "text": "Proceed with the briefing.",
+      "conditions": [
+        { "stat": "flags.tyvaren_diplomatic_response", "operator": "==", "value": true }
+      ],
+      "nextSegment": "report_diplomatic"
+    },
+    {
+      "id": "proceed_intercept",
+      "text": "Proceed with the briefing.",
+      "conditions": [
+        { "stat": "flags.tyvaren_intercept_policy", "operator": "==", "value": true }
+      ],
+      "nextSegment": "report_intercept"
+    },
+    {
+      "id": "proceed_forward",
+      "text": "Proceed with the briefing.",
+      "conditions": [
+        { "stat": "flags.tyvaren_forward_deployment", "operator": "==", "value": true }
+      ],
+      "nextSegment": "report_forward"
+    },
+    {
+      "id": "proceed_bilateral",
+      "text": "Proceed with the briefing.",
+      "conditions": [
+        { "stat": "flags.tyvaren_bilateral_talks", "operator": "==", "value": true }
+      ],
+      "nextSegment": "report_bilateral"
+    },
+    {
+      "id": "proceed_default",
+      "text": "Proceed with the briefing.",
+      "conditions": [
+        { "stat": "flags.tyvaren_diplomatic_response", "operator": "!=", "value": true },
+        { "stat": "flags.tyvaren_intercept_policy", "operator": "!=", "value": true },
+        { "stat": "flags.tyvaren_forward_deployment", "operator": "!=", "value": true },
+        { "stat": "flags.tyvaren_bilateral_talks", "operator": "!=", "value": true }
+      ],
+      "nextSegment": "report_default"
+    }
+  ],
+  "segments": {
+    "report_diplomatic": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "You filed the protest. They answered with silence. No formal denial. No apology. No second overflight on the Dravenhollow relay — not yet."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Quiet is not the same as settled. Our embassies report Tyvaren press is calling your response 'proof of Veltrian hesitation.' Their General Staff is using the language of patience. Patience, in Tyvaren, is a preparation word."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "You bought time and a clean record. That is real. It is not permanent. The next probe will test whether silence was wisdom or a habit they can exploit."
+        },
+        {
+          "type": "internal_thought",
+          "text": "Diplomatic protest without steel. They stepped back from the sky. They did not step back from the map."
+        }
+      ],
+      "choices": [
+        {
+          "id": "intel_share_cabinet_dip",
+          "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
+          "internalTag": "pragmatist",
+          "flags": ["tyvaren_intel_shared_cabinet"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I'll draft the summary tonight. Short. No adjectives."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Kolvar's people will still call it weakness. At least they won't invent the facts."
+            }
+          ]
+        },
+        {
+          "id": "intel_keep_close_dip",
+          "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
+          "internalTag": "authoritarian",
+          "flags": ["tyvaren_intel_held_close"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "Understood. Defense stays quiet until you say otherwise."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Then the envelope never existed. I'll make sure the clerks remember that."
+            }
+          ]
+        }
+      ]
+    },
+    "report_intercept": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "You ordered intercept-and-escort. We have not had a second deep penetration of the relay. We have had two shallow turns — aircraft approaching the line, holding just outside, then turning back. They are measuring our scramble time."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Their foreign ministry still denies the first incident. Their military attaches have been asking, carefully, which bases are on alert rotation. That is not diplomacy. That is inventory."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "You drew a line. They are walking along it. The Assembly defense committee will want to know whether the next step is still escort — or engagement rules."
+        },
+        {
+          "type": "internal_thought",
+          "text": "Intercept worked as a message. Now they are testing the message's edges."
+        }
+      ],
+      "choices": [
+        {
+          "id": "intel_share_cabinet_int",
+          "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
+          "internalTag": "pragmatist",
+          "flags": ["tyvaren_intel_shared_cabinet"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I'll draft the summary tonight. Short. No adjectives."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Hardliners will want louder rules of engagement. Reformists will want quieter ones. Both will read the same paragraph."
+            }
+          ]
+        },
+        {
+          "id": "intel_keep_close_int",
+          "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
+          "internalTag": "authoritarian",
+          "flags": ["tyvaren_intel_held_close"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "Understood. Defense stays quiet until you say otherwise."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Then the envelope never existed. I'll make sure the clerks remember that."
+            }
+          ]
+        }
+      ]
+    },
+    "report_forward": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "Your forward deployment is complete. Two squadrons at Dravenhollow. Tyvaren's satellites saw it within seventy-two hours — as expected. Their border exercises have intensified, not paused. They are matching visibility with visibility."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Vukov's office issued a note about 'Veltrian militarization of the corridor.' They are rewriting the story. In their version, you moved first. The airspace probe becomes a footnote."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "You bought a harder spine and a louder newspaper. The press is already using the word buildup. The Iron Covenant is pleased. The reform caucus is asking why the budget is bleeding into the north."
+        },
+        {
+          "type": "internal_thought",
+          "text": "Forward deployment told them we would answer. It also gave them the language they needed to call us the aggressors."
+        }
+      ],
+      "choices": [
+        {
+          "id": "intel_share_cabinet_fwd",
+          "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
+          "internalTag": "pragmatist",
+          "flags": ["tyvaren_intel_shared_cabinet"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I'll draft the summary tonight. Short. No adjectives."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Frame the facts before Kolvar frames the fear. Do it once, cleanly."
+            }
+          ]
+        },
+        {
+          "id": "intel_keep_close_fwd",
+          "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
+          "internalTag": "authoritarian",
+          "flags": ["tyvaren_intel_held_close"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "Understood. Defense stays quiet until you say otherwise."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Then the envelope never existed. I'll make sure the clerks remember that."
+            }
+          ]
+        }
+      ]
+    },
+    "report_bilateral": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "You asked for bilateral talks. Tyvaren's foreign ministry has not refused. It has also not accepted. The delay is deliberate — long enough to look like consideration, short enough to keep pressure on."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "While they delay, their military attaches are still counting our alert rotations. Diplomacy has not frozen the border. It has only frozen the calendar."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "If they accept, you get a table. If they refuse, you get a record that we sought de-escalation. Both outcomes are useful. The cost is the weeks in between — weeks in which they set the tempo."
+        },
+        {
+          "type": "internal_thought",
+          "text": "I turned their probe into an invitation. They are deciding whether invitations are strength or an opening."
+        }
+      ],
+      "choices": [
+        {
+          "id": "intel_share_cabinet_bil",
+          "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
+          "internalTag": "pragmatist",
+          "flags": ["tyvaren_intel_shared_cabinet"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I'll draft the summary tonight. Short. No adjectives."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "If talks fail, the Cabinet will want to know we warned them this was a possibility — not a surprise."
+            }
+          ]
+        },
+        {
+          "id": "intel_keep_close_bil",
+          "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
+          "internalTag": "authoritarian",
+          "flags": ["tyvaren_intel_held_close"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "Understood. Defense stays quiet until you say otherwise."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Then the envelope never existed. I'll make sure the clerks remember that."
+            }
+          ]
+        }
+      ]
+    },
+    "report_default": {
+      "dialogue": [
+        {
+          "type": "dialogue",
+          "character": "colonel_dusek",
+          "text": "We never formalized a response to the airspace probe. Tyvaren has filled the silence for us. Shallow approaches along the line. Increased radio traffic on military bands. No second deep hold over the relay — not yet."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Their press is treating the incident as if it never happened. That is not restraint. That is erasure. When they rewrite the first chapter, they get to write the second."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "A government that does not answer a probe still answers it — with absence. I need a posture before the next one arrives. The next one will."
+        },
+        {
+          "type": "internal_thought",
+          "text": "The map is still waiting for an answer I never put on it. Tyvaren has been drawing while I delayed."
+        }
+      ],
+      "choices": [
+        {
+          "id": "intel_share_cabinet_def",
+          "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
+          "internalTag": "pragmatist",
+          "flags": ["tyvaren_intel_shared_cabinet"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "dialogue",
+              "text": "I'll draft the summary tonight. Short. No adjectives."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Then at least the Cabinet shares the silence with us."
+            }
+          ]
+        },
+        {
+          "id": "intel_keep_close_def",
+          "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
+          "internalTag": "authoritarian",
+          "flags": ["tyvaren_intel_held_close"],
+          "statEffects": [],
+          "stateChanges": [],
+          "chainTriggers": [],
+          "reactions": [
+            {
+              "character": "colonel_dusek",
+              "type": "dialogue",
+              "text": "Understood. Defense stays quiet until you say otherwise."
+            },
+            {
+              "character": "danika_oberlin",
+              "type": "dialogue",
+              "text": "Then the envelope never existed. I'll make sure the clerks remember that."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
