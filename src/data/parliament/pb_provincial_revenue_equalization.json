@@ -1,0 +1,28 @@
+{
+  "id": "pb_provincial_revenue_equalization",
+  "title": "Provincial Revenue Equalization Act",
+  "proposingBloc": "conservative",
+  "weekAvailable": 20,
+  "description": "Conservative rural MPs introduce a tax redistribution bill: surplus customs receipts from Amber Coast and Aldenmoor redirected to Thornfeld and the interior provinces. The Reformist finance committee is already drafting amendments in the gallery.",
+  "baselineStances": {
+    "conservative": "for",
+    "hardliner": "neutral",
+    "reformist": "against"
+  },
+  "fullText": "Section 1. Commencing with the fiscal year following enactment, fifteen percent of net customs revenue collected at ports of the Amber Coast and the commercial free zones of Aldenmoor shall be paid into a Provincial Equalization Fund administered by the Ministry of Finance.\n\nSection 2. Monies in the Fund shall be allocated annually to provinces whose per-capita provincial tax base falls more than twenty percent below the national median, according to a formula published by the Ministry and subject to audit by the Auditor-General. No less than sixty percent of each province's allocation shall be spent on agricultural infrastructure, rural schools, or provincial roads.\n\nSection 3. The Fund shall not be used for military expenditure, political party subsidy, or any programme not listed in the annual equalization schedule laid before the National Assembly. The Chancellor may, with Assembly consent, suspend transfers for one fiscal year in the event of declared national emergency.",
+  "signEffects": [
+    { "stat": "factions.halvekists", "operation": "add", "value": 6 },
+    { "stat": "factions.businessClass", "operation": "add", "value": -7 },
+    { "stat": "factions.reformists", "operation": "add", "value": -4 },
+    { "stat": "nation.regionalSupport", "operation": "add", "value": 5 },
+    { "stat": "nation.nationalDebt", "operation": "add", "value": 4 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.halvekists", "operation": "add", "value": -5 },
+    { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+    { "stat": "nation.regionalSupport", "operation": "add", "value": -4 }
+  ],
+  "signFlags": ["parliament_revenue_equalization_signed"],
+  "vetoFlags": ["parliament_revenue_equalization_vetoed"],
+  "canSpeak": false
+}

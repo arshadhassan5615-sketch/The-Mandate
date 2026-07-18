@@ -1,0 +1,28 @@
+{
+  "id": "pb_land_title_restoration",
+  "title": "Land Title Restoration Act",
+  "proposingBloc": "reformist",
+  "weekAvailable": 4,
+  "description": "The Reformist caucus brings forward a measure to restore freehold titles seized under Halvek's Agricultural Consolidation Decree of 1947. Rural MPs watch the gallery. Business class lobbyists line the corridor outside.",
+  "baselineStances": {
+    "reformist": "for",
+    "hardliner": "against",
+    "conservative": "neutral"
+  },
+  "fullText": "Section 1. All freehold titles to agricultural land confiscated, nationalized, or reassigned under the Agricultural Consolidation Decree of 1947, or any subsequent Halvek-era land ordinance, shall be eligible for restoration to the original title-holder or their lawful heirs upon application to the Ministry of Justice within twenty-four months of enactment.\n\nSection 2. A Land Claims Tribunal is hereby established under the Ministry of Justice, composed of three sitting judges appointed by the Chancellor with the consent of the National Assembly. The Tribunal shall adjudicate contested claims and may order restitution of title, compensation from the National Treasury, or both, as equity requires.\n\nSection 3. Current occupants of disputed holdings who can demonstrate continuous bona fide cultivation for a period of not less than ten years may petition the Tribunal for leasehold protection or compensation, but such occupancy shall not defeat a valid claim of original title. The Republic shall not be liable for improvements made in bad faith upon seized land.",
+  "signEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": 8 },
+    { "stat": "factions.businessClass", "operation": "add", "value": -5 },
+    { "stat": "factions.halvekists", "operation": "add", "value": -6 },
+    { "stat": "nation.publicOrder", "operation": "add", "value": -2 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": -8 },
+    { "stat": "factions.businessClass", "operation": "add", "value": 4 },
+    { "stat": "factions.halvekists", "operation": "add", "value": 5 }
+  ],
+  "signFlags": ["parliament_land_title_signed"],
+  "vetoFlags": ["parliament_land_title_vetoed"],
+  "canSpeak": true,
+  "speakFlavorText": "You rise. The chamber settles. \"Veltria cannot build a free republic on stolen earth. This is not vengeance. It is the law catching up with the ledger.\""
+}

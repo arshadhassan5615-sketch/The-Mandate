@@ -1,0 +1,30 @@
+{
+  "id": "pb_public_order_enforcement",
+  "title": "Public Order Enforcement Act",
+  "proposingBloc": "hardliner",
+  "weekAvailable": 15,
+  "description": "Hardliner deputies table expanded police powers: longer detention without charge, broader search authority in designated \"disorder zones.\" The Reformist benches are already on their feet before the Clerk finishes reading the short title.",
+  "baselineStances": {
+    "hardliner": "for",
+    "reformist": "against",
+    "conservative": "neutral"
+  },
+  "fullText": "Section 1. In any province or municipality designated by the Ministry of Interior as a Disorder Zone, officers of the National Police may detain persons suspected of riot, organized intimidation, or sabotage of public infrastructure for a period not exceeding seventy-two hours without formal charge, provided that written notice of detention is filed with the nearest magistrate within twelve hours of arrest.\n\nSection 2. Search warrants for premises within a designated Disorder Zone may be issued by a single magistrate on the sworn statement of a ranking police officer of the grade of Inspector or higher. Such warrants shall expire after fourteen days and may not authorize the seizure of materials protected under the Free Press Protection Act, where that Act is in force.\n\nSection 3. Designation of a Disorder Zone requires the countersignature of the Chancellor and shall lapse automatically after ninety days unless renewed by the same procedure. The National Assembly may, by simple majority, revoke any designation at any time. Abuse of detention authority under this Act shall constitute an offence under the Penal Code.",
+  "signEffects": [
+    { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+    { "stat": "factions.reformists", "operation": "add", "value": -8 },
+    { "stat": "factions.dravenni", "operation": "add", "value": -5 },
+    { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+    { "stat": "nation.civilLiberties", "operation": "add", "value": -6 },
+    { "stat": "personal.moralCompass", "operation": "add", "value": -4 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+    { "stat": "factions.reformists", "operation": "add", "value": 5 },
+    { "stat": "nation.publicOrder", "operation": "add", "value": -3 }
+  ],
+  "signFlags": ["parliament_public_order_signed"],
+  "vetoFlags": ["parliament_public_order_vetoed"],
+  "canSpeak": true,
+  "speakFlavorText": "You do not raise your voice. You do not need to. \"Order without law is only a quieter kind of tyranny. If this chamber wants peace, give me tools that leave the Constitution standing when the tools are put away.\""
+}
