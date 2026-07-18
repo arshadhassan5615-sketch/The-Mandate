@@ -201,6 +201,12 @@ export interface GameState {
   diaryEntries: DiaryEntry[]
   // Week-by-week economy trend (pushed at end of each completeWeek after deferred effects)
   economyHistory: Array<{ week: number; value: number }>
+  // Week-by-week national debt (M ₭) — same push timing as economyHistory
+  debtHistory: Array<{ week: number; value: number }>
+  // Week-by-week inflation (%) — same push timing as economyHistory
+  inflationHistory: Array<{ week: number; value: number }>
+  // Week-by-week public order — same push timing as economyHistory
+  publicOrderHistory: Array<{ week: number; value: number }>
   // Central log of every successful applyModifier mutation (capped at 500)
   effectLog: EffectLogEntry[]
   // Initial snapshot for end-game comparison

@@ -1724,12 +1724,24 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           }))
         }
 
-        // Week-by-week economy trend: record AFTER deferred decree effects so the
-        // snapshot includes long-term economic adjustments due this week.
+        // Week-by-week nation trends: record AFTER deferred decree effects so the
+        // snapshots include long-term adjustments due this week.
         useGameStore.setState((state) => ({
           economyHistory: [
             ...(state.economyHistory ?? []),
             { week: state.currentWeek, value: state.nation.economyHealth },
+          ],
+          debtHistory: [
+            ...(state.debtHistory ?? []),
+            { week: state.currentWeek, value: state.nation.nationalDebt },
+          ],
+          inflationHistory: [
+            ...(state.inflationHistory ?? []),
+            { week: state.currentWeek, value: state.nation.inflation },
+          ],
+          publicOrderHistory: [
+            ...(state.publicOrderHistory ?? []),
+            { week: state.currentWeek, value: state.nation.publicOrder },
           ],
         }))
 

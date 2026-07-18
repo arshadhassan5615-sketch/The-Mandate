@@ -114,6 +114,9 @@ export function buildGameState(overrides: Partial<GameState> = {}): GameState {
     personalNotes: '',
     diaryEntries: [],
     economyHistory: [],
+    debtHistory: [],
+    inflationHistory: [],
+    publicOrderHistory: [],
     effectLog: [],
     initialSnapshot: null,
   }
