@@ -1724,6 +1724,15 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           }))
         }
 
+        // Week-by-week economy trend: record AFTER deferred decree effects so the
+        // snapshot includes long-term economic adjustments due this week.
+        useGameStore.setState((state) => ({
+          economyHistory: [
+            ...(state.economyHistory ?? []),
+            { week: state.currentWeek, value: state.nation.economyHealth },
+          ],
+        }))
+
         // Generate cliffhanger for the week that just ended (old week, before advance)
         // The cliffhanger reflects on the old week's events
         const cliffhanger = generateCliffhanger(gameState.currentWeek)

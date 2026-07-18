@@ -189,6 +189,8 @@ export interface GameState {
   journalReflections: Array<{ week: number; text: string; date: string }>
   // Diary entries
   diaryEntries: DiaryEntry[]
+  // Week-by-week economy trend (pushed at end of each completeWeek after deferred effects)
+  economyHistory: Array<{ week: number; value: number }>
   // Initial snapshot for end-game comparison
   initialSnapshot: GameState | null
 }

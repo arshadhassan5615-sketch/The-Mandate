@@ -125,6 +125,7 @@ export const INITIAL_STATE: GameState = {
   personalNotes: '',
   journalReflections: [] as Array<{ week: number; text: string; date: string }>,
   diaryEntries: [] as DiaryEntry[],
+  economyHistory: [] as Array<{ week: number; value: number }>,
   initialSnapshot: null,
 }
 
@@ -600,6 +601,7 @@ export const useGameStore = create<GameStore>()(
         completedProjects: state.completedProjects,
         personalNotes: state.personalNotes,
         diaryEntries: state.diaryEntries,
+        economyHistory: state.economyHistory,
         initialSnapshot: state.initialSnapshot,
       }),
       migrate: (persistedState: unknown, version: number) => {

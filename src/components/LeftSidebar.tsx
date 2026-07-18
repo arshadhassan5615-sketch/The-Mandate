@@ -58,8 +58,10 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
           alignItems: 'center',
           justifyContent: 'center',
           background: active
-            ? 'rgba(201,168,76,0.25)'
-            : hovered ? 'rgba(201,168,76,0.15)' : 'rgba(15,12,8,0.85)',
+            ? 'linear-gradient(rgba(201,168,76,0.28), rgba(201,168,76,0.28)), rgba(15,12,8,0.85)'
+            : hovered
+            ? 'linear-gradient(rgba(201,168,76,0.18), rgba(201,168,76,0.18)), rgba(15,12,8,0.85)'
+            : 'rgba(15,12,8,0.85)',
           border: `1.5px solid ${active ? 'rgba(201,168,76,0.95)' : hovered ? 'rgba(201,168,76,0.85)' : 'rgba(201,168,76,0.6)'}`,
           color: isLit ? '#c9a84c' : 'rgba(201,168,76,0.9)',
           cursor: 'pointer',
