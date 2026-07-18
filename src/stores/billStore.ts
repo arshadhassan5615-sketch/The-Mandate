@@ -12,6 +12,12 @@ interface BillStore {
 
   loadBills: (bills: Bill[]) => void
   presentBill: (bill: Bill) => void
+  /**
+   * Append a runtime-constructed Bill for immediate legislation review.
+   * Forces weekPresented to the current week so LegislationOverlay's
+   * pending filter picks it up without UI changes. Never replaces the catalog.
+   */
+  injectRuntimeBill: (bill: Bill) => void
   recordDecision: (entry: BillHistoryEntry) => void
   closeOverlay: () => void
   setOverrideResult: (result: { overridden: boolean } | null) => void
@@ -28,6 +34,15 @@ export const useBillStore = create<BillStore>((set, get) => ({
   loadBills: (bills) => set({ bills }),
 
   presentBill: (bill) => set({ pendingBill: bill, isOverlayOpen: true, vetoOverrideResult: null }),
+
+  injectRuntimeBill: (bill) => {
+    set(state => ({
+      bills: [
+        ...state.bills,
+        { ...bill, weekPresented: useGameStore.getState().currentWeek },
+      ],
+    }))
+  },
 
   recordDecision: (entry) => {
     const currentWeek = useGameStore.getState().currentWeek
