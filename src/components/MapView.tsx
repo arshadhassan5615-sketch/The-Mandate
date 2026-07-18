@@ -550,14 +550,13 @@ export default function MapView({ onProvinceDetail }: {
                 if (dragging.current) return
                 setHoveredId(null)
               }}
-              onClick={(e) => { e.stopPropagation(); handleOpenDetail(zone.id) }}
               style={{
                 position: 'absolute',
                 left: zone.left, top: zone.top,
                 width: zone.width, height: zone.height,
                 background: hoveredId === zone.id ? 'rgba(200,144,42,0.08)' : 'transparent',
                 border: hoveredId === zone.id ? '1px solid rgba(200,144,42,0.2)' : '1px solid transparent',
-                cursor: 'pointer',
+                cursor: 'default',
                 transition: 'background 0.3s ease, border-color 0.3s ease',
                 zIndex: hoveredId === zone.id ? 3 : 1,
                 borderRadius: '2px',

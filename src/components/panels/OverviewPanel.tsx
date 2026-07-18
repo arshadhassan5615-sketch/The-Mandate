@@ -386,7 +386,7 @@ export default function OverviewPanel({ onClose }: OverviewPanelProps) {
   return (
     <div style={{
       position: 'fixed', right: '52px', top: '50px', width: '320px',
-      height: 'calc(100vh - 110px)', zIndex: 155,
+      height: 'calc(100vh - 110px)', zIndex: 550,
       background: 'rgba(12,10,8,0.96)',
       border: '1px solid rgba(196,148,58,0.25)', borderRight: 'none',
       display: 'flex', flexDirection: 'column',

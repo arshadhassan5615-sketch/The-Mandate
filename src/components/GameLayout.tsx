@@ -16,6 +16,7 @@ import CinematicOpening from './CinematicOpening'
 import KaterinHUD from './KaterinHUD'
 import TopBar from './TopBar'
 import RightSidebar from './RightSidebar'
+import LeftSidebar from './LeftSidebar'
 import ProjectsPanel from './ProjectsPanel'
 import ProjectMidpointModal from './ProjectMidpointModal'
 import NewsOverlay from './NewsOverlay'
@@ -278,9 +279,12 @@ export default function GameLayout() {
       )}
       {showLegacy && <LegacyScreen onContinue={() => { useWeekStore.setState({ showLegacy: false, phase: 'title' }) }} />}
 
-      {/* Right icon sidebar — visible during gameplay */}
+      {/* Left GOV + right REGISTRY icon sidebars — visible during gameplay */}
       {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
-        <RightSidebar />
+        <>
+          <LeftSidebar />
+          <RightSidebar />
+        </>
       )}
 
       {/* In-game save & menu buttons — bottom left during gameplay */}

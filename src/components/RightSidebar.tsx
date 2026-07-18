@@ -1,18 +1,14 @@
 import { useState } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
-import { useNewsStore } from '../stores/newsStore'
 import { useCodexStore } from '../stores/codexStore'
 import { useJournalStore } from '../stores/journalStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useLetterStore } from '../stores/letterStore'
-import { useDecreeStore } from '../stores/decreeStore'
 import ConnectionsPanel from './panels/ConnectionsPanel'
 import OverviewPanel from './panels/OverviewPanel'
 import NotepadPanel from './panels/NotepadPanel'
 import iconConnections from '../assets/images/ui/icon_nav_connections.png'
 import iconOverview from '../assets/images/ui/icon_nav_overview.png'
-import iconDecree from '../assets/images/ui/icon_nav_decrees.png'
-import iconNews from '../assets/images/ui/icon_nav_news.png'
 import iconCodex from '../assets/images/ui/icon_nav_codex.png'
 import iconDossiers from '../assets/images/ui/icon_nav_dossiers.png'
 import iconJournal from '../assets/images/ui/icon_nav_journal.png'
@@ -122,23 +118,27 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
 // ─── RightSidebar ─────────────────────────────────────────────────────────────
 
 export default function RightSidebar() {
-  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen, setDecreeInboxOpen, decreeInboxOpen } = useSettingsStore()
-  const setNewsOpen       = useNewsStore(s => s.setOpen)
-  const unreadCount       = useNewsStore(s => s.articles.length - (s.lastReadIndex + 1))
+  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen, setLetterOpen } = useSettingsStore()
   const journalEntryCount = useJournalStore(s => s.entries.length)
   const letterUnread     = useLetterStore(s => s.unreadCount)
-  const openLetters      = useLetterStore(s => s.setOpen)
   const { openCodex }     = useCodexStore()
-  const pendingCount      = useDecreeStore(s => s.pendingDecrees.length)
 
   const [connectionsOpen, setConnectionsOpen] = useState(false)
-  const [overviewOpen,    setOverviewOpen]    = useState(false)
+  const [overviewOpen, setOverviewOpen] = useState(false)
+
   const moleActive = useNarrativeStore(s => s.activeFlags.includes('mole_investigation_active'))
   const moleResolved = useNarrativeStore(s => s.activeFlags.includes('mole_case_resolved'))
   const showMoleBadge = moleActive && !moleResolved
 
   // Reusable icon style for maximum visibility
-  const iconStyle = { width: '40px', height: '40px', opacity: 1, filter: 'brightness(1.9) contrast(1.35) drop-shadow(0 0 10px rgba(201,168,76,0.8))' }
+  const iconStyle = {
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    objectFit: 'cover' as const,
+    opacity: 1,
+    filter: 'brightness(1.9) contrast(1.35) drop-shadow(0 0 10px rgba(201,168,76,0.8))',
+  }
 
   return (
     <>
@@ -206,9 +206,6 @@ export default function RightSidebar() {
           </div>
         )}
 
-        {/* GOVERNANCE group */}
-        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.45)', marginBottom: '0', flexShrink: 0 }}>GOV</div>
-
         <SideButton
           icon={<img src={iconConnections} alt="Connections" style={iconStyle} />}
           label="Connections"
@@ -220,7 +217,7 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<img src={iconOverview} alt="Overview" style={iconStyle} />}
+          icon={<img src={iconOverview} alt="Overview" style={{ ...iconStyle, width: '52px', height: '52px' }} />}
           label="Overview"
           active={overviewOpen}
           onClick={() => {
@@ -229,32 +226,10 @@ export default function RightSidebar() {
           }}
         />
 
-        <SideButton
-          icon={<img src={iconDecree} alt="Decrees" style={iconStyle} />}
-          label="Decrees"
-          badge={pendingCount}
-          onClick={() => {
-            setConnectionsOpen(false)
-            setOverviewOpen(false)
-            setDecreeInboxOpen(!decreeInboxOpen)
-          }}
-        />
-
         <div style={{ width: '20px', height: '1px', background: 'rgba(200,144,42,0.25)', margin: '0', flexShrink: 0 }} />
 
         {/* INTELLIGENCE group */}
         <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '6px', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.45)', marginBottom: '0', flexShrink: 0 }}>INTEL</div>
-
-        <SideButton
-          icon={<img src={iconNews} alt="News" style={iconStyle} />}
-          label="News Dispatch"
-          badge={unreadCount}
-          onClick={() => {
-            setConnectionsOpen(false)
-            setOverviewOpen(false)
-            setNewsOpen(true)
-          }}
-        />
 
         <SideButton
           icon={<img src={iconCodex} alt="Codex" style={iconStyle} />}
@@ -293,13 +268,13 @@ export default function RightSidebar() {
         />
 
         <SideButton
-          icon={<img src={iconLetters} alt="Letters" style={iconStyle} />}
+          icon={<img src={iconLetters} alt="Letters" style={{ ...iconStyle, width: '52px', height: '52px' }} />}
           label="Diplomatic Letters"
           badge={letterUnread > 0 ? letterUnread : undefined}
           onClick={() => {
             setConnectionsOpen(false)
             setOverviewOpen(false)
-            openLetters(true)
+            setLetterOpen(true)
           }}
         />
 
