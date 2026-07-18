@@ -146,7 +146,7 @@ export default function LeftSidebar() {
         style={{
           position: 'fixed',
           left: '12px',
-          top: '60px',
+          top: '80px',
           zIndex: 210,
           display: 'flex',
           flexDirection: 'column',

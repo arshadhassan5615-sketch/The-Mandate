@@ -139,7 +139,7 @@ function MapHeader() {
     <div
       data-testid="map-header-close-cluster"
       style={{
-        position: 'fixed', top: '64px', right: '12px', zIndex: 10010,
+        position: 'fixed', top: '64px', right: '80px', zIndex: 10010,
         display: 'flex', alignItems: 'center', gap: '0.65rem',
         padding: '6px 10px',
         background: 'rgba(10,8,6,0.85)',
@@ -755,7 +755,7 @@ export default function MapView({ onProvinceDetail }: {
 
       {/* Footer */}
       <div style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0,
+        position: 'fixed', bottom: 0, left: 0, right: '68px',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '0.4rem 2rem', borderTop: '1px solid rgba(200,144,42,0.2)',
         background: 'rgba(10,8,6,0.95)', zIndex: 10005,
