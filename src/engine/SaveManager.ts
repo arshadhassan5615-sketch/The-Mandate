@@ -143,6 +143,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
       journalReflections: gameState.journalReflections,
       diaryEntries: gameState.diaryEntries,
       economyHistory: gameState.economyHistory ?? [],
+      effectLog: gameState.effectLog ?? [],
       initialSnapshot: null, // Never save initialSnapshot — it contains Zustand actions and can't be cloned by IndexedDB
     } as GameState,
     visitedSceneIds,

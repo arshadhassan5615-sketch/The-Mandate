@@ -90,6 +90,16 @@ export interface StateModifier {
   value: number
 }
 
+/** Central audit trail of numeric stat mutations applied via applyModifier. */
+export interface EffectLogEntry {
+  week: number
+  stat: string
+  delta: number
+  operation: string
+  sourceType: string
+  sourceId: string
+}
+
 export type MoleIdentity = 'petrin_half' | 'irina_dusek' | 'karsten_volek' | null
 
 export type EconomicDirection = 'free_market' | 'planned' | 'mixed' | 'pragmatic' | null
@@ -191,6 +201,8 @@ export interface GameState {
   diaryEntries: DiaryEntry[]
   // Week-by-week economy trend (pushed at end of each completeWeek after deferred effects)
   economyHistory: Array<{ week: number; value: number }>
+  // Central log of every successful applyModifier mutation (capped at 500)
+  effectLog: EffectLogEntry[]
   // Initial snapshot for end-game comparison
   initialSnapshot: GameState | null
 }

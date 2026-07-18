@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type {
-  BudgetAllocations, GameState, StateModifier,
+  BudgetAllocations, GameState, StateModifier, EffectLogEntry,
   PlayerBackground, PlayerPersonality, PlayerAppearance, DiaryEntry,
   EconomicDirection, JonasPublicStage, SentLetter,
 } from '../types/gameState'
@@ -126,6 +126,7 @@ export const INITIAL_STATE: GameState = {
   journalReflections: [] as Array<{ week: number; text: string; date: string }>,
   diaryEntries: [] as DiaryEntry[],
   economyHistory: [] as Array<{ week: number; value: number }>,
+  effectLog: [] as EffectLogEntry[],
   initialSnapshot: null,
 }
 
@@ -188,6 +189,14 @@ function clamp(stat: string, value: number): number {
   if (!range) return value
   const [min, max] = range
   return Math.max(min, Math.min(max === Infinity ? value : max, value))
+}
+
+/** Append one effect-log entry; keep newest 500 to bound save size. */
+function withEffectLog(
+  state: GameState,
+  entry: EffectLogEntry,
+): EffectLogEntry[] {
+  return [...(state.effectLog ?? []), entry].slice(-500)
 }
 
 // Resolve dot-notation path and apply an operation to the correct sub-object
@@ -253,7 +262,20 @@ function applyModifier(state: GameState, mod: StateModifier): GameState {
       case 'multiply': next = current * mod.value; break
     }
     next = clamp(mod.stat, next)
-    return { ...state, [field]: next }
+    // StateModifier carries no source metadata — placeholder until callers tag it.
+    const logEntry: EffectLogEntry = {
+      week: state.currentWeek,
+      stat: mod.stat,
+      delta: next - current,
+      operation: mod.operation,
+      sourceType: 'unknown',
+      sourceId: 'unknown',
+    }
+    return {
+      ...state,
+      [field]: next,
+      effectLog: withEffectLog(state, logEntry),
+    }
   }
 
   // Dotted stat — group.key into nation / factions / personal / etc.
@@ -274,9 +296,19 @@ function applyModifier(state: GameState, mod: StateModifier): GameState {
   }
   next = clamp(mod.stat, next)
 
+  // StateModifier carries no source metadata — placeholder until callers tag it.
+  const logEntry: EffectLogEntry = {
+    week: state.currentWeek,
+    stat: mod.stat,
+    delta: next - current,
+    operation: mod.operation,
+    sourceType: 'unknown',
+    sourceId: 'unknown',
+  }
   return {
     ...state,
     [group]: { ...subState, [key]: next },
+    effectLog: withEffectLog(state, logEntry),
   }
 }
 
@@ -602,6 +634,7 @@ export const useGameStore = create<GameStore>()(
         personalNotes: state.personalNotes,
         diaryEntries: state.diaryEntries,
         economyHistory: state.economyHistory,
+        effectLog: state.effectLog,
         initialSnapshot: state.initialSnapshot,
       }),
       migrate: (persistedState: unknown, version: number) => {

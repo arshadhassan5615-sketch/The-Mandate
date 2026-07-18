@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useDecreeStore } from '../stores/decreeStore'
+import EconomyPanel from './panels/EconomyPanel'
 import iconNews from '../assets/images/ui/icon_nav_news.png'
 import iconDecree from '../assets/images/ui/icon_nav_decrees.png'
+import iconEconomy from '../assets/images/ui/icon_economy.png'
 
 // ─── Sidebar button (mirrored tooltip: opens to the right of the icon) ─────────
 
@@ -106,13 +108,15 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
   )
 }
 
-// ─── LeftSidebar — News + Decrees only ────────────────────────────────────────
+// ─── LeftSidebar — News + Decrees + Economy ───────────────────────────────────
 
 export default function LeftSidebar() {
   const { setDecreeInboxOpen, decreeInboxOpen } = useSettingsStore()
   const setNewsOpen = useNewsStore(s => s.setOpen)
   const unreadCount = useNewsStore(s => s.articles.length - (s.lastReadIndex + 1))
   const pendingCount = useDecreeStore(s => s.pendingDecrees.length)
+
+  const [economyOpen, setEconomyOpen] = useState(false)
 
   const iconStyle = {
     width: '40px',
@@ -124,39 +128,52 @@ export default function LeftSidebar() {
   }
 
   return (
-    <div
-      data-testid="left-sidebar-cluster"
-      style={{
-        position: 'fixed',
-        left: '12px',
-        top: '60px',
-        zIndex: 210,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '10px 0',
-        gap: '8px',
-        // No glass panel behind icons (icon-only left cluster)
-        background: 'transparent',
-      }}
-    >
-      <SideButton
-        icon={<img src={iconNews} alt="News" style={iconStyle} />}
-        label="News Dispatch"
-        badge={unreadCount}
-        onClick={() => {
-          setNewsOpen(true)
-        }}
-      />
+    <>
+      {economyOpen && <EconomyPanel onClose={() => setEconomyOpen(false)} />}
 
-      <SideButton
-        icon={<img src={iconDecree} alt="Decrees" style={iconStyle} />}
-        label="Decrees"
-        badge={pendingCount}
-        onClick={() => {
-          setDecreeInboxOpen(!decreeInboxOpen)
+      <div
+        data-testid="left-sidebar-cluster"
+        style={{
+          position: 'fixed',
+          left: '12px',
+          top: '60px',
+          zIndex: 210,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '10px 0',
+          gap: '8px',
+          // No glass panel behind icons (icon-only left cluster)
+          background: 'transparent',
         }}
-      />
-    </div>
+      >
+        <SideButton
+          icon={<img src={iconNews} alt="News" style={iconStyle} />}
+          label="News Dispatch"
+          badge={unreadCount}
+          onClick={() => {
+            setNewsOpen(true)
+          }}
+        />
+
+        <SideButton
+          icon={<img src={iconDecree} alt="Decrees" style={iconStyle} />}
+          label="Decrees"
+          badge={pendingCount}
+          onClick={() => {
+            setDecreeInboxOpen(!decreeInboxOpen)
+          }}
+        />
+
+        <SideButton
+          icon={<img src={iconEconomy} alt="Economy" style={iconStyle} />}
+          label="Economy"
+          active={economyOpen}
+          onClick={() => {
+            setEconomyOpen(prev => !prev)
+          }}
+        />
+      </div>
+    </>
   )
 }
