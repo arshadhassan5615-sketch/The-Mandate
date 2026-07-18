@@ -187,6 +187,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
                 key={item.id}
                 onClick={(e) => {
                   e.stopPropagation()
+                  console.log('[DEBUG] Pin clicked, sceneId:', item.sceneId, 'sceneExists:', sceneExists)
                   if (!sceneExists) {
                     setSceneError(`Scene not found: ${item.sceneId}`)
                     return
