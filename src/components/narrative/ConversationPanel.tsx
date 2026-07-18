@@ -443,7 +443,7 @@ export default function ConversationPanel({
       )}
 
       {currentScene && (
-      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '640px', animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
+      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(calc(-50% - 20px))', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '640px', animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
 
         <div style={{
           position: 'relative',
