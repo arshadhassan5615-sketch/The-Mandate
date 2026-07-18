@@ -112,6 +112,10 @@
       "text": "\"This is not a bilateral dispute — it is a threat to regional stability. I want immediate démarches to Stellamere, to the Orythian Foreign Ministry, to the International Forum. Frame this as the first move in a broader Tyvaren expansion. If Vukov wants to make this public, we will make it more public than he intended. Call an emergency session of the Forum. Force every member state to take a position.\"",
       "internalTag": "reformist",
       "tooltip": "Internationalize the crisis. Raises global pressure on Tyvaren but may alienate nationalist factions at home.",
+      "conditions": [
+        { "stat": "flags.sovarka_deal_signed", "operator": "!=", "value": true },
+        { "stat": "flags.sovarka_limited_deal", "operator": "!=", "value": true }
+      ],
       "stateChanges": [
         { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
         { "stat": "factions.reformists",           "operation": "add", "value": 10 },
@@ -129,6 +133,73 @@
       ],
       "flags": ["tyvaren_internationalized", "international_forum_convened", "tyvaren_diplomacy_initiated"],
       "codexUnlocks": ["codex_gravenmark_pass", "codex_international_forum", "codex_tyvaren_expansionism"]
+    },
+    {
+      "id": "tyvaren_international_appeal_sovarka",
+      "text": "\"This is not a bilateral dispute — it is a threat to regional stability. I want immediate démarches to Stellamere, to the Orythian Foreign Ministry, to the International Forum. Frame this as the first move in a broader Tyvaren expansion. If Vukov wants to make this public, we will make it more public than he intended. Call an emergency session of the Forum. Force every member state to take a position.\"",
+      "internalTag": "reformist",
+      "tooltip": "Internationalize the crisis. Raises global pressure on Tyvaren but may alienate nationalist factions at home.",
+      "conditions": [
+        { "type": "flag", "flag": "sovarka_deal_signed", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 4  },
+        { "stat": "factions.church",               "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_international_forum_session", "delayWeeks": 2 },
+        { "targetNodeId": "act3_superpower_pressure", "delayWeeks": 3 }
+      ],
+      "flags": ["tyvaren_internationalized", "international_forum_convened", "tyvaren_diplomacy_initiated"],
+      "codexUnlocks": ["codex_gravenmark_pass", "codex_international_forum", "codex_tyvaren_expansionism"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "One quiet addition, Chancellor — Mirev. Sovarka will not field an army for us. But Vukov has already spent capital trying to keep Luca's minerals off our books. Including the eastern partnership in the frame does not invent allies. It reminds Strevna that escalation already has a cost on more than one front: economic, strategic, not martial. A fact he cannot un-map."
+        }
+      ]
+    },
+    {
+      "id": "tyvaren_international_appeal_sovarka_limited",
+      "text": "\"This is not a bilateral dispute — it is a threat to regional stability. I want immediate démarches to Stellamere, to the Orythian Foreign Ministry, to the International Forum. Frame this as the first move in a broader Tyvaren expansion. If Vukov wants to make this public, we will make it more public than he intended. Call an emergency session of the Forum. Force every member state to take a position.\"",
+      "internalTag": "reformist",
+      "tooltip": "Internationalize the crisis. Raises global pressure on Tyvaren but may alienate nationalist factions at home.",
+      "conditions": [
+        { "type": "flag", "flag": "sovarka_limited_deal", "value": true },
+        { "stat": "flags.sovarka_deal_signed", "operator": "!=", "value": true }
+      ],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding",  "operation": "add", "value": 12 },
+        { "stat": "factions.reformists",           "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant",         "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists",           "operation": "add", "value": -8  },
+        { "stat": "nation.militaryReadiness",      "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage",          "operation": "add", "value": 8  },
+        { "stat": "personal.moralCompass",         "operation": "add", "value": 8  },
+        { "stat": "factions.workersCoalition",     "operation": "add", "value": 4  },
+        { "stat": "factions.church",               "operation": "add", "value": -2 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "act3_international_forum_session", "delayWeeks": 2 },
+        { "targetNodeId": "act3_superpower_pressure", "delayWeeks": 3 }
+      ],
+      "flags": ["tyvaren_internationalized", "international_forum_convened", "tyvaren_diplomacy_initiated"],
+      "codexUnlocks": ["codex_gravenmark_pass", "codex_international_forum", "codex_tyvaren_expansionism"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "One quiet addition, Chancellor — Mirev. Sovarka will not field an army for us. But Vukov has already spent capital trying to keep Luca's minerals off our books. Including the eastern partnership in the frame does not invent allies. It reminds Strevna that escalation already has a cost on more than one front: economic, strategic, not martial. A fact he cannot un-map."
+        }
+      ]
     },
     {
       "id": "tyvaren_secret_mobilization",
