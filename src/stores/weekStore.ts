@@ -880,6 +880,20 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       return true
     })
 
+    // TODO (Sub-phase E/F): once ParliamentOverlay exists, gate
+    // phase transition on shouldTriggerParliament(...) here,
+    // mirroring the legislation pattern above.
+    // Ready call (do NOT enable until ParliamentOverlay mounts — empty
+    // 'parliament' phase would softlock with no UI listener):
+    //   if (shouldTriggerParliament(
+    //     gameState.currentWeek,
+    //     gameState.lastParliamentWeek,
+    //     gameState.emergencyParliamentFlag,
+    //   )) {
+    //     set({ phase: 'parliament' })
+    //     return
+    //   }
+
     if (pendingBills.length > 0) {
       set({ phase: 'legislation' })
     } else {

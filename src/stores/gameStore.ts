@@ -130,6 +130,8 @@ export const INITIAL_STATE: GameState = {
   inflationHistory: [] as Array<{ week: number; value: number }>,
   publicOrderHistory: [] as Array<{ week: number; value: number }>,
   effectLog: [] as EffectLogEntry[],
+  lastParliamentWeek: 0,
+  emergencyParliamentFlag: false,
   initialSnapshot: null,
 }
 
@@ -641,6 +643,8 @@ export const useGameStore = create<GameStore>()(
         inflationHistory: state.inflationHistory,
         publicOrderHistory: state.publicOrderHistory,
         effectLog: state.effectLog,
+        lastParliamentWeek: state.lastParliamentWeek,
+        emergencyParliamentFlag: state.emergencyParliamentFlag,
         initialSnapshot: state.initialSnapshot,
       }),
       migrate: (persistedState: unknown, version: number) => {

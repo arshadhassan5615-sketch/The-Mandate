@@ -1,8 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import {
   computeBlocStance,
   resolveParliamentBill,
   computeOverrideChance,
+  shouldTriggerParliament,
 } from '../ParliamentEngine'
 import type { ParliamentBill } from '../../types/parliament'
 
@@ -230,5 +231,73 @@ describe('computeOverrideChance', () => {
   it('clamps negative margins to 0', () => {
     expect(computeOverrideChance(-10)).toBe(0)
     expect(computeOverrideChance(-100)).toBe(0)
+  })
+})
+
+describe('shouldTriggerParliament', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('never triggers before MIN weeks (3), even across many random samples', () => {
+    // weeksSince = 2 → below MIN
+    for (let i = 0; i < 200; i++) {
+      expect(shouldTriggerParliament(10, 8, false)).toBe(false)
+    }
+    // weeksSince = 0 (same week as last sitting)
+    for (let i = 0; i < 50; i++) {
+      expect(shouldTriggerParliament(5, 5, false)).toBe(false)
+    }
+    // weeksSince = 1
+    for (let i = 0; i < 50; i++) {
+      expect(shouldTriggerParliament(6, 5, false)).toBe(false)
+    }
+  })
+
+  it('always triggers at or past MAX weeks (6) regardless of RNG', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.999)
+    expect(shouldTriggerParliament(10, 4, false)).toBe(true) // weeksSince = 6
+    expect(shouldTriggerParliament(20, 10, false)).toBe(true) // weeksSince = 10
+    expect(shouldTriggerParliament(7, 0, false)).toBe(true) // last never held, week 7
+  })
+
+  it('always triggers when emergencyFlag is true regardless of week count', () => {
+    expect(shouldTriggerParliament(1, 0, true)).toBe(true)
+    expect(shouldTriggerParliament(5, 5, true)).toBe(true)
+    expect(shouldTriggerParliament(3, 2, true)).toBe(true) // weeksSince = 1
+  })
+
+  it('uses a roughly increasing trigger probability between MIN and MAX weeks', () => {
+    // weeksSince = 3 → chance 0; weeksSince = 4 → chance 1/3; weeksSince = 5 → chance 2/3
+    // Statistical band test over N samples — not an exact rate.
+    const samples = 1000
+
+    let hitsAt4 = 0
+    for (let i = 0; i < samples; i++) {
+      if (shouldTriggerParliament(14, 10, false)) hitsAt4++ // weeksSince = 4 → chance ~0.333
+    }
+    const rateAt4 = hitsAt4 / samples
+
+    let hitsAt5 = 0
+    for (let i = 0; i < samples; i++) {
+      if (shouldTriggerParliament(15, 10, false)) hitsAt5++ // weeksSince = 5 → chance ~0.667
+    }
+    const rateAt5 = hitsAt5 / samples
+
+    // weeksSince = 3 is eligible window start: chance = 0 → never
+    let hitsAt3 = 0
+    for (let i = 0; i < samples; i++) {
+      if (shouldTriggerParliament(13, 10, false)) hitsAt3++
+    }
+
+    expect(hitsAt3).toBe(0)
+    // rate at 4 weeks ~1/3 — allow wide band for RNG noise
+    expect(rateAt4).toBeGreaterThan(0.15)
+    expect(rateAt4).toBeLessThan(0.55)
+    // rate at 5 weeks ~2/3
+    expect(rateAt5).toBeGreaterThan(0.45)
+    expect(rateAt5).toBeLessThan(0.85)
+    // later in the window should fire more often than earlier
+    expect(rateAt5).toBeGreaterThan(rateAt4)
   })
 })

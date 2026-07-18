@@ -209,6 +209,9 @@ export interface GameState {
   publicOrderHistory: Array<{ week: number; value: number }>
   // Central log of every successful applyModifier mutation (capped at 500)
   effectLog: EffectLogEntry[]
+  // Parliament sitting cadence (engine-only until Sub-phase F wires the phase)
+  lastParliamentWeek: number       // week of the last sitting, 0 if none yet
+  emergencyParliamentFlag: boolean // set by narrative scenes to force a sitting
   // Initial snapshot for end-game comparison
   initialSnapshot: GameState | null
 }

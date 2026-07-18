@@ -59,3 +59,27 @@ export function computeOverrideChance(marginPercent: number): number {
   // Clamp to a sane probability range; narrow margins → low chance
   return Math.max(0, Math.min(0.4, marginPercent / 200))
 }
+
+const MIN_WEEKS_BETWEEN_SITTINGS = 3
+const MAX_WEEKS_BETWEEN_SITTINGS = 6
+
+/**
+ * Whether a parliament sitting should fire this week.
+ * Pure decision logic — phase wiring happens in Sub-phase F once UI exists.
+ */
+export function shouldTriggerParliament(
+  currentWeek: number,
+  lastParliamentWeek: number,
+  emergencyFlag: boolean,
+): boolean {
+  if (emergencyFlag) return true
+  const weeksSince = currentWeek - lastParliamentWeek
+  if (weeksSince < MIN_WEEKS_BETWEEN_SITTINGS) return false
+  if (weeksSince >= MAX_WEEKS_BETWEEN_SITTINGS) return true
+  // Loose window: roughly 4 weeks, with drift — random within the
+  // eligible range rather than a hard trigger the instant it's
+  // possible, so timing doesn't feel mechanically predictable
+  const chance = (weeksSince - MIN_WEEKS_BETWEEN_SITTINGS) /
+    (MAX_WEEKS_BETWEEN_SITTINGS - MIN_WEEKS_BETWEEN_SITTINGS)
+  return Math.random() < chance
+}
