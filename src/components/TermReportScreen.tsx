@@ -78,22 +78,39 @@ export default function TermReportScreen() {
   const ending = useMemo(() => calculateEnding(gameState, useNarrativeStore.getState().activeFlags), [gameState])
 
   const historianVerdict = useMemo(() => {
-    const gov = ending.governanceOutcome as string
-    const per = ending.personalOutcome as string
-    if (gov === 'democratic_reformer' && per === 'principled_leader') {
-      return 'Katerin Ashavel governed as a genuine democrat in a nation still learning what democracy means. She made mistakes — all first chancellors do — but she made them in good faith, with the institutions of the Republic stronger at her departure than at her arrival. History will remember her as the chancellor who proved that Veltria could be governed without fear.'
+    const gov = ending.governanceOutcome
+    const per = ending.personalOutcome
+
+    // Personal coda — family outcome modulates every governance verdict
+    let personalNote = ''
+    if (per === 'family_strong') {
+      personalNote = ' At home, her marriage and children endured the pressures of office with remarkable resilience — a private achievement that historians still cite as evidence that the chancellorship need not consume everything it touches.'
+    } else if (per === 'family_strained') {
+      personalNote = ' At home, the cost was visible: a family held together by will and history rather than ease, bearing scars the public record only partly captures.'
+    } else if (per === 'family_broken') {
+      personalNote = ' The personal ledger was harsher than the political one — marriage, children, or both paid a price no institutional reform can refund.'
     }
-    if (gov === 'democratic_reformer') {
-      return 'A flawed but genuine democrat. Ashavel expanded civil liberties and strengthened democratic institutions, though the compromises required to govern cost her some of the moral clarity she brought to office. Her chancellorship demonstrated that post-authoritarian governance could be both free and functional.'
+
+    if (gov === 'democratic_triumph') {
+      if (per === 'family_strong') {
+        return 'Katerin Ashavel governed as a genuine democrat in a nation still learning what democracy means. She made mistakes — all first chancellors do — but she made them in good faith, with the institutions of the Republic stronger at her departure than at her arrival. History will remember her as the chancellor who proved that Veltria could be governed without fear.' + personalNote
+      }
+      return 'A flawed but genuine democrat. Ashavel expanded civil liberties and strengthened democratic institutions, though the compromises required to govern cost her some of the moral clarity she brought to office. Her chancellorship demonstrated that post-authoritarian governance could be both free and functional.' + personalNote
     }
-    if (gov === 'authoritarian_consolidator') {
-      return 'What began as a promise of reform ended in the familiar patterns of Veltrian strongman politics. Ashavel consolidated power, marginalized opposition, and governed through decree rather than consensus. She became what she once opposed — not through malice, but through the grinding logic of political survival.'
+    if (gov === 'benevolent_autocrat') {
+      return 'A well-intentioned autocrat who traded principle for power one compromise at a time. Ashavel genuinely wanted to reform Veltria, but each concession to pragmatism narrowed the path until the only way forward was through authority rather than persuasion. She left the Republic more stable but less free.' + personalNote
     }
-    if (gov === 'well_intentioned_autocrat') {
-      return 'A well-intentioned autocrat who traded principle for power one compromise at a time. Ashavel genuinely wanted to reform Veltria, but each concession to pragmatism narrowed the path until the only way forward was through authority rather than persuasion. She left the Republic more stable but less free.'
+    if (gov === 'war_survivor') {
+      return 'The Ashavel chancellorship will forever be measured against the war that defined it. Whether victory, defeat, or stalemate, the conflict with Tyvaren became the frame through which every earlier reform and every later compromise is remembered. She kept the state alive under fire — a survival that history respects even when it disputes the terms on which survival was purchased.' + personalNote
     }
-    if (gov === 'survivor') {
-      return 'A survivor who navigated impossible pressures with skill and sacrificed ideological purity for the simple goal of keeping the government functioning. Not a transformative figure, but a steady one — and in Veltrian politics, steadiness is its own kind of achievement.'
+    if (gov === 'economic_survivor') {
+      return 'A survivor who navigated impossible pressures with skill and sacrificed ideological purity for the simple goal of keeping the government functioning. Not a transformative figure in the grand sense, but a steady one who administered austerity, debt, and structural adjustment without letting the Republic dissolve — and in Veltrian politics, steadiness under fiscal siege is its own kind of achievement.' + personalNote
+    }
+    if (gov === 'revolutionary') {
+      return 'Ashavel\'s alliance with the workers\' movement remade the political map of Veltria. She nationalized where creditors demanded sale, imposed capital controls where markets demanded openness, and accepted Orythian patronage as the price of refusing Arcturian austerity. To her supporters she was the chancellor who chose the people over the balance sheet; to her critics, the architect of a new dependency dressed as liberation. Both readings have evidence.' + personalNote
+    }
+    if (gov === 'collapse') {
+      return 'What began as a promise of reform ended in state failure — coup, assassination, or a governance score too low to sustain the Republic\'s institutions. Ashavel\'s chancellorship is remembered less for what she built than for what did not hold: the military left its barracks, or order collapsed, or the machinery of civilian rule simply ceased to function. History records the attempt with more sympathy than the outcome.' + personalNote
     }
     return 'Katerin Ashavel\'s chancellorship defies simple categorization. She governed in extraordinary times, faced challenges no previous chancellor had confronted, and left behind a record as complex and contradictory as the nation she led. History\'s judgment will depend on what Veltria becomes next.'
   }, [ending])
