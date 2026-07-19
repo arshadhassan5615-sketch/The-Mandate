@@ -1,11 +1,13 @@
 // Layout tests for TopBar: compact top-left resource chip + top-right week chip.
 import { describe, it, expect, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import TopBar from '../TopBar'
 import { useGameStore } from '../../stores/gameStore'
+import { useNewsStore } from '../../stores/newsStore'
 
 function resetStore() {
   useGameStore.getState().resetToInitial()
+  useNewsStore.setState({ isOpen: false, articles: [], lastReadIndex: -1, readRecords: {} })
 }
 
 /** Direct children of the RTL container that are the two fixed chips. */
@@ -76,5 +78,22 @@ describe('TopBar', () => {
     // Prior: 0.65rem / 0.8rem — compact targets ~15–20% down
     expect(republic.style.fontSize).toBe('0.54rem')
     expect(week.style.fontSize).toBe('0.66rem')
+  })
+
+  it('returns null while useNewsStore isOpen is true (does not paint over newspaper)', () => {
+    act(() => { useNewsStore.getState().setOpen(true) })
+    const { container } = render(<TopBar />)
+    expect(container.firstChild).toBeNull()
+    expect(screen.queryByText('REPUBLIC OF VELTRIA')).not.toBeInTheDocument()
+    expect(screen.queryByText(/WEEK \d+ \/ 52/)).not.toBeInTheDocument()
+  })
+
+  it('renders again after news closes via setOpen(false)', () => {
+    act(() => { useNewsStore.getState().setOpen(true) })
+    render(<TopBar />)
+    expect(screen.queryByText('REPUBLIC OF VELTRIA')).not.toBeInTheDocument()
+
+    act(() => { useNewsStore.getState().setOpen(false) })
+    expect(screen.getByText('REPUBLIC OF VELTRIA')).toBeInTheDocument()
   })
 })

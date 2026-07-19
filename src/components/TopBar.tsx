@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useGameStore } from '../stores/gameStore'
+import { useNewsStore } from '../stores/newsStore'
 import type { BudgetAllocations } from '../types/gameState'
 import veltriaSeal from '../assets/images/veltria_seal.png'
 import iconEconomy from '../assets/images/ui/icon_economy.png'
@@ -45,9 +46,14 @@ export default function TopBar() {
   const currentWeek = useGameStore(s => s.currentWeek)
   const stateOfEmergency = useGameStore(s => s.stateOfEmergency)
   const soeWeek = useGameStore(s => s.stateOfEmergencyWeek)
+  const newsOpen = useNewsStore(s => s.isOpen)
 
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
   const date = useMemo(() => weekToDate(currentWeek), [currentWeek])
+
+  // NewsOverlay is zIndex 200; TopBar chips are 210 — hide while newspaper is open
+  // (same unmount-while-open pattern as KaterinHUD for agenda/scene/news).
+  if (newsOpen) return null
 
   const approvalColor =
     publicImage >= 60 ? '#7fa65a' :

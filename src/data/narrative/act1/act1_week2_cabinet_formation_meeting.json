@@ -1287,90 +1287,24 @@
       "narrative": [
         {
           "type": "description",
-          "text": "Vyktor clears the room except for the candidate you wish to question. The others wait in the corridor. You can hear them — Kolvar's measured tones, Oberlin's passionate cadence, Perov's clipped military rhythm. They are still debating. Good."
+          "text": "Vyktor clears the room. The candidates wait in the corridor — Kolvar's measured tones, Oberlin's passionate cadence, Perov's clipped military rhythm. They are still debating. Good."
         },
         {
           "type": "dialogue",
           "character": "vyktor_reznik",
-          "text": "Who do you want to question first? Each candidate is outside. I can bring them in one at a time. Ask what you need to ask."
+          "text": "Private interviews. We take them in order — Finance, then Interior, then Defense. I will bring them in one at a time. We start with Vostane."
         }
       ],
       "choices": [
         {
           "id": "interrogate_vostane",
-          "text": "Vostane. I want to know what she's not telling me about the budget cuts.",
+          "text": "Bring Vostane in. We'll work through the rest in order.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
           "nextSegment": "interrogate_vostane",
-          "reactions": []
-        },
-        {
-          "id": "interrogate_kolvar",
-          "text": "Kolvar. There's something he's hiding about his relationships with the business class.",
-          "internalTag": "reformist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "nextSegment": "interrogate_kolvar",
-          "reactions": []
-        },
-        {
-          "id": "interrogate_oberlin",
-          "text": "Oberlin. I need to know if her idealism can survive real governance.",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "nextSegment": "interrogate_oberlin",
-          "reactions": []
-        },
-        {
-          "id": "interrogate_perov",
-          "text": "Perov. He says he's not a zealot. I want proof.",
-          "internalTag": "reformist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "nextSegment": "interrogate_perov",
-          "reactions": []
-        },
-        {
-          "id": "interrogate_dusek",
-          "text": "Dusek. She's the only one I trust. I want to know why.",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "nextSegment": "interrogate_dusek",
-          "reactions": []
-        },
-        {
-          "id": "interrogate_vass",
-          "text": "Vass. The Iron Covenant endorsement worries me.",
-          "internalTag": "reformist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "nextSegment": "interrogate_vass",
-          "reactions": []
-        },
-        {
-          "id": "interrogate_enough",
-          "text": "I've heard enough. Let's move to final decisions.",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [],
-          "codexUnlocks": [],
-          "nextSegment": "final_decision",
           "reactions": []
         }
       ]
@@ -1422,7 +1356,7 @@
             "form_meeting_interrogated_vostane"
           ],
           "codexUnlocks": [],
-          "nextSegment": "player_interrogation_hub",
+          "nextSegment": "interrogate_kolvar",
           "reactions": []
         }
       ]
@@ -1463,10 +1397,11 @@
           ],
           "chainTriggers": [],
           "flags": [
-            "form_meeting_kolvar_disclosure_demand"
+            "form_meeting_kolvar_disclosure_demand",
+            "form_meeting_interrogated_kolvar"
           ],
           "codexUnlocks": [],
-          "nextSegment": "player_interrogation_hub",
+          "nextSegment": "interrogate_oberlin",
           "reactions": [
             {
               "character": "vyktor_reznik",
@@ -1531,7 +1466,8 @@
           ],
           "chainTriggers": [],
           "flags": [
-            "form_meeting_trusted_oberlin"
+            "form_meeting_trusted_oberlin",
+            "form_meeting_interrogated_oberlin"
           ],
           "codexUnlocks": [],
           "nextSegment": "interrogate_perov",
@@ -1594,10 +1530,11 @@
           ],
           "chainTriggers": [],
           "flags": [
-            "form_meeting_respected_perov"
+            "form_meeting_respected_perov",
+            "form_meeting_interrogated_perov"
           ],
           "codexUnlocks": [],
-          "nextSegment": "final_decision",
+          "nextSegment": "interrogate_dusek",
           "reactions": [
             {
               "character": "nikolai_perov",
@@ -1616,7 +1553,7 @@
             "form_meeting_interrogated_perov"
           ],
           "codexUnlocks": [],
-          "nextSegment": "final_decision",
+          "nextSegment": "interrogate_dusek",
           "reactions": []
         }
       ]
@@ -1656,10 +1593,11 @@
           ],
           "chainTriggers": [],
           "flags": [
-            "form_meeting_trusted_dusek"
+            "form_meeting_trusted_dusek",
+            "form_meeting_interrogated_dusek"
           ],
           "codexUnlocks": [],
-          "nextSegment": "final_decision",
+          "nextSegment": "interrogate_vass",
           "reactions": [
             {
               "character": "irina_dusek",
@@ -1678,7 +1616,7 @@
             "form_meeting_interrogated_dusek"
           ],
           "codexUnlocks": [],
-          "nextSegment": "final_decision",
+          "nextSegment": "interrogate_vass",
           "reactions": [
             {
               "character": "irina_dusek",
@@ -1724,7 +1662,7 @@
           "chainTriggers": [],
           "flags": ["form_meeting_interrogated_vass"],
           "codexUnlocks": [],
-          "nextSegment": "player_interrogation_hub",
+          "nextSegment": "final_decision",
           "reactions": [
             {
               "character": "general_vass",

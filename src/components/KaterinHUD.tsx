@@ -1,5 +1,6 @@
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
+import { useNewsStore } from '../stores/newsStore'
 import type { PlayerAppearance } from '../types/gameState'
 import katerinImg from '../assets/potraits/katerin_ashavel.jpeg'
 
@@ -53,8 +54,11 @@ export default function KaterinHUD() {
   const appearance = useGameStore(s => s.playerAppearance)
   const currentAct = useGameStore(s => s.currentAct)
   const phase = useWeekStore(s => s.phase)
+  const newsOpen = useNewsStore(s => s.isOpen)
 
-  if (phase === 'agenda' || phase === 'scene') return null
+  // Hide during full-screen narrative phases and while the newspaper overlay is open
+  // (NewsOverlay zIndex 200 is below this HUD's 250, so chrome must unmount — not stack).
+  if (phase === 'agenda' || phase === 'scene' || newsOpen) return null
 
   return (
     <div style={{
