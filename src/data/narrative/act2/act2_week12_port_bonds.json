@@ -8,9 +8,10 @@
   "agendaCost": 1,
   "isMandatory": false,
   "location": "Finance Ministry — Ashenmere",
-  "characters": ["elara_vostane"],
+  "characters": [
+    "elara_vostane"
+  ],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
@@ -26,50 +27,122 @@
       "text": "Safe. Boring. Legal. Elara is telling me the truth — these bonds are publicly available and the institutional rate is a standard Treasury practice. But there is something she has not mentioned: the Free Trade Zone Act. It is being drafted now and will reach parliament in a few months. If it passes, the Aldenmoor port becomes the center of a free trade zone, and the bonds' value will more than double. I will be the one who signs or vetoes that act. If I invest now and sign later, that 4,000 ₭ return will look very different in retrospect. Elara knows this. She is testing whether I see the conflict — or whether I am the kind of person who pretends not to see it."
     }
   ],
-
   "monologue": "The bonds are legal. Elara has made that clear. What she has not made clear — what she wants me to notice without her having to say it — is the Free Trade Zone Act. If I invest now and sign later, the institutional rate becomes a conflict-of-interest headline. She is offering me a test disguised as a financial opportunity. I am supposed to notice the test.",
-
   "choices": [
     {
       "id": "port_bonds_invest",
       "text": "\"I will take the allocation, Elara. Thank you for bringing it to my attention. These are government bonds — publicly listed, legally issued, available to any institutional investor. I am an institutional investor. If the Free Trade Zone Act passes and increases the value of the bonds, that is a consequence of good policy, not corruption. I will not avoid making the right decision for the country because it might also benefit my personal finances. That is not ethics — it is timidity. Make the allocation.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": -2000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -4  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 3   },
-        { "stat": "factions.businessClass",       "operation": "add", "value": 3   }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -2000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["port_bonds_invested", "conflict_of_interest_trade_zone"],
+      "flags": [
+        "port_bonds_invested",
+        "conflict_of_interest_trade_zone"
+      ],
       "codexUnlocks": [],
-      "reactions": [{ "character": "elara_vostane", "type": "silence", "text": "She writes the allocation on her pad — 2,000 ₭, institutional rate. She does not comment. The silence is the sound of Elara Vostane executing an instruction and filing the ethical concern for later." }]
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She writes the allocation on her pad — 2,000 ₭, institutional rate. She does not comment. The silence is the sound of Elara Vostane executing an instruction and filing the ethical concern for later."
+        }
+      ],
+      "chainTriggers": []
     },
     {
       "id": "port_bonds_decline",
       "text": "\"No, Elara. I know they are legal. I know any citizen can buy them. But I am not 'any citizen' — I am the person who will decide whether the Free Trade Zone Act becomes law. If I invest in port bonds now and sign that act later, every journalist in Veltria will be able to draw a line between those two facts. That line will be fair. It will be accurate. And it will make me look like exactly the kind of politician I campaigned against. Find me an investment that has no connection to government policy — a diversified fund, an international bond, something genuinely at arm's length. I will invest in that. I will not invest in this.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   },
-        { "stat": "factions.reformists",          "operation": "add", "value": 3   },
-        { "stat": "nation.corruption",            "operation": "add", "value": -2  }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -2
+        }
       ],
-      "flags": ["port_bonds_declined", "ethical_investment_principle"],
+      "flags": [
+        "port_bonds_declined",
+        "ethical_investment_principle"
+      ],
       "codexUnlocks": [],
-      "reactions": [{ "character": "elara_vostane", "type": "action", "text": "She writes find arm's-length investment on her pad and makes a note to contact the Treasury. She does not argue. She presented the option — you declined it. The matter is closed." }]
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "action",
+          "text": "She writes find arm's-length investment on her pad and makes a note to contact the Treasury. She does not argue. She presented the option — you declined it. The matter is closed."
+        }
+      ],
+      "chainTriggers": []
     },
     {
       "id": "port_bonds_invest_blind_trust",
       "text": "\"Buy the bonds — but put them in a blind trust. I want a legal instrument that prevents me from knowing the specific contents of my portfolio. The trust manager makes investment decisions independently. I make policy decisions independently. Neither of us knows what the other is doing. If the Free Trade Zone Act passes and the bonds appreciate, I will not know whether I own them — and even if I suspect, I will have no ability to act on that suspicion. This is how it works in mature democracies, Elara. We should act like one.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": -2000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 5   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 3   },
-        { "stat": "nation.corruption",            "operation": "add", "value": -3  }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -2000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["port_bonds_blind_trust", "blind_trust_established"],
+      "flags": [
+        "port_bonds_blind_trust",
+        "blind_trust_established"
+      ],
       "codexUnlocks": [],
-      "reactions": [{ "character": "elara_vostane", "type": "silence", "text": "She writes blind trust on her pad. She did not anticipate this solution — you can tell by the slight pause before the pen moves. It is not often that Elara Vostane encounters a solution she did not anticipate." }]
+      "reactions": [
+        {
+          "character": "elara_vostane",
+          "type": "silence",
+          "text": "She writes blind trust on her pad. She did not anticipate this solution — you can tell by the slight pause before the pen moves. It is not often that Elara Vostane encounters a solution she did not anticipate."
+        }
+      ],
+      "chainTriggers": []
     }
   ]
 }

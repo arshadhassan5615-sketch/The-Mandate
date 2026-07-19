@@ -40,44 +40,91 @@
       "id": "proceed_diplomatic",
       "text": "Proceed with the briefing.",
       "conditions": [
-        { "stat": "flags.tyvaren_diplomatic_response", "operator": "==", "value": true }
+        {
+          "stat": "flags.tyvaren_diplomatic_response",
+          "operator": "==",
+          "value": true
+        }
       ],
-      "nextSegment": "report_diplomatic"
+      "nextSegment": "report_diplomatic",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "proceed_intercept",
       "text": "Proceed with the briefing.",
       "conditions": [
-        { "stat": "flags.tyvaren_intercept_policy", "operator": "==", "value": true }
+        {
+          "stat": "flags.tyvaren_intercept_policy",
+          "operator": "==",
+          "value": true
+        }
       ],
-      "nextSegment": "report_intercept"
+      "nextSegment": "report_intercept",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "proceed_forward",
       "text": "Proceed with the briefing.",
       "conditions": [
-        { "stat": "flags.tyvaren_forward_deployment", "operator": "==", "value": true }
+        {
+          "stat": "flags.tyvaren_forward_deployment",
+          "operator": "==",
+          "value": true
+        }
       ],
-      "nextSegment": "report_forward"
+      "nextSegment": "report_forward",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "proceed_bilateral",
       "text": "Proceed with the briefing.",
       "conditions": [
-        { "stat": "flags.tyvaren_bilateral_talks", "operator": "==", "value": true }
+        {
+          "stat": "flags.tyvaren_bilateral_talks",
+          "operator": "==",
+          "value": true
+        }
       ],
-      "nextSegment": "report_bilateral"
+      "nextSegment": "report_bilateral",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "proceed_default",
       "text": "Proceed with the briefing.",
       "conditions": [
-        { "stat": "flags.tyvaren_diplomatic_response", "operator": "!=", "value": true },
-        { "stat": "flags.tyvaren_intercept_policy", "operator": "!=", "value": true },
-        { "stat": "flags.tyvaren_forward_deployment", "operator": "!=", "value": true },
-        { "stat": "flags.tyvaren_bilateral_talks", "operator": "!=", "value": true }
+        {
+          "stat": "flags.tyvaren_diplomatic_response",
+          "operator": "!=",
+          "value": true
+        },
+        {
+          "stat": "flags.tyvaren_intercept_policy",
+          "operator": "!=",
+          "value": true
+        },
+        {
+          "stat": "flags.tyvaren_forward_deployment",
+          "operator": "!=",
+          "value": true
+        },
+        {
+          "stat": "flags.tyvaren_bilateral_talks",
+          "operator": "!=",
+          "value": true
+        }
       ],
-      "nextSegment": "report_default"
+      "nextSegment": "report_default",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -108,7 +155,9 @@
           "id": "intel_share_cabinet_dip",
           "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
           "internalTag": "pragmatist",
-          "flags": ["tyvaren_intel_shared_cabinet"],
+          "flags": [
+            "tyvaren_intel_shared_cabinet"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -123,13 +172,16 @@
               "type": "dialogue",
               "text": "Kolvar's people will still call it weakness. At least they won't invent the facts."
             }
-          ]
+          ],
+          "codexUnlocks": []
         },
         {
           "id": "intel_keep_close_dip",
           "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
           "internalTag": "authoritarian",
-          "flags": ["tyvaren_intel_held_close"],
+          "flags": [
+            "tyvaren_intel_held_close"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -144,7 +196,8 @@
               "type": "dialogue",
               "text": "Then the envelope never existed. I'll make sure the clerks remember that."
             }
-          ]
+          ],
+          "codexUnlocks": []
         }
       ]
     },
@@ -175,7 +228,9 @@
           "id": "intel_share_cabinet_int",
           "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
           "internalTag": "pragmatist",
-          "flags": ["tyvaren_intel_shared_cabinet"],
+          "flags": [
+            "tyvaren_intel_shared_cabinet"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -190,13 +245,16 @@
               "type": "dialogue",
               "text": "Hardliners will want louder rules of engagement. Reformists will want quieter ones. Both will read the same paragraph."
             }
-          ]
+          ],
+          "codexUnlocks": []
         },
         {
           "id": "intel_keep_close_int",
           "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
           "internalTag": "authoritarian",
-          "flags": ["tyvaren_intel_held_close"],
+          "flags": [
+            "tyvaren_intel_held_close"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -211,7 +269,8 @@
               "type": "dialogue",
               "text": "Then the envelope never existed. I'll make sure the clerks remember that."
             }
-          ]
+          ],
+          "codexUnlocks": []
         }
       ]
     },
@@ -242,7 +301,9 @@
           "id": "intel_share_cabinet_fwd",
           "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
           "internalTag": "pragmatist",
-          "flags": ["tyvaren_intel_shared_cabinet"],
+          "flags": [
+            "tyvaren_intel_shared_cabinet"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -257,13 +318,16 @@
               "type": "dialogue",
               "text": "Frame the facts before Kolvar frames the fear. Do it once, cleanly."
             }
-          ]
+          ],
+          "codexUnlocks": []
         },
         {
           "id": "intel_keep_close_fwd",
           "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
           "internalTag": "authoritarian",
-          "flags": ["tyvaren_intel_held_close"],
+          "flags": [
+            "tyvaren_intel_held_close"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -278,7 +342,8 @@
               "type": "dialogue",
               "text": "Then the envelope never existed. I'll make sure the clerks remember that."
             }
-          ]
+          ],
+          "codexUnlocks": []
         }
       ]
     },
@@ -309,7 +374,9 @@
           "id": "intel_share_cabinet_bil",
           "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
           "internalTag": "pragmatist",
-          "flags": ["tyvaren_intel_shared_cabinet"],
+          "flags": [
+            "tyvaren_intel_shared_cabinet"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -324,13 +391,16 @@
               "type": "dialogue",
               "text": "If talks fail, the Cabinet will want to know we warned them this was a possibility — not a surprise."
             }
-          ]
+          ],
+          "codexUnlocks": []
         },
         {
           "id": "intel_keep_close_bil",
           "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
           "internalTag": "authoritarian",
-          "flags": ["tyvaren_intel_held_close"],
+          "flags": [
+            "tyvaren_intel_held_close"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -345,7 +415,8 @@
               "type": "dialogue",
               "text": "Then the envelope never existed. I'll make sure the clerks remember that."
             }
-          ]
+          ],
+          "codexUnlocks": []
         }
       ]
     },
@@ -376,7 +447,9 @@
           "id": "intel_share_cabinet_def",
           "text": "Circulate a sanitized summary to the full Cabinet. Better they hear it from us than from the Herald.",
           "internalTag": "pragmatist",
-          "flags": ["tyvaren_intel_shared_cabinet"],
+          "flags": [
+            "tyvaren_intel_shared_cabinet"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -391,13 +464,16 @@
               "type": "dialogue",
               "text": "Then at least the Cabinet shares the silence with us."
             }
-          ]
+          ],
+          "codexUnlocks": []
         },
         {
           "id": "intel_keep_close_def",
           "text": "Keep this between the four of us. Full distribution only when we have a response plan.",
           "internalTag": "authoritarian",
-          "flags": ["tyvaren_intel_held_close"],
+          "flags": [
+            "tyvaren_intel_held_close"
+          ],
           "statEffects": [],
           "stateChanges": [],
           "chainTriggers": [],
@@ -412,7 +488,8 @@
               "type": "dialogue",
               "text": "Then the envelope never existed. I'll make sure the clerks remember that."
             }
-          ]
+          ],
+          "codexUnlocks": []
         }
       ]
     }

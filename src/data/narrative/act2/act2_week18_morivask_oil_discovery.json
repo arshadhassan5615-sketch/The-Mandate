@@ -9,14 +9,20 @@
   "prerequisites": [],
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik", "aleksander_igor"],
+  "characters": [
+    "vyktor_reznik",
+    "aleksander_igor"
+  ],
   "dialogue": "The morning briefing runs long. Vyktor has been standing for forty minutes and has not sat down, which means he does not intend to leave quickly.",
   "monologue": "When Vyktor stands for the whole briefing, it means the news is the kind that changes the shape of the week. Sometimes the shape of the year.",
   "choices": [
     {
       "id": "week18_ask_vyktor",
       "text": "What is it?",
-      "nextSegment": "vyktor_oil_brief"
+      "nextSegment": "vyktor_oil_brief",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -42,12 +48,18 @@
         {
           "id": "week18_ask_tyvaren",
           "text": "How serious is the Tyvaren interest?",
-          "nextSegment": "vyktor_tyvaren_detail"
+          "nextSegment": "vyktor_tyvaren_detail",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week18_ask_timeline",
           "text": "How much time do we have?",
-          "nextSegment": "vyktor_timeline"
+          "nextSegment": "vyktor_timeline",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -69,12 +81,18 @@
         {
           "id": "week18_ask_vyktor_idea",
           "text": "You have someone in mind.",
-          "nextSegment": "vyktor_igor_intro"
+          "nextSegment": "vyktor_igor_intro",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week18_ask_timeline_2",
           "text": "How much time before Tyvaren's offer lands?",
-          "nextSegment": "vyktor_timeline"
+          "nextSegment": "vyktor_timeline",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -90,7 +108,10 @@
         {
           "id": "week18_timeline_to_igor",
           "text": "Who do we have that can match Tyvaren's capital?",
-          "nextSegment": "vyktor_igor_intro"
+          "nextSegment": "vyktor_igor_intro",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -116,12 +137,18 @@
         {
           "id": "week18_bring_in_igor",
           "text": "Send him in.",
-          "nextSegment": "igor_entrance"
+          "nextSegment": "igor_entrance",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week18_wait_igor",
           "text": "Not yet. I want to understand what we are walking into before I shake his hand.",
-          "nextSegment": "vyktor_igor_background"
+          "nextSegment": "vyktor_igor_background",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -142,7 +169,10 @@
         {
           "id": "week18_igor_in_after_brief",
           "text": "All right. Send him in.",
-          "nextSegment": "igor_entrance"
+          "nextSegment": "igor_entrance",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -168,12 +198,18 @@
         {
           "id": "week18_igor_terms",
           "text": "What are your terms?",
-          "nextSegment": "igor_terms"
+          "nextSegment": "igor_terms",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week18_igor_challenge",
           "text": "You sat down without being invited. Start again.",
-          "nextSegment": "igor_challenge_response"
+          "nextSegment": "igor_challenge_response",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -197,7 +233,10 @@
         {
           "id": "week18_challenge_to_terms",
           "text": "Good. Now — your terms.",
-          "nextSegment": "igor_terms"
+          "nextSegment": "igor_terms",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -220,22 +259,37 @@
           "id": "week18_response_interested",
           "text": "I am not opposed to the structure. I need to discuss this with my Finance and Foreign Ministers before anything moves forward.",
           "internalTag": "pragmatist",
-          "flags": ["igor_initial_meeting_done", "oil_negotiation_engaged"],
-          "nextSegment": "igor_closing_positive"
+          "flags": [
+            "igor_initial_meeting_done",
+            "oil_negotiation_engaged"
+          ],
+          "nextSegment": "igor_closing_positive",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week18_response_public",
           "text": "The revenue split interests me. The ownership structure does not. I want to discuss a model where the state holds the operating license and Black Seam contracts as a service provider — not a partner.",
           "internalTag": "reformist",
-          "flags": ["igor_initial_meeting_done", "oil_negotiation_public_model"],
-          "nextSegment": "igor_closing_reformist"
+          "flags": [
+            "igor_initial_meeting_done",
+            "oil_negotiation_public_model"
+          ],
+          "nextSegment": "igor_closing_reformist",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week18_response_state_only",
           "text": "I appreciate the offer. But I am not certain private partnership is the right structure for a strategic national resource. I need to explore state-led options first.",
           "internalTag": "authoritarian",
-          "flags": ["igor_initial_meeting_done", "oil_negotiation_state_only"],
-          "nextSegment": "igor_closing_cold"
+          "flags": [
+            "igor_initial_meeting_done",
+            "oil_negotiation_state_only"
+          ],
+          "nextSegment": "igor_closing_cold",
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -260,7 +314,10 @@
             "category": "DIPLOMACY",
             "content": "Aleksander Igor came to the office today. Owns Black Seam Industries. Wants the Morivask oil rights, willing to give the state an above-market share to make it happen. The deal structure is reasonable. The timeline is not. Three weeks before Tyvaren formalizes. I need Elara and the Foreign Minister in a room before the end of the week."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -291,7 +348,10 @@
             "category": "DIPLOMACY",
             "content": "I pushed Igor on the ownership model. He pushed back. He is right that a pure state service contract is technically thin — we do not have the people to run it. But a full private partnership hands him a strategic national resource for a generation. There has to be a middle position. I need to find it before week 20."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -330,7 +390,10 @@
             "category": "DIPLOMACY",
             "content": "Sent Igor away without a commitment. Vyktor thinks he will come back. I think so too. But the clock is running and the state-led model needs numbers I do not have yet. If the numbers do not work, the principled position becomes the costly one."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

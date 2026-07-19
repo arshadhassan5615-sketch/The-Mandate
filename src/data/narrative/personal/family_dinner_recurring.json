@@ -7,7 +7,11 @@
   "agendaCost": 0,
   "isMandatory": false,
   "location": "Chancellor's Private Residence — Dining Room",
-  "characters": ["jonas_ashavel", "liora_ashavel", "tomas_ashavel"],
+  "characters": [
+    "jonas_ashavel",
+    "liora_ashavel",
+    "tomas_ashavel"
+  ],
   "prerequisites": [],
   "narrative": [
     {
@@ -128,53 +132,97 @@
           "text": "Put down your fork. Look at each of them in turn. Ask about their days — really ask. Be present. Be here. Be Katerin, not the Chancellor.",
           "internalTag": "personal",
           "stateChanges": [
-            { "stat": "personal.marriageHealth", "operation": "add", "value": 8 },
-            { "stat": "personal.lioraRelationship", "operation": "add", "value": 5 },
-            { "stat": "personal.tomasWellbeing", "operation": "add", "value": 5 }
+            {
+              "stat": "personal.marriageHealth",
+              "operation": "add",
+              "value": 8
+            },
+            {
+              "stat": "personal.lioraRelationship",
+              "operation": "add",
+              "value": 5
+            },
+            {
+              "stat": "personal.tomasWellbeing",
+              "operation": "add",
+              "value": 5
+            }
           ],
-          "flags": ["dinner_engaged"],
+          "flags": [
+            "dinner_engaged"
+          ],
           "reactions": [
             {
               "character": "jonas_ashavel",
               "type": "action",
               "text": "His shoulders relax — a small movement, the kind you only notice if you have been married for eighteen years. He reaches across the table and takes your hand. For the first time in weeks, he smiles. The smile is tired. The smile is real."
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "dinner_deflect",
           "text": "Talk about safe topics. The weather. A book you are pretending to read. The garden, which you have not seen in three weeks. Avoid the weight of everything that is not being said.",
           "internalTag": "personal",
           "stateChanges": [
-            { "stat": "personal.marriageHealth", "operation": "add", "value": 2 },
-            { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+            {
+              "stat": "personal.marriageHealth",
+              "operation": "add",
+              "value": 2
+            },
+            {
+              "stat": "personal.moralCompass",
+              "operation": "add",
+              "value": -3
+            }
           ],
-          "flags": ["dinner_deflected"],
+          "flags": [
+            "dinner_deflected"
+          ],
           "reactions": [
             {
               "character": "jonas_ashavel",
               "type": "silence",
               "text": "He nods politely, passes the salt you didn't ask for, and looks at the clock above the mantle. The politeness is worse than an argument would be. His eyes say: you're not really here, and we both know it."
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "dinner_work_late",
           "text": "Apologize. There is a crisis — there is always a crisis. Vyktor is waiting with briefings. You have to go back to the office. You will make it up to them next week.",
           "internalTag": "personal",
           "stateChanges": [
-            { "stat": "personal.marriageHealth", "operation": "add", "value": -10 },
-            { "stat": "personal.lioraRelationship", "operation": "add", "value": -5 },
-            { "stat": "nation.publicOrder", "operation": "add", "value": 3 }
+            {
+              "stat": "personal.marriageHealth",
+              "operation": "add",
+              "value": -10
+            },
+            {
+              "stat": "personal.lioraRelationship",
+              "operation": "add",
+              "value": -5
+            },
+            {
+              "stat": "nation.publicOrder",
+              "operation": "add",
+              "value": 3
+            }
           ],
-          "flags": ["dinner_abandoned"],
+          "flags": [
+            "dinner_abandoned"
+          ],
           "reactions": [
             {
               "character": "liora_ashavel",
               "type": "dialogue",
               "text": "You're always leaving. It's like we're not enough — like the country is more important than we are. Maybe it is. But you could pretend, just once. That's all I'm asking. Just once."
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

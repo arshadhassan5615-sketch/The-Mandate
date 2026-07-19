@@ -8,11 +8,16 @@
   "agendaCost": 1,
   "isMandatory": false,
   "location": "VNN Broadcasting House — Ashenmere",
-  "characters": ["elena_braskov"],
-  "prerequisites": [
-    { "type": "flag", "flag": "elena_introduced", "value": true }
+  "characters": [
+    "elena_braskov"
   ],
-
+  "prerequisites": [
+    {
+      "type": "flag",
+      "flag": "elena_introduced",
+      "value": true
+    }
+  ],
   "narrative": [
     {
       "type": "description",
@@ -28,67 +33,191 @@
       "text": "She pauses — Elena always pauses before the price, as if savoring the moment the number becomes real."
     }
   ],
-
   "choices": [
     {
       "id": "elena_reckoning_ally_propaganda",
       "text": "\"Elena, we have been allies for three years. You protected my government through the BNI crisis, the convention, the Tyvaren standoff, the economic downturn. You buried stories that would have destroyed us. You framed our failures as learning experiences and our successes as historic achievements. Now I am asking for the final favor: a government contract for VNN. Official state broadcasting. Your network becomes the authorized voice of the Veltrian government — funded by the state, directed by my communications office, delivering the government's message to every household in the country. This is what our partnership has been building toward. Complete the arc. Make my legacy what you have always made it — whatever serves us both.\"",
       "internalTag": "hardline",
       "stateChanges": [
-        { "stat": "factions.businessClass",       "operation": "add", "value": 15  },
-        { "stat": "factions.reformists",          "operation": "add", "value": -20 },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": 25  },
-        { "stat": "nation.pressFreedom",          "operation": "add", "value": -25 },
-        { "stat": "nation.internationalStanding", "operation": "add", "value": -10 },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 10  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -15 },
-        { "stat": "nation.nationalDebt",          "operation": "add", "value": 15  }
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -20
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": 25
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": -25
+        },
+        {
+          "stat": "nation.internationalStanding",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "nation.nationalDebt",
+          "operation": "add",
+          "value": 15
+        }
       ],
-      "flags": ["vnn_state_broadcaster", "media_fully_captured", "elena_reckoning_resolved", "international_concern_propaganda"],
-      "codexUnlocks": ["codex_state_media"]
+      "flags": [
+        "vnn_state_broadcaster",
+        "media_fully_captured",
+        "elena_reckoning_resolved",
+        "international_concern_propaganda"
+      ],
+      "codexUnlocks": [
+        "codex_state_media"
+      ],
+      "chainTriggers": []
     },
     {
       "id": "elena_reckoning_ally_refuse",
       "text": "\"No, Elena. The partnership ends here. I have compromised press freedom for three years because I told myself it was necessary — necessary to survive the BNI crisis, necessary to pass reform, necessary to keep the Halvekists from returning. But state broadcasting — that is not a partnership. That is propaganda. Halvek had a state broadcaster. It was called VNN under your father. I will not rebuild the same institution with a different name and my face on it instead of his. Cover the election however you choose. If three years of my governance have not persuaded you to support me honestly, a government contract will not make your support honest — it will just make it expensive.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 12  },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -8  },
-        { "stat": "nation.pressFreedom",          "operation": "add", "value": 10  },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": -15 },
-        { "stat": "personal.publicImage",         "operation": "add", "value": -5  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 15  }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 15
+        }
       ],
-      "flags": ["elena_ally_broken_late", "media_deal_ended", "elena_reckoning_resolved"],
-      "codexUnlocks": ["codex_state_media"]
+      "flags": [
+        "elena_ally_broken_late",
+        "media_deal_ended",
+        "elena_reckoning_resolved"
+      ],
+      "codexUnlocks": [
+        "codex_state_media"
+      ],
+      "chainTriggers": []
     },
     {
       "id": "elena_reckoning_enemy_endorse_kolvar",
       "text": "\"You are going to endorse Kolvar. I know that, Elena. You have been hostile to this government since I declined your deal in my first month. You have run critical story after critical story. You have amplified every crisis, magnified every mistake, and given a platform to every opposition voice who wanted to attack my administration. And now, with the election approaching, you are going to do what media magnates always do — you are going to pick the candidate you think will win, or the candidate you think will be more favorable to your interests, or both. Endorse Kolvar. Run your editorials. Publish your dirt. I am going to win or lose this election on my record, not on your coverage.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.halvekists",          "operation": "add", "value": 8   },
-        { "stat": "factions.reformists",          "operation": "add", "value": -5  },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": -10 },
-        { "stat": "personal.publicImage",         "operation": "add", "value": -8  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 10  }
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 10
+        }
       ],
-      "flags": ["elena_endorses_kolvar", "elena_reckoning_resolved", "media_opposition_unified"],
-      "codexUnlocks": ["codex_state_media"]
+      "flags": [
+        "elena_endorses_kolvar",
+        "elena_reckoning_resolved",
+        "media_opposition_unified"
+      ],
+      "codexUnlocks": [
+        "codex_state_media"
+      ],
+      "chainTriggers": []
     },
     {
       "id": "elena_reckoning_enemy_negotiate_late",
       "text": "\"Elena, wait. I know we have been adversaries. I know I declined your deal and you have been punishing me for it ever since. But the election is close, and I am asking you — not as Chancellor to media magnate, but as one woman who has navigated power to another — to reconsider. Do not endorse Kolvar. Do not endorse me either. Stay neutral. Let your journalists cover the election fairly. Let the country decide without your organization tipping the scales. I am not offering you a deal. I am offering you a chance to be remembered as something other than the woman who used her father's propaganda machine to try to destroy the first woman Chancellor in Veltrian history. That is the headline history will write about you if you endorse Kolvar. You know it. I know it. Do not let that be your legacy.\"",
       "internalTag": "measured",
       "stateChanges": [
-        { "stat": "factions.businessClass",       "operation": "add", "value": 3   },
-        { "stat": "factions.halvekists",          "operation": "add", "value": -3  },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": 5   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 3   },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 5   }
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["elena_neutral_election", "elena_reckoning_resolved", "elena_reconciliation_attempt"],
-      "codexUnlocks": ["codex_state_media"]
+      "flags": [
+        "elena_neutral_election",
+        "elena_reckoning_resolved",
+        "elena_reconciliation_attempt"
+      ],
+      "codexUnlocks": [
+        "codex_state_media"
+      ],
+      "chainTriggers": []
     }
   ]
 }

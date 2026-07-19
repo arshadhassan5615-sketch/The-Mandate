@@ -10,9 +10,12 @@
   "location": "Chancellor's Private Residence — Ashenmere",
   "characters": [],
   "prerequisites": [
-    { "stat": "flags.currency_small_position", "operator": "==", "value": true }
+    {
+      "stat": "flags.currency_small_position",
+      "operator": "==",
+      "value": true
+    }
   ],
-
   "narrative": [
     {
       "type": "description",
@@ -23,36 +26,72 @@
       "text": "One thousand ₭. Not the full position — not the bet that would have made me wealthy from my country's decline. I told myself that the scale mattered: that hedging was different from speculating, that protecting my family was different from betting against my country. The distinction is real, but it is thin. The 1,000 ₭ position is still a short against the Krone. It is still routed through a foreign intermediary. It still means I had a personal financial stake in whether my own economic policies succeeded or failed. The only question is whether the stake was small enough to be defensible — or whether the very fact of the stake makes it indefensible."
     }
   ],
-
   "choices": [
     {
       "id": "currency_small_profit",
       "text": "\"The hedge paid out — 5,000 ₭. A modest return on a modest position. The Krone declined, and the hedge did what hedges are supposed to do: it cushioned the blow. I did not cause the decline. I did not benefit from it in any way that matters compared to what the country lost. But I protected my family, which is what I said I was doing. I will take the return. I will not apologize for being prudent. And I will remind anyone who asks that I invested one thousand ₭, not four thousand — because even when I was hedging, I was hedging responsibly. The difference between insurance and speculation is scale. I kept the scale small. That matters.\"",
       "internalTag": "pragmatist",
       "conditions": [
-        { "stat": "nation.economyHealth", "operator": "<=", "value": -25 }
+        {
+          "stat": "nation.economyHealth",
+          "operator": "<=",
+          "value": -25
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": 5000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -6  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 3   }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": 5000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["currency_hedge_paid", "currency_position_resolved"],
-      "codexUnlocks": []
+      "flags": [
+        "currency_hedge_paid",
+        "currency_position_resolved"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "currency_small_lost",
       "text": "\"The hedge did not pay out. The Krone stabilized, the position closed at a loss, and the 1,000 ₭ is gone. Good. I am relieved — not about losing the money, but about what losing it means. It means the economy did not crash. It means my policies worked. It means I can honestly say that the 1,000 ₭ I lost was a small price to pay for the country's stability. If anyone ever asks about the hedge, I will tell them exactly that: I bet against the Krone as insurance, the Krone held, and I lost the bet. That is a story about a Chancellor whose policy succeeded and whose hedge failed. It is the right outcome, in the right order.\"",
       "internalTag": "relieved",
       "conditions": [
-        { "stat": "nation.economyHealth", "operator": ">", "value": -25 }
+        {
+          "stat": "nation.economyHealth",
+          "operator": ">",
+          "value": -25
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 3   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 1   }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 1
+        }
       ],
-      "flags": ["currency_hedge_lost", "currency_position_resolved", "prudent_hedge_resolved"],
-      "codexUnlocks": []
+      "flags": [
+        "currency_hedge_lost",
+        "currency_position_resolved",
+        "prudent_hedge_resolved"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     }
   ]
 }

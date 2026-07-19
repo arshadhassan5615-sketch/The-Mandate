@@ -43,25 +43,32 @@
     }
   ],
   "monologue": "A name I know. In a BNI surveillance file. This is what Halvek built — a machine that watched everyone, kept files on everyone, and made everyone slightly complicit by simply existing. Oberlin has been waiting to put this folder in front of a chancellor for fifteen years. I understand why. I also need to understand exactly what's in it before I decide what to do.",
-
   "choices": [
     {
       "id": "read_the_file",
       "text": "Read it. All of it.",
-      "nextSegment": "reading_the_file"
+      "nextSegment": "reading_the_file",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "dont_read",
       "text": "Close it. I don't want to know names before I make this decision.",
-      "nextSegment": "oberlin_waits"
+      "nextSegment": "oberlin_waits",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_oberlin_first",
       "text": "Tell me what's in it. Don't make me read it alone.",
-      "nextSegment": "oberlin_explains"
+      "nextSegment": "oberlin_explains",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
-
   "segments": {
     "reading_the_file": {
       "narrative": [
@@ -93,21 +100,29 @@
         {
           "id": "ask_about_agents",
           "text": "How many agents are actively maintaining these files?",
-          "nextSegment": "agents_question"
+          "nextSegment": "agents_question",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "ask_about_fabrications",
           "text": "Some of these are fabricated. How many?",
-          "nextSegment": "fabrications_question"
+          "nextSegment": "fabrications_question",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "reading_to_cabinet",
           "text": "I've seen enough. Let's hear from the others.",
-          "nextSegment": "cabinet_arrives"
+          "nextSegment": "cabinet_arrives",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "oberlin_waits": {
       "narrative": [
         {
@@ -138,16 +153,21 @@
         {
           "id": "ask_scope",
           "text": "Tell me the scope. How many files, how many agents.",
-          "nextSegment": "agents_question"
+          "nextSegment": "agents_question",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "wait_for_others",
           "text": "Let's wait for Vyktor and Dusek.",
-          "nextSegment": "cabinet_arrives"
+          "nextSegment": "cabinet_arrives",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "oberlin_explains": {
       "narrative": [
         {
@@ -175,16 +195,21 @@
         {
           "id": "access_question",
           "text": "They may still have access to this office?",
-          "nextSegment": "access_detail"
+          "nextSegment": "access_detail",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "shocked_to_cabinet",
           "text": "Get Vyktor and Dusek here. Now.",
-          "nextSegment": "cabinet_arrives"
+          "nextSegment": "cabinet_arrives",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "access_detail": {
       "narrative": [
         {
@@ -210,16 +235,21 @@
         {
           "id": "let_them_listen",
           "text": "Let them listen. I want whoever is on the other end to hear exactly what I decide.",
-          "nextSegment": "cabinet_arrives"
+          "nextSegment": "cabinet_arrives",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "move_rooms",
           "text": "We move this meeting. Right now.",
-          "nextSegment": "move_rooms_segment"
+          "nextSegment": "move_rooms_segment",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "move_rooms_segment": {
       "narrative": [
         {
@@ -250,11 +280,13 @@
         {
           "id": "garden_continue",
           "text": "We deal with the device after we deal with the BNI. Talk.",
-          "nextSegment": "bni_argument_begins"
+          "nextSegment": "bni_argument_begins",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "agents_question": {
       "narrative": [
         {
@@ -272,11 +304,13 @@
         {
           "id": "agents_to_cabinet",
           "text": "Two hundred agents reporting to no one. Let's hear from Vyktor and Dusek.",
-          "nextSegment": "cabinet_arrives"
+          "nextSegment": "cabinet_arrives",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "fabrications_question": {
       "narrative": [
         {
@@ -298,11 +332,13 @@
         {
           "id": "fabrications_to_cabinet",
           "text": "Fabricated files on eleven thousand people. Bring in the others.",
-          "nextSegment": "cabinet_arrives"
+          "nextSegment": "cabinet_arrives",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "cabinet_arrives": {
       "narrative": [
         {
@@ -334,21 +370,29 @@
         {
           "id": "ask_dusek_alternative",
           "text": "Dusek — is there a way to preserve the military intelligence without the surveillance apparatus?",
-          "nextSegment": "dusek_alternative"
+          "nextSegment": "dusek_alternative",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "ask_vyktor_politics",
           "text": "Vyktor — politically, which decision can we survive?",
-          "nextSegment": "vyktor_political_read"
+          "nextSegment": "vyktor_political_read",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "ask_oberlin_consequence",
           "text": "Danika — if we dissolve it completely, what happens to the agents?",
-          "nextSegment": "dissolution_consequence"
+          "nextSegment": "dissolution_consequence",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "dusek_alternative": {
       "narrative": [
         {
@@ -371,11 +415,13 @@
         {
           "id": "dusek_alt_to_final",
           "text": "I've heard the arguments. This is my decision.",
-          "nextSegment": "bni_argument_begins"
+          "nextSegment": "bni_argument_begins",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "vyktor_political_read": {
       "narrative": [
         {
@@ -393,11 +439,13 @@
         {
           "id": "politics_to_final",
           "text": "Understood. This is what I've decided.",
-          "nextSegment": "bni_argument_begins"
+          "nextSegment": "bni_argument_begins",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "dissolution_consequence": {
       "narrative": [
         {
@@ -415,11 +463,13 @@
         {
           "id": "consequence_to_final",
           "text": "I've heard enough to decide.",
-          "nextSegment": "bni_argument_begins"
+          "nextSegment": "bni_argument_begins",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "bni_argument_begins": {
       "narrative": [
         {
@@ -437,18 +487,31 @@
         }
       ],
       "monologue": "This is the decision that defines what kind of government we are. Not the budget — the budget is about priorities. This is about what we're willing to inherit. Halvek built a machine that watched people, kept their secrets, and used those secrets when it needed to. The machine still exists. It's running right now. The only question is whether I turn it off, keep it, or try to change what it's for. All three answers have consequences I can see. All three have consequences I can't.",
-
       "choices": [
         {
           "id": "dissolve_bni",
           "text": "Dissolve the BNI. All operations cease. Files are destroyed under independent oversight. We build a civilian intelligence review board from scratch.",
           "statEffects": [
-            {"stat": "civil_liberties", "value": 15},
-            {"stat": "security_rating", "value": -12},
-            {"stat": "assembly_reformist", "value": 8},
-            {"stat": "assembly_hardliner", "value": -8}
+            {
+              "stat": "civil_liberties",
+              "value": 15
+            },
+            {
+              "stat": "security_rating",
+              "value": -12
+            },
+            {
+              "stat": "assembly_reformist",
+              "value": 8
+            },
+            {
+              "stat": "assembly_hardliner",
+              "value": -8
+            }
           ],
-          "flags": ["bni_dissolved"],
+          "flags": [
+            "bni_dissolved"
+          ],
           "reactions": [
             {
               "character": "danika_oberlin",
@@ -469,18 +532,35 @@
           "journalEntry": {
             "title": "Dissolved the BNI",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "keep_bni_review",
           "text": "Keep the BNI but order a full independent review of all files. Suspend domestic surveillance operations pending the review. Strip the domestic mandate if the review confirms the abuses.",
           "statEffects": [
-            {"stat": "civil_liberties", "value": 5},
-            {"stat": "security_rating", "value": -3},
-            {"stat": "assembly_reformist", "value": 3},
-            {"stat": "assembly_hardliner", "value": -2}
+            {
+              "stat": "civil_liberties",
+              "value": 5
+            },
+            {
+              "stat": "security_rating",
+              "value": -3
+            },
+            {
+              "stat": "assembly_reformist",
+              "value": 3
+            },
+            {
+              "stat": "assembly_hardliner",
+              "value": -2
+            }
           ],
-          "flags": ["bni_review", "bni_active"],
+          "flags": [
+            "bni_review",
+            "bni_active"
+          ],
           "reactions": [
             {
               "character": "danika_oberlin",
@@ -506,18 +586,35 @@
           "journalEntry": {
             "title": "Ordered BNI Review",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "keep_bni_no_review",
           "text": "Retain the BNI under new Interior Ministry oversight. No public review. Restructure the command chain. Keep the files secure and classified.",
           "statEffects": [
-            {"stat": "civil_liberties", "value": -8},
-            {"stat": "security_rating", "value": 8},
-            {"stat": "assembly_reformist", "value": -10},
-            {"stat": "assembly_hardliner", "value": 10}
+            {
+              "stat": "civil_liberties",
+              "value": -8
+            },
+            {
+              "stat": "security_rating",
+              "value": 8
+            },
+            {
+              "stat": "assembly_reformist",
+              "value": -10
+            },
+            {
+              "stat": "assembly_hardliner",
+              "value": 10
+            }
           ],
-          "flags": ["bni_retained", "bni_active"],
+          "flags": [
+            "bni_retained",
+            "bni_active"
+          ],
           "reactions": [
             {
               "character": "danika_oberlin",
@@ -543,18 +640,35 @@
           "journalEntry": {
             "title": "Retained the BNI",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "restructure_bni",
           "text": "Restructure the BNI. Strip domestic surveillance entirely. Keep foreign intelligence and border monitoring under military oversight with a new civilian review board. Danika chairs the board.",
           "statEffects": [
-            {"stat": "civil_liberties", "value": 10},
-            {"stat": "security_rating", "value": 2},
-            {"stat": "assembly_reformist", "value": 5},
-            {"stat": "assembly_hardliner", "value": -4}
+            {
+              "stat": "civil_liberties",
+              "value": 10
+            },
+            {
+              "stat": "security_rating",
+              "value": 2
+            },
+            {
+              "stat": "assembly_reformist",
+              "value": 5
+            },
+            {
+              "stat": "assembly_hardliner",
+              "value": -4
+            }
           ],
-          "flags": ["bni_restructured", "oberlin_review_chair"],
+          "flags": [
+            "bni_restructured",
+            "oberlin_review_chair"
+          ],
           "reactions": [
             {
               "character": "danika_oberlin",
@@ -580,7 +694,9 @@
           "journalEntry": {
             "title": "Restructured the BNI",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

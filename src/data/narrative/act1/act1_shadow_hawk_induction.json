@@ -4,7 +4,9 @@
   "week": 13,
   "type": "personal",
   "location": "Ashenmere Palace Greenhouse — 02:00",
-  "characters": ["matthias_krel"],
+  "characters": [
+    "matthias_krel"
+  ],
   "act": 1,
   "weekAvailable": 13,
   "weekDeadline": 13,
@@ -20,7 +22,8 @@
       "chainTriggers": [],
       "codexUnlocks": [],
       "reactions": [],
-      "nextSegment": "greenhouse_arrival"
+      "nextSegment": "greenhouse_arrival",
+      "flags": []
     }
   ],
   "segments": {
@@ -61,7 +64,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "wallet_contents"
+          "nextSegment": "wallet_contents",
+          "flags": []
         },
         {
           "id": "hawk_dont_open_yet",
@@ -69,7 +73,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "krel_identity"
+          "nextSegment": "krel_identity",
+          "flags": []
         }
       ]
     },
@@ -102,7 +107,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "wallet_contents"
+          "nextSegment": "wallet_contents",
+          "flags": []
         }
       ]
     },
@@ -130,7 +136,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "krel_how"
+          "nextSegment": "krel_how",
+          "flags": []
         },
         {
           "id": "hawk_skip_to_offer",
@@ -138,7 +145,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "krel_offer"
+          "nextSegment": "krel_offer",
+          "flags": []
         }
       ]
     },
@@ -166,7 +174,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "krel_offer"
+          "nextSegment": "krel_offer",
+          "flags": []
         }
       ]
     },
@@ -198,10 +207,21 @@
           "id": "hawk_full_authority",
           "text": "\"You have the budget. Full authority. I want to know everything your people find, and I want it before anyone else does.\"",
           "internalTag": "authoritarian",
-          "flags": ["hawk_active_full", "hawk_inducted"],
+          "flags": [
+            "hawk_active_full",
+            "hawk_inducted"
+          ],
           "stateChanges": [
-            { "stat": "shadowInfluence", "operation": "add", "value": 15 },
-            { "stat": "shadowFootprint", "operation": "add", "value": 5 }
+            {
+              "stat": "shadowInfluence",
+              "operation": "add",
+              "value": 15
+            },
+            {
+              "stat": "shadowFootprint",
+              "operation": "add",
+              "value": 5
+            }
           ],
           "chainTriggers": [],
           "codexUnlocks": [],
@@ -212,10 +232,21 @@
           "id": "hawk_deniable",
           "text": "\"You work for me. But if your people are ever found, I have never heard your name. That is the arrangement.\"",
           "internalTag": "pragmatist",
-          "flags": ["hawk_active_deniable", "hawk_inducted"],
+          "flags": [
+            "hawk_active_deniable",
+            "hawk_inducted"
+          ],
           "stateChanges": [
-            { "stat": "shadowInfluence", "operation": "add", "value": 10 },
-            { "stat": "shadowFootprint", "operation": "add", "value": 3 }
+            {
+              "stat": "shadowInfluence",
+              "operation": "add",
+              "value": 10
+            },
+            {
+              "stat": "shadowFootprint",
+              "operation": "add",
+              "value": 3
+            }
           ],
           "chainTriggers": [],
           "codexUnlocks": [],
@@ -226,10 +257,21 @@
           "id": "hawk_refuse_budget",
           "text": "\"No budget. No sanction. I will not authorize what I cannot account for. But I will not pretend this conversation did not happen either.\"",
           "internalTag": "reformist",
-          "flags": ["hawk_active_ghost", "hawk_inducted"],
+          "flags": [
+            "hawk_active_ghost",
+            "hawk_inducted"
+          ],
           "stateChanges": [
-            { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
-            { "stat": "shadowFootprint", "operation": "add", "value": 1 }
+            {
+              "stat": "personal.moralCompass",
+              "operation": "add",
+              "value": 5
+            },
+            {
+              "stat": "shadowFootprint",
+              "operation": "add",
+              "value": 1
+            }
           ],
           "chainTriggers": [],
           "codexUnlocks": [],
@@ -276,7 +318,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": []
         }
       ]
     },
@@ -318,7 +361,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": []
         }
       ]
     },
@@ -365,7 +409,8 @@
           "chainTriggers": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": []
         }
       ]
     }

@@ -9,14 +9,21 @@
   "prerequisites": [],
   "type": "meeting",
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["vyktor_reznik", "aleksander_igor", "elara_vostane"],
+  "characters": [
+    "vyktor_reznik",
+    "aleksander_igor",
+    "elara_vostane"
+  ],
   "dialogue": "The Foreign Minister's report arrived this morning. Two pages. The second page is the one that matters.",
   "monologue": "Two weeks since Igor sat in that chair. Tyvaren's formal offer landed in Morivask's capital four days ago. We have the number now. It is larger than I wanted it to be.",
   "choices": [
     {
       "id": "week20_open_report",
       "text": "Read the report aloud, Vyktor.",
-      "nextSegment": "vyktor_foreign_report"
+      "nextSegment": "vyktor_foreign_report",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -47,12 +54,18 @@
         {
           "id": "week20_ask_elara_hybrid",
           "text": "Walk me through the hybrid structure.",
-          "nextSegment": "elara_hybrid_detail"
+          "nextSegment": "elara_hybrid_detail",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week20_ask_morivask_fear",
           "text": "What exactly does Morivask fear about Tyvaren?",
-          "nextSegment": "vyktor_morivask_fear"
+          "nextSegment": "vyktor_morivask_fear",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -74,7 +87,10 @@
         {
           "id": "week20_morivask_to_hybrid",
           "text": "Then we need the hybrid model to make the numbers credible. Elara — walk me through it.",
-          "nextSegment": "elara_hybrid_detail"
+          "nextSegment": "elara_hybrid_detail",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -100,12 +116,18 @@
         {
           "id": "week20_bring_in_igor",
           "text": "Bring Igor in. I want to hear his reaction to this structure directly.",
-          "nextSegment": "igor_enters_week20"
+          "nextSegment": "igor_enters_week20",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week20_ask_elara_igor_reaction",
           "text": "Has Igor seen these numbers?",
-          "nextSegment": "elara_igor_preview"
+          "nextSegment": "elara_igor_preview",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -121,7 +143,10 @@
         {
           "id": "week20_igor_in_after_preview",
           "text": "Send him in.",
-          "nextSegment": "igor_enters_week20"
+          "nextSegment": "igor_enters_week20",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -147,7 +172,10 @@
         {
           "id": "week20_present_hybrid",
           "text": "We have a structure. State holds the operating license. Black Seam operates under a technical services agreement. You take twenty-eight percent of gross. Morivask takes thirty-seven. We take thirty-five.",
-          "nextSegment": "igor_hybrid_reaction"
+          "nextSegment": "igor_hybrid_reaction",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -160,7 +188,7 @@
         {
           "type": "dialogue",
           "character": "aleksander_igor",
-          "text": "Twenty-eight of gross versus forty of net. Depending on operating costs — which I control — those converge. The gross figure is actually safer for me in a high-cost environment." 
+          "text": "Twenty-eight of gross versus forty of net. Depending on operating costs — which I control — those converge. The gross figure is actually safer for me in a high-cost environment."
         },
         {
           "type": "dialogue",
@@ -179,19 +207,28 @@
           "id": "week20_offer_twelve_years",
           "text": "Twelve years, renewable by mutual agreement.",
           "internalTag": "pragmatist",
-          "nextSegment": "igor_accepts_deal"
+          "nextSegment": "igor_accepts_deal",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week20_offer_ten_years",
           "text": "Ten years. Standard term.",
           "internalTag": "reformist",
-          "nextSegment": "igor_negotiates_term"
+          "nextSegment": "igor_negotiates_term",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week20_offer_eight_years",
           "text": "Eight years. With performance benchmarks at year four.",
           "internalTag": "authoritarian",
-          "nextSegment": "igor_pushes_back_hard"
+          "nextSegment": "igor_pushes_back_hard",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -209,14 +246,22 @@
           "id": "week20_accept_eleven",
           "text": "Eleven years. Right of first renewal. Done.",
           "internalTag": "reformist",
-          "flags": ["oil_deal_hybrid_signed", "igor_services_agreement_11yr"],
-          "nextSegment": "deal_signed_hybrid"
+          "flags": [
+            "oil_deal_hybrid_signed",
+            "igor_services_agreement_11yr"
+          ],
+          "nextSegment": "deal_signed_hybrid",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week20_hold_ten",
           "text": "Ten years is the term. If the operation performs, renewal is automatic.",
           "internalTag": "authoritarian",
-          "nextSegment": "igor_tense_standoff"
+          "nextSegment": "igor_tense_standoff",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -243,13 +288,21 @@
           "id": "week20_move_to_ten",
           "text": "Ten years. With the benchmarks dropped.",
           "internalTag": "pragmatist",
-          "flags": ["oil_deal_hybrid_signed", "igor_services_agreement_10yr"],
-          "nextSegment": "deal_signed_hybrid"
+          "flags": [
+            "oil_deal_hybrid_signed",
+            "igor_services_agreement_10yr"
+          ],
+          "nextSegment": "deal_signed_hybrid",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week20_hold_eight",
           "text": "Eight years is the term. The benchmarks protect both of us.",
-          "nextSegment": "igor_walks"
+          "nextSegment": "igor_walks",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -269,13 +322,21 @@
         {
           "id": "week20_standoff_accept",
           "text": "Eleven years. We are done.",
-          "flags": ["oil_deal_hybrid_signed", "igor_services_agreement_11yr"],
-          "nextSegment": "deal_signed_hybrid"
+          "flags": [
+            "oil_deal_hybrid_signed",
+            "igor_services_agreement_11yr"
+          ],
+          "nextSegment": "deal_signed_hybrid",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "week20_standoff_refuse",
           "text": "Ten years. Final.",
-          "nextSegment": "igor_walks"
+          "nextSegment": "igor_walks",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -291,12 +352,18 @@
           "text": "He extends his hand across the desk. The grip is the same as two weeks ago — the grip of someone genuinely pleased. But there is something else in it now. Relief."
         }
       ],
-      "flags": ["oil_deal_hybrid_signed", "igor_services_agreement_12yr"],
+      "flags": [
+        "oil_deal_hybrid_signed",
+        "igor_services_agreement_12yr"
+      ],
       "choices": [
         {
           "id": "week20_to_signed",
           "text": "Then let's get the Foreign Minister on a plane to Morivask.",
-          "nextSegment": "deal_signed_hybrid"
+          "nextSegment": "deal_signed_hybrid",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -323,21 +390,41 @@
           "id": "week20_end_success",
           "text": "[End Meeting]",
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": 12 },
-            { "stat": "nation.publicOrder", "value": 3 },
-            { "stat": "factions.reformists", "value": -5 },
-            { "stat": "factions.businessClass", "value": 10 }
+            {
+              "stat": "nation.economyHealth",
+              "value": 12
+            },
+            {
+              "stat": "nation.publicOrder",
+              "value": 3
+            },
+            {
+              "stat": "factions.reformists",
+              "value": -5
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": 10
+            }
           ],
-          "flags": ["morivask_oil_deal_complete", "tyvaren_hostile_energy"],
+          "flags": [
+            "morivask_oil_deal_complete",
+            "tyvaren_hostile_energy"
+          ],
           "chainTriggers": [
-            { "targetNodeId": "act2_week22_oil_outcome", "delayWeeks": 2, "probability": 1.0 }
+            {
+              "targetNodeId": "act2_week22_oil_outcome",
+              "delayWeeks": 2,
+              "probability": 1
+            }
           ],
           "journalEntry": {
             "title": "The Tyvaren Shadow — Deal Signed",
             "category": "DIPLOMACY",
             "content": "We signed with Igor. State license, Black Seam operations. The hybrid model Elara designed. Morivask gets a better deal than Tyvaren offered and we get the eastern corridor. Tyvaren will retaliate. Elara said sixty days. Vyktor thinks sooner. I am choosing to believe sixty days is enough time to make the deal irreversible before the pressure starts."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "codexUnlocks": []
         }
       ]
     },
@@ -372,19 +459,33 @@
           "id": "week20_end_failed",
           "text": "[End Meeting]",
           "statEffects": [
-            { "stat": "nation.economyHealth", "value": -6 },
-            { "stat": "factions.businessClass", "value": -8 }
+            {
+              "stat": "nation.economyHealth",
+              "value": -6
+            },
+            {
+              "stat": "factions.businessClass",
+              "value": -8
+            }
           ],
-          "flags": ["oil_deal_failed", "igor_frustrated"],
+          "flags": [
+            "oil_deal_failed",
+            "igor_frustrated"
+          ],
           "chainTriggers": [
-            { "targetNodeId": "act2_week22_oil_outcome", "delayWeeks": 2, "probability": 1.0 }
+            {
+              "targetNodeId": "act2_week22_oil_outcome",
+              "delayWeeks": 2,
+              "probability": 1
+            }
           ],
           "journalEntry": {
             "title": "The Tyvaren Shadow — Deal Collapsed",
             "category": "DIPLOMACY",
             "content": "Igor walked. One year. The deal collapsed on one year of term length. I held the line and the line cost me the deal. Tyvaren will formalize with Morivask within the month. I need to decide what that means for the eastern border before it becomes a crisis I cannot manage."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "codexUnlocks": []
         }
       ]
     }

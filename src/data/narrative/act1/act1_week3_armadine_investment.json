@@ -10,7 +10,6 @@
   "location": "A Private Club — Ashenmere Financial District",
   "characters": [],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
@@ -21,46 +20,97 @@
       "text": "Armadine Industries supplies the military and state infrastructure. As Chancellor, I will be making decisions that affect their profitability — decisions about military spending, infrastructure budgets, and potentially nationalization of strategic industries. If I invest now and those decisions benefit Armadine, it will look like corruption. If I nationalize the steel industry, I lose my investment. Dorin is not offering me a financial opportunity. He is offering me a test — of whether I understand that power and profit are connected, and of whether I am willing to act on that understanding. The return is genuine. So is the risk."
     }
   ],
-
   "monologue": "Armadine Industries supplies the military and state infrastructure. As Chancellor, I will make decisions that affect their profitability. Dorin is not offering me a financial opportunity — he's offering me a test. Invest now and the decisions I make about steel are connected to my personal finances. Decline and I establish that this government doesn't trade on inside access. The return is genuine. So is the risk. The letter was sent to my residence, not my office. That choice was intentional.",
-
   "choices": [
     {
       "id": "armadine_invest",
       "text": "\"Invest the 3,000 ₭. I understand the optics — a Chancellor investing in a company that depends on government contracts. But my personal finances and my policy decisions are separate. I will make the right decisions for the country regardless of how they affect Armadine's share price. If the steel industry needs nationalizing, I will nationalize it and accept the loss. If it does not, I will accept the return. Either way, I am not going to govern my personal finances based on what might look bad to people who are looking for reasons to criticize me.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": -3000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -3  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 5   }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -3000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["armadine_invested", "conflict_of_interest_steel"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_invested",
+        "conflict_of_interest_steel"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "armadine_decline",
       "text": "\"Return the letter. Tell Dorin that the Chancellor does not invest in companies whose fortunes depend on government decisions. I am not a private citizen anymore — I am the head of government, and my financial decisions will be scrutinized for conflicts of interest. The return is attractive. The implication behind the offer is not. I am not for sale, and I am not going to start my Chancellorship by creating a financial incentive to make bad policy decisions. There will be other investment opportunities. There will not be another chance to establish that this government does not trade on inside access.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   },
-        { "stat": "factions.reformists",          "operation": "add", "value": 3   },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -5  }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -5
+        }
       ],
-      "flags": ["armadine_declined", "ethical_governance"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_declined",
+        "ethical_governance"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "armadine_invest_pass_along",
       "text": "\"Forward the offer to Jonas. Let him invest in his own name. The money is the same — 3,000 ₭ from our household — but it is in his account, under his name, at arm's length from the Chancellery. Dorin gets his investment. I get deniability. And if there is ever a question about conflict of interest, I can truthfully say that I have no personal holdings in Armadine Industries. Jonas manages the family finances. This is a family investment decision. The fact that it happens to be a good one is not a scandal — it is prudence.\"",
       "internalTag": "cunning",
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": -3000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -6  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 3   },
-        { "stat": "personal.marriageHealth",      "operation": "add", "value": -3  }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -3000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.marriageHealth",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["armadine_jonas_invested", "conflict_of_interest_steel", "plausible_deniability"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_jonas_invested",
+        "conflict_of_interest_steel",
+        "plausible_deniability"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     }
   ]
 }

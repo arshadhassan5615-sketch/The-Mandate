@@ -7,7 +7,11 @@
   "agendaCost": 0,
   "isMandatory": true,
   "location": "Constitutional Committee Chamber — Ashenmere Parliament Building",
-  "characters": ["aldric_theron", "soraya_khaled", "stanislov_renek"],
+  "characters": [
+    "aldric_theron",
+    "soraya_khaled",
+    "stanislov_renek"
+  ],
   "prerequisites": [],
   "narrative": [
     {
@@ -40,55 +44,110 @@
       "text": "Accept Archbishop Renek's rider. Protect religious schools. The Church's support is worth the compromise.",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "factions.church", "operation": "add", "value": 12 },
-        { "stat": "factions.workersCoalition", "operation": "add", "value": -6 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["rider_church_education", "constitution_pipeline_stage_1_done"],
+      "flags": [
+        "rider_church_education",
+        "constitution_pipeline_stage_1_done"
+      ],
       "reactions": [
         {
           "character": "aldric_theron",
           "type": "dialogue",
           "text": "He makes a note in the margin of his draft. The pen moves slowly, deliberately. 'The Church rider is defensible. Freedom of belief is a democratic value. But Soraya will not forget this, Chancellor. She will demand her pound of flesh before the committee is finished.'"
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "rider_worker_strike",
       "text": "Accept Soraya's rider. Enshrine the right to strike in the constitution. Workers deserve a seat at the table.",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.workersCoalition", "operation": "add", "value": 12 },
-        { "stat": "factions.church", "operation": "add", "value": -6 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        }
       ],
-      "flags": ["rider_worker_strike", "constitution_pipeline_stage_1_done"],
+      "flags": [
+        "rider_worker_strike",
+        "constitution_pipeline_stage_1_done"
+      ],
       "reactions": [
         {
           "character": "soraya_khaled",
           "type": "action",
           "text": "She does not smile — Soraya rarely smiles at political victories — but her shoulders drop half an inch. That is the equivalent of applause from her. 'You made the right choice, Chancellor. History will remember who stood with the workers, and who stood in their way.'"
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "rider_none",
       "text": "Reject both riders. The constitution must be pure. If it fails, it fails on principle — not because it was hollowed out by compromise.",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.workersCoalition", "operation": "add", "value": -8 },
-        { "stat": "factions.church", "operation": "add", "value": -8 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
-        { "stat": "personal.publicImage", "operation": "add", "value": 6 }
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 6
+        }
       ],
-      "flags": ["rider_none", "constitution_pipeline_stage_1_done"],
+      "flags": [
+        "rider_none",
+        "constitution_pipeline_stage_1_done"
+      ],
       "reactions": [
         {
           "character": "aldric_theron",
           "type": "silence",
           "text": "Theron sets down his pen. He looks at the draft — two hundred and forty pages of uncompromised principle — and nods once. 'It is the best constitution ever written for a country that does not yet exist. I hope the Assembly has the courage to vote for it. I hope you have the votes to make them.'"
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ]
 }

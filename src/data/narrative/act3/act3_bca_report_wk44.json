@@ -8,12 +8,22 @@
   "agendaCost": 1,
   "isMandatory": true,
   "location": "Bureau of Civic Accountability Headquarters — Ashenmere",
-  "characters": ["maren_tovik", "vyktor_reznik"],
-  "prerequisites": [
-    { "type": "flag", "flag": "bca_funded", "value": true },
-    { "type": "flag", "flag": "bca_second_report_complete", "value": true }
+  "characters": [
+    "maren_tovik",
+    "vyktor_reznik"
   ],
-
+  "prerequisites": [
+    {
+      "type": "flag",
+      "flag": "bca_funded",
+      "value": true
+    },
+    {
+      "type": "flag",
+      "flag": "bca_second_report_complete",
+      "value": true
+    }
+  ],
   "narrative": [
     {
       "type": "description",
@@ -47,67 +57,169 @@
       "text": "Vyktor. The man who has been at my side since the day I took this office. The man who briefed me every morning, who told me truths I did not want to hear, who made himself indispensable to a government he was not sure would survive. He destroyed evidence. He covered up the names of informants — and some of those informants were probably torturers. He made a choice in the chaos of the transition, alone in a records room, deciding what history would remember and what it would forget. And now Maren Tovik is asking me to decide whether that choice was a crime — and whether I am willing to prosecute the man who has been the most indispensable person in my government."
     }
   ],
-
   "choices": [
     {
       "id": "bca_prosecute_vyktor",
       "text": "\"Prosecute him. Maren, build your case — the same standard of evidence, the same standard of law, the same standard of accountability that applies to everyone else your investigation has identified. Vyktor, I am not going to stand here and tell you that I am sorry. You destroyed evidence. You made a choice about what the country was allowed to know about its own past, and you made that choice alone, in secret, without authorization from anyone. That is not how democracy works. That is how the old regime worked — decisions made in private by people who decided they knew better than everyone else. I have trusted you with more than I have trusted anyone in this government. That trust does not exempt you from the law. It cannot. That is the whole point.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 18  },
-        { "stat": "factions.halvekists",          "operation": "add", "value": -6  },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": 15  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 20  },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 10  },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": -8  },
-        { "stat": "personal.stressLevel",         "operation": "add", "value": 10  }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 18
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 20
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.stressLevel",
+          "operation": "add",
+          "value": 10
+        }
       ],
-      "flags": ["vyktor_prosecuted", "bca_final_report_complete", "accountability_absolute"],
+      "flags": [
+        "vyktor_prosecuted",
+        "bca_final_report_complete",
+        "accountability_absolute"
+      ],
       "chainTriggers": [
         {
           "targetNodeId": "act3_chain_vyktor_trial",
           "delayWeeks": 2
         }
       ],
-      "codexUnlocks": ["codex_vyktor_trial"]
+      "codexUnlocks": [
+        "codex_vyktor_trial"
+      ]
     },
     {
       "id": "bca_vyktor_resignation",
       "text": "\"Vyktor, you will resign. Today. You will issue a public statement acknowledging that you destroyed records during the transition, explaining your reasoning, and accepting that your actions — whatever their motivation — were incompatible with the standards this government requires. Maren, you will not prosecute. The records Vyktor destroyed contained the names of informants. Publishing those names would have destroyed lives — Vyktor is right about that. His crime was not protecting murderers. His crime was deciding alone. The punishment for that is the end of his career in government, not a prison cell. There is a difference between justice and vengeance. I am trying to find it.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 8   },
-        { "stat": "factions.halvekists",          "operation": "add", "value": 2   },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": 5   },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": 6   },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 5   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 3   },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 4   }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 4
+        }
       ],
-      "flags": ["vyktor_resigned", "bca_final_report_complete"],
+      "flags": [
+        "vyktor_resigned",
+        "bca_final_report_complete"
+      ],
       "chainTriggers": [
         {
           "targetNodeId": "act3_chain_vyktor_exit",
           "delayWeeks": 1
         }
       ],
-      "codexUnlocks": ["codex_vyktor_trial"]
+      "codexUnlocks": [
+        "codex_vyktor_trial"
+      ]
     },
     {
       "id": "bca_pardon_vyktor_shut_down",
       "text": "\"Maren, close the investigation. Vyktor made a decision under extraordinary circumstances — the kind of decision no one should have to make, in a transition that no one had prepared for. He destroyed records that would have named informants, triggered reprisals, and destabilized the country at the moment it was most fragile. That is not obstruction of justice. That is what governing looks like in the space between a dictatorship and a democracy. I am not prosecuting my Chief of Staff for making a judgment call in a crisis that he did not create. The BCA's work has been invaluable. It is also complete. The cases you have already built can proceed. The Vyktor Reznik case does not.\"",
       "internalTag": "hardline",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": -15 },
-        { "stat": "factions.halvekists",          "operation": "add", "value": 10  },
-        { "stat": "factions.ironCovenant",        "operation": "add", "value": 5   },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": 6   },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": -10 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -15 },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 15  }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 15
+        }
       ],
-      "flags": ["vyktor_protected", "bca_final_report_complete", "bca_politically_constrained", "accountability_compromised"],
-      "codexUnlocks": ["codex_vyktor_trial"]
+      "flags": [
+        "vyktor_protected",
+        "bca_final_report_complete",
+        "bca_politically_constrained",
+        "accountability_compromised"
+      ],
+      "codexUnlocks": [
+        "codex_vyktor_trial"
+      ],
+      "chainTriggers": []
     }
   ]
 }

@@ -15,7 +15,10 @@
     {
       "id": "sovarka_krel_enter",
       "text": "Go to the study.",
-      "nextSegment": "krel_discovery_brief"
+      "nextSegment": "krel_discovery_brief",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -49,12 +52,18 @@
         {
           "id": "sovarka_krel_ask_what",
           "text": "\"What did they find?\"",
-          "nextSegment": "krel_minerals_brief"
+          "nextSegment": "krel_minerals_brief",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_krel_ask_who",
           "text": "\"Who is they?\"",
-          "nextSegment": "krel_powers_brief"
+          "nextSegment": "krel_powers_brief",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -75,7 +84,10 @@
         {
           "id": "sovarka_powers_to_minerals",
           "text": "\"What did the survey find?\"",
-          "nextSegment": "krel_minerals_brief"
+          "nextSegment": "krel_minerals_brief",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -110,17 +122,26 @@
         {
           "id": "sovarka_krel_ask_timeline",
           "text": "\"How long before Tyvaren makes a formal approach to Sovarka?\"",
-          "nextSegment": "krel_timeline_brief"
+          "nextSegment": "krel_timeline_brief",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_krel_ask_luca",
           "text": "\"What do you know about the Sovarkan President?\"",
-          "nextSegment": "krel_luca_brief"
+          "nextSegment": "krel_luca_brief",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_krel_skip_to_meeting",
           "text": "\"Accept the meeting request. I will see the President today.\"",
-          "nextSegment": "krel_meeting_setup"
+          "nextSegment": "krel_meeting_setup",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -142,12 +163,18 @@
         {
           "id": "sovarka_timeline_to_luca",
           "text": "\"Tell me about the President.\"",
-          "nextSegment": "krel_luca_brief"
+          "nextSegment": "krel_luca_brief",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_timeline_to_meeting",
           "text": "\"Accept the meeting. I will see him today.\"",
-          "nextSegment": "krel_meeting_setup"
+          "nextSegment": "krel_meeting_setup",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -178,7 +205,10 @@
         {
           "id": "sovarka_luca_to_meeting",
           "text": "\"Accept the meeting. I will see him today.\"",
-          "nextSegment": "krel_meeting_setup"
+          "nextSegment": "krel_meeting_setup",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -212,7 +242,10 @@
         {
           "id": "sovarka_krel_depart",
           "text": "[Krel leaves — wait for the official meeting request]",
-          "nextSegment": "luca_arrival_day"
+          "nextSegment": "luca_arrival_day",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -241,13 +274,25 @@
         {
           "id": "sovarka_let_luca_explain",
           "text": "Say nothing. Let him explain. See how much he knows and how he frames it.",
-          "nextSegment": "luca_explains"
+          "nextSegment": "luca_explains",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_hawk_reveal_early",
           "text": "[HAWK INTEL] \"President Luca — before you begin. I want you to know that Veltria is already aware of the situation in your highlands. And of Tyvaren's interest. Sit with that for a moment and then tell me what you came to say.\"",
-          "conditions": [{ "type": "flag", "flag": "hawk_inducted", "value": true }],
-          "nextSegment": "luca_hawk_reveal_reaction"
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "hawk_inducted",
+              "value": true
+            }
+          ],
+          "nextSegment": "luca_hawk_reveal_reaction",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -277,12 +322,18 @@
         {
           "id": "sovarka_reveal_full",
           "text": "\"The Tyvaren survey summary. The Arcturian commercial teams. The deposit profile — dysprosium, neodymium, largest known regional concentration. And Tyvaren's timeline. You have six to ten weeks before their formal offer.\"",
-          "nextSegment": "luca_full_reveal_reaction"
+          "nextSegment": "luca_full_reveal_reaction",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_reveal_partial",
           "text": "\"Enough to know you came to the right place. Tell me the rest in your own words.\"",
-          "nextSegment": "luca_explains"
+          "nextSegment": "luca_explains",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -317,7 +368,10 @@
         {
           "id": "sovarka_reveal_to_proposal",
           "text": "\"Veltria wants a partnership. Not ownership — partnership. Let me tell you what that means.\"",
-          "nextSegment": "katerin_proposal"
+          "nextSegment": "katerin_proposal",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -344,12 +398,18 @@
         {
           "id": "sovarka_explain_to_proposal",
           "text": "\"President Luca — I want to show you something before I respond.\"",
-          "nextSegment": "katerin_shows_survey"
+          "nextSegment": "katerin_shows_survey",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_explain_to_direct",
           "text": "\"I appreciate the proposal. My answer is yes. Let me tell you what Veltria can offer.\"",
-          "nextSegment": "katerin_proposal"
+          "nextSegment": "katerin_proposal",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -401,7 +461,10 @@
         {
           "id": "sovarka_survey_to_proposal",
           "text": "\"Let me tell you what Veltria wants and what we can offer.\"",
-          "nextSegment": "katerin_proposal"
+          "nextSegment": "katerin_proposal",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -446,7 +509,9 @@
               "value": 4
             }
           ],
-          "nextSegment": "sovarka_close_full"
+          "nextSegment": "sovarka_close_full",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_make_quiet_offer",
@@ -466,7 +531,9 @@
               "value": 12
             }
           ],
-          "nextSegment": "sovarka_close_quiet"
+          "nextSegment": "sovarka_close_quiet",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_defer_still",
@@ -486,7 +553,9 @@
               "value": -3
             }
           ],
-          "nextSegment": "sovarka_close_defer"
+          "nextSegment": "sovarka_close_defer",
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -536,7 +605,8 @@
             "category": "DIPLOMACY",
             "content": "Krel came before dawn with the Tyvaren survey summary. Rare earth minerals in the Sovarka highlands — dysprosium and neodymium, largest known regional deposit. Six to ten weeks before Tyvaren formalizes. Luca arrived by midafternoon. I showed him the survey summary. He recalibrated in thirty seconds and asked the real question. I offered a full public partnership — official, on the record, Veltria stands with Sovarka before Tyvaren makes their offer. He said yes. He committed to telling me immediately if Tyvaren approaches. Vyktor told him we would be monitoring independently. He understood what that meant and shook my hand anyway."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": []
         }
       ]
     },
@@ -578,7 +648,8 @@
             "category": "DIPLOMACY",
             "content": "Krel came before dawn. Tyvaren survey summary, mineral profile, six to ten week window. Luca arrived midafternoon. I took the quiet route — private channels, deniable until signed. Luca accepted but asked for one thing: when the agreement is formalized, Veltria stands beside it publicly. Eight hundred thousand people need to see they chose correctly. Vyktor gave his word. I need to make sure we keep it."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": []
         }
       ]
     },
@@ -632,7 +703,8 @@
             "category": "DIPLOMACY",
             "content": "Krel came before dawn with the Tyvaren survey summary. Luca arrived midafternoon. I showed him the document. He accepted the conditional answer — survey first, partnership after confirmation. He left the Tyvaren document with us. Vyktor said it was either trust or a negotiating gesture. Possibly both. Six to ten weeks before Tyvaren formalizes. I chose caution over commitment. I will find out if that was wisdom or hesitation when Luca comes back."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": []
         }
       ]
     }

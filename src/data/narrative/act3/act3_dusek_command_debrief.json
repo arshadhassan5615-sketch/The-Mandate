@@ -7,9 +7,12 @@
   "type": "personal",
   "agendaCost": 1,
   "location": "Chancellor's Office — Ashenmere Palace",
-  "characters": ["colonel_dusek"],
-  "prerequisiteFlags": ["dusek_acting_commander"],
-
+  "characters": [
+    "colonel_dusek"
+  ],
+  "prerequisiteFlags": [
+    "dusek_acting_commander"
+  ],
   "narrative": [
     {
       "type": "dialogue",
@@ -25,9 +28,7 @@
       "text": "I gave her the authority. She never once used it to ask for more."
     }
   ],
-
   "monologue": "She held the constitutional chain the same way she holds everything — with both hands, at exactly the weight it was given to her.",
-
   "choices": [
     {
       "id": "debrief_acknowledge_command",
@@ -35,20 +36,41 @@
       "internalTag": "personal",
       "tooltip": "Formally recognize Dusek's role in the constitutional defense.",
       "stateChanges": [
-        { "stat": "nation.militaryReadiness",   "operation": "add", "value": 6 },
-        { "stat": "factions.reformists",        "operation": "add", "value": 8 },
-        { "stat": "personal.moralCompass",      "operation": "add", "value": 5 },
-        { "stat": "advisorTrust.dusek",         "operation": "add", "value": 12 }
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "advisorTrust.dusek",
+          "operation": "add",
+          "value": 12
+        }
       ],
-      "flags": ["dusek_command_acknowledged"],
-      "codexUnlocks": ["codex_article_four"],
+      "flags": [
+        "dusek_command_acknowledged"
+      ],
+      "codexUnlocks": [
+        "codex_article_four"
+      ],
       "reactions": [
         {
           "character": "colonel_dusek",
           "type": "dialogue",
           "text": "I held the chain of command, Chancellor. Nothing more. Nothing less."
         }
-      ]
+      ],
+      "chainTriggers": []
     },
     {
       "id": "debrief_move_forward",
@@ -56,12 +78,27 @@
       "internalTag": "pragmatist",
       "tooltip": "Acknowledge the night briefly and turn to the work ahead.",
       "stateChanges": [
-        { "stat": "nation.militaryReadiness",   "operation": "add", "value": 4 },
-        { "stat": "personal.moralCompass",      "operation": "add", "value": 2 },
-        { "stat": "advisorTrust.dusek",         "operation": "add", "value": 6 }
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "advisorTrust.dusek",
+          "operation": "add",
+          "value": 6
+        }
       ],
-      "flags": ["dusek_command_acknowledged"],
-      "codexUnlocks": []
+      "flags": [
+        "dusek_command_acknowledged"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     }
   ]
 }

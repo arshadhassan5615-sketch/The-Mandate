@@ -8,9 +8,11 @@
   "agendaCost": 0,
   "isMandatory": true,
   "location": "Chancellery Press Room — Ashenmere",
-  "characters": ["nadia_voss", "vyktor_reznik"],
+  "characters": [
+    "nadia_voss",
+    "vyktor_reznik"
+  ],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
@@ -26,20 +28,32 @@
       "text": "The economy question. Everyone in this room knows the answer is complicated — the deficit is real, the IMA leash is real, the recovery is fragile and depends on decisions I have not yet made. But the press does not want complicated. They want a number, a plan, a guarantee. I can give them two of those three. The guarantee is the one I cannot honestly provide."
     }
   ],
-
   "monologue": "The economy question. Everyone knows the answer is complicated. The deficit is real, the IMA leash is real. The press wants a number, a plan, a guarantee. I can give them two of those three.",
-
   "choices": [
     {
       "id": "press_q2_engage",
       "text": "\"The economic plan is threefold. First: complete the IMA program on schedule — we are on track for quarter-three compliance. Second: the infrastructure investment fund begins disbursements next month, targeting Kravenstal and the northern provinces. Third: I am meeting with the business consortium next week to discuss the private investment framework. I cannot guarantee outcomes — no responsible leader can. What I can guarantee is that every economic decision this government makes will be transparent, documented, and subject to parliamentary review. That is new. That is what the constitution gives us.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists", "operation": "add", "value": 4 },
-        { "stat": "factions.businessClass", "operation": "add", "value": 3 },
-        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["press_economy_engaged"],
+      "flags": [
+        "press_economy_engaged"
+      ],
       "codexUnlocks": [],
       "reactions": [
         {
@@ -48,18 +62,33 @@
           "text": "He uncrosses his arms. The gesture is small but significant — it means the answer was adequate. Not brilliant. Adequate. In Vyktor's vocabulary, that is a passing grade."
         }
       ],
-      "nextNodeId": "act2_week27_press_followup"
+      "nextNodeId": "act2_week27_press_followup",
+      "chainTriggers": []
     },
     {
       "id": "press_q2_honest",
       "text": "\"I will not pretend the economic situation is good, because it is not. We inherited a deficit that the previous government concealed. The IMA conditions are painful but they are stabilizing the currency. What I will say is this: the economic plan is the same plan it has been since week one — fiscal discipline, targeted investment, and the hardest part, which is asking working Veltrians to accept short-term pain for long-term gain. I cannot guarantee that the pain will be short. I can guarantee that the gain will be real.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
-        { "stat": "factions.workersCoalition", "operation": "add", "value": 2 }
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 2
+        }
       ],
-      "flags": ["press_economy_honest"],
+      "flags": [
+        "press_economy_honest"
+      ],
       "codexUnlocks": [],
       "reactions": [
         {
@@ -68,17 +97,28 @@
           "text": "She writes something down. This time it is longer than a single line. When she looks up, there is something almost like approval in her expression — the particular approval of a journalist who has just been told the truth instead of a talking point. It is the most dangerous kind of approval, because it means she will quote you exactly, and exact quotes are harder to walk back than paraphrases."
         }
       ],
-      "nextNodeId": "act2_week27_press_followup"
+      "nextNodeId": "act2_week27_press_followup",
+      "chainTriggers": []
     },
     {
       "id": "press_q2_vague",
       "text": "\"The economic fundamentals are sound. The IMA program is proceeding on schedule. The infrastructure fund will create jobs. I am confident that the combination of fiscal discipline and targeted investment will produce results within the fiscal year. I am not going to make promises I cannot keep — that is what the previous government did, and it is how we arrived at the deficit we inherited.\"",
       "internalTag": "deflect",
       "stateChanges": [
-        { "stat": "nation.mediaControl", "operation": "add", "value": 2 },
-        { "stat": "personal.publicImage", "operation": "add", "value": -1 }
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -1
+        }
       ],
-      "flags": ["press_economy_vague"],
+      "flags": [
+        "press_economy_vague"
+      ],
       "codexUnlocks": [],
       "reactions": [
         {
@@ -87,7 +127,8 @@
           "text": "Chancellor, you said 'fundamentals are sound.' The unemployment rate is sixteen percent. Which fundamentals are you referring to?"
         }
       ],
-      "nextNodeId": "act2_week27_press_followup"
+      "nextNodeId": "act2_week27_press_followup",
+      "chainTriggers": []
     }
   ]
 }

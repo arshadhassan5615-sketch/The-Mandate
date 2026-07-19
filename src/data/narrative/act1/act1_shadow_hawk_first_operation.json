@@ -4,14 +4,19 @@
   "week": 16,
   "type": "personal",
   "location": "Ashenmere Palace — Service Corridor B, 23:00",
-  "characters": ["matthias_krel"],
+  "characters": [
+    "matthias_krel"
+  ],
   "dialogue": "The note arrived the same way as the first one. Same handwriting. Different three words: Service corridor. Tonight.",
   "monologue": "Ten days since the greenhouse. His first report was in the desk drawer exactly where he said it would be. I read it twice. I did not tell Vyktor it existed. I am already in the habit of not telling Vyktor things.",
   "choices": [
     {
       "id": "hawk_op1_go",
       "text": "Go to the service corridor.",
-      "nextSegment": "corridor_arrival"
+      "nextSegment": "corridor_arrival",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -55,12 +60,18 @@
         {
           "id": "hawk_op1_ask_drel",
           "text": "\"What exactly did Drel sell them?\"",
-          "nextSegment": "krel_drel_detail"
+          "nextSegment": "krel_drel_detail",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "hawk_op1_skip_to_decision",
           "text": "\"I have heard enough. What are my options?\"",
-          "nextSegment": "krel_options"
+          "nextSegment": "krel_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -85,7 +96,10 @@
         {
           "id": "hawk_drel_detail_to_options",
           "text": "\"What are my options?\"",
-          "nextSegment": "krel_options"
+          "nextSegment": "krel_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -122,39 +136,87 @@
           "id": "hawk_op1_expose",
           "text": "\"Send it to Danika. Anonymous tip. Let the BCA do its work. I did not build that agency to work around it.\"",
           "internalTag": "reformist",
-          "flags": ["hawk_assembly_exposed", "hawk_op1_complete"],
-          "statEffects": [
-            { "stat": "factions.reformists", "value": 8 },
-            { "stat": "shadowFootprint", "value": 3 },
-            { "stat": "moralCompass", "value": 5 },
-            { "stat": "factions.halvekists", "value": -5 }
+          "flags": [
+            "hawk_assembly_exposed",
+            "hawk_op1_complete"
           ],
-          "nextSegment": "hawk_op1_close_expose"
+          "statEffects": [
+            {
+              "stat": "factions.reformists",
+              "value": 8
+            },
+            {
+              "stat": "shadowFootprint",
+              "value": 3
+            },
+            {
+              "stat": "moralCompass",
+              "value": 5
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": -5
+            }
+          ],
+          "nextSegment": "hawk_op1_close_expose",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "hawk_op1_leverage",
           "text": "\"Keep the ledger. I want his vote on the constitutional committee. He does not need to know who is holding it over him.\"",
           "internalTag": "pragmatist",
-          "flags": ["hawk_assembly_lever", "hawk_op1_complete"],
-          "statEffects": [
-            { "stat": "shadowInfluence", "value": 15 },
-            { "stat": "shadowFootprint", "value": 8 },
-            { "stat": "moralCompass", "value": -5 }
+          "flags": [
+            "hawk_assembly_lever",
+            "hawk_op1_complete"
           ],
-          "nextSegment": "hawk_op1_close_leverage"
+          "statEffects": [
+            {
+              "stat": "shadowInfluence",
+              "value": 15
+            },
+            {
+              "stat": "shadowFootprint",
+              "value": 8
+            },
+            {
+              "stat": "moralCompass",
+              "value": -5
+            }
+          ],
+          "nextSegment": "hawk_op1_close_leverage",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "hawk_op1_direct",
           "text": "\"Arrange the meeting. I want to look at him myself. I want him to understand exactly who is holding his career in their hands.\"",
           "internalTag": "authoritarian",
-          "flags": ["hawk_assembly_owned", "hawk_op1_complete"],
-          "statEffects": [
-            { "stat": "shadowInfluence", "value": 20 },
-            { "stat": "shadowFootprint", "value": 12 },
-            { "stat": "moralCompass", "value": -10 },
-            { "stat": "factions.halvekists", "value": -10 }
+          "flags": [
+            "hawk_assembly_owned",
+            "hawk_op1_complete"
           ],
-          "nextSegment": "hawk_op1_close_direct"
+          "statEffects": [
+            {
+              "stat": "shadowInfluence",
+              "value": 20
+            },
+            {
+              "stat": "shadowFootprint",
+              "value": 12
+            },
+            {
+              "stat": "moralCompass",
+              "value": -10
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": -10
+            }
+          ],
+          "nextSegment": "hawk_op1_close_direct",
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -193,7 +255,10 @@
             "category": "PERSONAL",
             "content": "Krel found a corrupt Assembly member selling reform votes to Tyvaren. I sent the ledger to Danika anonymously. The BCA will handle it. That is what the BCA is for. Krel told me the footprint running total is eight. He is keeping a count. I did not ask him to. He does it anyway."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -232,7 +297,10 @@
             "category": "PERSONAL",
             "content": "A corrupt Assembly member is now voting the way I need him to vote because a man I cannot name is holding a ledger he does not know exists. I told myself it was necessary. The constitutional committee composition matters. The vote matters. I keep telling myself it was necessary. Krel says the footprint running total is thirteen."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -271,7 +339,10 @@
             "category": "PERSONAL",
             "content": "I met Caspar Drel in a private room at the Ashenmere Library. I showed him one page of the ledger. I told him I looked forward to working together on the constitutional committee. He looked at the page for a long time. Then he said he was honored to serve the Republic. The footprint running total is seventeen. Krel says we are moving faster than he planned. I am not sure that is a warning or a compliment."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

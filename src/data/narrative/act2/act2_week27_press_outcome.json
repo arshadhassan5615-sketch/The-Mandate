@@ -8,9 +8,10 @@
   "agendaCost": 0,
   "isMandatory": true,
   "location": "Chancellery Corridor — Outside Press Room",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
@@ -22,16 +23,21 @@
       "text": "That was either very good or very bad. I am not yet certain which. The implementation committee commitment will require twelve names by Friday — six reformists, three moderates, two Halvekists, and one Iron Covenant. I will have the list by tomorrow. The security clearance review will take three days. The Khaled meeting needs to happen before Thursday or the Workers' Coalition will read it as stalling. You have created work for this office. I do not mind work. I mind work that has a deadline."
     }
   ],
-
   "choices": [
     {
       "id": "press_outcome_accept",
       "text": "\"Good. Start with the committee. I want it announced before Kolvar can respond — before he frames the narrative. We move first.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["press_conference_triumph"],
+      "flags": [
+        "press_conference_triumph"
+      ],
       "codexUnlocks": [],
       "reactions": [
         {
@@ -39,16 +45,23 @@
           "type": "action",
           "text": "He nods once and begins writing. The pen moves with the speed of a man who has already composed the first draft and is now committing it to paper. He does not look up as you walk away. He has work to do."
         }
-      ]
+      ],
+      "chainTriggers": []
     },
     {
       "id": "press_outcome_mixed",
       "text": "\"It went well enough. Not perfectly. The follow-up with Voss could have been handled better. But the commitments are on the record now. We follow through. That is what matters.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 2
+        }
       ],
-      "flags": ["press_conference_mixed"],
+      "flags": [
+        "press_conference_mixed"
+      ],
       "codexUnlocks": [],
       "reactions": [
         {
@@ -56,17 +69,28 @@
           "type": "dialogue",
           "text": "He looks up from his notepad. 'Well enough is not the standard I would have chosen. But it is the standard we have. The follow-up will be written as combative regardless of what actually happened — Voss frames every exchange as a confrontation. The story will be about the confrontation, not the commitments. We follow through on the commitments anyway. The follow-up story writes itself if we do.'"
         }
-      ]
+      ],
+      "chainTriggers": []
     },
     {
       "id": "press_outcome_disaster",
       "text": "\"That went badly. I know it went badly. Voss is going to write a story about a Chancellor who does not answer questions. I can already see the headline. What do we do about it?\"",
       "internalTag": "personal",
       "stateChanges": [
-        { "stat": "personal.publicImage", "operation": "add", "value": -5 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["press_conference_disaster"],
+      "flags": [
+        "press_conference_disaster"
+      ],
       "codexUnlocks": [],
       "reactions": [
         {
@@ -74,7 +98,8 @@
           "type": "silence",
           "text": "He does not answer immediately. He puts the notepad away — a gesture that means the writing is done and what comes next is not a matter of record. 'The story,' he says finally, 'is that the Chancellor had a difficult press conference after a narrow referendum victory. That is the story for tonight. Tomorrow, if the implementation committee is announced and the Khaled meeting is scheduled, the story becomes about governing. The press does not remember bad press conferences. The press remembers whether you followed through. Follow through.'"
         }
-      ]
+      ],
+      "chainTriggers": []
     }
   ]
 }

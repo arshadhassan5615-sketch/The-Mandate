@@ -7,7 +7,10 @@
   "agendaCost": 0,
   "isMandatory": true,
   "location": "Chancellor's Office — Ashenmere Palace, 03:14",
-  "characters": ["vyktor_reznik", "irina_dusek"],
+  "characters": [
+    "vyktor_reznik",
+    "irina_dusek"
+  ],
   "prerequisites": [],
   "narrative": [
     {
@@ -39,12 +42,32 @@
       "text": "Call an emergency session of the Assembly tonight. We debate this at dawn. The military will wait for civilian authorization. No one — no one — crosses that border without a vote of the National Assembly.",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists", "operation": "add", "value": 10 },
-        { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
-        { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
-        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["tyvaren_border_resolved", "emergency_resolved_this_week", "chose_parliamentary_path"],
+      "flags": [
+        "tyvaren_border_resolved",
+        "emergency_resolved_this_week",
+        "chose_parliamentary_path"
+      ],
       "reactions": [
         {
           "character": "irina_dusek",
@@ -56,21 +79,52 @@
           "type": "action",
           "text": "Vyktor is already dialing the Assembly Speaker's private number. His hand is steady. His jaw is tight. He has already calculated the political cost and decided it is acceptable. He has also decided not to tell you what that cost is until morning."
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "decree_issue_article_22",
       "text": "Invoke Article 22 of the Veltrian Charter. Issue an Emergency Decree authorizing immediate, proportional counterstrike across the Tyvaren border. Bypass the Assembly. The Republic will not bleed while politicians debate.",
       "internalTag": "authoritarian",
       "stateChanges": [
-        { "stat": "factions.ironCovenant", "operation": "add", "value": 20 },
-        { "stat": "factions.reformists", "operation": "add", "value": -20 },
-        { "stat": "nation.civilLiberties", "operation": "add", "value": -15 },
-        { "stat": "nation.publicOrder", "operation": "add", "value": 10 },
-        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": -8 }
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 20
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -20
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "nation.militaryReadiness",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -8
+        }
       ],
-      "flags": ["tyvaren_border_resolved", "emergency_resolved_this_week", "decree_issued_article_22", "authoritarian_precedent_set"],
+      "flags": [
+        "tyvaren_border_resolved",
+        "emergency_resolved_this_week",
+        "decree_issued_article_22",
+        "authoritarian_precedent_set"
+      ],
       "reactions": [
         {
           "character": "vyktor_reznik",
@@ -82,7 +136,9 @@
           "type": "dialogue",
           "text": "She takes the decree from Vyktor, reads it once, and nods. 'I will take this to Gravenmark personally. By the time the Assembly reconvenes on Monday, the situation will be resolved. They will be angry. Some of them will call for your impeachment. But the border will be secure, and my soldiers will know that their Chancellor did not abandon them.'"
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ]
 }

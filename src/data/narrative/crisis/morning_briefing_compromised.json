@@ -7,7 +7,9 @@
   "agendaCost": 0,
   "isMandatory": true,
   "location": "Chancellor's Office — Ashenmere Palace, 07:15",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "prerequisites": [],
   "narrative": [
     {
@@ -34,52 +36,97 @@
       "text": "Thank him and sign the dossier. Dusek's people are professionals — they would not sanitize reports without good reason. Trust the institution.",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "advisorTrust.dusek", "operation": "add", "value": 5 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+        {
+          "stat": "advisorTrust.dusek",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -5
+        }
       ],
-      "flags": ["trusted_compromised_intel", "flying_blind"],
+      "flags": [
+        "trusted_compromised_intel",
+        "flying_blind"
+      ],
       "reactions": [
         {
           "character": "vyktor_reznik",
           "type": "action",
           "text": "He nods and collects the folder. But as he turns to leave, you notice something — a faint smudge of ink on his left cuff. He has been rewriting reports himself, trying to bridge the gap between what the military submitted and what he knows you need to see. He is doing the best he can with what they gave him. You both know it is not enough."
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "intel_call_press",
       "text": "Excuse yourself. Pick up the secure line and call Nadia Voss at The Ashenmere Tribune. Ask her what her reporters are actually seeing on the border. And whether Colonel Dusek's version of events matches the facts on the ground.",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "advisorTrust.dusek", "operation": "add", "value": -15 },
-        { "stat": "nation.pressFreedom", "operation": "add", "value": 5 },
-        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 }
+        {
+          "stat": "advisorTrust.dusek",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -10
+        }
       ],
-      "flags": ["briefing_verified_this_week", "intel_verified_press", "dusek_alienated"],
+      "flags": [
+        "briefing_verified_this_week",
+        "intel_verified_press",
+        "dusek_alienated"
+      ],
       "reactions": [
         {
           "character": "vyktor_reznik",
           "type": "silence",
           "text": "He stands perfectly still as you dial. He knows exactly who you are calling, and he knows exactly what Dusek will say when she finds out. The silence in the room stretches until it becomes a physical weight. When you hang up, he does not meet your eyes. 'Dusek will see this as a vote of no confidence. You know that.' He is not arguing. He is just making sure you understand the cost."
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "intel_confront_directly",
       "text": "Slide the dossier back across the desk. 'Where are the raw numbers from the border garrison, Vyktor? Dusek's people are not protecting me — they are managing me. I want the unredacted files on this desk by noon.'",
       "internalTag": "authoritarian",
       "stateChanges": [
-        { "stat": "advisorTrust.dusek", "operation": "add", "value": -10 },
-        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+        {
+          "stat": "advisorTrust.dusek",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["briefing_verified_this_week", "intel_verified_force", "dusek_intimidated"],
+      "flags": [
+        "briefing_verified_this_week",
+        "intel_verified_force",
+        "dusek_intimidated"
+      ],
       "reactions": [
         {
           "character": "vyktor_reznik",
           "type": "dialogue",
           "text": "His jaw tightens. He does not flinch — Vyktor does not flinch — but something in his posture shifts, straightens, as though a decision has just been made. 'The raw numbers are from Colonel Kresic's forward command post. They are marked CLASSIFIED — COVENANT EYES ONLY. Dusek authorized the redaction. I will tell her the Chancellor requires the originals. She will comply.' He pauses at the door. 'She will not be happy about it.'"
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ]
 }

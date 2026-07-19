@@ -8,9 +8,10 @@
   "agendaCost": 1,
   "isMandatory": false,
   "location": "VNN Broadcasting House — Ashenmere",
-  "characters": ["elena_braskov"],
+  "characters": [
+    "elena_braskov"
+  ],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
@@ -44,25 +45,59 @@
       "text": "She is offering to make me look good — for a price. The Broadcast Licensing Act is popular with reformists who want to break the Braskov monopoly. It is popular with journalists who want independent outlets. Killing it would mean protecting Elena's stranglehold on public information. But her coverage shapes how millions of Veltrians understand my government. Right now, I am popular but fragile. A hostile media environment could erode that support in months. Elena is not threatening me — she is showing me the cost-benefit analysis. The question is whether I am willing to pay her price."
     }
   ],
-
   "monologue": "Her office is full of photographs — Elena with Halvek, Elena with foreign dignitaries, Elena accepting awards. She's been at the center of power longer than I've been in politics. She pours tea without asking whether I want any. The Broadcast Licensing Act would break her monopoly. She's offering favorable coverage to stop it. Not a threat — a cost-benefit analysis. Her smile is warm and entirely transactional. She's asking me to recognize what friendly media is worth.",
-
   "choices": [
     {
       "id": "elena_accept_deal",
       "text": "\"You have a deal, Elena. I will ensure the Broadcast Licensing Act does not reach my desk. Your coverage will be favorable, and I will have a media environment I can govern in without fighting a daily battle over headlines. I am not naive — I know what kind of arrangement this is. But I am also a pragmatist. I need time to stabilize the economy, reform the constitution, and keep the Halvekists from retaking power. If friendly coverage buys me that time, it is a price worth paying. Make my government look competent, and I will make sure your monopoly stays intact.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "factions.businessClass",       "operation": "add", "value": 10  },
-        { "stat": "factions.reformists",          "operation": "add", "value": -8  },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": 25  },
-        { "stat": "nation.pressFreedom",          "operation": "add", "value": -10 },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 10  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -8  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 8   }
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": 25
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 8
+        }
       ],
-      "flags": ["media_deal", "elena_ally", "broadcast_licensing_killed", "elena_introduced"],
-      "codexUnlocks": ["character_elena_braskov", "codex_vnn"],
+      "flags": [
+        "media_deal",
+        "elena_ally",
+        "broadcast_licensing_killed",
+        "elena_introduced"
+      ],
+      "codexUnlocks": [
+        "character_elena_braskov",
+        "codex_vnn"
+      ],
       "reactions": [
         {
           "character": "elena_braskov",
@@ -74,22 +109,54 @@
           "type": "action",
           "text": "She pours herself more tea. The motion is languid, practiced. The deal is done. The Broadcast Licensing Act will not reach your desk. She is already planning the front page."
         }
-      ]
+      ],
+      "chainTriggers": []
     },
     {
       "id": "elena_decline",
       "text": "\"No deal, Elena. The Broadcast Licensing Act is going to pass because this country needs more than one voice controlling what Veltrians see and hear. You built an empire under Halvek by telling people what the regime wanted them to believe. I was elected to end that era, not to find a more palatable version of it. You can cover my government however you choose — that is your right. But I will not trade public policy for favorable headlines. If your coverage turns critical, I will survive it. I survived worse during the campaign.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 10  },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -8  },
-        { "stat": "nation.pressFreedom",          "operation": "add", "value": 8   },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": -5  },
-        { "stat": "personal.publicImage",         "operation": "add", "value": -5  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 10  }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 10
+        }
       ],
-      "flags": ["elena_declined", "elena_introduced", "press_freedom_priority"],
-      "codexUnlocks": ["character_elena_braskov", "codex_vnn"],
+      "flags": [
+        "elena_declined",
+        "elena_introduced",
+        "press_freedom_priority"
+      ],
+      "codexUnlocks": [
+        "character_elena_braskov",
+        "codex_vnn"
+      ],
       "reactions": [
         {
           "character": "elena_braskov",
@@ -101,21 +168,49 @@
           "type": "dialogue",
           "text": "No deal. That is... principled. The editorial board will take note of your principled position. I suspect they will have questions about whether it is also competent. Questions are what we do, Chancellor. I look forward to asking them."
         }
-      ]
+      ],
+      "chainTriggers": []
     },
     {
       "id": "elena_stall",
       "text": "\"I will consider your proposal, Elena. The Broadcast Licensing Act is weeks away from a vote — I do not need to decide today. In the meantime, I expect your coverage to be fair. Not favorable. Not hostile. Fair. Give me four weeks of honest journalism, and I will give you a decision based on four weeks of evidence about whether we can work together. If your reporting proves even-handed, perhaps there is a middle ground — regulatory reform that addresses your concerns without killing the bill entirely. If your reporting turns hostile the moment I walk out this door, I will have my answer about what kind of partner you would be.\"",
       "internalTag": "measured",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 2   },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -2  },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": 5   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 2   },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 2   }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 2
+        }
       ],
-      "flags": ["elena_neutral", "elena_introduced", "elena_delayed_decision"],
-      "codexUnlocks": ["character_elena_braskov", "codex_vnn"],
+      "flags": [
+        "elena_neutral",
+        "elena_introduced",
+        "elena_delayed_decision"
+      ],
+      "codexUnlocks": [
+        "character_elena_braskov",
+        "codex_vnn"
+      ],
       "reactions": [
         {
           "character": "elena_braskov",
@@ -127,7 +222,8 @@
           "type": "dialogue",
           "text": "Four weeks of fair coverage. I can do that. I will even enjoy it — it has been some time since I practiced journalism rather than strategy. Do not be surprised if the country discovers it prefers the journalism to the strategy."
         }
-      ]
+      ],
+      "chainTriggers": []
     }
   ]
 }

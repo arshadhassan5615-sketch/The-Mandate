@@ -10,9 +10,12 @@
   "location": "Office of the Blind Trust Administrator — Ashenmere",
   "characters": [],
   "prerequisites": [
-    { "stat": "flags.port_bonds_blind_trust", "operator": "==", "value": true }
+    {
+      "stat": "flags.port_bonds_blind_trust",
+      "operator": "==",
+      "value": true
+    }
   ],
-
   "narrative": [
     {
       "type": "description",
@@ -23,34 +26,83 @@
       "text": "The blind trust did exactly what it was designed to do. I made the decision to invest in my country without knowing what specific investments I held. The trust administrator made decisions independently. When I signed or vetoed the Free Trade Zone Act — if it ever reached my desk — I did not know whether I owned port bonds. I still do not know what the trust holds now that the bonds have matured and been reinvested. This is how mature democracies handle conflicts of interest: not by avoiding all investments, but by building institutional firewalls that make self-dealing structurally impossible. The return is reinvested. The trust continues. The firewall holds. This is not a scandal. This is governance."
     }
   ],
-
   "choices": [
     {
       "id": "blind_trust_continue",
       "text": "\"Let the trust continue. Reinvest the proceeds according to the standing instructions. I do not need to know what the trust holds, and I do not want to know. The system is working. The administrator has my confidence. Whatever the return was — 4,000 or 8,000 — it is already reinvested, and I am already insulated from the knowledge of what I own. That is the point. That is the protection. Tell the administrator to continue managing the portfolio independently. I will continue governing independently. The two will not intersect.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 5   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 4   },
-        { "stat": "nation.corruption",            "operation": "add", "value": -3  },
-        { "stat": "factions.reformists",          "operation": "add", "value": 3   }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["blind_trust_working", "port_bonds_return_resolved", "institutional_reform_working"],
-      "codexUnlocks": ["codex_blind_trust"]
+      "flags": [
+        "blind_trust_working",
+        "port_bonds_return_resolved",
+        "institutional_reform_working"
+      ],
+      "codexUnlocks": [
+        "codex_blind_trust"
+      ],
+      "chainTriggers": []
     },
     {
       "id": "blind_trust_disclose_voluntarily",
       "text": "\"Instruct the administrator to disclose the bond holdings and their redemption publicly — including whether the Free Trade Zone appreciation clause was triggered. I want a public filing that shows: the trust held the bonds, I did not know, the administrator acted independently, and the proceeds have been reinvested without my input. Voluntary disclosure is the strongest defense against the accusation of concealment. If the FTZ Act increased the return, the public should know — and they should know that I did not know until after the fact. Transparency does not weaken the blind trust. It proves it works.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 6   },
-        { "stat": "nation.corruption",            "operation": "add", "value": -2  },
-        { "stat": "factions.reformists",          "operation": "add", "value": 5   },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -3  }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["blind_trust_voluntary_disclosure", "port_bonds_return_resolved", "transparency_precedent"],
-      "codexUnlocks": ["codex_blind_trust"]
+      "flags": [
+        "blind_trust_voluntary_disclosure",
+        "port_bonds_return_resolved",
+        "transparency_precedent"
+      ],
+      "codexUnlocks": [
+        "codex_blind_trust"
+      ],
+      "chainTriggers": []
     }
   ]
 }

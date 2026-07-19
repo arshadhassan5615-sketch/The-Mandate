@@ -10,9 +10,12 @@
   "location": "Chancellor's Private Residence — Ashenmere",
   "characters": [],
   "prerequisites": [
-    { "stat": "flags.armadine_jonas_invested", "operator": "==", "value": true }
+    {
+      "stat": "flags.armadine_jonas_invested",
+      "operator": "==",
+      "value": true
+    }
   ],
-
   "narrative": [
     {
       "type": "description",
@@ -23,74 +26,182 @@
       "text": "The money is in Jonas's name. Technically, legally, it is his investment, his return, his capital gain. But the money came from our joint accounts, and the opportunity came through my office. The distinction that seemed so clever at the time — use Jonas as a buffer, create deniability, keep my name clean — now feels like what it was: a fiction designed to circumvent rules I was supposed to uphold. When I am asked about this — and I will be asked about this — I can truthfully say I have no personal holdings in Armadine. That truth will be accurate and dishonest at the same time. I created a structure that allows me to say true things that are also lies. That is not the same as being honest. And if steel has been nationalized, 3,000 ₭ of our family's money has disappeared into a policy decision I made — which Jonas will have to accept without complaint, because complaint would mean admitting the investment existed."
     }
   ],
-
   "choices": [
     {
       "id": "armadine_jonas_collect_return",
       "text": "\"Keep the return in Jonas's accounts. He made the investment. It is in his name. The return is his. I will not touch the money, and I will not direct how it is used — that is between Jonas and the family accounts he manages. If the press asks about Armadine, I will say truthfully that I have no personal investments in the company and that my husband makes his own financial decisions. That is not the whole truth, but it is a defensible one. And in politics, the difference between what is true and what is defensible is often the difference between surviving and resigning.\"",
       "internalTag": "cunning",
       "conditions": [
-        { "stat": "flags.vael_nationalized", "operator": "!=", "value": true },
-        { "stat": "flags.war_industries_nationalized", "operator": "!=", "value": true }
+        {
+          "stat": "flags.vael_nationalized",
+          "operator": "!=",
+          "value": true
+        },
+        {
+          "stat": "flags.war_industries_nationalized",
+          "operator": "!=",
+          "value": true
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": 8000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -4  },
-        { "stat": "personal.marriageHealth",      "operation": "add", "value": -3  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 5   },
-        { "stat": "factions.businessClass",       "operation": "add", "value": 3   }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": 8000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.marriageHealth",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["armadine_return_collected", "plausible_deniability_tested"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_return_collected",
+        "plausible_deniability_tested"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "armadine_jonas_donate_return",
       "text": "\"Jonas — donate the return. All of it. The original 3,000 ₭ back to our accounts, the 5,000 ₭ profit to a transparency organization or an anti-corruption foundation. I want a public record of the donation. I want journalists to be able to verify that every ₭ of profit from the Armadine investment was given away. We cannot undo the fact that the investment existed. We can ensure that no one — not the press, not the BCA, not Kolvar — can credibly claim that we profited from it. This costs us money we could use. It is worth it to cost our enemies the argument.\"",
       "internalTag": "reformist",
       "conditions": [
-        { "stat": "flags.vael_nationalized", "operator": "!=", "value": true },
-        { "stat": "flags.war_industries_nationalized", "operator": "!=", "value": true }
+        {
+          "stat": "flags.vael_nationalized",
+          "operator": "!=",
+          "value": true
+        },
+        {
+          "stat": "flags.war_industries_nationalized",
+          "operator": "!=",
+          "value": true
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": 3000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 5   },
-        { "stat": "factions.reformists",          "operation": "add", "value": 3   },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -3  }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": 3000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["armadine_profit_donated", "ethical_transparency"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_profit_donated",
+        "ethical_transparency"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "armadine_jonas_nationalized_loss",
       "text": "\"The money is gone. When the government nationalized the steel industry — my decision, my policy — it wiped out the investment held in Jonas's name. Three thousand ₭ of our family's savings, gone because of a decision I made. Jonas, I am sorry. I did not make that decision to hurt us. I made it because it was the right thing for the country. But the fact that it was right does not make the loss any smaller or my responsibility for it any less. We will recover. The family finances will survive a 3,000 ₭ loss. What matters is that I did not let my personal investment influence my policy decision — and I did not. The proof is that I nationalized the industry and lost the money. If that is what it costs to prove I govern without conflict of interest, it is a price I am willing to pay.\"",
       "internalTag": "reformist",
       "conditions": [
-        { "stat": "flags.vael_nationalized", "operator": "==", "value": true }
+        {
+          "stat": "flags.vael_nationalized",
+          "operator": "==",
+          "value": true
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 8   },
-        { "stat": "personal.marriageHealth",      "operation": "add", "value": -5  },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 4   },
-        { "stat": "factions.reformists",          "operation": "add", "value": 3   }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.marriageHealth",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["armadine_investment_lost", "armadine_return_resolved", "jonas_financial_sacrifice"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_investment_lost",
+        "armadine_return_resolved",
+        "jonas_financial_sacrifice"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "armadine_jonas_war_loss",
       "text": "\"The investment was absorbed by the war economy. Armadine is now producing steel for the war effort under state direction. Private shareholders received nothing. The 3,000 ₭ — our 3,000 ₭ — is a casualty of war, like so much else. I will not mourn it. I will not even record it as a loss. When the country is fighting for its survival, the distinction between my family's wealth and the nation's resources becomes meaningless. Jonas understands. He has to. We are the Chancellor's family. This is what that means.\"",
       "internalTag": "reformist",
       "conditions": [
-        { "stat": "flags.war_industries_nationalized", "operator": "==", "value": true }
+        {
+          "stat": "flags.war_industries_nationalized",
+          "operator": "==",
+          "value": true
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 4   },
-        { "stat": "factions.ironCovenant",        "operation": "add", "value": 8   },
-        { "stat": "personal.marriageHealth",      "operation": "add", "value": -3  }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.marriageHealth",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["armadine_investment_lost", "armadine_return_resolved"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_investment_lost",
+        "armadine_return_resolved"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     }
   ]
 }

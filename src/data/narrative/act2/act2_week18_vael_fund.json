@@ -8,9 +8,10 @@
   "agendaCost": 1,
   "isMandatory": false,
   "location": "Vael Estate — Thornfeld Valley",
-  "characters": ["lucan_vael"],
+  "characters": [
+    "lucan_vael"
+  ],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
@@ -26,56 +27,157 @@
       "text": "Vael is not subtle. He is offering me 15,000 ₭ in return — which is triple the investment — and he is offering me membership in the network that ran this country under Halvek. The same people. The same money. The same understanding that public office comes with private opportunities. If I invest, I am entangled: the BCA could discover it, Nadia Voss could investigate it, and every decision I make that benefits Vael's interests will look like a payoff. If I decline, Vael will not forget. He does not forget. The man who controls thirteen percent of Veltrian heavy industry and the consortium that controls the investment that controls the economy — he has just asked me whether I want to be his partner or his problem."
     }
   ],
-
   "monologue": "Twelve investors. Two former finance ministers. The chairman of the Banking Association. Halvek himself, until he died. Vael is offering me membership in the network that ran this country for twenty-nine years. He does not need to threaten. The threat is implicit in the guest list: everyone who ever mattered was in this room. The only question is whether I want to be inside the circle or outside it. Inside, I have access. Outside, I have enemies. Both positions are dangerous.",
-
   "choices": [
     {
       "id": "vael_fund_invest",
       "text": "\"I will take the slot, Lucan — and I will be clear about what I am buying. I am buying membership in a network of people who made this country work for twenty-nine years under Halvek. Some of them are criminals. Some of them are just rich. I need to know which is which, and the only way to know is to be in the room. The 15,000 ₭ is secondary. What I am buying is intelligence — about who holds power in this country, how they use it, and what they want from me. The fund is the price of admission. Consider it paid.\"",
       "internalTag": "cunning",
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": -5000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -8  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 12  },
-        { "stat": "vaelInfluence",                "operation": "add", "value": 15  },
-        { "stat": "factions.businessClass",       "operation": "add", "value": 8   },
-        { "stat": "factions.reformists",          "operation": "add", "value": -5  }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -5000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -5
+        }
       ],
-      "flags": ["vael_fund_invested", "vael_investment", "financially_entangled_vael", "inside_the_circle"],
+      "flags": [
+        "vael_fund_invested",
+        "vael_investment",
+        "financially_entangled_vael",
+        "inside_the_circle"
+      ],
       "codexUnlocks": [],
-      "reactions": [{ "character": "lucan_vael", "type": "action", "text": "He reaches for the decanter and pours a second glass — the one he did not pour when you arrived. He pushes it across the desk. Welcome to the circle, Chancellor." }]
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "action",
+          "text": "He reaches for the decanter and pours a second glass — the one he did not pour when you arrived. He pushes it across the desk. Welcome to the circle, Chancellor."
+        }
+      ],
+      "chainTriggers": []
     },
     {
       "id": "vael_fund_decline",
       "text": "\"No, Lucan. I am not Halvek. I am not joining the fund that enriched the people who impoverished this country for twenty-nine years. Your network of former finance ministers and banking chairmen is exactly the network I was elected to break. You can make my Chancellorship more difficult — I know that. You have been making governments difficult since before I entered politics. But I will not be purchased, and I will not be made complicit in the system I am trying to reform. Invest your money. I will govern my country. We will see which one matters more to the Veltrian people.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 12  },
-        { "stat": "factions.reformists",          "operation": "add", "value": 8   },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -10 },
-        { "stat": "vaelInfluence",                "operation": "add", "value": -5  },
-        { "stat": "nation.corruption",            "operation": "add", "value": -3  }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["vael_fund_declined", "stood_up_to_vael"],
+      "flags": [
+        "vael_fund_declined",
+        "stood_up_to_vael"
+      ],
       "codexUnlocks": [],
-      "reactions": [{ "character": "lucan_vael", "type": "silence", "text": "He sets down his glass. The motion is very precise — the precision of a man who has just been told no and is already calculating the cost of the refusal." }]
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "silence",
+          "text": "He sets down his glass. The motion is very precise — the precision of a man who has just been told no and is already calculating the cost of the refusal."
+        }
+      ],
+      "chainTriggers": []
     },
     {
       "id": "vael_fund_invest_deniable",
       "text": "\"I will invest — through an intermediary. Set up a holding company in the Amber Coast, registered in the name of a trusted associate, with no visible connection to me. The money comes from my personal accounts, routed through Lytheira, deposited in the fund as an anonymous limited partner. If anyone asks, the partner is a foreign investor who prefers discretion. You get my capital. I get the return. And if the BCA ever investigates your fund — which they will, eventually — my name does not appear anywhere in the documents. This is how it is done, Lucan. You know it. I know it. Let us not pretend either of us invented this.\"",
       "internalTag": "hardline",
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": -5000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -12 },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 15  },
-        { "stat": "vaelInfluence",                "operation": "add", "value": 10  },
-        { "stat": "factions.businessClass",       "operation": "add", "value": 5   },
-        { "stat": "nation.corruption",            "operation": "add", "value": 5   }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -5000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -12
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "vaelInfluence",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["vael_fund_invested_hidden", "vael_investment", "hidden_investment", "offshore_holdings", "financially_entangled_vael"],
+      "flags": [
+        "vael_fund_invested_hidden",
+        "vael_investment",
+        "hidden_investment",
+        "offshore_holdings",
+        "financially_entangled_vael"
+      ],
       "codexUnlocks": [],
-      "reactions": [{ "character": "lucan_vael", "type": "dialogue", "text": "He considers the structure — holding company, Amber Coast, Lytheiran routing. He takes a slow sip of his drink. I knew you were the right Chancellor to invest in." }]
+      "reactions": [
+        {
+          "character": "lucan_vael",
+          "type": "dialogue",
+          "text": "He considers the structure — holding company, Amber Coast, Lytheiran routing. He takes a slow sip of his drink. I knew you were the right Chancellor to invest in."
+        }
+      ],
+      "chainTriggers": []
     }
   ]
 }

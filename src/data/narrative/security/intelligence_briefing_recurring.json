@@ -7,7 +7,9 @@
   "agendaCost": 0,
   "isMandatory": false,
   "location": "Chancellor's Office — Secure Wing",
-  "characters": ["vyktor_reznik"],
+  "characters": [
+    "vyktor_reznik"
+  ],
   "prerequisites": [],
   "narrative": [
     {
@@ -124,47 +126,71 @@
           "text": "Request a fuller report on the items that concern you most. Not because the briefing was insufficient — because engagement is how you catch what summaries miss.",
           "internalTag": "security",
           "stateChanges": [
-            { "stat": "advisorTrust.dusek", "operation": "add", "value": 3 }
+            {
+              "stat": "advisorTrust.dusek",
+              "operation": "add",
+              "value": 3
+            }
           ],
-          "flags": ["briefing_engaged"],
+          "flags": [
+            "briefing_engaged"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
               "type": "action",
               "text": "He nods — the smallest movement, the kind he uses when you have done something he expected but hoped for. He reopens the folder. The briefing continues. It will be longer than usual. It will be worth it."
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "briefing_standard",
           "text": "The standard briefing is sufficient. You have what you need.",
           "internalTag": "pragmatist",
           "stateChanges": [],
-          "flags": ["briefing_standard_acknowledged"],
+          "flags": [
+            "briefing_standard_acknowledged"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
               "type": "silence",
               "text": "He gathers the folder, stands, and pauses at the door. A brief nod. The door closes quietly behind him. The office is still. The week's intelligence is filed, categorized, and awaiting the moment it becomes relevant. Most of it will not become relevant. The part that does will matter enormously."
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "briefing_dismiss",
           "text": "You do not have time for this today. There are more pressing matters.",
           "internalTag": "authoritarian",
           "stateChanges": [
-            { "stat": "advisorTrust.dusek", "operation": "add", "value": -4 },
-            { "stat": "factions.ironCovenant", "operation": "add", "value": -2 }
+            {
+              "stat": "advisorTrust.dusek",
+              "operation": "add",
+              "value": -4
+            },
+            {
+              "stat": "factions.ironCovenant",
+              "operation": "add",
+              "value": -2
+            }
           ],
-          "flags": ["briefing_dismissed"],
+          "flags": [
+            "briefing_dismissed"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
               "type": "silence",
               "text": "He does not react visibly. He folds the folder once — a crease along the spine that should not be there — and sets it on the edge of your desk. The folder will be there when you need it. The question is whether what is inside it will still be manageable by then. He leaves without speaking."
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

@@ -10,10 +10,15 @@
   "location": "A Secure Location — Ashenmere",
   "characters": [],
   "prerequisites": [
-    { "stat": "flags.currency_short_position", "operator": "==", "value": true }
+    {
+      "stat": "flags.currency_short_position",
+      "operator": "==",
+      "value": true
+    }
   ],
-  "exclusive": ["act3_currency_speculation_small"],
-
+  "exclusive": [
+    "act3_currency_speculation_small"
+  ],
   "narrative": [
     {
       "type": "description",
@@ -24,56 +29,136 @@
       "text": "I bet against my own country's currency. Four thousand ₭, leveraged through foreign exchange markets, routed through a Lytheiran shell company, placed on the conviction that the Krone would decline. Every economic briefing I received, every policy decision I made, every statement I issued about the Veltrian economy — all of it was shadowed by the knowledge that I had a personal financial stake in the country's economic direction. If the economy crashed, I would profit. If I took steps to stabilize it, I would lose my investment. The question that will be asked — if anyone ever finds out — is whether I let the economy decline because it was unavoidable, or because it was profitable. The answer depends on what happens next."
     }
   ],
-
   "choices": [
     {
       "id": "currency_profit_crash",
       "text": "\"The Krone has fallen. The position has paid out — 20,000 ₭, routed through the Lytheiran shell, deposited in the designated account. I told myself I was not betting against my country. I told myself I was hedging against uncertainty — protecting my family from the consequences of a crisis I was trying to prevent. But the crisis happened. Whether I could have prevented it — whether I tried hard enough to prevent it — is a question I will be asking myself for the rest of my life. The money is real. So is the cost of earning it. I will take the return. I will not pretend it feels like a victory.\"",
       "internalTag": "conflicted",
       "conditions": [
-        { "stat": "nation.economyHealth", "operator": "<=", "value": -25 }
+        {
+          "stat": "nation.economyHealth",
+          "operator": "<=",
+          "value": -25
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": 20000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -18 },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 8   },
-        { "stat": "nation.corruption",            "operation": "add", "value": 5   }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": 20000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -18
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["currency_short_profited", "currency_position_resolved", "profited_from_crisis", "moral_debt_incurred"],
-      "codexUnlocks": []
+      "flags": [
+        "currency_short_profited",
+        "currency_position_resolved",
+        "profited_from_crisis",
+        "moral_debt_incurred"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "currency_loss_stable",
       "text": "\"The Krone stabilized. The position has closed at a total loss — the 4,000 ₭ is gone. The leverage amplified the losses, and the Lytheiran intermediary confirms there is nothing to recover. I lost the bet. The country won. I should feel good about that — I put the country's interests ahead of my portfolio, I worked to stabilize the currency, I did not let my personal financial position influence my policy decisions. But I also made the bet in the first place. I was willing to profit from my country's economic decline. The fact that I lost the bet does not make me virtuous. It makes me lucky — lucky that my worst judgment did not pay off, and lucky that no one ever has to know about the position I took. Close the shell company. Destroy the records. This never happened.\"",
       "internalTag": "relieved",
       "conditions": [
-        { "stat": "nation.economyHealth", "operator": ">", "value": -25 }
+        {
+          "stat": "nation.economyHealth",
+          "operator": ">",
+          "value": -25
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -3  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 3   },
-        { "stat": "nation.economyHealth",         "operation": "add", "value": 1   }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": 1
+        }
       ],
-      "flags": ["currency_short_lost", "currency_position_resolved", "lucky_escape"],
-      "codexUnlocks": []
+      "flags": [
+        "currency_short_lost",
+        "currency_position_resolved",
+        "lucky_escape"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "currency_confess_loss",
       "text": "\"The position has closed — and I am disclosing it. Voluntarily. To the BCA, if one exists. To the press, if they will listen. I will tell them everything: the Lytheiran intermediary, the short position against the Krone, the 4,000 ₭ I invested and lost when the economy stabilized. I will tell them that I made a terrible judgment, that I bet against my own country, and that the only redeeming fact is that I lost the bet — because I worked to stabilize the currency, and my policy decisions were not influenced by my personal financial position. I will take whatever consequences follow. I earned them. But I will not spend the rest of my life waiting for someone to discover what I did. I would rather be judged than be afraid.\"",
       "internalTag": "reformist",
       "conditions": [
-        { "stat": "nation.economyHealth", "operator": ">", "value": -25 },
-        { "stat": "flags.bca_funded", "operator": "==", "value": true }
+        {
+          "stat": "nation.economyHealth",
+          "operator": ">",
+          "value": -25
+        },
+        {
+          "stat": "flags.bca_funded",
+          "operator": "==",
+          "value": true
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 10  },
-        { "stat": "personal.publicImage",         "operation": "add", "value": -8  },
-        { "stat": "factions.reformists",          "operation": "add", "value": -5  },
-        { "stat": "factions.halvekists",          "operation": "add", "value": 5   },
-        { "stat": "nation.corruption",            "operation": "add", "value": -3  }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["currency_position_confessed", "currency_position_resolved", "voluntary_confession", "political_vulnerability_created"],
-      "codexUnlocks": []
+      "flags": [
+        "currency_position_confessed",
+        "currency_position_resolved",
+        "voluntary_confession",
+        "political_vulnerability_created"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     }
   ]
 }

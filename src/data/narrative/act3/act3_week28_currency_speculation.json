@@ -10,7 +10,6 @@
   "location": "A Secure Location — Ashenmere",
   "characters": [],
   "prerequisites": [],
-
   "narrative": [
     {
       "type": "description",
@@ -26,46 +25,107 @@
       "text": "This is not just an investment. This is betting against my own country's currency while I am responsible for its economic policy. Every decision I make — every budget allocation, every trade negotiation, every statement about the economy — will now have a direct financial consequence for me personally. If I know the economy is going to worsen and I take this position, I am using inside information. If I take steps to stabilize the Krone and lose my investment, I have put the country first at personal cost. But the most corrupt version is also the most tempting: do nothing to stop the decline, collect 20,000 ₭, and blame the crisis on external factors that no one could have prevented. This is the kind of trade that separates the politicians who stay wealthy from the ones who stay honest. I have to choose which one I am."
     }
   ],
-
   "choices": [
     {
       "id": "currency_speculate_short_krone",
       "text": "\"Execute the short position. Four thousand ₭ through the Lytheiran shell. I am not going to sabotage my own country's economy — but I am also not going to pretend I do not know what I know. The Krone is under pressure. The central bank's interventions will not be enough. If the currency falls, my investment returns will help my family weather the storm that is coming. If the currency stabilizes, I lose the money and the country wins. That is a bet I am willing to make — and a loss I am willing to take. Set it up. No records. No names.\"",
       "internalTag": "cunning",
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": -4000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -15 },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 10  },
-        { "stat": "nation.corruption",            "operation": "add", "value": 8   }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -4000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 8
+        }
       ],
-      "flags": ["currency_short_position", "bet_against_krone", "offshore_holdings", "inside_information_trade"],
-      "codexUnlocks": []
+      "flags": [
+        "currency_short_position",
+        "bet_against_krone",
+        "offshore_holdings",
+        "inside_information_trade"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "currency_decline",
       "text": "\"No. I am the Chancellor of Veltria. I do not bet against my own country's currency. This is not about optics — it is about what kind of person I am. If I take this position, every economic decision I make for the rest of my term will be shadowed by the question of whether I made it for the country or for my portfolio. That question is corrosive. It corrodes trust, it corrodes judgment, and it corrodes the soul. Tell your clients the Chancellor is not interested. And tell them — if they are betting against the Krone, they should close their positions. Because I am going to stabilize this currency, and I am not going to let them profit from its collapse.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 18  },
-        { "stat": "factions.reformists",          "operation": "add", "value": 8   },
-        { "stat": "nation.corruption",            "operation": "add", "value": -3  },
-        { "stat": "nation.economyHealth",         "operation": "add", "value": 2   }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 18
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": 2
+        }
       ],
-      "flags": ["currency_short_declined", "ethical_economic_stewardship"],
-      "codexUnlocks": []
+      "flags": [
+        "currency_short_declined",
+        "ethical_economic_stewardship"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "currency_speculate_small",
       "text": "\"Invest one thousand. Not four. I am not betting the family savings against the Krone — but I am hedging. If the economy worsens despite my best efforts, the return cushions my family. If the economy stabilizes, the loss is manageable. This is not speculation. It is insurance. Every prudent household hedges against uncertainty. The fact that I have more information than most about the direction of the economy is not a crime — it is a fact of being Chancellor. I will not use that information to enrich myself. I will use it to protect my family from the consequences of a crisis I am working to prevent.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": -1000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -6  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 5   },
-        { "stat": "nation.corruption",            "operation": "add", "value": 3   }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -1000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.corruption",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["currency_small_position", "hedged_krone"],
-      "codexUnlocks": []
+      "flags": [
+        "currency_small_position",
+        "hedged_krone"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     }
   ]
 }

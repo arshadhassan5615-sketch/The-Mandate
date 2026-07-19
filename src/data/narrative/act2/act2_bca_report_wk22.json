@@ -8,12 +8,21 @@
   "agendaCost": 1,
   "isMandatory": true,
   "location": "Bureau of Civic Accountability Headquarters — Ashenmere",
-  "characters": ["maren_tovik"],
-  "prerequisites": [
-    { "type": "flag", "flag": "bca_funded", "value": true },
-    { "type": "flag", "flag": "law_enforcement_choice_made", "value": true }
+  "characters": [
+    "maren_tovik"
   ],
-
+  "prerequisites": [
+    {
+      "type": "flag",
+      "flag": "bca_funded",
+      "value": true
+    },
+    {
+      "type": "flag",
+      "flag": "law_enforcement_choice_made",
+      "value": true
+    }
+  ],
   "narrative": [
     {
       "type": "description",
@@ -38,57 +47,164 @@
       "text": "Four people in my government. She did not say which four. She did not say whether I am one of them. She does not know yet — or she knows and she is waiting until she has enough evidence to tell me without ambiguity. Either way, Maren Tovik is doing exactly what I asked her to do: investigating corruption wherever it leads. The fact that it might lead here is not a flaw in the system. It is the system working. I have to decide whether I actually believe that — or whether I only believed it until the investigation got close."
     }
   ],
-
   "monologue": "Four people in my government. She did not say which four. Tovik does not pause for dramatic effect — she paused because she was about to say something that would make the room feel different. The investigation is working exactly as designed. The question is whether I meant it when I said I wanted corruption investigated wherever it leads — or whether 'wherever' stopped at my own doorstep.",
-
   "choices": [
     {
       "id": "bca_expand_transition_audit",
       "text": "\"Expand the audit to cover the transition period. Full access to whatever records survive. If corruption happened during those eighteen months, I want to know — regardless of who it implicates. Maren, you have my authorization to follow the evidence wherever it leads. If it leads to people in this government, they will be held accountable like anyone else. That is not a threat. It is a promise — to the people who voted for a government that would be different from the one it replaced.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 8   },
-        { "stat": "factions.halvekists",          "operation": "add", "value": -10 },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -6  },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": 6   },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 10  },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": -2  }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": -2
+        }
       ],
-      "flags": ["bca_transition_audit_authorized", "bca_first_report_complete"],
-      "codexUnlocks": ["codex_halvek_corruption"],
-      "reactions": [{ "character": "maren_tovik", "type": "action", "text": "She writes the authorization on her notepad — full access, wherever it leads. Her pen does not hesitate. She has been waiting for you to say the words. Now she will act on them." }]
+      "flags": [
+        "bca_transition_audit_authorized",
+        "bca_first_report_complete"
+      ],
+      "codexUnlocks": [
+        "codex_halvek_corruption"
+      ],
+      "reactions": [
+        {
+          "character": "maren_tovik",
+          "type": "action",
+          "text": "She writes the authorization on her notepad — full access, wherever it leads. Her pen does not hesitate. She has been waiting for you to say the words. Now she will act on them."
+        }
+      ],
+      "chainTriggers": []
     },
     {
       "id": "bca_limited_expansion",
       "text": "\"Audit the transition period, but with restrictions. Focus on contracts above 500,000 kroner — the kind of money that indicates systemic corruption rather than administrative sloppiness. And I want to be briefed before any findings related to current government officials are made public. Not to suppress information, but to ensure that I am not blindsided by a report I could have been prepared for. Transparency matters. So does stability. I am trying to balance both.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 3   },
-        { "stat": "factions.halvekists",          "operation": "add", "value": -3  },
-        { "stat": "factions.businessClass",       "operation": "add", "value": 2   },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": 3   },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 2   },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 3   }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["bca_transition_audit_limited", "bca_first_report_complete"],
-      "codexUnlocks": ["codex_halvek_corruption"],
-      "reactions": [{ "character": "maren_tovik", "type": "silence", "text": "She writes limited scope on her notepad — contracts above 500,000. She does not argue. The silence is the sound of Maren Tovik accepting a restriction while filing it away for later reference." }]
+      "flags": [
+        "bca_transition_audit_limited",
+        "bca_first_report_complete"
+      ],
+      "codexUnlocks": [
+        "codex_halvek_corruption"
+      ],
+      "reactions": [
+        {
+          "character": "maren_tovik",
+          "type": "silence",
+          "text": "She writes limited scope on her notepad — contracts above 500,000. She does not argue. The silence is the sound of Maren Tovik accepting a restriction while filing it away for later reference."
+        }
+      ],
+      "chainTriggers": []
     },
     {
       "id": "bca_block_transition_audit",
       "text": "\"Focus on the cases you have already identified. Prosecute the twelve parliamentarians — that will send the strongest possible signal that the old corruption is over. The transition period was chaotic. Opening that door means dragging this government through investigations of decisions made under emergency conditions, by people who were trying to hold the country together. I am not protecting corruption. I am protecting the transition government's legacy — which includes my own election. If the BCA audits the transition, every political opponent I have will use those findings to delegitimize this administration.\"",
       "internalTag": "hardline",
       "stateChanges": [
-        { "stat": "factions.halvekists",          "operation": "add", "value": 5   },
-        { "stat": "factions.reformists",          "operation": "add", "value": -8  },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": 4   },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": -5  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -8  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 5   }
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["bca_transition_audit_blocked", "bca_first_report_complete", "bca_constrained"],
-      "codexUnlocks": ["codex_halvek_corruption"],
-      "reactions": [{ "character": "maren_tovik", "type": "silence", "text": "She closes her notebook. The motion is slow and deliberate. She does not argue. The silence is the sound of Maren Tovik recalculating the limits of her mandate." }]
+      "flags": [
+        "bca_transition_audit_blocked",
+        "bca_first_report_complete",
+        "bca_constrained"
+      ],
+      "codexUnlocks": [
+        "codex_halvek_corruption"
+      ],
+      "reactions": [
+        {
+          "character": "maren_tovik",
+          "type": "silence",
+          "text": "She closes her notebook. The motion is slow and deliberate. She does not argue. The silence is the sound of Maren Tovik recalculating the limits of her mandate."
+        }
+      ],
+      "chainTriggers": []
     }
   ]
 }

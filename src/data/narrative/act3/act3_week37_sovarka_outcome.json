@@ -14,7 +14,10 @@
     {
       "id": "sovarka_outcome_hear",
       "text": "\"Tell me where we are.\"",
-      "nextSegment": "sovarka_outcome_branch"
+      "nextSegment": "sovarka_outcome_branch",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -29,20 +32,47 @@
         {
           "id": "sovarka_outcome_full_deal",
           "text": "[Full deal was signed]",
-          "conditions": [{ "type": "flag", "flag": "sovarka_deal_signed", "value": true }],
-          "nextSegment": "outcome_full_deal"
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "sovarka_deal_signed",
+              "value": true
+            }
+          ],
+          "nextSegment": "outcome_full_deal",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_outcome_limited_deal",
           "text": "[Limited deal was signed]",
-          "conditions": [{ "type": "flag", "flag": "sovarka_limited_deal", "value": true }],
-          "nextSegment": "outcome_limited_deal"
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "sovarka_limited_deal",
+              "value": true
+            }
+          ],
+          "nextSegment": "outcome_limited_deal",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_outcome_lost",
           "text": "[Deal was deferred — Tyvaren moved first]",
-          "conditions": [{ "type": "flag", "flag": "sovarka_deferred", "value": true }],
-          "nextSegment": "outcome_lost"
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "sovarka_deferred",
+              "value": true
+            }
+          ],
+          "nextSegment": "outcome_lost",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -78,17 +108,26 @@
         {
           "id": "sovarka_full_ask_tyvaren",
           "text": "\"What is Tyvaren's response beyond the protest?\"",
-          "nextSegment": "tyvaren_full_response"
+          "nextSegment": "tyvaren_full_response",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_full_ask_three_states",
           "text": "\"Tell me about the three states that made inquiries.\"",
-          "nextSegment": "three_states_brief"
+          "nextSegment": "three_states_brief",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_full_end_direct",
           "text": "\"Good. What is next?\"",
-          "nextSegment": "sovarka_outcome_close_full"
+          "nextSegment": "sovarka_outcome_close_full",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -110,7 +149,10 @@
         {
           "id": "tyvaren_response_to_close",
           "text": "\"We do not flinch. What is the Foreign Ministry meeting agenda?\"",
-          "nextSegment": "sovarka_outcome_close_full"
+          "nextSegment": "sovarka_outcome_close_full",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -132,7 +174,10 @@
         {
           "id": "three_states_to_close",
           "text": "\"Monitor all three. Do nothing official yet. Let the signal travel further before we respond to it.\"",
-          "nextSegment": "sovarka_outcome_close_full"
+          "nextSegment": "sovarka_outcome_close_full",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -172,7 +217,9 @@
             "category": "DIPLOMACY",
             "content": "The agreement is signed. Luca held his press conference. Partnership between equals — his phrase. Three Thalassic states made inquiries in two weeks. Tyvaren is applying calibrated pressure. Vyktor said it was correctly executed. The eastern europium deposit stays quiet for eighteen months. First mineral revenue in month eight. Krel's network made this possible — the Tyvaren survey summary, the meeting schedule, the three days of warning. I keep thinking about what this would have looked like without him. I try not to think about it too long."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -212,7 +259,9 @@
               "value": 8
             }
           ],
-          "nextSegment": "sovarka_outcome_close_limited"
+          "nextSegment": "sovarka_outcome_close_limited",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_limited_accept",
@@ -226,7 +275,9 @@
               "value": 3
             }
           ],
-          "nextSegment": "sovarka_outcome_close_limited"
+          "nextSegment": "sovarka_outcome_close_limited",
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -256,7 +307,9 @@
             "category": "DIPLOMACY",
             "content": "The limited deal held. Luca signed with us Thursday, signed with Tyvaren Friday. Non-exclusive as offered. We have preferred pricing and port access. Tyvaren has thirty percent of supply at market rate. Elara says the result is below the maximum available and above the minimum acceptable. Vyktor says the diplomatic situation is stable because Tyvaren got something. The eastern europium deposit is still unannounced. That decision comes later."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -287,12 +340,18 @@
         {
           "id": "sovarka_lost_ask_luca",
           "text": "\"Is the relationship with Luca recoverable?\"",
-          "nextSegment": "sovarka_lost_luca_question"
+          "nextSegment": "sovarka_lost_luca_question",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_lost_ask_europium",
           "text": "\"The eastern europium district — Tyvaren doesn't know about it yet.\"",
-          "nextSegment": "sovarka_lost_europium"
+          "nextSegment": "sovarka_lost_europium",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -313,7 +372,10 @@
         {
           "id": "sovarka_lost_to_europium",
           "text": "\"Tell me about the europium.\"",
-          "nextSegment": "sovarka_lost_europium"
+          "nextSegment": "sovarka_lost_europium",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -357,7 +419,9 @@
               "value": 3
             }
           ],
-          "nextSegment": "sovarka_lost_close"
+          "nextSegment": "sovarka_lost_close",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "sovarka_lost_accept",
@@ -375,7 +439,9 @@
               "value": 3
             }
           ],
-          "nextSegment": "sovarka_lost_close"
+          "nextSegment": "sovarka_lost_close",
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -423,7 +489,9 @@
             "category": "DIPLOMACY",
             "content": "Tyvaren signed with Sovarka on Tuesday. Eighty-eight million kroner, twelve years, exclusive. Luca looked uncomfortable at the signing. Our survey confirmed the deposits two days later — including the eastern europium district Tyvaren missed. The Halvekists ran three pieces about naive foreign policy. Vyktor said the reason was waiting for certainty when the situation required commitment. He said it will not compound if we apply it. I wrote that down."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

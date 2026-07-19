@@ -45,25 +45,32 @@
     }
   ],
   "monologue": "Worse than projected. I ran on those projections. Twelve thousand people in Kravenstal voted for me on the strength of those projections. And now Vostane is telling me with the same tone she'd use to describe the weather that the ground has shifted under everything I promised. I need to understand exactly how bad before I decide anything.",
-
   "choices": [
     {
       "id": "ask_how_bad",
       "text": "How bad? Give me the actual number.",
-      "nextSegment": "the_real_number"
+      "nextSegment": "the_real_number",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_cooked_books",
       "text": "If the books were cooked, I want to know who did it and why.",
-      "nextSegment": "accountability_thread"
+      "nextSegment": "accountability_thread",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_maric_position",
       "text": "Gregor. You've seen these numbers. What's your read?",
-      "nextSegment": "maric_read"
+      "nextSegment": "maric_read",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
-
   "segments": {
     "the_real_number": {
       "narrative": [
@@ -96,21 +103,29 @@
         {
           "id": "ask_revenue_options",
           "text": "New revenue. What are the options?",
-          "nextSegment": "revenue_options"
+          "nextSegment": "revenue_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "ask_what_to_cut",
           "text": "Structural cuts. What gets cut?",
-          "nextSegment": "cut_options"
+          "nextSegment": "cut_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "ask_deficit_spend",
           "text": "Deficit spending. For how long and at what cost?",
-          "nextSegment": "deficit_option"
+          "nextSegment": "deficit_option",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "accountability_thread": {
       "narrative": [
         {
@@ -142,16 +157,21 @@
         {
           "id": "accountability_flag",
           "text": "I want those names on my desk by Friday. We'll deal with them after we stabilize the budget.",
-          "nextSegment": "the_real_number"
+          "nextSegment": "the_real_number",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "accountability_now",
           "text": "Remove them now. I won't govern with people who lied to us already.",
-          "nextSegment": "accountability_now_segment"
+          "nextSegment": "accountability_now_segment",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "accountability_now_segment": {
       "narrative": [
         {
@@ -179,11 +199,13 @@
         {
           "id": "back_to_budget",
           "text": "Fine. Budget first. Then accountability.",
-          "nextSegment": "the_real_number"
+          "nextSegment": "the_real_number",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "maric_read": {
       "narrative": [
         {
@@ -211,16 +233,21 @@
         {
           "id": "maric_noted",
           "text": "Noted, Gregor. Let me hear the numbers before I decide anything.",
-          "nextSegment": "the_real_number"
+          "nextSegment": "the_real_number",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "maric_challenged",
           "text": "The promises matter. But I can't keep them on a broken budget. Let me hear what Vostane found.",
-          "nextSegment": "the_real_number"
+          "nextSegment": "the_real_number",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "revenue_options": {
       "narrative": [
         {
@@ -248,21 +275,29 @@
         {
           "id": "revenue_wealth_tax",
           "text": "The wealth tax. We ran on redistribution. This is redistribution.",
-          "nextSegment": "final_budget_choice"
+          "nextSegment": "final_budget_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "revenue_corporate",
           "text": "The corporate rate increase. It's defensible internationally and doesn't touch domestic capital.",
-          "nextSegment": "final_budget_choice"
+          "nextSegment": "final_budget_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "revenue_combined",
           "text": "A combination. Smaller wealth tax, smaller corporate increase. Split the political risk.",
-          "nextSegment": "final_budget_choice"
+          "nextSegment": "final_budget_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "cut_options": {
       "narrative": [
         {
@@ -285,16 +320,21 @@
         {
           "id": "cut_infrastructure",
           "text": "Infrastructure maintenance. The roads can wait. People can't.",
-          "nextSegment": "final_budget_choice"
+          "nextSegment": "final_budget_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "no_cuts",
           "text": "I won't cut social programs. Show me the revenue options.",
-          "nextSegment": "revenue_options"
+          "nextSegment": "revenue_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "deficit_option": {
       "narrative": [
         {
@@ -317,16 +357,21 @@
         {
           "id": "deficit_accept",
           "text": "Deficit spending for eighteen months while we build the revenue base. Controlled. Time-limited.",
-          "nextSegment": "final_budget_choice"
+          "nextSegment": "final_budget_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "deficit_reject",
           "text": "I won't start my government in debt. Find me revenue options.",
-          "nextSegment": "revenue_options"
+          "nextSegment": "revenue_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "final_budget_choice": {
       "narrative": [
         {
@@ -340,18 +385,31 @@
         }
       ],
       "monologue": "Sixty-five million in the hole and a room full of people who each have a different answer. Vostane wants the numbers to add up. Marić wants the promises to mean something. Vyktor wants whatever keeps us in power long enough to do something with it. What do I want? I want all three. I'm about to find out which I can actually have.",
-
       "choices": [
         {
           "id": "welfare_priority",
           "text": "Prioritize welfare and social programs. The deficit is real but so are the people who voted for us. We find revenue while we spend.",
           "statEffects": [
-            {"stat": "economy", "value": -8},
-            {"stat": "budget", "value": -15},
-            {"stat": "labor_approval", "value": 12},
-            {"stat": "public_trust", "value": 8}
+            {
+              "stat": "economy",
+              "value": -8
+            },
+            {
+              "stat": "budget",
+              "value": -15
+            },
+            {
+              "stat": "labor_approval",
+              "value": 12
+            },
+            {
+              "stat": "public_trust",
+              "value": 8
+            }
           ],
-          "flags": ["budget_welfare_priority"],
+          "flags": [
+            "budget_welfare_priority"
+          ],
           "reactions": [
             {
               "character": "gregor_maric",
@@ -372,18 +430,34 @@
           "journalEntry": {
             "title": "Set Welfare as Budget Priority",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "infrastructure_priority",
           "text": "Prioritize infrastructure investment. It creates jobs, generates long-term revenue, and the unions will accept delayed welfare expansion if they see construction employment numbers rise.",
           "statEffects": [
-            {"stat": "economy", "value": 5},
-            {"stat": "budget", "value": -8},
-            {"stat": "labor_approval", "value": 3},
-            {"stat": "business_confidence", "value": 8}
+            {
+              "stat": "economy",
+              "value": 5
+            },
+            {
+              "stat": "budget",
+              "value": -8
+            },
+            {
+              "stat": "labor_approval",
+              "value": 3
+            },
+            {
+              "stat": "business_confidence",
+              "value": 8
+            }
           ],
-          "flags": ["budget_infrastructure_priority"],
+          "flags": [
+            "budget_infrastructure_priority"
+          ],
           "reactions": [
             {
               "character": "elara_vostane",
@@ -404,18 +478,34 @@
           "journalEntry": {
             "title": "Set Infrastructure as Budget Priority",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "austerity_path",
           "text": "Fiscal consolidation first. Cut what can be cut, raise what revenue we can, stabilize the Krone. I won't govern on a foundation that collapses in eighteen months.",
           "statEffects": [
-            {"stat": "economy", "value": 3},
-            {"stat": "budget", "value": 20},
-            {"stat": "labor_approval", "value": -15},
-            {"stat": "business_confidence", "value": 12}
+            {
+              "stat": "economy",
+              "value": 3
+            },
+            {
+              "stat": "budget",
+              "value": 20
+            },
+            {
+              "stat": "labor_approval",
+              "value": -15
+            },
+            {
+              "stat": "business_confidence",
+              "value": 12
+            }
           ],
-          "flags": ["budget_austerity"],
+          "flags": [
+            "budget_austerity"
+          ],
           "reactions": [
             {
               "character": "elara_vostane",
@@ -436,18 +526,34 @@
           "journalEntry": {
             "title": "Chose Fiscal Consolidation",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "balanced_approach",
           "text": "A balanced approach. Protect the core welfare programs, invest selectively in employment-generating infrastructure, find new revenue through the corporate levy. No one gets everything and no one gets nothing.",
           "statEffects": [
-            {"stat": "economy", "value": -2},
-            {"stat": "budget", "value": -5},
-            {"stat": "labor_approval", "value": 4},
-            {"stat": "public_trust", "value": 3}
+            {
+              "stat": "economy",
+              "value": -2
+            },
+            {
+              "stat": "budget",
+              "value": -5
+            },
+            {
+              "stat": "labor_approval",
+              "value": 4
+            },
+            {
+              "stat": "public_trust",
+              "value": 3
+            }
           ],
-          "flags": ["budget_balanced"],
+          "flags": [
+            "budget_balanced"
+          ],
           "reactions": [
             {
               "character": "elara_vostane",
@@ -468,7 +574,9 @@
           "journalEntry": {
             "title": "Chose Balanced Budget Approach",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

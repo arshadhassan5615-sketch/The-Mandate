@@ -57,22 +57,34 @@
     {
       "id": "demand_commissioner_report",
       "text": "Get the Commissioner on the line. Now. I want to hear his explanation directly.",
-      "nextSegment": "commissioner_call"
+      "nextSegment": "commissioner_call",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "order_internal_investigation",
       "text": "Oberlin — I want a full internal investigation. Names, orders, chain of command. Every officer at that dispersal.",
-      "nextSegment": "investigation_ordered"
+      "nextSegment": "investigation_ordered",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "visit_vranic",
       "text": "Where is Teodor Vranić right now? I want to visit him.",
-      "nextSegment": "vranic_hospital"
+      "nextSegment": "vranic_hospital",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "public_statement_first",
       "text": "I'm making a statement before the newspapers do. Vyktor — draft it.",
-      "nextSegment": "public_statement"
+      "nextSegment": "public_statement",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -102,12 +114,18 @@
         {
           "id": "commissioner_to_investigation",
           "text": "I want the investigation. I don't need the Commissioner's permission.",
-          "nextSegment": "investigation_ordered"
+          "nextSegment": "investigation_ordered",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "commissioner_dismiss",
           "text": "The Commissioner is relieved of his duties effective immediately. I will notify him personally.",
-          "nextSegment": "final_decision"
+          "nextSegment": "final_decision",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -133,12 +151,18 @@
         {
           "id": "investigation_to_final",
           "text": "Start the investigation. Full scope. I want the Commissioner here by noon.",
-          "nextSegment": "final_decision"
+          "nextSegment": "final_decision",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "investigation_to_hospital",
           "text": "Start the investigation. But first — where is Vranić?",
-          "nextSegment": "vranic_hospital"
+          "nextSegment": "vranic_hospital",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -164,12 +188,18 @@
         {
           "id": "vranic_go_personally",
           "text": "I'm going. Tell the press after I arrive.",
-          "nextSegment": "final_decision"
+          "nextSegment": "final_decision",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "vranic_send_oberlin",
           "text": "Oberlin — you go. You know how to talk to families. I need to deal with the Commissioner.",
-          "nextSegment": "final_decision"
+          "nextSegment": "final_decision",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -195,12 +225,18 @@
         {
           "id": "statement_strong",
           "text": "Name Vranić. Announce the investigation. Summon the Commissioner publicly.",
-          "nextSegment": "final_decision"
+          "nextSegment": "final_decision",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "statement_measured",
           "text": "Express concern. Promise a review. Keep options open until we have full information.",
-          "nextSegment": "final_decision"
+          "nextSegment": "final_decision",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -222,11 +258,23 @@
           "id": "final_dismiss_commissioner",
           "text": "Dismiss the Commissioner. Announce his replacement will be named within the week. Full investigation.",
           "statEffects": [
-            { "stat": "labor_approval", "value": 12 },
-            { "stat": "public_trust", "value": 8 },
-            { "stat": "law_order", "value": -5 }
+            {
+              "stat": "labor_approval",
+              "value": 12
+            },
+            {
+              "stat": "public_trust",
+              "value": 8
+            },
+            {
+              "stat": "law_order",
+              "value": -5
+            }
           ],
-          "flags": ["commissioner_dismissed", "kravenstal_investigation_ordered"],
+          "flags": [
+            "commissioner_dismissed",
+            "kravenstal_investigation_ordered"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
@@ -242,17 +290,31 @@
           "journalEntry": {
             "title": "Dismissed Police Commissioner",
             "category": "crisis"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "final_accept_resignation",
           "text": "Accept the Commissioner's likely resignation. Order an independent review. No immediate changes.",
           "statEffects": [
-            { "stat": "labor_approval", "value": -3 },
-            { "stat": "law_order", "value": 5 },
-            { "stat": "public_trust", "value": -2 }
+            {
+              "stat": "labor_approval",
+              "value": -3
+            },
+            {
+              "stat": "law_order",
+              "value": 5
+            },
+            {
+              "stat": "public_trust",
+              "value": -2
+            }
           ],
-          "flags": ["commissioner_resigned", "kravenstal_review_ordered"],
+          "flags": [
+            "commissioner_resigned",
+            "kravenstal_review_ordered"
+          ],
           "reactions": [
             {
               "character": "colonel_dusek",
@@ -268,7 +330,9 @@
           "journalEntry": {
             "title": "Accepted Commissioner's Resignation",
             "category": "crisis"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

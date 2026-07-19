@@ -48,30 +48,40 @@
     }
   ],
   "monologue": "Three aircraft. Twelve kilometers inside our airspace. Eleven minutes above a communications relay. Dusek is right — this was not accidental navigation. Someone in Tyvaren wanted us to count them. The question is what they wanted the counting to mean. A test of our response time. A message about our vulnerability. Or something else entirely — a provocation designed to make us do something they can point to.",
-
   "choices": [
     {
       "id": "ask_capability",
       "text": "What are we looking at in terms of Tyvaren capability? What can they actually do?",
-      "nextSegment": "tyvaren_capability"
+      "nextSegment": "tyvaren_capability",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_why_now",
       "text": "Why now? What's changed in Tyvaren that makes this the week they test us?",
-      "nextSegment": "tyvaren_why_now"
+      "nextSegment": "tyvaren_why_now",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_dusek_recommend",
       "text": "Dusek — what do you recommend?",
-      "nextSegment": "dusek_recommendation"
+      "nextSegment": "dusek_recommendation",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_theron_history",
       "text": "Theron — has Tyvaren done this before? What happened?",
-      "nextSegment": "theron_history"
+      "nextSegment": "theron_history",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
-
   "segments": {
     "tyvaren_capability": {
       "dialogue": [
@@ -95,16 +105,21 @@
         {
           "id": "capability_ask_motive",
           "text": "Then what is it about?",
-          "nextSegment": "tyvaren_why_now"
+          "nextSegment": "tyvaren_why_now",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "capability_to_options",
           "text": "What are our response options?",
-          "nextSegment": "response_options"
+          "nextSegment": "response_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "tyvaren_why_now": {
       "dialogue": [
         {
@@ -127,16 +142,21 @@
         {
           "id": "why_now_to_dusek",
           "text": "Dusek — given that framing, what do you recommend?",
-          "nextSegment": "dusek_recommendation"
+          "nextSegment": "dusek_recommendation",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "why_now_to_options",
           "text": "What are our actual options?",
-          "nextSegment": "response_options"
+          "nextSegment": "response_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "dusek_recommendation": {
       "dialogue": [
         {
@@ -176,21 +196,29 @@
         {
           "id": "dusek_rec_agree",
           "text": "I hear you. What does a diplomatic protest actually accomplish?",
-          "nextSegment": "diplomatic_value"
+          "nextSegment": "diplomatic_value",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "dusek_rec_push",
           "text": "Standing down completely — doesn't that confirm their read that we won't respond?",
-          "nextSegment": "dusek_pushback"
+          "nextSegment": "dusek_pushback",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "dusek_rec_to_options",
           "text": "Show me all the options.",
-          "nextSegment": "response_options"
+          "nextSegment": "response_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "dusek_pushback": {
       "dialogue": [
         {
@@ -213,16 +241,21 @@
         {
           "id": "pushback_to_options",
           "text": "Give me the full options.",
-          "nextSegment": "response_options"
+          "nextSegment": "response_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "pushback_to_final",
           "text": "I've heard enough.",
-          "nextSegment": "final_tyvaren_choice"
+          "nextSegment": "final_tyvaren_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "theron_history": {
       "dialogue": [
         {
@@ -245,16 +278,21 @@
         {
           "id": "theron_to_dusek",
           "text": "Dusek — same question to you. What do you recommend?",
-          "nextSegment": "dusek_recommendation"
+          "nextSegment": "dusek_recommendation",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "theron_to_options",
           "text": "Show me the current options.",
-          "nextSegment": "response_options"
+          "nextSegment": "response_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "diplomatic_value": {
       "dialogue": [
         {
@@ -277,11 +315,13 @@
         {
           "id": "diplomatic_value_to_final",
           "text": "I've heard enough. Here's my decision.",
-          "nextSegment": "final_tyvaren_choice"
+          "nextSegment": "final_tyvaren_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "response_options": {
       "dialogue": [
         {
@@ -309,21 +349,29 @@
         {
           "id": "options_ask_intercept_risk",
           "text": "If we intercept — what's the risk of an incident?",
-          "nextSegment": "intercept_risk"
+          "nextSegment": "intercept_risk",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "options_ask_deployment_signal",
           "text": "Forward deployment — what signal does that send?",
-          "nextSegment": "deployment_signal"
+          "nextSegment": "deployment_signal",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "options_to_final",
           "text": "I've heard enough. My decision.",
-          "nextSegment": "final_tyvaren_choice"
+          "nextSegment": "final_tyvaren_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "intercept_risk": {
       "dialogue": [
         {
@@ -341,11 +389,13 @@
         {
           "id": "intercept_to_final",
           "text": "Understood. My decision.",
-          "nextSegment": "final_tyvaren_choice"
+          "nextSegment": "final_tyvaren_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "deployment_signal": {
       "dialogue": [
         {
@@ -363,11 +413,13 @@
         {
           "id": "deployment_to_final",
           "text": "I've heard it all. Here's what we're doing.",
-          "nextSegment": "final_tyvaren_choice"
+          "nextSegment": "final_tyvaren_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "final_tyvaren_choice": {
       "dialogue": [
         {
@@ -381,17 +433,27 @@
         }
       ],
       "monologue": "Three aircraft wanted us to count them. Dusek has seen where escalation ends. Theron has the historical record. Vyktor has the political calculation. And I have the map with a line drawn through our airspace by someone who wanted to know what we would do. The answer I give now is the answer they will use to decide what comes next.",
-
       "choices": [
         {
           "id": "diplomatic_only",
           "text": "Diplomatic protest only. File with Tyvaren and the Asturien Forum. No military response. Monitor closely and respond to any repetition with escalating diplomatic measures.",
           "statEffects": [
-            {"stat": "security_rating", "value": -3},
-            {"stat": "international_standing", "value": 5},
-            {"stat": "tyvaren_tension", "value": -5}
+            {
+              "stat": "security_rating",
+              "value": -3
+            },
+            {
+              "stat": "international_standing",
+              "value": 5
+            },
+            {
+              "stat": "tyvaren_tension",
+              "value": -5
+            }
           ],
-          "flags": ["tyvaren_diplomatic_response"],
+          "flags": [
+            "tyvaren_diplomatic_response"
+          ],
           "reactions": [
             {
               "character": "colonel_dusek",
@@ -412,17 +474,30 @@
           "journalEntry": {
             "title": "Chose Diplomacy Over Tyvaren",
             "category": "diplomacy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "intercept_policy",
           "text": "Establish intercept policy. Next incursion, we scramble and escort out. No engagement unless they fire first. File the diplomatic protest simultaneously.",
           "statEffects": [
-            {"stat": "security_rating", "value": 5},
-            {"stat": "tyvaren_tension", "value": 5},
-            {"stat": "military_confidence", "value": 8}
+            {
+              "stat": "security_rating",
+              "value": 5
+            },
+            {
+              "stat": "tyvaren_tension",
+              "value": 5
+            },
+            {
+              "stat": "military_confidence",
+              "value": 8
+            }
           ],
-          "flags": ["tyvaren_intercept_policy"],
+          "flags": [
+            "tyvaren_intercept_policy"
+          ],
           "reactions": [
             {
               "character": "colonel_dusek",
@@ -443,18 +518,34 @@
           "journalEntry": {
             "title": "Established Tyvaren Intercept Policy",
             "category": "diplomacy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "forward_deploy",
           "text": "Forward deployment. Move two additional squadrons to Dravenhollow. Make it visible. File the diplomatic protest. Let them recalculate.",
           "statEffects": [
-            {"stat": "security_rating", "value": 10},
-            {"stat": "tyvaren_tension", "value": 12},
-            {"stat": "budget", "value": -8},
-            {"stat": "military_confidence", "value": 12}
+            {
+              "stat": "security_rating",
+              "value": 10
+            },
+            {
+              "stat": "tyvaren_tension",
+              "value": 12
+            },
+            {
+              "stat": "budget",
+              "value": -8
+            },
+            {
+              "stat": "military_confidence",
+              "value": 12
+            }
           ],
-          "flags": ["tyvaren_forward_deployment"],
+          "flags": [
+            "tyvaren_forward_deployment"
+          ],
           "reactions": [
             {
               "character": "colonel_dusek",
@@ -475,17 +566,30 @@
           "journalEntry": {
             "title": "Ordered Forward Deployment — Tyvaren",
             "category": "diplomacy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "request_bilateral",
           "text": "Request direct bilateral talks with Tyvaren. No military response. Propose a formal border security agreement. Turn their probe into a negotiation.",
           "statEffects": [
-            {"stat": "security_rating", "value": -5},
-            {"stat": "international_standing", "value": 8},
-            {"stat": "tyvaren_tension", "value": -10}
+            {
+              "stat": "security_rating",
+              "value": -5
+            },
+            {
+              "stat": "international_standing",
+              "value": 8
+            },
+            {
+              "stat": "tyvaren_tension",
+              "value": -10
+            }
           ],
-          "flags": ["tyvaren_bilateral_talks"],
+          "flags": [
+            "tyvaren_bilateral_talks"
+          ],
           "reactions": [
             {
               "character": "aldric_theron",
@@ -506,7 +610,9 @@
           "journalEntry": {
             "title": "Requested Bilateral Talks with Tyvaren",
             "category": "diplomacy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

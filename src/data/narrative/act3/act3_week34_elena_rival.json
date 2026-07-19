@@ -8,11 +8,17 @@
   "agendaCost": 1,
   "isMandatory": false,
   "location": "VNN Broadcasting House — Ashenmere",
-  "characters": ["elena_braskov", "nadia_voss"],
-  "prerequisites": [
-    { "type": "flag", "flag": "elena_introduced", "value": true }
+  "characters": [
+    "elena_braskov",
+    "nadia_voss"
   ],
-
+  "prerequisites": [
+    {
+      "type": "flag",
+      "flag": "elena_introduced",
+      "value": true
+    }
+  ],
   "narrative": [
     {
       "type": "description",
@@ -37,38 +43,104 @@
       "text": "They are both threatening me. Elena wants me to destroy her competition. Nadia wants me to protect her from being destroyed. And Nadia is holding a story — a procurement scandal — that she has been investigating since Elena killed it. It could be damaging. It could be nothing. But the principle is the same in either case: the government should not be in the business of deciding which journalists get to publish and which do not. Elena is asking me to become Halvek — selectively, for a specific target, but the mechanism is the same. Nadia is asking me to defend a free press against a monopolist who wants to destroy it. The right answer is clear. The political cost is not."
     }
   ],
-
   "choices": [
     {
       "id": "elena_rival_help_elena",
       "text": "\"Nadia, I am sorry. The Voice will be closed pending a review of its licensing status. Elena, you will get your monopoly protected — but understand that this is the last time I do this. The procurement story dies with the Voice. This is not how I wanted to govern. It is what the circumstances require. The country is in the middle of a constitutional crisis, an economic downturn, and a security threat on the Gravenmark border. I cannot afford to spend political capital defending a newspaper collective against a media empire. I need stability, not justice. I need Elena's coverage, not Nadia's integrity. History will judge me. History can afford to — it is not trying to hold a country together.\"",
       "internalTag": "hardline",
       "stateChanges": [
-        { "stat": "factions.businessClass",       "operation": "add", "value": 12  },
-        { "stat": "factions.reformists",          "operation": "add", "value": -18 },
-        { "stat": "nation.pressFreedom",          "operation": "add", "value": -20 },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": 15  },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": -10 },
-        { "stat": "personal.publicImage",         "operation": "add", "value": -8  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -15 }
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -18
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": -20
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -15
+        }
       ],
-      "flags": ["voice_suppressed", "elena_monopoly_protected", "procurement_story_killed", "elena_rival_resolved"],
-      "codexUnlocks": []
+      "flags": [
+        "voice_suppressed",
+        "elena_monopoly_protected",
+        "procurement_story_killed",
+        "elena_rival_resolved"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "elena_rival_refuse_elena",
       "text": "\"No, Elena. I will not shut down an independent publication because it competes with you. Nadia, publish your story. Whatever it says about procurement irregularities — if there is wrongdoing, I want it exposed. If there is not, I want that known too. Elena, if you retaliate by releasing whatever dirt you have been holding, release it. I would rather be attacked by a free press than protected by a captive one. That has been my position since the day I took this office. It has not changed. The Veltrian Voice is exactly the kind of institution this country needs — independent, aggressive, and unafraid of power. I will not be the Chancellor who destroys it.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 15  },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -10 },
-        { "stat": "nation.pressFreedom",          "operation": "add", "value": 15  },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": -15 },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": 8   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": -5  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 12  }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 12
+        }
       ],
-      "flags": ["voice_protected", "elena_enemy", "procurement_story_published", "elena_rival_resolved"],
+      "flags": [
+        "voice_protected",
+        "elena_enemy",
+        "procurement_story_published",
+        "elena_rival_resolved"
+      ],
       "codexUnlocks": [],
       "chainTriggers": [
         {
@@ -82,16 +154,53 @@
       "text": "\"Elena, the Veltrian Voice is exactly what Veltrian journalism should look like — independent, competitive, and unafraid. I am not going to shut it down. I am going to help it. I am directing the Communications Ministry to create a small-press fund — grants for independent publications to cover printing and distribution costs. The Voice will be the first recipient. And I am directing the Justice Ministry to investigate whether VNN's monopoly practices constitute anti-competitive behavior under existing commercial law. You wanted a fight, Elena. You just got one. Nadia, publish your procurement story. Whatever it says, I will respond publicly and transparently. That is how a democracy handles bad news — not by suppressing it, but by addressing it.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 18  },
-        { "stat": "factions.businessClass",       "operation": "add", "value": -15 },
-        { "stat": "nation.pressFreedom",          "operation": "add", "value": 20  },
-        { "stat": "nation.mediaControl",          "operation": "add", "value": -20 },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": 12  },
-        { "stat": "personal.publicImage",         "operation": "add", "value": -3  },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 15  },
-        { "stat": "nation.nationalDebt",          "operation": "add", "value": 5   }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 18
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": -15
+        },
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": 20
+        },
+        {
+          "stat": "nation.mediaControl",
+          "operation": "add",
+          "value": -20
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "stat": "nation.nationalDebt",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["voice_funded", "elena_enemy", "anti_monopoly_investigation", "elena_rival_resolved"],
+      "flags": [
+        "voice_funded",
+        "elena_enemy",
+        "anti_monopoly_investigation",
+        "elena_rival_resolved"
+      ],
       "codexUnlocks": [],
       "chainTriggers": [
         {

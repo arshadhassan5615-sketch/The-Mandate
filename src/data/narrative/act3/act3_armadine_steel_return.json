@@ -10,10 +10,15 @@
   "location": "Chancellor's Private Residence — Ashenmere",
   "characters": [],
   "prerequisites": [
-    { "stat": "flags.armadine_invested", "operator": "==", "value": true }
+    {
+      "stat": "flags.armadine_invested",
+      "operator": "==",
+      "value": true
+    }
   ],
-  "exclusive": ["act3_armadine_steel_return_jonas"],
-
+  "exclusive": [
+    "act3_armadine_steel_return_jonas"
+  ],
   "narrative": [
     {
       "type": "description",
@@ -24,52 +29,110 @@
       "text": "The return is substantial — more than double what I put in. Every infrastructure project I approved, every military contract I signed, every budget allocation that benefited the steel industry — those were policy decisions made in what I believed was the national interest. But they also benefited Armadine, and by extension, they benefited me. That is the problem. Not that I made bad decisions — that even good decisions now look compromised. If steel was nationalized, the situation is different: the investment is worthless, and my decision to nationalize — however justified — just cost my family 3,000 ₭. Either way, the entanglement I accepted has consequences. The question is whether I accept them gracefully."
     }
   ],
-
   "choices": [
     {
       "id": "armadine_collect_return",
       "text": "\"Accept the return. The 8,000 ₭ is the legitimate outcome of a legal investment. I invested in a Veltrian industrial company because I believed in Veltrian industry — and that belief has been vindicated. My policy decisions were made in the national interest, not in my financial interest. If critics want to draw a line between the two, let them — but they will be drawing a false equivalence. I did not trade on inside information. I did not sell policy decisions. I invested in my country, and my country's economy grew. That is what investments are supposed to do. Transfer the funds to my account.\"",
       "internalTag": "pragmatist",
       "conditions": [
-        { "stat": "flags.vael_nationalized", "operator": "!=", "value": true },
-        { "stat": "flags.war_industries_nationalized", "operator": "!=", "value": true }
+        {
+          "stat": "flags.vael_nationalized",
+          "operator": "!=",
+          "value": true
+        },
+        {
+          "stat": "flags.war_industries_nationalized",
+          "operator": "!=",
+          "value": true
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.personalWealth",      "operation": "add", "value": 8000 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -2  },
-        { "stat": "factions.businessClass",       "operation": "add", "value": 3   },
-        { "stat": "factions.reformists",          "operation": "add", "value": -2  }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": 8000
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -2
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -2
+        }
       ],
-      "flags": ["armadine_return_collected"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_return_collected"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "armadine_nationalized_loss_vael",
       "text": "\"The investment is gone. When Vael's industrial holdings were nationalized, Armadine's share value collapsed, and the private placement was wiped out. There is nothing to collect — only the knowledge that I made a policy decision that cost my family 3,000 ₭, and that I would make it again. The nationalization was the right decision for the country. Losing this investment was the price of making it. I will not complain about paying it.\"",
       "internalTag": "reformist",
       "conditions": [
-        { "stat": "flags.vael_nationalized", "operator": "==", "value": true }
+        {
+          "stat": "flags.vael_nationalized",
+          "operator": "==",
+          "value": true
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 5   },
-        { "stat": "personal.publicImage",         "operation": "add", "value": 3   }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        }
       ],
-      "flags": ["armadine_investment_lost", "armadine_return_resolved"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_investment_lost",
+        "armadine_return_resolved"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     },
     {
       "id": "armadine_war_nationalized_loss",
       "text": "\"The investment is gone — absorbed by the war economy. When strategic industries were nationalized for the war effort, Armadine was included. Private shareholders, including those in the pre-listing placement, were not compensated. The 3,000 ₭ is lost. There is no recourse. In the context of what the country is facing, a lost investment is the least of anyone's concerns — including mine. The country needed steel for the war. My portfolio does not matter. It never did.\"",
       "internalTag": "reformist",
       "conditions": [
-        { "stat": "flags.war_industries_nationalized", "operator": "==", "value": true }
+        {
+          "stat": "flags.war_industries_nationalized",
+          "operator": "==",
+          "value": true
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 3   },
-        { "stat": "factions.ironCovenant",        "operation": "add", "value": 5   }
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 5
+        }
       ],
-      "flags": ["armadine_investment_lost", "armadine_return_resolved"],
-      "codexUnlocks": []
+      "flags": [
+        "armadine_investment_lost",
+        "armadine_return_resolved"
+      ],
+      "codexUnlocks": [],
+      "chainTriggers": []
     }
   ]
 }

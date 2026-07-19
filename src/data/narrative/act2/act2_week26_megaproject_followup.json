@@ -14,7 +14,10 @@
     {
       "id": "dev_followup_hear",
       "text": "\"Report, Varro.\"",
-      "nextSegment": "dev_followup_branch"
+      "nextSegment": "dev_followup_branch",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -29,20 +32,47 @@
         {
           "id": "dev_highway_report",
           "text": "[Highway was chosen — hear the highway report]",
-          "conditions": [{ "type": "flag", "flag": "dev_highway_chosen", "value": true }],
-          "nextSegment": "highway_report"
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "dev_highway_chosen",
+              "value": true
+            }
+          ],
+          "nextSegment": "highway_report",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "dev_dam_report",
           "text": "[Dam was chosen — hear the dam report]",
-          "conditions": [{ "type": "flag", "flag": "dev_dam_chosen", "value": true }],
-          "nextSegment": "dam_report"
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "dev_dam_chosen",
+              "value": true
+            }
+          ],
+          "nextSegment": "dam_report",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "dev_port_report",
           "text": "[Port was chosen — hear the port report]",
-          "conditions": [{ "type": "flag", "flag": "dev_port_chosen", "value": true }],
-          "nextSegment": "port_report"
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "dev_port_chosen",
+              "value": true
+            }
+          ],
+          "nextSegment": "port_report",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -91,7 +121,9 @@
               "value": 5
             }
           ],
-          "nextSegment": "highway_close_intervene"
+          "nextSegment": "highway_close_intervene",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "highway_no_intervene",
@@ -118,7 +150,9 @@
               "value": -5
             }
           ],
-          "nextSegment": "highway_close_no_intervene"
+          "nextSegment": "highway_close_no_intervene",
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -147,7 +181,9 @@
           "nextSegment": null,
           "flags": [
             "act2_week26_megaproject_followup_complete"
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -180,7 +216,9 @@
             "category": "POLICY",
             "content": "The contracts went to Vael-connected firms. They are not meeting the local hiring requirement. I held the line — compliant bids stand. Vyktor says Marić will file a formal objection within the week. Varro is monitoring. I told myself this was about procedural integrity. I am not entirely convinced that is the only reason I did not intervene."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -225,7 +263,9 @@
               "value": 8
             }
           ],
-          "nextSegment": "dam_close_staren_resolved"
+          "nextSegment": "dam_close_staren_resolved",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "dam_staren_standard",
@@ -244,7 +284,9 @@
               "value": -5
             }
           ],
-          "nextSegment": "dam_close_staren_standard"
+          "nextSegment": "dam_close_staren_standard",
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -273,7 +315,9 @@
           "nextSegment": null,
           "flags": [
             "act2_week26_megaproject_followup_complete"
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -306,7 +350,9 @@
             "category": "POLICY",
             "content": "Staren is holding out. I applied the standard framework uniformly. Vyktor says the journalist publishes within two weeks and Marić will respond publicly. I chose consistency over exception. I keep thinking about four hundred people and an agricultural community and a relocation site twelve kilometers away that does not have the right soil. I chose consistency. I am not sure consistency was the right word for it."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -351,7 +397,9 @@
               "value": 2
             }
           ],
-          "nextSegment": "port_close_diplomatic"
+          "nextSegment": "port_close_diplomatic",
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "port_accelerate",
@@ -374,7 +422,9 @@
               "value": -2
             }
           ],
-          "nextSegment": "port_close_accelerate"
+          "nextSegment": "port_close_accelerate",
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -403,7 +453,9 @@
           "nextSegment": null,
           "flags": [
             "act2_week26_megaproject_followup_complete"
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -436,7 +488,9 @@
             "category": "POLICY",
             "content": "Tyvaren filed a formal protest. I accelerated construction. Sixteen months instead of twenty-two, four million in overtime costs. Vyktor said Tyvaren will view the acceleration as confirmation that the protest was correct. He said I want you to have made this decision knowing that. I made it knowing that. The port will be a fact before the diplomatic process produces anything. Facts are harder to protest than plans."
           },
-          "nextSegment": null
+          "nextSegment": null,
+          "flags": [],
+          "codexUnlocks": []
         }
       ]
     }

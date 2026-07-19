@@ -7,8 +7,14 @@
   "agendaCost": 0,
   "isMandatory": true,
   "location": "Parliamentary Smoking Room — Ashenmere",
-  "characters": ["drazen_kolvar", "soraya_khaled", "aldric_theron"],
-  "prerequisiteFlags": ["constitution_pipeline_stage_1_done"],
+  "characters": [
+    "drazen_kolvar",
+    "soraya_khaled",
+    "aldric_theron"
+  ],
+  "prerequisiteFlags": [
+    "constitution_pipeline_stage_1_done"
+  ],
   "prerequisites": [],
   "narrative": [
     {
@@ -37,59 +43,114 @@
       "text": "Write the checks. Buy the swing votes with personal funds. Kolvar's network plus Soraya's protection — a quiet transaction for a historic outcome.",
       "internalTag": "pragmatist",
       "conditions": [
-        { "stat": "personal.personalWealth", "operator": ">", "value": 50 }
+        {
+          "stat": "personal.personalWealth",
+          "operator": ">",
+          "value": 50
+        }
       ],
       "stateChanges": [
-        { "stat": "personal.personalWealth", "operation": "add", "value": -30 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
-        { "stat": "factions.businessClass", "operation": "add", "value": 4 }
+        {
+          "stat": "personal.personalWealth",
+          "operation": "add",
+          "value": -30
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "factions.businessClass",
+          "operation": "add",
+          "value": 4
+        }
       ],
-      "flags": ["whip_success_bribe", "constitution_pipeline_stage_2_done"],
+      "flags": [
+        "whip_success_bribe",
+        "constitution_pipeline_stage_2_done"
+      ],
       "reactions": [
         {
           "character": "drazen_kolvar",
           "type": "action",
           "text": "Kolvar writes down twenty-three names on a napkin and slides it across the table. 'These will vote yes. The others will abstain, which is almost as good. You have your majority, Chancellor. It cost more than principle, but less than it would have cost to lose.'"
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "whip_discipline",
       "text": "Ask Theron to enforce party discipline. His moral authority has weight, and a unified Reformist bloc can carry the vote cleanly.",
       "internalTag": "reformist",
       "conditions": [
-        { "stat": "advisorTrust.theron", "operator": ">", "value": 60 }
+        {
+          "stat": "advisorTrust.theron",
+          "operator": ">",
+          "value": 60
+        }
       ],
       "stateChanges": [
-        { "stat": "advisorTrust.theron", "operation": "add", "value": -8 },
-        { "stat": "factions.reformists", "operation": "add", "value": 6 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+        {
+          "stat": "advisorTrust.theron",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        }
       ],
-      "flags": ["whip_success_discipline", "constitution_pipeline_stage_2_done"],
+      "flags": [
+        "whip_success_discipline",
+        "constitution_pipeline_stage_2_done"
+      ],
       "reactions": [
         {
           "character": "aldric_theron",
           "type": "dialogue",
           "text": "He straightens his jacket. The movement is small, but it carries the weight of a decision made. 'Fifty-seven votes, Chancellor. I will deliver them. But I am not a young man, and the Reformist coalition is not a machine. I have one of these in me. Maybe two. Use them wisely, because the next time you need party discipline, I may not have the capital to enforce it.'"
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "whip_fail",
       "text": "You cannot secure the votes. Not today. The numbers are not there, and you will not compromise your integrity to force them.",
       "internalTag": "personal",
       "stateChanges": [
-        { "stat": "personal.publicImage", "operation": "add", "value": -8 },
-        { "stat": "factions.reformists", "operation": "add", "value": -4 }
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -4
+        }
       ],
-      "flags": ["whip_failed", "constitution_pipeline_stage_2_done"],
+      "flags": [
+        "whip_failed",
+        "constitution_pipeline_stage_2_done"
+      ],
       "reactions": [
         {
           "character": "drazen_kolvar",
           "type": "dialogue",
           "text": "Kolvar leans back in his chair and exhales a long plume of pipe smoke. 'Very well, Chancellor. You have my respect — for what little that is worth. But respect does not pass legislation. You will walk into that chamber next week without the numbers, and you will walk out with nothing. I hope your principles are warm enough to sleep under.'"
         }
-      ]
+      ],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ]
 }

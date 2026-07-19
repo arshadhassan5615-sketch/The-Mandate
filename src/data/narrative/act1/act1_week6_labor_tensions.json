@@ -46,30 +46,40 @@
     }
   ],
   "monologue": "Eleven days. Someone planted a garden in the factory courtyard — I read that in Dusek's report, one line buried in the security assessment. Someone brought seeds. That detail keeps coming back to me. People don't plant gardens in places they're about to leave. These workers intend to stay until someone takes them seriously. The question is what taking them seriously actually costs.",
-
   "choices": [
     {
       "id": "ask_what_they_want",
       "text": "What are their actual demands? Specifically.",
-      "nextSegment": "demands_detail"
+      "nextSegment": "demands_detail",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_dusek_forces",
       "text": "Dusek — what's the security situation on the ground right now?",
-      "nextSegment": "security_situation"
+      "nextSegment": "security_situation",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_maric_solution",
       "text": "Gregor — you know these people. What do they actually need to go home?",
-      "nextSegment": "maric_solution"
+      "nextSegment": "maric_solution",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "ask_vostane_cost",
       "text": "Vostane — what does this cost per day?",
-      "nextSegment": "economic_cost"
+      "nextSegment": "economic_cost",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
-
   "segments": {
     "demands_detail": {
       "dialogue": [
@@ -98,21 +108,29 @@
         {
           "id": "demands_to_security",
           "text": "What's the security situation if we don't act this week?",
-          "nextSegment": "security_situation"
+          "nextSegment": "security_situation",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "demands_to_negotiate",
           "text": "I want to negotiate. What does that actually look like?",
-          "nextSegment": "negotiation_options"
+          "nextSegment": "negotiation_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "demands_to_final",
           "text": "I've heard enough to decide.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "security_situation": {
       "dialogue": [
         {
@@ -140,21 +158,29 @@
         {
           "id": "security_ask_escalation",
           "text": "What happens if it stays unresolved for another two weeks?",
-          "nextSegment": "escalation_scenario"
+          "nextSegment": "escalation_scenario",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "security_to_economic",
           "text": "What's the economic cost of continued occupation?",
-          "nextSegment": "economic_cost"
+          "nextSegment": "economic_cost",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "security_to_final",
           "text": "I've heard what I need. My decision.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "escalation_scenario": {
       "dialogue": [
         {
@@ -182,16 +208,21 @@
         {
           "id": "escalation_to_maric",
           "text": "Gregor — what does resolution actually look like?",
-          "nextSegment": "maric_solution"
+          "nextSegment": "maric_solution",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "escalation_to_final",
           "text": "Decision time.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "maric_solution": {
       "dialogue": [
         {
@@ -222,16 +253,21 @@
         {
           "id": "maric_father_acknowledged",
           "text": "I know, Gregor. That's why I'm asking you.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "maric_ask_risks",
           "text": "If your negotiation fails, what's the fallback?",
-          "nextSegment": "negotiation_options"
+          "nextSegment": "negotiation_options",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "negotiation_options": {
       "dialogue": [
         {
@@ -254,21 +290,29 @@
         {
           "id": "negotiate_maric",
           "text": "Send Marić. A person, not a procedure.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "negotiate_mediator",
           "text": "Send a formal mediator. Set the right precedent.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "negotiate_direct",
           "text": "I'll go myself.",
-          "nextSegment": "chancellor_goes_segment"
+          "nextSegment": "chancellor_goes_segment",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "chancellor_goes_segment": {
       "dialogue": [
         {
@@ -295,16 +339,21 @@
         {
           "id": "chancellor_goes_confirm",
           "text": "I want it too. Set it up.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "chancellor_reconsider",
           "text": "On reflection — send Marić. I'll follow up personally after the occupation ends.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "economic_cost": {
       "dialogue": [
         {
@@ -336,16 +385,21 @@
         {
           "id": "economic_to_final",
           "text": "Agreed on the reinstatement. Now what about the larger question.",
-          "nextSegment": "final_labor_choice"
+          "nextSegment": "final_labor_choice",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "economic_to_security",
           "text": "What about the security picture?",
-          "nextSegment": "security_situation"
+          "nextSegment": "security_situation",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
-
     "final_labor_choice": {
       "dialogue": [
         {
@@ -359,17 +413,28 @@
         }
       ],
       "monologue": "Marić's father worked that mine. Dusek's assessment is that force changes the situation rather than resolves it. Vostane says the reinstatement costs nothing if the dismissals were without cause. And someone in Kravenstal planted a garden because they intended to stay. I know what I'm going to decide. I've known since Marić said his father worked that mine. The question is how I say it.",
-
       "choices": [
         {
           "id": "negotiate_full",
           "text": "Send Marić to negotiate. Reinstate the twelve workers immediately pending arbitration. No privatization decision until the occupation ends. No force deployed.",
           "statEffects": [
-            {"stat": "labor_approval", "value": 15},
-            {"stat": "business_confidence", "value": -5},
-            {"stat": "economy", "value": -3}
+            {
+              "stat": "labor_approval",
+              "value": 15
+            },
+            {
+              "stat": "business_confidence",
+              "value": -5
+            },
+            {
+              "stat": "economy",
+              "value": -3
+            }
           ],
-          "flags": ["labor_negotiated", "kravenstal_workers_reinstated"],
+          "flags": [
+            "labor_negotiated",
+            "kravenstal_workers_reinstated"
+          ],
           "reactions": [
             {
               "character": "gregor_maric",
@@ -390,17 +455,31 @@
           "journalEntry": {
             "title": "Chose Negotiation in Kravenstal",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "force_deploy",
           "text": "Deploy the national guard. Lawful order to vacate. We enforce the law and deal with the political consequences afterward.",
           "statEffects": [
-            {"stat": "labor_approval", "value": -20},
-            {"stat": "business_confidence", "value": 10},
-            {"stat": "law_order", "value": 8}
+            {
+              "stat": "labor_approval",
+              "value": -20
+            },
+            {
+              "stat": "business_confidence",
+              "value": 10
+            },
+            {
+              "stat": "law_order",
+              "value": 8
+            }
           ],
-          "flags": ["labor_force_used", "kravenstal_occupation_ended"],
+          "flags": [
+            "labor_force_used",
+            "kravenstal_occupation_ended"
+          ],
           "reactions": [
             {
               "character": "colonel_dusek",
@@ -421,17 +500,30 @@
           "journalEntry": {
             "title": "Deployed Force in Kravenstal",
             "category": "crisis"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "mediated_settlement",
           "text": "Formal government mediator. Offer binding arbitration on all three demands. The occupation suspends pending mediation or police enforce the vacate order.",
           "statEffects": [
-            {"stat": "labor_approval", "value": 5},
-            {"stat": "business_confidence", "value": 3},
-            {"stat": "law_order", "value": 3}
+            {
+              "stat": "labor_approval",
+              "value": 5
+            },
+            {
+              "stat": "business_confidence",
+              "value": 3
+            },
+            {
+              "stat": "law_order",
+              "value": 3
+            }
           ],
-          "flags": ["labor_mediated"],
+          "flags": [
+            "labor_mediated"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
@@ -452,17 +544,31 @@
           "journalEntry": {
             "title": "Sent Mediator to Kravenstal",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "chancellor_visits",
           "text": "I'm going to Kravenstal myself. Set up the security. Tell the press. I want to look these workers in the eye.",
           "statEffects": [
-            {"stat": "labor_approval", "value": 20},
-            {"stat": "public_trust", "value": 10},
-            {"stat": "assembly_hardliner", "value": -8}
+            {
+              "stat": "labor_approval",
+              "value": 20
+            },
+            {
+              "stat": "public_trust",
+              "value": 10
+            },
+            {
+              "stat": "assembly_hardliner",
+              "value": -8
+            }
           ],
-          "flags": ["chancellor_visited_kravenstal", "labor_negotiated"],
+          "flags": [
+            "chancellor_visited_kravenstal",
+            "labor_negotiated"
+          ],
           "reactions": [
             {
               "character": "gregor_maric",
@@ -483,7 +589,9 @@
           "journalEntry": {
             "title": "Traveled to Kravenstal Personally",
             "category": "personal"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

@@ -7,8 +7,13 @@
   "agendaCost": 0,
   "isMandatory": true,
   "location": "National Assembly Chamber — Ashenmere",
-  "characters": ["vyktor_reznik", "aldric_theron"],
-  "prerequisiteFlags": ["constitution_pipeline_stage_2_done"],
+  "characters": [
+    "vyktor_reznik",
+    "aldric_theron"
+  ],
+  "prerequisiteFlags": [
+    "constitution_pipeline_stage_2_done"
+  ],
   "prerequisites": [],
   "narrative": [
     {
@@ -21,7 +26,13 @@
       "id": "floor_failed",
       "text": "Call the vote.",
       "internalTag": "pragmatist",
-      "conditions": [{ "type": "flag", "flag": "whip_failed", "value": true }],
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "whip_failed",
+          "value": true
+        }
+      ],
       "stateChanges": [],
       "flags": [],
       "codexUnlocks": [],
@@ -33,8 +44,16 @@
       "text": "Call the vote.",
       "internalTag": "reformist",
       "conditions": [
-        { "type": "flag", "flag": "whip_failed", "value": false },
-        { "type": "flag", "flag": "rider_none", "value": false }
+        {
+          "type": "flag",
+          "flag": "whip_failed",
+          "value": false
+        },
+        {
+          "type": "flag",
+          "flag": "rider_none",
+          "value": false
+        }
       ],
       "stateChanges": [],
       "flags": [],
@@ -47,8 +66,16 @@
       "text": "Call the vote.",
       "internalTag": "reformist",
       "conditions": [
-        { "type": "flag", "flag": "whip_failed", "value": false },
-        { "type": "flag", "flag": "rider_none", "value": true }
+        {
+          "type": "flag",
+          "flag": "whip_failed",
+          "value": false
+        },
+        {
+          "type": "flag",
+          "flag": "rider_none",
+          "value": true
+        }
       ],
       "stateChanges": [],
       "flags": [],
@@ -80,18 +107,35 @@
           "text": "Accept the result. Thank the Assembly for its deliberation. Promise to bring the constitution back when the numbers are there.",
           "internalTag": "pragmatist",
           "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": -12 },
-            { "stat": "factions.reformists", "operation": "add", "value": -10 },
-            { "stat": "personal.moralCompass", "operation": "add", "value": -4 }
+            {
+              "stat": "personal.publicImage",
+              "operation": "add",
+              "value": -12
+            },
+            {
+              "stat": "factions.reformists",
+              "operation": "add",
+              "value": -10
+            },
+            {
+              "stat": "personal.moralCompass",
+              "operation": "add",
+              "value": -4
+            }
           ],
-          "flags": ["constitution_floor_vote_resolved", "constitution_defeated"],
+          "flags": [
+            "constitution_floor_vote_resolved",
+            "constitution_defeated"
+          ],
           "reactions": [
             {
               "character": "aldric_theron",
               "type": "silence",
               "text": "Theron is the last person to leave the chamber. He stands at the lectern for a long time, his hand resting on the copy of the constitution that will never become law. He does not speak. He does not need to. Two hundred and forty pages. Six months. And silence."
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -113,19 +157,41 @@
           "text": "Sign the constitution into law. It is not perfect, but it is a beginning. Veltria has its first democratic charter.",
           "internalTag": "reformist",
           "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": 14 },
-            { "stat": "factions.reformists", "operation": "add", "value": 10 },
-            { "stat": "nation.pressFreedom", "operation": "add", "value": 8 },
-            { "stat": "nation.civilLiberties", "operation": "add", "value": 10 }
+            {
+              "stat": "personal.publicImage",
+              "operation": "add",
+              "value": 14
+            },
+            {
+              "stat": "factions.reformists",
+              "operation": "add",
+              "value": 10
+            },
+            {
+              "stat": "nation.pressFreedom",
+              "operation": "add",
+              "value": 8
+            },
+            {
+              "stat": "nation.civilLiberties",
+              "operation": "add",
+              "value": 10
+            }
           ],
-          "flags": ["constitution_floor_vote_resolved", "constitution_in_force", "constitution_compromised"],
+          "flags": [
+            "constitution_floor_vote_resolved",
+            "constitution_in_force",
+            "constitution_compromised"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
               "type": "action",
               "text": "Vyktor brings you the ceremonial pen — the same pen Halvek used to sign the emergency powers act in 1958. He found it in the archives. 'I thought you might want to use a different pen,' he says quietly. 'For a different kind of document.'"
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -147,21 +213,51 @@
           "text": "Sign the constitution into law. A pure democratic charter, passed on principle alone. This is what you promised the people.",
           "internalTag": "reformist",
           "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": 22 },
-            { "stat": "factions.reformists", "operation": "add", "value": 14 },
-            { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
-            { "stat": "nation.civilLiberties", "operation": "add", "value": 12 },
-            { "stat": "factions.workersCoalition", "operation": "add", "value": -6 },
-            { "stat": "factions.church", "operation": "add", "value": -6 }
+            {
+              "stat": "personal.publicImage",
+              "operation": "add",
+              "value": 22
+            },
+            {
+              "stat": "factions.reformists",
+              "operation": "add",
+              "value": 14
+            },
+            {
+              "stat": "personal.moralCompass",
+              "operation": "add",
+              "value": 10
+            },
+            {
+              "stat": "nation.civilLiberties",
+              "operation": "add",
+              "value": 12
+            },
+            {
+              "stat": "factions.workersCoalition",
+              "operation": "add",
+              "value": -6
+            },
+            {
+              "stat": "factions.church",
+              "operation": "add",
+              "value": -6
+            }
           ],
-          "flags": ["constitution_floor_vote_resolved", "constitution_in_force", "constitution_pure"],
+          "flags": [
+            "constitution_floor_vote_resolved",
+            "constitution_in_force",
+            "constitution_pure"
+          ],
           "reactions": [
             {
               "character": "vyktor_reznik",
               "type": "dialogue",
               "text": "He is already on the phone to the printers. 'Special edition of the National Gazette. Front page: ASHAVEL SIGNS DEMOCRATIC CHARTER. They will be reading about this in schools for a hundred years, Chancellor. I hope you wrote a good speech, because you are about to give it.'"
             }
-          ]
+          ],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }

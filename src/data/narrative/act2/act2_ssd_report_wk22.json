@@ -8,12 +8,21 @@
   "agendaCost": 1,
   "isMandatory": true,
   "location": "State Security Directorate — Secure Briefing Room",
-  "characters": ["viktor_dorne"],
-  "prerequisites": [
-    { "type": "flag", "flag": "ssd_funded", "value": true },
-    { "type": "flag", "flag": "law_enforcement_choice_made", "value": true }
+  "characters": [
+    "viktor_dorne"
   ],
-
+  "prerequisites": [
+    {
+      "type": "flag",
+      "flag": "ssd_funded",
+      "value": true
+    },
+    {
+      "type": "flag",
+      "flag": "law_enforcement_choice_made",
+      "value": true
+    }
+  ],
   "narrative": [
     {
       "type": "description",
@@ -38,56 +47,162 @@
       "text": "Branek. I know the name. My father knew the name. The man who supervised the interrogation unit that processed dissidents before their executions. He is offering us the location of mass graves — the bones of people like my father — in exchange for living out his retirement in peace. And he is hinting that he knows which of my colleagues collaborated with the regime. Dorne is presenting this as information. It is not. It is a test — of how far I am willing to go, of what I am willing to trade, of whether I am the kind of Chancellor who makes deals with monsters."
     }
   ],
-
   "monologue": "Branek. The man who supervised the interrogation unit that processed dissidents before their executions. He is offering the location of fifteen mass graves — the bones of people like Father — in exchange for immunity. Dorne is presenting this as information. It is not. It is a test of whether I am the kind of Chancellor who makes deals with monsters. Father would have had an answer to this question. Would have known it immediately.",
-
   "choices": [
     {
       "id": "ssd_prosecute_branek",
       "text": "\"No deal. Arrest Branek and prosecute him for his crimes. The mass graves will be found by forensic investigation, not by bargaining with the man who helped fill them. And as for which government officials collaborated — I do not want that information purchased with immunity. I want it obtained through investigation, corroborated with evidence, and presented in court. Tell Branek that the new Veltria does not negotiate with the architects of the old one. If he wants to confess, he can do it from a prison cell.\"",
       "internalTag": "reformist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 10  },
-        { "stat": "factions.halvekists",          "operation": "add", "value": -12 },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": 8   },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": 12  },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": -3  }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -12
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": -3
+        }
       ],
-      "flags": ["ssd_branek_prosecuted", "ssd_first_report_complete"],
-      "codexUnlocks": ["codex_branek_case"],
-      "reactions": [{ "character": "viktor_dorne", "type": "silence", "text": "Dorne nods once. He does not argue. He simply writes arrest warrant on his notepad and underlines it. The silence is the sound of a man who has been given an order and will execute it." }]
+      "flags": [
+        "ssd_branek_prosecuted",
+        "ssd_first_report_complete"
+      ],
+      "codexUnlocks": [
+        "codex_branek_case"
+      ],
+      "reactions": [
+        {
+          "character": "viktor_dorne",
+          "type": "silence",
+          "text": "Dorne nods once. He does not argue. He simply writes arrest warrant on his notepad and underlines it. The silence is the sound of a man who has been given an order and will execute it."
+        }
+      ],
+      "chainTriggers": []
     },
     {
       "id": "ssd_secret_negotiation",
       "text": "\"Negotiate. Quietly. I want the location of the mass graves — those families deserve to bury their dead. And I want the names of the collaborators. In exchange, Branek gets immunity from prosecution in Veltria, but he leaves the country within thirty days and never returns. Dorne, handle this personally. I do not want a written record of the negotiation. When we have what we need, Branek disappears — not from the earth, from Veltria. Let him spend the rest of his life looking over his shoulder in Lytheira. That is more punishment than a prison cell.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
-        { "stat": "factions.reformists",          "operation": "add", "value": 4   },
-        { "stat": "factions.halvekists",          "operation": "add", "value": -5  },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": 5   },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": 3   },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -5  },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 8   }
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 8
+        }
       ],
-      "flags": ["ssd_branek_deal", "mass_graves_located", "collaborator_list_obtained", "ssd_first_report_complete"],
-      "codexUnlocks": ["codex_branek_case", "codex_mass_graves"],
-      "reactions": [{ "character": "viktor_dorne", "type": "silence", "text": "He writes the terms on his pad — immunity, thirty days, no record. His pen does not hesitate. He does not judge the decision. Dorne never judges. He simply executes." }]
+      "flags": [
+        "ssd_branek_deal",
+        "mass_graves_located",
+        "collaborator_list_obtained",
+        "ssd_first_report_complete"
+      ],
+      "codexUnlocks": [
+        "codex_branek_case",
+        "codex_mass_graves"
+      ],
+      "reactions": [
+        {
+          "character": "viktor_dorne",
+          "type": "silence",
+          "text": "He writes the terms on his pad — immunity, thirty days, no record. His pen does not hesitate. He does not judge the decision. Dorne never judges. He simply executes."
+        }
+      ],
+      "chainTriggers": []
     },
     {
       "id": "ssd_silence_branek",
       "text": "\"Branek goes quiet. Permanently. Dorne, I understand what I am authorizing and I am authorizing it anyway. The information he has about collaborators could destabilize this government at a moment when stability is the only thing standing between reform and collapse. The mass graves will be found eventually — by historians, by archaeologists, by the children of the disappeared — and they will be found without Branek's help. But the names of collaborators, released now, would trigger a purge that this government cannot survive. I am not protecting murderers. I am protecting the fragile political coalition that is the only thing preventing murderers from returning to power.\"",
       "internalTag": "hardline",
       "stateChanges": [
-        { "stat": "factions.halvekists",          "operation": "add", "value": 3   },
-        { "stat": "factions.reformists",          "operation": "add", "value": -12 },
-        { "stat": "nation.publicOrder",           "operation": "add", "value": 6   },
-        { "stat": "nation.civilLiberties",        "operation": "add", "value": -10 },
-        { "stat": "personal.moralCompass",        "operation": "add", "value": -18 },
-        { "stat": "personal.shadowInfluence",     "operation": "add", "value": 12  }
+        {
+          "stat": "factions.halvekists",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": -12
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "nation.civilLiberties",
+          "operation": "add",
+          "value": -10
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -18
+        },
+        {
+          "stat": "personal.shadowInfluence",
+          "operation": "add",
+          "value": 12
+        }
       ],
-      "flags": ["ssd_branek_silenced", "extrajudicial_action_authorized", "ssd_first_report_complete"],
-      "codexUnlocks": ["codex_branek_case"],
-      "reactions": [{ "character": "viktor_dorne", "type": "silence", "text": "Dorne looks at you for a long moment. Then he writes something on his pad that you cannot see — he has angled it away. He does not comment. He does not need to. The silence is the sound of Viktor Dorne being given an order he did not expect and accepting it without question." }]
+      "flags": [
+        "ssd_branek_silenced",
+        "extrajudicial_action_authorized",
+        "ssd_first_report_complete"
+      ],
+      "codexUnlocks": [
+        "codex_branek_case"
+      ],
+      "reactions": [
+        {
+          "character": "viktor_dorne",
+          "type": "silence",
+          "text": "Dorne looks at you for a long moment. Then he writes something on his pad that you cannot see — he has angled it away. He does not comment. He does not need to. The silence is the sound of Viktor Dorne being given an order he did not expect and accepting it without question."
+        }
+      ],
+      "chainTriggers": []
     }
   ]
 }

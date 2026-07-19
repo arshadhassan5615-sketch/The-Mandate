@@ -40,17 +40,26 @@
     {
       "id": "review_vasic",
       "text": "Commandant Rena Vasić. Lowest use-of-force record in the country.",
-      "nextSegment": "vasic_presents"
+      "nextSegment": "vasic_presents",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "review_solc",
       "text": "Dr. Mirko Šolc. Civilian academic. Never worn a uniform.",
-      "nextSegment": "solc_presents"
+      "nextSegment": "solc_presents",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     },
     {
       "id": "review_stanko",
       "text": "Deputy Commissioner Lev Stańko. Institutional continuity. Knows the force from the inside.",
-      "nextSegment": "stanko_presents"
+      "nextSegment": "stanko_presents",
+      "flags": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
     }
   ],
   "segments": {
@@ -80,17 +89,26 @@
         {
           "id": "vasic_confirm",
           "text": "Vasić. Reform from within. The force needs to know the rules have changed.",
-          "nextSegment": "final_appointment"
+          "nextSegment": "final_appointment",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "vasic_to_solc",
           "text": "Interesting. Let me hear about Šolc.",
-          "nextSegment": "solc_presents"
+          "nextSegment": "solc_presents",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "vasic_to_stanko",
           "text": "Tell me about Stańko.",
-          "nextSegment": "stanko_presents"
+          "nextSegment": "stanko_presents",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -120,17 +138,26 @@
         {
           "id": "solc_confirm",
           "text": "Šolc. An outsider. Exactly what a system that protects its own needs.",
-          "nextSegment": "final_appointment"
+          "nextSegment": "final_appointment",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "solc_to_vasic",
           "text": "Let me reconsider Vasić.",
-          "nextSegment": "vasic_presents"
+          "nextSegment": "vasic_presents",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "solc_to_stanko",
           "text": "Tell me about Stańko.",
-          "nextSegment": "stanko_presents"
+          "nextSegment": "stanko_presents",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -160,17 +187,26 @@
         {
           "id": "stanko_confirm",
           "text": "Stańko. Stability. The investigation proceeds without institutional chaos.",
-          "nextSegment": "final_appointment"
+          "nextSegment": "final_appointment",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "stanko_to_vasic",
           "text": "Let me reconsider Vasić.",
-          "nextSegment": "vasic_presents"
+          "nextSegment": "vasic_presents",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "stanko_to_solc",
           "text": "What about Šolc?",
-          "nextSegment": "solc_presents"
+          "nextSegment": "solc_presents",
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
@@ -192,11 +228,22 @@
           "id": "appoint_vasic",
           "text": "Appoint Commandant Rena Vasić. Reform from within. The force changes because the person at the top demands it.",
           "statEffects": [
-            { "stat": "labor_approval", "value": 10 },
-            { "stat": "public_trust", "value": 12 },
-            { "stat": "law_order", "value": -3 }
+            {
+              "stat": "labor_approval",
+              "value": 10
+            },
+            {
+              "stat": "public_trust",
+              "value": 12
+            },
+            {
+              "stat": "law_order",
+              "value": -3
+            }
           ],
-          "flags": ["commissioner_vasic_appointed"],
+          "flags": [
+            "commissioner_vasic_appointed"
+          ],
           "reactions": [
             {
               "character": "danika_oberlin",
@@ -212,18 +259,34 @@
           "journalEntry": {
             "title": "Appointed Rena Vasić as Police Commissioner",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "appoint_solc",
           "text": "Appoint Dr. Mirko Šolc. A civilian. The most significant reform appointment this government will make.",
           "statEffects": [
-            { "stat": "labor_approval", "value": 8 },
-            { "stat": "public_trust", "value": 15 },
-            { "stat": "law_order", "value": -8 },
-            { "stat": "factions.halvekists", "value": -5 }
+            {
+              "stat": "labor_approval",
+              "value": 8
+            },
+            {
+              "stat": "public_trust",
+              "value": 15
+            },
+            {
+              "stat": "law_order",
+              "value": -8
+            },
+            {
+              "stat": "factions.halvekists",
+              "value": -5
+            }
           ],
-          "flags": ["commissioner_solc_appointed"],
+          "flags": [
+            "commissioner_solc_appointed"
+          ],
           "reactions": [
             {
               "character": "danika_oberlin",
@@ -239,17 +302,30 @@
           "journalEntry": {
             "title": "Appointed Dr. Mirko Šolc as Police Commissioner",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         },
         {
           "id": "appoint_stanko",
           "text": "Appoint Deputy Commissioner Lev Stańko. Stability. The investigation proceeds without chaos.",
           "statEffects": [
-            { "stat": "labor_approval", "value": -2 },
-            { "stat": "law_order", "value": 7 },
-            { "stat": "factions.reformists", "value": -4 }
+            {
+              "stat": "labor_approval",
+              "value": -2
+            },
+            {
+              "stat": "law_order",
+              "value": 7
+            },
+            {
+              "stat": "factions.reformists",
+              "value": -4
+            }
           ],
-          "flags": ["commissioner_stanko_appointed"],
+          "flags": [
+            "commissioner_stanko_appointed"
+          ],
           "reactions": [
             {
               "character": "danika_oberlin",
@@ -265,7 +341,9 @@
           "journalEntry": {
             "title": "Appointed Lev Stańko as Police Commissioner",
             "category": "policy"
-          }
+          },
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     }
