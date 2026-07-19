@@ -63,11 +63,155 @@
       "chainTriggers": [],
       "flags": [],
       "codexUnlocks": [],
-      "nextSegment": "vostane_presents",
+      "nextSegment": "finance_ministry_hub",
       "reactions": []
     }
   ],
   "segments": {
+    "finance_ministry_hub": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vyktor opens the door. Elara Vostane enters — tall, angular, dressed in grey wool. She carries no notes. She does not need them.",
+          "primaryCharacter": "elara_vostane"
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Chancellor. I will be brief because the situation is brief. The national deficit is three hundred forty million kroner. The debt service consumes nineteen percent of annual revenue. Inflation is eight point seven and rising."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "These are not opinions. They are measurements. I do not have opinions about the budget. I have arithmetic."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "If you appoint me, I will cut government waste by twelve percent in the first quarter. I will renegotiate the Orythian loan terms. I will audit every department with a budget over two million kroner. I will find things. Some of those things will embarrass people you need. This is not a bug. It is a feature."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "The deficit is not a number, Chancellor. It is a choice. Every zero represents a hospital ward, a pensioner's heating allowance, a school in Dravenhollow that stays open or closes. I do not make these choices lightly. I make them correctly."
+        },
+        {
+          "type": "monologue",
+          "text": "She speaks in mathematics. Not because she is cold — I have known cold people, and they are different — but because she believes numbers protect her from having to justify the human cost of her decisions. She is right that we need her. She is wrong about why."
+        },
+        {
+          "type": "description",
+          "text": "Petr Kolvar enters with the ease of someone who has walked into a hundred rooms like this one. He is shorter than Vostane, rounder, dressed in a suit that costs more than most Veltrians earn in a year. His smile is warm. His eyes are not.",
+          "primaryCharacter": "drazen_kolvar"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Petr Kolvar. Twelve years on the budget committee. Former chair under Halvek. Currently — unattached. He will speak for himself."
+        },
+        {
+          "type": "description",
+          "text": "Kolvar makes a small adjustment to his cuff. The gesture is practiced."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "Chancellor. Thank you for this opportunity. I know what you have been hearing about me — that I am Halvek's man, that I represent the old way of doing things. Let me address that directly."
+        },
+        {
+          "type": "description",
+          "text": "Kolvar turns slightly, addressing Vostane as much as you. She does not react."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "I served in the Assembly under the previous government. I sat on committees. I negotiated budgets. I did my job. If that makes me compromised, then every civil servant who stayed at their desk during the transition is compromised. That is half the government."
+        },
+        {
+          "type": "dialogue",
+          "character": "drazen_kolvar",
+          "text": "What I offer is not ideology. What I offer is the ability to get sixty-three votes in a chamber where you currently have forty-one. Vostane will give you a beautiful budget that dies in committee. I will give you a budget that passes. Those are your choices."
+        }
+      ],
+      "monologue": "He is smoother than I expected. Vostane speaks in equations. Kolvar speaks in votes. They are both right about each other. That is what makes this hard — not that one is good and the other bad, but that each is incomplete in exactly the way the other compensates for.",
+      "choices": [
+        {
+          "id": "probe_vostane_cuts",
+          "text": "What specifically gets cut first? Give me details, not percentages.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_vostane"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "vostane_detailed_cuts",
+          "reactions": [
+            {
+              "character": "elara_vostane",
+              "type": "action",
+              "text": "Vostane nods once — the gesture of someone who has been waiting to be asked exactly this question."
+            }
+          ]
+        },
+        {
+          "id": "challenge_vostane_politics",
+          "text": "You have no allies in the Assembly. How do you pass a budget when no one will vote for it?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_challenged_vostane"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "vostane_politics_answer",
+          "reactions": []
+        },
+        {
+          "id": "probe_kolvar_connections",
+          "text": "Who exactly are your allies in the Assembly? I want names.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_kolvar"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_connections",
+          "reactions": []
+        },
+        {
+          "id": "challenge_kolvar_halvek",
+          "text": "You chaired Halvek's budget committee. What did you know about the ghost contracts?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_challenged_kolvar"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "kolvar_halvek_answer",
+          "reactions": [
+            {
+              "character": "vyktor_reznik",
+              "type": "action",
+              "text": "Vyktor's pen stops moving. The room goes very still."
+            }
+          ]
+        },
+        {
+          "id": "finance_to_interior",
+          "text": "I've heard enough from Finance. Let's move to Interior.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_ministry_hub",
+          "reactions": []
+        }
+      ]
+    },
     "vostane_presents": {
       "narrative": [
         {
@@ -138,7 +282,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "kolvar_presents",
+          "nextSegment": "finance_ministry_hub",
           "reactions": []
         }
       ]
@@ -170,7 +314,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "vostane_presents",
+          "nextSegment": "finance_ministry_hub",
           "reactions": []
         },
         {
@@ -245,7 +389,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "vostane_presents",
+          "nextSegment": "finance_ministry_hub",
           "reactions": []
         }
       ]
@@ -328,7 +472,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "oberlin_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": []
         }
       ]
@@ -376,7 +520,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "kolvar_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": []
         }
       ]
@@ -492,7 +636,7 @@
             "form_meeting_intervened_finance"
           ],
           "codexUnlocks": [],
-          "nextSegment": "kolvar_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": [
             {
               "character": "vyktor_reznik",
@@ -547,7 +691,184 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "kolvar_presents",
+          "nextSegment": "interior_ministry_hub",
+          "reactions": []
+        }
+      ]
+    },
+    "interior_ministry_hub": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Danika Oberlin enters like a storm front — fast, focused, impossible to ignore. She is younger than the Finance candidates by fifteen years. She does not seem to notice or care.",
+          "primaryCharacter": "danika_oberlin"
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "Chancellor. I will not waste your time with pleasantries. You know my record. Fifteen years documenting BNI abuses. Four thousand three hundred cases of unlawful detention. Two hundred and eighty-seven documented interrogations that meet the international definition of torture."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "These are not allegations. These are case files with names, dates, and BNI officer identification numbers. I have read every one. Some of the officers are still serving."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "If you appoint me to Interior, I will dissolve the BNI. Not reform it. Not restructure it. Dissolve it. The agents will be reassigned or retired. The files will be opened to an independent commission. The victims will have their day. The perpetrators will face consequences."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "This will make enemies. Powerful ones. People who have been protected by the system for twenty years will fight to keep their protection. Some of them are in this building. Some of them you have already met."
+        },
+        {
+          "type": "dialogue",
+          "character": "danika_oberlin",
+          "text": "And the national police force — which has operated as an extension of the BNI under Halvek — will be separated entirely. Demilitarized. Returned to civilian command with a civilian mandate. Police should investigate crimes and protect citizens. Not surveil them."
+        },
+        {
+          "type": "monologue",
+          "text": "She speaks with the certainty of someone who has never had to compromise. I was like that once — before the campaign, before the coalition negotiations, before I learned that certainty is a luxury you trade for power. I envy her. I am also afraid of what she will do when she discovers that governing is not the same as witnessing."
+        },
+        {
+          "type": "description",
+          "text": "General Perov enters without ceremony. He is in civilian clothes but carries himself with the unmistakable discipline of a career soldier. His handshake is brief and dry.",
+          "primaryCharacter": "nikolai_perov"
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "Chancellor. Colonel Dusek speaks highly of your judgment. That counts for something."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "I will be direct. The BNI is a tool. Like any tool, it can be used well or used poorly. Halvek used it poorly — as an instrument of political repression. That does not mean the tool itself is worthless. It means we need better hands on the handle."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "My proposal: restructure the BNI under civilian oversight. Independent inspector general with prosecution authority. Strict operational limits. The agents who committed crimes will be identified and removed — not the entire organization, just the bad actors. The apparatus survives, reformed and accountable."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "Oberlin will tell you this is impossible. She will say the BNI is too corrupt to reform. I have reformed military units that had been fighting the wrong wars for years. Reform is hard. Dissolution is harder — because the people you dissolve do not disappear. They go underground. They do the same work for someone who is not accountable to you at all."
+        },
+        {
+          "type": "dialogue",
+          "character": "nikolai_perov",
+          "text": "On the question of policing: I disagree with Oberlin's separation model. The national police and the intelligence apparatus need coordination, not walls between them. What I will change is the direction of that coordination — from political surveillance to genuine criminal investigation. The police investigate crimes. The BNI monitors external threats. Both report to you, through me, with documented oversight."
+        }
+      ],
+      "monologue": "He makes a compelling case. Not because he is right about Oberlin — he is not — but because he is right about what happens when you dissolve an intelligence apparatus without a plan for its people. The problem is I do not trust him to actually reform it. He speaks of oversight but his definition of oversight is shaped by thirty years of military hierarchy. He thinks transparency means telling your commanding officer.",
+      "choices": [
+        {
+          "id": "probe_oberlin_police",
+          "text": "What happens to the national police force under your Interior Ministry?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_oberlin_police"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_police_answer",
+          "reactions": []
+        },
+        {
+          "id": "probe_oberlin_dissolution",
+          "text": "If you dissolve the BNI, what happens to its agents? Four hundred trained operatives don't just disappear.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_oberlin"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_dissolution_detail",
+          "reactions": []
+        },
+        {
+          "id": "challenge_oberlin_politics",
+          "text": "You've never held office. How do you plan to manage a ministry of thousands?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_challenged_oberlin"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "oberlin_experience_answer",
+          "reactions": []
+        },
+        {
+          "id": "probe_perov_police",
+          "text": "How do you plan to reform the national police force, not just the BNI?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_perov_police"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "perov_police_answer",
+          "reactions": []
+        },
+        {
+          "id": "probe_perov_iron_covenant",
+          "text": "What is your relationship with the Iron Covenant?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_perov"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "perov_covenant_answer",
+          "reactions": [
+            {
+              "character": "danika_oberlin",
+              "type": "action",
+              "text": "Oberlin leans forward slightly. This is the question she has been waiting for someone to ask."
+            }
+          ]
+        },
+        {
+          "id": "challenge_perov_surveillance",
+          "text": "You say 'civilian oversight' — but who appoints the overseers? You? The military?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_challenged_perov"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "perov_oversight_answer",
+          "reactions": []
+        },
+        {
+          "id": "interior_confront_direct",
+          "text": "I want to hear you and Oberlin debate this directly.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "interior_confrontation",
+          "reactions": []
+        },
+        {
+          "id": "interior_to_defense",
+          "text": "I've heard enough on Interior. Let's move to Defense.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "defense_ministry_hub",
           "reactions": []
         }
       ]
@@ -634,7 +955,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "perov_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": []
         }
       ]
@@ -688,7 +1009,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "oberlin_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": []
         }
       ]
@@ -715,7 +1036,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "oberlin_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": []
         },
         {
@@ -726,7 +1047,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "oberlin_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": []
         }
       ]
@@ -830,7 +1151,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "dusek_presents",
+          "nextSegment": "defense_ministry_hub",
           "reactions": []
         }
       ]
@@ -893,7 +1214,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "perov_presents",
+          "nextSegment": "defense_ministry_hub",
           "reactions": []
         }
       ]
@@ -974,7 +1295,7 @@
             "form_meeting_sided_oberlin_interior"
           ],
           "codexUnlocks": [],
-          "nextSegment": "perov_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": [
             {
               "character": "danika_oberlin",
@@ -1004,7 +1325,7 @@
             "form_meeting_sided_perov_interior"
           ],
           "codexUnlocks": [],
-          "nextSegment": "perov_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": [
             {
               "character": "nikolai_perov",
@@ -1021,7 +1342,118 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "perov_presents",
+          "nextSegment": "interior_ministry_hub",
+          "reactions": []
+        }
+      ]
+    },
+    "defense_ministry_hub": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Colonel Irina Dusek enters. No introduction needed. She is in uniform — not dress uniform, working uniform, the kind that has seen field duty. She places a single folder on the table. It is thin. Dusek does not waste paper.",
+          "primaryCharacter": "irina_dusek"
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Chancellor. I will be brief. The Tyvaren border is not stable. It is not stable in a way that suggests instability is deliberate. Someone on the other side is testing our response times, our readiness, our willingness to escalate."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Seventeen patrol incursions in the last four months. Zero the year before. The pattern is not random. Marshal Vukov is building a picture of our defenses. When he has enough information, he will act on it."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "What I need from you: authorization to increase border patrol frequency. Funding for northern garrison modernization. A clear, public statement that Veltria will defend its territorial integrity. What I do not need: a Defense Minister who sees this posting as a political stepping stone."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "I am not a politician. I do not want your job. I want Tyvaren to understand that crossing our border has consequences. You may appoint whomever you wish to this ministry. If it is not me, I will brief them thoroughly and return to my command. If it is me, I expect to be listened to when I tell you something is wrong."
+        },
+        {
+          "type": "monologue",
+          "text": "Dusek is the only person in this room who has not tried to sell me anything. She has stated facts and expectations. She does not care whether I like her. She cares whether I will do my job so she can do hers. There is something deeply refreshing about that — and deeply terrifying, because if Dusek is worried about the border, I should be worried too."
+        },
+        {
+          "type": "description",
+          "text": "General Vass enters. He is broader than Dusek, older, with the careful stillness of a man who has spent decades making other men nervous. He does not place anything on the table. He does not need props.",
+          "primaryCharacter": "general_vass"
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "Chancellor. I will tell you what Colonel Dusek will not. Intelligence does not win wars. Presence wins wars. Tyvaren is not watching our surveillance capability. They are watching whether our soldiers are visible, funded, and ready to move. Right now, they are not."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "Seventeen incursions. Dusek counts them as data points. I count them as invitations. Every one that goes unanswered tells Vukov he can send eighteen. Then twenty. Then he stops sending patrols and sends something else entirely."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "What I need: three additional battalions rotated to the northern border on a visible schedule. Public announcement of that rotation. Not a threat — a fact. Facts are more persuasive than intelligence reports, Chancellor. Vukov has read enough intelligence reports to know they can be ignored. He cannot ignore boots on the ground."
+        },
+        {
+          "type": "dialogue",
+          "character": "general_vass",
+          "text": "Dusek wants to listen better. I want Tyvaren to have nothing worth listening to — because they have already decided that provoking us is not worth the cost."
+        }
+      ],
+      "monologue": "Vass is not wrong about presence. But he is also not entirely right. Deterrence through visibility works until it provokes the very escalation it is meant to prevent. Vukov is a calculated man — he will not back down from a public show of force. He will match it. And then we are in a different conversation entirely.",
+      "choices": [
+        {
+          "id": "probe_dusek_timeline",
+          "text": "How long before Tyvaren tests us seriously? Give me a number.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_dusek"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_timeline",
+          "reactions": []
+        },
+        {
+          "id": "probe_dusek_budget",
+          "text": "What specific funding do the northern garrisons need, and what happens if they don't get it?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_dusek_budget"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_budget_detail",
+          "reactions": []
+        },
+        {
+          "id": "probe_vass_iron_covenant",
+          "text": "You have Iron Covenant support. How does that not compromise your independence as Defense Minister?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_vass"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "vass_probe",
+          "reactions": []
+        },
+        {
+          "id": "defense_to_education",
+          "text": "I've heard enough on Defense. Let's move to Education.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "education_presents",
           "reactions": []
         }
       ]
@@ -1090,7 +1522,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "vass_presents",
+          "nextSegment": "defense_ministry_hub",
           "reactions": []
         }
       ]
@@ -1119,20 +1551,7 @@
             "form_meeting_probed_dusek"
           ],
           "codexUnlocks": [],
-          "nextSegment": "dusek_presents",
-          "reactions": []
-        },
-        {
-          "id": "dusek_timeline_to_justice",
-          "text": "I'll remember that. Let's meet the remaining ministry candidates.",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [
-            "form_meeting_probed_dusek"
-          ],
-          "codexUnlocks": [],
-          "nextSegment": "dusek_presents",
+          "nextSegment": "defense_ministry_hub",
           "reactions": []
         }
       ]
@@ -1161,27 +1580,8 @@
             "form_meeting_dusek_budget"
           ],
           "codexUnlocks": [],
-          "nextSegment": "dusek_presents",
+          "nextSegment": "defense_ministry_hub",
           "reactions": []
-        },
-        {
-          "id": "dusek_budget_to_justice",
-          "text": "Eighteen million. I'll find it. Now — the remaining ministries.",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [
-            "form_meeting_dusek_budget"
-          ],
-          "codexUnlocks": [],
-          "nextSegment": "dusek_presents",
-          "reactions": [
-            {
-              "character": "irina_dusek",
-              "type": "dialogue",
-              "text": "Good. I will hold you to that."
-            }
-          ]
         }
       ]
     },
@@ -1230,7 +1630,7 @@
         },
         {
           "id": "vass_to_justice",
-          "text": "Thank you, General. Let's continue — Justice Ministry is next.",
+          "text": "Thank you, General. Let's continue — Education Ministry is next.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
@@ -1269,7 +1669,7 @@
             "form_meeting_probed_vass"
           ],
           "codexUnlocks": [],
-          "nextSegment": "vass_presents",
+          "nextSegment": "education_presents",
           "reactions": []
         }
       ]
@@ -1830,7 +2230,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "justice_presents",
+          "nextSegment": "labor_presents",
           "reactions": []
         }
       ]
@@ -1852,7 +2252,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "justice_presents",
+          "nextSegment": "labor_presents",
           "reactions": []
         }
       ]
@@ -2513,7 +2913,7 @@
         },
         {
           "id": "health_to_development",
-          "text": "Thank you both. Let's discuss Development.",
+          "text": "Thank you both. Let's move on to Justice.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
@@ -3209,7 +3609,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "vostane_presents",
+          "nextSegment": "finance_ministry_hub",
           "reactions": []
         }
       ]
@@ -3219,7 +3619,7 @@
         {
           "type": "dialogue",
           "character": "danika_oberlin",
-          "text": "I have been preparing for this meeting for three years, Chancellor. I brought receipts."
+          "text": "The plan is on your desk. Ninety days, in writing, with benchmarks you can hold me to. I'd ask what General Perov's plan looks like on paper, but I already know the answer. It doesn't have one."
         }
       ],
       "choices": [
@@ -3231,7 +3631,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "oberlin_presents",
+          "nextSegment": "interior_ministry_hub",
           "reactions": []
         }
       ]
@@ -3253,7 +3653,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "justice_presents",
+          "nextSegment": "labor_presents",
           "reactions": []
         }
       ]
@@ -3275,7 +3675,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "justice_presents",
+          "nextSegment": "labor_presents",
           "reactions": []
         }
       ]
@@ -3297,7 +3697,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "justice_presents",
+          "nextSegment": "labor_presents",
           "reactions": []
         }
       ]
@@ -3319,7 +3719,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "labor_presents",
+          "nextSegment": "development_presents",
           "reactions": []
         }
       ]
@@ -3341,7 +3741,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "labor_presents",
+          "nextSegment": "development_presents",
           "reactions": []
         }
       ]
@@ -3363,7 +3763,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "labor_presents",
+          "nextSegment": "development_presents",
           "reactions": []
         }
       ]
@@ -3385,7 +3785,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "labor_presents",
+          "nextSegment": "development_presents",
           "reactions": []
         }
       ]
@@ -3407,7 +3807,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "foreign_affairs_presents",
+          "nextSegment": "resources_presents",
           "reactions": []
         }
       ]
@@ -3429,7 +3829,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "foreign_affairs_presents",
+          "nextSegment": "resources_presents",
           "reactions": []
         }
       ]
@@ -3451,7 +3851,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "foreign_affairs_presents",
+          "nextSegment": "resources_presents",
           "reactions": []
         }
       ]
@@ -3473,7 +3873,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "foreign_affairs_presents",
+          "nextSegment": "resources_presents",
           "reactions": []
         }
       ]
@@ -3495,7 +3895,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "education_presents",
+          "nextSegment": "health_presents",
           "reactions": []
         }
       ]
@@ -3517,7 +3917,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "education_presents",
+          "nextSegment": "health_presents",
           "reactions": []
         }
       ]
@@ -3539,7 +3939,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "education_presents",
+          "nextSegment": "health_presents",
           "reactions": []
         }
       ]
@@ -3561,7 +3961,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "education_presents",
+          "nextSegment": "health_presents",
           "reactions": []
         }
       ]
@@ -3583,7 +3983,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "health_presents",
+          "nextSegment": "justice_presents",
           "reactions": []
         }
       ]
@@ -3605,7 +4005,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "health_presents",
+          "nextSegment": "justice_presents",
           "reactions": []
         }
       ]
@@ -3627,7 +4027,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "health_presents",
+          "nextSegment": "justice_presents",
           "reactions": []
         }
       ]
@@ -3649,7 +4049,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "health_presents",
+          "nextSegment": "justice_presents",
           "reactions": []
         }
       ]
@@ -3671,7 +4071,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "development_presents",
+          "nextSegment": "foreign_affairs_presents",
           "reactions": []
         }
       ]
@@ -3693,7 +4093,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "development_presents",
+          "nextSegment": "foreign_affairs_presents",
           "reactions": []
         }
       ]
@@ -3715,7 +4115,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "development_presents",
+          "nextSegment": "foreign_affairs_presents",
           "reactions": []
         }
       ]
@@ -3737,7 +4137,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "development_presents",
+          "nextSegment": "foreign_affairs_presents",
           "reactions": []
         }
       ]
@@ -3760,7 +4160,7 @@
           "flags": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "resources_presents"
+          "nextSegment": "cabinet_meeting_closing"
         }
       ]
     },
@@ -3782,7 +4182,7 @@
           "flags": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "resources_presents"
+          "nextSegment": "cabinet_meeting_closing"
         }
       ]
     },
@@ -3804,7 +4204,7 @@
           "flags": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "resources_presents"
+          "nextSegment": "cabinet_meeting_closing"
         }
       ]
     },
@@ -3826,7 +4226,7 @@
           "flags": [],
           "codexUnlocks": [],
           "reactions": [],
-          "nextSegment": "resources_presents"
+          "nextSegment": "cabinet_meeting_closing"
         }
       ]
     }

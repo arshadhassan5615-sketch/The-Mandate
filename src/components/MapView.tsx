@@ -148,15 +148,17 @@ function MapHeader() {
         boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
       }}
     >
-      <span style={{
-        fontSize: '0.52rem',
-        letterSpacing: '0.08em',
-        color: 'var(--muted)',
-        whiteSpace: 'nowrap',
-        fontFamily: "'IBM Plex Mono', monospace",
-      }}>
-        Drag to pan · hover provinces · M to close
-      </span>
+      {false && (
+        <span style={{
+          fontSize: '0.52rem',
+          letterSpacing: '0.08em',
+          color: 'var(--muted)',
+          whiteSpace: 'nowrap',
+          fontFamily: "'IBM Plex Mono', monospace",
+        }}>
+          Drag to pan · hover provinces · M to close
+        </span>
+      )}
     </div>
   )
 }
