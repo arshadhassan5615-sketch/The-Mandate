@@ -1,6 +1,5 @@
 import { useMemo, useEffect, useState } from 'react'
 import GameLayout from './components/GameLayout'
-import DebugPanel from './components/DebugPanel'
 import MapView from './components/MapView'
 import SaveLoadMenu from './components/SaveLoadMenu'
 import CodexViewer from './components/CodexViewer'
@@ -200,7 +199,6 @@ export default function App() {
     <ErrorBoundary>
       <MapView onProvinceDetail={setProvinceDetailId} />
       <GameLayout />
-      {debugOpen && <DebugPanel />}
       {characterMapOpen && <CharacterMap />}
       <SaveLoadMenu />
       <CodexViewer />

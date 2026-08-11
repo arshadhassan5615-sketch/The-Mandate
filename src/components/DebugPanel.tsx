@@ -184,8 +184,9 @@ export default function DebugPanel() {
             <button
               key={week}
               onClick={() => {
-                useGameStore.getState().setState({ currentWeek: week })
-                useNarrativeStore.getState().reset?.()
+                const act = week >= 39 ? 4 : week >= 26 ? 3 : week >= 13 ? 2 : 1
+                useGameStore.setState({ currentWeek: week, currentAct: act })
+                useNarrativeStore.setState({ visitedSceneIds: [], sceneDone: false })
                 useWeekStore.getState().initWeek()
               }}
               style={{
@@ -223,7 +224,9 @@ export default function DebugPanel() {
               if (e.key === 'Enter') {
                 const val = parseInt((e.target as HTMLInputElement).value)
                 if (val >= 1 && val <= 52) {
-                  useGameStore.getState().setState({ currentWeek: val })
+                  const act = val >= 39 ? 4 : val >= 26 ? 3 : val >= 13 ? 2 : 1
+                  useGameStore.setState({ currentWeek: val, currentAct: act })
+                  useNarrativeStore.setState({ visitedSceneIds: [], sceneDone: false })
                   useWeekStore.getState().initWeek()
                 }
               }
@@ -232,6 +235,41 @@ export default function DebugPanel() {
           <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '9px', color: 'rgba(201,168,76,0.5)' }}>
             Press Enter to jump
           </span>
+        </div>
+      </div>
+
+      {/* Scene Launcher */}
+      <div style={{ marginTop: '16px', borderTop: '1px solid rgba(201,168,76,0.2)', paddingTop: '12px' }}>
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '10px', letterSpacing: '1px', color: '#c9a84c', textTransform: 'uppercase', marginBottom: '8px' }}>
+          Dev: Scene Launcher
+        </div>
+        <input
+          type="text"
+          placeholder="Enter Scene ID..."
+          style={{
+            background: 'rgba(10,8,6,0.8)',
+            border: '1px solid rgba(201,168,76,0.4)',
+            color: '#c9a84c',
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '10px',
+            padding: '4px 8px',
+            width: '100%',
+            borderRadius: '2px',
+            boxSizing: 'border-box',
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              const id = (e.target as HTMLInputElement).value.trim()
+              if (id) {
+                useNarrativeStore.getState().loadScene(id)
+                useWeekStore.setState({ phase: 'scene' })
+                setOpen(false) // Close panel so you can see the scene
+              }
+            }
+          }}
+        />
+        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '9px', color: 'rgba(201,168,76,0.5)', marginTop: '4px' }}>
+          Type exact ID & press Enter
         </div>
       </div>
     </div>

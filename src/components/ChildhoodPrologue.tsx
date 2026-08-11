@@ -27,34 +27,34 @@ const SCENES: CinematicScene[] = [
   {
     year: 1931, age: 12,
     title: 'The Cold Decree',
-    location: 'Kravenstal, under the new regime',
+    location: 'The Republic, under the new regime',
     paragraphs: [
       "By 1931, Chancellor Halvek had been in power six years. The factories were closing one by one — not from ruin, but from decree, redirected to serve ministries no one elected.",
       "Bread lines formed before dawn in every province. The men stood at the factory gates anyway, out of habit, out of hope, out of nowhere else to stand.",
       "The old flag came down that winter. New rules, new names, and a uniform at the front of every classroom reading from a paper no one had voted on.",
-      "You stood in that line like everyone else. No one looked twice at you. That would not stay true forever.",
+      "The Republic was wrapped in a regime that promised order, but delivered only control. The wealth of Veltria flowed upward to the Party elite, while the workers' rations were cut.",
     ],
   },
   {
     year: 1938, age: 19,
     title: 'The Silence',
-    location: 'A basement in Ashenmere',
+    location: 'Ashenmere, under the Directorate',
     paragraphs: [
       "The country had learned to be quiet by 1938. The reading groups met underground now. Books that mattered passed hand to hand with the covers torn off, so a search would find nothing worth confiscating.",
       "A wrong word in the wrong seminar and a student simply stopped attending. No one asked where he went. Everyone already knew not to ask.",
-      "You sat in those basements with the others — factory children and farmers' daughters, all of them risking the same sentence for the same crime: reading something Halvek's ministries hadn't approved.",
-      "You said little. People began noticing anyway. Not because you were the loudest in the room. Because you were the one still there when the room emptied out.",
+      "The press was nationalized entirely. The state decided what the people were allowed to know, and the punishment for the truth was exile or worse.",
+      "Fear became the ultimate enforcer. The state didn't need to arrest everyone; it only needed to make the silence deafening enough that no one dared to break it.",
     ],
   },
   {
     year: 1943, age: 24,
     title: 'What They Took',
-    location: 'A street, 3:47 in the morning',
+    location: 'The Provinces, 3:47 in the morning',
     paragraphs: [
       "By 1943, the BNI had taken thousands. The pharmacist on one street. The teacher who vanished between the autumn term and the spring. Every family in the country had learned the sound of a car engine idling at night.",
       "They didn't knock. They never needed to. The taking wasn't the point — the certainty that no one could stop it was the point.",
-      "You watched it happen to people you knew, and then to people who had once been strangers, and then simply to the country itself, one street at a time.",
-      "Somewhere in that arithmetic, something in you stopped being afraid of the thing everyone else still feared.",
+      "The state machinery consumed its own citizens, one street at a time. The infrastructure crumbled while the Party built monuments to itself.",
+      "The country was locked in a basement of its own making, and the door was guarded by fear.",
     ],
   },
   {

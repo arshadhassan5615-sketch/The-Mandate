@@ -53,6 +53,7 @@ import { useSettingsStore } from '../stores/settingsStore'
 import { CabinetFormation } from './CabinetFormation'
 import { CabinetMeeting } from './CabinetMeeting'
 import { useCabinetStore } from '../stores/cabinetStore'
+import DebugPanel from './DebugPanel'
 
 function SceneRouter() {
   const currentScene = useNarrativeStore(s => s.currentScene)
@@ -517,6 +518,9 @@ export default function GameLayout() {
           }}
         />
       )}
+
+      {/* Developer debug panel — fixed overlay, Ctrl+D to toggle */}
+      <DebugPanel />
     </>
   )
 }

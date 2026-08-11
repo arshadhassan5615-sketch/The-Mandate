@@ -54,7 +54,6 @@ export default function NarrativeScene() {
 
   const baseSegments = currentScene?.narrative ?? []
   const isEmergency = currentScene?.type === 'emergency'
-
   const segments = useMemo(() => {
     if (currentScene?.id === 'family_dinner_recurring' && currentScene.segments) {
       const dinnerCtx = computeDinnerContext(gameState, activeFlags)
