@@ -1,65 +1,135 @@
 {
   "id": "act1_week12_brenner_parade",
-  "title": "Army Day",
+  "title": "Brenner's Parade",
   "act": 1,
   "weekAvailable": 12,
   "weekDeadline": 13,
-  "type": "ceremony",
+  "type": "military",
   "agendaCost": 1,
   "isMandatory": false,
-  "location": "Ashenmere",
-  "characters": ["general_brenner", "irina_dusek"],
+  "location": "Ministry of Defense — Ashenmere",
+  "characters": ["general_brenner", "vyktor_reznik"],
   "prerequisites": [],
   "narrative": [
-    { "type": "description", "text": "General Brenner requests an audience in person rather than sending a memorandum, which is itself a kind of message. He arrives in full dress uniform for a meeting that did not require one." },
-    { "type": "dialogue", "character": "general_brenner", "text": "Army Day falls in eleven days, Chancellor. Tradition calls for a parade through Ashenmere — armor, the honor guard, the air wing overhead. Halvek never missed one in twenty years. The men expect it. Morale expects it." },
-    { "type": "monologue", "text": "The men expect it. Not the nation — the men. Brenner has just told me, in the politest possible language, that the army answers to its own customs before it answers to my signature. This is not a request for a parade. It is a request to learn how much I will let him have." },
-    { "type": "dialogue", "character": "irina_dusek", "text": "Chancellor, a word before you decide. Tyvaren's border command reads every column of Veltrian armor as a message addressed to them, whether we intend one or not. A full parade this close to the frontier will not read as tradition in Tyvaren's briefing rooms. It will read as a threat." },
-    { "type": "description", "text": "Brenner watches you without expression, the particular stillness of a man who has already decided what your answer means about you, whichever answer you give." }
+    {
+      "type": "description",
+      "text": "General Oskar Brenner does not request meetings; he schedules them. When his aide arrived with the briefing folder, it was already assumed you would make time. Halvek allowed the military its pride, and Brenner expects the same from you."
+    },
+    {
+      "type": "dialogue",
+      "character": "general_brenner",
+      "text": "Chancellor. Army Day is in six days. The General Staff has prepared the traditional route down Marshal's Avenue. Four divisions, armor support, flyover by the Air Wing. It is a matter of institutional morale. The soldiers need to know the Palace still values them."
+    },
+    {
+      "type": "monologue",
+      "text": "Four divisions and tanks in the capital. Under Halvek, this was a show of force directed at the populace—a reminder of who held the guns. Brenner calls it morale. I call it a warning. He is testing whether I will accept the military as a political actor in my first hundred days."
+    }
   ],
   "choices": [
     {
-      "id": "w12_full_parade",
-      "text": "Approve it in full — armor, honor guard, air wing overhead. Give the General his tradition and let him report to his officers that the Chancellor understands the army.",
-      "nextSegment": null,
-      "flags": ["brenner_appeased", "brenner_parade_full"],
+      "id": "approve_parade",
+      "text": "Approve the parade. Tradition is tradition, and the military needs to know I am not their enemy.",
+      "nextSegment": "seg_approve",
+      "flags": ["brenner_appeased"],
       "stateChanges": [
-        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
-        { "stat": "tyvarenHostility", "operation": "add", "value": 8 },
-        { "stat": "nation.civilLiberties", "operation": "add", "value": -3 }
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 2 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     },
     {
-      "id": "w12_modify_parade",
-      "text": "Approve a modified parade — honor guard and veterans, no armor, no air wing. A commemoration, not a demonstration. Frame it publicly as fiscal restraint.",
-      "nextSegment": null,
-      "flags": ["brenner_parade_modified"],
+      "id": "modify_parade",
+      "text": "Modify it. A parade, yes, but dismounted. No tanks in the capital. Honor the soldiers, not the hardware.",
+      "nextSegment": "seg_modify",
+      "flags": ["brenner_appeased", "parade_modified"],
       "stateChanges": [
         { "stat": "factions.ironCovenant", "operation": "add", "value": 2 },
-        { "stat": "personal.publicImage", "operation": "add", "value": 5 },
-        { "stat": "tyvarenHostility", "operation": "add", "value": 1 }
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -2 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     },
     {
-      "id": "w12_refuse_parade",
-      "text": "Refuse it. Army Day will be marked with a private ceremony at the war memorial — no armor in the capital's streets. Make clear the army parades when the Chancellor's office says it parades.",
-      "nextSegment": null,
-      "flags": ["brenner_defied", "brenner_parade_refused"],
+      "id": "refuse_parade",
+      "text": "Refuse it. The Republic does not parade its weapons through its own capital. We are a civilian government now.",
+      "nextSegment": "seg_refuse",
+      "flags": ["brenner_defied"],
       "stateChanges": [
-        { "stat": "factions.ironCovenant", "operation": "add", "value": -12 },
-        { "stat": "tyvarenHostility", "operation": "add", "value": -5 },
-        { "stat": "factions.reformists", "operation": "add", "value": 6 }
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     }
   ],
-  "segments": {}
+  "segments": {
+    "seg_approve": {
+      "narrative": [
+        { "type": "dialogue", "character": "general_brenner", "text": "A wise decision, Chancellor. The men will be gratified. I will ensure the route is secured and the optics are... appropriate for a new government." },
+        { "type": "description", "text": "Brenner leaves the office looking satisfied. Vyktor, who has been standing by the window, waits until the door is closed before speaking." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The optics will be exactly what Brenner wants them to be. You have just told the General Staff that the Palace will blink first when it comes to the military." },
+        { "type": "monologue", "text": "I bought their loyalty with a parade. But loyalty bought with tanks is just a ceasefire waiting to expire. Brenner knows it. And now, so do I." }
+      ],
+      "choices": [
+        {
+          "id": "approve_end",
+          "text": "It's done. Let's hope the tanks stay on the avenue.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_modify": {
+      "narrative": [
+        { "type": "dialogue", "character": "general_brenner", "text": "Dismounted. I see. The soldiers will march, but without their steel. Very well, Chancellor. I will convey your... preference to the General Staff." },
+        { "type": "description", "text": "He salutes stiffly and departs. It is a compromise, but it is one that leaves both sides slightly unsatisfied. The perfect political outcome." },
+        { "type": "monologue", "text": "Brenner reads this as weakness cloaked in compromise. The reformists see it as a half-measure. But the tanks stay in their garages, and for today, that is the only victory that matters." }
+      ],
+      "choices": [
+        {
+          "id": "modify_end",
+          "text": "A compromise is a victory neither side can claim. Good.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_refuse": {
+      "narrative": [
+        { "type": "dialogue", "character": "general_brenner", "text": "No parade. Understood. I will inform the garrison that the new Chancellor finds their traditions... distasteful." },
+        { "type": "description", "text": "He does not salute. He turns and walks out, letting the door close heavily behind him. The silence in the office is thick." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "You have just made an enemy of the most powerful man in the military, Katerin. He will not forget this. And neither will his generals." },
+        { "type": "monologue", "text": "I drew a line today. No tanks in the capital. No military spectacles. But Vyktor is right—Brenner will remember this. When the time comes that I need the army's loyalty, I may find that I traded it for a principle." }
+      ],
+      "choices": [
+        {
+          "id": "refuse_end",
+          "text": "Principles are all I have right now, Vyktor. Let him be angry.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }
