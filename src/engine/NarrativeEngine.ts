@@ -73,9 +73,9 @@ export interface GateCheckResult {
 }
 
 export function canAdvanceWeek(
-  currentWeek: number,
-  completedSceneIds: string[],
-  agendaPool?: ReadonlyArray<{ sceneId: string }>,
+  _currentWeek: number,
+  _completedSceneIds: string[],
+  _agendaPool?: ReadonlyArray<{ sceneId: string }>,
 ): GateCheckResult {
   return { canAdvance: true }
 }

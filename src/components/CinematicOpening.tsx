@@ -29,7 +29,7 @@ const LINES = [
 
 const LINE_DURATION = 2200
 const FADE_DURATION = 0.9
-const HOLD_DURATION = 1.1
+// const HOLD_DURATION = 1.1 // unused — line timing driven by LINE_DURATION/FADE_DURATION
 
 export default function CinematicOpening() {
   const [lineIndex, setLineIndex] = useState(0)

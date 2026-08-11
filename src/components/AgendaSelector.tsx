@@ -20,7 +20,7 @@ interface CardProps {
 }
 
 function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
-  const scene = item.sceneId.startsWith('__') ? undefined : getScene(item.sceneId)
+  // const scene = item.sceneId.startsWith('__') ? undefined : getScene(item.sceneId) // unused — card renders from item
   const effectiveDisabled = disabled && !selected
   const color = CATEGORY_COLORS[item.category as AgendaCategory] ?? 'var(--amber)'
 

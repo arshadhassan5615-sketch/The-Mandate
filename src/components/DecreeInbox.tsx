@@ -1,4 +1,4 @@
-import { useState, useEffect, type CSSProperties } from 'react'
+import { useState, useEffect } from 'react'
 import { useDecreeStore } from '../stores/decreeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useCabinetStore } from '../stores/cabinetStore'

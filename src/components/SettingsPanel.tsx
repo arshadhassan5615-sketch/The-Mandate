@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
-import { saveGame, AUTOSAVE_SLOT } from '../engine/SaveManager'
+import { saveGame } from '../engine/SaveManager'
 import { useGameStore } from '../stores/gameStore'
 
 function Slider({ label, value, onChange, min = 0, max = 100 }: {

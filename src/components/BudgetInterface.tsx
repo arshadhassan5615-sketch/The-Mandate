@@ -219,7 +219,7 @@ export default function BudgetInterface() {
     () => computeBudgetModifiers(storedBudget, draft),
     [storedBudget, draft],
   )
-  const aggregated = useMemo(() => aggregateModifiers(projectedMods), [projectedMods])
+  const aggregated = useMemo(() => aggregateModifiers(projectedMods.modifiers), [projectedMods])
 
   // ── Queue label ────────────────────────────────────────────────────────────
   const isLastScene = currentQueueIndex >= sceneQueue.length - 1

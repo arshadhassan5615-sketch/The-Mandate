@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
-import { useGameStore } from '../stores/gameStore'
+// import { useGameStore } from '../stores/gameStore' // only fed the commented-out statuses/medallion code
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
@@ -60,45 +60,45 @@ const PROVINCE_ZONES: ProvinceZone[] = [
     primaryFaction: 'dravenni' },
 ]
 
-const FACTION_LABELS: Record<string, string> = {
-  reformists: 'Reformist', workersCoalition: "Workers' Coalition", halvekists: 'Halvekist',
-  ironCovenant: 'Iron Covenant', church: 'Church', businessClass: 'Business', dravenni: 'Dravenni',
-}
+// const FACTION_LABELS: Record<string, string> = {
+//   reformists: 'Reformist', workersCoalition: "Workers' Coalition", halvekists: 'Halvekist',
+//   ironCovenant: 'Iron Covenant', church: 'Church', businessClass: 'Business', dravenni: 'Dravenni',
+// }
 
 // ─── Status computation ──────────────────────────────────────────────────────
 
-function stance(score: number): string {
-  if (score >= 68) return 'Strongly Supportive'
-  if (score >= 52) return 'Supportive'
-  if (score >= 36) return 'Neutral'
-  if (score >= 20) return 'Skeptical'
-  return 'Hostile'
-}
+// function stance(score: number): string {
+//   if (score >= 68) return 'Strongly Supportive'
+//   if (score >= 52) return 'Supportive'
+//   if (score >= 36) return 'Neutral'
+//   if (score >= 20) return 'Skeptical'
+//   return 'Hostile'
+// }
 
-function computeCrisisLevel(provinceId: string, state: GameState, flags: string[]): 0 | 1 | 2 {
-  const { nation: n, factions: f } = state
-  switch (provinceId) {
-    case 'kravenstal':
-      return n.unemployment > 28 || f.workersCoalition < 22 ? 2
-        : n.unemployment > 22 || f.workersCoalition < 36 ? 1 : 0
-    case 'dravenhollow':
-      return f.dravenni < 20 || flags.includes('bni_weaponized') ? 2
-        : f.dravenni < 38 || n.civilLiberties < 28 ? 1 : 0
-    case 'ashenmere':
-      return n.corruption > 78 || n.publicOrder < 28 || n.pressFreedom < 14 ? 2
-        : n.corruption > 60 || n.publicOrder < 44 || n.pressFreedom < 26 ? 1 : 0
-    case 'sevagrad':
-      return n.militaryReadiness < 28 || (n.publicOrder < 28 && n.internationalStanding < 26) ? 2
-        : n.militaryReadiness < 44 || n.internationalStanding < 36 ? 1 : 0
-    case 'thornfeld':
-      return f.halvekists < 18 || (n.publicOrder < 32 && f.church < 22) ? 2
-        : f.halvekists > 72 || f.church < 30 || n.publicOrder < 44 ? 1 : 0
-    case 'aldenmoor':
-      return f.businessClass < 18 || n.economyHealth < -62 ? 2
-        : f.businessClass < 32 || n.economyHealth < -28 ? 1 : 0
-    default: return 0
-  }
-}
+// function computeCrisisLevel(provinceId: string, state: GameState, flags: string[]): 0 | 1 | 2 {
+//   const { nation: n, factions: f } = state
+//   switch (provinceId) {
+//     case 'kravenstal':
+//       return n.unemployment > 28 || f.workersCoalition < 22 ? 2
+//         : n.unemployment > 22 || f.workersCoalition < 36 ? 1 : 0
+//     case 'dravenhollow':
+//       return f.dravenni < 20 || flags.includes('bni_weaponized') ? 2
+//         : f.dravenni < 38 || n.civilLiberties < 28 ? 1 : 0
+//     case 'ashenmere':
+//       return n.corruption > 78 || n.publicOrder < 28 || n.pressFreedom < 14 ? 2
+//         : n.corruption > 60 || n.publicOrder < 44 || n.pressFreedom < 26 ? 1 : 0
+//     case 'sevagrad':
+//       return n.militaryReadiness < 28 || (n.publicOrder < 28 && n.internationalStanding < 26) ? 2
+//         : n.militaryReadiness < 44 || n.internationalStanding < 36 ? 1 : 0
+//     case 'thornfeld':
+//       return f.halvekists < 18 || (n.publicOrder < 32 && f.church < 22) ? 2
+//         : f.halvekists > 72 || f.church < 30 || n.publicOrder < 44 ? 1 : 0
+//     case 'aldenmoor':
+//       return f.businessClass < 18 || n.economyHealth < -62 ? 2
+//         : f.businessClass < 32 || n.economyHealth < -28 ? 1 : 0
+//     default: return 0
+//   }
+// }
 
 // ─── Road / railway organic path (Veltria's 6 provinces only) ────────────────
 
@@ -170,9 +170,10 @@ export default function MapView({ onProvinceDetail }: {
 }) {
   const mapOpen    = useSettingsStore(s => s.mapOpen)
   const phase      = useWeekStore(s => s.phase)
-  const gameState  = useGameStore()
-  const factions   = useGameStore(s => s.factions)
-  const { activeFlags } = useNarrativeStore()
+  // gameState / factions / activeFlags fed only the commented-out statuses (HIDDEN medallion) block
+  // const gameState  = useGameStore()
+  // const factions   = useGameStore(s => s.factions)
+  // const { activeFlags } = useNarrativeStore()
   const agendaPool      = useWeekStore(s => s.agendaPool)
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const [hoveredBuilding, setHoveredBuilding] = useState<string | null>(null)
@@ -280,11 +281,12 @@ export default function MapView({ onProvinceDetail }: {
     if (mapOpen) setPan(centeredOnAshenmere())
   }, [mapOpen])
 
-  const statuses = useMemo(() => {
-    const map = new Map<string, 0 | 1 | 2>()
-    for (const p of PROVINCE_ZONES) map.set(p.id, computeCrisisLevel(p.id, gameState, activeFlags))
-    return map
-  }, [gameState, activeFlags])
+  // Stubbed-out status map — consumed only by the HIDDEN medallion block below
+  // const statuses = useMemo(() => {
+  //   const map = new Map<string, 0 | 1 | 2>()
+  //   for (const p of PROVINCE_ZONES) map.set(p.id, computeCrisisLevel(p.id, gameState, activeFlags))
+  //   return map
+  // }, [gameState, activeFlags])
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     if (e.button !== 0) return
@@ -318,10 +320,11 @@ export default function MapView({ onProvinceDetail }: {
   const isGameplay = phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue'
   if (!isGameplay) return null
 
-  function handleOpenDetail(id: string) {
-    if (hasDragged.current) return
-    onProvinceDetail?.(id)
-  }
+  // Stubbed-out — only referenced by the HIDDEN medallion block; buildings call onProvinceDetail directly
+  // function handleOpenDetail(id: string) {
+  //   if (hasDragged.current) return
+  //   onProvinceDetail?.(id)
+  // }
 
   // ── Background mode: map behind game UI, centered, not pannable ─────────────
   if (!mapOpen) {

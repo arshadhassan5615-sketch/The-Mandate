@@ -6,7 +6,7 @@ export interface BudgetCrisisTrigger {
   crisisType: 'budget'
 }
 
-export function checkForBudgetCrisis(state: GameState, activeFlags: string[]): BudgetCrisisTrigger | null {
+export function checkForBudgetCrisis(_state: GameState, activeFlags: string[]): BudgetCrisisTrigger | null {
   if (activeFlags.includes('budget_crisis_resolved_this_week')) return null
 
   if (

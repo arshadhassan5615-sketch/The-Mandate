@@ -68,7 +68,7 @@ export default function GameLayout() {
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
   const setDecreeInboxOpen = useSettingsStore(s => s.setDecreeInboxOpen)
   const pendingRequests = useCabinetStore(s => s.pending_requests)
-  const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
+  // const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds) // unused — Act transition reads store directly via getState()
   const ambientStarted = useRef(false)
   const [showActTransition, setShowActTransition] = useState(false)
   const [actShown, setActShown] = useState(false)

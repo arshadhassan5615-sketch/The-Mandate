@@ -133,8 +133,8 @@ export default function ConversationPanel({
   const { currentScene } = useNarrativeStore()
   const phase = useWeekStore(s => s.phase)
 
-  // Per-portrait image error tracking
-  const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
+  // Per-portrait image error tracking — half-implemented; portrait fallback uses img/initials instead
+  // const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
 
   // Track the top of the stack for entrance animations
   const prevTopSpeakerRef = useRef<string | undefined>(undefined)
@@ -171,8 +171,8 @@ export default function ConversationPanel({
     return stack
   }, [history, activeSegment])
 
-  // Which speaker just entered (for entrance animation trigger)
-  const [newSpeakerId, setNewSpeakerId] = useState<string | undefined>(undefined)
+  // Which speaker just entered (for entrance animation trigger) — value never consumed in JSX yet
+  const [, setNewSpeakerId] = useState<string | undefined>(undefined)
 
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {

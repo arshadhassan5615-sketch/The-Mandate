@@ -98,7 +98,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
   const ministries = isReshuffle
     ? [reshuffleMinistry]
     : (Object.keys(MINISTRY_LABELS) as MinistryType[])
-  const allSelected = ministries.every(m => selections[m])
+  const allSelected = ministries.every(m => m && selections[m])
   const selectedCount = Object.keys(selections).length
 
   const handleSelect = (ministry: MinistryType, candidateId: string) => {
@@ -133,6 +133,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
 
     // Original formation flow — all 10 ministries
     ministries.forEach(ministry => {
+      if (!ministry) return
       const candidateId = selections[ministry]
       if (candidateId) {
         const candidate = MINISTER_CANDIDATES.find(c => c.id === candidateId)

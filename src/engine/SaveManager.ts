@@ -168,6 +168,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     },
     cabinetState: {
       ministers: cabinetState.ministers,
+      dismissedMinisters: cabinetState.dismissedMinisters ?? [],
       formation_complete: cabinetState.formation_complete,
       formation_week: cabinetState.formation_week,
       pending_requests: cabinetState.pending_requests,
@@ -315,6 +316,7 @@ export async function loadGame(slot: number): Promise<boolean> {
   if (record.cabinetState) {
     useCabinetStore.setState({
       ministers:          record.cabinetState.ministers,
+      dismissedMinisters: record.cabinetState?.dismissedMinisters ?? [],
       formation_complete: record.cabinetState.formation_complete,
       formation_week:     record.cabinetState.formation_week,
       pending_requests:   record.cabinetState.pending_requests,
