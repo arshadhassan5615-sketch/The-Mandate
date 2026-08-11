@@ -4,28 +4,37 @@
   "act": 1,
   "weekAvailable": 4,
   "weekDeadline": 6,
-  "type": "meeting",
+  "type": "cabinet",
   "agendaCost": 0,
   "isMandatory": false,
-  "location": "Ashenmere",
-  "characters": ["vyktor_reznik", "danika_oberlin"],
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
   "prerequisites": [],
   "narrative": [
-    { "type": "description", "text": "A memorandum arrives from the Ministry of the Interior, three paragraphs long, marked routine. It is not routine. Every government office in Veltria — every post building, every schoolroom, every customs post at every border crossing — still has a framed portrait of Chancellor Halvek on the wall behind the counter." },
-    { "type": "dialogue", "character": "vyktor_reznik", "text": "Someone has to decide what happens to eleven thousand portraits, Chancellor. The clerks are asking. They can't very well serve the public under a dead man's photograph, and they can't very well take it down without instruction either — some of them are afraid to, and some of them don't want to." },
-    { "type": "dialogue", "character": "danika_oberlin", "text": "My office has opinions, for what they're worth. Ordering them torn down by decree photographs well for one news cycle and creates martyrs for the next twenty. Quietly replacing them over a few months draws no attention at all — and draws no headlines either." },
-    { "type": "monologue", "text": "Eleven thousand small frames. It should not matter this much. But I remember exactly where the one in my old schoolroom hung, and exactly how the teacher's voice changed when she spoke under it. Symbols outlast the men who commission them. That is precisely the danger, and precisely the opportunity." }
+    {
+      "type": "description",
+      "text": "Vyktor sets a framed portrait on your desk. It is the standard issue—glass front, oak frame, the same photograph that has hung in every post office, school, and ministry for thirty years. The face staring out is Chancellor Halvek."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Eleven thousand. That is the latest count from the Interior Ministry. The civil servants are waiting for an order. They are afraid to take them down without one, and they are afraid to leave them up."
+    },
+    {
+      "type": "monologue",
+      "text": "Eleven thousand faces of the man who dissolved the parliament, who built the BNI, who took my father in the night. They stare down from the walls of the very offices meant to serve the people he imprisoned. The clerks are right to be afraid. This is not a question of interior decorating. It is the first test of whether this government intends to erase the past or simply ignore it."
+    }
   ],
   "choices": [
     {
-      "id": "w4_public_removal",
-      "text": "Order public removal. A single decree, a single date. The nation should watch the portraits come down together — the break should be visible.",
-      "nextSegment": null,
-      "flags": ["portraits_removed_public"],
+      "id": "destroy_publicly",
+      "text": "Remove them. By the end of the week. Let the people see the walls are bare. The era of Halvek is over.",
+      "nextSegment": "seg_destroy",
+      "flags": ["portraits_destroyed"],
       "stateChanges": [
-        { "stat": "factions.reformists", "operation": "add", "value": 8 },
-        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
-        { "stat": "nation.civilLiberties", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -3 },
         { "stat": "vaelInfluence", "operation": "add", "value": 4 }
       ],
       "reactions": [],
@@ -33,27 +42,29 @@
       "codexUnlocks": []
     },
     {
-      "id": "w4_quiet_archive",
-      "text": "Replace them quietly over the coming months, office by office, no announcement. Let the change happen the way most real change happens — slowly, and without a camera present.",
-      "nextSegment": null,
-      "flags": ["portraits_archived_quiet"],
+      "id": "archive_quietly",
+      "text": "Box them. Catalog them. Send them to the National Archive. The walls will simply change, quietly. We do not need a spectacle.",
+      "nextSegment": "seg_archive",
+      "flags": ["portraits_archived"],
       "stateChanges": [
-        { "stat": "factions.reformists", "operation": "add", "value": 2 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 3 },
         { "stat": "factions.halvekists", "operation": "add", "value": -2 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 6 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     },
     {
-      "id": "w4_leave_portraits",
-      "text": "Leave them exactly where they are for now. There are forty-one miners still recovering in Kravenstal and a treasury on fire. A dead man's photograph is not this week's emergency.",
-      "nextSegment": null,
+      "id": "leave_them",
+      "text": "Leave them. The Republic has bigger problems than pictures. Let the transition speak for itself.",
+      "nextSegment": "seg_leave",
       "flags": ["portraits_left"],
       "stateChanges": [
-        { "stat": "factions.halvekists", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 5 },
         { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 2 },
         { "stat": "vaelInfluence", "operation": "add", "value": 2 }
       ],
       "reactions": [],
@@ -61,5 +72,63 @@
       "codexUnlocks": []
     }
   ],
-  "segments": {}
+  "segments": {
+    "seg_destroy": {
+      "narrative": [
+        { "type": "description", "text": "Vyktor nods. By Friday, the walls are bare. The dust outlines remain, a ghostly reminder of where the regime used to watch." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The morning editions are already printing. The Herald is calling it a 'purge of national memory'. Vael's editorial board worked through the night." },
+        { "type": "monologue", "text": "Vael's papers frame our break from tyranny as an act of vandalism. He doesn't need to attack me directly; he just shapes how the country sees the empty walls. The narrative is already slipping out of my hands." }
+      ],
+      "choices": [
+        {
+          "id": "destroy_end",
+          "text": "Let them write what they want. The walls are bare.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_archive": {
+      "narrative": [
+        { "type": "description", "text": "Vyktor issues the memo. Over the next two weeks, the portraits disappear quietly into boxes, sent to a warehouse in the suburbs. No announcement is made." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Curiously, the Standard ran a piece today praising your 'mature restraint'. Lucan Vael apparently finds your approach... reasonable." },
+        { "type": "monologue", "text": "Praise from Lucan Vael is more dangerous than criticism. It means he believes I can be managed. It means he thinks restraint is just another word for fear. By avoiding a spectacle, I may have simply handed him the narrative." }
+      ],
+      "choices": [
+        {
+          "id": "archive_end",
+          "text": "Reasonable is better than war. For now.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_leave": {
+      "narrative": [
+        { "type": "description", "text": "The portraits stay. The civil servants sigh, perhaps in relief, perhaps in disappointment. The face of Halvek continues to stare down from the walls of the Republic." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The reformists are unhappy. They expected a clean break. But Vael's papers haven't attacked you, which is something." },
+        { "type": "monologue", "text": "The reformists see compromise; Vael sees weakness. I have kept the peace, but the ghost of the old regime still haunts the halls. Perhaps it always will. Let them look at his face and remember what we are rebuilding from." }
+      ],
+      "choices": [
+        {
+          "id": "leave_end",
+          "text": "We have bigger battles to fight. Let the pictures hang.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }
