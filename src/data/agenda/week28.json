@@ -11,7 +11,11 @@
     "weekDeadline": 30,
     "isUrgent": true,
     "prerequisites": [
-      { "stat": "nation.economyHealth", "operator": "<=", "value": -40 }
+      {
+        "stat": "nation.economyHealth",
+        "operator": "<=",
+        "value": -40
+      }
     ]
   },
   {
@@ -25,7 +29,11 @@
     "weekAvailable": 28,
     "weekDeadline": 32,
     "prerequisites": [
-      { "stat": "nation.economyHealth", "operator": ">=", "value": 10 }
+      {
+        "stat": "nation.economyHealth",
+        "operator": ">=",
+        "value": 10
+      }
     ]
   },
   {
@@ -60,5 +68,17 @@
     "executionOrder": 3,
     "weekAvailable": 28,
     "weekDeadline": 36
+  },
+  {
+    "id": "agenda_w28_currency_speculation",
+    "title": "Currency Speculation",
+    "description": "Vostane reports unusual activity in the foreign exchange markets.",
+    "category": "crisis",
+    "sceneId": "act3_week28_currency_speculation",
+    "slotCost": 1,
+    "executionOrder": 2,
+    "weekAvailable": 28,
+    "weekDeadline": 30,
+    "isUrgent": false
   }
 ]
