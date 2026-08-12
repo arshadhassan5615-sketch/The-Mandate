@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNewsStore } from '../stores/newsStore'
@@ -56,9 +57,18 @@ export default function KaterinHUD() {
   const phase = useWeekStore(s => s.phase)
   const newsOpen = useNewsStore(s => s.isOpen)
 
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   // Hide during full-screen narrative phases and while the newspaper overlay is open
   // (NewsOverlay zIndex 200 is below this HUD's 250, so chrome must unmount — not stack).
   if (phase === 'agenda' || phase === 'scene' || newsOpen) return null
+  if (isMobile) return null
 
   return (
     <div style={{

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNewsStore } from '../stores/newsStore'
 import type { BudgetAllocations } from '../types/gameState'
@@ -51,6 +51,14 @@ export default function TopBar() {
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
   const date = useMemo(() => weekToDate(currentWeek), [currentWeek])
 
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   // NewsOverlay is zIndex 200; TopBar chips are 210 — hide while newspaper is open
   // (same unmount-while-open pattern as KaterinHUD for agenda/scene/news).
   if (newsOpen) return null
@@ -92,14 +100,16 @@ export default function TopBar() {
         {/* LEFT SECTION — Republic identity */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <img src={veltriaSeal} alt="Veltria Seal" style={{ height: 26, opacity: 0.9, filter: 'drop-shadow(0 0 8px rgba(201,168,76,0.3))' }} />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <span style={{ fontSize: '0.54rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.4)' }}>
-              REPUBLIC OF VELTRIA
-            </span>
-            <span style={{ fontSize: '0.46rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
-              OFFICE OF THE CHANCELLOR
-            </span>
-          </div>
+          {!isMobile && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <span style={{ fontSize: '0.54rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.4)' }}>
+                REPUBLIC OF VELTRIA
+              </span>
+              <span style={{ fontSize: '0.46rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
+                OFFICE OF THE CHANCELLOR
+              </span>
+            </div>
+          )}
         </div>
 
         <GoldHairline />
@@ -140,16 +150,20 @@ export default function TopBar() {
           </span>
         </div>
 
-        <GoldHairline />
+        {!isMobile && (
+          <>
+            <GoldHairline />
 
-        {/* SLOT 3 — PRIVY PURSE */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
-          <img src={iconWealth} alt="Wealth" style={{ height: 22, width: 22, marginTop: '2px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.9rem', fontWeight: 600,
-            color: '#c9a84c', lineHeight: 1, textShadow: '0 0 8px rgba(201,168,76,0.3)' }}>
-            {personalWealth.toLocaleString()}
-          </span>
-        </div>
+            {/* SLOT 3 — PRIVY PURSE */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
+              <img src={iconWealth} alt="Wealth" style={{ height: 22, width: 22, marginTop: '2px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.9rem', fontWeight: 600,
+                color: '#c9a84c', lineHeight: 1, textShadow: '0 0 8px rgba(201,168,76,0.3)' }}>
+                {personalWealth.toLocaleString()}
+              </span>
+            </div>
+          </>
+        )}
 
         <GoldHairline />
 
@@ -189,9 +203,11 @@ export default function TopBar() {
         <span style={{ fontSize: '0.66rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.3)' }}>
           WEEK {currentWeek} / 52
         </span>
-        <span style={{ fontSize: '0.5rem', letterSpacing: '0.1em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
-          {date}
-        </span>
+        {!isMobile && (
+          <span style={{ fontSize: '0.5rem', letterSpacing: '0.1em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
+            {date}
+          </span>
+        )}
       </div>
     </>
   )
