@@ -7,55 +7,69 @@
   "type": "crisis",
   "agendaCost": 1,
   "isMandatory": false,
-  "location": "Kravenstal",
-  "characters": ["gregor_maric", "stefan_morvec"],
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["stefan_morvec", "vyktor_reznik"],
   "prerequisites": [],
   "narrative": [
-    { "type": "description", "text": "By dawn, the Sarenka works has gone silent for the first time since the rescue eighteen months ago. Not sabotage this time. Not a collapse. The men simply did not go down the shaft, and by mid-morning three more collieries across Kravenstal have followed them into stillness." },
-    { "type": "dialogue", "character": "gregor_maric", "text": "Chancellor, this isn't spontaneous. Every foreman I've spoken to says the same thing — wages, hours, the usual grievances, yes, but the timing is coordinated across four separate companies that have never coordinated anything in their history. Someone organized this in one week, and organizing that fast costs money nobody on that picket line has." },
-    { "type": "monologue", "text": "Four companies. Four owners who have spent thirty years undercutting each other on every contract in the province, suddenly moving in the same direction on the same morning. I have seen this arithmetic before, in smaller rooms, and it never once meant good news." },
-    { "type": "description", "text": "By afternoon your suspicion has a name and a face. Stefan Morvec requests an audience — not by letter this time. In person, unannounced, the first time he has come to you rather than sent a courier." },
-    { "type": "dialogue", "character": "stefan_morvec", "text": "Chancellor, I will not waste your afternoon pretending surprise. The mine owners are frightened. Wage demands they cannot meet without ruin, a government they no longer trust to protect their contracts, and no confidence the Assembly will act before the whole province burns down around everyone's ears. Frightened men make arrangements with each other. I did not organize this. I did not need to." },
-    { "type": "monologue", "text": "He did not need to. That is somehow worse than if he had. It means the thing I built my career opposing — men with capital simply agreeing, quietly, to starve out anyone who threatens them — no longer needs Morvec's hand on it at all. It has become the water they swim in." },
-    { "type": "dialogue", "character": "stefan_morvec", "text": "I can end this by Thursday, Chancellor. A word from me to the right four men, and the collieries reopen. Or you can manage it yourself, through the Ministry, through the Assembly, through whatever channels a government prefers to use — and discover exactly how long four idle mines can hold a province's patience." }
+    {
+      "type": "description",
+      "text": "Four Kravenstal collieries went silent on the same morning. It wasn't a wildcat strike—it was a coordinated shutdown. The workers aren't demanding higher wages; they are demanding the nationalization of the mines. Stefan Morvec arrives at the Palace unannounced, brushing past your security detail with the ease of a man who owns the building."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "text": "Chancellor. You have a problem in Kravenstal. I can end it by Thursday. My foremen have the authority to send the men back down the shaft. All I ask is that you reconsider the new mining safety regulations your Labor Ministry is drafting. They are... economically unviable."
+    },
+    {
+      "type": "monologue",
+      "text": "Morvec orchestrated the strike to leverage me. He wants me to drop the safety regulations in exchange for him ordering his foremen to break the strike. If I accept, I prove the workers' chants are true: the state answers to Morvec. If I refuse, the Kravenstal economy stalls, and I lose the workers' support anyway."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "If we let Morvec handle this, we surrender the province to him. If we send in the police, we become Halvek. We have one other option: send Gregor Marić to negotiate directly with the workers' council, bypassing Morvec entirely. It's slower, and it might fail, but it keeps the state sovereign."
+    }
   ],
   "choices": [
     {
-      "id": "w30_accept_morvec_intervention",
-      "text": "Let him end it. Whatever this costs later, forty thousand idle miners cannot wait on your channels to work faster than his word does.",
-      "nextSegment": "seg_morvec_resolves",
-      "flags": ["strike_morvec_resolved"],
+      "id": "accept_morvec_deal",
+      "text": "Accept Morvec's offer. Drop the safety regulations. End the strike now.",
+      "nextSegment": "seg_morvec_deal",
+      "flags": ["morvec_strike_broken", "safety_regs_dropped"],
       "stateChanges": [
-        { "stat": "morvecInfluence", "operation": "add", "value": 12 },
-        { "stat": "factions.workersCoalition", "operation": "add", "value": -4 },
-        { "stat": "nation.economyHealth", "operation": "add", "value": 3 }
+        { "stat": "morvecInfluence", "operation": "add", "value": 15 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -20 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     },
     {
-      "id": "w30_state_mediation",
-      "text": "Refuse him. Send the Labor Ministry to mediate directly with the miners' representatives — slower, and entirely the government's own doing.",
-      "nextSegment": "seg_state_mediates",
-      "flags": ["strike_state_mediated"],
+      "id": "send_maric_negotiate",
+      "text": "Refuse Morvec. Send Marić to negotiate with the workers directly. The state doesn't ask oligarchs for permission to govern.",
+      "nextSegment": "seg_maric_negotiate",
+      "flags": ["maric_sent_kravenstal"],
       "stateChanges": [
-        { "stat": "morvecInfluence", "operation": "add", "value": -6 },
-        { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
-        { "stat": "nation.economyHealth", "operation": "add", "value": -5 }
+        { "stat": "morvecInfluence", "operation": "add", "value": -5 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -3 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     },
     {
-      "id": "w30_hold_the_line",
-      "text": "Do neither, for now. Tell Morvec you need until Thursday to decide whether a mediated peace serves Kravenstal better than his quiet arrangement — and mean it.",
-      "nextSegment": "seg_katerin_stalls",
-      "flags": ["strike_stalled"],
+      "id": "threaten_nationalize",
+      "text": "Threaten to nationalize the mines if the strike isn't resolved by Friday. Call Morvec's bluff.",
+      "nextSegment": "seg_threaten_nationalize",
+      "flags": ["nationalization_threatened"],
       "stateChanges": [
-        { "stat": "nation.economyHealth", "operation": "add", "value": -2 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+        { "stat": "morvecInfluence", "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 15 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -8 }
       ],
       "reactions": [],
       "chainTriggers": [],
@@ -63,26 +77,60 @@
     }
   ],
   "segments": {
-    "seg_morvec_resolves": {
+    "seg_morvec_deal": {
       "narrative": [
-        { "type": "description", "text": "By Thursday, exactly as promised, the collieries reopen. The wage increase granted is smaller than the miners asked for and larger than the owners wanted, a number that satisfies precisely no one and ends precisely the strike." },
-        { "type": "monologue", "text": "I have just watched a private citizen resolve a labor crisis across four companies faster than my own government could convene a committee to discuss convening a committee. I do not know yet what that costs me. I suspect I will find out at a time of his choosing, not mine." }
+        { "type": "dialogue", "character": "stefan_morvec", "text": "A wise decision, Chancellor. The men will be back at work by morning. We will discuss the regulations later." },
+        { "type": "description", "text": "Morvec leaves. The strike will end, but the cost is written in the safety regulations you just sacrificed." },
+        { "type": "monologue", "text": "I bought peace with the lives of the miners. Morvec knows it. The workers know it. And now, I have to live with it." }
       ],
-      "choices": []
+      "choices": [
+        {
+          "id": "morvec_deal_end",
+          "text": "The economy is stable. That is all that matters today.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
     },
-    "seg_state_mediates": {
+    "seg_maric_negotiate": {
       "narrative": [
-        { "type": "description", "text": "The mediation drags into its second week before the first colliery reaches terms. Marić does not sleep much during it. Neither, by his account, do the men on the picket lines, who have taken to calling the standoff by his name rather than the mine's." },
-        { "type": "monologue", "text": "It is slower. It is also, when it finally settles, entirely mine to answer for — not a favor owed to a man who does not forget favors owed. I find I can live with slow." }
+        { "type": "dialogue", "character": "stefan_morvec", "text": "You are making a mistake, Ashavel. The workers do not listen to ministers. They listen to their foremen. And their foremen listen to me." },
+        { "type": "description", "text": "Morvec leaves in a fury. Marić boards a train to Kravenstal within the hour. The outcome is uncertain, but the state is fighting its own battle." }
       ],
-      "choices": []
+      "choices": [
+        {
+          "id": "maric_negotiate_end",
+          "text": "We will see who the workers listen to.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
     },
-    "seg_katerin_stalls": {
+    "seg_threaten_nationalize": {
       "narrative": [
-        { "type": "description", "text": "Thursday arrives with no decision made, which Morvec receives with the particular patience of a man who has never once needed to raise his voice to get what he wants. The mines remain idle a fifth day, then a sixth." },
-        { "type": "monologue", "text": "I bought time. I am not entirely certain, watching the province hold its breath, that time was the thing worth buying." }
+        { "type": "dialogue", "character": "stefan_morvec", "text": "Nationalize? You would bankrupt the state trying to run my mines. If you try it, I will close every factory in Veltria by the weekend." },
+        { "type": "description", "text": "It is an open threat of a capital strike. Morvec leaves, and the battle lines are drawn. The workers cheer the threat of nationalization, but the markets panic." }
       ],
-      "choices": []
+      "choices": [
+        {
+          "id": "threaten_nationalize_end",
+          "text": "Let him close them. The Republic will survive without Morvec.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
     }
   }
 }

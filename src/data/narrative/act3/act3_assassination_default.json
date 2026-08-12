@@ -13,7 +13,15 @@
   "narrative": [
     {
       "type": "description",
-      "text": "The attack came without warning. An explosion near the palace, or a shooter in the capital, or an attempt on your life during a public appearance — the details blur in the chaos of the aftermath. What matters is this: someone tried to kill the Chancellor of the Republic of Veltria, and they failed. But the attempt itself has changed everything. The capital is in shock. The security services are scrambling. Your cabinet is assembling in the emergency command center, waiting for you to tell them what the response will be."
+      "text": "The attack came without warning. An explosion near the palace, or a shooter in the capital, or an attempt on your life during a public appearance — the details blur in the chaos of the aftermath. What matters is this: someone tried to kill the Chancellor of the Republic of Veltria, and they failed. But the attempt itself has changed everything."
+    },
+    {
+      "type": "description",
+      "text": "You survived. But survival has a price. The doctors say the nerve damage is permanent. Your right hand trembles when you try to hold a pen. The hearing in your left ear is gone, replaced by a flat, ringing tone that the medications cannot quiet. You are alive, but the body you inhabited this morning is no longer the one you govern from."
+    },
+    {
+      "type": "monologue",
+      "text": "I look at my hand. It shakes. I tell it to stop, and it does not. This is the cost of the mandate. They tried to kill me, and they succeeded in marking me. Every time I sign a decree, the pen will tremble. Every time someone speaks to my left, I will have to turn my head. I am still the Chancellor. But I am no longer whole."
     },
     {
       "type": "dialogue",
@@ -32,7 +40,7 @@
         { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
       ],
       "chainTriggers": [],
-      "flags": ["assassination_survived", "assassination_attempted", "ashenmere_incident"],
+      "flags": ["assassination_survived", "assassination_attempted", "ashenmere_incident", "permanent_injury_sustained"],
       "nextNodeId": "act3_assassination_cabinet",
       "codexUnlocks": ["codex_ashenmere_incident"]
     }

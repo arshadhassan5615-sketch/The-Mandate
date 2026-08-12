@@ -4,63 +4,147 @@
   "act": 1,
   "weekAvailable": 15,
   "weekDeadline": 17,
-  "type": "meeting",
+  "type": "personal",
   "agendaCost": 1,
   "isMandatory": false,
-  "location": "Ashenmere",
-  "characters": ["delegate_kolvar", "archbishop_renek"],
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "maren_tovik", "stanislov_renek"],
   "prerequisites": [],
   "narrative": [
-    { "type": "description", "text": "A delegation from Dravenhollow has waited two hours in the outer chamber, patient in the particular way of people who have learned that patience is often the only leverage they are permitted." },
-    { "type": "dialogue", "character": "delegate_kolvar", "text": "Chancellor, we ask for one thing only. Dravenni children may be taught in their own language in the state schools of Dravenhollow, as the 1947 minorities charter already promises on paper. We are not asking you to grant a right. We are asking you to stop denying one you already recognized." },
-    { "type": "monologue", "text": "Kolvar is right, and being right has done his people no good for sixteen years. The charter exists. Enforcement never followed. I could sign this in an afternoon and call it justice, if it cost nothing. It will not cost nothing." },
-    { "type": "description", "text": "Before the delegation has finished, a second letter arrives — hand-delivered from the Archdiocese, faster than any letter should travel unless it was already written and waiting." },
-    { "type": "dialogue", "character": "archbishop_renek", "text": "Chancellor, the Church operates one hundred and twelve schools in Dravenhollow province under state charter, all of them in the national language, all of them in good order. Introduce a second language of instruction and the Church cannot in good conscience continue administering them. We would have no choice but to withdraw from state education there entirely." },
-    { "type": "monologue", "text": "One hundred and twelve schools. If Renek pulls them, Dravenhollow has no education system left to speak of — not a compromise, a collapse. He knows this. He is not threatening me. He is informing me of arithmetic." }
+    {
+      "type": "description",
+      "text": "The delegation from Dravenhollow arrives not in suits, but in the heavy wool coats of the northern mountains. Maren Tovik leads them—a woman with calloused hands and the direct gaze of someone who has never had time for parliamentary pleasantries. She carries a wooden box."
+    },
+    {
+      "type": "dialogue",
+      "character": "maren_tovik",
+      "text": "Chancellor. We have come a long way to bring you this. It is a petition signed by forty thousand citizens of Dravenhollow. We ask that the state finally enforce the 1947 Minorities Charter. We ask that our children be taught in our language."
+    },
+    {
+      "type": "monologue",
+      "text": "Forty thousand signatures. The Dravenni have been promised autonomy a dozen times since 1947, and each time the promise was broken to appease the Church or the Assembly. Maren Tovik knows this. She is not here because she believes I am different; she is here because she is forcing me to prove whether I am."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor steps forward, intercepting the box before it can be placed on your desk. He does not take it from her hands, but he blocks its path."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Maren. The Chancellor hears you. But you know this is not a simple matter of signing a paper. Archbishop Renek has sent a letter this morning. If the state enforces the language provisions, the Church will withdraw its 112 schools from Dravenhollow. Forty thousand children will have nowhere to learn."
+    },
+    {
+      "type": "dialogue",
+      "character": "maren_tovik",
+      "text": "Let him withdraw them! We will teach them in the mines! We will teach them in the snow! Do not tell us we must trade our language for a roof over our heads."
+    },
+    {
+      "type": "description",
+      "text": "She drops the box on the desk, the weight of the signatures thudding heavily against the wood. 'The Church controls the schools, Chancellor. But you control the Republic. Decide who you govern for.'"
+    }
   ],
   "choices": [
     {
-      "id": "w15_grant_rights",
-      "text": "Grant the petition in full. Dravenni becomes a language of instruction in Dravenhollow's state schools, charter or no charter. Renek can withdraw if his conscience demands it — the state will find other hands to teach.",
-      "nextSegment": null,
-      "flags": ["dravenni_rights_granted", "church_dravenni_tension"],
+      "id": "enforce_charter",
+      "text": "Enforce the 1947 Charter. The state will build secular schools to replace the Church's. Dravenni language rights are non-negotiable.",
+      "nextSegment": "seg_enforce",
+      "flags": ["dravenni_charter_enforced", "church_schools_withdrawn"],
       "stateChanges": [
-        { "stat": "factions.dravenni", "operation": "add", "value": 12 },
-        { "stat": "factions.church", "operation": "add", "value": -10 },
-        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 }
+        { "stat": "factions.dravenni", "operation": "add", "value": 10 },
+        { "stat": "factions.church", "operation": "add", "value": -12 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": 4 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     },
     {
-      "id": "w15_refuse_petition",
-      "text": "Decline for now. The Church's schools are the only functioning education system Dravenhollow has. Protecting what exists takes precedence over the principle of what should exist.",
-      "nextSegment": null,
-      "flags": ["dravenni_rights_refused", "church_dravenni_tension"],
+      "id": "reject_charter",
+      "text": "Reject the petition. The Church's infrastructure is irreplaceable right now. We cannot leave 40,000 children without schools.",
+      "nextSegment": "seg_reject",
+      "flags": ["dravenni_charter_rejected"],
       "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 8 },
         { "stat": "factions.dravenni", "operation": "add", "value": -10 },
-        { "stat": "factions.church", "operation": "add", "value": 6 },
-        { "stat": "nation.civilLiberties", "operation": "add", "value": -3 }
+        { "stat": "nation.publicOrder", "operation": "add", "value": -2 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     },
     {
-      "id": "w15_partial_compromise",
-      "text": "Offer a phased compromise: Dravenni taught as a secondary subject within the existing Church schools, not as the language of instruction. Neither delegation leaves satisfied — both leave still talking to you.",
-      "nextSegment": null,
-      "flags": ["dravenni_rights_partial", "church_dravenni_tension"],
+      "id": "compromise_charter",
+      "text": "Offer a compromise: Dravenni language classes as an elective, not the primary language of instruction.",
+      "nextSegment": "seg_compromise",
+      "flags": ["dravenni_charter_compromised"],
       "stateChanges": [
-        { "stat": "factions.dravenni", "operation": "add", "value": 3 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 2 },
         { "stat": "factions.church", "operation": "add", "value": -2 },
-        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+        { "stat": "personal.publicImage", "operation": "add", "value": 2 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     }
   ],
-  "segments": {}
+  "segments": {
+    "seg_enforce": {
+      "narrative": [
+        { "type": "dialogue", "character": "maren_tovik", "text": "You have courage, Chancellor. The Church will fight you for this. The mountains will remember you stood with us." },
+        { "type": "description", "text": "Tovik leaves the box on your desk. Vyktor waits until the door closes, his expression tight." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Renek will excommunicate you from the state media by Friday. We will need to build those 112 schools from the ground up while fighting a constitutional convention. I hope you have the budget for a miracle." }
+      ],
+      "choices": [
+        {
+          "id": "enforce_end",
+          "text": "Some things are worth the budget.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_reject": {
+      "narrative": [
+        { "type": "dialogue", "character": "maren_tovik", "text": "We expected this. The Halvek government said the same words. 'Not yet. The timing is wrong.' The timing is always wrong for us." },
+        { "type": "description", "text": "She takes the box back, her face hardening into stone. She does not look at Vyktor as she leaves." },
+        { "type": "monologue", "text": "I just sacrificed forty thousand votes to keep the Archbishop happy. The arithmetic of power is ugly. I tell myself it was for the children's education, but I know it was for the political cost. The mountains will remember this too." }
+      ],
+      "choices": [
+        {
+          "id": "reject_end",
+          "text": "It was the only realistic choice.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_compromise": {
+      "narrative": [
+        { "type": "dialogue", "character": "maren_tovik", "text": "An elective. A museum piece. Our language reduced to an hour a week after mathematics. We did not walk through the snow for an elective, Chancellor." },
+        { "type": "description", "text": "But she takes the compromise. She knows the political winds. She leaves the box, though. 'For when you are ready to keep your promises.'" },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Renke will accept this. The Dravenni will tolerate it. It is a masterful piece of political nothing. Nobody gets what they want, but nobody riots. Well done." }
+      ],
+      "choices": [
+        {
+          "id": "compromise_end",
+          "text": "Politics is the art of the possible. We move on.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }

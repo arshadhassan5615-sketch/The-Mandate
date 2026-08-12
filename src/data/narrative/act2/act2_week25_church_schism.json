@@ -4,63 +4,139 @@
   "act": 2,
   "weekAvailable": 25,
   "weekDeadline": 27,
-  "type": "crisis",
+  "type": "personal",
   "agendaCost": 1,
   "isMandatory": false,
-  "location": "Aldenmoor",
-  "characters": ["archbishop_renek"],
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["stanislov_renek", "vyktor_reznik"],
   "prerequisites": [],
   "narrative": [
-    { "type": "description", "text": "The letter from Aldenmoor's diocesan council is longer than any that has crossed your desk from the Church, and considerably less careful in its language. A dozen parish priests have signed a public statement breaking with Archbishop Renek's position on education." },
-    { "type": "description", "text": "They call themselves, in the statement's own words, the Reformist Clergy of Aldenmoor — priests who serve congregations of Dravenni families, tenant farmers, and Kravenstal transplants, and who have decided the Archdiocese's hard line has cost them more parishioners than it has protected." },
-    { "type": "dialogue", "character": "archbishop_renek", "text": "Chancellor, I will not pretend this doesn't wound. Twelve priests do not speak for the Church of Veltria, whatever they call themselves in a newspaper column. But I would be lying if I told you their departure costs nothing. Schism is a slow bleed, not a single wound." },
-    { "type": "monologue", "text": "He came to me himself rather than send a letter. That tells me more than his words do. Renek is not asking me to discipline them — he could not, even if he wished it, without making twelve martyrs into twelve hundred. He is asking me something else, though he has not said it plainly yet." },
-    { "type": "dialogue", "character": "archbishop_renek", "text": "What I will say plainly is this: the government's choices these past months did not create this split, but they gave it a reason to happen now rather than in ten years. I do not say that as an accusation. I say it because you should understand your own hand in it." },
-    { "type": "description", "text": "Through the window you can see Aldenmoor's cathedral spire, older than the Republic, older than the monarchy before it. It has outlasted every government that ever thought it could be managed. You are aware, distantly, that you are not the first Chancellor to sit in this room and feel small in front of that fact." }
+    {
+      "type": "description",
+      "text": "Archbishop Stanislov Renek does not make house calls to the Palace. He sends letters, he summons ministers, he issues pastoral letters. But tonight, he is sitting in your study, his robes heavy with the rain outside, his face pale with a fury he is struggling to contain."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Twelve priests. Twelve men of God in Aldenmoor have stood before their congregations and declared the Church's education policy 'morally indefensible.' They are calling for my resignation. They are citing your government's language charter as proof that the Church has failed the people."
+    },
+    {
+      "type": "monologue",
+      "text": "The Dravenni charter. I forced it through to protect minority rights, and now it is tearing the Church apart. Renek is being devoured by his own flock for opposing a policy I implemented. I should feel triumphant. I just broke the Church's political back. Instead, I am looking at an old man who is terrified of losing the only institution he has ever served."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "This is your doing, Chancellor. You put the state between me and my priests. Now I am asking you: will you let the Church schism, or will you help me close this wound before it becomes a fracture?"
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "If we back Renek, we alienate the reformists and the Dravenni. If we back the schismatics, the Church collapses, and we lose 400 schools across the Republic overnight."
+    }
   ],
   "choices": [
     {
-      "id": "w25_back_reformists",
-      "text": "Publicly welcome the reformist clergy's statement. Offer them state recognition as a distinct pastoral body if the Archdiocese will not accommodate them.",
-      "nextSegment": null,
-      "flags": ["church_schism_reformists_backed"],
+      "id": "support_schism",
+      "text": "The Church must modernize. I will grant state protection to the reformist priests and seize the schools they administer.",
+      "nextSegment": "seg_schism",
+      "flags": ["church_schism_supported"],
       "stateChanges": [
         { "stat": "factions.reformists", "operation": "add", "value": 8 },
-        { "stat": "factions.church", "operation": "add", "value": -12 },
-        { "stat": "factions.dravenni", "operation": "add", "value": 5 }
-      ],
-      "reactions": [],
-      "chainTriggers": [],
-      "codexUnlocks": []
-    },
-    {
-      "id": "w25_back_renek",
-      "text": "Reaffirm the state's relationship with the Archdiocese as it stands. Tell Renek the schism is the Church's affair to settle, not the government's to referee.",
-      "nextSegment": null,
-      "flags": ["church_schism_renek_backed"],
-      "stateChanges": [
-        { "stat": "factions.church", "operation": "add", "value": 8 },
-        { "stat": "factions.reformists", "operation": "add", "value": -6 },
-        { "stat": "factions.dravenni", "operation": "add", "value": -3 }
-      ],
-      "reactions": [],
-      "chainTriggers": [],
-      "codexUnlocks": []
-    },
-    {
-      "id": "w25_stay_neutral",
-      "text": "Decline to take a side publicly. Tell Renek privately that the state has no interest in choosing winners inside the Church, whatever the cost to either of you.",
-      "nextSegment": null,
-      "flags": ["church_schism_neutral"],
-      "stateChanges": [
-        { "stat": "factions.church", "operation": "add", "value": -2 },
-        { "stat": "factions.reformists", "operation": "add", "value": 1 },
+        { "stat": "factions.church", "operation": "add", "value": -15 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 4 },
         { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "back_renek",
+      "text": "The state does not interfere in Church governance. I will publicly affirm Renek's authority and condemn the schismatics.",
+      "nextSegment": "seg_renek",
+      "flags": ["church_authority_reaffirmed"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 12 },
+        { "stat": "factions.reformists", "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -3 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "mediate_schism",
+      "text": "Offer to mediate. Set up a council between Renek and the reformists. Keep the state neutral.",
+      "nextSegment": "seg_mediate",
+      "flags": ["church_council_convened"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     }
   ],
-  "segments": {}
+  "segments": {
+    "seg_schism": {
+      "narrative": [
+        { "type": "dialogue", "character": "stanislov_renek", "text": "You would tear the cloth rather than mend it. So be it. But know this, Chancellor: the Church is the only thing holding this country together in the dark. When you tear it, you will find out what was holding the dark back." },
+        { "type": "description", "text": "Renek leaves without waiting for an escort. Vyktor watches the door close." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The reformists will cheer. The Dravenni will feel vindicated. But Renek is right about one thing: we just took responsibility for 400 schools, and we don't have the teachers to run them." }
+      ],
+      "choices": [
+        {
+          "id": "schism_end",
+          "text": "The state will find the teachers. The dark can be held back by the state, too.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_renek": {
+      "narrative": [
+        { "type": "dialogue", "character": "stanislov_renek", "text": "You have chosen wisely, Chancellor. The Church will remember who stood with her in her hour of trial." },
+        { "type": "monologue", "text": "I just saved Renek's position and doomed the reformists' hopes. I tell myself it was for stability, for the schools, for the 40,000 Dravenni children who still need a roof. But I know the truth: I chose the power I could negotiate with over the principle I believed in." }
+      ],
+      "choices": [
+        {
+          "id": "renek_end",
+          "text": "Stability first. Principles second.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_mediate": {
+      "narrative": [
+        { "type": "dialogue", "character": "stanislov_renek", "text": "A council. You want me to sit at a table with men who called me a tyrant from the pulpit." },
+        { "type": "description", "text": "But he nods. He knows he has no other leverage. The state's neutrality is the only thing keeping him from a public fall." },
+        { "type": "monologue", "text": "A council buys time. It doesn't solve the schism, but it delays the fracture until after the referendum. In politics, a delay is sometimes the only victory you get." }
+      ],
+      "choices": [
+        {
+          "id": "mediate_end",
+          "text": "Time is the only thing the state has plenty of right now.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }

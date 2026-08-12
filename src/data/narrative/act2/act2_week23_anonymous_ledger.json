@@ -1,68 +1,139 @@
 {
   "id": "act2_week23_anonymous_ledger",
-  "title": "The Ledger",
+  "title": "The Anonymous Ledger",
   "act": 2,
   "weekAvailable": 23,
   "weekDeadline": 25,
   "type": "crisis",
   "agendaCost": 1,
   "isMandatory": false,
-  "location": "Ashenmere",
+  "location": "Chancellor's Private Study — Ashenmere Palace",
   "characters": ["vyktor_reznik"],
   "prerequisites": [],
   "narrative": [
-    { "type": "description", "text": "The envelope arrives with the morning post, unmarked, hand-delivered rather than mailed — no stamp, no return address, no note explaining how it found your desk instead of the hundred other desks it might have reached first." },
-    { "type": "description", "text": "Inside: photocopied ledger pages. Account numbers, transfer dates, contractor names — the financial skeleton of the highway project, and several entries circled in red ink. The circled figures do not match the public budget by a wide, deliberate margin." },
-    { "type": "monologue", "text": "I know these account numbers. I have seen them before, in a briefing I signed off on without reading closely enough. Lucan Vael's signature is nowhere on these pages, which is exactly how a man like Vael ensures his signature is nowhere on anything." },
-    { "type": "description", "text": "At the bottom of the last page, in the margin, three words are written by hand — not typed, not photocopied. A hand you have seen somewhere. You cannot say where. You turn the page toward the window light, as if better light might make you certain. It does not." },
-    { "type": "dialogue", "character": "vyktor_reznik", "text": "Whoever sent it wants you to act, Chancellor, but wanting isn't the same as being right to. Ledgers like this can be genuine evidence or genuine bait, and from where you're sitting they look identical." },
-    { "type": "monologue", "text": "He says it plainly, the way he says most things. I find myself watching his hands anyway, which is unfair to him, and I do it regardless." }
+    {
+      "type": "description",
+      "text": "The envelope arrives in the evening mail, unmarked. No return address. Inside are photocopied ledger pages from the National Highway Project, several entries circled in red ink. A hand-written note in the margin reads: 'Follow the concrete. Follow the Krone.'"
+    },
+    {
+      "type": "monologue",
+      "text": "The handwriting is almost recognizable. It belongs to someone inside the Finance Ministry, someone who has been watching Lucan Vael's construction firms for years. The circled entries show standard overages—invoices paid for concrete that was never poured, surveying work that was never done. The total is staggering. Forty million Kroner."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Vael. It’s always Vael. He built his media empire by calling Halvek corrupt, and now he’s doing the exact same thing. If we release this, we can break him. He goes to prison. His newspapers collapse. The Assembly calls for a full investigation."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor pauses, tracing the red circles with his finger. He taps the margin note. 'But someone wanted us to find this. Someone who benefits from Vael’s fall.'"
+    },
+    {
+      "type": "monologue",
+      "text": "Stefan Morvec. The old money. Vael is his only real competitor for control of the Republic's private sector. If I prosecute Vael, I am not enforcing the law—I am doing Morvec’s work for him. I am clearing the board for the Patriarch. But if I bury it, Vael remains a threat, and I become complicit."
+    }
   ],
   "choices": [
     {
-      "id": "w23_prosecute",
-      "text": "Open a formal investigation into the highway contracts. Let the Justice Ministry follow the ledger wherever it leads, publicly, on the record.",
-      "nextSegment": null,
-      "flags": ["ledger_prosecute", "vael_investigation_opened"],
+      "id": "prosecute_vael",
+      "text": "Send the ledger to the Justice Ministry. Order a full prosecution. The law is the law.",
+      "nextSegment": "seg_prosecute",
+      "flags": ["vael_prosecution_ordered"],
       "stateChanges": [
-        { "stat": "factions.businessClass", "operation": "add", "value": -8 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -20 },
+        { "stat": "morvecInfluence", "operation": "add", "value": 15 },
+        { "stat": "nation.corruption", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "leverage_vael",
+      "text": "Confront Vael privately. Tell him what we have. Use it to control him.",
+      "nextSegment": "seg_leverage",
+      "flags": ["vael_leveraged"],
+      "stateChanges": [
         { "stat": "vaelInfluence", "operation": "add", "value": -10 },
-        { "stat": "factions.reformists", "operation": "add", "value": 8 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": 6 }
+        { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     },
     {
-      "id": "w23_leverage",
-      "text": "Say nothing publicly. Summon Vael privately, show him one page — not all of them — and let him understand exactly what you are choosing not to release.",
-      "nextSegment": null,
-      "flags": ["ledger_leverage", "vael_leveraged"],
+      "id": "bury_ledger",
+      "text": "Burn the ledger. We need Vael's media support for the referendum. We can't afford to lose him now.",
+      "nextSegment": "seg_bury",
+      "flags": ["vael_ledger_buried"],
       "stateChanges": [
-        { "stat": "vaelInfluence", "operation": "add", "value": 6 },
-        { "stat": "factions.businessClass", "operation": "add", "value": 2 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
-        { "stat": "personal.shadowInfluence", "operation": "add", "value": 5 }
-      ],
-      "reactions": [],
-      "chainTriggers": [],
-      "codexUnlocks": []
-    },
-    {
-      "id": "w23_bury",
-      "text": "File it away, unopened by anyone else, unanswered. Whatever this costs later, it is a cost for a version of you that has more time than you do this week.",
-      "nextSegment": null,
-      "flags": ["ledger_buried"],
-      "stateChanges": [
-        { "stat": "vaelInfluence", "operation": "add", "value": 3 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
-        { "stat": "factions.reformists", "operation": "add", "value": -3 }
+        { "stat": "vaelInfluence", "operation": "add", "value": 15 },
+        { "stat": "morvecInfluence", "operation": "add", "value": 5 },
+        { "stat": "nation.corruption", "operation": "add", "value": 8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     }
   ],
-  "segments": {}
+  "segments": {
+    "seg_prosecute": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Justice will move on it by morning. Vael’s papers will call it a political purge. Morvec’s papers will call it justice. And Morvec himself will smile, knowing the state just eliminated his rival for him." },
+        { "type": "monologue", "text": "I chose the law. But the law is a weapon, and today someone else aimed it. I tell myself I cleaned up the Republic. I did. I also just handed the keys to the vault to Stefan Morvec." }
+      ],
+      "choices": [
+        {
+          "id": "prosecute_end",
+          "text": "Clean is clean. Let Morvec smile.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_leverage": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Vael will accept the terms. He knows when he’s beaten. But he will also know that you had the power to destroy him and chose not to. He will interpret that as either mercy or weakness. With men like Vael, it is always weakness." },
+        { "type": "monologue", "text": "I didn’t kill him, but I put a leash on him. Now I have a media baron who hates me, an old money oligarch who is watching his rival get controlled, and a piece of evidence that proves I am willing to play the game. It feels like power. It is probably just a different kind of trap." }
+      ],
+      "choices": [
+        {
+          "id": "leverage_end",
+          "text": "A controlled rival is better than a dead one. For now.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_bury": {
+      "narrative": [
+        { "type": "description", "text": "Vyktor takes the ledger and holds it over the fireplace. The paper catches immediately, curling into black ash. The forty million Kroner vanishes into smoke." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "It is done. Vael will never know how close he came. And we will have to live with the knowledge that we let him keep the money. The Republic will survive the referendum. I am less certain it will survive its Chancellor." },
+        { "type": "monologue", "text": "I made the pragmatic choice. The referendum needs Vael's ink. But pragmatism looks a lot like corruption when you do it in the dark. I looked at the ledger and saw a threat to my government. I wonder if, eventually, I will look in the mirror and see the same thing." }
+      ],
+      "choices": [
+        {
+          "id": "bury_end",
+          "text": "We do what we must to hold the center.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }

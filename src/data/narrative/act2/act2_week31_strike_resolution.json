@@ -1,0 +1,145 @@
+{
+  "id": "act2_week31_strike_resolution",
+  "title": "The Cost of the Shafts",
+  "act": 2,
+  "weekAvailable": 31,
+  "weekDeadline": 32,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "gregor_maric"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The dust from the Kravenstal strike is settling, but the air in the Palace is thick with the aftermath. Vyktor enters with the morning reports, his face grim. Gregor Marić is behind him, still in his travel coat."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The strike is over, Chancellor. But how it ended has written its own invoice. The accounts are coming due."
+    }
+  ],
+  "choices": [
+    {
+      "id": "check_morvec_deal",
+      "text": "(Continue) What is the damage from Morvec's intervention?",
+      "nextSegment": "seg_morvec_aftermath",
+      "prerequisites": [
+        { "flag": "morvec_strike_broken", "value": true }
+      ],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "check_maric_deal",
+      "text": "(Continue) Did Marić's negotiation succeed?",
+      "nextSegment": "seg_maric_aftermath",
+      "prerequisites": [
+        { "flag": "maric_sent_kravenstal", "value": true }
+      ],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "check_nationalize_threat",
+      "text": "(Continue) Has Morvec made good on his capital strike threat?",
+      "nextSegment": "seg_nationalize_aftermath",
+      "prerequisites": [
+        { "flag": "nationalization_threatened", "value": true }
+      ],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_morvec_aftermath": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The men went back to work, as Morvec promised. But without the safety regulations, Sarenka Pit suffered a collapse last night. Three men are dead. The Kravenstal Worker is running their photos on the front page." },
+        { "type": "monologue", "text": "Three men. Dead because I traded their safety for economic stability. Morvec didn't break the strike; he broke the back of my credibility with the workers. The blood is on my hands, not his." }
+      ],
+      "choices": [
+        {
+          "id": "morvec_aftermath_end",
+          "text": "We pay for the funerals. And we reinstate the regulations immediately.",
+          "nextSegment": null,
+          "flags": ["sarenka_collapse_aftermath"],
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_maric_aftermath": {
+      "narrative": [
+        { "type": "dialogue", "character": "gregor_maric", "text": "The workers' council heard me, Chancellor. They agreed to return to work in exchange for a 5% wage increase and a seat at the table for the safety review board. Morvec's foremen tried to intervene, but the men ignored them." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "A victory. The state negotiated directly with the workers and bypassed the oligarch. Morvec is furious, but his grip on Kravenstal is loosened." },
+        { "type": "monologue", "text": "We won the strike without surrendering the regulations or the state's authority. It cost us a wage increase we can barely afford, but it bought something priceless: the workers saw that the Palace can act for them without being asked by Morvec." }
+      ],
+      "choices": [
+        {
+          "id": "maric_aftermath_end",
+          "text": "A victory for the Republic. Well done, Gregor.",
+          "nextSegment": null,
+          "flags": ["kravenstal_negotiated_victory"],
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
+            { "stat": "morvecInfluence", "operation": "add", "value": -5 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_nationalize_aftermath": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Morvec wasn't bluffing. He has closed the Sevagrad steelworks and the Thornfeld textile mills. Forty thousand people are out of work this morning because we threatened his mines." },
+        { "type": "monologue", "text": "I called his bluff, and he raised me. The nationalization threat energized the workers, but the capital strike is burning the economy to the ground. I have to choose: back down and look weak, or push forward and risk a full economic collapse." }
+      ],
+      "choices": [
+        {
+          "id": "back_down_nationalize",
+          "text": "Back down. Reopen the negotiations. We cannot survive a capital strike.",
+          "nextSegment": null,
+          "flags": ["nationalization_backed_down"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": 10 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -10 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "push_forward_nationalize",
+          "text": "Push forward. Seize the steelworks. If he wants a war, he has one.",
+          "nextSegment": null,
+          "flags": ["steelworks_seized"],
+          "stateChanges": [
+            { "stat": "morvecInfluence", "operation": "add", "value": -20 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": -15 },
+            { "stat": "factions.businessClass", "operation": "add", "value": -20 },
+            { "stat": "factions.workersCoalition", "operation": "add", "value": 15 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
