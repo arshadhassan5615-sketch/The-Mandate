@@ -132,6 +132,13 @@ export default function ConversationPanel({
   const [choicePhase, setChoicePhase] = useState<ChoicePhase>('idle')
   const { currentScene } = useNarrativeStore()
   const phase = useWeekStore(s => s.phase)
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Per-portrait image error tracking — half-implemented; portrait fallback uses img/initials instead
   // const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
@@ -413,6 +420,37 @@ export default function ConversationPanel({
 
   const displayStack = speakerStack
 
+  const panelStyle: React.CSSProperties = isMobile
+    ? {
+        position: 'fixed',
+        bottom: '70px', // Push it above the 60px bottom nav
+        left: '10px',
+        right: '10px',
+        zIndex: 600,
+        marginBottom: '5px',
+        pointerEvents: 'all',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        gap: '0px',
+        width: 'auto', // Let left/right margins handle width
+        animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+      }
+    : {
+        position: 'fixed',
+        bottom: '20px',
+        left: '50%',
+        transform: 'translateX(calc(-50% - 20px))',
+        zIndex: 600,
+        marginBottom: '5px',
+        pointerEvents: 'all',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        gap: '0px',
+        width: '640px',
+        animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+      }
   if (phase !== 'scene') return null
 
   return (
@@ -443,7 +481,7 @@ export default function ConversationPanel({
       )}
 
       {currentScene && (
-      <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(calc(-50% - 20px))', zIndex: 600, marginBottom: '5px', pointerEvents: 'all', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '0px', width: '640px', animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
+      <div style={panelStyle}>
 
         <div style={{
           position: 'relative',

@@ -157,6 +157,13 @@ export default function NarrativeScene() {
     : `Continue to Next Meeting (${currentQueueIndex + 2}/${sceneQueue.length}) →`
 
   const sceneCharacters = currentScene?.characters ?? []
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const prevRevealed = useRef(0)
@@ -320,6 +327,7 @@ export default function NarrativeScene() {
         monologueText={currentScene?.monologue}
       />
 
+      {!isMobile && (
       <div style={{
         position: 'fixed', bottom: 0, left: '200px', right: 0, zIndex: 101,
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -353,6 +361,7 @@ export default function NarrativeScene() {
           ))}
         </div>
       </div>
+      )}
     </>
   )
 }
