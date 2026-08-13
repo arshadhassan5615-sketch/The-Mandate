@@ -35,12 +35,13 @@
       "id": "accept_morvec_deal",
       "text": "Accept Morvec's offer. Drop the safety regulations. End the strike now.",
       "nextSegment": "seg_morvec_deal",
-      "flags": ["morvec_strike_broken", "safety_regs_dropped"],
+      "flags": ["morvec_strike_broken", "safety_regs_dropped", "favor_owed_to_morvec"],
       "stateChanges": [
         { "stat": "morvecInfluence", "operation": "add", "value": 15 },
         { "stat": "factions.workersCoalition", "operation": "add", "value": -20 },
         { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": -8 }
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
       ],
       "reactions": [],
       "chainTriggers": [],
@@ -54,7 +55,8 @@
       "stateChanges": [
         { "stat": "morvecInfluence", "operation": "add", "value": -5 },
         { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
-        { "stat": "nation.economyHealth", "operation": "add", "value": -3 }
+        { "stat": "nation.economyHealth", "operation": "add", "value": -3 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
       ],
       "reactions": [],
       "chainTriggers": [],
@@ -69,7 +71,8 @@
         { "stat": "morvecInfluence", "operation": "add", "value": -15 },
         { "stat": "factions.workersCoalition", "operation": "add", "value": 15 },
         { "stat": "factions.businessClass", "operation": "add", "value": -15 },
-        { "stat": "nation.economyHealth", "operation": "add", "value": -8 }
+        { "stat": "nation.economyHealth", "operation": "add", "value": -8 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 20 }
       ],
       "reactions": [],
       "chainTriggers": [],

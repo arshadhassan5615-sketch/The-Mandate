@@ -54,6 +54,7 @@ function MiniOrnateFrame({ children }: { children: React.ReactNode }) {
 export default function KaterinHUD() {
   const appearance = useGameStore(s => s.playerAppearance)
   const currentAct = useGameStore(s => s.currentAct)
+  const stressLevel = useGameStore(s => s.personal.stressLevel)
   const phase = useWeekStore(s => s.phase)
   const newsOpen = useNewsStore(s => s.isOpen)
 
@@ -123,6 +124,20 @@ export default function KaterinHUD() {
         }}>
           Chancellor
         </span>
+        <div style={{ marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <span style={{ fontSize: '0.45rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.4)', textTransform: 'uppercase', lineHeight: 1 }}>
+            Stress
+          </span>
+          <div style={{ width: '60px', height: '3px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', overflow: 'hidden' }}>
+            <div style={{
+              width: `${stressLevel}%`,
+              height: '100%',
+              background: stressLevel > 80 ? '#e05c4a' : stressLevel > 50 ? '#c9a84c' : '#7fa65a',
+              boxShadow: `0 0 6px ${stressLevel > 80 ? 'rgba(224,92,74,0.6)' : stressLevel > 50 ? 'rgba(201,168,76,0.4)' : 'rgba(127,166,90,0.3)'}`,
+              transition: 'width 0.5s ease, background 0.5s ease',
+            }} />
+          </div>
+        </div>
       </div>
     </div>
   )

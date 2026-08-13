@@ -4,7 +4,7 @@ import { useGameStore } from '../../stores/gameStore'
 import { useCodexStore } from '../../stores/codexStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 
-type TabId = 'cabinet' | 'factions' | 'legislative' | 'judiciary'
+type TabId = 'cabinet' | 'factions' | 'legislative' | 'judiciary' | 'favors'
 
 const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }[] = [
   {
@@ -49,6 +49,14 @@ const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }
         <path d="M12,10 L12,14" />
         <line x1="5" y1="22" x2="19" y2="22" strokeWidth="2" />
         <line x1="8" y1="18" x2="16" y2="18" />
+      </svg>
+    ),
+  },
+  {
+    id: 'favors', label: 'Favors',
+    icon: (_a) => (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M12,2 L15.5,8.5 L22,9.5 L17.5,14.5 L18.5,22 L12,18.5 L5.5,22 L6.5,14.5 L2,9.5 L8.5,8.5 Z" />
       </svg>
     ),
   },
@@ -407,6 +415,49 @@ function JudiciaryTab() {
   )
 }
 
+function FavorsTab({ flags }: { flags: string[] }) {
+  const favorsOwedToYou = [
+    { id: 'favor_owed_by_morvec', name: 'Stefan Morvec', description: 'Morvec owes you a political favor. He can be called upon to influence industry or break a strike.' },
+    { id: 'favor_owed_by_vael', name: 'Lucan Vael', description: 'Vael owes you a media favor. He can be called upon to suppress a story or spin a crisis.' },
+  ]
+  const favorsYouOwe = [
+    { id: 'favor_owed_to_morvec', name: 'Stefan Morvec', description: 'You owe Morvec a favor. He will call it in when it suits him, and the price will be steep.' },
+    { id: 'favor_owed_to_vael', name: 'Lucan Vael', description: 'You owe Vael a favor. He holds this debt over your head, ready to trade it for influence.' },
+  ]
+
+  return (
+    <div style={{ overflowY: 'auto', flex: 1, padding: '12px' }}>
+      <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.48rem', color: 'var(--amber)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>
+        Favors Owed To You
+      </p>
+      {favorsOwedToYou.filter(f => flags.includes(f.id)).length === 0 ? (
+        <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.7rem', fontStyle: 'italic', color: 'rgba(201,168,76,0.4)', margin: '0 0 16px' }}>No active favors.</p>
+      ) : (
+        favorsOwedToYou.filter(f => flags.includes(f.id)).map(f => (
+          <div key={f.id} style={{ marginBottom: '12px', padding: '8px', background: 'rgba(127,166,90,0.05)', borderLeft: '3px solid #7fa65a' }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.8rem', color: '#e8dcc8', margin: '0 0 4px' }}>{f.name}</p>
+            <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.68rem', color: '#8a7d6a', margin: 0, lineHeight: 1.4 }}>{f.description}</p>
+          </div>
+        ))
+      )}
+
+      <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.48rem', color: 'var(--amber)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '16px 0 8px' }}>
+        Favors You Owe
+      </p>
+      {favorsYouOwe.filter(f => flags.includes(f.id)).length === 0 ? (
+        <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.7rem', fontStyle: 'italic', color: 'rgba(201,168,76,0.4)', margin: '0' }}>No active debts.</p>
+      ) : (
+        favorsYouOwe.filter(f => flags.includes(f.id)).map(f => (
+          <div key={f.id} style={{ marginBottom: '12px', padding: '8px', background: 'rgba(224,92,74,0.05)', borderLeft: '3px solid #e05c4a' }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.8rem', color: '#e8dcc8', margin: '0 0 4px' }}>{f.name}</p>
+            <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.68rem', color: '#8a7d6a', margin: 0, lineHeight: 1.4 }}>{f.description}</p>
+          </div>
+        ))
+      )}
+    </div>
+  )
+}
+
 interface ConnectionsPanelProps {
   onClose: () => void
 }
@@ -448,6 +499,7 @@ export default function ConnectionsPanel({ onClose }: ConnectionsPanelProps) {
       {tab === 'factions' && <FactionsTab />}
       {tab === 'legislative' && <LegislativeTab />}
       {tab === 'judiciary' && <JudiciaryTab />}
+      {tab === 'favors' && <FavorsTab flags={activeFlags} />}
     </div>
   )
 }
