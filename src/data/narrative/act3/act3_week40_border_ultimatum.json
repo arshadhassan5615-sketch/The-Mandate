@@ -1,0 +1,98 @@
+{
+  "id": "act3_week40_border_ultimatum",
+  "title": "The Border Ultimatum",
+  "act": 3,
+  "weekAvailable": 40,
+  "weekDeadline": 40,
+  "type": "emergency",
+  "agendaCost": 2,
+  "isMandatory": true,
+  "location": "Cabinet War Room — 03:00",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The red telephone rings at 3:00 AM. It is Colonel Dusek. Her voice is flat, clipped, devoid of the usual military courtesy. 'Chancellor. Marshal Vukov has moved three armored divisions to the Gravenmark Pass. They are not in attack formation, but they are fueling up. We have four hours before they are combat-ready.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "This is not a drill. This is an ultimatum. Vukov wants the Orythian naval base lease signed by noon, or he crosses the border to 'secure the corridor.' I have the 4th Mountain Division on standby, but if I deploy them without your order, we are at war. If I don't deploy them, we lose the pass."
+    },
+    {
+      "type": "monologue",
+      "text": "Four hours. The clock is ticking. Every minute I spend in this room is a minute Vukov uses to fuel his tanks. I have to decide: do we mobilize and risk a war we might lose, or do we capitulate and sign away the Orythian base? There is no middle ground. There is no delay. The clock is ticking."
+    }
+  ],
+  "choices": [
+    {
+      "id": "mobilize_4th",
+      "text": "Mobilize the 4th Mountain Division. If Vukov crosses, we fight.",
+      "nextSegment": "seg_mobilize",
+      "flags": ["tyvaren_ultimatum_defied"],
+      "stateChanges": [
+        { "stat": "tyvarenHostility", "operation": "add", "value": 25 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "sign_lease",
+      "text": "Sign the Orythian lease. We cannot fight a war right now.",
+      "nextSegment": "seg_sign",
+      "flags": ["orythian_lease_signed"],
+      "stateChanges": [
+        { "stat": "tyvarenHostility", "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_mobilize": {
+      "narrative": [
+        { "type": "dialogue", "character": "irina_dusek", "text": "Orders given. The 4th is moving to the pass. We will be in position before Vukov's tanks are warm. If he crosses, we bleed him." },
+        { "type": "monologue", "text": "I just rolled the dice on a war. The 4th Mountain is good, but they are outnumbered. I can only pray Vukov is bluffing. If he isn't, the blood is on my hands." }
+      ],
+      "choices": [
+        {
+          "id": "mobilize_end",
+          "text": "We hold the pass. No retreat.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_sign": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The lease is drafted. The Orythians will be furious, but they will sign. Vukov gets his base. We buy time." },
+        { "type": "monologue", "text": "I just handed Vukov a naval base to avoid a fight. It is the pragmatic choice. It is the coward's choice. History will decide which one it remembers." }
+      ],
+      "choices": [
+        {
+          "id": "sign_end",
+          "text": "Time bought. At what cost, we will see.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { useGameStore } from '../../stores/gameStore'
 import { useCodexStore } from '../../stores/codexStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 
-type TabId = 'cabinet' | 'factions' | 'legislative' | 'judiciary' | 'favors'
+type TabId = 'cabinet' | 'factions' | 'legislative' | 'judiciary' | 'favors' | 'trust'
 
 const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }[] = [
   {
@@ -57,6 +57,14 @@ const TABS: { id: TabId; label: string; icon: (active: boolean) => JSX.Element }
     icon: (_a) => (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12,2 L15.5,8.5 L22,9.5 L17.5,14.5 L18.5,22 L12,18.5 L5.5,22 L6.5,14.5 L2,9.5 L8.5,8.5 Z" />
+      </svg>
+    ),
+  },
+  {
+    id: 'trust', label: 'Trust',
+    icon: (_a) => (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M12 2 L4 6 V12 C4 17 8 21 12 22 C16 21 20 17 20 12 V6 Z" />
       </svg>
     ),
   },
@@ -458,6 +466,52 @@ function FavorsTab({ flags }: { flags: string[] }) {
   )
 }
 
+function TrustTab() {
+  const trust = useGameStore(s => s.advisorTrust)
+  
+  const advisors = [
+    { id: 'vyktor', name: 'Vyktor Reznik', role: 'Chief of Staff' },
+    { id: 'danika', name: 'Danika Oberlin', role: 'Minister of the Interior' },
+    { id: 'theron', name: 'Prof. Aldric Theron', role: 'Minister of Justice' },
+    { id: 'soraya', name: 'Soraya Metsk', role: 'Union Leader' },
+    { id: 'dusek', name: 'Col. Irina Dusek', role: 'Minister of Defense' },
+  ]
+
+  return (
+    <div style={{ overflowY: 'auto', flex: 1, padding: '12px' }}>
+      <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.48rem', color: 'var(--amber)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px' }}>
+        Inner Circle Trust
+      </p>
+      {advisors.map(a => {
+        const score = trust[a.id as keyof typeof trust] ?? 50
+        const color = score > 70 ? '#7fa65a' : score > 40 ? '#c9a84c' : '#e05c4a'
+        return (
+          <div key={a.id} style={{ marginBottom: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.8rem', color: '#e8dcc8' }}>{a.name}</span>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.55rem', color: color }}>{score}%</span>
+            </div>
+            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.48rem', color: 'var(--muted)', marginBottom: '6px' }}>{a.role}</div>
+            <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', overflow: 'hidden' }}>
+              <div style={{
+                width: `${score}%`,
+                height: '100%',
+                background: color,
+                boxShadow: `0 0 6px ${color}80`,
+                borderRadius: '2px',
+                transition: 'width 0.5s ease, background 0.5s ease',
+              }} />
+            </div>
+          </div>
+        )
+      })}
+      <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.68rem', fontStyle: 'italic', color: 'rgba(201,168,76,0.4)', marginTop: '16px', lineHeight: 1.4 }}>
+        Trust determines how much information they share and whether they will follow your orders without question. Low trust may lead to betrayal.
+      </p>
+    </div>
+  )
+}
+
 interface ConnectionsPanelProps {
   onClose: () => void
 }
@@ -500,6 +554,7 @@ export default function ConnectionsPanel({ onClose }: ConnectionsPanelProps) {
       {tab === 'legislative' && <LegislativeTab />}
       {tab === 'judiciary' && <JudiciaryTab />}
       {tab === 'favors' && <FavorsTab flags={activeFlags} />}
+      {tab === 'trust' && <TrustTab />}
     </div>
   )
 }

@@ -86,7 +86,7 @@ export const INITIAL_STATE: GameState = {
   playerPersonality: 'Measured'     as PlayerPersonality,
   playerAppearance:  'Professional' as PlayerAppearance,
   termFocus: [] as string[],
-  advisorTrust: { theron: 50, soraya: 50, dusek: 50 },
+  advisorTrust: { vyktor: 50, danika: 50, theron: 50, soraya: 50, dusek: 50 },
   vaelInfluence: 15,
   morvecInfluence: 0,
   shadowInfluence: 5,

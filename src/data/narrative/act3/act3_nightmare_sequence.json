@@ -1,0 +1,97 @@
+{
+  "id": "act3_nightmare_sequence",
+  "title": "The Long Night",
+  "act": 3,
+  "weekAvailable": 30,
+  "weekDeadline": 52,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — 3:00 AM",
+  "characters": ["katerin_ashavel"],
+  "prerequisites": [
+    { "stat": "personal.stressLevel", "operator": ">=", "value": 80 }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You wake up on the floor of your study. You don't remember falling. The desk lamp is still on, casting long, distorted shadows across the ceiling. The trembling in your right hand has spread to your arm. The ringing in your left ear is deafening."
+    },
+    {
+      "type": "description",
+      "text": "You look at the mirror on the wall. For a split second, you don't see yourself. You see your father, Mikhael, standing in the doorway of a BNI holding cell, looking back at you with hollow eyes. Then the image shatters, and it's just you, on the floor, in the dark."
+    },
+    {
+      "type": "monologue",
+      "text": "I am losing my mind. The stress is eating my brain alive. I can't sleep. I can't eat. I look at state papers and see the faces of the dead. I have to do something, or this job will kill me before the Tyvarens do."
+    }
+  ],
+  "choices": [
+    {
+      "id": "collapse_exhaustion",
+      "text": "Take a sedative. Sleep for 12 hours. Cancel tomorrow's agenda.",
+      "nextSegment": "seg_sedative",
+      "flags": ["nightmare_collapse"],
+      "stateChanges": [
+        { "stat": "personal.stressLevel", "operation": "add", "value": -30 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "bottle_it_up",
+      "text": "Bottle it up. Pour a whiskey. Keep working. The Republic doesn't sleep.",
+      "nextSegment": "seg_bottle",
+      "flags": ["nightmare_bottled"],
+      "stateChanges": [
+        { "stat": "personal.stressLevel", "operation": "add", "value": -5 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_sedative": {
+      "narrative": [
+        { "type": "description", "text": "You take the pill. The sleep is heavy, dreamless, and absolute. When you wake, the sun is setting. You have missed the entire day's agenda. The Palace is in a panic." },
+        { "type": "monologue", "text": "I lost a day. The Republic kept turning without me. But the shaking has stopped, and the ringing is quiet. I can think again. I can govern again. The cost was a day; the reward was my sanity." }
+      ],
+      "choices": [
+        {
+          "id": "sedative_end",
+          "text": "Get up. Back to work.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_bottle": {
+      "narrative": [
+        { "type": "description", "text": "The whiskey burns. The lamp flickers. You pull the papers back toward you. The trembling in your hand gets worse, but your mind sharpens into a cold, ruthless edge." },
+        { "type": "monologue", "text": "I am not my father. I will not break. I will let the darkness in, and I will use it. The Republic needs a Chancellor, not a patient. If this is what it costs, this is what it costs." }
+      ],
+      "choices": [
+        {
+          "id": "bottle_end",
+          "text": "The work continues. In the dark.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

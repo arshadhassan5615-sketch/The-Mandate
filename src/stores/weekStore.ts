@@ -832,6 +832,54 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // Decrees — filter eligible decrees for the current week
     useDecreeStore.getState().initDecrees(gameState.currentWeek, gameState, activeFlags)
 
+    // Week 40 — The Border Ultimatum (Ticking Clock)
+    if (gameState.currentWeek === 40 && !visitedSceneIds.includes('act3_week40_border_ultimatum')) {
+      pool.push({
+        id: 'act3_week40_border_ultimatum',
+        title: 'The Border Ultimatum',
+        description: '03:00 AM. Marshal Vukov has moved three armored divisions to the Gravenmark Pass. You have four hours.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act3_week40_border_ultimatum',
+        slotCost: 2,
+        executionOrder: -5,
+        weekAvailable: 40,
+        weekDeadline: 40,
+        isUrgent: true
+      })
+    }
+
+    // Week 36-40 — The Rival's Shadow (Minister Poaching)
+    if (gameState.currentWeek >= 36 && gameState.currentWeek <= 40 && !visitedSceneIds.includes('act3_rival_poaching') && gameState.advisorTrust.dusek < 25) {
+      pool.push({
+        id: 'act3_rival_poaching',
+        title: "The Rival's Shadow",
+        description: 'Vyktor has evidence that Kolvar is meeting with Dusek. Her loyalty is in question.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act3_rival_poaching',
+        slotCost: 1,
+        executionOrder: 0,
+        weekAvailable: 36,
+        weekDeadline: 40,
+        isUrgent: true
+      })
+    }
+
+    // Stress Level 80+ — The Long Night (Nightmare Sequence)
+    if (gameState.currentWeek >= 30 && !visitedSceneIds.includes('act3_nightmare_sequence') && gameState.personal.stressLevel >= 80) {
+      pool.push({
+        id: 'act3_nightmare_sequence',
+        title: 'The Long Night',
+        description: 'You wake on the floor of your study. The stress is breaking you. You cannot go on like this.',
+        category: 'personal' as AgendaCategory,
+        sceneId: 'act3_nightmare_sequence',
+        slotCost: 1,
+        executionOrder: -4,
+        weekAvailable: gameState.currentWeek,
+        weekDeadline: gameState.currentWeek + 1,
+        isUrgent: true
+      })
+    }
+
     // Sort pool by executionOrder so downstream readers (e.g. MapInteractionLayer)
     // always see items in canonical sequence. Items missing executionOrder
     // sink to the end (coerced to 99).

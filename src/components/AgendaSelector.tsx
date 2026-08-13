@@ -34,7 +34,9 @@ function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
         gap: '0.5rem',
         textAlign: 'left',
         background: selected ? 'var(--amber-glow-strong)' : 'var(--paper-raised)',
-        border: `1px solid ${selected ? 'var(--amber)' : 'var(--border)'}`,
+        border: item.isUrgent ? '1.5px solid rgba(224,92,74,0.8)' : (selected ? '1.5px solid var(--amber)' : '1.5px solid rgba(196,148,58,0.15)'),
+        boxShadow: item.isUrgent ? '0 0 12px rgba(224,92,74,0.3)' : (selected ? '0 0 12px rgba(196,148,58,0.2)' : 'none'),
+        animation: item.isUrgent ? 'event-pulse-urgent 1.2s ease-in-out infinite' : undefined,
         borderRadius: '2px',
         padding: '1rem 1.1rem',
         cursor: effectiveDisabled ? 'default' : 'pointer',
@@ -93,6 +95,25 @@ function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
             : 'Required'}
         </span>
       </div>
+
+      {/* Ticking clock badge */}
+      {item.isUrgent && (
+        <span style={{
+          display: 'inline-block',
+          background: 'rgba(224,92,74,0.2)',
+          color: '#e05c4a',
+          fontFamily: "'IBM Plex Mono', monospace",
+          fontSize: '0.45rem',
+          letterSpacing: '0.1em',
+          padding: '2px 6px',
+          borderRadius: '2px',
+          textTransform: 'uppercase',
+          marginBottom: '4px',
+          border: '1px solid rgba(224,92,74,0.4)',
+        }}>
+          ⚠ Ticking Clock
+        </span>
+      )}
 
       {/* Title */}
       <div

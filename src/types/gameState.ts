@@ -7,9 +7,11 @@ export type PlayerPersonality = 'Measured' | 'Passionate' | 'Cunning'
 export type PlayerAppearance = 'Professional' | 'Austere' | 'Approachable' | 'Military'
 
 export interface AdvisorTrust {
-  theron: number  // 0-100 — Prof. Aldric Theron
-  soraya: number  // 0-100 — Soraya Metsk (union leader)
-  dusek: number   // 0-100 — Col. Irina Dusek
+  vyktor: number   // 0-100 — Chief of Staff Vyktor Reznik
+  danika: number   // 0-100 — Minister of Interior Danika Oberlin
+  theron: number   // 0-100 — Prof. Aldric Theron
+  soraya: number   // 0-100 — Soraya Metsk (union leader)
+  dusek: number    // 0-100 — Col. Irina Dusek
 }
 
 export interface BudgetAllocations {
@@ -257,6 +259,8 @@ export const STAT_RANGES: Record<string, [number, number]> = {
   'advisorTrust.theron': [0, 100],
   'advisorTrust.soraya': [0, 100],
   'advisorTrust.dusek':  [0, 100],
+  'advisorTrust.vyktor': [0, 100],
+  'advisorTrust.danika': [0, 100],
   'vaelInfluence':              [0, 100],
   'morvecInfluence':            [0, 100],
   'shadowInfluence':            [0, 100],

@@ -1,0 +1,139 @@
+{
+  "id": "act4_week50_two_letters",
+  "title": "The Two Letters",
+  "act": 4,
+  "weekAvailable": 50,
+  "weekDeadline": 51,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Two envelopes arrive on your desk by courier on the same morning. One bears the wax seal of House Morvec. The other, the stark modernist logo of the Vael Media Group. The election is in two weeks. The polls are tight. You know what is inside before you open them."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "They are calling in their markers, Chancellor. Simultaneously. They coordinated this. Morvec wants the mining nationalization bill vetoed. Vael wants the state media privatization fast-tracked. If you refuse, they will fund Kolvar's campaign with enough money to bury us."
+    },
+    {
+      "type": "monologue",
+      "text": "The trap closes. I spent 50 weeks balancing these two vultures, and now they want the whole carcass. If I sign these, I am their Chancellor, not the people's. If I refuse, Kolvar gets an ocean of cash, and I might lose the election. There has to be a third way. There has to be a way to break them."
+    }
+  ],
+  "choices": [
+    {
+      "id": "pay_the_debts",
+      "text": "Sign both. Veto the mining bill. Fast-track the media sale. Win the election at any cost.",
+      "nextSegment": "seg_pay",
+      "flags": ["oligarch_debts_paid", "government_captured"],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": 20 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 20 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -20 },
+        { "stat": "nation.corruption", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -20 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "refuse_the_debts",
+      "text": "Refuse both. Burn the letters. Let them fund Kolvar. We fight the election on our own terms.",
+      "nextSegment": "seg_refuse",
+      "flags": ["oligarch_debts_refused", "kolvar_funded"],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": -10 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "use_hawk_files",
+      "text": "Use the Hawk files. Expose Morvec's 1958 contracts and Vael's kickbacks simultaneously. Destroy them both.",
+      "nextSegment": "seg_hawk",
+      "prerequisites": [
+        { "flag": "hawk_morvec_option_complete", "value": true },
+        { "flag": "vael_prosecution_ordered", "value": true }
+      ],
+      "flags": ["oligarchs_destroyed"],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": -50 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -50 },
+        { "stat": "nation.corruption", "operation": "add", "value": -20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 20 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 20 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_pay": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "It is done. The money will flow. The papers will endorse us. Kolvar won't know what hit him." },
+        { "type": "monologue", "text": "I won the election, but I lost the Republic. Morvec and Vael are grinning in their boardrooms. They know I am theirs now. The mandate belongs to them." }
+      ],
+      "choices": [
+        {
+          "id": "pay_end",
+          "text": "The price of power. I will pay it.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_refuse": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Kolvar's campaign just doubled its funding overnight. Vael's papers are calling you a dictator. Morvec's factories are announcing 'shift reductions' to tank the economy before the vote." },
+        { "type": "monologue", "text": "I chose the clean fight. The country is going to be flooded with oligarch money and hate. But I look in the mirror and I see the Chancellor, not a puppet. If I lose, I lose on my feet." }
+      ],
+      "choices": [
+        {
+          "id": "refuse_end",
+          "text": "Let them come. We fight.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_hawk": {
+      "narrative": [
+        { "type": "description", "text": "You don't burn the letters. You forward them to Nadia Voss, along with the decrypted Hawk files detailing Morvec's 1958 contract theft and Vael's highway kickbacks." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The morning editions are going to be apocalyptic. Morvec is facing arrest. Vael's board is fleeing the country. Kolvar is distancing himself from them as fast as he can." },
+        { "type": "monologue", "text": "I cut the strings. It cost me my deniability, and it cost Krel his cover. But the oligarchs are broken. Kolvar has no money. The Republic is mine again, for whatever time I have left." }
+      ],
+      "choices": [
+        {
+          "id": "hawk_end",
+          "text": "The Republic is free. For now.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

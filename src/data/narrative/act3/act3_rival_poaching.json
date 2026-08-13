@@ -1,0 +1,131 @@
+{
+  "id": "act3_rival_poaching",
+  "title": "The Rival's Shadow",
+  "act": 3,
+  "weekAvailable": 36,
+  "weekDeadline": 40,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "irina_dusek"],
+  "prerequisites": [
+    { "stat": "advisorTrust.dusek", "operator": "<", "value": 25 }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor enters the study without knocking. He doesn't hold a briefing folder; he holds a single photograph. He slides it across the desk. The image is grainy, taken from a distance: Colonel Dusek, in civilian clothes, entering the rear entrance of the Dražen Kolvar's townhouse."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "She went there last night. Stayed for ninety minutes. Kolvar is making his move, Chancellor. He knows Dusek feels alienated by your recent defense cuts. He is offering her the Defense portfolio in his shadow cabinet."
+    },
+    {
+      "type": "monologue",
+      "text": "Dusek. The woman who held the line at Gravenmark. Kolvar is trying to gut my government from the inside out. If she defects, she takes the loyalty of the officer corps with her. I have to decide whether to confront her, buy her loyalty back, or fire her before she can do any more damage."
+    }
+  ],
+  "choices": [
+    {
+      "id": "confront_dusek",
+      "text": "Summon Dusek. Confront her with the photograph. Demand her loyalty.",
+      "nextSegment": "seg_confront",
+      "flags": ["dusek_confronted"],
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "offer_concession",
+      "text": "Offer Dusek a concession: reverse the defense cuts. Buy her loyalty back.",
+      "nextSegment": "seg_concession",
+      "flags": ["dusek_bought_back"],
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": 20 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "fire_dusek",
+      "text": "Fire Dusek immediately. If she is with Kolvar, she is against the Republic.",
+      "nextSegment": "seg_fire",
+      "flags": ["dusek_fired"],
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -100 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -20 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_confront": {
+      "narrative": [
+        { "type": "description", "text": "Dusek stands at attention before your desk. You show her the photograph. Her face doesn't change. 'I am not plotting, Chancellor. I am listening. Kolvar will be the next Chancellor if the polls hold. I am ensuring the military has a voice in whatever comes next.'" },
+        { "type": "dialogue", "character": "irina_dusek", "text": "You want my loyalty? Earn it. Do not demand it with a photograph." },
+        { "type": "monologue", "text": "She walks out. The confrontation bought me nothing but her contempt. She is still in my government, but she is Kolvar's woman now." }
+      ],
+      "choices": [
+        {
+          "id": "confront_end",
+          "text": "The damage is done. I have to watch her.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_concession": {
+      "narrative": [
+        { "type": "description", "text": "You meet Dusek privately. You offer to restore the defense budget. You offer her a seat on the National Security Council. She listens, nods, and accepts. It is a transaction, not a reunion of allies." },
+        { "type": "monologue", "text": "I bought her back. The treasury will bleed, but the military stays mine. Kolvar will have to find another pawn." }
+      ],
+      "choices": [
+        {
+          "id": "concession_end",
+          "text": "Loyalty bought is better than loyalty lost.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_fire": {
+      "narrative": [
+        { "type": "description", "text": "Dusek does not argue when you dismiss her. She salutes, turns, and leaves the Palace. By evening, she is standing beside Kolvar on the evening news, endorsing his run for Chancellor." },
+        { "type": "monologue", "text": "I cut out the rot, but I cut out a piece of my own government with it. Kolvar just gained a general. The military will never trust me the same way again." }
+      ],
+      "choices": [
+        {
+          "id": "fire_end",
+          "text": "She made her choice. Now we fight.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
