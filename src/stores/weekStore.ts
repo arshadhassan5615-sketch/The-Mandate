@@ -318,7 +318,7 @@ interface WeekStore {
 }
 
 export const useWeekStore = create<WeekStore>((set, get) => ({
-  phase: 'prologue',
+  phase: 'title',
   agendaPool:          [],
   selectedIds:         [],
   slotsUsed:           0,

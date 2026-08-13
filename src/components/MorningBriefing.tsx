@@ -8,7 +8,7 @@ import { useChainStore } from '../stores/chainStore'
 import { buildDinnerChainTriggers } from '../engine/FamilyDinnerEngine'
 import { buildBriefingChainTriggers } from '../engine/IntelligenceBriefingEngine'
 import { playStamp } from '../engine/audioEngine'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 // ─── News card ────────────────────────────────────────────────────────────────
 
@@ -90,9 +90,6 @@ function SectionHeader({ label, color = 'var(--amber-dim)' }: { label: string; c
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 export default function MorningBriefing() {
-  const [spinChosen, setSpinChosen] = useState(false)
-  const applyModifiers = useGameStore(s => s.applyModifiers)
-
   const gameState = useGameStore()
   const { currentWeek } = useGameStore()
   const { activeFlags } = useNarrativeStore()
@@ -258,42 +255,6 @@ export default function MorningBriefing() {
         </div>
       </div>
 
-      {/* Press Gallery — Dynamic Narrative Spin */}
-      {!spinChosen ? (
-        <div style={{ marginBottom: '2.5rem', padding: '1.5rem', background: 'rgba(20,18,12,0.6)', border: '1px solid rgba(201,168,76,0.3)' }}>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', color: '#c9a84c', margin: '0 0 0.5rem' }}>Press Gallery</h3>
-          <p style={{ fontFamily: "'IM Fell English', serif", fontSize: '0.9rem', color: '#b8a890', margin: '0 0 1rem', fontStyle: 'italic' }}>
-            Vyktor awaits your direction. "The papers will print what we give them, Chancellor. How do we frame this week?"
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <button 
-              onClick={() => { applyModifiers([{ stat: 'factions.reformists', operation: 'add', value: 4 }, { stat: 'factions.ironCovenant', operation: 'add', value: -3 }]); setSpinChosen(true) }}
-              style={{ background: 'rgba(10,8,6,0.8)', border: '1px solid rgba(201,168,76,0.4)', color: '#e8dcc8', padding: '0.5rem 1rem', cursor: 'pointer', textAlign: 'left', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.75rem' }}
-            >
-              <strong>Reformist Spin:</strong> Focus on human rights and democratic progress. <span style={{ color: '#7fa65a' }}>(Reformists +4, Iron Covenant -3)</span>
-            </button>
-            <button 
-              onClick={() => { applyModifiers([{ stat: 'factions.ironCovenant', operation: 'add', value: 4 }, { stat: 'factions.reformists', operation: 'add', value: -3 }]); setSpinChosen(true) }}
-              style={{ background: 'rgba(10,8,6,0.8)', border: '1px solid rgba(201,168,76,0.4)', color: '#e8dcc8', padding: '0.5rem 1rem', cursor: 'pointer', textAlign: 'left', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.75rem' }}
-            >
-              <strong>Law & Order Spin:</strong> Emphasize stability, security, and state authority. <span style={{ color: '#7fa65a' }}>(Iron Covenant +4, Reformists -3)</span>
-            </button>
-            <button 
-              onClick={() => { applyModifiers([{ stat: 'factions.businessClass', operation: 'add', value: 4 }, { stat: 'factions.workersCoalition', operation: 'add', value: -3 }]); setSpinChosen(true) }}
-              style={{ background: 'rgba(10,8,6,0.8)', border: '1px solid rgba(201,168,76,0.4)', color: '#e8dcc8', padding: '0.5rem 1rem', cursor: 'pointer', textAlign: 'left', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.75rem' }}
-            >
-              <strong>Economic Spin:</strong> Highlight growth, investment, and fiscal responsibility. <span style={{ color: '#7fa65a' }}>(Business Class +4, Workers -3)</span>
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div style={{ marginBottom: '2.5rem', padding: '1rem', background: 'rgba(20,18,12,0.6)', border: '1px solid rgba(127,166,90,0.3)', textAlign: 'center' }}>
-          <p style={{ fontFamily: "'IM Fell English', serif", fontSize: '0.9rem', color: '#7fa65a', margin: 0, fontStyle: 'italic' }}>
-            The spin has been sent to the printers. The morning editions will carry your framing.
-          </p>
-        </div>
-      )}
-
       {/* ── Footer ───────────────────────────────────────────────────────── */}
       <div
         className="shrink-0 flex items-center justify-between px-8 py-4 border-t"
@@ -304,9 +265,8 @@ export default function MorningBriefing() {
         </span>
         <button
           className="choice-btn"
-          disabled={!spinChosen}
           onClick={() => { playStamp(); endBriefing() }}
-          style={{ width: 'auto', minWidth: '220px', whiteSpace: 'nowrap', overflow: 'visible', padding: '0.65rem 1.5rem', opacity: spinChosen ? 1 : 0.4, cursor: spinChosen ? 'pointer' : 'not-allowed' }}
+          style={{ width: 'auto', minWidth: '220px', whiteSpace: 'nowrap', overflow: 'visible', padding: '0.65rem 1.5rem' }}
         >
           Continue to Press Summary →
         </button>

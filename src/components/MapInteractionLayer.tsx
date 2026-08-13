@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
@@ -68,51 +68,43 @@ export default function MapInteractionLayer() {
     )
   }, [agendaPool, visitedSceneIds])
 
+  const [showTransition, setShowTransition] = useState(false)
+
+  useEffect(() => {
+    // If all scenes are visited and no overlays are open, trigger the transition
+    if (allVisited && !newsOpen && !decreeInboxOpen && !settingsOpen) {
+      setShowTransition(true)
+      const timer = setTimeout(() => {
+        completeWeek()
+      }, 1500) // 1.5 second delay for the cinematic transition
+      
+      return () => {
+        clearTimeout(timer)
+        setShowTransition(false)
+      }
+    }
+  }, [allVisited, newsOpen, decreeInboxOpen, settingsOpen, completeWeek])
+
   if (!allVisited || newsOpen || decreeInboxOpen || settingsOpen) return null
+
+  if (!showTransition) return null
 
   return (
     <div style={{
-      position: 'fixed',
-      bottom: '80px',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      zIndex: 400,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '6px',
+      position: 'fixed', inset: 0, zIndex: 400,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+      animation: 'panel-fade-in 0.5s ease forwards',
+      pointerEvents: 'none',
     }}>
-      <button
-        onClick={completeWeek}
-        style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.72rem',
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          padding: '12px 40px',
-          background: 'rgba(10,8,6,0.85)',
-          border: '2px solid #c9a84c',
-          color: '#c9a84c',
-          cursor: 'pointer',
-          borderRadius: '3px',
-          transition: 'all 0.15s ease',
-          boxShadow: '0 0 24px rgba(200,168,76,0.35), inset 0 0 12px rgba(200,168,76,0.05)',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.background = 'rgba(10,8,6,0.95)'
-          e.currentTarget.style.borderColor = '#e8d5a3'
-          e.currentTarget.style.color = '#e8d5a3'
-          e.currentTarget.style.boxShadow = '0 0 32px rgba(200,168,76,0.5), inset 0 0 16px rgba(200,168,76,0.1)'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.background = 'rgba(10,8,6,0.85)'
-          e.currentTarget.style.borderColor = '#c9a84c'
-          e.currentTarget.style.color = '#c9a84c'
-          e.currentTarget.style.boxShadow = '0 0 24px rgba(200,168,76,0.35), inset 0 0 12px rgba(200,168,76,0.05)'
-        }}
-      >
-        End Week →
-      </button>
+      <div style={{ textAlign: 'center' }}>
+        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.6rem', color: '#c9a84c', margin: 0, textShadow: '0 0 20px rgba(201,168,76,0.4)' }}>
+          Dispatches Concluded
+        </h3>
+        <p style={{ fontFamily: "'IM Fell English', serif", fontSize: '1rem', color: '#b8a890', marginTop: '0.5rem', fontStyle: 'italic' }}>
+          The week advances...
+        </p>
+      </div>
     </div>
   )
 }

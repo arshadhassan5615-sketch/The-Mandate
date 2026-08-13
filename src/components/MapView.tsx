@@ -417,7 +417,7 @@ export default function MapView({ onProvinceDetail }: {
                   position: 'absolute',
                   left: pos.x,
                   top: pos.y,
-                  transform: `translate(-50%, -130%) scale(${isHovered ? 1.12 : 1.0})`,
+                  transform: `translate(-50%, -105%) scale(${isHovered ? 1.12 : 1.0})`,
                   transition: 'transform 0.18s ease, filter 0.18s ease',
                   cursor: 'pointer',
                   userSelect: 'none',
@@ -434,7 +434,7 @@ export default function MapView({ onProvinceDetail }: {
                   src={img}
                   alt={id}
                   style={{
-                    width: 140,
+                    width: 180,
                     height: 'auto',
                     display: 'block',
                     pointerEvents: 'none',
@@ -679,7 +679,7 @@ export default function MapView({ onProvinceDetail }: {
                   position: 'absolute',
                   left: pos.x,
                   top: pos.y,
-                  transform: `translate(-50%, -130%) scale(${isHovered ? 1.12 : 1.0})`,
+                  transform: `translate(-50%, -105%) scale(${isHovered ? 1.12 : 1.0})`,
                   transition: 'transform 0.18s ease, filter 0.18s ease',
                   cursor: 'pointer',
                   userSelect: 'none',
@@ -696,7 +696,7 @@ export default function MapView({ onProvinceDetail }: {
                   src={img}
                   alt={id}
                   style={{
-                    width: 140,
+                    width: 180,
                     height: 'auto',
                     display: 'block',
                     pointerEvents: 'none',
