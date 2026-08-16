@@ -541,6 +541,10 @@ function DecreeDetail({ decree, currentWeek: _currentWeek, isConflict, onSign, o
   const formationComplete = useCabinetStore(s => s.formation_complete)
   const [showSignature, setShowSignature] = useState(false)
 
+  useEffect(() => {
+    setShowSignature(false)
+  }, [decree.id])
+
   const handleSignClick = () => {
     if (isConflict || showSignature || isSigned) return
     setShowSignature(true)
@@ -614,10 +618,10 @@ function DecreeDetail({ decree, currentWeek: _currentWeek, isConflict, onSign, o
       {/* FOOTER (Signature & Sign Button) */}
       <div style={{ padding: '16px 32px 24px', borderTop: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
         {/* Signature Area - Left Side */}
-        <div style={{ width: '200px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <div style={{ width: '240px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{
-            width: '280px',
-            height: '80px',
+            width: '240px',
+            height: '120px',
             borderBottom: '1px solid #333',
             position: 'relative',
             marginBottom: '6px',
@@ -629,11 +633,12 @@ function DecreeDetail({ decree, currentWeek: _currentWeek, isConflict, onSign, o
                 alt="Signature"
                 style={{
                   position: 'absolute',
-                  bottom: '-12px',
-                  left: '0',
-                  height: '80px',
+                  bottom: '-20px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  height: '120px',
                   width: 'auto',
-                  maxWidth: '280px',
+                  maxWidth: '260px',
                   objectFit: 'contain',
                   mixBlendMode: 'multiply',
                   filter: 'contrast(1.2)',
