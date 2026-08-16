@@ -2,17 +2,16 @@ import { useState, useEffect } from 'react'
 import { useDecreeStore } from '../stores/decreeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useCabinetStore } from '../stores/cabinetStore'
-import type { Decree, DecreeCategory, MinisterStance } from '../types/decree'
+import type { Decree, DecreeCategory } from '../types/decree'
 import { getPortrait } from '../assets/potraits'
 import { DURATION_FAST, EASE_STANDARD_CSS } from '../styles/motion'
-import veltriaSeal from '../assets/images/veltria_seal.png'
+import katerinSignature from '../assets/images/katerin_signature.jpeg'
+import { playStamp } from '../engine/audioEngine'
+import signBtnImg from '../assets/images/buttons/Sign_Button.png'
 
 // Parchment paper — same fill as LegislationOverlay bill document
 const PARCHMENT = '#f5f0e0'
-const INK = '#0d0a06'
-const INK_MUTED = '#4a4030'
 const INK_FAINT = '#6b5a40'
-const RULE = 'rgba(13,10,6,0.12)'
 
 const CATEGORY_COLORS: Record<DecreeCategory, string> = {
   economic: '#c9a84c',
@@ -28,18 +27,6 @@ const CATEGORY_LABELS: Record<DecreeCategory, string> = {
   religious: 'Religious',
   welfare: 'Welfare',
   development: 'Development',
-}
-
-const STANCE_COLORS: Record<MinisterStance, string> = {
-  favor: '#3d7a4a',
-  against: '#a04040',
-  neutral: '#6b6050',
-}
-
-const STANCE_LABELS: Record<MinisterStance, string> = {
-  favor: 'In Favor',
-  against: 'Against',
-  neutral: 'Neutral',
 }
 
 const MINISTER_NAMES: Record<string, string> = {
@@ -117,27 +104,6 @@ function MinisterThumbnail({ ministerId, size = 40 }: { ministerId: string; size
   )
 }
 
-function StanceIcon({ stance }: { stance: MinisterStance }) {
-  const icon = stance === 'favor' ? '✓' : stance === 'against' ? '✗' : '—'
-  return (
-    <span style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '20px',
-      height: '20px',
-      borderRadius: '50%',
-      background: `${STANCE_COLORS[stance]}22`,
-      color: STANCE_COLORS[stance],
-      fontSize: '11px',
-      fontWeight: 700,
-      flexShrink: 0,
-    }}>
-      {icon}
-    </span>
-  )
-}
-
 interface DecreeInboxProps {
   onClose: () => void
 }
@@ -196,7 +162,14 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
     >
       <CloseButton onClose={onClose} />
 
-      <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
+      <div style={{ 
+        display: 'flex', 
+        gap: '24px', 
+        alignItems: 'stretch', 
+        height: 'calc(100vh - 80px)', 
+        marginTop: '40px', 
+        marginBottom: '40px',
+      }}>
         {/* ─── LEFT-PANEL — dark standalone list ──────────────────────────── */}
         <div style={{
           width: '280px',
@@ -207,7 +180,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
           border: '1px solid rgba(201,168,76,0.3)',
           borderRadius: '6px',
           overflow: 'hidden',
-          maxHeight: 'calc(100vh - 100px)',
+          // maxHeight: 'calc(100vh - 100px)',
           boxShadow: [
             '0 24px 64px rgba(0,0,0,0.75)',
             '0 0 0 1px rgba(201,168,76,0.12)',
@@ -563,489 +536,152 @@ interface DecreeDetailProps {
   onTable: () => void
 }
 
-function DecreeDetail({ decree, currentWeek: _currentWeek, isConflict, conflictTitle, onSign, onReject, onTable }: DecreeDetailProps) {
+function DecreeDetail({ decree, currentWeek: _currentWeek, isConflict, onSign, onReject: _onReject, onTable: _onTable }: DecreeDetailProps) {
   const isSigned = decree.signed
   const formationComplete = useCabinetStore(s => s.formation_complete)
-  const color = CATEGORY_COLORS[decree.category]
+  const [showSignature, setShowSignature] = useState(false)
+
+  const handleSignClick = () => {
+    if (isConflict || showSignature || isSigned) return
+    setShowSignature(true)
+    playStamp()
+    setTimeout(() => {
+      onSign()
+    }, 1500) // 1.5s animation delay
+  }
 
   return (
+    <>
     <div
       data-testid="decree-detail"
       style={{
-        width: '680px',
-        maxHeight: 'calc(100vh - 80px)',
-        background: PARCHMENT,
-        boxShadow: '0 0 80px rgba(0,0,0,0.6)',
+        width: '520px', // Made narrower for a vertical look
+        maxHeight: 'calc(100vh - 60px)',
+        background: '#fdfbf3',
+        boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+        borderRadius: '4px',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        position: 'relative',
-        padding: '16px 44px 0',
+        border: '1px solid rgba(0,0,0,0.1)',
       }}
     >
-      {/* SEAL */}
-      <div style={{
-        textAlign: 'center',
-        marginBottom: '6px',
-      }}>
-        <img
-          src={veltriaSeal}
-          alt="Veltria Seal"
-          style={{
-            width: '52px',
-            height: '52px',
-            objectFit: 'contain',
-            display: 'block',
-            margin: '0 auto',
-            mixBlendMode: 'multiply',
-            opacity: 0.92,
-          }}
-        />
-      </div>
-
-      {/* DECREE TITLE */}
-      <div style={{
-        fontFamily: "'Playfair Display', Georgia, serif",
-        fontSize: '19px',
-        fontWeight: 700,
-        color: INK,
-        textAlign: 'center',
-        lineHeight: 1.25,
-        marginBottom: '4px',
-      }}>
-        {decree.title}
-      </div>
-
-      {/* CATEGORY BADGE + PROPOSER LINE */}
-      <div style={{ textAlign: 'center', marginBottom: '12px' }}>
-        <span style={{
-          display: 'inline-block',
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '9px',
-          letterSpacing: '2px',
-          textTransform: 'uppercase',
-          color: color === '#c9a84c' ? '#6b4f2a' : color,
-          background: `${color}18`,
-          border: `1px solid ${color}55`,
-          padding: '2px 10px',
-          borderRadius: '2px',
-          marginBottom: '6px',
-        }}>
-          {CATEGORY_LABELS[decree.category]}
-        </span>
-        <div style={{
-          fontSize: '9px',
-          letterSpacing: '2px',
-          color: '#6b4f2a',
-          fontWeight: 600,
-          fontFamily: "'IBM Plex Mono', monospace",
-        }}>
-          Proposed by {decree.proposedBy} · Week {decree.weekProposed}, 1963
+      {/* HEADER */}
+      <div style={{ padding: '24px 32px 16px', borderBottom: '1px solid #f0f0f0', flexShrink: 0 }}>
+        <h2 style={{ fontFamily: "'IM Fell English', serif", fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0, textAlign: 'center' }}>
+          {decree.title}
+        </h2>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '6px' }}>
+          <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: '#999', letterSpacing: '1px', textTransform: 'uppercase' }}>
+            {CATEGORY_LABELS[decree.category]} Decree · Proposed by {decree.proposedBy}
+          </span>
         </div>
       </div>
 
-      {/* SCROLLABLE BODY */}
-      <div style={{
-        flex: 1,
-        minHeight: 0,
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        paddingRight: '8px',
-        scrollbarWidth: 'thin',
-        scrollbarColor: 'rgba(139,115,85,0.2) transparent',
-      }}>
+      {/* BODY */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '24px 32px', scrollbarWidth: 'thin' }}>
         {/* Summary */}
-        <p style={{
-          fontFamily: "'Crimson Text', Georgia, serif",
-          fontSize: '14px',
-          fontStyle: 'italic',
-          color: INK_MUTED,
-          lineHeight: 1.5,
-          borderLeft: `2px solid ${RULE}`,
-          paddingLeft: '12px',
-          marginTop: 0,
-          marginBottom: '14px',
-        }}>
+        <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '15px', lineHeight: 1.7, color: '#333', textAlign: 'justify', margin: 0, marginBottom: '16px', fontStyle: 'italic' }}>
           {decree.summary}
         </p>
-
-        {/* Minister Positions */}
-        <div style={{ marginBottom: '14px' }}>
-          <div style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '10px',
-            letterSpacing: '0.12em',
-            color: INK_FAINT,
-            textTransform: 'uppercase',
-            marginBottom: '8px',
-          }}>
-            Minister Positions
-          </div>
-          {formationComplete ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              {decree.ministerPositions.map(pos => (
-                <div
-                  key={pos.ministerId}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '10px',
-                    padding: '8px 10px',
-                    background: 'rgba(255,255,255,0.35)',
-                    border: `1px solid ${RULE}`,
-                    borderRadius: '3px',
-                  }}
-                >
-                  <MinisterThumbnail ministerId={pos.ministerId} size={36} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      marginBottom: '2px',
-                    }}>
-                      <span style={{
-                        fontFamily: "'Crimson Text', Georgia, serif",
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        color: INK,
-                      }}>
-                        {MINISTER_NAMES[pos.ministerId] ?? pos.ministerId.replace(/_/g, ' ')}
-                      </span>
-                      <StanceIcon stance={pos.stance} />
-                      <span style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: '9px',
-                        color: STANCE_COLORS[pos.stance],
-                        letterSpacing: '0.05em',
-                        textTransform: 'uppercase',
-                      }}>
-                        {STANCE_LABELS[pos.stance]}
-                      </span>
-                    </div>
-                    <div style={{
-                      fontFamily: "'Crimson Text', Georgia, serif",
-                      fontSize: '12px',
-                      fontStyle: 'italic',
-                      color: INK_MUTED,
-                      lineHeight: 1.4,
-                    }}>
-                      "{pos.reason}"
-                    </div>
+        {/* Description */}
+        <div style={{ fontFamily: 'Georgia, serif', fontSize: '13px', lineHeight: 1.7, color: '#444', textAlign: 'justify', whiteSpace: 'pre-line' }}>
+          {decree.description}
+        </div>
+        
+        {/* Minister Avatars - only renders if cabinet is formed */}
+        {formationComplete && (
+          <div style={{ display: 'flex', gap: '16px', padding: '16px 0', borderTop: '1px solid #eee', marginTop: '24px', justifyContent: 'center' }}>
+            {decree.ministerPositions.map(pos => (
+              <div key={pos.ministerId} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                <div style={{ position: 'relative' }}>
+                  <MinisterThumbnail ministerId={pos.ministerId} size={40} />
+                  <div style={{
+                    position: 'absolute', bottom: '-2px', right: '-2px', width: '16px', height: '16px', borderRadius: '50%',
+                    background: pos.stance === 'favor' ? '#4CAF50' : pos.stance === 'against' ? '#e53935' : '#999',
+                    border: '2px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: '#fff', fontSize: '9px', fontWeight: 'bold',
+                  }}>
+                    {pos.stance === 'favor' ? '✓' : pos.stance === 'against' ? '✗' : '—'}
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div style={{
-              padding: '14px 16px',
-              fontFamily: "'Crimson Text', Georgia, serif",
-              fontSize: '13px',
-              fontStyle: 'italic',
-              color: INK_FAINT,
-              textAlign: 'center',
-              border: `1px solid ${RULE}`,
-              borderRadius: '3px',
-              background: 'rgba(255,255,255,0.2)',
-            }}>
-              Cabinet not yet formed — minister positions pending appointment.
-            </div>
-          )}
-        </div>
-
-        {/* Description */}
-        <div style={{ marginBottom: '14px' }}>
-          <div style={{
-            fontFamily: 'Georgia, serif',
-            fontSize: '11.5px',
-            lineHeight: 1.55,
-            color: INK,
-            textAlign: 'justify',
-            whiteSpace: 'pre-line',
-            overflowWrap: 'break-word',
-          }}>
-            {decree.description}
-          </div>
-        </div>
-
-        {/* Immediate Effects */}
-        {decree.immediateEffects.length > 0 && (
-          <div style={{ marginBottom: '14px' }}>
-            <div style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '10px',
-              letterSpacing: '0.12em',
-              color: INK_FAINT,
-              textTransform: 'uppercase',
-              marginBottom: '6px',
-            }}>
-              Immediate Effects
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              {decree.immediateEffects.map((effect, i) => (
-                <div
-                  key={effect.description ?? i}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    fontFamily: "'Crimson Text', Georgia, serif",
-                    fontSize: '12px',
-                  }}
-                >
-                  <span style={{
-                    color: effect.value > 0 ? '#3d7a4a' : '#a04040',
-                    fontWeight: 600,
-                    minWidth: '40px',
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: '11px',
-                  }}>
-                    {effect.value > 0 ? '+' : ''}{effect.value}
-                  </span>
-                  <span style={{ color: INK_MUTED }}>
-                    {effect.description}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Long-Term Effects */}
-        {decree.longTermEffects.length > 0 && (
-          <div style={{ marginBottom: '14px' }}>
-            <div style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '10px',
-              letterSpacing: '0.12em',
-              color: INK_FAINT,
-              textTransform: 'uppercase',
-              marginBottom: '6px',
-            }}>
-              Long-Term Effects
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              {decree.longTermEffects.map((effect, i) => (
-                <div
-                  key={effect.description ?? i}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    fontFamily: "'Crimson Text', Georgia, serif",
-                    fontSize: '12px',
-                  }}
-                >
-                  <span style={{
-                    color: effect.value > 0 ? '#3d7a4a' : '#a04040',
-                    fontWeight: 600,
-                    minWidth: '40px',
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: '11px',
-                  }}>
-                    {effect.value > 0 ? '+' : ''}{effect.value}
-                  </span>
-                  <span style={{ color: INK_MUTED }}>
-                    {effect.description}
-                  </span>
-                  {effect.delayWeeks && (
-                    <span style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: '9px',
-                      color: INK_FAINT,
-                      flexShrink: 0,
-                    }}>
-                      (in {effect.delayWeeks} weeks)
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Conflict notice */}
-        {isConflict && conflictTitle && (
-          <div style={{
-            padding: '10px 14px',
-            background: 'rgba(160,64,64,0.08)',
-            border: '1px solid rgba(160,64,64,0.35)',
-            borderRadius: '3px',
-            fontFamily: "'Crimson Text', Georgia, serif",
-            fontSize: '12px',
-            color: '#a04040',
-          }}>
-            Conflicts with: {conflictTitle}
+              </div>
+            ))}
           </div>
         )}
       </div>
 
-      {/* SIGNATURE BLOCK */}
-      <div style={{
-        flexShrink: 0,
-        marginTop: '14px',
-        paddingTop: '14px',
-        borderTop: '1px solid #ccc',
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}>
-        <div style={{
-          width: '280px',
-          height: '40px',
-          borderBottom: '1px solid #333',
-          marginBottom: '6px',
-        }} />
-        <div style={{
-          fontSize: '8px',
-          letterSpacing: '3px',
-          color: '#666',
-          textTransform: 'uppercase',
-          textAlign: 'center',
-        }}>
-          Chancellor of the Republic
-        </div>
-      </div>
-
-      {/* BUTTON ROW — circular buttons matching LegislationOverlay */}
-      <div style={{
-        flexShrink: 0,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '10px 32px 12px',
-        borderTop: '1px solid #e0d5c0',
-        marginTop: '16px',
-        width: '100%',
-        boxSizing: 'border-box',
-      }}>
-        {isSigned ? (
+      {/* FOOTER (Signature & Sign Button) */}
+      <div style={{ padding: '16px 32px 24px', borderTop: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+        {/* Signature Area - Left Side */}
+        <div style={{ width: '200px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div style={{
-            width: '100%',
-            textAlign: 'center',
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '12px',
-            color: '#3d7a4a',
-            letterSpacing: '0.05em',
+            width: '280px',
+            height: '80px',
+            borderBottom: '1px solid #333',
+            position: 'relative',
+            marginBottom: '6px',
+            overflow: 'visible'
           }}>
-            ✓ Signed into law
+            {showSignature && (
+              <img
+                src={katerinSignature}
+                alt="Signature"
+                style={{
+                  position: 'absolute',
+                  bottom: '-12px',
+                  left: '0',
+                  height: '80px',
+                  width: 'auto',
+                  maxWidth: '280px',
+                  objectFit: 'contain',
+                  mixBlendMode: 'multiply',
+                  filter: 'contrast(1.2)',
+                  animation: 'signatureWrite 900ms ease-out forwards',
+                  pointerEvents: 'none',
+                }}
+              />
+            )}
           </div>
+          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', color: '#aaa', letterSpacing: '1px', marginTop: '2px' }}>
+            CHANCELLOR OF VELTRIA
+          </div>
+        </div>
+
+        {/* Sign Button - Right Side */}
+        {showSignature || isSigned ? (
+          <div style={{ width: '90px', height: '90px' }} /> // Empty placeholder after signing
         ) : (
-          <>
-            <button
-              onClick={onReject}
-              disabled={isSigned}
-              style={{
-                width: '72px',
-                height: '72px',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle at 38% 32%, #e06868, #8b1515)',
-                border: '3px solid rgba(255,255,255,0.12)',
-                color: 'white',
-                fontFamily: 'Georgia, serif',
-                fontSize: '12px',
-                fontWeight: 700,
-                letterSpacing: '2px',
-                textTransform: 'uppercase',
-                cursor: isSigned ? 'default' : 'pointer',
-                boxShadow: '0 6px 28px rgba(139,21,21,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)',
-                textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-                transition: 'all 0.15s ease',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              onMouseEnter={e => {
-                if (isSigned) return
-                e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)'
-                e.currentTarget.style.boxShadow = '0 10px 36px rgba(139,21,21,0.85), 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)'
-                e.currentTarget.style.boxShadow = '0 6px 28px rgba(139,21,21,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
-              }}
-              onMouseDown={e => {
-                if (isSigned) return
-                e.currentTarget.style.transform = 'scale(0.97)'
-              }}
-            >
-              Reject
-            </button>
-            <button
-              onClick={onSign}
-              disabled={isConflict || isSigned}
-              title={isConflict ? 'Cannot sign — conflicts with an existing decree' : undefined}
-              style={{
-                width: '72px',
-                height: '72px',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle at 38% 32%, #e8d5a3, #8b6914)',
-                border: '3px solid rgba(255,255,255,0.15)',
-                color: '#0d0a06',
-                fontFamily: 'Georgia, serif',
-                fontSize: '12px',
-                fontWeight: 700,
-                letterSpacing: '2px',
-                textTransform: 'uppercase',
-                cursor: isConflict || isSigned ? 'default' : 'pointer',
-                boxShadow: '0 6px 28px rgba(139,105,20,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -3px 8px rgba(0,0,0,0.15)',
-                textShadow: '0 1px 2px rgba(255,255,255,0.15)',
-                transition: 'all 0.15s ease',
-                opacity: isConflict ? 0.35 : 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              onMouseEnter={e => {
-                if (isConflict || isSigned) return
-                e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)'
-                e.currentTarget.style.boxShadow = '0 10px 36px rgba(139,105,20,0.85), 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -3px 8px rgba(0,0,0,0.15)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)'
-                e.currentTarget.style.boxShadow = '0 6px 28px rgba(139,105,20,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -3px 8px rgba(0,0,0,0.15)'
-              }}
-              onMouseDown={e => {
-                if (isConflict || isSigned) return
-                e.currentTarget.style.transform = 'scale(0.97)'
-              }}
-            >
-              Sign Decree
-            </button>
-          </>
+          <button 
+            onClick={handleSignClick} 
+            disabled={isConflict} 
+            style={{
+              width: '90px', 
+              height: '90px', 
+              background: 'transparent', 
+              border: 'none', 
+              cursor: isConflict ? 'not-allowed' : 'pointer',
+              padding: 0, 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              opacity: isConflict ? 0.4 : 1,
+              filter: isConflict ? 'grayscale(100%)' : 'none',
+              transition: 'transform 0.15s ease'
+            }}
+            onMouseEnter={e => { if (!isConflict) e.currentTarget.style.transform = 'scale(1.08) translateY(-2px)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+          >
+            <img src={signBtnImg} alt="Sign" style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'contain'
+              // Removed mixBlendMode so the button is fully visible
+            }} />
+          </button>
         )}
       </div>
-
-      {/* Table for Later — small text link below button row */}
-      {!isSigned && (
-        <div style={{
-          textAlign: 'center',
-          padding: '0 0 14px',
-          flexShrink: 0,
-        }}>
-          <button
-            onClick={onTable}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontFamily: "'Crimson Text', Georgia, serif",
-              fontSize: '12px',
-              fontStyle: 'italic',
-              color: INK_FAINT,
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              textUnderlineOffset: '2px',
-              textDecorationColor: 'rgba(107,90,64,0.3)',
-              padding: 0,
-            }}
-            onMouseEnter={e => { e.currentTarget.style.color = INK_MUTED }}
-            onMouseLeave={e => { e.currentTarget.style.color = INK_FAINT }}
-          >
-            Table for Later
-          </button>
-        </div>
-      )}
     </div>
+    </>
   )
 }
