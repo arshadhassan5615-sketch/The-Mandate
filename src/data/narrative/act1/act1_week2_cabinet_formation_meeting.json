@@ -98,7 +98,53 @@
         {
           "type": "monologue",
           "text": "She speaks in mathematics. Not because she is cold — I have known cold people, and they are different — but because she believes numbers protect her from having to justify the human cost of her decisions. She is right that we need her. She is wrong about why."
+        }
+      ],
+      "monologue": "She speaks in mathematics. Not because she is cold — I have known cold people, and they are different — but because she believes numbers protect her from having to justify the human cost of her decisions. She is right that we need her. She is wrong about why.",
+      "choices": [
+        {
+          "id": "probe_vostane_cuts",
+          "text": "What specifically gets cut first? Give me details, not percentages.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_probed_vostane"],
+          "codexUnlocks": [],
+          "nextSegment": "vostane_detailed_cuts",
+          "reactions": [
+            {
+              "character": "elara_vostane",
+              "type": "action",
+              "text": "Vostane nods once — the gesture of someone who has been waiting to be asked exactly this question."
+            }
+          ]
         },
+        {
+          "id": "challenge_vostane_politics",
+          "text": "You have no allies in the Assembly. How do you pass a budget when no one will vote for it?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": ["form_meeting_challenged_vostane"],
+          "codexUnlocks": [],
+          "nextSegment": "vostane_politics_answer",
+          "reactions": []
+        },
+        {
+          "id": "bring_in_kolvar",
+          "text": "I've heard enough from Vostane for now. Bring in the next candidate.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "finance_kolvar_pitch",
+          "reactions": []
+        }
+      ]
+    },
+    "finance_kolvar_pitch": {
+      "narrative": [
         {
           "type": "description",
           "text": "Petr Kolvar enters with the ease of someone who has walked into a hundred rooms like this one. He is shorter than Vostane, rounder, dressed in a suit that costs more than most Veltrians earn in a year. His smile is warm. His eyes are not.",
@@ -136,46 +182,12 @@
       "monologue": "He is smoother than I expected. Vostane speaks in equations. Kolvar speaks in votes. They are both right about each other. That is what makes this hard — not that one is good and the other bad, but that each is incomplete in exactly the way the other compensates for.",
       "choices": [
         {
-          "id": "probe_vostane_cuts",
-          "text": "What specifically gets cut first? Give me details, not percentages.",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [
-            "form_meeting_probed_vostane"
-          ],
-          "codexUnlocks": [],
-          "nextSegment": "vostane_detailed_cuts",
-          "reactions": [
-            {
-              "character": "elara_vostane",
-              "type": "action",
-              "text": "Vostane nods once — the gesture of someone who has been waiting to be asked exactly this question."
-            }
-          ]
-        },
-        {
-          "id": "challenge_vostane_politics",
-          "text": "You have no allies in the Assembly. How do you pass a budget when no one will vote for it?",
-          "internalTag": "pragmatist",
-          "stateChanges": [],
-          "chainTriggers": [],
-          "flags": [
-            "form_meeting_challenged_vostane"
-          ],
-          "codexUnlocks": [],
-          "nextSegment": "vostane_politics_answer",
-          "reactions": []
-        },
-        {
           "id": "probe_kolvar_connections",
           "text": "Who exactly are your allies in the Assembly? I want names.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
-          "flags": [
-            "form_meeting_probed_kolvar"
-          ],
+          "flags": ["form_meeting_probed_kolvar"],
           "codexUnlocks": [],
           "nextSegment": "kolvar_connections",
           "reactions": []
@@ -186,9 +198,7 @@
           "internalTag": "reformist",
           "stateChanges": [],
           "chainTriggers": [],
-          "flags": [
-            "form_meeting_challenged_kolvar"
-          ],
+          "flags": ["form_meeting_challenged_kolvar"],
           "codexUnlocks": [],
           "nextSegment": "kolvar_halvek_answer",
           "reactions": [
@@ -200,14 +210,14 @@
           ]
         },
         {
-          "id": "finance_to_interior",
-          "text": "I've heard enough from Finance. Let's move to Interior.",
+          "id": "finance_to_interrogation",
+          "text": "I've heard enough from both candidates. Let's move on.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "interior_ministry_hub",
+          "nextSegment": "player_interrogation_hub",
           "reactions": []
         }
       ]
@@ -282,7 +292,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "finance_ministry_hub",
+          "nextSegment": "finance_kolvar_pitch",
           "reactions": []
         }
       ]
@@ -314,7 +324,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "finance_ministry_hub",
+          "nextSegment": "finance_kolvar_pitch",
           "reactions": []
         },
         {
@@ -389,7 +399,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "finance_ministry_hub",
+          "nextSegment": "finance_kolvar_pitch",
           "reactions": []
         }
       ]
@@ -2382,7 +2392,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "development_presents",
+          "nextSegment": "foreign_affairs_presents",
           "reactions": []
         }
       ]
@@ -3098,7 +3108,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "foreign_affairs_presents",
+          "nextSegment": "resources_presents",
           "reactions": []
         }
       ]
@@ -3609,7 +3619,7 @@
           "chainTriggers": [],
           "flags": [],
           "codexUnlocks": [],
-          "nextSegment": "finance_ministry_hub",
+          "nextSegment": "player_interrogation_hub",
           "reactions": []
         }
       ]

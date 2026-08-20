@@ -569,7 +569,7 @@ export default function NewsOverlay() {
                           <h2 style={{
                             fontFamily: activeTab === 'peoples_standard' ? "'SispectlyHarmonies', 'Libre Baskerville', Georgia, serif"
                               : activeTab === 'kravenstal_worker' ? "'BulletinGothic', 'Special Elite', monospace"
-                              : activeTab === 'thornfeld_gazette' ? "'Mesuho', 'EB Garamond', Georgia, serif"
+                              : activeTab === 'thornfeld_gazette' ? "'Worldstar', sans-serif"
                               : activeTab === 'veltrian_times' ? "'Crimson Text', Georgia, serif"
                               : activePaper.fontFamily,
                             fontSize: activeTab === 'kravenstal_worker' ? 'clamp(2rem, 4.5vw, 3.2rem)'
@@ -577,7 +577,7 @@ export default function NewsOverlay() {
                               : activeTab === 'thornfeld_gazette' ? 'clamp(2.2rem, 5vw, 3.6rem)'
                               : 'clamp(1.8rem, 4vw, 2.8rem)',
                             fontWeight: activeTab === 'veltrian_times' ? 700
-                              : activeTab === 'thornfeld_gazette' ? 600
+                              : activeTab === 'thornfeld_gazette' ? 700
                               : 900,
                             lineHeight: 1.05,
                             margin: '0 0 4px',
@@ -595,7 +595,7 @@ export default function NewsOverlay() {
                               : activeTab === 'veltrian_times' ? '0.02em'
                               : '-0.01em',
                             width: '100%',
-                            fontStyle: activeTab === 'thornfeld_gazette' ? 'italic' as const : 'normal' as const,
+                            fontStyle: activeTab === 'veltrian_times' ? 'none' as const : activeTab === 'thornfeld_gazette' ? 'normal' as const : 'normal' as const,
                           }}>
                             {lead.headline}
                           </h2>

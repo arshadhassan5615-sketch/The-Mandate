@@ -121,10 +121,6 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
     ? pendingDecrees
     : pendingDecrees.filter(d => d.category === activeTab)
 
-  const filteredSigned = activeTab === 'all'
-    ? signedDecrees
-    : signedDecrees.filter(d => d.category === activeTab)
-
   const filteredRejected = activeTab === 'all'
     ? rejectedDecrees
     : rejectedDecrees.filter(d => d.category === activeTab)
@@ -160,7 +156,37 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
       }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <CloseButton onClose={onClose} />
+      <button
+        onClick={onClose}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          width: '36px',
+          height: '36px',
+          background: 'rgba(201,168,76,0.1)',
+          border: '1px solid rgba(201,168,76,0.3)',
+          borderRadius: '4px',
+          color: '#c9a84c',
+          fontSize: '18px',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 700,
+          transition: 'all 0.15s ease',
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.background = 'rgba(201,168,76,0.2)'
+          e.currentTarget.style.borderColor = '#c9a84c'
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.background = 'rgba(201,168,76,0.1)'
+          e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'
+        }}
+      >
+        ×
+      </button>
 
       <div style={{ 
         display: 'flex', 
@@ -244,7 +270,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgba(201,168,76,0.2) transparent',
           }}>
-            {filteredPending.length === 0 && filteredSigned.length === 0 && filteredRejected.length === 0 && (
+            {filteredPending.length === 0 && filteredRejected.length === 0 && (
               <div style={{
                 padding: '2rem 1rem',
                 textAlign: 'center',
@@ -265,31 +291,6 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
                 isSelected={detailDecree?.id === decree.id}
                 onSelect={() => selectDecree(decree)}
                 status="pending"
-              />
-            ))}
-
-            {filteredSigned.length > 0 && (
-              <div style={{
-                padding: '8px 16px',
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: '9px',
-                letterSpacing: '0.1em',
-                color: 'rgba(90,158,107,0.6)',
-                textTransform: 'uppercase',
-                borderTop: '1px solid rgba(201,168,76,0.1)',
-                marginTop: '4px',
-              }}>
-                Signed ({filteredSigned.length})
-              </div>
-            )}
-            {filteredSigned.map(decree => (
-              <DecreeRow
-                key={decree.id}
-                decree={decree}
-                currentWeek={currentWeek}
-                isSelected={detailDecree?.id === decree.id}
-                onSelect={() => selectDecree(decree)}
-                status="signed"
               />
             ))}
 
@@ -356,33 +357,6 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
 }
 
 // ─── Interactive chrome controls ────────────────────────────────────────────
-
-function CloseButton({ onClose }: { onClose: () => void }) {
-  const press = usePressHover()
-  return (
-    <button
-      onClick={onClose}
-      {...press.handlers}
-      style={{
-        width: '32px',
-        height: '32px',
-        background: press.hovered ? 'rgba(201,168,76,0.1)' : 'transparent',
-        border: '1px solid rgba(201,168,76,0.3)',
-        borderRadius: '3px',
-        color: '#c9a84c',
-        fontSize: '16px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        transform: press.transform,
-        transition: press.transition,
-      }}
-    >
-      ×
-    </button>
-  )
-}
 
 function CategoryChip({
   active,
@@ -572,14 +546,9 @@ function DecreeDetail({ decree, currentWeek: _currentWeek, isConflict, onSign, o
     >
       {/* HEADER */}
       <div style={{ padding: '24px 32px 16px', borderBottom: '1px solid #f0f0f0', flexShrink: 0 }}>
-        <h2 style={{ fontFamily: "'IM Fell English', serif", fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: 0, textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'EnchantedLand', serif", fontSize: '28px', fontWeight: 700, color: '#1a1a1a', margin: 0, textAlign: 'center' }}>
           {decree.title}
         </h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '6px' }}>
-          <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: '#999', letterSpacing: '1px', textTransform: 'uppercase' }}>
-            {CATEGORY_LABELS[decree.category]} Decree · Proposed by {decree.proposedBy}
-          </span>
-        </div>
       </div>
 
       {/* BODY */}
