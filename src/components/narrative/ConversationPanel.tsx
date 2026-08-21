@@ -676,6 +676,8 @@ export default function ConversationPanel({
             const opacity = 1
             void opacity
             const entrySpeakerId = entry.characterId ?? ''
+            const prevEntry = history[_i - 1]
+            const isContinuation = prevEntry && prevEntry.characterId === entry.characterId && entry.type !== 'description' && entry.type !== 'narrative' && entry.type !== 'internal_thought'
             const isCurrentSpeaker = entrySpeakerId === currentSpeakerId && entrySpeakerId !== ''
 
             return (
@@ -692,7 +694,7 @@ export default function ConversationPanel({
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
                   {/* Speaker name */}
-                  {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && (
+                  {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && !isContinuation && (
                     <div style={{
                       fontSize: '10px',
                       letterSpacing: '0.12em',
@@ -779,9 +781,11 @@ export default function ConversationPanel({
               <div style={{ flex: 1 }}>
                 {(() => {
                   const activeType = effectiveSegmentType(activeSegment.type)
+                  const lastHistoryEntry = history.length > 0 ? history[history.length - 1] : null
+                  const isActiveContinuation = lastHistoryEntry && lastHistoryEntry.characterId === activeSegment.character && activeType === 'dialogue'
                   return (
                     <>
-                      {activeType === 'dialogue' && (
+                      {activeType === 'dialogue' && !isActiveContinuation && (
                         <div style={{
                           fontSize: '10px',
                           letterSpacing: '0.12em',
