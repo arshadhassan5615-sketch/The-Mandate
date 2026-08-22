@@ -1,0 +1,265 @@
+{
+  "id": "act6_week80_black_gold",
+  "title": "Black Gold",
+  "act": 6,
+  "weekAvailable": 80,
+  "weekDeadline": 82,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["orin_valdek", "vyktor_reznik", "elara_vostane"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Valdek bursts into your office without knocking. He is covered in mud and grinning like a madman. He slams a rock sample on your desk. It is black, slick, and reeks of crude oil."
+    }
+  ],
+  "choices": [
+    {
+      "id": "check_survey_results",
+      "text": "Look at the sample. What did they find?",
+      "nextSegment": "check_results",
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "check_results": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Valdek is vibrating with excitement. Vostane is already doing calculations in her head. Vyktor watches from the window, his expression cautious."
+        }
+      ],
+      "choices": [
+        {
+          "id": "path_full_survey_oil",
+          "text": "(Continue)",
+          "nextSegment": "seg_massive_discovery",
+          "prerequisites": [
+            { "flag": "geological_survey_funded", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_limited_survey_oil",
+          "text": "(Continue)",
+          "nextSegment": "seg_moderate_discovery",
+          "prerequisites": [
+            { "flag": "geological_survey_limited", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_no_survey",
+          "text": "(Continue)",
+          "nextSegment": "seg_no_discovery",
+          "prerequisites": [
+            { "flag": "geological_survey_rejected", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_massive_discovery": {
+      "narrative": [
+        { "type": "dialogue", "character": "orin_valdek", "text": "Massive. The largest reserves on the Thalassic coast. The Sevagrad field alone could produce 50 million barrels a year. There are secondary deposits in Dravenhollow—coal, iron, and something the geologists are calling 'europium.' This is a game-changer, Chancellor." },
+        { "type": "dialogue", "character": "elara_vostane", "text": "The economic implications are staggering. At current market prices, this is ₨ 200 million in potential revenue. But we don't have the infrastructure to extract it. We need foreign capital and technology." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "And the wolves are already circling. The Orythian Ambassador called three times this morning. Tyvaren is offering a 'joint development partnership.' Morvec wants the extraction contract. Everyone wants a piece of the black gold." },
+        { "type": "monologue", "text": "Oil. Under the military zone. The very ground Dusek's soldiers patrol could make Veltria the richest nation on the Thalassic coast. But wealth like this is a magnet for predators. Tyvaren will want it. Orythia will want it. Morvec will want it. I have to decide who controls the pump—because whoever controls the pump controls the Republic." }
+      ],
+      "choices": [
+        {
+          "id": "nationalize_oil",
+          "text": "Nationalize it. Create the Veltrian National Oil Company. 100% state control.",
+          "nextSegment": "seg_nationalize_oil",
+          "flags": ["oil_nationalized", "vnoc_created"],
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 20 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -15 },
+            { "stat": "tyvarenHostility", "operation": "add", "value": 10 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+            { "stat": "factions.reformists", "operation": "add", "value": 10 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "aramco_model",
+          "text": "The Aramco Model. State retains 51%. Sell 49% to Orythia for ₨ 10M upfront.",
+          "nextSegment": "seg_aramco",
+          "flags": ["oil_aramco_model", "orythian_oil_deal"],
+          "stateChanges": [
+            { "stat": "nation.nationalDebt", "operation": "add", "value": -10 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "morvec_oil_deal",
+          "text": "Sell the rights to Morvec. Take a ₨ 2M personal kickback.",
+          "nextSegment": "seg_morvec_oil",
+          "flags": ["oil_privatized_morvec", "morvec_oil_monopoly"],
+          "stateChanges": [
+            { "stat": "personal.personalWealth", "operation": "add", "value": 2000 },
+            { "stat": "morvecInfluence", "operation": "add", "value": 20 },
+            { "stat": "nation.corruption", "operation": "add", "value": 15 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -15 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_moderate_discovery": {
+      "narrative": [
+        { "type": "dialogue", "character": "orin_valdek", "text": "We found oil in Sevagrad. Not as massive as I hoped—maybe 15 million barrels a year. And we didn't survey Dravenhollow at all, so there might be more. But what we found is enough to attract attention." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Orythians are already calling. Morvec is sniffing around. The find is smaller, but the wolves don't know that. They'll fight over it like it's the biggest prize in the region." },
+        { "type": "monologue", "text": "A moderate find. Enough to matter, not enough to transform. The same wolves are circling, but the stakes are lower. I still have to decide who controls the pump." }
+      ],
+      "choices": [
+        {
+          "id": "nationalize_moderate",
+          "text": "Nationalize it. The state controls the oil.",
+          "nextSegment": "seg_nationalize_oil",
+          "flags": ["oil_nationalized", "vnoc_created"],
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -8 },
+            { "stat": "tyvarenHostility", "operation": "add", "value": 5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "aramco_moderate",
+          "text": "The Aramco Model. Sell 49% to Orythia for ₨ 5M.",
+          "nextSegment": "seg_aramco",
+          "flags": ["oil_aramco_model", "orythian_oil_deal"],
+          "stateChanges": [
+            { "stat": "nation.nationalDebt", "operation": "add", "value": -5 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "morvec_moderate",
+          "text": "Sell the rights to Morvec. Take a ₨ 1M kickback.",
+          "nextSegment": "seg_morvec_oil",
+          "flags": ["oil_privatized_morvec", "morvec_oil_monopoly"],
+          "stateChanges": [
+            { "stat": "personal.personalWealth", "operation": "add", "value": 1000 },
+            { "stat": "morvecInfluence", "operation": "add", "value": 15 },
+            { "stat": "nation.corruption", "operation": "add", "value": 10 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_no_discovery": {
+      "narrative": [
+        { "type": "dialogue", "character": "orin_valdek", "text": "The Lytheiran coal shipments arrived this morning. Price is up another 8%. I told you we were sitting on wealth, Chancellor. But since we didn't survey, we don't know where it is. We are flying blind." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The foreign bills are mounting. We are buying coal and iron from Lytheira at a premium when it might be under our own feet. The opportunity cost of caution is written in red ink." },
+        { "type": "monologue", "text": "I said no to the survey. I was cautious. And now I am signing checks to Lytheira for resources we probably already own. The oil is still in the ground. It will stay there until someone has the courage to look for it. I just hope the next Chancellor has the stomach for the gamble." }
+      ],
+      "choices": [
+        {
+          "id": "no_discovery_end",
+          "text": "We buy foreign. The wealth remains buried.",
+          "nextSegment": null,
+          "flags": ["oil_undiscovered"],
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+            { "stat": "nation.nationalDebt", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_nationalize_oil": {
+      "narrative": [
+        { "type": "description", "text": "You sign the decree creating the Veltrian National Oil Company (VNOC). The state seizes all extraction rights. The flag is raised over the drilling sites." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Orythia has recalled their Ambassador. Tyvaren is mobilizing troops on the border. The international press is calling it 'state theft.' But the oil is ours. Every barrel, every kroner, belongs to the Republic." },
+        { "type": "monologue", "text": "I nationalized the oil. The Republic is now the sole owner of its own wealth. The foreign powers are furious. Tyvaren might invade. Orythia might embargo. But for the first time in history, Veltria is truly independent—energetically and economically. Let them rage. The black gold is ours." }
+      ],
+      "choices": [
+        {
+          "id": "nationalize_oil_end",
+          "text": "The VNOC is born. Veltria's destiny is its own.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_aramco": {
+      "narrative": [
+        { "type": "dialogue", "character": "elara_vostane", "text": "The Orythian deal is signed. ₨ 10 million hits the treasury today. The national debt is wiped out. Orythia brings their engineers, their drilling equipment, and their expertise. We get 51% of the profits and full sovereignty over the land." },
+        { "type": "monologue", "text": "The Aramco model. We kept the majority. We kept the land. But Orythia controls the technology and the infrastructure. If they ever decide to pull their engineers out, the wells stop pumping. We are partners. But in a partnership, the one with the technology is the senior partner." }
+      ],
+      "choices": [
+        {
+          "id": "aramco_end",
+          "text": "The deal is signed. The debt is gone. The partnership begins.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_morvec_oil": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Morvec's holding company now owns the extraction rights. The state gets a 5% royalty. Morvec gets 95%. And ₨ 2 million just appeared in your personal account. The press doesn't know yet. But they will." },
+        { "type": "monologue", "text": "I sold the Republic's oil to Morvec for a personal kickback. The money is in my account. I can fund my campaign, buy luxuries, or bail out the treasury. But Morvec now controls the most valuable resource in the country. He is no longer an oligarch. He is a petrostate." }
+      ],
+      "choices": [
+        {
+          "id": "morvec_oil_end",
+          "text": "The deal is done. Morvec owns the oil. I own the consequences.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

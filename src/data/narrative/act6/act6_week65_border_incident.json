@@ -1,0 +1,149 @@
+{
+  "id": "act6_week65_border_incident",
+  "title": "The Border Incident",
+  "act": 6,
+  "weekAvailable": 65,
+  "weekDeadline": 67,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Cabinet War Room — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "irina_dusek"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The red phone rings at 4:00 AM. Dusek is already in the war room, her face illuminated by the glow of the operations map. A red marker is moving across the Gravenmark Pass. Vukov has made his move."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Chancellor. A Tyvaren armored regiment crossed the border thirty minutes ago. They are not probing. They are advancing. The rules of engagement you established at the Stellamere summit dictate our response. What are your orders?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "check_diplomatic_stance",
+      "text": "Look at the map. Assess the situation.",
+      "nextSegment": "check_stance",
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "check_stance": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You stare at the map. The reality of your diplomatic choices at the summit crashes down on you."
+        }
+      ],
+      "choices": [
+        {
+          "id": "path_demilitarized",
+          "text": "(Continue)",
+          "nextSegment": "seg_defenseless",
+          "prerequisites": [
+            { "flag": "sevagrad_demilitarized", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_orythian",
+          "text": "(Continue)",
+          "nextSegment": "seg_skirmish",
+          "prerequisites": [
+            { "flag": "orythian_pact_signed", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_isolated",
+          "text": "(Continue)",
+          "nextSegment": "seg_invasion",
+          "prerequisites": [
+            { "flag": "diplomatic_isolation", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_defenseless": {
+      "narrative": [
+        { "type": "dialogue", "character": "irina_dusek", "text": "We have no troops in Sevagrad, Chancellor. You signed the treaty. The garrisons were pulled back to Ashenmere. Vukov is marching into an empty province. We can scramble the 4th Mountain, but it will take 12 hours to reach the pass. By then, he will have dug in." },
+        { "type": "monologue", "text": "I trusted Vukov's signature. I traded steel for paper, and now his tanks are rolling through the gap I left open. Dusek is looking at me, waiting for an order that should have been given a year ago." }
+      ],
+      "choices": [
+        {
+          "id": "scramble_defenseless",
+          "text": "Scramble the 4th Mountain. Retake the pass at all costs.",
+          "nextSegment": null,
+          "flags": ["sevagrad_lost_ground", "tyvaren_war_active"],
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": -20 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -15 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 20 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_skirmish": {
+      "narrative": [
+        { "type": "dialogue", "character": "irina_dusek", "text": "The Orythian hardware is performing beautifully, Chancellor. The new anti-tank batteries caught their lead column in the pass. Vukov's advance has stalled. He is taking heavy casualties. This is a skirmish he is losing." },
+        { "type": "monologue", "text": "The Orythian pact paid for itself in blood today. Vukov thought we were weak, but he ran into a wall of Orythian steel. We have him pinned in the mountains. The question is whether to push him back across the border or hold the line." }
+      ],
+      "choices": [
+        {
+          "id": "hold_line_skirmish",
+          "text": "Hold the line. Let him retreat. We defend, we do not invade.",
+          "nextSegment": null,
+          "flags": ["border_held", "orythian_pact_validated"],
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 10 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_invasion": {
+      "narrative": [
+        { "type": "dialogue", "character": "irina_dusek", "text": "We are outgunned, Chancellor. Without Orythian hardware or a peace treaty to slow them down, this is a full-scale invasion. The 4th Mountain is fighting hard, but Vukov has committed two armored divisions. We are losing the pass." },
+        { "type": "monologue", "text": "We stood alone, and now we are dying alone. Dusek is doing her best, but courage cannot stop a tank column. I have to order a fighting retreat or risk losing the entire army. Veltria's isolation just cost us Sevagrad." }
+      ],
+      "choices": [
+        {
+          "id": "fighting_retreat",
+          "text": "Order a fighting retreat to the second defensive line. We bleed them for every kilometer.",
+          "nextSegment": null,
+          "flags": ["sevagrad_retreat", "tyvaren_war_active"],
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": -10 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -10 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "id": "act5_week53_second_address",
+  "title": "The Second Address",
+  "act": 5,
+  "weekAvailable": 53,
+  "weekDeadline": 54,
+  "type": "ceremony",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Republic Square — Ashenmere",
+  "characters": [
+    "vyktor_reznik",
+    "jonas_ashavel"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "One year ago, you stood in this square and took the oath. The crowd was hopeful. The flags were new. The promises were fresh. Today, the square is full again, but the atmosphere is different. The honeymoon is over. The Republic has survived its first year under your Chancellorship — but survival is not the same as success."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor stands beside you on the platform. Jonas is in the front row, his expression unreadable. The cameras are rolling. The nation is watching."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor. The polls are in. You won — but the margin tells a story. The nation is watching to see what kind of leader you become in your second term. The speech you are about to give will set the tone for everything that follows."
+    }
+  ],
+  "choices": [
+    {
+      "id": "check_term1_outcome",
+      "text": "Step to the podium. The Republic is waiting.",
+      "nextSegment": "check_outcome",
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "check_outcome": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You adjust your notes. The microphone hums. The square falls silent."
+        }
+      ],
+      "choices": [
+        {
+          "id": "path_oligarch_puppet",
+          "text": "(Continue)",
+          "nextSegment": "seg_puppet_address",
+          "prerequisites": [
+            {
+              "flag": "government_captured",
+              "value": true
+            }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_oligarchs_destroyed",
+          "text": "(Continue)",
+          "nextSegment": "seg_destroyed_address",
+          "prerequisites": [
+            {
+              "flag": "oligarchs_destroyed",
+              "value": true
+            }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_clean_win",
+          "text": "(Continue)",
+          "nextSegment": "seg_clean_address",
+          "prerequisites": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_puppet_address": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "In the front row, Stefan Morvec sits with his legs crossed, watching you the way a man watches an investment. Lucan Vael is beside him, whispering to a journalist. They own you. The election was a landslide — bought and paid for. The crowd cheers, but you know the cheers are manufactured."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "The margin was 78%. The highest in Veltrian history. Morvec’s money bought every vote in Kravenstal. Vael’s newspapers buried Kolvar before he could open his mouth. You won, Chancellor. But the cost is written in the front row."
+        },
+        {
+          "type": "monologue",
+          "text": "I look at the crowd and see their faces. They believe in me. They don’t know that the man they elected is a tenant, not an owner. Morvec’s letter sits in my desk drawer. ‘We expect access, Chancellor. Not favors — access.’ I am the Chancellor of Veltria. But the Republic belongs to Morvec and Vael now."
+        },
+        {
+          "type": "description",
+          "text": "You deliver the address. The words feel hollow. The crowd applauds. Morvec nods — the nod of a man confirming a delivery."
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "You look tired, Katya. More tired than last year. The weight of the office — or the weight of the company you keep?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "puppet_end",
+          "text": "The second term begins. On their terms.",
+          "nextSegment": null,
+          "flags": [
+            "term_2_begun",
+            "puppet_government_active"
+          ],
+          "stateChanges": [
+            {
+              "stat": "morvecInfluence",
+              "operation": "add",
+              "value": 10
+            },
+            {
+              "stat": "vaelInfluence",
+              "operation": "add",
+              "value": 10
+            },
+            {
+              "stat": "nation.corruption",
+              "operation": "add",
+              "value": 5
+            },
+            {
+              "stat": "personal.stressLevel",
+              "operation": "add",
+              "value": 15
+            },
+            {
+              "stat": "personal.moralCompass",
+              "operation": "add",
+              "value": -10
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_destroyed_address": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The front row is conspicuously empty. No Morvec. No Vael. Their empires are in ruins — Morvec facing prosecution for the 1958 contracts, Vael’s media empire dismantled after the kickback scandal. You destroyed them both. The election was close — 52% — but it was yours. Clean. Unbought."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "52%. The narrowest margin in Veltrian history. Kolvar nearly beat you with a grassroots campaign and no money. But you won without owing a single favor to a single oligarch. That is something, Chancellor. The question is whether the Republic can survive without them."
+        },
+        {
+          "type": "monologue",
+          "text": "I look at the empty seats where Morvec and Vael used to sit. I broke them. I used Krel’s files and I burned their empires to the ground. The Republic is free — truly free — for the first time in my life. But freedom has a price. The markets are jittery. Foreign investment has stalled. The bureaucracy is paralyzed because half of it was on Morvec’s payroll. I freed the Republic. Now I have to feed it."
+        },
+        {
+          "type": "description",
+          "text": "You deliver the address. The words feel sharp, honest, dangerous. The crowd is smaller than last year, but they are listening. Really listening."
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "You did something no one thought possible, Katya. You broke the old machine. Now you have to build a new one. That is the harder part."
+        }
+      ],
+      "choices": [
+        {
+          "id": "destroyed_end",
+          "text": "The second term begins. On my terms.",
+          "nextSegment": null,
+          "flags": [
+            "term_2_begun",
+            "oligarchs_fully_purged"
+          ],
+          "stateChanges": [
+            {
+              "stat": "morvecInfluence",
+              "operation": "add",
+              "value": -20
+            },
+            {
+              "stat": "vaelInfluence",
+              "operation": "add",
+              "value": -20
+            },
+            {
+              "stat": "nation.economyHealth",
+              "operation": "add",
+              "value": -10
+            },
+            {
+              "stat": "nation.corruption",
+              "operation": "add",
+              "value": -10
+            },
+            {
+              "stat": "personal.moralCompass",
+              "operation": "add",
+              "value": 10
+            },
+            {
+              "stat": "factions.reformists",
+              "operation": "add",
+              "value": 8
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_clean_address": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The front row is a mix of faces — ministers, assembly members, diplomats. No oligarchs pulling strings. No shadow backers. You won the election on the strength of your governance — imperfect, messy, but yours. The margin was 56%. Comfortable enough to govern, narrow enough to stay humble."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "56%. A mandate, not a coronation. Kolvar ran a strong campaign and he will be back. But you won without selling the Republic and without destroying the economy. That is the narrow path, Chancellor. The hardest one to walk."
+        },
+        {
+          "type": "monologue",
+          "text": "I stand at the podium and look at the crowd. They are not the hopeful faces of last year. They are the measured faces of people who have seen what I can do — the good and the bad. They are giving me a second chance, not a blank check. I have to earn this. Every week. Every decision."
+        },
+        {
+          "type": "description",
+          "text": "You deliver the address. The words are measured, honest, and forward-looking. The crowd applauds — genuinely, not mechanically. It is not the loudest applause. But it is real."
+        },
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "text": "You look like a Chancellor, Katya. Not a revolutionary. Not a politician. A Chancellor. That is what this country needs."
+        }
+      ],
+      "choices": [
+        {
+          "id": "clean_end",
+          "text": "The second term begins. The work continues.",
+          "nextSegment": null,
+          "flags": [
+            "term_2_begun"
+          ],
+          "stateChanges": [
+            {
+              "stat": "personal.publicImage",
+              "operation": "add",
+              "value": 5
+            },
+            {
+              "stat": "personal.moralCompass",
+              "operation": "add",
+              "value": 3
+            },
+            {
+              "stat": "personal.stressLevel",
+              "operation": "add",
+              "value": 5
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

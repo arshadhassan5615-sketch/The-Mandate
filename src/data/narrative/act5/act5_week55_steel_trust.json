@@ -1,0 +1,138 @@
+{
+  "id": "act5_week55_steel_trust",
+  "title": "The Kravenstal Steel Trust",
+  "act": 5,
+  "weekAvailable": 55,
+  "weekDeadline": 57,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["elara_vostane", "gregor_maric"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vostane and Marić enter the office together—a rare sight. They are both furious. Vostane slams a thick financial dossier on your desk. Marić follows it with a stack of工人 complaints."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Chancellor. We have a monopoly problem. The Kravenstal steel industry is entirely controlled by the Vytis Corporation. They own the mines, the mills, and the rail lines. They fix prices at 40% above market rate, crush any small competitor, and freeze wages. It is a cartel masquerading as a free market."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "They are bleeding the workers, Chancellor. Sixteen-hour shifts, no safety equipment, and if anyone strikes, Vytis just fires them and imports scabs from Morivask. The men are ready to tear the mills apart with their bare hands."
+    },
+    {
+      "type": "monologue",
+      "text": "A monopoly. The lifeblood of our industrial sector strangled by a single corporation. Halvek let them run wild because Vytis paid him off. If I let this continue, the workers will riot. If I break the trust, the business class will panic and the markets might crash. There is no easy answer, but there are tools."
+    }
+  ],
+  "choices": [
+    {
+      "id": "state_subsidies",
+      "text": "Subsidize independent start-ups. Use ₨ 2M from the treasury to fund competing steel mills.",
+      "nextSegment": "seg_subsidies",
+      "flags": ["steel_trust_subsidized"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 2 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "antitrust_prosecution",
+      "text": "Prosecute them. Have Theron break Vytis into five smaller companies under antitrust law.",
+      "nextSegment": "seg_antitrust",
+      "flags": ["steel_trust_broken"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 12 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "nationalize_mills",
+      "text": "Nationalize them. Seize the mills for the state. The workers own the steel.",
+      "nextSegment": "seg_nationalize",
+      "flags": ["steel_trust_nationalized"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 20 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -25 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_subsidies": {
+      "narrative": [
+        { "type": "dialogue", "character": "elara_vostane", "text": "A slow death for the monopoly. We will flood the market with cheap, state-backed alternatives. Vytis will have to lower prices or die. It will take time, but the market remains technically free." },
+        { "type": "monologue", "text": "I bought competition. It cost the treasury millions, but the seeds of a free market are planted. The business class is angry about the government 'picking winners,' but the workers will finally see some relief." }
+      ],
+      "choices": [
+        {
+          "id": "subsidies_end",
+          "text": "The market diversifies. The workers get relief.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_antitrust": {
+      "narrative": [
+        { "type": "description", "text": "Theron drags the CEO of Vytis into court. The trial is brutal. The evidence of price-fixing and bribery is undeniable. The courts order the dissolution of Vytis into five separate, competing firms." },
+        { "type": "monologue", "text": "I broke the titan. The stock market panicked for a day, but the workers celebrated in the streets. The era of the unbreakable cartel is over. The business class fears me now. Let them." }
+      ],
+      "choices": [
+        {
+          "id": "antitrust_end",
+          "text": "The trust is shattered. The era of cartels is over.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_nationalize": {
+      "narrative": [
+        { "type": "description", "text": "You sign the decree. The army enters the Kravenstal mills and escorts the Vytis executives out. The flag of the Republic is raised over the furnaces. The state now owns the steel." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The markets are in freefall. Orythian investors are fleeing. But the workers are marching in the streets, singing the anthem. You just took a massive risk, Chancellor. If we can't manage these mills efficiently, the whole economy goes down with them." },
+        { "type": "monologue", "text": "I seized the means of production. The Republic is now the owner of its own steel. The international community is calling me a socialist. The Iron Covenant is whispering 'communist.' But the workers are mine forever. Let the markets burn. The steel is ours." }
+      ],
+      "choices": [
+        {
+          "id": "nationalize_end",
+          "text": "The mills belong to the Republic. We build our own future.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

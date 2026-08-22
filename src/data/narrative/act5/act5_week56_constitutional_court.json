@@ -1,0 +1,143 @@
+{
+  "id": "act5_week56_constitutional_court",
+  "title": "The Constitutional Court",
+  "act": 5,
+  "weekAvailable": 56,
+  "weekDeadline": 58,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Constitutional Court — Ashenmere",
+  "characters": ["aldric_theron", "vyktor_reznik"],
+  "prerequisites": [
+    { "flag": "constitution_in_force", "value": true }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The summons arrives at noon. The Constitutional Court — packed with Halvek appointees — has ruled. Article 12 of your new constitution, the provision that guarantees equal protection under law, has been struck down. The Chief Justice called it 'an overreach of executive authority.' Theron is in your office before the ink is dry."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Chancellor. This is not a legal ruling. It is a political ambush. The Court is packed with Halvek's men — sixty percent of the judiciary was appointed by the previous regime. They are using the constitution itself to dismantle the constitution. It is elegant, in a vicious sort of way."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Assembly is in uproar. The reformists are demanding we ignore the ruling. The Halvekists are celebrating in the corridors. If we let this stand, every reform provision is vulnerable. If we override the Court, we set a precedent that destroys judicial independence. There is no clean answer."
+    },
+    {
+      "type": "monologue",
+      "text": "I spent a year drafting that constitution. I campaigned on it. I survived a referendum on it. And now six old men in robes have undone it with a single ruling. Theron is right — this is political, not legal. But the law doesn't care about intentions. It cares about precedent. If I override the Court, I become the thing I replaced."
+    }
+  ],
+  "choices": [
+    {
+      "id": "override_court",
+      "text": "Override the ruling. The Assembly will reaffirm Article 12 by legislative vote. The Court does not have the authority to strike down constitutional provisions.",
+      "nextSegment": "seg_override",
+      "flags": ["court_overridden"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+        { "stat": "nation.corruption", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "accept_ruling",
+      "text": "Accept the ruling. We govern within the law, even when the law is wrong. We will pack the Court with reformist judges over time.",
+      "nextSegment": "seg_accept",
+      "flags": ["court_ruling_accepted"],
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "purge_court",
+      "text": "Purge the Court. Remove the Halvekist judges by executive decree. Replace them with reformist appointees immediately.",
+      "nextSegment": "seg_purge",
+      "flags": ["court_purged"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 12 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -15 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 8 },
+        { "stat": "nation.corruption", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_override": {
+      "narrative": [
+        { "type": "dialogue", "character": "aldric_theron", "text": "The Assembly vote will pass — barely. The reformists have the numbers. But the Court will not forget this. You have told them that their rulings are suggestions, not laws. That is a dangerous message." },
+        { "type": "monologue", "text": "I overrode the Court. The constitution survives — for now. But I have set a precedent that the next Chancellor can use to override anything they don't like. I tell myself it was necessary. I am not sure I believe it." }
+      ],
+      "choices": [
+        {
+          "id": "override_end",
+          "text": "Article 12 stands. The cost is a precedent I will have to live with.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_accept": {
+      "narrative": [
+        { "type": "dialogue", "character": "aldric_theron", "text": "You accepted the ruling. The reformists are furious. The Halvekists are emboldened. But the Court's independence is preserved — and that may matter more in the long run than any single provision." },
+        { "type": "monologue", "text": "I swallowed the pill. Article 12 is dead. The equal protection clause — the thing I campaigned on — is gone. But the Court is intact. I can reform the judiciary over time. I can appoint new judges. I just have to survive long enough to do it." }
+      ],
+      "choices": [
+        {
+          "id": "accept_end",
+          "text": "The law is the law. We will win this in the long run.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_purge": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Six judges removed by decree. The international press is calling it a 'constitutional coup.' The reformists are cheering. The Halvekists are calling for impeachment. You have the judiciary — but you have lost the moral high ground." },
+        { "type": "monologue", "text": "I purged the Court. Six old men, escorted out of their chambers by security. I told myself they were Halvek's creatures, not independent jurists. Maybe that's true. But the image of judges being removed by decree is the image of a dictatorship. I have the Court I want. I am not sure I want the country that comes with it." }
+      ],
+      "choices": [
+        {
+          "id": "purge_end",
+          "text": "The Court is mine. The cost is the Republic's trust.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

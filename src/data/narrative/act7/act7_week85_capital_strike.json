@@ -1,0 +1,140 @@
+{
+  "id": "act7_week85_capital_strike",
+  "title": "The Capital Strike",
+  "act": 7,
+  "weekAvailable": 85,
+  "weekDeadline": 87,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["elara_vostane", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The numbers on Vostane's face say it all. Foreign reserves have dropped 40% in two weeks. The Kroner is sliding against the Orythian Mark. Investors are fleeing. Someone—someone with enormous power—is orchestrating a capital strike against the Republic."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Chancellor. This is not a market correction. This is coordinated. Every major foreign investor has withdrawn simultaneously. The Orythian Central Bank has downgraded our credit rating. If this continues for two more weeks, we will not be able to service the national debt. We will default."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The election is in 19 weeks. If the economy collapses before then, Kolvar doesn't need a campaign. He just needs to point at the ruins and say 'she did this.' We have to stabilize the Kroner, and we have to do it now."
+    },
+    {
+      "type": "monologue",
+      "text": "A capital strike. Someone is weaponizing the economy to destroy my government. If I destroyed the oligarchs, this is their ghost—foreign allies pulling their money in retaliation. If I allied with them, this is their leash—squeezing me to ensure compliance before the election. If I stood alone, the international community is punishing my independence. There is no escape. There is only the choice of how to bleed."
+    }
+  ],
+  "choices": [
+    {
+      "id": "austerity_measures",
+      "text": "Implement extreme austerity. Cut all non-essential spending. Freeze public sector wages. Balance the budget at any cost.",
+      "nextSegment": "seg_austerity",
+      "flags": ["austerity_implemented"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -15 },
+        { "stat": "factions.reformists", "operation": "add", "value": -8 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "print_money",
+      "text": "Print money. Flood the market with Kroner to stabilize reserves. Accept the inflation.",
+      "nextSegment": "seg_print",
+      "flags": ["money_printed"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+        { "stat": "nation.inflation", "operation": "add", "value": 15 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 50 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "personal_bailout",
+      "text": "Use your personal wealth to bail out the treasury. The Republic's money is gone, but yours is not.",
+      "nextSegment": "seg_bailout",
+      "flags": ["personal_bailout_executed"],
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": -5000 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_austerity": {
+      "narrative": [
+        { "type": "dialogue", "character": "elara_vostane", "text": "Austerity will stabilize the Kroner within a week. The markets will respond positively. But the workers will riot, and the reformists will call you Halvek with a skirt. You are saving the economy by sacrificing the people who elected you." },
+        { "type": "monologue", "text": "I cut the budget to the bone. Public sector wages frozen. Infrastructure projects halted. The markets are happy. The people are furious. I saved the Republic's bank account and lost its soul. Kolvar is already drafting his campaign speech: 'She starved you to save her bankers.' He might be right." }
+      ],
+      "choices": [
+        {
+          "id": "austerity_end",
+          "text": "The Kroner holds. The cost is written in the streets.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_print": {
+      "narrative": [
+        { "type": "dialogue", "character": "elara_vostane", "text": "The printing presses are running. The reserves are temporarily stabilized. But inflation will hit within the month. Bread prices will double. Pensioners will starve. You bought time, Chancellor. Time is the most expensive thing in economics." },
+        { "type": "monologue", "text": "I printed money to fill a hole. The hole is still there—it's just deeper now. The Kroner will collapse eventually. But eventually is after the election. I am buying votes with inflation I won't live to see. That is not governance. That is a Ponzi scheme with a nation." }
+      ],
+      "choices": [
+        {
+          "id": "print_end",
+          "text": "The reserves hold. For now.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_bailout": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "You just transferred your personal fortune to the national treasury. The press is calling it 'the Ashavel Sacrifice.' The reformists are weeping in the corridors. The markets are stabilizing. You saved the economy with your own money." },
+        { "type": "monologue", "text": "I emptied my accounts. The country is solvent because I gave it everything I had. The newspaper headline reads: 'Chancellor Bails Out Republic with Personal Wealth.' I am either the most selfless leader in Veltrian history or the most desperate politician in an election year. Both are true." }
+      ],
+      "choices": [
+        {
+          "id": "bailout_end",
+          "text": "The Republic stands. My accounts are empty.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

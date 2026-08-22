@@ -1,0 +1,128 @@
+{
+  "id": "act6_week75_geological_survey",
+  "title": "The National Geological Survey",
+  "act": 6,
+  "weekAvailable": 75,
+  "weekDeadline": 77,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["orin_valdek", "elara_vostane"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Orin Valdek enters your office carrying a rolled-up topographic map and a thick folder of geological estimates. He is excited—a rare sight for the gruff former mining director."
+    },
+    {
+      "type": "dialogue",
+      "character": "orin_valdek",
+      "text": "Chancellor, we are buying coal and iron from Lytheira at a 40% premium while sitting on top of unexplored mineral wealth. There are rumors of massive deposits under the Dravenhollow mountains and the Sevagrad military zone. But we don't know what's under our own soil. I am requesting funding for a comprehensive National Geological Survey."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "It is a gamble, Chancellor. A full survey costs ₨ 1.5 million. If we find nothing, that money is wasted and the debt spikes. But if we find what Valdek thinks we'll find... it could change the economic destiny of the Republic."
+    },
+    {
+      "type": "monologue",
+      "text": "We are buying from foreigners what might be under our own feet. Valdek is right—we are flying blind. But ₨ 1.5 million is a massive bet on a rumor. The treasury is already stretched. Is the gamble worth it?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "fund_full_survey",
+      "text": "Fund the full survey. ₨ 1.5M from the treasury. We need to know what's under our soil.",
+      "nextSegment": "seg_full_survey",
+      "flags": ["geological_survey_funded"],
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 1.5 },
+        { "stat": "orin_valdek_trust", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "fund_limited_survey",
+      "text": "Fund a limited survey. ₨ 500K. Focus only on the most promising site.",
+      "nextSegment": "seg_limited_survey",
+      "flags": ["geological_survey_limited"],
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 0.5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "reject_survey",
+      "text": "Reject it. We cannot gamble ₨ 1.5M on rumors.",
+      "nextSegment": "seg_reject",
+      "flags": ["geological_survey_rejected"],
+      "stateChanges": [
+        { "stat": "orin_valdek_trust", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_full_survey": {
+      "narrative": [
+        { "type": "dialogue", "character": "orin_valdek", "text": "You won't regret this, Chancellor. My teams will mobilize immediately. If there's wealth under that rock, we'll find it. Give us four weeks." },
+        { "type": "monologue", "text": "I rolled the dice. ₨ 1.5 million on a geological gamble. If Valdek is right, the Republic's fortunes change forever. If he's wrong, I just added to the debt for nothing. Four weeks. We'll know soon enough." }
+      ],
+      "choices": [
+        {
+          "id": "full_survey_end",
+          "text": "The survey teams deploy. We wait for results.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_limited_survey": {
+      "narrative": [
+        { "type": "dialogue", "character": "orin_valdek", "text": "Half funding means half the team. We'll focus on the Sevagrad zone—it has the strongest geological indicators. But I can't promise we won't miss something in Dravenhollow. This is a compromise, Chancellor." },
+        { "type": "monologue", "text": "I hedged the bet. ₨ 500K for a targeted look. We might find something, or we might miss the bigger picture. It's a safer play, but safety doesn't build empires." }
+      ],
+      "choices": [
+        {
+          "id": "limited_survey_end",
+          "text": "The limited team deploys to Sevagrad.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_reject": {
+      "narrative": [
+        { "type": "dialogue", "character": "orin_valdek", "text": "Understood, Chancellor. We'll keep buying from Lytheira at a premium, then. But remember this conversation when the foreign bills come due." },
+        { "type": "monologue", "text": "I said no. The treasury couldn't handle the gamble. Maybe I was right to be cautious. But something tells me Valdek wasn't just chasing rumors. We might have just walked away from a fortune." }
+      ],
+      "choices": [
+        {
+          "id": "reject_end",
+          "text": "The survey is shelved. We buy foreign.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

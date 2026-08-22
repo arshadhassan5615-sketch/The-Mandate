@@ -1,0 +1,133 @@
+{
+  "id": "act7_week90_campaign_trail",
+  "title": "The Campaign Trail",
+  "act": 7,
+  "weekAvailable": 90,
+  "weekDeadline": 100,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Various Provinces",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The campaign has begun. Kolvar is everywhere—his face on posters, his voice on the radio, his promises echoing through every factory and farm. Vyktor has mapped out a campaign route through the provinces. Each stop is an opportunity to rally your base and win back the disillusioned."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor, we have 14 weeks until the election. Every week you spend governing is a week Kolvar spends campaigning. We need you on the road. The provinces need to see your face, hear your voice, and remember why they voted for you in the first place."
+    },
+    {
+      "type": "monologue",
+      "text": "I built this government. I fought the oligarchs, I reformed the BNI, I held the border. And now I have to stand on a stage in Kravenstal and ask people to let me do it again. The irony is not lost on me. Democracy is the only system where the architect has to ask the tenants for permission to keep building."
+    }
+  ],
+  "choices": [
+    {
+      "id": "campaign_kravenstal",
+      "text": "Campaign in Kravenstal. The industrial heartland. Your base.",
+      "nextSegment": "seg_kravenstal",
+      "flags": ["campaigned_kravenstal"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "campaign_thornfeld",
+      "text": "Campaign in Thornfeld. The agricultural south. The Church's backyard.",
+      "nextSegment": "seg_thornfeld",
+      "flags": ["campaigned_thornfeld"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "campaign_ashenmere",
+      "text": "Campaign in Ashenmere. The capital. The intellectuals and the press.",
+      "nextSegment": "seg_ashenmere",
+      "flags": ["campaigned_ashenmere"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_kravenstal": {
+      "narrative": [
+        { "type": "description", "text": "The factory floor in Kravenstal is hot, loud, and exactly where you need to be. The workers look at you with tired eyes—eyes that have seen promises broken by every government for thirty years." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "You delivered the safety reforms. You appointed Marić. You held the line during the strike. The workers know what you've done. Now they need to hear you say it." },
+        { "type": "description", "text": "You speak from the factory floor, not a stage. You talk about the ventilation fans that are now installed in every mine. You talk about the minimum wage index. You talk about the widows' pensions. The workers listen. Some of them even clap." }
+      ],
+      "choices": [
+        {
+          "id": "kravenstal_end",
+          "text": "The workers are listening. On to the next province.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_thornfeld": {
+      "narrative": [
+        { "type": "description", "text": "The town square in Thornfeld is packed with farmers and their families. The Archbishop's shadow looms large here—his sermons shape their votes more than any politician's speech." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Thornfeld is tricky. The Church opposed your education reforms. The farmers are struggling with food prices. But they respect tradition, and they respect a Chancellor who shows up." },
+        { "type": "description", "text": "You speak from the steps of the Town Hall. You talk about the agricultural subsidies, the road to Gravenmark, the price stabilization program. You don't mention the Church. They notice that you didn't." }
+      ],
+      "choices": [
+        {
+          "id": "thornfeld_end",
+          "text": "The south is listening. On to the next province.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_ashenmere": {
+      "narrative": [
+        { "type": "description", "text": "The university auditorium in Ashenmere is the hardest crowd you'll face. Students, journalists, professors—the people who dissect your every word and publish the analysis in the morning papers." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "These are the people who elected you. They are also the people who will turn on you the fastest if you disappoint them. Give them substance, not slogans. They can smell a talking point from a mile away." },
+        { "type": "description", "text": "You speak from the lecture podium. You talk about the constitution, the civil rights reforms, the press freedom charter. You take unscripted questions—risky, but necessary. A law student asks about the BNI files. You answer honestly. The room respects honesty, even when it's uncomfortable." }
+      ],
+      "choices": [
+        {
+          "id": "ashenmere_end",
+          "text": "The capital is listening. On to the next province.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

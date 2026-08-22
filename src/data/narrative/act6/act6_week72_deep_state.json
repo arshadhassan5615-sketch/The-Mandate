@@ -1,0 +1,149 @@
+{
+  "id": "act6_week72_deep_state",
+  "title": "The Deep State",
+  "act": 6,
+  "weekAvailable": 72,
+  "weekDeadline": 74,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Private Study — 02:00 AM",
+  "characters": ["matthias_krel", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "He is already there when you arrive. The greenhouse was too exposed, he says. He needed a room with no windows. The study will do. Krel sets three photographs on your desk. They are surveillance stills—grainy, telephoto, taken in the dead of night."
+    },
+    {
+      "type": "dialogue",
+      "character": "matthias_krel",
+      "text": "Chancellor. The deep state is not a metaphor. It is a plan. It is moving now. The men in these photographs are preparing to act within the next 48 hours. What they are planning depends on the arrangement you made—or broke—with the people who used to own this country."
+    }
+  ],
+  "choices": [
+    {
+      "id": "check_deep_state_plan",
+      "text": "Look at the photographs. What have they planned?",
+      "nextSegment": "check_plan",
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "check_plan": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You pick up the photographs. The faces in them are familiar—BNI agents, disgruntled officers, men in expensive suits meeting in the back rooms of the Aldenmoor port."
+        }
+      ],
+      "choices": [
+        {
+          "id": "path_oligarchs_destroyed",
+          "text": "(Continue)",
+          "nextSegment": "seg_terror_plot",
+          "prerequisites": [
+            { "flag": "oligarchs_destroyed", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_puppet_government",
+          "text": "(Continue)",
+          "nextSegment": "seg_assassination_plot",
+          "prerequisites": [
+            { "flag": "government_captured", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_isolation_coup",
+          "text": "(Continue)",
+          "nextSegment": "seg_foreign_coup",
+          "prerequisites": [
+            { "flag": "oligarch_debts_refused", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_terror_plot": {
+      "narrative": [
+        { "type": "dialogue", "character": "matthias_krel", "text": "When you destroyed Morvec and Vael, you scattered their loyalists. The BNI agents who were on their payroll did not simply retire. They have formed a cell. They are planning to detonate a device at the State Broadcasting House during your next address. A decapitation strike. They want to frame Kolvar's supporters and plunge the Republic into martial law." },
+        { "type": "monologue", "text": "I burned the oligarchs to the ground, and now their ashes are trying to choke me. A bomb. In the broadcasting house. They want to kill me, and they want the Republic to tear itself apart in the aftermath. Krel is waiting for the order to move. He doesn't ask for permission often. When he does, it means the knife has to fall now." }
+      ],
+      "choices": [
+        {
+          "id": "authorize_raid",
+          "text": "Authorize the raid. Krel handles it. No official record. No arrests. Just silence.",
+          "nextSegment": null,
+          "flags": ["deep_state_neutralized", "terror_plot_stopped"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 15 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_assassination_plot": {
+      "narrative": [
+        { "type": "dialogue", "character": "matthias_krel", "text": "Morvec and Vael are growing impatient with their puppet. They believe you are becoming too independent, too reluctant to sign the privatization decrees they demand. They have selected a replacement—Deputy Chancellor Voronov. They are planning a tragic accident for you. A plane crash, perhaps. Or a sudden illness." },
+        { "type": "monologue", "text": "I sold them the Republic, and now they want to repossess the Chancellor. They think I am a liability. Krel has the names of the assassins. But stopping them means going to war with the very men who put me in this chair. If I act, the economy will collapse as their money flees. If I don't, I won't live to see the next election." }
+      ],
+      "choices": [
+        {
+          "id": "strike_backers",
+          "text": "Authorize the strike. Eliminate the assassins. Prepare to nationalize Morvec's assets immediately.",
+          "nextSegment": null,
+          "flags": ["deep_state_neutralized", "war_with_oligarchs"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": -20 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 20 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_foreign_coup": {
+      "narrative": [
+        { "type": "dialogue", "character": "matthias_krel", "text": "Because you refused the oligarchs and walked out of the Stellamere summit, you have made enemies of everyone with money and influence. The Arcturian intelligence service has been funding General Brenner's loyalists in the military. They are planning a coup d'état. They will move on the Palace during the Changing of the Guard next week. Brenner will announce a 'government of national salvation.'" },
+        { "type": "monologue", "text": "A coup. Brenner and the Arcturians. I played the honest statesman, and the jackals have gathered at the door. Krel can disrupt the plot, but if we move against Brenner publicly, half the army might side with him. This has to be done in the dark." }
+      ],
+      "choices": [
+        {
+          "id": "neutralize_brenner",
+          "text": "Authorize Krel to neutralize the plot. Quietly. Make it look like an internal military dispute.",
+          "nextSegment": null,
+          "flags": ["deep_state_neutralized", "coup_plot_stopped"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 20 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 25 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -15 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

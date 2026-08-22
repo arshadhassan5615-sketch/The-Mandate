@@ -1,0 +1,116 @@
+{
+  "id": "act6_week78_ashavel_legacy",
+  "title": "The Ashavel Legacy",
+  "act": 6,
+  "weekAvailable": 78,
+  "weekDeadline": 80,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellor's Residence — Ashenmere Palace",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Palace is quiet. The guards are at the doors, the staff is gone for the night, and the weight of the Republic is temporarily lifted from your shoulders. You stand in the hallway of the private residence, looking at the family portraits. Jonas is in the study, the door slightly ajar."
+    },
+    {
+      "type": "monologue",
+      "text": "I have spent two years building a nation. But I have spent two years watching my family fracture in the process. The job demands everything—every hour, every thought, every piece of my soul. There is nothing left for them. Or is there? I stand at this door and wonder if I still have a family to go back to, or if the Chancellor has consumed the wife and the mother entirely."
+    }
+  ],
+  "choices": [
+    {
+      "id": "check_marriage",
+      "text": "Open the door to the study.",
+      "nextSegment": "check_marriage_state",
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "check_marriage_state": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You push the door open. Jonas is sitting in the armchair by the fire. He has a glass of whiskey in his hand. He doesn't look up."
+        }
+      ],
+      "choices": [
+        {
+          "id": "path_united",
+          "text": "(Continue)",
+          "nextSegment": "seg_united",
+          "prerequisites": [
+            { "stat": "personal.marriageHealth", "operator": ">=", "value": 40 }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_divorce",
+          "text": "(Continue)",
+          "nextSegment": "seg_divorce",
+          "prerequisites": [
+            { "stat": "personal.marriageHealth", "operator": "<", "value": 40 }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_united": {
+      "narrative": [
+        { "type": "dialogue", "character": "jonas_ashavel", "text": "I was wondering when you'd come home, Katya. The papers say you're winning. The polls say you're strong. But I look at you and I see someone who hasn't slept in a week." },
+        { "type": "dialogue", "character": "jonas_ashavel", "text": "Liora started her foundation today. She's using your name to get meetings. She's fighting for the refugees. She's become exactly the kind of Ashavel the country needs. And Tomas... he's struggling, but he's here. He's not in the streets. He's here because you held this family together when it wanted to fall apart." },
+        { "type": "monologue", "text": "I didn't lose them. The job tried to take them, and I didn't let it. Jonas is still here. The kids are still here. We are broken in places, but we are holding. And in this house, that is the only victory that matters." }
+      ],
+      "choices": [
+        {
+          "id": "united_end",
+          "text": "We hold. Together.",
+          "nextSegment": null,
+          "flags": ["family_united"],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": -20 },
+            { "stat": "factions.reformists", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_divorce": {
+      "narrative": [
+        { "type": "dialogue", "character": "jonas_ashavel", "text": "Don't say anything, Katya. Just listen. I have a suitcase in the hall. I'm taking Liora and Tomas to my mother's estate in Kravenstal. The lawyers will handle the rest." },
+        { "type": "dialogue", "character": "jonas_ashavel", "text": "You built a Republic, and you lost a family. I don't know if that's a trade you would make again, but it's the one you made. Tomas is angry. Liora won't speak. And I... I can't watch you die in this office anymore." },
+        { "type": "monologue", "text": "He's leaving. The suitcase is by the door. I knew this was coming. I felt the distance grow every week I chose the Palace over our home. The press will have a field day. Kolvar will call it a failure of character. But the truth is simpler: I chose the Republic over my husband. And now I have neither." }
+      ],
+      "choices": [
+        {
+          "id": "divorce_end",
+          "text": "Let him go. The Republic is all I have left.",
+          "nextSegment": null,
+          "flags": ["family_broken", "jonas_divorce"],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": -15 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 25 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

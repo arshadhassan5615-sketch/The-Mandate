@@ -1,0 +1,145 @@
+{
+  "id": "act7_week100_final_debate",
+  "title": "The Final Debate",
+  "act": 7,
+  "weekAvailable": 100,
+  "weekDeadline": 101,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "National Broadcasting House — Ashenmere",
+  "characters": ["vyktor_reznik", "drazen_kolvar", "nadia_voss"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The lights are blinding. The studio is silent except for the hum of the cameras. Millions of Veltrians are watching. You stand behind your podium. Kolvar stands behind his. Nadia Voss sits between you, her notes perfectly aligned."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Good evening. Tonight, we have Chancellor Katerin Ashavel and Opposition Leader Dražen Kolvar. Four weeks until the election. No prepared statements. No handlers. Just the candidates and the questions. Chancellor, we begin with you."
+    }
+  ],
+  "choices": [
+    {
+      "id": "opening_statement",
+      "text": "Deliver your opening statement.",
+      "nextSegment": "opening_statement",
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "opening_statement": {
+      "narrative": [
+        { "type": "description", "text": "The camera light turns red. You are live." }
+      ],
+      "choices": [
+        {
+          "id": "defend_record",
+          "text": "Defend your record. Two years of reform, stability, and progress.",
+          "nextSegment": "kolvar_attack",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "attack_kolvar",
+          "text": "Attack Kolvar. He is Halvek's man in a new suit.",
+          "nextSegment": "kolvar_attack",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "kolvar_attack": {
+      "narrative": [
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "Chancellor Ashavel talks about reform. But let me tell you what reform looks like to the average Veltrian: higher taxes, unstable borders, and a government that listens to foreign advisors more than its own people. She inherited a Republic. She is leaving you a mess." }
+      ],
+      "choices": [
+        {
+          "id": "counter_economy",
+          "text": "Counter on the economy. 'The deficit was Halvek's. I am fixing it.'",
+          "nextSegment": "voss_followup",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "counter_security",
+          "text": "Counter on security. 'I held the border. Kolvar would have surrendered it.'",
+          "nextSegment": "voss_followup",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "voss_followup": {
+      "narrative": [
+        { "type": "dialogue", "character": "nadia_voss", "text": "Chancellor, Kolvar has raised the issue of corruption. Several members of your cabinet have been linked to financial irregularities. How do you respond?" }
+      ],
+      "choices": [
+        {
+          "id": "deny_corruption",
+          "text": "Deny it firmly. 'My government has zero tolerance for corruption.'",
+          "nextSegment": "debate_end",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "admit_imperfection",
+          "text": "Admit imperfection. 'We are not perfect. But we are accountable.'",
+          "nextSegment": "debate_end",
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "debate_end": {
+      "narrative": [
+        { "type": "dialogue", "character": "nadia_voss", "text": "Thank you both. The election is in four weeks. The choice is yours, Veltria." },
+        { "type": "description", "text": "The camera light goes dark. The studio erupts into chatter. Kolvar extends his hand. You shake it. The smile on his face does not reach his eyes. Neither does yours." },
+        { "type": "monologue", "text": "It's over. The words are spent. The next four weeks are out of my hands. I have done everything I can. The Republic will decide." }
+      ],
+      "choices": [
+        {
+          "id": "debate_concluded",
+          "text": "The debate is over. The election awaits.",
+          "nextSegment": null,
+          "flags": ["debate_completed"],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

@@ -881,6 +881,22 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Week 50 — The Two Letters (Oligarch Reckoning before Election)
+    if (gameState.currentWeek === 50 && !visitedSceneIds.includes('act4_week50_two_letters')) {
+      pool.push({
+        id: 'act4_week50_two_letters',
+        title: 'The Two Letters',
+        description: 'Two couriers arrived this morning. Morvec and Vael are calling in their markers. The election is in two weeks.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'act4_week50_two_letters',
+        slotCost: 1,
+        executionOrder: -5,
+        weekAvailable: 50,
+        weekDeadline: 51,
+        isUrgent: true
+      })
+    }
+
     // Sort pool by executionOrder so downstream readers (e.g. MapInteractionLayer)
     // always see items in canonical sequence. Items missing executionOrder
     // sink to the end (coerced to 99).
@@ -1664,6 +1680,17 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         return
       } else {
         // Player wins the election
+        
+        // TWO-TERM LIMIT: If this is the second election (Week 104+), the game ends.
+        if (newWeek >= 104) {
+          set({ transitionWeek: null, transitionLabel: 'term_limit' })
+          trackedTimeout(() => {
+            set({ transitionLabel: '', phase: 'epilogue' })
+          }, 1500)
+          return
+        }
+        
+        // Otherwise, continue to the next term
         set({ transitionLabel: 'Election Victory' })
         trackedTimeout(() => {
           set({ transitionLabel: '' })

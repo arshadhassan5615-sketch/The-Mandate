@@ -1,0 +1,143 @@
+{
+  "id": "act5_week60_diplomatic_table",
+  "title": "The Diplomatic Table",
+  "act": 5,
+  "weekAvailable": 60,
+  "weekDeadline": 62,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Grand Summit Hall — Stellamere",
+  "characters": ["vyktor_reznik", "vera_sorin", "dragan_vukov"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The regional summit in Stellamere is a gilded cage. Chandeliers overhead, microphones everywhere, and every smile hiding a threat. Marshal Vukov of Tyvaren sits across the table, his uniform decorated with medals he gave himself. To your right, the Orythian Ambassador slides a folder across the table. To your left, Vera Sorin whispers in your ear."
+    },
+    {
+      "type": "dialogue",
+      "character": "dragan_vukov",
+      "text": "Chancellor Ashavel. Tyvaren proposes a treaty of mutual de-escalation. We will withdraw two battalions from the Gravenmark Pass, if Veltria demilitarizes the Sevagrad border entirely. A zone of peace. No troops, no patrols, no tension. Surely that is what you want?"
+    },
+    {
+      "type": "dialogue",
+      "character": "vera_sorin",
+      "text": "It is a trap, Chancellor. Demilitarizing Sevagrad leaves our eastern flank completely exposed. If Vukov crosses the border in six months, there will be nothing to stop him. The Orythians, however, have offered a counter-proposal."
+    },
+    {
+      "type": "description",
+      "text": "You open the Orythian folder. It contains a draft agreement for a mutual defense pact. The condition is stark: Veltria must sever all diplomatic and trade ties with Lytheira, whom Orythia considers a regional rival."
+    },
+    {
+      "type": "monologue",
+      "text": "Vukov wants me naked at the border. Orythia wants me to cut off Lytheira, our largest western trading partner, in exchange for a piece of paper that promises military aid I might never see. If I accept either, I lose. If I refuse both, I go back to Ashenmere with enemies on all sides and no allies."
+    }
+  ],
+  "choices": [
+    {
+      "id": "accept_tyvaren_treaty",
+      "text": "Sign Vukov's treaty. Demilitarize Sevagrad. Peace is worth the risk.",
+      "nextSegment": "seg_tyvaren",
+      "flags": ["tyvaren_treaty_signed", "sevagrad_demilitarized"],
+      "stateChanges": [
+        { "stat": "tyvarenHostility", "operation": "add", "value": -15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -20 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "accept_orythian_pact",
+      "text": "Sign the Orythian pact. Sever ties with Lytheira. We need a powerful ally.",
+      "nextSegment": "seg_orythian",
+      "flags": ["orythian_pact_signed", "lytheiran_ties_severed"],
+      "stateChanges": [
+        { "stat": "tyvarenHostility", "operation": "add", "value": 15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "refuse_both",
+      "text": "Refuse both. Veltria will not be a pawn in a superpower game. We stand alone.",
+      "nextSegment": "seg_refuse",
+      "flags": ["diplomatic_isolation"],
+      "stateChanges": [
+        { "stat": "tyvarenHostility", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_tyvaren": {
+      "narrative": [
+        { "type": "dialogue", "character": "dragan_vukov", "text": "A wise choice, Chancellor. Tyvaren looks forward to a peaceful border. We will begin our withdrawal immediately. We trust you will do the same." },
+        { "type": "monologue", "text": "Vukov smiles. It is the smile of a wolf watching the gate swing open. The Iron Covenant will call this treason. The military will call it surrender. But the papers will print 'peace.' I just hope I survive long enough to see if Vukov keeps his word." }
+      ],
+      "choices": [
+        {
+          "id": "tyvaren_end",
+          "text": "The treaty is signed. We pray it holds.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_orythian": {
+      "narrative": [
+        { "type": "dialogue", "character": "vera_sorin", "text": "The Orythians are pleased. They will begin shipping military hardware within the month. But the Lytheiran ambassador has already requested an emergency flight home. The trade agreements are dead. Our economy will feel this." },
+        { "type": "monologue", "text": "I bought a shield, but I cut off my hand to pay for it. Orythia is a powerful ally, but they will demand a price for every bullet they send. And Vukov is already pacing the border. He knows I just picked a side in a war that hasn't started yet." }
+      ],
+      "choices": [
+        {
+          "id": "orythian_end",
+          "text": "The pact is signed. We prepare for what comes.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_refuse": {
+      "narrative": [
+        { "type": "description", "text": "You stand up from the table. The room falls silent. Vukov's smile vanishes. The Orythian Ambassador closes his folder slowly. Sorin closes her eyes." },
+        { "type": "dialogue", "character": "dragan_vukov", "text": "So be it, Chancellor. Neutrality has a cost. We will see if Veltria can afford it." },
+        { "type": "monologue", "text": "I walked out of the summit with nothing. No treaty, no alliance, no friends. Just the Republic and whatever we can build ourselves. Vukov will test the border soon. The Orythians will watch us burn. But we are not a pawn. We are Veltria. If we fall, we fall standing up." }
+      ],
+      "choices": [
+        {
+          "id": "refuse_end",
+          "text": "We walk alone. And we survive.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
