@@ -120,7 +120,7 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
 // ─── RightSidebar ─────────────────────────────────────────────────────────────
 
 export default function RightSidebar() {
-  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen } = useSettingsStore()
+  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen, setInvestmentOpen } = useSettingsStore()
   const journalEntryCount = useJournalStore(s => s.entries.length)
   const letterUnread     = useLetterStore(s => s.unreadCount)
   const openLetterInbox  = useLetterStore(s => s.setOpen)
@@ -314,6 +314,20 @@ export default function RightSidebar() {
             setConnectionsOpen(false)
             setOverviewOpen(false)
             setNotepadOpen(!notepadOpen)
+          }}
+        />
+
+        <SideButton
+          icon={
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          }
+          label="Discretionary Fund"
+          onClick={() => {
+            setConnectionsOpen(false)
+            setOverviewOpen(false)
+            setInvestmentOpen(true)
           }}
         />
 

@@ -110,7 +110,7 @@ interface ConversationPanelProps {
 type ChoicePhase = 'idle' | 'pulsing' | 'fading' | 'showing_reactions' | 'reactions_fading' | 'done'
 
 export default function ConversationPanel({
-  sceneType, sceneCharacters: _sceneCharacters,
+  sceneType,
   history, activeSegment, activeText, showCursor,
   choices, showChoices, sceneDone, allDone, segmentDone,
   onAdvance: _onAdvance, onChoice, onAdvanceQueue, continueLabel,
@@ -415,10 +415,8 @@ export default function ConversationPanel({
     return () => ro.disconnect()
   }, [])
 
-  // Derive currentSpeakerId for name highlighting in history
-  const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
-
   const displayStack = speakerStack
+  const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
 
   const panelStyle: React.CSSProperties = isMobile
     ? {
@@ -502,8 +500,8 @@ export default function ConversationPanel({
           transition: 'opacity 0.3s ease',
           visibility: displayStack.length > 0 ? 'visible' : 'hidden',
         }}>
-          {displayStack.map((charId, idx) => {
-            const isCurrent = idx === displayStack.length - 1
+          {displayStack.map((charId) => {
+            const isCurrent = charId === currentSpeakerId
             const img = getPortrait(charId)
             const name = charName(charId)
             const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()

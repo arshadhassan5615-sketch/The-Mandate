@@ -39,6 +39,7 @@ import SettingsPanel from './SettingsPanel'
 import JournalView from './JournalView'
 import LetterView from './LetterView'
 import DiplomaticLetterPanel from './panels/DiplomaticLetterPanel'
+import InvestmentPanel from './InvestmentPanel'
 import RadioAddressView from './RadioAddressView'
 import LegacyScreen from './LegacyScreen'
 import TransitionOverlay from './TransitionOverlay'
@@ -67,6 +68,7 @@ export default function GameLayout() {
   const journalOpen = useSettingsStore(s => s.journalOpen)
   const letterOpen = useSettingsStore(s => s.letterOpen)
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
+  const investmentOpen = useSettingsStore(s => s.investmentOpen)
   const setDecreeInboxOpen = useSettingsStore(s => s.setDecreeInboxOpen)
   const pendingRequests = useCabinetStore(s => s.pending_requests)
   // const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds) // unused — Act transition reads store directly via getState()
@@ -512,6 +514,9 @@ export default function GameLayout() {
 
       {/* Letter composing modal */}
       {letterOpen && <LetterView onClose={() => useSettingsStore.getState().setLetterOpen(false)} />}
+
+      {/* Investment panel */}
+      {investmentOpen && <InvestmentPanel onClose={() => useSettingsStore.getState().setInvestmentOpen(false)} />}
 
       {/* Incoming Letter Inbox */}
       <DiplomaticLetterPanel />

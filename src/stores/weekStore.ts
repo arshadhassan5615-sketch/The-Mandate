@@ -1633,13 +1633,6 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       return
     }
 
-    // Week 52 → epilogue transition (game over)
-    if (gameState.currentWeek >= 52) {
-      set({ transitionWeek: null, transitionLabel: 'epilogue' })
-      trackedTimeout(() => set({ transitionLabel: '', phase: 'epilogue' }), 1200)
-      return
-    }
-
     // Assassination trigger check (Week 30-36)
     const { activeFlags } = useNarrativeStore.getState()
     const assassResult = evaluateAssassinationTrigger(gameState, activeFlags)
