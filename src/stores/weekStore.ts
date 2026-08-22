@@ -30,6 +30,7 @@ import { generateCliffhanger } from '../engine/CliffhangerEngine'
 import { DIVERGENT_ARTICLES } from '../data/newspapers/divergent_coverage'
 import { useCabinetStore } from './cabinetStore'
 import { generateWeeklyRequests } from '../data/ministerRequests'
+import { calculateElectionResult } from '../engine/ElectionEngine'
 
 // ─── Pending transition timeouts ──────────────────────────────────────────────
 // Track setTimeout IDs so resetToInitial / startCustomization can cancel them
@@ -1648,6 +1649,29 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     useGameStore.getState().advanceWeek()
     const nextState = useGameStore.getState()
     const newWeek = nextState.currentWeek
+
+    // Democratic Election Check (Every 52 weeks)
+    if (newWeek > 0 && newWeek % 52 === 0) {
+      const { activeFlags } = useNarrativeStore.getState()
+      const result = calculateElectionResult(nextState, activeFlags)
+      
+      if (result.winner === 'kolvar') {
+        // Player loses the election
+        set({ transitionWeek: null, transitionLabel: 'defeat' })
+        trackedTimeout(() => {
+          set({ transitionLabel: '', phase: 'epilogue' })
+        }, 1500)
+        return
+      } else {
+        // Player wins the election
+        set({ transitionLabel: 'Election Victory' })
+        trackedTimeout(() => {
+          set({ transitionLabel: '' })
+        }, 2000)
+        // Clear oligarch election flags so they don't affect the next term
+        useNarrativeStore.getState().addFlags(['election_won_term_' + (newWeek / 52)])
+      }
+    }
 
     // Update Jonas's public stage based on week and marriage health
     const newJonasStage = computeJonasStage(newWeek, nextState.personal.marriageHealth)
