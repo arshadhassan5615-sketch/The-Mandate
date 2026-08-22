@@ -38,6 +38,7 @@ import TermReportScreen from './TermReportScreen'
 import SettingsPanel from './SettingsPanel'
 import JournalView from './JournalView'
 import LetterView from './LetterView'
+import DiplomaticLetterPanel from './panels/DiplomaticLetterPanel'
 import RadioAddressView from './RadioAddressView'
 import LegacyScreen from './LegacyScreen'
 import TransitionOverlay from './TransitionOverlay'
@@ -511,6 +512,9 @@ export default function GameLayout() {
 
       {/* Letter composing modal */}
       {letterOpen && <LetterView onClose={() => useSettingsStore.getState().setLetterOpen(false)} />}
+
+      {/* Incoming Letter Inbox */}
+      <DiplomaticLetterPanel />
 
       {/* Radio address modal */}
       {radioOpen && <RadioAddressView onClose={() => setRadioOpen(false)} />}

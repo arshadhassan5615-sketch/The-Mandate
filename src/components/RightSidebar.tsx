@@ -120,9 +120,10 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
 // ─── RightSidebar ─────────────────────────────────────────────────────────────
 
 export default function RightSidebar() {
-  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen, setLetterOpen } = useSettingsStore()
+  const { setSettingsOpen, setCharacterMapOpen, setJournalOpen, notepadOpen, setNotepadOpen } = useSettingsStore()
   const journalEntryCount = useJournalStore(s => s.entries.length)
   const letterUnread     = useLetterStore(s => s.unreadCount)
+  const openLetterInbox  = useLetterStore(s => s.setOpen)
   const { openCodex }     = useCodexStore()
 
   const [connectionsOpen, setConnectionsOpen] = useState(false)
@@ -301,7 +302,7 @@ export default function RightSidebar() {
           onClick={() => {
             setConnectionsOpen(false)
             setOverviewOpen(false)
-            setLetterOpen(true)
+            openLetterInbox(true)
           }}
         />
 

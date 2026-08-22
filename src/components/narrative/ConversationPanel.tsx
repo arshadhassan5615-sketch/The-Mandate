@@ -699,8 +699,10 @@ export default function ConversationPanel({
                       fontSize: '10px',
                       letterSpacing: '0.12em',
                       color: entry.type === 'player_spoken'
-                        ? 'rgba(232,220,200,0.7)'
-                        : isCurrentSpeaker ? '#c9a84c' : 'rgba(201,168,76,0.4)',
+                        ? '#e8dcc8'
+                        : isCurrentSpeaker 
+                          ? (entry.characterColor || '#e8d5a3')
+                          : (entry.characterColor || '#c9a84c'),
                       textTransform: 'uppercase',
                       marginBottom: '3px',
                       fontFamily: 'Georgia, serif',
@@ -789,7 +791,7 @@ export default function ConversationPanel({
                         <div style={{
                           fontSize: '10px',
                           letterSpacing: '0.12em',
-                          color: '#c9a84c',
+                          color: getCharacterColor(activeSegment.character ?? '') || '#e8d5a3',
                           textTransform: 'uppercase',
                           marginBottom: '3px',
                           fontFamily: 'Georgia, serif',
