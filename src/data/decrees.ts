@@ -759,4 +759,24 @@ export const ALL_DECREES: Decree[] = [
       { stat: 'nation.internationalStanding', value: 3, operation: 'add', delayWeeks: 6, description: 'Cultural prestige grows' },
     ],
   },
+  {
+    id: 'decree_cadre_qualifications',
+    title: 'Cadre Qualifications Act',
+    category: 'economic',
+    proposedBy: 'Chancellor Ashavel',
+    summary: 'Mandate rigorous state examinations for all senior party and ministerial ranks.',
+    description: 'Passed by the National Assembly after a fierce debate. This act restructures the ruling party, replacing the era of the populist strongman with the era of the competent technocrat. It mandates that no individual may hold a senior party rank or ministerial position without passing a rigorous state examination in economics, constitutional law, and governance.',
+    weekProposed: 81,
+    ministerPositions: [
+      { ministerId: 'vyktor_reznik', stance: 'favor', reason: 'This is the only way to modernize the party apparatus.' },
+      { ministerId: 'gregor_maric', stance: 'against', reason: 'It disenfranchises the workers who built this party.' },
+      { ministerId: 'aldric_theron', stance: 'favor', reason: 'A legally sound framework for meritocratic governance.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.economyHealth', value: 10, operation: 'add', description: 'Government efficiency surges' },
+      { stat: 'factions.workersCoalition', value: -10, operation: 'add', description: 'Union leaders feel alienated' },
+      { stat: 'factions.reformists', value: 8, operation: 'add', description: 'Reformists praise the push for meritocracy' },
+    ],
+    longTermEffects: [],
+  },
 ]

@@ -1,0 +1,74 @@
+{
+  "id": "act6_week73_poisoned_pen",
+  "title": "The Poisoned Pen",
+  "act": 6,
+  "weekAvailable": 73,
+  "weekDeadline": 75,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["aldric_theron", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Theron enters your office carrying a stack of arrest warrants. He looks feverish. 'Chancellor, I have begun the purge. Every Kolvar ally in the Assembly is being arrested for minor, decades-old tax violations. We are dismantling his network piece by piece.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Theron, these are 20-year-old parking tickets and accounting errors. You are using the state police to arrest political opponents. This isn't justice. It is a vendetta."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "It is justice! Kolvar bullied me at university. His allies called me a radical. Now I have the power, and I will see them humiliated. The law is a weapon, Chancellor, and I am wielding it."
+    },
+    {
+      "type": "monologue",
+      "text": "Theron has lost his mind. He is using the Justice Ministry to settle personal scores from 30 years ago. It is a political purge disguised as legal hygiene. If I let this continue, I am complicit in tyranny. If I fire him, I lose my best legal mind."
+    }
+  ],
+  "choices": [
+    {
+      "id": "fire_theron",
+      "text": "Fire Theron. His personal vendetta ends now.",
+      "nextSegment": null,
+      "flags": ["theron_fired"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "advisorTrust.theron", "operation": "add", "value": -100 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "let_purge_continue",
+      "text": "Let the purge continue. Kolvar's allies are a threat.",
+      "nextSegment": null,
+      "flags": ["theron_purge_continues"],
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "medical_leave",
+      "text": "Force Theron into medical leave. Appoint a temporary, neutral replacement.",
+      "nextSegment": null,
+      "flags": ["theron_medical_leave"],
+      "stateChanges": [
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

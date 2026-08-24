@@ -1,0 +1,144 @@
+{
+  "id": "act7_week92_aldenmoor_tech",
+  "title": "The Aldenmoor Tech Corridor",
+  "act": 7,
+  "weekAvailable": 92,
+  "weekDeadline": 94,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["elara_vostane", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vostane unrolls a massive blueprint on your desk. It shows a stretch of the Aldenmoor coast transformed into a sprawling, modern campus. Glass buildings, research laboratories, and a massive new university: The Veltrian Institute of Technology."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Chancellor, this is the Aldenmoor Tech Corridor. A hub for science, engineering, and higher education. We offer tax exemptions to scientific companies and build modern housing to lure top minds from Orythia, Lytheira, and Morivask. It will make Veltria the tech capital of the region."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "It costs ₨ 4 million. The traditionalists in the Church and the Halvekists will hate the 'decadent, foreign' modern culture it brings. And it creates a massive wealth divide—Aldenmoor becomes rich, while Kravenstal and Thornfeld feel abandoned."
+    },
+    {
+      "type": "monologue",
+      "text": "Every great nation needs its California—a shining beacon of innovation that attracts the best and brightest. But the price is staggering. The treasury is stretched. The traditionalists are already marching. If I build this, I bet the future on science and technology. If I don't, Veltria stays an industrial backwater."
+    }
+  ],
+  "choices": [
+    {
+      "id": "state_funded_tech",
+      "text": "Fund it via the State Treasury. ₨ 4M to build the Veltrian Institute of Technology.",
+      "nextSegment": "seg_state_funded",
+      "flags": ["tech_corridor_built", "vit_established"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "factions.church", "operation": "add", "value": -5 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "personal_funded_tech",
+      "text": "Fund it via your Personal Wealth. Requires ₨ 15,000. You become the 'Builder Chancellor'.",
+      "nextSegment": "seg_personal_funded",
+      "prerequisites": [
+        { "stat": "personal.personalWealth", "operator": ">=", "value": 15000 }
+      ],
+      "flags": ["tech_corridor_built", "builder_chancellor"],
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": -15000 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 15 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 25 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "corporate_tech",
+      "text": "The Corporate Model. Let a foreign corporation build and own it.",
+      "nextSegment": "seg_corporate_tech",
+      "flags": ["tech_corridor_corporate"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 10 },
+        { "stat": "nation.corruption", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_state_funded": {
+      "narrative": [
+        { "type": "description", "text": "You authorize the funding. The state pours ₨ 4 million into the Aldenmoor coast. Construction begins immediately. The Veltrian Institute of Technology opens its doors within two years, attracting scientists from across the region." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Church is calling it a 'temple of secular decadence.' The Halvekists are furious about the foreign culture it brings. But the patents are already filing in, and the economy is surging. You built the future, Chancellor." },
+        { "type": "monologue", "text": "I built a beacon. The best minds in the region are coming to Aldenmoor. The traditionalists hate it, but the future doesn't wait for tradition. Veltria is stepping into the modern age." }
+      ],
+      "choices": [
+        {
+          "id": "state_funded_end",
+          "text": "The Institute stands. The future is built.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_personal_funded": {
+      "narrative": [
+        { "type": "description", "text": "You write a personal check for ₨ 15,000. The press goes wild. 'The Builder Chancellor.' The Veltrian Institute of Technology is funded entirely by your personal fortune. The traditionalists have no grounds to complain about 'state waste.'" },
+        { "type": "dialogue", "character": "elara_vostane", "text": "You paid for it out of your own pocket. The international press is hailing you as a visionary philanthropist. The technology sector is booming, and your approval ratings are through the roof." },
+        { "type": "monologue", "text": "I emptied my accounts to build a university. The money is gone, but the Institute stands. My name will be on the cornerstone. They will remember me as the Chancellor who built the future, not the one who stole it." }
+      ],
+      "choices": [
+        {
+          "id": "personal_funded_end",
+          "text": "The Institute stands. The Chancellor's legacy is cemented.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_corporate_tech": {
+      "narrative": [
+        { "type": "description", "text": "You sign the corporate contract. A massive Orythian tech conglomerate builds and owns the entire corridor. No state cost, but the intellectual property belongs to them." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The labs are running. The scientists are working. But every patent, every discovery, every breakthrough belongs to the Orythian corporation. We are the workers; they are the owners." },
+        { "type": "monologue", "text": "I let a foreign corporation build our tech hub. It cost the treasury nothing, but we sold our intellectual soul. The innovation happens on our soil, but the profits and the patents fly across the sea. We are a host body for foreign intelligence." }
+      ],
+      "choices": [
+        {
+          "id": "corporate_tech_end",
+          "text": "The Corridor is built. The IP is foreign.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

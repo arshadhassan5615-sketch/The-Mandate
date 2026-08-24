@@ -1,0 +1,75 @@
+{
+  "id": "act6_week69_generals_toast",
+  "title": "The General's Toast",
+  "act": 6,
+  "weekAvailable": 69,
+  "weekDeadline": 71,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Army Day Gala — Officers' Mess, Ashenmere",
+  "characters": ["oskar_brenner", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Army Day Gala is a sea of pressed uniforms and medals. You stand at the head of the table. General Brenner rises, raises his glass, and the room falls silent. The cameras are flashing."
+    },
+    {
+      "type": "dialogue",
+      "character": "oskar_brenner",
+      "text": "I raise my glass to the Republic. And I raise my glass to the patience of the military. May the Republic never test that patience too severely."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "He didn't toast the Chancellor. He toasted the 'patience of the military.' It's a veiled threat. A public warning. The cameras caught it. You have to respond, and the whole officer corps is watching."
+    },
+    {
+      "type": "monologue",
+      "text": "He did it. He looked me in the eye and told the army to be patient with me. It's a dare. If I back down, I look weak. If I lash out, I provoke the very coup he is hinting at. I have to choose my words like a surgeon."
+    }
+  ],
+  "choices": [
+    {
+      "id": "toast_obedience",
+      "text": "Toast back: 'And to the obedience of the military. May it never waver.'",
+      "nextSegment": null,
+      "flags": ["generals_toast_countered"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "laugh_it_off",
+      "text": "Laugh it off as a joke. Defuse the tension.",
+      "nextSegment": null,
+      "flags": ["generals_toast_ignored"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "fire_brenner_publicly",
+      "text": "Publicly fire him on the spot. 'Your patience is no longer required, General.'",
+      "nextSegment": null,
+      "flags": ["brenner_fired_publicly"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -25 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 20 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

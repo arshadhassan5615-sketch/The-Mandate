@@ -1,0 +1,138 @@
+{
+  "id": "act7_week96_promethean_charter",
+  "title": "The Promethean Charter",
+  "act": 7,
+  "weekAvailable": 96,
+  "weekDeadline": 98,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Oberlin enters your office carrying a thick folder of dossiers. Inside are the files of 50 foreign scientists, engineers, and architects currently working in Orythia, Lytheira, and Morivask. They are the best minds of their generation. And they are unhappy."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Chancellor, the regional brain drain is in full effect. The best minds in the world are fleeing Morivask's civil war, chafing under Orythian corporate restrictions, or suffocating in Lytheiran academic stagnation. I propose the Promethean Charter: a state initiative to actively recruit them."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Charter offers immediate citizenship, five years of tax-free status, and a state-funded laboratory. It is the most aggressive intellectual recruitment program in Veltrian history. The Iron Covenant will call it a security nightmare. 'How do we know these foreign scientists aren't spies?'"
+    },
+    {
+      "type": "monologue",
+      "text": "The Promethean Charter. Named after the titan who stole fire from the gods and gave it to humanity. We are stealing the fire of knowledge from our rivals and bringing it to Veltria. The Iron Covenant is right to be wary—some of these scientists will undoubtedly be approached by foreign intelligence. But the ones who stay will build the future. If I light the fire, I have to accept the risk of getting burned."
+    }
+  ],
+  "choices": [
+    {
+      "id": "implement_charter_full",
+      "text": "Implement the Promethean Charter. Full citizenship, tax-free, state labs.",
+      "nextSegment": "seg_charter_full",
+      "flags": ["promethean_charter_implemented"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "implement_charter_vetted",
+      "text": "Implement a vetted version. Only recruit scientists who pass a security review by Krel.",
+      "nextSegment": "seg_charter_vetted",
+      "flags": ["promethean_charter_vetted"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 8 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -3 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "reject_charter",
+      "text": "Reject the Charter. We cannot risk foreign spies in our labs. Develop domestic talent instead.",
+      "nextSegment": "seg_reject_charter",
+      "flags": ["promethean_charter_rejected"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_charter_full": {
+      "narrative": [
+        { "type": "description", "text": "You sign the Charter into law. Within weeks, the first wave of Promethean Scholars arrives in Ashenmere. Nuclear physicists from Morivask. Aeronautical engineers from Orythia. Civil architects from Lytheira. They bring their families, their research, and their brilliance." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Iron Covenant is furious. General Brenner is demanding background checks on every single one of them. But the labs are humming, the patents are filing, and the military R&D division just made a breakthrough in rocket propulsion that puts us five years ahead of Tyvaren." },
+        { "type": "monologue", "text": "I opened the gates to the world's best minds. They came. They are building things that shouldn't be possible for a nation our size. The security risk is real—Krel has already caught two of them passing notes to foreign handlers. But the ones who are loyal are giving us the future. The fire is lit. Let it burn." }
+      ],
+      "choices": [
+        {
+          "id": "charter_full_end",
+          "text": "The Promethean Scholars arrive. The fire is lit.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_charter_vetted": {
+      "narrative": [
+        { "type": "description", "text": "You implement the Charter, but with Krel as the gatekeeper. Every scientist must pass a rigorous security review before they are admitted. The process is slow and invasive, but it ensures loyalty." },
+        { "type": "dialogue", "character": "danika_oberlin", "text": "We lost half the candidates to the vetting process. They didn't want to be interrogated by Krel's men just to take a job. But the ones who passed are clean, loyal, and brilliant. The labs are secure." },
+        { "type": "monologue", "text": "I got the minds, but I lost the volume. The vetting scared away the risk-takers—the ones who often make the biggest breakthroughs. But the ones who stayed are trustworthy. A smaller fire, but a safer one." }
+      ],
+      "choices": [
+        {
+          "id": "charter_vetted_end",
+          "text": "The vetted scholars arrive. The fire is contained.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_reject_charter": {
+      "narrative": [
+        { "type": "dialogue", "character": "danika_oberlin", "text": "You rejected the Charter. The foreign scientists went to Orythia instead. Our domestic universities are underfunded and understaffed. The brain drain continues—but now it's our own minds leaving for better pay abroad." },
+        { "type": "monologue", "text": "I said no to the foreign minds. The Iron Covenant is pleased. But our labs are empty, our patents are stagnant, and the Orythians just hired the nuclear physicist I could have had. Caution kept us safe. It also kept us small." }
+      ],
+      "choices": [
+        {
+          "id": "reject_charter_end",
+          "text": "The Charter is shelved. The Republic stays small.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

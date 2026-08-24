@@ -1,0 +1,71 @@
+{
+  "id": "act5_week59_old_flame",
+  "title": "The Old Flame",
+  "act": 5,
+  "weekAvailable": 59,
+  "weekDeadline": 61,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["jonas_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "A new legal advisor has arrived from Lytheira to help negotiate a trade dispute. His name is Dr. Julian Bard. He was your university sweetheart. The moment he walks into your study, the chemistry is palpable. Jonas, who came to drop off your evening tea, notices the lingering handshake immediately."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "He seems... familiar. An old classmate, Katya? You didn't mention him in your memoirs. I'll leave you to your 'negotiations.'"
+    },
+    {
+      "type": "monologue",
+      "text": "Julian. The man I almost married before I married the Republic. He is here, in my study, smelling of Lytheirian tobacco and old promises. The trade deal requires his expertise, but working late nights with him will destroy what is left of my marriage. Jonas already suspects."
+    }
+  ],
+  "choices": [
+    {
+      "id": "reassign_advisor",
+      "text": "Reassign him. Protect your marriage. The trade deal will suffer.",
+      "nextSegment": null,
+      "flags": ["old_flame_reassigned"],
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "keep_working",
+      "text": "Keep working with him. The Republic needs this deal.",
+      "nextSegment": null,
+      "flags": ["old_flame_risk_taken"],
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "krel_investigate",
+      "text": "Have Krel investigate him. Lytheira might have sent him as a honey-trap.",
+      "nextSegment": null,
+      "flags": ["old_flame_investigated"],
+      "stateChanges": [
+        { "stat": "shadowFootprint", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

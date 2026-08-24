@@ -1,0 +1,75 @@
+{
+  "id": "act7_week79_frontline_visit",
+  "title": "The Frontline Visit",
+  "act": 7,
+  "weekAvailable": 79,
+  "weekDeadline": 81,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Gravenmark Pass — Forward Operating Base",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You travel to the Gravenmark Pass to visit the troops. The wind is biting, the trenches are muddy, and the soldiers look exhausted. But when you arrive, word spreads like wildfire. The Chancellor is here. In the mud. With them."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "This is the best thing you could have done, Chancellor. The men haven't seen a politician in years. They feel forgotten. Seeing you here, eating their rations, inspecting the lines... it means more than any medal."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The press is covering it live. The nation is watching the Chancellor stand on the border. This is the kind of imagery that wins elections. But the Tyvarens are watching too. They might think you are inspecting an invasion force."
+    },
+    {
+      "type": "monologue",
+      "text": "I stand in the mud and look at the faces of 19-year-old boys freezing for the Republic. They aren't statistics. They are sons. I came here to boost morale, but I am the one who feels bolstered. I have to decide how far to take this visit."
+    }
+  ],
+  "choices": [
+    {
+      "id": "full_tour_speech",
+      "text": "Full tour and speech. Boost morale to the maximum.",
+      "nextSegment": null,
+      "flags": ["frontline_visited"],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 15 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "quiet_visit",
+      "text": "Quiet visit. No speeches, just shaking hands and eating rations.",
+      "nextSegment": null,
+      "flags": ["frontline_quiet_visit"],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cancel_visit",
+      "text": "Cancel the visit. It's too close to the Tyvaren border.",
+      "nextSegment": null,
+      "flags": ["frontline_visit_cancelled"],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "act6_week66_smugglers_offer",
+  "title": "The Smuggler's Offer",
+  "act": 6,
+  "weekAvailable": 66,
+  "weekDeadline": 68,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Aldenmoor Port — Private Warehouse",
+  "characters": ["stefan_morvec"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Morvec invites you to a private room at the Aldenmoor port. The room smells of salt and tobacco. He slides a ledger across the table. It details an illegal cigarette smuggling ring running through the docks, bypassing all tariffs."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "text": "Chancellor. The state treasury is bleeding. I run this little operation to keep my men happy. But I am willing to cut you in. A personal 20% share of the profits. No state records, no taxes, just pure cash for your Discretionary Fund. Enough to fund your campaign without begging the Assembly for a dime."
+    },
+    {
+      "type": "monologue",
+      "text": "Morvec is offering me a bribe. A direct, illegal cut of his smuggling empire. The money would be untraceable. It would solve all my campaign funding problems instantly. But if Nadia Voss finds out, it's an instant impeachment scandal. And if I accept, Morvec owns another piece of my soul."
+    }
+  ],
+  "choices": [
+    {
+      "id": "take_cut",
+      "text": "Take the cut. The money is too useful to refuse.",
+      "nextSegment": null,
+      "flags": ["smuggler_bribe_taken"],
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": 2000 },
+        { "stat": "nation.corruption", "operation": "add", "value": 10 },
+        { "stat": "morvecInfluence", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "refuse_bribe",
+      "text": "Refuse it. I am not a partner in your cartel, Stefan.",
+      "nextSegment": null,
+      "flags": ["smuggler_bribe_refused"],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "arrest_smugglers",
+      "text": "Use Krel to arrest the smugglers and raid the warehouse. Crush Morvec's operation.",
+      "nextSegment": null,
+      "flags": ["smugglers_arrested"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 },
+        { "stat": "morvecInfluence", "operation": "add", "value": -20 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

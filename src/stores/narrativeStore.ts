@@ -9,7 +9,9 @@ import { useCabinetStore } from './cabinetStore'
 import { useChainStore } from './chainStore'
 import { useWeekStore } from './weekStore'
 import { useNewsStore } from './newsStore'
+import { useDecreeStore } from './decreeStore'
 import { NEWS_TEMPLATES } from '../data/news/newsTemplates'
+import { ALL_DECREES } from '../data/decrees'
 import { playCodexUnlock } from '../engine/audioEngine'
 import { useJournalStore } from '../stores/journalStore'
 import { getJournalTemplate, getJournalCategory } from '../data/journal/templates'
@@ -571,6 +573,14 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       activeSegmentId:  nextSegmentId,
       sceneDone,
     })
+
+    // Inject Parliamentary Bills into Decree Inbox
+    if (newFlags.includes('cadre_bill_passed')) {
+      const decree = ALL_DECREES.find(d => d.id === 'decree_cadre_qualifications')
+      if (decree) {
+        useDecreeStore.getState().addDecree(decree)
+      }
+    }
     if (import.meta.env.DEV) console.log(
       '[narrativeStore.processChoice] RESOLVED',
       '| nextScene:', nextScene?.id ?? 'null',

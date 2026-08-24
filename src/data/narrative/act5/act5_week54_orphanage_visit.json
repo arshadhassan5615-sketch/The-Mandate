@@ -1,0 +1,72 @@
+{
+  "id": "act5_week54_orphanage_visit",
+  "title": "The Orphanage Visit",
+  "act": 5,
+  "weekAvailable": 54,
+  "weekDeadline": 56,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "State Orphanage — Dravenhollow",
+  "characters": ["liora_ashavel"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Liora insists you visit a state-run orphanage in Dravenhollow. The conditions are horrific. The heating system is broken, the children are wrapped in thin blankets, and the matron looks at you with the desperate eyes of someone who has been ignored for years."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "text": "Look at them, Mother. This is the Republic you inherited. The state budget is frozen, but your accounts are not. You can fix this right now."
+    },
+    {
+      "type": "monologue",
+      "text": "The cold here bites through my coat. These children are freezing in their beds while I sit in a heated Palace arguing over line items. The state treasury is empty. But my personal wealth is not. Do I empty my pockets to fix a broken boiler, or do I walk out and pretend I didn't see this?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "donate_personal_wealth",
+      "text": "Donate ₨ 1,500 of your personal wealth to fix the heating and buy supplies.",
+      "nextSegment": null,
+      "flags": ["orphanage_saved"],
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": -1500 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "promise_state_funding",
+      "text": "Promise state funding. Tell the matron the check is in the mail.",
+      "nextSegment": null,
+      "flags": ["orphanage_promise_broken"],
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "walk_out",
+      "text": "Walk out. You cannot save everyone, and the treasury comes first.",
+      "nextSegment": null,
+      "flags": ["orphanage_ignored"],
+      "stateChanges": [
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": -20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "act6_week67_bribed_reporter",
+  "title": "The Bribed Reporter",
+  "act": 6,
+  "weekAvailable": 67,
+  "weekDeadline": 69,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["nadia_voss"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Nadia Voss enters your study privately. She slides a reel of magnetic audio tape across your desk. 'I intercepted this from a courier at the Ashenmere Herald,' she says."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "It's a recording of Martin Luka, the lead anchor. He's accepting a bribe from Lucan Vael. The terms are clear: Luka is to run a smear campaign against your Finance Minister, blaming them for the inflation crisis. Vael is buying the narrative, Chancellor."
+    },
+    {
+      "type": "monologue",
+      "text": "Vael is using the press like a weapon. The anchor is a trusted face in every Veltrian home. If I publish this, I destroy the anchor and expose Vael's manipulation. But it will look like I am crushing the free press. If I bury it, Vael's smear campaign continues unchecked."
+    }
+  ],
+  "choices": [
+    {
+      "id": "publish_tape",
+      "text": "Publish the tape and arrest the anchor for corruption.",
+      "nextSegment": null,
+      "flags": ["reporter_arrested"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 8 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -5 },
+        { "stat": "vaelInfluence", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "blackmail_anchor",
+      "text": "Use the tape to blackmail the anchor into feeding Vael false information.",
+      "nextSegment": null,
+      "flags": ["reporter_turned"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "bury_tape",
+      "text": "Bury the tape. Protect the illusion of a free press, even if it means Vael wins this round.",
+      "nextSegment": null,
+      "flags": ["tape_buried"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

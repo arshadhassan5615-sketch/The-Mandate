@@ -1,0 +1,147 @@
+{
+  "id": "act6_week68_morivask_brain_drain",
+  "title": "The Morivask Brain Drain",
+  "act": 6,
+  "weekAvailable": 68,
+  "weekDeadline": 70,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Aldenmoor Port Authority — Aldenmoor",
+  "characters": ["danika_oberlin", "elara_vostane", "aldric_theron"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The docks at Aldenmoor are overwhelmed. A brutal civil war in Morivask has sent 40,000 refugees fleeing across the border. They are hungry, sick, and desperate. The port authority is drowning. Oberlin, Vostane, and Theron have traveled with you to assess the situation firsthand."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "We cannot take them all, Chancellor. The camps are at capacity. If we open the borders entirely, public services will collapse, the Iron Covenant will riot, and unemployment will spike. But we cannot just turn them back to a war zone."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "I have been looking at the manifests. Among the 40,000, there are 200 doctors, 400 engineers, 50 scientists, and a dozen wealthy industrialists fleeing with their capital. If we extract just them, we gain millions in human capital and wealth. The rest, the laborers and the poor, we must regretfully turn away."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "It is legally gray, Chancellor. We can implement a 'Skill Filter'—granting immediate asylum and citizenship to those with degrees or capital, while rejecting the rest under an 'economic emergency' clause. It is cold. It is utilitarian. But it is how great nations build themselves overnight."
+    },
+    {
+      "type": "monologue",
+      "text": "The brain drain. The United States did it after the war. They took the best minds of a ruined Europe and left the rest to rebuild. I look at the camps. I see a nuclear physicist begging for bread. I see a child with a broken arm. I have the power to save one of them and condemn the other. The Skill Filter is monstrous, but it makes the Republic stronger. The open border is merciful, but it might break the Republic's back. What kind of Chancellor am I?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "implement_skill_filter",
+      "text": "Implement the Skill Filter. Take the educated and the wealthy. Turn away the rest.",
+      "nextSegment": "seg_skill_filter",
+      "flags": ["skill_filter_implemented", "morivask_brain_drain"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "open_borders",
+      "text": "Open the borders. Take them all. We do not turn away the desperate.",
+      "nextSegment": "seg_open_borders",
+      "flags": ["borders_opened_morivask"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "close_borders",
+      "text": "Close the borders entirely. Veltria for Veltrians. We cannot afford a crisis.",
+      "nextSegment": "seg_close_borders",
+      "flags": ["borders_closed_morivask"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_skill_filter": {
+      "narrative": [
+        { "type": "description", "text": "You give the order. The border guards process the refugees like a sieve. The doctors, engineers, and scientists are pulled from the crowd, given warm coats, and bussed to Ashenmere. The wealthy industrialists are fast-tracked for citizenship. The rest—the laborers, the farmers, the children without degrees—are loaded back onto trains and sent to the border." },
+        { "type": "dialogue", "character": "elara_vostane", "text": "We gained 200 medical professionals today. The Ashenmere General Hospital is fully staffed for the first time in a decade. The economy will feel the boost of the engineers within a month. The Republic is stronger. I hope you can sleep tonight, Chancellor." },
+        { "type": "monologue", "text": "I took the best and left the rest. The Republic gained 200 brilliant minds and 12 million kroner in capital. But I can still hear the crying from the trains. I built my nation's future on the backs of the people I sent back to die. History will judge me as a pragmatist. My conscience judges me as a monster." }
+      ],
+      "choices": [
+        {
+          "id": "skill_filter_end",
+          "text": "The Republic grows stronger. The cost is paid in the dark.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_open_borders": {
+      "narrative": [
+        { "type": "description", "text": "You open the gates. 40,000 refugees pour into Aldenmoor. The camps overflow. Schools are converted to shelters. The Iron Covenant protests in the streets. But the workers' coalition marches side-by-side with the refugees, welcoming them as brothers." },
+        { "type": "dialogue", "character": "danika_oberlin", "text": "Public services are at the breaking point. Unemployment is rising. The Iron Covenant is calling for your impeachment. But the international press is hailing you as a humanitarian champion. The Orythian Dominion has even offered a small aid package—though they still demand our vote in exchange." },
+        { "type": "monologue", "text": "I opened the doors. The Republic is straining under the weight, but the people are alive. The children are fed. The workers see me as a champion. The right wing sees me as a traitor. It is the price of mercy. I just hope the Republic doesn't break before it heals." }
+      ],
+      "choices": [
+        {
+          "id": "open_borders_end",
+          "text": "The borders are open. The Republic strains, but the people are saved.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_close_borders": {
+      "narrative": [
+        { "type": "description", "text": "You order the border sealed. The troops turn the refugees back at gunpoint. The Iron Covenant cheers. The international press calls you a tyrant. The camps empty out as the refugees are forced back into the Morivask war zone." },
+        { "type": "dialogue", "character": "aldric_theron", "text": "The Iron Covenant is thrilled. 'Veltria for Veltrians,' they chant. The public order is maintained. But the Orythian Ambassador is furious, and the Lytheirian press is running headlines calling you 'the Ice Chancellor.' Our international standing has cratered." },
+        { "type": "monologue", "text": "I shut the door. The Republic is safe, the order is maintained, and the economy is stable. But the images of soldiers pushing refugees back across the border will haunt me. I chose the Republic over humanity. I tell myself it was necessary. I am not sure I believe it." }
+      ],
+      "choices": [
+        {
+          "id": "close_borders_end",
+          "text": "The borders are sealed. The Republic is safe. The cost is our humanity.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

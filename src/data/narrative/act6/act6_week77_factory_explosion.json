@@ -1,0 +1,76 @@
+{
+  "id": "act6_week77_factory_explosion",
+  "title": "The Factory Explosion",
+  "act": 6,
+  "weekAvailable": 77,
+  "weekDeadline": 79,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Kravenstal Chemical Plant — Kravenstal",
+  "characters": ["gregor_maric", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "A massive explosion tears through the Kravenstal Chemical Plant. 30 workers are trapped beneath the rubble. Toxic smoke fills the air. The factory owner—a wealthy Vael loyalist—refuses to pay for the rescue operation, claiming it is a 'state responsibility.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "The men are dying in there, Chancellor! The owner says it's not his problem. If we wait for the state emergency funds to clear, it will be too late. Send the army engineers. Break down the doors. Save our people!"
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "If you send the army into a private factory, you are nationalizing the rescue. The business class will scream about property rights. But if you do nothing, 30 men die on live radio."
+    },
+    {
+      "type": "monologue",
+      "text": "The factory owner is hiding behind his lawyers while men suffocate. I can send the army in to save them, but it will cost military readiness and anger the business class. Or I can force the owner to pay, but that takes time the workers don't have. Or I can do nothing, and let the market sort it out."
+    }
+  ],
+  "choices": [
+    {
+      "id": "send_army_rescue",
+      "text": "Send the army engineers in immediately. Rescue them at state expense.",
+      "nextSegment": null,
+      "flags": ["factory_rescued"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "force_owner_pay",
+      "text": "Force the owner to pay for the rescue by freezing his assets.",
+      "nextSegment": null,
+      "flags": ["owner_forced_to_pay"],
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": -15 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "do_nothing_factory",
+      "text": "Do nothing. The state cannot afford to rescue every private disaster.",
+      "nextSegment": null,
+      "flags": ["factory_abandoned"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": -15 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

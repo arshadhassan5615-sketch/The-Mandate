@@ -1,0 +1,69 @@
+{
+  "id": "act6_week76_midnight_confession",
+  "title": "The Midnight Confession",
+  "act": 6,
+  "weekAvailable": 76,
+  "weekDeadline": 78,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Chapel — Ashenmere Palace",
+  "characters": ["stanislov_renek"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Archbishop Renek arrives at the Palace at 2:00 AM, unannounced. He looks like he hasn't slept in days. He asks to speak with you in the private chapel. He falls to his knees."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor, I am being eaten alive by guilt. In 1942, the Church provided the BNI with a list of 'subversive' priests. We handed them over to be executed. I signed that list. I have carried this sin for 20 years. I need to know what to do."
+    },
+    {
+      "type": "monologue",
+      "text": "The Archbishop is confessing to aiding Halvek's purges. He handed priests to the executioners. If he makes this public, the Church's authority collapses, but civil liberties are vindicated. If I bury it, I protect the Church but damn my own soul. If I use it as blackmail, I become Halvek."
+    }
+  ],
+  "choices": [
+    {
+      "id": "confess_publicly",
+      "text": "Tell him to confess publicly. The truth must be known.",
+      "nextSegment": null,
+      "flags": ["renek_confessed"],
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 10 },
+        { "stat": "factions.church", "operation": "add", "value": -20 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "bury_confession",
+      "text": "Bury it forever. The Church must remain stable.",
+      "nextSegment": null,
+      "flags": ["renek_confession_buried"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "blackmail_renek",
+      "text": "Use it as blackmail. The Church now does what you say.",
+      "nextSegment": null,
+      "flags": ["renek_blackmailed"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 20 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

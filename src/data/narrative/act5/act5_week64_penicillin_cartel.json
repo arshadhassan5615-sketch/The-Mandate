@@ -1,0 +1,148 @@
+{
+  "id": "act5_week64_penicillin_cartel",
+  "title": "The Penicillin Cartel",
+  "act": 5,
+  "weekAvailable": 64,
+  "weekDeadline": 66,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["lena_kaspar", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dr. Kaspar (Health Minister) enters your office looking like she hasn't slept in three days. She throws a stack of pharmaceutical invoices onto your desk. The numbers are red."
+    },
+    {
+      "type": "dialogue",
+      "character": "lena_kaspar",
+      "text": "Chancellor. Three foreign pharmaceutical companies—Orythian, Lytheirian, and Tyvaren—have colluded to artificially inflate the price of penicillin by 300%. They are coordinating supply to keep it scarce. A vial that cost 2 kroner last month now costs 8. Veltrians are dying of treatable infections in the streets because they cannot afford the cure."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "It is extortion. They know we don't have the domestic manufacturing capacity to produce it ourselves. They are holding the health of the Republic hostage for profit. The Orythian Ambassador says he 'regrets the market conditions' but offers no relief."
+    },
+    {
+      "type": "dialogue",
+      "character": "lena_kaspar",
+      "text": "I have a solution. I have the chemical formula. We can build a state-owned generic laboratory right here in Ashenmere. We manufacture the penicillin locally, ignoring the foreign patents. We can produce enough for the entire country at cost—1 kroner per vial."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Ignore the patents? The Orythians will go ballistic. They will claim we are stealing their intellectual property. They will threaten a trade embargo, maybe even sue us in the international courts. If we do this, we declare economic war on the pharmaceutical lobby."
+    },
+    {
+      "type": "monologue",
+      "text": "People are dying because three foreign corporations decided to squeeze a few extra million kroner out of a sick nation. Kaspar wants to steal the formula and make the medicine ourselves. It is theft, technically. But is it theft to steal a cure that is being withheld for ransom? I have to decide if I fear the Orythian lawyers more than I fear the body count."
+    }
+  ],
+  "choices": [
+    {
+      "id": "build_generic_lab",
+      "text": "Authorize the generic lab. Produce penicillin locally. Ignore the foreign patents.",
+      "nextSegment": "seg_generic_lab",
+      "flags": ["generic_lab_built", "patents_ignored"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "negotiate_discount",
+      "text": "Negotiate a 10% discount with the cartel. Pay the inflated price to avoid a trade war.",
+      "nextSegment": "seg_negotiate",
+      "flags": ["penicillin_cartel_paid"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -8 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "do_nothing_penicillin",
+      "text": "Do nothing. The market will correct itself. We cannot risk an embargo.",
+      "nextSegment": "seg_do_nothing",
+      "flags": ["penicillin_crisis_ignored"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": -15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_generic_lab": {
+      "narrative": [
+        { "type": "description", "text": "You sign the authorization. Kaspar moves with lightning speed. Within two months, the Veltrian State Pharmaceutical Lab is producing penicillin at 1 kroner per vial. The foreign cartel is furious." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Orythian Ambassador has filed a formal protest. They are threatening to embargo our textile exports. But the hospitals are full, the pharmacies are stocked, and the mortality rate from infections has dropped by 60%. The people are calling you a hero." },
+        { "type": "monologue", "text": "I stole the formula to save the people. The Orythians are screaming about intellectual property. Let them scream. The streets of Ashenmere are no longer filled with the dying. I broke the law of the market to keep the law of the Republic: protect the citizens." }
+      ],
+      "choices": [
+        {
+          "id": "generic_lab_end",
+          "text": "The medicine flows. The foreign cartel is broken.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_negotiate": {
+      "narrative": [
+        { "type": "dialogue", "character": "lena_kaspar", "text": "A 10% discount. They graciously lowered the price from 8 kroner to 7.2. It is still triple the fair market value. The treasury is bleeding, but at least the hospitals have some supply. The rich get their medicine. The poor still ration." },
+        { "type": "monologue", "text": "I paid the ransom. The pharmaceutical cartel got their money, the Orythian Ambassador is pleased, and the trade relations are stable. But every time I sign a check to those foreign companies, I know I am paying for the privilege of watching my own people suffer." }
+      ],
+      "choices": [
+        {
+          "id": "negotiate_end",
+          "text": "The medicine is bought. The price is submission.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_do_nothing": {
+      "narrative": [
+        { "type": "description", "text": "You reject Kaspar's proposal. The market will correct itself, you say. It doesn't. The price climbs to 10 kroner per vial. The hospitals run out. The poor turn to black-market quacks and folk remedies. The bodies start to stack up." },
+        { "type": "dialogue", "character": "lena_kaspar", "text": "The morgues are full, Chancellor. The press is printing photos of children dying of strep throat. A preventable disease. They are dying because you were afraid of an embargo. I hope the Orythian Ambassador sends you a thank-you note." },
+        { "type": "monologue", "text": "I froze. I was so afraid of the economic consequences that I let the people die. The morgues are full, the press is calling me a monster, and Kaspar won't even look at me. The market didn't correct itself. It just ate the weak, like it always does." }
+      ],
+      "choices": [
+        {
+          "id": "do_nothing_end",
+          "text": "The crisis worsens. The cost is measured in graves.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

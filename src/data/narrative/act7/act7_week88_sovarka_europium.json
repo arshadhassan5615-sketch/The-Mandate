@@ -1,0 +1,138 @@
+{
+  "id": "act7_week88_sovarka_europium",
+  "title": "The Sovarka Bonanza",
+  "act": 7,
+  "weekAvailable": 88,
+  "weekDeadline": 90,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vera_sorin", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Sorin enters your office carrying a diplomatic pouch from the Veltrian Embassy in Sovarka. Inside is a geological survey report and a frantic letter from the Sovarkan President. The small republic on the Thalassic coast has just discovered massive deposits of Europium—a rare earth mineral essential for nuclear reactors and new television screens."
+    },
+    {
+      "type": "dialogue",
+      "character": "vera_sorin",
+      "text": "Chancellor. Sovarka has no navy and no army. They are defenceless. Tyvaren has already sent three 'trade delegations' to their coast this week. The Sovarkan President is begging for Veltrian protection. He is offering 80% of the mining rights in exchange for a military guarantee."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "It is imperialism, Chancellor. Pure and simple. If we build a naval base on the Sovarkan coast, Tyvaren will see it as a direct act of aggression. The international press will call us a colonial power. But the resource is unparalleled. Whoever controls that Europium controls the tech industry of the next century."
+    },
+    {
+      "type": "monologue",
+      "text": "Sovarka. A tiny nation with no army sitting on the most valuable mineral in the world. They are asking us to be their shield. If I say yes, I am building an empire. If I say no, Tyvaren takes the mineral and builds weapons with it. There is no clean answer. There is only the choice of which kind of power I want to be."
+    }
+  ],
+  "choices": [
+    {
+      "id": "build_naval_base",
+      "text": "Build the naval base. Claim the 80% mining rights. Protect Sovarka from Tyvaren.",
+      "nextSegment": "seg_naval_base",
+      "flags": ["sovarka_naval_base_built", "europium_rights_secured"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 20 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 15 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 20 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "defensive_pact_only",
+      "text": "Offer a defensive pact only. No mining rights. Protect them out of principle.",
+      "nextSegment": "seg_defensive_pact",
+      "flags": ["sovarka_defensive_pact"],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 15 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "let_tyvaren_take",
+      "text": "Do nothing. Let Tyvaren have Sovarka. We cannot risk a war.",
+      "nextSegment": "seg_let_tyvaren",
+      "flags": ["sovarka_abandoned"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -15 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_naval_base": {
+      "narrative": [
+        { "type": "description", "text": "You sign the treaty. The Veltrian Navy breaks ground on a base in the Sovarkan port of Mirev. Within months, Veltrian warships patrol the Thalassic coast. The Europium flows to Ashenmere. The tech industry booms." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Tyvaren has recalled their Ambassador. Their fleet is conducting exercises off the Sovarkan coast. The international press is calling us 'the new colonialists.' But the Europium is ours. The nuclear program is advancing. Veltria is now a regional hegemon." },
+        { "type": "monologue", "text": "I built an empire. The flag flies over Mirev. The Europium flows. Tyvaren is furious, but they cannot challenge our navy. I traded my moral standing for technological supremacy. The Republic is now a power. The question is whether power corrupts the Republic before the Republic secures the power." }
+      ],
+      "choices": [
+        {
+          "id": "naval_base_end",
+          "text": "The base stands. The Europium flows. The empire grows.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_defensive_pact": {
+      "narrative": [
+        { "type": "dialogue", "character": "vera_sorin", "text": "The Sovarkan President is weeping with gratitude. A defensive pact, no strings attached. Veltrian ships will patrol their waters, but we take no minerals. The international press is calling it a 'triumph of principled diplomacy.'" },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Tyvaren is still angry. They see our navy in their backyard. But the moral high ground is ours. We protected a weak nation without exploiting it. That hasn't happened in this region in 200 years." },
+        { "type": "monologue", "text": "I protected Sovarka without taking their wealth. It is the right thing to do. But I watch the Europium shipments leaving Mirev for Orythia and I wonder—did I just hand the tech industry of the next century to a foreign power? Principles are expensive. I just hope I can afford them." }
+      ],
+      "choices": [
+        {
+          "id": "defensive_pact_end",
+          "text": "Sovarka is protected. The principles hold.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_let_tyvaren": {
+      "narrative": [
+        { "type": "description", "text": "You refuse the Sovarkan plea. Within weeks, Tyvaren 'trade delegations' become Tyvaren naval vessels. Sovarka signs a 99-year lease with Tyvaren. The Europium flows north, not south." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Tyvaren now controls the most valuable mineral deposit on the Thalassic coast. Their nuclear program will accelerate. Their tech industry will boom. And we stood by and watched because we were afraid of a fight." },
+        { "type": "monologue", "text": "I let Tyvaren take Sovarka. I was cautious. And now my enemy sits on a mountain of Europium that will fund their military for the next century. Caution didn't keep the peace. It just handed the future to my enemies." }
+      ],
+      "choices": [
+        {
+          "id": "let_tyvaren_end",
+          "text": "Sovarka falls. The Europium flows north.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

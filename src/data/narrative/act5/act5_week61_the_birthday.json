@@ -1,0 +1,77 @@
+{
+  "id": "act5_week61_the_birthday",
+  "title": "The Birthday",
+  "act": 5,
+  "weekAvailable": 61,
+  "weekDeadline": 63,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Ashenmere Palace",
+  "characters": ["jonas_ashavel", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "It is your 45th birthday. Jonas and the children have prepared a small, private dinner in the residence. Vyktor, however, intercepts you in the hallway with a grim expression."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor, the economic crisis is the lead story on every channel. Pictures of you eating cake while the Kravenstal mills announce layoffs would be a disaster. I strongly advise canceling the dinner and working late in the office. Optics are everything."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "It's your birthday, Katya. The children made cards. I made your favorite. Please don't let Vyktor's spreadsheets dictate every hour of our lives."
+    },
+    {
+      "type": "monologue",
+      "text": "A birthday. A trivial thing in the grand machinery of state. But Jonas is right—I am drowning in spreadsheets and forgetting I have a family. Vyktor is also right—a photograph of a celebration during an economic downturn is ammunition for Kolvar. Do I embrace my family or protect my image?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "private_party",
+      "text": "Have the private party with the family. Ignore Vyktor.",
+      "nextSegment": null,
+      "flags": ["birthday_celebrated"],
+      "stateChanges": [
+        { "stat": "personal.marriageHealth", "operation": "add", "value": 10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cancel_work",
+      "text": "Cancel the party. Work late in the office.",
+      "nextSegment": null,
+      "flags": ["birthday_canceled"],
+      "stateChanges": [
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "public_festival",
+      "text": "Use ₨ 2,000 personal wealth to throw a massive public birthday festival to boost national morale.",
+      "nextSegment": null,
+      "flags": ["public_birthday_festival"],
+      "stateChanges": [
+        { "stat": "personal.personalWealth", "operation": "add", "value": -2000 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

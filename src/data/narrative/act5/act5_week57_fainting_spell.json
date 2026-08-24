@@ -1,0 +1,73 @@
+{
+  "id": "act5_week57_fainting_spell",
+  "title": "The Fainting Spell",
+  "act": 5,
+  "weekAvailable": 57,
+  "weekDeadline": 59,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "National Broadcasting House — Ashenmere",
+  "characters": ["nadia_voss"],
+  "prerequisites": [
+    { "flag": "permanent_injury_sustained", "value": true }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You are at the podium for a live press conference. The lights are hot, the cameras are rolling. A reporter asks a question about the economy. As you turn to address him, the nerve damage in your hand flares up violently. Your arm spasms, knocking your water glass off the podium with a loud crash. The room goes silent."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Chancellor, are you feeling unwell? The nation is watching. There are rumors that the assassination attempt left you with permanent damage. Is that true?"
+    },
+    {
+      "type": "monologue",
+      "text": "The cameras are zooming in. The water is pooling on the floor. My hand is still shaking. I can feel the ringing in my ear drowning out the room. I have to say something, or this will be the only story in tomorrow's papers."
+    }
+  ],
+  "choices": [
+    {
+      "id": "admit_injury",
+      "text": "Admit the injury. 'The attempt on my life left scars. I govern with them.'",
+      "nextSegment": null,
+      "flags": ["injury_publicly_admitted"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "lie_fatigue",
+      "text": "Lie. 'I am simply exhausted from working for the Republic.'",
+      "nextSegment": null,
+      "flags": ["injury_hidden"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "attack_reporter",
+      "text": "Attack the reporter. 'How dare you question my health while Veltrians are starving?'",
+      "nextSegment": null,
+      "flags": ["press_intimidated"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "id": "act5_week63_stray_dog",
+  "title": "The Stray Dog",
+  "act": 5,
+  "weekAvailable": 63,
+  "weekDeadline": 65,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Palace Gardens — Ashenmere",
+  "characters": ["serida_valk"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You are taking a rare moment of peace on the Palace terrace, reading over dispatches. A mangy, starving stray dog wanders out of the garden bushes, looks at you, and collapses at your feet, panting heavily."
+    },
+    {
+      "type": "dialogue",
+      "character": "serida_valk",
+      "text": "The groundskeeper called animal control, Chancellor. They will be here in ten minutes to... remove it. It's just a street dog. There are thousands of them in Ashenmere."
+    },
+    {
+      "type": "monologue",
+      "text": "It's just a dog. A filthy, starving street dog. I have a nation to run, a border crisis to manage, and an election to win. I shouldn't care. But it looked at me like I was the only person in the world who could help it. It's just a dog. But it's alive, and it's suffering."
+    }
+  ],
+  "choices": [
+    {
+      "id": "adopt_dog",
+      "text": "Adopt the dog. Order the palace vet to treat it immediately.",
+      "nextSegment": null,
+      "flags": ["stray_dog_adopted"],
+      "stateChanges": [
+        { "stat": "personal.stressLevel", "operation": "add", "value": -15 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "let_staff_take_it",
+      "text": "Let animal control handle it. You don't have time for this.",
+      "nextSegment": null,
+      "flags": ["stray_dog_removed"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "krel_guard_dog",
+      "text": "Have Krel take it. A starving dog can be trained to bite intruders.",
+      "nextSegment": null,
+      "flags": ["stray_dog_krel"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

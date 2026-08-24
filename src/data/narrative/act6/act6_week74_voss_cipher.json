@@ -1,0 +1,144 @@
+{
+  "id": "act6_week74_voss_cipher",
+  "title": "The Voss Cipher",
+  "act": 6,
+  "weekAvailable": 74,
+  "weekDeadline": 76,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "University of Ashenmere — Applied Cryptography Laboratory",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dr. Emilian Voss meets you in his laboratory at midnight. The room is filled with vacuum tubes, punch-card machines, and the hum of a machine that shouldn't exist yet. In the center of the room sits a metal box the size of a desk. It clicks and whirs like a mechanical brain."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "He calls it the Cipher Engine. I call it the most dangerous machine in Veltria. He has been working on it in secret since we connected him to the Hawk network. He says it is ready."
+    },
+    {
+      "type": "description",
+      "text": "Voss turns to you, his eyes bright with the fever of a man who has built something that will change the world. He speaks quietly, but every word carries the weight of a decade of work."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The machine can do two things, Chancellor. First: it can encrypt all Veltrian state communications—military cables, diplomatic dispatches, BNI intelligence—using a mathematical system that no foreign power can break. Our secrets become truly secret. Second: it can be reverse-engineered to break Tyvaren's military codes. We would be able to read every order Vukov sends to his generals."
+    },
+    {
+      "type": "monologue",
+      "text": "The Cipher Engine. A machine that can either shield the Republic in unbreakable armor or give us a sword that cuts through every enemy cipher. Voss needs ₨ 2 million to build the mainframe. The choice of what to do with it is mine. If I use it defensively, our communications become impregnable—but Krel loses his backdoor access to state files, because the Cipher Engine closes every door he uses. If I use it offensively, I can read Vukov's mail—but it is an act of intelligence warfare that could provoke Tyvaren into war. And if the Arcturians find out we can break their codes too, they will send assassins."
+    }
+  ],
+  "choices": [
+    {
+      "id": "fund_defensive_mainframe",
+      "text": "Fund the defensive mainframe. ₨ 2M to secure all Veltrian communications. Close the backdoors.",
+      "nextSegment": "seg_defensive",
+      "flags": ["cipher_defensive_built", "state_comms_secured"],
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 2 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 8 },
+        { "stat": "shadowInfluence", "operation": "add", "value": -15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "fund_offensive_codebreaker",
+      "text": "Fund the offensive codebreaker. ₨ 2M to break Tyvaren's military codes.",
+      "nextSegment": "seg_offensive",
+      "flags": ["cipher_offensive_built", "tyvaren_codes_broken"],
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 2 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 20 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 10 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "shelve_voss_project",
+      "text": "Shelve the project. The machine is too dangerous. We cannot provoke foreign powers.",
+      "nextSegment": "seg_shelve",
+      "flags": ["cipher_project_shelved"],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_defensive": {
+      "narrative": [
+        { "type": "description", "text": "You sign the authorization. Voss builds the mainframe in a secured bunker beneath the Palace. Within three months, every state cable, every military dispatch, every diplomatic communication is encrypted with the Voss Cipher. The foreign intelligence services go blind overnight." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Arcturian Ambassador is furious. He says his intelligence services can no longer read our mail. He suspects we have a new encryption system, but he cannot prove it. Krel is also furious—his backdoors into the state networks are sealed shut. He says you have crippled his ability to protect you." },
+        { "type": "monologue", "text": "I built a wall of mathematics around the Republic. Our secrets are safe. But Krel is right—I have blinded the Hawk. He can no longer monitor internal threats through the state networks. I traded shadow power for sovereign security. It is the right choice. But the shadows are where the threats live, and I just turned off the lights." }
+      ],
+      "choices": [
+        {
+          "id": "defensive_end",
+          "text": "The Cipher Engine hums. The Republic's secrets are its own.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_offensive": {
+      "narrative": [
+        { "type": "description", "text": "You give the order. Voss configures the machine for codebreaking. Within weeks, the Cipher Engine is dissecting Tyvaren military communications like a surgeon. Every order Vukov sends to his border commanders is on your desk within 24 hours." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "We are reading Vukov's mail, Chancellor. Every troop movement, every supply shipment, every diplomatic cable. We know more about Tyvaren's military than Tyvaren's own generals. But if they find out—and they will eventually—it is an act of war." },
+        { "type": "monologue", "text": "I can see Vukov's hand before he plays it. The Cipher Engine gives me omniscience. But omniscience is a weapon, and weapons provoke. The Arcturians are already suspicious—our intelligence has been too accurate. If they discover the machine, they will not send diplomats. They will send bombers." }
+      ],
+      "choices": [
+        {
+          "id": "offensive_end",
+          "text": "The codes break. The Republic sees all. The risk is war.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_shelve": {
+      "narrative": [
+        { "type": "description", "text": "You tell Voss to shut it down. The machine is too powerful, too provocative. If foreign powers discover it, they will treat it as a weapon. Voss is devastated. Years of work, locked in a bunker." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Voss has asked for a transfer to the University. He says he cannot work in a country that is afraid of its own brilliance. I don't blame him. But the machine stays in the bunker, under guard. Maybe the next Chancellor will have the courage to turn it on." },
+        { "type": "monologue", "text": "I shelved the Cipher Engine. The Republic's communications remain vulnerable. Tyvaren's codes remain unbroken. But no foreign power has a reason to assassinate us for building a machine they fear. Caution is expensive. But so is brilliance." }
+      ],
+      "choices": [
+        {
+          "id": "shelve_end",
+          "text": "The machine sleeps. The Republic stays cautious.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

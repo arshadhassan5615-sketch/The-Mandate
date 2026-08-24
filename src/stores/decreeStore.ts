@@ -41,6 +41,7 @@ interface DecreeStore {
   signDecree: (id: string) => void
   rejectDecree: (id: string) => void
   tableDecree: (id: string) => void
+  addDecree: (decree: Decree) => void
   selectDecree: (decree: Decree | null) => void
 }
 
@@ -134,6 +135,16 @@ export const useDecreeStore = create<DecreeStore>((set, get) => ({
       pendingDecrees: s.pendingDecrees.filter(d => d.id !== id),
       tabledDecrees: [...s.tabledDecrees, { ...get().pendingDecrees.find(d => d.id === id)!, tabled: true }],
     }))
+  },
+
+  addDecree: (decree) => {
+    set(s => {
+      // Prevent duplicates if the scene fires twice
+      if (s.pendingDecrees.some(d => d.id === decree.id) || s.signedDecrees.some(d => d.id === decree.id)) {
+        return s
+      }
+      return { pendingDecrees: [...s.pendingDecrees, decree] }
+    })
   },
 
   selectDecree: (decree) => {
