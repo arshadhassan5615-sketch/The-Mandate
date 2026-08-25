@@ -581,6 +581,18 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
         useDecreeStore.getState().addDecree(decree)
       }
     }
+    if (newFlags.includes('housing_bill_passed')) {
+      const decree = ALL_DECREES.find(d => d.id === 'decree_integrated_housing')
+      if (decree) {
+        useDecreeStore.getState().addDecree(decree)
+      }
+    }
+    if (newFlags.includes('corporate_deal_passed')) {
+      const decree = ALL_DECREES.find(d => d.id === 'decree_corporate_sweetheart')
+      if (decree) {
+        useDecreeStore.getState().addDecree(decree)
+      }
+    }
     if (import.meta.env.DEV) console.log(
       '[narrativeStore.processChoice] RESOLVED',
       '| nextScene:', nextScene?.id ?? 'null',

@@ -1,0 +1,78 @@
+{
+  "id": "act7_week91_rogue_shadow",
+  "title": "The Rogue Shadow",
+  "act": 7,
+  "weekAvailable": 91,
+  "weekDeadline": 93,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Krel reports a massive success. His anti-corruption task force raided a company funding Arcturian spies and seized ₨ 5 million in black-market assets. But Danika Oberlin storms into your study right after he leaves, looking furious."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Chancellor, I ran the background checks on the company Krel just raided. They weren't spies. 'Thorne Imports' is a legitimate Lytheirian textile firm. Krel planted the Arcturian cipher codes in their files to justify the seizure."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "He framed an innocent company to steal ₨ 5 million for the state treasury? That is not justice, Chancellor. That is state-sponsored piracy. And if the Lytheirian Ambassador finds out, it is an international incident."
+    },
+    {
+      "type": "monologue",
+      "text": "Krel has lost his mind. Or maybe he has just become exactly what I created him to be: a man who will do anything to protect the Republic. The money is real, and the treasury needs it. But he committed a crime against a foreign nation and framed innocent businessmen. If I expose him, I lose my best agent and face a massive scandal. If I cover it up, I am complicit in theft."
+    }
+  ],
+  "choices": [
+    {
+      "id": "cover_up_krel",
+      "text": "Cover it up. Keep the money. Protect Krel.",
+      "nextSegment": null,
+      "flags": ["krel_rogue_covered"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 15 },
+        { "stat": "advisorTrust.danika", "operation": "add", "value": -20 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "return_money",
+      "text": "Return the money to Lytheira and apologize. Reprimand Krel.",
+      "nextSegment": null,
+      "flags": ["krel_rogue_punished"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "arrest_krel_men",
+      "text": "Arrest Krel's men for the frame-up. Prove to Lytheira it was rogue agents.",
+      "nextSegment": null,
+      "flags": ["krel_men_arrested"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": -20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "id": "act7_week93_wiretapped_chancellor",
+  "title": "The Wiretapped Chancellor",
+  "act": 7,
+  "weekAvailable": 93,
+  "weekDeadline": 95,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "danika_oberlin"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Krel's security sweeps have found something disturbing. A wiretap has been discovered on the telephone in your private study. It wasn't planted by Tyvaren or Orythia. It was planted by the Speaker of the Assembly."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Speaker has been listening to your private calls for weeks. He wanted leverage over the budget negotiations. He probably has recordings of you discussing strategy with Vostane, military plans with Dusek, and personal conversations with Jonas."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "We have him dead to rights, Chancellor. But if you arrest the Speaker for espionage, you decapitate the Assembly's leadership. The resulting chaos will stall all legislation for months. The budget won't pass. The election will be thrown into turmoil."
+    },
+    {
+      "type": "monologue",
+      "text": "The Speaker bugged my phone. He has been listening to every private conversation I've had for weeks. I have him cold. But arresting him means shutting down the government right before the election. I have to decide whether to prosecute or use the bug as leverage."
+    }
+  ],
+  "choices": [
+    {
+      "id": "arrest_speaker",
+      "text": "Arrest the Speaker for espionage. The law is the law.",
+      "nextSegment": null,
+      "flags": ["speaker_arrested"],
+      "stateChanges": [
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 10 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "feed_false_info",
+      "text": "Use the wiretap to feed the Speaker false budget info and outmaneuver him.",
+      "nextSegment": null,
+      "flags": ["speaker_manipulated"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "confront_speaker",
+      "text": "Confront him privately. Show him the bug and make him your puppet.",
+      "nextSegment": null,
+      "flags": ["speaker_puppet"],
+      "stateChanges": [
+        { "stat": "nation.assemblyConservative", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

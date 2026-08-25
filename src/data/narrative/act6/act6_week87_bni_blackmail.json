@@ -1,0 +1,77 @@
+{
+  "id": "act6_week87_bni_blackmail",
+  "title": "The BNI Blackmail Files",
+  "act": 6,
+  "weekAvailable": 87,
+  "weekDeadline": 89,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Oberlin enters your study carrying a heavy iron lockbox. She sets it on your desk with a thud. 'We raided a hidden BNI safehouse in the old quarter,' she says. 'This was buried under the floorboards.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Inside are the Blackmail Files. The BNI spent 20 years compiling dossiers on every major politician in Veltria. Sexual affairs, financial crimes, secret memberships. Half the Assembly is in here. The BNI was using these files to keep the politicians in line under Halvek."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "My God. This is the ultimate leverage. With these files, you can guarantee the passage of any legislation you want. You can destroy Kolvar's entire coalition. Or you can burn them and prove you are better than Halvek."
+    },
+    {
+      "type": "monologue",
+      "text": "I hold the sins of the entire Assembly in a iron box. With a word, I can own every vote in the chamber. I can pass the budget, the reforms, the constitution—everything—without a single fight. But that is exactly what Halvek did. He used the BNI to control the state. If I use these files, I become him. If I burn them, those corrupt politicians walk free, and I fight every battle uphill."
+    }
+  ],
+  "choices": [
+    {
+      "id": "use_blackmail",
+      "text": "Use the files. Blackmail the Assembly into passing your agenda.",
+      "nextSegment": null,
+      "flags": ["bni_blackmail_used"],
+      "stateChanges": [
+        { "stat": "nation.assemblyConservative", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -15 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 20 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "burn_blackmail",
+      "text": "Burn the files publicly. Expose the corrupt politicians and let the chips fall.",
+      "nextSegment": null,
+      "flags": ["bni_blackmail_burned"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 20 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
+        { "stat": "nation.assemblyConservative", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "lock_blackmail",
+      "text": "Lock them in Krel's vault. 'Just in case.'",
+      "nextSegment": null,
+      "flags": ["bni_blackmail_vaulted"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

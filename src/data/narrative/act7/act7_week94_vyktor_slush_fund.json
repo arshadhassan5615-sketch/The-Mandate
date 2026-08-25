@@ -1,0 +1,74 @@
+{
+  "id": "act7_week94_vyktor_slush_fund",
+  "title": "The Architect's Slush Fund",
+  "act": 7,
+  "weekAvailable": 94,
+  "weekDeadline": 96,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["danika_oberlin"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Danika Oberlin enters your study carrying a thick financial dossier. She looks like she hasn't slept. She sets the file on your desk and stares at you. 'Chancellor, I need to show you something. It's about Vyktor.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "The anti-corruption task force has been auditing state contracts. We found a slush fund. The money trail leads directly to the Chief of Staff's office. Vyktor has been skimming a percentage off state contracts—not for personal gain, but to build a secret fund to bribe Assembly members and buy off Tyvaren border guards without going through the official budget."
+    },
+    {
+      "type": "monologue",
+      "text": "Vyktor. My Chief of Staff. My oldest ally. The man who built my government. He broke the law and bypassed my authority to do it. He claims he did it to protect my government because 'the official channels were too slow.' If I expose him, I lose my most trusted advisor and the architect of my entire administration. If I cover it up, Danika discovers the cover-up and loses all faith in me."
+    }
+  ],
+  "choices": [
+    {
+      "id": "expose_vyktor",
+      "text": "Expose and fire Vyktor. No one is above the law.",
+      "nextSegment": null,
+      "flags": ["vyktor_exposed"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": -100 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 25 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cover_up_vyktor",
+      "text": "Cover it up and legitimize the slush fund. Vyktor stays.",
+      "nextSegment": null,
+      "flags": ["vyktor_covered"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -15 },
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": 10 },
+        { "stat": "advisorTrust.danika", "operation": "add", "value": -20 },
+        { "stat": "nation.corruption", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "take_control_slush",
+      "text": "Use the evidence to take control of the slush fund yourself. Cut Vyktor out.",
+      "nextSegment": null,
+      "flags": ["vyktor_slush_taken"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

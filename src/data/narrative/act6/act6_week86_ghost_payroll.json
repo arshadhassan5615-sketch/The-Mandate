@@ -1,0 +1,77 @@
+{
+  "id": "act6_week86_ghost_payroll",
+  "title": "The Ghost Payroll",
+  "act": 6,
+  "weekAvailable": 86,
+  "weekDeadline": 88,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["danika_oberlin", "elara_vostane"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Danika Oberlin bursts into your office, followed closely by Vostane. Oberlin slams a massive, dusty ledger onto your desk. It is the state payroll for the Ministry of Labor."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Chancellor, Vostane's auditors found the leak. 4,000 'ghost employees' on the state payroll. They don't exist. No addresses, no tax records, no faces. The money is being routed through a shell company directly into a slush fund controlled by the Halvekist party."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "It is costing the treasury ₨ 2 million a month. That is ₨ 24 million a year stolen from the Republic. If we purge the payroll, the treasury is saved. But the bureaucratic union is powerful, Chancellor. If we fire 4,000 'workers' overnight, the real civil servants will strike in sympathy. The entire government will shut down."
+    },
+    {
+      "type": "monologue",
+      "text": "4,000 fake employees. The Halvekists have been bleeding the state dry for years. Oberlin wants heads. Vostane wants a scalpel. If I let Oberkin arrest them all, the unions paralyze the country. If I let Vostane phase it out, the theft continues for another year. I have to cut the rot, but I have to cut it carefully."
+    }
+  ],
+  "choices": [
+    {
+      "id": "purge_payroll",
+      "text": "Purge the payroll immediately. Fire all 4,000 ghosts and arrest the administrators.",
+      "nextSegment": null,
+      "flags": ["ghost_payroll_purged"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "phase_out_payroll",
+      "text": "Phase it out slowly over a year. Quietly eliminate the ghosts to avoid a strike.",
+      "nextSegment": null,
+      "flags": ["ghost_payroll_phased"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "krel_arrest_admins",
+      "text": "Use Krel to quietly arrest the bureaucrats who created the ghosts. Leave the payroll intact.",
+      "nextSegment": null,
+      "flags": ["ghost_payroll_krel"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

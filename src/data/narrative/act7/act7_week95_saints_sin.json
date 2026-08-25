@@ -1,0 +1,93 @@
+{
+  "id": "act7_week95_saints_sin",
+  "title": "The Saint's Sin",
+  "act": 7,
+  "weekAvailable": 95,
+  "weekDeadline": 97,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Oberkin drops a Swiss bank statement on your desk. 'Krel intercepted this from a courier in Geneva,' she says. 'Archbishop Renek has been secretly hoarding millions in church donations in a private offshore account. The money was meant for the Veltrian Refugee Relief Fund.'"
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Church has been starving the refugees to enrich its own coffers. Renek is the moral authority of the nation, Chancellor. If we expose him, the Church's political power shatters overnight. But the Halvekist base will see it as a persecution of the faith. The resulting social upheaval could destabilize the entire country right before the election."
+    },
+    {
+      "type": "monologue",
+      "text": "The Archbishop is a thief. He stole from refugees to buy a Swiss villa. I have him dead to rights. But exposing him means war with the Church. If I do this, I must do it publicly, on television, so there is no going back. He will confess, and his empire will fall."
+    }
+  ],
+  "choices": [
+    {
+      "id": "expose_renek_tv",
+      "text": "Expose him on live television. Force a public confession and destroy the Church's power.",
+      "nextSegment": "seg_tv_confession",
+      "flags": ["renek_exposed_tv"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 20 },
+        { "stat": "factions.church", "operation": "add", "value": -40 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "blackmail_renek",
+      "text": "Blackmail Renek into funding the refugee camp himself. Keep it quiet.",
+      "nextSegment": null,
+      "flags": ["renek_blackmailed_silent"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "bury_renek",
+      "text": "Bury the evidence. The country cannot handle a religious schism right now.",
+      "nextSegment": null,
+      "flags": ["renek_sin_buried"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_tv_confession": {
+      "narrative": [
+        { "type": "description", "text": "You invite Renek to the National Broadcasting House for a 'televised dialogue on faith and charity.' He arrives expecting a friendly platform. Instead, you produce the Swiss bank statements live on camera. The studio goes dead silent. Renek's face turns ash white." },
+        { "type": "dialogue", "character": "stanislov_renek", "text": "I... I cannot deny what is written there. The temptation of wealth is a heavy cross, Chancellor. I have... I have sinned. I took what was meant for the poor. I ask God for forgiveness, and I ask the Republic for its judgment." },
+        { "type": "description", "text": "Renek breaks down weeping on live television. The cameras capture every tear. The moral authority of the Church of the Eternal Flame shatters in a single broadcast. The Halvekist base is thrown into chaos, but the reformists are jubilant." },
+        { "type": "monologue", "text": "I destroyed him. Live on camera. The Archbishop wept and confessed. The Church's grip on Veltrian politics is broken forever. I did it to save the refugees, but the look in his eyes will haunt me. I have toppled a titan." }
+      ],
+      "choices": [
+        {
+          "id": "tv_confession_end",
+          "text": "The confession is broadcast. The Church falls.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

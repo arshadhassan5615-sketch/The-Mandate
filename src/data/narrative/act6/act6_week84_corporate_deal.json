@@ -1,0 +1,141 @@
+{
+  "id": "act6_week84_corporate_deal",
+  "title": "The Corporate Sweetheart Deal",
+  "act": 6,
+  "weekAvailable": 84,
+  "weekDeadline": 86,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "National Assembly — Ashenmere",
+  "characters": ["vyktor_reznik", "gregor_maric", "elara_vostane"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vostane has brought a massive economic proposal to the Assembly floor. An Orythian electronics conglomerate wants to build a factory in Aldenmoor. The gallery is packed with businessmen and union leaders alike."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Chancellor, this is ₨ 10 million in foreign investment and 5,000 jobs. The Orythians will build the plant, train our workers, and export the technology. It is the single largest injection of capital in Veltrian history."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The conditions are steep. They demand a 10-year tax exemption. They want to import all their own managers from Orythia. And they refuse to let the workers unionize. The Assembly must vote to approve these exemptions."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "This is economic treason! You are selling our workers to foreign overlords! 5,000 jobs with no rights is not progress—it is slavery with a paycheck! The Workers' Coalition will vote this down!"
+    },
+    {
+      "type": "monologue",
+      "text": "LKY courted the MNCs aggressively because he knew jobs were more important than pride. He crushed the unions to make the country attractive to capital. Vostane is offering me the same deal: take the jobs and betray the workers, or protect the workers and lose the jobs. If I force them to allow unions, the Orythians will walk. If I accept their terms, I am selling out my own base."
+    }
+  ],
+  "choices": [
+    {
+      "id": "accept_deal",
+      "text": "Accept the Orythian terms. Tax exemption, foreign managers, no unions. Prioritize jobs.",
+      "nextSegment": "seg_accept",
+      "flags": ["corporate_deal_passed"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 20 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 15 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -20 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "amend_deal",
+      "text": "Amend the deal. Demand a 5-year tax break and mandatory local hiring. Risk them walking.",
+      "nextSegment": "seg_amend",
+      "flags": ["corporate_deal_amended"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "reject_deal",
+      "text": "Reject the deal. We do not bow to foreign corporate exploitation.",
+      "nextSegment": "seg_reject",
+      "flags": ["corporate_deal_rejected"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_accept": {
+      "narrative": [
+        { "type": "description", "text": "You force the bill through the Assembly. The Orythian executives smile from the gallery. The business class cheers. The Workers' Coalition walks out in protest." },
+        { "type": "dialogue", "character": "elara_vostane", "text": "The construction starts next week. The treasury will feel the boost within a month. You made the hard choice, Chancellor. The Republic will be richer for it." },
+        { "type": "monologue", "text": "I took the money. 5,000 Veltrians will have jobs, even if they have no rights. The Orythians own a piece of Aldenmoor now. I traded my political soul for economic growth. LKY would be proud. My base is furious." }
+      ],
+      "choices": [
+        {
+          "id": "accept_end",
+          "text": "The deal passes. The foreign capital flows.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_amend": {
+      "narrative": [
+        { "type": "description", "text": "You stand your ground. You demand the Orythians hire locally and accept a shorter tax break. They threaten to walk. You call their bluff. They don't walk. They accept the amended terms." },
+        { "type": "dialogue", "character": "gregor_maric", "text": "You stood up to them, Chancellor. The jobs stay, the workers have rights, and the Orythians still build their factory. This is how you govern." },
+        { "type": "monologue", "text": "I split the difference. The Orythians get their factory, but on our terms. The investment is smaller, but the pride is intact. Vostane thinks I cost us money. Marić thinks I saved our dignity. They are both right." }
+      ],
+      "choices": [
+        {
+          "id": "amend_end",
+          "text": "The amended deal passes. A balanced victory.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_reject": {
+      "narrative": [
+        { "type": "description", "text": "You reject the deal entirely. The Orythians pack up and leave. The 5,000 jobs vanish. The Workers' Coalition celebrates in the streets. The business class is in mourning." },
+        { "type": "dialogue", "character": "elara_vostane", "text": "You just turned down ₨ 10 million because of principle. The economy needed that capital. I hope the workers' applause pays the national debt, Chancellor." },
+        { "type": "monologue", "text": "I said no. The Orythians are gone. The workers are thrilled, but the economy takes a hit. I chose sovereignty over capital. I hope I don't regret it when the treasury runs dry." }
+      ],
+      "choices": [
+        {
+          "id": "reject_end",
+          "text": "The deal is dead. The workers are protected.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

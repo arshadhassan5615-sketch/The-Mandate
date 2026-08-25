@@ -1,0 +1,77 @@
+{
+  "id": "act7_week97_foreign_asset",
+  "title": "The Foreign Asset",
+  "act": 7,
+  "weekAvailable": 97,
+  "weekDeadline": 99,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["matthias_krel", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Krel enters your study carrying a single, damning folder. He sets it on your desk with the quiet precision of a man who has just found the kill shot."
+    },
+    {
+      "type": "dialogue",
+      "character": "matthias_krel",
+      "text": "Chancellor. The investigation into opposition campaign funding has uncovered something extraordinary. Dražen Kolvar has been receiving massive, illegal campaign donations from the Tyvaren government. He is not just a rival. He is a Tyvaren asset, bought and paid for to destabilize Veltria from the inside."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "We have him dead to rights. But arresting the leader of the opposition for treason right before an election... the international press will call you a dictator eliminating his rival. It makes you look exactly like Halvek."
+    },
+    {
+      "type": "monologue",
+      "text": "Kolvar is a traitor. A Tyvaren puppet. I can arrest him and end the opposition overnight. But the optics are catastrophic. The Orythian press will say I am staging a coup. The Halvekists will riot. Or I can leak the documents to Nadia Voss and let the press destroy him. Or I can hold the evidence over his head and make him my puppet. Three paths. None of them clean."
+    }
+  ],
+  "choices": [
+    {
+      "id": "arrest_kolvar_treason",
+      "text": "Arrest Kolvar for treason. The Republic comes first.",
+      "nextSegment": null,
+      "flags": ["kolvar_arrested_treason"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "leak_to_voss",
+      "text": "Leak the documents to Nadia Voss. Let the press destroy him.",
+      "nextSegment": null,
+      "flags": ["kolvar_exposed_press"],
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "blackmail_kolvar",
+      "text": "Hold the evidence over his head. Force him to drop out of the race.",
+      "nextSegment": null,
+      "flags": ["kolvar_blackmailed_dropout"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 25 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

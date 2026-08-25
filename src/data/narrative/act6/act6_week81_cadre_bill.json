@@ -1,0 +1,141 @@
+{
+  "id": "act6_week81_cadre_bill",
+  "title": "The Cadre Qualifications Bill",
+  "act": 6,
+  "weekAvailable": 81,
+  "weekDeadline": 83,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "National Assembly — Ashenmere",
+  "characters": ["vyktor_reznik", "drazen_kolvar"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You stand at the dispatch box in the National Assembly. The gallery is packed with press and foreign diplomats. Vyktor has drafted the 'Cadre Qualifications Bill'—a landmark piece of legislation that will restructure the ruling party."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor, the bill is simple. Henceforth, no individual may hold a senior party rank or ministerial position without passing a rigorous state examination in economics, constitutional law, and governance. We are replacing the era of the populist strongman with the era of the competent technocrat."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "This is an outrage! The Chancellor wants to replace the will of the people with the will of the pencil-pushers! The workers built this party. They marched for it. They bled for it. And now they are told they aren't smart enough to lead it? This is elitism disguised as reform!"
+    },
+    {
+      "type": "description",
+      "text": "The Assembly erupts. The Reformists cheer the push for meritocracy. The Workers' Coalition members look uncomfortable. The Halvekists are laughing at the chaos. The Speaker calls for order and asks you to defend the bill."
+    },
+    {
+      "type": "monologue",
+      "text": "Kolvar is a hypocrite, but he knows how to read a room. The workers *did* build this party. If I force this bill through, I alienate my base and look like an elitist. But if I withdraw it, Vyktor says the party will be run by 'sentimentalists and cronies' forever. I have to make the Assembly see that competence is not the enemy of the people."
+    }
+  ],
+  "choices": [
+    {
+      "id": "force_full_bill",
+      "text": "Defend the full bill. 'The Republic requires competence, not just popularity. We must professionalize.'",
+      "nextSegment": "seg_full_bill",
+      "flags": ["cadre_bill_passed"],
+      "stateChanges": [
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": 15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -15 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "nation.assemblyConservative", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "compromise_bill",
+      "text": "Compromise. Add an amendment for 'practical experience' quotas so union leaders can bypass the exam.",
+      "nextSegment": "seg_compromise",
+      "flags": ["cadre_bill_amended"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 3 },
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "withdraw_bill",
+      "text": "Withdraw the bill. Kolvar is right. The party belongs to the people, not the professors.",
+      "nextSegment": "seg_withdraw",
+      "flags": ["cadre_bill_withdrawn"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 10 },
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": -15 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_full_bill": {
+      "narrative": [
+        { "type": "description", "text": "You give the speech of your career. You dismantle Kolvar's argument, pointing out that the old way of doing politics led to Halvek's cronyism. The Assembly votes. The bill passes by a narrow margin. The era of the technocrat begins." },
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "You have just fired every union organizer in the party leadership, Chancellor. They will remember this on election day." },
+        { "type": "monologue", "text": "I did it. The party will be run by experts, not demagogues. Vyktor is thrilled. The efficiency of the government will skyrocket. But I look at the Workers' Coalition benches, and I see empty chairs. They are furious. I traded their loyalty for competence. I just hope the experts can win elections." }
+      ],
+      "choices": [
+        {
+          "id": "full_bill_end",
+          "text": "The Cadre Bill passes. The technocrats take control.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_compromise": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "A compromise. The exam is mandatory for civil servants, but union leaders with 10 years of experience get a waiver. It dilutes the meritocracy, but it keeps the Workers' Coalition from walking out. The Assembly passes it unanimously." },
+        { "type": "monologue", "text": "I split the difference. The technocrats get their exam, and the union bosses keep their seats. Vyktor thinks I weakened the bill. The workers think I saved their jobs. Nobody is entirely happy, which means it was probably the right choice." }
+      ],
+      "choices": [
+        {
+          "id": "compromise_end",
+          "text": "The amended bill passes. The party adapts.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_withdraw": {
+      "narrative": [
+        { "type": "description", "text": "You withdraw the bill. Vyktor is furious, but the Workers' Coalition erupts in cheers. Kolvar looks bewildered—he expected a fight, not a surrender." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "You let Kolvar bully you out of reforming the party. We will continue to be run by men who know how to shake hands, not how to read a budget. History will not be kind to this decision, Chancellor." },
+        { "type": "monologue", "text": "I backed down. I looked at the Assembly and realized I didn't have the votes to survive the backlash. The party stays as it is—a messy, populist coalition. It's inefficient, but it's mine." }
+      ],
+      "choices": [
+        {
+          "id": "withdraw_end",
+          "text": "The bill is withdrawn. The old guard remains.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

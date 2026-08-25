@@ -779,4 +779,43 @@ export const ALL_DECREES: Decree[] = [
     ],
     longTermEffects: [],
   },
+  {
+    id: 'decree_integrated_housing',
+    title: 'Integrated Housing Act',
+    category: 'welfare',
+    proposedBy: 'Chancellor Ashavel',
+    summary: 'Mandate ethnic quotas in state housing to force desegregation.',
+    description: 'Passed by the National Assembly. This act mandates ethnic quotas in all new state housing developments, breaking up the segregated enclaves in Dravenhollow and forcing the Dravenni and Veltrian populations to integrate.',
+    weekProposed: 82,
+    ministerPositions: [
+      { ministerId: 'idris_kaelen', stance: 'favor', reason: 'It ends the ghettoization of our people.' },
+      { ministerId: 'stanislov_renek', stance: 'against', reason: 'The state has no right to dictate community structures.' },
+      { ministerId: 'benedikt_varro', stance: 'favor', reason: 'It allows for better urban planning and infrastructure distribution.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.publicOrder', value: 15, operation: 'add', description: 'Long-term ethnic violence reduced' },
+      { stat: 'factions.church', value: -15, operation: 'add', description: 'Church influence over communities broken' },
+      { stat: 'factions.dravenni', value: 15, operation: 'add', description: 'Dravenni loyalty secured' },
+    ],
+    longTermEffects: [],
+  },
+  {
+    id: 'decree_corporate_sweetheart',
+    title: 'Orythian Corporate Investment Act',
+    category: 'economic',
+    proposedBy: 'Ministry of Finance',
+    summary: 'Approve massive tax exemptions and anti-union clauses for an Orythian conglomerate.',
+    description: 'Passed by the National Assembly. This act grants a 10-year tax exemption to an Orythian electronics conglomerate, allows the importation of foreign management, and prohibits unionization at the Aldenmoor plant in exchange for ₨ 10M in investment and 5,000 jobs.',
+    weekProposed: 84,
+    ministerPositions: [
+      { ministerId: 'elara_vostane', stance: 'favor', reason: 'The capital injection is essential for economic recovery.' },
+      { ministerId: 'gregor_maric', stance: 'against', reason: 'Selling our workers rights for foreign cash is treason.' },
+      { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'The political cost is high, but the economic gain is undeniable.' },
+    ],
+    immediateEffects: [
+      { stat: 'nation.economyHealth', value: 20, operation: 'add', description: 'Massive foreign investment boost' },
+      { stat: 'factions.workersCoalition', value: -20, operation: 'add', description: 'Workers outraged by loss of union rights' },
+    ],
+    longTermEffects: [],
+  },
 ]

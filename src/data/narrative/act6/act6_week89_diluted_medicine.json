@@ -1,0 +1,77 @@
+{
+  "id": "act6_week89_diluted_medicine",
+  "title": "The Diluted Medicine",
+  "act": 6,
+  "weekAvailable": 89,
+  "weekDeadline": 91,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["aldric_theron", "lena_kaspar"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Theron and Kaspar enter your office looking grim. Kaspar is holding a vial of penicillin and a lab report. Theron is holding an arrest warrant."
+    },
+    {
+      "type": "dialogue",
+      "character": "lena_kaspar",
+      "text": "Chancellor, the state hospital supply chain has been compromised. The penicillin being distributed to the Kravenstal clinics is diluted. It's been cut with a useless filler to maximize profit. 12 patients have died from treatable infections because the drug was too weak to save them."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "I traced the supply contract. The company providing the medicine is a shell corporation. The majority shareholder is Bishop Viktor Renek—the Archbishop's cousin. He has been literally poisoning the poor to enrich himself."
+    },
+    {
+      "type": "monologue",
+      "text": "Renek's cousin. Diluting medicine. Killing patients. If I arrest him, it will be a massive blow to the Church. Renek will see it as a political attack on his family, and the Halvekist base will riot. But if I let him walk, I am complicit in murder. 12 people are dead. I cannot let that stand, no matter the political cost."
+    }
+  ],
+  "choices": [
+    {
+      "id": "arrest_cousin",
+      "text": "Arrest the cousin and seize the company. The law applies to everyone.",
+      "nextSegment": null,
+      "flags": ["renek_cousin_arrested"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "factions.church", "operation": "add", "value": -25 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "flee_country",
+      "text": "Quietly force the cousin to flee the country. Avoid the scandal.",
+      "nextSegment": null,
+      "flags": ["renek_cousin_exiled"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "krel_assassinate",
+      "text": "Use Krel to have the cousin assassinated. Make it look like a suicide.",
+      "nextSegment": null,
+      "flags": ["renek_cousin_assassinated"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 15 },
+        { "stat": "factions.church", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "id": "act6_week82_housing_bill",
+  "title": "The Integrated Housing Act",
+  "act": 6,
+  "weekAvailable": 82,
+  "weekDeadline": 84,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "National Assembly — Ashenmere",
+  "characters": ["vyktor_reznik", "idris_kaelen", "drazen_kolvar"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You stand at the dispatch box. The gallery is packed. Varro (Development) and Kaelen (Dravenni leader) are in the VIP seats. The issue: Dravenhollow is a segregated slum. The Dravenni live on one side, the Veltrian workers on the other, and they riot constantly."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor, the Integrated Housing Act will mandate ethnic quotas in all new state housing developments. Dravenni and Veltrians will be forced to live as neighbors in identical apartments, breaking up the ethnic enclaves. It is the only way to end the cycle of violence."
+    },
+    {
+      "type": "dialogue",
+      "character": "idris_kaelen",
+      "text": "We support this bill. The ghettoization of our people is a stain on the Republic. Forced integration is painful, but it is the only cure for the poison of segregation."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "This is social engineering! The state has no right to tell a man who his neighbor must be! You are playing God with people's homes. The Halvekists will fight this in the streets. The Church will call it an assault on the natural order. You are tearing the fabric of society!"
+    },
+    {
+      "type": "monologue",
+      "text": "Kolvar is right about one thing: it is social engineering. But the current fabric of society is tearing itself apart with riots. LKY used this exact method in Singapore to force the races to mix. It worked. But Veltria is not Singapore. The Halvekists are powerful, and the Church owns half the land. If I force this through, I risk a cultural civil war. If I water it down, the ghettos remain."
+    }
+  ],
+  "choices": [
+    {
+      "id": "pass_full_bill",
+      "text": "Pass the full bill. Mandate ethnic quotas. Force integration.",
+      "nextSegment": "seg_full_bill",
+      "flags": ["housing_bill_passed"],
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 15 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 15 },
+        { "stat": "factions.church", "operation": "add", "value": -15 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "compromise_bill",
+      "text": "Amend it. Build the housing, but make the quotas voluntary, not mandatory.",
+      "nextSegment": "seg_compromise",
+      "flags": ["housing_bill_amended"],
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+        { "stat": "factions.dravenni", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "withdraw_housing",
+      "text": "Withdraw the bill. We cannot dictate who lives where.",
+      "nextSegment": "seg_withdraw",
+      "flags": ["housing_bill_withdrawn"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 10 },
+        { "stat": "factions.dravenni", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_full_bill": {
+      "narrative": [
+        { "type": "description", "text": "You force the bill through. The Assembly votes along party lines. The Halvekists boo from the opposition benches. The Dravenni in the gallery cheer. The era of the ghetto is over." },
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "You have just declared war on tradition, Chancellor. The streets of Dravenhollow will burn before they mix." },
+        { "type": "monologue", "text": "I did it. The quotas are law. The Halvekists are furious, and the Church is threatened. But the long-term stability of the Republic is worth the short-term pain. The ghettos will fall." }
+      ],
+      "choices": [
+        {
+          "id": "full_bill_end",
+          "text": "The bill passes. Integration begins.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_compromise": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "A compromise. We build the housing, but we let people choose their neighbors. It avoids the riots, but it means the ghettos will likely reform themselves. Still, it is progress." },
+        { "type": "monologue", "text": "I took the middle path. The housing gets built, which is a victory. But without mandatory quotas, the old divisions will likely persist. A half-measure, but a safe one." }
+      ],
+      "choices": [
+        {
+          "id": "compromise_end",
+          "text": "The amended bill passes. The housing is built.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_withdraw": {
+      "narrative": [
+        { "type": "description",      "text": "You withdraw the bill. Kaelen looks at you with disgust and leaves the gallery. Kolvar smirks. The status quo remains." },
+        { "type": "monologue", "text": "I backed down. The ghettos will remain. The riots will continue. I chose political safety over social justice. It is the pragmatic choice. It is also the cowardly one." }
+      ],
+      "choices": [
+        {
+          "id": "withdraw_end",
+          "text": "The bill is withdrawn. The ghettos remain.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
