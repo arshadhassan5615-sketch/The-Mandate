@@ -929,6 +929,22 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Campaign Trail (Election Seasons: Weeks 45-51 and 97-103)
+    if (((gameState.currentWeek >= 45 && gameState.currentWeek <= 51) || (gameState.currentWeek >= 97 && gameState.currentWeek <= 103)) && !visitedSceneIds.includes(`campaign_rally_${gameState.currentWeek}`)) {
+      pool.push({
+        id: `campaign_rally_${gameState.currentWeek}`,
+        title: "The Campaign Trail",
+        description: 'The election is approaching. Kolvar is campaigning. You need to be on the road.',
+        category: 'cabinet' as AgendaCategory,
+        sceneId: 'act_campaign_rally',
+        slotCost: 1,
+        executionOrder: 0,
+        weekAvailable: gameState.currentWeek,
+        weekDeadline: gameState.currentWeek + 1,
+        isUrgent: false
+      })
+    }
+
     // Sort pool by executionOrder so downstream readers (e.g. MapInteractionLayer)
     // always see items in canonical sequence. Items missing executionOrder
     // sink to the end (coerced to 99).
@@ -1697,6 +1713,27 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     useGameStore.getState().advanceWeek()
     const nextState = useGameStore.getState()
     const newWeek = nextState.currentWeek
+
+    // --- Dynamic Polling Engine ---
+    // Start with the previous week's polling to preserve campaign boosts
+    let playerPoll = nextState.playerPolling
+
+    // Apply weekly drift based on governance performance
+    if (nextState.nation.economyHealth > 20) playerPoll += 2
+    if (nextState.nation.economyHealth < -20) playerPoll -= 2
+    if (nextState.personal.publicImage > 60) playerPoll += 1
+    if (nextState.personal.publicImage < 35) playerPoll -= 1
+    if (nextState.nation.corruption > 60) playerPoll -= 2
+
+    // Oligarch interference
+    if (activeFlags.includes('government_captured')) playerPoll = 85 // Bought election
+    if (activeFlags.includes('oligarch_debts_refused')) playerPoll -= 1 // Oligarchs funding Kolvar
+
+    // Clamp player polling (min 15%, max 90%)
+    playerPoll = Math.max(15, Math.min(90, playerPoll))
+    const kolvarPoll = 100 - playerPoll
+
+    useGameStore.setState({ playerPolling: playerPoll, kolvarPolling: kolvarPoll })
 
     // Democratic Election Check (Every 52 weeks)
     if (newWeek > 0 && newWeek % 52 === 0) {

@@ -1,0 +1,94 @@
+{
+  "id": "act5_week63_military_procurement",
+  "title": "Military Procurement",
+  "act": 5,
+  "weekAvailable": 63,
+  "weekDeadline": 65,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ministry of Defense — Procurement Division",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dusek meets you in the Procurement Division of the Defense Ministry. The walls are lined with blueprints of fighter jets, tank schematics, and fortification designs. She spreads three folders across the table."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Chancellor, our current equipment is Halvek-era surplus. The rifles work, the tanks move, but the technology is 15 years behind. Tyvaren is fielding jet fighters and rocket artillery. If they test the border, we will lose. I need authorization for a major procurement program."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Three options, three price tags. We can buy Orythian jet fighters—top of the line, but it will anger Tyvaren. We can build domestic tanks—boosts our industry, moderate tech boost. Or we can fortify the border—cheapest, purely defensive. Pick one, Chancellor. The treasury can't handle all three."
+    },
+    {
+      "type": "monologue",
+      "text": "Military procurement. The most expensive decision a Chancellor can make. Jets, tanks, or fortifications. Each one changes the calculus of the border. If I buy the Orythian jets, Vukov will see them on radar and panic. If I build domestic tanks, the economy gets a boost but the tech gap remains. If I fortify, I am admitting I can't fight in the open field. The border incident is coming. I need to be ready."
+    }
+  ],
+  "choices": [
+    {
+      "id": "buy_orythian_jets",
+      "text": "Buy Orythian Jet Fighters. ₨ 4M. Massive tech boost. Tyvaren will be provoked.",
+      "nextSegment": null,
+      "flags": ["orythian_jets_purchased"],
+      "stateChanges": [
+        { "stat": "nation.militaryTech", "operation": "add", "value": 30 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 15 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 15 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "build_domestic_tanks",
+      "text": "Build Domestic Tanks. ₨ 2.5M. Moderate tech boost, major economy boost.",
+      "nextSegment": null,
+      "flags": ["domestic_tanks_built"],
+      "stateChanges": [
+        { "stat": "nation.militaryTech", "operation": "add", "value": 15 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 2.5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "fortify_border",
+      "text": "Fortify the Border. ₨ 1.5M. Cheap, defensive, no tech boost.",
+      "nextSegment": null,
+      "flags": ["border_fortified"],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 12 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 1.5 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "skip_procurement",
+      "text": "Skip procurement. We cannot afford it. Fight with what we have.",
+      "nextSegment": null,
+      "flags": ["procurement_skipped"],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

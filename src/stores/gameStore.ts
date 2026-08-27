@@ -42,6 +42,7 @@ export const INITIAL_STATE: GameState = {
     nationalDebt: 340,      // 340M ₭ per GDD
     corruption: 68,         // Halvek legacy — high
     militaryReadiness: 52,  // Inherited military, functional but unreformed
+    militaryTech: 35,       // Halvek-era equipment, overdue for procurement
     publicOrder: 55,        // Tense post-authoritarian period
     pressFreedom: 28,       // Halvek gutted it; independent radio just emerging
     mediaControl: 25,      // Elena Braskov dominates — but competition is emerging
@@ -97,6 +98,9 @@ export const INITIAL_STATE: GameState = {
   danika_loyalty: 50,
   refugeeCount: 2800,
   religiousAdherence: 72,
+  // Dynamic Polling — inauguration-day honeymoon (61% by Week 4 per GDD narrative)
+  playerPolling: 68,
+  kolvarPolling: 24,
   stateOfEmergency: false,
   stateOfEmergencyWeek: 0,
   stateOfEmergencyExtensions: 0,
@@ -612,6 +616,8 @@ export const useGameStore = create<GameStore>()(
         danika_loyalty: state.danika_loyalty,
         refugeeCount: state.refugeeCount,
         religiousAdherence: state.religiousAdherence,
+        playerPolling: state.playerPolling,
+        kolvarPolling: state.kolvarPolling,
         stateOfEmergency: state.stateOfEmergency,
         stateOfEmergencyWeek: state.stateOfEmergencyWeek,
         stateOfEmergencyExtensions: state.stateOfEmergencyExtensions,

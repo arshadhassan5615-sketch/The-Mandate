@@ -38,6 +38,7 @@ export interface NationState {
   nationalDebt: number         // absolute ₭ value (millions)
   corruption: number           // 0 to 100
   militaryReadiness: number    // 0 to 100
+  militaryTech: number         // 0-100 - Tech level of military equipment
   publicOrder: number          // 0 to 100
   pressFreedom: number         // 0 to 100
   mediaControl: number          // 0 to 100 — who controls the narrative
@@ -160,6 +161,9 @@ export interface GameState {
   danika_loyalty: number        // 0-100 — Danika's loyalty to the player
   refugeeCount: number          // 0-50000 — Morivask refugees currently in Veltria
   religiousAdherence: number    // 0-100 — % of population regularly attending Church
+  // Dynamic Polling
+  playerPolling: number            // 0-100 - Player's current vote share
+  kolvarPolling: number            // 0-100 - Kolvar's current vote share
   // State of Emergency
   stateOfEmergency: boolean         // true when SOE is active
   stateOfEmergencyWeek: number      // week number SOE was declared (0 if inactive)
@@ -226,6 +230,7 @@ export const STAT_RANGES: Record<string, [number, number]> = {
   'nation.nationalDebt': [0, Infinity],
   'nation.corruption': [0, 100],
   'nation.militaryReadiness': [0, 100],
+  'nation.militaryTech': [0, 100],
   'nation.publicOrder': [0, 100],
   'nation.pressFreedom': [0, 100],
   'nation.mediaControl': [0, 100],
@@ -275,4 +280,6 @@ export const STAT_RANGES: Record<string, [number, number]> = {
   'voteSpendingTotal':           [0, Infinity],
   'seridaTrust':                 [0, 100],
   'seridaMorale':                [0, 100],
+  'playerPolling':               [0, 100],
+  'kolvarPolling':               [0, 100],
 }

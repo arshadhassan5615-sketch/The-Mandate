@@ -1,0 +1,70 @@
+{
+  "id": "act_campaign_rally",
+  "title": "The Campaign Trail",
+  "act": 1,
+  "weekAvailable": 45,
+  "weekDeadline": 52,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Various Provinces",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The election is approaching. Kolvar is on the radio every night. Vyktor has the campaign motorcade fueled and ready. Every week you spend governing in Ashenmere is a week Kolvar spends campaigning in the provinces."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Chancellor, the polls are tight. We need you out there pressing the flesh. A rally in Kravenstal, a speech in Thornfeld. Give the people a reason to vote for you, not just against Kolvar. Or, we can stay here and run attack ads on the radio. Your call."
+    }
+  ],
+  "choices": [
+    {
+      "id": "positive_rally",
+      "text": "Hold a positive rally. Focus on your achievements. (+5 Polling, +Stress)",
+      "nextSegment": null,
+      "flags": [],
+      "stateChanges": [
+        { "stat": "playerPolling", "operation": "add", "value": 5 },
+        { "stat": "kolvarPolling", "operation": "add", "value": -5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "attack_ads",
+      "text": "Run negative attack ads against Kolvar. (High Polling boost, -Moral Compass)",
+      "nextSegment": null,
+      "flags": [],
+      "stateChanges": [
+        { "stat": "playerPolling", "operation": "add", "value": 8 },
+        { "stat": "kolvarPolling", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "stay_govern",
+      "text": "Stay in Ashenmere and govern. Let the record speak for itself. (-3 Polling, +Economy)",
+      "nextSegment": null,
+      "flags": [],
+      "stateChanges": [
+        { "stat": "playerPolling", "operation": "add", "value": -3 },
+        { "stat": "kolvarPolling", "operation": "add", "value": 3 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

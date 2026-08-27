@@ -26,6 +26,7 @@ function computeStatChanges(before: GameState, after: GameState): WeeklyStatChan
     nationalDebt: 'National Debt',
     corruption: 'Corruption',
     militaryReadiness: 'Military Readiness',
+    militaryTech: 'Military Tech',
     publicOrder: 'Public Order',
     pressFreedom: 'Press Freedom',
     mediaControl: 'Media Control',

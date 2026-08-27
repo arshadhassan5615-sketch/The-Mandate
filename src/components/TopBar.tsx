@@ -46,6 +46,8 @@ export default function TopBar() {
   const currentWeek = useGameStore(s => s.currentWeek)
   const stateOfEmergency = useGameStore(s => s.stateOfEmergency)
   const soeWeek = useGameStore(s => s.stateOfEmergencyWeek)
+  const playerPolling = useGameStore(s => s.playerPolling)
+  const kolvarPolling = useGameStore(s => s.kolvarPolling)
   const newsOpen = useNewsStore(s => s.isOpen)
 
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
@@ -177,6 +179,24 @@ export default function TopBar() {
           <div style={{ width: 32, height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
             <div style={{ width: `${publicImage}%`, height: '100%', background: approvalColor,
               boxShadow: `0 0 8px ${approvalColor}80`, borderRadius: 2, transition: 'width 0.5s ease' }} />
+          </div>
+        </div>
+
+        <GoldHairline />
+
+        {/* SLOT 5 — POLLING */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 90 }}>
+          <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', textTransform: 'uppercase' }}>Polling</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
+              color: '#c9a84c', lineHeight: 1, minWidth: 35, textShadow: '0 0 8px rgba(201,168,76,0.3)' }}>
+              {playerPolling}%
+            </span>
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)' }}>vs</span>
+            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 600,
+              color: '#e05c4a', lineHeight: 1, minWidth: 35, textShadow: '0 0 8px rgba(224,92,74,0.3)' }}>
+              {kolvarPolling}%
+            </span>
           </div>
         </div>
 

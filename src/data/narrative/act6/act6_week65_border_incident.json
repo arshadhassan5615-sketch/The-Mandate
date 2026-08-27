@@ -56,7 +56,7 @@
         {
           "id": "path_orythian",
           "text": "(Continue)",
-          "nextSegment": "seg_skirmish",
+          "nextSegment": "check_tech_level",
           "prerequisites": [
             { "flag": "orythian_pact_signed", "value": true }
           ],
@@ -101,6 +101,62 @@
         }
       ]
     },
+    "check_tech_level": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Dusek's voice crackles over the radio. The battle is joined. The outcome depends on whether our procurement investment was enough."
+        }
+      ],
+      "choices": [
+        {
+          "id": "path_tech_advantage",
+          "text": "(Continue)",
+          "nextSegment": "seg_tech_advantage",
+          "prerequisites": [
+            { "stat": "nation.militaryTech", "operator": ">=", "value": 50 }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_tech_disadvantage",
+          "text": "(Continue)",
+          "nextSegment": "seg_skirmish",
+          "prerequisites": [
+            { "stat": "nation.militaryTech", "operator": "<=", "value": 50 }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_tech_advantage": {
+      "narrative": [
+        { "type": "dialogue", "character": "irina_dusek", "text": "Chancellor, our new equipment is performing beyond expectations. The Orythian jets have air superiority. The domestic tanks are holding the pass. Vukov's armored column has been stopped cold. He is retreating." },
+        { "type": "monologue", "text": "The procurement paid off. Our boys have the best equipment on the Thalassic coast, and Vukov just learned it the hard way. The border is held. The Republic is safe." }
+      ],
+      "choices": [
+        {
+          "id": "tech_advantage_end",
+          "text": "The border holds. The procurement was worth every kroner.",
+          "nextSegment": null,
+          "flags": ["border_held", "military_tech_validated"],
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 15 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 15 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
     "seg_skirmish": {
       "narrative": [
         { "type": "dialogue", "character": "irina_dusek", "text": "The Orythian hardware is performing beautifully, Chancellor. The new anti-tank batteries caught their lead column in the pass. Vukov's advance has stalled. He is taking heavy casualties. This is a skirmish he is losing." },
@@ -125,7 +181,7 @@
     },
     "seg_invasion": {
       "narrative": [
-        { "type": "dialogue", "character": "irina_dusek", "text": "We are outgunned, Chancellor. Without Orythian hardware or a peace treaty to slow them down, this is a full-scale invasion. The 4th Mountain is fighting hard, but Vukov has committed two armored divisions. We are losing the pass." },
+        { "type": "dialogue", "character": "irina_dusek", "text": "We are outgunned, Chancellor. Our equipment is outdated and Vukov has committed two armored divisions. The 4th Mountain is fighting hard, but courage cannot stop a tank column. We are losing the pass." },
         { "type": "monologue", "text": "We stood alone, and now we are dying alone. Dusek is doing her best, but courage cannot stop a tank column. I have to order a fighting retreat or risk losing the entire army. Veltria's isolation just cost us Sevagrad." }
       ],
       "choices": [
