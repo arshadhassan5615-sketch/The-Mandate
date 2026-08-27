@@ -1,0 +1,77 @@
+{
+  "id": "act1_week11_currency_run",
+  "title": "The Currency Run",
+  "act": 1,
+  "weekAvailable": 11,
+  "weekDeadline": 13,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ministry of Finance — Ashenmere",
+  "characters": ["elara_vostane", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vostane meets you at the Ministry of Finance at 6:00 AM. The foreign exchange markets opened an hour ago, and the Veltrian Kroner is in freefall. Citizens are lining up outside the central bank to exchange their savings for Orythian marks before the currency becomes worthless."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Rumors of the treasury deficit leaked. The market is panicking. The Kroner has lost 15% of its value overnight. If we do nothing, inflation will wipe out the middle class by Friday. I need emergency powers to stabilize the currency."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "If you freeze the exchange rate, the black market will explode. If you float the currency, the poor will starve. And the Orythian Central Bank is offering a stabilization loan—but the interest rate is punitive, and they will demand oversight of our budget."
+    },
+    {
+      "type": "monologue",
+      "text": "My first economic crisis. The markets are testing the new Chancellor. If I blink, the Kroner is dead. If I act too aggressively, I trigger a recession. I have to choose between sovereignty and solvency."
+    }
+  ],
+  "choices": [
+    {
+      "id": "float_currency",
+      "text": "Let the currency float. Take the inflation hit to protect state sovereignty.",
+      "nextSegment": null,
+      "flags": ["currency_floated"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
+        { "stat": "nation.inflation", "operation": "add", "value": 10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "orythian_loan",
+      "text": "Accept the Orythian stabilization loan. Save the Kroner, surrender budget oversight.",
+      "nextSegment": null,
+      "flags": ["orythian_loan_accepted"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 10 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "capital_controls",
+      "text": "Implement capital controls. Freeze all foreign exchange transactions.",
+      "nextSegment": null,
+      "flags": ["capital_controls_implemented"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -15 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

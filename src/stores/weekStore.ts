@@ -897,6 +897,38 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Monthly Citizens' Petitions (Every 4 weeks)
+    if (gameState.currentWeek > 0 && gameState.currentWeek % 4 === 0 && !visitedSceneIds.includes(`citizen_petitions_${gameState.currentWeek}`)) {
+      pool.push({
+        id: `citizen_petitions_${gameState.currentWeek}`,
+        title: "The Citizens' Mailbag",
+        description: 'The monthly cabinet meeting. Thousands of petitions have arrived. Choose one to address.',
+        category: 'cabinet' as AgendaCategory,
+        sceneId: 'act_citizen_petitions',
+        slotCost: 1,
+        executionOrder: 0,
+        weekAvailable: gameState.currentWeek,
+        weekDeadline: gameState.currentWeek + 1,
+        isUrgent: false
+      })
+    }
+
+    // Monthly Press Conference (Every 4 weeks, offset by 2)
+    if (gameState.currentWeek > 4 && (gameState.currentWeek - 2) % 4 === 0 && !visitedSceneIds.includes(`press_conference_${gameState.currentWeek}`)) {
+      pool.push({
+        id: `press_conference_${gameState.currentWeek}`,
+        title: "Monthly Press Conference",
+        description: 'The press corps is waiting. Step up to the podium and set the tone for the month.',
+        category: 'cabinet' as AgendaCategory,
+        sceneId: 'act_monthly_press_conference',
+        slotCost: 1,
+        executionOrder: 0,
+        weekAvailable: gameState.currentWeek,
+        weekDeadline: gameState.currentWeek + 1,
+        isUrgent: false
+      })
+    }
+
     // Sort pool by executionOrder so downstream readers (e.g. MapInteractionLayer)
     // always see items in canonical sequence. Items missing executionOrder
     // sink to the end (coerced to 99).

@@ -1,0 +1,77 @@
+{
+  "id": "act1_week10_archbishops_dinner",
+  "title": "The Archbishop's Dinner",
+  "act": 1,
+  "weekAvailable": 10,
+  "weekDeadline": 12,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Archbishop's Residence — Ashenmere",
+  "characters": ["stanislov_renek", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Archbishop Renek invites you to a private dinner at his residence. The wine is excellent, the food is austere, and the conversation is a minefield. After the soup, Renek sets down his glass and looks at you with the practiced warmth of a man who wants something."
+    },
+    {
+      "type": "dialogue",
+      "character": "stanislov_renek",
+      "text": "Chancellor, the Church runs 400 schools in this Republic. We educate 60,000 children. But our boilers are cold, our roofs leak, and our teachers haven't had a raise in five years. The previous government starved us. I am asking you to restore our funding."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "He is also hinting, very politely, that if you refuse, the Church will mobilize its 4 million faithful against your constitutional reforms. It is a shakedown, Chancellor. He is holding the referendum hostage for a check."
+    },
+    {
+      "type": "monologue",
+      "text": "Renek smiles like a saint and negotiates like a thug. I need the Church's support for the constitution, but I cannot let them think they can dictate terms to the state. If I pay, I look weak. If I refuse, the referendum fails."
+    }
+  ],
+  "choices": [
+    {
+      "id": "fund_church_schools",
+      "text": "Restore the full funding. Buy the Church's support for the referendum.",
+      "nextSegment": null,
+      "flags": ["church_funding_restored"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 15 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 1 },
+        { "stat": "factions.reformists", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "refuse_funding",
+      "text": "Refuse. The state does not pay bribes. We will win the referendum without the Church.",
+      "nextSegment": null,
+      "flags": ["church_funding_refused"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -20 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "secular_education",
+      "text": "Counter-offer: State funding, but the schools become secular. The Church loses control.",
+      "nextSegment": null,
+      "flags": ["secular_education_pushed"],
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -30 },
+        { "stat": "factions.reformists", "operation": "add", "value": 15 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

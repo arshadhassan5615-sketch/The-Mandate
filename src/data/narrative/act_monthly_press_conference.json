@@ -1,0 +1,87 @@
+{
+  "id": "act_monthly_press_conference",
+  "title": "The Monthly Press Conference",
+  "act": 1,
+  "weekAvailable": 6,
+  "weekDeadline": 7,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "National Broadcasting House — Ashenmere",
+  "characters": ["nadia_voss"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The press corps fills the briefing room. Cameras flash. The microphones are hot. Nadia Voss sits in the front row, her pen poised over her notebook like a dagger. It is time for the monthly address to the press. The tone you set today will dictate the headlines for the next four weeks."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Chancellor. The nation is watching. We have questions about the economy, the border, the reforms. How you answer them today will shape the public's trust. The floor is yours."
+    },
+    {
+      "type": "monologue",
+      "text": "The press can be a weapon or a shield. I can attack them, placate them, deflect them, or trust them with the truth. Each path carries its own risks."
+    }
+  ],
+  "choices": [
+    {
+      "id": "aggressive_stance",
+      "text": "Aggressive Stance: Attack the press. Demand respect and warn against 'subversive' reporting.",
+      "nextSegment": null,
+      "flags": ["press_aggressive"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -5 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "conciliatory_stance",
+      "text": "Conciliatory Stance: Admit the challenges. Ask for patience and national unity.",
+      "nextSegment": null,
+      "flags": ["press_conciliatory"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "deflective_stance",
+      "text": "Deflective Stance: Pivot to a distraction. Blame the previous administration or foreign interference.",
+      "nextSegment": null,
+      "flags": ["press_deflective"],
+      "stateChanges": [
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": 5 },
+        { "stat": "shadowInfluence", "operation": "add", "value": 5 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "transparent_stance",
+      "text": "Transparent Stance: Lay out the facts, no matter how ugly. Trust the public with the truth.",
+      "nextSegment": null,
+      "flags": ["press_transparent"],
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}

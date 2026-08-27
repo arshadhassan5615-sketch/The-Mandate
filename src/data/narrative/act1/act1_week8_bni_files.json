@@ -1,0 +1,76 @@
+{
+  "id": "act1_week8_bni_files",
+  "title": "The BNI Files",
+  "act": 1,
+  "weekAvailable": 8,
+  "weekDeadline": 10,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "BNI Archive Room — Sub-Level Three, Ashenmere Palace",
+  "characters": ["danika_oberlin", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Oberlin takes you to the sub-levels of the Palace. The BNI archive room is a cold, windowless vault filled with row after row of filing cabinets. She pulls out a drawer marked 'PROMINENT CITIZENS - ACTIVE'."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Halvek didn't just spy on dissidents, Chancellor. He spied on everyone. Half the Assembly is in here. Judges, journalists, bishops. Wiretaps, photographs, love letters. The BNI used this to blackmail the entire country into compliance."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "If we burn them, we destroy the blackmail machine forever. But if we keep them... we have the ultimate leverage over every politician in Veltria. We could pass any law, block any vote, crush any opposition."
+    },
+    {
+      "type": "monologue",
+      "text": "I hold the secrets of the Republic in my hands. With these files, I could govern by blackmail. I could force the Assembly to pass the constitution, the reforms, everything. But that is exactly what Halvek did. I didn't take this office to become him."
+    }
+  ],
+  "choices": [
+    {
+      "id": "burn_files",
+      "text": "Burn the files. The era of state blackmail is over.",
+      "nextSegment": null,
+      "flags": ["bni_files_burned"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 10 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "keep_files",
+      "text": "Lock them in your personal vault. Use them only when necessary.",
+      "nextSegment": null,
+      "flags": ["bni_files_kept"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "leak_files",
+      "text": "Leak the files to Nadia Voss. Let the press expose the corrupt politicians.",
+      "nextSegment": null,
+      "flags": ["bni_files_leaked"],
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 10 },
+        { "stat": "nation.publicOrder", "operation": "add", "value": -10 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -15 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ]
+}
