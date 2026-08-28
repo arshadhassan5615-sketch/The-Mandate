@@ -191,6 +191,10 @@ interface NarrativeStore {
 
   // Called by the prologue and character creation to inject flags
   addFlags: (flags: string[]) => void
+
+  // Dev tools — flag toggling for testing (activeFlags lives in this store)
+  devSetFlag:  (flag: string, value: boolean) => void
+  removeFlag:  (flag: string) => void
 }
 
 export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
@@ -299,6 +303,18 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   addFlags: (flags) => set((state) => ({
     activeFlags: [...new Set([...state.activeFlags, ...flags])],
   })),
+
+  removeFlag: (flag) => set((state) => ({
+    activeFlags: state.activeFlags.filter(f => f !== flag),
+  })),
+
+  devSetFlag: (flag, value) => {
+    if (value) {
+      get().addFlags([flag])
+    } else {
+      get().removeFlag(flag)
+    }
+  },
 
   processChoice: (choiceId) => {
     const { currentScene, visitedSceneIds, activeFlags } = get()

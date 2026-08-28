@@ -426,10 +426,9 @@ export default function ConversationPanel({
       }
     : {
         position: 'fixed',
-        top: '0',
-        bottom: '0',
+        bottom: '20px',
         left: '50%',
-        transform: 'translateX(-50%)',
+        transform: 'translateX(calc(-50% - 20px))',
         zIndex: 600,
         pointerEvents: 'all',
         display: 'flex',
@@ -437,7 +436,6 @@ export default function ConversationPanel({
         alignItems: 'stretch',
         gap: '0px',
         width: '640px',
-        height: '100vh',
         animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       }
   if (phase !== 'scene') return null

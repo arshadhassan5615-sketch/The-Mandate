@@ -147,6 +147,9 @@ interface GameStore extends GameState {
   applyModifiers:  (modifiers: StateModifier[]) => void
   applyBudget:     (next: BudgetAllocations) => void
   advanceWeek:     () => void
+  // Dev tools
+  devSetWeek:      (week: number) => void
+  devSetStat:      (stat: string, value: number) => void
   setPlayerOptions: (opts: {
     background:  PlayerBackground
     personality: PlayerPersonality
@@ -364,6 +367,23 @@ export const useGameStore = create<GameStore>()(
       }
       return newState
     }),
+
+  // Dev tool — set the week directly. Act derivation copies advanceWeek's
+  // ternary exactly: advanceWeek evaluates it against the pre-increment week
+  // (entering week N derives act from N-1), so the same holds here.
+  devSetWeek: (week) =>
+    set(() => ({
+      currentWeek: week,
+      currentAct: week - 1 >= 39 ? 4
+                : week - 1 >= 26 ? 3
+                : week - 1 >= 13 ? 2
+                : 1,
+    })),
+
+  // Dev tool — set a stat via the existing applyModifiers pipeline
+  devSetStat: (stat, value) => {
+    useGameStore.getState().applyModifiers([{ stat, operation: 'set', value }])
+  },
 
   setPlayerOptions: ({ background, personality, appearance }) =>
     set(() => ({

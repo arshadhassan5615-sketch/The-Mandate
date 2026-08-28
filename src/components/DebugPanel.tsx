@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useChainStore } from '../stores/chainStore'
@@ -50,12 +51,45 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   )
 }
 
+const devInputStyle: React.CSSProperties = {
+  background: 'rgba(10,8,6,0.8)',
+  border: '1px solid rgba(201,168,76,0.4)',
+  color: '#e8dcc8',
+  fontFamily: "'Special Elite', monospace",
+  fontSize: '10px',
+  padding: '3px 8px',
+  borderRadius: '2px',
+  boxSizing: 'border-box',
+}
+
+const devButtonStyle: React.CSSProperties = {
+  background: 'rgba(201,168,76,0.08)',
+  border: '1px solid rgba(201,168,76,0.4)',
+  color: '#c9a84c',
+  fontFamily: "'Special Elite', monospace",
+  fontSize: '9px',
+  padding: '3px 8px',
+  cursor: 'pointer',
+  borderRadius: '2px',
+  flexShrink: 0,
+}
+
 export default function DebugPanel() {
   const open = useSettingsStore(s => s.debugOpen)
   const setOpen = useSettingsStore(s => s.setDebugOpen)
   const { currentWeek, currentAct, nation, factions, personal } = useGameStore()
   const { currentScene, visitedSceneIds, activeFlags, sceneDone } = useNarrativeStore()
   const { scheduled } = useChainStore()
+  const [weekInput, setWeekInput] = useState('')
+  const [sceneInput, setSceneInput] = useState('')
+  const [flagInput, setFlagInput] = useState('')
+  const [statPath, setStatPath] = useState('')
+  const [statValue, setStatValue] = useState('')
+
+  const jumpToWeek = (w: number) => {
+    useWeekStore.getState().devJumpToWeek(w)
+    setWeekInput('')
+  }
 
   if (!open) return null
 
@@ -91,6 +125,133 @@ export default function DebugPanel() {
 
       <div style={{ fontSize: '9px', color: '#7a6f62', marginBottom: '14px' }}>
         Week {currentWeek} · Act {currentAct} &nbsp;·&nbsp; Ctrl+D to close
+      </div>
+
+      {/* ─── DEV CONTROLS ─── */}
+      <div style={{ borderTop: '1px solid rgba(201,168,76,0.5)', borderBottom: '1px solid rgba(201,168,76,0.2)', padding: '10px 0 12px', marginBottom: '14px' }}>
+        <div style={{ fontSize: '10px', letterSpacing: '0.2em', color: '#c9a84c', textTransform: 'uppercase', marginBottom: '8px' }}>
+          Dev Controls
+        </div>
+
+        {/* 1. WEEK JUMP */}
+        <div style={{ marginBottom: '10px' }}>
+          <div style={{ fontSize: '9px', color: '#b8a890', marginBottom: '4px' }}>WEEK JUMP — current: Week {currentWeek}</div>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <input
+              type="number"
+              min={1}
+              max={104}
+              value={weekInput}
+              onChange={e => setWeekInput(e.target.value)}
+              placeholder="1-104"
+              style={{ ...devInputStyle, width: '70px' }}
+            />
+            <button
+              onClick={() => { const v = parseInt(weekInput); if (!isNaN(v)) jumpToWeek(v) }}
+              style={devButtonStyle}
+            >
+              Jump
+            </button>
+          </div>
+        </div>
+
+        {/* 5. ACT JUMP BUTTONS */}
+        <div style={{ marginBottom: '10px' }}>
+          <div style={{ fontSize: '9px', color: '#b8a890', marginBottom: '4px' }}>ACT JUMP</div>
+          <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+            {([[1, 'Act 1'], [13, 'Act 2'], [26, 'Act 3'], [39, 'Act 4'], [53, 'Act 5'], [66, 'Act 6'], [85, 'Act 7']] as Array<[number, string]>).map(([week, label]) => (
+              <button key={label} onClick={() => jumpToWeek(week)} style={devButtonStyle}>{label}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* 2. SCENE LAUNCHER */}
+        <div style={{ marginBottom: '10px' }}>
+          <div style={{ fontSize: '9px', color: '#b8a890', marginBottom: '4px' }}>SCENE LAUNCHER</div>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <input
+              type="text"
+              value={sceneInput}
+              onChange={e => setSceneInput(e.target.value)}
+              placeholder="scene id"
+              style={{ ...devInputStyle, flex: 1, minWidth: 0 }}
+            />
+            <button
+              onClick={() => {
+                const id = sceneInput.trim()
+                if (!id) return
+                useNarrativeStore.getState().loadScene(id)
+                useWeekStore.setState({ phase: 'scene' })
+                setOpen(false)
+              }}
+              style={devButtonStyle}
+            >
+              Launch
+            </button>
+          </div>
+          <div style={{ fontSize: '8px', color: '#7a6f62', marginTop: '3px' }}>Bypasses prerequisites</div>
+        </div>
+
+        {/* 3. FLAG EDITOR */}
+        <div style={{ marginBottom: '10px' }}>
+          <div style={{ fontSize: '9px', color: '#b8a890', marginBottom: '4px' }}>FLAG EDITOR</div>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <input
+              type="text"
+              value={flagInput}
+              onChange={e => setFlagInput(e.target.value)}
+              placeholder="flag_name"
+              style={{ ...devInputStyle, flex: 1, minWidth: 0 }}
+            />
+            <button
+              onClick={() => { const f = flagInput.trim(); if (f) { useNarrativeStore.getState().devSetFlag(f, true); setFlagInput('') } }}
+              style={devButtonStyle}
+            >
+              Add
+            </button>
+            <button
+              onClick={() => { const f = flagInput.trim(); if (f) useNarrativeStore.getState().devSetFlag(f, false) }}
+              style={devButtonStyle}
+            >
+              Remove
+            </button>
+          </div>
+          <div style={{ maxHeight: '80px', overflowY: 'auto', marginTop: '4px', border: '1px solid rgba(201,168,76,0.15)', padding: '4px', background: 'rgba(10,8,6,0.6)' }}>
+            {activeFlags.length === 0
+              ? <span style={{ fontSize: '9px', color: '#4a4035' }}>No active flags</span>
+              : activeFlags.map(f => (
+                <div key={f} style={{ fontSize: '9px', color: '#c4943a', lineHeight: 1.5 }}>{f}</div>
+              ))}
+          </div>
+        </div>
+
+        {/* 4. STAT OVERRIDE */}
+        <div>
+          <div style={{ fontSize: '9px', color: '#b8a890', marginBottom: '4px' }}>STAT OVERRIDE</div>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <input
+              type="text"
+              value={statPath}
+              onChange={e => setStatPath(e.target.value)}
+              placeholder="stat path"
+              style={{ ...devInputStyle, flex: 1, minWidth: 0 }}
+            />
+            <input
+              type="number"
+              value={statValue}
+              onChange={e => setStatValue(e.target.value)}
+              placeholder="0"
+              style={{ ...devInputStyle, width: '60px' }}
+            />
+            <button
+              onClick={() => { const v = parseFloat(statValue); if (statPath.trim() && !isNaN(v)) useGameStore.getState().devSetStat(statPath.trim(), v) }}
+              style={devButtonStyle}
+            >
+              Set
+            </button>
+          </div>
+          <div style={{ fontSize: '8px', color: '#7a6f62', marginTop: '3px' }}>Canonical paths e.g. nation.economyHealth, factions.reformists</div>
+        </div>
       </div>
 
       <Section title="Nation">
@@ -172,105 +333,6 @@ export default function DebugPanel() {
 
       <div style={{ fontSize: '9px', color: '#4a4035', textAlign: 'center', marginTop: '8px' }}>
         Red bar = danger threshold reached
-      </div>
-
-      {/* Time Travel */}
-      <div style={{ marginTop: '16px', borderTop: '1px solid rgba(201,168,76,0.2)', paddingTop: '12px' }}>
-        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '10px', letterSpacing: '1px', color: '#c9a84c', textTransform: 'uppercase', marginBottom: '8px' }}>
-          Dev: Time Travel
-        </div>
-        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-          {[1, 2, 3, 5, 7, 10, 13, 16, 19, 22, 24, 28, 32, 35, 40, 44, 48, 52].map(week => (
-            <button
-              key={week}
-              onClick={() => {
-                const act = week >= 39 ? 4 : week >= 26 ? 3 : week >= 13 ? 2 : 1
-                useGameStore.setState({ currentWeek: week, currentAct: act })
-                useNarrativeStore.setState({ visitedSceneIds: [], sceneDone: false })
-                useWeekStore.getState().initWeek()
-              }}
-              style={{
-                background: currentWeek === week ? 'rgba(201,168,76,0.3)' : 'rgba(201,168,76,0.08)',
-                border: '1px solid rgba(201,168,76,0.4)',
-                color: '#c9a84c',
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '9px',
-                padding: '3px 7px',
-                cursor: 'pointer',
-                borderRadius: '2px',
-              }}
-            >
-              W{week}
-            </button>
-          ))}
-        </div>
-        <div style={{ display: 'flex', gap: '6px', marginTop: '8px', alignItems: 'center' }}>
-          <input
-            type="number"
-            min={1}
-            max={52}
-            placeholder="Week #"
-            style={{
-              background: 'rgba(10,8,6,0.8)',
-              border: '1px solid rgba(201,168,76,0.4)',
-              color: '#c9a84c',
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '10px',
-              padding: '3px 8px',
-              width: '70px',
-              borderRadius: '2px',
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                const val = parseInt((e.target as HTMLInputElement).value)
-                if (val >= 1 && val <= 52) {
-                  const act = val >= 39 ? 4 : val >= 26 ? 3 : val >= 13 ? 2 : 1
-                  useGameStore.setState({ currentWeek: val, currentAct: act })
-                  useNarrativeStore.setState({ visitedSceneIds: [], sceneDone: false })
-                  useWeekStore.getState().initWeek()
-                }
-              }
-            }}
-          />
-          <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '9px', color: 'rgba(201,168,76,0.5)' }}>
-            Press Enter to jump
-          </span>
-        </div>
-      </div>
-
-      {/* Scene Launcher */}
-      <div style={{ marginTop: '16px', borderTop: '1px solid rgba(201,168,76,0.2)', paddingTop: '12px' }}>
-        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '10px', letterSpacing: '1px', color: '#c9a84c', textTransform: 'uppercase', marginBottom: '8px' }}>
-          Dev: Scene Launcher
-        </div>
-        <input
-          type="text"
-          placeholder="Enter Scene ID..."
-          style={{
-            background: 'rgba(10,8,6,0.8)',
-            border: '1px solid rgba(201,168,76,0.4)',
-            color: '#c9a84c',
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '10px',
-            padding: '4px 8px',
-            width: '100%',
-            borderRadius: '2px',
-            boxSizing: 'border-box',
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              const id = (e.target as HTMLInputElement).value.trim()
-              if (id) {
-                useNarrativeStore.getState().loadScene(id)
-                useWeekStore.setState({ phase: 'scene' })
-                setOpen(false) // Close panel so you can see the scene
-              }
-            }
-          }}
-        />
-        <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '9px', color: 'rgba(201,168,76,0.5)', marginTop: '4px' }}>
-          Type exact ID & press Enter
-        </div>
       </div>
     </div>
   )

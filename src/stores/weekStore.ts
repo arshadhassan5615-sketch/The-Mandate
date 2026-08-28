@@ -302,6 +302,7 @@ interface WeekStore {
   openLegacy:        () => void                                    // show legacy screen after term report
   completeWeek:      () => Promise<void>     // advance week counter → new week
   clearPendingTimeouts: () => void  // cancel any in-flight transition timeouts
+  devJumpToWeek:     (targetWeek: number) => void  // dev tool — bypasses completeWeek pipeline
   radioOpen: boolean
   setRadioOpen: (open: boolean) => void
 
@@ -1632,6 +1633,17 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   dismissGate: () => set({ gateBlocked: false, gateMessage: null }),
 
   clearPendingTimeouts: () => clearAllTimeouts(),
+
+  // Dev tool — jump directly to a week without running the completeWeek()
+  // pipeline. Sets the week via gameStore.devSetWeek (which derives currentAct
+  // with the same ternary advanceWeek uses), clears any active scene so the
+  // player isn't mid-scene, then rebuilds the agenda pool via initWeek().
+  devJumpToWeek: (targetWeek) => {
+    const week = Math.max(1, Math.min(104, Math.round(targetWeek)))
+    useGameStore.getState().devSetWeek(week)
+    useNarrativeStore.getState().resetScene()
+    get().initWeek()
+  },
 
   closeCliffhanger: () => {
     const state = useGameStore.getState()
