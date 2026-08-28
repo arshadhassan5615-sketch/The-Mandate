@@ -179,6 +179,13 @@ interface NarrativeStore {
   loadScene:    (id: string) => void
   resetScene:   () => void
 
+  // Called by special-flow components (e.g. CabinetFormation) to record a
+  // pseudo-scene as visited without loading it into the scene UI.
+  markSceneVisited: (id: string) => void
+
+  // Full narrative-state wipe for a new game (replaces manual setState literals)
+  resetAll: () => void
+
   // Called by the scene UI when the player picks an option
   processChoice: (choiceId: string) => void
 
@@ -272,6 +279,22 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   resetScene: () => {
     set({ currentScene: null, activeSegmentId: null, sceneDone: false })
   },
+
+  markSceneVisited: (id) => set((state) => ({
+    visitedSceneIds: state.visitedSceneIds.includes(id)
+      ? state.visitedSceneIds
+      : [...state.visitedSceneIds, id],
+  })),
+
+  resetAll: () => set({
+    currentScene:      null,
+    activeSegmentId:   null,
+    visitedSceneIds:   [],
+    activeFlags:       [],
+    unlockedCodexIds:  [],
+    metCharacters:     [],
+    sceneDone:         false,
+  }),
 
   addFlags: (flags) => set((state) => ({
     activeFlags: [...new Set([...state.activeFlags, ...flags])],

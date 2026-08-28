@@ -12,6 +12,7 @@ export interface AdvisorTrust {
   theron: number   // 0-100 — Prof. Aldric Theron
   soraya: number   // 0-100 — Soraya Metsk (union leader)
   dusek: number    // 0-100 — Col. Irina Dusek
+  valdek: number   // 0-100 — Orin Valdek
 }
 
 export interface BudgetAllocations {
@@ -155,6 +156,10 @@ export interface GameState {
   morvecInfluence: number      // 0-100 — Stefan Morvec's influence over your government
   shadowInfluence: number       // 0-100 — off-the-books political power
   shadowFootprint: number       // 0-100 — accumulated blowback from shadowInfluence actions
+  // Spy Master
+  activeAgents: number          // currently recruited agents
+  maxAgents: number             // maximum agent slots
+  activeOperations: number      // operations currently running
   tyvarenHostility: number      // 0-100 — Tyvaren foreign-relations tension
   vossRelation: number          // -100..100 — Kael Voss's personal disposition
   sovarka_relation: number      // -100..100 — Sovarka foreign-relations warmth
@@ -266,6 +271,7 @@ export const STAT_RANGES: Record<string, [number, number]> = {
   'advisorTrust.dusek':  [0, 100],
   'advisorTrust.vyktor': [0, 100],
   'advisorTrust.danika': [0, 100],
+  'advisorTrust.valdek': [0, 100],
   'vaelInfluence':              [0, 100],
   'morvecInfluence':            [0, 100],
   'shadowInfluence':            [0, 100],

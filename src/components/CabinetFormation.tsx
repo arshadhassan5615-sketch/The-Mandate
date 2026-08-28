@@ -143,12 +143,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
       }
     })
     completeFormation(currentWeek)
-    const { visitedSceneIds } = useNarrativeStore.getState()
-    if (!visitedSceneIds.includes('act1_week2_cabinet_appointments')) {
-      useNarrativeStore.setState({
-        visitedSceneIds: [...visitedSceneIds, 'act1_week2_cabinet_appointments'],
-      })
-    }
+    useNarrativeStore.getState().markSceneVisited('act1_week2_cabinet_appointments')
     useWeekStore.getState().advanceQueue()
     onComplete()
   }

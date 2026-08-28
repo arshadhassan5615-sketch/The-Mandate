@@ -56,16 +56,12 @@ function clearAllTimeouts(): void {
 
 // Load all agenda pool JSON files at build time.
 // Each file exports { week: number, agenda: AgendaItem[] }.
-const agendaModules = import.meta.glob<AgendaItem[]>(
+const agendaModules = import.meta.glob<{ default: { agenda: AgendaItem[] } }>(
   '../data/agenda/*.json',
-  { eager: true, import: 'default' },
+  { eager: true },
 )
 const ALL_AGENDA: AgendaItem[] = Object.values(agendaModules)
-  .flatMap((mod: unknown) => {
-    if (Array.isArray(mod)) return mod
-    const m = mod as { agenda?: AgendaItem[] }
-    return Array.isArray(m?.agenda) ? m.agenda : []
-  })
+  .flatMap((mod) => mod?.default?.agenda ?? [])
 
 function buildPool(week: number, state: GameState, flags: string[], visited: string[]): AgendaItem[] {
   const result = ALL_AGENDA.filter(item => {
@@ -109,7 +105,7 @@ function buildPool(week: number, state: GameState, flags: string[], visited: str
       slotCost: 0,
       executionOrder: 2,
       weekAvailable: 1,
-      weekDeadline: 2,
+      weekDeadline: 1,
     })
   }
 
@@ -278,6 +274,11 @@ interface WeekStore {
   cliffhangerText: string | null
   closeCliffhanger: () => void
 
+  // Comic cutscene
+  cutscenePanels: Array<{ image: string; caption: string; sfx?: string; duration?: number }> | null
+  triggerCutscene: (panels: Array<{ image: string; caption: string; sfx?: string; duration?: number }>) => void
+  clearCutscene: () => void
+
   // Gate check
   gateBlocked: boolean
   gateMessage: string | null
@@ -337,6 +338,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   voteResult: null,
   diaryEntry: null,
   cliffhangerText: null,
+  cutscenePanels: null,
   gateBlocked: false,
   gateMessage: null,
   radioOpen: false,
@@ -400,15 +402,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       isOverlayOpen: false,
       vetoOverrideResult: null,
     })
-    useNarrativeStore.setState({
-      currentScene:      null,
-      activeSegmentId:   null,
-      visitedSceneIds:   [],
-      activeFlags:       [],
-      unlockedCodexIds:  [],
-      metCharacters:     [],
-      sceneDone:         false,
-    })
+    useNarrativeStore.getState().resetAll()
     useChainStore.setState({ scheduled: [] })
     useNewsStore.setState({ articles: [], isOpen: false, lastReadIndex: -1, readRecords: {} })
     useJournalStore.setState({ entries: [], seenKeys: new Set<string>() })
@@ -535,7 +529,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     // Week 21 — Megaproject decision (fires once)
-    if (gameState.currentWeek === 21 && !visitedSceneIds.includes('act2_week20_megaproject_choice')) {
+    if (gameState.currentWeek === 20 && !visitedSceneIds.includes('act2_week20_megaproject_choice')) {
       pool.push({
         id: 'act2_week20_megaproject_choice',
         title: 'The Megaproject Dilemma',
@@ -576,21 +570,6 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 5,
         weekAvailable: 1,
         weekDeadline: 1,
-      })
-    }
-
-    // Week 2 — Mole investigation deepens (fires once)
-    if (gameState.currentWeek === 2 && !visitedSceneIds.includes('mole_week2_plant')) {
-      pool.push({
-        id: 'mole_week2_plant',
-        title: 'The Pattern Continues',
-        description: 'The anomaly in the communications log has a pattern.',
-        category: 'crisis' as AgendaCategory,
-        sceneId: 'mole_week2_plant',
-        slotCost: 0,
-        executionOrder: 1,
-        weekAvailable: 2,
-        weekDeadline: 3,
       })
     }
 
@@ -1648,6 +1627,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   openTermReport: () => set({ showTermReport: true }),
   openLegacy: () => set({ showTermReport: false, showLegacy: true }),
   setRadioOpen: (open) => set({ radioOpen: open }),
+  triggerCutscene: (panels) => set({ cutscenePanels: panels }),
+  clearCutscene: () => set({ cutscenePanels: null }),
   dismissGate: () => set({ gateBlocked: false, gateMessage: null }),
 
   clearPendingTimeouts: () => clearAllTimeouts(),

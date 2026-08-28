@@ -52,6 +52,7 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   notepadOpen: boolean
   decreeInboxOpen: boolean
   investmentOpen: boolean
+  spyMasterOpen: boolean
   mapPan: { x: number; y: number }
 
   setMapPan: (pan: { x: number; y: number }) => void
@@ -80,6 +81,7 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   setNotepadOpen: (open: boolean) => void
   setDecreeInboxOpen: (open: boolean) => void
   setInvestmentOpen: (open: boolean) => void
+  setSpyMasterOpen: (open: boolean) => void
   setPlayTime: (minutes: number) => void
   resetPlaytime: () => void
 }
@@ -143,6 +145,7 @@ export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
   notepadOpen: false,
   decreeInboxOpen: false,
   investmentOpen: false,
+  spyMasterOpen: false,
   mapPan: { x: 0, y: 0 },
 
   ...initialAudio,
@@ -230,6 +233,7 @@ export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
   setNotepadOpen: (open) => set({ notepadOpen: open }),
   setDecreeInboxOpen: (open) => set({ decreeInboxOpen: open }),
   setInvestmentOpen: (open) => set({ investmentOpen: open }),
+  setSpyMasterOpen: (open) => set({ spyMasterOpen: open }),
 
   setPlayTime: (minutes) =>
     set({ accumulatedPlayMinutes: minutes, sessionStartTime: Date.now() }),

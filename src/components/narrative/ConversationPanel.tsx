@@ -402,17 +402,7 @@ export default function ConversationPanel({
 
   // Track inner content height and animate wrapper
   useEffect(() => {
-    const inner = panelInnerRef.current
-    const wrapper = panelWrapperRef.current
-    if (!inner || !wrapper) return
-    const ro = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        const h = entry.contentRect.height
-        wrapper.style.height = `${Math.min(h, window.innerHeight * 0.7)}px`
-      }
-    })
-    ro.observe(inner)
-    return () => ro.disconnect()
+    // ResizeObserver disabled to allow full-height CSS layout
   }, [])
 
   const displayStack = speakerStack
@@ -436,17 +426,18 @@ export default function ConversationPanel({
       }
     : {
         position: 'fixed',
-        bottom: '20px',
+        top: '0',
+        bottom: '0',
         left: '50%',
-        transform: 'translateX(calc(-50% - 20px))',
+        transform: 'translateX(-50%)',
         zIndex: 600,
-        marginBottom: '5px',
         pointerEvents: 'all',
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'stretch',
         gap: '0px',
         width: '640px',
+        height: '100vh',
         animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       }
   if (phase !== 'scene') return null
@@ -479,6 +470,14 @@ export default function ConversationPanel({
       )}
 
       {currentScene && (
+      <>
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0, 0, 0, 0.85)',
+        zIndex: 599, // Just below the panel's zIndex of 600
+        pointerEvents: 'none', // Let clicks pass through to the panel if needed, though panel handles its own
+      }} />
       <div style={panelStyle}>
 
         <div style={{
@@ -494,7 +493,7 @@ export default function ConversationPanel({
           paddingLeft: '4px',
           paddingRight: '4px',
           paddingBottom: '0px',
-          alignSelf: 'flex-end',
+          height: '100%',
           background: 'transparent',
           zIndex: 601,
           transition: 'opacity 0.3s ease',
@@ -575,16 +574,12 @@ export default function ConversationPanel({
         </div>
 
         {/* Expanding conversation panel — RIGHT side of row */}
-        <div ref={panelWrapperRef} style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', maxHeight: '70vh', overflowY: 'auto', height: '0px', transition: 'height 0.45s cubic-bezier(0.22, 1, 0.36, 1)' }}>
+        <div ref={panelWrapperRef} style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', flex: 1, height: '100%', overflowY: 'auto' }}>
         <div
           ref={panelInnerRef}
           className="conversation-panel"
           style={{
             position: 'relative',
-            bottom: 'auto',
-            left: 'auto',
-            right: 'auto',
-            height: 'auto',
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
@@ -593,6 +588,7 @@ export default function ConversationPanel({
             background: '#0a0806',
             borderTop: '1px solid rgba(201,168,76,0.25)',
             borderLeft: 'none',
+            height: '100%',
           }}
         >
 
@@ -1128,6 +1124,7 @@ export default function ConversationPanel({
         </div>
         </div>
       </div>
+      </>
       )}
     </>
   )

@@ -40,6 +40,7 @@ import JournalView from './JournalView'
 import LetterView from './LetterView'
 import DiplomaticLetterPanel from './panels/DiplomaticLetterPanel'
 import InvestmentPanel from './InvestmentPanel'
+import SpyMasterPanel from './SpyMasterPanel'
 import RadioAddressView from './RadioAddressView'
 import LegacyScreen from './LegacyScreen'
 import TransitionOverlay from './TransitionOverlay'
@@ -56,6 +57,7 @@ import { CabinetFormation } from './CabinetFormation'
 import { CabinetMeeting } from './CabinetMeeting'
 import { useCabinetStore } from '../stores/cabinetStore'
 import DebugPanel from './DebugPanel'
+import ComicCutscene from './ComicCutscene'
 
 function SceneRouter() {
   const currentScene = useNarrativeStore(s => s.currentScene)
@@ -64,11 +66,12 @@ function SceneRouter() {
 }
 
 export default function GameLayout() {
-  const { phase, pendingMidpointProjectId, resolveMidpoint, showTermReport, showLegacy, setRadioOpen, radioOpen, diaryEntry, closeDiary, cliffhangerText, closeCliffhanger, endPress, showCabinetFormation, showCabinetMeeting, dismissCabinetMeeting, reshuffleMinistry, reshuffleMode } = useWeekStore()
+  const { phase, pendingMidpointProjectId, resolveMidpoint, showTermReport, showLegacy, setRadioOpen, radioOpen, diaryEntry, closeDiary, cliffhangerText, closeCliffhanger, endPress, showCabinetFormation, showCabinetMeeting, dismissCabinetMeeting, reshuffleMinistry, reshuffleMode, cutscenePanels, clearCutscene } = useWeekStore()
   const journalOpen = useSettingsStore(s => s.journalOpen)
   const letterOpen = useSettingsStore(s => s.letterOpen)
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
   const investmentOpen = useSettingsStore(s => s.investmentOpen)
+  const spyMasterOpen = useSettingsStore(s => s.spyMasterOpen)
   const setDecreeInboxOpen = useSettingsStore(s => s.setDecreeInboxOpen)
   const pendingRequests = useCabinetStore(s => s.pending_requests)
   // const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds) // unused — Act transition reads store directly via getState()
@@ -518,6 +521,9 @@ export default function GameLayout() {
       {/* Investment panel */}
       {investmentOpen && <InvestmentPanel onClose={() => useSettingsStore.getState().setInvestmentOpen(false)} />}
 
+      {/* Spy Master panel */}
+      {spyMasterOpen && <SpyMasterPanel onClose={() => useSettingsStore.getState().setSpyMasterOpen(false)} />}
+
       {/* Incoming Letter Inbox */}
       <DiplomaticLetterPanel />
 
@@ -548,6 +554,14 @@ export default function GameLayout() {
 
       {/* Developer debug panel — fixed overlay, Ctrl+D to toggle */}
       <DebugPanel />
+
+      {/* Comic Cutscene Overlay */}
+      {cutscenePanels && (
+        <ComicCutscene
+          panels={cutscenePanels}
+          onComplete={clearCutscene}
+        />
+      )}
     </>
   )
 }
