@@ -56,12 +56,17 @@ function clearAllTimeouts(): void {
 
 // Load all agenda pool JSON files at build time.
 // Each file exports { week: number, agenda: AgendaItem[] }.
-const agendaModules = import.meta.glob<{ default: { agenda: AgendaItem[] } }>(
+const agendaModules = import.meta.glob(
   '../data/agenda/*.json',
   { eager: true },
 )
-const ALL_AGENDA: AgendaItem[] = Object.values(agendaModules)
-  .flatMap((mod) => mod?.default?.agenda ?? [])
+const ALL_AGENDA: AgendaItem[] = Object.values(agendaModules).flatMap((mod: unknown) => {
+  // Vite might wrap JSON in { default: ... } or provide it raw
+  const data = (mod as { default?: unknown } | null | undefined)?.default ?? mod;
+  if (Array.isArray(data)) return data as AgendaItem[];
+  if (data && Array.isArray((data as { agenda?: unknown }).agenda)) return (data as { agenda: AgendaItem[] }).agenda;
+  return [];
+});
 
 function buildPool(week: number, state: GameState, flags: string[], visited: string[]): AgendaItem[] {
   const result = ALL_AGENDA.filter(item => {
@@ -105,7 +110,7 @@ function buildPool(week: number, state: GameState, flags: string[], visited: str
       slotCost: 0,
       executionOrder: 2,
       weekAvailable: 1,
-      weekDeadline: 1,
+      weekDeadline: 2,
     })
   }
 
@@ -770,7 +775,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     // Add radio broadcast agenda item if player has broadcasts remaining
-    if (gameState.radioBroadcastsUsed < MAX_BROADCASTS && gameState.currentWeek > 1) {
+    if (gameState.radioBroadcastsUsed < MAX_BROADCASTS && gameState.currentWeek > 3) {
       pool.push({
         id: '__radio_address__',
         title: `Address the Nation (${MAX_BROADCASTS - gameState.radioBroadcastsUsed} of ${MAX_BROADCASTS} remaining)`,
@@ -1176,9 +1181,13 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           const { returnToMap } = get()
           if (returnToMap) {
             const completedItem = q[q.length - 1]
+            // News reactions must fire for every scene completed this run,
+            // regardless of its position in the queue (the last item is not
+            // necessarily the scene the reaction belongs to).
+            const completedSceneIds = new Set(q.map(item => item.sceneId))
 
             // Inject inauguration news after oath completes
-            if (completedItem?.sceneId === 'act1_week1_inauguration') {
+            if (completedSceneIds.has('act1_week1_inauguration')) {
               const d = new Date(1963, 2, 15) // March 15 1963
               const dateStr = d.toLocaleDateString('en-US', {
                 day: 'numeric', month: 'long', year: 'numeric'
@@ -1237,14 +1246,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
               ])
             }
 
-            if (completedItem?.sceneId === 'act1_week1_address_nation') {
+            if (completedSceneIds.has('act1_week1_address_nation')) {
               const d = new Date(1963, 2, 15)
               const dateStr = d.toLocaleDateString('en-US', {
                 day: 'numeric', month: 'long', year: 'numeric'
               })
               const flags = useNarrativeStore.getState().activeFlags
-              console.log('[NEWS DEBUG] address_nation flags:', flags)
-              console.log('[NEWS DEBUG] speechType will be:', flags.includes('address_unity_chosen') ? 'unity' : flags.includes('address_reform_chosen') ? 'reform' : flags.includes('address_strength_chosen') ? 'strength' : 'unity (DEFAULT)')
 
               // Determine which speech was given
               const speechType = flags.includes('address_unity_chosen')
@@ -1353,11 +1360,9 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
                   category: 'governance' as const,
                 },
               ])
-              console.log('[NEWS DEBUG] articles added, total now:', useNewsStore.getState().articles.length)
-              console.log('[NEWS DEBUG] article publications:', useNewsStore.getState().articles.map(a => a.publication + ':' + a.weekNumber))
             }
 
-            if (completedItem?.sceneId === 'act1_week7_commissioner') {
+            if (completedSceneIds.has('act1_week7_commissioner')) {
               const d = new Date(1963, 2, 29)
               const dateStr = d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
               const flags = useNarrativeStore.getState().activeFlags
