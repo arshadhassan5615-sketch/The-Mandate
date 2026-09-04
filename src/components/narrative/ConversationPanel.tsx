@@ -75,6 +75,71 @@ function effectiveSegmentType(type: NarrativeSegment['type']): 'description' | '
   return type
 }
 
+// Shared text styles — rendered identically in the history log and in the
+// active typing segment; centralised so the two sites can never drift.
+const ENTRY_ROW_STYLE: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: '12px',
+  padding: '6px 16px',
+}
+
+const SPEAKER_LABEL_STYLE: React.CSSProperties = {
+  fontSize: '10px',
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  marginBottom: '3px',
+  fontFamily: 'Georgia, serif',
+}
+
+const THOUGHT_WRAPPER_STYLE: React.CSSProperties = {
+  padding: '2px 8px 2px 0px',
+  margin: '2px 0',
+}
+
+const THOUGHT_TEXT_STYLE: React.CSSProperties = {
+  fontFamily: "'Crimson Text', Georgia, serif",
+  fontStyle: 'italic',
+  fontSize: '13px',
+  color: 'rgba(255,255,255,0.55)',
+  lineHeight: '1.65',
+  margin: 0,
+  textAlign: 'left',
+}
+
+const THOUGHT_GLYPH_STYLE: React.CSSProperties = {
+  color: 'rgba(201,168,76,0.4)',
+  marginRight: '8px',
+  fontSize: '10px',
+}
+
+const DESCRIPTION_WRAPPER_STYLE: React.CSSProperties = {
+  padding: '4px 0px',
+  margin: '4px 0',
+}
+
+const DESCRIPTION_TEXT_STYLE: React.CSSProperties = {
+  fontFamily: "'Crimson Text', Georgia, serif",
+  fontStyle: 'italic',
+  fontSize: '14px',
+  color: 'rgba(255,255,255,0.38)',
+  lineHeight: '1.8',
+  margin: 0,
+  textAlign: 'left',
+  letterSpacing: '0.02em',
+}
+
+const DIALOGUE_TEXT_STYLE: React.CSSProperties = {
+  fontSize: '15px',
+  lineHeight: '1.65',
+  color: 'rgba(232,213,163,0.92)',
+  fontFamily: "'Crimson Text', Georgia, serif",
+  fontStyle: 'normal',
+  borderLeft: 'none',
+  paddingLeft: 0,
+  marginLeft: 0,
+}
+
 interface ConversationHistoryEntry {
   id: string
   type: 'description' | 'dialogue' | 'narrative' | 'internal_thought' | 'player_spoken'
@@ -130,6 +195,7 @@ export default function ConversationPanel({
   const [monologueVisible, setMonologueVisible] = useState(false)
   const [advanceReady, setAdvanceReady] = useState(false)
   const [choicePhase, setChoicePhase] = useState<ChoicePhase>('idle')
+  const [hoveredChoiceId, setHoveredChoiceId] = useState<string | null>(null)
   const { currentScene } = useNarrativeStore()
   const phase = useWeekStore(s => s.phase)
   const [isMobile, setIsMobile] = useState(false)
@@ -178,8 +244,8 @@ export default function ConversationPanel({
     return stack
   }, [history, activeSegment])
 
-  // Which speaker just entered (for entrance animation trigger) — value never consumed in JSX yet
-  const [, setNewSpeakerId] = useState<string | undefined>(undefined)
+  // Which speaker just entered (for entrance animation trigger)
+  const [newSpeakerId, setNewSpeakerId] = useState<string | undefined>(undefined)
 
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {
@@ -320,6 +386,7 @@ export default function ConversationPanel({
     setActiveReactions(null)
     setReactionsFading(false)
     setChoicePhase('idle')
+    setHoveredChoiceId(null)
     choiceProcessedRef.current.clear()
   }, [choices])
 
@@ -458,6 +525,10 @@ export default function ConversationPanel({
           30% { opacity: 0; }
           100% { opacity: 1; }
         }
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.03); }
+        }
       `}</style>
       {isEmergency && (
         <div style={{
@@ -520,6 +591,7 @@ export default function ConversationPanel({
                   background: 'rgba(10,8,6,0.95)',
                   flexShrink: 0,
                   transition: 'width 0.35s cubic-bezier(0.22,1,0.36,1), height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease, border 0.35s ease, box-shadow 0.35s ease',
+                  animation: charId === newSpeakerId ? 'portrait-enter 0.4s ease-out' : undefined,
                 }}>
                   {img ? (
                     <img
@@ -572,7 +644,7 @@ export default function ConversationPanel({
         </div>
 
         {/* Expanding conversation panel — RIGHT side of row */}
-        <div ref={panelWrapperRef} style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', flex: 1, height: '100%', overflowY: 'auto' }}>
+        <div ref={panelWrapperRef} style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', flex: 1, height: '100%', overflowY: 'hidden' }}>
         <div
           ref={panelInnerRef}
           className="conversation-panel"
@@ -580,7 +652,7 @@ export default function ConversationPanel({
             position: 'relative',
             display: 'flex',
             flexDirection: 'column',
-            overflowY: 'auto',
+            overflowY: 'hidden',
             overflowX: 'hidden',
             scrollbarWidth: 'thin',
             background: '#0a0806',
@@ -611,7 +683,7 @@ export default function ConversationPanel({
               width: '100%',
             }}>
               <span style={{
-                fontSize: `${Math.max(12, monologueFontSize - 2)}px`,
+                fontSize: `${monologueFontSize - 2}px`,
                 color: 'rgba(201,168,76,0.5)',
                 flexShrink: 0,
                 marginTop: '2px',
@@ -648,7 +720,6 @@ export default function ConversationPanel({
         {/* Scrollable dialogue history */}
         <div
           ref={historyRef}
-          className="dialogue-scroll-area"
           style={{
             position: 'relative',
             zIndex: 3,
@@ -665,8 +736,6 @@ export default function ConversationPanel({
           }}
         >
           {history.map((entry, _i) => {
-            const opacity = 1
-            void opacity
             const entrySpeakerId = entry.characterId ?? ''
             const prevEntry = history[_i - 1]
             const isContinuation = prevEntry && prevEntry.characterId === entry.characterId && entry.type !== 'description' && entry.type !== 'narrative' && entry.type !== 'internal_thought'
@@ -675,29 +744,19 @@ export default function ConversationPanel({
             return (
               <div
                 key={entry.id}
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '12px',
-                  padding: '6px 16px',
-                  opacity: 1,
-                }}
+                style={ENTRY_ROW_STYLE}
               >
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
                   {/* Speaker name */}
                   {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && !isContinuation && (
                     <div style={{
-                      fontSize: '10px',
-                      letterSpacing: '0.12em',
+                      ...SPEAKER_LABEL_STYLE,
                       color: entry.type === 'player_spoken'
                         ? '#e8dcc8'
-                        : isCurrentSpeaker 
+                        : isCurrentSpeaker
                           ? (entry.characterColor || '#e8d5a3')
                           : (entry.characterColor || '#c9a84c'),
-                      textTransform: 'uppercase',
-                      marginBottom: '3px',
-                      fontFamily: 'Georgia, serif',
                       transition: 'color 0.4s ease',
                     }}>
                       {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
@@ -705,21 +764,9 @@ export default function ConversationPanel({
                   )}
                   {/* internal_thought / monologue — no label, ✦ symbol */}
                   {entry.type === 'internal_thought' && (
-                    <div style={{ padding: '2px 8px 2px 0px', margin: '2px 0' }}>
-                      <p style={{
-                        fontFamily: "'Crimson Text', Georgia, serif",
-                        fontStyle: 'italic',
-                        fontSize: '13px',
-                        color: 'rgba(255,255,255,0.55)',
-                        lineHeight: '1.65',
-                        margin: 0,
-                        textAlign: 'left',
-                      }}>
-                        <span style={{
-                          color: 'rgba(201,168,76,0.4)',
-                          marginRight: '8px',
-                          fontSize: '10px',
-                        }}>✦</span>
+                    <div style={THOUGHT_WRAPPER_STYLE}>
+                      <p style={THOUGHT_TEXT_STYLE}>
+                        <span style={THOUGHT_GLYPH_STYLE}>✦</span>
                         {renderWithEntities(entry.text, true)}
                       </p>
                     </div>
@@ -727,17 +774,8 @@ export default function ConversationPanel({
 
                   {/* description / narrative — left-aligned, faded, no label */}
                   {(entry.type === 'description' || entry.type === 'narrative') && (
-                    <div style={{ padding: '4px 0px', margin: '4px 0' }}>
-                      <p style={{
-                        fontFamily: "'Crimson Text', Georgia, serif",
-                        fontStyle: 'italic',
-                        fontSize: '14px',
-                        color: 'rgba(255,255,255,0.38)',
-                        lineHeight: '1.8',
-                        margin: 0,
-                        textAlign: 'left',
-                        letterSpacing: '0.02em',
-                      }}>
+                    <div style={DESCRIPTION_WRAPPER_STYLE}>
+                      <p style={DESCRIPTION_TEXT_STYLE}>
                         {renderWithEntities(entry.text, true)}
                       </p>
                     </div>
@@ -745,16 +783,7 @@ export default function ConversationPanel({
 
                   {/* dialogue / player_spoken — character label + quoted text */}
                   {(entry.type === 'dialogue' || entry.type === 'player_spoken') && (
-                    <div style={{
-                      fontSize: '15px',
-                      lineHeight: '1.65',
-                      color: 'rgba(232,213,163,0.92)',
-                      fontFamily: "'Crimson Text', Georgia, serif",
-                      fontStyle: 'normal',
-                      borderLeft: 'none',
-                      paddingLeft: '0',
-                      marginLeft: '0',
-                    }}>
+                    <div style={DIALOGUE_TEXT_STYLE}>
                       {'"'}{renderWithEntities(entry.text, true)}{'"'}
                     </div>
                   )}
@@ -765,13 +794,7 @@ export default function ConversationPanel({
 
           {/* Active segment typing */}
           {activeSegment && (
-            <div style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '12px',
-              padding: '6px 16px',
-              opacity: 1,
-            }}>
+            <div style={ENTRY_ROW_STYLE}>
               <div style={{ flex: 1 }}>
                 {(() => {
                   const activeType = effectiveSegmentType(activeSegment.type)
@@ -781,33 +804,17 @@ export default function ConversationPanel({
                     <>
                       {activeType === 'dialogue' && !isActiveContinuation && (
                         <div style={{
-                          fontSize: '10px',
-                          letterSpacing: '0.12em',
+                          ...SPEAKER_LABEL_STYLE,
                           color: getCharacterColor(activeSegment.character ?? '') || '#e8d5a3',
-                          textTransform: 'uppercase',
-                          marginBottom: '3px',
-                          fontFamily: 'Georgia, serif',
                         }}>
                           {charName(activeSegment.character ?? '')}
                         </div>
                       )}
                       {/* internal_thought / monologue — no label, ✦ symbol */}
                       {activeType === 'internal_thought' && (
-                        <div style={{ padding: '2px 8px 2px 0px', margin: '2px 0' }}>
-                          <p style={{
-                            fontFamily: "'Crimson Text', Georgia, serif",
-                            fontStyle: 'italic',
-                            fontSize: '13px',
-                            color: 'rgba(255,255,255,0.55)',
-                            lineHeight: '1.65',
-                            margin: 0,
-                            textAlign: 'left',
-                          }}>
-                            <span style={{
-                              color: 'rgba(201,168,76,0.4)',
-                              marginRight: '8px',
-                              fontSize: '10px',
-                            }}>✦</span>
+                        <div style={THOUGHT_WRAPPER_STYLE}>
+                          <p style={THOUGHT_TEXT_STYLE}>
+                            <span style={THOUGHT_GLYPH_STYLE}>✦</span>
                             {renderWithEntities(activeText, true)}
                             {showCursor && <span className="typewriter-cursor" />}
                           </p>
@@ -816,17 +823,8 @@ export default function ConversationPanel({
 
                       {/* description — left-aligned, faded, no label */}
                       {activeType === 'description' && (
-                        <div style={{ padding: '4px 0px', margin: '4px 0' }}>
-                          <p style={{
-                            fontFamily: "'Crimson Text', Georgia, serif",
-                            fontStyle: 'italic',
-                            fontSize: '14px',
-                            color: 'rgba(255,255,255,0.38)',
-                            lineHeight: '1.8',
-                            margin: 0,
-                            textAlign: 'left',
-                            letterSpacing: '0.02em',
-                          }}>
+                        <div style={DESCRIPTION_WRAPPER_STYLE}>
+                          <p style={DESCRIPTION_TEXT_STYLE}>
                             {renderWithEntities(activeText, true)}
                             {showCursor && <span className="typewriter-cursor" />}
                           </p>
@@ -835,16 +833,7 @@ export default function ConversationPanel({
 
                       {/* dialogue — character label + quoted text */}
                       {activeType === 'dialogue' && (
-                        <div style={{
-                          fontSize: '15px',
-                          lineHeight: '1.65',
-                          color: 'rgba(232,213,163,0.92)',
-                          fontFamily: "'Crimson Text', Georgia, serif",
-                          fontStyle: 'normal',
-                          borderLeft: 'none',
-                          paddingLeft: '0',
-                          marginLeft: '0',
-                        }}>
+                        <div style={DIALOGUE_TEXT_STYLE}>
                           {'"'}{renderWithEntities(activeText, true)}
                           {showCursor && <span className="typewriter-cursor" />}
                           {'"'}
@@ -904,6 +893,7 @@ export default function ConversationPanel({
                 const isSelected = selectedId === choice.id
                 const isFading = fadingId === choice.id
                 const isDimmed = fadingId && !isFading
+                const isHovered = hoveredChoiceId === choice.id && !selectedId && !fadingId
                 return (
                 <div
                   key={choice.id ?? i}
@@ -912,24 +902,28 @@ export default function ConversationPanel({
                     padding: '11px 16px',
                     background: isSelected
                       ? 'rgba(201,168,76,0.18)'
-                      : isFading
-                      ? 'rgba(201,168,76,0.06)'
+                      : isHovered
+                      ? 'rgba(201,168,76,0.14)'
                       : 'rgba(201,168,76,0.06)',
                     border: isSelected
                       ? '2px solid rgba(201,168,76,0.7)'
+                      : isHovered
+                      ? '1px solid rgba(201,168,76,0.6)'
                       : '1px solid rgba(201,168,76,0.25)',
                     borderRadius: '2px',
                     cursor: 'pointer',
                     fontSize: '13px',
-                    color: isSelected ? '#ffffff' : '#e8d5a3',
+                    color: isSelected || isHovered ? '#ffffff' : '#e8d5a3',
                     fontFamily: 'Georgia, serif',
                     lineHeight: '1.5',
                     transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
                     userSelect: 'none',
-                    transform: isSelected ? 'scale(0.97)' : isDimmed ? 'scale(1)' : 'scale(1)',
+                    transform: isSelected ? 'scale(0.97)' : isHovered ? 'translateY(-1px)' : 'scale(1)',
                     opacity: isFading ? 0 : isDimmed ? 0.4 : 1,
                     boxShadow: isSelected
                       ? '0 0 20px rgba(201,168,76,0.3)'
+                      : isHovered
+                      ? '0 2px 8px rgba(201,168,76,0.12)'
                       : 'none',
                     animation: isSelected
                       ? 'choice-glow-burst 0.4s ease-out'
@@ -941,23 +935,11 @@ export default function ConversationPanel({
                     position: 'relative',
                     overflow: 'hidden',
                   }}
-                  onMouseEnter={e => {
-                    if (!selectedId && !fadingId) {
-                      e.currentTarget.style.background = 'rgba(201,168,76,0.14)'
-                      e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)'
-                      e.currentTarget.style.color = '#ffffff'
-                      e.currentTarget.style.transform = 'translateY(-1px)'
-                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(201,168,76,0.12)'
-                    }
+                  onMouseEnter={() => {
+                    if (!selectedId && !fadingId) setHoveredChoiceId(choice.id)
                   }}
-                  onMouseLeave={e => {
-                    if (!selectedId && !fadingId) {
-                      e.currentTarget.style.background = 'rgba(201,168,76,0.06)'
-                      e.currentTarget.style.borderColor = 'rgba(201,168,76,0.25)'
-                      e.currentTarget.style.color = '#e8d5a3'
-                      e.currentTarget.style.transform = 'scale(1)'
-                      e.currentTarget.style.boxShadow = 'none'
-                    }
+                  onMouseLeave={() => {
+                    setHoveredChoiceId(null)
                   }}
                 >
                   <span style={{ position: 'relative', zIndex: 1 }}>{choice.text}</span>
