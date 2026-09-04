@@ -10,6 +10,14 @@ import type { RadioTheme } from '../engine/RadioEngine'
 import type { ActiveProject } from '../types/projects'
 import { computeBudgetModifiers } from '../engine/budgetEffects'
 import { useNarrativeStore } from './narrativeStore'
+import { useDecreeStore } from './decreeStore'
+import { useCabinetStore } from './cabinetStore'
+import { useBillStore } from './billStore'
+import { useNewsStore } from './newsStore'
+import { useJournalStore } from './journalStore'
+import { useLetterStore } from './letterStore'
+import { useChainStore } from './chainStore'
+import { useSettingsStore } from './settingsStore'
 import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
 
@@ -196,6 +204,7 @@ interface GameStore extends GameState {
   addDiaryEntry:     (entry: DiaryEntry) => void
   captureSnapshot:            () => void
   resetToInitial:             () => void
+  bootNewGame:                () => void
   recordCorruptionEntry:      (entry: import('../types/gameState').CorruptionEntry) => void
   applyDiscoveredCorruption:  (entries: import('../types/gameState').CorruptionEntry[]) => void
 }
@@ -612,6 +621,50 @@ export const useGameStore = create<GameStore>()(
     // Unconditional reset — do NOT read from localStorage. A "New Game"
     // must always start from INITIAL_STATE, never restore an old save.
     set(() => ({ ...INITIAL_STATE }))
+  },
+
+  // Boot-time reset for the direct-to-prologue startup path. The prologue
+  // bypasses startCustomization, so without this the persisted state from the
+  // previous session (e.g. currentWeek: 2) resumes under a fresh prologue.
+  bootNewGame: () => {
+    useGameStore.getState().resetToInitial()
+    useGameStore.getState().randomizeMoleIdentity()
+    useGameStore.getState().captureSnapshot()
+    try {
+      localStorage.removeItem('mandate-codex-seen')
+    } catch { /* ignore */ }
+    useSettingsStore.getState().resetPlaytime()
+    useDecreeStore.setState({
+      pendingDecrees: [],
+      signedDecrees: [],
+      rejectedDecrees: [],
+      tabledDecrees: [],
+      selectedDecree: null,
+      pendingLongTermEffects: [],
+    })
+    useCabinetStore.setState({
+      ministers: {
+        finance: null, interior: null, defense: null, justice: null,
+        labor: null, foreign_affairs: null, education: null, health: null,
+        development: null, resources: null,
+      },
+      formation_complete: false,
+      formation_week: null,
+      pending_requests: [],
+      completed_requests: [],
+    })
+    useBillStore.setState({
+      bills: [],
+      history: [],
+      pendingBill: null,
+      isOverlayOpen: false,
+      vetoOverrideResult: null,
+    })
+    useNarrativeStore.getState().resetAll()
+    useChainStore.setState({ scheduled: [] })
+    useNewsStore.setState({ articles: [], isOpen: false, lastReadIndex: -1, readRecords: {} })
+    useJournalStore.setState({ entries: [], seenKeys: new Set<string>() })
+    useLetterStore.setState({ letters: [], readIds: new Set<string>(), currentIndex: 0, isOpen: false, unreadCount: 0 })
   },
     }),
     {
