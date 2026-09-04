@@ -509,27 +509,6 @@ export default function ConversationPanel({
 
   return (
     <>
-      <style>{`
-        @keyframes portrait-enter {
-          from {
-            transform: scale(0.82);
-            opacity: 0;
-          }
-          to {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-        @keyframes panel-fade-in {
-          0% { opacity: 0; }
-          30% { opacity: 0; }
-          100% { opacity: 1; }
-        }
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.03); }
-        }
-      `}</style>
       {isEmergency && (
         <div style={{
           position: 'fixed', inset: 0,
@@ -893,7 +872,7 @@ export default function ConversationPanel({
                 const isSelected = selectedId === choice.id
                 const isFading = fadingId === choice.id
                 const isDimmed = fadingId && !isFading
-                const isHovered = hoveredChoiceId === choice.id && !selectedId && !fadingId
+                const isHovered = hoveredChoiceId === choice.id && selectedId === null && fadingId === null
                 return (
                 <div
                   key={choice.id ?? i}
@@ -936,7 +915,7 @@ export default function ConversationPanel({
                     overflow: 'hidden',
                   }}
                   onMouseEnter={() => {
-                    if (!selectedId && !fadingId) setHoveredChoiceId(choice.id)
+                    if (selectedId === null && fadingId === null) setHoveredChoiceId(choice.id)
                   }}
                   onMouseLeave={() => {
                     setHoveredChoiceId(null)
