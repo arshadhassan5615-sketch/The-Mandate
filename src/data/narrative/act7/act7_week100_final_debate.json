@@ -3,29 +3,34 @@
   "title": "The Final Debate",
   "act": 7,
   "weekAvailable": 100,
-  "weekDeadline": 101,
+  "weekDeadline": 100,
   "type": "meeting",
   "agendaCost": 1,
   "isMandatory": true,
   "location": "National Broadcasting House — Ashenmere",
-  "characters": ["vyktor_reznik", "drazen_kolvar", "nadia_voss"],
+  "characters": ["drazen_kolvar", "nadia_voss", "vyktor_reznik"],
   "prerequisites": [],
   "narrative": [
     {
       "type": "description",
-      "text": "The lights are blinding. The studio is silent except for the hum of the cameras. Millions of Veltrians are watching. You stand behind your podium. Kolvar stands behind his. Nadia Voss sits between you, her notes perfectly aligned."
+      "text": "The Assembly Hall has been converted into something it was never meant to be — a stage. Six hundred seats. Every press credential in Veltria. Kolvar is already at the podium when you arrive, adjusting his lapel pin. He does not look up."
     },
     {
       "type": "dialogue",
-      "character": "nadia_voss",
-      "text": "Good evening. Tonight, we have Chancellor Katerin Ashavel and Opposition Leader Dražen Kolvar. Four weeks until the election. No prepared statements. No handlers. Just the candidates and the questions. Chancellor, we begin with you."
+      "character": "vyktor_reznik",
+      "text": "He has the opening. Nadia moderates. Four minutes each, then open floor. Whatever he says first — do not react. Let him spend himself."
+    },
+    {
+      "type": "dialogue",
+      "character": "drazen_kolvar",
+      "text": "Two terms. One hundred weeks. And what does Veltria have to show for Chancellor Ashavel's grand experiment? A border still bleeding. A treasury mortgaged to foreign creditors. A Chief of Staff who kept a private fund — apparently beyond the Chancellor's notice. Or perhaps not beyond it."
     }
   ],
   "choices": [
     {
-      "id": "opening_statement",
-      "text": "Deliver your opening statement.",
-      "nextSegment": "opening_statement",
+      "id": "face_kolvar",
+      "text": "Let him spend himself. Then answer.",
+      "nextSegment": "seg_kolvar_specific",
       "stateChanges": [],
       "reactions": [],
       "chainTriggers": [],
@@ -33,28 +38,162 @@
     }
   ],
   "segments": {
-    "opening_statement": {
+    "seg_kolvar_specific": {
       "narrative": [
-        { "type": "description", "text": "The camera light turns red. You are live." }
+        { "type": "description", "text": "Kolvar has done his homework. The only question is which of the Republic's wounds he has decided to open tonight." }
       ],
       "choices": [
         {
-          "id": "defend_record",
-          "text": "Defend your record. Two years of reform, stability, and progress.",
-          "nextSegment": "kolvar_attack",
+          "id": "path_kolvar_deflect",
+          "text": "(Continue)",
+          "nextSegment": "seg_kolvar_deflect",
+          "prerequisites": [
+            { "flag": "kolvar_exposed_press", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_kolvar_orythia",
+          "text": "(Continue)",
+          "nextSegment": "seg_kolvar_attacks_orythia",
+          "prerequisites": [
+            { "flag": "orythian_pact_signed", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_kolvar_oil",
+          "text": "(Continue)",
+          "nextSegment": "seg_kolvar_attacks_oil",
+          "prerequisites": [
+            { "flag": "oil_nationalized", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_kolvar_personal",
+          "text": "(Continue)",
+          "nextSegment": "seg_kolvar_attacks_personal",
+          "prerequisites": [
+            { "flag": "jonas_divorce", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_kolvar_generic",
+          "text": "(Continue)",
+          "nextSegment": "seg_kolvar_attacks_generic",
+          "prerequisites": [
+            { "flag": "kolvar_exposed_press", "value": false },
+            { "flag": "orythian_pact_signed", "value": false },
+            { "flag": "oil_nationalized", "value": false },
+            { "flag": "jonas_divorce", "value": false }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_kolvar_deflect": {
+      "narrative": [
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "I have heard the whispers. That I am a foreign asset. That Tyvaren owns my votes. It is the oldest trick in the Halvekist playbook — when you cannot win the argument, destroy the man. The Chancellor learned well from the regime she claims to have buried." }
+      ],
+      "choices": [
+        { "id": "deflect_continue", "text": "(Continue)", "nextSegment": "seg_katerin_responds", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_kolvar_attacks_orythia": {
+      "narrative": [
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "She signed us into the Orythian sphere. Read the fine print of that pact. Veltria does not have allies — it has a landlord. Every grain shipment, every joint exercise, every base right they quietly requested. This is what sovereignty looks like after Ashavel. A tenant who calls himself a homeowner." }
+      ],
+      "choices": [
+        { "id": "orythia_continue", "text": "(Continue)", "nextSegment": "seg_katerin_responds", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_kolvar_attacks_oil": {
+      "narrative": [
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "She nationalized the Sevagrad fields. Sovereign wealth, she called it. Thirty-seven foreign investors called it something else — expropriation. We are watching capital leave Veltria at a rate not seen since the Halvek purges. She traded our future for a headline." }
+      ],
+      "choices": [
+        { "id": "oil_continue", "text": "(Continue)", "nextSegment": "seg_katerin_responds", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_kolvar_attacks_personal": {
+      "narrative": [
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "A Chancellor who cannot hold together her own marriage is asked to hold together a nation. I raise it not as cruelty — I raise it as a question about judgment. About what we ask of the people closest to us when ambition becomes the only currency." }
+      ],
+      "choices": [
+        { "id": "personal_continue", "text": "(Continue)", "nextSegment": "seg_katerin_responds", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_kolvar_attacks_generic": {
+      "narrative": [
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "One hundred weeks. The economy slower than when she inherited it. Public order a managed fiction. A constitution amended by fiat. And she stands here asking for four more years. Veltria deserves better than a second mandate for a failed first one." }
+      ],
+      "choices": [
+        { "id": "generic_continue", "text": "(Continue)", "nextSegment": "seg_katerin_responds", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_katerin_responds": {
+      "narrative": [
+        { "type": "dialogue", "character": "nadia_voss", "text": "Chancellor Ashavel. Your response. Four minutes." },
+        { "type": "monologue", "text": "Four minutes. Father used to say that every speech is really one sentence with a hundred words of camouflage. Find the sentence." }
+      ],
+      "choices": [
+        {
+          "id": "choice_attack",
+          "text": "Turn it back on him — his record, his allegiances, his silence during the Halvek years",
+          "nextSegment": "seg_katerin_attack",
+          "prerequisites": [
+            { "flag": "kolvar_exposed_press", "value": true }
+          ],
+          "flags": ["debate_chose_attack"],
           "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+            { "stat": "factions.reformists", "operation": "add", "value": 4 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 },
+            { "stat": "factions.halvekists", "operation": "add", "value": -6 }
           ],
           "reactions": [],
           "chainTriggers": [],
           "codexUnlocks": []
         },
         {
-          "id": "attack_kolvar",
-          "text": "Attack Kolvar. He is Halvek's man in a new suit.",
-          "nextSegment": "kolvar_attack",
+          "id": "choice_record",
+          "text": "Speak to what was built — not what was promised, but what actually exists now",
+          "nextSegment": "seg_katerin_record",
+          "flags": ["debate_chose_record"],
           "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+            { "stat": "factions.reformists", "operation": "add", "value": 2 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "choice_concede",
+          "text": "Concede what failed. Name it plainly. Then ask what Kolvar would have done differently",
+          "nextSegment": "seg_katerin_concede",
+          "flags": ["debate_chose_concede"],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+            { "stat": "factions.reformists", "operation": "add", "value": 5 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": -5 }
           ],
           "reactions": [],
           "chainTriggers": [],
@@ -62,28 +201,76 @@
         }
       ]
     },
-    "kolvar_attack": {
+    "seg_katerin_attack": {
       "narrative": [
-        { "type": "dialogue", "character": "drazen_kolvar", "text": "Chancellor Ashavel talks about reform. But let me tell you what reform looks like to the average Veltrian: higher taxes, unstable borders, and a government that listens to foreign advisors more than its own people. She inherited a Republic. She is leaving you a mess." }
+        { "type": "dialogue", "character": "katerin_ashavel", "text": "Drazen Kolvar has spent two terms asking questions. Good questions, sometimes. But I have one for him. Where was he in 1951, when the Halvek census lists were being compiled? Where was his voice when the Dravenni petitions were shredded? He called himself opposition. Opposition that never cost him anything is not opposition. It is decoration." }
+      ],
+      "choices": [
+        { "id": "attack_continue", "text": "(Continue)", "nextSegment": "seg_kolvar_reacts", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_katerin_record": {
+      "narrative": [
+        { "type": "dialogue", "character": "katerin_ashavel", "text": "The border held. I will start there because Kolvar did not — because the border holding is inconvenient for his argument. The Kravenstal workers have contracts now, not charity. The Constitutional Court exists and has ruled against me twice — I let it stand both times. That is not failure. That is what a republic looks like when it is working." }
+      ],
+      "choices": [
+        { "id": "record_continue", "text": "(Continue)", "nextSegment": "seg_kolvar_reacts", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_katerin_concede": {
+      "narrative": [
+        { "type": "dialogue", "character": "katerin_ashavel", "text": "Some things failed. I know which ones. The housing bill was too slow. The Sevagrad resettlement is still unfinished. I inherited a bureaucracy built to serve one man and I have spent two terms trying to make it serve a country instead. Kolvar asks what I would have done differently. I ask him what he would have done at all." }
+      ],
+      "choices": [
+        { "id": "concede_continue", "text": "(Continue)", "nextSegment": "seg_kolvar_reacts", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_kolvar_reacts": {
+      "narrative": [
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "Eloquent. It always is. But the people of Thornfeld are not voting on eloquence — they are voting on their fuel bills." },
+        { "type": "dialogue", "character": "nadia_voss", "text": "Chancellor — one question from the floor, before closing statements. Simple one. If you win Tuesday. What is the first thing you do Wednesday morning?" },
+        { "type": "monologue", "text": "Not the answer she wants. The true one." }
       ],
       "choices": [
         {
-          "id": "counter_economy",
-          "text": "Counter on the economy. 'The deficit was Halvek's. I am fixing it.'",
-          "nextSegment": "voss_followup",
+          "id": "wednesday_people",
+          "text": "\"I open the Chancellery gates. Anyone who wants to walk in can walk in. For one hour.\"",
+          "nextSegment": "seg_closing_gates",
+          "flags": ["debate_wednesday_gates"],
           "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+            { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+            { "stat": "factions.reformists", "operation": "add", "value": 4 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": 2 }
           ],
           "reactions": [],
           "chainTriggers": [],
           "codexUnlocks": []
         },
         {
-          "id": "counter_security",
-          "text": "Counter on security. 'I held the border. Kolvar would have surrendered it.'",
-          "nextSegment": "voss_followup",
+          "id": "wednesday_work",
+          "text": "\"The same thing I did the first Wednesday. I go to work.\"",
+          "nextSegment": "seg_closing_work",
+          "flags": ["debate_wednesday_work"],
           "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+            { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+            { "stat": "factions.partyLoyalists", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "wednesday_honest",
+          "text": "\"I call my father's grave — the one person who knew I was going to lose, and didn't say so.\"",
+          "nextSegment": "seg_closing_honest",
+          "prerequisites": [
+            { "flag": "permanent_injury_sustained", "value": true }
+          ],
+          "flags": ["debate_wednesday_honest"],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 8 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": -8 },
+            { "stat": "factions.reformists", "operation": "add", "value": 6 }
           ],
           "reactions": [],
           "chainTriggers": [],
@@ -91,40 +278,33 @@
         }
       ]
     },
-    "voss_followup": {
+    "seg_closing_gates": {
       "narrative": [
-        { "type": "dialogue", "character": "nadia_voss", "text": "Chancellor, Kolvar has raised the issue of corruption. Several members of your cabinet have been linked to financial irregularities. How do you respond?" }
+        { "type": "dialogue", "character": "katerin_ashavel", "text": "The Chancellery has been closed long enough. Thirty years of Halvek keeping the gates. Two terms of me keeping them open an inch at a time. Wednesday, they open all the way. For an hour. Then we get back to work." }
       ],
       "choices": [
-        {
-          "id": "deny_corruption",
-          "text": "Deny it firmly. 'My government has zero tolerance for corruption.'",
-          "nextSegment": "debate_end",
-          "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": -3 }
-          ],
-          "reactions": [],
-          "chainTriggers": [],
-          "codexUnlocks": []
-        },
-        {
-          "id": "admit_imperfection",
-          "text": "Admit imperfection. 'We are not perfect. But we are accountable.'",
-          "nextSegment": "debate_end",
-          "stateChanges": [
-            { "stat": "personal.publicImage", "operation": "add", "value": 5 }
-          ],
-          "reactions": [],
-          "chainTriggers": [],
-          "codexUnlocks": []
-        }
+        { "id": "gates_continue", "text": "(Continue)", "nextSegment": "seg_debate_ends", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
       ]
     },
-    "debate_end": {
+    "seg_closing_work": {
       "narrative": [
-        { "type": "dialogue", "character": "nadia_voss", "text": "Thank you both. The election is in four weeks. The choice is yours, Veltria." },
-        { "type": "description", "text": "The camera light goes dark. The studio erupts into chatter. Kolvar extends his hand. You shake it. The smile on his face does not reach his eyes. Neither does yours." },
-        { "type": "monologue", "text": "It's over. The words are spent. The next four weeks are out of my hands. I have done everything I can. The Republic will decide." }
+        { "type": "dialogue", "character": "katerin_ashavel", "text": "There is no speech for Wednesday. Wednesday is a desk and a pile of things that need doing. That is what this job is. Kolvar knows that. He just prefers the speech." }
+      ],
+      "choices": [
+        { "id": "work_continue", "text": "(Continue)", "nextSegment": "seg_debate_ends", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_closing_honest": {
+      "narrative": [
+        { "type": "dialogue", "character": "katerin_ashavel", "text": "My father thought I would lose in '62. Told me so, the night before. I called him from the Chancellery the next morning. He cried. Didn't say anything — just cried. Wednesday, I would call him again. And this time I would not wait for him to speak first." }
+      ],
+      "choices": [
+        { "id": "honest_continue", "text": "(Continue)", "nextSegment": "seg_debate_ends", "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_debate_ends": {
+      "narrative": [
+        { "type": "description", "text": "The hall applauds. Not for you specifically — for the ending of something. Kolvar gathers his notes. He does not look at you. Nadia is already filing her piece on her notepad. Whatever happens Tuesday, this is the last time the two of you stand in the same room as equals." }
       ],
       "choices": [
         {
