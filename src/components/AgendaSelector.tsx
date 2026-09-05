@@ -342,6 +342,32 @@ export default function AgendaSelector() {
 
   const lockedScenes = getUnavailableDueToPrerequisites(currentWeek, visitedSceneIds, activeFlags)
 
+  // Shared markup for forced agenda sections (chain events, crises, intel
+  // alerts, fiscal emergencies, constitution pipeline). Multi-scene sections
+  // get the stacked wrapper; single-scene sections render one card.
+  const renderForcedSection = (title: string, sceneIds: string[], titleColor: string, hairlineColor: string) => (
+    <div style={{ marginBottom: '1.5rem' }}>
+      <p style={{
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.6rem',
+        letterSpacing: '0.2em',
+        color: titleColor,
+        textTransform: 'uppercase',
+        marginBottom: '0.6rem',
+      }}>
+        {title}
+      </p>
+      <div style={{ height: '1px', background: hairlineColor, marginBottom: '0.8rem' }} />
+      {sceneIds.length > 1 ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
+          {sceneIds.map(id => <ForcedEventCard key={id} sceneId={id} />)}
+        </div>
+      ) : (
+        <ForcedEventCard sceneId={sceneIds[0]} />
+      )}
+    </div>
+  )
+
   return (
     <div
       className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[800]"
@@ -403,95 +429,43 @@ export default function AgendaSelector() {
             }}
           >
             {/* Chain-forced required events */}
-            {forcedChainIds.length > 0 && (
-              <div style={{ marginBottom: '1.5rem' }}>
-                <p style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.2em',
-                  color: 'var(--accent-red)',
-                  textTransform: 'uppercase',
-                  marginBottom: '0.6rem',
-                }}>
-                  ▸ Required Meetings — Consequence of Prior Decisions
-                </p>
-                <div style={{ height: '1px', background: 'rgba(139,46,46,0.3)', marginBottom: '0.8rem' }} />
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
-                  {forcedChainIds.map(id => <ForcedEventCard key={id} sceneId={id} />)}
-                </div>
-              </div>
+            {forcedChainIds.length > 0 && renderForcedSection(
+              '▸ Required Meetings — Consequence of Prior Decisions',
+              forcedChainIds,
+              'var(--accent-red)',
+              'rgba(139,46,46,0.3)',
             )}
 
             {/* Emergency crisis scene — forced into the agenda */}
-            {emergency && (
-              <div style={{ marginBottom: '1.5rem' }}>
-                <p style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.2em',
-                  color: 'var(--accent-red)',
-                  textTransform: 'uppercase',
-                  marginBottom: '0.6rem',
-                }}>
-                  ▸ Crisis — {emergency.crisisName}
-                </p>
-                <div style={{ height: '1px', background: 'rgba(139,46,46,0.3)', marginBottom: '0.8rem' }} />
-                <ForcedEventCard sceneId={emergency.sceneId} />
-              </div>
+            {emergency && renderForcedSection(
+              `▸ Crisis — ${emergency.crisisName}`,
+              [emergency.sceneId],
+              'var(--accent-red)',
+              'rgba(139,46,46,0.3)',
             )}
 
             {/* Compromised intelligence scene */}
-            {intel.compromised && (
-              <div style={{ marginBottom: '1.5rem' }}>
-                <p style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.2em',
-                  color: 'var(--amber)',
-                  textTransform: 'uppercase',
-                  marginBottom: '0.6rem',
-                }}>
-                  ▸ Intelligence Alert — {intel.sceneId === 'morning_briefing_compromised' ? 'Compromised Dossier' : ''}
-                </p>
-                <div style={{ height: '1px', background: 'rgba(200,144,42,0.3)', marginBottom: '0.8rem' }} />
-                <ForcedEventCard sceneId={intel.sceneId} />
-              </div>
+            {intel.compromised && renderForcedSection(
+              `▸ Intelligence Alert — ${intel.sceneId === 'morning_briefing_compromised' ? 'Compromised Dossier' : ''}`,
+              [intel.sceneId],
+              'var(--amber)',
+              'rgba(200,144,42,0.3)',
             )}
 
             {/* Budget crisis scene */}
-            {budgetCrisis && (
-              <div style={{ marginBottom: '1.5rem' }}>
-                <p style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.2em',
-                  color: 'var(--accent-red)',
-                  textTransform: 'uppercase',
-                  marginBottom: '0.6rem',
-                }}>
-                  ▸ Fiscal Emergency — {budgetCrisis.crisisName}
-                </p>
-                <div style={{ height: '1px', background: 'rgba(139,46,46,0.3)', marginBottom: '0.8rem' }} />
-                <ForcedEventCard sceneId={budgetCrisis.sceneId} />
-              </div>
+            {budgetCrisis && renderForcedSection(
+              `▸ Fiscal Emergency — ${budgetCrisis.crisisName}`,
+              [budgetCrisis.sceneId],
+              'var(--accent-red)',
+              'rgba(139,46,46,0.3)',
             )}
 
             {/* Legislative pipeline scene — forced multi-week arc */}
-            {pipelineSceneId && (
-              <div style={{ marginBottom: '1.5rem' }}>
-                <p style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.2em',
-                  color: 'var(--accent-green)',
-                  textTransform: 'uppercase',
-                  marginBottom: '0.6rem',
-                }}>
-                  ▸ Constitutional Pipeline — Stage {pipelineSceneId === 'pipeline_constitution_drafting' ? '1: Drafting' : pipelineSceneId === 'pipeline_constitution_committee' ? '2: Committee' : '3: Floor Vote'}
-                </p>
-                <div style={{ height: '1px', background: 'rgba(26,107,42,0.3)', marginBottom: '0.8rem' }} />
-                <ForcedEventCard sceneId={pipelineSceneId} />
-              </div>
+            {pipelineSceneId && renderForcedSection(
+              `▸ Constitutional Pipeline — Stage ${pipelineSceneId === 'pipeline_constitution_drafting' ? '1: Drafting' : pipelineSceneId === 'pipeline_constitution_committee' ? '2: Committee' : '3: Floor Vote'}`,
+              [pipelineSceneId],
+              'var(--accent-green)',
+              'rgba(26,107,42,0.3)',
             )}
 
             {agendaPool.length === 0 ? (

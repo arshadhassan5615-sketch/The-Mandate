@@ -80,6 +80,8 @@ export default function GameLayout() {
   const [actShown, setActShown] = useState(false)
   const [slotScreenMode, setSlotScreenMode] = useState<'load' | 'save' | null>(null)
   const [menuConfirmOpen, setMenuConfirmOpen] = useState(false)
+  // Hover state for gold-outline buttons — replaces direct DOM style mutation.
+  const [hoveredButton, setHoveredButton] = useState<string | null>(null)
   const parliamentResults = useParliamentStore(s => s.currentSittingResults) ?? []
 
   useAudio()
@@ -345,16 +347,17 @@ export default function GameLayout() {
               fontSize: '0.5rem',
               letterSpacing: '0.1em',
               background: 'rgba(201,168,76,0.1)',
-              border: '1px solid rgba(201,168,76,0.3)',
-              color: 'rgba(201,168,76,0.7)',
+              border: '1px solid',
+              borderColor: hoveredButton === 'save' ? '#c9a84c' : 'rgba(201,168,76,0.3)',
+              color: hoveredButton === 'save' ? '#c9a84c' : 'rgba(201,168,76,0.7)',
               padding: '0.35rem 0.8rem',
               cursor: 'pointer',
               borderRadius: '2px',
               textTransform: 'uppercase' as const,
               transition: 'all 0.15s ease',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#c9a84c'; e.currentTarget.style.color = '#c9a84c' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'; e.currentTarget.style.color = 'rgba(201,168,76,0.7)' }}
+            onMouseEnter={() => setHoveredButton('save')}
+            onMouseLeave={() => setHoveredButton(null)}
           >
             SAVE
           </button>
@@ -365,16 +368,17 @@ export default function GameLayout() {
               fontSize: '0.5rem',
               letterSpacing: '0.1em',
               background: 'rgba(201,168,76,0.1)',
-              border: '1px solid rgba(201,168,76,0.3)',
-              color: 'rgba(201,168,76,0.7)',
+              border: '1px solid',
+              borderColor: hoveredButton === 'menu' ? '#c9a84c' : 'rgba(201,168,76,0.3)',
+              color: hoveredButton === 'menu' ? '#c9a84c' : 'rgba(201,168,76,0.7)',
               padding: '0.35rem 0.8rem',
               cursor: 'pointer',
               borderRadius: '2px',
               textTransform: 'uppercase' as const,
               transition: 'all 0.15s ease',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#c9a84c'; e.currentTarget.style.color = '#c9a84c' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'; e.currentTarget.style.color = 'rgba(201,168,76,0.7)' }}
+            onMouseEnter={() => setHoveredButton('menu')}
+            onMouseLeave={() => setHoveredButton(null)}
           >
             MENU
           </button>
@@ -430,15 +434,16 @@ export default function GameLayout() {
                   fontSize: '0.7rem',
                   letterSpacing: '0.12em',
                   background: 'transparent',
-                  border: '1px solid rgba(201,168,76,0.25)',
-                  color: 'rgba(201,168,76,0.5)',
+                  border: '1px solid',
+                  borderColor: hoveredButton === 'stay' ? 'rgba(201,168,76,0.6)' : 'rgba(201,168,76,0.25)',
+                  color: hoveredButton === 'stay' ? 'rgba(201,168,76,0.8)' : 'rgba(201,168,76,0.5)',
                   padding: '0.6rem 1.4rem',
                   cursor: 'pointer',
                   borderRadius: '2px',
                   transition: 'all 0.15s ease',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)'; e.currentTarget.style.color = 'rgba(201,168,76,0.8)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.25)'; e.currentTarget.style.color = 'rgba(201,168,76,0.5)' }}
+                onMouseEnter={() => setHoveredButton('stay')}
+                onMouseLeave={() => setHoveredButton(null)}
               >
                 STAY
               </button>
@@ -454,16 +459,17 @@ export default function GameLayout() {
                   fontFamily: "'Special Elite', monospace",
                   fontSize: '0.7rem',
                   letterSpacing: '0.12em',
-                  background: 'rgba(201,168,76,0.15)',
-                  border: '1px solid rgba(201,168,76,0.6)',
+                  background: hoveredButton === 'main-menu' ? 'rgba(201,168,76,0.25)' : 'rgba(201,168,76,0.15)',
+                  border: '1px solid',
+                  borderColor: hoveredButton === 'main-menu' ? '#c9a84c' : 'rgba(201,168,76,0.6)',
                   color: '#c9a84c',
                   padding: '0.6rem 1.4rem',
                   cursor: 'pointer',
                   borderRadius: '2px',
                   transition: 'all 0.15s ease',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,168,76,0.25)'; e.currentTarget.style.borderColor = '#c9a84c' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(201,168,76,0.15)'; e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)' }}
+                onMouseEnter={() => setHoveredButton('main-menu')}
+                onMouseLeave={() => setHoveredButton(null)}
               >
                 MAIN MENU
               </button>
