@@ -1427,3 +1427,20 @@ body::before {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.03); }
 }
+
+/* ─── HUD Stat Animations ─── */
+@keyframes stat-flash-positive {
+  0%   { color: #7fa65a; text-shadow: 0 0 8px rgba(127,166,90,0.9); }
+  60%  { color: #b8d494; text-shadow: 0 0 16px rgba(184,212,148,1); }
+  100% { color: inherit; text-shadow: inherit; }
+}
+@keyframes stat-flash-negative {
+  0%   { color: #c0392b; text-shadow: 0 0 8px rgba(192,57,43,0.9); }
+  60%  { color: #e74c3c; text-shadow: 0 0 16px rgba(231,76,60,1); }
+  100% { color: inherit; text-shadow: inherit; }
+}
+@keyframes stat-flash-neutral {
+  0%   { opacity: 0.5; }
+  50%  { opacity: 1; }
+  100% { opacity: 1; }
+}

@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNewsStore } from '../stores/newsStore'
+import { useIsMobile } from '../hooks/useIsMobile'
+import { Z } from '../constants/zIndex'
 import type { PlayerAppearance } from '../types/gameState'
 import katerinImg from '../assets/potraits/katerin_ashavel.jpeg'
 
@@ -58,13 +60,22 @@ export default function KaterinHUD() {
   const phase = useWeekStore(s => s.phase)
   const newsOpen = useNewsStore(s => s.isOpen)
 
-  const [isMobile, setIsMobile] = useState(false)
+  const isMobile = useIsMobile()
+
+  // Stress-change flash: rising stress flashes red (negative), falling stress
+  // flashes green (positive). Applied to the stress section container so the
+  // label text carries the flash — the color keyframes need text to show.
+  const [stressFlash, setStressFlash] = useState<'positive' | 'negative' | null>(null)
+  const prevStress = useRef(stressLevel)
+
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+    if (stressLevel !== prevStress.current) {
+      setStressFlash(stressLevel > prevStress.current ? 'negative' : 'positive')
+      const t = setTimeout(() => setStressFlash(null), 600)
+      prevStress.current = stressLevel
+      return () => clearTimeout(t)
+    }
+  }, [stressLevel])
 
   // Hide during full-screen narrative phases and while the newspaper overlay is open
   // (NewsOverlay zIndex 200 is below this HUD's 250, so chrome must unmount — not stack).
@@ -76,7 +87,7 @@ export default function KaterinHUD() {
       position: 'fixed',
       bottom: '20px',
       left: '20px',
-      zIndex: 250,
+      zIndex: Z.katerinHud,
       display: 'flex',
       alignItems: 'center',
       gap: '0.8rem',
@@ -124,7 +135,8 @@ export default function KaterinHUD() {
         }}>
           Chancellor
         </span>
-        <div style={{ marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        <div style={{ marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '2px',
+          animation: stressFlash ? `stat-flash-${stressFlash} 0.6s ease-out` : undefined }}>
           <span style={{ fontSize: '0.45rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.4)', textTransform: 'uppercase', lineHeight: 1 }}>
             Stress
           </span>

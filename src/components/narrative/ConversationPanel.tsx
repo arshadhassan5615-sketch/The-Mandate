@@ -5,6 +5,7 @@ import { useWeekStore } from '../../stores/weekStore'
 import { getCharacterColor } from '../portraits/CharacterPortraits'
 import { renderWithEntities } from '../news/EntityLinker'
 import { getPortrait } from '../../assets/potraits'
+import { useIsMobile } from '../../hooks/useIsMobile'
 
 const CHAR_NAMES: Record<string, string> = {
   katerin_ashavel: 'Chancellor Ashavel',
@@ -198,13 +199,7 @@ export default function ConversationPanel({
   const [hoveredChoiceId, setHoveredChoiceId] = useState<string | null>(null)
   const { currentScene } = useNarrativeStore()
   const phase = useWeekStore(s => s.phase)
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
 
   // Per-portrait image error tracking — half-implemented; portrait fallback uses img/initials instead
   // const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})

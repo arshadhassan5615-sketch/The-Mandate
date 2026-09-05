@@ -1,6 +1,8 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNewsStore } from '../stores/newsStore'
+import { useIsMobile } from '../hooks/useIsMobile'
+import { Z } from '../constants/zIndex'
 import type { BudgetAllocations } from '../types/gameState'
 import veltriaSeal from '../assets/images/veltria_seal.png'
 import iconEconomy from '../assets/images/ui/icon_economy.png'
@@ -53,13 +55,33 @@ export default function TopBar() {
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
   const date = useMemo(() => weekToDate(currentWeek), [currentWeek])
 
-  const [isMobile, setIsMobile] = useState(false)
+  const isMobile = useIsMobile()
+
+  // Stat-change flash: briefly highlights approval/treasury when their
+  // displayed value moves, so weekly shifts register at a glance.
+  const [approvalFlash, setApprovalFlash] = useState<'positive' | 'negative' | null>(null)
+  const [treasuryFlash, setTreasuryFlash] = useState<'positive' | 'negative' | null>(null)
+
+  const prevApproval = useRef(publicImage)
+  const prevTreasury = useRef(balance)
+
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+    if (publicImage !== prevApproval.current) {
+      setApprovalFlash(publicImage > prevApproval.current ? 'positive' : 'negative')
+      const t = setTimeout(() => setApprovalFlash(null), 600)
+      prevApproval.current = publicImage
+      return () => clearTimeout(t)
+    }
+  }, [publicImage])
+
+  useEffect(() => {
+    if (balance !== prevTreasury.current) {
+      setTreasuryFlash(balance > prevTreasury.current ? 'positive' : 'negative')
+      const t = setTimeout(() => setTreasuryFlash(null), 600)
+      prevTreasury.current = balance
+      return () => clearTimeout(t)
+    }
+  }, [balance])
 
   // NewsOverlay is zIndex 200; TopBar chips are 210 — hide while newspaper is open
   // (same unmount-while-open pattern as KaterinHUD for agenda/scene/news).
@@ -77,7 +99,7 @@ export default function TopBar() {
     position: 'fixed',
     top: CHIP_TOP,
     width: 'auto',
-    zIndex: 210,
+    zIndex: Z.topBar,
     background: 'rgba(10,8,6,0.85)',
     borderRadius: '6px',
     backdropFilter: 'blur(12px)',
@@ -147,8 +169,9 @@ export default function TopBar() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
           <img src={iconTreasury} alt="Treasury" style={{ height: 26, width: 26, marginTop: '2px', filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
           <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.9rem', fontWeight: 600,
-            color: balance < 0 ? '#e05c4a' : '#e8dcc8', lineHeight: 1, textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.4)' : '0 0 8px rgba(201,168,76,0.2)' }}>
-            {balance.toLocaleString()}
+            color: balance < 0 ? '#e05c4a' : '#e8dcc8', lineHeight: 1, textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.4)' : '0 0 8px rgba(201,168,76,0.2)',
+            animation: treasuryFlash ? `stat-flash-${treasuryFlash} 0.6s ease-out` : undefined }}>
+            ₭{balance.toLocaleString()}
           </span>
         </div>
 
@@ -171,14 +194,15 @@ export default function TopBar() {
 
         {/* SLOT 4 — APPROVAL */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
-          <img src={iconApproval} alt="Approval" style={{ height: 22, width: 22, marginTop: '2px', filter: `brightness(1.8) contrast(1.2) drop-shadow(0 0 8px ${approvalColor}CC)` }} />
+          <img src={iconApproval} alt="Approval" style={{ height: 22, width: 22, marginTop: '2px', filter: `brightness(1.8) contrast(1.2) drop-shadow(0 0 8px ${approvalColor}CC)`, transition: 'filter 0.4s ease' }} />
           <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.9rem', fontWeight: 600,
-            color: approvalColor, lineHeight: 1, minWidth: 26, textShadow: `0 0 8px ${approvalColor}40` }}>
+            color: approvalColor, lineHeight: 1, minWidth: 26, textShadow: `0 0 8px ${approvalColor}40`,
+            animation: approvalFlash ? `stat-flash-${approvalFlash} 0.6s ease-out` : undefined }}>
             {publicImage}%
           </span>
           <div style={{ width: 32, height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
             <div style={{ width: `${publicImage}%`, height: '100%', background: approvalColor,
-              boxShadow: `0 0 8px ${approvalColor}80`, borderRadius: 2, transition: 'width 0.5s ease' }} />
+              boxShadow: `0 0 8px ${approvalColor}80`, borderRadius: 2, transition: 'width 0.5s ease, background 0.4s ease' }} />
           </div>
         </div>
 
@@ -220,7 +244,7 @@ export default function TopBar() {
         justifyContent: 'center',
         gap: 2,
       }}>
-        <span style={{ fontSize: '0.66rem', letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.3)' }}>
+        <span style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.3)' }}>
           WEEK {currentWeek} / 52
         </span>
         {!isMobile && (
