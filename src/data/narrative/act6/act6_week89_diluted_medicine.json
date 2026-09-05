@@ -23,7 +23,7 @@
     {
       "type": "dialogue",
       "character": "aldric_theron",
-      "text": "I traced the supply contract. The company providing the medicine is a shell corporation. The majority shareholder is Bishop Viktor Renek—the Archbishop's cousin. He has been literally poisoning the poor to enrich himself."
+      "text": "I traced the supply contract. The company providing the medicine is a shell corporation, and the majority shareholder is Bishop Viktor Renek — the Archbishop's cousin. The dilution is his profit margin. Twelve patients took that margin into their veins."
     },
     {
       "type": "monologue",
@@ -34,7 +34,7 @@
     {
       "id": "arrest_cousin",
       "text": "Arrest the cousin and seize the company. The law applies to everyone.",
-      "nextSegment": null,
+      "nextSegment": "seg_arrest",
       "flags": ["renek_cousin_arrested"],
       "stateChanges": [
         { "stat": "factions.reformists", "operation": "add", "value": 15 },
@@ -49,7 +49,7 @@
     {
       "id": "flee_country",
       "text": "Quietly force the cousin to flee the country. Avoid the scandal.",
-      "nextSegment": null,
+      "nextSegment": "seg_exile",
       "flags": ["renek_cousin_exiled"],
       "stateChanges": [
         { "stat": "factions.church", "operation": "add", "value": -5 },
@@ -62,7 +62,7 @@
     {
       "id": "krel_assassinate",
       "text": "Use Krel to have the cousin assassinated. Make it look like a suicide.",
-      "nextSegment": null,
+      "nextSegment": "seg_assassinate",
       "flags": ["renek_cousin_assassinated"],
       "stateChanges": [
         { "stat": "shadowInfluence", "operation": "add", "value": 10 },
@@ -73,5 +73,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_arrest": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Renek's cousin is taken from his office at 2pm. His lawyers file for release within the hour. They do not get it. The Archbishop issues a statement calling the arrest 'political persecution of a faithful servant.' Kaspar holds a press conference with the lab results and the twelve names. The Archbishop does not issue a second statement. The supply contract is cancelled; emergency stock arrives from the Orythian aid reserves within the week. Theron is calm for the first time in months. Kaspar is not calm. She goes back to work."
+        }
+      ],
+      "choices": [
+        { "id": "arrest_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_exile": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Krel delivers the message on a Tuesday. By Thursday, Renek's cousin has boarded a ferry to Lytheira with two suitcases and no public statement. The shell company is dissolved. A new supply contract is issued. The twelve deaths are recorded in the Ministry files as resulting from 'substandard imported pharmaceutical stock' — accurate, precise, and attributing the cause to no one living. Kaspar signs the incident report without looking at me."
+        }
+      ],
+      "choices": [
+        { "id": "exile_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_assassinate": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The inquest finds cardiac arrest. He was 58 and in poor health, which is true — Krel researches these things. The supply contract is terminated the same day for 'administrative reasons.' A new contract is issued within the week. The Archbishop sends flowers to the family and a letter to my office expressing gratitude for my 'pastoral sensitivity' during a difficult time. I do not respond. Kaspar never asks what happened. Either she knows, or she has decided not to."
+        }
+      ],
+      "choices": [
+        { "id": "assassinate_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

@@ -23,7 +23,7 @@
     {
       "type": "dialogue",
       "character": "aldric_theron",
-      "text": "It is justice! Kolvar bullied me at university. His allies called me a radical. Now I have the power, and I will see them humiliated. The law is a weapon, Chancellor, and I am wielding it."
+      "text": "It is justice! These men administered Halvek's courts. They signed the detention orders — I have spent twenty years reading those signatures. Their crimes were never secret, only unpunished. Now I have the power, and I am finishing work the Republic abandoned in 1958."
     },
     {
       "type": "monologue",
@@ -34,7 +34,7 @@
     {
       "id": "fire_theron",
       "text": "Fire Theron. His personal vendetta ends now.",
-      "nextSegment": null,
+      "nextSegment": "seg_fire",
       "flags": ["theron_fired"],
       "stateChanges": [
         { "stat": "personal.moralCompass", "operation": "add", "value": 10 },
@@ -47,7 +47,7 @@
     {
       "id": "let_purge_continue",
       "text": "Let the purge continue. Kolvar's allies are a threat.",
-      "nextSegment": null,
+      "nextSegment": "seg_continue",
       "flags": ["theron_purge_continues"],
       "stateChanges": [
         { "stat": "nation.civilLiberties", "operation": "add", "value": -10 },
@@ -61,7 +61,7 @@
     {
       "id": "medical_leave",
       "text": "Force Theron into medical leave. Appoint a temporary, neutral replacement.",
-      "nextSegment": null,
+      "nextSegment": "seg_medical",
       "flags": ["theron_medical_leave"],
       "stateChanges": [
         { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
@@ -70,5 +70,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_fire": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "He accepted the termination without argument, which tells me he knew it was coming. The warrants are recalled. Three assembly members who had already been notified contact my office to ask if they are cleared. I tell them yes. None of them thank me. Theron's replacement — a career prosecutor named Varro — begins work Monday. He has no personal history with anyone in the Assembly. That is the entire qualification."
+        }
+      ],
+      "choices": [
+        { "id": "fire_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_continue": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "I told him to continue. He left without another word — the walk of a man who has been given permission he was going to take anyway. Twelve of Kolvar's allies are served notices in the following week. All for violations spanning the 1940s to 1960s, all selectively enforced, all technically valid. The reformists call it a cleanup. Kolvar calls it a purge. Both are correct."
+        }
+      ],
+      "choices": [
+        { "id": "continue_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_medical": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Theron went without protest, which surprised me. He needed the rest — his hands were shaking when he held the warrants. The temporary replacement freezes all pending arrests pending review. Seven of the twelve warrants are dropped for insufficient evidence. Five hold. Theron's targets were not wrong, just not only his to pursue."
+        }
+      ],
+      "choices": [
+        { "id": "medical_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

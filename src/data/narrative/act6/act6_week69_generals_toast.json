@@ -34,8 +34,7 @@
     {
       "id": "toast_obedience",
       "text": "Toast back: 'And to the obedience of the military. May it never waver.'",
-      "nextSegment": null,
-      "flags": ["generals_toast_countered"],
+      "nextSegment": "seg_toast_obedience",
       "stateChanges": [
         { "stat": "factions.ironCovenant", "operation": "add", "value": 5 },
         { "stat": "advisorTrust.vyktor", "operation": "add", "value": -5 }
@@ -47,8 +46,7 @@
     {
       "id": "laugh_it_off",
       "text": "Laugh it off as a joke. Defuse the tension.",
-      "nextSegment": null,
-      "flags": ["generals_toast_ignored"],
+      "nextSegment": "seg_laugh_off",
       "stateChanges": [
         { "stat": "personal.publicImage", "operation": "add", "value": 5 },
         { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 }
@@ -60,8 +58,7 @@
     {
       "id": "fire_brenner_publicly",
       "text": "Publicly fire him on the spot. 'Your patience is no longer required, General.'",
-      "nextSegment": null,
-      "flags": ["brenner_fired_publicly"],
+      "nextSegment": "seg_fire_public",
       "stateChanges": [
         { "stat": "factions.reformists", "operation": "add", "value": 15 },
         { "stat": "factions.ironCovenant", "operation": "add", "value": -25 },
@@ -71,5 +68,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_toast_obedience": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The room goes very still. Brenner's glass is still raised. He holds it there for a moment, then drinks — slowly, watching me over the rim. The other officers follow. Nobody laughs. Vyktor exhales beside me. The cameras get the image: Chancellor and General, glasses raised, eyes level. What it looks like in the morning papers depends entirely on the caption."
+        }
+      ],
+      "choices": [
+        { "id": "toast_end", "text": "(Continue)", "nextSegment": null, "flags": ["generals_toast_countered"], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_laugh_off": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "I laughed. Not a politician's laugh — a real one, short and dry. 'The General keeps us all humble,' I said. The room relaxed on cue. Brenner smiled. The cameras caught a pleasant evening at the Officers' Mess, which is exactly what Vyktor wanted and exactly what Brenner expected. He will try again with something that can't be laughed off."
+        }
+      ],
+      "choices": [
+        { "id": "laugh_end", "text": "(Continue)", "nextSegment": null, "flags": ["generals_toast_ignored"], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_fire_public": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The room went silent the way rooms go silent when something irreversible has just happened. Brenner set his glass down. He did not argue. He nodded once — the nod of a man who expected this, or wanted it — and walked out through the side door. Three generals followed him. Four stayed seated. Vyktor spent the rest of the evening working out which four and what it means."
+        }
+      ],
+      "choices": [
+        { "id": "fire_end", "text": "(Continue)", "nextSegment": null, "flags": ["brenner_fired_publicly"], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

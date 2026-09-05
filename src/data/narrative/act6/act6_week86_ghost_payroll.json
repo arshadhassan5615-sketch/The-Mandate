@@ -13,7 +13,7 @@
   "narrative": [
     {
       "type": "description",
-      "text": "Danika Oberlin bursts into your office, followed closely by Vostane. Oberlin slams a massive, dusty ledger onto your desk. It is the state payroll for the Ministry of Labor."
+      "text": "Oberlin arrives without an appointment. Vostane arrives one step behind her — and that is how I know this is real, because Vostane does not enter rooms uninvited. Between them they carry two years of the Ministry of Labor payroll. Oberlin sets her ledger on the desk hard enough to raise dust."
     },
     {
       "type": "dialogue",
@@ -23,7 +23,7 @@
     {
       "type": "dialogue",
       "character": "elara_vostane",
-      "text": "It is costing the treasury ₭ 2 million a month. That is ₭ 24 million a year stolen from the Republic. If we purge the payroll, the treasury is saved. But the bureaucratic union is powerful, Chancellor. If we fire 4,000 'workers' overnight, the real civil servants will strike in sympathy. The entire government will shut down."
+      "text": "Four thousand names on the Ministry of Labor payroll who do not exist. Their wages route through a shell company into Halvekist party accounts — ₭2 million a month, ₭24 million a year. Before you decide how to cut it: the civil service union will strike if we terminate them overnight, and a sympathy strike freezes the entire government. That is not a warning. It is the schedule."
     },
     {
       "type": "monologue",
@@ -34,7 +34,7 @@
     {
       "id": "purge_payroll",
       "text": "Purge the payroll immediately. Fire all 4,000 ghosts and arrest the administrators.",
-      "nextSegment": null,
+      "nextSegment": "seg_purge",
       "flags": ["ghost_payroll_purged"],
       "stateChanges": [
         { "stat": "nation.economyHealth", "operation": "add", "value": 15 },
@@ -49,7 +49,7 @@
     {
       "id": "phase_out_payroll",
       "text": "Phase it out slowly over a year. Quietly eliminate the ghosts to avoid a strike.",
-      "nextSegment": null,
+      "nextSegment": "seg_phase",
       "flags": ["ghost_payroll_phased"],
       "stateChanges": [
         { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
@@ -62,7 +62,7 @@
     {
       "id": "krel_arrest_admins",
       "text": "Use Krel to quietly arrest the bureaucrats who created the ghosts. Leave the payroll intact.",
-      "nextSegment": null,
+      "nextSegment": "seg_krel",
       "flags": ["ghost_payroll_krel"],
       "stateChanges": [
         { "stat": "shadowInfluence", "operation": "add", "value": 10 },
@@ -73,5 +73,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_purge": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The purge goes public at 9am. By noon the civil service union has called a wildcat strike. The tax authority stops processing for three days. The border customs office runs at half capacity for a week. Two administrators are arrested; the rest are simply gone from the payroll, names struck, access revoked. The treasury saves ₭2 million per month going forward. The three days of disruption cost approximately ₭800,000 in processing delays. Oberlin considers this acceptable. Vostane does not disagree."
+        }
+      ],
+      "choices": [
+        { "id": "purge_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_phase": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The phase-out takes fourteen months. Each ghost position is quietly defunded at contract renewal, the accounts redirected, the shell company starved rather than shut down. The Halvekist slush fund runs dry by the end of the second quarter. Nobody is arrested. Nobody strikes. The ₭28 million lost during the phase-out is documented as 'legacy personnel costs' in Vostane's quarterly report. It is the most expensive patience I have exercised in this office."
+        }
+      ],
+      "choices": [
+        { "id": "phase_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_krel": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Krel moves within 72 hours. Four administrators — the ones whose signatures appear on the shell company registrations — are taken in for questioning and not released. The ghost positions remain on the payroll temporarily; the money now routes nowhere, the accounts frozen at the source. The union notices nothing. The Halvekists notice something but cannot prove what. Oberlin asks me once what happened to the four men. I tell her the investigation is ongoing. It is not ongoing."
+        }
+      ],
+      "choices": [
+        { "id": "krel_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

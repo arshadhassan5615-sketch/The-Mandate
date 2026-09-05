@@ -29,7 +29,7 @@
     {
       "id": "confess_publicly",
       "text": "Tell him to confess publicly. The truth must be known.",
-      "nextSegment": null,
+      "nextSegment": "seg_confess",
       "flags": ["renek_confessed"],
       "stateChanges": [
         { "stat": "nation.civilLiberties", "operation": "add", "value": 10 },
@@ -42,7 +42,7 @@
     {
       "id": "bury_confession",
       "text": "Bury it forever. The Church must remain stable.",
-      "nextSegment": null,
+      "nextSegment": "seg_bury",
       "flags": ["renek_confession_buried"],
       "stateChanges": [
         { "stat": "factions.church", "operation": "add", "value": 15 },
@@ -55,7 +55,7 @@
     {
       "id": "blackmail_renek",
       "text": "Use it as blackmail. The Church now does what you say.",
-      "nextSegment": null,
+      "nextSegment": "seg_blackmail",
       "flags": ["renek_blackmailed"],
       "stateChanges": [
         { "stat": "shadowInfluence", "operation": "add", "value": 20 },
@@ -65,5 +65,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_confess": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "He confessed publicly three days later, at the Sunday service. The chapel was full. The statement was two minutes long and contained no excuses. The congregation sat in silence when he finished. By Monday morning, two diocese leaders had requested transfers. By Wednesday, the reformists were citing it in Assembly speeches about accountability. Renek did not resign. He said penance was not done by walking away. I don't know if that is wisdom or cowardice. He is still Archbishop."
+        }
+      ],
+      "choices": [
+        { "id": "confess_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_bury": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "I told him the Church needed to remain stable. He thanked me. He meant it. He went home and slept for the first time in weeks, I imagine. The list stays where it has always been — in the archive, misfiled, accessible to anyone who knows where to look. I have protected an institution. The men on that list remain unacknowledged. The Church keeps its authority. I keep the knowledge of what that authority cost."
+        }
+      ],
+      "choices": [
+        { "id": "bury_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_blackmail": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "I told him what I needed. He understood immediately — the posture of a man who has spent his life in institutions where leverage is the primary currency. The Church votes with my coalition on the housing bill. The education amendment. The civil liberties provision. Renek delivers every time, quietly, through back channels, with no public trace. He is useful. We both know what that means. He kneels at the altar every morning and I imagine he prays for something I cannot give him."
+        }
+      ],
+      "choices": [
+        { "id": "blackmail_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

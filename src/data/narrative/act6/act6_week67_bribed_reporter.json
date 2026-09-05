@@ -13,23 +13,23 @@
   "narrative": [
     {
       "type": "description",
-      "text": "Nadia Voss enters your study privately. She slides a reel of magnetic audio tape across your desk. 'I intercepted this from a courier at the Ashenmere Herald,' she says."
+      "text": "Nadia comes alone and after dark, which tells you everything before she speaks. She sets a reel of magnetic tape on the desk without preamble."
     },
     {
       "type": "dialogue",
       "character": "nadia_voss",
-      "text": "It's a recording of Martin Luka, the lead anchor. He's accepting a bribe from Lucan Vael. The terms are clear: Luka is to run a smear campaign against your Finance Minister, blaming them for the inflation crisis. Vael is buying the narrative, Chancellor."
+      "text": "Martin Luka. Lead anchor, Ashenmere Herald. Intercepted from a courier this afternoon. He is accepting payment from Lucan Vael to run a sustained smear against your Finance Minister — inflation, mismanagement, dereliction. Vael's money, Luka's face, every household in Veltria. I brought it to you because what you do with it tells me something I need to know."
     },
     {
       "type": "monologue",
-      "text": "Vael is using the press like a weapon. The anchor is a trusted face in every Veltrian home. If I publish this, I destroy the anchor and expose Vael's manipulation. But it will look like I am crushing the free press. If I bury it, Vael's smear campaign continues unchecked."
+      "text": "She said that last part deliberately. She is not here as a source — she is here as a test. She wants to see if I publish it, bury it, or use it. Whatever I do, she will write about it eventually. The tape is real. The question is what kind of Chancellor handles a real tape."
     }
   ],
   "choices": [
     {
       "id": "publish_tape",
-      "text": "Publish the tape and arrest the anchor for corruption.",
-      "nextSegment": null,
+      "text": "Publish it. Arrest Luka. Let the story run.",
+      "nextSegment": "seg_publish",
       "flags": ["reporter_arrested"],
       "stateChanges": [
         { "stat": "factions.reformists", "operation": "add", "value": 8 },
@@ -42,8 +42,8 @@
     },
     {
       "id": "blackmail_anchor",
-      "text": "Use the tape to blackmail the anchor into feeding Vael false information.",
-      "nextSegment": null,
+      "text": "Keep the tape. Turn Luka — feed Vael false information through his own anchor.",
+      "nextSegment": "seg_blackmail",
       "flags": ["reporter_turned"],
       "stateChanges": [
         { "stat": "shadowInfluence", "operation": "add", "value": 15 },
@@ -56,16 +56,52 @@
     },
     {
       "id": "bury_tape",
-      "text": "Bury the tape. Protect the illusion of a free press, even if it means Vael wins this round.",
-      "nextSegment": null,
+      "text": "Give the tape back to Nadia. Let her decide what to do with it.",
+      "nextSegment": "seg_bury",
       "flags": ["tape_buried"],
       "stateChanges": [
-        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
-        { "stat": "vaelInfluence", "operation": "add", "value": 5 }
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "vaelInfluence", "operation": "add", "value": 5 },
+        { "stat": "advisorTrust.vyktor", "operation": "add", "value": -5 }
       ],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_publish": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Luka is arrested by morning. The tape runs on three rival channels by noon. Vael issues a statement denying knowledge of the arrangement — a statement that convinces no one. The Finance Minister holds a press conference that afternoon and is asked nothing about inflation. Nadia publishes a piece calling it 'the fastest vindication in Veltrian broadcasting history.' She does not mention that she brought me the tape. She doesn't need to."
+        }
+      ],
+      "choices": [
+        { "id": "publish_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_blackmail": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Luka receives the tape and a visitor from Krel's office on the same afternoon. The conversation is brief. He continues broadcasting. His coverage of the Finance Minister becomes, over the following weeks, strangely balanced. Vael's money keeps arriving; Luka keeps depositing it; Luka keeps saying nothing useful with it. Nadia notices the shift eventually. She doesn't publish anything. She files it away. That is more dangerous."
+        }
+      ],
+      "choices": [
+        { "id": "blackmail_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_bury": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "I slide it back across the desk. She looks at it for a moment, then picks it up. She stands and buttons her coat without another word. Three days later, the Herald runs a long investigation into Vael's media investments — not the tape, but everything around it. Luka is not named. Vael is. It is slower than an arrest and more permanent. Nadia does not thank me. She doesn't need to."
+        }
+      ],
+      "choices": [
+        { "id": "bury_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }
