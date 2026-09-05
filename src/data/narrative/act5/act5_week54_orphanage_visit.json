@@ -13,23 +13,23 @@
   "narrative": [
     {
       "type": "description",
-      "text": "Liora insists you visit a state-run orphanage in Dravenhollow. The conditions are horrific. The heating system is broken, the children are wrapped in thin blankets, and the matron looks at you with the desperate eyes of someone who has been ignored for years."
+      "text": "The orphanage is state-run, which means it runs on whatever the state forgot to cut. The heating system has been broken since October. The matron meets you at the door with the expression of a woman who stopped expecting anything from Ashenmere three governments ago. Liora walks ahead of you into the main hall without waiting."
     },
     {
       "type": "dialogue",
       "character": "liora_ashavel",
-      "text": "Look at them, Mother. This is the Republic you inherited. The state budget is frozen, but your accounts are not. You can fix this right now."
+      "text": "The budget line for facilities like this hasn't moved in eleven years. Your predecessor froze it. His predecessor froze it. You could unfreeze it. Or you could do what you actually have the power to do right now, today, without a committee."
     },
     {
       "type": "monologue",
-      "text": "The cold here bites through my coat. These children are freezing in their beds while I sit in a heated Palace arguing over line items. The state treasury is empty. But my personal wealth is not. Do I empty my pockets to fix a broken boiler, or do I walk out and pretend I didn't see this?"
+      "text": "She means the personal account. ₭1,500 fixes the boiler and buys supplies for three months. The state process takes six weeks minimum and the children would freeze twice over waiting for it. Liora brought me here because she knew I would see exactly this — the gap between what the state can do and what I can do — and she wanted me to have no excuse."
     }
   ],
   "choices": [
     {
       "id": "donate_personal_wealth",
-      "text": "Donate ₭ 1,500 of your personal wealth to fix the heating and buy supplies.",
-      "nextSegment": null,
+      "text": "Write the check. ₭1,500 from the personal account. Fix it today.",
+      "nextSegment": "seg_donate",
       "flags": ["orphanage_saved"],
       "stateChanges": [
         { "stat": "personal.personalWealth", "operation": "add", "value": -1500 },
@@ -43,8 +43,8 @@
     },
     {
       "id": "promise_state_funding",
-      "text": "Promise state funding. Tell the matron the check is in the mail.",
-      "nextSegment": null,
+      "text": "Promise state funding. Start the process. It will take time.",
+      "nextSegment": "seg_promise",
       "flags": ["orphanage_promise_broken"],
       "stateChanges": [
         { "stat": "personal.lioraRelationship", "operation": "add", "value": -10 },
@@ -56,8 +56,8 @@
     },
     {
       "id": "walk_out",
-      "text": "Walk out. You cannot save everyone, and the treasury comes first.",
-      "nextSegment": null,
+      "text": "Walk out. The treasury comes first. You cannot fund every broken boiler in Veltria.",
+      "nextSegment": "seg_walkout",
       "flags": ["orphanage_ignored"],
       "stateChanges": [
         { "stat": "personal.lioraRelationship", "operation": "add", "value": -20 },
@@ -68,5 +68,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_donate": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The matron stares at the check for a moment before she takes it. She does not thank me — she looks at me like she is revising something she had decided about politicians. The boiler is fixed by Thursday. Liora sends a note that says only: good. Two words. The highest praise she gives."
+        }
+      ],
+      "choices": [
+        { "id": "donate_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_promise": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The state process takes eight weeks. The boiler is still broken when the funding clears. The matron has wrapped the children in extra blankets and moved them into the south wing, which gets afternoon sun. Liora stops calling for three weeks. When she does call, she doesn't mention the orphanage. That is worse."
+        }
+      ],
+      "choices": [
+        { "id": "promise_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_walkout": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Liora doesn't follow me out. I wait by the car for four minutes before she appears. She gets in without speaking. We drive back to Ashenmere in silence. She is not angry — she is something quieter and harder to fix than angry. She has learned something about me today that she did not want to know."
+        }
+      ],
+      "choices": [
+        { "id": "walkout_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

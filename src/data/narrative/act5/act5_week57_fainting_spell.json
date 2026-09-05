@@ -15,23 +15,23 @@
   "narrative": [
     {
       "type": "description",
-      "text": "You are at the podium for a live press conference. The lights are hot, the cameras are rolling. A reporter asks a question about the economy. As you turn to address him, the nerve damage in your hand flares up violently. Your arm spasms, knocking your water glass off the podium with a loud crash. The room goes silent."
+      "text": "The lights in the broadcast hall run hot. You are forty minutes into the press conference when the nerve damage flares — not a warning, just the thing itself. Your hand spasms. The water glass goes off the podium with a crack that fills the room. Six hundred people go silent simultaneously."
     },
     {
       "type": "dialogue",
       "character": "nadia_voss",
-      "text": "Chancellor, are you feeling unwell? The nation is watching. There are rumors that the assassination attempt left you with permanent damage. Is that true?"
+      "text": "Chancellor. Are you unwell? The nation is watching."
     },
     {
       "type": "monologue",
-      "text": "The cameras are zooming in. The water is pooling on the floor. My hand is still shaking. I can feel the ringing in my ear drowning out the room. I have to say something, or this will be the only story in tomorrow's papers."
+      "text": "She said it quietly but the microphone caught it. My hand is still shaking. The ringing in my left ear is doing what it always does — turning the room into something underwater. The cameras are zoomed in on my face. Whatever I say next is the story."
     }
   ],
   "choices": [
     {
       "id": "admit_injury",
-      "text": "Admit the injury. 'The attempt on my life left scars. I govern with them.'",
-      "nextSegment": null,
+      "text": "Admit it. 'The attempt on my life left scars. I govern with them.'",
+      "nextSegment": "seg_admit",
       "flags": ["injury_publicly_admitted"],
       "stateChanges": [
         { "stat": "personal.publicImage", "operation": "add", "value": 10 },
@@ -44,8 +44,8 @@
     },
     {
       "id": "lie_fatigue",
-      "text": "Lie. 'I am simply exhausted from working for the Republic.'",
-      "nextSegment": null,
+      "text": "Lie. 'Fatigue. The work continues.'",
+      "nextSegment": "seg_lie",
       "flags": ["injury_hidden"],
       "stateChanges": [
         { "stat": "personal.publicImage", "operation": "add", "value": -5 },
@@ -57,8 +57,8 @@
     },
     {
       "id": "attack_reporter",
-      "text": "Attack the reporter. 'How dare you question my health while Veltrians are starving?'",
-      "nextSegment": null,
+      "text": "Attack. 'How dare you question my health while Veltrians are suffering.'",
+      "nextSegment": "seg_attack",
       "flags": ["press_intimidated"],
       "stateChanges": [
         { "stat": "factions.ironCovenant", "operation": "add", "value": 10 },
@@ -69,5 +69,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_admit": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The room stays quiet for a moment after I say it. Then someone starts to applaud — one person, then a section, then most of the hall. Nadia writes something on her notepad. The evening broadcast leads with it. Not as a scandal. As a statement. My press secretary calls it the best thirty seconds of the term. I don't argue. My hand is still shaking."
+        }
+      ],
+      "choices": [
+        { "id": "admit_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_lie": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Nadia writes it down. Fatigue. She will not print fatigue — she will print what the cameras caught and let the readers decide what fatigue looks like. The glass is still on the floor when I leave. Someone photographed it. By morning the image is everywhere: the podium, the wet floor, the empty space where my composure was."
+        }
+      ],
+      "choices": [
+        { "id": "lie_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_attack": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The room flinches. Nadia does not. She writes it down without expression — the mark of a journalist who expected it. The Iron Covenant will call it strength. The reformists will call it deflection. Both are correct. I walked out of the hall on my own legs, my hand in my pocket, and gave no further comment. The glass stayed on the floor."
+        }
+      ],
+      "choices": [
+        { "id": "attack_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }
