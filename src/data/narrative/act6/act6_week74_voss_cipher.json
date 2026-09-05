@@ -8,7 +8,7 @@
   "agendaCost": 1,
   "isMandatory": false,
   "location": "University of Ashenmere — Applied Cryptography Laboratory",
-  "characters": ["vyktor_reznik"],
+  "characters": ["vyktor_reznik", "emilian_voss"],
   "prerequisites": [],
   "narrative": [
     {
@@ -17,7 +17,7 @@
     },
     {
       "type": "dialogue",
-      "character": "vyktor_reznik",
+      "character": "emilian_voss",
       "text": "He calls it the Cipher Engine. I call it the most dangerous machine in Veltria. He has been working on it in secret since we connected him to the Hawk network. He says it is ready."
     },
     {
@@ -26,18 +26,18 @@
     },
     {
       "type": "dialogue",
-      "character": "vyktor_reznik",
+      "character": "emilian_voss",
       "text": "The machine can do two things, Chancellor. First: it can encrypt all Veltrian state communications—military cables, diplomatic dispatches, BNI intelligence—using a mathematical system that no foreign power can break. Our secrets become truly secret. Second: it can be reverse-engineered to break Tyvaren's military codes. We would be able to read every order Vukov sends to his generals."
     },
     {
       "type": "monologue",
-      "text": "The Cipher Engine. A machine that can either shield the Republic in unbreakable armor or give us a sword that cuts through every enemy cipher. Voss needs ₨ 2 million to build the mainframe. The choice of what to do with it is mine. If I use it defensively, our communications become impregnable—but Krel loses his backdoor access to state files, because the Cipher Engine closes every door he uses. If I use it offensively, I can read Vukov's mail—but it is an act of intelligence warfare that could provoke Tyvaren into war. And if the Arcturians find out we can break their codes too, they will send assassins."
+      "text": "The Cipher Engine. A machine that can either shield the Republic in unbreakable armor or give us a sword that cuts through every enemy cipher. Voss needs ₭ 2 million to build the mainframe. The choice of what to do with it is mine. If I use it defensively, our communications become impregnable—but Krel loses his backdoor access to state files, because the Cipher Engine closes every door he uses. If I use it offensively, I can read Vukov's mail—but it is an act of intelligence warfare that could provoke Tyvaren into war. And if the Orythians find out we can break their codes too, they will send assassins."
     }
   ],
   "choices": [
     {
       "id": "fund_defensive_mainframe",
-      "text": "Fund the defensive mainframe. ₨ 2M to secure all Veltrian communications. Close the backdoors.",
+      "text": "Fund the defensive mainframe. ₭ 2M to secure all Veltrian communications. Close the backdoors.",
       "nextSegment": "seg_defensive",
       "flags": ["cipher_defensive_built", "state_comms_secured"],
       "stateChanges": [
@@ -53,7 +53,7 @@
     },
     {
       "id": "fund_offensive_codebreaker",
-      "text": "Fund the offensive codebreaker. ₨ 2M to break Tyvaren's military codes.",
+      "text": "Fund the offensive codebreaker. ₭ 2M to break Tyvaren's military codes.",
       "nextSegment": "seg_offensive",
       "flags": ["cipher_offensive_built", "tyvaren_codes_broken"],
       "stateChanges": [
@@ -86,7 +86,7 @@
     "seg_defensive": {
       "narrative": [
         { "type": "description", "text": "You sign the authorization. Voss builds the mainframe in a secured bunker beneath the Palace. Within three months, every state cable, every military dispatch, every diplomatic communication is encrypted with the Voss Cipher. The foreign intelligence services go blind overnight." },
-        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Arcturian Ambassador is furious. He says his intelligence services can no longer read our mail. He suspects we have a new encryption system, but he cannot prove it. Krel is also furious—his backdoors into the state networks are sealed shut. He says you have crippled his ability to protect you." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Orythian Ambassador is furious. He says his intelligence services can no longer read our mail. He suspects we have a new encryption system, but he cannot prove it. Krel is also furious—his backdoors into the state networks are sealed shut. He says you have crippled his ability to protect you." },
         { "type": "monologue", "text": "I built a wall of mathematics around the Republic. Our secrets are safe. But Krel is right—I have blinded the Hawk. He can no longer monitor internal threats through the state networks. I traded shadow power for sovereign security. It is the right choice. But the shadows are where the threats live, and I just turned off the lights." }
       ],
       "choices": [
@@ -106,7 +106,7 @@
       "narrative": [
         { "type": "description", "text": "You give the order. Voss configures the machine for codebreaking. Within weeks, the Cipher Engine is dissecting Tyvaren military communications like a surgeon. Every order Vukov sends to his border commanders is on your desk within 24 hours." },
         { "type": "dialogue", "character": "vyktor_reznik", "text": "We are reading Vukov's mail, Chancellor. Every troop movement, every supply shipment, every diplomatic cable. We know more about Tyvaren's military than Tyvaren's own generals. But if they find out—and they will eventually—it is an act of war." },
-        { "type": "monologue", "text": "I can see Vukov's hand before he plays it. The Cipher Engine gives me omniscience. But omniscience is a weapon, and weapons provoke. The Arcturians are already suspicious—our intelligence has been too accurate. If they discover the machine, they will not send diplomats. They will send bombers." }
+        { "type": "monologue", "text": "I can see Vukov's hand before he plays it. The Cipher Engine gives me omniscience. But omniscience is a weapon, and weapons provoke. The Orythians are already suspicious—our intelligence has been too accurate. If they discover the machine, they will not send diplomats. They will send bombers." }
       ],
       "choices": [
         {

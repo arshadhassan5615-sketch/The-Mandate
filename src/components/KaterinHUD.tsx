@@ -19,6 +19,9 @@ const ACT_LABELS: Record<number, string> = {
   2: 'Act II',
   3: 'Act III',
   4: 'Act IV',
+  5: 'Act V',
+  6: 'Act VI',
+  7: 'Act VII',
 }
 
 const PORTRAIT_SIZE = 60

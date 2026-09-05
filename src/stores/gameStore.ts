@@ -364,7 +364,13 @@ export const useGameStore = create<GameStore>()(
       const newState = {
         ...state,
         currentWeek: newWeek,
-        currentAct: state.currentWeek >= 39 ? 4
+        // Act thresholds track the Term 2 scene acts: act5 = weeks 53-64,
+        // act6 = 65-89, act7 = 90+ (three act7 scenes at weeks 79/85/88
+        // predate this label — they are thematically, not chronologically, Act VII).
+        currentAct: state.currentWeek >= 90 ? 7
+                  : state.currentWeek >= 65 ? 6
+                  : state.currentWeek >= 53 ? 5
+                  : state.currentWeek >= 39 ? 4
                   : state.currentWeek >= 26 ? 3
                   : state.currentWeek >= 13 ? 2
                   : 1,
@@ -383,7 +389,12 @@ export const useGameStore = create<GameStore>()(
   devSetWeek: (week) =>
     set(() => ({
       currentWeek: week,
-      currentAct: week - 1 >= 39 ? 4
+      // Act derivation copies advanceWeek's ternary exactly: advanceWeek evaluates it against the pre-increment week
+      // (entering week N derives act from N-1), so the same holds here.
+      currentAct: week - 1 >= 90 ? 7
+                : week - 1 >= 65 ? 6
+                : week - 1 >= 53 ? 5
+                : week - 1 >= 39 ? 4
                 : week - 1 >= 26 ? 3
                 : week - 1 >= 13 ? 2
                 : 1,
