@@ -28,6 +28,48 @@
     }
   ],
   "segments": {
+    "seg_prospector_tip": {
+      "narrative": [
+        { "type": "description", "text": "There was never a state survey. The item never made the agenda, and the ground kept its secret. The news arrives anyway: a private prospector, drilling a speculative hole in the Sevagrad foothills, has struck crude — and run straight to the Ministry to sell what he found. Valdek brings the sample to your desk with a face like a storm." },
+        { "type": "dialogue", "character": "orin_valdek", "text": "Chancellor. A prospector named Halvar Sorensen found oil in Sevagrad. A serious strike. And here is the problem: he has filed his claim. Under the old Halvek-era mining law, his company holds the extraction rights — and three foreign consortia have already made him offers. We own nothing. We surveyed nothing. We would be negotiating from nothing." },
+        { "type": "dialogue", "character": "elara_vostane", "text": "The state has no data, no claim, and no legal ground to seize the site — an expropriation fight would take years in the courts while the wells pump for someone else. If we want in, we buy in. On terms set by Sorensen, who knows we are desperate. Or by the consortia, who know it even better." },
+        { "type": "monologue", "text": "No survey. No claim. No leverage. A nobody with a drill found the fortune I never bothered to look for, and the law is on his side. Morvec is offering to make the problem disappear — for a price that lands in my account. The Orythians want a partnership where they keep everything that matters and bless me with the rest. Every road starts with me holding nothing. Choose the least humiliating one." }
+      ],
+      "choices": [
+        {
+          "id": "morvec_prospector_deal",
+          "text": "Let Morvec's consortium take the field. His problem, his money — and a ₭ 500,000 courtesy for the Chancellor's signature.",
+          "nextSegment": null,
+          "flags": ["prospector_field_morvec"],
+          "stateChanges": [
+            { "stat": "personal.personalWealth", "operation": "add", "value": 500 },
+            { "stat": "morvecInfluence", "operation": "add", "value": 15 },
+            { "stat": "nation.corruption", "operation": "add", "value": 10 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 3 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "orythian_weak_terms",
+          "text": "Accept the Orythian consortium's terms. They keep 70% of the field; the state takes 30% and ₭ 2.5M upfront.",
+          "nextSegment": null,
+          "flags": ["prospector_field_orythian"],
+          "stateChanges": [
+            { "stat": "nation.nationalDebt", "operation": "add", "value": -2 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 3 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -5 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
     "check_results": {
       "narrative": [
         {
@@ -66,6 +108,20 @@
           "nextSegment": "seg_no_discovery",
           "prerequisites": [
             { "flag": "geological_survey_rejected", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_no_survey_data",
+          "text": "(Continue)",
+          "nextSegment": "seg_prospector_tip",
+          "prerequisites": [
+            { "flag": "geological_survey_funded", "value": false },
+            { "flag": "geological_survey_limited", "value": false },
+            { "flag": "geological_survey_rejected", "value": false }
           ],
           "stateChanges": [],
           "reactions": [],

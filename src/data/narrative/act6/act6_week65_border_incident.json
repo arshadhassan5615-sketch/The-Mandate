@@ -33,6 +33,62 @@
     }
   ],
   "segments": {
+    "seg_no_diplomacy": {
+      "narrative": [
+        { "type": "description", "text": "There was no summit. No treaty, no pact, no ultimatum declined. The diplomatic calendar never made room for Vukov — and now his tanks are making room for themselves. The map on the wall shows everything you never prepared." },
+        { "type": "dialogue", "character": "irina_dusek", "text": "No contingencies, Chancellor. No treaty commitments, no allied garrisons, no pre-positioned supplies. Whatever we do in the next six hours, we do with what is standing on this map. And what is standing on this map is not enough." },
+        { "type": "monologue", "text": "I never sat across from Vukov. I never chose a patron, because choosing felt like weakness. I told myself there would be time to settle the border later — and Vukov has just informed me that later was his to define. No leverage. No allies. No plan. All I have is a map, an army that isn't ready, and six hours. So I improvise. Improvise, or lose the pass standing still." }
+      ],
+      "choices": [
+        {
+          "id": "improvised_mobilization",
+          "text": "Improvise. Scramble every unit we have and race him to the pass.",
+          "nextSegment": null,
+          "flags": ["sevagrad_contested", "tyvaren_war_active"],
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": -15 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 20 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "emergency_orythian_appeal",
+          "text": "Appeal to Orythia for emergency aid. They will help — at a price we are in no position to negotiate.",
+          "nextSegment": null,
+          "flags": ["sevagrad_contested", "orythian_aid_purchased"],
+          "stateChanges": [
+            { "stat": "nation.nationalDebt", "operation": "add", "value": 5 },
+            { "stat": "nation.economyHealth", "operation": "add", "value": -8 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -5 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -10 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 15 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "protest_and_withdraw",
+          "text": "File a protest with the Assembly of Nations and pull back to the second defensive line. Diplomacy is all we have left.",
+          "nextSegment": null,
+          "flags": ["sevagrad_retreat", "international_protest_filed"],
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": -10 },
+            { "stat": "personal.publicImage", "operation": "add", "value": -15 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -5 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 15 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
     "check_stance": {
       "narrative": [
         {
@@ -71,6 +127,20 @@
           "nextSegment": "seg_invasion",
           "prerequisites": [
             { "flag": "diplomatic_isolation", "value": true }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_no_diplomacy",
+          "text": "(Continue)",
+          "nextSegment": "seg_no_diplomacy",
+          "prerequisites": [
+            { "flag": "sevagrad_demilitarized", "value": false },
+            { "flag": "orythian_pact_signed", "value": false },
+            { "flag": "diplomatic_isolation", "value": false }
           ],
           "stateChanges": [],
           "reactions": [],
