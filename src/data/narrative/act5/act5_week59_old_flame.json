@@ -13,23 +13,23 @@
   "narrative": [
     {
       "type": "description",
-      "text": "A new legal advisor has arrived from Lytheira to help negotiate a trade dispute. His name is Dr. Julian Bard. He was your university sweetheart. The moment he walks into your study, the chemistry is palpable. Jonas, who came to drop off your evening tea, notices the lingering handshake immediately."
+      "text": "The Lytheirian trade delegation sends a legal advisor. His name is on the briefing sheet: Dr. Julian Bard. You read it twice. The same Julian Bard. You have not seen him in twenty-two years. He walks in looking exactly like he did in '41 except for the grey at his temples, and you realize immediately that Jonas — who came to leave your evening tea — has read the room in the three seconds it took Julian to cross the threshold."
     },
     {
       "type": "dialogue",
       "character": "jonas_ashavel",
-      "text": "He seems... familiar. An old classmate, Katya? You didn't mention him in your memoirs. I'll leave you to your 'negotiations.'"
+      "text": "I'll leave the tea here. You look like you might need it."
     },
     {
       "type": "monologue",
-      "text": "Julian. The man I almost married before I married the Republic. He is here, in my study, smelling of Lytheirian tobacco and old promises. The trade deal requires his expertise, but working late nights with him will destroy what is left of my marriage. Jonas already suspects."
+      "text": "He didn't say anything else. He didn't need to. Twenty years of marriage and Jonas can read a room in three seconds. Julian is standing at my bookshelf pretending to study the spines. The trade deal needs him — specifically him, his patent work on Lytheirian agricultural law. Three weeks of late sessions. Alone. Jonas knows what that means. So do I."
     }
   ],
   "choices": [
     {
       "id": "reassign_advisor",
-      "text": "Reassign him. Protect your marriage. The trade deal will suffer.",
-      "nextSegment": null,
+      "text": "Reassign him. Send word to the delegation tonight.",
+      "nextSegment": "seg_reassign",
       "flags": ["old_flame_reassigned"],
       "stateChanges": [
         { "stat": "personal.marriageHealth", "operation": "add", "value": 10 },
@@ -42,8 +42,8 @@
     },
     {
       "id": "keep_working",
-      "text": "Keep working with him. The Republic needs this deal.",
-      "nextSegment": null,
+      "text": "Keep him. The Republic needs this deal and you are not seventeen anymore.",
+      "nextSegment": "seg_keep",
       "flags": ["old_flame_risk_taken"],
       "stateChanges": [
         { "stat": "personal.marriageHealth", "operation": "add", "value": -15 },
@@ -56,8 +56,8 @@
     },
     {
       "id": "krel_investigate",
-      "text": "Have Krel investigate him. Lytheira might have sent him as a honey-trap.",
-      "nextSegment": null,
+      "text": "Have Krel run him. If Lytheira sent Julian specifically, it wasn't an accident.",
+      "nextSegment": "seg_krel",
       "flags": ["old_flame_investigated"],
       "stateChanges": [
         { "stat": "shadowFootprint", "operation": "add", "value": 5 },
@@ -67,5 +67,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_reassign": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The delegation accepts without complaint. A replacement arrives Thursday. Julian's name disappears from the briefing sheets. Jonas makes dinner that night — something he hasn't done in months. Neither of us mentions it."
+        }
+      ],
+      "choices": [
+        { "id": "reassign_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_keep": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Three weeks of late sessions. Julian is professional. So am I. Nothing happens except the deal closes at terms Vostane calls unprecedented. Jonas stops asking when I'll be home. That is worse than the question."
+        }
+      ],
+      "choices": [
+        { "id": "keep_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_krel": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Krel's report comes back in forty-eight hours. Julian Bard. Clean record. No Lytheirian intelligence affiliation. The delegation selected him because he wrote the only existing analysis of Veltrian agricultural patent law. It was not a honey-trap. It was just coincidence. I'm not sure which is worse."
+        }
+      ],
+      "choices": [
+        { "id": "krel_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

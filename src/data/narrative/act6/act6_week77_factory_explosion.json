@@ -13,28 +13,28 @@
   "narrative": [
     {
       "type": "description",
-      "text": "A massive explosion tears through the Kravenstal Chemical Plant. 30 workers are trapped beneath the rubble. Toxic smoke fills the air. The factory owner—a wealthy Vael loyalist—refuses to pay for the rescue operation, claiming it is a 'state responsibility.'"
+      "text": "The explosion takes out the eastern wing at 6:40 in the morning. Thirty workers on the early shift. The plant owner — Petrov Halvanic, Vael loyalist, three lawyers on retainer — issues a statement within the hour citing 'force majeure' and 'pending liability assessment.' His people are still underground. Marić is already on the phone when you arrive."
     },
     {
       "type": "dialogue",
       "character": "gregor_maric",
-      "text": "The men are dying in there, Chancellor! The owner says it's not his problem. If we wait for the state emergency funds to clear, it will be too late. Send the army engineers. Break down the doors. Save our people!"
+      "text": "Halvanic's lawyers say rescue is a state responsibility under the 1947 Emergency Works Act. That act was written by Halvek to protect factory owners from their own negligence. My men are suffocating while his lawyers quote legislation at us."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "If you send the army into a private factory, you are nationalizing the rescue. The business class will scream about property rights. But if you do nothing, 30 men die on live radio."
+      "text": "Army engineers can be on site in ninety minutes. The moment they breach that gate, Halvanic's lawyers will file for unlawful seizure of private property and you will spend the next eighteen months in litigation defending the rescue. Or you freeze his assets and wait for him to capitulate, which takes time those workers may not have."
     },
     {
       "type": "monologue",
-      "text": "The factory owner is hiding behind his lawyers while men suffocate. I can send the army in to save them, but it will cost military readiness and anger the business class. Or I can force the owner to pay, but that takes time the workers don't have. Or I can do nothing, and let the market sort it out."
+      "text": "Ninety minutes. That is what Vyktor said and what I heard was: some of them may already be dead. Halvanic is betting I won't breach a private gate in an election year. He may be right about the politics. He is wrong about everything else."
     }
   ],
   "choices": [
     {
       "id": "send_army_rescue",
-      "text": "Send the army engineers in immediately. Rescue them at state expense.",
-      "nextSegment": null,
+      "text": "Send the engineers. Breach the gate. We deal with the lawyers afterward.",
+      "nextSegment": "seg_army",
       "flags": ["factory_rescued"],
       "stateChanges": [
         { "stat": "factions.workersCoalition", "operation": "add", "value": 15 },
@@ -47,8 +47,8 @@
     },
     {
       "id": "force_owner_pay",
-      "text": "Force the owner to pay for the rescue by freezing his assets.",
-      "nextSegment": null,
+      "text": "Freeze Halvanic's accounts. Every one of them. He rescues his own workers or loses everything.",
+      "nextSegment": "seg_freeze",
       "flags": ["owner_forced_to_pay"],
       "stateChanges": [
         { "stat": "factions.businessClass", "operation": "add", "value": -15 },
@@ -60,8 +60,8 @@
     },
     {
       "id": "do_nothing_factory",
-      "text": "Do nothing. The state cannot afford to rescue every private disaster.",
-      "nextSegment": null,
+      "text": "Stand down. The 1947 Act exists. The state cannot unilaterally override private liability.",
+      "nextSegment": "seg_nothing",
       "flags": ["factory_abandoned"],
       "stateChanges": [
         { "stat": "personal.publicImage", "operation": "add", "value": -15 },
@@ -72,5 +72,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_army": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Twenty-two workers recovered alive. Eight dead before the engineers reached them. Halvanic files for unlawful seizure by noon. His lawyers are very good. Mine are better. Marić sends a note two days later. No words — just a list of the survivors' names."
+        }
+      ],
+      "choices": [
+        { "id": "army_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_freeze": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Halvanic's lawyers receive the asset freeze order at 9:15. His own rescue teams are on site by 11:00. Eighteen workers recovered. Twelve dead in the four hours it took him to decide his accounts mattered more. The press calls it a victory for accountability. It isn't. It's an arithmetic problem with twelve in the loss column."
+        }
+      ],
+      "choices": [
+        { "id": "freeze_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_nothing": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Thirty workers. Nineteen recovered by Halvanic's team after his lawyers negotiated liability terms with the state emergency fund — a process that took six hours. Eleven dead. The 1947 Act protected the right person. Halvek wrote it that way on purpose. I quoted it today. That is something I will carry."
+        }
+      ],
+      "choices": [
+        { "id": "nothing_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

@@ -13,28 +13,28 @@
   "narrative": [
     {
       "type": "description",
-      "text": "Krel's security sweeps have found something disturbing. A wiretap has been discovered on the telephone in your private study. It wasn't planted by Tyvaren or Orythia. It was planted by the Speaker of the Assembly."
-    },
-    {
-      "type": "dialogue",
-      "character": "vyktor_reznik",
-      "text": "The Speaker has been listening to your private calls for weeks. He wanted leverage over the budget negotiations. He probably has recordings of you discussing strategy with Vostane, military plans with Dusek, and personal conversations with Jonas."
+      "text": "Krel's sweep finds the device on a Tuesday morning. It is behind the telephone junction box, installed with the kind of care that suggests someone who knew the room. The sweep team traces it back eleven weeks. The signal routed to a relay in the Assembly building's basement. Oberlin has already run the access logs."
     },
     {
       "type": "dialogue",
       "character": "danika_oberlin",
-      "text": "We have him dead to rights, Chancellor. But if you arrest the Speaker for espionage, you decapitate the Assembly's leadership. The resulting chaos will stall all legislation for months. The budget won't pass. The election will be thrown into turmoil."
+      "text": "The Speaker. He had a maintenance crew in here in September — routine inspection, all paperwork correct. Eleven weeks of your private calls. Budget strategy with Vostane. The Sevagrad briefings. Whatever you said to Jonas on the fourteenth — I don't have the content, just the duration. Forty-one minutes."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Arresting the Speaker six weeks before the election decapitates the Assembly and hands Kolvar the chaos he needs. Using the tap means operating on his terms inside his game. Confronting him privately means he knows you know, and he gets to decide what he does with that."
     },
     {
       "type": "monologue",
-      "text": "The Speaker bugged my phone. He has been listening to every private conversation I've had for weeks. I have him cold. But arresting him means shutting down the government right before the election. I have to decide whether to prosecute or use the bug as leverage."
+      "text": "Forty-one minutes with Jonas on the fourteenth. I remember that call. I remember what I said. So does the Speaker of the Assembly, apparently. Vyktor laid out the three options clinically, which is how he handles things that make him angry. He is very angry."
     }
   ],
   "choices": [
     {
       "id": "arrest_speaker",
-      "text": "Arrest the Speaker for espionage. The law is the law.",
-      "nextSegment": null,
+      "text": "Arrest him. Let the Assembly sort out the consequences.",
+      "nextSegment": "seg_arrest",
       "flags": ["speaker_arrested"],
       "stateChanges": [
         { "stat": "nation.civilLiberties", "operation": "add", "value": 10 },
@@ -47,8 +47,8 @@
     },
     {
       "id": "feed_false_info",
-      "text": "Use the wiretap to feed the Speaker false budget info and outmaneuver him.",
-      "nextSegment": null,
+      "text": "Leave the device. Feed him false budget figures for the next six weeks.",
+      "nextSegment": "seg_feed",
       "flags": ["speaker_manipulated"],
       "stateChanges": [
         { "stat": "shadowInfluence", "operation": "add", "value": 15 },
@@ -61,8 +61,8 @@
     },
     {
       "id": "confront_speaker",
-      "text": "Confront him privately. Show him the bug and make him your puppet.",
-      "nextSegment": null,
+      "text": "Show him the device. In private. He votes our way or the logs go to Nadia Voss.",
+      "nextSegment": "seg_confront",
       "flags": ["speaker_puppet"],
       "stateChanges": [
         { "stat": "nation.assemblyConservative", "operation": "add", "value": 10 },
@@ -73,5 +73,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_arrest": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The Speaker is taken from his office at 3pm. His lawyer issues a statement by 3:45. By evening, the Assembly has convened an emergency session to discuss the 'unlawful detention of a legislative officer.' Kolvar chairs it. This is exactly what Vyktor warned. I did it anyway. The charges are real. The timing is terrible. Both things are true."
+        }
+      ],
+      "choices": [
+        { "id": "arrest_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_feed": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "We leave the device in place. For six weeks, the Speaker receives our budget discussions — carefully staged, Vostane playing her part, the numbers subtly wrong in ways that will cost him. He adjusts his negotiating position accordingly. His bloc votes against an amendment we never intended to pass. Oberlin calls it elegant. It is. That is not a compliment I wanted."
+        }
+      ],
+      "choices": [
+        { "id": "feed_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_confront": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "I put the device on his desk. He looks at it for a long time without speaking. I tell him what it means. He asks what I want. I tell him. He nods. That's the whole conversation. He votes our way for the remainder of the term. Whatever he thought he had on me, he has decided it's not worth finding out if I meant what I said about Nadia Voss. I meant it."
+        }
+      ],
+      "choices": [
+        { "id": "confront_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }

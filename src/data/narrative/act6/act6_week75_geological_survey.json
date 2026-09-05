@@ -13,27 +13,27 @@
   "narrative": [
     {
       "type": "description",
-      "text": "Orin Valdek enters your office carrying a rolled-up topographic map and a thick folder of geological estimates. He is excited—a rare sight for the gruff former mining director."
+      "text": "Valdek unrolls a topographic survey across your desk without asking permission. He has been trying to get this meeting for six weeks."
     },
     {
       "type": "dialogue",
       "character": "orin_valdek",
-      "text": "Chancellor, we are buying coal and iron from Lytheira at a 40% premium while sitting on top of unexplored mineral wealth. There are rumors of massive deposits under the Dravenhollow mountains and the Sevagrad military zone. But we don't know what's under our own soil. I am requesting funding for a comprehensive National Geological Survey."
+      "text": "Dravenhollow. Sevagrad military zone. We have been buying Lytheirian coal and iron at a forty percent premium for thirty years because Halvek never authorized a proper survey. I have seen the preliminary strata reports. Chancellor, we are importing resources we are standing on top of."
     },
     {
       "type": "dialogue",
       "character": "elara_vostane",
-      "text": "It is a gamble, Chancellor. A full survey costs ₭ 1.5 million. If we find nothing, that money is wasted and the debt spikes. But if we find what Valdek thinks we'll find... it could change the economic destiny of the Republic."
+      "text": "Full survey costs ₭1.5 million. If Valdek is wrong, we borrowed against a hole in the ground. If he is right, the Republic stops being a debtor state within a decade. I cannot tell you which it is. Nobody can until we look."
     },
     {
       "type": "monologue",
-      "text": "We are buying from foreigners what might be under our own feet. Valdek is right—we are flying blind. But ₭ 1.5 million is a massive bet on a rumor. The treasury is already stretched. Is the gamble worth it?"
+      "text": "Valdek has staked his reputation on this map. That means something — he does not stake it lightly. But ₭1.5 million on geological rumor while the treasury is already stressed is the kind of bet that ends careers. The limited option is the cautious choice. It is also, possibly, the choice that finds nothing because it looked in the wrong place."
     }
   ],
   "choices": [
     {
       "id": "fund_full_survey",
-      "text": "Fund the full survey. ₭ 1.5M from the treasury. We need to know what's under our soil.",
+      "text": "Full survey. ₭1.5M. Look everywhere.",
       "nextSegment": "seg_full_survey",
       "flags": ["geological_survey_funded"],
       "stateChanges": [
@@ -46,7 +46,7 @@
     },
     {
       "id": "fund_limited_survey",
-      "text": "Fund a limited survey. ₭ 500K. Focus only on the most promising site.",
+      "text": "Limited survey. ₭500K. Sevagrad zone only — the strongest indicators.",
       "nextSegment": "seg_limited_survey",
       "flags": ["geological_survey_limited"],
       "stateChanges": [
@@ -58,7 +58,7 @@
     },
     {
       "id": "reject_survey",
-      "text": "Reject it. We cannot gamble ₭ 1.5M on rumors.",
+      "text": "No. Not now. The treasury cannot carry another speculative line.",
       "nextSegment": "seg_reject",
       "flags": ["geological_survey_rejected"],
       "stateChanges": [
@@ -72,56 +72,50 @@
   "segments": {
     "seg_full_survey": {
       "narrative": [
-        { "type": "dialogue", "character": "orin_valdek", "text": "You won't regret this, Chancellor. My teams will mobilize immediately. If there's wealth under that rock, we'll find it. Give us four weeks." },
-        { "type": "monologue", "text": "I rolled the dice. ₭ 1.5 million on a geological gamble. If Valdek is right, the Republic's fortunes change forever. If he's wrong, I just added to the debt for nothing. Four weeks. We'll know soon enough." }
+        {
+          "type": "dialogue",
+          "character": "orin_valdek",
+          "text": "Four weeks. My best teams. If it's there, we find it."
+        },
+        {
+          "type": "monologue",
+          "text": "He rolled up his map and left before I could change my mind. ₭1.5 million committed before lunch. Vostane didn't argue. That either means she thinks he's right, or she's decided this is my wager to lose alone."
+        }
       ],
       "choices": [
-        {
-          "id": "full_survey_end",
-          "text": "The survey teams deploy. We wait for results.",
-          "nextSegment": null,
-          "flags": [],
-          "stateChanges": [],
-          "reactions": [],
-          "chainTriggers": [],
-          "codexUnlocks": []
-        }
+        { "id": "full_survey_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
       ]
     },
     "seg_limited_survey": {
       "narrative": [
-        { "type": "dialogue", "character": "orin_valdek", "text": "Half funding means half the team. We'll focus on the Sevagrad zone—it has the strongest geological indicators. But I can't promise we won't miss something in Dravenhollow. This is a compromise, Chancellor." },
-        { "type": "monologue", "text": "I hedged the bet. ₭ 500K for a targeted look. We might find something, or we might miss the bigger picture. It's a safer play, but safety doesn't build empires." }
+        {
+          "type": "dialogue",
+          "character": "orin_valdek",
+          "text": "Sevagrad only. I'll need written clearance from Dusek's office to operate in the military zone. And if we miss something in Dravenhollow because we didn't look — I want that noted."
+        },
+        {
+          "type": "monologue",
+          "text": "He wants it noted. I noted it. ₭500K and a targeted look at the most promising site. The conservative choice. Whether it's the right one depends entirely on what's under the Dravenhollow mountains, which we will not find out for some time."
+        }
       ],
       "choices": [
-        {
-          "id": "limited_survey_end",
-          "text": "The limited team deploys to Sevagrad.",
-          "nextSegment": null,
-          "flags": [],
-          "stateChanges": [],
-          "reactions": [],
-          "chainTriggers": [],
-          "codexUnlocks": []
-        }
+        { "id": "limited_survey_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
       ]
     },
     "seg_reject": {
       "narrative": [
-        { "type": "dialogue", "character": "orin_valdek", "text": "Understood, Chancellor. We'll keep buying from Lytheira at a premium, then. But remember this conversation when the foreign bills come due." },
-        { "type": "monologue", "text": "I said no. The treasury couldn't handle the gamble. Maybe I was right to be cautious. But something tells me Valdek wasn't just chasing rumors. We might have just walked away from a fortune." }
+        {
+          "type": "dialogue",
+          "character": "orin_valdek",
+          "text": "Understood."
+        },
+        {
+          "type": "monologue",
+          "text": "Two syllables. He rolled up the map and left without another word. Vostane gathered her papers. Nobody argued because there is nothing to argue about — the decision is made. I may have just walked away from the most significant economic discovery in the Republic's history. Or I protected the treasury from a ₭1.5 million error. I will not know which for a long time."
+        }
       ],
       "choices": [
-        {
-          "id": "reject_end",
-          "text": "The survey is shelved. We buy foreign.",
-          "nextSegment": null,
-          "flags": [],
-          "stateChanges": [],
-          "reactions": [],
-          "chainTriggers": [],
-          "codexUnlocks": []
-        }
+        { "id": "reject_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
       ]
     }
   }

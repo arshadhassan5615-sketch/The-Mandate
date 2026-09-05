@@ -13,28 +13,28 @@
   "narrative": [
     {
       "type": "description",
-      "text": "You travel to the Gravenmark Pass to visit the troops. The wind is biting, the trenches are muddy, and the soldiers look exhausted. But when you arrive, word spreads like wildfire. The Chancellor is here. In the mud. With them."
+      "text": "Gravenmark Pass. Six hours by road. The forward operating base is three huts and a watchtower. The soldiers are nineteen, twenty, twenty-two. They have been here since October. The Tyvaren position is visible from the north hut on a clear morning. Today is clear."
     },
     {
       "type": "dialogue",
       "character": "irina_dusek",
-      "text": "This is the best thing you could have done, Chancellor. The men haven't seen a politician in years. They feel forgotten. Seeing you here, eating their rations, inspecting the lines... it means more than any medal."
+      "text": "They were told an hour ago. I didn't want them to prepare anything — I wanted you to see it as it is."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "The press is covering it live. The nation is watching the Chancellor stand on the border. This is the kind of imagery that wins elections. But the Tyvarens are watching too. They might think you are inspecting an invasion force."
+      "text": "The press pool is at the perimeter. Whatever you do here is on the evening broadcast."
     },
     {
       "type": "monologue",
-      "text": "I stand in the mud and look at the faces of 19-year-old boys freezing for the Republic. They aren't statistics. They are sons. I came here to boost morale, but I am the one who feels bolstered. I have to decide how far to take this visit."
+      "text": "Dusek wanted me to see it as it is. What it is: mud, cold, and twenty-year-olds who have been holding this line for four months. One of them is eating his rations standing up because there is no table. He doesn't notice me until I'm three feet away. He looks like he's been awake for two days. He probably has."
     }
   ],
   "choices": [
     {
       "id": "full_tour_speech",
-      "text": "Full tour and speech. Boost morale to the maximum.",
-      "nextSegment": null,
+      "text": "Full inspection. Address them. Give them something to carry back.",
+      "nextSegment": "seg_speech",
       "flags": ["frontline_visited"],
       "stateChanges": [
         { "stat": "nation.militaryReadiness", "operation": "add", "value": 15 },
@@ -47,8 +47,8 @@
     },
     {
       "id": "quiet_visit",
-      "text": "Quiet visit. No speeches, just shaking hands and eating rations.",
-      "nextSegment": null,
+      "text": "No speeches. Eat with them. Ask their names.",
+      "nextSegment": "seg_quiet",
       "flags": ["frontline_quiet_visit"],
       "stateChanges": [
         { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
@@ -60,8 +60,8 @@
     },
     {
       "id": "cancel_visit",
-      "text": "Cancel the visit. It's too close to the Tyvaren border.",
-      "nextSegment": null,
+      "text": "Pull back to the perimeter. This is too exposed — Tyvaren is watching.",
+      "nextSegment": "seg_cancel",
       "flags": ["frontline_visit_cancelled"],
       "stateChanges": [
         { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 },
@@ -71,5 +71,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_speech": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "I speak for eight minutes without notes. I don't remember afterward what I said — something about the border holding, something about the Republic knowing their names even when it seems like it doesn't. They applaud. One soldier in the back is crying and trying not to show it. The press pool gets everything. Vyktor calls it the best footage of the campaign. Dusek says nothing, which means she agrees."
+        }
+      ],
+      "choices": [
+        { "id": "speech_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_quiet": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "I eat the rations. They are exactly as bad as described. I ask the soldier with the standing-meal his name. Tomás. From Thornfeld. His mother runs a bakery. He shows me a photograph she sent. I don't know what I expected from this visit, but it wasn't to spend forty minutes looking at photographs of other people's families. The press gets nothing usable. I don't care."
+        }
+      ],
+      "choices": [
+        { "id": "quiet_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_cancel": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Dusek doesn't argue. We pull back to the perimeter fence. The soldiers watch from the hut windows. Word spreads in the way that word always spreads in small enclosed places — fast and accurately. The Chancellor came to the fence and didn't come in. I hear that it's what they say. I don't correct it."
+        }
+      ],
+      "choices": [
+        { "id": "cancel_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }
