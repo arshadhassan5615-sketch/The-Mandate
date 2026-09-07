@@ -34,7 +34,7 @@
     {
       "id": "cover_up_krel",
       "text": "Cover it up. Keep the money. Protect Krel.",
-      "nextSegment": null,
+      "nextSegment": "seg_cover",
       "flags": ["krel_rogue_covered"],
       "stateChanges": [
         { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
@@ -49,7 +49,7 @@
     {
       "id": "return_money",
       "text": "Return the money to Lytheira and apologize. Reprimand Krel.",
-      "nextSegment": null,
+      "nextSegment": "seg_return",
       "flags": ["krel_rogue_punished"],
       "stateChanges": [
         { "stat": "nation.economyHealth", "operation": "add", "value": -10 },
@@ -63,7 +63,7 @@
     {
       "id": "arrest_krel_men",
       "text": "Arrest Krel's men for the frame-up. Prove to Lytheira it was rogue agents.",
-      "nextSegment": null,
+      "nextSegment": "seg_arrest",
       "flags": ["krel_men_arrested"],
       "stateChanges": [
         { "stat": "shadowInfluence", "operation": "add", "value": -20 },
@@ -74,5 +74,40 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_cover": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The money stays in the treasury, which needs it. Krel receives a private meeting with me — no record, no witnesses — in which I tell him what I know and what I am choosing not to do about it. He nods once. He understands the transaction: I own this now, which means he owes me something neither of us will name. The Lytheirian firm files a complaint with the Assembly of Nations three weeks later. We deny everything. Oberlin handles the paperwork. She signs it without speaking to me for four days afterward."
+        }
+      ],
+      "choices": [
+        { "id": "cover_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_return": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The money is returned with an official letter of apology and a formal reprimand filed in Krel's personnel record — a document that will never surface publicly and which he knows I could make disappear if I chose to. The Lytheirian Ambassador accepts the return with what he calls 'measured satisfaction.' Krel says nothing about the reprimand. He continues his work. The personnel record sits in the file. I know it exists. He knows I know. We have reached the particular kind of understanding that passes for trust between a Chancellor and her intelligence chief."
+        }
+      ],
+      "choices": [
+        { "id": "return_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_arrest": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Three of Krel's field agents are arrested and charged as rogue operatives acting without authorization. The evidence is genuine — they did act without explicit authorization on paper, which is how Krel structures everything. Krel watches the proceedings from a distance and says nothing publicly. The Lytheirian Ambassador is satisfied. Krel is intact. The three men are convicted of a crime they committed on orders that no record will ever show. I signed a letter saying I did not know. Both of those sentences are true, depending on how you define 'know.'"
+        }
+      ],
+      "choices": [
+        { "id": "arrest_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
 }
