@@ -805,7 +805,7 @@ export const ALL_DECREES: Decree[] = [
     category: 'economic',
     proposedBy: 'Ministry of Finance',
     summary: 'Approve massive tax exemptions and anti-union clauses for an Orythian conglomerate.',
-    description: 'Passed by the National Assembly. This act grants a 10-year tax exemption to an Orythian electronics conglomerate, allows the importation of foreign management, and prohibits unionization at the Aldenmoor plant in exchange for ₨ 10M in investment and 5,000 jobs.',
+    description: 'Passed by the National Assembly. This act grants a 10-year tax exemption to an Orythian electronics conglomerate, allows the importation of foreign management, and prohibits unionization at the Aldenmoor plant in exchange for ₭ 10M in investment and 5,000 jobs.',
     weekProposed: 84,
     ministerPositions: [
       { ministerId: 'elara_vostane', stance: 'favor', reason: 'The capital injection is essential for economic recovery.' },
