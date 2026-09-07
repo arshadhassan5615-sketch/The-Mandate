@@ -396,7 +396,13 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
           }))
     )
 
-    useGameStore.getState().applyModifiers(effectiveChanges)
+    const taggedModifiers = effectiveChanges.map(mod => ({
+      ...mod,
+      sourceId: currentScene.id,
+      sourceType: 'scene_choice' as const,
+    }))
+
+    useGameStore.getState().applyModifiers(taggedModifiers)
 
     // Schedule any delayed consequences from this choice.
     // delayWeeks: 0 triggers are mid-week emergency interrupts — injected directly
@@ -447,7 +453,11 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       stateUpdates = { ...stateUpdates, ...accusationResult.stateUpdates }
       moleConsequenceFlags = [...moleConsequenceFlags, ...accusationResult.consequenceFlags]
       if (accusationResult.statChanges.length) {
-        useGameStore.getState().applyModifiers(accusationResult.statChanges)
+        useGameStore.getState().applyModifiers(accusationResult.statChanges.map(mod => ({
+          ...mod,
+          sourceId: currentScene.id,
+          sourceType: 'scene_choice' as const,
+        })))
       }
     }
 

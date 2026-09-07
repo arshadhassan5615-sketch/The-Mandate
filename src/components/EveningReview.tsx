@@ -89,6 +89,17 @@ function computeStatChanges(before: GameState, after: GameState): WeeklyStatChan
   return changes
 }
 
+const getSceneImpact = (sceneId: string, week: number): 'positive' | 'negative' | 'neutral' => {
+  const entries = useGameStore.getState().effectLog.filter(
+    e => e.sourceId === sceneId && e.week === week
+  );
+  if (entries.length === 0) return 'neutral';
+  const totalDelta = entries.reduce((sum, e) => sum + e.delta, 0);
+  if (totalDelta > 3) return 'positive';
+  if (totalDelta < -3) return 'negative';
+  return 'neutral';
+};
+
 function buildEventsFromQueue(
   queue: ReturnType<typeof useWeekStore.getState>['sceneQueue'],
   currentWeek: number,
@@ -98,7 +109,7 @@ function buildEventsFromQueue(
     title: item.title,
     summary: item.description,
     category: mapCategory(item.category),
-    impact: 'neutral' as const,
+    impact: getSceneImpact(item.sceneId, currentWeek),
     week: currentWeek,
   }))
 }

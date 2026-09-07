@@ -287,14 +287,13 @@ function applyModifier(state: GameState, mod: StateModifier): GameState {
       case 'multiply': next = current * mod.value; break
     }
     next = clamp(mod.stat, next)
-    // StateModifier carries no source metadata — placeholder until callers tag it.
     const logEntry: EffectLogEntry = {
       week: state.currentWeek,
       stat: mod.stat,
       delta: next - current,
       operation: mod.operation,
-      sourceType: 'unknown',
-      sourceId: 'unknown',
+      sourceType: mod.sourceType ?? 'unknown',
+      sourceId: mod.sourceId ?? 'unknown',
     }
     return {
       ...state,
@@ -321,14 +320,13 @@ function applyModifier(state: GameState, mod: StateModifier): GameState {
   }
   next = clamp(mod.stat, next)
 
-  // StateModifier carries no source metadata — placeholder until callers tag it.
   const logEntry: EffectLogEntry = {
     week: state.currentWeek,
     stat: mod.stat,
     delta: next - current,
     operation: mod.operation,
-    sourceType: 'unknown',
-    sourceId: 'unknown',
+    sourceType: mod.sourceType ?? 'unknown',
+    sourceId: mod.sourceId ?? 'unknown',
   }
   return {
     ...state,

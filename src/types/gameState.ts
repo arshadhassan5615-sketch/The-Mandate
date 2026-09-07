@@ -92,6 +92,8 @@ export interface StateModifier {
   stat: string
   operation: 'add' | 'set' | 'multiply'
   value: number
+  sourceId?: string    // sceneId or system context
+  sourceType?: string  // 'scene_choice' | 'cabinet' | 'bill' | 'budget' | 'weekly_tick' | 'system'
 }
 
 /** Central audit trail of numeric stat mutations applied via applyModifier. */
