@@ -23,7 +23,7 @@
       "id": "w34_address_immediately",
       "text": "Address the nation within the hour, from the hospital, on your feet if you can manage it. Let Veltria see that the attempt failed to do what it was meant to do.",
       "nextSegment": "seg_investigation",
-      "flags": ["post_attempt_injury", "week34_addressed_immediately"],
+      "flags": ["post_attempt_injury", "permanent_injury_sustained", "week34_addressed_immediately"],
       "stateChanges": [
         { "stat": "personal.publicImage", "operation": "add", "value": 10 },
         { "stat": "personal.moralCompass", "operation": "add", "value": 3 }
@@ -36,7 +36,7 @@
       "id": "w34_withdraw_private",
       "text": "Withdraw from public view. Let Vyktor issue a brief statement while you take the days the doctors are telling you, in careful language, that you actually need.",
       "nextSegment": "seg_investigation",
-      "flags": ["post_attempt_injury", "week34_withdrew"],
+      "flags": ["post_attempt_injury", "permanent_injury_sustained", "week34_withdrew"],
       "stateChanges": [
         { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
         { "stat": "personal.publicImage", "operation": "add", "value": -4 }
@@ -49,7 +49,7 @@
       "id": "w34_demand_response",
       "text": "Demand an immediate, visible security response before the investigation concludes anything. The nation should see the state answer force with force.",
       "nextSegment": "seg_investigation",
-      "flags": ["post_attempt_injury", "week34_demanded_response"],
+      "flags": ["post_attempt_injury", "permanent_injury_sustained", "week34_demanded_response"],
       "stateChanges": [
         { "stat": "factions.ironCovenant", "operation": "add", "value": 8 },
         { "stat": "nation.civilLiberties", "operation": "add", "value": -7 }

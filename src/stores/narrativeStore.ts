@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { NarrativeNode, ChainTrigger } from '../types/narrative'
+import type { NarrativeNode, NarrativeSegment, ChainTrigger } from '../types/narrative'
 import type { NewsArticle, Publication } from '../types/news'
 import type { GameState, StateModifier } from '../types/gameState'
 import { getScene, getAvailableChoices } from '../engine/NarrativeEngine'
@@ -28,6 +28,22 @@ import {
 } from '../engine/FlagHandlers'
 import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
+
+// Conditional narrative nodes: a NarrativeSegment may carry an optional
+// `conditions` array (e.g. injury-state monologues gated on a flag).
+// Nodes whose conditions fail are dropped before the scene goes live,
+// so JSON authors can inject state-dependent beats without duplicating
+// segments. Nodes without conditions always render.
+function filterNarrative(
+  nodes: NarrativeSegment[] | undefined,
+  gameState: GameState,
+  activeFlags: string[],
+): NarrativeSegment[] | undefined {
+  if (!nodes) return nodes
+  return nodes.filter(n =>
+    !n.conditions?.length || evaluateAll(n.conditions, gameState, activeFlags),
+  )
+}
 
 const PROJECT_START_FLAGS: Record<string, string> = {
   'project_kravenstal_started': 'kravenstal_steel',
@@ -266,7 +282,17 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       }
     }
 
-    // Track characters encountered in dialogue segments
+    // Conditional nodes: drop narrative segments whose conditions fail
+    // (copy-on-write — never mutate the shared SCENE_REGISTRY object).
+    if (target?.narrative) {
+      target = {
+        ...target,
+        narrative: filterNarrative(target.narrative, gameState, activeFlags) ?? target.narrative,
+      }
+    }
+
+    // Track characters encountered in dialogue segments (runs on the
+    // filtered narrative so hidden nodes don't unlock portraits)
     let newMet = metCharacters
     if (target) {
       const charsInScene = (target.narrative ?? [])
@@ -588,7 +614,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
         ) : [])
       updatedScene = {
         ...currentScene,
-        narrative: segNarrative,
+        narrative: filterNarrative(segNarrative, gameState, activeFlags) ?? segNarrative,
         choices:   seg.choices ?? [],
         monologue: seg.monologue ?? currentScene.monologue,
       }

@@ -15,6 +15,7 @@ export interface NarrativeSegment {
   text: string
   character?: string       // only present when type === 'dialogue'
   primaryCharacter?: string // for description segments: which character's portrait to show
+  conditions?: Condition[]  // optional gate: node renders only if all conditions pass (e.g. injury-state monologues)
 }
 
 export interface StatCondition {
