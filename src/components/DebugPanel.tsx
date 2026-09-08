@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useChainStore } from '../stores/chainStore'
@@ -78,10 +78,10 @@ export default function DebugPanel() {
   const open = useSettingsStore(s => s.debugOpen)
   const setOpen = useSettingsStore(s => s.setDebugOpen)
   const { currentWeek, currentAct, nation, factions, personal } = useGameStore()
-  const { currentScene, visitedSceneIds, activeFlags, sceneDone } = useNarrativeStore()
+  const { visitedSceneIds, activeFlags, sceneDone } = useNarrativeStore()
   const { scheduled } = useChainStore()
+  const agendaPool = useWeekStore(s => s.agendaPool)
   const [weekInput, setWeekInput] = useState('')
-  const [sceneInput, setSceneInput] = useState('')
   const [flagInput, setFlagInput] = useState('')
   const [statPath, setStatPath] = useState('')
   const [statValue, setStatValue] = useState('')
@@ -90,6 +90,34 @@ export default function DebugPanel() {
     useWeekStore.getState().devJumpToWeek(w)
     setWeekInput('')
   }
+
+  const currentScene = useNarrativeStore(s => s.currentScene)
+  const SCENE_IDS = useMemo(() => {
+    return agendaPool
+      .map(item => item.sceneId)
+      .filter(id => id && !id.startsWith('__'))
+      .sort();
+  }, [agendaPool]);
+  const [previewIndex, setPreviewIndex] = useState(0)
+  useEffect(() => {
+    setPreviewIndex(0)
+  }, [currentWeek])
+  const safePreviewIndex = Math.min(previewIndex, Math.max(0, SCENE_IDS.length - 1))
+  const previewSceneId = SCENE_IDS[safePreviewIndex] || ''
+
+  const handleLaunchPreview = () => {
+    if (previewSceneId) {
+      useNarrativeStore.getState().loadScene(previewSceneId)
+      useWeekStore.setState({ phase: 'scene' })
+      setOpen(false)
+    }
+  }
+
+  useEffect(() => {
+    if (previewIndex >= SCENE_IDS.length) {
+      setPreviewIndex(0);
+    }
+  }, [SCENE_IDS, previewIndex]);
 
   if (!open) return null
 
@@ -159,37 +187,69 @@ export default function DebugPanel() {
         <div style={{ marginBottom: '10px' }}>
           <div style={{ fontSize: '9px', color: '#b8a890', marginBottom: '4px' }}>ACT JUMP</div>
           <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-            {([[1, 'Act 1'], [13, 'Act 2'], [26, 'Act 3'], [39, 'Act 4'], [53, 'Act 5'], [66, 'Act 6'], [85, 'Act 7']] as Array<[number, string]>).map(([week, label]) => (
+            {([[1, 'Act 1'], [14, 'Act 2'], [27, 'Act 3'], [40, 'Act 4'], [54, 'Act 5'], [67, 'Act 6'], [86, 'Act 7']] as Array<[number, string]>).map(([week, label]) => (
               <button key={label} onClick={() => jumpToWeek(week)} style={devButtonStyle}>{label}</button>
             ))}
           </div>
         </div>
 
-        {/* 2. SCENE LAUNCHER */}
-        <div style={{ marginBottom: '10px' }}>
-          <div style={{ fontSize: '9px', color: '#b8a890', marginBottom: '4px' }}>SCENE LAUNCHER</div>
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+        {/* Scene Launcher */}
+        <div style={{ marginTop: '16px', borderTop: '1px solid rgba(201,168,76,0.2)', paddingTop: '12px' }}>
+          <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '10px', letterSpacing: '1px', color: '#c9a84c', textTransform: 'uppercase', marginBottom: '8px' }}>
+            Dev: Scene Launcher (Filtered by Week)
+          </div>
+          <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+            <button
+              onClick={() => setPreviewIndex(prev => Math.max(0, prev - 1))}
+              disabled={safePreviewIndex <= 0}
+              style={{
+                background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.4)',
+                color: '#c9a84c', fontFamily: "'Special Elite', monospace", fontSize: '9px',
+                padding: '4px 8px', cursor: safePreviewIndex <= 0 ? 'not-allowed' : 'pointer',
+                borderRadius: '2px', opacity: safePreviewIndex <= 0 ? 0.3 : 1, flexShrink: 0
+              }}
+            >◄</button>
             <input
               type="text"
-              value={sceneInput}
-              onChange={e => setSceneInput(e.target.value)}
-              placeholder="scene id"
-              style={{ ...devInputStyle, flex: 1, minWidth: 0 }}
+              value={previewSceneId}
+              readOnly
+              placeholder="No scenes in this week..."
+              style={{
+                background: 'rgba(10,8,6,0.8)',
+                border: '1px solid rgba(201,168,76,0.4)',
+                color: '#c9a84c',
+                fontFamily: "'Special Elite', monospace",
+                fontSize: '10px',
+                padding: '4px 8px',
+                flex: 1,
+                borderRadius: '2px',
+                boxSizing: 'border-box',
+                minWidth: 0
+              }}
             />
             <button
-              onClick={() => {
-                const id = sceneInput.trim()
-                if (!id) return
-                useNarrativeStore.getState().loadScene(id)
-                useWeekStore.setState({ phase: 'scene' })
-                setOpen(false)
+              onClick={() => setPreviewIndex(prev => Math.min(SCENE_IDS.length - 1, prev + 1))}
+              disabled={safePreviewIndex >= SCENE_IDS.length - 1}
+              style={{
+                background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.4)',
+                color: '#c9a84c', fontFamily: "'Special Elite', monospace", fontSize: '9px',
+                padding: '4px 8px', cursor: safePreviewIndex >= SCENE_IDS.length - 1 ? 'not-allowed' : 'pointer',
+                borderRadius: '2px', opacity: safePreviewIndex >= SCENE_IDS.length - 1 ? 0.3 : 1, flexShrink: 0
               }}
-              style={devButtonStyle}
-            >
-              Launch
-            </button>
+            >►</button>
+            <button
+              onClick={handleLaunchPreview}
+              title="Launch Scene"
+              style={{
+                background: 'rgba(90,158,107,0.15)', border: '1px solid rgba(90,158,107,0.5)',
+                color: '#5a9e6b', fontFamily: "'Special Elite', monospace", fontSize: '11px',
+                padding: '4px 10px', cursor: 'pointer', borderRadius: '2px', fontWeight: 'bold', flexShrink: 0
+              }}
+            >✓</button>
           </div>
-          <div style={{ fontSize: '8px', color: '#7a6f62', marginTop: '3px' }}>Bypasses prerequisites</div>
+          <div style={{ fontFamily: "'Special Elite', monospace", fontSize: '9px', color: 'rgba(201,168,76,0.5)', marginTop: '4px' }}>
+            Browse scenes for this week, then click ✓
+          </div>
         </div>
 
         {/* 3. FLAG EDITOR */}

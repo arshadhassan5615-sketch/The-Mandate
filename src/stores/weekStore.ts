@@ -1647,6 +1647,19 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     const week = Math.max(1, Math.min(104, Math.round(targetWeek)))
     useGameStore.getState().devSetWeek(week)
     useNarrativeStore.getState().resetScene()
+    // Dev-only: seed a minimal flag preset so late-week jumps don't produce
+    // hollow narrative (missing branches/fallbacks). Must run before initWeek()
+    // because pool-building reads activeFlags. Never runs in production.
+    if (import.meta.env.DEV) {
+      const seedFlags: string[] = []
+      if (week >= 13) seedFlags.push('hawk_network_active')
+      if (week >= 30) seedFlags.push('permanent_injury_sustained', 'assassination_survived')
+      if (week >= 52) seedFlags.push('term_1_complete', 'election_won_first')
+      if (week >= 53) seedFlags.push('term_2_begun')
+      if (week >= 65) seedFlags.push('diplomatic_table_attended')
+      if (week >= 80) seedFlags.push('geological_survey_funded')
+      if (seedFlags.length > 0) useNarrativeStore.getState().addFlags(seedFlags)
+    }
     get().initWeek()
   },
 
