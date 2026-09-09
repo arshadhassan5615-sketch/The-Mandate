@@ -722,18 +722,39 @@ export default function ConversationPanel({
               >
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
-                  {/* Speaker name */}
+                  {/* Speaker name with small inline portrait */}
                   {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && !isContinuation && (
-                    <div style={{
-                      ...SPEAKER_LABEL_STYLE,
-                      color: entry.type === 'player_spoken'
-                        ? '#e8dcc8'
-                        : isCurrentSpeaker
-                          ? (entry.characterColor || '#e8d5a3')
-                          : (entry.characterColor || '#c9a84c'),
-                      transition: 'color 0.4s ease',
-                    }}>
-                      {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {entry.type !== 'player_spoken' && entry.characterId && (() => {
+                        const img = getPortrait(entry.characterId ?? '')
+                        const initials = (entry.characterName ?? '').split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()
+                        return (
+                          <div style={{
+                            width: '28px', height: '28px', borderRadius: '50%',
+                            overflow: 'hidden', flexShrink: 0,
+                            border: '1px solid rgba(201,168,76,0.4)',
+                            opacity: 0.75,
+                          }}>
+                            {img
+                              ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+                              : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,168,76,0.1)' }}>
+                                  <span style={{ color: '#c9a84c', fontSize: '10px', fontFamily: 'Georgia' }}>{initials}</span>
+                                </div>
+                            }
+                          </div>
+                        )
+                      })()}
+                      <div style={{
+                        ...SPEAKER_LABEL_STYLE,
+                        color: entry.type === 'player_spoken'
+                          ? '#e8dcc8'
+                          : isCurrentSpeaker
+                            ? (entry.characterColor || '#e8d5a3')
+                            : (entry.characterColor || '#c9a84c'),
+                        transition: 'color 0.4s ease',
+                      }}>
+                        {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
+                      </div>
                     </div>
                   )}
                   {/* internal_thought / monologue — no label, ✦ symbol */}
