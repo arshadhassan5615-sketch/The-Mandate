@@ -549,7 +549,7 @@ export default function ConversationPanel({
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'flex-start',
-          paddingTop: '60px',
+          paddingTop: '12px',
           background: 'transparent',
           zIndex: 601,
           transition: 'opacity 0.3s ease',
