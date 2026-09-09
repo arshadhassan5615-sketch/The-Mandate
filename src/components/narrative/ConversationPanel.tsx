@@ -539,22 +539,18 @@ export default function ConversationPanel({
       <div style={panelStyle}>
 
         <div style={{
-          position: 'relative',
+          position: 'absolute',
+          left: '-84px',
+          top: '0',
           width: '80px',
+          height: '100%',
           flexShrink: 0,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          paddingTop: '8px',
-          paddingLeft: '4px',
-          paddingRight: '4px',
-          paddingBottom: '0px',
-          height: '100%',
-          background: '#0a0806',
-          borderTop: '1px solid rgba(201,168,76,0.25)',
-          borderRight: '1px solid rgba(201,168,76,0.08)',
+          justifyContent: 'flex-start',
+          paddingTop: '12px',
+          background: 'transparent',
           zIndex: 601,
           transition: 'opacity 0.3s ease',
           visibility: displayStack.length > 0 ? 'visible' : 'hidden',
@@ -568,7 +564,6 @@ export default function ConversationPanel({
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '6px',
                 animation: isSwapping || charId === newSpeakerId ? 'portrait-enter 0.35s cubic-bezier(0.22,1,0.36,1)' : undefined,
               }}>
                 <div style={{
@@ -588,16 +583,6 @@ export default function ConversationPanel({
                       </div>
                   }
                 </div>
-                <span style={{
-                  color: '#c9a84c',
-                  fontSize: '8px',
-                  fontFamily: "'Special Elite', monospace",
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  opacity: 0.85,
-                }}>
-                  {name.split(' ')[0]}
-                </span>
               </div>
             )
           })}
