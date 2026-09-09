@@ -209,31 +209,42 @@ export default function ConversationPanel({
   const panelInnerRef = useRef<HTMLDivElement>(null)
   const panelWrapperRef = useRef<HTMLDivElement>(null)
 
-  // Deterministic stack built from actual history (prevents skipping bugs)
   const speakerStack = useMemo(() => {
     const stack: string[] = []
-    const processId = (id: string | undefined) => {
+    const processId = (id?: string) => {
       if (!id) return
-      const idx = stack.indexOf(id)
-      if (idx > -1) stack.splice(idx, 1)
+      // Exclude katerin_ashavel from the visual portrait stack (she is the POV character)
+      if (id === 'katerin_ashavel') return
+
+      // Remove if already exists, then push to top (this creates the "swap" effect)
+      const existingIdx = stack.indexOf(id)
+      if (existingIdx !== -1) stack.splice(existingIdx, 1)
       stack.push(id)
     }
 
-    // 1. Seed with primary character so narrative openings aren't empty
-    if (activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel') {
-      processId(activeSegment.primaryCharacter)
-    }
-
-    // 2. Add everyone who actually spoke in history
+    // Process history to build the base stack
     history.forEach(entry => {
-      if (entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && entry.characterId) {
+      if (entry.type === 'dialogue' || entry.type === 'player_spoken') {
+        processId(entry.characterId)
+      }
+      // Also process description blocks that have a primaryCharacter in history
+      else if ((entry.type === 'description' || entry.type === 'narrative') && entry.characterId) {
         processId(entry.characterId)
       }
     })
 
-    // 3. Add the actively typing speaker
-    if (activeSegment?.type === 'dialogue' && activeSegment.character) {
-      processId(activeSegment.character)
+    // Process the active segment
+    if (activeSegment) {
+      // If it's dialogue, use the character field
+      if (activeSegment.type === 'dialogue' && activeSegment.character) {
+        processId(activeSegment.character)
+      }
+      // If it's a description/narrative/internal_thought with a primaryCharacter, use that
+      else if ((activeSegment.type === 'description' || activeSegment.type === 'narrative' || activeSegment.type === 'internal_thought') && activeSegment.primaryCharacter) {
+        processId(activeSegment.primaryCharacter)
+      }
+      // If it's a description WITHOUT a primaryCharacter, we don't update the stack
+      // (the portrait stays on the last speaker, which is better than showing the wrong one)
     }
 
     return stack
@@ -241,6 +252,11 @@ export default function ConversationPanel({
 
   // Which speaker just entered (for entrance animation trigger)
   const [newSpeakerId, setNewSpeakerId] = useState<string | undefined>(undefined)
+  const [prevPortraitId, setPrevPortraitId] = useState<string | undefined>(undefined)
+  const [isSwapping, setIsSwapping] = useState(false)
+  // Single-portrait mode renders only the current speaker; prevPortraitId is
+  // retained per spec for a future two-frame crossfade (no render use yet).
+  void prevPortraitId
 
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {
@@ -455,8 +471,14 @@ export default function ConversationPanel({
   useEffect(() => {
     const topSpeaker = speakerStack[speakerStack.length - 1]
     if (topSpeaker && topSpeaker !== prevTopSpeakerRef.current) {
+      setPrevPortraitId(prevTopSpeakerRef.current)
+      setIsSwapping(true)
       setNewSpeakerId(topSpeaker)
-      const t = setTimeout(() => setNewSpeakerId(undefined), 400)
+      const t = setTimeout(() => {
+        setIsSwapping(false)
+        setPrevPortraitId(undefined)
+        setNewSpeakerId(undefined)
+      }, 350)
       prevTopSpeakerRef.current = topSpeaker
       return () => clearTimeout(t)
     }
@@ -467,8 +489,8 @@ export default function ConversationPanel({
     // ResizeObserver disabled to allow full-height CSS layout
   }, [])
 
-  const displayStack = speakerStack
   const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
+  const displayStack = currentSpeakerId ? [currentSpeakerId] : []
 
   const panelStyle: React.CSSProperties = isMobile
     ? {
@@ -514,13 +536,6 @@ export default function ConversationPanel({
 
       {currentScene && (
       <>
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0, 0, 0, 0.85)',
-        zIndex: 599, // Just below the panel's zIndex of 600
-        pointerEvents: 'none', // Let clicks pass through to the panel if needed, though panel handles its own
-      }} />
       <div style={panelStyle}>
 
         <div style={{
@@ -543,75 +558,44 @@ export default function ConversationPanel({
           visibility: displayStack.length > 0 ? 'visible' : 'hidden',
         }}>
           {displayStack.map((charId) => {
-            const isCurrent = charId === currentSpeakerId
             const img = getPortrait(charId)
             const name = charName(charId)
-            const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()
+            const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()
             return (
               <div key={charId} style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '4px',
+                gap: '6px',
+                animation: isSwapping || charId === newSpeakerId ? 'portrait-enter 0.35s cubic-bezier(0.22,1,0.36,1)' : undefined,
               }}>
                 <div style={{
-                  width: isCurrent ? '72px' : '48px',
-                  height: isCurrent ? '72px' : '48px',
+                  width: '72px',
+                  height: '72px',
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: isCurrent ? '2px solid #c9a84c' : '1px solid rgba(201,168,76,0.3)',
-                  boxShadow: isCurrent ? '0 0 12px rgba(201,168,76,0.5)' : 'none',
-                  opacity: isCurrent ? 1 : 0.45,
-                  background: 'rgba(10,8,6,0.95)',
-                  flexShrink: 0,
-                  transition: 'width 0.35s cubic-bezier(0.22,1,0.36,1), height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease, border 0.35s ease, box-shadow 0.35s ease',
-                  animation: charId === newSpeakerId ? 'portrait-enter 0.4s ease-out' : undefined,
+                  border: '2px solid #c9a84c',
+                  boxShadow: '0 0 12px rgba(201,168,76,0.5)',
+                  opacity: 1,
+                  transition: 'opacity 0.35s ease',
                 }}>
-                  {img ? (
-                    <img
-                      src={img}
-                      alt={name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center top',
-                        display: 'block',
-                      }}
-                    />
-                  ) : (
-                    <div style={{
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: 'rgba(201,168,76,0.2)',
-                    }}>
-                      <span style={{
-                        fontFamily: "'Special Elite', monospace",
-                        fontSize: isCurrent ? '24px' : '16px',
-                        color: '#c9a84c',
-                      }}>{initials}</span>
-                    </div>
-                  )}
+                  {img
+                    ? <img src={img} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+                    : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,168,76,0.2)' }}>
+                        <span style={{ color: '#c9a84c', fontSize: '24px', fontFamily: 'Georgia, serif' }}>{initials}</span>
+                      </div>
+                  }
                 </div>
-                {isCurrent && (
-                  <span style={{
-                    fontFamily: "'Special Elite', monospace",
-                    fontSize: '8px',
-                    letterSpacing: '1px',
-                    color: 'rgba(201,168,76,0.7)',
-                    textTransform: 'uppercase',
-                    textAlign: 'center',
-                    maxWidth: '72px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}>
-                    {name.split(' ')[0]}
-                  </span>
-                )}
+                <span style={{
+                  color: '#c9a84c',
+                  fontSize: '8px',
+                  fontFamily: "'Special Elite', monospace",
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  opacity: 0.85,
+                }}>
+                  {name.split(' ')[0]}
+                </span>
               </div>
             )
           })}
