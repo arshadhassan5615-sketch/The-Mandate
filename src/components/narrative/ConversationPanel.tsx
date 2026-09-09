@@ -205,6 +205,7 @@ export default function ConversationPanel({
   // const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
 
   // Track the top of the stack for entrance animations
+  const prevTopSpeakerRef = useRef<string | undefined>(undefined)
   const panelInnerRef = useRef<HTMLDivElement>(null)
   const panelWrapperRef = useRef<HTMLDivElement>(null)
 
@@ -249,6 +250,14 @@ export default function ConversationPanel({
     return stack
   }, [history, activeSegment])
 
+  // Which speaker just entered (for entrance animation trigger)
+  const [newSpeakerId, setNewSpeakerId] = useState<string | undefined>(undefined)
+  const [prevPortraitId, setPrevPortraitId] = useState<string | undefined>(undefined)
+  const [isSwapping, setIsSwapping] = useState(false)
+  // Single-portrait mode renders only the current speaker; prevPortraitId is
+  // retained per spec for a future two-frame crossfade (no render use yet).
+  void prevPortraitId
+
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {
     if (sceneDone) {
@@ -281,6 +290,7 @@ export default function ConversationPanel({
     setMonologueDone(false)
     setMonologueFading(false)
     setMonologueVisible(false)
+    prevTopSpeakerRef.current = undefined
   }, [monologueText])
 
   const dismissMonologue = useCallback(() => {
@@ -457,12 +467,30 @@ export default function ConversationPanel({
     }
   }, [history, activeText])
 
+  // Trigger entrance animation when the active speaker changes
+  useEffect(() => {
+    const topSpeaker = speakerStack[speakerStack.length - 1]
+    if (topSpeaker && topSpeaker !== prevTopSpeakerRef.current) {
+      setPrevPortraitId(prevTopSpeakerRef.current)
+      setIsSwapping(true)
+      setNewSpeakerId(topSpeaker)
+      const t = setTimeout(() => {
+        setIsSwapping(false)
+        setPrevPortraitId(undefined)
+        setNewSpeakerId(undefined)
+      }, 350)
+      prevTopSpeakerRef.current = topSpeaker
+      return () => clearTimeout(t)
+    }
+  }, [speakerStack])
+
   // Track inner content height and animate wrapper
   useEffect(() => {
     // ResizeObserver disabled to allow full-height CSS layout
   }, [])
 
   const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
+  const displayStack = currentSpeakerId ? [currentSpeakerId] : []
 
   const panelStyle: React.CSSProperties = isMobile
     ? {
@@ -484,14 +512,14 @@ export default function ConversationPanel({
         position: 'fixed',
         bottom: '20px',
         left: '50%',
-        transform: 'translateX(-50%)',
+        transform: 'translateX(calc(-50% - 20px))',
         zIndex: 600,
         pointerEvents: 'all',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'stretch',
         gap: '0px',
-        width: '580px',
+        width: '640px',
         animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       }
   if (phase !== 'scene') return null
@@ -509,7 +537,58 @@ export default function ConversationPanel({
       {currentScene && (
       <>
       <div style={panelStyle}>
-        {/* Conversation panel — full width (portraits render inline with speaker names) */}
+
+        <div style={{
+          position: 'absolute',
+          left: '-84px',
+          top: '0',
+          width: '80px',
+          height: '100%',
+          flexShrink: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          paddingTop: '140px',
+          background: 'transparent',
+          zIndex: 601,
+          transition: 'opacity 0.3s ease',
+          visibility: displayStack.length > 0 ? 'visible' : 'hidden',
+        }}>
+          {displayStack.map((charId) => {
+            const img = getPortrait(charId)
+            const name = charName(charId)
+            const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()
+            return (
+              <div key={charId} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                animation: isSwapping || charId === newSpeakerId ? 'portrait-enter 0.35s cubic-bezier(0.22,1,0.36,1)' : undefined,
+              }}>
+                <div style={{
+                  width: '72px',
+                  height: '72px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: '2px solid #c9a84c',
+                  boxShadow: '0 0 12px rgba(201,168,76,0.5)',
+                  opacity: 1,
+                  transition: 'opacity 0.35s ease',
+                }}>
+                  {img
+                    ? <img src={img} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+                    : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,168,76,0.2)' }}>
+                        <span style={{ color: '#c9a84c', fontSize: '24px', fontFamily: 'Georgia, serif' }}>{initials}</span>
+                      </div>
+                  }
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Expanding conversation panel — RIGHT side of row */}
         <div ref={panelWrapperRef} style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', flex: 1, height: '100%', overflowY: 'hidden' }}>
         <div
           ref={panelInnerRef}
@@ -614,40 +693,18 @@ export default function ConversationPanel({
               >
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
-                  {/* Speaker name with inline portrait */}
+                  {/* Speaker name */}
                   {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && !isContinuation && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-                      {entry.type !== 'player_spoken' && entry.characterId && (() => {
-                        const img = getPortrait(entry.characterId ?? '')
-                        const initials = (entry.characterName ?? '').split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()
-                        return (
-                          <div style={{
-                            width: '32px', height: '32px', borderRadius: '50%',
-                            overflow: 'hidden', flexShrink: 0,
-                            border: '1.5px solid rgba(201,168,76,0.5)',
-                            opacity: entry.characterId === currentSpeakerId ? 1 : 0.5,
-                          }}>
-                            {img
-                              ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
-                              : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,168,76,0.1)' }}>
-                                  <span style={{ color: '#c9a84c', fontSize: '11px', fontFamily: 'Georgia' }}>{initials}</span>
-                                </div>
-                            }
-                          </div>
-                        )
-                      })()}
-                      <div style={{
-                        ...SPEAKER_LABEL_STYLE,
-                        marginBottom: 0,
-                        color: entry.type === 'player_spoken'
-                          ? '#e8dcc8'
-                          : isCurrentSpeaker
-                            ? (entry.characterColor || '#e8d5a3')
-                            : 'rgba(201,168,76,0.45)',
-                        transition: 'color 0.4s ease',
-                      }}>
-                        {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
-                      </div>
+                    <div style={{
+                      ...SPEAKER_LABEL_STYLE,
+                      color: entry.type === 'player_spoken'
+                        ? '#e8dcc8'
+                        : isCurrentSpeaker
+                          ? (entry.characterColor || '#e8d5a3')
+                          : (entry.characterColor || '#c9a84c'),
+                      transition: 'color 0.4s ease',
+                    }}>
+                      {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
                     </div>
                   )}
                   {/* internal_thought / monologue — no label, ✦ symbol */}
@@ -691,30 +748,11 @@ export default function ConversationPanel({
                   return (
                     <>
                       {activeType === 'dialogue' && !isActiveContinuation && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
-                          {(() => {
-                            const charId = activeSegment.character ?? ''
-                            const img = getPortrait(charId)
-                            const initials = charName(charId).split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()
-                            return (
-                              <div style={{
-                                width: '52px', height: '52px', borderRadius: '50%',
-                                overflow: 'hidden', flexShrink: 0,
-                                border: '2px solid #c9a84c',
-                                boxShadow: '0 0 10px rgba(201,168,76,0.4)',
-                              }}>
-                                {img
-                                  ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
-                                  : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,168,76,0.15)' }}>
-                                      <span style={{ color: '#c9a84c', fontSize: '18px', fontFamily: 'Georgia' }}>{initials}</span>
-                                    </div>
-                                }
-                              </div>
-                            )
-                          })()}
-                          <div style={{ ...SPEAKER_LABEL_STYLE, marginBottom: 0, color: getCharacterColor(activeSegment.character ?? '') || '#e8d5a3' }}>
-                            {charName(activeSegment.character ?? '')}
-                          </div>
+                        <div style={{
+                          ...SPEAKER_LABEL_STYLE,
+                          color: getCharacterColor(activeSegment.character ?? '') || '#e8d5a3',
+                        }}>
+                          {charName(activeSegment.character ?? '')}
                         </div>
                       )}
                       {/* internal_thought / monologue — no label, ✦ symbol */}
