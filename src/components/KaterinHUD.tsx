@@ -28,27 +28,24 @@ const PORTRAIT_SIZE = 60
 const FRAME_SIZE    = PORTRAIT_SIZE + 10   // frame ring padding
 
 function MiniOrnateFrame({ children }: { children: React.ReactNode }) {
-  const A  = '#c8902a'
-  const C  = FRAME_SIZE / 2
-  const R  = C - 1
   return (
-    <div style={{ position: 'relative', width: FRAME_SIZE, height: FRAME_SIZE, flexShrink: 0 }}>
-      <svg
-        viewBox={`0 0 ${FRAME_SIZE} ${FRAME_SIZE}`}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 2 }}
-      >
-        <circle cx={C} cy={C} r={R}   fill="none" stroke={A} strokeWidth="1" opacity="0.6"/>
-        <circle cx={C} cy={C} r={R-3} fill="none" stroke={A}  strokeWidth="1.5" opacity="0.9"/>
-        <polygon points={`${C},1 ${C+3},4 ${C},7 ${C-3},4`} fill={A}/>
-        <polygon points={`${C},${FRAME_SIZE-1} ${C+3},${FRAME_SIZE-4} ${C},${FRAME_SIZE-7} ${C-3},${FRAME_SIZE-4}`} fill={A}/>
-      </svg>
+    <div style={{
+      position: 'relative',
+      width: FRAME_SIZE,
+      height: FRAME_SIZE,
+      flexShrink: 0,
+      borderRadius: '50%',
+      padding: '3px',
+      background: 'linear-gradient(135deg, rgba(201,168,76,0.9) 0%, rgba(160,120,40,0.6) 50%, rgba(201,168,76,0.9) 100%)',
+      boxShadow: '0 0 16px rgba(201,168,76,0.4), 0 0 32px rgba(201,168,76,0.15), inset 0 0 8px rgba(0,0,0,0.4)',
+    }}>
       <div style={{
-        position: 'absolute',
-        top: 6, left: 6, right: 6, bottom: 6,
-        borderRadius: '50%', overflow: 'hidden',
-        border: `1.5px solid ${A}`,
-        zIndex: 1,
-        boxShadow: `0 0 12px rgba(201,168,76,0.2), inset 0 0 8px rgba(0,0,0,0.5)`,
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+        overflow: 'hidden',
+        border: '1.5px solid rgba(201,168,76,0.4)',
+        boxShadow: 'inset 0 0 10px rgba(0,0,0,0.6)',
       }}>
         {children}
       </div>

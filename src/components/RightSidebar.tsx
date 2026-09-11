@@ -73,7 +73,7 @@ function SideButton({ icon, label, active, badge, onClick }: SideButtonProps) {
             : hovered
             ? 'linear-gradient(rgba(201,168,76,0.18), rgba(201,168,76,0.18)), rgba(15,12,8,0.85)'
             : 'rgba(15,12,8,0.85)',
-          border: `1.5px solid ${active ? 'rgba(201,168,76,0.95)' : hovered ? 'rgba(201,168,76,0.85)' : 'rgba(201,168,76,0.6)'}`,
+          border: `1.5px solid ${active ? 'rgba(201,168,76,0.95)' : hovered ? 'rgba(201,168,76,0.85)' : 'rgba(201,168,76,0.75)'}`,
           color: isLit ? '#c9a84c' : 'rgba(201,168,76,0.9)',
           cursor: 'pointer',
           transition: 'all 0.15s ease',
@@ -148,7 +148,7 @@ export default function RightSidebar() {
     borderRadius: '50%',
     objectFit: 'cover' as const,
     opacity: 1,
-    filter: 'brightness(1.9) contrast(1.35) drop-shadow(0 0 10px rgba(201,168,76,0.8))',
+    filter: 'brightness(2.2) contrast(1.1) saturate(1.4) drop-shadow(0 0 8px rgba(201,168,76,0.9))',
   }
 
   const containerStyle: React.CSSProperties = isMobile
@@ -181,6 +181,8 @@ export default function RightSidebar() {
         alignItems: 'center',
         padding: '4px 8px',
         gap: '6px',
+        background: 'linear-gradient(180deg, rgba(10,8,6,0.92) 0%, rgba(18,14,10,0.88) 100%)',
+        borderLeft: '1px solid rgba(201,168,76,0.15)',
       }
 
   return (

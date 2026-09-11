@@ -92,6 +92,13 @@ export default function TopBar() {
     publicImage >= 35 ? '#c9a84c' :
     '#e05c4a'
 
+  // Retained data (visuals removed in interface reform): week chip + SoE badge
+  // hidden per spec, but state kept. Void references keep noUnusedLocals clean.
+  void iconEconomy
+  void stateOfEmergency
+  void soeWeek
+  void date
+
   // Shared chrome so left/right chips cannot drift on top/padding independently.
   const CHIP_TOP = '12px'
   const CHIP_PADDING = '6px 10px'
@@ -115,7 +122,7 @@ export default function TopBar() {
 
   return (
     <>
-      {/* LEFT CLUSTER — seal + resources (top-left chip, not full-width bar) */}
+      {/* UNIFIED TOP-LEFT CLUSTER — seal + economy status + stats (Suzerain-style) */}
       <div style={{
         ...chipChrome,
         left: '12px',
@@ -136,32 +143,27 @@ export default function TopBar() {
           )}
         </div>
 
-        <GoldHairline />
-
-        {/* SLOT 1 — ECONOMY */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(201,168,76,0.1)' }}>
-          <img src={iconEconomy} alt="Economy" style={{ height: 22, width: 22, filter: 'brightness(1.8) contrast(1.2) drop-shadow(0 0 6px rgba(201,168,76,0.5))' }} />
-          <div style={{ display: 'flex', gap: 2 }}>
-            {(() => {
-              const red = '#e05c4a'; const yellow = '#c9a84c'; const grey = 'rgba(255,255,255,0.1)'
-              const green = '#7fa65a'; const brightGreen = '#a5d678'
-              let colors: string[] = []
-              if (economyHealth < -60) colors = [red, red, red, red, red]
-              else if (economyHealth < -20) colors = [red, red, red, yellow, grey]
-              else if (economyHealth < 20) colors = [yellow, yellow, grey, grey, grey]
-              else if (economyHealth < 60) colors = [green, green, green, grey, grey]
-              else colors = [brightGreen, brightGreen, brightGreen, brightGreen, brightGreen]
-              return colors.map((c, i) => (
-                <div key={i} style={{
-                  width: 3, height: 12, borderRadius: 1,
-                  background: c,
-                  boxShadow: c !== grey ? `0 0 6px ${c}80` : 'none',
-                  transition: 'background 0.4s ease'
-                }} />
-              ))
-            })()}
-          </div>
-        </div>
+        {(() => {
+          const status = economyHealth >= 20 ? 'STABLE' : economyHealth >= -20 ? 'STRUGGLING' : economyHealth >= -60 ? 'CRITICAL' : 'CRISIS'
+          const statusColor = economyHealth >= 20 ? '#7fa65a' : economyHealth >= -20 ? '#c9a84c' : economyHealth >= -60 ? '#e08c2a' : '#e05c4a'
+          return (
+            <div style={{
+              background: `rgba(${economyHealth >= 20 ? '127,166,90' : economyHealth >= -20 ? '201,168,76' : economyHealth >= -60 ? '224,140,42' : '224,92,74'},0.15)`,
+              border: `1px solid ${statusColor}60`,
+              borderRadius: '3px',
+              padding: '2px 6px',
+              marginLeft: '6px',
+            }}>
+              <span style={{ fontSize: '0.5rem', letterSpacing: '0.2em', color: statusColor, textTransform: 'uppercase', fontWeight: 700 }}>
+                ECONOMY
+              </span>
+              <br/>
+              <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: statusColor, textTransform: 'uppercase', fontWeight: 700, textShadow: `0 0 8px ${statusColor}60` }}>
+                {status}
+              </span>
+            </div>
+          )
+        })()}
 
         <GoldHairline />
 
@@ -223,35 +225,6 @@ export default function TopBar() {
             </span>
           </div>
         </div>
-
-        {/* STATE OF EMERGENCY */}
-        {stateOfEmergency && (
-          <div style={{ marginLeft: 10, background: 'rgba(160,40,30,0.2)', border: '1px solid rgba(200,60,40,0.6)',
-            padding: '3px 8px', borderRadius: 2, backdropFilter: 'blur(4px)' }}>
-            <span style={{ fontSize: '0.5rem', letterSpacing: '0.2em', color: '#e05c4a', textTransform: 'uppercase', whiteSpace: 'nowrap', textShadow: '0 0 8px rgba(224,92,74,0.5)' }}>
-              EMERGENCY · WK {soeWeek}
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* RIGHT CHIP — week/date (independent top-right, not marginLeft auto) */}
-      <div style={{
-        ...chipChrome,
-        right: '12px',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        gap: 2,
-      }}>
-        <span style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.2em', color: '#c9a84c', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.3)' }}>
-          WEEK {currentWeek} / 52
-        </span>
-        {!isMobile && (
-          <span style={{ fontSize: '0.5rem', letterSpacing: '0.1em', color: 'rgba(220,210,190,0.4)', lineHeight: 1 }}>
-            {date}
-          </span>
-        )}
       </div>
     </>
   )
