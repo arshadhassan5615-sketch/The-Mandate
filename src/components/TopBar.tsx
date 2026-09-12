@@ -4,7 +4,6 @@ import { useNewsStore } from '../stores/newsStore'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { Z } from '../constants/zIndex'
 import type { BudgetAllocations } from '../types/gameState'
-import veltriaSeal from '../assets/images/veltria_seal.png'
 import iconEconomy from '../assets/images/ui/icon_economy.png'
 import iconTreasury from '../assets/images/ui/icon_treasury.png'
 import iconWealth from '../assets/images/ui/icon_wealth.png'
@@ -149,16 +148,6 @@ export default function TopBar() {
     boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
     fontFamily: "'IBM Plex Mono', monospace",
   }}>
-    {/* Seal */}
-    <img src={veltriaSeal} alt="Veltria" style={{
-      height: '32px',
-      width: '32px',
-      filter: 'drop-shadow(0 0 6px rgba(201,168,76,0.5)) brightness(1.2)',
-    }} />
-
-    {/* Divider */}
-    <div style={{ width: 1, height: 28, background: 'rgba(201,168,76,0.25)', margin: '0 4px' }} />
-
     {/* ECONOMY stat */}
     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
       {/* Circular icon frame */}
