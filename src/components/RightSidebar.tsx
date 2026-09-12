@@ -173,7 +173,7 @@ export default function RightSidebar() {
     : {
         position: 'fixed',
         right: 0,
-        top: '60px',
+        top: '48px',
         width: '60px',
         zIndex: 210,
         display: 'flex',
