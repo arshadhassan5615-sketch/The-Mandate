@@ -326,7 +326,7 @@ interface WeekStore {
 }
 
 export const useWeekStore = create<WeekStore>((set, get) => ({
-      phase: 'prologue',
+      phase: 'title',
   agendaPool:          [],
   selectedIds:         [],
   slotsUsed:           0,
@@ -579,6 +579,21 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Week 2 — Mole investigation plant (fires once; was orphaned — no agenda entry)
+    if (gameState.currentWeek === 2 && !visitedSceneIds.includes('mole_week2_plant')) {
+      pool.push({
+        id: 'agenda_mole_w2',
+        title: 'Mole Investigation',
+        description: 'Danika has flagged an anomaly in the palace communications log.',
+        category: 'crisis' as AgendaCategory,
+        sceneId: 'mole_week2_plant',
+        slotCost: 0,
+        executionOrder: 2,
+        weekAvailable: 2,
+        weekDeadline: 2,
+      })
+    }
+
     // Week 3 — Mole investigation choice (fires once)
     if (gameState.currentWeek === 3 && !visitedSceneIds.includes('mole_week3_choice')) {
       pool.push({
@@ -595,7 +610,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     // Week 5 — Mole complication (fires once)
-    if (gameState.currentWeek === 5 && !visitedSceneIds.includes('mole_week5_complication')) {
+    if (gameState.currentWeek === 5 && !visitedSceneIds.includes('mole_week5_complication') && activeFlags.includes('mole_investigation_active')) {
       pool.push({
         id: 'mole_week5_complication',
         title: 'The Investigation Complicates',
