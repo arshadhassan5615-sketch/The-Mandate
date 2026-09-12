@@ -133,79 +133,108 @@ export default function TopBar() {
   return (
   <div style={{
     position: 'fixed',
-    top: 0,
-    left: 0,
-    right: '60px',
-    height: '48px',
+    top: '12px',
+    left: '12px',
     zIndex: Z.topBar,
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: '12px',
-    paddingRight: '12px',
-    gap: '4px',
-    background: 'linear-gradient(180deg, rgba(8,6,4,0.97) 0%, rgba(14,11,8,0.93) 100%)',
-    borderBottom: '1px solid rgba(201,168,76,0.2)',
-    boxShadow: '0 2px 16px rgba(0,0,0,0.6)',
+    gap: '8px',
+    background: 'rgba(10,8,6,0.88)',
+    border: '1px solid rgba(201,168,76,0.25)',
+    borderRadius: '8px',
+    padding: '6px 12px',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
     fontFamily: "'IBM Plex Mono', monospace",
-    boxSizing: 'border-box',
   }}>
-
-    {/* ECONOMY STAT */}
-    <div style={{ display:'flex', alignItems:'center', gap:'6px', padding:'0 10px' }}>
+    {/* ECONOMY stat */}
+    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      {/* Circular icon frame */}
       <div style={{
-        width:'32px', height:'32px', borderRadius:'50%',
-        border:'1.5px solid rgba(201,168,76,0.6)',
-        background:'rgba(201,168,76,0.1)',
-        display:'flex', alignItems:'center', justifyContent:'center',
-        boxShadow:'0 0 8px rgba(201,168,76,0.25)',
-        flexShrink:0,
+        width: '32px',
+        height: '32px',
+        borderRadius: '50%',
+        border: '1.5px solid rgba(201,168,76,0.7)',
+        background: 'rgba(201,168,76,0.08)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 0 8px rgba(201,168,76,0.3)',
+        flexShrink: 0,
       }}>
         <img src={iconEconomy} alt="Economy" style={{
-          width:'18px', height:'18px',
-          filter:'brightness(2.2) saturate(1.4) drop-shadow(0 0 3px rgba(201,168,76,0.9))',
-        }}/>
+          width: '20px',
+          height: '20px',
+          filter: 'brightness(2.0) saturate(1.3) drop-shadow(0 0 4px rgba(201,168,76,0.8))',
+        }} />
       </div>
-      <span style={{
-        fontFamily:"'Playfair Display', serif",
-        fontSize:'0.95rem', fontWeight:700,
-        color: balance < 0 ? '#e05c4a' : '#f0e8d0',
-        textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.5)' : '0 0 6px rgba(240,232,208,0.2)',
-        animation: treasuryFlash ? `stat-flash-${treasuryFlash} 0.6s ease-out` : undefined,
-        whiteSpace:'nowrap',
+      {/* Rectangular value frame */}
+      <div style={{
+        background: 'rgba(201,168,76,0.06)',
+        border: '1px solid rgba(201,168,76,0.3)',
+        borderRadius: '3px',
+        padding: '3px 8px',
+        minWidth: '48px',
+        textAlign: 'center',
       }}>
-        ₭{balance.toLocaleString()}
-      </span>
+        <span style={{
+          fontFamily: "'Playfair Display', serif",
+          fontSize: '0.85rem',
+          fontWeight: 600,
+          color: balance < 0 ? '#e05c4a' : '#e8dcc8',
+          textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.4)' : '0 0 6px rgba(201,168,76,0.2)',
+          animation: treasuryFlash ? `stat-flash-${treasuryFlash} 0.6s ease-out` : undefined,
+        }}>
+          ₭{balance.toLocaleString()}
+        </span>
+      </div>
     </div>
 
-    {/* DIVIDER */}
-    <div style={{ width:1, height:24, background:'rgba(201,168,76,0.2)', flexShrink:0 }}/>
+    {/* Divider */}
+    <div style={{ width: 1, height: 28, background: 'rgba(201,168,76,0.25)', margin: '0 4px' }} />
 
-    {/* WEALTH STAT */}
-    <div style={{ display:'flex', alignItems:'center', gap:'6px', padding:'0 10px' }}>
+    {/* TREASURY / WEALTH stat */}
+    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      {/* Circular icon frame */}
       <div style={{
-        width:'32px', height:'32px', borderRadius:'50%',
-        border:'1.5px solid rgba(201,168,76,0.6)',
-        background:'rgba(201,168,76,0.1)',
-        display:'flex', alignItems:'center', justifyContent:'center',
-        boxShadow:'0 0 8px rgba(201,168,76,0.25)',
-        flexShrink:0,
+        width: '32px',
+        height: '32px',
+        borderRadius: '50%',
+        border: '1.5px solid rgba(201,168,76,0.7)',
+        background: 'rgba(201,168,76,0.08)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 0 8px rgba(201,168,76,0.3)',
+        flexShrink: 0,
       }}>
         <img src={iconWealth} alt="Wealth" style={{
-          width:'18px', height:'18px',
-          filter:'brightness(2.2) saturate(1.4) drop-shadow(0 0 3px rgba(201,168,76,0.9))',
-        }}/>
+          width: '20px',
+          height: '20px',
+          filter: 'brightness(2.0) saturate(1.3) drop-shadow(0 0 4px rgba(201,168,76,0.8))',
+        }} />
       </div>
-      <span style={{
-        fontFamily:"'Playfair Display', serif",
-        fontSize:'0.95rem', fontWeight:700,
-        color:'#c9a84c',
-        textShadow:'0 0 6px rgba(201,168,76,0.3)',
-        whiteSpace:'nowrap',
+      {/* Rectangular value frame */}
+      <div style={{
+        background: 'rgba(201,168,76,0.06)',
+        border: '1px solid rgba(201,168,76,0.3)',
+        borderRadius: '3px',
+        padding: '3px 8px',
+        minWidth: '48px',
+        textAlign: 'center',
       }}>
-        {personalWealth.toLocaleString()}
-      </span>
+        <span style={{
+          fontFamily: "'Playfair Display', serif",
+          fontSize: '0.85rem',
+          fontWeight: 600,
+          color: '#c9a84c',
+          textShadow: '0 0 6px rgba(201,168,76,0.3)',
+        }}>
+          {personalWealth.toLocaleString()}
+        </span>
+      </div>
     </div>
-
   </div>
 )
 }
