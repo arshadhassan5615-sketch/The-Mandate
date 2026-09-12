@@ -535,7 +535,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     // Week 21 — Megaproject decision (fires once)
-    if (gameState.currentWeek === 20 && !visitedSceneIds.includes('act2_week20_megaproject_choice')) {
+    if (gameState.currentWeek === 21 && !visitedSceneIds.includes('act2_week20_megaproject_choice')) {
       pool.push({
         id: 'act2_week20_megaproject_choice',
         title: 'The Megaproject Dilemma',
