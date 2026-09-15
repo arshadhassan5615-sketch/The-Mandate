@@ -1,0 +1,208 @@
+{
+  "id": "act6_week72_morivask_summit",
+  "title": "The Morivask Border Summit",
+  "act": 6,
+  "weekAvailable": 72,
+  "weekDeadline": 74,
+  "type": "diplomacy",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Border Command Post — Sevagrad",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The civil war in Morivask has reached the border. Dusek has set up a field command post in Sevagrad, overlooking the crossing points. The room is cold, smelling of diesel fuel and wet wool. A Morivask rebel commander and a Lytheirian diplomat have arrived, seeking an audience. The fate of the eastern border hangs in the balance."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Chancellor, the Morivask government is collapsing. The loyalist forces are retreating into the mountains, and the rebels are fleeing across our border by the thousands. My border guards are overwhelmed. We need a policy, not just bullets."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Lytheirian diplomat is offering to fund a 'humanitarian corridor.' It's a buffer zone, staffed by their contractors, paid for by their treasury. It buys us time, but it puts Lytheirian boots on our soil. The rebel commander wants weapons. If we arm them, they fight the loyalists on their side of the line, keeping the war away from our border. But if they lose, those weapons end up in hostile hands."
+    },
+    {
+      "type": "monologue",
+      "text": "Two desperate men, two dangerous offers. The Lytheirian wants to buy influence on our eastern flank. The rebel wants our military protection. If I let the Lytheirians in, we lose sovereignty over Sevagrad. If I arm the rebels, I provoke Morivask's remaining loyalists—and their Tyvaren backers. And if I do nothing, the refugees overwhelm our border guards, and the war spills over anyway."
+    }
+  ],
+  "choices": [
+    {
+      "id": "question_rebel",
+      "text": "Question the rebel commander. Ask what guarantees we have if we arm you.",
+      "nextSegment": "seg_question_rebel",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "question_lytheirian",
+      "text": "Question the Lytheirian diplomat. Ask what happens to the corridor if we say no.",
+      "nextSegment": "seg_question_lytheirian",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "declare_border_policy",
+      "text": "I've heard enough. Give the order, Dusek.",
+      "nextSegment": "seg_final_policy",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_question_rebel": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Commander, if Veltria arms your fighters, what guarantees do we have that you won't turn those weapons on us when the war is over? Or worse, that they won't end up in the hands of the insurgents in Dravenhollow?"
+        },
+        {
+          "type": "description",
+          "text": "The rebel commander leans forward, his eyes bloodshot from days without sleep. He speaks with the desperate sincerity of a man who has nothing left to lose."
+        },
+        {
+          "type": "dialogue",
+          "character": "rebel_commander",
+          "text": "Chancellor, my people are dying. We don't want your territory; we want our homes. If you arm us, we push the loyalists back to the capital. The war stays in Morivask. If you don't, we die, and the loyalists—backed by Tyvaren—will control this border. Is that what you want? A Tyvaren puppet state on your eastern flank?"
+        },
+        {
+          "type": "monologue",
+          "text": "He makes a compelling point. A Tyvaren-aligned Morivask is a nightmare. But arming rebels is a shadow operation. If it gets out that Veltria is fueling the civil war, we become an international pariah. And there's no guarantee this commander can control his own men once the guns are in their hands."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rebel_to_lytheirian",
+          "text": "Turn to the Lytheirian diplomat. Hear the counter-offer.",
+          "nextSegment": "seg_question_lytheirian",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "rebel_to_policy",
+          "text": "I've heard enough. Give the order, Dusek.",
+          "nextSegment": "seg_final_policy",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_question_lytheirian": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Ambassador, your 'humanitarian corridor' sounds like a land grab. If we accept Lytheirian funding, who commands the guards? Who controls the gates? Veltria, or Lytheira?"
+        },
+        {
+          "type": "dialogue",
+          "character": "lytheirian_diplomat",
+          "text": "Chancellor, Lytheira has no territorial ambitions in Sevagrad. We are offering to share the burden. Our contractors manage the logistics; your border guards maintain sovereignty. It is a partnership. But I must be clear: if you refuse our aid, we cannot guarantee the safety of Lytheirian nationals currently trapped in Morivask. We may be forced to... intervene unilaterally to protect our citizens."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "That's an invasion threat dressed up as a press release. If Lytheirian troops cross our border 'unilaterally,' we shoot them. It's that simple."
+        },
+        {
+          "type": "monologue",
+          "text": "The Lytheirian is offering to buy our eastern flank, and threatening to take it by force if we refuse. The rebel is offering to fight our proxy war for us, with no guarantees. The only thing worse than these two options is doing nothing. I have to choose which poison to swallow."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lytheirian_to_rebel",
+          "text": "Turn to the rebel commander. Hear his plea again.",
+          "nextSegment": "seg_question_rebel",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "lytheirian_to_policy",
+          "text": "I've heard enough. Give the order, Dusek.",
+          "nextSegment": "seg_final_policy",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_final_policy": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You look at Dusek. She is waiting for the order, her hand resting on the map table. The room falls silent."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_lytheirian_aid",
+          "text": "Accept Lytheirian funding and establish a joint humanitarian corridor.",
+          "nextSegment": null,
+          "flags": ["morivask_lytheirian_corridor"],
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": -5 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "arm_rebels",
+          "text": "Secretly arm the Morivask rebels to create a buffer state.",
+          "nextSegment": null,
+          "flags": ["morivask_rebels_armed"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 10 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 10 },
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "military_quarantine",
+          "text": "Order Dusek to establish a military quarantine. Shoot anyone who crosses.",
+          "nextSegment": null,
+          "flags": ["morivask_military_quarantine"],
+          "stateChanges": [
+            { "stat": "nation.militaryReadiness", "operation": "add", "value": 10 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": 5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -10 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

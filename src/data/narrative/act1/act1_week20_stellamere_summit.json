@@ -1,0 +1,219 @@
+{
+  "id": "act1_week20_stellamere_summit",
+  "title": "The Stellamere Summit",
+  "act": 1,
+  "weekAvailable": 20,
+  "weekDeadline": 22,
+  "type": "diplomacy",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Grand Hall — Stellamere, Neutral Territory",
+  "characters": ["vyktor_reznik", "dragan_vukov", "harrison_cole"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The chandeliers of the Stellamere Grand Hall cast long shadows over the negotiating table. Marshal Vukov of Tyvaren sits to your left, his medals clinking softly as he adjusts his uniform. To your right, Orythian Ambassador Harrison Cole sips water, his smile practiced and cold. You are the new Chancellor, and they are here to test your weight."
+    },
+    {
+      "type": "dialogue",
+      "character": "dragan_vukov",
+      "text": "Chancellor Ashavel. Tyvaren welcomes your election. We hope it signals a... correction in Veltrian foreign policy. The previous administration harbored delusions of non-alignment. There is no neutral ground, Chancellor. Only those who stand with us, and those who stand against us."
+    },
+    {
+      "type": "monologue",
+      "text": "Vukov speaks like a man reading a verdict. He does not negotiate; he informs. The Tyvaren army is the largest on the continent. He knows it. I know it. The question is whether I am willing to pay the price of pretending I don't."
+    },
+    {
+      "type": "dialogue",
+      "character": "harrison_cole",
+      "text": "The Marshal speaks in binaries, as usual. The Orythian Dominion does not demand allegiance; we offer partnership. Economic partnership. A generous aid package is currently sitting in our Treasury, awaiting only your signature on a mutual defense pact. It would be a shame to see it redirected to a less... appreciative neighbor."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Ambassador's 'partnership' requires basing rights for Orythian naval vessels in Aldenmoor. The Marshal's 'correction' requires us to sever trade with Lytheira. Both options make Veltria a proxy state. We are here to discuss sovereignty, not submission."
+    },
+    {
+      "type": "dialogue",
+      "character": "dragan_vukov",
+      "text": "Sovereignty is a luxury of the strong, Reznik. You have a fragile economy and a border my soldiers could cross in forty-eight hours. Do not mistake our patience for weakness. If Orythian ships dock in Aldenmoor, Tyvaren will view it as an act of aggression. Not against Veltria. Against us. And we will respond accordingly."
+    }
+  ],
+  "choices": [
+    {
+      "id": "probe_vukov_threat",
+      "text": "Probe Vukov's threat. Ask him if Tyvaren is prepared to fight a war on two fronts.",
+      "nextSegment": "seg_probe_vukov",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "probe_cole_aid",
+      "text": "Probe Cole's aid package. Ask what happens if Veltria refuses the defense pact.",
+      "nextSegment": "seg_probe_cole",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "declare_stance",
+      "text": "I've heard enough. State Veltria's position.",
+      "nextSegment": "seg_final_stance",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_probe_vukov": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "You speak of crossing borders, Marshal. But Tyvaren's eastern flank is exposed. If you invade Veltria, you tie down six divisions. Can you afford that while Morivask boils? Or do you simply assume we will roll over because you rattled your sabers?"
+        },
+        {
+          "type": "description",
+          "text": "The room goes cold. Vukov's aide shifts uncomfortably. Cole sets his glass down. Vyktor closes his eyes, bracing for the impact. Vukov stares at you for a long moment, then, unexpectedly, smiles."
+        },
+        {
+          "type": "dialogue",
+          "character": "dragan_vukov",
+          "text": "You have teeth. Good. Halvek had none. I was concerned we were negotiating with another bureaucrat. Morivask is a localized issue. Veltria is a strategic issue. Do not force me to treat them as the same. We do not want war. We want guarantees. Sever the Lytheirian trade ties. Acknowledge our sphere of influence. In return, we guarantee your borders. Against everyone."
+        },
+        {
+          "type": "monologue",
+          "text": "He smiled because I showed strength, not because I made a friend. He wants me to cut ties with Lytheira, our largest trading partner, in exchange for a 'guarantee' that only lasts as long as it suits him. It's a mafia offer. But it's an offer that keeps the tanks out of Ashenmere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "vukov_to_cole",
+          "text": "Turn to Ambassador Cole. Hear the Orythian counter-offer.",
+          "nextSegment": "seg_probe_cole",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "vukov_to_stance",
+          "text": "I have what I need. State Veltria's position.",
+          "nextSegment": "seg_final_stance",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_probe_cole": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Ambassador, your aid package is generous. But your defense pact requires Orythian naval basing rights. If I sign that, I don't just get your money; I get your enemies. What happens to Veltria when Tyvaren decides your ships are a target?"
+        },
+        {
+          "type": "dialogue",
+          "character": "harrison_cole",
+          "text": "If you sign the pact, Veltria falls under the Orythian security umbrella. Tyvaren will not attack a Dominion ally. The risk of war decreases, not increases. The aid package—$50 million in development funds and low-interest loans—is contingent on the pact. Without the pact, the money goes to Lytheira. They were very receptive to our overtures."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "He's threatening to fund our rivals if we don't comply. The Orythian definition of 'partnership' is notably flexible."
+        },
+        {
+          "type": "monologue",
+          "text": "Cole is offering a shield, but the shield comes with a chain attached to my wrist. $50 million would solve the deficit overnight. But the basing rights would make Veltria a pawn in a game played thousands of miles away. I have to decide if prosperity is worth the leash."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cole_to_vukov",
+          "text": "Turn to Marshal Vukov. Hear the Tyvaren position again.",
+          "nextSegment": "seg_probe_vukov",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "cole_to_stance",
+          "text": "I have what I need. State Veltria's position.",
+          "nextSegment": "seg_final_stance",
+          "flags": [],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_final_stance": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You stand. The negotiations are over. The time for listening has passed. Vukov and Cole watch you, waiting to see which way the scale tips."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lean_orythia",
+          "text": "Sign a preliminary trade and defense agreement with Orythia. Accept the aid package.",
+          "nextSegment": null,
+          "flags": ["stellamere_orythian_lean"],
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 10 },
+            { "stat": "nation.nationalDebt", "operation": "add", "value": -5 },
+            { "stat": "tyvarenHostility", "operation": "add", "value": 10 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "acknowledge_tyvaren",
+          "text": "Acknowledge Tyvaren's regional security interests. Quietly step back from Orythian overtures.",
+          "nextSegment": null,
+          "flags": ["stellamere_tyvaren_acknowledged"],
+          "stateChanges": [
+            { "stat": "tyvarenHostility", "operation": "add", "value": -15 },
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -5 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "strict_non_alignment",
+          "text": "Declare strict non-alignment. Refuse both the aid and the security guarantees.",
+          "nextSegment": null,
+          "flags": ["stellamere_non_aligned"],
+          "stateChanges": [
+            { "stat": "nation.internationalStanding", "operation": "add", "value": 10 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+            { "stat": "tyvarenHostility", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
