@@ -1,0 +1,118 @@
+{
+  "id": "act6_week83_energy_transition",
+  "title": "The Energy Transition",
+  "act": 6,
+  "weekAvailable": 83,
+  "weekDeadline": 85,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["elara_vostane", "orin_valdek"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vostane and Valdek arrive together, which by now you have learned means they agree on something and want you to feel the weight of that agreement before either of them speaks."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Chancellor. We import ninety percent of our coal from Lytheira. Every winter, every price increase they choose to impose, we absorb it because we have no alternative. Valdek's oil discovery at Sevagrad changes that math — if we convert state industry from coal to domestic oil, we cut the Lytheirian dependency by two-thirds within eighteen months."
+    },
+    {
+      "type": "dialogue",
+      "character": "orin_valdek",
+      "text": "The conversion isn't free. Retooling the Kravenstal furnaces, the rail heating systems, half the state's industrial base — it's expensive, and it's disruptive. But we are sitting on the fuel. We have been importing what we could be pumping."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "The Lytheirian trade ministry has already caught wind of the proposal. Their ambassador delivered what he called a 'friendly caution' yesterday — coal contracts renegotiated at current terms, or not renegotiated at all. They know what losing us as a customer means for their own mining regions."
+    },
+    {
+      "type": "monologue",
+      "text": "Lytheira has been the reasonable neighbor for two terms — trade, not tension, no border to manage. If I do this, that changes. Valdek is right that we are importing what we could be producing. Vostane is right that changing energy dependencies at this speed breaks things that were working. The oil is finally ours to use. The question is how much of the old arrangement I am willing to burn to use it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "full_transition",
+      "text": "Full transition. Convert state industry to domestic oil over eighteen months. Accept the Lytheirian retaliation.",
+      "nextSegment": "seg_full_transition",
+      "flags": ["energy_transition_full", "lytheira_coal_ended"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 12 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 6 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 8 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "phased_transition",
+      "text": "Phased transition. Convert half the industrial base, keep the Lytheirian contract for the rest.",
+      "nextSegment": "seg_phased_transition",
+      "flags": ["energy_transition_phased"],
+      "stateChanges": [
+        { "stat": "nation.economyHealth", "operation": "add", "value": 5 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 3 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "reject_transition",
+      "text": "Reject it. The Lytheirian relationship has kept the eastern border quiet. Keep buying coal.",
+      "nextSegment": "seg_reject_transition",
+      "flags": ["energy_transition_rejected"],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 5 },
+        { "stat": "advisorTrust.valdek", "operation": "add", "value": -10 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_full_transition": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "The conversion order goes out within the week. Lytheira responds exactly as Vostane predicted — the coal contracts are cancelled from their side before we can cancel them from ours, a small vengeance dressed as principle. The furnaces at Kravenstal go quiet for eleven days during retooling. Valdek's people call it the fastest industrial conversion in the Republic's history. The Lytheirian ambassador stops attending the same functions I do. Small countries remember who needed whom first."
+        }
+      ],
+      "choices": [
+        { "id": "full_transition_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_phased_transition": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Half measures satisfy no one completely, which Vostane calls the definition of a good compromise. Kravenstal converts; Thornfeld and the rail network keep the Lytheirian coal contract at renegotiated, worse terms. The ambassador is coldly polite rather than absent. Valdek submits a memo three weeks later suggesting we finish the job. I have not answered it yet."
+        }
+      ],
+      "choices": [
+        { "id": "phased_transition_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    },
+    "seg_reject_transition": {
+      "narrative": [
+        {
+          "type": "monologue",
+          "text": "Valdek does not argue. He simply stops bringing me new proposals for three months, which is its own kind of argument. The coal contract renews at the old terms — Lytheira, satisfied, calls it evidence of a mature partnership. The oil at Sevagrad stays in the ground. Somewhere in a filing cabinet is the eighteen-month timeline that would have made us independent of a neighbor's mood. I chose the mood."
+        }
+      ],
+      "choices": [
+        { "id": "reject_transition_end", "text": "(Continue)", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+      ]
+    }
+  }
+}
