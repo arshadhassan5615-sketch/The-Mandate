@@ -19,7 +19,7 @@ const INK = '#2a2622'
 const SERIF_DISPLAY = "'Playfair Display', serif"
 const SERIF_BODY = "'Crimson Text', Georgia, serif"
 
-const BUTTON_SIZE = { news: 64, main: 52, utility: 44 } as const
+const BUTTON_SIZE = { news: 52, main: 52, utility: 44 } as const
 const MOBILE_SCALE = 0.75
 
 // ─── Inline line-art icons (stroke only, 24-unit grid) ─────────────────────────
@@ -244,7 +244,8 @@ function NewspaperIcon({ size }: { size: number }) {
 
 function NewsButton({ unread, size, isMobile, onClick }: NewsButtonProps) {
   const [hovered, setHovered] = useState(false)
-  const iconSize = Math.round(size * 0.56)
+  // Same glyph-to-circle ratio as the other rail buttons (24px in 52px).
+  const iconSize = Math.round(size * 0.46)
 
   return (
     <div style={{ position: 'relative', flexShrink: 0 }}>

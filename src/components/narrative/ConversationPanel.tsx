@@ -1,4 +1,4 @@
-import { useRef, useEffect, useLayoutEffect, useState, useCallback, useMemo } from 'react'
+import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
 import type { CodexEntry } from '../../types/codex'
@@ -648,35 +648,35 @@ export default function ConversationPanel({
   // so the top medallion sits beside the anchored speaker label.
   const stackOrder = [...displayStack].reverse()
 
+  // Speaker runs. A run is broken only by dialogue from a different speaker;
+  // descriptions and internal thoughts inside a turn do not restart it, so a
+  // speaker's name renders once at the top of the run and never per line.
+  const labelledEntryIds = new Set<string>()
+  let runStartEntryId: string | null = null
+  let lastSpokenSpeaker: string | null = null
+  for (const entry of history) {
+    if (entry.type !== 'dialogue' && entry.type !== 'player_spoken') continue
+    const speaker = entry.characterId ?? ''
+    if (speaker !== lastSpokenSpeaker) {
+      labelledEntryIds.add(entry.id)
+      runStartEntryId = entry.id
+      lastSpokenSpeaker = speaker
+    }
+  }
+
   // Whoever is actually speaking now. Katerin never has a medallion, so when
   // she speaks nobody is marked current and the others stay small.
-  const lastDialogueIndex = (() => {
-    for (let i = history.length - 1; i >= 0; i--) {
-      const t = history[i].type
-      if (t === 'dialogue' || t === 'player_spoken') return i
-    }
-    return -1
-  })()
   const activeType = activeSegment ? effectiveSegmentType(activeSegment.type) : null
-  const lastHistoryEntry = history.length > 0 ? history[history.length - 1] : null
-  const isActiveContinuation = !!(activeSegment && lastHistoryEntry && lastHistoryEntry.characterId === activeSegment.character && activeType === 'dialogue')
+  const isActiveContinuation = activeType === 'dialogue' && lastSpokenSpeaker === (activeSegment?.character ?? '')
   const speakingNow = activeType === 'dialogue'
     ? (activeSegment?.character ?? '')
-    : lastDialogueIndex >= 0
-      ? (history[lastDialogueIndex].characterId ?? '')
-      : (speakingCharacter ?? '')
+    : (lastSpokenSpeaker ?? speakingCharacter ?? '')
   const currentSpeakerId = speakingNow === PLAYER_ID ? '' : speakingNow
 
   // Which label the stack anchors to: the active speaker's label when it
-  // renders, otherwise the label at the start of the latest same-speaker run
-  // in history (mirrors the isContinuation rule used when rendering).
+  // opens a new run, otherwise the label at the start of the current run.
   const anchorIsActive = activeType === 'dialogue' && !isActiveContinuation
-  const anchorEntryId = (() => {
-    if (anchorIsActive || lastDialogueIndex < 0) return null
-    let i = lastDialogueIndex
-    while (i > 0 && history[i - 1].characterId === history[i].characterId) i--
-    return history[i].id
-  })()
+  const anchorEntryId = anchorIsActive ? null : runStartEntryId
 
   const medallionSizes = isMobile ? MEDALLION_SIZE.mobile : MEDALLION_SIZE.desktop
   const firstMedallionSize = stackOrder.length > 0 && stackOrder[0] === currentSpeakerId
@@ -703,26 +703,18 @@ export default function ConversationPanel({
     setSpeakerLabelTop(Math.round(clamped - panelRect.top))
   }, [isMobile])
 
-  useLayoutEffect(() => {
+  // Re-measure only when the speaker changes (a new run begins) or the scene
+  // resets — never per line, per keystroke or per scroll. A plain effect
+  // declared after the auto-scroll effects, so the run's opening label is
+  // measured after the history has scrolled to reveal it.
+  useEffect(() => {
     measureSpeakerLabel()
-  }, [measureSpeakerLabel, history, activeText, anchorEntryId, anchorIsActive, actualShowChoices, activeReactions, sceneDone, advanceReady, currentScene])
+  }, [measureSpeakerLabel, speakingNow, currentScene])
 
   useEffect(() => {
-    const scroller = historyRef.current
-    if (!scroller) return
-    let raf: number | null = null
-    const schedule = () => {
-      if (raf !== null) return
-      raf = requestAnimationFrame(() => { raf = null; measureSpeakerLabel() })
-    }
-    scroller.addEventListener('scroll', schedule, { passive: true })
-    window.addEventListener('resize', schedule)
-    return () => {
-      scroller.removeEventListener('scroll', schedule)
-      window.removeEventListener('resize', schedule)
-      if (raf !== null) cancelAnimationFrame(raf)
-    }
-  }, [measureSpeakerLabel, currentScene, phase])
+    window.addEventListener('resize', measureSpeakerLabel)
+    return () => window.removeEventListener('resize', measureSpeakerLabel)
+  }, [measureSpeakerLabel])
 
   // Plain "…" line in place of the old uppercase button. The routing text
   // ("Proceed to Evening Review", "Continue to Next Meeting (2/3)") is kept;
@@ -757,7 +749,7 @@ export default function ConversationPanel({
         bottom: 0,
         left: '50%',
         transform: 'translateX(-50%)',
-        width: 'clamp(420px, 36vw, 620px)',
+        width: 'clamp(480px, 46vw, 760px)',
         height: '100vh',
         zIndex: 600,
         pointerEvents: 'all',
@@ -1012,9 +1004,8 @@ export default function ConversationPanel({
             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 60px), transparent 100%)',
           }}
         >
-          {history.map((entry, _i) => {
-            const prevEntry = history[_i - 1]
-            const isContinuation = prevEntry && prevEntry.characterId === entry.characterId && entry.type !== 'description' && entry.type !== 'narrative' && entry.type !== 'internal_thought'
+          {history.map((entry) => {
+            const showLabel = labelledEntryIds.has(entry.id)
             const isPlayer = entry.type === 'player_spoken'
             const labelText = isPlayer ? 'YOU' : (entry.characterName ?? charName(entry.characterId ?? ''))
 
@@ -1026,7 +1017,7 @@ export default function ConversationPanel({
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
                   {/* Speaker name — full colour, rendered as "NAME :" */}
-                  {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && !isContinuation && (
+                  {showLabel && (
                     <div
                       ref={entry.id === anchorEntryId ? activeLabelRef : undefined}
                       style={{
