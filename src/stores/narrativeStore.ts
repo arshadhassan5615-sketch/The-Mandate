@@ -485,6 +485,20 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
           sourceType: 'scene_choice' as const,
         })))
       }
+      // Route to the correct payoff scene for this accusation's outcome.
+      if (accusationResult.consequenceFlags.includes('mole_correct')) {
+        useChainStore.getState().schedule(
+          [{ targetNodeId: 'act4_mole_correct_accusation', delayWeeks: 0 }],
+          useGameStore.getState().currentWeek,
+          'mole_accusation_correct',
+        )
+      } else if (accusationResult.consequenceFlags.includes('mole_wrongly_accused')) {
+        useChainStore.getState().schedule(
+          [{ targetNodeId: 'act4_mole_wrong_accusation', delayWeeks: 0 }],
+          useGameStore.getState().currentWeek,
+          'mole_accusation_wrong',
+        )
+      }
     }
 
     for (const flag of choice.flags ?? []) {

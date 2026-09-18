@@ -57,5 +57,20 @@
     "executionOrder": 3,
     "weekAvailable": 36,
     "weekDeadline": 40
+  },
+  {
+    "id": "agenda_w36_both_agencies_conflict",
+    "title": "Agencies at War",
+    "description": "Maren Tovik and Viktor Dorne are standing in your office, on opposite sides of the room. The BCA and SSD, both funded at half strength, have turned on each other.",
+    "category": "cabinet",
+    "sceneId": "act3_both_agencies_conflict",
+    "slotCost": 1,
+    "executionOrder": 4,
+    "weekAvailable": 36,
+    "weekDeadline": 40,
+    "prerequisites": [
+      { "stat": "flags.both_agencies_weakened", "operator": "==", "value": true },
+      { "stat": "flags.law_enforcement_choice_made", "operator": "==", "value": true }
+    ]
   }
 ]
