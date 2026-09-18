@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
-import { useNewsStore } from '../stores/newsStore'
 import { useDecreeStore } from '../stores/decreeStore'
 import StatsPanel from './panels/StatsPanel'
 
@@ -34,15 +33,6 @@ const ICON_PROPS = {
   'aria-hidden': true,
 }
 
-function NewspaperIcon() {
-  return (
-    <svg {...ICON_PROPS}>
-      <rect x="3" y="5" width="18" height="14" rx="1.5" />
-      <path d="M7 9h4v4H7zM13.5 9.5h4M13.5 12.5h4M7 16h10.5" />
-    </svg>
-  )
-}
-
 function DecreeIcon() {
   return (
     <svg {...ICON_PROPS}>
@@ -69,8 +59,6 @@ interface SideButtonProps {
   active?: boolean
   /** Exact count pill — used where the number itself matters (Decrees). */
   badge?: number
-  /** Presence-only gold dot at bottom-right. */
-  dot?: boolean
   onClick: () => void
   'data-testid'?: string
 }
@@ -80,7 +68,6 @@ function SideButton({
   label,
   active,
   badge,
-  dot,
   onClick,
   'data-testid': testId,
 }: SideButtonProps) {
@@ -165,32 +152,16 @@ function SideButton({
             {badge > 99 ? '99+' : badge}
           </div>
         )}
-
-        {dot && !hasBadge && (
-          <div style={{
-            position: 'absolute',
-            bottom: '-2px',
-            right: '-2px',
-            width: '12px',
-            height: '12px',
-            borderRadius: '50%',
-            background: UNREAD_GOLD,
-            border: `1.5px solid ${RING_BG}`,
-            boxSizing: 'border-box',
-            pointerEvents: 'none',
-          }} />
-        )}
       </button>
     </div>
   )
 }
 
-// ─── LeftSidebar — News + Decrees + National Statistics ───────────────────────
+// ─── LeftSidebar — Decrees + National Statistics ──────────────────────────────
+// News lives in RightSidebar only (its tan circle carries the unread count).
 
 export default function LeftSidebar() {
   const { setDecreeInboxOpen, decreeInboxOpen } = useSettingsStore()
-  const setNewsOpen = useNewsStore(s => s.setOpen)
-  const unreadCount = useNewsStore(s => s.articles.length - (s.lastReadIndex + 1))
   const pendingCount = useDecreeStore(s => s.pendingDecrees.length)
 
   const [statsOpen, setStatsOpen] = useState(false)
@@ -214,16 +185,6 @@ export default function LeftSidebar() {
           background: 'transparent',
         }}
       >
-        {/* Presence dot only: the exact unread count lives in the right rail's News circle */}
-        <SideButton
-          icon={<NewspaperIcon />}
-          label="News Dispatch"
-          dot={unreadCount > 0}
-          onClick={() => {
-            setNewsOpen(true)
-          }}
-        />
-
         <SideButton
           icon={<DecreeIcon />}
           label="Decrees"

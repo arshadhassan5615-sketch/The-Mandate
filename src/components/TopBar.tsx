@@ -287,10 +287,18 @@ export default function TopBar() {
           boxSizing: 'border-box',
           flexShrink: 0,
         }}>
+          {/* The seal asset is dark line-art; flatten it to black, invert to
+              white, then warm it so it reads cream-gold on the dark circle. */}
           <img
             src={veltriaSeal}
             alt="Seal of the Republic of Veltria"
-            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              display: 'block',
+              filter: 'brightness(0) invert(1) sepia(0.3) saturate(3) hue-rotate(10deg)',
+            }}
           />
         </div>
 
