@@ -311,6 +311,10 @@ const PLAYER_ID = 'katerin_ashavel'
 // stack is pinned this far inside the viewport's edge instead of vanishing.
 const STACK_CLAMP_PAD_PX = 24
 
+// Vertical nudge so the current medallion sits on the speaker's name line
+// rather than the paragraph above it.
+const PORTRAIT_NUDGE_PX = 32
+
 // Medallion size swaps must be instant. The name label changes in the same
 // render as the size targets, so any width/height transition or enter-scale
 // animation leaves the previous speaker visually larger for its duration
@@ -667,7 +671,7 @@ export default function ConversationPanel({
   const firstMedallionSize = stackOrder.length > 0 && stackOrder[0] === currentSpeakerId
     ? medallionSizes.current
     : medallionSizes.other
-  const stackTop = speakerLabelTop !== null ? Math.round(speakerLabelTop - firstMedallionSize / 2) : null
+  const stackTop = speakerLabelTop !== null ? Math.round(speakerLabelTop - firstMedallionSize / 2 + PORTRAIT_NUDGE_PX) : null
 
   // Measure the anchored label so the stack tracks it through typing,
   // scrolling and resizing. Clamped to the history viewport's edges.
