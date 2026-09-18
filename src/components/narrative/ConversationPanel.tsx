@@ -270,49 +270,73 @@ const REACTION_TEXT_STYLE: React.CSSProperties = {
   color: '#b8ad95',
 }
 
-// Portrait stack — every participant except Katerin, current speaker last.
-// Desktop: hangs outside the panel's left edge. Mobile: a row in the top padding.
-const DESKTOP_STACK_STYLE: React.CSSProperties = {
-  position: 'absolute',
-  right: 'calc(100% + 10px)',
-  top: '14vh', // fallback only — overridden by the measured speaker-label position
-  width: '96px',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-end',
-  gap: '10px',
-  zIndex: 601,
-  pointerEvents: 'none',
-  background: 'transparent',
-}
-
-const MOBILE_STACK_STYLE: React.CSSProperties = {
-  position: 'absolute',
-  top: '10px',
-  left: '16px',
-  right: '64px',
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'flex-end',
-  gap: '8px',
-  zIndex: 601,
-  pointerEvents: 'none',
-  background: 'transparent',
-  overflow: 'hidden',
-}
-
-const MEDALLION_SIZE = { desktop: { current: 84, other: 44 }, mobile: { current: 52, other: 32 } }
-const RING_PADDING_PX = 2.5
-
-// The player never gets a medallion, whatever role she plays in a segment.
+// The player never gets a portrait, whatever role she plays in a segment.
 const PLAYER_ID = 'katerin_ashavel'
 
-// When the anchored speaker label scrolls out of the history viewport, the
-// stack is pinned this far inside the viewport's edge instead of vanishing.
-const STACK_CLAMP_PAD_PX = 24
+// Inline speaker portraits: one per speaker turn, beside the name label. The
+// most recent turn in the whole panel is "current" (large, bright); every
+// earlier turn in scrollback is small and dim.
+const PORTRAIT_SIZE = { current: 64, other: 36 }
+const ACTIVE_TURN_KEY = '__active__'
 
-const MEDALLION_TRANSITION =
-  'width 0.35s cubic-bezier(0.22,1,0.36,1), height 0.35s cubic-bezier(0.22,1,0.36,1)'
+// ─── Speaker header: portrait + "NAME :" rendered once at the top of a turn ──
+
+function SpeakerHeader({ characterId, label, color, isCurrent, showPortrait = true }: {
+  characterId: string
+  label: string
+  color: string
+  isCurrent: boolean
+  showPortrait?: boolean
+}) {
+  const hasPortrait = showPortrait && characterId !== '' && characterId !== PLAYER_ID
+  const img = hasPortrait ? getPortrait(characterId) : undefined
+  const size = isCurrent ? PORTRAIT_SIZE.current : PORTRAIT_SIZE.other
+  const initials = label.split(' ').map(w => w[0] ?? '').join('').slice(0, 2).toUpperCase()
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+      {hasPortrait && (
+        <div style={{
+          width: `${size}px`,
+          height: `${size}px`,
+          borderRadius: '50%',
+          overflow: 'hidden',
+          flexShrink: 0,
+          border: isCurrent ? '2px solid #d9c48a' : '1.5px solid rgba(181,154,94,0.4)',
+          opacity: isCurrent ? 1 : 0.5,
+          boxShadow: isCurrent ? '0 0 14px rgba(201,168,76,0.4)' : 'none',
+          background: '#0a0806',
+          transition: 'all 0.35s ease',
+        }}>
+          {img ? (
+            <img
+              src={img}
+              alt={label}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+            />
+          ) : (
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(201,168,76,0.2)',
+            }}>
+              <span style={{
+                fontFamily: "'Crimson Text', Georgia, serif",
+                fontWeight: 600,
+                fontSize: isCurrent ? '22px' : '13px',
+                color: '#c9a84c',
+              }}>{initials}</span>
+            </div>
+          )}
+        </div>
+      )}
+      <span style={{ ...SPEAKER_LABEL_STYLE, marginBottom: 0, color }}>{`${label} :`}</span>
+    </div>
+  )
+}
 
 interface ConversationHistoryEntry {
   id: string
@@ -379,13 +403,7 @@ export default function ConversationPanel({
   // Per-portrait image error tracking — half-implemented; portrait fallback uses img/initials instead
   // const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
 
-  // Track the top of the stack for entrance animations
-  const prevTopSpeakerRef = useRef<string | undefined>(undefined)
   const panelInnerRef = useRef<HTMLDivElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  // Label of whoever is speaking now; the portrait stack is anchored to it.
-  const activeLabelRef = useRef<HTMLDivElement>(null)
-  const [speakerLabelTop, setSpeakerLabelTop] = useState<number | null>(null)
 
   // Deterministic stack built from actual history (prevents skipping bugs)
   const speakerStack = useMemo(() => {
@@ -414,9 +432,6 @@ export default function ConversationPanel({
 
     return stack
   }, [history, activeSegment])
-
-  // Which speaker just entered (for entrance animation trigger)
-  const [newSpeakerId, setNewSpeakerId] = useState<string | undefined>(undefined)
 
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {
@@ -450,7 +465,6 @@ export default function ConversationPanel({
     setMonologueDone(false)
     setMonologueFading(false)
     setMonologueVisible(false)
-    prevTopSpeakerRef.current = undefined
   }, [monologueText])
 
   const dismissMonologue = useCallback(() => {
@@ -627,30 +641,18 @@ export default function ConversationPanel({
     }
   }, [history, activeText])
 
-  // Trigger entrance animation when the active speaker changes
-  useEffect(() => {
-    const topSpeaker = speakerStack[speakerStack.length - 1]
-    if (topSpeaker && topSpeaker !== prevTopSpeakerRef.current) {
-      setNewSpeakerId(topSpeaker)
-      const t = setTimeout(() => setNewSpeakerId(undefined), 400)
-      prevTopSpeakerRef.current = topSpeaker
-      return () => clearTimeout(t)
-    }
-  }, [speakerStack])
-
   // Track inner content height and animate wrapper
   useEffect(() => {
     // ResizeObserver disabled to allow full-height CSS layout
   }, [])
 
-  const displayStack = speakerStack
-  // Column order: whoever is speaking now first, then the others by recency,
-  // so the top medallion sits beside the anchored speaker label.
-  const stackOrder = [...displayStack].reverse()
+  // Retained per spec: LRU list of everyone who has spoken (Katerin excluded).
+  // The inline render below does not need it; kept for "who is here" callers.
+  void speakerStack
 
   // Speaker runs. A run is broken only by dialogue from a different speaker;
   // descriptions and internal thoughts inside a turn do not restart it, so a
-  // speaker's name renders once at the top of the run and never per line.
+  // speaker's portrait + name render once at the top of the run, never per line.
   const labelledEntryIds = new Set<string>()
   let runStartEntryId: string | null = null
   let lastSpokenSpeaker: string | null = null
@@ -664,57 +666,19 @@ export default function ConversationPanel({
     }
   }
 
-  // Whoever is actually speaking now. Katerin never has a medallion, so when
-  // she speaks nobody is marked current and the others stay small.
+  // The active block opens a new turn only when its speaker differs from the
+  // last spoken run in history; otherwise its lines continue that run.
   const activeType = activeSegment ? effectiveSegmentType(activeSegment.type) : null
-  const isActiveContinuation = activeType === 'dialogue' && lastSpokenSpeaker === (activeSegment?.character ?? '')
-  const speakingNow = activeType === 'dialogue'
-    ? (activeSegment?.character ?? '')
-    : (lastSpokenSpeaker ?? speakingCharacter ?? '')
-  const currentSpeakerId = speakingNow === PLAYER_ID ? '' : speakingNow
+  const activeSpeakerId = activeSegment?.character ?? speakingCharacter ?? ''
+  const isActiveContinuation = activeType === 'dialogue' && lastSpokenSpeaker === activeSpeakerId
+  const activeOpensTurn = activeType === 'dialogue' && !isActiveContinuation
 
-  // Which label the stack anchors to: the active speaker's label when it
-  // opens a new run, otherwise the label at the start of the current run.
-  const anchorIsActive = activeType === 'dialogue' && !isActiveContinuation
-  const anchorEntryId = anchorIsActive ? null : runStartEntryId
-
-  const medallionSizes = isMobile ? MEDALLION_SIZE.mobile : MEDALLION_SIZE.desktop
-  const firstMedallionSize = stackOrder.length > 0 && stackOrder[0] === currentSpeakerId
-    ? medallionSizes.current
-    : medallionSizes.other
-  const stackTop = speakerLabelTop !== null ? Math.round(speakerLabelTop - firstMedallionSize / 2) : null
-
-  // Measure the anchored label so the stack tracks it through typing,
-  // scrolling and resizing. Clamped to the history viewport's edges.
-  const measureSpeakerLabel = useCallback(() => {
-    if (isMobile) { setSpeakerLabelTop(null); return }
-    const label = activeLabelRef.current
-    const panel = panelRef.current
-    const scroller = historyRef.current
-    if (!label || !panel || !scroller) { setSpeakerLabelTop(null); return }
-    const labelRect = label.getBoundingClientRect()
-    const panelRect = panel.getBoundingClientRect()
-    const viewRect = scroller.getBoundingClientRect()
-    const labelCenter = labelRect.top + labelRect.height / 2
-    const clamped = Math.min(
-      Math.max(labelCenter, viewRect.top + STACK_CLAMP_PAD_PX),
-      viewRect.bottom - STACK_CLAMP_PAD_PX,
-    )
-    setSpeakerLabelTop(Math.round(clamped - panelRect.top))
-  }, [isMobile])
-
-  // Re-measure only when the speaker changes (a new run begins) or the scene
-  // resets — never per line, per keystroke or per scroll. A plain effect
-  // declared after the auto-scroll effects, so the run's opening label is
-  // measured after the history has scrolled to reveal it.
-  useEffect(() => {
-    measureSpeakerLabel()
-  }, [measureSpeakerLabel, speakingNow, currentScene])
-
-  useEffect(() => {
-    window.addEventListener('resize', measureSpeakerLabel)
-    return () => window.removeEventListener('resize', measureSpeakerLabel)
-  }, [measureSpeakerLabel])
+  // Exactly one turn is "current": the most recent one in the combined
+  // sequence — the active block when it opens a turn, else the last run in
+  // history. Its portrait renders large and bright; every earlier turn's
+  // portrait in scrollback renders small and dim. Katerin's turns have no
+  // portrait, so when she is last nothing is bright.
+  const currentTurnKey = activeOpensTurn ? ACTIVE_TURN_KEY : runStartEntryId
 
   // Plain "…" line in place of the old uppercase button. The routing text
   // ("Proceed to Evening Review", "Continue to Next Meeting (2/3)") is kept;
@@ -776,7 +740,7 @@ export default function ConversationPanel({
 
       {currentScene && (
       <>
-      <div ref={panelRef} style={panelStyle}>
+      <div style={panelStyle}>
 
         {/* Scroll-to-top chevron */}
         <button
@@ -820,96 +784,6 @@ export default function ConversationPanel({
           </svg>
         </button>
 
-        <div style={isMobile
-          ? MOBILE_STACK_STYLE
-          : {
-              ...DESKTOP_STACK_STYLE,
-              ...(stackTop !== null ? { top: `${stackTop}px` } : {}),
-              transition: 'top 0.18s ease-out',
-            }}
-        >
-          {stackOrder.map((charId) => {
-            const isCurrent = charId === currentSpeakerId
-            const img = getPortrait(charId)
-            const name = charName(charId)
-            const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()
-            const size = isCurrent ? medallionSizes.current : medallionSizes.other
-            return (
-              /* Outer ring: metallic gradient only for the current speaker.
-                 Same DOM shape in both states so width/height can transition. */
-              <div
-                key={charId}
-                style={{
-                  width: `${size}px`,
-                  height: `${size}px`,
-                  flexShrink: 0,
-                  boxSizing: 'border-box',
-                  borderRadius: '50%',
-                  padding: isCurrent ? `${RING_PADDING_PX}px` : 0,
-                  background: isCurrent
-                    ? 'linear-gradient(135deg,#d9c48a 0%,#8a7440 50%,#d9c48a 100%)'
-                    : 'transparent',
-                  boxShadow: isCurrent
-                    ? '0 0 0 1px #2a2419, 0 0 18px rgba(201,168,76,0.35)'
-                    : 'none',
-                  transition: MEDALLION_TRANSITION,
-                  animation: charId === newSpeakerId ? 'portrait-enter 0.35s ease-out' : undefined,
-                }}
-              >
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  boxSizing: 'border-box',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: isCurrent ? 'none' : '2px solid #b59a5e',
-                  background: '#0a0806',
-                }}>
-                  {img ? (
-                    <img
-                      src={img}
-                      alt={name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center top',
-                        display: 'block',
-                      }}
-                    />
-                  ) : (
-                    <div style={{
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: 'rgba(201,168,76,0.2)',
-                    }}>
-                      <span style={{
-                        fontFamily: "'Crimson Text', Georgia, serif",
-                        fontWeight: 600,
-                        fontSize: isCurrent ? '28px' : '16px',
-                        color: '#c9a84c',
-                      }}>{initials}</span>
-                    </div>
-                  )}
-                  {/* Dark inner ring drawn above the image (an inset shadow on
-                      the container would be hidden behind it). */}
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    borderRadius: '50%',
-                    boxShadow: isCurrent ? 'inset 0 0 0 2px #14110d' : 'inset 0 0 0 1px #14110d',
-                    pointerEvents: 'none',
-                  }} />
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
         {/* Inner text column. The dialogue history below is the scroller;
             this column only scrolls if the pinned bottom sections overflow. */}
         <div
@@ -921,7 +795,7 @@ export default function ConversationPanel({
             minHeight: 0,
             display: 'flex',
             flexDirection: 'column',
-            padding: isMobile ? '84px 16px 16px 16px' : '56px 32px 24px 32px',
+            padding: isMobile ? '56px 16px 16px 16px' : '56px 32px 24px 32px',
             boxSizing: 'border-box',
             background: 'transparent',
             borderTop: 'none',
@@ -1016,17 +890,15 @@ export default function ConversationPanel({
               >
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
-                  {/* Speaker name — full colour, rendered as "NAME :" */}
+                  {/* Turn header — portrait + "NAME :" once per speaker run */}
                   {showLabel && (
-                    <div
-                      ref={entry.id === anchorEntryId ? activeLabelRef : undefined}
-                      style={{
-                        ...SPEAKER_LABEL_STYLE,
-                        color: isPlayer ? PLAYER_LABEL_COLOR : speakerColor(entry.characterId ?? ''),
-                      }}
-                    >
-                      {`${labelText} :`}
-                    </div>
+                    <SpeakerHeader
+                      characterId={entry.characterId ?? ''}
+                      label={labelText}
+                      color={isPlayer ? PLAYER_LABEL_COLOR : speakerColor(entry.characterId ?? '')}
+                      isCurrent={currentTurnKey === entry.id}
+                      showPortrait={!isPlayer}
+                    />
                   )}
                   {/* internal_thought / monologue — no label, ✦ symbol */}
                   {entry.type === 'internal_thought' && (
@@ -1065,16 +937,13 @@ export default function ConversationPanel({
                 {(() => {
                   return (
                     <>
-                      {anchorIsActive && (
-                        <div
-                          ref={activeLabelRef}
-                          style={{
-                            ...SPEAKER_LABEL_STYLE,
-                            color: speakerColor(activeSegment.character ?? ''),
-                          }}
-                        >
-                          {`${charName(activeSegment.character ?? '')} :`}
-                        </div>
+                      {activeOpensTurn && (
+                        <SpeakerHeader
+                          characterId={activeSpeakerId}
+                          label={charName(activeSpeakerId)}
+                          color={speakerColor(activeSpeakerId)}
+                          isCurrent={currentTurnKey === ACTIVE_TURN_KEY}
+                        />
                       )}
                       {/* internal_thought / monologue — no label, ✦ symbol */}
                       {activeType === 'internal_thought' && (
