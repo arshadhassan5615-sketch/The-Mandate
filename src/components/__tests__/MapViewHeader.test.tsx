@@ -1,4 +1,4 @@
-// MapHeader helper cluster: pan/hotkey guidance only (no CLOSE MAP button).
+// MapHeader removed: the map has no header cluster, CLOSE MAP button or helper text.
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, it, expect, beforeEach } from 'vitest'
@@ -16,34 +16,23 @@ function openMap() {
   useSettingsStore.setState({ mapOpen: true })
 }
 
-describe('MapView MapHeader helper', () => {
+describe('MapView header removal', () => {
   beforeEach(() => {
     useSettingsStore.setState({ mapOpen: false })
   })
 
-  it('shipped MapView source has zero CLOSE MAP strings', () => {
+  it('shipped MapView source has no header cluster, CLOSE MAP or helper strings', () => {
     expect(MAPVIEW_SRC).not.toMatch(/CLOSE MAP/)
-    expect(MAPVIEW_SRC).toMatch(/Drag to pan · hover provinces · M to close/)
+    expect(MAPVIEW_SRC).not.toMatch(/function MapHeader/)
+    expect(MAPVIEW_SRC).not.toMatch(/Drag to pan · hover provinces · M to close/)
   })
 
-  it('shows pan/hotkey helper without a CLOSE MAP button', () => {
+  it('open map renders no header cluster, helper text or CLOSE MAP button', () => {
     openMap()
     render(<MapView />)
 
     expect(screen.queryByRole('button', { name: /CLOSE MAP/i })).toBeNull()
-    const helper = screen.getByText('Drag to pan · hover provinces · M to close')
-    expect(helper).toBeInTheDocument()
-
-    const cluster = screen.getByTestId('map-header-close-cluster')
-    expect(cluster.contains(helper)).toBe(true)
-
-    // Muted helper styling — not a free-floating full-width bar child
-    expect(helper.style.color).toBe('var(--muted)')
-    expect(cluster.style.position).toBe('fixed')
-    expect(cluster.style.right).toBe('12px')
-    expect(cluster.style.top).toBe('64px')
-    // Not a full-width spanning header
-    expect(cluster.style.left).not.toBe('0px')
-    expect(cluster.style.width).not.toBe('100%')
+    expect(screen.queryByText('Drag to pan · hover provinces · M to close')).toBeNull()
+    expect(screen.queryByTestId('map-header-close-cluster')).toBeNull()
   })
 })

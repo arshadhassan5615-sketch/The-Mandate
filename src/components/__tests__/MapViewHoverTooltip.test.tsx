@@ -33,8 +33,8 @@ describe('MapView province hover tooltip removal', () => {
     render(<MapView />)
     expect(screen.queryByText('Open Province Info')).toBeNull()
     expect(screen.queryByText(/View Active Events/)).toBeNull()
-    // Header helper remains; CLOSE MAP button removed
-    expect(screen.getByText('Drag to pan · hover provinces · M to close')).toBeInTheDocument()
+    // Header cluster removed entirely, along with its CLOSE MAP button
+    expect(screen.queryByText('Drag to pan · hover provinces · M to close')).toBeNull()
     expect(screen.queryByRole('button', { name: /CLOSE MAP/i })).toBeNull()
   })
 })

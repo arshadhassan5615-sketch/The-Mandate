@@ -130,39 +130,6 @@ const THORNFELD = PROVINCE_PIN_POSITIONS.thornfeld
 const ALDENMOOR = PROVINCE_PIN_POSITIONS.aldenmoor
 const SEVAGRAD = PROVINCE_PIN_POSITIONS.sevagrad
 
-// ─── Map Header ──────────────────────────────────────────────────────────────
-// Compact helper cluster (not a full-width bar) so TopBar chips stay free.
-// Shows pan/hotkey guidance only — map closes via M, not a header button.
-
-function MapHeader() {
-  return (
-    <div
-      data-testid="map-header-close-cluster"
-      style={{
-        position: 'fixed', top: '64px', right: '80px', zIndex: 10010,
-        display: 'flex', alignItems: 'center', gap: '0.65rem',
-        padding: '6px 10px',
-        background: 'rgba(10,8,6,0.85)',
-        borderRadius: '6px',
-        border: '1px solid rgba(201,168,76,0.2)',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
-      }}
-    >
-      {false && (
-        <span style={{
-          fontSize: '0.52rem',
-          letterSpacing: '0.08em',
-          color: 'var(--muted)',
-          whiteSpace: 'nowrap',
-          fontFamily: "'IBM Plex Mono', monospace",
-        }}>
-          Drag to pan · hover provinces · M to close
-        </span>
-      )}
-    </div>
-  )
-}
-
 // ─── Main MapView ─────────────────────────────────────────────────────────────
 
 export default function MapView({ onProvinceDetail }: {
@@ -450,8 +417,8 @@ export default function MapView({ onProvinceDetail }: {
                   }}
                   draggable={false}
                 />
-                {/* Province name tooltip on hover */}
-                {isHovered && (
+                {/* Events hint on hover — only when there is something to say */}
+                {isHovered && hasScenes && (
                   <div style={{
                     position: 'absolute',
                     bottom: 'calc(100% + 6px)',
@@ -495,9 +462,7 @@ export default function MapView({ onProvinceDetail }: {
       background: '#7a9aaa',
       fontFamily: "'IBM Plex Mono', 'Special Elite', monospace",
     }}>
-      <MapHeader />
-
-      {/* Pannable container — covers full viewport, header floats on top */}
+      {/* Pannable container — covers full viewport; the map closes via M */}
       <div
         style={{
           position: 'absolute',
@@ -696,8 +661,8 @@ export default function MapView({ onProvinceDetail }: {
                   }}
                   draggable={false}
                 />
-                {/* Province name tooltip on hover */}
-                {isHovered && (
+                {/* Events hint on hover — only when there is something to say */}
+                {isHovered && hasScenes && (
                   <div style={{
                     position: 'absolute',
                     bottom: 'calc(100% + 6px)',

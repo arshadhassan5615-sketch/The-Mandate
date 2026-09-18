@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
+import { useRef, useEffect, useLayoutEffect, useState, useCallback, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
 import type { CodexEntry } from '../../types/codex'
@@ -275,8 +275,8 @@ const REACTION_TEXT_STYLE: React.CSSProperties = {
 const DESKTOP_STACK_STYLE: React.CSSProperties = {
   position: 'absolute',
   right: 'calc(100% + 10px)',
-  top: '14vh',
-  width: '120px',
+  top: '14vh', // fallback only — overridden by the measured speaker-label position
+  width: '96px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-end',
@@ -301,7 +301,15 @@ const MOBILE_STACK_STYLE: React.CSSProperties = {
   overflow: 'hidden',
 }
 
-const MEDALLION_SIZE = { desktop: { current: 112, other: 56 }, mobile: { current: 64, other: 40 } }
+const MEDALLION_SIZE = { desktop: { current: 84, other: 44 }, mobile: { current: 52, other: 32 } }
+const RING_PADDING_PX = 2.5
+
+// The player never gets a medallion, whatever role she plays in a segment.
+const PLAYER_ID = 'katerin_ashavel'
+
+// When the anchored speaker label scrolls out of the history viewport, the
+// stack is pinned this far inside the viewport's edge instead of vanishing.
+const STACK_CLAMP_PAD_PX = 24
 
 const MEDALLION_TRANSITION =
   'width 0.35s cubic-bezier(0.22,1,0.36,1), height 0.35s cubic-bezier(0.22,1,0.36,1)'
@@ -374,21 +382,23 @@ export default function ConversationPanel({
   // Track the top of the stack for entrance animations
   const prevTopSpeakerRef = useRef<string | undefined>(undefined)
   const panelInnerRef = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  // Label of whoever is speaking now; the portrait stack is anchored to it.
+  const activeLabelRef = useRef<HTMLDivElement>(null)
+  const [speakerLabelTop, setSpeakerLabelTop] = useState<number | null>(null)
 
   // Deterministic stack built from actual history (prevents skipping bugs)
   const speakerStack = useMemo(() => {
     const stack: string[] = []
     const processId = (id: string | undefined) => {
-      if (!id) return
+      if (!id || id === PLAYER_ID) return
       const idx = stack.indexOf(id)
       if (idx > -1) stack.splice(idx, 1)
       stack.push(id)
     }
 
     // 1. Seed with primary character so narrative openings aren't empty
-    if (activeSegment?.primaryCharacter && activeSegment.primaryCharacter !== 'katerin_ashavel') {
-      processId(activeSegment.primaryCharacter)
-    }
+    processId(activeSegment?.primaryCharacter)
 
     // 2. Add everyone who actually spoke in history
     history.forEach(entry => {
@@ -634,7 +644,85 @@ export default function ConversationPanel({
   }, [])
 
   const displayStack = speakerStack
-  const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
+  // Column order: whoever is speaking now first, then the others by recency,
+  // so the top medallion sits beside the anchored speaker label.
+  const stackOrder = [...displayStack].reverse()
+
+  // Whoever is actually speaking now. Katerin never has a medallion, so when
+  // she speaks nobody is marked current and the others stay small.
+  const lastDialogueIndex = (() => {
+    for (let i = history.length - 1; i >= 0; i--) {
+      const t = history[i].type
+      if (t === 'dialogue' || t === 'player_spoken') return i
+    }
+    return -1
+  })()
+  const activeType = activeSegment ? effectiveSegmentType(activeSegment.type) : null
+  const lastHistoryEntry = history.length > 0 ? history[history.length - 1] : null
+  const isActiveContinuation = !!(activeSegment && lastHistoryEntry && lastHistoryEntry.characterId === activeSegment.character && activeType === 'dialogue')
+  const speakingNow = activeType === 'dialogue'
+    ? (activeSegment?.character ?? '')
+    : lastDialogueIndex >= 0
+      ? (history[lastDialogueIndex].characterId ?? '')
+      : (speakingCharacter ?? '')
+  const currentSpeakerId = speakingNow === PLAYER_ID ? '' : speakingNow
+
+  // Which label the stack anchors to: the active speaker's label when it
+  // renders, otherwise the label at the start of the latest same-speaker run
+  // in history (mirrors the isContinuation rule used when rendering).
+  const anchorIsActive = activeType === 'dialogue' && !isActiveContinuation
+  const anchorEntryId = (() => {
+    if (anchorIsActive || lastDialogueIndex < 0) return null
+    let i = lastDialogueIndex
+    while (i > 0 && history[i - 1].characterId === history[i].characterId) i--
+    return history[i].id
+  })()
+
+  const medallionSizes = isMobile ? MEDALLION_SIZE.mobile : MEDALLION_SIZE.desktop
+  const firstMedallionSize = stackOrder.length > 0 && stackOrder[0] === currentSpeakerId
+    ? medallionSizes.current
+    : medallionSizes.other
+  const stackTop = speakerLabelTop !== null ? Math.round(speakerLabelTop - firstMedallionSize / 2) : null
+
+  // Measure the anchored label so the stack tracks it through typing,
+  // scrolling and resizing. Clamped to the history viewport's edges.
+  const measureSpeakerLabel = useCallback(() => {
+    if (isMobile) { setSpeakerLabelTop(null); return }
+    const label = activeLabelRef.current
+    const panel = panelRef.current
+    const scroller = historyRef.current
+    if (!label || !panel || !scroller) { setSpeakerLabelTop(null); return }
+    const labelRect = label.getBoundingClientRect()
+    const panelRect = panel.getBoundingClientRect()
+    const viewRect = scroller.getBoundingClientRect()
+    const labelCenter = labelRect.top + labelRect.height / 2
+    const clamped = Math.min(
+      Math.max(labelCenter, viewRect.top + STACK_CLAMP_PAD_PX),
+      viewRect.bottom - STACK_CLAMP_PAD_PX,
+    )
+    setSpeakerLabelTop(Math.round(clamped - panelRect.top))
+  }, [isMobile])
+
+  useLayoutEffect(() => {
+    measureSpeakerLabel()
+  }, [measureSpeakerLabel, history, activeText, anchorEntryId, anchorIsActive, actualShowChoices, activeReactions, sceneDone, advanceReady, currentScene])
+
+  useEffect(() => {
+    const scroller = historyRef.current
+    if (!scroller) return
+    let raf: number | null = null
+    const schedule = () => {
+      if (raf !== null) return
+      raf = requestAnimationFrame(() => { raf = null; measureSpeakerLabel() })
+    }
+    scroller.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      scroller.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+      if (raf !== null) cancelAnimationFrame(raf)
+    }
+  }, [measureSpeakerLabel, currentScene, phase])
 
   // Plain "…" line in place of the old uppercase button. The routing text
   // ("Proceed to Evening Review", "Continue to Next Meeting (2/3)") is kept;
@@ -696,7 +784,7 @@ export default function ConversationPanel({
 
       {currentScene && (
       <>
-      <div style={panelStyle}>
+      <div ref={panelRef} style={panelStyle}>
 
         {/* Scroll-to-top chevron */}
         <button
@@ -740,14 +828,20 @@ export default function ConversationPanel({
           </svg>
         </button>
 
-        <div style={isMobile ? MOBILE_STACK_STYLE : DESKTOP_STACK_STYLE}>
-          {displayStack.map((charId) => {
+        <div style={isMobile
+          ? MOBILE_STACK_STYLE
+          : {
+              ...DESKTOP_STACK_STYLE,
+              ...(stackTop !== null ? { top: `${stackTop}px` } : {}),
+              transition: 'top 0.18s ease-out',
+            }}
+        >
+          {stackOrder.map((charId) => {
             const isCurrent = charId === currentSpeakerId
             const img = getPortrait(charId)
             const name = charName(charId)
             const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()
-            const sizes = isMobile ? MEDALLION_SIZE.mobile : MEDALLION_SIZE.desktop
-            const size = isCurrent ? sizes.current : sizes.other
+            const size = isCurrent ? medallionSizes.current : medallionSizes.other
             return (
               /* Outer ring: metallic gradient only for the current speaker.
                  Same DOM shape in both states so width/height can transition. */
@@ -759,7 +853,7 @@ export default function ConversationPanel({
                   flexShrink: 0,
                   boxSizing: 'border-box',
                   borderRadius: '50%',
-                  padding: isCurrent ? '3px' : 0,
+                  padding: isCurrent ? `${RING_PADDING_PX}px` : 0,
                   background: isCurrent
                     ? 'linear-gradient(135deg,#d9c48a 0%,#8a7440 50%,#d9c48a 100%)'
                     : 'transparent',
@@ -804,7 +898,7 @@ export default function ConversationPanel({
                       <span style={{
                         fontFamily: "'Crimson Text', Georgia, serif",
                         fontWeight: 600,
-                        fontSize: isCurrent ? '38px' : '20px',
+                        fontSize: isCurrent ? '28px' : '16px',
                         color: '#c9a84c',
                       }}>{initials}</span>
                     </div>
@@ -933,10 +1027,13 @@ export default function ConversationPanel({
                 <div style={{ flex: 1 }}>
                   {/* Speaker name — full colour, rendered as "NAME :" */}
                   {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && !isContinuation && (
-                    <div style={{
-                      ...SPEAKER_LABEL_STYLE,
-                      color: isPlayer ? PLAYER_LABEL_COLOR : speakerColor(entry.characterId ?? ''),
-                    }}>
+                    <div
+                      ref={entry.id === anchorEntryId ? activeLabelRef : undefined}
+                      style={{
+                        ...SPEAKER_LABEL_STYLE,
+                        color: isPlayer ? PLAYER_LABEL_COLOR : speakerColor(entry.characterId ?? ''),
+                      }}
+                    >
                       {`${labelText} :`}
                     </div>
                   )}
@@ -975,16 +1072,16 @@ export default function ConversationPanel({
             <div style={ENTRY_ROW_STYLE}>
               <div style={{ flex: 1 }}>
                 {(() => {
-                  const activeType = effectiveSegmentType(activeSegment.type)
-                  const lastHistoryEntry = history.length > 0 ? history[history.length - 1] : null
-                  const isActiveContinuation = lastHistoryEntry && lastHistoryEntry.characterId === activeSegment.character && activeType === 'dialogue'
                   return (
                     <>
-                      {activeType === 'dialogue' && !isActiveContinuation && (
-                        <div style={{
-                          ...SPEAKER_LABEL_STYLE,
-                          color: speakerColor(activeSegment.character ?? ''),
-                        }}>
+                      {anchorIsActive && (
+                        <div
+                          ref={activeLabelRef}
+                          style={{
+                            ...SPEAKER_LABEL_STYLE,
+                            color: speakerColor(activeSegment.character ?? ''),
+                          }}
+                        >
                           {`${charName(activeSegment.character ?? '')} :`}
                         </div>
                       )}

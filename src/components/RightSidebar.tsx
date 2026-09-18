@@ -232,9 +232,19 @@ interface NewsButtonProps {
   onClick: () => void
 }
 
+function NewspaperIcon({ size }: { size: number }) {
+  return (
+    <svg {...ICON_PROPS} width={size} height={size}>
+      <rect x="3.5" y="4.5" width="17" height="15" rx="1.5" />
+      <path d="M7 8h5v4.5H7z" />
+      <path d="M14.5 8.5h3M14.5 11h3M7 15.5h10.5" />
+    </svg>
+  )
+}
+
 function NewsButton({ unread, size, isMobile, onClick }: NewsButtonProps) {
   const [hovered, setHovered] = useState(false)
-  const isLarge = size >= BUTTON_SIZE.news
+  const iconSize = Math.round(size * 0.56)
 
   return (
     <div style={{ position: 'relative', flexShrink: 0 }}>
@@ -253,37 +263,45 @@ function NewsButton({ unread, size, isMobile, onClick }: NewsButtonProps) {
           padding: 0,
           borderRadius: '50%',
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(180deg, #e6d7b2 0%, #c8b283 100%)',
-          border: `1.5px solid ${hovered ? RING_BORDER_LIT : '#8a7440'}`,
-          boxShadow: hovered
-            ? '0 0 14px rgba(201,168,76,0.4), inset 0 0 6px rgba(0,0,0,0.15)'
-            : '0 2px 8px rgba(0,0,0,0.4), inset 0 0 6px rgba(0,0,0,0.15)',
-          color: INK,
+          background: RING_BG,
+          border: `1.5px solid ${hovered ? RING_BORDER_LIT : RING_BORDER}`,
+          boxShadow: hovered ? '0 0 14px rgba(201,168,76,0.4)' : '0 2px 8px rgba(0,0,0,0.4)',
+          color: GOLD_ICON,
           cursor: 'pointer',
           transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+          position: 'relative',
         }}
       >
-        <span style={{
-          fontFamily: SERIF_DISPLAY,
-          fontSize: isLarge ? '1.4rem' : '1.05rem',
-          fontWeight: 700,
-          lineHeight: 1,
-        }}>
-          {unread > 99 ? '99+' : unread}
-        </span>
-        <span style={{
-          fontFamily: SERIF_BODY,
-          fontSize: '0.6rem',
-          fontWeight: 600,
-          letterSpacing: '0.06em',
-          lineHeight: 1,
-          marginTop: '3px',
-        }}>
-          News
-        </span>
+        <NewspaperIcon size={iconSize} />
+
+        {/* Unread count — only when there is something unread */}
+        {unread > 0 && (
+          <div style={{
+            position: 'absolute',
+            top: '-2px',
+            right: '-2px',
+            minWidth: '20px',
+            height: '20px',
+            padding: '0 5px',
+            borderRadius: '10px',
+            background: UNREAD_GOLD,
+            border: `1.5px solid ${RING_BG}`,
+            color: INK,
+            fontFamily: SERIF_DISPLAY,
+            fontSize: '11px',
+            fontWeight: 700,
+            lineHeight: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxSizing: 'border-box',
+            pointerEvents: 'none',
+          }}>
+            {unread > 99 ? '99+' : unread}
+          </div>
+        )}
       </button>
     </div>
   )
