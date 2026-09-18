@@ -1,10 +1,12 @@
 import { create } from 'zustand'
 import type { CodexCategory, CodexEntry } from '../types/codex'
 
-// Load all codex JSON files at build time
+// Load all codex JSON files at build time. `import: 'default'` unwraps each
+// JSON module to its array; without it the glob yields module namespace
+// objects ({ default: [...] }) and .flat() leaves them unflattened.
 const codexModules = import.meta.glob<CodexEntry[]>(
   '../data/codex/*.json',
-  { eager: true },
+  { eager: true, import: 'default' },
 )
 export const ALL_CODEX_ENTRIES: CodexEntry[] = Object.values(codexModules).flat()
 
