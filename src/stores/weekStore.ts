@@ -239,6 +239,15 @@ function makeImpeachmentVindicatedItem(order: number, week: number): AgendaItem 
   }
 }
 
+// Threshold checks for chain-injected crisis scenes (mirrors shouldTriggerImpeachment)
+function shouldTriggerTyvarenMobilization(hostility: number): boolean {
+  return hostility >= 70
+}
+
+function shouldTriggerDeficitCrisis(economyHealth: number): boolean {
+  return economyHealth < -40
+}
+
 interface WeekStore {
   phase: GamePhase
 
@@ -1878,6 +1887,26 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         [{ targetNodeId: 'act4_impeachment_proceedings', delayWeeks: 0 }],
         newWeek,
         'corruption_impeachment',
+      )
+    }
+
+    // Tyvaren mobilization check
+    if (shouldTriggerTyvarenMobilization(nextState.tyvarenHostility) && !corruptionFlags.includes('tyvaren_mobilization')) {
+      useNarrativeStore.getState().addFlags(['tyvaren_mobilization'])
+      useChainStore.getState().schedule(
+        [{ targetNodeId: 'act1_chain_tyvaren_border_standoff', delayWeeks: 0 }],
+        newWeek,
+        'tyvaren_mobilization',
+      )
+    }
+
+    // Deficit crisis check
+    if (shouldTriggerDeficitCrisis(nextState.nation.economyHealth) && !corruptionFlags.includes('deficit_critical')) {
+      useNarrativeStore.getState().addFlags(['deficit_critical'])
+      useChainStore.getState().schedule(
+        [{ targetNodeId: 'act1_chain_deficit_crisis', delayWeeks: 0 }],
+        newWeek,
+        'deficit_critical',
       )
     }
 

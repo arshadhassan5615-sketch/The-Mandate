@@ -510,7 +510,8 @@
             }
           ],
           "flags": [
-            "bni_dissolved"
+            "bni_dissolved",
+            "bni_crisis_resolved"
           ],
           "reactions": [
             {
@@ -533,7 +534,10 @@
             "title": "Dissolved the BNI",
             "category": "policy"
           },
-          "chainTriggers": [],
+          "chainTriggers": [
+            { "targetNodeId": "family_bni_night", "delayWeeks": 1 },
+            { "targetNodeId": "act1_chain_watchtower_leak", "delayWeeks": 8 }
+          ],
           "codexUnlocks": []
         },
         {
@@ -559,7 +563,8 @@
           ],
           "flags": [
             "bni_review",
-            "bni_active"
+            "bni_active",
+            "bni_crisis_resolved"
           ],
           "reactions": [
             {
@@ -587,7 +592,9 @@
             "title": "Ordered BNI Review",
             "category": "policy"
           },
-          "chainTriggers": [],
+          "chainTriggers": [
+            { "targetNodeId": "family_bni_night", "delayWeeks": 1 }
+          ],
           "codexUnlocks": []
         },
         {
@@ -613,7 +620,8 @@
           ],
           "flags": [
             "bni_retained",
-            "bni_active"
+            "bni_active",
+            "bni_crisis_resolved"
           ],
           "reactions": [
             {
@@ -641,7 +649,9 @@
             "title": "Retained the BNI",
             "category": "policy"
           },
-          "chainTriggers": [],
+          "chainTriggers": [
+            { "targetNodeId": "family_bni_night", "delayWeeks": 1 }
+          ],
           "codexUnlocks": []
         },
         {
@@ -667,7 +677,8 @@
           ],
           "flags": [
             "bni_restructured",
-            "oberlin_review_chair"
+            "oberlin_review_chair",
+            "bni_crisis_resolved"
           ],
           "reactions": [
             {
@@ -695,7 +706,9 @@
             "title": "Restructured the BNI",
             "category": "policy"
           },
-          "chainTriggers": [],
+          "chainTriggers": [
+            { "targetNodeId": "family_bni_night", "delayWeeks": 1 }
+          ],
           "codexUnlocks": []
         }
       ]
