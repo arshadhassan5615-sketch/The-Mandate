@@ -1,10 +1,12 @@
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNewsStore } from '../stores/newsStore'
+import { useSettingsStore } from '../stores/settingsStore'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { Z } from '../constants/zIndex'
 import type { BudgetAllocations } from '../types/gameState'
-import iconEconomy from '../assets/images/ui/icon_economy.png'
+import OverviewPanel from './panels/OverviewPanel'
+import veltriaSeal from '../assets/images/veltria_seal.png'
 import iconTreasury from '../assets/images/ui/icon_treasury.png'
 import iconWealth from '../assets/images/ui/icon_wealth.png'
 import iconApproval from '../assets/images/ui/icon_approval.png'
@@ -24,16 +26,165 @@ function weekToDate(week: number): string {
   return `${day} ${month} ${year}`
 }
 
-// ─── Separator ─────────────────────────────────────────────────────────────────
+// ─── Chrome tokens ─────────────────────────────────────────────────────────────
 
-function GoldHairline() {
+const SERIF_DISPLAY = "'Playfair Display', serif"
+const RING_BG = '#14110d'
+const RING_BORDER = '#6b5a34'
+const RING_BORDER_LIT = '#c9a84c'
+const GOLD_ICON = '#d9c48a'
+const CREAM = '#e6dcc3'
+const DELTA_UP = '#2e9e4f'
+const DELTA_DOWN = '#c94a3a'
+
+// How long the "(+3)" delta text stays beside a stat after it moves. The
+// colour keyframe itself still runs 0.6s; the text needs longer to be read.
+const DELTA_VISIBLE_MS = 2000
+
+type FlashState = 'positive' | 'negative' | null
+
+interface EconomyStatus {
+  label: 'STABLE' | 'STRUGGLING' | 'CRITICAL' | 'CRISIS'
+  color: string
+}
+
+function economyStatusFor(health: number): EconomyStatus {
+  if (health >= 20) return { label: 'STABLE', color: '#2e7d3a' }
+  if (health >= -20) return { label: 'STRUGGLING', color: '#8a6d1f' }
+  if (health >= -60) return { label: 'CRITICAL', color: '#a35a1f' }
+  return { label: 'CRISIS', color: '#a33a2a' }
+}
+
+function formatDelta(delta: number): string {
+  const rounded = Math.round(delta)
+  return rounded > 0 ? `(+${rounded.toLocaleString()})` : `(${rounded.toLocaleString()})`
+}
+
+// ─── Crest cluster pieces ──────────────────────────────────────────────────────
+
+function GlobeIcon() {
   return (
-    <div style={{
-      width: 1, height: 22,
-      background: 'linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.3) 50%, transparent 100%)',
-      margin: '0 8px',
-      flexShrink: 0,
-    }} />
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18" />
+    </svg>
+  )
+}
+
+function MenuIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  )
+}
+
+interface RingButtonProps {
+  label: string
+  size: number
+  onClick: () => void
+  children: React.ReactNode
+}
+
+function RingButton({ label, size, onClick, children }: RingButtonProps) {
+  const [isHovered, setIsHovered] = useState(false)
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      title={label}
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        width: size,
+        height: size,
+        padding: 0,
+        borderRadius: '50%',
+        background: RING_BG,
+        border: `1.5px solid ${isHovered ? RING_BORDER_LIT : RING_BORDER}`,
+        boxShadow: isHovered
+          ? '0 0 14px rgba(201,168,76,0.4), inset 0 0 8px rgba(0,0,0,0.4)'
+          : '0 2px 8px rgba(0,0,0,0.5), inset 0 0 8px rgba(0,0,0,0.4)',
+        color: GOLD_ICON,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+        flexShrink: 0,
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
+interface StatChipProps {
+  icon: string
+  alt: string
+  value: string
+  valueColor?: string
+  flash?: FlashState
+  delta?: number
+}
+
+function StatChip({ icon, alt, value, valueColor = CREAM, flash = null, delta = 0 }: StatChipProps) {
+  const showDelta = flash !== null && delta !== 0
+  return (
+    <div
+      title={alt}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+        background: 'rgba(20,17,13,0.85)',
+        border: '1px solid rgba(181,154,94,0.35)',
+        borderRadius: '20px',
+        padding: '4px 12px 4px 6px',
+        flexShrink: 0,
+      }}
+    >
+      <div style={{
+        width: 30,
+        height: 30,
+        borderRadius: '50%',
+        background: RING_BG,
+        border: '1px solid rgba(181,154,94,0.35)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+      }}>
+        <img
+          src={icon}
+          alt={alt}
+          style={{ width: 26, height: 26, filter: 'brightness(2.0) saturate(1.3)', display: 'block' }}
+        />
+      </div>
+      <span style={{
+        fontFamily: SERIF_DISPLAY,
+        fontSize: '0.95rem',
+        fontWeight: 700,
+        color: valueColor,
+        lineHeight: 1,
+        animation: flash ? `stat-flash-${flash} 0.6s ease-out` : undefined,
+      }}>
+        {value}
+      </span>
+      {showDelta && (
+        <span style={{
+          fontFamily: SERIF_DISPLAY,
+          fontSize: '0.7rem',
+          fontWeight: 700,
+          color: delta > 0 ? DELTA_UP : DELTA_DOWN,
+          marginLeft: '4px',
+          lineHeight: 1,
+        }}>
+          {formatDelta(delta)}
+        </span>
+      )}
+    </div>
   )
 }
 
@@ -50,24 +201,32 @@ export default function TopBar() {
   const playerPolling = useGameStore(s => s.playerPolling)
   const kolvarPolling = useGameStore(s => s.kolvarPolling)
   const newsOpen = useNewsStore(s => s.isOpen)
+  const setSettingsOpen = useSettingsStore(s => s.setSettingsOpen)
 
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
   const date = useMemo(() => weekToDate(currentWeek), [currentWeek])
 
   const isMobile = useIsMobile()
 
+  const [overviewOpen, setOverviewOpen] = useState(false)
+
   // Stat-change flash: briefly highlights approval/treasury when their
-  // displayed value moves, so weekly shifts register at a glance.
-  const [approvalFlash, setApprovalFlash] = useState<'positive' | 'negative' | null>(null)
-  const [treasuryFlash, setTreasuryFlash] = useState<'positive' | 'negative' | null>(null)
+  // displayed value moves, so weekly shifts register at a glance. The signed
+  // delta is captured at trigger time and rendered beside the value.
+  const [approvalFlash, setApprovalFlash] = useState<FlashState>(null)
+  const [treasuryFlash, setTreasuryFlash] = useState<FlashState>(null)
+  const [approvalDelta, setApprovalDelta] = useState(0)
+  const [treasuryDelta, setTreasuryDelta] = useState(0)
 
   const prevApproval = useRef(publicImage)
   const prevTreasury = useRef(balance)
 
   useEffect(() => {
     if (publicImage !== prevApproval.current) {
-      setApprovalFlash(publicImage > prevApproval.current ? 'positive' : 'negative')
-      const t = setTimeout(() => setApprovalFlash(null), 600)
+      const delta = publicImage - prevApproval.current
+      setApprovalDelta(delta)
+      setApprovalFlash(delta > 0 ? 'positive' : 'negative')
+      const t = setTimeout(() => setApprovalFlash(null), DELTA_VISIBLE_MS)
       prevApproval.current = publicImage
       return () => clearTimeout(t)
     }
@@ -75,8 +234,10 @@ export default function TopBar() {
 
   useEffect(() => {
     if (balance !== prevTreasury.current) {
-      setTreasuryFlash(balance > prevTreasury.current ? 'positive' : 'negative')
-      const t = setTimeout(() => setTreasuryFlash(null), 600)
+      const delta = balance - prevTreasury.current
+      setTreasuryDelta(delta)
+      setTreasuryFlash(delta > 0 ? 'positive' : 'negative')
+      const t = setTimeout(() => setTreasuryFlash(null), DELTA_VISIBLE_MS)
       prevTreasury.current = balance
       return () => clearTimeout(t)
     }
@@ -86,155 +247,113 @@ export default function TopBar() {
   // (same unmount-while-open pattern as KaterinHUD for agenda/scene/news).
   if (newsOpen) return null
 
-  const approvalColor =
-    publicImage >= 60 ? '#7fa65a' :
-    publicImage >= 35 ? '#c9a84c' :
-    '#e05c4a'
-
-  // Retained data (visuals removed in rewrite): week chip + SoE badge + polling/
-  // approval hidden per spec, but state kept. Void references keep noUnusedLocals clean.
-  void iconEconomy
-  void iconTreasury
-  void iconApproval
-  void GoldHairline
-  void economyHealth
+  // Retained data (visuals removed in rewrite): week/date, SoE badge and
+  // polling are hidden per spec, but state kept. Void references keep
+  // noUnusedLocals clean.
   void playerPolling
   void kolvarPolling
-  void isMobile
-  void approvalFlash
-  void approvalColor
   void stateOfEmergency
   void soeWeek
   void date
 
-  // Shared chrome so left/right chips cannot drift on top/padding independently.
-  const CHIP_TOP = '12px'
-  const CHIP_PADDING = '6px 10px'
-  const chipChrome: React.CSSProperties = {
-    position: 'fixed',
-    top: CHIP_TOP,
-    width: 'auto',
-    zIndex: Z.topBar,
-    background: 'rgba(10,8,6,0.85)',
-    borderRadius: '6px',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
-    border: '1px solid rgba(201,168,76,0.2)',
-    boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
-    fontFamily: "'IBM Plex Mono', monospace",
-    padding: CHIP_PADDING,
-    boxSizing: 'border-box',
-    display: 'flex',
-    alignItems: 'center',
-  }
-
-  void chipChrome
+  const economy = economyStatusFor(economyHealth)
+  const crestSize = isMobile ? 60 : 88
+  const miniSize = isMobile ? 32 : 44
 
   return (
-  <div style={{
-    position: 'fixed',
-    top: '12px',
-    left: '12px',
-    zIndex: Z.topBar,
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    background: 'rgba(10,8,6,0.88)',
-    border: '1px solid rgba(201,168,76,0.25)',
-    borderRadius: '8px',
-    padding: '6px 12px',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
-    fontFamily: "'IBM Plex Mono', monospace",
-  }}>
-    {/* ECONOMY stat */}
-    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-      {/* Circular icon frame */}
+    <>
+      {overviewOpen && <OverviewPanel onClose={() => setOverviewOpen(false)} />}
+
       <div style={{
-        width: '32px',
-        height: '32px',
-        borderRadius: '50%',
-        border: '1.5px solid rgba(201,168,76,0.7)',
-        background: 'rgba(201,168,76,0.08)',
+        position: 'fixed',
+        top: 8,
+        left: 8,
+        zIndex: Z.topBar,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: '0 0 8px rgba(201,168,76,0.3)',
-        flexShrink: 0,
+        flexWrap: isMobile ? 'wrap' : 'nowrap',
+        gap: isMobile ? '6px' : '10px',
+        maxWidth: 'calc(100vw - 16px)',
       }}>
-        <img src={iconEconomy} alt="Economy" style={{
-          width: '20px',
-          height: '20px',
-          filter: 'brightness(2.0) saturate(1.3) drop-shadow(0 0 4px rgba(201,168,76,0.8))',
-        }} />
-      </div>
-      {/* Rectangular value frame */}
-      <div style={{
-        background: 'rgba(201,168,76,0.06)',
-        border: '1px solid rgba(201,168,76,0.3)',
-        borderRadius: '3px',
-        padding: '3px 8px',
-        minWidth: '48px',
-        textAlign: 'center',
-      }}>
-        <span style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: '0.85rem',
-          fontWeight: 600,
-          color: balance < 0 ? '#e05c4a' : '#e8dcc8',
-          textShadow: balance < 0 ? '0 0 8px rgba(224,92,74,0.4)' : '0 0 6px rgba(201,168,76,0.2)',
-          animation: treasuryFlash ? `stat-flash-${treasuryFlash} 0.6s ease-out` : undefined,
+        {/* Crest */}
+        <div style={{
+          width: crestSize,
+          height: crestSize,
+          borderRadius: '50%',
+          border: '3px solid #b59a5e',
+          boxShadow: '0 0 16px rgba(0,0,0,0.5), inset 0 0 8px rgba(0,0,0,0.4)',
+          background: RING_BG,
+          padding: 8,
+          boxSizing: 'border-box',
+          flexShrink: 0,
         }}>
-          ₭{balance.toLocaleString()}
-        </span>
-      </div>
-    </div>
+          <img
+            src={veltriaSeal}
+            alt="Seal of the Republic of Veltria"
+            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+          />
+        </div>
 
-    {/* Divider */}
-    <div style={{ width: 1, height: 28, background: 'rgba(201,168,76,0.25)', margin: '0 4px' }} />
+        {/* Globe (Overview) and menu (Settings) buttons, stacked beside the crest */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0 }}>
+          <RingButton label="Overview" size={miniSize} onClick={() => setOverviewOpen(prev => !prev)}>
+            <GlobeIcon />
+          </RingButton>
+          <RingButton label="Settings" size={miniSize} onClick={() => setSettingsOpen(true)}>
+            <MenuIcon />
+          </RingButton>
+        </div>
 
-    {/* TREASURY / WEALTH stat */}
-    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-      {/* Circular icon frame */}
-      <div style={{
-        width: '32px',
-        height: '32px',
-        borderRadius: '50%',
-        border: '1.5px solid rgba(201,168,76,0.7)',
-        background: 'rgba(201,168,76,0.08)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: '0 0 8px rgba(201,168,76,0.3)',
-        flexShrink: 0,
-      }}>
-        <img src={iconWealth} alt="Wealth" style={{
-          width: '20px',
-          height: '20px',
-          filter: 'brightness(2.0) saturate(1.3) drop-shadow(0 0 4px rgba(201,168,76,0.8))',
-        }} />
+        {/* Economy status badge — tan box, only the status text is tinted */}
+        <div
+          title={`Economy: ${economy.label.toLowerCase()}`}
+          style={{
+            background: '#d8c9a3',
+            color: '#2a2622',
+            padding: '4px 10px',
+            borderRadius: '3px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            lineHeight: 1.2,
+            fontFamily: SERIF_DISPLAY,
+            flexShrink: 0,
+          }}
+        >
+          <span style={{ fontSize: '0.5rem', letterSpacing: '0.15em', fontWeight: 700, opacity: 0.7 }}>
+            ECONOMY
+          </span>
+          <span style={{ fontSize: '0.62rem', fontWeight: 700, textTransform: 'uppercase', color: economy.color }}>
+            {economy.label}
+          </span>
+        </div>
+
+        {/* Stat chips */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
+          <StatChip
+            icon={iconTreasury}
+            alt="Treasury"
+            value={`₭${balance.toLocaleString()}`}
+            valueColor={balance < 0 ? '#e05c4a' : CREAM}
+            flash={treasuryFlash}
+            delta={treasuryDelta}
+          />
+          {!isMobile && (
+            <StatChip
+              icon={iconWealth}
+              alt="Privy Purse"
+              value={personalWealth.toLocaleString()}
+            />
+          )}
+          <StatChip
+            icon={iconApproval}
+            alt="Approval"
+            value={`${Math.round(publicImage)}%`}
+            flash={approvalFlash}
+            delta={approvalDelta}
+          />
+        </div>
       </div>
-      {/* Rectangular value frame */}
-      <div style={{
-        background: 'rgba(201,168,76,0.06)',
-        border: '1px solid rgba(201,168,76,0.3)',
-        borderRadius: '3px',
-        padding: '3px 8px',
-        minWidth: '48px',
-        textAlign: 'center',
-      }}>
-        <span style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: '0.85rem',
-          fontWeight: 600,
-          color: '#c9a84c',
-          textShadow: '0 0 6px rgba(201,168,76,0.3)',
-        }}>
-          {personalWealth.toLocaleString()}
-        </span>
-      </div>
-    </div>
-  </div>
-)
+    </>
+  )
 }

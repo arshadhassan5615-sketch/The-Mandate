@@ -24,32 +24,38 @@ const ACT_LABELS: Record<number, string> = {
   7: 'Act VII',
 }
 
-const PORTRAIT_SIZE = 60
-const FRAME_SIZE    = PORTRAIT_SIZE + 10   // frame ring padding
+// ─── Chrome tokens ─────────────────────────────────────────────────────────────
 
-function MiniOrnateFrame({ children }: { children: React.ReactNode }) {
+const FRAME_WIDTH = 96
+const FRAME_HEIGHT = 104
+const RING_BG = '#14110d'
+const GOLD_LINE = '#b59a5e'
+const GOLD_LIT = '#c9a84c'
+const GOLD_ICON = '#d9c48a'
+const CREAM = '#e6dcc3'
+const SERIF_DISPLAY = "'Playfair Display', serif"
+
+const STRESS_HIGH = 80
+const STRESS_MID = 50
+
+function stressColor(level: number): string {
+  if (level > STRESS_HIGH) return '#e05c4a'
+  if (level > STRESS_MID) return '#c9a84c'
+  return '#7fa65a'
+}
+
+function stressGlow(level: number): string {
+  if (level > STRESS_HIGH) return 'rgba(224,92,74,0.6)'
+  if (level > STRESS_MID) return 'rgba(201,168,76,0.4)'
+  return 'rgba(127,166,90,0.3)'
+}
+
+function PersonIcon() {
   return (
-    <div style={{
-      position: 'relative',
-      width: FRAME_SIZE,
-      height: FRAME_SIZE,
-      flexShrink: 0,
-      borderRadius: '50%',
-      padding: '3px',
-      background: 'linear-gradient(135deg, rgba(201,168,76,0.9) 0%, rgba(160,120,40,0.6) 50%, rgba(201,168,76,0.9) 100%)',
-      boxShadow: '0 0 16px rgba(201,168,76,0.4), 0 0 32px rgba(201,168,76,0.15), inset 0 0 8px rgba(0,0,0,0.4)',
-    }}>
-      <div style={{
-        width: '100%',
-        height: '100%',
-        borderRadius: '50%',
-        overflow: 'hidden',
-        border: '1.5px solid rgba(201,168,76,0.4)',
-        boxShadow: 'inset 0 0 10px rgba(0,0,0,0.6)',
-      }}>
-        {children}
-      </div>
-    </div>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" />
+    </svg>
   )
 }
 
@@ -62,9 +68,11 @@ export default function KaterinHUD() {
 
   const isMobile = useIsMobile()
 
+  const [isIdentityOpen, setIsIdentityOpen] = useState(false)
+
   // Stress-change flash: rising stress flashes red (negative), falling stress
-  // flashes green (positive). Applied to the stress section container so the
-  // label text carries the flash — the color keyframes need text to show.
+  // flashes green (positive). Applied to the stress bar fill as a glow burst
+  // since there is no longer a text label to carry a colour keyframe.
   const [stressFlash, setStressFlash] = useState<'positive' | 'negative' | null>(null)
   const prevStress = useRef(stressLevel)
 
@@ -82,25 +90,59 @@ export default function KaterinHUD() {
   if (phase === 'agenda' || phase === 'scene' || newsOpen) return null
   if (isMobile) return null
 
+  const flashGlow = stressFlash === 'negative'
+    ? '0 0 10px 2px rgba(224,92,74,0.9)'
+    : '0 0 10px 2px rgba(127,166,90,0.9)'
+  const actLabel = ACT_LABELS[currentAct] ?? 'Act I'
+
   return (
     <div style={{
       position: 'fixed',
       bottom: '20px',
       left: '20px',
       zIndex: Z.katerinHud,
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.8rem',
-      background: 'linear-gradient(180deg, rgba(18,16,12,0.85) 0%, rgba(10,8,6,0.95) 100%)',
-      border: '1px solid rgba(201,168,76,0.2)',
-      borderRadius: '4px',
-      padding: '8px 16px 8px 8px',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
-      boxShadow: '0 4px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,220,160,0.05)',
-      fontFamily: "'IBM Plex Mono', monospace",
     }}>
-      <MiniOrnateFrame>
+      {/* Identity popover — opened by the person button */}
+      {isIdentityOpen && (
+        <div
+          role="dialog"
+          aria-label="Chancellor details"
+          style={{
+            position: 'absolute',
+            bottom: 'calc(100% + 12px)',
+            left: 0,
+            minWidth: '176px',
+            background: RING_BG,
+            border: '1px solid #6b5a34',
+            borderRadius: '3px',
+            boxShadow: `0 4px 16px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(181,154,94,0.15)`,
+            padding: '10px 14px',
+            fontFamily: SERIF_DISPLAY,
+          }}
+        >
+          <div style={{ fontSize: '0.55rem', letterSpacing: '0.2em', color: GOLD_LIT, textTransform: 'uppercase', lineHeight: 1 }}>
+            {actLabel}
+          </div>
+          <div style={{ fontSize: '1rem', fontWeight: 600, color: CREAM, lineHeight: 1.2, margin: '5px 0 3px' }}>
+            Katerin Ashavel
+          </div>
+          <div style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: '#b8ad95', textTransform: 'uppercase', lineHeight: 1 }}>
+            Chancellor
+          </div>
+        </div>
+      )}
+
+      {/* Square framed portrait */}
+      <div style={{
+        position: 'relative',
+        width: FRAME_WIDTH,
+        height: FRAME_HEIGHT,
+        boxSizing: 'border-box',
+        background: RING_BG,
+        border: `3px solid ${RING_BG}`,
+        boxShadow: `inset 0 0 0 1px ${GOLD_LINE}, 0 4px 16px rgba(0,0,0,0.5)`,
+        padding: '4px',
+      }}>
         <img
           src={katerinImg}
           alt="Chancellor Katerin Ashavel"
@@ -114,42 +156,62 @@ export default function KaterinHUD() {
             transition: 'filter 0.4s ease',
           }}
         />
-      </MiniOrnateFrame>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-        <span style={{ 
-          fontSize: '0.55rem', letterSpacing: '0.2em', color: '#c9a84c', 
-          textTransform: 'uppercase', lineHeight: 1, textShadow: '0 0 8px rgba(201,168,76,0.3)' 
-        }}>
-          {ACT_LABELS[currentAct] ?? 'Act I'}
-        </span>
-        <span style={{ 
-          fontFamily: "'Playfair Display', serif", fontSize: '1rem', fontWeight: 600,
-          color: '#e8dcc8', lineHeight: 1, textShadow: '0 0 10px rgba(201,168,76,0.2)' 
-        }}>
-          Katerin Ashavel
-        </span>
-        <span style={{ 
-          fontSize: '0.5rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.5)', 
-          textTransform: 'uppercase', lineHeight: 1 
-        }}>
-          Chancellor
-        </span>
-        <div style={{ marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '2px',
-          animation: stressFlash ? `stat-flash-${stressFlash} 0.6s ease-out` : undefined }}>
-          <span style={{ fontSize: '0.45rem', letterSpacing: '0.15em', color: 'rgba(220,210,190,0.4)', textTransform: 'uppercase', lineHeight: 1 }}>
-            Stress
-          </span>
-          <div style={{ width: '60px', height: '3px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', overflow: 'hidden' }}>
-            <div style={{
-              width: `${stressLevel}%`,
-              height: '100%',
-              background: stressLevel > 80 ? '#e05c4a' : stressLevel > 50 ? '#c9a84c' : '#7fa65a',
-              boxShadow: `0 0 6px ${stressLevel > 80 ? 'rgba(224,92,74,0.6)' : stressLevel > 50 ? 'rgba(201,168,76,0.4)' : 'rgba(127,166,90,0.3)'}`,
-              transition: 'width 0.5s ease, background 0.5s ease',
-            }} />
-          </div>
+        {/* Stress bar along the frame's bottom edge */}
+        <div
+          role="progressbar"
+          aria-label="Stress"
+          aria-valuenow={stressLevel}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          title={`Stress ${stressLevel}%`}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '4px',
+            background: 'rgba(0,0,0,0.4)',
+          }}
+        >
+          <div style={{
+            width: `${stressLevel}%`,
+            height: '100%',
+            background: stressColor(stressLevel),
+            boxShadow: stressFlash ? flashGlow : `0 0 6px ${stressGlow(stressLevel)}`,
+            opacity: stressFlash ? 1 : 0.9,
+            transition: 'width 0.5s ease, background 0.5s ease, box-shadow 0.3s ease, opacity 0.3s ease',
+          }} />
         </div>
+
+        {/* Person button — toggles the identity popover */}
+        <button
+          type="button"
+          aria-label="Chancellor details"
+          aria-expanded={isIdentityOpen}
+          title="Chancellor details"
+          onClick={() => setIsIdentityOpen(prev => !prev)}
+          style={{
+            position: 'absolute',
+            top: '-8px',
+            right: '-8px',
+            width: '40px',
+            height: '40px',
+            padding: 0,
+            borderRadius: '50%',
+            background: RING_BG,
+            border: `1.5px solid ${isIdentityOpen ? GOLD_LIT : GOLD_LINE}`,
+            boxShadow: isIdentityOpen ? '0 0 14px rgba(201,168,76,0.4)' : '0 2px 8px rgba(0,0,0,0.5)',
+            color: GOLD_ICON,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+          }}
+        >
+          <PersonIcon />
+        </button>
       </div>
     </div>
   )
