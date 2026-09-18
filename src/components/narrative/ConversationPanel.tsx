@@ -311,8 +311,10 @@ const PLAYER_ID = 'katerin_ashavel'
 // stack is pinned this far inside the viewport's edge instead of vanishing.
 const STACK_CLAMP_PAD_PX = 24
 
-const MEDALLION_TRANSITION =
-  'width 0.35s cubic-bezier(0.22,1,0.36,1), height 0.35s cubic-bezier(0.22,1,0.36,1)'
+// Medallion size swaps must be instant. The name label changes in the same
+// render as the size targets, so any width/height transition or enter-scale
+// animation leaves the previous speaker visually larger for its duration
+// (measured: ~120ms with the old 0.35s transition + 0.82 enter scale).
 
 interface ConversationHistoryEntry {
   id: string
@@ -379,8 +381,6 @@ export default function ConversationPanel({
   // Per-portrait image error tracking — half-implemented; portrait fallback uses img/initials instead
   // const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
 
-  // Track the top of the stack for entrance animations
-  const prevTopSpeakerRef = useRef<string | undefined>(undefined)
   const panelInnerRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   // Label of whoever is speaking now; the portrait stack is anchored to it.
@@ -415,9 +415,6 @@ export default function ConversationPanel({
     return stack
   }, [history, activeSegment])
 
-  // Which speaker just entered (for entrance animation trigger)
-  const [newSpeakerId, setNewSpeakerId] = useState<string | undefined>(undefined)
-
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {
     if (sceneDone) {
@@ -450,7 +447,6 @@ export default function ConversationPanel({
     setMonologueDone(false)
     setMonologueFading(false)
     setMonologueVisible(false)
-    prevTopSpeakerRef.current = undefined
   }, [monologueText])
 
   const dismissMonologue = useCallback(() => {
@@ -626,17 +622,6 @@ export default function ConversationPanel({
       historyRef.current.scrollTop = historyRef.current.scrollHeight
     }
   }, [history, activeText])
-
-  // Trigger entrance animation when the active speaker changes
-  useEffect(() => {
-    const topSpeaker = speakerStack[speakerStack.length - 1]
-    if (topSpeaker && topSpeaker !== prevTopSpeakerRef.current) {
-      setNewSpeakerId(topSpeaker)
-      const t = setTimeout(() => setNewSpeakerId(undefined), 400)
-      prevTopSpeakerRef.current = topSpeaker
-      return () => clearTimeout(t)
-    }
-  }, [speakerStack])
 
   // Track inner content height and animate wrapper
   useEffect(() => {
@@ -852,8 +837,6 @@ export default function ConversationPanel({
                   boxShadow: isCurrent
                     ? '0 0 0 1px #2a2419, 0 0 18px rgba(201,168,76,0.35)'
                     : 'none',
-                  transition: MEDALLION_TRANSITION,
-                  animation: charId === newSpeakerId ? 'portrait-enter 0.35s ease-out' : undefined,
                 }}
               >
                 <div style={{
