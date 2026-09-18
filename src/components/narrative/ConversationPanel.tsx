@@ -397,17 +397,17 @@ export default function ConversationPanel({
       stack.push(id)
     }
 
-    // 1. Seed with primary character so narrative openings aren't empty
-    processId(activeSegment?.primaryCharacter)
-
-    // 2. Add everyone who actually spoke in history
+    // A portrait appears only once its speaker's name label has rendered:
+    // everyone who has spoken in history, plus the dialogue segment that is
+    // typing now (its label renders the moment it becomes active). Scene
+    // metadata such as a description's primaryCharacter never seeds the
+    // stack, so no portrait shows before its speaker's first line.
     history.forEach(entry => {
       if (entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && entry.characterId) {
         processId(entry.characterId)
       }
     })
 
-    // 3. Add the actively typing speaker
     if (activeSegment?.type === 'dialogue' && activeSegment.character) {
       processId(activeSegment.character)
     }
