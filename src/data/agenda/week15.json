@@ -65,5 +65,20 @@
     "executionOrder": 5,
     "weekAvailable": 15,
     "weekDeadline": 17
+  },
+  {
+    "id": "agenda_w15_serida_tomas_factory",
+    "title": "The Factory Floor",
+    "description": "Serida stays late, organizing tomorrow's briefing. Tomas came home today with news about the Kravenstal foundry's modernization plan.",
+    "category": "personal",
+    "sceneId": "act2_serida_tomas_factory",
+    "slotCost": 1,
+    "executionOrder": 6,
+    "weekAvailable": 15,
+    "weekDeadline": 20,
+    "prerequisites": [
+      { "stat": "flags.met_serida", "operator": "==", "value": true },
+      { "stat": "flags.economic_direction_chosen", "operator": "==", "value": true }
+    ]
   }
 ]

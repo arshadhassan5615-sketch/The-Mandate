@@ -67,5 +67,37 @@
     "executionOrder": 2,
     "weekAvailable": 44,
     "weekDeadline": 50
+  },
+  {
+    "id": "agenda_w44_bca_report",
+    "title": "BCA Report",
+    "description": "The Bureau of Civic Accountability has submitted its final report.",
+    "category": "cabinet",
+    "sceneId": "act3_bca_report_wk44",
+    "slotCost": 0,
+    "executionOrder": 3,
+    "weekAvailable": 44,
+    "weekDeadline": 47,
+    "isUrgent": false,
+    "prerequisites": [
+      { "stat": "flags.bca_funded", "operator": "==", "value": true },
+      { "stat": "flags.bca_second_report_complete", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w44_ssd_report",
+    "title": "SSD Report",
+    "description": "The State Security Directorate has submitted its final report.",
+    "category": "security",
+    "sceneId": "act3_ssd_report_wk44",
+    "slotCost": 0,
+    "executionOrder": 4,
+    "weekAvailable": 44,
+    "weekDeadline": 47,
+    "isUrgent": false,
+    "prerequisites": [
+      { "stat": "flags.ssd_funded", "operator": "==", "value": true },
+      { "stat": "flags.ssd_second_report_complete", "operator": "==", "value": true }
+    ]
   }
 ]

@@ -80,5 +80,48 @@
     "weekAvailable": 28,
     "weekDeadline": 30,
     "isUrgent": false
+  },
+  {
+    "id": "agenda_w28_jonas_renek_concerns",
+    "title": "The Archbishop's Concern",
+    "description": "Archbishop Renek has requested a private audience about Jonas's public statements.",
+    "category": "personal",
+    "sceneId": "act3_jonas_renek_concerns",
+    "slotCost": 1,
+    "executionOrder": 4,
+    "weekAvailable": 28,
+    "weekDeadline": 34,
+    "prerequisites": [
+      { "stat": "flags.jonas_public_voice", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w28_serida_misses_play",
+    "title": "The School Play",
+    "description": "Serida has been at the crisis center since six in the morning. On her desk: a program for Mila's school play.",
+    "category": "personal",
+    "sceneId": "act3_serida_misses_play",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 28,
+    "weekDeadline": 32,
+    "prerequisites": [
+      { "stat": "flags.met_serida", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w28_elena_crisis_spin",
+    "title": "The Crisis Spin",
+    "description": "Elena Braskov is in the Chancellor's Office with Vyktor. She has a proposal for how VNN covers the current crisis.",
+    "category": "meeting",
+    "sceneId": "act3_week28_elena_crisis_spin",
+    "slotCost": 1,
+    "executionOrder": 6,
+    "weekAvailable": 28,
+    "weekDeadline": 31,
+    "prerequisites": [
+      { "stat": "flags.elena_introduced", "operator": "==", "value": true },
+      { "stat": "flags.elena_favor_resolved", "operator": "==", "value": true }
+    ]
   }
 ]

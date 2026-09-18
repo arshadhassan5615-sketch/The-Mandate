@@ -388,6 +388,7 @@ const STORE_FILES_TO_SCAN = [
   path.join(ROOT, 'src', 'stores', 'gameStore.ts'),
   path.join(ROOT, 'src', 'stores', 'letterStore.ts'),
   path.join(ROOT, 'src', 'stores', 'newsStore.ts'),
+  path.join(ROOT, 'src', 'stores', 'narrativeStore.ts'),
 ];
 
 const storeScanFilesFound = [];
