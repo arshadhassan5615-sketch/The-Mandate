@@ -9,7 +9,10 @@
     "executionOrder": -1,
     "weekAvailable": 43,
     "weekDeadline": 47,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.family_reckoning_resolved", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w43_budget",
@@ -64,6 +67,9 @@
     "slotCost": 1,
     "executionOrder": 2,
     "weekAvailable": 43,
-    "weekDeadline": 51
+    "weekDeadline": 51,
+    "prerequisites": [
+      { "stat": "flags.tyvaren_diplomacy_initiated", "operator": "==", "value": true }
+    ]
   }
 ]

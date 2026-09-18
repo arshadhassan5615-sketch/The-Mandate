@@ -31,7 +31,10 @@
     "slotCost": 1,
     "executionOrder": 1,
     "weekAvailable": 32,
-    "weekDeadline": 36
+    "weekDeadline": 36,
+    "prerequisites": [
+      { "stat": "flags.tyvaren_diplomacy_initiated", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w32_military_assessment",
@@ -42,7 +45,10 @@
     "slotCost": 1,
     "executionOrder": 2,
     "weekAvailable": 32,
-    "weekDeadline": 36
+    "weekDeadline": 36,
+    "prerequisites": [
+      { "stat": "flags.tyvaren_ultimatum_rejected", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w32_dravenni_question",
@@ -64,7 +70,10 @@
     "slotCost": 1,
     "executionOrder": 4,
     "weekAvailable": 32,
-    "weekDeadline": 37
+    "weekDeadline": 37,
+    "prerequisites": [
+      { "stat": "nation.economyHealth", "operator": ">=", "value": 10 }
+    ]
   },
   {
     "id": "agenda_w32_jonas_conservative_attack",

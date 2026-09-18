@@ -9,7 +9,10 @@
     "executionOrder": -1,
     "weekAvailable": 44,
     "weekDeadline": 46,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.war_strategy_set", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w44_counter_coup",
@@ -21,7 +24,10 @@
     "executionOrder": -1,
     "weekAvailable": 44,
     "weekDeadline": 46,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.exile_strategy_set", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w44_reform_backlash",
@@ -33,7 +39,10 @@
     "executionOrder": -1,
     "weekAvailable": 44,
     "weekDeadline": 46,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.reform_implementation_begun", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w44_budget",
@@ -55,7 +64,10 @@
     "slotCost": 1,
     "executionOrder": 1,
     "weekAvailable": 44,
-    "weekDeadline": 49
+    "weekDeadline": 49,
+    "prerequisites": [
+      { "stat": "flags.dlf_alliance_signed", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w44_ceasefire",
@@ -66,7 +78,10 @@
     "slotCost": 1,
     "executionOrder": 2,
     "weekAvailable": 44,
-    "weekDeadline": 50
+    "weekDeadline": 50,
+    "prerequisites": [
+      { "stat": "flags.ceasefire_negotiation", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w44_bca_report",

@@ -9,7 +9,10 @@
     "executionOrder": -1,
     "weekAvailable": 45,
     "weekDeadline": 47,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.austerity_begun", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w45_budget",
@@ -45,7 +48,10 @@
     "slotCost": 1,
     "executionOrder": 2,
     "weekAvailable": 45,
-    "weekDeadline": 52
+    "weekDeadline": 52,
+    "prerequisites": [
+      { "stat": "flags.ceasefire_explored", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w45_occupation",
@@ -56,7 +62,10 @@
     "slotCost": 1,
     "executionOrder": 3,
     "weekAvailable": 45,
-    "weekDeadline": 52
+    "weekDeadline": 52,
+    "prerequisites": [
+      { "stat": "flags.war_defeat", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w45_elena_reckoning",

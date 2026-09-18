@@ -9,7 +9,10 @@
     "executionOrder": -1,
     "weekAvailable": 46,
     "weekDeadline": 48,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.civilian_front_managed", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w46_budget",
@@ -31,7 +34,10 @@
     "slotCost": 1,
     "executionOrder": 1,
     "weekAvailable": 46,
-    "weekDeadline": 52
+    "weekDeadline": 52,
+    "prerequisites": [
+      { "stat": "flags.tyvaren_diplomacy_initiated", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w46_coordinated_response",
@@ -42,7 +48,10 @@
     "slotCost": 1,
     "executionOrder": 2,
     "weekAvailable": 46,
-    "weekDeadline": 51
+    "weekDeadline": 51,
+    "prerequisites": [
+      { "stat": "flags.all_fronts_managed", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w46_tomas_redemption",

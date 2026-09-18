@@ -9,7 +9,10 @@
     "executionOrder": -1,
     "weekAvailable": 42,
     "weekDeadline": 44,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.war_phase_one_complete", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w42_austerity_bites",
@@ -21,7 +24,10 @@
     "executionOrder": -1,
     "weekAvailable": 42,
     "weekDeadline": 44,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.ima_deal_accepted", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w42_budget_allocation",
@@ -54,7 +60,10 @@
     "slotCost": 1,
     "executionOrder": 2,
     "weekAvailable": 42,
-    "weekDeadline": 47
+    "weekDeadline": 47,
+    "prerequisites": [
+      { "stat": "flags.ima_confronted", "operator": "==", "value": true }
+    ]
   },
   {
     "id": "agenda_w42_emergency_powers",

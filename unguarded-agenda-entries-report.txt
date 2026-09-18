@@ -1,0 +1,21 @@
+=== UNGUARDED-AGENDA-ENTRY SCAN ===
+Finds agenda entries whose target scene has real "prerequisites" but the
+agenda entry itself has none — the scene could be offered/scheduled before
+its narrative precondition is true. loadScene() only substitutes an
+"exclusive" alternative when the scene declares one; without it, the scene
+loads anyway with failing prerequisites (confirmed bug pattern, fixed twice
+this session: week39.json/act4_week40_exile, week45.json/act4_ima_confrontation).
+
+Total agenda items scanned: 379
+Items targeting a real scene (not synthetic sentinel, not broken link): 310
+Items skipped (synthetic sentinel like __budget__): 69
+Items skipped (broken link — target scene not found): 0
+Parse errors: 0
+
+=== MATCHES: 0 ===
+
+(none found)
+=== TOTALS ===
+Unguarded agenda entries found: 0
+  ...of which scene has NO exclusive fallback (higher-severity): 0
+  ...of which scene HAS an exclusive fallback (lower-severity, still worth a prerequisites mirror): 0
