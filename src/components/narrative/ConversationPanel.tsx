@@ -1,7 +1,10 @@
 import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
+import type { CodexEntry } from '../../types/codex'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import { useWeekStore } from '../../stores/weekStore'
+import { ALL_CODEX_ENTRIES, useCodexStore } from '../../stores/codexStore'
 import { getCharacterColor } from '../portraits/CharacterPortraits'
 import { renderWithEntities } from '../news/EntityLinker'
 import { getPortrait } from '../../assets/potraits'
@@ -70,6 +73,117 @@ function charName(id: string): string {
   return CHAR_NAMES[id] ?? id.replace(/_/g, ' ')
 }
 
+// Saturated per-character label tints (Suzerain reference). Anyone not listed
+// falls back to the shared portrait palette.
+const SPEAKER_TINT: Record<string, string> = {
+  katerin_ashavel: '#d95a4a', vyktor_reznik: '#a3b6d3', drazen_kolvar: '#c96a3b',
+  stefan_morvec: '#b08a4a', lucan_vael: '#9b7bd6', matthias_krel: '#7b8f7a',
+  nadia_voss: '#4ba3b8', oskar_brenner: '#8c9a4c', irina_dusek: '#7fb069',
+  jonas_ashavel: '#d4a86a', elara_vostane: '#c9a84c', aldric_theron: '#b9a0d0',
+  danika_oberlin: '#d99a5b', gregor_maric: '#c25d4b',
+}
+
+const PLAYER_LABEL_COLOR = '#d95a4a'
+
+function speakerColor(id: string): string {
+  return SPEAKER_TINT[id] ?? getCharacterColor(id)
+}
+
+// ── Codex term links ───────────────────────────────────────────────────────
+// Codex titles read "Name — Subtitle" or "Term (ABBR)", and dialogue almost
+// never contains a full title, so each entry also matches on its name half and
+// its parenthesised abbreviation. Keys are word-boundary, case-sensitive, and
+// the longest key wins at any position.
+const MIN_CODEX_KEY_LENGTH = 4
+
+function codexKeysForTitle(title: string): string[] {
+  const beforeDash = title.split(/\s+[—–-]\s+/)[0]
+  const beforeParen = beforeDash.split(' (')[0]
+  const inParens = /\(([^)]+)\)/.exec(title)?.[1] ?? ''
+  return [title, beforeDash, beforeParen, inParens]
+    .map(key => key.trim())
+    .filter(key => key.length >= MIN_CODEX_KEY_LENGTH && /[A-Za-z]/.test(key))
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+// ALL_CODEX_ENTRIES comes from an eager import.meta.glob over JSON files, which
+// yields module namespace objects ({ default: CodexEntry[] }) rather than the
+// flat entry list its type claims. Accept both shapes and drop anything that
+// is not a real entry so a data quirk can never crash scene rendering.
+function normalizeCodexEntries(raw: readonly unknown[]): CodexEntry[] {
+  return raw
+    .flatMap((item): unknown[] => {
+      if (Array.isArray(item)) return item
+      const wrapped = (item as { default?: unknown } | null)?.default
+      return Array.isArray(wrapped) ? wrapped : [item]
+    })
+    .filter((item): item is CodexEntry => {
+      const entry = item as Partial<CodexEntry> | null
+      return typeof entry?.id === 'string' && typeof entry?.title === 'string'
+    })
+}
+
+const CODEX_ENTRIES: readonly CodexEntry[] = normalizeCodexEntries(ALL_CODEX_ENTRIES)
+
+const CODEX_KEY_TO_ID: ReadonlyMap<string, string> = (() => {
+  const map = new Map<string, string>()
+  for (const entry of CODEX_ENTRIES) {
+    for (const key of codexKeysForTitle(entry.title)) {
+      if (!map.has(key)) map.set(key, entry.id)
+    }
+  }
+  return map
+})()
+
+const CODEX_KEY_REGEX: RegExp | null = CODEX_KEY_TO_ID.size > 0
+  ? new RegExp(
+      `\\b(${[...CODEX_KEY_TO_ID.keys()]
+        .sort((a, b) => b.length - a.length)
+        .map(escapeRegExp)
+        .join('|')})\\b`,
+    )
+  : null
+
+function CodexTermLink({ text, entryId }: { text: string; entryId: string }) {
+  const openInlineCodex = useCodexStore(s => s.openInlineCodex)
+  return (
+    <span
+      onClick={(e) => { e.stopPropagation(); openInlineCodex(entryId) }}
+      style={{ color: '#4ba3b8', cursor: 'pointer' }}
+      title={`Open Codex: ${text}`}
+    >
+      {text}
+    </span>
+  )
+}
+
+function linkCodexTerms(text: string, keyPrefix: string): ReactNode[] {
+  if (!CODEX_KEY_REGEX) return [text]
+  // split() with one capture group alternates plain text and matches.
+  return text.split(CODEX_KEY_REGEX).map((part, i) => {
+    if (i % 2 === 0) return part
+    const entryId = CODEX_KEY_TO_ID.get(part)
+    return entryId
+      ? <CodexTermLink key={`${keyPrefix}-${i}`} text={part} entryId={entryId} />
+      : part
+  })
+}
+
+// Layers codex-title links on top of the existing entity links: elements
+// produced by renderWithEntities pass through untouched and only the plain
+// string gaps between them are scanned.
+function renderWithCodexLinks(text: string): ReactNode {
+  const base = renderWithEntities(text, true)
+  if (typeof base === 'string') return linkCodexTerms(base, 'cx')
+  if (!Array.isArray(base)) return base
+  return (base as ReactNode[]).flatMap((node, i) =>
+    typeof node === 'string' ? linkCodexTerms(node, `cx${i}`) : [node],
+  )
+}
+
 function effectiveSegmentType(type: NarrativeSegment['type']): 'description' | 'dialogue' | 'internal_thought' {
   if (type === 'monologue') return 'internal_thought'
   if (type === 'narrative') return 'description'
@@ -79,18 +193,16 @@ function effectiveSegmentType(type: NarrativeSegment['type']): 'description' | '
 // Shared text styles — rendered identically in the history log and in the
 // active typing segment; centralised so the two sites can never drift.
 const ENTRY_ROW_STYLE: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'flex-start',
-  gap: '12px',
-  padding: '6px 16px',
+  marginBottom: '14px',
 }
 
 const SPEAKER_LABEL_STYLE: React.CSSProperties = {
-  fontSize: '10px',
-  letterSpacing: '0.12em',
+  fontFamily: "'Crimson Text', Georgia, serif",
+  fontSize: '13px',
+  fontWeight: 700,
+  letterSpacing: '0.06em',
   textTransform: 'uppercase',
-  marginBottom: '3px',
-  fontFamily: 'Georgia, serif',
+  marginBottom: '4px',
 }
 
 const THOUGHT_WRAPPER_STYLE: React.CSSProperties = {
@@ -101,17 +213,17 @@ const THOUGHT_WRAPPER_STYLE: React.CSSProperties = {
 const THOUGHT_TEXT_STYLE: React.CSSProperties = {
   fontFamily: "'Crimson Text', Georgia, serif",
   fontStyle: 'italic',
-  fontSize: '13px',
-  color: 'rgba(255,255,255,0.55)',
-  lineHeight: '1.65',
+  fontSize: '16px',
+  color: '#cbbfa4',
+  lineHeight: 1.6,
   margin: 0,
   textAlign: 'left',
 }
 
 const THOUGHT_GLYPH_STYLE: React.CSSProperties = {
-  color: 'rgba(201,168,76,0.4)',
+  color: '#c9a84c',
   marginRight: '8px',
-  fontSize: '10px',
+  fontSize: '12px',
 }
 
 const DESCRIPTION_WRAPPER_STYLE: React.CSSProperties = {
@@ -122,24 +234,77 @@ const DESCRIPTION_WRAPPER_STYLE: React.CSSProperties = {
 const DESCRIPTION_TEXT_STYLE: React.CSSProperties = {
   fontFamily: "'Crimson Text', Georgia, serif",
   fontStyle: 'italic',
-  fontSize: '14px',
-  color: 'rgba(255,255,255,0.38)',
-  lineHeight: '1.8',
+  fontSize: '16px',
+  color: '#b8ad95',
+  lineHeight: 1.6,
   margin: 0,
+  paddingLeft: 0,
   textAlign: 'left',
-  letterSpacing: '0.02em',
 }
 
 const DIALOGUE_TEXT_STYLE: React.CSSProperties = {
-  fontSize: '15px',
-  lineHeight: '1.65',
-  color: 'rgba(232,213,163,0.92)',
   fontFamily: "'Crimson Text', Georgia, serif",
   fontStyle: 'normal',
-  borderLeft: 'none',
-  paddingLeft: 0,
-  marginLeft: 0,
+  fontSize: '17px',
+  lineHeight: 1.55,
+  color: '#e6dcc3',
+  paddingLeft: '24px',
+  margin: 0,
 }
+
+// Micro-reaction strip shown briefly after a choice.
+const REACTION_LABEL_STYLE: React.CSSProperties = {
+  fontFamily: "'Crimson Text', Georgia, serif",
+  fontSize: '10px',
+  letterSpacing: '0.1em',
+  color: '#8f8570',
+  textTransform: 'uppercase',
+  marginBottom: '2px',
+}
+
+const REACTION_TEXT_STYLE: React.CSSProperties = {
+  fontFamily: "'Crimson Text', Georgia, serif",
+  fontSize: '13px',
+  fontStyle: 'italic',
+  lineHeight: 1.5,
+  color: '#b8ad95',
+}
+
+// Portrait stack — every participant except Katerin, current speaker last.
+// Desktop: hangs outside the panel's left edge. Mobile: a row in the top padding.
+const DESKTOP_STACK_STYLE: React.CSSProperties = {
+  position: 'absolute',
+  right: 'calc(100% + 10px)',
+  top: '14vh',
+  width: '120px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  gap: '10px',
+  zIndex: 601,
+  pointerEvents: 'none',
+  background: 'transparent',
+}
+
+const MOBILE_STACK_STYLE: React.CSSProperties = {
+  position: 'absolute',
+  top: '10px',
+  left: '16px',
+  right: '64px',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'flex-end',
+  gap: '8px',
+  zIndex: 601,
+  pointerEvents: 'none',
+  background: 'transparent',
+  overflow: 'hidden',
+}
+
+const MEDALLION_SIZE = { desktop: { current: 112, other: 56 }, mobile: { current: 64, other: 40 } }
+
+const MEDALLION_TRANSITION =
+  'width 0.35s cubic-bezier(0.22,1,0.36,1), height 0.35s cubic-bezier(0.22,1,0.36,1)'
 
 interface ConversationHistoryEntry {
   id: string
@@ -197,6 +362,8 @@ export default function ConversationPanel({
   const [advanceReady, setAdvanceReady] = useState(false)
   const [choicePhase, setChoicePhase] = useState<ChoicePhase>('idle')
   const [hoveredChoiceId, setHoveredChoiceId] = useState<string | null>(null)
+  const [isContinueHovered, setIsContinueHovered] = useState(false)
+  const [isChevronHovered, setIsChevronHovered] = useState(false)
   const { currentScene } = useNarrativeStore()
   const phase = useWeekStore(s => s.phase)
   const isMobile = useIsMobile()
@@ -207,7 +374,6 @@ export default function ConversationPanel({
   // Track the top of the stack for entrance animations
   const prevTopSpeakerRef = useRef<string | undefined>(undefined)
   const panelInnerRef = useRef<HTMLDivElement>(null)
-  const panelWrapperRef = useRef<HTMLDivElement>(null)
 
   // Deterministic stack built from actual history (prevents skipping bugs)
   const speakerStack = useMemo(() => {
@@ -470,35 +636,51 @@ export default function ConversationPanel({
   const displayStack = speakerStack
   const currentSpeakerId = speakerStack[speakerStack.length - 1] ?? speakingCharacter ?? ''
 
+  // Plain "…" line in place of the old uppercase button. The routing text
+  // ("Proceed to Evening Review", "Continue to Next Meeting (2/3)") is kept;
+  // only the trailing arrow is swapped for an ellipsis.
+  const continueText = `${continueLabel.replace(/\s*→\s*$/, '')}…`
+
+  // Full-height opaque column. Desktop: centred 36vw strip with the portrait
+  // stack hanging off its left edge (overflow visible). Mobile: edge-to-edge,
+  // stopping above the 60px bottom nav.
   const panelStyle: React.CSSProperties = isMobile
     ? {
         position: 'fixed',
-        bottom: '70px', // Push it above the 60px bottom nav
-        left: '10px',
-        right: '10px',
+        top: 0,
+        bottom: '60px',
+        left: 0,
+        right: 0,
+        width: '100%',
         zIndex: 600,
-        marginBottom: '5px',
         pointerEvents: 'all',
         display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        gap: '0px',
-        width: 'auto', // Let left/right margins handle width
-        animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        flexDirection: 'column',
+        background: '#070605',
+        borderLeft: '1px solid rgba(181,154,94,0.25)',
+        borderRight: '1px solid rgba(181,154,94,0.25)',
+        boxShadow: '0 0 40px rgba(0,0,0,0.6)',
+        overflow: 'visible',
+        animation: 'panel-fade-in 0.6s ease-out forwards',
       }
     : {
         position: 'fixed',
-        bottom: '20px',
+        top: 0,
+        bottom: 0,
         left: '50%',
-        transform: 'translateX(calc(-50% - 20px))',
+        transform: 'translateX(-50%)',
+        width: 'clamp(420px, 36vw, 620px)',
+        height: '100vh',
         zIndex: 600,
         pointerEvents: 'all',
         display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'stretch',
-        gap: '0px',
-        width: '640px',
-        animation: 'panel-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        flexDirection: 'column',
+        background: '#070605',
+        borderLeft: '1px solid rgba(181,154,94,0.25)',
+        borderRight: '1px solid rgba(181,154,94,0.25)',
+        boxShadow: '0 0 40px rgba(0,0,0,0.6)',
+        overflow: 'visible',
+        animation: 'panel-fade-in 0.6s ease-out forwards',
       }
   if (phase !== 'scene') return null
 
@@ -514,58 +696,89 @@ export default function ConversationPanel({
 
       {currentScene && (
       <>
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0, 0, 0, 0.85)',
-        zIndex: 599, // Just below the panel's zIndex of 600
-        pointerEvents: 'none', // Let clicks pass through to the panel if needed, though panel handles its own
-      }} />
       <div style={panelStyle}>
 
-        <div style={{
-          position: 'relative',
-          width: '80px',
-          flexShrink: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          gap: '8px',
-          paddingTop: '8px',
-          paddingLeft: '4px',
-          paddingRight: '4px',
-          paddingBottom: '0px',
-          height: '100%',
-          background: 'transparent',
-          zIndex: 601,
-          transition: 'opacity 0.3s ease',
-          visibility: displayStack.length > 0 ? 'visible' : 'hidden',
-        }}>
+        {/* Scroll-to-top chevron */}
+        <button
+          type="button"
+          aria-label="Scroll to top of conversation"
+          onClick={() => historyRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+          onMouseEnter={() => setIsChevronHovered(true)}
+          onMouseLeave={() => setIsChevronHovered(false)}
+          style={{
+            position: 'absolute',
+            top: '14px',
+            right: '14px',
+            width: '40px',
+            height: '40px',
+            padding: 0,
+            borderRadius: '50%',
+            background: '#14110d',
+            border: isChevronHovered ? '1.5px solid #c9a84c' : '1.5px solid #6b5a34',
+            boxShadow: isChevronHovered ? '0 0 12px rgba(201,168,76,0.35)' : 'none',
+            color: '#d9c48a',
+            zIndex: 602,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+          }}
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6 15 12 9 18 15" />
+          </svg>
+        </button>
+
+        <div style={isMobile ? MOBILE_STACK_STYLE : DESKTOP_STACK_STYLE}>
           {displayStack.map((charId) => {
             const isCurrent = charId === currentSpeakerId
             const img = getPortrait(charId)
             const name = charName(charId)
             const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()
+            const sizes = isMobile ? MEDALLION_SIZE.mobile : MEDALLION_SIZE.desktop
+            const size = isCurrent ? sizes.current : sizes.other
             return (
-              <div key={charId} style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '4px',
-              }}>
+              /* Outer ring: metallic gradient only for the current speaker.
+                 Same DOM shape in both states so width/height can transition. */
+              <div
+                key={charId}
+                style={{
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  flexShrink: 0,
+                  boxSizing: 'border-box',
+                  borderRadius: '50%',
+                  padding: isCurrent ? '3px' : 0,
+                  background: isCurrent
+                    ? 'linear-gradient(135deg,#d9c48a 0%,#8a7440 50%,#d9c48a 100%)'
+                    : 'transparent',
+                  boxShadow: isCurrent
+                    ? '0 0 0 1px #2a2419, 0 0 18px rgba(201,168,76,0.35)'
+                    : 'none',
+                  transition: MEDALLION_TRANSITION,
+                  animation: charId === newSpeakerId ? 'portrait-enter 0.35s ease-out' : undefined,
+                }}
+              >
                 <div style={{
-                  width: isCurrent ? '72px' : '48px',
-                  height: isCurrent ? '72px' : '48px',
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                  boxSizing: 'border-box',
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: isCurrent ? '2px solid #c9a84c' : '1px solid rgba(201,168,76,0.3)',
-                  boxShadow: isCurrent ? '0 0 12px rgba(201,168,76,0.5)' : 'none',
-                  opacity: isCurrent ? 1 : 0.45,
-                  background: 'rgba(10,8,6,0.95)',
-                  flexShrink: 0,
-                  transition: 'width 0.35s cubic-bezier(0.22,1,0.36,1), height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease, border 0.35s ease, box-shadow 0.35s ease',
-                  animation: charId === newSpeakerId ? 'portrait-enter 0.4s ease-out' : undefined,
+                  border: isCurrent ? 'none' : '2px solid #b59a5e',
+                  background: '#0a0806',
                 }}>
                   {img ? (
                     <img
@@ -589,50 +802,46 @@ export default function ConversationPanel({
                       background: 'rgba(201,168,76,0.2)',
                     }}>
                       <span style={{
-                        fontFamily: "'Special Elite', monospace",
-                        fontSize: isCurrent ? '24px' : '16px',
+                        fontFamily: "'Crimson Text', Georgia, serif",
+                        fontWeight: 600,
+                        fontSize: isCurrent ? '38px' : '20px',
                         color: '#c9a84c',
                       }}>{initials}</span>
                     </div>
                   )}
+                  {/* Dark inner ring drawn above the image (an inset shadow on
+                      the container would be hidden behind it). */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    borderRadius: '50%',
+                    boxShadow: isCurrent ? 'inset 0 0 0 2px #14110d' : 'inset 0 0 0 1px #14110d',
+                    pointerEvents: 'none',
+                  }} />
                 </div>
-                {isCurrent && (
-                  <span style={{
-                    fontFamily: "'Special Elite', monospace",
-                    fontSize: '8px',
-                    letterSpacing: '1px',
-                    color: 'rgba(201,168,76,0.7)',
-                    textTransform: 'uppercase',
-                    textAlign: 'center',
-                    maxWidth: '72px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}>
-                    {name.split(' ')[0]}
-                  </span>
-                )}
               </div>
             )
           })}
         </div>
 
-        {/* Expanding conversation panel — RIGHT side of row */}
-        <div ref={panelWrapperRef} style={{ position: 'relative', width: '560px', flexShrink: 0, maxWidth: '80vw', flex: 1, height: '100%', overflowY: 'hidden' }}>
+        {/* Inner text column. The dialogue history below is the scroller;
+            this column only scrolls if the pinned bottom sections overflow. */}
         <div
           ref={panelInnerRef}
-          className="conversation-panel"
           style={{
             position: 'relative',
+            width: '100%',
+            flex: 1,
+            minHeight: 0,
             display: 'flex',
             flexDirection: 'column',
-            overflowY: 'hidden',
+            padding: isMobile ? '84px 16px 16px 16px' : '56px 32px 24px 32px',
+            boxSizing: 'border-box',
+            background: 'transparent',
+            borderTop: 'none',
+            overflowY: 'auto',
             overflowX: 'hidden',
             scrollbarWidth: 'thin',
-            background: '#0a0806',
-            borderTop: '1px solid rgba(201,168,76,0.25)',
-            borderLeft: 'none',
-            height: '100%',
           }}
         >
 
@@ -710,10 +919,10 @@ export default function ConversationPanel({
           }}
         >
           {history.map((entry, _i) => {
-            const entrySpeakerId = entry.characterId ?? ''
             const prevEntry = history[_i - 1]
             const isContinuation = prevEntry && prevEntry.characterId === entry.characterId && entry.type !== 'description' && entry.type !== 'narrative' && entry.type !== 'internal_thought'
-            const isCurrentSpeaker = entrySpeakerId === currentSpeakerId && entrySpeakerId !== ''
+            const isPlayer = entry.type === 'player_spoken'
+            const labelText = isPlayer ? 'YOU' : (entry.characterName ?? charName(entry.characterId ?? ''))
 
             return (
               <div
@@ -722,18 +931,13 @@ export default function ConversationPanel({
               >
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
-                  {/* Speaker name */}
+                  {/* Speaker name — full colour, rendered as "NAME :" */}
                   {entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && !isContinuation && (
                     <div style={{
                       ...SPEAKER_LABEL_STYLE,
-                      color: entry.type === 'player_spoken'
-                        ? '#e8dcc8'
-                        : isCurrentSpeaker
-                          ? (entry.characterColor || '#e8d5a3')
-                          : (entry.characterColor || '#c9a84c'),
-                      transition: 'color 0.4s ease',
+                      color: isPlayer ? PLAYER_LABEL_COLOR : speakerColor(entry.characterId ?? ''),
                     }}>
-                      {entry.type === 'player_spoken' ? 'YOU' : entry.characterName}
+                      {`${labelText} :`}
                     </div>
                   )}
                   {/* internal_thought / monologue — no label, ✦ symbol */}
@@ -750,7 +954,7 @@ export default function ConversationPanel({
                   {(entry.type === 'description' || entry.type === 'narrative') && (
                     <div style={DESCRIPTION_WRAPPER_STYLE}>
                       <p style={DESCRIPTION_TEXT_STYLE}>
-                        {renderWithEntities(entry.text, true)}
+                        {renderWithCodexLinks(entry.text)}
                       </p>
                     </div>
                   )}
@@ -758,7 +962,7 @@ export default function ConversationPanel({
                   {/* dialogue / player_spoken — character label + quoted text */}
                   {(entry.type === 'dialogue' || entry.type === 'player_spoken') && (
                     <div style={DIALOGUE_TEXT_STYLE}>
-                      {'"'}{renderWithEntities(entry.text, true)}{'"'}
+                      {'"'}{renderWithCodexLinks(entry.text)}{'"'}
                     </div>
                   )}
                 </div>
@@ -779,9 +983,9 @@ export default function ConversationPanel({
                       {activeType === 'dialogue' && !isActiveContinuation && (
                         <div style={{
                           ...SPEAKER_LABEL_STYLE,
-                          color: getCharacterColor(activeSegment.character ?? '') || '#e8d5a3',
+                          color: speakerColor(activeSegment.character ?? ''),
                         }}>
-                          {charName(activeSegment.character ?? '')}
+                          {`${charName(activeSegment.character ?? '')} :`}
                         </div>
                       )}
                       {/* internal_thought / monologue — no label, ✦ symbol */}
@@ -799,7 +1003,7 @@ export default function ConversationPanel({
                       {activeType === 'description' && (
                         <div style={DESCRIPTION_WRAPPER_STYLE}>
                           <p style={DESCRIPTION_TEXT_STYLE}>
-                            {renderWithEntities(activeText, true)}
+                            {renderWithCodexLinks(activeText)}
                             {showCursor && <span className="typewriter-cursor" />}
                           </p>
                         </div>
@@ -808,7 +1012,7 @@ export default function ConversationPanel({
                       {/* dialogue — character label + quoted text */}
                       {activeType === 'dialogue' && (
                         <div style={DIALOGUE_TEXT_STYLE}>
-                          {'"'}{renderWithEntities(activeText, true)}
+                          {'"'}{renderWithCodexLinks(activeText)}
                           {showCursor && <span className="typewriter-cursor" />}
                           {'"'}
                         </div>
@@ -837,8 +1041,9 @@ export default function ConversationPanel({
           )}
         </div>
 
-        {/* Choices */}
+        {/* Choices — numbered, bordered; scroll internally past 40vh */}
         {actualShowChoices && (
+          <>
           <div
             ref={choicesRef}
             className="conversation-choices"
@@ -846,109 +1051,102 @@ export default function ConversationPanel({
               position: 'relative',
               zIndex: 3,
               flexShrink: 0,
-              maxHeight: '280px',
-              overflowY: 'auto' as const,
-              overflowX: 'hidden',
-              paddingBottom: '16px',
-              scrollbarWidth: 'thin' as const,
-              msOverflowStyle: 'auto',
-            }}
-          >
-            <div style={{
-              flexShrink: 0,
-              padding: '8px 16px 36px 16px',
               display: 'flex',
               flexDirection: 'column',
-              gap: '6px',
-              position: 'relative',
-              zIndex: 3,
-            }}>
-              {choices.map((choice, i) => {
-                const isSelected = selectedId === choice.id
-                const isFading = fadingId === choice.id
-                const isDimmed = fadingId && !isFading
-                const isHovered = hoveredChoiceId === choice.id && selectedId === null && fadingId === null
-                return (
-                <div
-                  key={choice.id ?? i}
-                  onClick={() => handleChoice(choice.id)}
-                  style={{
-                    padding: '11px 16px',
-                    background: isSelected
-                      ? 'rgba(201,168,76,0.18)'
-                      : isHovered
-                      ? 'rgba(201,168,76,0.14)'
-                      : 'rgba(201,168,76,0.06)',
-                    border: isSelected
-                      ? '2px solid rgba(201,168,76,0.7)'
-                      : isHovered
-                      ? '1px solid rgba(201,168,76,0.6)'
-                      : '1px solid rgba(201,168,76,0.25)',
-                    borderRadius: '2px',
-                    cursor: 'pointer',
-                    fontSize: '13px',
-                    color: isSelected || isHovered ? '#ffffff' : '#e8d5a3',
-                    fontFamily: 'Georgia, serif',
-                    lineHeight: '1.5',
-                    transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
-                    userSelect: 'none',
-                    transform: isSelected ? 'scale(0.97)' : isHovered ? 'translateY(-1px)' : 'scale(1)',
-                    opacity: isFading ? 0 : isDimmed ? 0.4 : 1,
-                    boxShadow: isSelected
-                      ? '0 0 20px rgba(201,168,76,0.3)'
-                      : isHovered
-                      ? '0 2px 8px rgba(201,168,76,0.12)'
-                      : 'none',
-                    animation: isSelected
-                      ? 'choice-glow-burst 0.4s ease-out'
-                      : isFading
-                      ? 'choice-fade-out 0.8s ease forwards'
-                      : isDimmed
-                      ? 'choice-dim-others 0.3s ease forwards'
-                      : 'none',
-                    position: 'relative',
-                    overflow: 'hidden',
-                  }}
-                  onMouseEnter={() => {
-                    if (selectedId === null && fadingId === null) setHoveredChoiceId(choice.id)
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredChoiceId(null)
-                  }}
-                >
-                  <span style={{ position: 'relative', zIndex: 1 }}>{choice.text}</span>
-                  {isSelected && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      width: '200%',
-                      height: '200%',
-                      background: 'radial-gradient(circle, rgba(201,168,76,0.25) 0%, transparent 70%)',
-                      transform: 'translate(-50%, -50%) scale(0)',
-                      animation: 'choice-ripple 0.4s ease-out',
-                      pointerEvents: 'none',
-                      zIndex: 0,
-                    }} />
-                  )}
-                </div>
-                )
-              })}
-            </div>
-            {choicesOverflow && (
-              <div style={{
-                textAlign: 'center',
-                color: 'rgba(201,168,76,0.5)',
-                fontSize: '10px',
-                letterSpacing: '2px',
-                padding: '8px',
-                fontFamily: 'Georgia, serif',
-                flexShrink: 0,
-              }}>
-                ▼ SCROLL FOR MORE OPTIONS
+              gap: '12px',
+              padding: '18px 0 8px',
+              maxHeight: '40vh',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+            }}
+          >
+            {choices.map((choice, i) => {
+              const isSelected = selectedId === choice.id
+              const isFading = fadingId === choice.id
+              const isDimmed = fadingId && !isFading
+              const isHovered = hoveredChoiceId === choice.id && selectedId === null && fadingId === null
+              const isLit = isSelected || isHovered
+              return (
+              <div
+                key={choice.id ?? i}
+                onClick={() => handleChoice(choice.id)}
+                style={{
+                  display: 'flex',
+                  gap: '10px',
+                  padding: '14px 18px',
+                  border: isLit ? '1px solid #c9a84c' : '1px solid rgba(181,154,94,0.55)',
+                  borderRadius: '4px',
+                  background: isSelected
+                    ? 'rgba(201,168,76,0.18)'
+                    : isHovered
+                    ? 'rgba(201,168,76,0.08)'
+                    : 'rgba(15,12,8,0.6)',
+                  color: '#e6dcc3',
+                  fontFamily: "'Crimson Text', Georgia, serif",
+                  fontSize: '16px',
+                  lineHeight: 1.45,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                  userSelect: 'none',
+                  flexShrink: 0,
+                  transform: isSelected ? 'scale(0.97)' : 'scale(1)',
+                  opacity: isFading ? 0 : isDimmed ? 0.4 : 1,
+                  boxShadow: isSelected
+                    ? '0 0 20px rgba(201,168,76,0.3)'
+                    : isHovered
+                    ? '0 0 12px rgba(201,168,76,0.18)'
+                    : 'none',
+                  animation: isSelected
+                    ? 'choice-glow-burst 0.4s ease-out'
+                    : isFading
+                    ? 'choice-fade-out 0.8s ease forwards'
+                    : isDimmed
+                    ? 'choice-dim-others 0.3s ease forwards'
+                    : 'none',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+                onMouseEnter={() => {
+                  if (selectedId === null && fadingId === null) setHoveredChoiceId(choice.id)
+                }}
+                onMouseLeave={() => {
+                  setHoveredChoiceId(null)
+                }}
+              >
+                <span style={{ position: 'relative', zIndex: 1, flexShrink: 0, color: '#b59a5e' }}>{i + 1}.</span>
+                <span style={{ position: 'relative', zIndex: 1 }}>{choice.text}</span>
+                {isSelected && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '200%',
+                    height: '200%',
+                    background: 'radial-gradient(circle, rgba(201,168,76,0.25) 0%, transparent 70%)',
+                    transform: 'translate(-50%, -50%) scale(0)',
+                    animation: 'choice-ripple 0.4s ease-out',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                  }} />
+                )}
               </div>
-            )}
+              )
+            })}
           </div>
+          {choicesOverflow && (
+            <div style={{
+              textAlign: 'center',
+              color: '#b8ad95',
+              fontSize: '11px',
+              letterSpacing: '0.12em',
+              padding: '4px 0 8px',
+              fontFamily: "'Crimson Text', Georgia, serif",
+              flexShrink: 0,
+            }}>
+              ▼ SCROLL FOR MORE OPTIONS
+            </div>
+          )}
+          </>
         )}
 
         {/* Micro-reactions */}
@@ -957,9 +1155,9 @@ export default function ConversationPanel({
             position: 'relative',
             zIndex: 3,
             flexShrink: 0,
-            padding: '12px 16px 14px',
-            borderTop: '1px solid rgba(201,168,76,0.15)',
-            background: 'rgba(10,8,6,0.85)',
+            padding: '12px 0 14px',
+            borderTop: '1px solid rgba(181,154,94,0.25)',
+            background: 'transparent',
             opacity: reactionsFading ? 0 : 1,
             transition: 'opacity 0.5s ease',
           }}>
@@ -967,14 +1165,7 @@ export default function ConversationPanel({
               <div key={`${reaction.character}_${i}`} style={{ marginBottom: i < activeReactions.length - 1 ? 8 : 0 }}>
                 {(reaction.type === 'dialogue' || reaction.type === 'concern' || reaction.type === 'satisfied') && (
                   <>
-                    <div style={{
-                      fontSize: '9px',
-                      letterSpacing: '1.5px',
-                      color: getCharacterColor(reaction.character),
-                      textTransform: 'uppercase',
-                      marginBottom: '2px',
-                      fontFamily: 'Georgia, serif',
-                    }}>
+                    <div style={REACTION_LABEL_STYLE}>
                       {charName(reaction.character)}
                       {reaction.type !== 'dialogue' && (
                         <span style={{ opacity: 0.6, fontStyle: 'italic', marginLeft: '6px' }}>
@@ -982,61 +1173,31 @@ export default function ConversationPanel({
                         </span>
                       )}
                     </div>
-                    <div style={{
-                      fontSize: '12px',
-                      lineHeight: '1.6',
-                      color: 'rgba(200,185,155,0.85)',
-                      fontFamily: "'Crimson Text', serif",
-                    }}>
+                    <div style={REACTION_TEXT_STYLE}>
                       <>{'"'}{renderWithEntities(reaction.text, true)}{'"'}</>
                     </div>
                   </>
                 )}
                 {reaction.type === 'action' && (
-                  <div style={{
-                    fontSize: '12px',
-                    fontStyle: 'italic',
-                    color: 'rgba(180,170,150,0.75)',
-                    lineHeight: '1.5',
-                    fontFamily: "'Crimson Text', serif",
-                  }}>
+                  <div style={REACTION_TEXT_STYLE}>
                     {reaction.text}
                   </div>
                 )}
                 {reaction.type === 'silence' && (
                   <>
-                    <div style={{
-                      fontSize: '9px',
-                      letterSpacing: '1.5px',
-                      color: getCharacterColor(reaction.character),
-                      textTransform: 'uppercase',
-                      marginBottom: '2px',
-                      fontFamily: 'Georgia, serif',
-                    }}>
+                    <div style={REACTION_LABEL_STYLE}>
                       {charName(reaction.character)}&nbsp;
                       <span style={{ opacity: 0.5, fontStyle: 'italic', fontWeight: 400 }}>
                         [silence]
                       </span>
                     </div>
-                    <div style={{
-                      fontSize: '11px',
-                      fontStyle: 'italic',
-                      color: 'rgba(180,170,150,0.75)',
-                      lineHeight: '1.5',
-                      fontFamily: "'Crimson Text', serif",
-                    }}>
+                    <div style={REACTION_TEXT_STYLE}>
                       {reaction.text}
                     </div>
                   </>
                 )}
                 {reaction.type === 'narrative' && (
-                  <div style={{
-                    fontSize: '12px',
-                    fontStyle: 'italic',
-                    color: 'rgba(180,170,150,0.75)',
-                    lineHeight: '1.5',
-                    fontFamily: "'Crimson Text', serif",
-                  }}>
+                  <div style={REACTION_TEXT_STYLE}>
                     {reaction.text}
                   </div>
                 )}
@@ -1045,37 +1206,32 @@ export default function ConversationPanel({
           </div>
         )}
 
-        {/* Scene completed — advance button */}
+        {/* Scene completed — plain "Continue…" line, same gating as before */}
         {sceneDone && advanceReady && continueLabel && (
-          <div style={{
-            position: 'relative',
-            zIndex: 3,
-            flexShrink: 0,
-            padding: '12px 16px 14px',
-            borderTop: '1px solid rgba(201,168,76,0.15)',
-            background: 'rgba(10,8,6,0.85)',
-          }}>
+          <div style={{ position: 'relative', zIndex: 3, flexShrink: 0 }}>
             <button
+              type="button"
               onClick={onAdvanceQueue}
+              onMouseEnter={() => setIsContinueHovered(true)}
+              onMouseLeave={() => setIsContinueHovered(false)}
               style={{
+                display: 'block',
                 width: '100%',
-                padding: '10px',
-                background: 'rgba(201,168,76,0.08)',
-                border: '1px solid rgba(201,168,76,0.35)',
-                borderRadius: '2px',
-                color: '#c9a84c',
-                fontFamily: 'Georgia, serif',
-                fontSize: '12px',
-                letterSpacing: '2px',
+                padding: '14px 0',
+                background: 'none',
+                border: 'none',
+                textAlign: 'left',
+                fontFamily: "'Crimson Text', Georgia, serif",
+                fontSize: '16px',
+                color: isContinueHovered ? '#c9a84c' : '#e6dcc3',
                 cursor: 'pointer',
-                textTransform: 'uppercase',
+                transition: 'color 0.15s ease',
               }}
             >
-              {continueLabel}
+              {continueText}
             </button>
           </div>
         )}
-        </div>
         </div>
       </div>
       </>
