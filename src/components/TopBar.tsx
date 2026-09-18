@@ -43,18 +43,6 @@ const DELTA_VISIBLE_MS = 2000
 
 type FlashState = 'positive' | 'negative' | null
 
-interface EconomyStatus {
-  label: 'STABLE' | 'STRUGGLING' | 'CRITICAL' | 'CRISIS'
-  color: string
-}
-
-function economyStatusFor(health: number): EconomyStatus {
-  if (health >= 20) return { label: 'STABLE', color: '#2e7d3a' }
-  if (health >= -20) return { label: 'STRUGGLING', color: '#8a6d1f' }
-  if (health >= -60) return { label: 'CRITICAL', color: '#a35a1f' }
-  return { label: 'CRISIS', color: '#a33a2a' }
-}
-
 function formatDelta(delta: number): string {
   const rounded = Math.round(delta)
   return rounded > 0 ? `(+${rounded.toLocaleString()})` : `(${rounded.toLocaleString()})`
@@ -192,7 +180,6 @@ function StatChip({ icon, alt, value, valueColor = CREAM, flash = null, delta = 
 
 export default function TopBar() {
   const budget = useGameStore(s => s.budget)
-  const economyHealth = useGameStore(s => s.nation.economyHealth)
   const personalWealth = useGameStore(s => s.personal.personalWealth)
   const publicImage = useGameStore(s => s.personal.publicImage)
   const currentWeek = useGameStore(s => s.currentWeek)
@@ -256,7 +243,6 @@ export default function TopBar() {
   void soeWeek
   void date
 
-  const economy = economyStatusFor(economyHealth)
   const crestSize = isMobile ? 60 : 88
   const miniSize = isMobile ? 32 : 44
 
@@ -310,30 +296,6 @@ export default function TopBar() {
           <RingButton label="Settings" size={miniSize} onClick={() => setSettingsOpen(true)}>
             <MenuIcon />
           </RingButton>
-        </div>
-
-        {/* Economy status badge — tan box, only the status text is tinted */}
-        <div
-          title={`Economy: ${economy.label.toLowerCase()}`}
-          style={{
-            background: '#d8c9a3',
-            color: '#2a2622',
-            padding: '4px 10px',
-            borderRadius: '3px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            lineHeight: 1.2,
-            fontFamily: SERIF_DISPLAY,
-            flexShrink: 0,
-          }}
-        >
-          <span style={{ fontSize: '0.5rem', letterSpacing: '0.15em', fontWeight: 700, opacity: 0.7 }}>
-            ECONOMY
-          </span>
-          <span style={{ fontSize: '0.62rem', fontWeight: 700, textTransform: 'uppercase', color: economy.color }}>
-            {economy.label}
-          </span>
         </div>
 
         {/* Stat chips */}

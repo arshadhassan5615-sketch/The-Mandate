@@ -320,11 +320,15 @@ export default function MapView({ onProvinceDetail }: {
   const isGameplay = phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue'
   if (!isGameplay) return null
 
-  // Stubbed-out — only referenced by the HIDDEN medallion block; buildings call onProvinceDetail directly
-  // function handleOpenDetail(id: string) {
-  //   if (hasDragged.current) return
-  //   onProvinceDetail?.(id)
-  // }
+  function handleOpenDetail(id: string) {
+    if (hasDragged.current) return
+    onProvinceDetail?.(id)
+  }
+
+  function handleHover(id: string | null) {
+    if (dragging.current) return
+    setHoveredId(id)
+  }
 
   // ── Background mode: map behind game UI, centered, not pannable ─────────────
   if (!mapOpen) {
@@ -462,15 +466,6 @@ export default function MapView({ onProvinceDetail }: {
                     zIndex: 100,
                     boxShadow: '0 2px 12px rgba(0,0,0,0.6)',
                   }}>
-                    <div style={{
-                      fontFamily: "'Special Elite', monospace",
-                      fontSize: '9px',
-                      letterSpacing: '0.2em',
-                      color: '#c9a84c',
-                      textTransform: 'uppercase',
-                    }}>
-                      {id.charAt(0).toUpperCase() + id.slice(1)}
-                    </div>
                     {hasScenes && (
                       <div style={{
                         fontFamily: "'Special Elite', monospace",
@@ -545,16 +540,9 @@ export default function MapView({ onProvinceDetail }: {
           {PROVINCE_ZONES.map(zone => (
             <div
               key={zone.id}
-              onMouseEnter={(e) => {
-                e.stopPropagation()
-                if (dragging.current) return
-                setHoveredId(zone.id)
-              }}
-              onMouseLeave={(e) => {
-                e.stopPropagation()
-                if (dragging.current) return
-                setHoveredId(null)
-              }}
+              onMouseEnter={(e) => { e.stopPropagation(); handleHover(zone.id) }}
+              onMouseLeave={(e) => { e.stopPropagation(); handleHover(null) }}
+              onClick={(e) => { e.stopPropagation(); handleOpenDetail(zone.id) }}
               style={{
                 position: 'absolute',
                 left: zone.left, top: zone.top,
@@ -724,15 +712,6 @@ export default function MapView({ onProvinceDetail }: {
                     zIndex: 100,
                     boxShadow: '0 2px 12px rgba(0,0,0,0.6)',
                   }}>
-                    <div style={{
-                      fontFamily: "'Special Elite', monospace",
-                      fontSize: '9px',
-                      letterSpacing: '0.2em',
-                      color: '#c9a84c',
-                      textTransform: 'uppercase',
-                    }}>
-                      {id.charAt(0).toUpperCase() + id.slice(1)}
-                    </div>
                     {hasScenes && (
                       <div style={{
                         fontFamily: "'Special Elite', monospace",
