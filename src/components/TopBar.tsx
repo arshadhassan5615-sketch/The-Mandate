@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useSettingsStore } from '../stores/settingsStore'
+import { useWeekStore } from '../stores/weekStore'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { Z } from '../constants/zIndex'
 import type { BudgetAllocations } from '../types/gameState'
@@ -40,6 +41,12 @@ const DELTA_DOWN = '#c94a3a'
 // How long the "(+3)" delta text stays beside a stat after it moves. The
 // colour keyframe itself still runs 0.6s; the text needs longer to be read.
 const DELTA_VISIBLE_MS = 2000
+
+// In a scene the centred conversation panel would cover the chip row, so the
+// chips stack in a column under the crest (crest ends at 96px) and to the
+// right of the left rail (its 52px buttons end at 64px).
+const SCENE_CHIPS_TOP = 104
+const SCENE_CHIPS_LEFT = 80
 
 type FlashState = 'positive' | 'negative' | null
 
@@ -189,6 +196,7 @@ export default function TopBar() {
   const kolvarPolling = useGameStore(s => s.kolvarPolling)
   const newsOpen = useNewsStore(s => s.isOpen)
   const setSettingsOpen = useSettingsStore(s => s.setSettingsOpen)
+  const phase = useWeekStore(s => s.phase)
 
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
   const date = useMemo(() => weekToDate(currentWeek), [currentWeek])
@@ -245,6 +253,20 @@ export default function TopBar() {
 
   const crestSize = isMobile ? 60 : 88
   const miniSize = isMobile ? 32 : 44
+  const isSceneLayout = phase === 'scene' && !isMobile
+
+  const chipsStyle: React.CSSProperties = isSceneLayout
+    ? {
+        position: 'fixed',
+        top: SCENE_CHIPS_TOP,
+        left: SCENE_CHIPS_LEFT,
+        zIndex: Z.topBar,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: '8px',
+      }
+    : { display: 'flex', alignItems: 'center', gap: '8px', flexWrap: isMobile ? 'wrap' : 'nowrap' }
 
   return (
     <>
@@ -298,8 +320,8 @@ export default function TopBar() {
           </RingButton>
         </div>
 
-        {/* Stat chips */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
+        {/* Stat chips — a column beside the left rail while a scene is open */}
+        <div style={chipsStyle}>
           <StatChip
             icon={iconTreasury}
             alt="Treasury"
