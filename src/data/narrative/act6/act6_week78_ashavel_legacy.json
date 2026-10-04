@@ -49,7 +49,7 @@
           "id": "path_united",
           "text": "(Continue)",
           "nextSegment": "seg_united",
-          "prerequisites": [
+          "conditions": [
             { "stat": "personal.marriageHealth", "operator": ">=", "value": 40 }
           ],
           "stateChanges": [],
@@ -61,7 +61,7 @@
           "id": "path_divorce",
           "text": "(Continue)",
           "nextSegment": "seg_divorce",
-          "prerequisites": [
+          "conditions": [
             { "stat": "personal.marriageHealth", "operator": "<", "value": 40 }
           ],
           "stateChanges": [],

@@ -82,8 +82,8 @@
           "id": "path_full_survey_oil",
           "text": "(Continue)",
           "nextSegment": "seg_massive_discovery",
-          "prerequisites": [
-            { "flag": "geological_survey_funded", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "geological_survey_funded", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -94,8 +94,8 @@
           "id": "path_limited_survey_oil",
           "text": "(Continue)",
           "nextSegment": "seg_moderate_discovery",
-          "prerequisites": [
-            { "flag": "geological_survey_limited", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "geological_survey_limited", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -106,8 +106,8 @@
           "id": "path_no_survey",
           "text": "(Continue)",
           "nextSegment": "seg_no_discovery",
-          "prerequisites": [
-            { "flag": "geological_survey_rejected", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "geological_survey_rejected", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -118,10 +118,10 @@
           "id": "path_no_survey_data",
           "text": "(Continue)",
           "nextSegment": "seg_prospector_tip",
-          "prerequisites": [
-            { "flag": "geological_survey_funded", "value": false },
-            { "flag": "geological_survey_limited", "value": false },
-            { "flag": "geological_survey_rejected", "value": false }
+          "conditions": [
+            { "type": "flag", "flag": "geological_survey_funded", "value": false },
+            { "type": "flag", "flag": "geological_survey_limited", "value": false },
+            { "type": "flag", "flag": "geological_survey_rejected", "value": false }
           ],
           "stateChanges": [],
           "reactions": [],

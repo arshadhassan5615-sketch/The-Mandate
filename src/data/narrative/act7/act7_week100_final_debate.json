@@ -47,8 +47,8 @@
           "id": "path_kolvar_deflect",
           "text": "(Continue)",
           "nextSegment": "seg_kolvar_deflect",
-          "prerequisites": [
-            { "flag": "kolvar_exposed_press", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "kolvar_exposed_press", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -59,8 +59,8 @@
           "id": "path_kolvar_orythia",
           "text": "(Continue)",
           "nextSegment": "seg_kolvar_attacks_orythia",
-          "prerequisites": [
-            { "flag": "orythian_pact_signed", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "orythian_pact_signed", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -71,8 +71,8 @@
           "id": "path_kolvar_oil",
           "text": "(Continue)",
           "nextSegment": "seg_kolvar_attacks_oil",
-          "prerequisites": [
-            { "flag": "oil_nationalized", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "oil_nationalized", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -83,8 +83,8 @@
           "id": "path_kolvar_personal",
           "text": "(Continue)",
           "nextSegment": "seg_kolvar_attacks_personal",
-          "prerequisites": [
-            { "flag": "jonas_divorce", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "jonas_divorce", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -95,11 +95,11 @@
           "id": "path_kolvar_generic",
           "text": "(Continue)",
           "nextSegment": "seg_kolvar_attacks_generic",
-          "prerequisites": [
-            { "flag": "kolvar_exposed_press", "value": false },
-            { "flag": "orythian_pact_signed", "value": false },
-            { "flag": "oil_nationalized", "value": false },
-            { "flag": "jonas_divorce", "value": false }
+          "conditions": [
+            { "type": "flag", "flag": "kolvar_exposed_press", "value": false },
+            { "type": "flag", "flag": "orythian_pact_signed", "value": false },
+            { "type": "flag", "flag": "oil_nationalized", "value": false },
+            { "type": "flag", "flag": "jonas_divorce", "value": false }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -159,8 +159,8 @@
           "id": "choice_attack",
           "text": "Turn it back on him — his record, his allegiances, his silence during the Halvek years",
           "nextSegment": "seg_katerin_attack",
-          "prerequisites": [
-            { "flag": "kolvar_exposed_press", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "kolvar_exposed_press", "value": true }
           ],
           "flags": ["debate_chose_attack"],
           "stateChanges": [
@@ -264,8 +264,8 @@
           "id": "wednesday_honest",
           "text": "\"I call my father's grave — the one person who knew I was going to lose, and didn't say so.\"",
           "nextSegment": "seg_closing_honest",
-          "prerequisites": [
-            { "flag": "permanent_injury_sustained", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "permanent_injury_sustained", "value": true }
           ],
           "flags": ["debate_wednesday_honest"],
           "stateChanges": [
