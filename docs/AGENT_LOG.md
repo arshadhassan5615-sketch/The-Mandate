@@ -115,3 +115,48 @@ _(entries appended below as work lands)_
 ### Batch 7 — `34b9d25` feat(narrative): rewrite wk94 + wk97 (R-1, R-2)
 - IDs, choice ids, flags and stateChanges preserved. Vyktor is now present for his own reckoning. Kolvar's outcomes keep him on the ballot, consistent with wk100 and the polling-only `ElectionEngine`.
 - Gates green. Runtime walker: all paths complete.
+
+### Batch 8 — `f8c95dc` feat(narrative): Term 2 endgame, weeks 98, 99, 101, 102, 103
+- New: `act7_week98_last_cabinet`, `act7_week99_kitchen_table`, `act7_week101_the_heir`, `act7_week102_kravenstal`, `act7_week103_election_eve`. Agenda: `week98/99/101/102/103.json` created.
+- `act7_week100_final_debate` extended only (11 lines): Kolvar quotes the wk62 interview and the wk83 coal outcome. Vyktor's opening line is gated on `vyktor_exposed == false`, with an alternative node. The debate structure is unchanged.
+- wk103 sets no flags (week 104 never plays). wk103 touches no polling or election fields.
+- Gates green. Runtime walker: all paths complete under two rich profiles.
+
+### Batch 9 — `bf63e81` feat(narrative): consequence echoes in 8 Term 2 scenes
+- Nodes only (+31 lines): wk53, wk65, wk69, wk80, wk89, wk91, wk93, wk95.
+
+### Batch 10 — `ea09377`, `00a9071`, `7c57d35` feat(narrative): thin endings (R-3)
+- 52 one-node "(Continue)" closing segments in 17 Term 2 scenes now carry a second beat (a named person, a number, a cost) and a closing line stating what was paid. Choice flags, stateChanges and nextSegment are verified unchanged by script.
+- Audit "missing resolution beats" 52 → 30 → 12 → **0**.
+
+### Batch 11 — `3620c82` feat(narrative): Act IV weeks 45, 48, 51
+- New: `act4_week45_the_poster`, `act4_week48_the_roll`, `act4_week51_two_speeches`, gated on `coup_succeeded == false` (wk51 also `war_defeat == false`). Echoes read by wk53, wk98 and wk102.
+- **Defect found and fixed during this batch:** my node-insertion helper put the three wk102 poster nodes *inside* a node's `conditions` array. The JSON was valid, but it would have crashed `evaluateCondition` at runtime. Caught by the whole-game condition-shape scan, repaired, and the helper fixed. The scan (`Malformed conditions: 0`) is now a permanent gate in `gates.sh`.
+
+### Batch 12 — `a831d4d` feat(narrative): wk63 procurement segments (R-4); wk65 echo timing aligned
+
+### Batch 13 — `51800dd` feat(narrative): complete echo coverage for the curated decision list
+- Every option of the 24 curated major decisions (analysis §c) is now read by at least one later scene.
+
+---
+
+## Final status of the pass
+
+**Gates on `51800dd`:** `tsc -b` ✓ · `vite build` ✓ (into a scratch dir; `dist/` untouched) · broken links 0 · orphans 67 (no new; same set as baseline) · flag gaps 13 → **10** · missing resolution beats 52 → **0** · dead-end choices 165 (=) · unguarded agenda entries 0 · malformed conditions 4 → **0**.
+
+**Runtime sweep:** `devJumpToWeek(2..103)` builds every pool without throwing, and every week opens at least one scene even for a player with no flags set. Before the pass, weeks 56–58 threw and 58/62/70/98/99/101–103 were empty.
+
+**Totals:** 15 new scenes (wk45, 48, 51, 56, 57, 58, 62, 70, 74, 83, 98, 99, 101, 102, 103). 3 scenes rewritten in place (wk63, wk94, wk97). 17 scenes with strengthened endings (52 segments). 9 scenes with routing repaired, 2 of them with new fallback branches. ~20 existing scenes with conditional echo nodes. 24 agenda mirror entries. 103 data files, +5,488 / −293 lines.
+
+**Measurable targets:**
+- Every week 2–103 has ≥1 scene beyond budget: ✓ for all branches except the exile branch's weeks 45/48/51 (see weak spots). Week 104 is unplayable by engine design (the election fires on reaching it).
+- Every curated major decision gets ≥1 echo: ✓ 24/24, all options.
+- Zero new bare "(Continue)" endings: ✓. The only "(Continue)" buttons added are hidden routing choices, which show exactly one option per player. Existing thin endings went 52 → 0.
+- Wiring checklist on every new scene: ✓ (`wiring.mjs` plus runtime walker on every path).
+
+**Remaining weak spots (not done):**
+1. **Engine bugs A/B/C (H-1, H-2)** still dominate the live experience: the week can't auto-end with a budget item, petitions/press/rallies play once, and 163 chain-only scenes never play. The content added here deliberately avoids depending on them.
+2. **Exile branch, weeks 45/48/51.** The wk44 counter-coup has four divergent outcomes and no resolution scenes, while the wk52 ending can still read "Brenner rules Veltria". Writing those weeks needs a design decision on how the exile branch resolves. **Question for Arshad.**
+3. **Term 1 echoes.** 1,098 weighty Term 1 flags are still unread. This pass focused Term 2 echoes on the Term 1 *outcomes* (coup, climax, referendum, 3:47, commissioner, Morvec, Tomas arcs). Most of the rest were meant to echo through delayed chain scenes (bug B).
+4. **Branch inconsistencies that predate this pass, now more visible:** Theron appears after being fired (wk73 → wk89); Brenner is "General" at wk72/96 after a public dismissal at wk69; `src/data/epilogues.json` still uses `general_brenner`.
+5. Teaser carry-forward entries (H-5) and the Arcturian naming (H-3) are untouched pending your decision.
