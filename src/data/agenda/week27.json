@@ -77,5 +77,33 @@
     "executionOrder": 3,
     "weekAvailable": 27,
     "weekDeadline": 28
+  },
+  {
+    "id": "agenda_w27_press_conference",
+    "title": "Facing the Press",
+    "description": "The referendum passed. Nadia Voss has questions about the margin, and every camera in the capital will carry your answers by dinner.",
+    "category": "meeting",
+    "sceneId": "act2_week27_press_conference",
+    "slotCost": 1,
+    "executionOrder": 4,
+    "weekAvailable": 27,
+    "weekDeadline": 28,
+    "prerequisites": [
+      { "stat": "flags.referendum_passed", "operator": "==", "value": true }
+    ]
+  },
+  {
+    "id": "agenda_w27_press_conference_failed",
+    "title": "Facing the Press — Defeat",
+    "description": "The referendum failed. Nadia Voss has questions about the defeat, and every camera in the capital will carry your answers by dinner.",
+    "category": "meeting",
+    "sceneId": "act2_week27_press_conference_failed",
+    "slotCost": 1,
+    "executionOrder": 4,
+    "weekAvailable": 27,
+    "weekDeadline": 28,
+    "prerequisites": [
+      { "stat": "flags.referendum_failed", "operator": "==", "value": true }
+    ]
   }
 ]

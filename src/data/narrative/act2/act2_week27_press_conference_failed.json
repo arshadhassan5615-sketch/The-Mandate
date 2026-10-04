@@ -1,0 +1,106 @@
+{
+  "id": "act2_week27_press_conference_failed",
+  "title": "Facing the Press — Defeat",
+  "act": 2,
+  "weekAvailable": 27,
+  "weekDeadline": 28,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": true,
+  "location": "Chancellery Press Room — Ashenmere",
+  "characters": [
+    "nadia_voss",
+    "vyktor_reznik"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The press room is half full. That is the first fact of the morning: the correspondents who came to watch a victory have found something else to watch instead. Nadia Voss is in the front row, second seat from the left. She has a notebook open and a pen in her hand and the expression of someone who has been waiting for exactly this moment."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Chancellor. Forty-six point three percent in favor. Forty-eight point nine against. The Halvek Constitution remains in effect. You staked your government on this document and the country said no. What do you say to the forty-six percent who voted yes — and what do you say to everyone else?"
+    },
+    {
+      "type": "internal_thought",
+      "text": "No version of this answer survives contact with the numbers. Forty-six point three. I can explain it, contextualize it, or own it. Explaining sounds like excuse. Context sounds like evasion. That leaves owning it, in front of every camera in the capital."
+    }
+  ],
+  "monologue": "No version of this answer survives contact with the numbers. Explaining sounds like excuse. Context sounds like evasion. That leaves owning it, in front of every camera in the capital.",
+  "choices": [
+    {
+      "id": "press_failed_own_it",
+      "text": "\"The country said no, and I heard it. Forty-six point three percent believed in this constitution, and I thank them. The rest did not, and I do not dismiss them. A constitution imposed against the will of half the country would not be worth the paper it is written on. We go back to work — with the parliament we have, under the constitution we have, toward the country we still intend to become.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 5
+        }
+      ],
+      "flags": [
+        "press_conference_failed_owned"
+      ],
+      "codexUnlocks": [],
+      "reactions": [],
+      "nextSegment": null,
+      "chainTriggers": []
+    },
+    {
+      "id": "press_failed_fight_on",
+      "text": "\"This vote was forty-six point three percent against a constitution written in the open, and the campaign against it was funded in the dark. I am not conceding the argument. I am conceding the count. There will be another vote — not tomorrow, not imposed, but prepared properly and won honestly. Until then, we govern.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -2
+        }
+      ],
+      "flags": [
+        "press_conference_failed_defiant"
+      ],
+      "codexUnlocks": [],
+      "reactions": [],
+      "nextSegment": null,
+      "chainTriggers": []
+    },
+    {
+      "id": "press_failed_blame_press",
+      "text": "\"Ask Kolvar how his forty-eight point nine was assembled — whose money paid for it, and what was promised in return. This referendum was lost in rooms I was not invited into. I will find those rooms.\"",
+      "internalTag": "authoritarian",
+      "stateChanges": [
+        {
+          "stat": "nation.pressFreedom",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -4
+        }
+      ],
+      "flags": [
+        "press_conference_failed_hostile"
+      ],
+      "codexUnlocks": [],
+      "reactions": [],
+      "nextSegment": null,
+      "chainTriggers": []
+    }
+  ]
+}

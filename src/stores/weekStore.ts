@@ -312,13 +312,19 @@ function buildChainItems(
   return chainItems
 }
 
-// Threshold checks for chain-injected crisis scenes (mirrors shouldTriggerImpeachment)
-function shouldTriggerTyvarenMobilization(hostility: number): boolean {
-  return hostility >= 70
+// Threshold checks for chain-injected crisis scenes (mirrors shouldTriggerImpeachment).
+// Both targets are Act-1 scenes, so both triggers are week-bounded:
+//   - before week 3 the government is still forming (inauguration + cabinet),
+//     and neither a mobilization standoff nor a debt-service crisis is coherent;
+//   - after week 20 the Stellamere summit (wk20) reframes Tyvaren relations and
+//     the oil arc + week-20 budget crisis supersede these early-crisis scenes
+//     (the deficit scene's 340M debt figure IS the opening debt position).
+function shouldTriggerTyvarenMobilization(hostility: number, week: number): boolean {
+  return week >= 3 && week <= 20 && hostility >= 70
 }
 
-function shouldTriggerDeficitCrisis(economyHealth: number): boolean {
-  return economyHealth < -40
+function shouldTriggerDeficitCrisis(economyHealth: number, week: number): boolean {
+  return week >= 3 && week <= 20 && economyHealth < -40
 }
 
 interface WeekStore {
@@ -1967,7 +1973,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     // Tyvaren mobilization check
-    if (shouldTriggerTyvarenMobilization(nextState.tyvarenHostility) && !corruptionFlags.includes('tyvaren_mobilization')) {
+    if (shouldTriggerTyvarenMobilization(nextState.tyvarenHostility, newWeek) && !corruptionFlags.includes('tyvaren_mobilization')) {
       useNarrativeStore.getState().addFlags(['tyvaren_mobilization'])
       useChainStore.getState().schedule(
         [{ targetNodeId: 'act1_chain_tyvaren_border_standoff', delayWeeks: 0 }],
@@ -1977,7 +1983,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     // Deficit crisis check
-    if (shouldTriggerDeficitCrisis(nextState.nation.economyHealth) && !corruptionFlags.includes('deficit_critical')) {
+    if (shouldTriggerDeficitCrisis(nextState.nation.economyHealth, newWeek) && !corruptionFlags.includes('deficit_critical')) {
       useNarrativeStore.getState().addFlags(['deficit_critical'])
       useChainStore.getState().schedule(
         [{ targetNodeId: 'act1_chain_deficit_crisis', delayWeeks: 0 }],

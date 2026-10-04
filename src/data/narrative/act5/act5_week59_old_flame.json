@@ -13,16 +13,34 @@
   "narrative": [
     {
       "type": "description",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
       "text": "The Lytheirian trade delegation sends a legal advisor. His name is on the briefing sheet: Dr. Julian Bard. You read it twice. The same Julian Bard. You have not seen him in twenty-two years. He walks in looking exactly like he did in '41 except for the grey at his temples, and you realize immediately that Jonas — who came to leave your evening tea — has read the room in the three seconds it took Julian to cross the threshold."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+      "text": "The Lytheirian trade delegation sends a legal advisor. His name is on the briefing sheet: Dr. Julian Bard. You read it twice. The same Julian Bard. You have not seen him in twenty-two years. He walks in looking exactly like he did in '41 except for the grey at his temples."
     },
     {
       "type": "dialogue",
       "character": "jonas_ashavel",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
       "text": "I'll leave the tea here. You look like you might need it."
     },
     {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+      "text": "Your aide leaves the tea here and withdraws."
+    },
+    {
       "type": "monologue",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
       "text": "He didn't say anything else. He didn't need to. Twenty years of marriage and Jonas can read a room in three seconds. Julian is standing at my bookshelf pretending to study the spines. The trade deal needs him — specifically him, his patent work on Lytheirian agricultural law. Three weeks of late sessions. Alone. Jonas knows what that means. So do I."
+    },
+    {
+      "type": "monologue",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+      "text": "You have not seen him in twenty-two years. Julian is standing at my bookshelf pretending to study the spines. The trade deal needs him — specifically him, his patent work on Lytheirian agricultural law. Three weeks of late sessions. Alone. I know what that means."
     }
   ],
   "choices": [
@@ -73,12 +91,19 @@
       "narrative": [
         {
           "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
           "text": "The delegation accepts without complaint. A replacement arrives Thursday. Julian's name disappears from the briefing sheets. Jonas makes dinner that night — something he hasn't done in months. Neither of us mentions it."
         },
-        { "type": "dialogue", "character": "jonas_ashavel", "text": "I hear the Lytheiran delegation lost a man this week. Reassigned. Shame. I made the lamb." }
+        {
+          "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+          "text": "The delegation accepts without complaint. A replacement arrives Thursday. Julian's name disappears from the briefing sheets. It is done."
+        },
+        { "type": "dialogue", "character": "jonas_ashavel", "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }], "text": "I hear the Lytheiran delegation lost a man this week. Reassigned. Shame. I made the lamb." }
       ],
       "choices": [
-        { "id": "reassign_end", "text": "Julian is reassigned. Jonas makes dinner, and neither of us says why.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+        { "id": "reassign_end", "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }], "text": "Julian is reassigned. Jonas makes dinner, and neither of us says why.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] },
+        { "id": "reassign_end_solo", "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }], "text": "Julian is reassigned. The delegation moves on.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
       ]
     },
     "seg_keep": {

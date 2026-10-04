@@ -20,12 +20,19 @@
     },
     {
       "type": "description",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
       "text": "Vyktor stands beside you on the platform. Jonas is in the front row, his expression unreadable. The cameras are rolling. The nation is watching."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+      "text": "Vyktor stands beside you on the platform. The front row holds the cabinet, composed for the cameras. The cameras are rolling. The nation is watching."
     },
     { "type": "description", "conditions": [{ "type": "flag", "flag": "act3_climax_war_footing", "value": true }], "text": "Near the front stands a row of men still in demobilization greatcoats. In week thirty-nine you put this country on a war footing in one sentence. Some of them came home to hear the next one." },
     { "type": "description", "conditions": [{ "type": "flag", "flag": "act3_climax_diplomatic", "value": true }], "text": "The Forum flags from the week-thirty-nine emergency session still hang from the Foreign Ministry balconies. Nobody ever ordered them taken down. Sorin says that is a policy in itself." },
     { "type": "description", "conditions": [{ "type": "flag", "flag": "act3_climax_hold_all", "value": true }], "text": "Vyktor once called week thirty-nine 'the day you tried to hold everything at once.' He meant it as a criticism. Lately he has started saying it as if it were a compliment." },
-    { "type": "description", "conditions": [{ "type": "flag", "flag": "act3_climax_personal", "value": true }], "text": "Jonas catches your eye from the front row. Week thirty-nine: two hours with the family before the storm. He has never once mentioned it. He doesn't need to." },
+    { "type": "description", "conditions": [{ "type": "flag", "flag": "act3_climax_personal", "value": true }, { "type": "flag", "flag": "jonas_divorce", "value": false }], "text": "Jonas catches your eye from the front row. Week thirty-nine: two hours with the family before the storm. He has never once mentioned it. He doesn't need to." },
+    { "type": "description", "conditions": [{ "type": "flag", "flag": "act3_climax_personal", "value": true }, { "type": "flag", "flag": "jonas_divorce", "value": true }], "text": "Week thirty-nine: two hours with the children before the storm. They have never once mentioned it. They don't need to." },
     { "type": "description", "conditions": [{ "type": "flag", "flag": "act3_climax_internal_focus", "value": true }], "text": "A soldier stands at every second lamp post around the square. Internal consolidation, week thirty-nine. Nobody ever signed the order standing them down." },
     { "type": "description", "conditions": [{ "type": "flag", "flag": "act3_climax_narrative", "value": true }], "text": "The loudspeakers are the ones the engineers rigged for your week-thirty-nine broadcast. They never took them down. 'The rest follows,' you said into them. Most of it did." },
     { "type": "description", "conditions": [{ "type": "flag", "flag": "coup_succeeded", "value": true }], "text": "A year ago you listened to news of this square on a shortwave set in a borrowed office in Stellamere. Some of the faces in this crowd watched the junta's tanks cross it." },
@@ -133,7 +140,14 @@
         {
           "type": "dialogue",
           "character": "jonas_ashavel",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
           "text": "You look tired, Katya. More tired than last year. The weight of the office — or the weight of the company you keep?"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+          "text": "You look tired, Chancellor. More tired than last year. The weight of the office — or the weight of the company you keep?"
         }
       ],
       "choices": [
@@ -200,7 +214,14 @@
         {
           "type": "dialogue",
           "character": "jonas_ashavel",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
           "text": "You did something no one thought possible, Katya. You broke the old machine. Now you have to build a new one. That is the harder part."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+          "text": "You did something no one thought possible, Chancellor. You broke the old machine. Now you have to build a new one. That is the harder part."
         }
       ],
       "choices": [
@@ -272,7 +293,14 @@
         {
           "type": "dialogue",
           "character": "jonas_ashavel",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
           "text": "You won without selling anything, Katya. Do you know how rare that is?"
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+          "text": "You won without selling anything, Chancellor. Do you know how rare that is?"
         }
       ],
       "choices": [

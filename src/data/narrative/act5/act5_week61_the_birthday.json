@@ -13,7 +13,13 @@
   "narrative": [
     {
       "type": "description",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
       "text": "Forty-five. The children drew cards. Jonas made the lamb dish your mother used to make and hasn't made since the first term started. Vyktor is in the corridor when you pass. He doesn't say happy birthday."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+      "text": "Forty-five. The children drew cards. Dinner is arranged, quietly, at the residence. Vyktor is in the corridor when you pass. He doesn't say happy birthday."
     },
     {
       "type": "dialogue",
@@ -23,7 +29,13 @@
     {
       "type": "dialogue",
       "character": "jonas_ashavel",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
       "text": "The lamb will keep. The children won't."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+      "text": "A card came this morning in Jonas's hand. Five words. The children won't wait for a party."
     },
     {
       "type": "monologue",
@@ -80,12 +92,19 @@
       "narrative": [
         {
           "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
           "text": "The children's cards are taped to the wall. The lamb is exactly right. Jonas pours wine and doesn't mention work once. For two hours I am not the Chancellor. I don't know if that's a gift or a warning."
+        },
+        {
+          "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+          "text": "The children's cards are taped to the wall. Dinner is quiet without him. For two hours I am not the Chancellor. I don't know if that's a gift or a warning."
         },
         { "type": "dialogue", "character": "vyktor_reznik", "text": "The Herald ran the mill story without a photograph of you. Lucky." }
       ],
       "choices": [
-        { "id": "dinner_end", "text": "Two hours of not being Chancellor. Vyktor called it luck. It was Jonas.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+        { "id": "dinner_end", "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }], "text": "Two hours of not being Chancellor. Vyktor called it luck. It was Jonas.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] },
+        { "id": "dinner_end_solo", "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }], "text": "Two hours of not being Chancellor. The children made sure of that.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
       ]
     },
     "seg_office": {
@@ -104,12 +123,19 @@
       "narrative": [
         {
           "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
           "text": "The square fills. Bands play. The press shoots the Chancellor among the people, smiling, forty-five and apparently thriving. Jonas attends for twenty minutes, shakes the right hands, and leaves. I don't blame him. I used our anniversary to buy approval ratings once. He remembers."
+        },
+        {
+          "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+          "text": "The square fills. Bands play. The press shoots the Chancellor among the people, smiling, forty-five and apparently thriving. Jonas doesn't come. I don't blame him. I used our anniversary to buy approval ratings once. He remembers."
         },
         { "type": "description", "text": "The festival costs ₭2,000 of your own money and adds four points to the weekend polls. The Kravenstal Worker prints the bandstand invoice next to the mill closure figures, with no headline." }
       ],
       "choices": [
-        { "id": "festival_end", "text": "Four points in the polls for ₭2,000 and a birthday. Jonas stayed twenty minutes.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
+        { "id": "festival_end", "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }], "text": "Four points in the polls for ₭2,000 and a birthday. Jonas stayed twenty minutes.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] },
+        { "id": "festival_end_solo", "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }], "text": "Four points in the polls for ₭2,000 and a birthday.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
       ]
     }
   }

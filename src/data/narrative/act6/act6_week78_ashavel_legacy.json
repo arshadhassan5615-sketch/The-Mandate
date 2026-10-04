@@ -41,7 +41,13 @@
       "narrative": [
         {
           "type": "description",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": false }],
           "text": "You push the door open. Jonas is sitting in the armchair by the fire. He has a glass of whiskey in his hand. He doesn't look up."
+        },
+        {
+          "type": "description",
+          "conditions": [{ "type": "flag", "flag": "jonas_divorce", "value": true }],
+          "text": "You push the door open. The study is empty. Jonas's armchair sits by the cold fire. The divorce is months old now — old enough that the staff no longer lower their voices when his name comes up."
         }
       ],
       "choices": [
@@ -50,7 +56,8 @@
           "text": "(Continue)",
           "nextSegment": "seg_united",
           "conditions": [
-            { "stat": "personal.marriageHealth", "operator": ">=", "value": 40 }
+            { "stat": "personal.marriageHealth", "operator": ">=", "value": 40 },
+            { "type": "flag", "flag": "jonas_divorce", "value": false }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -62,7 +69,20 @@
           "text": "(Continue)",
           "nextSegment": "seg_divorce",
           "conditions": [
-            { "stat": "personal.marriageHealth", "operator": "<", "value": 40 }
+            { "stat": "personal.marriageHealth", "operator": "<", "value": 40 },
+            { "type": "flag", "flag": "jonas_divorce", "value": false }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_already_ended",
+          "text": "(Continue)",
+          "nextSegment": "seg_already_ended",
+          "conditions": [
+            { "type": "flag", "flag": "jonas_divorce", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -111,6 +131,24 @@
             { "stat": "personal.stressLevel", "operation": "add", "value": 25 },
             { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
           ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_already_ended": {
+      "narrative": [
+        { "type": "description", "text": "The whiskey decanter is still on the side table. You pour half a glass out of habit and set it down untouched. The house has learned the shape of his absence the way a mouth learns the shape of a missing tooth." },
+        { "type": "monologue", "text": "I did not lose them tonight. I lost the marriage months ago, in a courtroom and a press statement, and what I feel now is not grief but the aftershock of it — quieter, duller, mine to carry alone. The children are still here. That is the only victory that matters." }
+      ],
+      "choices": [
+        {
+          "id": "already_end",
+          "text": "A quiet evening. The campaign resumes in the morning.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [],
           "reactions": [],
           "chainTriggers": [],
           "codexUnlocks": []

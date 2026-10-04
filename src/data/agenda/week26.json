@@ -49,7 +49,10 @@
     "weekDeadline": 26,
     "isUrgent": true,
     "prerequisites": [
-      { "stat": "flags.referendum_passed", "operator": "==", "value": true }
+      { "stat": "flags.referendum_passed", "operator": "==", "value": true },
+      { "stat": "factions.reformists", "operator": ">=", "value": 48 },
+      { "stat": "factions.reformists", "operator": "<=", "value": 61 },
+      { "stat": "factions.halvekists", "operator": "<=", "value": 55 }
     ]
   },
   {

@@ -260,3 +260,70 @@ Full suite unchanged: 162 pass / 12 fail = 159 pre-existing pass + 3 new pass, 6
   pre-existing, fails identically without these changes). Gates run: `tsc -b`, vitest, audit-full-game
   (broken 0 / orphans 67 / flag gaps 10 / dead-ends 165 / missing beats 0 / malformed conditions 0),
   check-unguarded (0).
+
+---
+
+## Round 3 — STEP 1 data fixes
+
+### 1a. Trigger bounds 3-20 (`src/stores/weekStore.ts`)
+- `shouldTriggerTyvarenMobilization(hostility, week)` and `shouldTriggerDeficitCrisis(economy, week)`
+  now require `week in 3..20` (checked against `newWeek`, the week the scene would play).
+- Justification: both targets are Act-1 scenes. Below 3 the government is still forming (inauguration +
+  cabinet; the first budget is week 3). Above 20 the scenes are false: the deficit scene's 340M debt
+  figure IS the opening debt position (INITIAL_STATE 340), and the wk20 Stellamere summit + oil arc +
+  wk20 budget crisis supersede both early crises; the standoff's "second week" freshness cannot survive
+  the wk32 ultimatum arc. Unbounded, a late hostility spike (up to +20 at wk88) would summon Act-1
+  content into Term 2 — the 0e mechanism.
+
+### 1b. Narrow-referendum upper bound
+- Scene `act2_week26_referendum_narrow` prerequisites += `factions.reformists <= 61`. Without it,
+  reformists>=62 AND halvekists<=40 qualified for BOTH decisive and narrow, and the player picked the
+  outcome presentation (both agenda entries offered).
+- Agenda `agenda_w26_referendum_narrow` mirrored in AGENDA shape: passed + reformists 48..61 +
+  halvekists<=55 (full scene-prereq mirror).
+- Residual (not changed): the decisive agenda entry lacks the scene's halvekists<=40, and a passed
+  vote with weak stats matches neither result entry — pre-existing gap, needs a fallback decision.
+
+### 1c. Press conference rewrite + failed variant
+- `act2_week27_press_conference.json` rewritten: same id/choices/flags/stateChanges/nextNodeId;
+  opening Nadia question + internal thought now vary decisive/narrow via per-node conditions;
+  monologue made path-neutral; the 4 choice texts de-numbered so each path keeps ONE consistent set:
+  narrow 51.8/46.8/1.4 (matches the narrow scene, its agenda entry and the aftermath text),
+  decisive 60.7/39.3 (canonical from the decisive scene). A neutral third opening covers the
+  passed-but-result-unplayed case.
+- New `act2_week27_press_conference_failed.json` (short, terminal choices, 46.3/48.9/4.8 figures
+  from the rejected scene).
+- Agenda week27.json: `agenda_w27_press_conference` (gate `referendum_passed`) +
+  `agenda_w27_press_conference_failed` (gate `referendum_failed`).
+- The 4 rejected-path chains re-pointed to the failed variant (decisive/narrow chains untouched).
+- Residual: `press_followup` ("forty-eight percent") and `press_outcome` ("narrow referendum
+  victory") stay narrow-locked for decisive players — same treatment needed, out of mandate scope.
+
+### 1d. Divorce/healing mutual exclusion + Term 2 Jonas consistency
+- All 4 `act4_jonas_divorce` choices += `jonas_divorce` flag. This single addition wires the
+  ALREADY-AUTHORED Term-2 divorce branches: wk99's 11 `jonas_divorce` nodes and wk100's true/false
+  variants were dead content (only wk78's suitcase set the flag before).
+- Agenda gates (absence shape only exists at agenda level): w49/w50 divorce entries require
+  `family_healing_path == false`; w49/w50/w51/w52 healing entries require `marriage_ended == false`.
+- Term 2 Jonas audit — contradicts a divorce, fixed with per-node conditions + fallbacks: wk53
+  (5 nodes: front-row + personal echo + 3 address dialogues, Vyktor fallbacks), wk59 (tea +
+  monologue variants, reassign monologue variant, lamb line + end choice gated with solo fallback),
+  wk61 (card-device variants for setup + dinner + festival, solo end choices), wk78 (united/divorce
+  paths gated on `jonas_divorce == false`; new `path_already_ended` + `seg_already_ended` so divorced
+  players get exactly one path — no 0a freeze).
+- Compatible, untouched: wk93 (neutral phone call), wk99 (already fully divorce-branched), wk100
+  (already reads the flag), wk103 Jonas call (gated on the wk99 Thursday promise, kept in both
+  branches — a kept promise reads coherently divorced or not).
+
+### 1e. Theron at wk103
+- `act7_week103_election_eve` "Theron's order…" node (gated on `debate_wednesday_gates`) now also
+  requires NOT `theron_fired` / `theron_medical_leave`, with an unattributed fallback order.
+
+### Gates
+- `tsc -b` clean. Vitest 168 pass / 6 pre-existing fail / 4 skipped (unchanged).
+- audit-full-game: broken 0 / orphans 67 (=) / flag gaps 10 (=) / missing beats 0 / malformed
+  conditions 0 (checked on all touched files). Dead-ends 165 -> **169 (+4)**: the 4 new
+  flag-free terminal closes (`reassign_end_solo`, `dinner_end_solo`, `festival_end_solo`,
+  `already_end`), each mirroring a pre-existing flag-free sibling 1:1 — accepted, not masked
+  with no-op flags.
+- check-unguarded-agenda-entries: 0. JSON.parse clean on all 16 touched/new data files.

@@ -25,18 +25,42 @@
     {
       "type": "dialogue",
       "character": "nadia_voss",
-      "text": "Chancellor. The referendum passed — fifty-one to fifty-nine percent depending on which province you count. Was this a mandate, or was it a warning? Half the country voted against the constitution you staked your government on. Kolvar has called it 'a narrow endorsement of a flawed document.' The Iron Covenant has issued no statement, which in itself is a statement. What does this result actually mean for your ability to govern?"
+      "conditions": [{ "type": "flag", "flag": "referendum_won_decisive", "value": true }],
+      "text": "Chancellor. The referendum passed — sixty point seven percent. Was this a mandate, or was it a warning? More than a third of the country voted against the constitution you staked your government on. Kolvar has called it 'a flawed document carried by a frightened majority.' The Iron Covenant has issued no statement, which in itself is a statement. What does this result actually mean for your ability to govern?"
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "referendum_won_narrow", "value": true }],
+      "text": "Chancellor. The referendum passed — fifty-one point eight percent. Was this a mandate, or was it a warning? Nearly half the country voted against the constitution you staked your government on. Kolvar has called it 'a narrow endorsement of a flawed document.' The Iron Covenant has issued no statement, which in itself is a statement. What does this result actually mean for your ability to govern?"
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "referendum_won_decisive", "value": false }, { "type": "flag", "flag": "referendum_won_narrow", "value": false }],
+      "text": "Chancellor. The referendum passed. Was this a mandate, or was it a warning? A large part of the country voted against the constitution you staked your government on. Kolvar has already called it a flawed document. The Iron Covenant has issued no statement, which in itself is a statement. What does this result actually mean for your ability to govern?"
     },
     {
       "type": "internal_thought",
-      "text": "She opens with the hardest question. Of course she does. Nadia Voss does not ease into interviews — she begins where other journalists end. The referendum margin is the number everyone is thinking about and no one wants to say aloud: it is thin enough to be contested and large enough to be claimed. She is asking me to choose which one it is, in front of every camera in the capital. The answer I give will be the headline by dinner."
+      "conditions": [{ "type": "flag", "flag": "referendum_won_decisive", "value": true }],
+      "text": "She opens with the hardest question. Of course she does. Nadia Voss does not ease into interviews — she begins where other journalists end. Sixty point seven percent: large enough to claim, and large enough that the claiming itself becomes the story. She is asking me to define what a mandate means, in front of every camera in the capital. The answer I give will be the headline by dinner."
+    },
+    {
+      "type": "internal_thought",
+      "conditions": [{ "type": "flag", "flag": "referendum_won_narrow", "value": true }],
+      "text": "She opens with the hardest question. Of course she does. Nadia Voss does not ease into interviews — she begins where other journalists end. Fifty-one point eight percent: thin enough to be contested and large enough to be claimed. She is asking me to choose which one it is, in front of every camera in the capital. The answer I give will be the headline by dinner."
+    },
+    {
+      "type": "internal_thought",
+      "conditions": [{ "type": "flag", "flag": "referendum_won_decisive", "value": false }, { "type": "flag", "flag": "referendum_won_narrow", "value": false }],
+      "text": "She opens with the hardest question. Of course she does. Nadia Voss does not ease into interviews — she begins where other journalists end. The margin is the number everyone is thinking about and no one wants to say aloud. She is asking me to define what it means, in front of every camera in the capital. The answer I give will be the headline by dinner."
     }
   ],
-  "monologue": "Nadia opens with the hardest question. The referendum margin — thin enough to contest, large enough to claim. She's asking me to choose which one it is, in front of every camera in the capital. The answer I give becomes the headline by dinner.",
+  "monologue": "Nadia opens with the hardest question — the margin itself. She's asking me to define what it means, in front of every camera in the capital. The answer I give becomes the headline by dinner.",
   "choices": [
     {
       "id": "press_q1_confident",
-      "text": "\"The margin is what democracy looks like when it works. Sixty percent voted for reform. Forty percent wanted something different. Both numbers are real. Both are Veltrians. The constitution passed because more people wanted it than didn't — and I will govern for all of them, including the ones who voted no. That is not a warning, Ms. Voss. That is a republic functioning as designed.\"",
+      "text": "\"The margin is what democracy looks like when it works. A majority voted for reform. The rest wanted something different. Both numbers are real. Both are Veltrians. The constitution passed because more people wanted it than didn't — and I will govern for all of them, including the ones who voted no. That is not a warning, Ms. Voss. That is a republic functioning as designed.\"",
       "internalTag": "reformist",
       "stateChanges": [
         {
@@ -71,7 +95,7 @@
     },
     {
       "id": "press_q1_cautious",
-      "text": "\"The margin is narrow. I know that. Forty-eight percent of Veltrians looked at the constitution I spent twenty-six weeks negotiating and said no. I hear them. The constitution is the law now — the vote was clear on that — but governing does not end at fifty percent. I will spend the next year demonstrating that this document works for the people who doubted it, not just the people who supported it.\"",
+      "text": "\"I know the margin leaves many unconvinced. Many Veltrians looked at the constitution I spent twenty-six weeks negotiating and said no. I hear them. The constitution is the law now — the vote was clear on that — but governing does not end at a majority. I will spend the next year demonstrating that this document works for the people who doubted it, not just the people who supported it.\"",
       "internalTag": "pragmatist",
       "stateChanges": [
         {
@@ -128,7 +152,7 @@
         {
           "character": "nadia_voss",
           "type": "dialogue",
-          "text": "Chancellor, with respect — you did not answer the question. The margin is the story. Every newspaper in this city will lead with the margin. The question is whether your government treats forty-eight percent opposition as a mandate or as a problem. Which is it?"
+          "text": "Chancellor, with respect — you did not answer the question. The margin is the story. Every newspaper in this city will lead with the margin. The question is whether your government treats the opposition as a mandate or as a problem. Which is it?"
         }
       ],
       "nextNodeId": "act2_week27_press_economy",
@@ -136,7 +160,7 @@
     },
     {
       "id": "press_q1_hostile",
-      "text": "\"Ms. Voss, the margin is fifty-one percent. In a democracy, that is a majority. I notice you did not ask Kolvar what his margin was when the Halvekists won elections with sixty percent of eligible voters staying home. The referendum was free, it was fair, and it was decisive. If you are looking for a story about division, I suggest you look at the forty-eight percent who voted against — and ask them why they are not the ones you are questioning.\"",
+      "text": "\"Ms. Voss, the margin is a majority. In a democracy, that is what counts. I notice you did not ask Kolvar what his margin was when the Halvekists won elections with sixty percent of eligible voters staying home. The referendum was free, it was fair, and it passed. If you are looking for a story about division, I suggest you look at those who voted against — and ask them why they are not the ones you are questioning.\"",
       "internalTag": "authoritarian",
       "stateChanges": [
         {
