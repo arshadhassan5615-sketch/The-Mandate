@@ -23,6 +23,22 @@ export function sleep(ms: number): Promise<void> {
 }
 
 /**
+ * Pluggable settle. Tests may install a fake-timer waiter
+ * (`ms => vi.advanceTimersByTimeAsync(ms)`) so long scripted playthroughs run
+ * in seconds instead of minutes. `null` restores real-time sleeps.
+ */
+type Waiter = (ms: number) => Promise<void>
+let waiter: Waiter | null = null
+
+export function setWaiter(fn: Waiter | null): void {
+  waiter = fn
+}
+
+function wait(ms: number): Promise<void> {
+  return waiter ? waiter(ms) : sleep(ms)
+}
+
+/**
  * Wipe every store plus localStorage so tests cannot leak state into each
  * other (gameStore has a persist middleware backed by localStorage).
  */
@@ -116,10 +132,13 @@ export function offeredIds(): string[] {
  *
  * Virtual items (`__budget__`, `__radio__`, …) have no narrative scene; their
  * phase screens complete the item and call advanceQueue directly, which is
- * what this seam mirrors.
+ * what this seam mirrors. Returns false when the launch was a no-op (e.g. the
+ * scene is missing from the registry) so scripted playthroughs can report it.
  */
-export async function playItem(item: AgendaItem): Promise<void> {
+export async function playItem(item: AgendaItem): Promise<boolean> {
   useWeekStore.getState().launchSingleScene(item)
+  const launched = useWeekStore.getState().sceneQueue[0]?.id === item.id
+  if (!launched) return false
   const sceneId = item.sceneId
   if (!sceneId.startsWith('__')) {
     useNarrativeStore.getState().markSceneVisited(sceneId)
@@ -131,7 +150,8 @@ export async function playItem(item: AgendaItem): Promise<void> {
     useWeekStore.getState().setRadioOpen(false)
   }
   useWeekStore.getState().advanceQueue()
-  await sleep(700) // 500ms scene transition + margin for the pool rebuild
+  await wait(700) // 500ms scene transition + margin for the pool rebuild
+  return true
 }
 
 /**
@@ -151,12 +171,13 @@ export async function playAllExcept(skipSceneId: string | null): Promise<void> {
 }
 
 /**
- * Run completeWeek and wait out its 1500ms chain tick. Returns after the
+ * Run completeWeek and wait out its 1500ms chain tick (and the 2000ms
+ * election label, so the next week's queue advances). Returns after the
  * chain process has run (forcedChainIds updated).
  */
 export async function finishWeek(): Promise<void> {
   await useWeekStore.getState().completeWeek()
-  await sleep(1800)
+  await wait(2200)
 }
 
 /**
