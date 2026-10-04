@@ -1,0 +1,175 @@
+{
+  "id": "act5_week56_halvek_bench",
+  "title": "Halvek's Court",
+  "act": 5,
+  "weekAvailable": 56,
+  "weekDeadline": 58,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Supreme Court of Veltria — Robing Room, Ashenmere",
+  "characters": ["aldric_theron", "vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.constitution_in_force", "operator": "==", "value": false }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The ruling runs to four pages. The reasoning is one sentence, repeated in different words: an executive order not confirmed by the Assembly within forty days is void under Article 31 of the 1948 Constitutional Security Provisions."
+    },
+    {
+      "type": "description",
+      "text": "The order is yours. The Sarenka Safety Order: an inspector at every shaft head in the Kravenstal coalfield, every morning, before the cage goes down. Eleven weeks in force. In those eleven weeks the Sarenka district recorded no deaths. In the eleven weeks before, four."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "referendum_failed", "value": true }],
+      "text": "The country was asked whether it wanted a new constitution, and it said no. So we live in the old one. Halvek wrote Article 31 so that no decree could outlast his patience. He is dead. His patience is not."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "referendum_failed", "value": false }],
+      "text": "The new text is signed and not yet in force, which means that this morning we live in the old one. Halvek wrote Article 31 so that no decree could outlast his patience. He is dead. His patience is not."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Seven justices. Five appointed between 1951 and 1958. The two appointed in 1959 are the dissent. It is not a court, Chancellor. It is a museum that issues rulings."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "coup_negotiated", "value": true }],
+      "text": "You may remember Justice Orlić's signature. He countersigned the amnesty for Brenner's officers in week thirty-seven. He wrote this ruling as well."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Inspectors stood down at six. The owners called at six-fifteen. The union at seven."
+    },
+    {
+      "type": "monologue",
+      "text": "Forty days. I had forty days to take the order to the Assembly and I didn't, because I was afraid of losing the vote. So the court is wrong about Halvek and right about me."
+    }
+  ],
+  "choices": [
+    {
+      "id": "bench_comply_assembly",
+      "text": "Comply. Withdraw the order and put it to the Assembly, in the open this time.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_comply",
+      "flags": ["halvek_bench_complied"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 5 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 2 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "bench_defy",
+      "text": "Keep the inspectors at the shaft heads. Let the court write another four pages.",
+      "internalTag": "authoritarian",
+      "nextSegment": "seg_defy",
+      "flags": ["halvek_bench_defied"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "bench_retirement_statute",
+      "text": "Theron's statute: mandatory retirement at seventy, effective on signature. Four of the five Halvek men are over seventy.",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_retire",
+      "flags": ["halvek_bench_retired"],
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_comply": {
+      "narrative": [
+        { "type": "description", "text": "The order is withdrawn at noon and tabled in the Assembly at three. The division is called twenty-six days later: 131 to 119. It passes, with nine Halvekist abstentions bought by an amendment exempting the Aldenmoor drift mines." },
+        { "type": "description", "text": "In those twenty-six days the Sarenka pits record one death. Anton Vel, thirty-four, roof fall, Number Two shaft, a Tuesday. There was no inspector at the cage that morning. There would have been." },
+        { "type": "dialogue", "character": "aldric_theron", "text": "It is law now. Not your law. The Assembly's. That distinction will protect it long after you and I are both portraits in somebody's corridor." },
+        { "type": "monologue", "text": "I sent flowers to a woman named Vel. Theron says the order is unbreakable now. He is right. It cost twenty-six days and one man, and nobody will ever tie his name to my decision except me." }
+      ],
+      "choices": [
+        {
+          "id": "bench_comply_end",
+          "text": "The order is law now. Anton Vel is the price of doing it properly.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_defy": {
+      "narrative": [
+        { "type": "description", "text": "The inspectors are back at the shaft heads by Thursday, carrying a letter on Chancellery paper that says the ruling is noted. The court issues a second ruling on Monday, holding the Chancellery in contempt. Nobody enforces it. Nobody can." },
+        { "type": "dialogue", "character": "aldric_theron", "text": "I will defend this in the Assembly, Chancellor, because the miners deserve it. But understand what you have written. Every Chancellor after you will open their first term by citing this morning. Some of them will be Halvek's grandsons." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Kravenstal is cheering. Thornfeld is quiet. The Lytheiran ambassador asked for a copy of the ruling. Both rulings." },
+        { "type": "monologue", "text": "No one died in Sarenka this month. I wrote that on the inside of the folder before I filed it. In case anyone opens it later and wants to know what I thought I was buying." }
+      ],
+      "choices": [
+        {
+          "id": "bench_defy_end",
+          "text": "The shaft heads stay guarded. The court is now a thing I can ignore, and so is the next one.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.internationalStanding", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_retire": {
+      "narrative": [
+        { "type": "description", "text": "The Judicial Tenure Act is two clauses long. It passes on a Friday, 128 to 122. Four justices clear their chambers the following Monday. Justice Hrabal, seventy-eight, takes his robe home in a grocery box." },
+        { "type": "description", "text": "Kolvar speaks for eleven minutes in the Assembly. One line is printed everywhere by evening: \"The Chancellor could not win the argument, so she changed their birthdays.\"" },
+        { "type": "dialogue", "character": "aldric_theron", "text": "It is entirely legal. I drafted it, so I can assure you of that. I would ask you never to make me draft another one like it." },
+        { "type": "monologue", "text": "Four new justices by the end of the month. Mine. The order comes back the same week, upheld 5 to 2. It was the right ruling. It will always look like a bought one." }
+      ],
+      "choices": [
+        {
+          "id": "bench_retire_end",
+          "text": "The court is mine, legally. Hrabal's grocery box is the photograph they will use.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

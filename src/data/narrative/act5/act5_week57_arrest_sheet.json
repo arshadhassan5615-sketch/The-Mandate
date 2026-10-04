@@ -1,0 +1,222 @@
+{
+  "id": "act5_week57_arrest_sheet",
+  "title": "The Arrest Sheet",
+  "act": 5,
+  "weekAvailable": 57,
+  "weekDeadline": 59,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Central District Police Station — Ashenmere",
+  "characters": ["tomas_ashavel", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "02:10. The residence telephone rings twice and stops. Vyktor does not ring twice unless he wants you awake before you answer."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Central District. A student march on Corvin Bridge. Forty-two detained. One gave his name as Tomas Mikhaelson."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The desk sergeant knew the face anyway. He has put him on a separate sheet. Awaiting instruction."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "court_purged", "value": true }],
+      "text": "The march was against the Bench removals. The placards say SIX JUDGES in red house paint. Tomas painted three of them on the floor of a flat in Corvin Street."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "court_overridden", "value": true }],
+      "text": "The march was against the Article 12 override. The placards say THE COURT IS NOT YOURS. Someone has underlined YOURS twice."
+    },
+    {
+      "type": "description",
+      "conditions": [
+        { "type": "flag", "flag": "court_purged", "value": false },
+        { "type": "flag", "flag": "court_overridden", "value": false }
+      ],
+      "text": "The march was about the student stipend, frozen since the spring at ₭31 a month. The placards are hand-lettered. Some of the spelling is wrong."
+    },
+    {
+      "type": "description",
+      "text": "The station smells of wet wool and floor polish. Forty-one young people sit on the charge-room benches with their shoelaces in a cardboard box. Tomas is not among them. He is in the inspector's office, alone, with a cup of tea he has not touched."
+    },
+    {
+      "type": "dialogue",
+      "character": "rena_vasic",
+      "conditions": [{ "type": "flag", "flag": "commissioner_vasic_appointed", "value": true }],
+      "text": "Chancellor. I came when I heard. For the record: my officers drew no batons tonight. Sergeant Bek has done what sergeants do. He made a second sheet. I would like to know whether this government keeps second sheets."
+    },
+    {
+      "type": "dialogue",
+      "character": "mirko_solc",
+      "conditions": [{ "type": "flag", "flag": "commissioner_solc_appointed", "value": true }],
+      "text": "I wrote a paper on this in 1958. 'The Second Ledger: Discretion as the Shadow of Law.' I never expected to stand in it. The sergeant is waiting for me to tell him what you want. I am waiting for you."
+    },
+    {
+      "type": "dialogue",
+      "character": "lev_stanko",
+      "conditions": [{ "type": "flag", "flag": "commissioner_stanko_appointed", "value": true }],
+      "text": "Chancellor. Nothing has been written down that cannot be unwritten. Bek is a sensible man. Twenty-two years. He knows how these nights go."
+    },
+    {
+      "type": "description",
+      "conditions": [
+        { "type": "flag", "flag": "commissioner_vasic_appointed", "value": false },
+        { "type": "flag", "flag": "commissioner_solc_appointed", "value": false },
+        { "type": "flag", "flag": "commissioner_stanko_appointed", "value": false }
+      ],
+      "text": "The duty inspector is a tired man with a ledger and nothing to say. He turns the second sheet around on the counter so you can read it."
+    },
+    {
+      "type": "monologue",
+      "text": "Forty-one names on one sheet. One on the other. Father's name was on a sheet once. Somebody decided which pile."
+    }
+  ],
+  "choices": [
+    {
+      "id": "arrest_sheet_enter_office",
+      "text": "Go into the inspector's office. Close the door.",
+      "nextSegment": "seg_office",
+      "flags": [],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_office": {
+      "narrative": [
+        { "type": "description", "text": "He stands when you come in. He is taller than he was in the spring. There is a cut over his left eyebrow that someone has cleaned badly." },
+        { "type": "dialogue", "character": "tomas_ashavel", "text": "They gave me tea. Nobody else got tea. Do you understand? Nobody out there got tea." },
+        { "type": "monologue", "conditions": [{ "type": "flag", "flag": "tomas_redeemed", "value": true }], "text": "The steward's armband is still on his sleeve. The arrest report says he kept the march off the tram lines. It also says he would not leave when ordered." },
+        { "type": "monologue", "conditions": [{ "type": "flag", "flag": "tomas_under_surveillance", "value": true }], "text": "Krel's file on him is still in the second drawer of my desk. I never read the last page. I wonder whether it says this." },
+        { "type": "dialogue", "character": "tomas_ashavel", "text": "Mikhaelson. I thought if I used his name they'd treat me like him. Instead they brought me tea. Don't fix this, Mama. Whatever you're about to do, don't make me a favor." },
+        { "type": "monologue", "text": "He says favor the way his grandfather would have said it. As an accusation." }
+      ],
+      "choices": [
+        {
+          "id": "arrest_sheet_book",
+          "text": "\"Put him on the first sheet.\" Same bench, same magistrate, same fine as the other forty-one.",
+          "internalTag": "reformist",
+          "nextSegment": "seg_booked",
+          "flags": ["tomas_arrest_booked"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+            { "stat": "personal.tomasWellbeing", "operation": "add", "value": 6 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "arrest_sheet_quash",
+          "text": "Tear up the second sheet. He leaves by the service door before the shift changes.",
+          "internalTag": "personal",
+          "nextSegment": "seg_quashed",
+          "flags": ["tomas_arrest_quashed"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": -6 },
+            { "stat": "personal.tomasWellbeing", "operation": "add", "value": -10 },
+            { "stat": "nation.lawOrder", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "arrest_sheet_release_all",
+          "text": "Release all forty-two. No charges. It was a march, not a riot.",
+          "internalTag": "populist",
+          "nextSegment": "seg_released",
+          "flags": ["tomas_arrest_mass_release"],
+          "stateChanges": [
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 4 },
+            { "stat": "nation.lawOrder", "operation": "add", "value": -5 },
+            { "stat": "factions.reformists", "operation": "add", "value": 4 },
+            { "stat": "personal.tomasWellbeing", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_booked": {
+      "narrative": [
+        { "type": "description", "text": "Sergeant Bek reads the second sheet, looks at you once, and copies one name onto the first in the same blue ink as the others. Forty-two." },
+        { "type": "description", "text": "The magistrate sits at nine. Forty-two fines of ₭20. Tomas pays his own from a canvas wallet. The Veltrian Voice runs the docket on page three. The Herald runs it on page one: CHANCELLOR'S SON IN THE DOCK." },
+        { "type": "description", "text": "He leaves a note on the kitchen table that night. Three words, in pencil. Same bench. Thanks." },
+        { "type": "monologue", "text": "Twenty kroner and a front page. Cheap, as these things go. Vyktor says the Herald will cost a point in the polls. He says it like a man reading a receipt he has already paid." }
+      ],
+      "choices": [
+        {
+          "id": "arrest_sheet_booked_end",
+          "text": "One ink, forty-two names. The Herald gets its front page.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_quashed": {
+      "narrative": [
+        { "type": "description", "text": "Sergeant Bek folds the second sheet twice and puts it in his breast pocket, not the bin. You notice. He notices you noticing." },
+        { "type": "description", "text": "Tomas goes out through the service door at 03:15. Forty-one people on the benches watch the door open and close. One of them is the girl who carried his placard." },
+        { "type": "description", "text": "He does not come home. He sleeps on a friend's floor in Corvin Street for six nights. On the seventh he comes for his books and does not look at you." },
+        { "type": "monologue", "text": "Three fifteen. Thirty-two minutes before three forty-seven. I didn't pick the hour. I keep doing the arithmetic anyway." }
+      ],
+      "choices": [
+        {
+          "id": "arrest_sheet_quashed_end",
+          "text": "He walked free. Bek kept the sheet. Both will matter later.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_released": {
+      "narrative": [
+        { "type": "dialogue", "character": "rena_vasic", "conditions": [{ "type": "flag", "flag": "commissioner_vasic_appointed", "value": true }], "text": "Forty-two releases over the Chancellor's signature. My officers will read it one way: march anywhere you like, the Palace will sign. I'll need a month to undo that." },
+        { "type": "dialogue", "character": "mirko_solc", "conditions": [{ "type": "flag", "flag": "commissioner_solc_appointed", "value": true }], "text": "Good. Now do it on a night when your son isn't in the building. That is the version I will believe." },
+        { "type": "dialogue", "character": "lev_stanko", "conditions": [{ "type": "flag", "flag": "commissioner_stanko_appointed", "value": true }], "text": "As you wish. Bek will remember this longer than the students will, Chancellor. So will the men who arrested them." },
+        { "type": "description", "text": "The students walk out onto Corvin Bridge at 03:40, singing something off-key. Tomas walks out last. He stops beside you at the door." },
+        { "type": "dialogue", "character": "tomas_ashavel", "text": "You did it for me. You know that. If I wasn't in there, they'd still be on the benches." },
+        { "type": "monologue", "text": "He is right. The forty-one are free anyway. Both things are true, and I don't get to choose which one he keeps." }
+      ],
+      "choices": [
+        {
+          "id": "arrest_sheet_released_end",
+          "text": "Forty-two free, and one son who knows exactly why.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

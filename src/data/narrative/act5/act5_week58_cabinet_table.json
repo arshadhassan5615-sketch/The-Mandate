@@ -1,0 +1,248 @@
+{
+  "id": "act5_week58_cabinet_table",
+  "title": "The Cabinet Table",
+  "act": 5,
+  "weekAvailable": 58,
+  "weekDeadline": 60,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Cabinet Room — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "elara_vostane", "gregor_maric", "irina_dusek", "aldric_theron"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The first full cabinet of the second term. Nine chairs, nine folders, one carafe of water nobody touches. Vyktor has put the agenda on a single card. ITEM ONE: ₭14 MILLION. There is no item two."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "Receipts for the quarter are fourteen million short of estimate. Not a projection. Counted money. One ministry gives it back by Friday, or the Treasury misses the October coupon to the Orythian bondholders, and then all of you can explain interest rates to your constituents."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "conditions": [{ "type": "flag", "flag": "steel_trust_nationalized", "value": true }],
+      "text": "Nine of the fourteen are the Kravenstal mills. We bought them. Nobody told the mills they were supposed to turn a profit for us now."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "conditions": [{ "type": "flag", "flag": "steel_trust_subsidized", "value": true }],
+      "text": "Six of the fourteen is the steel subsidy. We are paying the Trust to stay in business so that it can go on overcharging us. I would like that minuted."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "conditions": [{ "type": "flag", "flag": "steel_trust_broken", "value": true }],
+      "text": "Five of the fourteen is the antitrust case. Lawyers. The Trust has forty of them and we have six, and ours are cheaper and losing."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "Not Labor. The pension restoration is eleven months late. My office keeps a ledger of widows who have been told 'next quarter' three times. I will not say it to them a fourth time."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "conditions": [{ "type": "flag", "flag": "orphanage_saved", "value": true }],
+      "text": "You paid for a boiler in Dravenhollow out of your own pocket last month, Chancellor. Every pithead in the north has heard. Don't make them wonder whether that was the only money they'll see."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "The defense reserve is fourteen million. Exactly. The Finance Minister knows that. That is why the number is fourteen."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "text": "That is not why."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "Tyvaren's military attaché reads our budget before our Assembly does. Cut the reserve and you will see it on the Gravenmark Pass within six weeks."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "Justice can give two million and a hiring freeze. Which leaves twelve, which is the conversation we are actually having."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "court_purged", "value": true }],
+      "text": "And before anyone looks hopefully at my folder: we now pay four new justices their salaries and six removed ones their pensions. The Bench was not a free decision either."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "puppet_government_active", "value": true }],
+      "text": "Halfway down the table, the Deputy Minister for Ports is copying every figure into a small black notebook that is not government issue. Everyone in the room knows whose notebook it is. Nobody says so."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Choose."
+    },
+    {
+      "type": "monologue",
+      "text": "Three ministers. Three good arguments. Fourteen million. Father would have asked who wasn't in the room. The widows aren't. The conscripts aren't. The bondholders are, in Vostane's folder."
+    }
+  ],
+  "choices": [
+    {
+      "id": "cabinet58_cut_defense",
+      "text": "Take it from the defense reserve. \"Colonel, find me a cheaper border.\"",
+      "internalTag": "reformist",
+      "nextSegment": "seg_cut_defense",
+      "flags": ["cabinet58_cut_defense"],
+      "stateChanges": [
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 },
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet58_cut_pensions",
+      "text": "Delay the pension tranche one more quarter. \"Gregor. I'm sorry.\"",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_cut_pensions",
+      "flags": ["cabinet58_cut_pensions"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -8 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": 3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet58_shipping_levy",
+      "text": "Neither. A one-time levy on the Aldenmoor shipping houses: fourteen million from people who will barely notice it.",
+      "internalTag": "populist",
+      "nextSegment": "seg_shipping_levy",
+      "flags": ["cabinet58_shipping_levy"],
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 5 },
+        { "stat": "morvecInfluence", "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "cabinet58_miss_coupon",
+      "text": "Miss the coupon. Let the Orythian bondholders wait instead of the widows and the conscripts.",
+      "internalTag": "populist",
+      "nextSegment": "seg_miss_coupon",
+      "flags": ["cabinet58_coupon_missed"],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -8 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -6 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_cut_defense": {
+      "narrative": [
+        { "type": "dialogue", "character": "irina_dusek", "text": "Understood." },
+        { "type": "description", "text": "She closes the folder and squares it to the edge of the table. The reserve goes from ₭14 million to nothing. The Sevagrad garrison loses its winter fuel allocation; two companies are moved into the rail depot at Brask to sleep beside the locomotives for the heat." },
+        { "type": "dialogue", "character": "irina_dusek", "text": "I don't resign over money, Chancellor. I resign over orders. This was money. Remember the difference when you give me the other kind." },
+        { "type": "monologue", "text": "Fourteen million from the border. Vostane exhales. Marić doesn't look at Dusek. Nobody thanks anyone. That is how you know a cabinet decision was real." }
+      ],
+      "choices": [
+        {
+          "id": "cabinet58_cut_defense_end",
+          "text": "The coupon is paid, the widows are paid, and two companies sleep beside locomotives in Brask.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "tyvarenHostility", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_cut_pensions": {
+      "narrative": [
+        { "type": "description", "text": "The tranche is 61,000 pensioners at ₭76 a month for three months: ₭13.9 million. Vostane rounds it up in her head and nods." },
+        { "type": "description", "text": "Marić takes an envelope from his inside pocket. He writes on it with the cabinet pencil, signs the back, and leaves the date line empty. He slides it across the table to you, not to Vyktor." },
+        { "type": "dialogue", "character": "gregor_maric", "text": "My resignation. Undated. Keep it in your drawer. The day you have to put a date on it, I'll understand why. Until then I'll go and tell four thousand widows 'next quarter' in my own voice. They deserve that much." },
+        { "type": "monologue", "text": "He worked the Sarenka face for nine years before he ever wore a tie. He knows exactly what ₭76 buys in a pit town in winter. So do I." }
+      ],
+      "choices": [
+        {
+          "id": "cabinet58_cut_pensions_end",
+          "text": "Put the envelope in the drawer, undated. Next quarter, again.",
+          "nextSegment": null,
+          "flags": ["cabinet58_maric_letter"],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_shipping_levy": {
+      "narrative": [
+        { "type": "dialogue", "character": "elara_vostane", "text": "They'll pay it. Then they will put it on freight rates within the month. You will see it in Thornfeld bread by the spring: twelve percent on flour haulage. I'd like that minuted as well." },
+        { "type": "description", "conditions": [{ "type": "flag", "flag": "puppet_government_active", "value": true }], "text": "The Deputy Minister for Ports closes his black notebook and leaves the room before the vote is recorded. He does not ask to be excused." },
+        { "type": "description", "text": "The levy decree goes out under seal at four. By six, three of the Aldenmoor houses have announced 'temporary rationalization of the Lytheiran route.' Eleven hundred dockers are told to come back in a fortnight." },
+        { "type": "monologue", "text": "Fourteen million from people who will barely notice it. The dockers noticed it by six o'clock. Money never leaves the top of the building without stepping on someone on the way down." }
+      ],
+      "choices": [
+        {
+          "id": "cabinet58_shipping_levy_end",
+          "text": "Fourteen million from the docks. Thornfeld pays some of it back in bread.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.inflation", "operation": "add", "value": 1 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_miss_coupon": {
+      "narrative": [
+        { "type": "dialogue", "character": "elara_vostane", "text": "Then I want it in writing, over your signature, because I will be the one on the telephone to Petravar on Friday morning." },
+        { "type": "description", "text": "Nine days later the Orythian rating houses cut Veltrian paper by two notches. The November auction clears at 11.2 percent instead of 7.8. On the Republic's existing paper, that difference is roughly ₭9 million a year, every year, until somebody earns the two notches back." },
+        { "type": "description", "text": "Vostane's note of dissent is three lines long and goes into the cabinet record unamended. She does not resign. She stops arriving early." },
+        { "type": "monologue", "text": "I saved fourteen million this quarter and bought a bill for nine million every year after. Nobody in Kravenstal will ever know I did that for them. Everyone in Petravar will remember it." }
+      ],
+      "choices": [
+        {
+          "id": "cabinet58_miss_coupon_end",
+          "text": "The widows are paid. The Republic now borrows at eleven percent.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.nationalDebt", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

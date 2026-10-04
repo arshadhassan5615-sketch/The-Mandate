@@ -1,0 +1,282 @@
+{
+  "id": "act5_week62_the_interview",
+  "title": "Forty Minutes",
+  "act": 5,
+  "weekAvailable": 62,
+  "weekDeadline": 64,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "National Broadcasting House — Studio B, Ashenmere",
+  "characters": ["nadia_voss", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Studio B is smaller than it sounds on the radio. Two chairs, a table under green baize, a clock with no second hand, and a window into the control booth where Vyktor stands with his arms folded. The red lamp comes on at 20:00."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "text": "Chancellor Ashavel. Good evening. You've given us forty minutes. I intend to use all of them."
+    },
+    {
+      "type": "description",
+      "text": "Her folder is thinner than you expected. That is worse. A thick folder means she is guessing."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "detention_347_authorized", "value": true }],
+      "text": "Week twenty-seven. Your government detained a labor organizer from the Sarenka district at three forty-seven in the morning. Protective custody, eleven days, no charge. You were twelve when they came for your father at that hour. I'd like to know what you told yourself when you signed it."
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "detention_347_refused", "value": true }],
+      "text": "Week twenty-seven. An Interior file crossed your desk recommending a predawn detention. You refused it and ordered a daylight interview with counsel present. Nobody leaks a story like that to embarrass a Chancellor. So somebody in your building leaked it to warn you. About what?"
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "court_purged", "value": true }],
+      "text": "Six judges left the Constitutional Court under escort in week fifty-six. You campaigned on that court's independence for three years. Which of those two women is sitting across from me?"
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "court_overridden", "value": true }],
+      "text": "You overrode the Constitutional Court with a simple Assembly majority. The next Chancellor can do the same thing to your constitution with the same arithmetic. Did you think about him when you did it?"
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "court_ruling_accepted", "value": true }],
+      "text": "You accepted the Court's ruling against Article 12. Equal protection, struck out. The people it protected would like a date. When do you intend to win it back?"
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "halvek_bench_complied", "value": true }],
+      "text": "You withdrew the Sarenka Safety Order and put it to the Assembly. It took twenty-six days. A miner named Anton Vel died on day nineteen. Was that the price of doing it properly?"
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "halvek_bench_defied", "value": true }],
+      "text": "The Supreme Court holds your Chancellery in contempt and you ignore it. Is there any ruling you would obey, Chancellor, or only the ones you agree with?"
+    },
+    {
+      "type": "dialogue",
+      "character": "nadia_voss",
+      "conditions": [{ "type": "flag", "flag": "halvek_bench_retired", "value": true }],
+      "text": "You retired four justices by changing the retirement age on a Friday afternoon. Justice Hrabal took his robe home in a grocery box. Our photographer was there. Was that the picture you wanted?"
+    },
+    {
+      "type": "monologue",
+      "text": "She doesn't raise her voice. She reads the date, the number, the name, and then she waits. Vyktor taught me that silence. I think she taught it to him."
+    }
+  ],
+  "choices": [
+    {
+      "id": "interview62_answer_straight",
+      "text": "Answer the question she asked. Not the one you rehearsed.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_personal",
+      "flags": ["interview62_straight"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "interview62_answer_record",
+      "text": "Answer with the record: dates, figures, results. Make her argue with arithmetic.",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_personal",
+      "flags": ["interview62_numbers"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 1 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "interview62_look_at_booth",
+      "text": "Look at the booth. Vyktor will know what that means.",
+      "internalTag": "authoritarian",
+      "nextSegment": "seg_cut",
+      "flags": ["interview62_cut"],
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": -8 },
+        { "stat": "nation.mediaControl", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_personal": {
+      "narrative": [
+        { "type": "description", "text": "Twenty-two minutes in. She turns a page. The questions get shorter." },
+        { "type": "dialogue", "character": "nadia_voss", "conditions": [{ "type": "flag", "flag": "tomas_arrest_booked", "value": true }], "text": "Your son paid a twenty-kroner fine at the Central District magistrate's court along with forty-one other students. Did you tell him to?" },
+        { "type": "dialogue", "character": "nadia_voss", "conditions": [{ "type": "flag", "flag": "tomas_arrest_quashed", "value": true }], "text": "Forty-one students were fined after the Corvin Bridge march. A forty-second left by the service door at a quarter past three. I have a photostat of a second arrest sheet, Chancellor. Sergeant Bek kept the original." },
+        { "type": "dialogue", "character": "nadia_voss", "conditions": [{ "type": "flag", "flag": "tomas_arrest_mass_release", "value": true }], "text": "You released forty-two students at four in the morning on your own signature. Would you have signed it if your son had not been the forty-second?" },
+        { "type": "dialogue", "character": "nadia_voss", "conditions": [{ "type": "flag", "flag": "injury_hidden", "value": true }], "text": "The Palace said 'fatigue' after the press conference. Three doctors at the Military Hospital say otherwise. Are you well enough to do this job?" },
+        { "type": "dialogue", "character": "nadia_voss", "conditions": [{ "type": "flag", "flag": "press_intimidated", "value": true }], "text": "Your office threatened a reporter in this building after the press conference. She's in the booth tonight, standing next to your Chief of Staff. I asked her to come." },
+        { "type": "dialogue", "character": "nadia_voss", "text": "Last question, and then you can go. Name one thing you were wrong about. Not a policy that needs more time. Something you got wrong." },
+        { "type": "monologue", "text": "In the booth, Vyktor has stopped moving. Fourteen minutes left on the clock with no second hand." }
+      ],
+      "choices": [
+        {
+          "id": "interview62_name_it",
+          "text": "Name it. The specific thing, the date and the name, out loud on the air.",
+          "internalTag": "reformist",
+          "nextSegment": "seg_confess",
+          "flags": ["interview62_confessed"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+            { "stat": "factions.reformists", "operation": "add", "value": 5 },
+            { "stat": "factions.halvekists", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "interview62_refuse_premise",
+          "text": "\"I'll answer for what I did. Regret is for memoirs.\"",
+          "internalTag": "deflect",
+          "nextSegment": "seg_defiant",
+          "flags": ["interview62_defiant"],
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": 4 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 2 },
+            { "stat": "factions.reformists", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "interview62_announce_repeal",
+          "text": "Make it news. Announce, live, the repeal of the 1948 predawn-detention powers. Effective tonight.",
+          "internalTag": "populist",
+          "nextSegment": "seg_announce",
+          "flags": ["interview62_announced"],
+          "stateChanges": [
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 6 },
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -4 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+            { "stat": "advisorTrust.vyktor", "operation": "add", "value": -6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_confess": {
+      "narrative": [
+        { "type": "dialogue", "character": "katerin_ashavel", "conditions": [{ "type": "flag", "flag": "detention_347_authorized", "value": true }], "text": "I signed a detention order for three forty-seven in the morning. I knew what the hour meant when I signed it. I signed it anyway, because the file said Tyvaren. That was wrong. The file was not worth the hour." },
+        { "type": "dialogue", "character": "katerin_ashavel", "conditions": [{ "type": "flag", "flag": "detention_347_authorized", "value": false }, { "type": "flag", "flag": "court_purged", "value": true }], "text": "I removed six judges by decree. Some of them deserved to go. None of them deserved to go that way. I made the Court mine, and a court that belongs to someone is not a court." },
+        { "type": "dialogue", "character": "katerin_ashavel", "conditions": [{ "type": "flag", "flag": "detention_347_authorized", "value": false }, { "type": "flag", "flag": "court_purged", "value": false }, { "type": "flag", "flag": "tomas_arrest_quashed", "value": true }], "text": "I let my son out of a police station by the side door while forty-one other children waited for a magistrate. Sergeant Bek was right to keep the sheet. I was wrong to make him need to." },
+        { "type": "dialogue", "character": "katerin_ashavel", "conditions": [{ "type": "flag", "flag": "detention_347_authorized", "value": false }, { "type": "flag", "flag": "court_purged", "value": false }, { "type": "flag", "flag": "tomas_arrest_quashed", "value": false }], "text": "The pensions. I promised restoration in thirty days, in my first address. It has been more than a year. I said thirty days because it sounded like courage. It was arithmetic I hadn't done." },
+        { "type": "description", "text": "Nadia does not write anything down. She lets four seconds of silence go out to the whole country. Then she thanks you and the red lamp goes dark." },
+        { "type": "description", "text": "The Herald runs the full transcript. The Kravenstal Worker runs one sentence of it, alone, in a black box on page one. By noon the Chancellery switchboard has logged 3,100 calls. Vyktor stops counting at noon." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Brave." },
+        { "type": "monologue", "text": "One word. Admiration, warning, and an invoice. He'll tell me which one when the polls come in." }
+      ],
+      "choices": [
+        {
+          "id": "interview62_confess_end",
+          "text": "Said aloud, on the record. It can't be taken back now, and I don't want it back.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": -6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_defiant": {
+      "narrative": [
+        { "type": "dialogue", "character": "nadia_voss", "text": "Then I'll put the question in tomorrow's paper instead, Chancellor, with a blank space underneath it where your answer should be." },
+        { "type": "description", "text": "She does exactly that. Page four of the Veltrian Voice: the question, in bold, and twelve centimeters of white column under it. The Iron Covenant's weekly reprints your sentence on its masthead. Two university faculties pin the blank column to their noticeboards." },
+        { "type": "monologue", "text": "Regret is for memoirs. Father never wrote one. They didn't give him the time. I wonder whether that is why I said it, or just the excuse I'll use." }
+      ],
+      "choices": [
+        {
+          "id": "interview62_defiant_end",
+          "text": "No apology, and twelve centimeters of white space with my name above it.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.pressFreedom", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_announce": {
+      "narrative": [
+        { "type": "description", "text": "In the booth, Vyktor puts down the telephone he was holding. He didn't know. Nobody knew. The sentence goes out to every set in the country at 20:31." },
+        { "type": "dialogue", "character": "nadia_voss", "text": "Effective tonight. On whose drafting?" },
+        { "type": "dialogue", "character": "katerin_ashavel", "text": "Mine. Theron will have the decree on my desk by midnight. If he doesn't, I'll write it myself on the back of your question sheet." },
+        { "type": "description", "text": "Theron has it on the desk by 23:40. Article 9 of the 1948 Provisions, the power to detain between midnight and six without a magistrate, ceases at 00:01. The Interior Ministry has nineteen predawn warrants in preparation. All nineteen are withdrawn or moved to daylight." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Next time. Tell me first." },
+        { "type": "monologue", "text": "Nineteen doors that won't be knocked on at three forty-seven. He's right that he should have known. I didn't tell him because he would have talked me out of it, and he would have been right to." }
+      ],
+      "choices": [
+        {
+          "id": "interview62_announce_end",
+          "text": "Article 9 is dead at one minute past midnight. Nineteen warrants moved to daylight.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.lawOrder", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_cut": {
+      "narrative": [
+        { "type": "description", "text": "Vyktor lifts one hand. The red lamp goes out. Somewhere downstairs an engineer reaches for a switch and the National Programme plays a Sorvald string quartet for six minutes and ten seconds." },
+        { "type": "dialogue", "character": "nadia_voss", "text": "We'll be back on air when the quartet ends, Chancellor. I'll tell them why the music started. You can be in the chair when I do, or not." },
+        { "type": "description", "text": "You are not in the chair. Nadia finishes the hour alone, reading her questions into the microphone one by one and pausing after each for the length of a reply. The next morning the Voice prints the start and end times of the music in a box on page one: 20:24 to 20:30." },
+        { "type": "monologue", "text": "Six minutes of Sorvald. The quartet will be on every protest gramophone in Ashenmere by Friday. I bought silence and got a song." }
+      ],
+      "choices": [
+        {
+          "id": "interview62_cut_end",
+          "text": "Six minutes and ten seconds of strings. The country heard exactly what was cut.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
