@@ -13,14 +13,16 @@
 // Real timers throughout: each playItem waits out the 500ms scene transition
 // and each finishWeek the 1500ms chain tick, so slow tests get explicit
 // timeouts below (vitest defaults to 5s).
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 import { useGameStore } from '../stores/gameStore'
-import { useNarrativeStore } from '../stores/narrativeStore'
+import { useNarrativeStore, filterNarrative } from '../stores/narrativeStore'
+import type { NarrativeSegment } from '../types/narrative'
 import { useWeekStore } from '../stores/weekStore'
 import { useChainStore } from '../stores/chainStore'
 import { db } from '../db/mandateDb'
 import { saveGame, loadGame, AUTOSAVE_SLOT } from '../engine/SaveManager'
+import { getAvailableChoices } from '../engine/NarrativeEngine'
 import { MAX_FORCED_CHAINS_PER_WEEK } from '../engine/weekCompletion'
 import type { AgendaItem, AgendaCategory } from '../types/week'
 import {
@@ -209,3 +211,220 @@ describe('Fix B risk guard — a chain-forced scene plays exactly once', () => {
     expect(queued).toHaveLength(1)
   }, 10000)
 })
+
+describe('Fix 2a — exclusive redirects record BOTH ids as visited', () => {
+  it('(2a) a redirected scene counts as visited alongside the scene that played', () => {
+    resetWorld()
+    bootWeek(26)
+    // Narrow prereqs (post-STEP-1: halvekists<=55, reformists 48..61) fail on
+    // reformists: narrow.exclusive walks to decisive, which qualifies here.
+    useGameStore.setState(s => ({
+      factions: { ...s.factions, reformists: 65, halvekists: 30 },
+    }))
+    useNarrativeStore.getState().loadScene('act2_week26_referendum_narrow')
+
+    // Premise: the exclusive redirect fired.
+    expect(useNarrativeStore.getState().currentScene?.id).toBe('act2_week26_referendum_decisive')
+    // Contract: the requested scene id is recorded too, not just the one played.
+    expect(useNarrativeStore.getState().visitedSceneIds).toContain('act2_week26_referendum_narrow')
+
+    // Completing the redirected scene records its own id as before.
+    const current = useNarrativeStore.getState().currentScene
+    const avail = current
+      ? getAvailableChoices(current, useGameStore.getState(), useNarrativeStore.getState().activeFlags)
+      : []
+    if (avail.length > 0) useNarrativeStore.getState().processChoice(avail[0].id)
+    expect(useNarrativeStore.getState().visitedSceneIds).toContain('act2_week26_referendum_decisive')
+  }, 10000)
+})
+
+describe('Fix 2b — chains defer to the target week; late chains still play', () => {
+  function chainState(week: number) {
+    return {
+      game: useGameStore.getState(),
+      flags: useNarrativeStore.getState().activeFlags,
+      week,
+    }
+  }
+
+  it('(2b) a chain due before its target week waits for that week', () => {
+    resetWorld()
+    bootWeek(10)
+    // act2_week22_oil_outcome opens at week 22; the chain is due at week 10.
+    useChainStore.getState().schedule(
+      [{ targetNodeId: 'act2_week22_oil_outcome', delayWeeks: 0 }],
+      10,
+      'sim_early',
+    )
+    let s = chainState(10)
+    const early = useChainStore.getState().process(s.week, s.game, s.flags)
+    expect(early).toEqual([])
+    expect(
+      useChainStore.getState().scheduled.map(c => c.targetNodeId),
+    ).toContain('act2_week22_oil_outcome')
+
+    // At the target week it fires as normal.
+    s = chainState(22)
+    const onTime = useChainStore.getState().process(s.week, s.game, s.flags)
+    expect(onTime).toContain('act2_week22_oil_outcome')
+  }, 10000)
+
+  it('(2b2) an overdue chain still plays at the next tick and is logged', () => {
+    resetWorld()
+    bootWeek(10)
+    // act1_week1_inauguration opened at week 1; due since week 5.
+    useChainStore.getState().schedule(
+      [{ targetNodeId: 'act1_week1_inauguration', delayWeeks: 0 }],
+      5,
+      'sim_late',
+    )
+    const spy = vi.spyOn(console, 'info').mockImplementation(() => {})
+    try {
+      const s = chainState(10)
+      const fired = useChainStore.getState().process(s.week, s.game, s.flags)
+      expect(fired).toContain('act1_week1_inauguration')
+      expect(
+        spy.mock.calls.some(args => String(args[0]).includes('act1_week1_inauguration')),
+      ).toBe(true)
+    } finally {
+      spy.mockRestore()
+    }
+  }, 10000)
+})
+
+describe('Fix 2c — on-time chains uncapped, overdue backlog max 2/week', () => {
+  function fireAt(processWeek: number, scheduledWeek: number, delayWeeks: number, n: number, prefix: string) {
+    useChainStore.getState().schedule(
+      Array.from({ length: n }, (_, i) => ({
+        targetNodeId: `${prefix}_${i}`,
+        delayWeeks,
+      })),
+      scheduledWeek,
+      `sim_2c_${prefix}`,
+    )
+    return useChainStore
+      .getState()
+      .process(processWeek, useGameStore.getState(), useNarrativeStore.getState().activeFlags)
+  }
+
+  it('(2c) five chains due this week all fire in one tick', () => {
+    resetWorld()
+    bootWeek(10)
+    const fired = fireAt(10, 10, 0, 5, 'sim2c_on')
+    expect(fired).toHaveLength(5)
+    expect(useChainStore.getState().scheduled.filter(c => c.targetNodeId.startsWith('sim2c_on'))).toHaveLength(0)
+  }, 10000)
+
+  it('(2c2) five overdue chains drain at most 2 per tick, none dropped', () => {
+    resetWorld()
+    bootWeek(10)
+    const first = fireAt(10, 5, 0, 5, 'sim2c_over')
+    expect(first).toHaveLength(2)
+    expect(
+      useChainStore.getState().scheduled.filter(c => c.targetNodeId.startsWith('sim2c_over')),
+    ).toHaveLength(3)
+    const second = useChainStore
+      .getState()
+      .process(10, useGameStore.getState(), useNarrativeStore.getState().activeFlags)
+    expect(second.filter(id => id.startsWith('sim2c_over'))).toHaveLength(2)
+  }, 10000)
+})
+
+describe('Fix 2d — filterNarrative echoGroup; election_eve opening max 5 echoes', () => {
+  // echoGroup does not exist on the type yet (arrives with the fix); the cast
+  // keeps tsc green while the runtime behavior is asserted red-first.
+  function groupedNodes(): NarrativeSegment[] {
+    return [
+      { type: 'description', text: 'a1', echoGroup: 'g1' },
+      { type: 'description', text: 'a2', echoGroup: 'g1' },
+      { type: 'description', text: 'b1', echoGroup: 'g2' },
+      { type: 'description', text: 'plain1' },
+      { type: 'description', text: 'plain2' },
+    ] as unknown as NarrativeSegment[]
+  }
+
+  function simState() {
+    return {
+      game: useGameStore.getState(),
+      flags: useNarrativeStore.getState().activeFlags,
+    }
+  }
+
+  it('(2d) echoGroup survivors are capped per group; ungrouped nodes unchanged', () => {
+    resetWorld()
+    bootWeek(20)
+    const s = simState()
+    const kept = filterNarrative(groupedNodes(), s.game, s.flags) ?? []
+    // g1 -> 1 survivor, g2 -> 1 survivor, both plains pass = 4 (5 before the fix).
+    expect(kept).toHaveLength(4)
+    expect(kept.map(n => n.text).sort()).toEqual(['a1', 'b1', 'plain1', 'plain2'])
+  }, 10000)
+
+  it('(2d2) nodes without echoGroup behave exactly as today', () => {
+    resetWorld()
+    bootWeek(20)
+    const s = simState()
+    const plain: NarrativeSegment[] = [
+      { type: 'description', text: 'p1' },
+      {
+        type: 'description',
+        text: 'p2',
+        conditions: [{ type: 'flag', flag: 'sim_never_set', value: true }],
+      },
+      { type: 'dialogue', character: 'vyktor_reznik', text: 'p3' },
+    ]
+    const kept = filterNarrative(plain, s.game, s.flags) ?? []
+    expect(kept.map(n => n.text)).toEqual(['p1', 'p3'])
+  }, 10000)
+
+  it('(2d3) election_eve opening shows at most 5 echoes under a full history', () => {
+    resetWorld()
+    bootWeek(103)
+    useNarrativeStore.getState().addFlags(EVE_RICH_FLAGS)
+    useNarrativeStore.getState().loadScene('act7_week103_election_eve')
+    const shown = useNarrativeStore.getState().currentScene?.narrative ?? []
+    const echoes = shown.filter(n => (n.conditions?.length ?? 0) > 0)
+    expect(echoes.length).toBeLessThanOrEqual(5)
+  }, 10000)
+})
+
+// Every =true flag the election_eve opening can read (theron flags stay
+// absent so the two ==false fallbacks pass exactly as authored).
+const EVE_RICH_FLAGS = [
+  'interview62_cut',
+  'debate_wednesday_gates',
+  'debate_wednesday_work',
+  'debate_wednesday_honest',
+  'heir101_deal_signed',
+  'deep_state_public_arrests',
+  'remnant_plot_buried',
+  'krel_rogue_covered',
+  'krel_men_arrested',
+  'lastcab98_files_burned',
+  'lastcab98_archive_open',
+  'vyktor_covered',
+  'vyktor_slush_taken',
+  'vyktor_exposed',
+  'colonels70_dusek_promoted',
+  'colonels70_received',
+  'colonels70_published',
+  'kravenstal102_told_truth',
+  'kolvar_arrested_treason',
+  'kolvar_blackmailed_dropout',
+  'kitchen99_promised_thursday',
+  'kitchen99_family_on_steps',
+  'kitchen99_told_truth',
+  'heir101_boxes_returned',
+  'heir101_offer_published',
+  'heir101_refused',
+  'lastcab98_files_sealed',
+  'colonels70_watched',
+  'kravenstal102_furnace_saved',
+  'kravenstal102_kept_quiet',
+  'debate_chose_concede',
+  'debate_chose_attack',
+  'debate_chose_record',
+  'krel_rogue_punished',
+  'coup_plot_stopped',
+  'war_with_oligarchs',
+]

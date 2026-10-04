@@ -34,7 +34,7 @@ import type { DevelopmentProject } from '../types/projects'
 // Nodes whose conditions fail are dropped before the scene goes live,
 // so JSON authors can inject state-dependent beats without duplicating
 // segments. Nodes without conditions always render.
-function filterNarrative(
+export function filterNarrative(
   nodes: NarrativeSegment[] | undefined,
   gameState: GameState,
   activeFlags: string[],
