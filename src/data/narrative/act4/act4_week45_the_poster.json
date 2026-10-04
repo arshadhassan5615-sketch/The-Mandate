@@ -1,0 +1,162 @@
+{
+  "id": "act4_week45_the_poster",
+  "title": "The Poster",
+  "act": 4,
+  "weekAvailable": 45,
+  "weekDeadline": 47,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["vyktor_reznik", "jonas_ashavel"],
+  "prerequisites": [
+    { "stat": "flags.coup_succeeded", "operator": "==", "value": false }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Vyktor lays three printer's proofs across the desk, edge to edge. The plate goes to the presses on Thursday: four hundred thousand copies, every station, every post office, every factory gate from Aldenmoor to the Gravenmark Pass. One face. One line."
+    },
+    {
+      "type": "description",
+      "text": "The first is the inauguration: you at the podium, sixty thousand in Republic Square behind you, the flags still new. The second is the residence steps: you, Jonas, Liora and Tomas, taken in the spring when everyone was still speaking to everyone. The third is not a photograph of you at all."
+    },
+    {
+      "type": "description",
+      "text": "It is a union card, enlarged until the grain of the paper shows. KRAVENSTAL FOUNDRY WORKERS' ASSOCIATION, 1946. ASHAVEL, M. A thumbprint in the corner where the stamp should be. Under it, in the party's new typeface: HE ORGANIZED. SHE GOVERNS."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The design office found the card in the archive. They didn't ask you first. I'm asking."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "conditions": [{ "type": "flag", "flag": "detention_347_authorized", "value": true }],
+      "text": "If you choose the card, somebody will print your 3:47 order beside it. Assume that."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "text": "Leave the children off it, Katya. Whatever else you choose. They didn't run for anything."
+    },
+    {
+      "type": "monologue",
+      "text": "The office, the family, or Father. Three versions of me, and the country only gets to see one of them on a wall for six weeks. He would have hated being on a poster. He would have liked the line."
+    }
+  ],
+  "choices": [
+    {
+      "id": "poster45_office",
+      "text": "The podium. Republic Square. Let them vote for the office and what it's done.",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_office",
+      "flags": ["poster45_office"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+        { "stat": "factions.halvekists", "operation": "add", "value": 2 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "poster45_family",
+      "text": "The residence steps. All four of you. The country should see who pays for this office.",
+      "internalTag": "populist",
+      "nextSegment": "seg_family",
+      "flags": ["poster45_family"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+        { "stat": "personal.lioraRelationship", "operation": "add", "value": -5 },
+        { "stat": "personal.marriageHealth", "operation": "add", "value": -4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "poster45_father",
+      "text": "The union card. He organized. She governs. Print it.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_father",
+      "flags": ["poster45_father"],
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 3 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -4 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_office": {
+      "narrative": [
+        { "type": "description", "text": "Four hundred thousand copies of the podium photograph go up in nine days. In Thornfeld they are pasted over Kolvar's. In Kravenstal they are pasted over nothing, which the Worker notes in a single paragraph headed THE EMPTY WALLS." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Safe." },
+        { "type": "monologue", "text": "Safe. Correct. Forgettable. He means all three. The office looks good on a wall. It doesn't look like anyone in particular." }
+      ],
+      "choices": [
+        {
+          "id": "poster45_office_end",
+          "text": "The podium on four hundred thousand walls. Kravenstal's stayed empty.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.publicOrder", "operation": "add", "value": 1 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_family": {
+      "narrative": [
+        { "type": "dialogue", "character": "jonas_ashavel", "text": "I asked you for one thing." },
+        { "type": "description", "text": "The poster tests eleven points better than the podium in Vostane's survey of Thornfeld housewives. Liora tears one down outside her school on the second day, in front of a photographer from the Herald. The photograph of the torn poster outsells the poster." },
+        { "type": "monologue", "text": "Eleven points, and a picture of my daughter tearing my face off a wall. Both of them will be in the archive. I know which one historians will use." }
+      ],
+      "choices": [
+        {
+          "id": "poster45_family_end",
+          "text": "Eleven points in the survey. Liora's torn copy on the Herald's front page.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.tomasWellbeing", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_father": {
+      "narrative": [
+        { "type": "description", "text": "The card goes up at every factory gate in the north. At the Kravenstal works somebody pastes it next to the shift board and nobody ever takes it down. In Ashenmere the Halvekist papers run a cartoon of a thumbprint wearing a crown." },
+        { "type": "dialogue", "character": "jonas_ashavel", "text": "He'd have hated being on a wall. He'd have loved that it's the factory walls." },
+        { "type": "monologue", "text": "Father's thumbprint, four hundred thousand times. The Halvekists drew it with a crown. They've misunderstood both of us, which I've decided to take as a compliment." }
+      ],
+      "choices": [
+        {
+          "id": "poster45_father_end",
+          "text": "Father's union card on every factory gate. Kravenstal's copy stays up.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

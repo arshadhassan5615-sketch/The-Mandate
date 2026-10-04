@@ -1,0 +1,157 @@
+{
+  "id": "act4_week51_two_speeches",
+  "title": "Two Speeches",
+  "act": 4,
+  "weekAvailable": 51,
+  "weekDeadline": 51,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Private Study — Ashenmere Palace",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [
+    { "stat": "flags.coup_succeeded", "operator": "==", "value": false },
+    { "stat": "flags.war_defeat", "operator": "==", "value": false }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Two folders on the desk, the same grey card, the same weight. Vyktor has written one word on each in pencil. VICTORY. CONCESSION. The polls open in four days."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Tradition. A Chancellor writes the concession first, alone, in her own hand. Halvek never wrote one. He never needed to."
+    },
+    {
+      "type": "description",
+      "text": "The victory folder already has eleven pages in it, Vyktor's draft, with your corrections in the margin from the train. The concession folder is empty except for one sheet of Chancellery paper and a fountain pen laid across it."
+    },
+    {
+      "type": "monologue",
+      "conditions": [{ "type": "flag", "flag": "roll48_every_name", "value": true }],
+      "text": "Three hundred and sixty-one names on the north wall, the coup's dead beside the miners. If I lose, the next Chancellor inherits that wall. I want to know what I'd say to him about it."
+    },
+    {
+      "type": "monologue",
+      "conditions": [{ "type": "flag", "flag": "poster45_father", "value": true }],
+      "text": "Father's union card is on every factory gate in the north this week. He organized. She governs. It doesn't say what she does if she loses."
+    },
+    {
+      "type": "monologue",
+      "text": "A concession is the only speech in politics written entirely for the other side. It's where you find out what you think the office is for, once it's no longer yours."
+    }
+  ],
+  "choices": [
+    {
+      "id": "concession51_handover",
+      "text": "Write the handover. Every key, every file, every account, complete by noon on the Thursday. Name Kolvar, and wish him well, and mean it.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_handover",
+      "flags": ["concession51_graceful"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -6 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "concession51_opposition",
+      "text": "Write a concession that is also a declaration. You'll take the first bench of the opposition on Friday, and you'll hold him to every word he's said.",
+      "internalTag": "populist",
+      "nextSegment": "seg_opposition",
+      "flags": ["concession51_opposition"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 3 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "concession51_unwritten",
+      "text": "Close the empty folder. \"I'm not writing it, Vyktor. If I write it I'll start believing it.\"",
+      "internalTag": "authoritarian",
+      "nextSegment": "seg_unwritten",
+      "flags": ["concession51_unwritten"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": -4 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 8 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_handover": {
+      "narrative": [
+        { "type": "description", "text": "It takes you until two in the morning. Four pages. The keys are listed by building. The accounts are listed by number. The last paragraph is three sentences long and the second sentence is your father's name." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Good." },
+        { "type": "monologue", "text": "Good. Well written. Honest. A Chancellor who can lose. He's said one word and meant three, and the third is the one he'll never say aloud: I hoped you'd write that one." }
+      ],
+      "choices": [
+        {
+          "id": "concession51_handover_end",
+          "text": "Four pages: every key and every account, and Father's name in the last paragraph. Sealed until Wednesday.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": 1 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_opposition": {
+      "narrative": [
+        { "type": "description", "text": "Two pages. The first concedes, cleanly. The second is a programme for the opposition benches: nine bills you'd table in the first month, starting with the one Kolvar has promised to repeal." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Combative." },
+        { "type": "monologue", "text": "I lose an office, not an argument. Vyktor heard a threat in it. Kolvar will too, if he ever reads it. I'd rather be feared on the benches than forgotten in a library." }
+      ],
+      "choices": [
+        {
+          "id": "concession51_opposition_end",
+          "text": "A concession with nine bills attached. If I lose, I'll be on the first bench by Friday.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "factions.halvekists", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_unwritten": {
+      "narrative": [
+        { "type": "description", "text": "Vyktor takes the empty folder without a word. At seven the next morning it's back on the desk with two pages in it, typed, in his voice, which is to say in a voice indistinguishable from yours." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Done. In case." },
+        { "type": "monologue", "text": "Halvek never wrote one either. I used to think that was arrogance. Tonight it felt like fear, and I can't tell the two apart when they're mine." }
+      ],
+      "choices": [
+        {
+          "id": "concession51_unwritten_end",
+          "text": "I wouldn't write it. Vyktor did, in my voice, in case.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "advisorTrust.vyktor", "operation": "add", "value": 3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

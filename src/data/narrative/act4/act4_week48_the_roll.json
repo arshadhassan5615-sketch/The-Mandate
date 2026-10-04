@@ -1,0 +1,304 @@
+{
+  "id": "act4_week48_the_roll",
+  "title": "The Roll",
+  "act": 4,
+  "weekAvailable": 48,
+  "weekDeadline": 50,
+  "type": "event",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Assembly Hall — North Gallery, Ashenmere",
+  "characters": [
+    "aldric_theron",
+    "vyktor_reznik"
+  ],
+  "prerequisites": [
+    {
+      "stat": "flags.coup_succeeded",
+      "operator": "==",
+      "value": false
+    }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The stonemasons have left the north wall of the gallery bare: a panel of grey Thornfeld granite two meters by four, polished and empty. On the fifty-second Sunday of a government, the Republic carves the names of the year's dead. Halvek never did. The custom is older than him and he let it lapse. You revived it in week one without thinking about what it would ask of you in week forty-eight."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "The masons need the list by Friday. Four hundred names fit at the letter size the tradition allows. I have drafted it three ways, because the list is not a list. It is a decision about who the Republic was this year."
+    },
+    {
+      "type": "description",
+      "text": "The draft begins with the Sarenka miners from your third week. Then the names that make Theron's three drafts different from each other."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "coup_attempted",
+          "value": true
+        }
+      ],
+      "text": "Fourteen soldiers died in week thirty-seven. Nine of them wore Brenner's insignia and were following his orders. Their mothers have written to me. So have the mothers of the five who died stopping them."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "war_path_chosen",
+          "value": true
+        }
+      ],
+      "text": "The Gravenmark dead alone would fill the panel twice over. The General Staff wants them carved by regiment. The Dravenni volunteers want their own names in their own spelling."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "permanent_injury_sustained",
+          "value": true
+        }
+      ],
+      "text": "And the two protection officers who stood between you and the blast. Their families asked that they be carved together, not alphabetically. I think we can manage that."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "There are also the ones nobody claims. Men who died in custody, in crowds, on the wrong side of a police line. Men who died opposing this government, or opposing the state, which is not quite the same thing."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Names are votes. In both directions."
+    },
+    {
+      "type": "monologue",
+      "text": "Father's name was never carved anywhere. The regime didn't keep that kind of wall. I found it in a box in 1961, in somebody else's handwriting, under 'disposed'. I know exactly what it is to be left off."
+    }
+  ],
+  "choices": [
+    {
+      "id": "roll48_every_name",
+      "text": "Every Veltrian who died this year. Soldiers on both sides of the gate, strikers, rioters. Alphabetical, no ranks.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_every",
+      "flags": [
+        "roll48_every_name"
+      ],
+      "stateChanges": [
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "stat": "factions.reformists",
+          "operation": "add",
+          "value": 4
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "roll48_service",
+      "text": "Those who died serving the Republic. Miners at work, soldiers at their posts, officers on duty. Not those who died fighting it.",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_service",
+      "flags": [
+        "roll48_service"
+      ],
+      "stateChanges": [
+        {
+          "stat": "factions.ironCovenant",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.publicOrder",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -4
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "roll48_blank",
+      "text": "No names. One line across the granite: THE REPUBLIC'S DEAD, 1963. Let every family decide whose they are.",
+      "internalTag": "deflect",
+      "nextSegment": "seg_blank",
+      "flags": [
+        "roll48_blank"
+      ],
+      "stateChanges": [
+        {
+          "stat": "personal.stressLevel",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "factions.church",
+          "operation": "add",
+          "value": 4
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_every": {
+      "narrative": [
+        {
+          "type": "description",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "coup_attempted",
+              "value": true
+            }
+          ],
+          "text": "The masons work for nine days. Three hundred and sixty-one names, alphabetical, no ranks, no causes. A sergeant from the 3rd Armoured, killed at the Palace gate in Brenner's uniform, is carved directly above the miner who died at Sarenka on your third Monday."
+        },
+        {
+          "type": "description",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "coup_attempted",
+              "value": false
+            }
+          ],
+          "text": "The masons work for nine days. Three hundred and sixty-one names, alphabetical, no ranks, no causes. A man who died in a Thornfeld police cell in the spring is carved directly above the constable who was on duty that night."
+        },
+        {
+          "type": "description",
+          "text": "The Iron Covenant boycotts the unveiling. Forty officers attend anyway, in civilian clothes, and stand at the back. One of them is crying, and nobody ever finds out which name he came for."
+        },
+        {
+          "type": "monologue",
+          "text": "Everyone who died. Including the ones who'd have been glad to see me dead. A republic that only mourns its friends has forgotten what it's for."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roll48_every_end",
+          "text": "Three hundred and sixty-one names, no ranks, no sides. The Covenant boycotts, and forty officers come anyway.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "nation.civilLiberties",
+              "operation": "add",
+              "value": 2
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_service": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Two hundred and ninety names, grouped by service: the mines, the police, the army, the civil service. Seventy-one dead are left off. Their families learn it from the newspaper list on the Saturday morning."
+        },
+        {
+          "type": "description",
+          "text": "On the Monday after the unveiling, somebody chalks seventy-one names on the pavement beneath the granite, in the same order the masons would have used. The Palace cleaners wash them off at six. By noon they are back, in a different hand."
+        },
+        {
+          "type": "dialogue",
+          "character": "aldric_theron",
+          "text": "Chalk is the opposition's granite, Chancellor. It's cheaper, and it comes back."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roll48_service_end",
+          "text": "Two hundred and ninety in granite, seventy-one in chalk. The cleaners wash, and the chalk comes back.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "personal.moralCompass",
+              "operation": "add",
+              "value": -4
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_blank": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "One line, cut deep: THE REPUBLIC'S DEAD, 1963. The rest of the granite stays polished and empty. Archbishop Renek blesses it and calls it 'a wall God can read.'"
+        },
+        {
+          "type": "description",
+          "text": "Within a month the families have started writing on it. Pencil, ink, lipstick. A child's crayon at knee height. The Palace leaves them. By the spring the panel is covered from the floor to the height a grown man can reach, and the names are all there, in four hundred hands."
+        },
+        {
+          "type": "monologue",
+          "text": "I refused to choose and the country chose for me, one name at a time. It's the best memorial I've had anything to do with. I didn't make it. I only stayed out of its way."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roll48_blank_end",
+          "text": "One line in the stone. By spring, the families have written every name themselves.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "factions.reformists",
+              "operation": "add",
+              "value": 2
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
