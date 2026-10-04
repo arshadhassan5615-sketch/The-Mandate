@@ -160,3 +160,38 @@ _(entries appended below as work lands)_
 3. **Term 1 echoes.** 1,098 weighty Term 1 flags are still unread. This pass focused Term 2 echoes on the Term 1 *outcomes* (coup, climax, referendum, 3:47, commissioner, Morvec, Tomas arcs). Most of the rest were meant to echo through delayed chain scenes (bug B).
 4. **Branch inconsistencies that predate this pass, now more visible:** Theron appears after being fired (wk73 → wk89); Brenner is "General" at wk72/96 after a public dismissal at wk69; `src/data/epilogues.json` still uses `general_brenner`.
 5. Teaser carry-forward entries (H-5) and the Arcturian naming (H-3) are untouched pending your decision.
+
+---
+
+## Round 2 - engine fixes behind the sim harness
+
+### STEP 0 - `70da0e3` refactor(map): extract week-completion rules (green-tree restore)
+- `src/engine/weekCompletion.ts`: shared `isAgendaItemDone` / `isWeekComplete`, now used by
+  `MapView.tsx` and `MapInteractionLayer.tsx`. Behavior-preserving.
+- Gates: `tsc -b` clean; vitest 159 pass / 6 pre-existing fail (DecreeInbox, TopBar).
+
+### STEP 1 - sim harness + Fix A/B/C contract (this commit)
+- `src/test/simHarness.ts` drives the real Zustand week flow without React: `resetWorld`, `bootWeek`,
+  `playItem` (launchSingleScene -> complete -> advanceQueue -> 500ms pool rebuild), `playAllExcept`,
+  `finishWeek` (completeWeek + 1500ms chain tick), `saveAndReload`, tolerant `completedItemIds` read.
+- `src/test/weekFlow.sim.test.ts`: contract assertions (a)-(f).
+- `weekCompletion.ts` gained `MAX_FORCED_CHAINS_PER_WEEK = 3` (the flood-cap contract) and an
+  optional third `completedItemIds` parameter on both predicates (default `[]`, no behavior change
+  for existing callers).
+
+**STEP 1 baseline (before Fixes A/C/B) - 3 pass / 6 fail:**
+
+| # | Assertion | Baseline | Detail |
+|---|-----------|----------|--------|
+| (a) | initWeek-injected items survive the mid-week pool rebuild | FAIL | `citizen_petitions_8` and `__radio_address__` dropped after the first scene (Bug A) |
+| (b) | fired chain scene is offered in the next week's pool | FAIL | `act1_chain_deficit_crisis` fires but never reaches the pool (Bug B) |
+| (b2) | already-visited chain scene is not re-offered | pass | guard |
+| (c) | week with `__budget__` / `__constitution__` can end (`__radio__` optional) | FAIL | `weekComplete()` false - virtual items never marked done (Bug C) |
+| (c2) | empty pool may end the week | FAIL | `isWeekComplete([])` is false (Bug C) |
+| (d) | mid-week save + reload still offers injected items | pass | Fix A risk guard |
+| (e) | overdue chains capped per week (<=3), overflow carried, none dropped | FAIL (cap) / pass (conservation) | 8 overdue chains fired in one tick - the Fix B flood risk is real; conservation held |
+| (f) | chain-forced scene appears exactly once although confirmAgenda also handles forced chains | FAIL | queue held 2 items for one scene (chain item + player selection) |
+| (f2) | forced scene queued exactly once when nothing else selected | pass | guard |
+
+Full suite unchanged: 162 pass / 12 fail = 159 pre-existing pass + 3 new pass, 6 pre-existing fail
+(DecreeInbox, TopBar) + 6 new contract fail. Gates: `tsc -b` clean.
