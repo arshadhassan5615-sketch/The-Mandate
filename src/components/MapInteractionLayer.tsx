@@ -18,6 +18,7 @@ interface MapPinsProps {
 
 export function MapPins({ onFocusProvince, onUnfocusProvince }: MapPinsProps = {}) {
   const agendaPool = useWeekStore(s => s.agendaPool)
+  const completedItemIds = useWeekStore(s => s.completedItemIds)
   const launchSingleScene = useWeekStore(s => s.launchSingleScene)
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const currentWeek = useGameStore(s => s.currentWeek)
@@ -28,11 +29,11 @@ export function MapPins({ onFocusProvince, onUnfocusProvince }: MapPinsProps = {
     for (const provinceId of Object.keys(allGroups) as ProvinceId[]) {
       const items = allGroups[provinceId]!
       const sorted = [...items].sort((a, b) => a.executionOrder - b.executionOrder)
-      const next = sorted.find(item => !isAgendaItemDone(item, visitedSceneIds))
+      const next = sorted.find(item => !isAgendaItemDone(item, visitedSceneIds, completedItemIds))
       if (next) nextPerProvince[provinceId] = next
     }
     return nextPerProvince
-  }, [agendaPool, visitedSceneIds])
+  }, [agendaPool, visitedSceneIds, completedItemIds])
 
   return (
     <>
@@ -55,6 +56,7 @@ export function MapPins({ onFocusProvince, onUnfocusProvince }: MapPinsProps = {
 
 export default function MapInteractionLayer() {
   const agendaPool = useWeekStore(s => s.agendaPool)
+  const completedItemIds = useWeekStore(s => s.completedItemIds)
   const completeWeek = useWeekStore(s => s.completeWeek)
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
 
@@ -63,8 +65,8 @@ export default function MapInteractionLayer() {
   const settingsOpen = useSettingsStore(s => s.settingsOpen)
 
   const allVisited = useMemo(
-    () => isWeekComplete(agendaPool, visitedSceneIds),
-    [agendaPool, visitedSceneIds],
+    () => isWeekComplete(agendaPool, visitedSceneIds, completedItemIds),
+    [agendaPool, visitedSceneIds, completedItemIds],
   )
 
   const [showTransition, setShowTransition] = useState(false)

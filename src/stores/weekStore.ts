@@ -926,6 +926,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 0,
         weekAvailable: gameState.currentWeek,
         weekDeadline: gameState.currentWeek + 1,
+        recurring: true,
         isUrgent: false
       })
     }
@@ -942,6 +943,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 0,
         weekAvailable: gameState.currentWeek,
         weekDeadline: gameState.currentWeek + 1,
+        recurring: true,
         isUrgent: false
       })
     }
@@ -958,6 +960,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
         executionOrder: 0,
         weekAvailable: gameState.currentWeek,
         weekDeadline: gameState.currentWeek + 1,
+        recurring: true,
         isUrgent: false
       })
     }

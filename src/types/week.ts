@@ -26,6 +26,12 @@ export interface AgendaItem {
   prerequisites?: Condition[]
   isUrgent?: boolean
   voteConfig?: VoteConfig
+  /**
+   * Week-scoped recurring entry (petitions / press conference / campaign
+   * rally). Done-ness counts only this week's completion, so each occurrence
+   * can replay although the shared sceneId was visited in an earlier week.
+   */
+  recurring?: boolean
 }
 
 export const SLOT_MAX = 3

@@ -143,19 +143,20 @@ export default function MapView({ onProvinceDetail }: {
   // const factions   = useGameStore(s => s.factions)
   // const { activeFlags } = useNarrativeStore()
   const agendaPool      = useWeekStore(s => s.agendaPool)
+  const completedItemIds = useWeekStore(s => s.completedItemIds)
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const [hoveredBuilding, setHoveredBuilding] = useState<string | null>(null)
 
   const provincesWithScenes = useMemo(() => {
     const active = new Set<string>()
     agendaPool.forEach(item => {
-      if (!isAgendaItemDone(item, visitedSceneIds)) {
+      if (!isAgendaItemDone(item, visitedSceneIds, completedItemIds)) {
         const groups = groupByProvince([item])
         Object.keys(groups).forEach(p => active.add(p))
       }
     })
     return active
-  }, [agendaPool, visitedSceneIds])
+  }, [agendaPool, visitedSceneIds, completedItemIds])
 
   // Zone highlight only (no mouse-following tooltip)
   const [hoveredId, setHoveredId] = useState<string | null>(null)

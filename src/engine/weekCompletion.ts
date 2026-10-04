@@ -15,24 +15,35 @@ export const MAX_FORCED_CHAINS_PER_WEEK = 3
 /**
  * True once the player has finished this agenda item.
  *
- * `completedItemIds` are per-week item ids recorded when the item's queue run
- * finishes (needed for virtual items like `__budget__`, which never enter
- * visitedSceneIds). Optional so existing callers keep current behavior.
+ * - `completedItemIds` are per-week item ids recorded when the item's queue
+ *   run finishes (virtual items like `__budget__` never enter visitedSceneIds).
+ * - Recurring entries (`recurring: true` — petitions / press / rally) are
+ *   week-scoped: only this week's completion counts, so each occurrence can
+ *   replay even though the shared sceneId was visited in an earlier week.
+ * - Everything else is done once its scene has been visited this playthrough.
  */
 export function isAgendaItemDone(
   item: AgendaItem,
   visitedSceneIds: readonly string[],
   completedItemIds: readonly string[] = [],
 ): boolean {
-  return completedItemIds.includes(item.id) || visitedSceneIds.includes(item.sceneId)
+  if (completedItemIds.includes(item.id)) return true
+  if (item.recurring) return false
+  return visitedSceneIds.includes(item.sceneId)
 }
 
-/** True when every item in the week's pool is done and the week may end. */
+/**
+ * True when every item in the week's pool is done and the week may end.
+ *
+ * `__radio__` never blocks: a radio address is optional flavor (bounded by
+ * MAX_BROADCASTS), so the week may end with one unplayed. An empty required
+ * set (empty pool, or only radio left) means there is nothing left to do.
+ */
 export function isWeekComplete(
   pool: readonly AgendaItem[],
   visitedSceneIds: readonly string[],
   completedItemIds: readonly string[] = [],
 ): boolean {
-  if (pool.length === 0) return false
-  return pool.every(item => isAgendaItemDone(item, visitedSceneIds, completedItemIds))
+  const required = pool.filter(item => item.sceneId !== '__radio__')
+  return required.every(item => isAgendaItemDone(item, visitedSceneIds, completedItemIds))
 }
