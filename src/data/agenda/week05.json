@@ -65,5 +65,23 @@
     "executionOrder": 4,
     "weekAvailable": 5,
     "weekDeadline": 8
+  },
+  {
+    "id": "agenda_w05_mole_week5_complication",
+    "title": "The Investigation Complicates",
+    "description": "Something unexpected has emerged in the mole investigation.",
+    "category": "crisis",
+    "sceneId": "mole_week5_complication",
+    "slotCost": 0,
+    "executionOrder": 1,
+    "weekAvailable": 5,
+    "weekDeadline": 6,
+    "prerequisites": [
+      {
+        "stat": "flags.mole_investigation_active",
+        "operator": "==",
+        "value": true
+      }
+    ]
   }
 ]
