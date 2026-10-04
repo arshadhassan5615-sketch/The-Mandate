@@ -7,6 +7,7 @@ import { useNewsStore } from '../stores/newsStore'
 import { groupByProvince, type ProvinceId } from '../engine/LocationResolver'
 import MapScenePin from './MapScenePin'
 import type { AgendaItem } from '../types/week'
+import { isAgendaItemDone, isWeekComplete } from '../engine/weekCompletion'
 
 // ─── MapPins: renders scene pins as absolute children of the pannable map div ──
 
@@ -27,7 +28,7 @@ export function MapPins({ onFocusProvince, onUnfocusProvince }: MapPinsProps = {
     for (const provinceId of Object.keys(allGroups) as ProvinceId[]) {
       const items = allGroups[provinceId]!
       const sorted = [...items].sort((a, b) => a.executionOrder - b.executionOrder)
-      const next = sorted.find(item => !visitedSceneIds.includes(item.sceneId))
+      const next = sorted.find(item => !isAgendaItemDone(item, visitedSceneIds))
       if (next) nextPerProvince[provinceId] = next
     }
     return nextPerProvince
@@ -61,12 +62,10 @@ export default function MapInteractionLayer() {
   const decreeInboxOpen = useSettingsStore(s => s.decreeInboxOpen)
   const settingsOpen = useSettingsStore(s => s.settingsOpen)
 
-  const allVisited = useMemo(() => {
-    if (agendaPool.length === 0) return false
-    return agendaPool.every(item =>
-      visitedSceneIds.includes(item.sceneId)
-    )
-  }, [agendaPool, visitedSceneIds])
+  const allVisited = useMemo(
+    () => isWeekComplete(agendaPool, visitedSceneIds),
+    [agendaPool, visitedSceneIds],
+  )
 
   const [showTransition, setShowTransition] = useState(false)
 

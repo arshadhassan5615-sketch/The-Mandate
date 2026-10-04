@@ -5,6 +5,7 @@ import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
 import type { GameState } from '../types/gameState'
 import { MAP_RENDER_WIDTH, MAP_RENDER_HEIGHT, PROVINCE_PIN_POSITIONS, groupByProvince } from '../engine/LocationResolver'
+import { isAgendaItemDone } from '../engine/weekCompletion'
 import { MapPins } from './MapInteractionLayer'
 import veltriaMapImg from '../assets/maps/veltria_map_full.jpeg'
 import pinAshenmere    from '../assets/images/pins/pin_ashenmere.png'
@@ -148,7 +149,7 @@ export default function MapView({ onProvinceDetail }: {
   const provincesWithScenes = useMemo(() => {
     const active = new Set<string>()
     agendaPool.forEach(item => {
-      if (!visitedSceneIds.includes(item.sceneId)) {
+      if (!isAgendaItemDone(item, visitedSceneIds)) {
         const groups = groupByProvince([item])
         Object.keys(groups).forEach(p => active.add(p))
       }
