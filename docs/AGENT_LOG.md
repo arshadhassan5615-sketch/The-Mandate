@@ -195,3 +195,68 @@ _(entries appended below as work lands)_
 
 Full suite unchanged: 162 pass / 12 fail = 159 pre-existing pass + 3 new pass, 6 pre-existing fail
 (DecreeInbox, TopBar) + 6 new contract fail. Gates: `tsc -b` clean.
+
+### STEP 2 - Fixes A, C, B (one commit each)
+- `9ba5522` **Fix A** - initWeek-injected items survive the mid-week pool rebuild. `completedItemIds`
+  week-scoped ledger (recorded at queue exhaustion, cleared at the real week boundary), the
+  return-to-map rebuild carries non-catalog pool items, optional `completedItemIds` on SaveRecord
+  (defaults [] when absent). Harness 3/6 -> **4/5**: (a) FAIL -> PASS.
+- `16c9cc0` **Fix C** - week completion honours completed items. `__radio__` never blocks the week;
+  empty required set means the week may end; recurring entries (petitions / press / rally) are
+  week-scoped so each occurrence replays; MapInteractionLayer + MapView pass the ledger. Harness
+  4/5 -> **6/3**: (c)(c2) FAIL -> PASS.
+- `b0a00e1` **Fix B** - chain scenes reach the map, once, under a weekly cap. initWeek synthesises
+  primary chain items into the pool (deduped, visited skipped); confirmAgenda routes both paths
+  through shared `buildChainItems` and dedupes the merged queue by sceneId; `resolveChains` gains
+  `maxFires` (chainStore passes MAX_FORCED_CHAINS_PER_WEEK=3 - overflow carries, never dropped);
+  schedule() dedupes (targetNodeId, fireWeek). Harness 6/3 -> **9/0**.
+- Full suite after STEP 2: 168 pass / 6 fail (only the pre-existing DecreeInbox/TopBar).
+
+### STEP 3 - `e8997ee` 4 scripted playthroughs behind MANDATE_PLAYTHROUGHS=1
+- `src/test/playthroughs.sim.test.ts`: weeks 1-103 walked under 4 flag profiles (untouched /
+  reformist / hardliner / exile). Per week: the week opens with something to do, every offered item
+  launches, the week ends and advances, chain fires stay under the cap. Run end: finishing wk103
+  raises the term limit -> epilogue (week 104 observed, never authored).
+- Sweep: **4/4 profiles green**, 0 unlaunchable items, 0 empty weeks, 0 chain floods across 412
+  week-walks; ~19s (fake timers + pluggable harness waiter). Skipped in the default suite.
+
+### STEP 4 - `e808332` safe data fixes (weak spot #4 + the batch-4 leftover)
+- `epilogues.json`: `general_brenner` -> `oskar_brenner`, "General Mattis Brenner" -> "General
+  Oskar Brenner" (Mattis appears nowhere else in data).
+- Theron-after-firing (wk73 `theron_fired` / `theron_medical_leave`): all 4 Theron spots in wk89
+  gated with Kaspar / Justice-Ministry fallbacks; the same bug found in wk98 (5 nodes gated with
+  Danika fallbacks; "Theron's Records Act" choice text -> "The Records Act").
+- Brenner "General" after the wk69 public dismissal (`brenner_fired_publicly`): wk72 Krel briefing +
+  monologue and wk96 Vyktor line now carry fired-variants.
+- Residual: static scene-level `characters` arrays still list Theron/Brenner (cosmetic portrait
+  stack; scene-level fields cannot be conditional).
+
+### STEP 5 - `1e7e333` exile-branch design doc (design first, no content)
+- `docs/exile-branch-design.md`. Verified: all four wk44 counter-coup outcomes chain to
+  `act4_week48_war_outcome` (the Tyvaren WAR resolution) and their flags are read by no scene;
+  wk52 `ending_military_coup` routes on `coup_succeeded` alone, so even the Brenner deal that
+  dissolves the junta ends in a junta ending.
+- Proposes: every path restores the Republic at different costs; wk45/48/51 scenes (agenda-JSON
+  scheduled); wk52 routing on `coup_resolution_begun` + new `ending_restored_republic`;
+  readers-only flag model. **Awaiting Arshad's sign-off** (4 open questions in the doc).
+
+### STEP 6 - `38b1bd8` teaser retiming, only where early play spoils (H-5)
+- Protocol: retime only when the scene is FALSE at the earlier week (authored-week stamps in
+  location/prose) or a 3+ week pull collapses the arc. 7 retimes of 29 carry-forwards
+  (w15 refugee 15->19, w18 superpower 18->21, w28/w29 ultimatum ->32, w30/w32 dravenhollow ->34,
+  w39 reform 39->41). 20 delta-1 previews and 2 benign delta-2 pulls kept.
+- Fresh scan: teasers 29 -> 22, delta>=3 = 0.
+
+### Round 2 holds (report-only, untouched)
+- **H-3 Arcturian naming:** unchanged (330 occurrences). The wk44 intervention choice and the wk52
+  economic ending say "Arcturian"; left verbatim in STEP 4/5. Still needs the naming decision.
+- **H-4 General Vass:** unchanged (minister candidate + cabinet-formation UI). Needs the call:
+  rename or remove.
+- **Week 104:** unplayable by engine design (the second election fires on reaching it). The STEP 3
+  sweep observes it: finishing wk103 lands at 104 -> term limit -> epilogue. No content placed.
+
+### Notes
+- `npm run lint` is broken tooling-side (ESLint 10 `scopeManager.addGlobals is not a function`,
+  pre-existing, fails identically without these changes). Gates run: `tsc -b`, vitest, audit-full-game
+  (broken 0 / orphans 67 / flag gaps 10 / dead-ends 165 / missing beats 0 / malformed conditions 0),
+  check-unguarded (0).
