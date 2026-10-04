@@ -11,7 +11,7 @@
     "weekDeadline": 28,
     "isUrgent": true,
     "prerequisites": [
-      { "stat": "flags.referendum_decisive", "operator": "==", "value": true }
+      { "stat": "flags.referendum_won_decisive", "operator": "==", "value": true }
     ]
   },
   {
@@ -26,7 +26,7 @@
     "weekDeadline": 28,
     "isUrgent": true,
     "prerequisites": [
-      { "stat": "flags.referendum_narrow", "operator": "==", "value": true }
+      { "stat": "flags.referendum_won_narrow", "operator": "==", "value": true }
     ]
   },
   {
@@ -39,7 +39,11 @@
     "executionOrder": -1,
     "weekAvailable": 27,
     "weekDeadline": 28,
-    "isUrgent": true
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.referendum_won_decisive", "operator": "==", "value": false },
+      { "stat": "flags.referendum_won_narrow", "operator": "==", "value": false }
+    ]
   },
   {
     "id": "agenda_w27_budget",
