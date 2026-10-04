@@ -1,0 +1,426 @@
+{
+  "id": "act7_week99_kitchen_table",
+  "title": "The Kitchen Table",
+  "act": 7,
+  "weekAvailable": 99,
+  "weekDeadline": 101,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Residence — Kitchen, Ashenmere Palace",
+  "characters": [
+    "jonas_ashavel",
+    "liora_ashavel",
+    "tomas_ashavel"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Sunday. Five weeks to the vote. The residence kitchen is the only room in the Palace that was never redecorated, because nobody official ever goes into it. The window over the sink looks onto the bins and a strip of the east lawn."
+    },
+    {
+      "type": "description",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "family_united",
+          "value": true
+        }
+      ],
+      "text": "Jonas is at the stove with his sleeves rolled, making the lamb your mother used to make. Liora is reading the Voice at the table with her feet on the next chair. Tomas is late, as he has been every Sunday for two years, and will arrive saying the trams were the reason."
+    },
+    {
+      "type": "description",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "jonas_divorce",
+          "value": true
+        }
+      ],
+      "text": "Liora comes on the noon train from Kravenstal with a covered dish under a tea towel. 'Papa sent it. He said you'd forget to eat.' She doesn't say whether he asked how you were. She sets two plates, then looks at the third chair and leaves it bare."
+    },
+    {
+      "type": "description",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "family_united",
+          "value": false
+        },
+        {
+          "type": "flag",
+          "flag": "jonas_divorce",
+          "value": false
+        }
+      ],
+      "text": "Jonas is at the stove, not quite cooking, moving a pan from one ring to another. Liora sets the table for four without being asked. Nobody has said anything for a while, which in this family counts as a truce."
+    },
+    {
+      "type": "description",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "stray_dog_adopted",
+          "value": true
+        }
+      ],
+      "text": "The dog from the Palace gardens sleeps under the table with his chin on your shoe. Liora named him Mirek after a boy she hated at school. He answers to it, which she considers proof of something."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "tomas_arrest_booked",
+          "value": true
+        },
+        {
+          "type": "flag",
+          "flag": "jonas_divorce",
+          "value": false
+        }
+      ],
+      "text": "I kept the receipt. Twenty kroner, Central District magistrate. It's in my wallet behind my student card. People ask me what it is. I tell them it's the only thing my mother ever gave me that she couldn't have got me out of."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "tomas_arrest_quashed",
+          "value": true
+        },
+        {
+          "type": "flag",
+          "flag": "jonas_divorce",
+          "value": false
+        }
+      ],
+      "text": "Nadia Voss put a photostat of my second arrest sheet in her book. Chapter nine. I've read it four times. I keep waiting for the version where I asked you to do it. I didn't."
+    },
+    {
+      "type": "dialogue",
+      "character": "tomas_ashavel",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "tomas_arrest_mass_release",
+          "value": true
+        },
+        {
+          "type": "flag",
+          "flag": "jonas_divorce",
+          "value": false
+        }
+      ],
+      "text": "Two of the forty-one from Corvin Bridge are standing for the city council. They both say you let them go for my sake. They're both voting for you anyway. I don't understand this country."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "orphanage_saved",
+          "value": true
+        }
+      ],
+      "text": "The boiler in Dravenhollow is still working. The matron sends a card every winter. She addresses it to me, not you. I think she's being polite to both of us."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "orphanage_promise_broken",
+          "value": true
+        }
+      ],
+      "text": "The state money for the Dravenhollow home came through in the end. Eight weeks late. I went back in the spring. The children who were cold that winter have moved on to other homes. Nobody wrote down where."
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "orphanage_ignored",
+          "value": true
+        }
+      ],
+      "text": "I still go to Dravenhollow, Mum. I don't tell you because you'd ask how it is, and then I'd have to tell you."
+    },
+    {
+      "type": "dialogue",
+      "character": "jonas_ashavel",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "jonas_divorce",
+          "value": false
+        }
+      ],
+      "text": "One question, Katya, and then we eat. Win or lose. What happens on Thursday?"
+    },
+    {
+      "type": "dialogue",
+      "character": "liora_ashavel",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "jonas_divorce",
+          "value": true
+        }
+      ],
+      "text": "Papa asked me to ask you one thing, so I'm asking it word for word. Win or lose. What happens on Thursday?"
+    },
+    {
+      "type": "monologue",
+      "text": "Thursday. The count will be done by Wednesday night. Father never had a Thursday after his Wednesday. I have spent my whole life treating every Thursday as if it were borrowed."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kitchen99_promise_home",
+      "text": "\"Thursday I come home. Win or lose. The Republic gets the other six days. You get Thursday.\"",
+      "internalTag": "personal",
+      "nextSegment": "seg_promise",
+      "flags": [
+        "kitchen99_promised_thursday"
+      ],
+      "stateChanges": [
+        {
+          "stat": "personal.marriageHealth",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "personal.lioraRelationship",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.stressLevel",
+          "operation": "add",
+          "value": -8
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "kitchen99_tell_truth",
+      "text": "\"If I win, Thursday is the first day of the last two years. I won't lie to you in this kitchen.\"",
+      "internalTag": "reformist",
+      "nextSegment": "seg_truth",
+      "flags": [
+        "kitchen99_told_truth"
+      ],
+      "stateChanges": [
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "stat": "personal.marriageHealth",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.tomasWellbeing",
+          "operation": "add",
+          "value": 3
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "kitchen99_stand_with_me",
+      "text": "\"Stand next to me on the Chancellery steps on Wednesday night. All of you. Let the country see the family it's voting for.\"",
+      "internalTag": "populist",
+      "nextSegment": "seg_steps",
+      "flags": [
+        "kitchen99_family_on_steps"
+      ],
+      "stateChanges": [
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "stat": "personal.lioraRelationship",
+          "operation": "add",
+          "value": -6
+        },
+        {
+          "stat": "personal.tomasWellbeing",
+          "operation": "add",
+          "value": -4
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_promise": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "jonas_ashavel",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "jonas_divorce",
+              "value": false
+            }
+          ],
+          "text": "Thursday. All right. I'll make the lamb again. If you're late I'll eat yours."
+        },
+        {
+          "type": "dialogue",
+          "character": "liora_ashavel",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "jonas_divorce",
+              "value": true
+            }
+          ],
+          "text": "I'll tell him. He'll pretend not to care, and then he'll ask me twice whether you sounded like you meant it."
+        },
+        {
+          "type": "description",
+          "text": "Vyktor's office has already blocked Thursday in the diary for 'post-election consultations with the Speaker'. On Monday you cross it out by hand and write HOME in the margin. The diary secretary photographs the page before she retypes it, in case anybody asks her later whose writing it was."
+        },
+        {
+          "type": "monologue",
+          "text": "One day. It's a small promise, the kind Father made and kept. Every Thursday he was alive he walked us to the foundry gate and back. It wasn't much. We remembered every one."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kitchen99_promise_end",
+          "text": "Thursday is crossed out in the diary. HOME, in my own hand.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "personal.publicImage",
+              "operation": "add",
+              "value": -1
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_truth": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Nobody says anything for long enough that the lamb needs turning. Jonas turns it, or Liora does, depending on which kitchen this is."
+        },
+        {
+          "type": "dialogue",
+          "character": "tomas_ashavel",
+          "text": "That's the first time anyone in this family has answered that question honestly. Grandfather never got to. I'd rather have this than a promise.",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "jonas_divorce",
+              "value": false
+            }
+          ]
+        },
+        {
+          "type": "dialogue",
+          "character": "liora_ashavel",
+          "text": "I wouldn't. But I'll take it."
+        },
+        {
+          "type": "monologue",
+          "text": "The truth cost me a Thursday I could have promised and missed. Tomas thinks that's courage. Liora thinks it's habit. Both of them are right about me."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kitchen99_truth_end",
+          "text": "No promise. Five weeks to the vote and a lamb that needed turning.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "personal.stressLevel",
+              "operation": "add",
+              "value": 3
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_steps": {
+      "narrative": [
+        {
+          "type": "dialogue",
+          "character": "liora_ashavel",
+          "text": "You asked us to lunch so you could book us for a photograph."
+        },
+        {
+          "type": "dialogue",
+          "character": "tomas_ashavel",
+          "text": "I'll come. I'll stand where they tell me. But I'm not smiling, and I'll tell anyone who asks why.",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "jonas_divorce",
+              "value": false
+            }
+          ]
+        },
+        {
+          "type": "description",
+          "text": "Vyktor's office sends the arrangements on Monday: Chancellery steps, 23:30, positions marked in chalk. Liora's chalk mark is to your left. Tomas's is a step down. The Herald has already asked for an exclusive."
+        },
+        {
+          "type": "monologue",
+          "text": "I needed them on the steps. That's the true sentence. I wanted them at the table, and I turned the table into a stage before the lamb was cut. Mother would have taken the plates away."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kitchen99_steps_end",
+          "text": "Three chalk marks on the Chancellery steps. One of them won't smile.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "personal.marriageHealth",
+              "operation": "add",
+              "value": -4
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

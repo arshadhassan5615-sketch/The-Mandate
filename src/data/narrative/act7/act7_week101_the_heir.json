@@ -1,0 +1,222 @@
+{
+  "id": "act7_week101_the_heir",
+  "title": "The Heir",
+  "act": 7,
+  "weekAvailable": 101,
+  "weekDeadline": 103,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["aleksei_morvec"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Aleksei Morvec comes through the front gate, signs the visitors' book, and waits in the anteroom for eleven minutes without complaint. His father never did any of those three things. He has had the cane cut down and wears it as a tie pin."
+    },
+    {
+      "type": "dialogue",
+      "character": "aleksei_morvec",
+      "text": "Two weeks to the vote, Chancellor. I'll be brief, because my father never was. The house employs sixty-one thousand people between Aldenmoor and Sevagrad. Their families vote. Their foremen tell them how. And I have ₭4 million that I am prepared to give your campaign openly, published, every kroner declared. My father bought governments in the dark. I'd like to buy one in daylight."
+    },
+    {
+      "type": "dialogue",
+      "character": "aleksei_morvec",
+      "conditions": [{ "type": "flag", "flag": "morvec_succession_promised", "value": true }],
+      "text": "You gave him your word: no better, no worse. You kept the second half. I'm here to offer you the chance to break the first. The price is the Aldenmoor Free Port charter, twenty years, no customs, signed on the Thursday after the vote."
+    },
+    {
+      "type": "dialogue",
+      "character": "aleksei_morvec",
+      "conditions": [{ "type": "flag", "flag": "morvec_succession_ledger_taken", "value": true }],
+      "text": "My father gave you nine green boxes to buy me an ordinary life. I've had an ordinary life for six months. I don't recommend it. The price is the boxes. All nine, unopened, back in the house vault."
+    },
+    {
+      "type": "dialogue",
+      "character": "aleksei_morvec",
+      "conditions": [{ "type": "flag", "flag": "morvec_succession_refused", "value": true }],
+      "text": "You told my father the law makes no promises at bedsides. So here is a promise in an office instead. I've been paying for Kolvar's printing since the funeral. I'll stop on one condition: the Aldenmoor Free Port charter, twenty years, signed the Thursday after the vote."
+    },
+    {
+      "type": "dialogue",
+      "character": "aleksei_morvec",
+      "conditions": [
+        { "type": "flag", "flag": "morvec_succession_promised", "value": false },
+        { "type": "flag", "flag": "morvec_succession_ledger_taken", "value": false },
+        { "type": "flag", "flag": "morvec_succession_refused", "value": false }
+      ],
+      "text": "My father never got his audience with you before he died. I've inherited the request along with the ships. The price is the Aldenmoor Free Port charter, twenty years, no customs, signed the Thursday after the vote."
+    },
+    {
+      "type": "dialogue",
+      "character": "aleksei_morvec",
+      "conditions": [{ "type": "flag", "flag": "smuggler_bribe_taken", "value": true }],
+      "text": "And there's a holding account in the house ledger with your name on it, paid quarterly. I don't mention it as a threat. I mention it so we can both stop pretending you've never taken our money."
+    },
+    {
+      "type": "dialogue",
+      "character": "aleksei_morvec",
+      "conditions": [{ "type": "flag", "flag": "coal83_oil_requisitioned", "value": true }],
+      "text": "You also took my Sevagrad oil for a winter at a fifth of its price. I've added that to the bill. I'm told that's how the Treasury does arithmetic."
+    },
+    {
+      "type": "monologue",
+      "text": "Four million in daylight. Stefan would have offered it in an envelope and been insulted if I'd counted it. The son wants a receipt. That's either progress or a better trap."
+    }
+  ],
+  "choices": [
+    {
+      "id": "heir101_accept_deal",
+      "text": "Take the money and sign the letter, dated the Thursday after the vote.",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_deal",
+      "flags": ["heir101_deal_signed"],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": 15 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -8 },
+        { "stat": "nation.corruption", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "heir101_return_boxes",
+      "text": "Return the nine boxes, unopened. In exchange the house stays out of the election entirely, both sides.",
+      "internalTag": "pragmatist",
+      "conditions": [{ "type": "flag", "flag": "morvec_succession_ledger_taken", "value": true }],
+      "nextSegment": "seg_boxes",
+      "flags": ["heir101_boxes_returned"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": -12 },
+        { "stat": "morvecInfluence", "operation": "add", "value": 6 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "heir101_publish_offer",
+      "text": "Refuse, and publish the offer in full before he's left the building: the figure, the charter, the date on the letter.",
+      "internalTag": "populist",
+      "nextSegment": "seg_publish",
+      "flags": ["heir101_offer_published"],
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 6 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "morvecInfluence", "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "heir101_refuse_quietly",
+      "text": "Refuse. Quietly. \"Give it to Kolvar if you like. I'll win without your sixty-one thousand or lose without them.\"",
+      "internalTag": "reformist",
+      "nextSegment": "seg_refuse",
+      "flags": ["heir101_refused"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 6 },
+        { "stat": "morvecInfluence", "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_deal": {
+      "narrative": [
+        { "type": "description", "text": "The letter is one paragraph, typed on Chancellery paper and dated three weeks ahead. Aleksei reads it twice, folds it into his inside pocket and pats the pocket the way his father used to pat the cane." },
+        { "type": "description", "text": "The ₭4 million is declared on Monday. The Herald calls it 'the largest single campaign donation in the Republic's history'. The Kravenstal Worker calls it 'the price of Aldenmoor'. Both are correct. House foremen begin handing out your leaflets at the Aldenmoor gates on Tuesday morning." },
+        { "type": "dialogue", "character": "aleksei_morvec", "text": "Thursday, Chancellor. My father always said Thursdays were for collecting." },
+        { "type": "monologue", "text": "Thursday. I have now promised Thursday to two different people. Only one of them asked politely." }
+      ],
+      "choices": [
+        {
+          "id": "heir101_deal_end",
+          "text": "₭4 million declared. The Free Port charter is dated the Thursday after the vote.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_boxes": {
+      "narrative": [
+        { "type": "description", "text": "Nine green boxes go back to Aldenmoor in the boot of a Chancellery car, under seal. The seal is unbroken. You checked twice, and you'll be asked about it for the rest of your life." },
+        { "type": "dialogue", "character": "aleksei_morvec", "text": "Unopened. My father said you'd open them. He said everyone does, the first year. I owe him a lost bet, then." },
+        { "type": "description", "text": "On Tuesday the house issues a statement: Morvec employees are free to vote as they choose, and no foreman will advise them otherwise. Nobody in Aldenmoor believes it at first. By Friday a few of them do." },
+        { "type": "monologue", "text": "I gave back the power to own half the Halvek generation for the promise that sixty-one thousand people can vote unbothered. It is the best trade I've made in office and nobody will ever know I made it." }
+      ],
+      "choices": [
+        {
+          "id": "heir101_boxes_end",
+          "text": "Nine boxes back in the house vault, seals intact. Aldenmoor votes without a foreman.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_publish": {
+      "narrative": [
+        { "type": "description", "text": "The press office has the statement out before Aleksei reaches his car: four million kroner, a twenty-year customs exemption, a letter dated the Thursday after the vote. Declined." },
+        { "type": "dialogue", "character": "aleksei_morvec", "text": "You're your father's daughter, Chancellor. I've read about him. He died for making speeches like this one." },
+        { "type": "description", "text": "Kolvar's campaign declares a Morvec donation of ₭3 million on Thursday, then hastily returns it on Saturday after the Voice runs your statement next to the house's declaration. By the end of the week the Morvec money is in nobody's account, and the foremen at the Aldenmoor gates have stopped handing out anyone's leaflets." },
+        { "type": "monologue", "text": "He meant it as a threat. I heard it as the kindest thing anyone has said to me this year." }
+      ],
+      "choices": [
+        {
+          "id": "heir101_publish_end",
+          "text": "The offer is printed, declined and refused by both campaigns. Aleksei leaves with his money.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.pressFreedom", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_refuse": {
+      "narrative": [
+        { "type": "dialogue", "character": "aleksei_morvec", "text": "Then I'll give it to Kolvar, and he'll sign the charter on his first Thursday, and you'll watch from wherever they send former Chancellors." },
+        { "type": "description", "text": "He does. Kolvar declares ₭4 million from the house on Thursday. The foremen at the Aldenmoor gates hand out Kolvar leaflets on Friday. Vostane's office estimates the swing in the two harbor districts at four points." },
+        { "type": "monologue", "text": "Four points in two districts, for a clean refusal nobody will report. Father refused things quietly too. They still came for him at three forty-seven. Quiet isn't the same as safe. It's only the same as honest." }
+      ],
+      "choices": [
+        {
+          "id": "heir101_refuse_end",
+          "text": "No deal. The house funds Kolvar, and the harbor swings four points his way.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

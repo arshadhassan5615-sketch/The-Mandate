@@ -18,13 +18,19 @@
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
+      "conditions": [{ "type": "flag", "flag": "vyktor_exposed", "value": false }],
       "text": "He has the opening. Nadia moderates. Four minutes each, then open floor. Whatever he says first — do not react. Let him spend himself."
     },
+    { "type": "description", "conditions": [{ "type": "flag", "flag": "vyktor_exposed", "value": true }], "text": "There is nobody at your elbow to tell you not to react. Vyktor used to stand exactly there, half a step behind the podium. His replacement is in the wings with a stopwatch." },
     {
       "type": "dialogue",
       "character": "drazen_kolvar",
       "text": "Two terms. One hundred weeks. And what does Veltria have to show for Chancellor Ashavel's grand experiment? A border still bleeding. A treasury mortgaged to foreign creditors. A Chief of Staff who kept a private fund — apparently beyond the Chancellor's notice. Or perhaps not beyond it."
-    }
+    },
+    { "type": "dialogue", "character": "drazen_kolvar", "conditions": [{ "type": "flag", "flag": "interview62_confessed", "value": true }], "text": "Two years ago the Chancellor told this country, live on the radio, the one thing she got wrong. One thing. I have brought a longer list." },
+    { "type": "dialogue", "character": "drazen_kolvar", "conditions": [{ "type": "flag", "flag": "interview62_defiant", "value": true }], "text": "The Chancellor once told Nadia Voss that regret is for memoirs. Tonight I intend to read her a few chapters." },
+    { "type": "monologue", "conditions": [{ "type": "flag", "flag": "interview62_numbers", "value": true }], "text": "Studio B, week sixty-two. Dates, figures, results. It worked against Nadia. Kolvar has never once cared about a figure." },
+    { "type": "monologue", "conditions": [{ "type": "flag", "flag": "interview62_straight", "value": true }], "text": "Studio B, week sixty-two. Answer the question that was asked, not the one you rehearsed. It worked once." }
   ],
   "choices": [
     {
@@ -229,6 +235,10 @@
     "seg_kolvar_reacts": {
       "narrative": [
         { "type": "dialogue", "character": "drazen_kolvar", "text": "Eloquent. It always is. But the people of Thornfeld are not voting on eloquence — they are voting on their fuel bills." },
+        { "type": "dialogue", "character": "drazen_kolvar", "conditions": [{ "type": "flag", "flag": "coal83_orythian_bought", "value": true }], "text": "Forty-one percent over the old price, paid to Petravar in Orythian marks. Ask a Thornfeld family what the pact cost them. They can show you the bill." },
+        { "type": "dialogue", "character": "drazen_kolvar", "conditions": [{ "type": "flag", "flag": "coal83_paid", "value": true }], "text": "Thirty-eight percent more to Lytheira for the same coal. She calls it saying no to warships. Thornfeld calls it the electricity bill." },
+        { "type": "dialogue", "character": "drazen_kolvar", "conditions": [{ "type": "flag", "flag": "coal83_lytheira_restored", "value": true }], "text": "She severed Lytheira to please Petravar and crawled back when the coal ran out. Two foreign policies in one winter, and neither of them warm." },
+        { "type": "dialogue", "character": "drazen_kolvar", "conditions": [{ "type": "flag", "flag": "coal83_rationed", "value": true }], "text": "Four hours a day without power, district by district, and a photograph of the Chancellor working by a paraffin lamp. The photograph was the policy." },
         { "type": "dialogue", "character": "nadia_voss", "text": "Chancellor — one question from the floor, before closing statements. Simple one. If you win Tuesday. What is the first thing you do Wednesday morning?" },
         { "type": "monologue", "text": "Not the answer she wants. The true one." }
       ],

@@ -1,0 +1,344 @@
+{
+  "id": "act7_week102_kravenstal",
+  "title": "Foundry Street",
+  "act": 7,
+  "weekAvailable": 102,
+  "weekDeadline": 103,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Foundry Street — Kravenstal",
+  "characters": [
+    "gregor_maric"
+  ],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "You leave the press car at the Kravenstal station and walk the last mile with Marić and one plain-clothes officer. Foundry Street hasn't changed its shape in thirty years, only its colors. The house where you grew up has a new door and the same step. You don't knock."
+    },
+    {
+      "type": "description",
+      "text": "At the top of the street, the works gate. The night shift comes out at six in a single grey current of coats and lunch tins. Most of them walk past you without looking. That's the point of coming at six."
+    },
+    {
+      "type": "description",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "widow_havelka_seen",
+          "value": true
+        }
+      ],
+      "text": "Someone says your name. Mrs. Havelka, older, with a granddaughter on her hip. You met her at the Sarenka pithead in your third week, beside a blanket on the ground. She remembers. She doesn't say anything else. She just stays where you can see her."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "steel_trust_nationalized",
+          "value": true
+        }
+      ],
+      "text": "Your works now, Chancellor. State steel. The men call it 'her foundry'. Some of them mean it kindly."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "steel_trust_broken",
+          "value": true
+        }
+      ],
+      "text": "Three companies since the Trust was broken up. The gate has three new nameplates. The men say the wages are the same and the foremen are younger."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "steel_trust_subsidized",
+          "value": true
+        }
+      ],
+      "text": "The Trust still owns it, and we still pay the Trust to keep it lit. The men know whose money it is. They've stopped thanking anybody."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "factory_abandoned",
+          "value": true
+        }
+      ],
+      "text": "Eleven of the men from the chemical plant fire work here now. The ones who got out. They know the army didn't come. Don't expect them to say good morning."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "factory_rescued",
+          "value": true
+        }
+      ],
+      "text": "The tall one by the gate was pulled out of the chemical plant by army engineers. He shook my hand at the funerals and said to tell you he's voting for the Republic. I didn't ask him which party that meant."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "cabinet58_cut_pensions",
+          "value": true
+        }
+      ],
+      "text": "The pension tranche came through in the end, three quarters late. Four of the widows on my ledger didn't live to see it. I keep their names in the back of the book."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "conditions": [
+        {
+          "type": "flag",
+          "flag": "coal83_rationed",
+          "value": true
+        }
+      ],
+      "text": "The night shifts they ran to dodge the power cuts last winter cost two men at Number Two mill. Burns. The men remember the cuts were fair. They remember the burns better."
+    },
+    {
+      "type": "dialogue",
+      "character": "gregor_maric",
+      "text": "There's something you should hear from me, not from a newspaper. Vostane's office has a paper in a drawer: Number Three furnace closes in January. Nine hundred jobs. It was decided in September. Its release is scheduled for the week after the vote."
+    },
+    {
+      "type": "monologue",
+      "text": "Nine hundred coats in that grey current. Father poured steel at Number Three for twenty years, until the morning they came for him at the house instead. Somebody decided this furnace's date in September and decided to tell the men in November. That somebody works for me."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kravenstal102_tell_them",
+      "text": "Walk to the gate and tell them yourself. Number Three, January, nine hundred jobs, and the date it was decided.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_tell",
+      "flags": [
+        "kravenstal102_told_truth"
+      ],
+      "stateChanges": [
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": -4
+        },
+        {
+          "stat": "personal.publicImage",
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "stat": "personal.stressLevel",
+          "operation": "add",
+          "value": 8
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "kravenstal102_keep_furnace",
+      "text": "Keep Number Three lit. Telephone Vostane from the station: a winter subsidy, signed tonight, whatever it costs.",
+      "internalTag": "populist",
+      "nextSegment": "seg_keep",
+      "flags": [
+        "kravenstal102_furnace_saved"
+      ],
+      "stateChanges": [
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "stat": "nation.nationalDebt",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "nation.economyHealth",
+          "operation": "add",
+          "value": -3
+        },
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -3
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "kravenstal102_stay_quiet",
+      "text": "Say nothing. Shake hands at the gate. The paper stays in Vostane's drawer until after the vote.",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_quiet",
+      "flags": [
+        "kravenstal102_kept_quiet"
+      ],
+      "stateChanges": [
+        {
+          "stat": "personal.moralCompass",
+          "operation": "add",
+          "value": -8
+        },
+        {
+          "stat": "factions.workersCoalition",
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "stat": "personal.stressLevel",
+          "operation": "add",
+          "value": 6
+        }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_tell": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You stand on the low wall by the gate, the one you used to sit on while you waited for him. No microphone. Marić tells the men nearest to pass it back. It takes four minutes for the grey current to stop and turn round."
+        },
+        {
+          "type": "dialogue",
+          "character": "katerin_ashavel",
+          "text": "Number Three closes in January. Nine hundred jobs. It was decided in September. You were going to be told after the vote. You're being told now, because my father worked that furnace and he'd have wanted to know before he voted."
+        },
+        {
+          "type": "description",
+          "text": "Nobody cheers. A man near the front asks what happens to the nine hundred. You tell him the truth: the rail works at Brask are hiring three hundred, and you don't know about the other six. Someone shouts something about Kolvar. Someone else tells him to shut up."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "You've lost this street. You've also never been more its daughter. Those are both true. They'll argue about which one matters in the pubs until Wednesday."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kravenstal102_tell_end",
+          "text": "Nine hundred jobs, told at the gate, before the vote. The street knows what I knew and when.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "factions.reformists",
+              "operation": "add",
+              "value": 4
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_keep": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Vostane picks up on the second ring. She listens to the whole sentence before she speaks."
+        },
+        {
+          "type": "dialogue",
+          "character": "elara_vostane",
+          "text": "Eleven million to keep one furnace lit through a winter it can't pay for. Ten days before an election. The Voice will call it the most expensive leaflet in Veltrian history, and the Voice will be right. I'll have it on your desk by midnight."
+        },
+        {
+          "type": "description",
+          "text": "The subsidy is announced from the station steps. The night shift hears it from a newspaper boy by seven. By noon there's a chalk line on the works gate in a hand you don't know: HER FOUNDRY. It is not clear that it's meant kindly."
+        },
+        {
+          "type": "monologue",
+          "text": "Nine hundred jobs for one more winter. Father would have taken it and not asked who paid. He never had to sign the cheque. I've just learned what that difference is worth: eleven million kroner."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kravenstal102_keep_end",
+          "text": "Number Three burns through the winter at ₭11 million. The gate says HER FOUNDRY in chalk.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "personal.publicImage",
+              "operation": "add",
+              "value": 2
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_quiet": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "You stand at the gate for forty minutes and shake two hundred hands. They're cold, and most of them are friendly. One man tells you his father knew yours. You tell him that's good to hear. You don't tell him about the furnace."
+        },
+        {
+          "type": "dialogue",
+          "character": "gregor_maric",
+          "text": "I'll be at the pithead the week the paper comes out, Chancellor. I'll tell them I knew. I won't tell them you knew. I haven't decided whether that's loyalty or cowardice. Don't help me decide."
+        },
+        {
+          "type": "monologue",
+          "text": "Two hundred hands. Nine hundred jobs in a drawer. Father's street, and I walked it like a candidate. I didn't knock on the door of the house. I don't think the house would have known me."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kravenstal102_quiet_end",
+          "text": "Two hundred handshakes. The furnace stays in the drawer until Thursday.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "personal.marriageHealth",
+              "operation": "add",
+              "value": -2
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

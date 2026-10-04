@@ -1,0 +1,211 @@
+{
+  "id": "act7_week98_last_cabinet",
+  "title": "The Last Cabinet",
+  "act": 7,
+  "weekAvailable": 98,
+  "weekDeadline": 100,
+  "type": "meeting",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Cabinet Room — Ashenmere Palace",
+  "characters": ["aldric_theron", "danika_oberlin", "irina_dusek", "elara_vostane", "gregor_maric"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "When the writ is read on Monday, this government becomes a caretaker. No appointments, no new spending, no decrees above the line. Theron has explained it twice. This is the last meeting at which anything can still be decided, and everyone at the table knows what he means by anything."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "vyktor_exposed", "value": true }],
+      "text": "Vyktor's chair at your right hand has been pushed back against the wall. His replacement sits one place further down, as if the chair might still be occupied."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "vyktor_covered", "value": true }],
+      "text": "Vyktor sits at your right with the agenda on a single card, as always. Danika has not looked at him for four weeks. She doesn't look at him now."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "vyktor_slush_taken", "value": true }],
+      "text": "Vyktor sits at your right with nothing in front of him. He doesn't bring a folder to cabinet any more. He waits until you have read every page."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "cabinet58_maric_letter", "value": true }],
+      "text": "Marić's envelope is still in your desk drawer, undated, where it has been since week fifty-eight. He glances at your end of the table when he sits down, the way a man checks a pocket for his keys."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "One item. If the opposition forms the next government, it inherits this building, and everything in it. I mean the Chancellery's own files. The quiet office's files. The contingency accounts. Whatever is in the drawers. We have until Monday to decide what the next government finds."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "kolvar_arrested_treason", "value": true }],
+      "text": "The man we indicted may be Chancellor in five weeks. He would inherit his own prosecution file and the officers who built it."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "kolvar_blackmailed_dropout", "value": true }],
+      "text": "And if he wins anyway, the folder you showed him in the garden room becomes his folder on you. A drawer works in both directions."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "Everything stays. Every page. If we were right, the files prove it. If we were wrong, the country is owed the proof. I didn't spend two years auditing this government so that it could tidy up on its way out the door."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "vyktor_covered", "value": true }],
+      "text": "That includes the Chancellery Contingency Account. ₭3.4 million under one signature. I still have my copy of the green ledger. Whatever you decide, mine stays where it is."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "conditions": [{ "type": "flag", "flag": "colonels70_watched", "value": true }],
+      "text": "There are forty-one files on serving colonels in Krel's office. Debts, a second family, letters to a brother about the weather. If Kolvar wins, he reads them on his first morning. Forty-one officers would learn what this government thought of them from the man they trust least. I won't leave that behind me."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "conditions": [{ "type": "flag", "flag": "colonels70_dusek_promoted", "value": true }],
+      "text": "For the minutes: the army stays in barracks on polling day. All of it. I have given my word to the General Staff and I'd like it recorded that I gave it to this cabinet as well."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "conditions": [{ "type": "flag", "flag": "cabinet58_coupon_missed", "value": true }],
+      "text": "Whatever we leave in the drawers, the Treasury hands over a Republic that borrows at eleven percent. I said so in week fifty-eight. I'd like the minutes to show I am still saying so."
+    },
+    {
+      "type": "dialogue",
+      "character": "aldric_theron",
+      "text": "There is a lawful middle course. A Records Act: everything sealed for thirty years under the Archive, opened only by order of the Supreme Court. Nothing destroyed. Nothing read."
+    },
+    {
+      "type": "monologue",
+      "text": "Leave it all and let them read. Burn it and let them guess. Seal it and let our grandchildren decide. Father's file was opened in 1961, fourteen years too late for him, and I was grateful anyway."
+    }
+  ],
+  "choices": [
+    {
+      "id": "lastcab98_leave_open",
+      "text": "Everything stays where it is. The next government reads what this one did, page by page.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_open",
+      "flags": ["lastcab98_archive_open"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 8 },
+        { "stat": "nation.civilLiberties", "operation": "add", "value": 3 },
+        { "stat": "advisorTrust.danika", "operation": "add", "value": 10 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "lastcab98_seal",
+      "text": "Theron's Records Act. Seal it all for thirty years. Nothing destroyed, nothing read.",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_seal",
+      "flags": ["lastcab98_files_sealed"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -4 },
+        { "stat": "advisorTrust.theron", "operation": "add", "value": 6 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "lastcab98_burn",
+      "text": "The quiet office's files go into the Palace furnace tonight. The rest stays. Some things a government owes its people to forget.",
+      "internalTag": "authoritarian",
+      "nextSegment": "seg_burn",
+      "flags": ["lastcab98_files_burned"],
+      "stateChanges": [
+        { "stat": "shadowFootprint", "operation": "add", "value": -15 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -10 },
+        { "stat": "advisorTrust.danika", "operation": "add", "value": -15 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_open": {
+      "narrative": [
+        { "type": "dialogue", "character": "irina_dusek", "conditions": [{ "type": "flag", "flag": "colonels70_watched", "value": true }], "text": "Then I'll tell the forty-one myself, before anyone else can. One at a time. It's the least they're owed, and it's more than I'd want to be owed." },
+        { "type": "description", "text": "Danika has the archive inventory typed by Sunday: 1,140 boxes, every one listed by title, nothing withheld. The list itself is lodged with the Supreme Court registry on Monday morning, an hour before the writ is read, so that nobody can make a box disappear afterwards. Not even you." },
+        { "type": "dialogue", "character": "gregor_maric", "conditions": [{ "type": "flag", "flag": "cabinet58_maric_letter", "value": true }], "text": "Keep my letter where it is, Chancellor. If you lose, date it the day after. I'd like to leave with you, not after you." },
+        { "type": "monologue", "text": "If Kolvar wins he gets 1,140 boxes and a list he can't lose them from. If I win I get the same list, and the country gets to hold me to it. Either way, the drawers are empty now. That frightens me more than the vote does." }
+      ],
+      "choices": [
+        {
+          "id": "lastcab98_open_end",
+          "text": "1,140 boxes, listed and lodged with the court. Nothing left in the drawers, including mine.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "factions.reformists", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_seal": {
+      "narrative": [
+        { "type": "description", "text": "The Records Act is passed by decree at 17:40 on Friday, twenty minutes before the caretaker period would have made it impossible. Thirty years, the Archive's own seal, the Supreme Court as sole key-holder. The boxes go to the Archive vault in Ostrava Street on three lorries the same night." },
+        { "type": "dialogue", "character": "danika_oberlin", "text": "Thirty years. I'll be seventy-four. I'm putting a note in my diary for the morning they open, Chancellor, so that someone remembers to be in the room." },
+        { "type": "dialogue", "character": "gregor_maric", "conditions": [{ "type": "flag", "flag": "cabinet58_maric_letter", "value": true }], "text": "You can seal the files. You can't seal my letter, it's in your drawer. Keep it there. I'm not going anywhere until the count." },
+        { "type": "monologue", "text": "Nothing burned and nothing read. It's the most lawful thing I've done in two years and it will look exactly like a cover-up to everyone who wasn't in this room. The Herald is already calling it 'The Thirty Year Drawer.'" }
+      ],
+      "choices": [
+        {
+          "id": "lastcab98_seal_end",
+          "text": "Three lorries to Ostrava Street. Thirty years before anyone reads a page.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.pressFreedom", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_burn": {
+      "narrative": [
+        { "type": "description", "text": "Krel's men carry the boxes down to the Palace boiler room themselves. It takes four hours. The stoker is sent home on full pay and told nothing. The chimney over the east wing smokes until two in the morning, and every taxi driver in Ashenmere knows by breakfast." },
+        { "type": "description", "text": "Danika's resignation is on your desk at seven. One paragraph. It cites no reason. It doesn't need to." },
+        { "type": "dialogue", "character": "danika_oberlin", "text": "I'll stay quiet until the count, because the country deserves a clean vote more than it deserves my opinion. After the count, I'll answer every question I'm asked. I'm telling you now so you can't say I didn't." },
+        { "type": "monologue", "text": "I burned the quiet office. The colonels' weather letters, the informants' names, the things I ordered at two in the morning. Halvek burned his in 1962. The smoke looked the same from the street." }
+      ],
+      "choices": [
+        {
+          "id": "lastcab98_burn_end",
+          "text": "Smoke over the east wing until two. Danika's resignation on the desk by seven.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.publicImage", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
