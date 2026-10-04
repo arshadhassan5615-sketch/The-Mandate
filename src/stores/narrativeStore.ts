@@ -266,6 +266,12 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
         const alt = getScene(altId)
         if (alt && (!alt.prerequisites?.length || evaluateAll(alt.prerequisites, gameState, activeFlags))) {
           target = alt
+          // Exclusive redirect: the requested scene was consumed by the routing
+          // even though a sibling plays — record BOTH ids as visited.
+          const { visitedSceneIds: seen } = get()
+          if (!seen.includes(id)) {
+            set({ visitedSceneIds: [...seen, id] })
+          }
           break
         }
       }
