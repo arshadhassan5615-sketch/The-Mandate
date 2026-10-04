@@ -10,7 +10,7 @@
   "isWeekGate": true,
   "gateMessage": "Tanks are in the streets of Ashenmere. Nothing else matters right now.",
   "location": "Chancellor's Residence — 03:41, Week Thirty-Seven",
-  "characters": ["colonel_dusek", "general_brenner", "vyktor_reznik", "serida_valk"],
+  "characters": ["colonel_dusek", "oskar_brenner", "vyktor_reznik", "serida_valk"],
   "prerequisites": [
     { "stat": "factions.ironCovenant", "operator": "<", "value": 25 }
   ],
@@ -98,7 +98,7 @@
         { "targetNodeId": "act3_stellamere_broadcast", "delayWeeks": 1 },
         { "targetNodeId": "act4_exile_arc", "delayWeeks": 3 }
       ],
-      "flags": ["coup_succeeded", "chancellor_fled", "government_in_exile", "brenner_controls_capital", "asenmere_fallen"],
+      "flags": ["coup_attempted", "coup_succeeded", "chancellor_fled", "government_in_exile", "brenner_controls_capital", "asenmere_fallen"],
       "codexUnlocks": ["codex_third_armored_regiment", "codex_government_exile_doctrine"]
     },
     {
@@ -121,7 +121,7 @@
         { "targetNodeId": "act3_brenner_negotiation", "delayWeeks": 0 },
         { "targetNodeId": "act3_coalition_government", "delayWeeks": 2 }
       ],
-      "flags": ["coup_negotiated", "brenner_recalled", "military_concessions_made", "coup_averted_through_politics"],
+      "flags": ["coup_attempted", "coup_negotiated", "brenner_recalled", "military_concessions_made", "coup_averted_through_politics"],
       "codexUnlocks": ["codex_third_armored_regiment", "codex_brenner_demands"]
     },
     {
@@ -145,7 +145,7 @@
         { "targetNodeId": "act3_ashenmere_standoff", "delayWeeks": 1 },
         { "targetNodeId": "act4_civil_conflict_arc", "delayWeeks": 3, "probability": 0.5 }
       ],
-      "flags": ["coup_resisted", "loyalist_forces_mobilized", "dusek_acting_commander", "constitutional_defense_ordered"],
+      "flags": ["coup_attempted", "coup_resisted", "loyalist_forces_mobilized", "dusek_acting_commander", "constitutional_defense_ordered"],
       "codexUnlocks": ["codex_article_four", "codex_first_infantry_division", "codex_third_armored_regiment"]
     },
     {
@@ -168,7 +168,7 @@
         { "targetNodeId": "act3_face_to_face_brenner", "delayWeeks": 0 },
         { "targetNodeId": "act3_public_moment", "delayWeeks": 1 }
       ],
-      "flags": ["coup_confronted_directly", "brenner_face_to_face", "chancellor_walked_out", "public_witnessed"],
+      "flags": ["coup_attempted", "coup_confronted_directly", "brenner_face_to_face", "chancellor_walked_out", "public_witnessed"],
       "codexUnlocks": ["codex_third_armored_regiment", "codex_general_staff_building"]
     }
   ]
