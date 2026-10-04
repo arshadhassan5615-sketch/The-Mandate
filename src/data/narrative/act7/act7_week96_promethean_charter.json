@@ -81,7 +81,8 @@
     "seg_charter_full": {
       "narrative": [
         { "type": "description", "text": "You sign the Charter into law. Within weeks, the first wave of Promethean Scholars arrives in Ashenmere. Nuclear physicists from Morivask. Aeronautical engineers from Orythia. Civil architects from Lytheira. They bring their families, their research, and their brilliance." },
-        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Iron Covenant is furious. General Brenner is demanding background checks on every single one of them. But the labs are humming, the patents are filing, and the military R&D division just made a breakthrough in rocket propulsion that puts us five years ahead of Tyvaren." },
+        { "type": "dialogue", "character": "vyktor_reznik", "conditions": [{ "type": "flag", "flag": "brenner_fired_publicly", "value": false }], "text": "The Iron Covenant is furious. General Brenner is demanding background checks on every single one of them. But the labs are humming, the patents are filing, and the military R&D division just made a breakthrough in rocket propulsion that puts us five years ahead of Tyvaren." },
+        { "type": "dialogue", "character": "vyktor_reznik", "conditions": [{ "type": "flag", "flag": "brenner_fired_publicly", "value": true }], "text": "The Iron Covenant is furious. Dusek is demanding background checks on every single one of them. But the labs are humming, the patents are filing, and the military R&D division just made a breakthrough in rocket propulsion that puts us five years ahead of Tyvaren." },
         { "type": "monologue", "text": "I opened the gates to the world's best minds. They came. They are building things that shouldn't be possible for a nation our size. The security risk is real—Krel has already caught two of them passing notes to foreign handlers. But the ones who are loyal are giving us the future. The fire is lit. Let it burn." }
       ],
       "choices": [

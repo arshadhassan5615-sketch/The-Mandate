@@ -13,7 +13,18 @@
   "narrative": [
     {
       "type": "description",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }],
       "text": "When the writ is read on Monday, this government becomes a caretaker. No appointments, no new spending, no decrees above the line. Theron has explained it twice. This is the last meeting at which anything can still be decided, and everyone at the table knows what he means by anything."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": true }],
+      "text": "When the writ is read on Monday, this government becomes a caretaker. No appointments, no new spending, no decrees above the line. The lawyers have explained it twice. This is the last meeting at which anything can still be decided, and everyone at the table knows what is meant by anything."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "theron_medical_leave", "value": true }],
+      "text": "When the writ is read on Monday, this government becomes a caretaker. No appointments, no new spending, no decrees above the line. The lawyers have explained it twice. This is the last meeting at which anything can still be decided, and everyone at the table knows what is meant by anything."
     },
     {
       "type": "description",
@@ -35,22 +46,59 @@
       "conditions": [{ "type": "flag", "flag": "cabinet58_maric_letter", "value": true }],
       "text": "Marić's envelope is still in your desk drawer, undated, where it has been since week fifty-eight. He glances at your end of the table when he sits down, the way a man checks a pocket for his keys."
     },
-    { "type": "dialogue", "character": "aldric_theron", "conditions": [{ "type": "flag", "flag": "concession51_graceful", "value": true }], "text": "Before we begin. In week fifty-one you wrote a concession promising every key and every file by noon on the Thursday. Danika has a copy. She asked me this morning whether it still stands." },
+    { "type": "dialogue", "character": "aldric_theron", "conditions": [{ "type": "flag", "flag": "concession51_graceful", "value": true }, { "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }], "text": "Before we begin. In week fifty-one you wrote a concession promising every key and every file by noon on the Thursday. Danika has a copy. She asked me this morning whether it still stands." },
     {
       "type": "dialogue",
       "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }],
+      "text": "One item. If the opposition forms the next government, it inherits this building, and everything in it. I mean the Chancellery's own files. The quiet office's files. The contingency accounts. Whatever is in the drawers. We have until Monday to decide what the next government finds."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": true }],
+      "text": "One item. If the opposition forms the next government, it inherits this building, and everything in it. I mean the Chancellery's own files. The quiet office's files. The contingency accounts. Whatever is in the drawers. We have until Monday to decide what the next government finds."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "theron_medical_leave", "value": true }],
       "text": "One item. If the opposition forms the next government, it inherits this building, and everything in it. I mean the Chancellery's own files. The quiet office's files. The contingency accounts. Whatever is in the drawers. We have until Monday to decide what the next government finds."
     },
     {
       "type": "dialogue",
       "character": "aldric_theron",
-      "conditions": [{ "type": "flag", "flag": "kolvar_arrested_treason", "value": true }],
+      "conditions": [{ "type": "flag", "flag": "kolvar_arrested_treason", "value": true }, { "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }],
+      "text": "The man we indicted may be Chancellor in five weeks. He would inherit his own prosecution file and the officers who built it."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "kolvar_arrested_treason", "value": true }, { "type": "flag", "flag": "theron_fired", "value": true }],
+      "text": "The man we indicted may be Chancellor in five weeks. He would inherit his own prosecution file and the officers who built it."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "kolvar_arrested_treason", "value": true }, { "type": "flag", "flag": "theron_medical_leave", "value": true }],
       "text": "The man we indicted may be Chancellor in five weeks. He would inherit his own prosecution file and the officers who built it."
     },
     {
       "type": "dialogue",
       "character": "aldric_theron",
-      "conditions": [{ "type": "flag", "flag": "kolvar_blackmailed_dropout", "value": true }],
+      "conditions": [{ "type": "flag", "flag": "kolvar_blackmailed_dropout", "value": true }, { "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }],
+      "text": "And if he wins anyway, the folder you showed him in the garden room becomes his folder on you. A drawer works in both directions."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "kolvar_blackmailed_dropout", "value": true }, { "type": "flag", "flag": "theron_fired", "value": true }],
+      "text": "And if he wins anyway, the folder you showed him in the garden room becomes his folder on you. A drawer works in both directions."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "kolvar_blackmailed_dropout", "value": true }, { "type": "flag", "flag": "theron_medical_leave", "value": true }],
       "text": "And if he wins anyway, the folder you showed him in the garden room becomes his folder on you. A drawer works in both directions."
     },
     {
@@ -87,6 +135,19 @@
     {
       "type": "dialogue",
       "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }],
+      "text": "There is a lawful middle course. A Records Act: everything sealed for thirty years under the Archive, opened only by order of the Supreme Court. Nothing destroyed. Nothing read."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": true }],
+      "text": "There is a lawful middle course. A Records Act: everything sealed for thirty years under the Archive, opened only by order of the Supreme Court. Nothing destroyed. Nothing read."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "theron_medical_leave", "value": true }],
       "text": "There is a lawful middle course. A Records Act: everything sealed for thirty years under the Archive, opened only by order of the Supreme Court. Nothing destroyed. Nothing read."
     },
     {
@@ -113,7 +174,7 @@
     },
     {
       "id": "lastcab98_seal",
-      "text": "Theron's Records Act. Seal it all for thirty years. Nothing destroyed, nothing read.",
+      "text": "The Records Act. Seal it all for thirty years. Nothing destroyed, nothing read.",
       "internalTag": "pragmatist",
       "nextSegment": "seg_seal",
       "flags": ["lastcab98_files_sealed"],

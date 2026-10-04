@@ -13,7 +13,18 @@
   "narrative": [
     {
       "type": "description",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }],
       "text": "Theron and Kaspar enter your office looking grim. Kaspar is holding a vial of penicillin and a lab report. Theron is holding an arrest warrant."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": true }],
+      "text": "Kaspar enters your office looking grim, holding a vial of penicillin and a lab report. The Justice Ministry's file is in her other hand. The warrant is already drafted."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "theron_medical_leave", "value": true }],
+      "text": "Kaspar enters your office looking grim, holding a vial of penicillin and a lab report. The Justice Ministry's file is in her other hand. The warrant is already drafted."
     },
     {
       "type": "dialogue",
@@ -23,7 +34,20 @@
     {
       "type": "dialogue",
       "character": "aldric_theron",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }],
       "text": "I traced the supply contract. The company providing the medicine is a shell corporation, and the majority shareholder is Bishop Viktor Renek — the Archbishop's cousin. The dilution is his profit margin. Twelve patients took that margin into their veins."
+    },
+    {
+      "type": "dialogue",
+      "character": "lena_kaspar",
+      "conditions": [{ "type": "flag", "flag": "theron_fired", "value": true }],
+      "text": "The Ministry traced the supply contract. The company providing the medicine is a shell corporation, and the majority shareholder is Bishop Viktor Renek — the Archbishop's cousin. The dilution is his profit margin. Twelve patients took that margin into their veins."
+    },
+    {
+      "type": "dialogue",
+      "character": "lena_kaspar",
+      "conditions": [{ "type": "flag", "flag": "theron_medical_leave", "value": true }],
+      "text": "The Ministry traced the supply contract. The company providing the medicine is a shell corporation, and the majority shareholder is Bishop Viktor Renek — the Archbishop's cousin. The dilution is his profit margin. Twelve patients took that margin into their veins."
     },
     { "type": "dialogue", "character": "lena_kaspar", "conditions": [{ "type": "flag", "flag": "generic_lab_built", "value": true }], "text": "These vials didn't come from my laboratory. The state lab has made eleven million clean doses since week sixty-four. The north still buys through contractors, because we couldn't build a second line fast enough. This is the contractor." },
     { "type": "dialogue", "character": "lena_kaspar", "conditions": [{ "type": "flag", "flag": "penicillin_cartel_paid", "value": true }], "text": "We are still paying the cartel price for the clean stock in Ashenmere, Chancellor. The north got the cheap contract. This is what the cheap contract looks like." },
@@ -82,7 +106,18 @@
       "narrative": [
         {
           "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }],
           "text": "Renek's cousin is taken from his office at 2pm. His lawyers file for release within the hour. They do not get it. The Archbishop issues a statement calling the arrest 'political persecution of a faithful servant.' Kaspar holds a press conference with the lab results and the twelve names. The Archbishop does not issue a second statement. The supply contract is cancelled; emergency stock arrives from the Orythian aid reserves within the week. Theron is calm for the first time in months. Kaspar is not calm. She goes back to work."
+        },
+        {
+          "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "theron_fired", "value": true }],
+          "text": "Renek's cousin is taken from his office at 2pm. His lawyers file for release within the hour. They do not get it. The Archbishop issues a statement calling the arrest 'political persecution of a faithful servant.' Kaspar holds a press conference with the lab results and the twelve names. The Archbishop does not issue a second statement. The supply contract is cancelled; emergency stock arrives from the Orythian aid reserves within the week. Kaspar is not calm. She goes back to work."
+        },
+        {
+          "type": "monologue",
+          "conditions": [{ "type": "flag", "flag": "theron_medical_leave", "value": true }],
+          "text": "Renek's cousin is taken from his office at 2pm. His lawyers file for release within the hour. They do not get it. The Archbishop issues a statement calling the arrest 'political persecution of a faithful servant.' Kaspar holds a press conference with the lab results and the twelve names. The Archbishop does not issue a second statement. The supply contract is cancelled; emergency stock arrives from the Orythian aid reserves within the week. Kaspar is not calm. She goes back to work."
         },
         { "type": "dialogue", "character": "lena_kaspar", "text": "Twelve dead in Kravenstal. I have the names on my desk. I'm going to read them every morning until the trial, so that somebody does." }
       ],
@@ -96,7 +131,9 @@
           "type": "monologue",
           "text": "Krel delivers the message on a Tuesday. By Thursday, Renek's cousin has boarded a ferry to Lytheira with two suitcases and no public statement. The shell company is dissolved. A new supply contract is issued. The twelve deaths are recorded in the Ministry files as resulting from 'substandard imported pharmaceutical stock' — accurate, precise, and attributing the cause to no one living. Kaspar signs the incident report without looking at me."
         },
-        { "type": "dialogue", "character": "aldric_theron", "text": "The file says 'substandard imported stock'. Every word is true and the sentence is a lie. I'd like to have drafted it better." }
+        { "type": "dialogue", "character": "aldric_theron", "conditions": [{ "type": "flag", "flag": "theron_fired", "value": false }, { "type": "flag", "flag": "theron_medical_leave", "value": false }], "text": "The file says 'substandard imported stock'. Every word is true and the sentence is a lie. I'd like to have drafted it better." },
+        { "type": "dialogue", "character": "lena_kaspar", "conditions": [{ "type": "flag", "flag": "theron_fired", "value": true }], "text": "The file says 'substandard imported stock'. Every word is true and the sentence is a lie. Justice would have drafted it better." },
+        { "type": "dialogue", "character": "lena_kaspar", "conditions": [{ "type": "flag", "flag": "theron_medical_leave", "value": true }], "text": "The file says 'substandard imported stock'. Every word is true and the sentence is a lie. Justice would have drafted it better." }
       ],
       "choices": [
         { "id": "exile_end", "text": "A ferry to Lytheira, and twelve deaths attributed to no one living.", "nextSegment": null, "flags": [], "stateChanges": [], "reactions": [], "chainTriggers": [], "codexUnlocks": [] }
