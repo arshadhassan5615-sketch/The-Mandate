@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import type { ChainTrigger } from '../types/narrative'
 import type { GameState } from '../types/gameState'
 import { buildScheduled, resolveChains, type ScheduledChain } from '../engine/ChainReactionEngine'
+import { MAX_FORCED_CHAINS_PER_WEEK } from '../engine/weekCompletion'
 import { useJournalStore } from './journalStore'
 import { getScene } from '../engine/NarrativeEngine'
 
@@ -22,11 +23,24 @@ export const useChainStore = create<ChainStore>((set, get) => ({
   schedule: (triggers, currentWeek, sourceId, sceneId) => {
     if (!triggers.length) return
     const entries = buildScheduled(triggers, currentWeek, sourceId, sceneId)
-    set(s => ({ scheduled: [...s.scheduled, ...entries] }))
+    // Dedupe: the same (target, fireWeek) pending twice is always redundant —
+    // recurring schedules used to accumulate duplicates here (H-2).
+    const pending = new Set(get().scheduled.map(c => `${c.targetNodeId}@${c.fireWeek}`))
+    const fresh = entries.filter(e => !pending.has(`${e.targetNodeId}@${e.fireWeek}`))
+    if (!fresh.length) return
+    set(s => ({ scheduled: [...s.scheduled, ...fresh] }))
   },
 
   process: (week, state, flags) => {
-    const { fired, remaining, firedChains } = resolveChains(get().scheduled, week, state, flags)
+    // Capped fire rate: a backlog of overdue chains (e.g. an old autosave)
+    // drains a few per week instead of all at once. Overflow stays scheduled.
+    const { fired, remaining, firedChains } = resolveChains(
+      get().scheduled,
+      week,
+      state,
+      flags,
+      MAX_FORCED_CHAINS_PER_WEEK,
+    )
     set({ scheduled: remaining })
 
     // Update journal entries with consequences when chains fire

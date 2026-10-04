@@ -52,6 +52,7 @@ export function resolveChains(
   week: number,
   state: GameState,
   flags: string[],
+  maxFires: number = Number.MAX_SAFE_INTEGER,
 ): { fired: string[]; remaining: ScheduledChain[]; firedChains: ScheduledChain[] } {
   const fired: string[] = []
   const firedChains: ScheduledChain[] = []
@@ -77,6 +78,14 @@ export function resolveChains(
         console.warn('[Chain] dropped (probability roll failed):', chain.targetNodeId, chain.id)
       }
       continue  // didn't happen this run
+    }
+
+    // Per-week cap: once this week's slots are full, carry the chain forward.
+    // It stays scheduled (never dropped) and fires on a later week — a backlog
+    // of overdue chains (old autosave) must not flood a single week.
+    if (fired.length >= maxFires) {
+      remaining.push(chain)
+      continue
     }
 
     fired.push(chain.targetNodeId)

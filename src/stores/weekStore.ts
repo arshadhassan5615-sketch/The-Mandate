@@ -244,6 +244,74 @@ function makeImpeachmentVindicatedItem(order: number, week: number): AgendaItem 
   }
 }
 
+// Synthesize AgendaItems for chain-forced scenes (Fix B). Shared by initWeek
+// (so the map offers them) and confirmAgenda (so they run this week).
+// Dedupes by sceneId and skips scenes already visited.
+function buildChainPrimaryItems(
+  forcedIds: string[],
+  week: number,
+  visitedSceneIds: readonly string[],
+): AgendaItem[] {
+  const seen = new Set<string>()
+  const items: AgendaItem[] = []
+  for (const sceneId of forcedIds) {
+    if (seen.has(sceneId)) continue
+    seen.add(sceneId)
+    if (visitedSceneIds.includes(sceneId)) continue
+    const scene = getScene(sceneId)
+    if (!scene) {
+      console.warn(`[weekStore] Chain target "${sceneId}" not found — skipping`)
+      continue
+    }
+    items.push({
+      id: `__chain__${sceneId}`,
+      title: scene.title,
+      description: 'A consequence of a past decision.',
+      category: 'crisis' as AgendaCategory,
+      sceneId,
+      slotCost: 0,
+      executionOrder: -(items.length + 1),  // negative → before player items
+      weekAvailable: week,
+      isUrgent: true,
+    })
+  }
+  return items
+}
+
+// Chain primaries plus their procedural companions: the confidence vote and
+// impeachment articles run before/after their narrative wrapper.
+function buildChainItems(
+  forcedIds: string[],
+  week: number,
+  visitedSceneIds: readonly string[],
+): AgendaItem[] {
+  const rawChainItems = buildChainPrimaryItems(forcedIds, week, visitedSceneIds)
+
+  const chainItems: AgendaItem[] = []
+  for (const item of rawChainItems) {
+    if (item.sceneId === 'act3_confidence_vote') {
+      // Strategy narrative first, then the Assembly division, then conditional aftermath
+      chainItems.push(item)
+      const base = item.executionOrder
+      chainItems.push(makeNoConfidenceVoteItem(base + 1, week))
+      chainItems.push(makeNoConfidenceSurvivedItem(base + 2, week))
+      chainItems.push(makeNoConfidenceFallenItem(base + 3, week))
+    } else if (item.sceneId === 'act4_impeachment_proceedings') {
+      // Vote comes first, then the response narrative (conditional on outcome)
+      const base = item.executionOrder
+      chainItems.push(makeImpeachmentVoteItem(base - 1, week))
+      chainItems.push({
+        ...item,
+        prerequisites: [{ stat: 'flags.impeachment_vote_passed', operator: '==' as const, value: true }],
+      })
+      chainItems.push(makeImpeachmentVindicatedItem(base + 1, week))
+    } else {
+      chainItems.push(item)
+    }
+  }
+  return chainItems
+}
+
 // Threshold checks for chain-injected crisis scenes (mirrors shouldTriggerImpeachment)
 function shouldTriggerTyvarenMobilization(hostility: number): boolean {
   return hostility >= 70
@@ -965,6 +1033,14 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       })
     }
 
+    // Fix B: chain-forced scenes fired this week must reach the map. Primary
+    // items only — the confidence-vote / impeachment companions carry branch
+    // prerequisites and are queued by confirmAgenda instead.
+    for (const item of buildChainPrimaryItems(get().forcedChainIds, gameState.currentWeek, visitedSceneIds)) {
+      if (pool.some(p => p.sceneId === item.sceneId)) continue
+      pool.push(item)
+    }
+
     // Sort pool by executionOrder so downstream readers (e.g. MapInteractionLayer)
     // always see items in canonical sequence. Items missing executionOrder
     // sink to the end (coerced to 99).
@@ -1075,59 +1151,25 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     const { agendaPool, selectedIds, forcedChainIds } = get()
     const gameState = useGameStore.getState()
 
-    // Synthesize AgendaItems for chain-forced scenes (run before player selections)
-    const rawChainItems: AgendaItem[] = forcedChainIds
-      .map((sceneId, i): AgendaItem | null => {
-        const scene = getScene(sceneId)
-        if (!scene) {
-          console.warn(`[weekStore] Chain target "${sceneId}" not found — skipping`)
-          return null
-        }
-        return {
-          id: `__chain__${sceneId}`,
-          title: scene.title,
-          description: 'A consequence of a past decision.',
-          category: 'crisis' as AgendaCategory,
-          sceneId,
-          slotCost: 0,
-          executionOrder: -(forcedChainIds.length - i),  // negative → before player items
-          weekAvailable: gameState.currentWeek,
-          isUrgent: true,
-        }
-      })
-      .filter((x): x is AgendaItem => x !== null)
-
-    // Augment chain items: inject lobbying votes before/after special scenes
-    const chainItems: AgendaItem[] = []
-    for (const item of rawChainItems) {
-      if (item.sceneId === 'act3_confidence_vote') {
-        // Strategy narrative first, then the Assembly division, then conditional aftermath
-        chainItems.push(item)
-        const base = item.executionOrder
-        chainItems.push(makeNoConfidenceVoteItem(base + 1, gameState.currentWeek))
-        chainItems.push(makeNoConfidenceSurvivedItem(base + 2, gameState.currentWeek))
-        chainItems.push(makeNoConfidenceFallenItem(base + 3, gameState.currentWeek))
-      } else if (item.sceneId === 'act4_impeachment_proceedings') {
-        // Vote comes first, then the response narrative (conditional on outcome)
-        const base = item.executionOrder
-        chainItems.push(makeImpeachmentVoteItem(base - 1, gameState.currentWeek))
-        chainItems.push({
-          ...item,
-          prerequisites: [{ stat: 'flags.impeachment_vote_passed', operator: '==' as const, value: true }],
-        })
-        chainItems.push(makeImpeachmentVindicatedItem(base + 1, gameState.currentWeek))
-      } else {
-        chainItems.push(item)
-      }
-    }
-
     // Player-selected items
     const playerItems = selectedIds
       .map(id => agendaPool.find(a => a.id === id))
       .filter((item): item is AgendaItem => item != null)
       .sort((a, b) => a.executionOrder - b.executionOrder)
 
+    // Chain-forced scenes run before player selections — but each scene at
+    // most once, even when the same scene is also selected from the pool or
+    // forced twice (Fix B).
+    const { visitedSceneIds } = useNarrativeStore.getState()
+    const chainItems = buildChainItems(forcedChainIds, gameState.currentWeek, visitedSceneIds)
+
+    const seenSceneIds = new Set<string>()
     const sorted = [...chainItems, ...playerItems]
+      .filter(item => {
+        if (seenSceneIds.has(item.sceneId)) return false
+        seenSceneIds.add(item.sceneId)
+        return true
+      })
       .sort((a, b) => a.executionOrder - b.executionOrder)
     if (sorted.length === 0) {
       console.warn('[confirmAgenda] No items in queue — transitioning to review')
