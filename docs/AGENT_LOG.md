@@ -87,3 +87,31 @@ _(entries appended below as work lands)_
 - Runtime (store-driven): wk78 marriage 60 → only `path_united`; 20 → only `path_divorce`. wk53 none → `path_clean_win`; captured → `path_oligarch_puppet`. wk72 none → `path_remnant_plot`. wk100 none → `path_kolvar_generic`; oil → `path_kolvar_oil`.
 - Player: history decides the route. Jonas leaves or stays because of the marriage, not a menu click.
 - New flags to be read later: `remnant_plot_buried`, `deep_state_public_arrests` (planned reader: wk103).
+
+### Batch 3 — `3244c62` fix(scheduling): mirror initWeek one-offs into agenda JSON (B-5)
+- Files: 19 `agenda/weekNN.json` files (24 entries: mole w2/3/5, Hawk w13/16/22/28/35, pipeline w14–16, oil arc w18–22, informant w19, protest w22, Voss w24/28/32, Morvec w32, border ultimatum w40, loyal force w44, inaugural ball w1).
+- Why: bug A drops `initWeek` items after the first scene of a week. Agenda JSON entries survive the rebuild.
+- Gates: tsc ✓ · broken 0 · orphans 67 · flag gaps 11 · unguarded 0.
+- Runtime: week 22, after an unrelated scene, Voss connection, protest/riot and oil outcome are still in the pool (they vanished before). Radio still drops, which is intended under bug C.
+- Player: the Hawk, Voss, oil and Morvec arcs are playable regardless of which pin is clicked first.
+
+### Batch 4 — `c2ffbd3` + `a0df853` fix(narrative): coup_attempted flag (B-4); canonical oskar_brenner ID (B-6)
+- `act3_week37_coup_attempt.json`: `coup_attempted` added to all four outcomes (additive). Flag gaps 11→10.
+- 21 scenes: speaker / `characters` `general_brenner` → `oskar_brenner` (portrait + colour). **Not changed:** `src/data/epilogues.json:119` still uses `general_brenner` (ending display; left for you).
+- Player: the climax "internal consolidation" option appears after a coup, and Brenner has a face in Acts II–IV.
+
+### Batch 5 — `ee28288` feat(narrative): weeks 56, 57, 58, 62
+- New: `act5_week56_halvek_bench` (fallback when the constitution is not in force), `act5_week57_arrest_sheet`, `act5_week58_cabinet_table`, `act5_week62_the_interview`. Agenda: `week56/57.json` appended; `week58.json`, `week62.json` created.
+- Echo reads: commissioner (wk7), 3:47 (wk27), coup (wk37), Tomas Term-1 arcs, steel trust (55), court (56), injury (57), orphanage (54), puppet path (53), referendum.
+- Gates: tsc ✓ · broken 0 · orphans 67 (=) · flag gaps 10 (=) · unguarded 0 · dead-ends 165 (=) · missing beats 52 (=).
+- Runtime walker: every path of the 4 scenes completes under 3 flag profiles; 0 errors.
+- Player: weeks 58 and 62 are no longer empty. Tomas gets his first Term 2 scene. Nadia gets a set piece that quotes the player's own record back at them.
+
+### Batch 6 — `37be744` feat(narrative): weeks 70, 74, 83
+- New: `act6_week70_the_colonels`, `act6_week74_last_audience` (second scene that week), `act6_week83_coal_ledger` (fallback for non-oil players). Agenda: `week70.json` created; `week74/83.json` appended.
+- Gates: same as batch 5, all green. Runtime walker: all paths complete; wk83 choice gating verified by branch.
+- Player: Brenner's toast has a consequence. Stefan Morvec dies and Aleksei inherits (payoff at wk101). `lytheiran_ties_severed` finally costs something.
+
+### Batch 7 — `34b9d25` feat(narrative): rewrite wk94 + wk97 (R-1, R-2)
+- IDs, choice ids, flags and stateChanges preserved. Vyktor is now present for his own reckoning. Kolvar's outcomes keep him on the ballot, consistent with wk100 and the polling-only `ElectionEngine`.
+- Gates green. Runtime walker: all paths complete.
