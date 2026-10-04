@@ -13,28 +13,40 @@
   "narrative": [
     {
       "type": "description",
-      "text": "Krel enters your study carrying a single, damning folder. He sets it on your desk with the quiet precision of a man who has just found the kill shot."
+      "text": "Krel puts a single folder on the desk and steps back from it, as if it might go off. Inside are fourteen photostats of bank transfers, a courier's travel log, and a photograph of a man in a grey coat on the platform at Gravenmark station."
     },
     {
       "type": "dialogue",
       "character": "matthias_krel",
-      "text": "Chancellor. The investigation into opposition campaign funding has uncovered something extraordinary. Dražen Kolvar has been receiving massive, illegal campaign donations from the Tyvaren government. He is not just a rival. He is a Tyvaren asset, bought and paid for to destabilize Veltria from the inside."
+      "text": "The Kolvar campaign has taken ₭1.9 million in nine months through the Tyvaren State Agricultural Bank, routed via a seed-import company in Thornfeld that has never imported a seed. The courier is Tyvaren military intelligence. That is him on the platform. He has met Kolvar's treasurer six times. Twice, Kolvar was in the room."
     },
     {
       "type": "dialogue",
       "character": "vyktor_reznik",
-      "text": "We have him dead to rights. But arresting the leader of the opposition for treason right before an election... the international press will call you a dictator eliminating his rival. It makes you look exactly like Halvek."
+      "conditions": [{ "type": "flag", "flag": "vyktor_exposed", "value": false }],
+      "text": "True. Usable. Dangerous."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "vyktor_exposed", "value": true }],
+      "text": "Vyktor's chair by the window is empty. His replacement has been in post for three weeks and asks Krel to repeat the figure twice. Nobody in the room says what Vyktor would have said. Everybody thinks it."
+    },
+    {
+      "type": "dialogue",
+      "character": "matthias_krel",
+      "text": "The election is in six weeks. The ballot papers go to the printer in nine days. Whatever you do with this, Chancellor, do it before then."
     },
     {
       "type": "monologue",
-      "text": "Kolvar is a traitor. A Tyvaren puppet. I can arrest him and end the opposition overnight. But the optics are catastrophic. The Orythian press will say I am staging a coup. The Halvekists will riot. Or I can leak the documents to Nadia Voss and let the press destroy him. Or I can hold the evidence over his head and make him my puppet. Three paths. None of them clean."
+      "text": "Halvek arrested his opponents before elections. He had folders too. Better folders than this one, probably. That's what frightens me: this one is true, and that doesn't change what it looks like."
     }
   ],
   "choices": [
     {
       "id": "arrest_kolvar_treason",
-      "text": "Arrest Kolvar for treason. The Republic comes first.",
-      "nextSegment": null,
+      "text": "Arrest Kolvar for treason. The Republic comes before the optics, and before the election.",
+      "internalTag": "authoritarian",
+      "nextSegment": "seg_arrest",
       "flags": ["kolvar_arrested_treason"],
       "stateChanges": [
         { "stat": "factions.ironCovenant", "operation": "add", "value": 15 },
@@ -48,8 +60,9 @@
     },
     {
       "id": "leak_to_voss",
-      "text": "Leak the documents to Nadia Voss. Let the press destroy him.",
-      "nextSegment": null,
+      "text": "Give the folder to Nadia Voss. Let the press do in daylight what the state shouldn't do at dawn.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_leak",
       "flags": ["kolvar_exposed_press"],
       "stateChanges": [
         { "stat": "nation.pressFreedom", "operation": "add", "value": 10 },
@@ -62,8 +75,9 @@
     },
     {
       "id": "blackmail_kolvar",
-      "text": "Hold the evidence over his head. Force him to drop out of the race.",
-      "nextSegment": null,
+      "text": "Show him the folder, privately. He stops campaigning, or the folder stops being private.",
+      "internalTag": "authoritarian",
+      "nextSegment": "seg_blackmail",
       "flags": ["kolvar_blackmailed_dropout"],
       "stateChanges": [
         { "stat": "shadowInfluence", "operation": "add", "value": 25 },
@@ -73,5 +87,73 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_arrest": {
+      "narrative": [
+        { "type": "description", "text": "They take him at 07:00, at his front door, in front of his wife and a photographer from the Herald who was there by coincidence. Nobody believes the coincidence." },
+        { "type": "description", "text": "The Supreme Court grants bail forty-eight hours later. The Electoral Commission rules, four votes to one, that a candidate under indictment may stand. Kolvar walks out of the Central District station into a crowd of six thousand and says one sentence: \"Halvek had folders too.\"" },
+        { "type": "dialogue", "character": "matthias_krel", "text": "The Orythian embassy has asked for a copy of the indictment. So have the Lytheirans. So has every newspaper west of Stellamere. The evidence is good, Chancellor. Nobody is reading the evidence." },
+        { "type": "monologue", "text": "I told the truth with handcuffs. He answered with my father's era in one sentence. Six weeks to the vote, and I've made him the man the Chancellor arrested." }
+      ],
+      "choices": [
+        {
+          "id": "arrest_kolvar_end",
+          "text": "Kolvar indicted, bailed and back on the ballot, with the arrest photograph as his poster.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.civilLiberties", "operation": "add", "value": -4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_leak": {
+      "narrative": [
+        { "type": "dialogue", "character": "nadia_voss", "conditions": [{ "type": "flag", "flag": "interview62_cut", "value": true }], "text": "You cut my broadcast off the air and now you want my front page. I'll take the folder, Chancellor. I want you to know I noticed the order you did those things in." },
+        { "type": "description", "text": "Nadia takes eleven days to check it. She finds the seed company, the platform, and a twelfth transfer Krel missed. The Voice runs it across four pages on a Sunday. Kolvar calls it a forgery at 09:00 and stops calling it anything by Tuesday." },
+        { "type": "description", "text": "His treasurer resigns. Two of his regional chairmen defect. Kolvar stays on the ballot because withdrawing would be a confession. His polling falls six points in a fortnight and then stops falling." },
+        { "type": "monologue", "text": "The state never touched him. A newspaper did, in daylight, with a twelfth transfer we hadn't found. I'll never be sure I did that for the Republic and not for the polls. The two pointed the same way this time. They won't always." }
+      ],
+      "choices": [
+        {
+          "id": "leak_to_voss_end",
+          "text": "Four pages on a Sunday. Kolvar is wounded and still standing, and my hands never touched it.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": -4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_blackmail": {
+      "narrative": [
+        { "type": "description", "text": "He comes to the Palace by the garden entrance, alone, at nine at night. You give him the folder and you watch him read every page. It takes him eleven minutes. He doesn't ask for water." },
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "The ballots are printed in nine days. My name will be on them whatever I do. If I withdraw, it is a confession. So I will stay on the paper and stop running. No rallies after the debate. No endorsements. I'll lose like a gentleman." },
+        { "type": "dialogue", "character": "drazen_kolvar", "text": "And you will keep that folder in a drawer for the rest of your life, Chancellor, and so will whoever comes after you. Halvek had a drawer like that. I used to wonder what was in it." },
+        { "type": "monologue", "text": "He'll debate. He'll lose. The country will think it beat him. I'll know it didn't. Now I own the leader of the opposition, the same way Stefan Morvec used to own ministers. Father would have recognized the drawer." }
+      ],
+      "choices": [
+        {
+          "id": "blackmail_kolvar_end",
+          "text": "Kolvar stays on the ballot and stops fighting. The folder goes in the drawer for good.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "shadowFootprint", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }

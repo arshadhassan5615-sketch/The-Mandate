@@ -8,67 +8,175 @@
   "agendaCost": 1,
   "isMandatory": false,
   "location": "Chancellor's Private Study — Ashenmere Palace",
-  "characters": ["danika_oberlin"],
+  "characters": ["danika_oberlin", "vyktor_reznik"],
   "prerequisites": [],
   "narrative": [
     {
       "type": "description",
-      "text": "Danika Oberlin enters your study carrying a thick financial dossier. She looks like she hasn't slept. She sets the file on your desk and stares at you. 'Chancellor, I need to show you something. It's about Vyktor.'"
+      "text": "Danika Oberlin comes in without knocking, which she has never done. She is carrying a ledger bound in green cloth and she does not sit down. She puts it on the desk, open, and turns it around so you can read it."
     },
     {
       "type": "dialogue",
       "character": "danika_oberlin",
-      "text": "The anti-corruption task force has been auditing state contracts. We found a slush fund. The money trail leads directly to the Chief of Staff's office. Vyktor has been skimming a percentage off state contracts—not for personal gain, but to build a secret fund to bribe Assembly members and buy off Tyvaren border guards without going through the official budget."
+      "text": "The contracts audit. Sixty-one state contracts over twenty-two months, each one two percent over the tendered price. The two percent goes to a building society in Ostrava Street. The account is in the name of a dead clerk. The signature on the withdrawals is Vyktor's."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "text": "₭3.4 million. None of it to him. Nine Assembly members, mostly Halvekist backbenchers. Four border post commanders on the Tyvaren side of the Gravenmark Pass. And a monthly payment of ₭600 to a nursing home in Dravenhollow, for a patient named R. Reznik."
+    },
+    {
+      "type": "dialogue",
+      "character": "danika_oberlin",
+      "conditions": [{ "type": "flag", "flag": "housing_bill_passed", "value": true }],
+      "text": "Five of the nine voted for the housing bill. It passed by three. I want you to understand what that means before you decide what it means."
     },
     {
       "type": "monologue",
-      "text": "Vyktor. My Chief of Staff. My oldest ally. The man who built my government. He broke the law and bypassed my authority to do it. He claims he did it to protect my government because 'the official channels were too slow.' If I expose him, I lose my most trusted advisor and the architect of my entire administration. If I cover it up, Danika discovers the cover-up and loses all faith in me."
+      "conditions": [{ "type": "flag", "flag": "interview62_announced", "value": true }],
+      "text": "He didn't tell me about the fund. I didn't tell him about Article 9 before I said it on the radio. We have been keeping secrets from each other for each other's sake. That is how it starts."
+    },
+    {
+      "type": "monologue",
+      "text": "R. Reznik. Ruth. His mother. I sent flowers when she went into the home in Dravenhollow, the second year. He thanked me for them with one word. I didn't know he was paying for the home out of a ledger with a dead man's name on it."
     }
   ],
   "choices": [
     {
-      "id": "expose_vyktor",
-      "text": "Expose and fire Vyktor. No one is above the law.",
-      "nextSegment": null,
-      "flags": ["vyktor_exposed"],
-      "stateChanges": [
-        { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
-        { "stat": "factions.reformists", "operation": "add", "value": 10 },
-        { "stat": "advisorTrust.vyktor", "operation": "add", "value": -100 },
-        { "stat": "personal.stressLevel", "operation": "add", "value": 25 }
-      ],
-      "reactions": [],
-      "chainTriggers": [],
-      "codexUnlocks": []
-    },
-    {
-      "id": "cover_up_vyktor",
-      "text": "Cover it up and legitimize the slush fund. Vyktor stays.",
-      "nextSegment": null,
-      "flags": ["vyktor_covered"],
-      "stateChanges": [
-        { "stat": "personal.moralCompass", "operation": "add", "value": -15 },
-        { "stat": "advisorTrust.vyktor", "operation": "add", "value": 10 },
-        { "stat": "advisorTrust.danika", "operation": "add", "value": -20 },
-        { "stat": "nation.corruption", "operation": "add", "value": 10 }
-      ],
-      "reactions": [],
-      "chainTriggers": [],
-      "codexUnlocks": []
-    },
-    {
-      "id": "take_control_slush",
-      "text": "Use the evidence to take control of the slush fund yourself. Cut Vyktor out.",
-      "nextSegment": null,
-      "flags": ["vyktor_slush_taken"],
-      "stateChanges": [
-        { "stat": "shadowInfluence", "operation": "add", "value": 15 },
-        { "stat": "advisorTrust.vyktor", "operation": "add", "value": -15 },
-        { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
-      ],
+      "id": "send_for_vyktor",
+      "text": "\"Send for him. You stay.\"",
+      "nextSegment": "seg_vyktor_arrives",
+      "flags": [],
+      "stateChanges": [],
       "reactions": [],
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_vyktor_arrives": {
+      "narrative": [
+        { "type": "description", "text": "He comes in the way he always does, with his own folder under his arm and the next three things already decided. He sees the green ledger on the desk and stops. He does not look at Danika. He closes the door behind him and stays standing." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Yes." },
+        { "type": "description", "text": "You wait. He doesn't explain. In twenty-two years he has never explained anything twice and he is not going to explain this once." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The Assembly was nine votes short. The border was four guards short. The treasury was slower than both. You wanted the bills passed and the border quiet. I made them happen." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Necessary." },
+        { "type": "monologue", "text": "Necessary. For the bills. For the border. For his mother. The same word for all three, and he expects me to hear every one of them." }
+      ],
+      "choices": [
+        {
+          "id": "expose_vyktor",
+          "text": "Expose him and dismiss him. Today, with the ledger published. No one is above the law, not even the man who wrote half of it for me.",
+          "nextSegment": "seg_exposed",
+          "flags": ["vyktor_exposed"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": 15 },
+            { "stat": "factions.reformists", "operation": "add", "value": 10 },
+            { "stat": "advisorTrust.vyktor", "operation": "add", "value": -100 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 25 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "cover_up_vyktor",
+          "text": "Bury it. Fold the money into a Chancellery contingency account by decree. Vyktor stays.",
+          "nextSegment": "seg_covered",
+          "flags": ["vyktor_covered"],
+          "stateChanges": [
+            { "stat": "personal.moralCompass", "operation": "add", "value": -15 },
+            { "stat": "advisorTrust.vyktor", "operation": "add", "value": 10 },
+            { "stat": "advisorTrust.danika", "operation": "add", "value": -20 },
+            { "stat": "nation.corruption", "operation": "add", "value": 10 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "take_control_slush",
+          "text": "Keep the fund and take the pen. From today, every withdrawal is signed by me, not him.",
+          "nextSegment": "seg_taken",
+          "flags": ["vyktor_slush_taken"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+            { "stat": "advisorTrust.vyktor", "operation": "add", "value": -15 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_exposed": {
+      "narrative": [
+        { "type": "description", "text": "He takes the Palace pass from his breast pocket and puts it on top of the green ledger, squared to the corner, the way he squares everything. He doesn't argue. He doesn't ask for time." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Careful." },
+        { "type": "description", "text": "Danika's office publishes the ledger at four. By Friday, four of the nine Assembly members have resigned their seats and two are under investigation. The housing majority survives the by-elections by one vote. The Herald's front page is a photograph of Vyktor leaving by the main gate carrying one cardboard box. He walked out the front. He could have used the side." },
+        { "type": "dialogue", "character": "danika_oberlin", "text": "The nursing home invoice is due on the first. Six hundred kroner. Someone should know that." },
+        { "type": "monologue", "text": "Careful. Look after yourself. Watch your back. You'll need someone like me and won't have one. He was always better at that word than I was at hearing it. I paid Ruth's invoice from my own account. He'll find out. He'll know it wasn't kindness. It was the only goodbye I could sign." }
+      ],
+      "choices": [
+        {
+          "id": "expose_vyktor_end",
+          "text": "His pass on the ledger. Twenty-two years, ended in an audit. Ruth's invoice paid from my own account.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "advisorTrust.danika", "operation": "add", "value": 8 },
+            { "stat": "personal.personalWealth", "operation": "add", "value": -600 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_covered": {
+      "narrative": [
+        { "type": "description", "text": "Theron drafts the decree that afternoon without asking what it is for: the Chancellery Contingency Account, ₭3.4 million, reporting to the Chancellor alone. The building society in Ostrava Street receives a letter thanking it for its discretion." },
+        { "type": "dialogue", "character": "danika_oberlin", "text": "I'll keep a copy of the ledger. Not for the papers. For me. So that one day I remember exactly which morning I stopped being able to tell this office from the last one." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Understood." },
+        { "type": "monologue", "text": "He stays. The bills stay passed. The border stays quiet. Danika stays in post, and from today she reads every document I send her twice. I have kept the best Chief of Staff in Veltria and lost the only minister who would have told me when I was wrong." }
+      ],
+      "choices": [
+        {
+          "id": "cover_up_vyktor_end",
+          "text": "The fund has a decree now instead of a dead man's name. Danika keeps a copy.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 8 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_taken": {
+      "narrative": [
+        { "type": "description", "text": "The Ostrava Street mandate is rewritten by noon. One signatory: K. Ashavel. Vyktor watches you sign the specimen card. He doesn't sit down." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Clever." },
+        { "type": "dialogue", "character": "danika_oberlin", "text": "So the money is still there and only the hand has changed. I want that in my notes, Chancellor, in your words, so that I don't have to remember it in mine." },
+        { "type": "monologue", "text": "Clever. Well done. You have learned. You are now what I was. He goes on running the government. He never signs a withdrawal again, and for the rest of the term he waits until I have read every page before he says anything about it." }
+      ],
+      "choices": [
+        {
+          "id": "take_control_slush_end",
+          "text": "₭3.4 million under my signature. Vyktor still in the building, and further away.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "shadowFootprint", "operation": "add", "value": 5 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }
