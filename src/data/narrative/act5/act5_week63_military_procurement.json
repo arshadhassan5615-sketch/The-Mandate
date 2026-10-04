@@ -34,7 +34,7 @@
     {
       "id": "buy_orythian_jets",
       "text": "Buy Orythian Jet Fighters. ₭ 4M. Massive tech boost. Tyvaren will be provoked.",
-      "nextSegment": null,
+      "nextSegment": "seg_jets",
       "flags": ["orythian_jets_purchased"],
       "stateChanges": [
         { "stat": "nation.militaryTech", "operation": "add", "value": 30 },
@@ -50,7 +50,7 @@
     {
       "id": "build_domestic_tanks",
       "text": "Build Domestic Tanks. ₭ 2.5M. Moderate tech boost, major economy boost.",
-      "nextSegment": null,
+      "nextSegment": "seg_tanks",
       "flags": ["domestic_tanks_built"],
       "stateChanges": [
         { "stat": "nation.militaryTech", "operation": "add", "value": 15 },
@@ -66,7 +66,7 @@
     {
       "id": "fortify_border",
       "text": "Fortify the Border. ₭ 1.5M. Cheap, defensive, no tech boost.",
-      "nextSegment": null,
+      "nextSegment": "seg_fortify",
       "flags": ["border_fortified"],
       "stateChanges": [
         { "stat": "nation.militaryReadiness", "operation": "add", "value": 12 },
@@ -80,7 +80,7 @@
     {
       "id": "skip_procurement",
       "text": "Skip procurement. We cannot afford it. Fight with what we have.",
-      "nextSegment": null,
+      "nextSegment": "seg_skip",
       "flags": ["procurement_skipped"],
       "stateChanges": [
         { "stat": "nation.militaryReadiness", "operation": "add", "value": -5 },
@@ -90,5 +90,149 @@
       "chainTriggers": [],
       "codexUnlocks": []
     }
-  ]
+  ],
+  "segments": {
+    "seg_jets": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Orythian contract is signed in Petravar on the Monday. Twenty-four airframes, ₭4 million, delivery in nine days by ferry flight. The contract has a maintenance annex: forty Orythian technicians at Sevagrad field for five years, on Orythian salaries, answering to an Orythian major."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "The jets are the best thing we have ever owned. The annex is the most expensive thing we will ever sign. I want both of those in the minutes."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Vukov will count them from the air on the first day. He will count the technicians on the second."
+        }
+      ],
+      "choices": [
+        {
+          "id": "jets_end",
+          "text": "Twenty-four Orythian jets at Sevagrad, and forty Orythian technicians to keep them flying.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "nation.internationalStanding",
+              "operation": "add",
+              "value": -2
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_tanks": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The tank contract goes to the Kravenstal works: ninety hulls over eighteen months, ₭2.5 million, eleven hundred jobs. The design is twelve years old. The steel is Veltrian. The night shift starts on Thursday."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "They will not beat a Tyvaren tank in the open. They will be there, and they will be ours, and nobody in Petravar can switch them off. That counts for something."
+        },
+        {
+          "type": "monologue",
+          "text": "Eleven hundred jobs in Father's town, building machines that will lose a fair fight. I know which half of that sentence the Worker will print."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tanks_end",
+          "text": "Ninety Kravenstal hulls over eighteen months, eleven hundred jobs, and a design twelve years old.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "personal.stressLevel",
+              "operation": "add",
+              "value": 3
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_fortify": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "The Gravenmark line is surveyed in a week: eleven kilometres of concrete, anti-tank ditches and three observation posts on the high ground. ₭1.5 million. The engineers start at the north end. They will reach the south end in seven months, if it does not rain."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "Concrete is honest. It says exactly what we intend: we will not go to them, and they will pay to come to us. It also says we expect them."
+        },
+        {
+          "type": "dialogue",
+          "character": "vyktor_reznik",
+          "text": "Cheap. Visible. Permanent."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fortify_end",
+          "text": "Eleven kilometres of concrete, begun at the north end. Seven months, if it does not rain.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "factions.ironCovenant",
+              "operation": "add",
+              "value": 2
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_skip": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Dusek closes all three folders and stacks them in order, jets on top. She does not argue. She asks for the decision in writing, which she has never asked for before."
+        },
+        {
+          "type": "dialogue",
+          "character": "irina_dusek",
+          "text": "When the border tests us, I will need to tell my officers why we are fighting with Halvek's rifles. I would like to quote you exactly."
+        },
+        {
+          "type": "monologue",
+          "text": "The treasury keeps ₭1.5 to ₭4 million it does not have anyway. The army keeps a sentence of mine, in writing, for the day it needs someone to blame."
+        }
+      ],
+      "choices": [
+        {
+          "id": "skip_end",
+          "text": "No procurement. Dusek has my decision in writing, for later.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            {
+              "stat": "advisorTrust.dusek",
+              "operation": "add",
+              "value": -5
+            }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
 }
