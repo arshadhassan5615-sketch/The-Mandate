@@ -26,8 +26,8 @@
       "id": "check_morvec_deal",
       "text": "(Continue) What is the damage from Morvec's intervention?",
       "nextSegment": "seg_morvec_aftermath",
-      "prerequisites": [
-        { "flag": "morvec_strike_broken", "value": true }
+      "conditions": [
+        { "type": "flag", "flag": "morvec_strike_broken", "value": true }
       ],
       "stateChanges": [],
       "reactions": [],
@@ -38,8 +38,8 @@
       "id": "check_maric_deal",
       "text": "(Continue) Did Marić's negotiation succeed?",
       "nextSegment": "seg_maric_aftermath",
-      "prerequisites": [
-        { "flag": "maric_sent_kravenstal", "value": true }
+      "conditions": [
+        { "type": "flag", "flag": "maric_sent_kravenstal", "value": true }
       ],
       "stateChanges": [],
       "reactions": [],
@@ -50,8 +50,22 @@
       "id": "check_nationalize_threat",
       "text": "(Continue) Has Morvec made good on his capital strike threat?",
       "nextSegment": "seg_nationalize_aftermath",
-      "prerequisites": [
-        { "flag": "nationalization_threatened", "value": true }
+      "conditions": [
+        { "type": "flag", "flag": "nationalization_threatened", "value": true }
+      ],
+      "stateChanges": [],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "check_strike_outlasted",
+      "text": "(Continue) How did it end, in the end?",
+      "nextSegment": "seg_strike_outlasted",
+      "conditions": [
+        { "type": "flag", "flag": "morvec_strike_broken", "value": false },
+        { "type": "flag", "flag": "maric_sent_kravenstal", "value": false },
+        { "type": "flag", "flag": "nationalization_threatened", "value": false }
       ],
       "stateChanges": [],
       "reactions": [],
@@ -134,6 +148,29 @@
             { "stat": "nation.economyHealth", "operation": "add", "value": -15 },
             { "stat": "factions.businessClass", "operation": "add", "value": -20 },
             { "stat": "factions.workersCoalition", "operation": "add", "value": 15 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_strike_outlasted": {
+      "narrative": [
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "Nobody settled it. It starved. Nineteen days. The strike fund ran dry on the fourteenth. The men went back on the fifteenth, in ones and twos. The ones with children first." },
+        { "type": "dialogue", "character": "gregor_maric", "text": "Same shafts. Same rules. Same foremen. Two of my organisers were not rehired — Halloran and Peto. Morvec's office calls it a staffing review. Everyone at the pithead knows what it is." },
+        { "type": "monologue", "text": "No deal. No threat. No victory. The Palace watched a strike die of hunger and called it order. Father would have known those two names without being told. I had to ask Gregor to repeat them." }
+      ],
+      "choices": [
+        {
+          "id": "strike_outlasted_end",
+          "text": "Find Halloran and Peto work on the state railway. Quietly. It is the least this costs.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -6 },
+            { "stat": "morvecInfluence", "operation": "add", "value": 5 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -2 }
           ],
           "reactions": [],
           "chainTriggers": [],

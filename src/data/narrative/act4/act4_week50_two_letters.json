@@ -62,9 +62,9 @@
       "id": "use_hawk_files",
       "text": "Use the Hawk files. Expose Morvec's 1958 contracts and Vael's kickbacks simultaneously. Destroy them both.",
       "nextSegment": "seg_hawk",
-      "prerequisites": [
-        { "flag": "hawk_morvec_option_complete", "value": true },
-        { "flag": "vael_prosecution_ordered", "value": true }
+      "conditions": [
+        { "type": "flag", "flag": "hawk_morvec_option_complete", "value": true },
+        { "type": "flag", "flag": "vael_prosecution_ordered", "value": true }
       ],
       "flags": ["oligarchs_destroyed"],
       "stateChanges": [

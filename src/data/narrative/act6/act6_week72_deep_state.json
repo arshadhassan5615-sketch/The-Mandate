@@ -45,8 +45,8 @@
           "id": "path_oligarchs_destroyed",
           "text": "(Continue)",
           "nextSegment": "seg_terror_plot",
-          "prerequisites": [
-            { "flag": "oligarchs_destroyed", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "oligarchs_destroyed", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -57,8 +57,8 @@
           "id": "path_puppet_government",
           "text": "(Continue)",
           "nextSegment": "seg_assassination_plot",
-          "prerequisites": [
-            { "flag": "government_captured", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "government_captured", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -69,10 +69,62 @@
           "id": "path_isolation_coup",
           "text": "(Continue)",
           "nextSegment": "seg_foreign_coup",
-          "prerequisites": [
-            { "flag": "oligarch_debts_refused", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "oligarch_debts_refused", "value": true }
           ],
           "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "path_remnant_plot",
+          "text": "(Continue)",
+          "nextSegment": "seg_remnant_plot",
+          "conditions": [
+            { "type": "flag", "flag": "oligarchs_destroyed", "value": false },
+            { "type": "flag", "flag": "government_captured", "value": false },
+            { "type": "flag", "flag": "oligarch_debts_refused", "value": false }
+          ],
+          "stateChanges": [],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_remnant_plot": {
+      "narrative": [
+        { "type": "dialogue", "character": "matthias_krel", "text": "Nobody bought you and nobody broke you, so nobody owns the men in these photographs. That is worse. Eleven former BNI officers, one serving colonel of signals, and a ledger that pays them through a Lytheiran shipping account. No patron. They want the old service back, and they have decided you are the obstacle." },
+        { "type": "dialogue", "character": "vyktor_reznik", "text": "The colonel controls the Palace telephone exchange. Forty-eight hours." },
+        { "type": "monologue", "text": "Two ways to do this. Krel's way: twelve men vanish into a quiet week and the exchange keeps ringing. Or the Commissioner's way: warrants, a courtroom, and the whole country learning that the BNI never really closed. One protects the Republic. The other protects the idea of it." }
+      ],
+      "choices": [
+        {
+          "id": "remnant_krel_quiet",
+          "text": "Krel handles it. Twelve men, no record. The exchange keeps ringing.",
+          "nextSegment": null,
+          "flags": ["deep_state_neutralized", "remnant_plot_buried"],
+          "stateChanges": [
+            { "stat": "shadowInfluence", "operation": "add", "value": 15 },
+            { "stat": "shadowFootprint", "operation": "add", "value": 15 },
+            { "stat": "personal.moralCompass", "operation": "add", "value": -6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        },
+        {
+          "id": "remnant_public_warrants",
+          "text": "Warrants. Names on the record. The country learns the BNI never closed, and learns it from me.",
+          "nextSegment": null,
+          "flags": ["deep_state_neutralized", "deep_state_public_arrests"],
+          "stateChanges": [
+            { "stat": "nation.civilLiberties", "operation": "add", "value": 4 },
+            { "stat": "nation.publicOrder", "operation": "add", "value": -6 },
+            { "stat": "personal.publicImage", "operation": "add", "value": 5 },
+            { "stat": "personal.stressLevel", "operation": "add", "value": 10 }
+          ],
           "reactions": [],
           "chainTriggers": [],
           "codexUnlocks": []

@@ -57,9 +57,9 @@
           "id": "path_oligarch_puppet",
           "text": "(Continue)",
           "nextSegment": "seg_puppet_address",
-          "prerequisites": [
+          "conditions": [
             {
-              "flag": "government_captured",
+              "type": "flag", "flag": "government_captured",
               "value": true
             }
           ],
@@ -72,9 +72,9 @@
           "id": "path_oligarchs_destroyed",
           "text": "(Continue)",
           "nextSegment": "seg_destroyed_address",
-          "prerequisites": [
+          "conditions": [
             {
-              "flag": "oligarchs_destroyed",
+              "type": "flag", "flag": "oligarchs_destroyed",
               "value": true
             }
           ],
@@ -87,7 +87,10 @@
           "id": "path_clean_win",
           "text": "(Continue)",
           "nextSegment": "seg_clean_address",
-          "prerequisites": [],
+          "conditions": [
+            { "type": "flag", "flag": "government_captured", "value": false },
+            { "type": "flag", "flag": "oligarchs_destroyed", "value": false }
+          ],
           "stateChanges": [],
           "reactions": [],
           "chainTriggers": [],

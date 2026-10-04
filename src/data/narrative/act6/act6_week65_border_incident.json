@@ -101,8 +101,8 @@
           "id": "path_demilitarized",
           "text": "(Continue)",
           "nextSegment": "seg_defenseless",
-          "prerequisites": [
-            { "flag": "sevagrad_demilitarized", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "sevagrad_demilitarized", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -113,8 +113,8 @@
           "id": "path_orythian",
           "text": "(Continue)",
           "nextSegment": "check_tech_level",
-          "prerequisites": [
-            { "flag": "orythian_pact_signed", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "orythian_pact_signed", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -125,8 +125,8 @@
           "id": "path_isolated",
           "text": "(Continue)",
           "nextSegment": "seg_invasion",
-          "prerequisites": [
-            { "flag": "diplomatic_isolation", "value": true }
+          "conditions": [
+            { "type": "flag", "flag": "diplomatic_isolation", "value": true }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -137,10 +137,10 @@
           "id": "path_no_diplomacy",
           "text": "(Continue)",
           "nextSegment": "seg_no_diplomacy",
-          "prerequisites": [
-            { "flag": "sevagrad_demilitarized", "value": false },
-            { "flag": "orythian_pact_signed", "value": false },
-            { "flag": "diplomatic_isolation", "value": false }
+          "conditions": [
+            { "type": "flag", "flag": "sevagrad_demilitarized", "value": false },
+            { "type": "flag", "flag": "orythian_pact_signed", "value": false },
+            { "type": "flag", "flag": "diplomatic_isolation", "value": false }
           ],
           "stateChanges": [],
           "reactions": [],
@@ -183,7 +183,7 @@
           "id": "path_tech_advantage",
           "text": "(Continue)",
           "nextSegment": "seg_tech_advantage",
-          "prerequisites": [
+          "conditions": [
             { "stat": "nation.militaryTech", "operator": ">=", "value": 50 }
           ],
           "stateChanges": [],
@@ -195,8 +195,8 @@
           "id": "path_tech_disadvantage",
           "text": "(Continue)",
           "nextSegment": "seg_skirmish",
-          "prerequisites": [
-            { "stat": "nation.militaryTech", "operator": "<=", "value": 50 }
+          "conditions": [
+            { "stat": "nation.militaryTech", "operator": "<", "value": 50 }
           ],
           "stateChanges": [],
           "reactions": [],
