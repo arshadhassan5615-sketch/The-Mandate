@@ -40,6 +40,7 @@ export function resetWorld(): void {
     selectedIds: [],
     slotsUsed: 0,
     forcedChainIds: [],
+    completedItemIds: [],
     sceneQueue: [],
     currentQueueIndex: 0,
     returnToMap: false,

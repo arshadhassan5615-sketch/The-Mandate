@@ -5,6 +5,7 @@ import type { GameState } from '../types/gameState'
 import type { VoteConfig, VoteResult } from '../types/vote'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { getScene, canAdvanceWeek } from '../engine/NarrativeEngine'
+import { isAgendaItemDone } from '../engine/weekCompletion'
 import { useGameStore } from './gameStore'
 import { useNarrativeStore } from './narrativeStore'
 import { useChainStore } from './chainStore'
@@ -67,6 +68,10 @@ const ALL_AGENDA: AgendaItem[] = Object.values(agendaModules).flatMap((mod: unkn
   if (data && Array.isArray((data as { agenda?: unknown }).agenda)) return (data as { agenda: AgendaItem[] }).agenda;
   return [];
 });
+
+// IDs of every JSON-bank agenda item. Anything else in the pool was injected
+// by initWeek and must survive the mid-week pool rebuild (Fix A).
+const ALL_AGENDA_IDS = new Set(ALL_AGENDA.map(item => item.id))
 
 function buildPool(week: number, state: GameState, flags: string[], visited: string[]): AgendaItem[] {
   const result = ALL_AGENDA.filter(item => {
@@ -256,6 +261,7 @@ interface WeekStore {
   selectedIds:     string[]
   slotsUsed:       number
   forcedChainIds:  string[]   // scene IDs that chain reactions fired this week
+  completedItemIds: string[]  // pool item IDs finished this week (virtual scenes never visit)
 
   // Scene phase
   sceneQueue:         AgendaItem[]   // sorted selected items (chain scenes first)
@@ -337,9 +343,10 @@ interface WeekStore {
 export const useWeekStore = create<WeekStore>((set, get) => ({
       phase: 'title',
   agendaPool:          [],
-  selectedIds:         [],
-  slotsUsed:           0,
+  selectedIds:     [],
+  slotsUsed:       0,
   forcedChainIds:      [],
+  completedItemIds:    [],
   sceneQueue:          [],
   currentQueueIndex:   0,
   returnToMap:         false,
@@ -429,6 +436,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       selectedIds: [],
       slotsUsed: 0,
       forcedChainIds: [],
+      completedItemIds: [],
       sceneQueue: [],
       currentQueueIndex: 0,
       weekStartSnapshot: null,
@@ -1202,6 +1210,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           }
         } else {
           if (import.meta.env.DEV) console.log('[TRACE 2] Queue exhausted — transitioning. Queue was:', q.map((s, i) => `[${i}] ${s.id}`).join(', '), '| last index:', next - 1)
+          // Record this week's finished queue items. Virtual items (__budget__,
+          // __radio__, __vote__, ...) never enter visitedSceneIds, so the map's
+          // done-check needs the item IDs (see engine/weekCompletion.ts).
+          set(s => ({
+            completedItemIds: [...new Set([...s.completedItemIds, ...q.map(item => item.id)])],
+          }))
           const { returnToMap } = get()
           if (returnToMap) {
             const completedItem = q[q.length - 1]
@@ -1487,12 +1501,26 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
             }
 
             const { activeFlags, visitedSceneIds: vs } = useNarrativeStore.getState()
+            const { completedItemIds: doneIds, agendaPool: prevPool } = get()
             const freshPool = buildPool(useGameStore.getState().currentWeek, useGameStore.getState(), activeFlags, vs)
+            // Fix A: initWeek-injected items (ids outside the JSON agenda bank)
+            // must survive the mid-week rebuild, minus the ones already done.
+            const carried = prevPool.filter(
+              item => !ALL_AGENDA_IDS.has(item.id) && !isAgendaItemDone(item, vs, doneIds),
+            )
+            const mergedPool = [
+              ...freshPool,
+              ...carried.filter(c => !freshPool.some(f => f.id === c.id)),
+            ]
+            mergedPool.sort((a, b) =>
+              (a.executionOrder ?? 999) -
+              (b.executionOrder ?? 999)
+            )
             set({
               phase: 'map',
               transitionLabel: '',
               returnToMap: false,
-              agendaPool: freshPool,
+              agendaPool: mergedPool,
             })
             // Autosave after every completed scene
             try {
@@ -1670,6 +1698,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   devJumpToWeek: (targetWeek) => {
     const week = Math.max(1, Math.min(104, Math.round(targetWeek)))
     useGameStore.getState().devSetWeek(week)
+    set({ completedItemIds: [] })
     useNarrativeStore.getState().resetScene()
     // Dev-only: seed a minimal flag preset so late-week jumps don't produce
     // hollow narrative (missing branches/fallbacks). Must run before initWeek()
@@ -1746,6 +1775,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     useGameStore.getState().advanceWeek()
+    // Week boundary: the new week starts with an empty completion ledger.
+    set({ completedItemIds: [] })
     const nextState = useGameStore.getState()
     const newWeek = nextState.currentWeek
 

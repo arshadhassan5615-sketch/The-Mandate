@@ -65,7 +65,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
   const gameState          = useGameStore.getState()
   const { visitedSceneIds, activeFlags, unlockedCodexIds, metCharacters } = useNarrativeStore.getState()
   const { scheduled: scheduledChains }   = useChainStore.getState()
-  const { forcedChainIds }               = useWeekStore.getState()
+  const { forcedChainIds, completedItemIds } = useWeekStore.getState()
   const decreeState = useDecreeStore.getState()
   const cabinetState = useCabinetStore.getState()
   const billState = useBillStore.getState()
@@ -159,6 +159,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     metCharacters: metCharacters ?? [],
     scheduledChains,
     forcedChainIds,
+    completedItemIds,
     decreeState: {
       pendingDecrees: decreeState.pendingDecrees,
       signedDecrees: decreeState.signedDecrees,
@@ -422,6 +423,11 @@ export async function loadGame(slot: number): Promise<boolean> {
 
   // Re-enter agenda phase for the loaded week
   useWeekStore.getState().initWeek()
+
+  // Restore the completion ledger AFTER initWeek (which does not reset it mid-week,
+  // but a fresh load must not lose this week's finished items). Older saves
+  // without the field default to an empty ledger.
+  useWeekStore.setState({ completedItemIds: record.completedItemIds ?? [] })
 
   return true
 }

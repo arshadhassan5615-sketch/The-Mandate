@@ -24,6 +24,8 @@ export interface SaveRecord {
   metCharacters: string[]
   scheduledChains: ScheduledChain[]
   forcedChainIds: string[]
+  /** Week-scoped completion ledger (Fix A). Optional: older saves default to []. */
+  completedItemIds?: string[]
   decreeState?: {
     pendingDecrees: Decree[]
     signedDecrees: Decree[]
