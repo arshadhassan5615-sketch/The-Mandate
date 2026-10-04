@@ -1,0 +1,238 @@
+{
+  "id": "act6_week70_the_colonels",
+  "title": "The Colonels",
+  "act": 6,
+  "weekAvailable": 70,
+  "weekDeadline": 72,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Chancellor's Office — Ashenmere Palace",
+  "characters": ["irina_dusek", "vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Dusek brings it herself, in a plain brown envelope, the morning after the gala. She waits until Vyktor has closed the door before she puts it on the desk. One page. Typed. Forty-one signatures underneath, each with a rank and a regiment."
+    },
+    {
+      "type": "description",
+      "text": "It is addressed to the Chancellor 'with respect and professional concern'. It asks for nothing. It notes. It observes. It records that the undersigned officers 'remain at the disposal of the Republic.' Nobody writes that sentence unless they have discussed the alternative."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "conditions": [{ "type": "flag", "flag": "brenner_fired_publicly", "value": true }],
+      "text": "Paragraph two is about the gala. They write that the Chief of the General Staff was dismissed 'in the manner of a waiter'. Most of them were in the room. Some of them laughed when you said it. They signed this anyway."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "conditions": [{ "type": "flag", "flag": "generals_toast_countered", "value": true }],
+      "text": "Paragraph two quotes your toast. 'To the obedience of the military.' They have underlined obedience. They consider the word an insult to men who held the line in thirty-seven."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "conditions": [{ "type": "flag", "flag": "generals_toast_ignored", "value": true }],
+      "text": "Paragraph two is about the gala. You laughed off the toast. They write that the General 'spoke for the service' and the Chancellor 'declined to hear it'. Laughing was your answer. This is theirs."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "conditions": [{ "type": "flag", "flag": "cabinet58_cut_defense", "value": true }],
+      "text": "Paragraph three is the reserve. Fourteen million, week fifty-eight. They know two companies slept in the Brask locomotive sheds all winter. Three of the signatures are from Brask."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "coup_negotiated", "value": true }],
+      "text": "You read the names twice. Nine of them are on the week thirty-seven amnesty list, under the clause you negotiated with Brenner on the telephone while his tanks idled at the Palace gate."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "coup_resisted", "value": true }],
+      "text": "You read the names twice. Six of them commanded units that stood against the Palace in week thirty-seven and were acquitted by tribunals of their own former juniors. Two of them commanded units that stood with you."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "coup_succeeded", "value": true }],
+      "text": "You read the names twice. You have seen half of them before: on the junta's appointment lists, printed in the Ashenmere papers while you read them in a borrowed office in Stellamere."
+    },
+    {
+      "type": "description",
+      "conditions": [{ "type": "flag", "flag": "coup_confronted_directly", "value": true }],
+      "text": "You read the names twice. Eleven of them were standing in the General Staff courtyard in week thirty-seven when you walked in alone. None of them stopped you that day."
+    },
+    {
+      "type": "description",
+      "text": "There is a forty-second line at the bottom of the page. It is typed — COL. I. DUSEK, MINISTRY OF DEFENSE — and it is blank."
+    },
+    {
+      "type": "dialogue",
+      "character": "irina_dusek",
+      "text": "They left a line for me. I brought it to you instead. I'd like you to remember that I had the choice."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Legal. Polite. Loaded."
+    },
+    {
+      "type": "monologue",
+      "text": "Not a coup. A letter. Forty-one men telling me, courteously, that they have counted. Father used to say a strike begins the day the men stop arguing with the foreman. These men have stopped arguing."
+    }
+  ],
+  "choices": [
+    {
+      "id": "colonels70_receive",
+      "text": "Receive them. All forty-one, in the Long Gallery, tomorrow at ten. Without Brenner, and without the press.",
+      "internalTag": "pragmatist",
+      "nextSegment": "seg_receive",
+      "flags": ["colonels70_received"],
+      "stateChanges": [
+        { "stat": "factions.ironCovenant", "operation": "add", "value": 6 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": 2 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": 8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "colonels70_krel_list",
+      "text": "Give the list to Krel. Forty-one names, forty-one files, by the end of the month.",
+      "internalTag": "authoritarian",
+      "nextSegment": "seg_watched",
+      "flags": ["colonels70_watched"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 8 },
+        { "stat": "shadowFootprint", "operation": "add", "value": 6 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -5 },
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": -6 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "colonels70_promote_dusek",
+      "text": "Make Dusek Chief of the General Staff. Today. Brenner keeps his rank and loses his desk.",
+      "internalTag": "reformist",
+      "nextSegment": "seg_promote",
+      "flags": ["colonels70_dusek_promoted"],
+      "stateChanges": [
+        { "stat": "advisorTrust.dusek", "operation": "add", "value": 12 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "nation.militaryReadiness", "operation": "add", "value": -3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "colonels70_publish",
+      "text": "Publish the letter. Every name, every regiment, in tomorrow's papers. Let the country read it.",
+      "internalTag": "populist",
+      "nextSegment": "seg_publish",
+      "flags": ["colonels70_published"],
+      "stateChanges": [
+        { "stat": "nation.pressFreedom", "operation": "add", "value": 3 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -10 },
+        { "stat": "factions.reformists", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_receive": {
+      "narrative": [
+        { "type": "description", "text": "Thirty-eight come. Three send regrets citing duty. You stand for the whole of it, two hours and ten minutes, at the end of the Long Gallery under the portrait of the Republic's first Chancellor, and you let them talk." },
+        { "type": "description", "text": "They talk about fuel allocations, about pensions for the widows of the Gravenmark dead, about a promotion board that has not sat since the spring. Only one of them mentions Brenner. Colonel Haas of the 4th Rifles says, 'He was right about the patience. He was wrong to say it in front of you.'" },
+        { "type": "dialogue", "character": "irina_dusek", "text": "You listened. That costs nothing and it is the thing they never get. Don't expect it to last past the next budget." },
+        { "type": "monologue", "text": "Thirty-eight men, and not one of them wanted the Palace. They wanted a promotion board and boots for Brask. I can give them the board on Monday. The boots are fourteen million I don't have." }
+      ],
+      "choices": [
+        {
+          "id": "colonels70_receive_end",
+          "text": "The promotion board sits on Monday. The letter goes into the archive, answered.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.nationalDebt", "operation": "add", "value": 1 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_watched": {
+      "narrative": [
+        { "type": "description", "text": "Krel takes the page without reading it and folds it into his coat. By the end of the month there are forty-one files on your desk, each about the thickness of a thumb. Two officers have debts. One has a second family in Sevagrad. Colonel Haas of the 4th Rifles writes to his brother every Sunday about the weather." },
+        { "type": "dialogue", "character": "irina_dusek", "text": "One of them asked me last week why his post is arriving opened. I told him the Ministry had a new filing system. He believed me. I don't know why I said it." },
+        { "type": "monologue", "text": "Forty-one files, and nothing in them but weather and debts. I have their secrets now. They don't know it yet, and when they find out, the letter they write will not be polite." }
+      ],
+      "choices": [
+        {
+          "id": "colonels70_watched_end",
+          "text": "Forty-one files in the drawer. Dusek lied to protect them, and I made her.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "factions.ironCovenant", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_promote": {
+      "narrative": [
+        { "type": "description", "text": "The decree is two paragraphs. Brenner reads about it in the Herald at his breakfast table, which Vyktor arranged deliberately. He keeps his rank, his pension and his house in the Hill District. He loses the room with the maps." },
+        { "type": "description", "text": "By Friday, eleven of the forty-one have requested transfer to the frontier regiments. Dusek approves every request the same afternoon, without comment." },
+        { "type": "dialogue", "character": "irina_dusek", "text": "You have made me the most hated officer in the army and the only one who can't sign that letter. I accept. Don't make me regret the second part." },
+        { "type": "monologue", "text": "A colonel at the head of the General Staff. Thirty generals senior to her. She'll need me behind her every day for a year, and they all know it. So does she." }
+      ],
+      "choices": [
+        {
+          "id": "colonels70_promote_end",
+          "text": "Dusek has the room with the maps. Brenner has his breakfast table and his grievance.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_publish": {
+      "narrative": [
+        { "type": "description", "text": "Every paper runs it. The Herald prints it in full under the headline FORTY-ONE. The Kravenstal Worker prints only the regiments, in a column, and lets the readers count." },
+        { "type": "description", "text": "Within a week, four of the signatories have publicly withdrawn their names. Two have resigned their commissions. Colonel Haas of the 4th Rifles gives an interview saying he would sign it again. His regiment sends a delegation to the Palace gates to stand behind him, in uniform and in silence, for one hour." },
+        { "type": "dialogue", "character": "irina_dusek", "text": "You turned forty-one worried men into forty-one public men. Some of them were only worried, Chancellor. Now none of them can afford to be." },
+        { "type": "monologue", "text": "The country read it. The country agreed with me. The army read it as well, and the army now knows exactly where I keep my disagreements: on the front page." }
+      ],
+      "choices": [
+        {
+          "id": "colonels70_publish_end",
+          "text": "Forty-one names in print. Two resignations and a silent regiment at the gate.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.publicOrder", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

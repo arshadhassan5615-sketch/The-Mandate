@@ -1,0 +1,252 @@
+{
+  "id": "act6_week83_coal_ledger",
+  "title": "The Coal Ledger",
+  "act": 6,
+  "weekAvailable": 83,
+  "weekDeadline": 85,
+  "type": "crisis",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Ministry of Energy — Map Room, Ashenmere",
+  "characters": ["orin_valdek", "elara_vostane", "vera_sorin"],
+  "prerequisites": [
+    { "stat": "flags.oil_nationalized", "operator": "==", "value": false },
+    { "stat": "flags.oil_aramco_model", "operator": "==", "value": false }
+  ],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "Valdek's chart has two lines on it. One is the coal stockpile at the Thornfeld and Ashenmere power stations. The other is winter consumption, twenty-three thousand tonnes a week. He has drawn a red circle where they cross."
+    },
+    {
+      "type": "dialogue",
+      "character": "orin_valdek",
+      "conditions": [{ "type": "flag", "flag": "oil_privatized_morvec", "value": true }],
+      "text": "We found oil, and we sold it. The house pumps forty thousand barrels a week out of Sevagrad and ships every one of them to the Lytheiran refineries at world price, because that is what a private company does. Our power stations burn coal. The coal is Lytheiran too."
+    },
+    {
+      "type": "dialogue",
+      "character": "orin_valdek",
+      "conditions": [{ "type": "flag", "flag": "oil_privatized_morvec", "value": false }],
+      "text": "We have no oil of our own to burn. Whatever is under Sevagrad belongs to somebody else or stays in the ground. So the power stations burn coal, and the coal is Lytheiran."
+    },
+    {
+      "type": "dialogue",
+      "character": "vera_sorin",
+      "conditions": [{ "type": "flag", "flag": "lytheiran_ties_severed", "value": true }],
+      "text": "Except that it isn't, any more. We severed relations at Stellamere to sign the Orythian pact. Their ambassador left that week. The last Lytheiran collier called at Aldenmoor in the spring. We have been burning the reserve ever since and calling it policy."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "conditions": [{ "type": "flag", "flag": "lytheiran_ties_severed", "value": true }],
+      "text": "The red circle is week ninety. Seven weeks. After that, Thornfeld loses power for four hours a day, then eight, then the hospitals start choosing which wards keep their lights."
+    },
+    {
+      "type": "dialogue",
+      "character": "elara_vostane",
+      "conditions": [{ "type": "flag", "flag": "lytheiran_ties_severed", "value": false }],
+      "text": "The Lytheiran supply contract expires on the first. Their trade ministry wants thirty percent more per tonne and berthing rights in Aldenmoor for two of their naval frigates. They know where the red circle is. Week ninety-four."
+    },
+    {
+      "type": "dialogue",
+      "character": "vera_sorin",
+      "conditions": [{ "type": "flag", "flag": "lytheiran_ties_severed", "value": false }],
+      "text": "The frigates are the real price. The coal is just the invoice they'll show the newspapers."
+    },
+    {
+      "type": "monologue",
+      "text": "Winter is a fixed date. Everything else in this building is negotiable except the calendar. Father's foundry shut down two days every January because the coal didn't come. He said it was the only time the owners and the men were equally cold."
+    }
+  ],
+  "choices": [
+    {
+      "id": "coal83_pay_lytheira",
+      "text": "Pay the thirty percent. No frigates. Make them choose between the money and the berths.",
+      "internalTag": "pragmatist",
+      "conditions": [{ "type": "flag", "flag": "lytheiran_ties_severed", "value": false }],
+      "nextSegment": "seg_pay",
+      "flags": ["coal83_paid"],
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 3 },
+        { "stat": "nation.inflation", "operation": "add", "value": 1 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "coal83_buy_orythian",
+      "text": "Buy Orythian coal. Whatever it costs, from whoever sells it, on ships that will take three weeks.",
+      "internalTag": "pragmatist",
+      "conditions": [{ "type": "flag", "flag": "lytheiran_ties_severed", "value": true }],
+      "nextSegment": "seg_orythian",
+      "flags": ["coal83_orythian_bought"],
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 5 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -5 },
+        { "stat": "nation.internationalStanding", "operation": "add", "value": -2 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "coal83_restore_lytheira",
+      "text": "Send Sorin to Lytheira. Reopen the embassy. The Orythians can read about it in the papers.",
+      "internalTag": "reformist",
+      "conditions": [{ "type": "flag", "flag": "lytheiran_ties_severed", "value": true }],
+      "nextSegment": "seg_restore",
+      "flags": ["coal83_lytheira_restored"],
+      "stateChanges": [
+        { "stat": "nation.internationalStanding", "operation": "add", "value": 6 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -6 },
+        { "stat": "tyvarenHostility", "operation": "add", "value": 3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "coal83_requisition_oil",
+      "text": "Requisition the house's Sevagrad oil for the power stations under the 1948 emergency supply clause. Compensation at cost.",
+      "internalTag": "authoritarian",
+      "conditions": [{ "type": "flag", "flag": "oil_privatized_morvec", "value": true }],
+      "nextSegment": "seg_requisition",
+      "flags": ["coal83_oil_requisitioned"],
+      "stateChanges": [
+        { "stat": "morvecInfluence", "operation": "add", "value": -10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -8 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "nation.energyIndependence", "operation": "add", "value": 8 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "coal83_ration",
+      "text": "Ration. Four-hour brownouts in every district, rotating, the Palace included.",
+      "internalTag": "populist",
+      "nextSegment": "seg_ration",
+      "flags": ["coal83_rationed"],
+      "stateChanges": [
+        { "stat": "nation.publicOrder", "operation": "add", "value": -6 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_pay": {
+      "narrative": [
+        { "type": "description", "text": "Sorin delivers the answer in person. The Lytheiran trade minister listens, excuses himself, and returns forty minutes later with a new figure: thirty-eight percent, no frigates. Vostane signs it at midnight." },
+        { "type": "dialogue", "character": "elara_vostane", "text": "Eight points for the privilege of saying no to two warships. Roughly ₭3.1 million over the winter. Cheap, as sovereignty goes. Expensive, as coal goes." },
+        { "type": "monologue", "text": "The colliers come on the fourteenth. Thornfeld keeps its lights. Every family in the Republic pays a few kroner more on its electricity bill for something none of them will ever hear about." }
+      ],
+      "choices": [
+        {
+          "id": "coal83_pay_end",
+          "text": "Thirty-eight percent and no warships in Aldenmoor. The lights stay on.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_orythian": {
+      "narrative": [
+        { "type": "description", "text": "The Orythian Coal Board quotes forty-one percent above the old Lytheiran price, delivered, payable in Orythian marks. The first convoy takes nineteen days. For six of those days, Thornfeld runs on four-hour cuts anyway." },
+        { "type": "dialogue", "character": "vera_sorin", "text": "Petravar asked, very politely, whether we would like to discuss a longer arrangement. Ten years. Fixed price. I told them we'd consider it. They know we'll have to." },
+        { "type": "monologue", "text": "I cut off Lytheira to buy an Orythian shield. Now I'm buying Orythian coal to stay warm behind it. A pact is a door that only opens one way." }
+      ],
+      "choices": [
+        {
+          "id": "coal83_orythian_end",
+          "text": "Forty-one percent more, in Orythian marks. The pact now heats the Republic as well.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.publicOrder", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_restore": {
+      "narrative": [
+        { "type": "description", "text": "Sorin flies out on Tuesday. The embassy reopens on Friday with a borrowed flag and a typist from the Stellamere legation. The first collier docks at Aldenmoor eleven days later. The Lytheirans charge the old price, to the kroner, and make sure the newspapers say so." },
+        { "type": "dialogue", "character": "vera_sorin", "text": "The Orythian ambassador has asked for a meeting. He used the word 'clarification' four times in a two-paragraph note. I'd say the pact has a crack in it now, Chancellor. A small one. Coal-sized." },
+        { "type": "monologue", "text": "The lights stay on and the shield has a crack in it. A year ago that would have been the wrong trade. In week eighty-three, with seven weeks of coal left, it was the only one." }
+      ],
+      "choices": [
+        {
+          "id": "coal83_restore_end",
+          "text": "The embassy reopens, the colliers return, and Petravar is asking for clarification.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": 2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_requisition": {
+      "narrative": [
+        { "type": "description", "text": "The requisition order is served at the Sevagrad wellhead at 06:00 by a police inspector and two clerks from the Energy Ministry. Forty thousand barrels a week are rerouted to the Thornfeld power station by rail. Compensation is calculated at cost of extraction: about a fifth of the Lytheiran price." },
+        { "type": "description", "conditions": [{ "type": "flag", "flag": "morvec_succession_promised", "value": true }], "text": "Aleksei Morvec's telegram arrives before lunch. Five words: NO WORSE. I REMEMBER, CHANCELLOR." },
+        { "type": "description", "conditions": [{ "type": "flag", "flag": "morvec_succession_promised", "value": false }], "text": "The house's lawyers file in the Supreme Court before lunch. The 1948 supply clause has never been challenged. It has also never been used against a family this rich." },
+        { "type": "monologue", "text": "I sold them the oil for a kickback, then took it back for a winter. Valdek calls it energy policy. The house calls it theft. It's both, and the power stations don't care which." }
+      ],
+      "choices": [
+        {
+          "id": "coal83_requisition_end",
+          "text": "Sevagrad oil burns in Thornfeld this winter. The house is keeping a record.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.civilLiberties", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_ration": {
+      "narrative": [
+        { "type": "description", "text": "The rota is printed in every newspaper: four hours a day, district by district, published a week in advance. The Palace is in Ashenmere District Three, Tuesdays and Fridays, 14:00 to 18:00. The press photographs you working by a paraffin lamp on the first Tuesday." },
+        { "type": "description", "text": "The coal lasts. Industrial output in Thornfeld falls nine percent across the winter. The Kravenstal steelworks run night shifts to dodge the cuts, and the accident rate on night shifts is twice the day rate." },
+        { "type": "monologue", "text": "Fair is not the same as painless. Everyone is cold four hours a day, including me, and the photograph of the paraffin lamp did more for the polls than the policy did for the furnaces." }
+      ],
+      "choices": [
+        {
+          "id": "coal83_ration_end",
+          "text": "The whole country is cold four hours a day, the Chancellor included. The coal lasts until spring.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "factions.workersCoalition", "operation": "add", "value": -2 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}

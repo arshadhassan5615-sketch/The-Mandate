@@ -28,5 +28,21 @@
     "prerequisites": [
       { "stat": "flags.oil_aramco_model", "operator": "==", "value": true }
     ]
+  },
+  {
+    "id": "agenda_w83_coal_ledger",
+    "title": "The Coal Ledger",
+    "description": "No domestic oil to burn. Valdek has drawn a red circle where the coal stockpile meets the winter. The Lytheiran supply question can't wait.",
+    "category": "finance",
+    "sceneId": "act6_week83_coal_ledger",
+    "slotCost": 1,
+    "executionOrder": -4,
+    "weekAvailable": 83,
+    "weekDeadline": 85,
+    "isUrgent": true,
+    "prerequisites": [
+      { "stat": "flags.oil_nationalized", "operator": "==", "value": false },
+      { "stat": "flags.oil_aramco_model", "operator": "==", "value": false }
+    ]
   }
 ]

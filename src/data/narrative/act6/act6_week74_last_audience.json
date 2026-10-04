@@ -1,0 +1,207 @@
+{
+  "id": "act6_week74_last_audience",
+  "title": "The Last Audience",
+  "act": 6,
+  "weekAvailable": 74,
+  "weekDeadline": 76,
+  "type": "personal",
+  "agendaCost": 1,
+  "isMandatory": false,
+  "location": "Morvec Estate — Aldenmoor",
+  "characters": ["stefan_morvec", "aleksei_morvec"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The invitation is not from Stefan Morvec. It is from his physician, on Aldenmoor hospital paper, and it says only that Mr. Morvec has asked to see the Chancellor 'while there is still a Mr. Morvec to see her.'"
+    },
+    {
+      "type": "description",
+      "text": "The bedroom faces the harbor. The bed has been moved to the window so that he can watch the ships. There are fewer of them than there were last year. He is propped on four pillows, and the silver-tipped cane hangs from the bedpost where he can see it."
+    },
+    {
+      "type": "description",
+      "text": "Aleksei stands at the far window with his back to the room. He does not turn around when you come in. He has his father's shoulders and none of his father's stillness."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "conditions": [{ "type": "flag", "flag": "morvec_appeased", "value": true }],
+      "text": "Katerin. You kept our arrangement. The estate exemption. Aleksei on the ports committee. Most people forget what they promised a dying man. You promised a healthy one. That was harder."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "conditions": [{ "type": "flag", "flag": "morvec_antagonized", "value": true }],
+      "text": "Katerin. The last time we spoke you told me you were tearing my house down. Look around you. It is still standing. So am I, almost. That is not a reproach. I admire people who say what they intend. Most of them are dead."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "conditions": [{ "type": "flag", "flag": "morvec_threatened", "value": true }],
+      "text": "Katerin. You once threatened to have Colonel Dusek arrest me before my car reached the gate. The colonel's brother is still alive, by the way. I thought you would want to know that the medicine I paid for worked."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "conditions": [{ "type": "flag", "flag": "oligarchs_destroyed", "value": true }],
+      "text": "My lawyers tell me the 1958 contracts case will reach trial in the spring. My doctors tell me I will not. It is the first time in my life the two professions have disagreed in my favor."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "conditions": [{ "type": "flag", "flag": "smuggler_bribe_taken", "value": true }],
+      "text": "There is a holding account with your name on it in my ledger. Twenty percent of a cigarette operation, paid quarterly. When I die, the ledger passes to my son with everything else. I tell you so that you understand what I am asking for, and what you are in no position to refuse."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "conditions": [{ "type": "flag", "flag": "smugglers_arrested", "value": true }],
+      "text": "You sent police to my warehouse the same night you sat in it. I was offended for a week. Then I was impressed. Aleksei is still offended. He has a young man's memory."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "conditions": [{ "type": "flag", "flag": "cabinet58_shipping_levy", "value": true }],
+      "text": "You taxed my ships. Fourteen million. Fair. I would have done it to me as well."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "text": "I did not ask you here to bargain over the past. I asked you here about him."
+    },
+    {
+      "type": "dialogue",
+      "character": "aleksei_morvec",
+      "text": "I'm in the room, Father."
+    },
+    {
+      "type": "dialogue",
+      "character": "stefan_morvec",
+      "text": "You are at the window. When you are in the room I will say so. Katerin, when I die, every man I have kept waiting for thirty years will come to collect from my son. The Halvekists. The harbor unions. The Lytheirans. Some of them will come with lawyers. Some will not. I want your word that the state will treat him as it treats any other citizen. No better. No worse."
+    },
+    {
+      "type": "monologue",
+      "text": "He is asking me for the one thing he spent his life making sure nobody else got: equal treatment. The old man is buying his son an ordinary life. He knows exactly how much it costs, because he's the reason it was ever for sale."
+    }
+  ],
+  "choices": [
+    {
+      "id": "succession_give_word",
+      "text": "Give him your word. Any other citizen: no better, no worse.",
+      "internalTag": "personal",
+      "nextSegment": "seg_word",
+      "flags": ["morvec_succession_promised"],
+      "stateChanges": [
+        { "stat": "personal.moralCompass", "operation": "add", "value": 3 },
+        { "stat": "morvecInfluence", "operation": "add", "value": 4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "succession_take_ledger",
+      "text": "The word has a price. \"Give me the ledger. All thirty years of it. Then he's an ordinary citizen.\"",
+      "internalTag": "authoritarian",
+      "nextSegment": "seg_ledger",
+      "flags": ["morvec_succession_ledger_taken"],
+      "stateChanges": [
+        { "stat": "shadowInfluence", "operation": "add", "value": 12 },
+        { "stat": "morvecInfluence", "operation": "add", "value": -10 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -6 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    },
+    {
+      "id": "succession_refuse",
+      "text": "Refuse. \"The law doesn't make promises at bedsides, Stefan. Not even to you.\"",
+      "internalTag": "reformist",
+      "nextSegment": "seg_refuse",
+      "flags": ["morvec_succession_refused"],
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "morvecInfluence", "operation": "add", "value": -6 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -4 }
+      ],
+      "reactions": [],
+      "chainTriggers": [],
+      "codexUnlocks": []
+    }
+  ],
+  "segments": {
+    "seg_word": {
+      "narrative": [
+        { "type": "dialogue", "character": "stefan_morvec", "text": "Good. Then I have bought the only thing I could never afford. Aleksei. Come and shake the Chancellor's hand." },
+        { "type": "description", "text": "Aleksei crosses the room. His handshake is dry and brief. He looks at you the way his father looked at the map of Veltria in your office: as something that will be his to manage soon." },
+        { "type": "dialogue", "character": "aleksei_morvec", "text": "No better, no worse. I'll hold you to the first half, Chancellor. My father's friends will hold you to the second." },
+        { "type": "description", "text": "Stefan Morvec dies eleven days later, at 04:20, facing the harbor. Four thousand people line the road to Aldenmoor Cathedral. Half of them work for the house. The other half came to make sure." },
+        { "type": "monologue", "text": "I gave my word to the worst man I ever liked. Now it belongs to his son, who will spend it the way young men spend inheritances: all at once, and to prove something." }
+      ],
+      "choices": [
+        {
+          "id": "succession_word_end",
+          "text": "Stefan is buried. My word passes to Aleksei with the rest of the estate.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "personal.stressLevel", "operation": "add", "value": 4 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_ledger": {
+      "narrative": [
+        { "type": "description", "text": "Stefan laughs until he coughs, and coughs until the nurse comes in, and waves her out again." },
+        { "type": "dialogue", "character": "stefan_morvec", "text": "There she is. I wondered when you'd arrive. Aleksei, the green boxes in the vault. All nine. Have them in the Chancellor's car before she leaves." },
+        { "type": "dialogue", "character": "aleksei_morvec", "text": "Father. Those are the house." },
+        { "type": "dialogue", "character": "stefan_morvec", "text": "Those are the reasons people are afraid of the house. You will need to learn to be feared on your own, or not at all. Better you learn it now, while I'm here to watch." },
+        { "type": "description", "text": "Nine green document boxes ride back to Ashenmere in the boot of your car. Thirty-one years of payments: judges, ministers, two Archbishops' secretaries, a Lytheiran trade attaché, and a deputy in your own Interior Ministry who is still drawing a salary. Stefan Morvec dies nine days later. Aleksei does not attend the reading of the will. He has already read it." },
+        { "type": "monologue", "text": "Nine boxes. I own half the Halvek generation now, the way he did. I tell myself the boxes will stay closed. He told himself that too, the first year." }
+      ],
+      "choices": [
+        {
+          "id": "succession_ledger_end",
+          "text": "Nine green boxes in the Chancellery vault. Aleksei will never forgive the price.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "shadowFootprint", "operation": "add", "value": 6 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    },
+    "seg_refuse": {
+      "narrative": [
+        { "type": "dialogue", "character": "stefan_morvec", "text": "No. Of course not. If you had said yes, I would have known you were frightened of me, and I would have died disappointed." },
+        { "type": "description", "text": "Aleksei turns from the window at last." },
+        { "type": "dialogue", "character": "aleksei_morvec", "text": "Then we understand each other, Chancellor. My father spent thirty years buying this family's safety. You've just told me it was never for sale. I'll find out what it costs another way." },
+        { "type": "description", "text": "Stefan Morvec dies thirteen days later. The funeral is private. The house issues one statement, signed by Aleksei, announcing that 'the family's commitments to the Republic will be reviewed in full.' Three Aldenmoor shipping contracts with the state are cancelled the same week." },
+        { "type": "monologue", "text": "I told a dying man the truth because it was the law. His son heard a declaration of war. Both of them were listening to the same sentence." }
+      ],
+      "choices": [
+        {
+          "id": "succession_refuse_end",
+          "text": "No promise at the bedside. Three state contracts cancelled by the son before the mourning ends.",
+          "nextSegment": null,
+          "flags": [],
+          "stateChanges": [
+            { "stat": "nation.economyHealth", "operation": "add", "value": -3 }
+          ],
+          "reactions": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
+        }
+      ]
+    }
+  }
+}
