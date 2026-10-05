@@ -1,0 +1,321 @@
+[
+ {
+  "scene": "act1_w2_formation_meeting",
+  "list": "final_decision",
+  "choice": "proceed_to_appointments",
+  "gate": [],
+  "reason": "segment has no incoming choice (orphan in-scene)"
+ },
+ {
+  "scene": "act1_w2_formation_meeting",
+  "list": "defense_choice",
+  "choice": "appoint_dusek",
+  "gate": [],
+  "reason": "its segment is reachable only through an orphan or gated path"
+ },
+ {
+  "scene": "act1_w2_formation_meeting",
+  "list": "defense_choice",
+  "choice": "appoint_vass",
+  "gate": [],
+  "reason": "its segment is reachable only through an orphan or gated path"
+ },
+ {
+  "scene": "act1_w2_formation_meeting",
+  "list": "oberlin_plan_to_perov_answer",
+  "choice": "oberlin_plan_to_perov_to_next",
+  "gate": [],
+  "reason": "segment has no incoming choice (orphan in-scene)"
+ },
+ {
+  "scene": "act1_w2_formation_meeting",
+  "list": "oberlin_plan_to_perov_answer",
+  "choice": "oberlin_plan_to_perov_direct",
+  "gate": [],
+  "reason": "segment has no incoming choice (orphan in-scene)"
+ },
+ {
+  "scene": "act2_week25_referendum_eve",
+  "list": "(root)",
+  "choice": "referendum_eve_tv_address_fails",
+  "gate": [
+   {
+    "stat": "personal.publicImage",
+    "operator": "<",
+    "value": 45
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "pipeline_constitution_committee",
+  "list": "(root)",
+  "choice": "whip_discipline",
+  "gate": [
+   {
+    "stat": "advisorTrust.theron",
+    "operator": ">",
+    "value": 60
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "pipeline_constitution_floor_vote",
+  "list": "(root)",
+  "choice": "floor_pure",
+  "gate": [
+   {
+    "type": "flag",
+    "flag": "whip_failed",
+    "value": false
+   },
+   {
+    "type": "flag",
+    "flag": "rider_none",
+    "value": true
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "pipeline_constitution_floor_vote",
+  "list": "floor_vote_pure_reform",
+  "choice": "sign_pure",
+  "gate": [],
+  "reason": "its segment is reachable only through an orphan or gated path"
+ },
+ {
+  "scene": "act3_currency_speculation_resolution",
+  "list": "(root)",
+  "choice": "currency_profit_crash",
+  "gate": [
+   {
+    "stat": "nation.economyHealth",
+    "operator": "<=",
+    "value": -25
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act3_currency_speculation_small",
+  "list": "(root)",
+  "choice": "currency_small_profit",
+  "gate": [
+   {
+    "stat": "nation.economyHealth",
+    "operator": "<=",
+    "value": -25
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act3_week32_tyvaren_ultimatum",
+  "list": "(root)",
+  "choice": "tyvaren_international_appeal_sovarka_limited",
+  "gate": [
+   {
+    "type": "flag",
+    "flag": "sovarka_limited_deal",
+    "value": true
+   },
+   {
+    "stat": "flags.sovarka_deal_signed",
+    "operator": "!=",
+    "value": true
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act3_week34_dravenhollow",
+  "list": "(root)",
+  "choice": "dravenhollow_separatist_emergency",
+  "gate": [
+   {
+    "stat": "factions.dravenni",
+    "operator": "<=",
+    "value": 35
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act3_week36_nadia_publishes",
+  "list": "(root)",
+  "choice": "nadia_publishes_full_transparency",
+  "gate": [
+   {
+    "stat": "nation.pressFreedom",
+    "operator": ">=",
+    "value": 30
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act3_week38_family_reckoning",
+  "list": "(root)",
+  "choice": "family_tomas_specific",
+  "gate": [
+   {
+    "stat": "personal.tomasWellbeing",
+    "operator": "<=",
+    "value": 40
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act4_week43_family_resolution",
+  "list": "(root)",
+  "choice": "family_resolution_letting_go",
+  "gate": [
+   {
+    "stat": "personal.marriageHealth",
+    "operator": "<=",
+    "value": 35
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act4_week48_war_outcome",
+  "list": "(root)",
+  "choice": "war_outcome_defeat_honest",
+  "gate": [
+   {
+    "stat": "nation.militaryReadiness",
+    "operator": "<=",
+    "value": 30
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act4_week52_ending",
+  "list": "(root)",
+  "choice": "ending_benevolent_autocrat",
+  "gate": [
+   {
+    "stat": "factions.ironCovenant",
+    "operator": ">=",
+    "value": 30
+   },
+   {
+    "stat": "personal.moralCompass",
+    "operator": "<=",
+    "value": 10
+   },
+   {
+    "stat": "nation.economyHealth",
+    "operator": ">=",
+    "value": -15
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act4_week52_ending",
+  "list": "(root)",
+  "choice": "ending_assassination",
+  "gate": [
+   {
+    "stat": "nation.publicOrder",
+    "operator": "<=",
+    "value": 25
+   },
+   {
+    "stat": "factions.halvekists",
+    "operator": "<=",
+    "value": 15
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act4_week52_ending",
+  "list": "(root)",
+  "choice": "ending_family_sacrifice",
+  "gate": [
+   {
+    "stat": "personal.tomasWellbeing",
+    "operator": "<=",
+    "value": 20
+   },
+   {
+    "stat": "flags.family_chosen",
+    "operator": "==",
+    "value": true
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act6_week65_border_incident",
+  "list": "check_tech_level",
+  "choice": "path_tech_advantage",
+  "gate": [
+   {
+    "stat": "nation.militaryTech",
+    "operator": ">=",
+    "value": 50
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act6_week65_border_incident",
+  "list": "seg_tech_advantage",
+  "choice": "tech_advantage_end",
+  "gate": [],
+  "reason": "its segment is reachable only through an orphan or gated path"
+ },
+ {
+  "scene": "act6_week78_ashavel_legacy",
+  "list": "check_marriage_state",
+  "choice": "path_divorce",
+  "gate": [
+   {
+    "stat": "personal.marriageHealth",
+    "operator": "<",
+    "value": 40
+   },
+   {
+    "type": "flag",
+    "flag": "jonas_divorce",
+    "value": false
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act6_week78_ashavel_legacy",
+  "list": "seg_divorce",
+  "choice": "divorce_end",
+  "gate": [],
+  "reason": "its segment is reachable only through an orphan or gated path"
+ },
+ {
+  "scene": "act7_week92_aldenmoor_tech",
+  "list": "(root)",
+  "choice": "personal_funded_tech",
+  "gate": [
+   {
+    "stat": "personal.personalWealth",
+    "operator": ">=",
+    "value": 15000
+   }
+  ],
+  "reason": "gate false under empty and maximal flag sets (needs a specific state)"
+ },
+ {
+  "scene": "act7_week92_aldenmoor_tech",
+  "list": "seg_personal_funded",
+  "choice": "personal_funded_end",
+  "gate": [],
+  "reason": "its segment is reachable only through an orphan or gated path"
+ }
+]

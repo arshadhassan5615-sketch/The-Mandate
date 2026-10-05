@@ -709,3 +709,37 @@ flag sets unchanged). Final gates: tsc clean; suite 196/6-preexisting; audit
 ### Round 7 holds + gates
 All standing holds kept. Final gates: tsc clean; suite 199/6-preexisting
 (196 + 3 recurring/social proofs); audit 0/67/0/169/0/0/5 + FAIL 0 + WARN 22.
+
+---
+
+## Reply audit — Phase A (`agent/reply-audit`, child of `agent/depth-pass`)
+
+Read-only: no scene, engine or save-schema change. Tooling in `scripts/reply-audit*`; reports in
+`docs/REPLY_AUDIT/` (summary.md, findings.md, transcript-act1..7.md + parts, data/*.json).
+Phase B is NOT started and waits on review of findings.md.
+
+### Engine rules verified by reading code (full list R1–R11 in summary.md)
+- nextNodeId beats nextSegment; a nextNodeId target is used raw (no filterNarrative, no `dialogue`
+  normalisation, no prerequisites/exclusive). Segment nodes are filtered with PRE-choice flags/stats.
+- Reactions: only the clicked choice's; rendered only while !sceneDone; cleared by the `[choices]`
+  reset effect because NarrativeScene rebuilds the array every render.
+- `SocialEvent.tsx` is imported nowhere (removed in 9a27631): `socialInteractions` never play.
+  **Correction:** Round 7 STEP 2's "SocialEvent runs socialInteractions" is wrong. The 3 social_event
+  roots reach the player only as opening nodes + engine "Continue…".
+- delayWeeks 0 chains inject immediately, ignoring trigger conditions and probability.
+
+### Counts
+- S1 2707 rows (2676 mounted + 31 social): act1 832 · act2 638 · act3 619 · act4 211 · act5 100 · act6 184 · act7 123.
+- S2 38 pairs (19 opposite-sign) · S3 2 · S4 5/813 · S5 13 routers (8 co-true, 3 holes) + 9 gated lists, 0 bad shapes ·
+  S6 748/813 reactions on terminal choices, 11 unrenderable types, 5 social scenes · S7 1 · S8 16 (0 false) · S9 26 (8 noted).
+- D1: 5173 clicks (empty/maximal + forced reruns for 8 exclusive-redirected scenes); 2650/2676 choices exercised;
+  3 untraceable (dinner/briefing injection re-fed after a choice), 0 suppressed, 0 threw/blocked.
+- D2 (Playwright, local install): 33 scenes / 102 clicks; 93 match; all 9 mismatches are reactions
+  (3 flash 0–3 ms via MutationObserver, 6 empty rows of unrenderable types); 0 other display-only mismatches.
+- findings.md: 86 rows (high 24 · medium 19 · low 43), engine-wide E1–E8 first.
+
+### Notes
+- One D2 attempt crashed when the dev page reloaded while vitest ran alongside it. D2 now re-boots and
+  retries a click once, and the published run was clean (no retries).
+- Gates: `tsc -b` clean · audit-full-game broken 0 / orphans 67 / flag gaps 0 / FAIL 0 / WARN 22 ·
+  unguarded 0 · vitest 199 pass / 6 pre-existing fail (DecreeInbox, TopBar) · eslint on new tooling clean.
