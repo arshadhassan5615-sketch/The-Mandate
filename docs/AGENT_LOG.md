@@ -712,6 +712,81 @@ All standing holds kept. Final gates: tsc clean; suite 199/6-preexisting
 
 ---
 
+## Reply audit Phase B1 — verify first, then only the clear fixes
+
+Branch `agent/reply-fixes` from `agent/reply-audit`. No main commits. No new
+scenes. ConversationPanel.tsx untouched (verified generic choice flow).
+
+### STEP 0 answers (report-only; independent derivations, not copied)
+- a) nextNodeId swap = raw `getScene()` assigned as currentScene (no filter,
+  no normalisation, no prereq/exclusive check). 6 nextNode targets + 15 delay-0
+  targets enumerated independently: ZERO contain per-node conditions or
+  echoGroup nodes — including this session (Phase A added tooling + docs only).
+  E7's "0 affected" confirmed, echoGroup included.
+- b) Untraceable shown texts: dinner military_presence / union_praise /
+  journalist_arrest + briefing morivask_instability / routine_quiet (2 nodes) —
+  full texts recovered from source segments. Mechanism: NarrativeScene re-appends
+  injected segments after every choice (id check only), and the history reset on
+  activeSegmentId change re-displays them (E4).
+- c) Router table verified with setter analysis: REAL overlaps — tyvaren
+  diplomatic×{intercept,forward,bilateral} (wk22 + wk7 cross-scene), strike
+  maric(wk3)×{morvec,threat}(wk30), sovarka deferred×signed/limited (defer feeds
+  survey), captured(wk35)×{destroyed,refused}(wk50), debate exposed/pact/oil/
+  divorce (independent lines). THEORETICAL-only (same-scene exclusive setters):
+  oil signed×failed, black_gold funded×limited×rejected. Holes: oil telegram
+  (skipped negotiation), sovarka outcome (survey skipped), megaproject followup
+  (UNREACHABLE — all 4 ends set chosen flags; no change).
+- d) Choices rebuild each render because getAvailableChoices returns a fresh
+  .filter array; the ConversationPanel reset effect deps on that identity and
+  clears reactions in the same commit (E1). Keeping reactions for non-terminal
+  choices wants the reset keyed on a stable signature (scene+segment+choice ids)
+  or a memoized list — report only (reactions display is held).
+- e) 9a27631 "route social events through NarrativeScene + rewrite inaugural
+  ball": GameLayout −2 lines (SocialEvent import + social_event routing branch);
+  inaugural ball rewritten (613-line diff) as branching scene; first briefing
+  moved week1→week2 agenda. SocialEvent.tsx NOT deleted — unmounted (imported
+  nowhere), which is why its scenes' choices never play (E3).
+- f) Exactly 3 delay-0 chains declare probability (face_to_face 0.3, ashenmere
+  via negotiate_units 0.4 / protect_infrastructure 0.3) — all ignored per R10;
+  NO delay-0 chain declares conditions.
+
+### STEP 1 — `d55a53a` engine + `3b8efa8` data+test (separate commits)
+- nextNode swap now filters through filterNarrative (copy-on-write). DIVERGENCE
+  FOUND mid-step and documented: segments filter on PRE-choice flags (R8), but
+  nextNode targets must filter on newFlags — the target is ABOUT the choice just
+  made and can only gate on its flags. Behavior-neutral for all 6 existing
+  targets (no conditional nodes); full suite stayed 199/6 proving the no-op.
+- press_outcome: committee node gated on press_followup_specific + deflect /
+  combative variant nodes (spine: specific→committee only, deflect→dodge only,
+  combative→damage-control only, 15/15 green).
+
+### STEP 2 — `7ab058f` router holes + ambiguous list (exclusivity untouched)
+- Added all-false-guarded terminal fallbacks ONLY where holes are real: oil
+  telegram (skipped negotiation) + sovarka outcome (survey skipped). Megaproject
+  hole unreachable (verified all 4 ends set chosen flags) — documented, no change.
+  S5-12/13 (mole/ending) left to the engine fallback (inventing endings is out).
+- The 8 overlapping routers show NO exclusive intent in text (identical/bare
+  Continues; strike/second_address/debate branches report independent true
+  histories). Forcing exclusivity would suppress valid content. ALL 8 listed as
+  ambiguous, ZERO touched. Real-vs-theoretical overlap recorded per router.
+- Spine: fallbacks appear exactly in hole states and hide when a branch matches;
+  oil hole test updated (data fallback correctly supersedes engine Continue).
+
+### STEP 3 — HALT (0b is not data-only)
+- The re-feed is engine behavior (NarrativeScene id-only check + history reset);
+  the segments must display on arrival, so no data edit can fix timing without
+  breaking arrival. Correct fix is E4's engine gating (inject only while
+  activeSegmentId is null) — outside the data-only scope. Impact bounded:
+  re-reading correct text, never wrong content. Nothing changed.
+
+### Holds + gates
+All holds kept (reactions display, social interactions, 38 shared-target pairs,
+delay-0 semantics, Arcturian, Vass, week-52 timing, exile, 104, assassin/injury).
+Final: tsc clean; suite 201/6-preexisting; audit 0/67/0/169/0/0/5 + FAIL 0 +
+WARN 22 (+2 terminal fallbacks now counted in dead-ends: 171).
+
+---
+
 ## Reply audit — Phase A (`agent/reply-audit`, child of `agent/depth-pass`)
 
 Read-only: no scene, engine or save-schema change. Tooling in `scripts/reply-audit*`; reports in
