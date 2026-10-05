@@ -269,3 +269,38 @@ additionally spine-proven where covered: mole payoffs (correct xor wrong), nc
 fallen/survived wrappers, assassination sniper/bombing/poisoning tracks. Engine
 trigger-seeding proofs and component-path proofs remain future work; `run-*.json`
 stays uncommitted.
+
+---
+
+# Round 6 STEP 2 — choice-list triage (FAIL 27 / WARN 22)
+
+Audit gate is permanent; the engine fallback (synthetic Continue) covers every unit
+below at runtime. Triage verdict: NO data fixes. Session-touched scenes' WARNs are
+exhaustive-by-design routers (divorce true/false pairs from STEP-1d; outcome
+quad-cover in wk53); legacy units are correct routers or terminal beats. Adding data
+choices would author content under freeze to duplicate the fallback.
+
+## FAIL — empty choice arrays (27, all legacy, all fallback-covered)
+
+- `act3_week52_the_kitchen`: seg_reflect_clean/vael/morvec/owned/general (5).
+- `act3_week38_two_letters`: seg_vael_broken/morvec_broken/both_broken/owned_quietly (4).
+- Social roots (UI-launched): autumn_festival_wk18, state_dinner_wk24,
+  independence_parade_wk36 (3).
+- `family_dinner_recurring` injected segs (8): military_presence, oligarch_rumors,
+  union_praise, journalist_arrest, protest_sounds, curfew_discussion,
+  marital_tension, tomas_trouble.
+- `intelligence_briefing_recurring` injected segs (7): mole_progress, faction_unrest,
+  tyvaren_movement, morivask_instability, minister_corruption, oligarch_activity,
+  routine_quiet.
+
+## WARN — no unconditional choice (22, fallback backstops all-gated-off runs)
+
+- Exhaustive routers, no fix: wk53 check_outcome (captured/destroyed/clean cover all
+  combos) · wk78 check_marriage_state (divorce true/false split) · wk59 reassign +
+  wk61 dinner/festival (divorce pairs) · wk100 kolvar_specific (generic all-false
+  fallback) · wk52 ending (10 endings; middle run now Completes via fallback).
+- Legacy routers, listed: act1_week10_tyvaren_intel · mole_week5_complication ·
+  oil vyktor_reads_telegram · megaproject dev_followup_branch · wk31 strike_resolution ·
+  pipeline constitution vote · armadine_steel_return (+jonas) · currency speculation ×2 ·
+  sovarka_outcome_branch · wk65 check_stance/check_tech_level · wk72 check_plan ·
+  wk80 check_results.
