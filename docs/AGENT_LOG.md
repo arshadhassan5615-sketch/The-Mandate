@@ -384,3 +384,64 @@ Full suite unchanged: 162 pass / 12 fail = 159 pre-existing pass + 3 new pass, 6
   6 fail (only the pre-existing DecreeInbox/TopBar).
 - Gates each commit: `tsc -b` clean; JSON.parse clean; no save-schema change (no SaveRecord,
   mandateDb, or persisted-shape edits in Round 3).
+
+## Round 3 — STEPS 3-6 (this session)
+
+### STEP 3 — `74b2e47` docs/REACHABILITY.md (no data fixes)
+- Tooling found uncommitted at root (analyzer + report suite + report config + fresh
+  `run-*.json` telemetry); verified coherent before use: regenerated manifest identical
+  (539 scenes / 207 visited / 332 never-fired), directed keys match the manifest set exactly.
+- Brief's "92" is stale: measured never-fired set vs the clean/exile/god union is **332**
+  (agenda 30 / agenda+chain 37 / chain-only 174 / nextNode-only 4 / no-source 87).
+  Directed proofs: **203 proved / 129 blocked** (agenda 61 / chain 138 / nextNode 4 proved).
+- `no-source-path` (87) is two unproven-by-policy populations, not blocked content:
+  engine-sourced 44 (weekStore/narrativeStore/Letter/Assassination/FamilyDinner/Briefing/
+  Budget/EmergencyDecree/Whisper engines — policy has no engine-trigger seeding) and
+  UI-sourced 43 (SocialEvent/TermReportScreen/CabinetFormation/ConnectionsPanel paths).
+- Seeded-proof caveat: 5 PROVED scenes depend on never-set flags and are unreachable in
+  real play (narrow via `referendum_passed`, petravar/stellamere via `chose_*`,
+  executive_governance/nadia_investigation via unset flags); narrow's 3 downstream chains
+  cascade to `source-not-loadable`. Other blockers: chain-not-scheduled 8,
+  dropped-in-queue 7, played-but-unvisited 6 (`__project__*`), source-choice-unavailable 10,
+  source-not-loadable 10, probability-miss 1 (`act3_third_attack`).
+- Trivial flag-name check: edit-distance scan of the 10 never-set flags vs all 2998 set
+  flags finds no distance-1/2 typo (min 3) — all semantic mismatches. **Zero data fixes.**
+- Dead-gate findings listed, not fixed: STEP-1 agenda gates on `referendum_passed`
+  (narrow result + pass-path press conference) unsatisfiable; weekStore no-confidence
+  wrapper items gated on `no_confidence_passed/failed` while the vote sets
+  `defeated/weathered`; mole correctness never recorded.
+
+### STEP 4 — `d1936f8` permanent stat-path gate in audit-full-game.mjs
+- Every `stat` in conditions (scene/choice/chainTrigger/agenda prerequisites) checked against
+  conditionEvaluator PATH_ALIASES + STAT_RANGES; every stateChanges/statEffects `stat`
+  against gameStore PATH_ALIASES + STAT_RANGES. Tables parsed from source at runtime —
+  the audit cannot drift from the engine.
+- Result: **0 unresolvable** of 225 distinct paths (174 condition + 75 modifier, some shared).
+  Session-written scenes clean — nothing to fix, nothing to list.
+- Drift found and listed (not fixed — engine semantics): gameStore's modifier table has 5
+  aliases missing from the condition table (`reformist_support`, `education_index`,
+  `military_readiness`, `public_order`, `oligarch_relations`). Conditions using them fail
+  at runtime today; no scene does. Gate reports drift count permanently.
+- Audit totals after: broken 0 / orphans 67 (=) / flag gaps 10 (=) / dead-ends 169 (=) /
+  missing beats 0 / unresolvable 0 / drifted 5.
+
+### STEP 5 — `65b8780` tic audit (top-25 4-6-grams over 539 scenes / 2647 text nodes)
+- Corpus top: "the question is whether" 69x/66 scenes; "i want to be clear" 15x;
+  "i want you to know/understand" 10x each; "the republic of veltria" 11x.
+- Session files nearly clean (press-conference rewrite + all Term-2 edits: 0 hits).
+  Rewrote 3 hits in 2 session-touched scenes only: narrow's doubled "I want to say" in one
+  node (second use rephrased), rejected's "Republic of Veltria" appositive (dropped) and
+  "I want you to know" (rephrased). Canon traits kept; no habit named.
+- Gates: `tsc -b` clean; JSON.parse clean; full suite 176 pass / 6 pre-existing fail (=).
+
+### STEP 6 — `f26e326` report tooling into scripts/
+- `playthroughs.report.test.ts`, `analyze-runs.mjs`, `vitest.report.config.ts` moved to
+  `scripts/`; imports fixed (`../src/`), root-relative config paths kept (`./src/...`,
+  `./scripts/playthroughs.report.test.ts`); REACHABILITY.md repro commands updated.
+- Verified: analyzer from new home prints identical counts; report config loads (4 skipped
+  without MANDATE_REPORT=1); `tsc -b` clean. `run-*.json` stay untracked, uncommitted.
+
+### Round 3 holds (still untouched)
+- Arcturian naming, General Vass, week-52 timing, exile content, week 104. No save-schema
+  change in any Round 3 commit. Pre-existing tree modifications (opencode.json,
+  package*.json, GameLayout.tsx, unguarded report) and untracked telemetry left alone.
