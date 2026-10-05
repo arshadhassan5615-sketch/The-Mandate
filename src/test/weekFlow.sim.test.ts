@@ -331,8 +331,7 @@ describe('Fix 2c — on-time chains uncapped, overdue backlog max 2/week', () =>
 })
 
 describe('Fix 2d — filterNarrative echoGroup; election_eve opening max 5 echoes', () => {
-  // echoGroup does not exist on the type yet (arrives with the fix); the cast
-  // keeps tsc green while the runtime behavior is asserted red-first.
+  // echoGroup lives on NarrativeSegment; ungrouped nodes pass through.
   function groupedNodes(): NarrativeSegment[] {
     return [
       { type: 'description', text: 'a1', echoGroup: 'g1' },
@@ -340,7 +339,7 @@ describe('Fix 2d — filterNarrative echoGroup; election_eve opening max 5 echoe
       { type: 'description', text: 'b1', echoGroup: 'g2' },
       { type: 'description', text: 'plain1' },
       { type: 'description', text: 'plain2' },
-    ] as unknown as NarrativeSegment[]
+    ]
   }
 
   function simState() {

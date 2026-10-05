@@ -38,11 +38,23 @@ export function filterNarrative(
   nodes: NarrativeSegment[] | undefined,
   gameState: GameState,
   activeFlags: string[],
+  maxPerGroup: number = 1,
 ): NarrativeSegment[] | undefined {
   if (!nodes) return nodes
-  return nodes.filter(n =>
+  const passing = nodes.filter(n =>
     !n.conditions?.length || evaluateAll(n.conditions, gameState, activeFlags),
   )
+  // Echo groups: cap same-group survivors so reflection-heavy openings stay
+  // readable (e.g. election-eve). Nodes without echoGroup pass exactly as
+  // before — first-come order is preserved within each group.
+  const seen = new Map<string, number>()
+  return passing.filter(n => {
+    if (!n.echoGroup) return true
+    const used = seen.get(n.echoGroup) ?? 0
+    if (used >= maxPerGroup) return false
+    seen.set(n.echoGroup, used + 1)
+    return true
+  })
 }
 
 const PROJECT_START_FLAGS: Record<string, string> = {

@@ -16,6 +16,7 @@ export interface NarrativeSegment {
   character?: string       // only present when type === 'dialogue'
   primaryCharacter?: string // for description segments: which character's portrait to show
   conditions?: Condition[]  // optional gate: node renders only if all conditions pass (e.g. injury-state monologues)
+  echoGroup?: string       // optional echo bucket: at most maxPerGroup same-group nodes survive filtering
 }
 
 export interface StatCondition {
