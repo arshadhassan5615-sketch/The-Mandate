@@ -327,3 +327,60 @@ Full suite unchanged: 162 pass / 12 fail = 159 pre-existing pass + 3 new pass, 6
   `already_end`), each mirroring a pre-existing flag-free sibling 1:1 — accepted, not masked
   with no-op flags.
 - check-unguarded-agenda-entries: 0. JSON.parse clean on all 16 touched/new data files.
+
+---
+
+## Round 3 — STEP 0 verification (verify-only, no product edits)
+
+- (0a) Soft-locks: choice-less entered segments FREEZE — proven by mounting the real
+  `NarrativeScene` in jsdom and walking `act3_week52_the_kitchen` (5 zero-choice terminal
+  segments), `act3_week38_two_letters` (4 zero-choice terminals) and `act2_week22_oil_outcome`
+  with no oil flags (both sub-choices gated out): all end `{sceneDone:false, stillOnScene:true,
+  continueShown:false}`. Mechanism: `seg.choices ?? []` + Continue requires `sceneDone` +
+  Space gated on `!allDone` + auto-advance/emergency only on `sceneDone`/`!currentScene`.
+  Side findings: `ConversationPanel:612` needs a ResizeObserver stub in jsdom; `act4_week52_ending`
+  has the same flaw (all 10 ending choices conditional — a middle run matching none freezes).
+- (0b) Divorce (`jonas_left`+`marriage_ended`, −30 health) vs healing (`family_chosen`+
+  `family_healing_path`, +8..+18) both offered weeks 49–50 ungated; `marriage_ended` read only by
+  wk43-resolution, `family_healing_path`/`jonas_left` read by nothing, and no Term-2 scene reads
+  either flag. Base health 65 ⇒ divorce+healing (53) routes wk78 "united" while divorced.
+  Term-2 Jonas map: wk53/59/61 married-assuming; wk78 branches on the number only; wk93 neutral
+  call; wk99 fully `jonas_divorce`-branched (dead until the flag is set); wk100 reads the flag;
+  wk103 call promise-gated (compatible). wk103 line 41 has Theron issuing orders with no
+  theron_fired gating.
+- (0c) Chain probability is unseeded `Math.random()` at fire time; nothing in the harness seeds
+  or stubs it (only the engine unit tests do). 52/779 triggers carry probability, 41 carry
+  conditions — any walk touching those is non-reproducible. "Dropped" = removed from `scheduled`
+  without firing (conditions/probability fail), so fired + remaining + dropped = scheduled.
+- (0d) Both week-52 scenes play post-vote by mechanics (election fires entering week 52; a loss
+  skips week 52 for the epilogue) and assume post-vote/post-term in text — no timing change
+  needed (week-52 hold stays report-only). Residuals: the ending's loss-hedge is unreachable, its
+  all-conditional choices are a freeze risk (see 0a), and the_kitchen says "five years ago" for
+  the ~14-week-old week-38 letters.
+- (0e) `act1_chain_tyvaren_border_standoff` has exactly one scheduler (completeWeek at hostility
+  ≥ 70 from a base of 0, unbounded weeks) and no agenda entry. Never reaching 70 ⇒ never
+  scheduled ⇒ never fired ("pending at 103"); a late trigger hits an Act-1 scene in Term 2; and
+  the 103→104 completeWeek returns early (term limit) before scheduling AND the chain tick, so
+  anything left in `scheduled` at game end strands forever. Directly motivates the STEP-1 3–20
+  bound and STEP-2b/2c.
+
+## Round 3 — STEP 2 engine fixes (one commit each, assertions in 1f1d304)
+
+- `1f1d304` harness: (2a)(2b)(2b2)(2c)(2c2)(2d)(2d3) red baselines recorded (7 failed / 10 passed;
+  eve opening shows 36 echoes under a full history); (2d2) ungrouped guard green. Plus a
+  behavior-neutral one-word `filterNarrative` export.
+- `45bac7d` **(2a)** exclusive redirects record BOTH ids: loadScene marks the requested id visited
+  at redirect time; the played variant records on completion as before. Sim 7/10 -> 6/11.
+- `abd313b` **(2b)** chains due before the target scene's weekAvailable defer (stay scheduled,
+  never dropped; unknown targets fire on schedule); overdue chains still play with a DEV late-fire
+  log. Sim 6/11 -> 4/13.
+- `fa3c120` **(2c)** on-time chains uncapped, overdue backlog max 2/week (replaces the Round-2
+  total-3 cap; `MAX_FORCED_CHAINS_PER_WEEK` superseded by `MAX_OVERDUE_CHAINS_PER_WEEK = 2`).
+  (e) updated to the new contract (8 overdue drain 2+2+2+2, conservation holds); the playthrough
+  sweep counts overdue fires precisely via pre-tick backlog snapshot. Sim 4/13 -> 2/15.
+- `e8791bc` **(2d)** `filterNarrative` echoGroup (+ maxPerGroup, default 1); ungrouped nodes
+  byte-identical behavior. election_eve's 38 conditional opening nodes tagged into 5 groups
+  (debate/kolvar/people/plot/records) → max 5 echoes. Sim 2/15 -> **0/17**. Full suite 176 pass /
+  6 fail (only the pre-existing DecreeInbox/TopBar).
+- Gates each commit: `tsc -b` clean; JSON.parse clean; no save-schema change (no SaveRecord,
+  mandateDb, or persisted-shape edits in Round 3).
