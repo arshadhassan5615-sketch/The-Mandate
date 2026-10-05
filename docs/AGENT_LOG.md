@@ -445,3 +445,74 @@ Full suite unchanged: 162 pass / 12 fail = 159 pre-existing pass + 3 new pass, 6
 - Arcturian naming, General Vass, week-52 timing, exile content, week 104. No save-schema
   change in any Round 3 commit. Pre-existing tree modifications (opencode.json,
   package*.json, GameLayout.tsx, unguarded report) and untracked telemetry left alone.
+
+---
+
+## Round 4 — SPINE INTEGRITY (content freeze: no new scenes)
+
+### STEP 1 — `4722cc2` dead gates: set-or-repoint, mechanisms verified first
+- Pre-fix verification overturned the Round-3 note: `referendum_passed` IS set (week-26
+  vote successFlags), as are `no_confidence_passed/failed` + `impeachment_vote_failed`
+  (their voteConfigs), `mole_correct/wrongly_accused` (narrativeStore merges
+  `handleMoleAccusation` consequence flags into activeFlags, line 596),
+  `deficit_critical`/`tyvaren_mobilization` (weekStore addFlags),
+  `amber_coast_ftz_signed` (BillEngine signFlags). No fix needed for these.
+- Genuine fixes (4 scenes, set-or-repoint only): week-21 choices now set
+  `chose_arcturian`/`chose_orythian`; `executive_governance` prereq repointed to
+  `executive_authority_invoked` (set by the scheduling choice);
+  `nadia_investigation` repointed to `nadia_rebuffed` (ditto);
+  `tyvaren_defiant_rejection` now sets `tyvaren_war_imminent` (public defiance that
+  already chains to war preparations; secret-mobilization path excluded — deception,
+  not imminence).
+- Audit taught the mechanisms (same file, no behavior change): addFlags literals,
+  mole consequence merge, bill signFlags as set-sources. Flag gaps **10 → 0**.
+  analyze-runs.mjs engine-set list extended the same way. REACHABILITY.md dead-gate
+  and seeded-proof sections corrected.
+- Verify-first answers: week-26/27 aftermath + press conference fire on pass
+  (decisive AND narrow, proved by spine tests below); e15334f mole routing works
+  (correct xor wrong payoff, exactly once, proved below).
+
+### STEP 2 — `b3edbf7` spine test (`src/test/spine.test.ts`, 12/12 green, ~11s)
+- Default suite, fake timers, no env gate. Helpers mirror the UI exactly
+  (LobbyingInterface zero-spend vote resolution; confirmAgenda queue drain with the
+  real advanceQueue prereq-skip). Covers: referendum decisive/narrow/fail (aftermath
+  + press variant xor), no-confidence fallen/survived xor through confirmAgenda,
+  assassination single-track (sniper/bombing/calm), mole correct/wrong xor,
+  coup climax present/absent, Jonas divorce-xor-healing + wk53 filter consistency,
+  second-address 3 variants, election boundaries 52-win/loss and 103 term limit.
+- Full suite after: 188 pass (176 + 12) / 6 pre-existing fail (DecreeInbox, TopBar).
+  No change reverted (nothing turned red).
+
+### STEP 3 — classification + `20a1aa8` + `7d1c77a` (1 class-A fix, halt list)
+- 5 seeded: RESOLVED by STEP 1. 6 `__project__*`: proof artifact (harness playItem
+  never marks `__` scenes; registry + load verified, real flow records via choice).
+- Live re-verification (scratch, since deleted) overturned 3 stale 10:12 verdicts:
+  brenner→ashenmere injection, mole-identify→confrontation injection, and
+  ultimatum international_appeal availability all work.
+- Class B (12, legitimate xor, no fix): megaproject/sovarka/voss/bni deep-segment ends.
+- Class C (27, sound mechanisms, no fix): 7 stat-gated chain drops, third_attack
+  probability, cascade chains (face_to_face, public_moment, 4 kickbacks),
+  10 redirect-chasing sources (need source qualifying state).
+- Class A FIXED: `refused_tyvaren_negotiation` set on defiant rejection; spine test
+  extended (defiant → poisoning only, 12/12 still green). BALANCE NOTE: defying at
+  30–36 now guarantees the poisoning track — revert if unintended.
+- HALTED: `ssd_assassination` (Condition C; no player-ordered-assassination content
+  exists — inventing a setter would fabricate an outcome) · `act3_assassination_default`
+  (no trigger yields a null variant) · B/C populations and engine/UI policy gaps
+  (need trigger-seeding / component-path proofs, future work).
+
+### STEP 4 — drifted aliases + live readers (report only, no engine change)
+- `education_index` → nation.educationStandard: no live readers.
+- `military_readiness` → nation.militaryReadiness: no live readers.
+- `oligarch_relations` → factions.businessClass: no live readers.
+- `public_order` → nation.publicOrder: no live readers.
+- `reformist_support` → factions.reformists: 2 live MODIFIER readers
+  (security_posture_choice + security_posture_choice_perov, minimal_choice) — resolve
+  today via the gameStore table; a future CONDITION reader would fail silently.
+- The 4 readerless entries are dead table weight; the permanent audit gate reports
+  the drift (5) every run.
+
+### Round 4 holds (untouched, as mandated + tic-rewrite hold)
+- Arcturian naming, General Vass, week-52 timing, exile content, week 104, rewrites of
+  legacy scenes for tics. No save-schema change in any Round 4 commit. run-*.json
+  uncommitted. Final gates: tsc clean; audit 0/67/0/169/0/0/5; suite 188/6-preexisting.
