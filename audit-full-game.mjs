@@ -119,11 +119,82 @@ function extractFlagFromCond(cond) {
   return null;
 }
 
+// ---------------------------------------------------------------------------
+// STAT-PATH GATE (Round 3 STEP 4 — permanent).
+// Every `stat` path in conditions AND in stateChanges/statEffects must resolve
+// via the real resolvers. Tables are parsed from source at runtime so the audit
+// can never drift from the engine (single source of truth stays in the .ts):
+//   conditions  -> PATH_ALIASES in src/engine/conditionEvaluator.ts
+//   modifiers   -> PATH_ALIASES in src/stores/gameStore.ts (applyModifier)
+//   both        -> STAT_RANGES keys in src/types/gameState.ts, plus the
+//                  resolver built-ins currentWeek/currentAct and flags.*
+//                  (conditions only — modifiers cannot write flags).
+// A second permanent check asserts the two alias tables stay in sync: any
+// alias the modifier table accepts but the condition table lacks is a latent
+// runtime failure for conditions using that path.
+// ---------------------------------------------------------------------------
+
+function parseAliasTable(sourceFile, anchor) {
+  const src = fs.readFileSync(path.join(ROOT, sourceFile), 'utf8');
+  const body = src.split(anchor)[1].split('}')[0];
+  const out = new Map();
+  for (const m of body.matchAll(/'([^']+)'\s*:\s*'([^']+)'/g)) out.set(m[1], m[2]);
+  if (out.size === 0) throw new Error(`[audit] failed to parse ${anchor} from ${sourceFile}`);
+  return out;
+}
+
+function parseRangeKeys() {
+  const src = fs.readFileSync(path.join(ROOT, 'src', 'types', 'gameState.ts'), 'utf8');
+  const body = src.split('STAT_RANGES')[1].split('};')[0];
+  const out = new Set();
+  for (const m of body.matchAll(/'([^']+)'\s*:\s*\[/g)) out.add(m[1]);
+  if (out.size === 0) throw new Error('[audit] failed to parse STAT_RANGES keys');
+  return out;
+}
+
+const condAliases = parseAliasTable('src/engine/conditionEvaluator.ts', 'PATH_ALIASES');
+const modAliases = parseAliasTable('src/stores/gameStore.ts', 'PATH_ALIASES');
+const rangeKeys = parseRangeKeys();
+
+function resolveCondStat(p) {
+  const t = condAliases.get(p) ?? p;
+  if (t === 'currentWeek' || t === 'currentAct') return true;
+  if (t.startsWith('flags.')) return true;
+  return rangeKeys.has(t);
+}
+
+function resolveModStat(p) {
+  const t = modAliases.get(p) ?? p;
+  if (t.startsWith('flags.')) return false; // modifiers cannot write flags
+  return rangeKeys.has(t);
+}
+
+const statPathUses = []; // { path, location, kind: 'condition' | 'modifier' }
+
+function collectCondStat(cond, location) {
+  if (!cond || typeof cond !== 'object') return;
+  if (typeof cond.stat === 'string' && cond.stat && !cond.stat.startsWith('flags.')) {
+    statPathUses.push({ path: cond.stat, location, kind: 'condition' });
+  }
+}
+
+function collectModStats(choice, location) {
+  for (const key of ['stateChanges', 'statEffects']) {
+    if (!Array.isArray(choice[key])) continue;
+    for (const m of choice[key]) {
+      if (m && typeof m.stat === 'string' && m.stat) {
+        statPathUses.push({ path: m.stat, location: `${location} ${key}`, kind: 'modifier' });
+      }
+    }
+  }
+}
+
 function scanConditionsArray(arr, location) {
   if (!Array.isArray(arr)) return;
   for (const cond of arr) {
     const flag = extractFlagFromCond(cond);
     if (flag) addFlagRead(flag, location);
+    collectCondStat(cond, location);
   }
 }
 
@@ -181,6 +252,9 @@ for (const [sceneId, scene] of sceneJson) {
           if (typeof f === 'string') flagsSet.add(f);
         }
       }
+
+      // STAT-PATH GATE: every stateChanges/statEffects stat must resolve
+      collectModStats(choice, `${choiceLabel} (${file})`);
 
       // choice-level prerequisites/conditions -> flag reads
       scanConditionsArray(choice.prerequisites, `${choiceLabel} (${file}) choice.prerequisites`);
@@ -550,12 +624,32 @@ if (missingResolution.length === 0) push('(none)');
 else for (const m of missingResolution) push('  ' + m);
 push('');
 
+push('=== UNRESOLVABLE STAT PATHS (permanent gate — Round 3 STEP 4) ===');
+push(`Conditions checked against conditionEvaluator PATH_ALIASES (${condAliases.size} entries);`);
+push(`modifiers checked against gameStore PATH_ALIASES (${modAliases.size} entries);`);
+push(`both checked against STAT_RANGES (${rangeKeys.size} keys) + currentWeek/currentAct.`);
+const driftedAliases = [...modAliases.keys()].filter((k) => !condAliases.has(k)).sort();
+if (driftedAliases.length) {
+  push(`Alias-table drift (accepted by modifiers, missing for conditions): ${driftedAliases.length}`);
+  for (const k of driftedAliases) push(`  "${k}" -> "${modAliases.get(k)}" (conditions using this path fail at runtime)`);
+} else {
+  push('Alias tables in sync.');
+}
+const badStats = statPathUses.filter(
+  (u) => !(u.kind === 'condition' ? resolveCondStat(u.path) : resolveModStat(u.path))
+);
+if (badStats.length === 0) push('(none)');
+else for (const u of badStats) push(`  [${u.kind}] "${u.path}" — ${u.location}`);
+push('');
+
 push('=== TOTALS ===');
 push(`Broken links: ${brokenLinks.length + agendaBroken.length}`);
 push(`Orphaned scenes: ${orphanScenes.length}`);
 push(`Flag gaps: ${flagGaps.length}`);
 push(`Dead-end choices: ${deadEndChoices.length}`);
 push(`Missing resolution beats: ${missingResolution.length}`);
+push(`Unresolvable stat paths: ${badStats.length}`);
+push(`Drifted aliases: ${driftedAliases.length}`);
 
 const report = lines.join('\n');
 console.log(report);
