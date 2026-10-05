@@ -1,6 +1,7 @@
 import type { ChainTrigger, Condition } from '../types/narrative'
 import type { GameState } from '../types/gameState'
 import { evaluateAll } from './conditionEvaluator'
+import { getScene } from './NarrativeEngine'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -64,6 +65,17 @@ export function resolveChains(
       continue
     }
 
+    // Week deferral: a chain due before its target scene opens waits for the
+    // scene's week instead of firing early (e.g. an old autosave's backlog, or
+    // a long delay overshooting into content written for a later week). It
+    // stays scheduled — never dropped. Targets outside the registry fire on
+    // schedule, since there is no authored week to defer to.
+    const targetWeek = getScene(chain.targetNodeId)?.weekAvailable
+    if (targetWeek !== undefined && week < targetWeek) {
+      remaining.push(chain)
+      continue
+    }
+
     // Conditions evaluated at fire time, not at schedule time
     if (chain.conditions?.length && !evaluateAll(chain.conditions, state, flags)) {
       if (import.meta.env.DEV) {
@@ -78,6 +90,12 @@ export function resolveChains(
         console.warn('[Chain] dropped (probability roll failed):', chain.targetNodeId, chain.id)
       }
       continue  // didn't happen this run
+    }
+
+    // Late fire: due in an earlier week, still playing now. Logged so backlog
+    // drains are visible in diagnostics instead of silent.
+    if (import.meta.env.DEV && chain.fireWeek < week) {
+      console.info(`[Chain] late-fire: "${chain.targetNodeId}" due week ${chain.fireWeek}, firing week ${week}`)
     }
 
     // Per-week cap: once this week's slots are full, carry the chain forward.
