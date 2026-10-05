@@ -333,6 +333,29 @@ describe('spine integrity (Round 4 STEP 2)', () => {
     expect(visited()).not.toContain('act4_mole_correct_accusation')
   }, 30000)
 
+  it('exclusive redirect releases when the original qualifies; otherwise it cannot reload', () => {
+    resetWorld()
+    bootWeek(26)
+    useGameStore.setState(s => ({
+      factions: { ...s.factions, reformists: 65, halvekists: 30 },
+    }))
+    nar().loadScene('act2_week26_referendum_narrow')
+    expect(nar().currentScene?.id, 'redirects while unqualified').toBe('act2_week26_referendum_decisive')
+    // The original cannot reload itself while its prereqs fail.
+    nar().loadScene('act2_week26_referendum_narrow')
+    expect(nar().currentScene?.id, 'still redirects on reload').toBe('act2_week26_referendum_decisive')
+    expect(nar().visitedSceneIds).toContain('act2_week26_referendum_narrow')
+
+    // Once the stats qualify the original, it plays itself.
+    resetWorld()
+    bootWeek(26)
+    useGameStore.setState(s => ({
+      factions: { ...s.factions, reformists: 55, halvekists: 50 },
+    }))
+    nar().loadScene('act2_week26_referendum_narrow')
+    expect(nar().currentScene?.id, 'plays itself when qualified').toBe('act2_week26_referendum_narrow')
+  })
+
   it('coup climax option present iff attempted', () => {
     nar().loadScene('act3_week39_act3_climax')
     const without = getAvailableChoices(nar().currentScene!, game(), nar().activeFlags).map(c => c.id)
