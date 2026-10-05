@@ -577,12 +577,23 @@ orphanScenes.sort();
 // 5.5. choice-list freeze gate (Round 6 STEP 2 — permanent).
 // FAIL: any segment (root or defined) with an empty/missing choices array —
 //   entering it leaves no choice to process, and sceneDone can never set.
+//   Round 7 STEP 1 baselines the 27 known FAILs (all covered at runtime by the
+//   engine fallback): only segments NOT in audit-baseline.json fail.
 // WARN: any unit where every choice is conditional — one misconfigured run
 //   with all gates off hits the same freeze. The Round-6 engine fallback
 //   (synthetic Continue) covers all of these at runtime; this gate keeps the
 //   data debt visible. Triage: fix data only in session-touched scenes, list
 //   the rest in docs/REACHABILITY.md.
 // ---------------------------------------------------------------------------
+
+const CHOICE_BASELINE_FILE = path.join(ROOT, 'audit-baseline.json');
+let CHOICE_BASELINE = new Set();
+try {
+  const raw = JSON.parse(fs.readFileSync(CHOICE_BASELINE_FILE, 'utf8'));
+  if (Array.isArray(raw.emptyChoiceLists)) CHOICE_BASELINE = new Set(raw.emptyChoiceLists);
+} catch {
+  // Missing/unreadable baseline: every empty list fails (loud, never silently green).
+}
 
 const emptyChoiceLists = [];
 const noUnconditionalChoice = [];
@@ -593,7 +604,11 @@ for (const [sceneId, scene] of sceneJson) {
   const segs = scene.segments && typeof scene.segments === 'object' ? scene.segments : {};
   for (const k of Object.keys(segs)) units.push([`segment:${k}`, segs[k]?.choices]);
   for (const [label, choices] of units) {
+    const key = `${sceneId} ${label}`;
     if (!Array.isArray(choices) || choices.length === 0) {
+      // Baseline (Round 7 STEP 1): the 27 known FAILs are covered at runtime
+      // by the engine fallback. Only segments NOT in the baseline fail.
+      if (CHOICE_BASELINE.has(key)) continue;
       emptyChoiceLists.push(`${sceneId} (${file}) ${label} — ${Array.isArray(choices) ? 'empty array' : 'missing'}`);
     } else if (!choices.some(c => !c?.conditions)) {
       noUnconditionalChoice.push(
