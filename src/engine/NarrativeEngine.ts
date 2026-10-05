@@ -56,8 +56,7 @@ export function getNextAvailableScene(
 }
 
 /** Filters choices whose optional `conditions` array all pass. */
-export function getAvailableChoices(
-  scene: NarrativeNode | undefined,
+export function getAvailableChoices(  scene: NarrativeNode | undefined,
   state: GameState,
   flags: string[],
 ): SceneChoice[] {
@@ -65,6 +64,18 @@ export function getAvailableChoices(
   return scene.choices.filter(
     c => !c.conditions || evaluateAll(c.conditions, state, flags),
   )
+}
+
+// Round 6 STEP 1 — engine fallback for the freeze traced in Round 3 STEP 0.
+// When the final visible choice list is empty (empty array, or every choice
+// gated off), present one synthetic terminal choice. Applied by the caller
+// that owns the final list (NarrativeScene); getAvailableChoices itself is
+// unchanged so existing callers and tests see identical behavior.
+export const ENGINE_CONTINUE_ID = '__engine_continue__'
+
+export function ensureTerminalChoice(choices: SceneChoice[]): SceneChoice[] {
+  if (choices.length > 0) return choices
+  return [{ id: ENGINE_CONTINUE_ID, text: 'Continue…' }]
 }
 
 export interface GateCheckResult {

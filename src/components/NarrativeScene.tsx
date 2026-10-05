@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useState, useMemo } from 'react'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
-import { getAvailableChoices } from '../engine/NarrativeEngine'
+import { getAvailableChoices, ensureTerminalChoice } from '../engine/NarrativeEngine'
 import { useDialogueFlow } from '../hooks/useDialogueFlow'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useCodexStore } from '../stores/codexStore'
@@ -93,7 +93,9 @@ export default function NarrativeScene() {
     startAmbient(currentScene?.type === 'personal' ? 'personal' : undefined)
   }, [currentScene?.id, currentScene?.type])
 
-  const choices = currentScene ? getAvailableChoices(currentScene, gameState, activeFlags) : []
+  const choices = currentScene
+    ? ensureTerminalChoice(getAvailableChoices(currentScene, gameState, activeFlags))
+    : []
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const tag = (e.target as HTMLElement)?.tagName

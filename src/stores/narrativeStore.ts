@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import type { NarrativeNode, NarrativeSegment, ChainTrigger } from '../types/narrative'
 import type { NewsArticle, Publication } from '../types/news'
 import type { GameState, StateModifier } from '../types/gameState'
-import { getScene, getAvailableChoices } from '../engine/NarrativeEngine'
+import { getScene, getAvailableChoices, ENGINE_CONTINUE_ID } from '../engine/NarrativeEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { useGameStore } from './gameStore'
 import { useCabinetStore } from './cabinetStore'
@@ -375,6 +375,23 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
 
     if (!currentScene) {
       console.warn('[narrativeStore.processChoice] BLOCKED: no currentScene loaded')
+      return
+    }
+
+    // Round 6 STEP 1 — complete the synthetic terminal Continue offered by
+    // ensureTerminalChoice. Exactly a normal terminal completion (visited +
+    // sceneDone, segment cleared) with no flags, state changes, news, codex,
+    // or scheduling.
+    if (choiceId === ENGINE_CONTINUE_ID) {
+      const continuedVisited = visitedSceneIds.includes(currentScene.id)
+        ? visitedSceneIds
+        : [...visitedSceneIds, currentScene.id]
+      set({
+        visitedSceneIds: continuedVisited,
+        currentScene,
+        activeSegmentId: null,
+        sceneDone: true,
+      })
       return
     }
 
