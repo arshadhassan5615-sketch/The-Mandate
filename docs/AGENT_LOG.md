@@ -516,3 +516,70 @@ Full suite unchanged: 162 pass / 12 fail = 159 pre-existing pass + 3 new pass, 6
 - Arcturian naming, General Vass, week-52 timing, exile content, week 104, rewrites of
   legacy scenes for tics. No save-schema change in any Round 4 commit. run-*.json
   uncommitted. Final gates: tsc clean; audit 0/67/0/169/0/0/5; suite 188/6-preexisting.
+
+---
+
+## Round 5 — MERGE PREP (content freeze: no new scenes)
+
+### STEP 1 — Round-3 STEPS 0–2 evidence, delivered with Round-4 corrections
+- Soft-locks (0a): FREEZE — kitchen (5 zero-choice terminals), two-letters (4),
+  oil_outcome with no oil flags all end `{sceneDone:false, stillOnScene:true,
+  continueShown:false}` via real NarrativeScene in jsdom. Same flaw in
+  act4_week52_ending (all 10 ending choices conditional). Untouched since — stands.
+- Jonas trace (0b) + Term-2 changes (STEP 1d): divorce vs healing both ungated at
+  49–50; wk53/59/61 married-assuming, wk78 number-only, wk93 neutral, wk99 dead
+  divorce branches, wk100 reads flag, wk103 promise-gated. Changed: wk53 (5 nodes +
+  Vyktor fallbacks), wk59 (tea/monologue variants + solo end), wk61 (card-device
+  variants + solo ends), wk78 (united/divorce gates + already-ended path), divorce
+  choices set `jonas_divorce`, agenda mutual-exclusion gates. Spine-proven xor in
+  Round 4.
+- Probability (0c): unseeded `Math.random()` at fire time, 52/779 triggers with
+  probability — walks touching those are non-reproducible; "dropped" = left
+  `scheduled` without firing. Spine avoids it (zero-spend votes are deterministic;
+  third_attack asserted only via absence-proof, not firing).
+- Week-52 scenes (0d): both post-vote by mechanics and in text — no timing change.
+- Border standoff at 103 (0e): one scheduler (hostility≥70, now weeks 3–20 bounded),
+  no agenda entry; 103→104 returns before scheduling/tick so leftovers strand.
+  Still accurate post-Round-4.
+- Harness before/after (2a/2b/2c): red baselines 7 failed/10 passed →
+  45bac7d (2a) 6/11 → abd313b (2b) 4/13 → fa3c120 (2c) 2/15 → e8791bc (2d) 0/17.
+
+### STEP 2 — engine-change spine tests (`b629813`, default suite)
+- (a) exclusive both-ids: weekFlow (2a); "original cannot reload / releases when
+  qualified" added to spine.test.ts (narrow↔decisive both directions).
+- (b) deferral: (2b) early-defers + (2b2) late-plays-and-logs. In suite, green.
+- (c) overdue cap: (2c2) ≤2/tick none dropped + (2c) on-time uncapped. Green.
+- (d) old autosave without flood: weekFlow (e) loads a fireWeek-2 autosave at
+  week 20 and drains 8 overdue 2+2+2+2 with conservation. Green.
+- Spine 13/13 at commit time (14/14 after STEP-3 matrix addition).
+
+### STEP 3 — assassination matrix (`6614e25`, 14/14; no scene or flag changes)
+Variant scenes are single unconditional choices into the cabinet scene:
+sniper→wounded, no injury · bombing→died + injury · poisoning→attempt, no injury ·
+default→injury (unreachable: no trigger yields a null variant).
+The Shot (week 30, ungated agenda): all 3 roots set injury+survived+attempted,
+which arms the once-only guard and blocks every variant track afterward.
+
+| Path (30–36) | Track fires | Shot also fires | injury final | assassination_* finals | fainting@57 | tremor nodes | wednesday_honest@100 |
+|---|---|---|---|---|---|---|---|
+| A: play Shot@30 | none (guard) | YES (played) | TRUE | survived+attempted+ashenmere; no serida_* | YES | all 9 visible | offered |
+| B: skip, sniper stats | sniper only | NO (skipped) | FALSE | +wounded, met_serida | NO | all hidden | absent |
+| C: skip, bombing stats | bombing only | NO | TRUE | +died, met_serida | YES | all visible | offered |
+| D: skip, defiant@32 | poisoning only | NO | FALSE | +poisoning_attempt, met_serida | NO | all hidden | absent |
+| E: skip, calm | none | NO | FALSE | none | NO | all hidden | absent |
+| Retaliation (ssd flag) | cannot occur — no decider (halted) | — | — | — | — | — | — |
+
+Tremor nodes (9 found; brief said 8): wk48 roll, wk53 notes, wk56 pen, wk69
+right-hand, wk74 signature, wk78 ringing, wk85 wire, wk90 pocket, wk100 podium —
+all gated on `permanent_injury_sustained`, all spine-asserted present-iff-injured.
+
+### STEP 4 — `5a3a9e6` docs/MERGE_CHECKLIST.md
+Tag-merge-revert commands, gate expectations (tsc clean; 190 pass / 6
+pre-existing fail; audit 0/67/0/169/0/0/5; unguarded 0), and a 12-week
+hand-playtest route (1, 8, 13, 21, 22, 26, 27, 30, 32, 39, 42–43, 52–53)
+with per-week correct-play observations.
+
+### Round 5 holds
+Same six plus tic rewrites, `ssd_assassination` + `assassination_default`,
+poisoning-on-defiance balance. Final gates: tsc clean; suite 190/6-preexisting;
+audit 0/67/0/169/0/0/5. Nothing reverted (no assertion turned red).
