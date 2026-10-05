@@ -574,6 +574,36 @@ for (const [id, file] of sceneRegistry) {
 orphanScenes.sort();
 
 // ---------------------------------------------------------------------------
+// 5.5. choice-list freeze gate (Round 6 STEP 2 — permanent).
+// FAIL: any segment (root or defined) with an empty/missing choices array —
+//   entering it leaves no choice to process, and sceneDone can never set.
+// WARN: any unit where every choice is conditional — one misconfigured run
+//   with all gates off hits the same freeze. The Round-6 engine fallback
+//   (synthetic Continue) covers all of these at runtime; this gate keeps the
+//   data debt visible. Triage: fix data only in session-touched scenes, list
+//   the rest in docs/REACHABILITY.md.
+// ---------------------------------------------------------------------------
+
+const emptyChoiceLists = [];
+const noUnconditionalChoice = [];
+
+for (const [sceneId, scene] of sceneJson) {
+  const file = rel(sceneRegistry.get(sceneId));
+  const units = [['root', scene.choices]];
+  const segs = scene.segments && typeof scene.segments === 'object' ? scene.segments : {};
+  for (const k of Object.keys(segs)) units.push([`segment:${k}`, segs[k]?.choices]);
+  for (const [label, choices] of units) {
+    if (!Array.isArray(choices) || choices.length === 0) {
+      emptyChoiceLists.push(`${sceneId} (${file}) ${label} — ${Array.isArray(choices) ? 'empty array' : 'missing'}`);
+    } else if (!choices.some(c => !c?.conditions)) {
+      noUnconditionalChoice.push(
+        `${sceneId} (${file}) ${label} — ${choices.length} choice(s), all conditional`
+      );
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // 5. flag coverage gaps
 // ---------------------------------------------------------------------------
 
@@ -693,6 +723,22 @@ if (missingResolution.length === 0) push('(none)');
 else for (const m of missingResolution) push('  ' + m);
 push('');
 
+push('=== EMPTY CHOICE LISTS — FAIL (Round 6 STEP 2 freeze gate) ===');
+push('Entering one of these with no synthetic Continue would freeze (no choice to');
+push('process, sceneDone unset). Covered at runtime by the engine fallback; listed here');
+push('as data debt. Triage: fix data only in session-touched scenes.');
+if (emptyChoiceLists.length === 0) push('(none)');
+else for (const e of emptyChoiceLists) push('  ' + e);
+push('');
+
+push('=== SEGMENTS WITHOUT UNCONDITIONAL CHOICE — WARN (Round 6 STEP 2) ===');
+push('All-conditional lists freeze when a run gates everything off. Routers with');
+push('exhaustive branches (e.g. divorce true/false pairs) are correct by design and');
+push('need no data fix; the fallback backstops the rest.');
+if (noUnconditionalChoice.length === 0) push('(none)');
+else for (const w of noUnconditionalChoice) push('  ' + w);
+push('');
+
 push('=== UNRESOLVABLE STAT PATHS (permanent gate — Round 3 STEP 4) ===');
 push(`Conditions checked against conditionEvaluator PATH_ALIASES (${condAliases.size} entries);`);
 push(`modifiers checked against gameStore PATH_ALIASES (${modAliases.size} entries);`);
@@ -717,6 +763,8 @@ push(`Orphaned scenes: ${orphanScenes.length}`);
 push(`Flag gaps: ${flagGaps.length}`);
 push(`Dead-end choices: ${deadEndChoices.length}`);
 push(`Missing resolution beats: ${missingResolution.length}`);
+push(`Empty choice lists (FAIL): ${emptyChoiceLists.length}`);
+push(`No-unconditional-choice segments (WARN): ${noUnconditionalChoice.length}`);
 push(`Unresolvable stat paths: ${badStats.length}`);
 push(`Drifted aliases: ${driftedAliases.length}`);
 
