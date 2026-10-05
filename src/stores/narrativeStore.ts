@@ -652,7 +652,17 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     let updatedScene: NarrativeNode | null = null
     let nextSegmentId: string | null = null
     if (nextScene) {
-      updatedScene = nextScene
+      // Round B1 STEP 1 — run the swapped scene through the same
+      // filterNarrative step loadScene/segment swaps use, so per-node
+      // conditions on nextNodeId targets take effect. Unlike segments (which
+      // filter on pre-choice flags per R8), the swap filters on newFlags: the
+      // target is a fresh scene ABOUT the choice just made, and its nodes can
+      // only gate on that choice's own flags (e.g. press_outcome variants).
+      // Copy-on-write: never mutate the shared SCENE_REGISTRY object.
+      updatedScene = {
+        ...nextScene,
+        narrative: filterNarrative(nextScene.narrative, gameState, newFlags) ?? nextScene.narrative,
+      }
     } else if (choice.nextSegment && currentScene.segments?.[choice.nextSegment]) {
       const seg = currentScene.segments[choice.nextSegment]
       const segNarrative = seg.narrative ??
