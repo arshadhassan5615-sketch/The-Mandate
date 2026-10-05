@@ -583,3 +583,63 @@ with per-week correct-play observations.
 Same six plus tic rewrites, `ssd_assassination` + `assassination_default`,
 poisoning-on-defiance balance. Final gates: tsc clean; suite 190/6-preexisting;
 audit 0/67/0/169/0/0/5. Nothing reverted (no assertion turned red).
+
+---
+
+## Round 6 — FREEZE FIXES (content freeze: no new scenes committed)
+
+### STEP 0 — report-only answers (nothing edited)
+- a) Visible choice list: `processChoice` swaps segment choices RAW into
+  `currentScene.choices` (narrativeStore); the FINAL list is computed by the pure
+  `getAvailableChoices` at the NarrativeScene render call site — that call is the
+  lowest layer that sees it. The store never filters; ConversationPanel receives
+  the list as props (generic render + onChoice flow, no assumptions).
+- b) Week-52-ending flaw: `act4_week52_ending` ("The Mandate") has no segments and
+  10 root choices, EVERY one conditional (constitution+stats, iron+moral, war_*,
+  coup, IMA+economy, khaled+workers, order+halvekists, tomas+family). A middle run
+  matching none gets an empty list with no Continue possible — freeze.
+- c) Engine today: empty array and all-filtered both yield [] from
+  getAvailableChoices; panel renders no choices, sceneDone stays false (it sets
+  only via a processed terminal choice), no Continue, Space/Enter gated on
+  dialogue flow, auto-advance only on sceneDone — both freeze identically.
+
+### STEP 1 — `e36a2b9` synthetic terminal Continue (panel untouched)
+- `ensureTerminalChoice` (NarrativeEngine, new; getAvailableChoices unchanged so
+  all existing callers/tests see identical behavior) applied exactly at the
+  NarrativeScene call site; `processChoice` early branch completes it like a
+  terminal (visited + sceneDone + segment cleared, no flags/changes/news/codex/
+  scheduling). Covers empty arrays, missing fields, and all-gated-off lists.
+- ConversationPanel NOT touched (verified generic: find-by-id + onChoice phases).
+
+### STEP 2 — `3f3a13c` audit gate + `c9e3e88` triage (WARN count 22)
+- FAIL empty choice lists: 27 (kitchen 5 + two-letters 4 + 3 social roots +
+  dinner 8 + briefing 7). WARN no-unconditional: 22 (incl. week52 ending root).
+- Triage: NO data fixes. Session scenes' WARNs are exhaustive-by-design routers
+  (wk53 quad-cover, wk78 + wk59 + wk61 divorce pairs verified); legacy units are
+  correct routers or terminal beats. Data choices would author content under
+  freeze to duplicate the fallback. All 49 listed in REACHABILITY.md.
+
+### STEP 3 — `1983d23` freeze tests (6/6, seeded RNG)
+- kitchen (5 terminals), two-letters (4), oil_outcome with no oil flags, week52
+  ending middle run: Continue appears alone, completes (visited + sceneDone),
+  queue advances to map; ending sets no fabricated flags. `Math.random` stubbed
+  to 0.5 with restore (probability ticks reproduce).
+- STEP 4 in same commit: election_eve with maximal flags (every flag the scene
+  reads + maxed stats) opens with ≤5 grouped echo nodes (groups represented).
+
+### STEP 5 — PARTIAL HALT (freeze + no-duplication)
+- Kitchen Table (wk99), The Heir (wk101), Foundry Street (wk102) already exist as
+  complete authored scenes (14n/3c + kitchen99_* flags; 10n/4c + heir101_* flags;
+  Kravenstal foundry scene + kravenstal102_* flags). Authoring competing versions
+  would duplicate canon — NOT pasted, NOT committed.
+- Validated + pasted in the session report only: `act7_week103_last_audience`
+  (no endgame counterpart; week-74 audience is a different scene): JSON.parse
+  clean, ids unique, weeks ≠104, all stat paths resolve via the audit tables,
+  choices non-empty with unconditional options, zero top-25 tics, no Arcturian
+  naming, no assassination/injury flags, all 7 new flags writer+reader wired
+  within the four-scene set. Needs agenda entries + tests before any merge.
+
+### Round 6 holds
+Same as Round 5 plus assassination/injury flags (untouched — matrix scenes and
+flag sets unchanged). Final gates: tsc clean; suite 196/6-preexisting; audit
+0/67/0/169/0/0/5 + FAIL 27 + WARN 22 (known legacy, fallback-covered).
