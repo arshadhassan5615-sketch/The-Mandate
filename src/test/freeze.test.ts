@@ -110,14 +110,17 @@ describe('freeze fallback (Round 6 STEPs 3-4)', () => {
     }
   }, 30000)
 
-  it('oil_outcome with no oil flags: Continue appears and advances the queue', async () => {
+  it('oil_outcome with no oil flags: data fallback appears and advances the queue', async () => {
     resetWorld()
     bootWeek(22)
     wk().launchSingleScene(singleItem('act2_week22_oil_outcome'))
     nar().processChoice('week22_read_telegram')
-    // Both sub-choices are oil-gated: with no oil flags the list is empty.
-    expectContinueAlone('oil_outcome/vyktor_reads_telegram')
-    completeContinue('act2_week22_oil_outcome')
+    // Round B1 STEP 2 added an authored fallback: the data choice wins over
+    // the engine Continue (which remains the backstop if data ever regresses).
+    expect(visibleChoices().map(c => c.id), 'oil hole shows data fallback').toEqual(['week22_no_deal_path'])
+    nar().processChoice('week22_no_deal_path')
+    expect(nar().visitedSceneIds, 'oil outcome recorded').toContain('act2_week22_oil_outcome')
+    expect(nar().sceneDone, 'oil outcome done').toBe(true)
     wk().advanceQueue()
     await vi.advanceTimersByTimeAsync(700)
     expect(wk().phase, 'queue advanced back to map').toBe('map')
@@ -236,5 +239,35 @@ describe('freeze fallback (Round 6 STEPs 3-4)', () => {
       await vi.advanceTimersByTimeAsync(700)
       expect(wk().phase, `${sid} queue advanced`).toBe('map')
     }
+  }, 30000)
+
+  it('router fallbacks appear exactly when no branch matches', () => {
+    // Oil telegram: hole state (no oil flags) shows only the fallback.
+    resetWorld()
+    bootWeek(22)
+    nar().loadScene('act2_week22_oil_outcome')
+    nar().processChoice('week22_read_telegram')
+    expect(visibleChoices().map(c => c.id), 'oil hole shows fallback').toEqual(['week22_no_deal_path'])
+
+    // Oil telegram: signed deal shows only the success path.
+    resetWorld()
+    bootWeek(22, { flags: ['oil_deal_hybrid_signed'] })
+    nar().loadScene('act2_week22_oil_outcome')
+    nar().processChoice('week22_read_telegram')
+    expect(visibleChoices().map(c => c.id), 'oil signed hides fallback').toEqual(['week22_deal_success_path'])
+
+    // Sovarka outcome: hole state shows only the fallback.
+    resetWorld()
+    bootWeek(37)
+    nar().loadScene('act3_week37_sovarka_outcome')
+    nar().processChoice('sovarka_outcome_hear')
+    expect(visibleChoices().map(c => c.id), 'sovarka hole shows fallback').toEqual(['sovarka_outcome_no_data'])
+
+    // Sovarka outcome: signed deal shows only the full-deal branch.
+    resetWorld()
+    bootWeek(37, { flags: ['sovarka_deal_signed'] })
+    nar().loadScene('act3_week37_sovarka_outcome')
+    nar().processChoice('sovarka_outcome_hear')
+    expect(visibleChoices().map(c => c.id), 'sovarka signed hides fallback').toEqual(['sovarka_outcome_full_deal'])
   }, 30000)
 })

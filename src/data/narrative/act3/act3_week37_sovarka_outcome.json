@@ -73,6 +73,26 @@
           "flags": [],
           "chainTriggers": [],
           "codexUnlocks": []
+        },
+        {
+          "id": "sovarka_outcome_no_data",
+          "text": "[Continue — the survey never concluded]",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag": "sovarka_deal_signed",
+              "value": false
+            },
+            {
+              "type": "flag",
+              "flag": "sovarka_limited_deal",
+              "value": false
+            }
+          ],
+          "nextSegment": null,
+          "flags": [],
+          "chainTriggers": [],
+          "codexUnlocks": []
         }
       ]
     },
