@@ -302,6 +302,124 @@ describe('spine integrity (Round 4 STEP 2)', () => {
     expect(firedTracks(), 'poisoning track only').toEqual(['act3_assassination_poisoning'])
   }, 40000)
 
+  it('assassination matrix: tracks, injury finals, and downstream nodes', async () => {
+    const ASSASS = [
+      'act3_assassination_bombing',
+      'act3_assassination_sniper',
+      'act3_assassination_poisoning',
+      'act3_assassination_default',
+    ]
+    const firedTracks = () => wk().forcedChainIds.filter(id => ASSASS.includes(id))
+    const TREMOR: [string, string][] = [
+      ['act4_week48_the_roll', 'two protection officers'],
+      ['act5_week53_second_address', 'Put the notes down'],
+      ['act5_week56_constitutional_court', 'The pen shook'],
+      ['act6_week69_generals_toast', 'Keep the right hand below the table'],
+      ['act6_week74_voss_cipher', 'two passes at the signature'],
+      ['act6_week78_ashavel_legacy', 'The ringing is worse at night'],
+      ['act7_week85_capital_strike', 'Three attempts before it was le'],
+      ['act7_week90_campaign_trail', 'Keep the right hand in the jacket pocket'],
+      ['act7_week100_final_debate', 'Grip the podium'],
+    ]
+
+    // Downstream of the permanent injury: fainting offered at 57, every
+    // tremor node visible, wednesday_honest offered — iff injured.
+    const checkDownstream = (injured: boolean) => {
+      bootWeek(57)
+      const offered = pool().map(i => i.sceneId)
+      if (injured) expect(offered, 'fainting offered when injured').toContain('act5_week57_fainting_spell')
+      else expect(offered, 'fainting absent when uninjured').not.toContain('act5_week57_fainting_spell')
+
+      for (const [sid, anchor] of TREMOR) {
+        const scene = getScene(sid)
+        expect(scene, `${sid} loads`).toBeTruthy()
+        const nodes = [
+          ...(scene!.narrative ?? []),
+          ...Object.values(scene!.segments ?? {}).flatMap(seg => seg.narrative ?? []),
+        ]
+        const withInjury = (filterNarrative(nodes, game(), ['permanent_injury_sustained']) ?? [])
+          .map(n => (n as { text?: string }).text ?? '').join(' ')
+        const without = (filterNarrative(nodes, game(), []) ?? [])
+          .map(n => (n as { text?: string }).text ?? '').join(' ')
+        if (injured) expect(withInjury, `${sid} tremor node visible`).toContain(anchor)
+        expect(without, `${sid} tremor node hidden when uninjured`).not.toContain(anchor)
+      }
+
+      const debate = getScene('act7_week100_final_debate')!
+      const reacts = debate.segments?.['seg_kolvar_reacts']?.choices ?? []
+      const honest = (flags: string[]) =>
+        reacts.filter(c => !c.conditions || evaluateAll(c.conditions, game(), flags)).map(c => c.id)
+      if (injured) expect(honest(['permanent_injury_sustained']), 'wednesday_honest offered').toContain('wednesday_honest')
+      else expect(honest([]), 'wednesday_honest absent').not.toContain('wednesday_honest')
+    }
+
+    // Path A — play The Shot at 30: injury sustained, variants blocked by the guard.
+    resetWorld()
+    bootWeek(30)
+    await playChoice(pool().find(i => i.sceneId === 'act3_week29_assassination_attempt')!, 'w34_address_immediately')
+    expect(nar().activeFlags, 'Shot records injury+survival').toEqual(
+      expect.arrayContaining(['permanent_injury_sustained', 'assassination_survived', 'assassination_attempted', 'ashenmere_incident']),
+    )
+    setFactions({ halvekists: 5, ironCovenant: 5 })
+    await finishWeek()
+    expect(firedTracks(), 'Shot blocks all variant tracks').toEqual([])
+    checkDownstream(true)
+
+    // Path B — skip Shot, sniper stats: sniper only, no injury.
+    resetWorld()
+    bootWeek(30)
+    setFactions({ halvekists: 5, ironCovenant: 5 })
+    useGameStore.setState({ nation: { ...game().nation, publicOrder: 80 } })
+    await finishWeek()
+    expect(firedTracks(), 'sniper track only').toEqual(['act3_assassination_sniper'])
+    useWeekStore.getState().initWeek()
+    await playChoice(pool().find(i => i.sceneId === 'act3_assassination_sniper')!, 'sniper_go_to_cabinet')
+    expect(nar().activeFlags).toContain('serida_wounded_parade')
+    expect(nar().activeFlags, 'sniper leaves no permanent injury').not.toContain('permanent_injury_sustained')
+    checkDownstream(false)
+
+    // Path C — skip Shot, bombing stats: bombing only, injury sustained.
+    resetWorld()
+    bootWeek(30)
+    setFactions({ halvekists: 80, ironCovenant: 80, dravenni: 5 })
+    useGameStore.setState({ nation: { ...game().nation, publicOrder: 5 } })
+    await finishWeek()
+    expect(firedTracks(), 'bombing track only').toEqual(['act3_assassination_bombing'])
+    useWeekStore.getState().initWeek()
+    await playChoice(pool().find(i => i.sceneId === 'act3_assassination_bombing')!, 'bombing_go_to_cabinet')
+    expect(nar().activeFlags).toContain('serida_died_bombing')
+    expect(nar().activeFlags, 'bombing sustains injury').toContain('permanent_injury_sustained')
+    checkDownstream(true)
+
+    // Path D — skip Shot, defiant at 32: poisoning only, no injury.
+    resetWorld()
+    bootWeek(30)
+    allFactions(70)
+    useGameStore.setState({ nation: { ...game().nation, publicOrder: 70 } })
+    await finishWeek()
+    expect(firedTracks(), 'nothing at calm 30; Shot skipped, not fired').toEqual([])
+    bootWeek(32)
+    nar().loadScene('act3_week32_tyvaren_ultimatum')
+    nar().processChoice('tyvaren_defiant_rejection')
+    await finishWeek()
+    expect(firedTracks(), 'poisoning track only').toEqual(['act3_assassination_poisoning'])
+    useWeekStore.getState().initWeek()
+    await playChoice(pool().find(i => i.sceneId === 'act3_assassination_poisoning')!, 'poisoning_go_to_cabinet')
+    expect(nar().activeFlags).toContain('poisoning_attempt')
+    expect(nar().activeFlags, 'poisoning leaves no permanent injury').not.toContain('permanent_injury_sustained')
+    checkDownstream(false)
+
+    // Path E — skip Shot, calm throughout: nothing, no injury.
+    resetWorld()
+    bootWeek(30)
+    allFactions(70)
+    useGameStore.setState({ nation: { ...game().nation, publicOrder: 70 } })
+    await finishWeek()
+    expect(firedTracks()).toEqual([])
+    expect(nar().activeFlags, 'no assassination flags').not.toContain('assassination_attempted')
+    checkDownstream(false)
+  }, 60000)
+
   it('mole accusation correct: correct payoff only (e15334f routing)', async () => {
     bootWeek(42)
     useGameStore.setState({ moleIdentity: 'petrin_half' })
