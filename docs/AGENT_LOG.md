@@ -643,3 +643,69 @@ audit 0/67/0/169/0/0/5. Nothing reverted (no assertion turned red).
 Same as Round 5 plus assassination/injury flags (untouched — matrix scenes and
 flag sets unchanged). Final gates: tsc clean; suite 196/6-preexisting; audit
 0/67/0/169/0/0/5 + FAIL 27 + WARN 22 (known legacy, fallback-covered).
+
+---
+
+## Round 7 — VERIFY + MERGE DRY-RUN (content freeze: no new scenes)
+
+### STEP 0 — corrections and pastes (read-only; TEMP last_audience never in tree)
+- a) `act7_week103_last_audience` exists ONLY in TEMP (authored Round 6, uncommitted
+  by design). `git ls-files` shows no match — it is not in the tree, was not
+  committed, and stays out. Nothing to remove.
+- b) "The Last Audience" exists as `act6_week74_last_audience` (Morvec deathbed,
+  weeks 74–76 — the earlier "70–83" range was wrong; correction recorded here).
+- c) Raw JSON of the four existing scenes pasted in the session report verbatim
+  (kitchen 426 lines / heir 223 / foundry 377 / audience-74 207).
+
+### STEP 1 — `db204fd` baseline the freeze gate (green)
+- `audit-baseline.json` (new, committed): the 27 known FAILs. Gate FAILs only on
+  navigable segments not in the baseline; missing/unreadable baseline fails loud.
+  Audit after: FAIL 0 / WARN 22, all other totals unchanged.
+
+### STEP 2 — `ad7aebe` recurring scenes (injection verdict + proofs)
+- Engines inject narrative SEGMENTS only (display-splice into NarrativeScene;
+  FamilyDinner `injectedSegments.slice(0,3)`); SocialEvent runs `socialInteractions`
+  with its own leave flow and never reads `currentScene.choices`. Verified: no
+  nextSegment targets any dinner/briefing empty seg (only the _choices hubs), and
+  the 3 social roots carry 2/3/6 interactions.
+- Pre-fix freeze answers: dinner/briefing hubs have real choices (never froze on
+  the real path); social roots never entered the choice path (no freeze there);
+  all 18 WOULD freeze if rendered via NarrativeScene without the fallback.
+- 18 of 27 static FAILs reclassified false positives; audit excludes both
+  populations dynamically (they fall back into the gate if the data changes
+  shape). 9 true FAILs (kitchen/two-letters) stay baselined. Spine: dinner +
+  briefing hubs complete with real choices and no fallback; social roots complete
+  via the interaction flow and offer Continue as defense in depth (freeze 9/9).
+
+### STEP 3 — week-52 typical win (constitution + reformists 65, clean background)
+- Player sees: the 2 unconditional narrative nodes + exactly 1 choice
+  (`ending_democratic_triumph`, full text pasted in session report).
+- Readers of the 10 ending flags: LegacyEngine + endingCalculator read ONLY
+  `ending_assassination` (Survivor gate / coup-assassination branch; outcomes
+  otherwise stat-derived); journal templates journal 6 of them (triumph, autocrat,
+  war victory/defeat, family, economic); EpilogueScreen, TermReportScreen,
+  weekStore, narrativeStore read NONE. war_stalemate / military_coup /
+  revolutionary have no readers at all (write-only record flags).
+- None set: Survivor stays eligible, calculator runs on stats, no journal ending
+  entry, epilogue shows stat-derived outcomes — nothing requires them, nothing
+  crashes.
+
+### STEP 4 — merge dry run (throwaway, aborted, deleted)
+- `dryrun-tmp` from local main + `merge --no-ff --no-commit agent/depth-pass`:
+  "Automatic merge went well", ZERO conflicts (no UU/AA/DD entries).
+- Branch does NOT touch GameLayout.tsx, opencode.json, or package*.json (empty
+  diff main...branch on those paths) — the worktree modifications there are
+  local-only and merge-safe. Tree restored intact afterward.
+
+### STEP 5 — Round-6 file list (7 files; flags/prose correction)
+- src/engine/NarrativeEngine.ts (ensureTerminalChoice + id), src/stores/
+  narrativeStore.ts (synthetic completion branch), src/components/
+  NarrativeScene.tsx (apply at final-list site) — STEP 1 engine.
+- audit-full-game.mjs (FAIL/WARN gate), src/test/freeze.test.ts (new, 6 tests),
+  docs/REACHABILITY.md (triage), docs/AGENT_LOG.md (log).
+- CORRECTION: Round 6 made ZERO flags/prose/data edits (the round-6 report
+  boilerplate suggesting otherwise was wrong) — no scene JSON was touched.
+
+### Round 7 holds + gates
+All standing holds kept. Final gates: tsc clean; suite 199/6-preexisting
+(196 + 3 recurring/social proofs); audit 0/67/0/169/0/0/5 + FAIL 0 + WARN 22.
