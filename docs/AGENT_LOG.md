@@ -818,3 +818,45 @@ Phase B is NOT started and waits on review of findings.md.
   retries a click once, and the published run was clean (no retries).
 - Gates: `tsc -b` clean · audit-full-game broken 0 / orphans 67 / flag gaps 0 / FAIL 0 / WARN 22 ·
   unguarded 0 · vitest 199 pass / 6 pre-existing fail (DecreeInbox, TopBar) · eslint on new tooling clean.
+
+---
+
+## Reply audit Phase B2 — re-feed fix (no ConversationPanel edit, no new scenes)
+
+Branch `agent/reply-fixes-2` from `agent/reply-fixes`.
+
+### STEP 0 answers (independent derivations)
+- a) R8 rationale as documented: arriving segments filter with the snapshot that
+  authorized the choice (no half-applied transition state); authors gate arriving
+  nodes on EARLIER choices. Tested by S7 (285 nodes, 0 on entering choice's flag)
+  + D1 (0 suppressed); no unit test pins the timing. B1 added the documented
+  nextNode divergence (newFlags) in code + log.
+- b) 1138 entry edges scanned: exactly 3 nodes gate on entering-choice flags —
+  the 3 press_outcome variants (B1) via nextNode, which SHOW under newFlags
+  timing. Zero segment-path, zero delay-0, zero echoGroup cases. Timing:
+  segments PRE-choice; nextNode newFlags POST-choice (pre-modifier state);
+  delay-0 loads at advance time with then-current flags.
+- c) Router table verified (gates + target first-2 nodes + setter scene/week +
+  current view each): tyvaren (wk7×4 + wk22 diplomatic; identical labels,
+  distinct report segments) · oil (wk20 exclusive; labeled) · strike (wk3/wk30;
+  distinct aftermaths) · sovarka (wk29→wk33 feeds survey; labeled) ·
+  second_address (captured wk35/wk50 + destroyed/refused wk50; bare) ·
+  deep_state (+remnant fallback; bare) · black_gold (+no-data fallback; bare) ·
+  debate (+generic fallback; bare) — debate marked ACCEPTED DESIGN (5
+  independent lines co-occur by construction).
+- d) press_outcome variant nodes pasted in session report verbatim.
+- e) Re-feed: NarrativeScene useMemo re-appended injected narrative on scene-id
+  match + history reset re-displayed all. Segments must display on arrival
+  (they ARE the variable week-start content). Minimal gating: inject only while
+  activeSegmentId is null.
+
+### STEP 1 — `0ee1b72` (spine 4/4, full suite 205/6-preexisting)
+- Rule extracted pure as `recurringOpeningNodes` (NarrativeEngine); component
+  delegates (engine imports cleaned, tsc clean). No flag-timing change per hold.
+- Tests: (i) dinner 2 topics once-then-gone, hub intact; (ii) briefing mole +
+  Tyvaren topics likewise; (iii) hub narrative byte-identical to raw segment;
+  (iv) helper output equals independent engine computation in order.
+
+### Holds
+Router edits, reactions display, social interactions, shared-target pairs,
+delay-0 semantics, pre/post-choice flag rule, and every standing hold kept.
