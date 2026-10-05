@@ -78,50 +78,62 @@ pool, so the week-flow proof policy cannot reach them. Needs component-path proo
   `act3_tyvaren_pressure`, `act4_marriage_crisis` (+ `social_independence_parade_wk36`
   cross-links it), `family_referendum_night`.
 
-## Seeded-proof caveat: 5 PROVED scenes are unreachable in real play
+## Seeded-proof caveat: resolved in Round 4 STEP 1
 
-The policy seeds every required-true flag, including flags nothing ever sets.
-These 5 prove "playable IF the flags existed" only:
+The policy seeds every required-true flag, including flags no choice sets. The 5
+proofs that depended on seeding are all reachable in real play after STEP 1:
 
-- `act2_week26_referendum_narrow` (agenda, seeded `referendum_passed`)
-- `act2_week21_visit_petravar` (agenda, seeded `chose_orythian`)
-- `act2_week21_visit_stellamere` (agenda, seeded `chose_arcturian`)
-- `act1_chain_executive_governance` (chain, seeded `executive_consolidation`)
-- `act1_chain_nadia_investigation` (chain, seeded `nadia_met`)
+- `act2_week26_referendum_narrow` (seeded `referendum_passed`): the week-26 vote
+  sets it on pass — the scene was stat-gated (reformists 48..61), never flag-blocked.
+- `act2_week21_visit_petravar` / `visit_stellamere` (seeded `chose_*`): the week-21
+  choices now set `chose_orythian` / `chose_arcturian` — agenda weeks 21–25 offer them.
+- `act1_chain_executive_governance` / `act1_chain_nadia_investigation` (seeded):
+  scene prereqs repointed to `executive_authority_invoked` / `nadia_rebuffed`, set by
+  the scheduling choices — chains fire unseeded.
 
-Cascading effect: `act2_week26_referendum_narrow` never loads unseeded, so its 3
-downstream chains (`act3_halvekist_legal_war`, `act3_kolvar_legal_challenge`,
-`act3_kolvar_negotiation`) die at `source-not-loadable`. Same for the 2 decisive
-downstreams (`act3_brenner_response`, `act3_opposition_management`) — the decisive
-scene fires via chain in telemetry, but bare `loadScene` in the proof redirects.
+Cascading note stands with one correction: narrow's 3 downstream chains
+(`halvekist_legal_war`, `kolvar_legal_challenge`, `kolvar_negotiation`) died at
+`source-not-loadable` because bare `loadScene(narrow)` redirects — they need the
+scene played through its agenda/chain path first, then the chain leg fires normally.
 
-## Required-true flags never set anywhere (10) — typo check: no trivial fixes
+## Required-true flags with no choice.flags setter (10) — most are set by mechanisms
 
-Edit-distance scan of each against all 2998 set flags finds no distance-1/2 typo
-(minimum distance 3). All ten are semantic mismatches, listed with the setter side.
-Per the brief, none are fixed here:
+The static index only sees `choice.flags` (+6 engine flags), so "never set" means
+"not set by any choice". Verified against runtime mechanisms in Round 4 STEP 1:
 
-- `referendum_passed` (required by decisive/narrow/press-conference; failed-path twin
-  `referendum_failed` IS set by the rejected scene — asymmetric).
-- `no_confidence_passed` / `no_confidence_failed` (weekStore builds
-  `__no_confidence_fallen__`/`__survived__` items gated on these, but
-  `act1_week13_no_confidence` sets `no_confidence_defeated`/`no_confidence_weathered`).
-- `mole_correct` / `mole_wrongly_accused` (`act4_mole_confrontation` sets
-  `accused_petrin_half`/`accused_irina_dusek`/`accused_karsten_volek`; correctness is
-  never recorded).
-- `chose_orythian` / `chose_arcturian` (week-21 visit scenes; the superpower-choice
-  scene routes by `nextNodeId` without setting a chose_* flag).
-- `executive_consolidation`, `nadia_met`, `impeachment_vote_failed` (impeachment
-  proceedings set `impeachment_resolved`/`impeachment_blocked` instead).
+Set by vote resolution (`voteConfig.successFlags/failureFlags`, applied by
+LobbyingInterface): `referendum_passed` (week-26 referendum vote),
+`no_confidence_passed` / `no_confidence_failed` (no-confidence vote),
+`impeachment_vote_failed` (impeachment vote). No fix needed.
+Set in code: `mole_correct` / `mole_wrongly_accused` (narrativeStore merges
+`handleMoleAccusation` consequence flags into activeFlags); `deficit_critical` /
+`tyvaren_mobilization` (weekStore `addFlags` on trigger); `amber_coast_ftz_signed`
+(BillEngine applies bill `signFlags`). No fix needed.
+Genuinely unset — fixed in Round 4 STEP 1: `chose_orythian` / `chose_arcturian`
+(now set on the week-21 superpower choices); `executive_consolidation` and
+`nadia_met` (readers repointed to `executive_authority_invoked` /
+`nadia_rebuffed`, the flags the scheduling choices actually set);
+`tyvaren_war_imminent` (now set on the week-32 defiant ultimatum rejection,
+which already chains to war preparations).
+Still unset: `refused_tyvaren_negotiation` (no decider anywhere — AssassinationEngine
+Condition D stays doubly-dead; see STEP 3 classification).
 
-## Dead-gate findings (recommended follow-ups, not fixed here)
+## Dead-gate findings (Round 4 STEP 1 verdicts)
 
-1. STEP-1 agenda gates on `referendum_passed` (`agenda_w26_referendum_narrow`,
-   `agenda_w27_press_conference`) are unsatisfiable — nothing sets the flag. The narrow
-   result and the pass-path press conference are reachable only via their chain legs.
-2. The weekStore no-confidence wrapper items can never be offered (see above).
-3. `act4_mole_correct/wrong_accusation` plus the weekStore no-confidence scenes are
-   engine-referenced yet flag-blocked — engine scheduling meets an unset flag.
+1. STEP-1 agenda gates on `referendum_passed` are LIVE, not dead: the week-26
+   referendum vote sets it via `successFlags` on pass (the Round-3 note claiming
+   otherwise was wrong — the static index is blind to voteConfig sets). Narrow went
+   unfired on stats (reformists 48..61 + halvekists<=55 never held in telemetry),
+   not on flags.
+2. The weekStore no-confidence wrapper items are correctly wired: the vote sets
+   `no_confidence_passed/failed`; `confirmAgenda` queues vote + both wrappers and
+   the queue drain plays exactly the matching one (proved by the Round-4 spine test).
+   Same shape for the impeachment vindicated item.
+3. `act4_mole_correct/wrong_accusation` are scheduled by `handleMoleAccusation`
+   routing (e15334f) with the outcome flags merged into activeFlags — proved by the
+   Round-4 spine test (correct xor wrong payoff, exactly once).
+4. Remaining: AssassinationEngine Condition D needs `refused_tyvaren_negotiation`,
+   which has no decider — the poisoning track cannot arm (STEP 3 class A, halted).
 
 ## Full blocked list (scene | attempted via | path | blocker)
 

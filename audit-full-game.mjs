@@ -436,6 +436,65 @@ if (fs.existsSync(WEEKSTORE_FILE)) {
 }
 
 // ---------------------------------------------------------------------------
+// 3.45. code-set flags (Round 4 STEP 1 — permanent).
+// Flags recorded by runtime mechanisms instead of choice.flags arrays or
+// voteConfigs. Without these, each is a false-positive "flag coverage gap":
+//   (a) addFlags(['...']) literals in store files (e.g. weekStore sets
+//       tyvaren_mobilization / deficit_critical on trigger);
+//   (b) narrativeStore consequence routing: handleMoleAccusation consequence
+//       flags are merged into activeFlags (narrativeStore processChoice), so
+//       every flag the routing checks (consequenceFlags.includes('...')) is set;
+//   (c) bill signFlags in src/data/bills/*.json (applied by BillEngine on sign).
+// ---------------------------------------------------------------------------
+
+const codeSetFlagHits = new Map(); // flag -> Set of location strings
+
+function addCodeSetFlag(flag, location) {
+  flagsSet.add(flag);
+  if (!codeSetFlagHits.has(flag)) codeSetFlagHits.set(flag, new Set());
+  codeSetFlagHits.get(flag).add(location);
+}
+
+const NARRSTORE_FILE = path.join(ROOT, 'src', 'stores', 'narrativeStore.ts');
+for (const f of [WEEKSTORE_FILE, NARRSTORE_FILE]) {
+  if (!fs.existsSync(f)) continue;
+  const text = fs.readFileSync(f, 'utf8');
+  const ADD_RE = /addFlags\(\[([^\]]*)\]\)/g;
+  let am;
+  while ((am = ADD_RE.exec(text))) {
+    const STR_RE = /['"]([A-Za-z_][A-Za-z0-9_]*)['"]/g;
+    let sm;
+    while ((sm = STR_RE.exec(am[1]))) {
+      addCodeSetFlag(sm[1], `${rel(f)} addFlags`);
+    }
+  }
+}
+if (fs.existsSync(NARRSTORE_FILE)) {
+  const narrText = fs.readFileSync(NARRSTORE_FILE, 'utf8');
+  const CONSEQ_RE = /consequenceFlags\.includes\(['"]([A-Za-z_][A-Za-z0-9_]*)['"]\)/g;
+  let cm;
+  while ((cm = CONSEQ_RE.exec(narrText))) {
+    addCodeSetFlag(cm[1], `${rel(NARRSTORE_FILE)} mole consequenceFlags (merged into activeFlags)`);
+  }
+}
+const BILLS_DIR = path.join(ROOT, 'src', 'data', 'bills');
+if (fs.existsSync(BILLS_DIR)) {
+  for (const file of walkJsonFiles(BILLS_DIR)) {
+    let bill = null;
+    try {
+      bill = JSON.parse(fs.readFileSync(file, 'utf8'));
+    } catch {
+      continue;
+    }
+    if (bill && Array.isArray(bill.signFlags)) {
+      for (const f of bill.signFlags) {
+        if (typeof f === 'string') addCodeSetFlag(f, `${rel(file)} bill.signFlags`);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // 3.5. hardcoded scene references in store files
 //
 // Some scenes are never listed in a static agenda JSON file — they're pushed
@@ -546,6 +605,9 @@ push('  the same as agenda/nextNodeId/chainTrigger. See STORE FILE SCENE REFEREN
 push('- New flag-SET source: `voteConfig.successFlags`/`failureFlags` in src/data/agenda/*.json items and');
 push('  in the make*VoteItem() factories inside src/stores/weekStore.ts. These flags are set dynamically');
 push('  when a synthetic __vote__ node resolves, not via a choice.flags array. See VOTE CONFIG FLAG SETS below.');
+push('- New flag-SET source: runtime mechanisms — addFlags([...]) literals in store files,');
+push('  narrativeStore mole consequence flags (merged into activeFlags), and bill signFlags in');
+push('  src/data/bills/*.json (applied by BillEngine on sign). See CODE-SET FLAG SOURCES below.');
 push('');
 
 push('=== REGISTRY ===');
@@ -595,6 +657,13 @@ push('');
 push('=== VOTE CONFIG FLAG SETS (new flag-set source) ===');
 push(`Distinct flags found set via voteConfig.successFlags/failureFlags: ${voteConfigFlagHits.size}`);
 for (const [flag, locs] of [...voteConfigFlagHits.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+  push(`  "${flag}" — set in: ${[...locs].join(', ')}`);
+}
+push('');
+
+push('=== CODE-SET FLAG SOURCES (Round 4 STEP 1 — mechanisms, not choices) ===');
+push(`Distinct flags recorded by runtime mechanisms: ${codeSetFlagHits.size}`);
+for (const [flag, locs] of [...codeSetFlagHits.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
   push(`  "${flag}" — set in: ${[...locs].join(', ')}`);
 }
 push('');

@@ -180,8 +180,14 @@ for (const f of readdirSync(AGENDA).filter(f => f.endsWith('.json'))) {
   }
 }
 // Engine-set flags (never appear in choice.flags but exist at runtime).
+// Round 4 STEP 1 verified each mechanism: vote success/failureFlags (applied by
+// LobbyingInterface), narrativeStore mole consequence merge, weekStore addFlags,
+// BillEngine signFlags, ultimatum-rejection flag.
 for (const f of ['tyvaren_mobilization', 'deficit_critical', 'impeachment_triggered',
-  'election_won_term_1', 'budget_finalized', 'assassination_attempted']) setFlags.add(f)
+  'election_won_term_1', 'budget_finalized', 'assassination_attempted',
+  'mole_correct', 'mole_wrongly_accused',
+  'no_confidence_passed', 'no_confidence_failed', 'impeachment_vote_failed',
+  'referendum_passed', 'amber_coast_ftz_signed', 'tyvaren_war_imminent']) setFlags.add(f)
 
 // ---- telemetry: union of visited across run-*.json ----
 let teleFiles = []
