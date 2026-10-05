@@ -53,11 +53,12 @@ export function resolveChains(
   week: number,
   state: GameState,
   flags: string[],
-  maxFires: number = Number.MAX_SAFE_INTEGER,
+  maxOverdue: number = 2,
 ): { fired: string[]; remaining: ScheduledChain[]; firedChains: ScheduledChain[] } {
   const fired: string[] = []
   const firedChains: ScheduledChain[] = []
   const remaining: ScheduledChain[] = []
+  let overdueFired = 0
 
   for (const chain of scheduled) {
     if (chain.fireWeek > week) {
@@ -98,12 +99,17 @@ export function resolveChains(
       console.info(`[Chain] late-fire: "${chain.targetNodeId}" due week ${chain.fireWeek}, firing week ${week}`)
     }
 
-    // Per-week cap: once this week's slots are full, carry the chain forward.
-    // It stays scheduled (never dropped) and fires on a later week — a backlog
-    // of overdue chains (old autosave) must not flood a single week.
-    if (fired.length >= maxFires) {
-      remaining.push(chain)
-      continue
+    // Overdue cap: chains due in an earlier week drain at most maxOverdue per
+    // tick; on-time chains (due this week) always fire. Overflow stays
+    // scheduled (never dropped) and fires on a later week — a backlog of
+    // overdue chains (old autosave) must not flood a single week, while a
+    // busy on-time week is never throttled.
+    if (chain.fireWeek < week) {
+      if (overdueFired >= maxOverdue) {
+        remaining.push(chain)
+        continue
+      }
+      overdueFired++
     }
 
     fired.push(chain.targetNodeId)

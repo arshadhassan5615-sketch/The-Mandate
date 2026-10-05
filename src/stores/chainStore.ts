@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import type { ChainTrigger } from '../types/narrative'
 import type { GameState } from '../types/gameState'
 import { buildScheduled, resolveChains, type ScheduledChain } from '../engine/ChainReactionEngine'
-import { MAX_FORCED_CHAINS_PER_WEEK } from '../engine/weekCompletion'
+import { MAX_OVERDUE_CHAINS_PER_WEEK } from '../engine/weekCompletion'
 import { useJournalStore } from './journalStore'
 import { getScene } from '../engine/NarrativeEngine'
 
@@ -39,7 +39,7 @@ export const useChainStore = create<ChainStore>((set, get) => ({
       week,
       state,
       flags,
-      MAX_FORCED_CHAINS_PER_WEEK,
+      MAX_OVERDUE_CHAINS_PER_WEEK,
     )
     set({ scheduled: remaining })
 

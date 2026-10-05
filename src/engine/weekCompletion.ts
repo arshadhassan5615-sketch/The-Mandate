@@ -5,12 +5,12 @@
 import type { AgendaItem } from '../types/week'
 
 /**
- * Per-week cap on chain-forced items. When more delayed consequences come due
- * in one week than this (e.g. after loading an old autosave whose pending
- * chains are all overdue), only this many fire per week; the overflow carries
- * to the following weeks — never dropped, never all at once.
+ * Per-tick cap on OVERDUE chain fires. Chains due this week always fire
+ * (on-time consequences are never throttled); chains whose fire week already
+ * passed — e.g. after loading an old autosave — drain at most this many per
+ * week. Overflow stays scheduled: never dropped, never all at once.
  */
-export const MAX_FORCED_CHAINS_PER_WEEK = 3
+export const MAX_OVERDUE_CHAINS_PER_WEEK = 2
 
 /**
  * True once the player has finished this agenda item.

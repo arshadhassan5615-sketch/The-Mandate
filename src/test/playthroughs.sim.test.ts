@@ -11,14 +11,16 @@
 // What each week asserts:
 //   - the week opens with something to do (or is a week that may end)
 //   - every offered item launches (scenes resolve in the registry)
-//   - the week ends, advances, and its chain fires stay under the weekly cap
+//   - the week ends, advances, and overdue chain fires stay capped (on-time
+//     fires are uncapped by design)
 // Run end: finishing week 103 raises the term limit and the epilogue.
 // Week 104 is unplayable by engine design — observed here, never authored (hold).
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
-import { MAX_FORCED_CHAINS_PER_WEEK } from '../engine/weekCompletion'
+import { useChainStore } from '../stores/chainStore'
+import { MAX_OVERDUE_CHAINS_PER_WEEK } from '../engine/weekCompletion'
 import {
   resetWorld,
   bootWeek,
@@ -109,11 +111,21 @@ describe.skipIf(!RUN)('scripted playthroughs (env MANDATE_PLAYTHROUGHS=1)', () =
           expect.soft(ok, `week ${week}: ${next.sceneId} (${next.id}) did not launch`).toBe(true)
         }
 
+        // Snapshot the backlog before the tick so overdue fires (due in an
+        // earlier week) can be counted apart from on-time fires, which are
+        // uncapped by design. Chains scheduled mid-tick count as on-time.
+        const backlog = new Map(
+          useChainStore.getState().scheduled.map(c => [c.targetNodeId, c.fireWeek] as const),
+        )
         await finishWeek()
+        const landedWeek = useGameStore.getState().currentWeek
+        const overdueFired = useWeekStore
+          .getState()
+          .forcedChainIds.filter(id => (backlog.get(id) ?? landedWeek) < landedWeek)
         expect.soft(
-          useWeekStore.getState().forcedChainIds.length,
-          `week ${week}: chain flood`,
-        ).toBeLessThanOrEqual(MAX_FORCED_CHAINS_PER_WEEK)
+          overdueFired.length,
+          `week ${week}: overdue chain flood`,
+        ).toBeLessThanOrEqual(MAX_OVERDUE_CHAINS_PER_WEEK)
 
         if (week < 103) {
           expect.soft(

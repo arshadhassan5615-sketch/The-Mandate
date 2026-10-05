@@ -23,7 +23,7 @@ import { useChainStore } from '../stores/chainStore'
 import { db } from '../db/mandateDb'
 import { saveGame, loadGame, AUTOSAVE_SLOT } from '../engine/SaveManager'
 import { getAvailableChoices } from '../engine/NarrativeEngine'
-import { MAX_FORCED_CHAINS_PER_WEEK } from '../engine/weekCompletion'
+import { MAX_OVERDUE_CHAINS_PER_WEEK } from '../engine/weekCompletion'
 import type { AgendaItem, AgendaCategory } from '../types/week'
 import {
   resetWorld,
@@ -153,12 +153,12 @@ describe('Fix B risk guard — overdue chains never flood a week', () => {
     await loadOldAutosaveWithOverdueChains()
 
     const simFired: string[] = []
-    for (let tick = 0; tick < 3; tick++) {
+    for (let tick = 0; tick < 4; tick++) {
       await finishWeek()
       const fired = useWeekStore
         .getState()
         .forcedChainIds.filter(id => OVERDUE_TARGETS.includes(id))
-      expect.soft(fired.length).toBeLessThanOrEqual(MAX_FORCED_CHAINS_PER_WEEK)
+      expect.soft(fired.length).toBeLessThanOrEqual(MAX_OVERDUE_CHAINS_PER_WEEK)
       simFired.push(...fired)
       const remaining = useChainStore
         .getState()
