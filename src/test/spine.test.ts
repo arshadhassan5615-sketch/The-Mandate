@@ -286,6 +286,20 @@ describe('spine integrity (Round 4 STEP 2)', () => {
     useGameStore.setState({ nation: { ...game().nation, publicOrder: 70 } })
     await finishWeek()
     expect(firedTracks(), 'no track when calm').toEqual([])
+
+    // Defiant ultimatum rejection: war imminent + negotiation refused ->
+    // the poisoning track only (Round 4 STEP 3 class-A fix).
+    resetWorld()
+    bootWeek(32)
+    allFactions(70)
+    useGameStore.setState({ nation: { ...game().nation, publicOrder: 70 } })
+    nar().loadScene('act3_week32_tyvaren_ultimatum')
+    nar().processChoice('tyvaren_defiant_rejection')
+    expect(nar().activeFlags, 'defiance records both trigger flags').toEqual(
+      expect.arrayContaining(['tyvaren_war_imminent', 'refused_tyvaren_negotiation']),
+    )
+    await finishWeek()
+    expect(firedTracks(), 'poisoning track only').toEqual(['act3_assassination_poisoning'])
   }, 40000)
 
   it('mole accusation correct: correct payoff only (e15334f routing)', async () => {
