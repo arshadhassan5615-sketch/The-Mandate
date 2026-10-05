@@ -6,8 +6,8 @@ Static source index + telemetry union + goal-directed proofs.
 Reproduce (outputs are telemetry — NEVER commit `run-*.json`):
 
 ```sh
-node analyze-runs.mjs --write-manifest
-MANDATE_REPORT=1 npx vitest run --config vitest.report.config.ts
+node scripts/analyze-runs.mjs --write-manifest
+MANDATE_REPORT=1 npx vitest run --config scripts/vitest.report.config.ts
 ```
 
 Measured 2026-10-05 on `agent/depth-pass` (after STEP 2 engine fixes):
