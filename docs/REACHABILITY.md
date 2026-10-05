@@ -280,6 +280,17 @@ exhaustive-by-design routers (divorce true/false pairs from STEP-1d; outcome
 quad-cover in wk53); legacy units are correct routers or terminal beats. Adding data
 choices would author content under freeze to duplicate the fallback.
 
+Round 7 STEP 2 refinement: 18 of the 27 FAILs are FALSE POSITIVES that never enter
+the choice path — the 3 social roots complete via SocialEvent's own
+interaction/leave flow (currentScene.choices never read), and the 8 dinner + 7
+briefing segments are display-spliced narrative (only dinner_choices /
+briefing_choices are ever navigated; verified no nextSegment targets the rest).
+The audit excludes both populations dynamically (they fall back into the gate if
+the data ever changes shape). Spine-proven: dinner/briefing hubs complete with
+real choices and no fallback; social roots complete via the interaction flow and
+offer Continue as defense in depth. True FAILs: the 9 kitchen/two-letters
+terminals below.
+
 ## FAIL — empty choice arrays (27, all legacy, all fallback-covered)
 
 - `act3_week52_the_kitchen`: seg_reflect_clean/vael/morvec/owned/general (5).

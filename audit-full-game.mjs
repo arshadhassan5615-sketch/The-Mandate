@@ -595,19 +595,44 @@ try {
   // Missing/unreadable baseline: every empty list fails (loud, never silently green).
 }
 
+// Round 7 STEP 2 refinements: two populations never enter the choice path, so
+// their empty arrays are false positives, excluded dynamically (if the data
+// changes shape, they fall back into the gate):
+//   (a) scenes with non-empty socialInteractions complete via SocialEvent's own
+//       interaction/leave flow — currentScene.choices is never read;
+//   (b) segments no choice navigates to (no nextSegment reference anywhere —
+//       e.g. dinner/briefing display-spliced segments) never load as choice lists.
+const nextSegmentRefs = new Set();
+for (const [, scene] of sceneJson) {
+  const collect = (choices) => {
+    if (!Array.isArray(choices)) return;
+    for (const c of choices) {
+      if (c && typeof c.nextSegment === 'string') nextSegmentRefs.add(c.nextSegment);
+    }
+  };
+  collect(scene.choices);
+  const segs = scene.segments && typeof scene.segments === 'object' ? scene.segments : {};
+  for (const k of Object.keys(segs)) collect(segs[k]?.choices);
+}
+
 const emptyChoiceLists = [];
 const noUnconditionalChoice = [];
 
 for (const [sceneId, scene] of sceneJson) {
   const file = rel(sceneRegistry.get(sceneId));
+  // SocialEvent scenes bypass the choice path entirely (see refinements above).
+  if (Array.isArray(scene.socialInteractions) && scene.socialInteractions.length > 0) continue;
   const units = [['root', scene.choices]];
   const segs = scene.segments && typeof scene.segments === 'object' ? scene.segments : {};
   for (const k of Object.keys(segs)) units.push([`segment:${k}`, segs[k]?.choices]);
   for (const [label, choices] of units) {
     const key = `${sceneId} ${label}`;
+    const navigable = label === 'root' || nextSegmentRefs.has(label.replace(/^segment:/, ''));
     if (!Array.isArray(choices) || choices.length === 0) {
-      // Baseline (Round 7 STEP 1): the 27 known FAILs are covered at runtime
+      // Baseline (Round 7 STEP 1): the known FAILs are covered at runtime
       // by the engine fallback. Only segments NOT in the baseline fail.
+      // Unnavigable display-only segments are false positives (not failed).
+      if (!navigable) continue;
       if (CHOICE_BASELINE.has(key)) continue;
       emptyChoiceLists.push(`${sceneId} (${file}) ${label} — ${Array.isArray(choices) ? 'empty array' : 'missing'}`);
     } else if (!choices.some(c => !c?.conditions)) {

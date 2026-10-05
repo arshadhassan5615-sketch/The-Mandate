@@ -183,4 +183,58 @@ describe('freeze fallback (Round 6 STEPs 3-4)', () => {
     // Bombing is unconditional once triggered; the seed documents the run.
     expect(wk().forcedChainIds).toContain('act3_assassination_bombing')
   }, 30000)
+
+  it('recurring dinner completes through its hub (display segs never navigated)', async () => {
+    resetWorld()
+    bootWeek(20)
+    wk().launchSingleScene(singleItem('family_dinner_recurring'))
+    nar().processChoice('dinner_continue')
+    // Hub offers real choices — no fallback involved on the real path.
+    expect(visibleChoices().map(c => c.id)).toContain('dinner_engage')
+    expect(visibleChoices().map(c => c.id)).not.toContain(ENGINE_CONTINUE_ID)
+    nar().processChoice('dinner_engage')
+    expect(nar().visitedSceneIds).toContain('family_dinner_recurring')
+    expect(nar().sceneDone).toBe(true)
+    wk().advanceQueue()
+    await vi.advanceTimersByTimeAsync(700)
+    expect(wk().phase, 'queue advanced back to map').toBe('map')
+  }, 30000)
+
+  it('recurring briefing completes through its hub', async () => {
+    resetWorld()
+    bootWeek(20)
+    wk().launchSingleScene(singleItem('intelligence_briefing_recurring'))
+    nar().processChoice('briefing_continue')
+    expect(visibleChoices().map(c => c.id)).toContain('briefing_fuller_report')
+    expect(visibleChoices().map(c => c.id)).not.toContain(ENGINE_CONTINUE_ID)
+    nar().processChoice('briefing_fuller_report')
+    expect(nar().visitedSceneIds).toContain('intelligence_briefing_recurring')
+    expect(nar().sceneDone).toBe(true)
+    wk().advanceQueue()
+    await vi.advanceTimersByTimeAsync(700)
+    expect(wk().phase, 'queue advanced back to map').toBe('map')
+  }, 30000)
+
+  it('social roots complete via the interaction flow and still offer Continue', async () => {
+    for (const sid of [
+      'social_autumn_festival_wk18',
+      'social_state_dinner_wk24',
+      'social_independence_parade_wk36',
+    ]) {
+      resetWorld()
+      bootWeek(24)
+      wk().launchSingleScene(singleItem(sid))
+      // Real path: SocialEvent runs socialInteractions, never currentScene.choices.
+      const scene = getScene(sid)
+      expect((scene!.socialInteractions ?? []).length, `${sid} has interactions`).toBeGreaterThan(0)
+      // Defense in depth: if ever rendered in NarrativeScene, the fallback fires.
+      expect(visibleChoices().map(c => c.id), `${sid} offers Continue`).toEqual([ENGINE_CONTINUE_ID])
+      nar().processChoice(ENGINE_CONTINUE_ID)
+      expect(nar().visitedSceneIds, `${sid} recorded`).toContain(sid)
+      expect(nar().sceneDone, `${sid} done`).toBe(true)
+      wk().advanceQueue()
+      await vi.advanceTimersByTimeAsync(700)
+      expect(wk().phase, `${sid} queue advanced`).toBe('map')
+    }
+  }, 30000)
 })

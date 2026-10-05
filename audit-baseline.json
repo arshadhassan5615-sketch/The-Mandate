@@ -1,5 +1,5 @@
 {
-  "_note": "Round 7 STEP 1 baseline: the 27 known empty-choice-list FAILs, all covered at runtime by the synthetic-Continue engine fallback (Round 6 STEP 1). The audit FAILs only on segments NOT in this list. Keys are '<sceneId> root|segment:<key>'. Triage and rationale: docs/REACHABILITY.md (Round 6 STEP 2 section).",
+  "_note": "Round 7 STEPS 1-2: known empty-choice-list FAILs, all covered at runtime by the synthetic-Continue engine fallback (Round 6 STEP 1). The audit FAILs only on navigable segments NOT in emptyChoiceLists. Triage and rationale: docs/REACHABILITY.md.",
   "emptyChoiceLists": [
     "act3_week52_the_kitchen segment:seg_reflect_clean",
     "act3_week52_the_kitchen segment:seg_reflect_vael",
@@ -9,24 +9,28 @@
     "act3_week38_two_letters segment:seg_vael_broken",
     "act3_week38_two_letters segment:seg_morvec_broken",
     "act3_week38_two_letters segment:seg_both_broken",
-    "act3_week38_two_letters segment:seg_owned_quietly",
-    "social_autumn_festival_wk18 root",
-    "social_state_dinner_wk24 root",
-    "social_independence_parade_wk36 root",
-    "family_dinner_recurring segment:dinner_military_presence",
-    "family_dinner_recurring segment:dinner_oligarch_rumors",
-    "family_dinner_recurring segment:dinner_union_praise",
-    "family_dinner_recurring segment:dinner_journalist_arrest",
-    "family_dinner_recurring segment:dinner_protest_sounds",
-    "family_dinner_recurring segment:dinner_curfew_discussion",
-    "family_dinner_recurring segment:dinner_marital_tension",
-    "family_dinner_recurring segment:dinner_tomas_trouble",
-    "intelligence_briefing_recurring segment:briefing_mole_progress",
-    "intelligence_briefing_recurring segment:briefing_faction_unrest",
-    "intelligence_briefing_recurring segment:briefing_tyvaren_movement",
-    "intelligence_briefing_recurring segment:briefing_morivask_instability",
-    "intelligence_briefing_recurring segment:briefing_minister_corruption",
-    "intelligence_briefing_recurring segment:briefing_oligarch_activity",
-    "intelligence_briefing_recurring segment:briefing_routine_quiet"
+    "act3_week38_two_letters segment:seg_owned_quietly"
+  ],
+  "falsePositives": [
+    {
+      "key": "social_autumn_festival_wk18 root",
+      "reason": "socialInteractions flow (SocialEvent leave); choices never read"
+    },
+    {
+      "key": "social_state_dinner_wk24 root",
+      "reason": "socialInteractions flow (SocialEvent leave); choices never read"
+    },
+    {
+      "key": "social_independence_parade_wk36 root",
+      "reason": "socialInteractions flow (SocialEvent leave); choices never read"
+    },
+    {
+      "key": "family_dinner_recurring segment:dinner_* (8)",
+      "reason": "display-spliced by FamilyDinnerEngine; only dinner_choices is navigated"
+    },
+    {
+      "key": "intelligence_briefing_recurring segment:briefing_* (7)",
+      "reason": "display-spliced by IntelligenceBriefingEngine; only briefing_choices is navigated"
+    }
   ]
 }
