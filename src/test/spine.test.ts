@@ -581,4 +581,35 @@ describe('spine integrity (Round 4 STEP 2)', () => {
     expect(game().currentWeek, 'reached 104').toBe(104)
     expect(wk().phase, 'term-limit epilogue').toBe('epilogue')
   }, 30000)
+
+  it('nextNodeId swap filters per-node conditions (press_outcome follow-up)', () => {
+    const outcomeText = () =>
+      (nar().currentScene?.narrative ?? []).map(n => (n as { text?: string }).text ?? '').join(' ')
+
+    // Specific: Vyktor follows up on the announced commitments.
+    resetWorld()
+    bootWeek(27)
+    nar().loadScene('act2_week27_press_followup')
+    nar().processChoice('press_followup_specific')
+    expect(nar().currentScene?.id, 'swapped to outcome').toBe('act2_week27_press_outcome')
+    expect(outcomeText(), 'committee node shown').toContain('twelve names by Friday')
+    expect(outcomeText()).not.toContain('best follow-up is absence')
+
+    // Deflect: dodge node instead, no invented commitments.
+    resetWorld()
+    bootWeek(27)
+    nar().loadScene('act2_week27_press_followup')
+    nar().processChoice('press_followup_deflect')
+    expect(nar().currentScene?.id, 'swapped to outcome').toBe('act2_week27_press_outcome')
+    expect(outcomeText(), 'dodge node shown').toContain('best follow-up is absence')
+    expect(outcomeText()).not.toContain('twelve names by Friday')
+
+    // Combative: damage-control node, no invented commitments.
+    resetWorld()
+    bootWeek(27)
+    nar().loadScene('act2_week27_press_followup')
+    nar().processChoice('press_followup_combative')
+    expect(outcomeText(), 'fight node shown').toContain('smoothing editors')
+    expect(outcomeText()).not.toContain('twelve names by Friday')
+  })
 })
