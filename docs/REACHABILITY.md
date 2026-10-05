@@ -188,3 +188,84 @@ Condition D stays doubly-dead; see STEP 3 classification).
 - Via nextNode 4. Via exclusive 0 (no never-fired scene is exclusive-only).
 - Per-scene paths: `run-manifest.json` (static) + `run-directed.json` (verdicts) —
   uncommitted telemetry, reproducible with the two commands at the top.
+
+---
+
+# Round 4 STEP 3 — blocked-scene classification (A/B/C)
+
+For each of the 129 blocked + 5 seeded proofs: scene | blocking condition | class.
+(A = required flag set by nothing · B = mutually-exclusive branch, legitimate ·
+C = needs an unusual stat/flag state.) Verified live where marked [live]; stale
+10:12 verdicts are superseded where re-proven. Remaining never-set data flags: 0.
+
+## Seeded 5 — RESOLVED by STEP-1 fixes (no longer seeded)
+
+`referendum_narrow` (vote sets `referendum_passed`; stat-gated 48..61) ·
+`visit_petravar` / `visit_stellamere` (choices now set `chose_*`) ·
+`executive_governance` / `nadia_investigation` (repointed to scheduler-set flags).
+
+## Proof artifacts (3) — mechanism verified live, game not blocked
+
+- `act3_ashenmere_standoff` (was: chain-not-scheduled) [live]: `brenner_refuse_bluff`
+  (unconditional root choice) injects it into the queue; stale verdict.
+- `act4_mole_confrontation` (was: chain-not-scheduled) [live]: `security_identify_mole`
+  injects it; stale verdict.
+- `act3_superpower_pressure` (was: source-choice-unavailable) [live]:
+  `tyvaren_international_appeal` is offered in a fresh week-32 world; stale verdict.
+
+## Played-but-unvisited 6 — proof artifact, not blocked
+
+`__project__amber_coast_highway/ashenmere_metro/kravenstal_steel/rural_electrification/sevagrad_fortification/university_expansion`:
+the proof's `playItem` marks only non-`__` scenes visited, so these agenda-offered,
+registry-resident scenes can never count as visited in the proof. Real flow records
+them via `processChoice`. Proof helper needs the `playChoice` path for `__` scenes.
+
+## Class B — legitimate branch exclusives (12, no fix)
+
+Deep-segment end choices; picking one closes the siblings by construction. The proof
+navigates a single segment hop, so multi-hop ends also expose a proof gap, not a
+game gap. The fired branch's downstream works (chains unconditional once chosen).
+- Megaproject (4 ends → `megaproject_followup` + dam/highway/port crisis chains):
+  `dev_highway_end/dev_dam_full_end/dev_dam_partial_end/dev_port_end`.
+- Sovarka (3 ends → `sovarka_survey` + `sovarka_tyvaren_response`/`sovarka_outcome`):
+  `sovarka_full_end/sovarka_quiet_end/sovarka_defer_end`.
+- Voss (`voss_betrayal_discovered` ← `voss_foreign_end`, 1 of 4 crisis closes).
+- BNI (`family_bni_night` ← `dissolve_bni`, deep in a 12-segment scene).
+
+## Class C — unusual state required, mechanism sound (27, no fix)
+
+- Stat-gated chain triggers, proof seeds flags but not stats (7 dropped-in-queue):
+  `jonas_press_rebellion` (marriageHealth<40) · `liora_radicalized` (liora<35) ·
+  `tomas_nationalist` / `tomas_nationalist_arc` (wellbeing<35/<25) ·
+  `kravenstal_unrest` (workers<38) · `reformist_fracture` (reformists<45) ·
+  `tyvaren_blind_spot` (readiness<40, delay 14).
+- Probabilistic (1): `third_attack` (0.3, missed 3/3 = 34% likely).
+- Cascades off unproven sources (8 chain-not-scheduled remainder): `face_to_face_brenner`
+  (prob 0.3 off standoff, else via coup-confront) · `public_moment` (off face_to_face /
+  coup-confront) · 4 `vael_kickback_*` (off contractor vael branches; contractors need
+  an active project + vael pick).
+- Redirect-chasing sources (10 source-not-loadable): decisive/narrow downstreams
+  (`brenner_response`, `opposition_management`, `halvekist_legal_war`,
+  `kolvar_legal_challenge`, `kolvar_negotiation`) need the result scene played under
+  its stats first · `dusek_intelligence/loyalty_arc`, `vostane_media_war` need their
+  betrayal flags · `government_in_exile`, `loyalist_counter_deploy` need the coup
+  in progress.
+
+## Class A — fixed (1) and halted (3)
+
+- FIXED: `refused_tyvaren_negotiation` — set on `tyvaren_defiant_rejection` (defiance
+  is refusal; the scene's alternative is negotiation). Arms Condition D; spine test
+  proves defiant → poisoning only. BALANCE NOTE: defying at 30–36 now guarantees the
+  poisoning track absent counterplay stats — revert if that is not the intent.
+- HALTED (no decider exists; inventing a setter would fabricate an outcome):
+  `ssd_assassination` (Condition C retaliation-bombing; no player-ordered-assassination
+  content exists anywhere) · `act3_assassination_default` (no trigger yields a null
+  variant; unreachable scene) · the B/C populations above (legitimate or sound).
+
+## No-source 87 — standing taxonomy (policy gaps, not blocks)
+
+Engine-sourced 44 and UI-sourced 43 per the sections above. Since STEP 1–2, these are
+additionally spine-proven where covered: mole payoffs (correct xor wrong), nc
+fallen/survived wrappers, assassination sniper/bombing/poisoning tracks. Engine
+trigger-seeding proofs and component-path proofs remain future work; `run-*.json`
+stays uncommitted.
