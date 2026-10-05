@@ -14,8 +14,11 @@ import {
   getScene,
   getAvailableChoices,
   ensureTerminalChoice,
+  recurringOpeningNodes,
   ENGINE_CONTINUE_ID,
 } from '../engine/NarrativeEngine'
+import { computeDinnerContext } from '../engine/FamilyDinnerEngine'
+import { computeBriefingContext } from '../engine/IntelligenceBriefingEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { filterNarrative } from '../stores/narrativeStore'
 import {
@@ -269,5 +272,107 @@ describe('freeze fallback (Round 6 STEPs 3-4)', () => {
     nar().loadScene('act3_week37_sovarka_outcome')
     nar().processChoice('sovarka_outcome_hear')
     expect(visibleChoices().map(c => c.id), 'sovarka signed hides fallback').toEqual(['sovarka_outcome_full_deal'])
+  }, 30000)
+
+  it('dinner topics appear once at opening and never reappear after a click', () => {
+    resetWorld()
+    bootWeek(20, { flags: ['minister_defense_brenner', 'workers_deal_struck'] })
+    useGameStore.setState(s => ({
+      nation: { ...s.nation, publicOrder: 80 },
+      personal: { ...s.personal, marriageHealth: 80, tomasWellbeing: 80 },
+    }))
+    const scene = getScene('family_dinner_recurring')!
+    nar().loadScene('family_dinner_recurring')
+
+    // Opening injection = exactly the two engine topics, each once.
+    const injected = recurringOpeningNodes(scene, game(), nar().activeFlags, true)
+      .map(n => (n as { text?: string }).text ?? '')
+    const military = injected.find(t => t.includes('armored vehicles on Kessler Avenue'))!
+    const rumors = injected.find(t => t.includes('first Chancellor who actually listens'))!
+    expect(military, 'military topic injected').toBeTruthy()
+    expect(rumors, 'rumors topic injected').toBeTruthy()
+    expect(injected.filter(x => x === military)).toHaveLength(1)
+    expect(injected.filter(x => x === rumors)).toHaveLength(1)
+
+    // Click through: hub narrative stands alone, topics do not reappear.
+    nar().processChoice('dinner_continue')
+    const hubTexts = (nar().currentScene?.narrative ?? []).map(n => (n as { text?: string }).text ?? '')
+    expect(hubTexts, 'military topic gone after click').not.toContain(military)
+    expect(hubTexts, 'rumors topic gone after click').not.toContain(rumors)
+    expect(recurringOpeningNodes(nar().currentScene, game(), nar().activeFlags, false)).toEqual([])
+    expect(nar().currentScene?.narrative?.length, 'hub narrative intact').toBeGreaterThan(0)
+  }, 30000)
+
+  it('briefing topics appear once at opening and never reappear after a click', () => {
+    resetWorld()
+    bootWeek(20, { flags: ['morivask_oil_deal_complete'] })
+    useGameStore.setState(s => ({
+      nation: { ...s.nation, publicOrder: 80, assemblyHardliner: 10 },
+      factions: { ...s.factions, ironCovenant: 80 },
+      tyvarenHostility: 60,
+      personal: { ...s.personal, marriageHealth: 80, tomasWellbeing: 80 },
+    }))
+    // Clues 1..7 selects mole progress; hostility selects Tyvaren movement.
+    useGameStore.setState({ clues: ['mole_clue_1_found'] } as never)
+    const scene = getScene('intelligence_briefing_recurring')!
+    nar().loadScene('intelligence_briefing_recurring')
+
+    const injected = recurringOpeningNodes(scene, game(), nar().activeFlags, true)
+      .map(n => (n as { text?: string }).text ?? '')
+    const mole = injected.find(t => t.includes('investigation is progressing'))!
+    const tyvaren = injected.find(t => t.includes('Tyvarens rotate units'))!
+    expect(mole, 'mole topic injected').toBeTruthy()
+    expect(tyvaren, 'tyvaren topic injected').toBeTruthy()
+    expect(injected.filter(x => x === mole)).toHaveLength(1)
+    expect(injected.filter(x => x === tyvaren)).toHaveLength(1)
+
+    nar().processChoice('briefing_continue')
+    const hubTexts = (nar().currentScene?.narrative ?? []).map(n => (n as { text?: string }).text ?? '')
+    expect(hubTexts, 'mole topic gone after click').not.toContain(mole)
+    expect(hubTexts, 'tyvaren topic gone after click').not.toContain(tyvaren)
+    expect(recurringOpeningNodes(nar().currentScene, game(), nar().activeFlags, false)).toEqual([])
+    expect(nar().currentScene?.narrative?.length, 'hub narrative intact').toBeGreaterThan(0)
+  }, 30000)
+
+  it('segment narrative still displays on arrival (no injection loss)', () => {
+    resetWorld()
+    bootWeek(20, { flags: ['minister_defense_brenner', 'workers_deal_struck'] })
+    useGameStore.setState(s => ({
+      nation: { ...s.nation, publicOrder: 80 },
+      personal: { ...s.personal, marriageHealth: 80, tomasWellbeing: 80 },
+    }))
+    const rawHub = getScene('family_dinner_recurring')!.segments!['dinner_choices'].narrative ?? []
+    nar().loadScene('family_dinner_recurring')
+    nar().processChoice('dinner_continue')
+    const shown = (nar().currentScene?.narrative ?? []).map(n => (n as { text?: string }).text ?? '')
+    const expected = rawHub.map(n => (n as { text?: string }).text ?? '')
+    expect(shown, 'hub narrative arrives intact').toEqual(expected)
+    expect(shown[0]).toContain('The meal is ending')
+  }, 30000)
+
+  it('first render of topics is unchanged (same engine output, same order)', () => {
+    resetWorld()
+    bootWeek(20, { flags: ['minister_defense_brenner', 'workers_deal_struck'] })
+    useGameStore.setState(s => ({
+      nation: { ...s.nation, publicOrder: 80 },
+      personal: { ...s.personal, marriageHealth: 80, tomasWellbeing: 80 },
+    }))
+    const scene = getScene('family_dinner_recurring')!
+    const viaHelper = recurringOpeningNodes(scene, game(), nar().activeFlags, true)
+      .map(n => (n as { text?: string }).text ?? '')
+    // Independent engine computation: identical ids, identical node order.
+    const ctx = computeDinnerContext(game(), nar().activeFlags)
+    expect(ctx.injectedSegments).toEqual(['dinner_military_presence', 'dinner_union_praise'])
+    const direct = ctx.injectedSegments.flatMap(id => scene.segments![id].narrative ?? [])
+      .map(n => (n as { text?: string }).text ?? '')
+    expect(viaHelper, 'helper matches engine output exactly').toEqual(direct)
+
+    const bscene = getScene('intelligence_briefing_recurring')!
+    const bctx = computeBriefingContext(game(), nar().activeFlags)
+    const bvia = recurringOpeningNodes(bscene, game(), nar().activeFlags, true)
+      .map(n => (n as { text?: string }).text ?? '')
+    const bdirect = bctx.injectedSegments.flatMap(id => bscene.segments![id].narrative ?? [])
+      .map(n => (n as { text?: string }).text ?? '')
+    expect(bvia, 'briefing helper matches engine output exactly').toEqual(bdirect)
   }, 30000)
 })

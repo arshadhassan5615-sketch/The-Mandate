@@ -1,6 +1,8 @@
-import type { NarrativeNode, SceneChoice } from '../types/narrative'
+import type { NarrativeNode, NarrativeSegment, SceneChoice } from '../types/narrative'
 import type { GameState } from '../types/gameState'
 import { evaluateAll } from './conditionEvaluator'
+import { computeDinnerContext } from './FamilyDinnerEngine'
+import { computeBriefingContext } from './IntelligenceBriefingEngine'
 
 // Load all scene JSON files at build time via Vite glob import.
 // Files are sorted alphabetically by path; prerequisites govern logical ordering.
@@ -76,6 +78,36 @@ export const ENGINE_CONTINUE_ID = '__engine_continue__'
 export function ensureTerminalChoice(choices: SceneChoice[]): SceneChoice[] {
   if (choices.length > 0) return choices
   return [{ id: ENGINE_CONTINUE_ID, text: 'Continue…' }]
+}
+
+/**
+ * Round B2 STEP 1 — recurring opening topics (family dinner / intelligence
+ * briefing). The engines select display segments from week-start flags; this
+ * returns their narrative nodes for the scene OPENING only (atSceneRoot).
+ * After a choice moves into a segment the hub narrative stands alone, so the
+ * opening topics must not re-append (the D1 re-feed). Pure: the single rule
+ * both NarrativeScene and tests evaluate.
+ */
+export function recurringOpeningNodes(
+  scene: NarrativeNode | null | undefined,
+  gameState: GameState,
+  activeFlags: string[],
+  atSceneRoot: boolean,
+): NarrativeSegment[] {
+  if (!atSceneRoot || !scene?.segments) return []
+  if (scene.id === 'family_dinner_recurring') {
+    const dinnerCtx = computeDinnerContext(gameState, activeFlags)
+    return dinnerCtx.injectedSegments
+      .filter(id => scene.segments![id])
+      .flatMap(id => scene.segments![id].narrative ?? [])
+  }
+  if (scene.id === 'intelligence_briefing_recurring') {
+    const briefingCtx = computeBriefingContext(gameState, activeFlags)
+    return briefingCtx.injectedSegments
+      .filter(id => scene.segments![id])
+      .flatMap(id => scene.segments![id].narrative ?? [])
+  }
+  return []
 }
 
 export interface GateCheckResult {

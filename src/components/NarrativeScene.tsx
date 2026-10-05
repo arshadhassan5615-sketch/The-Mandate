@@ -2,14 +2,12 @@ import { useRef, useEffect, useCallback, useState, useMemo } from 'react'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
-import { getAvailableChoices, ensureTerminalChoice } from '../engine/NarrativeEngine'
+import { getAvailableChoices, ensureTerminalChoice, recurringOpeningNodes } from '../engine/NarrativeEngine'
 import { useDialogueFlow } from '../hooks/useDialogueFlow'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useCodexStore } from '../stores/codexStore'
 import { playTypewriterKeyThrottled, startAmbient } from '../engine/audioEngine'
 import { getCharacterColor } from './portraits/CharacterPortraits'
-import { computeDinnerContext } from '../engine/FamilyDinnerEngine'
-import { computeBriefingContext } from '../engine/IntelligenceBriefingEngine'
 import ConversationPanel from './narrative/ConversationPanel'
 
 interface HistoryEntry {
@@ -54,23 +52,16 @@ export default function NarrativeScene() {
 
   const baseSegments = currentScene?.narrative ?? []
   const isEmergency = currentScene?.type === 'emergency'
+  // Round B2 STEP 1 — inject the recurring opening topics only while no
+  // segment is active. After a choice moves into a segment, the hub narrative
+  // (already swapped into currentScene.narrative by processChoice) must not
+  // get the opening topics re-appended (the D1 re-feed). Rule lives in
+  // recurringOpeningNodes; this call site only applies it.
+  const atSceneRoot = activeSegmentId == null
   const segments = useMemo(() => {
-    if (currentScene?.id === 'family_dinner_recurring' && currentScene.segments) {
-      const dinnerCtx = computeDinnerContext(gameState, activeFlags)
-      const injected = dinnerCtx.injectedSegments
-        .filter(id => currentScene.segments![id])
-        .flatMap(id => currentScene.segments![id].narrative ?? [])
-      return [...baseSegments, ...injected]
-    }
-    if (currentScene?.id === 'intelligence_briefing_recurring' && currentScene.segments) {
-      const briefingCtx = computeBriefingContext(gameState, activeFlags)
-      const injected = briefingCtx.injectedSegments
-        .filter(id => currentScene.segments![id])
-        .flatMap(id => currentScene.segments![id].narrative ?? [])
-      return [...baseSegments, ...injected]
-    }
-    return baseSegments
-  }, [currentScene?.id, currentScene?.segments, baseSegments, gameState, activeFlags])
+    const injected = recurringOpeningNodes(currentScene, gameState, activeFlags, atSceneRoot)
+    return [...baseSegments, ...injected]
+  }, [atSceneRoot, currentScene?.id, currentScene?.segments, baseSegments, gameState, activeFlags])
 
   const {
     revealedSegments,
