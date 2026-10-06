@@ -860,3 +860,75 @@ Branch `agent/reply-fixes-2` from `agent/reply-fixes`.
 ### Holds
 Router edits, reactions display, social interactions, shared-target pairs,
 delay-0 semantics, pre/post-choice flag rule, and every standing hold kept.
+
+---
+
+## Reply audit Phase B3 — VERIFY IN THE BROWSER + EXTRACT
+
+Branch `agent/reply-fixes-2` (no new branch). No main commits. No scene or
+engine edits (ConversationPanel.tsx untouched, verified). Only new files are
+the STEP 1 script + reports, the STEP 2 test + authoring doc, and the STEP 3
+review pack. Edit hook (ecc-universal plugin) left ON.
+
+### STEP 1 — `2233d20` browser verification (sequential, never alongside vitest)
+- D2 rerun on the existing 33-scene set: 33 scenes / 102 clicks / 9 not
+  matching — the SAME 9 reaction-probe mismatches as Phase A (6 unrenderable
+  reaction types with no text at all, 3 flash-only 3–6 ms). 93 match, 0 other
+  display-only mismatches. The rerun diff vs the committed file is flash-timing
+  noise only (3 ms → 6 ms lifetimes).
+- New `scripts/reply-audit.d2-recurring.mjs`: each of the 8 dinner + 7 briefing
+  topics taken in turn (isolating seed per topic), opening captured, hub
+  continue clicked, post-click panel text diffed against D1. Asserts: the topic
+  is shown at the opening; NO topic line and NO root opening line reappears
+  after the click; the hub anchor is present ("The meal is ending" /
+  "Vyktor waits"); D1-predicted re-fed injections are all absent post-click.
+- Result: 15 topics, 0 mismatching (`docs/REPLY_AUDIT/data/d2-recurring-results.json`
+  + `docs/REPLY_AUDIT/d2-recurring-report.md`). D1 diff confirms the B2 fix:
+  D1 (pre-fix prediction) re-feeds injections; the browser omits every one.
+
+### STEP 2 — `f2e7727` flag-timing pins (no behavior change: test + doc only)
+- `src/test/spine.test.ts` +3 ("flag timing"): (i) segment transitions filter
+  on PRE-choice flags — synthetic probe through the real processChoice (no
+  authored scene gates a segment node on its entering choice's flag, S7: 0
+  cases, so synthesis is test-only); the entering flag IS recorded yet its node
+  stays hidden. (ii) nextNodeId on POST-choice flags — press_followup ×3 from
+  identical pre-choice flags; pre-filter yields 0 variant nodes, each run shows
+  exactly its own variant. (iii) delay-0 injects unconditionally (queued despite
+  unmet prereq) and loads with THEN-current flags — flag added between inject
+  and advance flips the load from the exclusive fallback to the target; full
+  `diplomacy_hard_rejection` choice path included.
+- New `docs/authoring-when-flags-apply.md`: the three moments + rule of thumb
+  (segments look BACKWARD, nextNodeId may look AT the choice, chains look at
+  LOAD time). Spine 18/18 at commit time.
+
+### STEP 3 — `7740d90` docs/REPLY_AUDIT/review-pack.md (raw text, no summaries)
+- (a) the 3 press_outcome variant nodes, verbatim JSON.
+- (b) the 7 non-debate routers (B2 STEP 0c table keys): per branch the gate,
+  the target's first-2 narrative nodes (verbatim), the setter scene + week of
+  each gate flag (scene choices + agenda voteConfigs + code hits), and the
+  branch choice text the player sees today. Static co-true pairs recorded raw
+  per router (incl. realistic/blocker). Notes: strike is now 4 branches
+  (`check_strike_outlasted` all-false fallback, Batch 2); tyvaren has
+  `proceed_default`; oil/sovarka carry their B1 fallbacks.
+- (c) the 19 opposite-signed shared-target pairs (checkS2 severity filter):
+  scene + week, both choice texts verbatim, shared-target first-2 nodes
+  verbatim, each choice's flags + stateChanges verbatim with +/- signs.
+- (d) AGENT_LOG Round 7 STEPs 0/2/3/4/5 verbatim (winner view, 10 ending-flag
+  readers + none-set behavior, dry-run + 7 touched files, recurring freeze
+  results) + raw file-content JSON of Kitchen Table, Heir, Foundry Street
+  (`act7_week102_kravenstal`, "Foundry Street") and Last Audience
+  (`act6_week74_last_audience`).
+- Generator was throwaway (`gen-review-pack.mjs` in temp, not committed). One
+  generator bug found and fixed before commit (P() pushed arrays → comma-joined
+  lines); regenerated and verified section-by-section.
+
+### Holds + gates
+Every standing hold kept (router edits, reactions display, social
+interactions, shared-target pairs, delay-0 semantics, the flag rule itself,
+Arcturian, Vass, week-52 timing, exile, 104, assassin/injury). Final gates:
+`tsc -b` clean; audit-full-game exit 0 — broken 0 / orphans 67 (=) / flag gaps
+0 / dead-ends 171 (=, incl. B1's 2 fallbacks) / FAIL 0 / WARN 22 / drift 5;
+unguarded 0; full vitest 208 pass / 6 pre-existing fail (DecreeInbox ×2,
+TopBar ×4, documented since Round 2 — untouched); 3 new flag-timing tests 3/3.
+Root `audit-full-game-report.txt` / `unguarded-agenda-entries-report.txt`
+rewrites left uncommitted (pre-existing local artifacts).
