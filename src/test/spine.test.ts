@@ -13,6 +13,7 @@ import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useChainStore } from '../stores/chainStore'
+import type { NarrativeNode } from '../types/narrative'
 import { getScene, getAvailableChoices } from '../engine/NarrativeEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { filterNarrative } from '../stores/narrativeStore'
@@ -612,4 +613,150 @@ describe('spine integrity (Round 4 STEP 2)', () => {
     expect(outcomeText(), 'fight node shown').toContain('smoothing editors')
     expect(outcomeText()).not.toContain('twelve names by Friday')
   })
+})
+
+describe('flag timing (Phase B3 STEP 2)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+    setWaiter(ms => vi.advanceTimersByTimeAsync(ms))
+    resetWorld()
+  })
+
+  afterEach(() => {
+    setWaiter(null)
+    vi.useRealTimers()
+  })
+
+  it('segment transitions filter on pre-choice flags (narrativeStore.ts:676)', () => {
+    // Minimal probe driven through the REAL processChoice. No authored scene
+    // gates a segment node on its entering choice's own flag (S7: 0 cases),
+    // so the rule is pinned with a synthetic scene — test-only, no data edit.
+    const probe: NarrativeNode = {
+      id: 'flag_timing_segment_probe',
+      title: 'probe',
+      act: 1,
+      weekAvailable: 1,
+      type: 'event',
+      agendaCost: 0,
+      location: 'probe',
+      characters: [],
+      prerequisites: [],
+      narrative: [{ type: 'description', text: 'probe opening' }],
+      choices: [{ id: 'probe_go', text: 'Go.', flags: ['probe_flag_set'], nextSegment: 'probe_seg' }],
+      segments: {
+        probe_seg: {
+          narrative: [
+            {
+              type: 'description',
+              text: 'sealed orders travel with the courier',
+              conditions: [{ type: 'flag', flag: 'probe_flag_set', value: true }],
+            },
+            {
+              type: 'description',
+              text: 'the desk stands empty; no orders have arrived',
+              conditions: [{ type: 'flag', flag: 'probe_flag_set', value: false }],
+            },
+          ],
+          choices: [{ id: 'probe_end', text: 'End.' }],
+        },
+      },
+    }
+    useNarrativeStore.setState({ currentScene: probe, activeSegmentId: null, sceneDone: false })
+    expect(
+      getAvailableChoices(nar().currentScene, game(), nar().activeFlags).map(c => c.id),
+      'probe choice offered',
+    ).toContain('probe_go')
+    nar().processChoice('probe_go')
+    // The flag WAS applied by the choice ...
+    expect(nar().activeFlags, 'entering flag recorded').toContain('probe_flag_set')
+    // ... but the arriving segment was filtered with the pre-choice flags,
+    // so the node gated on the entering choice's own flag stays hidden.
+    const shown = (nar().currentScene?.narrative ?? []).map(n => n.text ?? '').join(' ')
+    expect(shown, 'absence node shown').toContain('the desk stands empty')
+    expect(shown, 'entering-flag node hidden').not.toContain('sealed orders')
+  })
+
+  it('nextNodeId targets filter on post-choice flags (narrativeStore.ts:664)', () => {
+    const outcome = getScene('act2_week27_press_outcome')
+    expect(outcome, 'outcome scene loads').toBeTruthy()
+    // Under pre-choice flags ([]) NO variant node qualifies: all three gate
+    // on a flag only the entering choice sets. (The unconditional corridor
+    // opener is not a variant and always survives.)
+    const variants = (outcome!.narrative ?? []).filter(n => (n.conditions ?? []).length > 0)
+    expect(variants, 'three variant nodes authored').toHaveLength(3)
+    expect(filterNarrative(variants, game(), []) ?? []).toHaveLength(0)
+    const runVariant = (choiceId: string): string => {
+      resetWorld()
+      bootWeek(27)
+      nar().loadScene('act2_week27_press_followup')
+      nar().processChoice(choiceId)
+      expect(nar().currentScene?.id, 'swapped to outcome').toBe('act2_week27_press_outcome')
+      return (nar().currentScene?.narrative ?? []).map(n => n.text ?? '').join(' ')
+    }
+    // All three runs start from IDENTICAL pre-choice flags — the only
+    // difference is the flag the choice just set — so each outcome proves
+    // the swap filtered on newFlags.
+    const specific = runVariant('press_followup_specific')
+    expect(specific, 'specific shows committee node').toContain('twelve names by Friday')
+    expect(specific).not.toContain('best follow-up is absence')
+    expect(specific).not.toContain('smoothing editors')
+    const deflect = runVariant('press_followup_deflect')
+    expect(deflect, 'deflect shows dodge node').toContain('best follow-up is absence')
+    expect(deflect).not.toContain('twelve names by Friday')
+    expect(deflect).not.toContain('smoothing editors')
+    const combative = runVariant('press_followup_combative')
+    expect(combative, 'combative shows damage-control node').toContain('smoothing editors')
+    expect(combative).not.toContain('twelve names by Friday')
+    expect(combative).not.toContain('best follow-up is absence')
+  })
+
+  it('delay-0 chains inject unconditionally and load with then-current flags', async () => {
+    const anchor = (sceneId: string): AgendaItem => ({
+      id: `flag-timing-${sceneId}`,
+      title: 'flag-timing probe',
+      description: '',
+      category: 'crisis',
+      sceneId,
+      slotCost: 0,
+      executionOrder: 0,
+      weekAvailable: 33,
+    } as AgendaItem)
+    const queued = () => wk().sceneQueue.map(i => i.sceneId)
+
+    // Injection evaluates nothing: the target lands in the queue even though
+    // its prerequisite flag (tyvaren_ultimatum_rejected) is absent.
+    resetWorld()
+    bootWeek(33, { flags: ['tyvaren_diplomacy_initiated'] })
+    useWeekStore.setState({ sceneQueue: [anchor('act3_week33_diplomatic_negotiation')], currentQueueIndex: 0 })
+    wk().injectScene('act3_week33_war_preparations', 'probe')
+    expect(queued(), 'delay-0 target queued despite unmet prereq').toContain('act3_week33_war_preparations')
+    // Load with the gate flag still absent: the exclusive fallback qualifies.
+    wk().advanceQueue()
+    await vi.advanceTimersByTimeAsync(700)
+    expect(nar().currentScene?.id, 'fallback loads when gate absent').toBe('act3_week33_diplomatic_negotiation')
+
+    // Identical at inject time, but the gate flag arrives between inject and
+    // load: the qualified scene plays. Flags apply at load, not at schedule.
+    resetWorld()
+    bootWeek(33, { flags: ['tyvaren_diplomacy_initiated'] })
+    useWeekStore.setState({ sceneQueue: [anchor('act3_week33_diplomatic_negotiation')], currentQueueIndex: 0 })
+    wk().injectScene('act3_week33_war_preparations', 'probe')
+    nar().addFlags(['tyvaren_ultimatum_rejected'])
+    wk().advanceQueue()
+    await vi.advanceTimersByTimeAsync(700)
+    expect(nar().currentScene?.id, 'target loads when gate set before load').toBe('act3_week33_war_preparations')
+
+    // Full choice path: the hard rejection sets the gate flag and injects
+    // delay-0; the target loads qualified at advance time.
+    resetWorld()
+    bootWeek(33, { flags: ['tyvaren_diplomacy_initiated'] })
+    wk().launchSingleScene(anchor('act3_week33_diplomatic_negotiation'))
+    expect(nar().currentScene?.id, 'negotiation plays when qualified').toBe('act3_week33_diplomatic_negotiation')
+    nar().processChoice('diplomacy_hard_rejection')
+    expect(nar().activeFlags, 'choice sets the gate flag').toContain('tyvaren_ultimatum_rejected')
+    expect(queued(), 'choice injected delay-0 target').toContain('act3_week33_war_preparations')
+    wk().advanceQueue()
+    await vi.advanceTimersByTimeAsync(700)
+    expect(nar().currentScene?.id, 'war preparations load after hard rejection').toBe('act3_week33_war_preparations')
+  }, 30000)
 })
