@@ -13,6 +13,7 @@ import {
   TimesMasthead,
   GazetteMasthead,
 } from './news/NewsMastheads'
+import { Z } from '../constants/zIndex'
 
 function groupByWeek(articles: NewsArticle[]): Map<number, NewsArticle[]> {
   const map = new Map<number, NewsArticle[]>()
@@ -443,7 +444,7 @@ export default function NewsOverlay() {
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
           style={{
-            position: 'fixed', inset: 0, zIndex: 200,
+            position: 'fixed', inset: 0, zIndex: Z.newsOverlay,
             background: 'rgba(0,0,0,0.85)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             backdropFilter: 'blur(4px)',

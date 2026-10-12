@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../stores/gameStore'
 import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
+import { Z } from '../constants/zIndex'
 
 const defs = projectDefinitions as DevelopmentProject[]
 
@@ -34,7 +35,7 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
           style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 200,
+            zIndex: Z.modal,
             background: 'rgba(0,0,0,0.85)',
             display: 'flex',
             alignItems: 'center',

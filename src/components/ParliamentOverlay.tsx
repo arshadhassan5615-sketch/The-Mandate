@@ -5,6 +5,7 @@ import type {
   Stance,
 } from '../types/parliament'
 import veltriaSeal from '../assets/images/veltria_seal.png'
+import { Z } from '../constants/zIndex'
 
 export interface ParliamentOverlayProps {
   results: ParliamentBillResult[]
@@ -127,7 +128,7 @@ export default function ParliamentOverlay({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 200,
+        zIndex: Z.overlay,
       }}
     >
       {/* THE DOCUMENT — matches LegislationOverlay parchment family */}

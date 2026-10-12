@@ -8,6 +8,7 @@ import { DURATION_FAST, EASE_STANDARD_CSS } from '../styles/motion'
 import katerinSignature from '../assets/images/katerin_signature.jpeg'
 import { playStamp } from '../engine/audioEngine'
 import signBtnImg from '../assets/images/buttons/Sign_Button.png'
+import { Z } from '../constants/zIndex'
 
 // Parchment paper — same fill as LegislationOverlay bill document
 const PARCHMENT = '#f5f0e0'
@@ -147,7 +148,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 600,
+        zIndex: Z.overlay,
         background: 'rgba(0, 0, 0, 0.55)',
         backdropFilter: 'blur(2px)',
         display: 'flex',
@@ -173,7 +174,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 700,
+          zIndex: Z.overlayRaised,
           transition: 'all 0.15s ease',
         }}
         onMouseEnter={e => {

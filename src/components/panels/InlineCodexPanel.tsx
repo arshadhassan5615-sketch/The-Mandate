@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { useCodexStore, ALL_CODEX_ENTRIES } from '../../stores/codexStore'
 import { CATEGORY_LABELS } from '../../types/codex'
 import CharacterPortrait from '../portraits/CharacterPortrait'
+import { Z } from '../../constants/zIndex'
 
 const P = {
   bg:          '#f0e8d0',
@@ -106,7 +107,7 @@ export default function InlineCodexPanel() {
 
   return (
     <div style={{
-      position: 'fixed', right: 0, top: 0, bottom: 0, zIndex: 110,
+      position: 'fixed', right: 0, top: 0, bottom: 0, zIndex: Z.inlineCodex,
       width: '420px',
       background: P.bg,
       borderLeft: `1px solid ${P.borderStrong}`,

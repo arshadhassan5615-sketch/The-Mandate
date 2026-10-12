@@ -1,0 +1,42 @@
+/* ─── Veltrian state-paper tokens ──────────────────────────────────────────
+   Extends the dark desk palette in index.css (:root --paper, --gold, --amber…).
+   These are the light "document" surfaces used by bills, decrees and letters,
+   plus semantic state colours for stat changes.
+   Stacking order lives in src/constants/zIndex.ts, not here.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Document surfaces: ivory paper and printer's ink */
+  --doc-paper: #efe6d2;
+  --doc-paper-edge: #d9ccb0;
+  --doc-ink: #2a2118;
+  --doc-ink-muted: #6b5a44;
+  --doc-rule: rgba(42, 33, 24, 0.22);
+
+  /* Brass and oxblood: seals, stamps and the signature line */
+  --brass: #b59a5e;
+  --oxblood: #6e1f1f;
+
+  /* Semantic state, tuned for the dark desk */
+  --state-good: #6b9b5f;
+  --state-bad: #b85450;
+  --state-warn: #c8902a;
+
+  /* Motion, mirrors src/styles/motion.ts */
+  --dur-fast: 150ms;
+  --dur-normal: 280ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Respect the OS "reduce motion" setting for CSS-driven animation.
+   Framer Motion is covered by <MotionConfig reducedMotion="user"> in App. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

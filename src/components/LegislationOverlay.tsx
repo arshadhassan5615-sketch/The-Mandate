@@ -15,6 +15,7 @@ import { playStamp } from '../engine/audioEngine'
 import { audioManager } from '../engine/AudioManager'
 import veltriaSeal from '../assets/images/veltria_seal.png'
 import katerinSignature from '../assets/images/katerin_signature.jpeg'
+import { Z } from '../constants/zIndex'
 
 const FACTION_NAMES: Record<string, string> = {
   reformists: 'Civic Renewal',
@@ -331,7 +332,7 @@ export default function LegislationOverlay() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      zIndex: 200,
+      zIndex: Z.overlay,
     }}>
       {decisionState !== 'decided' && decisionState !== 'overridden' ? (
         <>

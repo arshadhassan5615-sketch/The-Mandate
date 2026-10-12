@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from 'react'
 import { useGameStore } from '../../stores/gameStore'
 import veltriaSeal from '../../assets/images/veltria_seal.png'
+import { Z } from '../../constants/zIndex'
 
 // Mirrors the week thresholds in gameStore.ts's advanceWeek
 // (13/26/39 cutovers → acts 2/3/4). Kept local and read-only —
@@ -486,7 +487,7 @@ export default function DebtPanel({ onClose, embedded = false }: DebtPanelProps)
       data-testid="debt-panel"
       style={{
         position: 'fixed', left: '52px', top: '50px', width: '320px',
-        height: 'calc(100vh - 110px)', zIndex: 550,
+        height: 'calc(100vh - 110px)', zIndex: Z.panel,
         background: 'rgba(12,10,8,0.96)',
         border: '1px solid rgba(196,148,58,0.25)', borderRight: 'none',
         display: 'flex', flexDirection: 'column',

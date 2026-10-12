@@ -85,8 +85,8 @@ export default function KaterinHUD() {
     }
   }, [stressLevel])
 
-  // Hide during full-screen narrative phases and while the newspaper overlay is open
-  // (NewsOverlay zIndex 200 is below this HUD's 250, so chrome must unmount — not stack).
+  // Hide during full-screen narrative phases and while the newspaper overlay is open,
+  // so the scene and the paper read without HUD chrome.
   if (phase === 'agenda' || phase === 'scene' || newsOpen) return null
   if (isMobile) return null
 

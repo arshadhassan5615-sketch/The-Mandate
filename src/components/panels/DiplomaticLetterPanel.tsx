@@ -1,6 +1,7 @@
 import type { JSX } from 'react'
 import { useLetterStore } from '../../stores/letterStore'
 import { renderWithEntities } from '../news/EntityLinker'
+import { Z } from '../../constants/zIndex'
 
 const SEAL_SVGS: Record<string, JSX.Element> = {
   arcturian: (
@@ -62,7 +63,7 @@ export default function DiplomaticLetterPanel() {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 250,
+      position: 'fixed', inset: 0, zIndex: Z.overlay,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(3px)',
     }} onClick={() => setOpen(false)}>

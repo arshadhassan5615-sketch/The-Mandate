@@ -1,6 +1,7 @@
 ﻿import { useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
+import { Z } from '../constants/zIndex'
 
 interface InvestmentOption {
   id: string
@@ -153,7 +154,7 @@ export default function InvestmentPanel({ onClose }: { onClose: () => void }) {
     <div 
       onClick={onClose}
       style={{
-        position: 'fixed', inset: 0, zIndex: 600,
+        position: 'fixed', inset: 0, zIndex: Z.overlay,
         background: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(4px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem'
       }}

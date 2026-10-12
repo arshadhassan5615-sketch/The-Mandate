@@ -3,6 +3,7 @@ import CharacterPortrait from '../portraits/CharacterPortrait'
 import { useGameStore } from '../../stores/gameStore'
 import { useCodexStore } from '../../stores/codexStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
+import { Z } from '../../constants/zIndex'
 
 type TabId = 'cabinet' | 'factions' | 'legislative' | 'judiciary' | 'favors' | 'trust'
 
@@ -523,7 +524,7 @@ export default function ConnectionsPanel({ onClose }: ConnectionsPanelProps) {
   return (
     <div style={{
       position: 'fixed', right: '52px', top: '50px', width: '340px',
-      height: 'calc(100vh - 110px)', zIndex: 550,
+      height: 'calc(100vh - 110px)', zIndex: Z.panel,
       background: 'rgba(12,10,8,0.96)',
       border: '1px solid rgba(196,148,58,0.25)', borderRight: 'none',
       display: 'flex', flexDirection: 'column',

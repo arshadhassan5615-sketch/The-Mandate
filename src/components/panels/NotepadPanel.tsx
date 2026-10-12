@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useGameStore } from '../../stores/gameStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import { CHARACTERS } from '../../data/characters/roster'
+import { Z } from '../../constants/zIndex'
 
 const PLACEHOLDER = `── Week 1 ──
 ▸ Inauguration
@@ -119,7 +120,7 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
 
   return (
     <div style={{
-      position: 'fixed', top: '60px', right: '16px', bottom: '60px', width: '320px', zIndex: 500,
+      position: 'fixed', top: '60px', right: '16px', bottom: '60px', width: '320px', zIndex: Z.panel,
       background: '#f0e6d0',
       border: '1px solid rgba(139,106,40,0.3)',
       borderRight: 'none',

@@ -5,6 +5,7 @@ import EconomyPanel from './EconomyPanel'
 import DebtPanel from './DebtPanel'
 import InflationPanel from './InflationPanel'
 import PublicOrderPanel from './PublicOrderPanel'
+import { Z } from '../../constants/zIndex'
 
 export type StatsTab = 'economy' | 'debt' | 'inflation' | 'publicOrder'
 
@@ -76,7 +77,7 @@ export default function StatsPanel({ onClose }: StatsPanelProps) {
       data-testid="stats-panel"
       style={{
         position: 'fixed', left: '52px', top: '50px', width: '320px',
-        height: 'calc(100vh - 110px)', zIndex: 550,
+        height: 'calc(100vh - 110px)', zIndex: Z.panel,
         background: 'rgba(12,10,8,0.96)',
         border: '1px solid rgba(196,148,58,0.25)', borderRight: 'none',
         display: 'flex', flexDirection: 'column',

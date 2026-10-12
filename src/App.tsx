@@ -1,4 +1,5 @@
 import { useMemo, useEffect, useState } from 'react'
+import { MotionConfig } from 'framer-motion'
 import GameLayout from './components/GameLayout'
 import MapView from './components/MapView'
 import SaveLoadMenu from './components/SaveLoadMenu'
@@ -197,14 +198,16 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <MapView onProvinceDetail={setProvinceDetailId} />
-      <GameLayout />
-      {characterMapOpen && <CharacterMap />}
-      <SaveLoadMenu />
-      <CodexViewer />
-      {provinceDetailId && <ProvinceDetail initialProvince={provinceDetailId} onClose={() => setProvinceDetailId(null)} />}
-      <DiplomaticLetterPanel />
-      <InlineCodexPanel />
+      <MotionConfig reducedMotion="user">
+        <MapView onProvinceDetail={setProvinceDetailId} />
+        <GameLayout />
+        {characterMapOpen && <CharacterMap />}
+        <SaveLoadMenu />
+        <CodexViewer />
+        {provinceDetailId && <ProvinceDetail initialProvince={provinceDetailId} onClose={() => setProvinceDetailId(null)} />}
+        <DiplomaticLetterPanel />
+        <InlineCodexPanel />
+      </MotionConfig>
     </ErrorBoundary>
   )
 }

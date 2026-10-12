@@ -229,7 +229,7 @@ export default function TopBar() {
     }
   }, [balance])
 
-  // NewsOverlay is zIndex 200; TopBar chips are 210 — hide while newspaper is open
+  // Hide while the newspaper is open so the paper reads full-screen
   // (same unmount-while-open pattern as KaterinHUD for agenda/scene/news).
   if (newsOpen) return null
 

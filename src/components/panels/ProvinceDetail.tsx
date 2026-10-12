@@ -11,6 +11,7 @@ import thornfeldBanner from '../../assets/images/provinces/thornfeld_banner.jpeg
 import aldenmoorBanner from '../../assets/images/provinces/aldenmoor_banner.jpeg'
 import sevagradBanner from '../../assets/images/provinces/sevagrad_banner.jpeg'
 import sovarkaBanner from '../../assets/images/provinces/sovarka_banner.jpeg'
+import { Z } from '../../constants/zIndex'
 
 const PROVINCE_BANNERS: Record<string, string> = {
   ashenmere: ashenmereBanner,
@@ -199,7 +200,7 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 250,
+      position: 'fixed', inset: 0, zIndex: Z.panel,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(2px)',
     }} onClick={onClose}>

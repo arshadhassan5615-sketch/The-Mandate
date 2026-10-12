@@ -9,6 +9,7 @@ import { getCharacterColor } from '../portraits/CharacterPortraits'
 import { renderWithEntities } from '../news/EntityLinker'
 import { getPortrait } from '../../assets/potraits'
 import { useIsMobile } from '../../hooks/useIsMobile'
+import { Z } from '../../constants/zIndex'
 
 const CHAR_NAMES: Record<string, string> = {
   katerin_ashavel: 'Chancellor Ashavel',
@@ -281,7 +282,7 @@ const DESKTOP_STACK_STYLE: React.CSSProperties = {
   flexDirection: 'column',
   alignItems: 'flex-end',
   gap: '10px',
-  zIndex: 601,
+  zIndex: Z.sceneRaised,
   pointerEvents: 'none',
   background: 'transparent',
 }
@@ -295,7 +296,7 @@ const MOBILE_STACK_STYLE: React.CSSProperties = {
   flexDirection: 'row',
   alignItems: 'flex-end',
   gap: '8px',
-  zIndex: 601,
+  zIndex: Z.sceneRaised,
   pointerEvents: 'none',
   background: 'transparent',
   overflow: 'hidden',
@@ -721,7 +722,7 @@ export default function ConversationPanel({
         left: 0,
         right: 0,
         width: '100%',
-        zIndex: 600,
+        zIndex: Z.scene,
         pointerEvents: 'all',
         display: 'flex',
         flexDirection: 'column',
@@ -740,7 +741,7 @@ export default function ConversationPanel({
         transform: 'translateX(-50%)',
         width: 'clamp(480px, 46vw, 760px)',
         height: '100vh',
-        zIndex: 600,
+        zIndex: Z.scene,
         pointerEvents: 'all',
         display: 'flex',
         flexDirection: 'column',
@@ -759,7 +760,7 @@ export default function ConversationPanel({
         <div style={{
           position: 'fixed', inset: 0,
           background: 'radial-gradient(ellipse at center, transparent 50%, rgba(180,30,20,0.06) 100%)',
-          pointerEvents: 'none', zIndex: 90,
+          pointerEvents: 'none', zIndex: Z.sceneBackdrop,
         }} />
       )}
 
@@ -786,7 +787,7 @@ export default function ConversationPanel({
             border: isChevronHovered ? '1.5px solid #c9a84c' : '1.5px solid #6b5a34',
             boxShadow: isChevronHovered ? '0 0 12px rgba(201,168,76,0.35)' : 'none',
             color: '#d9c48a',
-            zIndex: 602,
+            zIndex: Z.sceneTop,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

@@ -3,6 +3,7 @@ import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
 import { saveGame } from '../engine/SaveManager'
 import { useGameStore } from '../stores/gameStore'
+import { Z } from '../constants/zIndex'
 
 function Slider({ label, value, onChange, min = 0, max = 100 }: {
   label: string; value: number; onChange: (v: number) => void; min?: number; max?: number
@@ -187,7 +188,7 @@ export default function SettingsPanel() {
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 100,
+        zIndex: Z.modal,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

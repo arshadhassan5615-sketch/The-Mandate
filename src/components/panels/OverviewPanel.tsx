@@ -2,6 +2,7 @@ import { useState, type JSX } from 'react'
 import { useGameStore } from '../../stores/gameStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import type { NationState } from '../../types/gameState'
+import { Z } from '../../constants/zIndex'
 
 type DeptId = 'economy' | 'military' | 'judiciary' | 'welfare' | 'security' | 'diplomacy'
 type SectionId = 'policies' | 'situations'
@@ -386,7 +387,7 @@ export default function OverviewPanel({ onClose }: OverviewPanelProps) {
   return (
     <div style={{
       position: 'fixed', right: '52px', top: '50px', width: '320px',
-      height: 'calc(100vh - 110px)', zIndex: 550,
+      height: 'calc(100vh - 110px)', zIndex: Z.panel,
       background: 'rgba(12,10,8,0.96)',
       border: '1px solid rgba(196,148,58,0.25)', borderRight: 'none',
       display: 'flex', flexDirection: 'column',

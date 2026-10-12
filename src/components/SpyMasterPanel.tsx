@@ -1,4 +1,5 @@
 import { useGameStore } from '../stores/gameStore'
+import { Z } from '../constants/zIndex'
 
 // Placeholder Spy Master panel — scaffold for the espionage management UI.
 // Reads the Spy Master stats initialized in gameStore INITIAL_STATE.
@@ -11,7 +12,7 @@ export default function SpyMasterPanel({ onClose }: { onClose: () => void }) {
     <div style={{
       position: 'fixed',
       inset: 0,
-      zIndex: 400,
+      zIndex: Z.overlay,
       background: 'rgba(10,8,6,0.92)',
       display: 'flex',
       alignItems: 'center',

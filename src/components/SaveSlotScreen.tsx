@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { listSaves, deleteSave } from '../engine/SaveManager'
 import type { SaveRecord } from '../db/mandateDb'
 import { useWeekStore } from '../stores/weekStore'
+import { Z } from '../constants/zIndex'
 
 const SLOT_COUNT = 5
 
@@ -86,7 +87,7 @@ export default function SaveSlotScreen({ mode, onClose, onSlotSelected }: SaveSl
         style={{
           position: 'fixed',
           inset: 0,
-          zIndex: 300,
+          zIndex: Z.modal,
           background: 'rgba(0,0,0,0.92)',
           backdropFilter: 'blur(4px)',
           display: 'flex',
@@ -488,7 +489,7 @@ export default function SaveSlotScreen({ mode, onClose, onSlotSelected }: SaveSl
             style={{
               position: 'fixed',
               inset: 0,
-              zIndex: 310,
+              zIndex: Z.modalRaised,
               background: 'rgba(0,0,0,0.7)',
               display: 'flex',
               alignItems: 'center',

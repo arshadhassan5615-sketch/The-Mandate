@@ -3,6 +3,7 @@ import { useJournalStore } from '../stores/journalStore'
 import { useGameStore } from '../stores/gameStore'
 import type { JournalCategory, ChoiceAlignment, JournalStats } from '../types/journal'
 import { CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_ICONS, ALIGNMENT_LABELS, ALIGNMENT_COLORS } from '../types/journal'
+import { Z } from '../constants/zIndex'
 
 const ALL_CATEGORIES: JournalCategory[] = ['policy', 'diplomacy', 'personal', 'legislation', 'crisis', 'reform']
 const ACTS = [1, 2, 3, 4]
@@ -130,7 +131,7 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 300,
+        zIndex: Z.overlay,
         background: 'rgba(0,0,0,0.75)',
         backdropFilter: 'blur(6px)',
         display: 'flex',

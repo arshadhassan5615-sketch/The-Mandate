@@ -3,6 +3,7 @@ import { useGameStore } from '../stores/gameStore'
 import { useChainStore } from '../stores/chainStore'
 import { getAvailableLetters, generateLetterContent, createSentLetter, LETTER_OPTIONS } from '../engine/LetterEngine'
 import type { LetterTone } from '../types/gameState'
+import { Z } from '../constants/zIndex'
 
 const TONES: { value: LetterTone; label: string; description: string }[] = [
   { value: 'formal', label: 'Formal', description: 'Measured, official, the voice of the Chancellor.' },
@@ -52,7 +53,7 @@ export default function LetterView({ onClose }: { onClose: () => void }) {
 
   if (sent) {
     return (
-      <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 350, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ background: '#f5f0e8', padding: '2rem 3rem', maxWidth: '500px', textAlign: 'center', border: '4px double #8a621c' }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.2rem', color: '#4a3520', marginBottom: '0.5rem' }}>Letter Sent</p>
           <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', color: '#6b5030', fontStyle: 'italic' }}>Your letter to {opt?.recipient} will arrive in one week.</p>
@@ -62,7 +63,7 @@ export default function LetterView({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 350, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
       <div onClick={e => e.stopPropagation()} style={{ background: '#1a1815', border: '1px solid rgba(200,144,42,0.3)', width: '100%', maxWidth: '640px', maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '0.8rem 1rem', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
           <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1rem', color: 'var(--amber)' }}>Compose a Letter</span>

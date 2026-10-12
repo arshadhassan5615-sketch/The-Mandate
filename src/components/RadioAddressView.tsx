@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { getRadioResult, MAX_BROADCASTS, type RadioTheme } from '../engine/RadioEngine'
+import { Z } from '../constants/zIndex'
 
 const THEME_OPTIONS: { value: RadioTheme; label: string; desc: string }[] = [
   { value: 'unity_calm', label: 'Unity & Calm', desc: '+10 public order, +5 public image. Best during crises.' },
@@ -59,7 +60,7 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
 
   if (remaining <= 0 && step === 'select') {
     return (
-      <div onClick={dismissRadio} style={{ position: 'fixed', inset: 0, zIndex: 350, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div onClick={dismissRadio} style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div onClick={e => e.stopPropagation()} style={{ background: '#1a1815', border: '1px solid var(--accent-red)', padding: '2rem', maxWidth: '400px', textAlign: 'center' }}>
           <p style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.7rem', color: 'var(--accent-red)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>No Broadcasts Remaining</p>
           <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.85rem', color: 'var(--muted)', fontStyle: 'italic', marginTop: '0.5rem' }}>
@@ -72,7 +73,7 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div onClick={step === 'done' ? dismissRadio : undefined} style={{ position: 'fixed', inset: 0, zIndex: 350, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+    <div onClick={step === 'done' ? dismissRadio : undefined} style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
       <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: '680px', maxHeight: '92vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
         {step === 'select' && (
