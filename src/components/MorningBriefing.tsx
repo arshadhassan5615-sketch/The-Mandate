@@ -9,6 +9,7 @@ import { buildDinnerChainTriggers } from '../engine/FamilyDinnerEngine'
 import { buildBriefingChainTriggers } from '../engine/IntelligenceBriefingEngine'
 import { playStamp } from '../engine/audioEngine'
 import { useEffect } from 'react'
+import WeekRecap from './briefing/WeekRecap'
 
 // ─── News card ────────────────────────────────────────────────────────────────
 
@@ -162,6 +163,9 @@ export default function MorningBriefing() {
         style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}
       >
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '2.5rem 2rem 2rem' }}>
+
+          {/* What last week's decisions led to */}
+          <WeekRecap currentWeek={currentWeek} />
 
           {/* Vyktor dialogue */}
           <div style={{ marginBottom: '2.5rem' }}>

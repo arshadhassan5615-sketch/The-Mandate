@@ -3,6 +3,9 @@ import { motion } from 'framer-motion'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { calculateLegacy, type LegacyGrade } from '../engine/LegacyEngine'
+import { useJournalStore } from '../stores/journalStore'
+import { compassPosition } from './results/compass'
+import CompassPlot from './results/CompassPlot'
 
 const GRADE_COLORS: Record<LegacyGrade, string> = {
   A: 'var(--accent-green)',
@@ -37,9 +40,15 @@ export default function LegacyScreen({ onContinue }: { onContinue: () => void })
   const state = useGameStore()
   const flags = useNarrativeStore(s => s.activeFlags)
   const legacy = useMemo(() => calculateLegacy(state, flags), [state, flags])
-  const [tab, setTab] = useState<'verdict' | 'dimensions' | 'achievements'>('verdict')
+  const [tab, setTab] = useState<'verdict' | 'dimensions' | 'compass' | 'achievements'>('verdict')
 
   const unlockedCount = legacy.achievements.filter(a => a.unlocked).length
+  const journalEntries = useJournalStore(s => s.entries)
+  const compass = useMemo(
+    () => compassPosition(useJournalStore.getState().getStats().alignmentBreakdown),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- getStats reads these entries
+    [journalEntries],
+  )
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 400, background: 'var(--paper)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -67,15 +76,17 @@ export default function LegacyScreen({ onContinue }: { onContinue: () => void })
 
       {/* Tabs */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '0', borderBottom: '1px solid var(--border)', flexShrink: 0 }}>
-        {(['verdict', 'dimensions', 'achievements'] as const).map(t => (
+        {(['verdict', 'dimensions', 'compass', 'achievements'] as const).map(t => (
           <button key={t} onClick={() => setTab(t)} style={{
             ...mono, fontSize: '0.55rem', letterSpacing: '0.1em', textTransform: 'uppercase',
             background: tab === t ? 'var(--amber-glow)' : 'transparent', border: 'none', cursor: 'pointer',
             color: tab === t ? 'var(--amber)' : 'var(--muted)',
-            padding: '0.6rem 1.8rem', borderBottom: tab === t ? '2px solid var(--amber)' : '2px solid transparent',
+            // Shrink and wrap on phones so all four tabs fit at 390px
+            flex: '0 1 auto', minWidth: 0,
+            padding: '0.6rem clamp(0.5rem, 2.5vw, 1.8rem)', borderBottom: tab === t ? '2px solid var(--amber)' : '2px solid transparent',
             transition: 'all 0.15s',
           }}>
-            {t === 'verdict' ? 'Historian\'s Verdict' : t === 'dimensions' ? 'Legacy Dimensions' : `Achievements (${unlockedCount})`}
+            {t === 'verdict' ? 'Historian\'s Verdict' : t === 'dimensions' ? 'Legacy Dimensions' : t === 'compass' ? 'Compass' : `Achievements (${unlockedCount})`}
           </button>
         ))}
       </div>
@@ -192,6 +203,14 @@ export default function LegacyScreen({ onContinue }: { onContinue: () => void })
                   </p>
                 </motion.div>
               ))}
+            </div>
+          </motion.div>
+        )}
+
+        {tab === 'compass' && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+            <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+              <CompassPlot position={compass} />
             </div>
           </motion.div>
         )}

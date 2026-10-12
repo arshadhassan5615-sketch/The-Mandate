@@ -123,6 +123,17 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - **Found, not fixed:** `ProvinceDetail`'s status line prints raw hidden-stat numbers ("Corruption 62", "Dravenni support 31", "Military readiness 40"), against the hidden-stats rule. The chips show only the level. Needs your call: drop the numbers or keep them.
 - Tests: 14 new (mapFit 7, provinceStatus 2, MapViewChips 5). Suite 336 pass / same 6 pre-existing failures. Playwright at 1440 and 390: week map and full map, all six chips on screen, drag pans, no sideways scroll.
 
+**P6 committed** as `b0bb862` (pushed).
+
+**P7 done (2026-10-13).** Turn recap + results compass.
+- **Week recap** goes in the morning briefing, not the week card. The week card is cleared by a 1.5s timer in `weekStore.completeWeek` that also runs chain reactions, so it can't hold three lines of reading without changing week-flow timing. The briefing runs every week (week card → diary → briefing) and is read at the player's pace.
+- `briefing/WeekRecap.tsx` + `briefing/recapItems.ts`: "Last Week — Week N" lists up to 3 of last week's journal entries, those with a recorded consequence first, then newest. Journal entries are already player-visible, so nothing hidden leaks. 1,449 tagged choices in 403 scene files write entries, plus bill decisions. Hidden in week 1 or when there are no entries. Rows wrap on phones.
+- **Compass:** a new "Compass" tab on `LegacyScreen`. `results/compass.ts` places the Chancellor from every recorded choice's alignment: Reform ↔ Authority (vertical), Pragmatic ↔ Populist (horizontal). Personal/deflect choices are left out; fewer than 3 political choices shows a "too few decisions" line. Nine named positions (e.g. "Tribune of Reform", "Iron Administrator"). The SVG has a screen-reader label.
+- `LegacyScreen` tabs now shrink and wrap, so all four fit at 390 (the old three already clipped).
+- `ChapterTransition.tsx` is dead code (imported nowhere); the week card is `TransitionOverlay`.
+- **For P8:** `MorningBriefing` isn't phone-ready (the left rail overlaps the page and the footer text breaks).
+- Tests: 12 new (recap 6, compass 6). Suite 348 pass / same 6 pre-existing failures. Lint clean on touched files. Playwright at 1440 and 390: briefing recap, compass tab, no sideways scroll.
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.
