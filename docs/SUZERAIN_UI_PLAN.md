@@ -90,6 +90,16 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - Dialog semantics, tabs with `aria-selected`, Escape closes only this panel. Phone: full-width sheet above the bottom bar.
 - Tests: 14 new. Suite 282 pass / same 6 pre-existing failures. Playwright at 1440 and 390.
 
+**P4 committed** as `25b50a3` (pushed).
+
+**P5 partly done (2026-10-12, uncommitted).** Bills.
+- `ui/FiscalNote.tsx`: every bill now states its budget cost before signing ("Adds ₭15M to the national debt" / "Reduces the national debt by ₭80M" / "No cost to the treasury"). Budget is the one stat the player may see; `budgetCost` was applied on signing but never shown.
+- `LegislationOverlay`: page width `min(680px, 100vw)` (was a fixed 680px that overflowed phones), phone padding, bill text 11.5px → 13.5px, left-aligned on phones.
+- Not done: a shared `StateDocument` component. The bill page already had paper, seal and signature; extracting a shared shell is a refactor with no player-visible change, so it waits for a pass that changes the decree and letter pages too.
+- Not done: decree prerequisites. They test hidden stats, so showing them would leak.
+- Still open for P8: `DecreeInbox` uses a 280px list beside a 680px page, which will not fit a phone.
+- Tests: 5 new. Suite 287 pass / same 6 pre-existing failures. Playwright at 1440 and 390: fiscal note shown, no sideways scroll.
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.

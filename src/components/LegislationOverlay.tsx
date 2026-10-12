@@ -16,6 +16,8 @@ import { audioManager } from '../engine/AudioManager'
 import veltriaSeal from '../assets/images/veltria_seal.png'
 import katerinSignature from '../assets/images/katerin_signature.jpeg'
 import { Z } from '../constants/zIndex'
+import { useIsMobile } from '../hooks/useIsMobile'
+import FiscalNote from './ui/FiscalNote'
 
 const FACTION_NAMES: Record<string, string> = {
   reformists: 'Civic Renewal',
@@ -157,6 +159,7 @@ export default function LegislationOverlay() {
   const [, setShowStamp] = useState(false)
   const [showSignature, setShowSignature] = useState(false)
   const documentRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
   const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
@@ -339,14 +342,14 @@ export default function LegislationOverlay() {
           {/* THE DOCUMENT */}
           <div style={{
             background: '#f5f0e0',
-            width: '680px',
+            width: 'min(680px, 100vw)',
             height: '100vh',
             boxShadow: '0 0 80px rgba(0,0,0,0.6)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
             position: 'relative',
-            padding: '16px 44px 0',
+            padding: isMobile ? '16px 16px 0' : '16px 44px 0',
           }}>
             {/* SEAL */}
             <div style={{
@@ -394,17 +397,20 @@ export default function LegislationOverlay() {
               {bill.shortName} · Week {bill.weekPresented}, 1963
             </div>
 
+            {/* FISCAL NOTE — the budget cost, stated before signing */}
+            <FiscalNote budgetCost={bill.budgetCost} />
+
             {/* BILL TEXT - scrollable internally */}
             <div
               ref={documentRef}
               className="bill-text-area"
               style={{
                 fontFamily: "'Georgia', serif",
-                fontSize: '11.5px',
+                fontSize: '13.5px',
                 lineHeight: '1.55',
                 color: '#0d0a06',
                 fontWeight: 400,
-                textAlign: 'justify',
+                textAlign: isMobile ? 'left' : 'justify',
                 flex: 1,
                 minHeight: 0,
                 overflowY: 'auto',
@@ -412,7 +418,7 @@ export default function LegislationOverlay() {
                 whiteSpace: 'pre-line',
                 overflowWrap: 'break-word',
                 paddingRight: '8px',
-                padding: '0 44px',
+                padding: isMobile ? '0 4px' : '0 44px',
                 scrollbarWidth: 'thin',
                 scrollbarColor: 'rgba(139,115,85,0.2) transparent',
               }}
