@@ -70,6 +70,17 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - Tests: 18 new (ChoiceCard 8, SceneHeader 5, speakers 5). Suite 254 pass / same 6 pre-existing failures. Screenshots at 1440 and 390.
 - Deliberately not done: locked-choice display (it would expose your hidden routing) and budget-cost chips (only 8 choices use a `budget` stat). Two-portrait "ministers argue" layout moved to a later pass; the existing medallion stack already shows current + other speakers.
 
+**P2 committed** as `0addef6` (pushed).
+
+**P3 done (2026-10-12, uncommitted).** HUD + nav rails.
+- `ui/RailButton.tsx`: one shared rail button replaces the two private copies in LeftSidebar/RightSidebar (RightSidebar 511 → 314 lines). Label tooltip on hover **and** keyboard focus, shortcut key shown in it, `aria-keyshortcuts`, `aria-pressed`, badge spoken as "3 unread" / "12 entries" / "30 pending", gold focus ring.
+- `constants/hudShortcuts.ts`: one key map read by App.tsx and the tooltips. Existing C/J/N/M kept; new P (newspaper), D (decrees), L (diplomatic letters), gameplay only. Escape now also closes the diplomatic letter panel.
+- TopBar chips show TREASURY / PRIVY PURSE / APPROVAL labels on desktop (phones keep compact pills). Change deltas were already there.
+- Rails use `Z.navRail` and `useIsMobile`; both rails and TopBar are now in the z-index gate.
+- Week/date chip **not** re-added: commit `c006ac6` removed it on purpose.
+- Tests: 14 new. Suite 268 pass / same 6 pre-existing failures. Playwright at 1440 and 390: 10 rail buttons labelled, focus tooltip, P and D open their panels.
+- Known: on phones the bottom bar scrolls sideways, which clips tooltips drawn above it (touch players never saw them anyway). Left for P8.
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.

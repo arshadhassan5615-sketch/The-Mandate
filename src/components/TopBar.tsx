@@ -114,9 +114,11 @@ interface StatChipProps {
   valueColor?: string
   flash?: FlashState
   delta?: number
+  /** Desktop shows the stat name above its value; phones keep the compact pill. */
+  showLabel?: boolean
 }
 
-function StatChip({ icon, alt, value, valueColor = CREAM, flash = null, delta = 0 }: StatChipProps) {
+function StatChip({ icon, alt, value, valueColor = CREAM, flash = null, delta = 0, showLabel = false }: StatChipProps) {
   const showDelta = flash !== null && delta !== 0
   return (
     <div
@@ -149,6 +151,19 @@ function StatChip({ icon, alt, value, valueColor = CREAM, flash = null, delta = 
           style={{ width: 26, height: 26, filter: 'brightness(2.0) saturate(1.3)', display: 'block' }}
         />
       </div>
+      <span style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+      {showLabel && (
+        <span className="stat-chip__label" style={{
+          fontFamily: 'var(--font-ui)',
+          fontSize: '9px',
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+          color: 'var(--brass)',
+          lineHeight: 1,
+        }}>
+          {alt}
+        </span>
+      )}
       <span style={{
         fontFamily: SERIF_DISPLAY,
         fontSize: '0.95rem',
@@ -158,6 +173,7 @@ function StatChip({ icon, alt, value, valueColor = CREAM, flash = null, delta = 
         animation: flash ? `stat-flash-${flash} 0.6s ease-out` : undefined,
       }}>
         {value}
+      </span>
       </span>
       {showDelta && (
         <span style={{
@@ -313,12 +329,14 @@ export default function TopBar() {
             valueColor={balance < 0 ? '#e05c4a' : CREAM}
             flash={treasuryFlash}
             delta={treasuryDelta}
+            showLabel={!isMobile}
           />
           {!isMobile && (
             <StatChip
               icon={iconWealth}
               alt="Privy Purse"
               value={personalWealth.toLocaleString()}
+              showLabel
             />
           )}
           <StatChip
@@ -327,6 +345,7 @@ export default function TopBar() {
             value={`${Math.round(publicImage)}%`}
             flash={approvalFlash}
             delta={approvalDelta}
+            showLabel={!isMobile}
           />
         </div>
       </div>

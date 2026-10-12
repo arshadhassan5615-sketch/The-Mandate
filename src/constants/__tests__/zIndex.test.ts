@@ -32,6 +32,9 @@ const LAYERED_FILES = [
   'components/panels/ProvinceDetail.tsx',
   'components/panels/PublicOrderPanel.tsx',
   'components/panels/StatsPanel.tsx',
+  'components/TopBar.tsx',
+  'components/LeftSidebar.tsx',
+  'components/RightSidebar.tsx',
 ]
 
 // Small values are local stacking inside a positioned parent (e.g. a close
@@ -42,6 +45,7 @@ describe('Z layer scale', () => {
   it('keeps the HUD below a running scene', () => {
     expect(Z.hud).toBeLessThan(Z.scene)
     expect(Z.topBar).toBeLessThan(Z.scene)
+    expect(Z.navRail).toBeLessThan(Z.scene)
     expect(Z.katerinHud).toBeLessThan(Z.scene)
   })
 

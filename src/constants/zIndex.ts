@@ -11,6 +11,7 @@ export const Z = {
   hudButtons: 100,
   hud: 200,
   topBar: 210,
+  navRail: 210,
   katerinHud: 250,
 
   // Running conversation

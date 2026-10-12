@@ -19,6 +19,7 @@ import { useNarrativeStore } from './stores/narrativeStore'
 import { useNewsStore } from './stores/newsStore'
 import { saveGame, AUTOSAVE_SLOT } from './engine/SaveManager'
 import { useHotkeys } from './hooks/useHotkeys'
+import { HUD_SHORTCUTS } from './constants/hudShortcuts'
 import { audioManager } from './engine/AudioManager'
 import allLetters from './data/letters/diplomatic_letters.json'
 
@@ -168,6 +169,7 @@ export default function App() {
       else if (letterOpen) setLetterOpen(false)
       else if (decreeInboxOpen) setDecreeInboxOpen(false)
       else if (useNewsStore.getState().isOpen) useNewsStore.getState().setOpen(false)
+      else if (useLetterStore.getState().isOpen) useLetterStore.getState().setOpen(false)
     }},
 
     // Ctrl+S: save menu
@@ -176,20 +178,23 @@ export default function App() {
     // S: quick save to autosave slot (gameplay only)
     { key: 's', handler: () => { saveGame(AUTOSAVE_SLOT, 'QUICKSAVE').catch((e) => console.warn('Autosave failed:', e)) }, enabled: () => isGameplay },
 
-    // C: toggle codex
-    { key: 'c', handler: () => codexOpen ? closeCodex() : openCodex() },
-
-    // M: toggle map
-    { key: 'm', handler: () => setMapOpen(!mapOpen) },
+    // Panel keys come from HUD_SHORTCUTS, which the nav-rail tooltips also show.
+    { key: HUD_SHORTCUTS.codex, handler: () => codexOpen ? closeCodex() : openCodex() },
+    { key: HUD_SHORTCUTS.map, handler: () => setMapOpen(!mapOpen) },
 
     // Ctrl+D: toggle debug
     { key: 'd', ctrl: true, handler: () => setDebugOpen(!debugOpen) },
 
-    // J: toggle journal
-    { key: 'j', handler: () => setJournalOpen(!journalOpen) },
+    { key: HUD_SHORTCUTS.journal, handler: () => setJournalOpen(!journalOpen) },
+    { key: HUD_SHORTCUTS.notepad, handler: () => setNotepadOpen(!notepadOpen) },
 
-    // N: toggle notepad
-    { key: 'n', handler: () => setNotepadOpen(!notepadOpen) },
+    // Rail-only panels: gameplay only, since their buttons exist only then.
+    { key: HUD_SHORTCUTS.news, enabled: () => isGameplay,
+      handler: () => { const news = useNewsStore.getState(); news.setOpen(!news.isOpen) } },
+    { key: HUD_SHORTCUTS.decrees, enabled: () => isGameplay,
+      handler: () => setDecreeInboxOpen(!decreeInboxOpen) },
+    { key: HUD_SHORTCUTS.letters, enabled: () => isGameplay,
+      handler: () => { const letters = useLetterStore.getState(); letters.setOpen(!letters.isOpen) } },
   ], [saveMenuOpen, codexOpen, characterMapOpen, settingsOpen, mapOpen, debugOpen, journalOpen, notepadOpen, letterOpen, decreeInboxOpen, isGameplay,
       setSaveMenuOpen, closeCodex, setCharacterMapOpen, setSettingsOpen, setMapOpen, setDebugOpen, setJournalOpen, setNotepadOpen, setLetterOpen, setDecreeInboxOpen,
       openCodex])

@@ -1,23 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useCodexStore } from '../stores/codexStore'
 import { useJournalStore } from '../stores/journalStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useLetterStore } from '../stores/letterStore'
 import { useNewsStore } from '../stores/newsStore'
+import { useIsMobile } from '../hooks/useIsMobile'
+import { Z } from '../constants/zIndex'
+import { HUD_SHORTCUTS } from '../constants/hudShortcuts'
+import RailButton, { type TooltipSide } from './ui/RailButton'
 import ConnectionsPanel from './panels/ConnectionsPanel'
 import NotepadPanel from './panels/NotepadPanel'
 
-// ─── Chrome tokens ─────────────────────────────────────────────────────────────
-
-const RING_BG = '#14110d'
-const RING_BORDER = '#6b5a34'
-const RING_BORDER_LIT = '#c9a84c'
-const GOLD_ICON = '#d9c48a'
-const UNREAD_GOLD = '#e8c84a'
-const INK = '#2a2622'
-const SERIF_DISPLAY = "'Playfair Display', serif"
-const SERIF_BODY = "'Crimson Text', Georgia, serif"
+// ─── Sizes ───────────────────────────────────────────────────────────────────
 
 const BUTTON_SIZE = { news: 52, main: 52, utility: 44 } as const
 const MOBILE_SCALE = 0.75
@@ -101,137 +96,7 @@ function GearIcon() {
   )
 }
 
-// ─── Tooltip ───────────────────────────────────────────────────────────────────
-
-function Tooltip({ label, isMobile }: { label: string; isMobile: boolean }) {
-  return (
-    <div style={{
-      position: 'absolute',
-      ...(isMobile
-        ? { bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)' }
-        : { right: 'calc(100% + 10px)', top: '50%', transform: 'translateY(-50%)' }),
-      background: 'rgba(10,8,6,0.97)',
-      border: '1px solid rgba(181,154,94,0.35)',
-      padding: '0.28rem 0.65rem',
-      whiteSpace: 'nowrap',
-      fontFamily: SERIF_BODY,
-      fontSize: '0.7rem',
-      letterSpacing: '0.06em',
-      color: GOLD_ICON,
-      textTransform: 'uppercase',
-      pointerEvents: 'none',
-      zIndex: 200,
-      boxShadow: '0 2px 12px rgba(0,0,0,0.5)',
-    }}>
-      {label}
-    </div>
-  )
-}
-
-// ─── Sidebar button ────────────────────────────────────────────────────────────
-
-interface SideButtonProps {
-  icon: React.ReactNode
-  label: string
-  size: number
-  isMobile: boolean
-  active?: boolean
-  /** Exact count pill — used where the number itself matters (Journal, Letters). */
-  badge?: number
-  /** Presence-only gold dot at bottom-right. */
-  dot?: boolean
-  onClick: () => void
-}
-
-function SideButton({ icon, label, size, isMobile, active, badge, dot, onClick }: SideButtonProps) {
-  const [hovered, setHovered] = useState(false)
-  const isLit = active || hovered
-  const hasBadge = badge !== undefined && badge > 0
-
-  return (
-    <div style={{ position: 'relative', flexShrink: 0 }}>
-      {hovered && <Tooltip label={label} isMobile={isMobile} />}
-
-      <button
-        type="button"
-        onClick={onClick}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        aria-label={label}
-        title={label}
-        style={{
-          width: size,
-          height: size,
-          padding: 0,
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: RING_BG,
-          border: `1.5px solid ${isLit ? RING_BORDER_LIT : RING_BORDER}`,
-          boxShadow: isLit ? '0 0 14px rgba(201,168,76,0.4)' : '0 2px 8px rgba(0,0,0,0.4)',
-          color: GOLD_ICON,
-          cursor: 'pointer',
-          transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
-          position: 'relative',
-        }}
-      >
-        {icon}
-
-        {hasBadge && (
-          <div style={{
-            position: 'absolute',
-            bottom: '-2px',
-            right: '-2px',
-            minWidth: '18px',
-            height: '18px',
-            padding: '0 5px',
-            borderRadius: '9px',
-            background: UNREAD_GOLD,
-            border: `1.5px solid ${RING_BG}`,
-            color: INK,
-            fontFamily: SERIF_DISPLAY,
-            fontSize: '10px',
-            fontWeight: 700,
-            lineHeight: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxSizing: 'border-box',
-            pointerEvents: 'none',
-          }}>
-            {badge > 99 ? '99+' : badge}
-          </div>
-        )}
-
-        {dot && !hasBadge && (
-          <div style={{
-            position: 'absolute',
-            bottom: '-2px',
-            right: '-2px',
-            width: '12px',
-            height: '12px',
-            borderRadius: '50%',
-            background: UNREAD_GOLD,
-            border: `1.5px solid ${RING_BG}`,
-            boxSizing: 'border-box',
-            pointerEvents: 'none',
-          }} />
-        )}
-      </button>
-    </div>
-  )
-}
-
-// ─── News button — tan circle with the unread count in it ──────────────────────
-
-interface NewsButtonProps {
-  unread: number
-  size: number
-  isMobile: boolean
-  onClick: () => void
-}
-
+// News glyph scales with its button (24px in 52px, like the other icons).
 function NewspaperIcon({ size }: { size: number }) {
   return (
     <svg {...ICON_PROPS} width={size} height={size}>
@@ -239,72 +104,6 @@ function NewspaperIcon({ size }: { size: number }) {
       <path d="M7 8h5v4.5H7z" />
       <path d="M14.5 8.5h3M14.5 11h3M7 15.5h10.5" />
     </svg>
-  )
-}
-
-function NewsButton({ unread, size, isMobile, onClick }: NewsButtonProps) {
-  const [hovered, setHovered] = useState(false)
-  // Same glyph-to-circle ratio as the other rail buttons (24px in 52px).
-  const iconSize = Math.round(size * 0.46)
-
-  return (
-    <div style={{ position: 'relative', flexShrink: 0 }}>
-      {hovered && <Tooltip label="News Dispatch" isMobile={isMobile} />}
-
-      <button
-        type="button"
-        onClick={onClick}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        aria-label={`News Dispatch, ${unread} unread`}
-        title="News Dispatch"
-        style={{
-          width: size,
-          height: size,
-          padding: 0,
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: RING_BG,
-          border: `1.5px solid ${hovered ? RING_BORDER_LIT : RING_BORDER}`,
-          boxShadow: hovered ? '0 0 14px rgba(201,168,76,0.4)' : '0 2px 8px rgba(0,0,0,0.4)',
-          color: GOLD_ICON,
-          cursor: 'pointer',
-          transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
-          position: 'relative',
-        }}
-      >
-        <NewspaperIcon size={iconSize} />
-
-        {/* Unread count — only when there is something unread */}
-        {unread > 0 && (
-          <div style={{
-            position: 'absolute',
-            top: '-2px',
-            right: '-2px',
-            minWidth: '20px',
-            height: '20px',
-            padding: '0 5px',
-            borderRadius: '10px',
-            background: UNREAD_GOLD,
-            border: `1.5px solid ${RING_BG}`,
-            color: INK,
-            fontFamily: SERIF_DISPLAY,
-            fontSize: '11px',
-            fontWeight: 700,
-            lineHeight: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxSizing: 'border-box',
-            pointerEvents: 'none',
-          }}>
-            {unread > 99 ? '99+' : unread}
-          </div>
-        )}
-      </button>
-    </div>
   )
 }
 
@@ -321,13 +120,8 @@ export default function RightSidebar() {
 
   const [connectionsOpen, setConnectionsOpen] = useState(false)
 
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
+  const tooltipSide: TooltipSide = isMobile ? 'top' : 'left'
 
   const moleActive = useNarrativeStore(s => s.activeFlags.includes('mole_investigation_active'))
   const moleResolved = useNarrativeStore(s => s.activeFlags.includes('mole_case_resolved'))
@@ -347,7 +141,7 @@ export default function RightSidebar() {
         left: 0,
         right: 0,
         height: '60px',
-        zIndex: 210,
+        zIndex: Z.navRail,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -364,7 +158,7 @@ export default function RightSidebar() {
         right: 0,
         top: '48px',
         width: '76px',
-        zIndex: 210,
+        zIndex: Z.navRail,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -380,7 +174,7 @@ export default function RightSidebar() {
       {connectionsOpen && <ConnectionsPanel onClose={() => setConnectionsOpen(false)} />}
       {notepadOpen && <NotepadPanel onClose={() => setNotepadOpen(false)} />}
 
-      <div style={containerStyle}>
+      <nav aria-label="Dossiers" style={containerStyle}>
         {/* CLASSIFIED investigation badge */}
         {showMoleBadge && (
           <div style={{
@@ -395,7 +189,7 @@ export default function RightSidebar() {
             title="Active Investigation — Classified"
           >
             <span style={{
-              fontFamily: SERIF_DISPLAY,
+              fontFamily: "'Playfair Display', serif",
               fontSize: '0.45rem', fontWeight: 700,
               color: '#e85a44', letterSpacing: '0.06em',
               textTransform: 'uppercase', textAlign: 'center',
@@ -406,11 +200,15 @@ export default function RightSidebar() {
           </div>
         )}
 
-        {/* 1. News — unread count in the tan circle */}
-        <NewsButton
-          unread={Math.max(0, newsUnread)}
+        {/* 1. News — unread count on the top-right */}
+        <RailButton
+          icon={<NewspaperIcon size={Math.round(sizeNews * 0.46)} />}
+          label="News Dispatch"
+          shortcut={HUD_SHORTCUTS.news}
           size={sizeNews}
-          isMobile={isMobile}
+          tooltipSide={tooltipSide}
+          badge={Math.max(0, newsUnread)}
+          badgeCorner="top"
           onClick={() => {
             closeLocalPanels()
             setNewsOpen(true)
@@ -418,21 +216,22 @@ export default function RightSidebar() {
         />
 
         {/* 2. Assembly / Connections */}
-        <SideButton
+        <RailButton
           icon={<PeopleIcon />}
           label="Assembly"
           size={sizeMain}
-          isMobile={isMobile}
+          tooltipSide={tooltipSide}
           active={connectionsOpen}
           onClick={() => setConnectionsOpen(prev => !prev)}
         />
 
         {/* 3. Codex (the Character Dossier is reachable from inside it) */}
-        <SideButton
+        <RailButton
           icon={<BookIcon />}
           label="Codex"
+          shortcut={HUD_SHORTCUTS.codex}
           size={sizeMain}
-          isMobile={isMobile}
+          tooltipSide={tooltipSide}
           onClick={() => {
             closeLocalPanels()
             openCodex()
@@ -440,12 +239,14 @@ export default function RightSidebar() {
         />
 
         {/* 4. Journal — exact entry count */}
-        <SideButton
+        <RailButton
           icon={<QuillIcon />}
           label="Journal"
+          shortcut={HUD_SHORTCUTS.journal}
           size={sizeMain}
-          isMobile={isMobile}
+          tooltipSide={tooltipSide}
           badge={journalEntryCount}
+          badgeNoun="entries"
           onClick={() => {
             closeLocalPanels()
             setJournalOpen(true)
@@ -453,11 +254,12 @@ export default function RightSidebar() {
         />
 
         {/* Notepad stays separate: folding it into JournalView is outside this file */}
-        <SideButton
+        <RailButton
           icon={<NotepadIcon />}
           label="Notepad"
+          shortcut={HUD_SHORTCUTS.notepad}
           size={sizeMain}
-          isMobile={isMobile}
+          tooltipSide={tooltipSide}
           active={notepadOpen}
           onClick={() => {
             closeLocalPanels()
@@ -466,12 +268,13 @@ export default function RightSidebar() {
         />
 
         {/* 5. Letters — exact unread count */}
-        <SideButton
+        <RailButton
           icon={<EnvelopeIcon />}
           label="Diplomatic Letters"
+          shortcut={HUD_SHORTCUTS.letters}
           size={sizeMain}
-          isMobile={isMobile}
-          badge={letterUnread > 0 ? letterUnread : undefined}
+          tooltipSide={tooltipSide}
+          badge={letterUnread}
           onClick={() => {
             closeLocalPanels()
             openLetterInbox(true)
@@ -483,11 +286,11 @@ export default function RightSidebar() {
         )}
 
         {/* Discretionary Fund stays separate: this is its only entry point */}
-        <SideButton
+        <RailButton
           icon={<FundIcon />}
           label="Discretionary Fund"
           size={sizeUtility}
-          isMobile={isMobile}
+          tooltipSide={tooltipSide}
           onClick={() => {
             closeLocalPanels()
             setInvestmentOpen(true)
@@ -495,17 +298,17 @@ export default function RightSidebar() {
         />
 
         {/* 6. Settings */}
-        <SideButton
+        <RailButton
           icon={<GearIcon />}
           label="Settings"
           size={sizeUtility}
-          isMobile={isMobile}
+          tooltipSide={tooltipSide}
           onClick={() => {
             closeLocalPanels()
             setSettingsOpen(true)
           }}
         />
-      </div>
+      </nav>
     </>
   )
 }
