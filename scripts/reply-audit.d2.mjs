@@ -122,7 +122,7 @@ async function revealUntilInput(page, seen, order) {
 
 async function clickChoice(page, text) {
   return page.evaluate(t => {
-    const items = [...document.querySelectorAll('.conversation-choices > div')]
+    const items = [...document.querySelectorAll('.conversation-choices > button')]
     const norm = s => s.replace(/\s+/g, ' ').trim()
     const hit = items.find(el => norm(el.innerText).includes(norm(t).slice(0, 50)))
     if (!hit) return false

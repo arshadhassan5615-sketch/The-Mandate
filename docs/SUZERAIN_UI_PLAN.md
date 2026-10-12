@@ -62,6 +62,14 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - Verified: `tsc -b` clean; vitest 236 pass / same 6 pre-existing failures; Playwright at 1440×900 and 390×844 shows the newspaper, Settings and codex above a scene.
 - Found, not fixed: `DiplomaticLetterPanel` is mounted twice (`App.tsx` and `GameLayout.tsx`).
 
+**P2 done (2026-10-12, uncommitted).** Dialogue scene (S04).
+- `narrative/SceneHeader.tsx`: week, crisis/emergency badge, location line and title. These come from props that `ConversationPanel` already received but never rendered.
+- `narrative/ChoiceCard.tsx`: choices are real `<button>`s (Tab/Enter, focus ring, disabled while resolving). Shows the author `tooltip` as a hint line, which was authored in 25 scene files but never displayed. Enter/Space do not leak to the global advance key.
+- `narrative/speakers.ts`: speaker names and colours extracted from `ConversationPanel`, plus `speakerRole()` from the character roster. Dialogue labels read "NAME · Role :".
+- `scripts/reply-audit.d2*.mjs`: choice selector updated `> div` → `> button`.
+- Tests: 18 new (ChoiceCard 8, SceneHeader 5, speakers 5). Suite 254 pass / same 6 pre-existing failures. Screenshots at 1440 and 390.
+- Deliberately not done: locked-choice display (it would expose your hidden routing) and budget-cost chips (only 8 choices use a `budget` stat). Two-portrait "ministers argue" layout moved to a later pass; the existing medallion stack already shows current + other speakers.
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.
