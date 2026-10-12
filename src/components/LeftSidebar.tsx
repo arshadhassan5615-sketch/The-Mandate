@@ -5,6 +5,7 @@ import { Z } from '../constants/zIndex'
 import { HUD_SHORTCUTS } from '../constants/hudShortcuts'
 import RailButton from './ui/RailButton'
 import StatsPanel from './panels/StatsPanel'
+import StatePanel from './panels/StatePanel'
 
 // The TopBar crest (88px at top 8px) ends at 96px; the cluster starts below it.
 const CLUSTER_TOP = '112px'
@@ -41,6 +42,16 @@ function ChartIcon() {
   )
 }
 
+function PillarIcon() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M3 9.5L12 4l9 5.5" />
+      <path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8" />
+      <path d="M3 20.5h18" />
+    </svg>
+  )
+}
+
 // ─── LeftSidebar — Decrees + National Statistics ──────────────────────────────
 // News lives in RightSidebar only (its tan circle carries the unread count).
 
@@ -49,10 +60,12 @@ export default function LeftSidebar() {
   const pendingCount = useDecreeStore(s => s.pendingDecrees.length)
 
   const [statsOpen, setStatsOpen] = useState(false)
+  const [stateOpen, setStateOpen] = useState(false)
 
   return (
     <>
       {statsOpen && <StatsPanel onClose={() => setStatsOpen(false)} />}
+      {stateOpen && <StatePanel onClose={() => setStateOpen(false)} />}
 
       <nav
         aria-label="Government"
@@ -86,6 +99,14 @@ export default function LeftSidebar() {
           label="National Statistics"
           active={statsOpen}
           onClick={() => setStatsOpen(prev => !prev)}
+        />
+
+        <RailButton
+          data-testid="state-button"
+          icon={<PillarIcon />}
+          label="State of the Republic"
+          active={stateOpen}
+          onClick={() => setStateOpen(prev => !prev)}
         />
       </nav>
     </>

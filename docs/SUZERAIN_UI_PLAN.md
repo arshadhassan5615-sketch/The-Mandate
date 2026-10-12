@@ -81,6 +81,15 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - Tests: 14 new. Suite 268 pass / same 6 pre-existing failures. Playwright at 1440 and 390: 10 rail buttons labelled, focus tooltip, P and D open their panels.
 - Known: on phones the bottom bar scrolls sideways, which clips tooltips drawn above it (touch players never saw them anyway). Left for P8.
 
+**P3 committed** as `b172263` (pushed).
+
+**P4 done (2026-10-12, uncommitted).** State of the Republic panel (S08).
+- `panels/StatePanel.tsx`: ivory state-paper sheet opened from a new pillar button on the left rail. Laws tab lists every bill decision (Signed into law / Became law unsigned / Veto overridden / Vetoed, with week), newest first. Decrees tab lists signed decrees with category, proposer and summary.
+- `panels/stateRecords.ts`: pure builders. They carry only what the player saw when deciding. Decree effect descriptions are **not** shown: no screen displays them today, and some name hidden stats (e.g. oligarch influence). Pending delayed consequences appear only as a count.
+- Not included: "ongoing situations with severity and trend". The only candidate data is hidden stats or the state of emergency, which TopBar hides on purpose. Revisit if you want situations surfaced.
+- Dialog semantics, tabs with `aria-selected`, Escape closes only this panel. Phone: full-width sheet above the bottom bar.
+- Tests: 14 new. Suite 282 pass / same 6 pre-existing failures. Playwright at 1440 and 390.
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.
