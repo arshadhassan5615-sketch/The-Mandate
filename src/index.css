@@ -145,10 +145,15 @@ button, .clickable, [role="button"] {
   font-weight: 600;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Must stay inside @layer base. Unlayered, this reset beat every Tailwind
+   spacing utility (px-8, py-3, mx-auto...), which are layered, so those
+   classes silently did nothing. */
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 html {

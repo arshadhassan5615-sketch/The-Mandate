@@ -10,6 +10,8 @@ import { buildBriefingChainTriggers } from '../engine/IntelligenceBriefingEngine
 import { playStamp } from '../engine/audioEngine'
 import { useEffect } from 'react'
 import WeekRecap from './briefing/WeekRecap'
+import { useIsMobile } from '../hooks/useIsMobile'
+import { pageInsets } from '../constants/layout'
 
 // ─── News card ────────────────────────────────────────────────────────────────
 
@@ -91,6 +93,10 @@ function SectionHeader({ label, color = 'var(--amber-dim)' }: { label: string; c
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 export default function MorningBriefing() {
+  // Keep clear of the fixed HUD; phones also clear the Government row and bottom bar
+  const isMobile = useIsMobile()
+  const insets = pageInsets(isMobile)
+  const padX = isMobile ? 'px-4' : 'px-8'
   const gameState = useGameStore()
   const { currentWeek } = useGameStore()
   const { activeFlags } = useNarrativeStore()
@@ -150,10 +156,10 @@ export default function MorningBriefing() {
   )
 
   return (
-    <div className="flex flex-col h-screen w-screen fixed inset-0" style={{ zIndex: 1, background: 'rgba(15,13,10,1)', paddingTop: '48px', paddingRight: '60px' }}>
+    <div className="flex flex-col h-screen w-screen fixed inset-0" style={{ zIndex: 1, background: 'rgba(15,13,10,1)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}>
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
-      <div className="shrink-0 flex items-center px-8 py-3 border-b" style={{ borderColor: 'var(--border)', maxWidth: 'calc(100% - 200px)' }}>
+      <div className={`shrink-0 flex items-center ${padX} py-3 border-b`} style={{ borderColor: 'var(--border)', maxWidth: isMobile ? undefined : 'calc(100% - 200px)' }}>
         <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
       </div>
 
@@ -162,7 +168,7 @@ export default function MorningBriefing() {
         className="flex-1 overflow-hidden overflow-y-auto"
         style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}
       >
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '2.5rem 2rem 2rem' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', padding: isMobile ? '1.25rem 1rem' : '2.5rem 2rem 2rem' }}>
 
           {/* What last week's decisions led to */}
           <WeekRecap currentWeek={currentWeek} />
@@ -261,16 +267,19 @@ export default function MorningBriefing() {
 
       {/* ── Footer ───────────────────────────────────────────────────────── */}
       <div
-        className="shrink-0 flex items-center justify-between px-8 py-4 border-t"
-        style={{ borderColor: 'var(--border)', paddingRight: '70px' }}
+        className={`shrink-0 flex items-center justify-between gap-3 ${padX} py-4 border-t`}
+        style={{ borderColor: 'var(--border)', paddingRight: isMobile ? undefined : '70px' }}
       >
-        <span className="stamp" style={{ color: 'var(--muted)' }}>
-          Review the briefing, then read the press summary
-        </span>
+        {/* The button already says what comes next; phones drop the hint */}
+        {!isMobile && (
+          <span className="stamp" style={{ color: 'var(--muted)' }}>
+            Review the briefing, then read the press summary
+          </span>
+        )}
         <button
           className="choice-btn"
           onClick={() => { playStamp(); endBriefing() }}
-          style={{ width: 'auto', minWidth: '220px', whiteSpace: 'nowrap', overflow: 'visible', padding: '0.65rem 1.5rem' }}
+          style={{ width: isMobile ? '100%' : 'auto', minWidth: isMobile ? 0 : '220px', whiteSpace: 'nowrap', overflow: 'visible', padding: '0.65rem 1.5rem' }}
         >
           Continue to Press Summary →
         </button>

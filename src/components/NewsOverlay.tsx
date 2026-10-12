@@ -467,36 +467,40 @@ export default function NewsOverlay() {
               borderRadius: '2px',
             }}
           >
-            {/* Tab strip */}
+            {/* Tab strip — outlets scroll sideways on phones; close keeps its own slot
+                at the end so it never sits on top of a tab */}
             <div style={{
               display: 'flex',
+              alignItems: 'stretch',
               borderBottom: '1px solid #d0c8b8',
               background: 'rgba(0,0,0,0.02)',
               flexShrink: 0,
             }}>
-              {TAB_ORDER.map(id => (
-                <Tab
-                  key={id}
-                  paper={NEWSPAPERS[id]}
-                  active={activeTab === id}
-                  unread={tabUnreadCounts[id] ?? 0}
-                  onClick={() => { setActiveTab(id); setPageIndex(0) }}
-                />
-              ))}
+              <div style={{ display: 'flex', flex: 1, minWidth: 0, overflowX: 'auto', scrollbarWidth: 'none' }}>
+                {TAB_ORDER.map(id => (
+                  <Tab
+                    key={id}
+                    paper={NEWSPAPERS[id]}
+                    active={activeTab === id}
+                    unread={tabUnreadCounts[id] ?? 0}
+                    onClick={() => { setActiveTab(id); setPageIndex(0) }}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                aria-label="Close newspaper"
+                onClick={() => setOpen(false)}
+                style={{
+                  flexShrink: 0, width: '44px',
+                  background: 'transparent', border: 'none', color: activePaper.textColor,
+                  fontSize: '1.4rem', cursor: 'pointer', opacity: 0.4,
+                  fontFamily: 'serif', lineHeight: 1, padding: 0,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '1' }}
+                onMouseLeave={e => { e.currentTarget.style.opacity = '0.4' }}
+              >✕</button>
             </div>
-
-            {/* Close button */}
-            <button
-              onClick={() => setOpen(false)}
-              style={{
-                position: 'absolute', top: '10px', right: '16px', zIndex: 10,
-                background: 'transparent', border: 'none', color: activePaper.textColor,
-                fontSize: '1.4rem', cursor: 'pointer', opacity: 0.4,
-                fontFamily: 'serif', lineHeight: 1, padding: 0,
-              }}
-              onMouseEnter={e => { e.currentTarget.style.opacity = '1' }}
-              onMouseLeave={e => { e.currentTarget.style.opacity = '0.4' }}
-            >✕</button>
 
             {/* Masthead */}
             {renderMasthead(activePaper, currentWeek, activeFlags)}

@@ -4,6 +4,8 @@ import { useDecreeStore } from '../stores/decreeStore'
 import { Z } from '../constants/zIndex'
 import { HUD_SHORTCUTS } from '../constants/hudShortcuts'
 import RailButton from './ui/RailButton'
+import { useIsMobile } from '../hooks/useIsMobile'
+import { PHONE_GOV_ROW_TOP, PHONE_RAIL_BUTTON } from '../constants/layout'
 import StatsPanel from './panels/StatsPanel'
 import StatePanel from './panels/StatePanel'
 
@@ -61,6 +63,10 @@ export default function LeftSidebar() {
 
   const [statsOpen, setStatsOpen] = useState(false)
   const [stateOpen, setStateOpen] = useState(false)
+  // Phones: a row under the TopBar crest, so it never sits on page content
+  // (pages reserve this space via constants/layout pageInsets).
+  const isMobile = useIsMobile()
+  const buttonSize = isMobile ? PHONE_RAIL_BUTTON : undefined
 
   return (
     <>
@@ -73,17 +79,18 @@ export default function LeftSidebar() {
         style={{
           position: 'fixed',
           left: '12px',
-          top: CLUSTER_TOP,
+          top: isMobile ? `${PHONE_GOV_ROW_TOP}px` : CLUSTER_TOP,
           zIndex: Z.navRail,
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: isMobile ? 'row' : 'column',
           alignItems: 'center',
-          padding: '10px 0',
-          gap: '12px',
+          padding: isMobile ? 0 : '10px 0',
+          gap: isMobile ? '10px' : '12px',
           background: 'transparent',
         }}
       >
         <RailButton
+          size={buttonSize}
           icon={<DecreeIcon />}
           label="Decrees"
           shortcut={HUD_SHORTCUTS.decrees}
@@ -94,6 +101,7 @@ export default function LeftSidebar() {
         />
 
         <RailButton
+          size={buttonSize}
           data-testid="stats-button"
           icon={<ChartIcon />}
           label="National Statistics"
@@ -102,6 +110,7 @@ export default function LeftSidebar() {
         />
 
         <RailButton
+          size={buttonSize}
           data-testid="state-button"
           icon={<PillarIcon />}
           label="State of the Republic"

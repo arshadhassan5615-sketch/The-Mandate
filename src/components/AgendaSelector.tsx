@@ -9,6 +9,8 @@ import { checkForEmergencies } from '../engine/EmergencyDecreeEngine'
 import { checkIntelligenceIntegrity } from '../engine/WhisperNetworkEngine'
 import { checkForBudgetCrisis } from '../engine/BudgetCrisisEngine'
 import { playPaperShuffle } from '../engine/audioEngine'
+import { useIsMobile } from '../hooks/useIsMobile'
+import { pageInsets } from '../constants/layout'
 
 // ─── Agenda card ──────────────────────────────────────────────────────────────
 
@@ -305,6 +307,10 @@ function SlotPips({ used, max }: { used: number; max: number }) {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function AgendaSelector() {
+  // Keep clear of the fixed HUD; phones also clear the Government row and bottom bar
+  const isMobile = useIsMobile()
+  const insets = pageInsets(isMobile)
+  const padX = isMobile ? 'px-4' : 'px-8'
   const { agendaPool, selectedIds, slotsUsed, forcedChainIds, toggleAgendaItem, confirmAgenda } = useWeekStore()
   const gameState = useGameStore()
   const { currentWeek } = useGameStore()
@@ -370,12 +376,13 @@ export default function AgendaSelector() {
 
   return (
     <div
+      data-testid="agenda-page"
       className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[800]"
-      style={{ background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}
+      style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}
     >
       {/* ── Header ──────────────────────────────────────────────── */}
       <div
-        className="shrink-0 flex items-center px-8 py-3 border-b"
+        className={`shrink-0 flex items-center ${padX} py-3 border-b`}
         style={{ borderColor: 'var(--border)' }}
       >
         <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
@@ -389,7 +396,7 @@ export default function AgendaSelector() {
 
           {/* Agenda header */}
           <div
-            className="shrink-0 flex items-center justify-between px-8 py-4 border-b"
+            className={`shrink-0 flex items-center justify-between gap-3 ${padX} py-4 border-b`}
             style={{ borderColor: 'var(--border)' }}
           >
             <div>
@@ -423,7 +430,7 @@ export default function AgendaSelector() {
           <div
             className="flex-1 overflow-y-auto"
             style={{
-              padding: '1.5rem 2rem',
+              padding: isMobile ? '1rem' : '1.5rem 2rem',
               scrollbarWidth: 'thin',
               scrollbarColor: 'var(--amber-dim) transparent',
             }}
@@ -522,7 +529,7 @@ export default function AgendaSelector() {
 
           {/* Confirm bar */}
           <div
-            className="shrink-0 flex items-center justify-between px-8 py-4 border-t"
+            className={`shrink-0 flex flex-wrap items-center justify-between gap-3 ${padX} py-4 border-t`}
             style={{ borderColor: 'var(--border)' }}
           >
             <p
@@ -542,7 +549,8 @@ export default function AgendaSelector() {
               style={{
                 width: 'auto',
                 opacity: canConfirm ? 1 : 0.35,
-                minWidth: '220px',
+                minWidth: isMobile ? 0 : '220px',
+                flex: isMobile ? '1 1 auto' : undefined,
               }}
             >
               Confirm Agenda →
