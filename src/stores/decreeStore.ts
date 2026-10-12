@@ -57,7 +57,6 @@ export const useDecreeStore = create<DecreeStore>((set, get) => ({
     const { signedDecrees, rejectedDecrees } = get()
     const signedIds = new Set(signedDecrees.map(d => d.id))
     const rejectedIds = new Set(rejectedDecrees.map(d => d.id))
-    const tabled = get().tabledDecrees
 
     const eligible = ALL_DECREES.filter(decree => {
       if (decree.weekProposed > currentWeek) return false
@@ -71,24 +70,11 @@ export const useDecreeStore = create<DecreeStore>((set, get) => ({
       return true
     })
 
-    const pending = eligible.filter(d =>
-      !signedIds.has(d.id) &&
-      !rejectedIds.has(d.id) &&
-      !tabled.some(t => t.id === d.id)
-    )
+    // Postponed decrees come back the week after; tabledDecrees keeps the record
+    // (it is never cleared) so each decree can be postponed only once.
+    const deduped = eligible.filter((d, i) => eligible.findIndex(m => m.id === d.id) === i)
 
-    const retabled = tabled.filter(d => {
-      if (signedIds.has(d.id) || rejectedIds.has(d.id)) return false
-      if (d.conflictsWith) {
-        return !d.conflictsWith.some(cid => signedIds.has(cid))
-      }
-      return true
-    })
-
-    const merged = [...pending, ...retabled]
-    const deduped = merged.filter((d, i) => merged.findIndex(m => m.id === d.id) === i)
-
-    set({ pendingDecrees: deduped, tabledDecrees: [] })
+    set({ pendingDecrees: deduped })
   },
 
   signDecree: (id) => {
@@ -123,17 +109,24 @@ export const useDecreeStore = create<DecreeStore>((set, get) => ({
     }))
   },
 
+  // Rejecting is final: initDecrees never offers a rejected decree again.
   rejectDecree: (id) => {
+    const decree = get().pendingDecrees.find(d => d.id === id)
+    if (!decree) return
     set(s => ({
       pendingDecrees: s.pendingDecrees.filter(d => d.id !== id),
-      rejectedDecrees: [...s.rejectedDecrees, { ...get().pendingDecrees.find(d => d.id === id)!, rejected: true }],
+      rejectedDecrees: [...s.rejectedDecrees, { ...decree, rejected: true }],
     }))
   },
 
+  // Postpone to next week, once per decree.
   tableDecree: (id) => {
+    const { pendingDecrees, tabledDecrees } = get()
+    const decree = pendingDecrees.find(d => d.id === id)
+    if (!decree || tabledDecrees.some(t => t.id === id)) return
     set(s => ({
       pendingDecrees: s.pendingDecrees.filter(d => d.id !== id),
-      tabledDecrees: [...s.tabledDecrees, { ...get().pendingDecrees.find(d => d.id === id)!, tabled: true }],
+      tabledDecrees: [...s.tabledDecrees, { ...decree, tabled: true }],
     }))
   },
 

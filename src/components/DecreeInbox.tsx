@@ -114,7 +114,7 @@ interface DecreeInboxProps {
 
 export default function DecreeInbox({ onClose }: DecreeInboxProps) {
   const {
-    pendingDecrees, signedDecrees, rejectedDecrees,
+    pendingDecrees, signedDecrees, rejectedDecrees, tabledDecrees,
     selectedDecree, selectDecree, signDecree, rejectDecree, tableDecree,
   } = useDecreeStore()
 
@@ -139,6 +139,8 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
   }, [onClose])
 
   const detailDecree = selectedDecree ?? filteredPending[0]
+  const wasPostponed = !!detailDecree && tabledDecrees.some(t => t.id === detailDecree.id)
+  const isRejected = !!detailDecree && rejectedDecrees.some(r => r.id === detailDecree.id)
   // A decree cannot be signed while a decree it conflicts with is in force.
   const conflictingDecree = detailDecree?.conflictsWith
     ? signedDecrees.find(s => detailDecree.conflictsWith!.includes(s.id))
@@ -364,9 +366,12 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
             isConflict={isConflict}
             conflictTitle={conflictTitle ?? null}
             isMobile={isMobile}
+            wasPostponed={wasPostponed}
+            isRejected={isRejected}
             onSign={() => { signDecree(detailDecree.id) }}
             onReject={() => { rejectDecree(detailDecree.id) }}
-            onTable={() => { tableDecree(detailDecree.id) }}
+            // A postponed decree leaves the list until next week; show the next one
+            onTable={() => { tableDecree(detailDecree.id); selectDecree(null) }}
           />
         )}
       </div>
@@ -524,13 +529,18 @@ interface DecreeDetailProps {
   isConflict: boolean
   conflictTitle: string | null
   isMobile: boolean
+  /** Already postponed once; it cannot be postponed again. */
+  wasPostponed: boolean
+  isRejected: boolean
   onSign: () => void
   onReject: () => void
   onTable: () => void
 }
 
-function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, onSign }: DecreeDetailProps) {
+function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, wasPostponed, isRejected, onSign, onReject, onTable }: DecreeDetailProps) {
   const isSigned = decree.signed
+  // Reject and postpone are open only while the decree is undecided
+  const isUndecided = !isSigned && !isRejected
   const formationComplete = useCabinetStore(s => s.formation_complete)
   const [showSignature, setShowSignature] = useState(false)
   const padX = isMobile ? '16px' : '32px'
@@ -540,7 +550,7 @@ function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, onSign }: D
   }, [decree.id])
 
   const handleSignClick = () => {
-    if (isConflict || showSignature || isSigned) return
+    if (isConflict || showSignature || !isUndecided) return
     setShowSignature(true)
     playStamp()
     setTimeout(() => {
@@ -630,6 +640,16 @@ function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, onSign }: D
         )}
       </div>
 
+      {/* DECISION — reject for good, or postpone a week (once) */}
+      {isUndecided && !showSignature && (
+        <div data-testid="decree-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', padding: `12px ${padX} 0`, flexShrink: 0 }}>
+          <DecisionButton tone="reject" onClick={onReject}>Reject</DecisionButton>
+          <DecisionButton tone="neutral" onClick={onTable} disabled={wasPostponed}>
+            {wasPostponed ? 'Already postponed once' : 'Postpone a week'}
+          </DecisionButton>
+        </div>
+      )}
+
       {/* FOOTER (Signature & Sign Button) */}
       <div style={{ padding: `16px ${padX} 24px`, borderTop: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
         <SignatureLine
@@ -640,7 +660,9 @@ function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, onSign }: D
           signatureMaxWidth={260}
         />
 
-        {showSignature || isSigned ? (
+        {isRejected ? (
+          <RejectedStamp />
+        ) : showSignature || isSigned ? (
           <div style={{ width: '90px', height: '90px', flexShrink: 0 }} /> // Empty placeholder after signing
         ) : (
           <button
@@ -674,6 +696,71 @@ function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, onSign }: D
           </button>
         )}
       </div>
+    </div>
+  )
+}
+
+// ─── Decision controls ──────────────────────────────────────────────────────
+
+const DECISION_TONES = {
+  reject: { color: '#a04040', border: 'rgba(160,64,64,0.6)', hover: 'rgba(160,64,64,0.08)' },
+  neutral: { color: '#6b4f2a', border: 'rgba(107,79,42,0.5)', hover: 'rgba(107,79,42,0.08)' },
+} as const
+
+function DecisionButton({ tone, onClick, disabled = false, children }: {
+  tone: keyof typeof DECISION_TONES
+  onClick: () => void
+  disabled?: boolean
+  children: React.ReactNode
+}) {
+  const t = DECISION_TONES[tone]
+  const press = usePressHover()
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      {...(disabled ? {} : press.handlers)}
+      style={{
+        flex: '1 1 140px',
+        minHeight: '40px',
+        fontFamily: "'IBM Plex Mono', monospace",
+        fontSize: '11px',
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        color: t.color,
+        background: press.hovered && !disabled ? t.hover : 'transparent',
+        border: `1px solid ${t.border}`,
+        borderRadius: '2px',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.45 : 1,
+        transform: disabled ? undefined : press.transform,
+        transition: press.transition,
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
+function RejectedStamp() {
+  return (
+    <div
+      data-testid="decree-rejected-stamp"
+      style={{
+        flexShrink: 0,
+        padding: '6px 12px',
+        border: '2px solid #a04040',
+        color: '#a04040',
+        fontFamily: "'IBM Plex Mono', monospace",
+        fontSize: '14px',
+        fontWeight: 700,
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        transform: 'rotate(-6deg)',
+      }}
+    >
+      Rejected
     </div>
   )
 }
