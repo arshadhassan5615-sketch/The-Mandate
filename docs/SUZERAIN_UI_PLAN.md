@@ -134,6 +134,18 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - **For P8:** `MorningBriefing` isn't phone-ready (the left rail overlaps the page and the footer text breaks).
 - Tests: 12 new (recap 6, compass 6). Suite 348 pass / same 6 pre-existing failures. Lint clean on touched files. Playwright at 1440 and 390: briefing recap, compass tab, no sideways scroll.
 
+**P7 committed** as `d5cb80b` (pushed).
+
+**P8 part 1 (2026-10-13, `ccad948`): weekly screens on phones.** Swept briefing, press, agenda and dialogue at 390.
+- **Global CSS bug fixed:** `index.css` had an unlayered `* { margin: 0; padding: 0 }`. Tailwind v4 utilities are layered, so this reset beat every spacing class: 15 uses in 7 files (`px-8`/`py-3` header and footer bars, `mx-auto` centring on the epilogue and term report) did nothing on any screen. The reset now sits in `@layer base`. Desktop headers and footers get their intended gutters.
+- `constants/layout.ts`: `pageInsets(isPhone)`, one source for the space the fixed HUD takes. Desktop is top 48 / right 60 (unchanged); phones are top 128 / bottom 60 (the Government row plus the bottom bar).
+- `LeftSidebar` on phones: a row of 40px buttons under the TopBar crest. Before, its column floated over page content.
+- Briefing and agenda use `pageInsets`, tighter phone padding, and wrapping footers; the briefing's phone footer is the button alone. Confirm Agenda is a full-width button that no longer collides with the bottom bar.
+- Newspaper: the close button has its own slot at the end of the tab strip (it sat on the last outlet tab) and a "Close newspaper" label; the outlets scroll sideways.
+- The dialogue scene was already fine at 390.
+- Tests: 4 new (`constants/__tests__/layout.test.tsx`). Suite 352 pass / same 6 pre-existing failures. Lint unchanged.
+- **Still to do in P8:** the other full-page phases still reserve the desktop right rail on phones (`paddingRight: 60px` in BudgetInterface, CabinetFormation, CabinetMeeting, LobbyingInterface, VoteResult, ConstitutionalReform, NarrativeScene's bar); the newspaper masthead clips its side columns at 390; contrast check; bottom-bar tooltips (touch players never see them).
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.
