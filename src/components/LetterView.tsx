@@ -4,6 +4,10 @@ import { useChainStore } from '../stores/chainStore'
 import { getAvailableLetters, generateLetterContent, createSentLetter, LETTER_OPTIONS } from '../engine/LetterEngine'
 import type { LetterTone } from '../types/gameState'
 import { Z } from '../constants/zIndex'
+import { DocumentSeal, SignatureLine } from './ui/StateDocument'
+
+/** Time for the signature to write in before the letter is sent. */
+const SIGN_BEFORE_SEND_MS = 1000
 
 const TONES: { value: LetterTone; label: string; description: string }[] = [
   { value: 'formal', label: 'Formal', description: 'Measured, official, the voice of the Chancellor.' },
@@ -29,6 +33,7 @@ export default function LetterView({ onClose }: { onClose: () => void }) {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [selectedTone, setSelectedTone] = useState<LetterTone>('personal')
   const [preview, setPreview] = useState<string | null>(null)
+  const [isSigning, setIsSigning] = useState(false)
   const [sent, setSent] = useState(false)
 
   const opt = LETTER_OPTIONS.find(o => o.id === selectedLetter)
@@ -40,15 +45,19 @@ export default function LetterView({ onClose }: { onClose: () => void }) {
   }
 
   const handleSend = () => {
-    if (!opt) return
-    const letter = createSentLetter(opt, selectedTone, currentWeek)
-    useGameStore.getState().sendLetter(letter)
-    useChainStore.getState().schedule(
-      [{ targetNodeId: opt.responseSceneId, delayWeeks: 1 }],
-      currentWeek, opt.id, 'letter_system',
-    )
-    setSent(true)
-    setTimeout(onClose, 2000)
+    if (!opt || isSigning) return
+    // Sign first, then send once the signature has written in.
+    setIsSigning(true)
+    setTimeout(() => {
+      const letter = createSentLetter(opt, selectedTone, currentWeek)
+      useGameStore.getState().sendLetter(letter)
+      useChainStore.getState().schedule(
+        [{ targetNodeId: opt.responseSceneId, delayWeeks: 1 }],
+        currentWeek, opt.id, 'letter_system',
+      )
+      setSent(true)
+      setTimeout(onClose, 2000)
+    }, SIGN_BEFORE_SEND_MS)
   }
 
   if (sent) {
@@ -92,13 +101,18 @@ export default function LetterView({ onClose }: { onClose: () => void }) {
               )}
             </div>
           ) : preview ? (
-            <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem 2rem', scrollbarWidth: 'thin', background: '#f5f0e8' }}>
+            <div data-testid="letter-preview" style={{ flex: 1, overflowY: 'auto', padding: '1.5rem clamp(1rem, 5vw, 2rem)', scrollbarWidth: 'thin', background: '#f5f0e8' }}>
+              {/* Personal letters go out as Katerin, not under the state seal. */}
+              {selectedTone !== 'personal' && <DocumentSeal size={40} />}
               <div style={{ fontFamily: "'Crimson Text', Georgia, serif", fontSize: '0.95rem', color: '#3a2510', lineHeight: 1.7, whiteSpace: 'pre-wrap', fontStyle: 'italic' }}>
                 {preview}
               </div>
-              <div style={{ marginTop: '2rem', borderTop: '1px solid #c8b898', paddingTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
-                <button onClick={() => setPreview(null)} style={{ background: 'none', border: '1px solid #8a6a3a', color: '#5a3a10', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 0.8rem', cursor: 'pointer' }}>← Edit</button>
-                <button onClick={handleSend} style={{ background: '#8a6a3a', border: 'none', color: '#f5f0e8', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1.2rem', cursor: 'pointer', letterSpacing: '0.1em' }}>SEND LETTER</button>
+              <div style={{ marginTop: '1.5rem' }}>
+                <SignatureLine isSigned={isSigning} caption={selectedTone === 'personal' ? 'Katerin Ashavel' : 'Office of the Chancellor'} width={220} height={90} />
+              </div>
+              <div style={{ marginTop: '1.5rem', borderTop: '1px solid #c8b898', paddingTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+                <button onClick={() => setPreview(null)} disabled={isSigning} style={{ background: 'none', border: '1px solid #8a6a3a', color: '#5a3a10', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 0.8rem', cursor: isSigning ? 'default' : 'pointer' }}>← Edit</button>
+                <button onClick={handleSend} disabled={isSigning} style={{ background: '#8a6a3a', border: 'none', color: '#f5f0e8', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1.2rem', cursor: isSigning ? 'default' : 'pointer', letterSpacing: '0.1em' }}>SIGN &amp; SEND</button>
               </div>
             </div>
           ) : (

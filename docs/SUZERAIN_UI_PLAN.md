@@ -100,6 +100,17 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - Still open for P8: `DecreeInbox` uses a 280px list beside a 680px page, which will not fit a phone.
 - Tests: 5 new. Suite 287 pass / same 6 pre-existing failures. Playwright at 1440 and 390: fiscal note shown, no sideways scroll.
 
+**P5 bills committed** as `f9ad04d`.
+
+**P5 done (2026-10-12, uncommitted).** Decrees and letters.
+- `ui/StateDocument.tsx`: shared `DocumentSeal` and `SignatureLine` (empty line + caption, signature writes in when signed). Bills, decrees and letters all use it; the bill and decree pages each had their own copy before.
+- **Data bug fixed:** all 20 `nation.nationalDebt` effects in `data/decrees.ts` had the wrong sign. Decrees treated it as a treasury balance, but it is a debt total (bills and the budget engine add to it when spending). Signing a ₭20M hospital decree *lowered* the debt by ₭20M. Signs flipped to match each effect's own description; a test now checks every debt effect against its description.
+- Decree page: seal, "Economic decree · Proposed by …" line, fiscal note (`ui/decreeFiscal.ts`, net of immediate and delayed debt effects), and a stated reason when a conflicting decree is in force. Before, the Sign button just greyed out. The conflict check also now catches any listed rival, not only the first.
+- Decree inbox on phones: list stacks above the document, whole column scrolls. No sideways scroll at 390.
+- Letters: preview carries the seal and an empty signature line; "Sign & send" writes the signature in, then sends after 1s. Personal-tone letters go out as "Katerin Ashavel" without the state seal.
+- Not done: decree prerequisites (hidden stats). Reject/Table buttons stay removed (taken out in `414e5e5`); the 2 stale `DecreeInbox.test` failures still expect them.
+- Tests: 35 new (StateDocument 3, decreeFiscal 24 incl. one per authored debt effect, DecreeDocument 5, LetterView 3). Suite 322 pass / same 6 pre-existing failures. Lint on touched files: 3 errors left, all pre-existing (was 6). Playwright at 1440 and 390: decree with fiscal note, decree with conflict, bill page, letter signing.
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.

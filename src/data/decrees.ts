@@ -1,5 +1,8 @@
 import type { Decree } from '../types/decree'
 
+// nation.nationalDebt is a debt total in millions of ₭: positive values ADD debt
+// (spending), negative values pay it down (revenue). Same convention as bills.
+
 export const ALL_DECREES: Decree[] = [
   // ═══════════════════════════════════════════════════════════════════════════════
   // ECONOMIC DECREES
@@ -62,7 +65,7 @@ export const ALL_DECREES: Decree[] = [
     immediateEffects: [
       { stat: 'factions.workersCoalition', value: 12, operation: 'add', description: 'Workers Coalition celebrates' },
       { stat: 'factions.businessClass', value: -15, operation: 'add', description: 'Business community alarmed' },
-      { stat: 'nation.nationalDebt', value: -20, operation: 'add', description: 'Significant budget expenditure' },
+      { stat: 'nation.nationalDebt', value: 20, operation: 'add', description: 'Significant budget expenditure' },
     ],
     longTermEffects: [
       { stat: 'nation.economyHealth', value: -5, operation: 'add', delayWeeks: 8, description: 'State management efficiency loss' },
@@ -82,7 +85,7 @@ export const ALL_DECREES: Decree[] = [
       { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'Politically costly. Fiscally necessary. The timing is the question.' },
     ],
     immediateEffects: [
-      { stat: 'nation.nationalDebt', value: 15, operation: 'add', description: 'Deficit reduction begins' },
+      { stat: 'nation.nationalDebt', value: -15, operation: 'add', description: 'Deficit reduction begins' },
       { stat: 'factions.workersCoalition', value: -10, operation: 'add', description: 'Working class bears the cost' },
     ],
     longTermEffects: [
@@ -104,7 +107,7 @@ export const ALL_DECREES: Decree[] = [
     ],
     immediateEffects: [
       { stat: 'factions.workersCoalition', value: 5, operation: 'add', description: 'Rural workers approve' },
-      { stat: 'nation.nationalDebt', value: -8, operation: 'add', description: 'Annual subsidy cost' },
+      { stat: 'nation.nationalDebt', value: 8, operation: 'add', description: 'Annual subsidy cost' },
     ],
     longTermEffects: [
       { stat: 'nation.economyHealth', value: 3, operation: 'add', delayWeeks: 6, description: 'Food security stabilizes' },
@@ -171,7 +174,7 @@ export const ALL_DECREES: Decree[] = [
     ],
     longTermEffects: [
       { stat: 'nation.economyHealth', value: 3, operation: 'add', delayWeeks: 6, description: 'Education investment returns' },
-      { stat: 'nation.nationalDebt', value: 10, operation: 'add', delayWeeks: 4, description: 'Wealth tax revenue' },
+      { stat: 'nation.nationalDebt', value: -10, operation: 'add', delayWeeks: 4, description: 'Wealth tax revenue' },
     ],
   },
 
@@ -396,7 +399,7 @@ export const ALL_DECREES: Decree[] = [
     ],
     immediateEffects: [
       { stat: 'factions.church', value: 10, operation: 'add', description: 'Church approves' },
-      { stat: 'nation.nationalDebt', value: -5, operation: 'add', description: 'Revenue loss from returned properties' },
+      { stat: 'nation.nationalDebt', value: 5, operation: 'add', description: 'Revenue loss from returned properties' },
     ],
     longTermEffects: [],
   },
@@ -457,7 +460,7 @@ export const ALL_DECREES: Decree[] = [
     immediateEffects: [
       { stat: 'factions.church', value: 8, operation: 'add', description: 'Church approves strongly' },
       { stat: 'factions.workersCoalition', value: 5, operation: 'add', description: 'Welfare reaches more people' },
-      { stat: 'nation.nationalDebt', value: -5, operation: 'add', description: 'Church absorbs some welfare cost' },
+      { stat: 'nation.nationalDebt', value: 5, operation: 'add', description: 'Church absorbs some welfare cost' },
     ],
     longTermEffects: [],
   },
@@ -480,7 +483,7 @@ export const ALL_DECREES: Decree[] = [
     ],
     immediateEffects: [
       { stat: 'factions.workersCoalition', value: 10, operation: 'add', description: 'Working class strongly approves' },
-      { stat: 'nation.nationalDebt', value: -8, operation: 'add', description: 'Annual transit subsidy cost' },
+      { stat: 'nation.nationalDebt', value: 8, operation: 'add', description: 'Annual transit subsidy cost' },
     ],
     longTermEffects: [
       { stat: 'nation.publicOrder', value: 3, operation: 'add', delayWeeks: 8, description: 'Mobility improves social cohesion' },
@@ -501,7 +504,7 @@ export const ALL_DECREES: Decree[] = [
     ],
     immediateEffects: [
       { stat: 'factions.workersCoalition', value: 12, operation: 'add', description: 'Working class celebrates' },
-      { stat: 'nation.nationalDebt', value: -15, operation: 'add', description: 'Significant ongoing fiscal cost' },
+      { stat: 'nation.nationalDebt', value: 15, operation: 'add', description: 'Significant ongoing fiscal cost' },
     ],
     longTermEffects: [
       { stat: 'nation.publicOrder', value: 5, operation: 'add', delayWeeks: 10, description: 'Healthier population, more stable society' },
@@ -522,7 +525,7 @@ export const ALL_DECREES: Decree[] = [
     ],
     immediateEffects: [
       { stat: 'factions.workersCoalition', value: 10, operation: 'add', description: 'Urban workers approve' },
-      { stat: 'nation.nationalDebt', value: -12, operation: 'add', description: 'Construction cost' },
+      { stat: 'nation.nationalDebt', value: 12, operation: 'add', description: 'Construction cost' },
     ],
     longTermEffects: [
       { stat: 'nation.economyHealth', value: 3, operation: 'add', delayWeeks: 8, description: 'Reduced housing cost burden improves productivity' },
@@ -544,7 +547,7 @@ export const ALL_DECREES: Decree[] = [
     immediateEffects: [
       { stat: 'factions.reformists', value: 8, operation: 'add', description: 'Reform movement strongly approves' },
       { stat: 'factions.workersCoalition', value: 8, operation: 'add', description: 'Working families approve' },
-      { stat: 'nation.nationalDebt', value: -18, operation: 'add', description: 'Significant annual cost' },
+      { stat: 'nation.nationalDebt', value: 18, operation: 'add', description: 'Significant annual cost' },
     ],
     longTermEffects: [
       { stat: 'nation.economyHealth', value: 8, operation: 'add', delayWeeks: 12, description: 'Educated workforce drives economic growth' },
@@ -565,7 +568,7 @@ export const ALL_DECREES: Decree[] = [
     ],
     immediateEffects: [
       { stat: 'factions.workersCoalition', value: 8, operation: 'add', description: 'Workers approve' },
-      { stat: 'nation.nationalDebt', value: -10, operation: 'add', description: 'Pension cost increase' },
+      { stat: 'nation.nationalDebt', value: 10, operation: 'add', description: 'Pension cost increase' },
     ],
     longTermEffects: [],
   },
@@ -585,7 +588,7 @@ export const ALL_DECREES: Decree[] = [
     immediateEffects: [
       { stat: 'factions.workersCoalition', value: 6, operation: 'add', description: 'Families approve' },
       { stat: 'personal.publicImage', value: 5, operation: 'add', description: 'Katerin seen as caring Chancellor' },
-      { stat: 'nation.nationalDebt', value: -6, operation: 'add', description: 'Allowance program cost' },
+      { stat: 'nation.nationalDebt', value: 6, operation: 'add', description: 'Allowance program cost' },
     ],
     longTermEffects: [],
   },
@@ -605,7 +608,7 @@ export const ALL_DECREES: Decree[] = [
     immediateEffects: [
       { stat: 'factions.workersCoalition', value: 5, operation: 'add', description: 'Community support' },
       { stat: 'personal.moralCompass', value: 5, operation: 'add', description: 'Katerin acts with conscience' },
-      { stat: 'nation.nationalDebt', value: -4, operation: 'add', description: 'Program cost' },
+      { stat: 'nation.nationalDebt', value: 4, operation: 'add', description: 'Program cost' },
     ],
     longTermEffects: [],
   },
@@ -627,7 +630,7 @@ export const ALL_DECREES: Decree[] = [
       { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Twenty million kroner. Long return horizon. Fiscally viable if timed correctly.' },
     ],
     immediateEffects: [
-      { stat: 'nation.nationalDebt', value: -20, operation: 'add', description: 'Major infrastructure investment' },
+      { stat: 'nation.nationalDebt', value: 20, operation: 'add', description: 'Major infrastructure investment' },
     ],
     longTermEffects: [
       { stat: 'nation.economyHealth', value: 10, operation: 'add', delayWeeks: 8, description: 'Connectivity drives economic activity' },
@@ -648,7 +651,7 @@ export const ALL_DECREES: Decree[] = [
       { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Sound investment. Timing against current deficit is the question.' },
     ],
     immediateEffects: [
-      { stat: 'nation.nationalDebt', value: -12, operation: 'add', description: 'Construction and faculty cost' },
+      { stat: 'nation.nationalDebt', value: 12, operation: 'add', description: 'Construction and faculty cost' },
     ],
     longTermEffects: [
       { stat: 'nation.economyHealth', value: 6, operation: 'add', delayWeeks: 10, description: 'Skilled workforce expands' },
@@ -668,7 +671,7 @@ export const ALL_DECREES: Decree[] = [
       { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Eighteen million setup cost. Returns depend on attracting the right investment.' },
     ],
     immediateEffects: [
-      { stat: 'nation.nationalDebt', value: -18, operation: 'add', description: 'Zone development cost' },
+      { stat: 'nation.nationalDebt', value: 18, operation: 'add', description: 'Zone development cost' },
       { stat: 'factions.businessClass', value: 5, operation: 'add', description: 'Business community sees opportunity' },
     ],
     longTermEffects: [
@@ -689,7 +692,7 @@ export const ALL_DECREES: Decree[] = [
       { ministerId: 'elara_vostane', stance: 'favor', reason: 'Fifteen million investment with strong revenue projections from transit fees.' },
     ],
     immediateEffects: [
-      { stat: 'nation.nationalDebt', value: -15, operation: 'add', description: 'Port development cost' },
+      { stat: 'nation.nationalDebt', value: 15, operation: 'add', description: 'Port development cost' },
     ],
     longTermEffects: [
       { stat: 'nation.economyHealth', value: 8, operation: 'add', delayWeeks: 10, description: 'Trade revenue grows' },
@@ -710,7 +713,7 @@ export const ALL_DECREES: Decree[] = [
       { ministerId: 'elara_vostane', stance: 'neutral', reason: 'Fourteen million over three years. Returns are long-term but the social case is clear.' },
     ],
     immediateEffects: [
-      { stat: 'nation.nationalDebt', value: -14, operation: 'add', description: 'Grid extension cost' },
+      { stat: 'nation.nationalDebt', value: 14, operation: 'add', description: 'Grid extension cost' },
     ],
     longTermEffects: [
       { stat: 'factions.workersCoalition', value: 8, operation: 'add', delayWeeks: 12, description: 'Rural communities benefit' },
@@ -731,7 +734,7 @@ export const ALL_DECREES: Decree[] = [
       { ministerId: 'elara_vostane', stance: 'against', reason: 'Twenty million capital plus ongoing operating costs. The fiscal timing is wrong.' },
     ],
     immediateEffects: [
-      { stat: 'nation.nationalDebt', value: -20, operation: 'add', description: 'Hospital construction cost' },
+      { stat: 'nation.nationalDebt', value: 20, operation: 'add', description: 'Hospital construction cost' },
     ],
     longTermEffects: [
       { stat: 'factions.workersCoalition', value: 10, operation: 'add', delayWeeks: 10, description: 'Healthcare access improves' },
@@ -752,7 +755,7 @@ export const ALL_DECREES: Decree[] = [
       { ministerId: 'vyktor_reznik', stance: 'neutral', reason: 'Politically popular. Fiscally minor relative to other commitments. Optics matter.' },
     ],
     immediateEffects: [
-      { stat: 'nation.nationalDebt', value: -8, operation: 'add', description: 'Restoration cost' },
+      { stat: 'nation.nationalDebt', value: 8, operation: 'add', description: 'Restoration cost' },
       { stat: 'personal.publicImage', value: 5, operation: 'add', description: 'Katerin seen as culturally engaged' },
     ],
     longTermEffects: [

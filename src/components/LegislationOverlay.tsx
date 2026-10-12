@@ -13,11 +13,10 @@ import {
 } from '../engine/BillEngine'
 import { playStamp } from '../engine/audioEngine'
 import { audioManager } from '../engine/AudioManager'
-import veltriaSeal from '../assets/images/veltria_seal.png'
-import katerinSignature from '../assets/images/katerin_signature.jpeg'
 import { Z } from '../constants/zIndex'
 import { useIsMobile } from '../hooks/useIsMobile'
 import FiscalNote from './ui/FiscalNote'
+import { DocumentSeal, SignatureLine } from './ui/StateDocument'
 
 const FACTION_NAMES: Record<string, string> = {
   reformists: 'Civic Renewal',
@@ -352,24 +351,7 @@ export default function LegislationOverlay() {
             padding: isMobile ? '16px 16px 0' : '16px 44px 0',
           }}>
             {/* SEAL */}
-            <div style={{
-              textAlign: 'center',
-              marginBottom: '6px',
-            }}>
-              <img
-                src={veltriaSeal}
-                alt="Veltria Seal"
-                style={{
-                  width: '52px',
-                  height: '52px',
-                  objectFit: 'contain',
-                  display: 'block',
-                  margin: '0 auto',
-                  mixBlendMode: 'multiply',
-                  opacity: 0.92,
-                }}
-              />
-            </div>
+            <DocumentSeal />
 
             {/* BILL TITLE */}
             <div style={{
@@ -437,43 +419,11 @@ export default function LegislationOverlay() {
               flexDirection: 'column',
               alignItems: 'center',
             }}>
-              <div style={{
-                width: '280px',
-                height: '126px',
-                borderBottom: '1px solid #333',
-                position: 'relative',
-                marginBottom: '6px',
-              }}>
-                {showSignature && chosenAction === 'signed' && (
-                  <img
-                    src={katerinSignature}
-                    alt="Signature"
-                    style={{
-                      position: 'absolute',
-                      bottom: '-12px',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      height: '126px',
-                      width: 'auto',
-                      maxWidth: '585px',
-                      objectFit: 'contain',
-                      mixBlendMode: 'multiply',
-                      filter: 'contrast(1.2)',
-                      animation: 'signatureWrite 900ms ease-out forwards',
-                      pointerEvents: 'none',
-                    }}
-                  />
-                )}
-              </div>
-              <div style={{
-                fontSize: '8px',
-                letterSpacing: '3px',
-                color: '#666',
-                textTransform: 'uppercase',
-                textAlign: 'center',
-              }}>
-                Chancellor of the Republic
-              </div>
+              <SignatureLine
+                isSigned={showSignature && chosenAction === 'signed'}
+                caption="Chancellor of the Republic"
+                signatureMaxWidth={585}
+              />
             </div>
 
             {/* BUTTONS - inside document at bottom */}
