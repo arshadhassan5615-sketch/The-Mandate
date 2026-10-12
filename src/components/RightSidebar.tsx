@@ -150,8 +150,9 @@ export default function RightSidebar() {
         borderTop: '1px solid rgba(181,154,94,0.35)',
         boxShadow: '0 -2px 12px rgba(0,0,0,0.4)',
         padding: '0 4px',
-        overflowX: 'auto',
-        scrollbarWidth: 'none',
+        // No overflow scrolling: it clipped the tooltips drawn above the bar.
+        // The buttons fit at 320px+; wrap rather than scroll if one is added.
+        flexWrap: 'wrap',
       }
     : {
         position: 'fixed',

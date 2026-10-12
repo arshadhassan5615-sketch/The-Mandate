@@ -1,99 +1,58 @@
-// Layout tests for TopBar: compact top-left resource chip + top-right week chip.
-import { describe, it, expect, beforeEach } from 'vitest'
+// TopBar: crest, Overview/Settings buttons and the resource chips.
+// (The old "Republic of Veltria" label and week chip were removed on purpose.)
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, screen, act } from '@testing-library/react'
 import TopBar from '../TopBar'
 import { useGameStore } from '../../stores/gameStore'
 import { useNewsStore } from '../../stores/newsStore'
+
+const desktopWidth = window.innerWidth
 
 function resetStore() {
   useGameStore.getState().resetToInitial()
   useNewsStore.setState({ isOpen: false, articles: [], lastReadIndex: -1, readRecords: {} })
 }
 
-/** Direct children of the RTL container that are the two fixed chips. */
-function fixedChips(container: HTMLElement): HTMLElement[] {
-  return Array.from(container.children).filter(
-    (el): el is HTMLElement =>
-      el instanceof HTMLElement && el.style.position === 'fixed',
-  )
-}
-
 describe('TopBar', () => {
   beforeEach(resetStore)
+  afterEach(() => { window.innerWidth = desktopWidth })
 
-  it('renders seal label, resource values, and week from the real store', () => {
-    useGameStore.setState({ currentWeek: 12 })
+  it('shows the crest and the Overview and Settings buttons', () => {
     render(<TopBar />)
-    expect(screen.getByText('REPUBLIC OF VELTRIA')).toBeInTheDocument()
-    expect(screen.getByText('OFFICE OF THE CHANCELLOR')).toBeInTheDocument()
-    expect(screen.getByText(/WEEK 12 \/ 52/)).toBeInTheDocument()
-    expect(screen.getByAltText('Veltria Seal')).toBeInTheDocument()
-    expect(screen.getByAltText('Economy')).toBeInTheDocument()
+    expect(screen.getByAltText('Seal of the Republic of Veltria')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Overview' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
+  })
+
+  it('shows treasury, privy purse and approval from the real store', () => {
+    const g = useGameStore.getState()
+    useGameStore.setState({ personal: { ...g.personal, publicImage: 61.6 } })
+    render(<TopBar />)
     expect(screen.getByAltText('Treasury')).toBeInTheDocument()
-    expect(screen.getByAltText('Wealth')).toBeInTheDocument()
+    expect(screen.getByAltText('Privy Purse')).toBeInTheDocument()
     expect(screen.getByAltText('Approval')).toBeInTheDocument()
+    expect(screen.getByText('62%')).toBeInTheDocument()
   })
 
-  it('splits HUD into top-left resource chip and top-right week chip', () => {
-    const { container } = render(<TopBar />)
-    const chips = fixedChips(container)
-    expect(chips.length).toBe(2)
-
-    const left = chips.find((c) => c.style.left === '12px')
-    const right = chips.find((c) => c.style.right === '12px')
-    expect(left).toBeTruthy()
-    expect(right).toBeTruthy()
-
-    // Top edges and outer padding must match exactly (shared chipChrome)
-    expect(left!.style.top).toBe('12px')
-    expect(right!.style.top).toBe('12px')
-    expect(left!.style.top).toBe(right!.style.top)
-    expect(left!.style.padding).toBe('6px 10px')
-    expect(right!.style.padding).toBe('6px 10px')
-    expect(left!.style.padding).toBe(right!.style.padding)
-
-    expect(left!.style.width).toBe('auto')
-    expect(right!.style.width).toBe('auto')
-    expect(left!.style.borderRadius).toBe('6px')
-    expect(right!.style.borderRadius).toBe('6px')
-
-    // Chip fill (jsdom keeps the authored string; normalize spaces)
-    const bg = left!.style.background.replace(/\s/g, '')
-    expect(bg).toContain('rgba(10,8,6,0.85)')
-
-    // Not a full-width spanning bar
-    expect(left!.style.right).not.toBe('0px')
-    expect(left!.style.width).not.toBe('100%')
-
-    // Week lives on the right chip only
-    expect(right!.textContent).toMatch(/WEEK/)
-    expect(left!.textContent).not.toMatch(/WEEK \d+ \/ 52/)
-    expect(left!.textContent).toMatch(/REPUBLIC OF VELTRIA/)
-  })
-
-  it('scales body text smaller than the old full-bar sizes', () => {
+  it('drops the privy purse on phones', () => {
+    window.innerWidth = 390
     render(<TopBar />)
-    const republic = screen.getByText('REPUBLIC OF VELTRIA')
-    const week = screen.getByText(/WEEK \d+ \/ 52/)
-    // Prior: 0.65rem / 0.8rem — compact targets ~15–20% down
-    expect(republic.style.fontSize).toBe('0.54rem')
-    expect(week.style.fontSize).toBe('0.66rem')
+    expect(screen.queryByAltText('Privy Purse')).toBeNull()
+    expect(screen.getByAltText('Treasury')).toBeInTheDocument()
   })
 
-  it('returns null while useNewsStore isOpen is true (does not paint over newspaper)', () => {
+  it('returns null while the newspaper is open (does not paint over it)', () => {
     act(() => { useNewsStore.getState().setOpen(true) })
     const { container } = render(<TopBar />)
     expect(container.firstChild).toBeNull()
-    expect(screen.queryByText('REPUBLIC OF VELTRIA')).not.toBeInTheDocument()
-    expect(screen.queryByText(/WEEK \d+ \/ 52/)).not.toBeInTheDocument()
   })
 
-  it('renders again after news closes via setOpen(false)', () => {
+  it('renders again after the newspaper closes', () => {
     act(() => { useNewsStore.getState().setOpen(true) })
     render(<TopBar />)
-    expect(screen.queryByText('REPUBLIC OF VELTRIA')).not.toBeInTheDocument()
+    expect(screen.queryByAltText('Treasury')).toBeNull()
 
     act(() => { useNewsStore.getState().setOpen(false) })
-    expect(screen.getByText('REPUBLIC OF VELTRIA')).toBeInTheDocument()
+    expect(screen.getByAltText('Treasury')).toBeInTheDocument()
   })
 })

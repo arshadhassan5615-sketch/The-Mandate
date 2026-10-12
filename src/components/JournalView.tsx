@@ -643,7 +643,8 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '1.5rem',
+          flexWrap: 'wrap', // six counters overflow a 320px phone in one row
+          gap: '0.3rem 1.5rem',
           background: '#12100e',
         }}>
           {viewMode === 'diary' ? (

@@ -144,6 +144,25 @@ function generateReactionText(
 
 type DecisionState = 'pending' | 'deciding' | 'decided' | 'overridden' | 'auto_passed'
 
+/** Apply a bill outcome: stat modifiers, flags, and its budget cost to the debt. */
+function applyBillEffects(
+  bill: Bill,
+  modifiers: Array<{ stat: string; operation: 'add' | 'set' | 'multiply'; value: number }>,
+  flags: string[],
+) {
+  const game = useGameStore.getState()
+  game.applyModifiers(modifiers)
+  useNarrativeStore.getState().addFlags(flags)
+
+  // Bill budget cost affects national debt directly
+  // Negative budgetCost = spending (adds debt), positive = revenue (reduces debt)
+  if (bill.budgetCost !== 0) {
+    game.applyModifiers([
+      { stat: 'nation.nationalDebt', operation: 'add', value: -bill.budgetCost },
+    ])
+  }
+}
+
 export default function LegislationOverlay() {
   const { bills, history, recordDecision } = useBillStore()
   const gameState = useGameStore()
@@ -197,25 +216,25 @@ export default function LegislationOverlay() {
     }
   }, [phase])
 
+  // Under the reformed constitution the Chancellor's signature is automatic.
+  // This was called during render, which played the stamp, started timers and
+  // applied the bill from render (twice under StrictMode); it is an effect now.
+  useEffect(() => {
+    if (phase !== 'legislation' || !currentBill || !vetoRemoved || decisionState !== 'pending') return
+    const bill = currentBill
+    setDecisionState('auto_passed')
+    playStamp()
+    timeoutRefs.current.push(setTimeout(() => {
+      applyBillEffects(bill, bill.signEffects, bill.signFlags)
+      setReactions([
+        { speaker: 'Vyktor Reznik', text: 'Under the reformed constitution, the Chancellor\'s signature is automatic. The Assembly has spoken.' },
+      ])
+    }, 400))
+  }, [phase, currentBill, vetoRemoved, decisionState])
+
   if (phase !== 'legislation' || !currentBill) return null
 
   const bill = currentBill
-
-  const applyBillEffects = (
-    modifiers: Array<{ stat: string; operation: 'add' | 'set' | 'multiply'; value: number }>,
-    flags: string[],
-  ) => {
-    gameState.applyModifiers(modifiers)
-    useNarrativeStore.getState().addFlags(flags)
-
-    // Bill budget cost affects national debt directly
-    // Negative budgetCost = spending (adds debt), positive = revenue (reduces debt)
-    if (bill.budgetCost !== 0) {
-      gameState.applyModifiers([
-        { stat: 'nation.nationalDebt', operation: 'add', value: -bill.budgetCost },
-      ])
-    }
-  }
 
   const handleSign = () => {
     if (decisionState !== 'pending') return
@@ -227,7 +246,7 @@ export default function LegislationOverlay() {
     audioManager.fadeToTrack('theme_reform_victory', 1500)
 
     // Apply bill effects immediately (behind the animation)
-    applyBillEffects(bill.signEffects, bill.signFlags)
+    applyBillEffects(bill, bill.signEffects, bill.signFlags)
 
     // Stamp slams at 600ms
     timeoutRefs.current.push(setTimeout(() => {
@@ -259,7 +278,7 @@ export default function LegislationOverlay() {
       if (result.overridden) {
         timeoutRefs.current.push(setTimeout(() => {
           setOverrideResult({ overridden: true, assemblyVote: result.assemblyVote })
-          applyBillEffects(bill.signEffects, bill.signFlags)
+          applyBillEffects(bill, bill.signEffects, bill.signFlags)
           const reactTexts = generateReactionText(bill, 'overridden')
           setReactions([
             { speaker: 'National Assembly', text: `The Assembly has overridden your veto by a vote of ${result.assemblyVote}%. The bill becomes law despite your objection.` },
@@ -272,26 +291,13 @@ export default function LegislationOverlay() {
       }
     }
 
-    applyBillEffects(bill.vetoEffects, bill.vetoFlags)
+    applyBillEffects(bill, bill.vetoEffects, bill.vetoFlags)
     timeoutRefs.current.push(setTimeout(() => {
       const reactTexts = generateReactionText(bill, 'vetoed')
       setReactions(reactTexts)
       setDecisionState('decided')
       setShowStamp(false)
     }, 2200))
-  }
-
-  const handleAutoPass = () => {
-    if (decisionState !== 'pending') return
-    setDecisionState('auto_passed')
-    playStamp()
-
-    timeoutRefs.current.push(setTimeout(() => {
-      applyBillEffects(bill.signEffects, bill.signFlags)
-      setReactions([
-        { speaker: 'Vyktor Reznik', text: 'Under the reformed constitution, the Chancellor\'s signature is automatic. The Assembly has spoken.' },
-      ])
-    }, 400))
   }
 
   const advanceToNextBill = () => {
@@ -315,11 +321,6 @@ export default function LegislationOverlay() {
       // All bills processed — transition to agenda
       useWeekStore.getState().endLegislation()
     }
-  }
-
-  // Auto-pass immediately if veto power removed
-  if (vetoRemoved && decisionState === 'pending') {
-    handleAutoPass()
   }
 
   return (

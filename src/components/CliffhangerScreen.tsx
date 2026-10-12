@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 
 interface CliffhangerScreenProps {
   text: string
@@ -14,17 +14,25 @@ export default function CliffhangerScreen({ text, onContinue }: CliffhangerScree
     return () => clearTimeout(t)
   }, [])
 
-  // Auto-continue after 4 seconds
-  useEffect(() => {
-    const t = setTimeout(() => handleContinue(), 4000)
-    return () => clearTimeout(t)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  // Continue exactly once. The guard is a ref, not state: the 4s auto-continue
+  // timer below holds the first render's callback, so a state flag there was
+  // stale and a Space press followed by the timer called onContinue twice.
+  const continuedRef = useRef(false)
+  const onContinueRef = useRef(onContinue)
+  useEffect(() => { onContinueRef.current = onContinue }, [onContinue])
 
   const handleContinue = useCallback(() => {
-    if (fadingOut) return
+    if (continuedRef.current) return
+    continuedRef.current = true
     setFadingOut(true)
-    setTimeout(() => onContinue(), 600)
-  }, [fadingOut, onContinue])
+    setTimeout(() => onContinueRef.current(), 600)
+  }, [])
+
+  // Auto-continue after 4 seconds
+  useEffect(() => {
+    const t = setTimeout(handleContinue, 4000)
+    return () => clearTimeout(t)
+  }, [handleContinue])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {

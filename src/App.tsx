@@ -6,7 +6,6 @@ import SaveLoadMenu from './components/SaveLoadMenu'
 import CodexViewer from './components/CodexViewer'
 import CharacterMap from './components/CharacterMap'
 import ProvinceDetail from './components/panels/ProvinceDetail'
-import DiplomaticLetterPanel from './components/panels/DiplomaticLetterPanel'
 import InlineCodexPanel from './components/panels/InlineCodexPanel'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { useGameStore } from './stores/gameStore'
@@ -210,7 +209,7 @@ export default function App() {
         <SaveLoadMenu />
         <CodexViewer />
         {provinceDetailId && <ProvinceDetail initialProvince={provinceDetailId} onClose={() => setProvinceDetailId(null)} />}
-        <DiplomaticLetterPanel />
+        {/* DiplomaticLetterPanel is mounted once, inside GameLayout */}
         <InlineCodexPanel />
       </MotionConfig>
     </ErrorBoundary>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useCodexStore, ALL_CODEX_ENTRIES } from '../stores/codexStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
@@ -6,6 +6,7 @@ import { useSettingsStore } from '../stores/settingsStore'
 import type { CodexCategory, CodexEntry } from '../types/codex'
 import { CATEGORY_LABELS } from '../types/codex'
 import CharacterPortrait from './portraits/CharacterPortrait'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 // ─── Parchment palette (distinct from the game's dark theme) ─────────────────
 
@@ -309,6 +310,13 @@ export default function CodexViewer() {
 
   const activeEntry = categoryEntries.find(e => e.id === activeEntryId) ?? categoryEntries[0] ?? null
 
+  // Phones can't fit three columns: show the list (sections + entries), then
+  // the chosen entry full width with a way back.
+  const isPhone = useIsMobile()
+  const [phonePane, setPhonePane] = useState<'list' | 'entry'>('list')
+  const showList = !isPhone || phonePane === 'list'
+  const showEntry = !isPhone || phonePane === 'entry'
+
   if (!isOpen) return null
 
   // Check if any category has new entries (for tab badges)
@@ -320,7 +328,7 @@ export default function CodexViewer() {
       position: 'fixed', inset: 0, zIndex: 10060,
       background: 'rgba(15, 8, 2, 0.82)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '1.5rem',
+      padding: isPhone ? '0.5rem' : '1.5rem',
     }}>
       <div style={{
         background: P.bg,
@@ -382,14 +390,17 @@ export default function CodexViewer() {
         </div>
 
         {/* ── Body ────────────────────────────────────────────────── */}
-        <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: isPhone ? 'column' : 'row', overflow: 'hidden' }}>
 
           {/* Category sidebar */}
           <div style={{
-            width: '180px',
+            display: showList ? 'block' : 'none',
+            width: isPhone ? '100%' : '180px',
+            maxHeight: isPhone ? '40%' : undefined,
             flexShrink: 0,
             background: P.sidebar,
-            borderRight: `1px solid ${P.borderStrong}`,
+            borderRight: isPhone ? 'none' : `1px solid ${P.borderStrong}`,
+            borderBottom: isPhone ? `1px solid ${P.borderStrong}` : 'none',
             overflowY: 'auto',
             paddingTop: '0.5rem',
           }}>
@@ -447,7 +458,9 @@ export default function CodexViewer() {
 
           {/* Entry list */}
           <div style={{
-            width: '240px',
+            display: showList ? 'block' : 'none',
+            width: isPhone ? '100%' : '240px',
+            flex: isPhone ? 1 : undefined,
             flexShrink: 0,
             borderRight: `1px solid ${P.border}`,
             overflowY: 'auto',
@@ -484,7 +497,7 @@ export default function CodexViewer() {
                   entry={entry}
                   active={entry.id === activeEntry?.id}
                   isNew={isNew(entry)}
-                  onClick={() => viewEntry(entry.id)}
+                  onClick={() => { viewEntry(entry.id); if (isPhone) setPhonePane('entry') }}
                 />
               ))
             )}
@@ -492,15 +505,29 @@ export default function CodexViewer() {
 
           {/* Entry content */}
           <div style={{
+            display: showEntry ? 'block' : 'none',
             flex: 1,
             overflowY: 'auto',
             background: P.bg,
             scrollbarWidth: 'thin',
             scrollbarColor: `${P.scrollbar} transparent`,
           }}>
+            {isPhone && (
+              <button
+                type="button"
+                onClick={() => setPhonePane('list')}
+                style={{
+                  margin: '0.8rem 1rem 0', padding: '0.4rem 0.8rem', background: 'transparent',
+                  border: `1px solid ${P.border}`, color: P.inkMuted, cursor: 'pointer',
+                  fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', letterSpacing: '0.12em', textTransform: 'uppercase',
+                }}
+              >
+                ← Back to {CATEGORY_LABELS[activeCategory]}
+              </button>
+            )}
             {activeEntry ? (
               <div style={{
-                padding: '2.5rem 3rem',
+                padding: isPhone ? '1.2rem 1rem' : '2.5rem 3rem',
                 maxWidth: '680px',
               }}>
                 {/* Entry title */}

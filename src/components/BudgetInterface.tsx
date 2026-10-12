@@ -194,6 +194,7 @@ export default function BudgetInterface() {
   const storedBudget  = useGameStore(s => s.budget)
   const { currentWeek } = useGameStore()
   const applyBudget   = useGameStore(s => s.applyBudget)
+  const nationalDebt  = useGameStore(s => s.nation.nationalDebt)
   const { advanceQueue, sceneQueue, currentQueueIndex, returnToMap } = useWeekStore()
 
   const [draft, setDraft] = useState<BudgetAllocations>(() => ({ ...storedBudget }))
@@ -319,7 +320,7 @@ export default function BudgetInterface() {
           {/* Debt */}
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
             <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.04em' }}>National Debt</span>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.06em' }}>340M ₭</span>
+            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.06em' }}>{nationalDebt}M ₭</span>
           </div>
 
           {deficit > 65 && (
@@ -337,7 +338,11 @@ export default function BudgetInterface() {
 
         {/* ── Centre: Expenditure sliders ──────────────────────── */}
         <div className="flex flex-col flex-1 overflow-hidden">
-          <div className="flex-1 overflow-y-auto budget-sliders" style={{ padding: '1.8rem 2rem' }}>
+          {/* Phones hide the Revenue/Summary column; keep its totals in view */}
+          {insets.isPhone && (
+            <FiscalStrip revenue={totalRevenue} spending={totalExpenditure} deficit={deficit} deficitColor={deficitColor} debt={nationalDebt} />
+          )}
+          <div className="flex-1 overflow-y-auto budget-sliders" style={{ padding: insets.isPhone ? '1rem' : '1.8rem 2rem' }}>
 
             <div style={{ marginBottom: '1.5rem' }}>
               <SectionLabel>Expenditure Allocation</SectionLabel>
@@ -451,9 +456,53 @@ export default function BudgetInterface() {
           STATUS: ACTIVE · WEEK {currentWeek}
         </span>
         <span style={{ fontFamily: "'Georgia', serif", fontSize: '9px', color: 'rgba(255,255,255,0.2)', letterSpacing: '1px' }}>
-          THE MANDATE — V0.0.1 · CTRL+D — DEBUG
+          {import.meta.env.DEV ? 'THE MANDATE — V0.0.1 · CTRL+D — DEBUG' : 'THE MANDATE — V0.0.1'}
         </span>
       </div>
     </div>
+  )
+}
+
+// ─── Phone fiscal strip ─────────────────────────────────────────────────────
+// The Revenue/Summary column is too wide for phones; this keeps the four
+// figures a player needs while moving the sliders.
+
+function FiscalStrip({ revenue, spending, deficit, deficitColor, debt }: {
+  revenue: number
+  spending: number
+  deficit: number
+  deficitColor: string
+  debt: number
+}) {
+  const cells = [
+    { label: 'Revenue', value: `${revenue}M`, color: '#c9a84c' },
+    { label: 'Spending', value: `${spending}M`, color: '#c9a84c' },
+    { label: deficit <= 0 ? 'Surplus' : 'Deficit', value: `${deficit > 0 ? '-' : '+'}${Math.abs(deficit)}M`, color: deficitColor },
+    { label: 'Debt', value: `${debt}M`, color: '#c9a84c' },
+  ]
+  return (
+    <dl
+      data-testid="budget-fiscal-strip"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '4px',
+        margin: 0,
+        padding: '10px 1rem',
+        borderBottom: '1px solid rgba(201,168,76,0.25)',
+        flexShrink: 0,
+      }}
+    >
+      {cells.map(c => (
+        <div key={c.label} style={{ textAlign: 'center', minWidth: 0 }}>
+          <dt style={{ fontFamily: "'Georgia', serif", fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(201,168,76,0.7)' }}>
+            {c.label}
+          </dt>
+          <dd style={{ margin: 0, fontFamily: "'Georgia', serif", fontSize: '13px', fontWeight: 700, color: c.color }}>
+            {c.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
   )
 }
