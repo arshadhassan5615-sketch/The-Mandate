@@ -13,6 +13,18 @@ describe('computeProvinceStatus', () => {
     expect(computeProvinceStatus('kravenstal', crisis).level).toBe('Crisis')
   })
 
+  it('never puts hidden-stat numbers in the detail line', () => {
+    const base = buildGameState()
+    const extremes = [0, 50, 100].map(v => ({
+      ...base,
+      nation: { ...base.nation, unemployment: v / 2, corruption: v, publicOrder: v, militaryReadiness: v, civilLiberties: v, internationalStanding: v, economyHealth: v - 100 },
+      factions: { ...base.factions, workersCoalition: v, dravenni: v, halvekists: v, church: v, businessClass: v },
+    }))
+    for (const id of ['ashenmere', 'kravenstal', 'dravenhollow', 'thornfeld', 'aldenmoor', 'sevagrad']) {
+      for (const state of extremes) expect(computeProvinceStatus(id, state).detail).not.toMatch(/\d/)
+    }
+  })
+
   it('treats an unknown province as stable', () => {
     expect(computeProvinceStatus('nowhere', buildGameState()).level).toBe('Stable')
   })

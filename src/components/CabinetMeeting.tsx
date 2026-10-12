@@ -8,6 +8,7 @@ import { useWeekStore } from '../stores/weekStore'
 import type { NewsArticle } from '../types/news'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 function MinisterPortrait({ ministerId }: { ministerId: string }) {
   const [imgError, setImgError] = useState(false)
@@ -56,6 +57,8 @@ interface CabinetMeetingProps {
 }
 
 export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComplete }) => {
+  // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
+  const insets = usePageInsets()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [, setResolved] = useState<string[]>([])
@@ -203,11 +206,13 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
       display: 'flex',
       flexDirection: 'column',
       fontFamily: 'Georgia, serif',
-      paddingRight: '60px',
+      paddingRight: insets.right,
+      paddingTop: insets.isPhone ? insets.top : undefined,
+      paddingBottom: insets.bottom,
     }}>
       {/* Header */}
       <div style={{
-        padding: '20px 48px 16px',
+        padding: insets.isPhone ? '12px 16px' : '20px 48px 16px',
         borderBottom: '1px solid rgba(201,168,76,0.3)',
         flexShrink: 0,
         display: 'flex',

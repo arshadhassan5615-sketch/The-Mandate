@@ -4,6 +4,7 @@ import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { computeBudgetModifiers, aggregateModifiers } from '../engine/budgetEffects'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -188,6 +189,8 @@ function ConsequenceRow({ stat, value }: { stat: string; value: number }) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 export default function BudgetInterface() {
+  // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
+  const insets = usePageInsets()
   const storedBudget  = useGameStore(s => s.budget)
   const { currentWeek } = useGameStore()
   const applyBudget   = useGameStore(s => s.applyBudget)
@@ -239,10 +242,10 @@ export default function BudgetInterface() {
   }
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(8,6,4,0.92)', paddingTop: '48px' }}>
+    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(8,6,4,0.92)', paddingTop: insets.top, paddingBottom: insets.bottom }}>
 
       {/* ── Header ──────────────────────────────────────────────── */}
-      <div className="shrink-0 flex items-center justify-between px-8 py-3" style={{ borderBottom: '1px solid rgba(201,168,76,0.25)' }}>
+      <div className={`shrink-0 flex items-center justify-between ${insets.isPhone ? 'px-4' : 'px-8'} py-3`} style={{ borderBottom: '1px solid rgba(201,168,76,0.25)' }}>
         <span style={{ fontFamily: "'Georgia', serif", fontSize: '11px', letterSpacing: '2px', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase' }}>
           The Mandate — Republic of Veltria, 1963
         </span>
@@ -252,7 +255,7 @@ export default function BudgetInterface() {
       </div>
 
       {/* ── Body ────────────────────────────────────────────────── */}
-      <div className="flex flex-1 overflow-hidden" style={{ paddingRight: '60px' }}>
+      <div className="flex flex-1 overflow-hidden" style={{ paddingRight: insets.right }}>
 
         {/* ── Left: Revenue + Summary ─────────────────────────── */}
         <div
@@ -374,7 +377,7 @@ export default function BudgetInterface() {
           </div>
 
           {/* Commit bar */}
-          <div className="shrink-0 flex items-center justify-between px-8 py-4" style={{ borderTop: '1px solid rgba(201,168,76,0.25)' }}>
+          <div className={`shrink-0 flex items-center justify-between gap-3 ${insets.isPhone ? 'px-4' : 'px-8'} py-4`} style={{ borderTop: '1px solid rgba(201,168,76,0.25)' }}>
             <button
               onClick={handleReset}
               style={{
@@ -385,7 +388,7 @@ export default function BudgetInterface() {
                 textTransform: 'uppercase',
                 background: 'transparent',
                 border: '1px solid rgba(201,168,76,0.4)',
-                padding: '12px 24px',
+                padding: insets.isPhone ? '12px' : '12px 24px',
                 cursor: 'pointer',
               }}
             >
@@ -396,7 +399,8 @@ export default function BudgetInterface() {
               onClick={handleCommit}
               style={{
                 width: 'auto',
-                minWidth: '300px',
+                minWidth: insets.isPhone ? 0 : '300px',
+                flex: insets.isPhone ? '1 1 0' : undefined,
                 border: '2px solid #c9a84c',
                 color: '#1a1410',
                 background: '#c9a84c',
@@ -442,7 +446,7 @@ export default function BudgetInterface() {
       </div>
 
       {/* ── Footer ──────────────────────────────────────────────── */}
-      <div className="shrink-0 flex items-center justify-between px-8 py-3" style={{ borderTop: '1px solid rgba(201,168,76,0.25)' }}>
+      <div className={`shrink-0 flex items-center justify-between ${insets.isPhone ? 'px-4' : 'px-8'} py-3`} style={{ borderTop: '1px solid rgba(201,168,76,0.25)' }}>
         <span style={{ fontFamily: "'Georgia', serif", fontSize: '9px', letterSpacing: '2px', color: 'rgba(201,168,76,0.4)', textTransform: 'uppercase' }}>
           STATUS: ACTIVE · WEEK {currentWeek}
         </span>

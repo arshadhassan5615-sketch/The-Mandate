@@ -7,6 +7,7 @@ import { SPEND_OPTIONS } from '../types/vote'
 import type { SpendLevel } from '../types/vote'
 import VoteTracker from './VoteTracker'
 import { getCharacterPortrait, getCharacterColor } from './portraits/CharacterPortraits'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 const mono: React.CSSProperties = {
   fontFamily: "'Special Elite', monospace",
@@ -36,6 +37,8 @@ function VyktorPortrait() {
 }
 
 export default function LobbyingInterface() {
+  // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
+  const insets = usePageInsets()
   const factions = useGameStore(s => s.factions)
   const personalWealth = useGameStore(s => s.personal.personalWealth)
   const voteConfig = useWeekStore(s => s.voteConfig)
@@ -122,8 +125,8 @@ export default function LobbyingInterface() {
   }
 
   return (
-    <div style={overlayStyle}>
-      <div style={panelStyle}>
+    <div style={insets.isPhone ? { ...overlayStyle, padding: '12px', paddingRight: '12px', paddingTop: insets.top, paddingBottom: insets.bottom + 12 } : overlayStyle}>
+      <div style={insets.isPhone ? { ...panelStyle, padding: '1rem', maxHeight: '100%' } : panelStyle}>
         {/* Header */}
         <div style={headerStyle}>
           <span style={{ ...mono, fontSize: '0.6rem', letterSpacing: '0.28em', color: 'var(--amber-dim)', textTransform: 'uppercase' }}>
@@ -134,7 +137,7 @@ export default function LobbyingInterface() {
           </span>
         </div>
 
-        <div style={columnsStyle}>
+        <div style={insets.isPhone ? { ...columnsStyle, gridTemplateColumns: '1fr' } : columnsStyle}>
           {/* LEFT — Vyktor's assessment + VoteTracker */}
           <div style={leftColStyle}>
             {/* Vyktor portrait + quote */}

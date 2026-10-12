@@ -10,6 +10,7 @@ import {
   type ConstitutionalProvision,
 } from '../data/constitution/provisions'
 import type { FactionState } from '../types/gameState'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 const mono: React.CSSProperties = { fontFamily: "'Special Elite', monospace" }
 const serif: React.CSSProperties = { fontFamily: "'IM Fell English', Georgia, serif" }
@@ -199,6 +200,8 @@ function ReferendumBar({ pct, outlook }: { pct: number; outlook: ReturnType<type
 }
 
 export default function ConstitutionalReform() {
+  // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
+  const insets = usePageInsets()
   const factions = useGameStore(s => s.factions)
   const publicImage = useGameStore(s => s.personal.publicImage)
   const currentWeek = useGameStore(s => s.currentWeek)
@@ -263,8 +266,8 @@ export default function ConstitutionalReform() {
   const continueLabel = isLastScene ? (returnToMap ? 'Continue →' : 'Proceed to Evening Review →') : `Continue →`
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)', paddingTop: '48px', paddingRight: '60px' }}>
-      <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b" style={{ borderColor: 'var(--border)' }}>
+    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}>
+      <div className={`shrink-0 flex items-center justify-between ${insets.isPhone ? 'px-4' : 'px-6'} py-3 border-b`} style={{ borderColor: 'var(--border)' }}>
         <span className="stamp">The Mandate — Week {currentWeek} · Constitutional Convention</span>
         <span className="stamp">12 Provisions to Address</span>
       </div>
@@ -314,18 +317,18 @@ export default function ConstitutionalReform() {
             ))}
           </div>
 
-          <div className="shrink-0 flex items-center justify-between px-6 py-3 border-t" style={{ borderColor: 'var(--border)', gap: '1rem' }}>
+          <div className={`shrink-0 flex flex-wrap items-center justify-between ${insets.isPhone ? 'px-4' : 'px-6'} py-3 border-t`} style={{ borderColor: 'var(--border)', gap: '1rem' }}>
             <div style={{ flex: 1, maxWidth: '360px' }}>
               <ReferendumBar pct={forecast} outlook={outlook} />
             </div>
             <div>
               {!finalized ? (
                 <button className="choice-btn" onClick={handleFinalize} disabled={selectionCount === 0}
-                  style={{ width: 'auto', minWidth: '220px', opacity: selectionCount === 0 ? 0.35 : 1 }}>
+                  style={{ width: 'auto', minWidth: insets.isPhone ? 0 : '220px', opacity: selectionCount === 0 ? 0.35 : 1 }}>
                   {selectionCount === 0 ? 'Select Provisions First' : `Finalize Package (${selectionCount}/12)`}
                 </button>
               ) : (
-                <button className="choice-btn" onClick={advanceQueue} style={{ width: 'auto', minWidth: '220px' }}>
+                <button className="choice-btn" onClick={advanceQueue} style={{ width: 'auto', minWidth: insets.isPhone ? 0 : '220px' }}>
                   {continueLabel}
                 </button>
               )}
@@ -359,7 +362,7 @@ export default function ConstitutionalReform() {
         </div>
       </div>
 
-      <div className="shrink-0 flex items-center justify-between px-6 py-2 border-t" style={{ borderColor: 'var(--border)' }}>
+      <div className={`shrink-0 flex items-center justify-between ${insets.isPhone ? 'px-4' : 'px-6'} py-2 border-t`} style={{ borderColor: 'var(--border)' }}>
         <span className="stamp">Constitutional Convention · Week {currentWeek}</span>
         <span className="stamp">Referendum: Week 26</span>
       </div>

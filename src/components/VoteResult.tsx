@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWeekStore } from '../stores/weekStore'
 import VoteTracker from './VoteTracker'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 const mono: React.CSSProperties = {
   fontFamily: "'Special Elite', monospace",
@@ -43,6 +44,8 @@ function buildSwingSequence(
 }
 
 export default function VoteResult() {
+  // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
+  const insets = usePageInsets()
   const voteResult  = useWeekStore(s => s.voteResult)
   const voteConfig  = useWeekStore(s => s.voteConfig)
   const advanceQueue = useWeekStore(s => s.advanceQueue)
@@ -181,12 +184,12 @@ export default function VoteResult() {
     && nbCurrentYes >= threshold
 
   return (
-    <div style={overlayStyle}>
+    <div style={insets.isPhone ? { ...overlayStyle, padding: '12px', paddingRight: '12px', paddingTop: insets.top, paddingBottom: insets.bottom + 12 } : overlayStyle}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        style={panelStyle}
+        style={insets.isPhone ? { ...panelStyle, padding: '1rem', maxHeight: '100%' } : panelStyle}
       >
         {/* Header */}
         <div style={headerStyle}>

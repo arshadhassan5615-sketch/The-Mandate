@@ -7,6 +7,7 @@ import { useNarrativeStore } from '../stores/narrativeStore'
 import { useWeekStore } from '../stores/weekStore'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 const MINISTRY_LABELS: Record<MinistryType, string> = {
   finance: 'Finance',
@@ -82,6 +83,8 @@ interface CabinetFormationProps {
 }
 
 export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, reshuffleMinistry, reshuffleMode }) => {
+  // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
+  const insets = usePageInsets()
   const [selections, setSelections] = useState<Partial<Record<MinistryType, string>>>({})
   const [activeMinistry, setActiveMinistry] = useState<MinistryType>(reshuffleMinistry ?? 'finance')
   const [hoveredCandidate, setHoveredCandidate] = useState<string | null>(null)
@@ -160,11 +163,14 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
       display: 'flex',
       flexDirection: 'column',
       fontFamily: 'Georgia, serif',
-      paddingRight: '60px',
+      paddingRight: insets.right,
+      // the panel starts 40px down; phones also clear the Government row
+      paddingTop: insets.isPhone ? insets.top - 40 : undefined,
+      paddingBottom: insets.bottom,
     }}>
       {/* Header */}
       <div style={{
-        padding: '20px 48px 16px',
+        padding: insets.isPhone ? '12px 16px' : '20px 48px 16px',
         borderBottom: '1px solid rgba(201,168,76,0.3)',
         flexShrink: 0,
       }}>
@@ -210,6 +216,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
 
       <div style={{
         display: 'flex',
+        flexDirection: insets.isPhone ? 'column' : 'row',
         flex: 1,
         minHeight: 0,
         overflow: 'hidden',
@@ -217,9 +224,11 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
         {/* Left — Ministry List (hidden in single-ministry reshuffle mode) */}
         {!(reshuffleMinistry) && (
           <div style={{
-            width: '200px',
+            width: insets.isPhone ? '100%' : '200px',
+            maxHeight: insets.isPhone ? '30vh' : undefined,
             flexShrink: 0,
-            borderRight: '1px solid rgba(201,168,76,0.2)',
+            borderRight: insets.isPhone ? 'none' : '1px solid rgba(201,168,76,0.2)',
+            borderBottom: insets.isPhone ? '1px solid rgba(201,168,76,0.2)' : 'none',
             overflowY: 'auto',
             padding: '12px 0',
           }}>
@@ -267,7 +276,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
         <div style={{
           flex: 1,
           overflowY: 'auto',
-          padding: '24px 40px',
+          padding: insets.isPhone ? '16px' : '24px 40px',
         }}>
           <div style={{
             fontSize: '11px',
@@ -281,7 +290,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: insets.isPhone ? '1fr' : '1fr 1fr',
             gap: '20px',
           }}>
             {candidates.map(candidate => {

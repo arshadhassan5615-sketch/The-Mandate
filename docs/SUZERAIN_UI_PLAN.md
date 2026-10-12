@@ -146,6 +146,15 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - Tests: 4 new (`constants/__tests__/layout.test.tsx`). Suite 352 pass / same 6 pre-existing failures. Lint unchanged.
 - **Still to do in P8:** the other full-page phases still reserve the desktop right rail on phones (`paddingRight: 60px` in BudgetInterface, CabinetFormation, CabinetMeeting, LobbyingInterface, VoteResult, ConstitutionalReform, NarrativeScene's bar); the newspaper masthead clips its side columns at 390; contrast check; bottom-bar tooltips (touch players never see them).
 
+**P8 part 2 (2026-10-13): remaining phase screens, contrast, province panel.**
+- `hooks/usePageInsets.ts` wraps `pageInsets`. Budget, constitutional convention, lobbying, vote result, cabinet formation and cabinet meeting all use it. On phones they drop the 60px right-rail gap and clear the Government row and bottom bar; desktop values are unchanged.
+- Phone layouts: lobbying's three columns stack (the right column was cut off); cabinet formation's ministry list sits above the candidates in one column; the budget's Commit/Reset buttons share the row (Commit was cut off); the constitution footer wraps.
+- Herald masthead top bar wraps on phones (its date column ran off the page); the other four mastheads were already fine.
+- **Contrast:** `--muted` #6b6050 → #887a66 (3.15 → 4.64:1) and `--amber-dim` #8a621c → #a17321 (3.55 → 4.61:1) on `--paper`, the darkest same-hue shades that meet WCAG AA for body text. The red/blue/green accents (2.3–3.2:1) are left alone because they double as border and fill colours; the existing high-contrast setting covers them.
+- **Province panel:** status details are words only ("Unemployment 31%, workers dissent" → "Workers in open dissent"); a test checks no digits appear. The panel's faction-support bar still shows a number, but faction scores are already shown as numbers in the Overview panel, so that stays as an existing design choice.
+- Not changed: the budget's revenue/summary column is hidden below 768px (`hidden md:flex`), so phone players don't see revenue while allocating. The budget footer shows "CTRL+D — DEBUG" to players.
+- Tests: 1 new. Suite 353 pass / same 6 pre-existing failures. Lint unchanged. Playwright: all six screens at 390 with no clipped text or buttons; mastheads at 390 and 1440.
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.

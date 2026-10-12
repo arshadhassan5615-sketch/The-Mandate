@@ -20,11 +20,13 @@ export function HeraldMasthead({
       position: 'relative',
       zIndex: 1,
     }}>
-      {/* Top info bar */}
+      {/* Top info bar — wraps on phones so the side columns stay on the page */}
       <div style={{
         display: 'flex',
+        flexWrap: 'wrap',
         justifyContent: 'space-between',
         alignItems: 'center',
+        gap: '4px 0',
         marginBottom: '4px',
       }}>
         <span style={{
@@ -46,7 +48,8 @@ export function HeraldMasthead({
           color: '#1a1a2e',
           textTransform: 'uppercase',
           textAlign: 'center',
-          flex: 1,
+          flex: '1 1 240px',
+          order: 0,
           padding: '0 20px',
         }}>
           {mediaDeal
