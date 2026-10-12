@@ -7,6 +7,18 @@ import type { GameState } from '../types/gameState'
 import { MAP_RENDER_WIDTH, MAP_RENDER_HEIGHT, PROVINCE_PIN_POSITIONS, groupByProvince } from '../engine/LocationResolver'
 import { isAgendaItemDone } from '../engine/weekCompletion'
 import { MapPins } from './MapInteractionLayer'
+import { useGameStore } from '../stores/gameStore'
+import { PROVINCES } from '../data/provinces'
+import { countryBounds, desktopZoom, phoneZoom, panToCenter, clampPan } from './map/mapFit'
+import { computeProvinceStatus } from './map/provinceStatus'
+import ProvinceChip from './map/ProvinceChip'
+
+/** Below this width the full map fits the whole country instead of covering the screen. */
+const PHONE_BREAKPOINT = 768
+/** Phone top bar + bottom nav, kept clear when fitting the country. */
+const PHONE_CHROME_HEIGHT = 140
+/** Province chips shrink on phones so neighbouring provinces' chips do not overlap. */
+const PHONE_CHIP_SIZE = 0.82
 import veltriaMapImg from '../assets/maps/veltria_map_full.jpeg'
 import pinAshenmere    from '../assets/images/pins/pin_ashenmere.png'
 import pinKravenstal   from '../assets/images/pins/pin_kravenstal.png'
@@ -172,59 +184,42 @@ export default function MapView({ onProvinceDetail }: {
   const [focusedProvinceId, setFocusedProvinceId] = useState<string | null>(null)
   const FOCUS_ZOOM_MULTIPLIER = 1.6
 
-  const [dynamicZoom, setDynamicZoom] = useState(1)
+  // Viewport size drives the zoom. Desktop covers the screen around Ashenmere;
+  // phones fit the whole country (both map modes), with the sea filling the gaps.
+  // Without this, three provinces sat off-screen on a phone during the week map.
+  const [viewport, setViewport] = useState(() => ({ vw: window.innerWidth, vh: window.innerHeight }))
   useEffect(() => {
-    const calcZoom = () => {
-      const vw = window.innerWidth
-      const vh = window.innerHeight
-      const veltriaWidth = MAP_RENDER_WIDTH * 0.65
-      const veltriaHeight = MAP_RENDER_HEIGHT * 0.70
-      const scaleW = (vw - 80) / veltriaWidth
-      const scaleH = (vh - 80) / veltriaHeight
-      const fitZoom = Math.min(scaleW, scaleH)
-      // Never go below full-viewport coverage (prevents exposed background)
-      const coverZoom = Math.max(vw / MAP_RENDER_WIDTH, vh / MAP_RENDER_HEIGHT)
-      setDynamicZoom(Math.max(fitZoom, coverZoom))
-    }
-    calcZoom()
-    window.addEventListener('resize', calcZoom)
-    return () => window.removeEventListener('resize', calcZoom)
+    const onResize = () => setViewport({ vw: window.innerWidth, vh: window.innerHeight })
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [])
+  const { vw, vh } = viewport
+  const isPhone = vw < PHONE_BREAKPOINT
+  const dynamicZoom = isPhone ? phoneZoom(vw, vh, PHONE_CHROME_HEIGHT) : desktopZoom(vw, vh)
 
   const effectiveZoom = focusedProvinceId ? dynamicZoom * FOCUS_ZOOM_MULTIPLIER : dynamicZoom
   const effectiveZoomRef = useRef(effectiveZoom)
   effectiveZoomRef.current = effectiveZoom
 
-  function clampPan(x: number, y: number, zoom: number = effectiveZoom): { x: number; y: number } {
-    const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
-    const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
-    return {
-      x: Math.max(vw - MAP_RENDER_WIDTH * zoom, Math.min(0, x)),
-      y: Math.max(vh - MAP_RENDER_HEIGHT * zoom, Math.min(0, y)),
-    }
-  }
-
-  function centeredOnAshenmere(): { x: number; y: number } {
-    const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
-    const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
-    const ash = PROVINCE_PIN_POSITIONS.ashenmere
-    return clampPan(
-      Math.round(vw / 2 - ash.x * dynamicZoom),
-      Math.round(vh / 2 - ash.y * dynamicZoom),
-    )
-  }
-
   function centerOnProvince(id: string, zoom: number): { x: number; y: number } {
-    const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
-    const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
     const pos = PROVINCE_PIN_POSITIONS[id as keyof typeof PROVINCE_PIN_POSITIONS]
-    if (!pos) return centeredOnAshenmere()
-    return clampPan(
-      Math.round(vw / 2 - pos.x * zoom),
-      Math.round(vh / 2 - pos.y * zoom),
-      zoom,
-    )
+    if (!pos) return homePan(zoom)
+    return clampPan(Math.round(vw / 2 - pos.x * zoom), Math.round(vh / 2 - pos.y * zoom), zoom, vw, vh)
   }
+
+  /** Where the full map opens: the whole country on phones, Ashenmere on desktop. */
+  function homePan(zoom: number): { x: number; y: number } {
+    if (!isPhone) return centerOnProvince('ashenmere', zoom)
+    const centred = panToCenter(countryBounds(), zoom, vw, vh)
+    return clampPan(centred.x, centred.y, zoom, vw, vh)
+  }
+
+  // Live province conditions for the map chips (the same levels the province panel shows)
+  const nation = useGameStore(s => s.nation)
+  const factions = useGameStore(s => s.factions)
+  const provinceStatuses = useMemo(() => new Map(
+    PROVINCE_BUILDINGS.map(({ id }) => [id, computeProvinceStatus(id, { nation, factions })]),
+  ), [nation, factions])
 
   const handleFocusProvince = (id: string) => {
     const targetZoom = dynamicZoom * FOCUS_ZOOM_MULTIPLIER
@@ -236,19 +231,17 @@ export default function MapView({ onProvinceDetail }: {
   const handleUnfocusProvince = () => {
     setIsAnimating(true)
     setFocusedProvinceId(null)
-    setPan(centerOnProvince('ashenmere', dynamicZoom))
+    setPan(homePan(dynamicZoom))
     setTimeout(() => setIsAnimating(false), 500)
   }
 
-  // Center on Ashenmere on first mount
+  // Return to the home view on mount, whenever the full map opens, and on resize.
   useEffect(() => {
-    setPan(centeredOnAshenmere())
-  }, [])
-
-  // Re-center when map overlay opens
-  useEffect(() => {
-    if (mapOpen) setPan(centeredOnAshenmere())
-  }, [mapOpen])
+    setFocusedProvinceId(null)
+    setPan(homePan(dynamicZoom))
+    // homePan/dynamicZoom derive from vw/vh, which are listed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapOpen, vw, vh])
 
   // Stubbed-out status map — consumed only by the HIDDEN medallion block below
   // const statuses = useMemo(() => {
@@ -257,7 +250,8 @@ export default function MapView({ onProvinceDetail }: {
   //   return map
   // }, [gameState, activeFlags])
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
+  // Pointer events, so the map drags by mouse, pen and touch alike.
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
     if (e.button !== 0) return
     dragging.current = true
     hasDragged.current = false
@@ -265,13 +259,15 @@ export default function MapView({ onProvinceDetail }: {
     setIsCursorGrabbing(true)
   }, [pan])
 
-  const onMouseMove = useCallback((e: React.MouseEvent) => {
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!dragging.current) return
     const dx = e.clientX - dragOrigin.current.mx
     const dy = e.clientY - dragOrigin.current.my
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true
-    const newX = clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy, effectiveZoomRef.current).x
-    const newY = clampPan(dragOrigin.current.px + dx, dragOrigin.current.py + dy, effectiveZoomRef.current).y
+    const { x: newX, y: newY } = clampPan(
+      dragOrigin.current.px + dx, dragOrigin.current.py + dy,
+      effectiveZoomRef.current, window.innerWidth, window.innerHeight,
+    )
     // M10 — throttle setPan to one update per frame to avoid
     // re-rendering on every mousemove event.
     if (panRafRef.current !== null) cancelAnimationFrame(panRafRef.current)
@@ -281,7 +277,7 @@ export default function MapView({ onProvinceDetail }: {
     })
   }, [])
 
-  const onMouseUp = useCallback(() => {
+  const onPointerUp = useCallback(() => {
     dragging.current = false
     setIsCursorGrabbing(false)
   }, [])
@@ -301,7 +297,9 @@ export default function MapView({ onProvinceDetail }: {
 
   // ── Background mode: map behind game UI, centered, not pannable ─────────────
   if (!mapOpen) {
-    const bgPan = centeredOnAshenmere()
+    const bgPan = homePan(dynamicZoom)
+    // The background is the week map during the map phase; behind scenes it stays bare.
+    const showChips = phase === 'map'
     return (
       <div style={{
         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -396,9 +394,18 @@ export default function MapView({ onProvinceDetail }: {
                   userSelect: 'none',
                   zIndex: isHovered ? 50 : 10,
                 }}
+                role="button"
+                tabIndex={0}
+                aria-label={`${PROVINCES[id]?.name ?? id}: ${provinceStatuses.get(id)?.level ?? 'Stable'}`}
                 onMouseEnter={() => setHoveredBuilding(id)}
                 onMouseLeave={() => setHoveredBuilding(null)}
                 onClick={(e) => {
+                  e.stopPropagation()
+                  onProvinceDetail?.(id)
+                }}
+                onKeyDown={(e) => {
+                  if (e.key !== 'Enter' && e.key !== ' ') return
+                  e.preventDefault()
                   e.stopPropagation()
                   onProvinceDetail?.(id)
                 }}
@@ -449,6 +456,16 @@ export default function MapView({ onProvinceDetail }: {
                     )}
                   </div>
                 )}
+                {showChips && provinceStatuses.has(id) && (
+                  <ProvinceChip
+                    name={PROVINCES[id]?.name ?? id}
+                    level={provinceStatuses.get(id)!.level}
+                    color={provinceStatuses.get(id)!.color}
+                    mapZoom={dynamicZoom}
+                    showName={isPhone}
+                    size={isPhone ? PHONE_CHIP_SIZE : 1}
+                  />
+                )}
               </div>
             )
           })}
@@ -471,11 +488,14 @@ export default function MapView({ onProvinceDetail }: {
           inset: 0,
           overflow: 'hidden',
           cursor: isCursorGrabbing ? 'grabbing' : 'grab',
+          touchAction: 'none', // the map pans itself; stop the browser scrolling the page
         }}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseUp}
+        data-testid="map-pan-surface"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onPointerLeave={onPointerUp}
       >
         {/* Transform div: map image + zones + medallions + scene pins move together */}
         <div style={{
@@ -640,9 +660,18 @@ export default function MapView({ onProvinceDetail }: {
                   userSelect: 'none',
                   zIndex: isHovered ? 50 : 10,
                 }}
+                role="button"
+                tabIndex={0}
+                aria-label={`${PROVINCES[id]?.name ?? id}: ${provinceStatuses.get(id)?.level ?? 'Stable'}`}
                 onMouseEnter={() => setHoveredBuilding(id)}
                 onMouseLeave={() => setHoveredBuilding(null)}
                 onClick={(e) => {
+                  e.stopPropagation()
+                  onProvinceDetail?.(id)
+                }}
+                onKeyDown={(e) => {
+                  if (e.key !== 'Enter' && e.key !== ' ') return
+                  e.preventDefault()
                   e.stopPropagation()
                   onProvinceDetail?.(id)
                 }}
@@ -692,6 +721,16 @@ export default function MapView({ onProvinceDetail }: {
                       </div>
                     )}
                   </div>
+                )}
+                {provinceStatuses.has(id) && (
+                  <ProvinceChip
+                    name={PROVINCES[id]?.name ?? id}
+                    level={provinceStatuses.get(id)!.level}
+                    color={provinceStatuses.get(id)!.color}
+                    mapZoom={effectiveZoom}
+                    showName={isPhone}
+                    size={isPhone ? PHONE_CHIP_SIZE : 1}
+                  />
                 )}
               </div>
             )

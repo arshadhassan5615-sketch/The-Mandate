@@ -12,6 +12,7 @@ import aldenmoorBanner from '../../assets/images/provinces/aldenmoor_banner.jpeg
 import sevagradBanner from '../../assets/images/provinces/sevagrad_banner.jpeg'
 import sovarkaBanner from '../../assets/images/provinces/sovarka_banner.jpeg'
 import { Z } from '../../constants/zIndex'
+import { computeProvinceStatus } from '../map/provinceStatus'
 
 const PROVINCE_BANNERS: Record<string, string> = {
   ashenmere: ashenmereBanner,
@@ -129,37 +130,6 @@ const FACTION_DISPLAY_NAMES: Record<string, string> = {
   dravenni: 'Dravenni',
 }
 
-function computeProvinceUnrest(provinceId: string, state: import('../../types/gameState').GameState): { level: 'Stable' | 'Tense' | 'Crisis'; color: string; detail: string } {
-  const { nation: n, factions: f } = state
-  switch (provinceId) {
-    case 'kravenstal':
-      if (n.unemployment > 28 || f.workersCoalition < 22) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Unemployment ${n.unemployment}%, workers dissent` }
-      if (n.unemployment > 22 || f.workersCoalition < 36) return { level: 'Tense', color: '#c47a3a', detail: `Unemployment ${n.unemployment}%, simmering unrest` }
-      return { level: 'Stable', color: 'var(--accent-green)', detail: `Unemployment ${n.unemployment}%, labor cooperative` }
-    case 'dravenhollow':
-      if (f.dravenni < 20) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Dravenni support ${f.dravenni}, separatist threat` }
-      if (f.dravenni < 38 || n.civilLiberties < 28) return { level: 'Tense', color: '#c47a3a', detail: `Dravenni support ${f.dravenni}, civil liberties strained` }
-      return { level: 'Stable', color: 'var(--accent-green)', detail: `Dravenni support ${f.dravenni}, autonomy dialogue` }
-    case 'ashenmere':
-      if (n.corruption > 78 || n.publicOrder < 28) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Corruption ${n.corruption}, public order ${n.publicOrder}` }
-      if (n.corruption > 60 || n.publicOrder < 44) return { level: 'Tense', color: '#c47a3a', detail: `Corruption ${n.corruption}, press scrutinizing` }
-      return { level: 'Stable', color: 'var(--accent-green)', detail: `Corruption ${n.corruption}, institutions functional` }
-    case 'sevagrad':
-      if (n.militaryReadiness < 28) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Military readiness ${n.militaryReadiness}, border vulnerable` }
-      if (n.militaryReadiness < 44 || n.internationalStanding < 36) return { level: 'Tense', color: '#c47a3a', detail: `Military readiness ${n.militaryReadiness}, border watchful` }
-      return { level: 'Stable', color: 'var(--accent-green)', detail: `Military readiness ${n.militaryReadiness}, garrison loyal` }
-    case 'thornfeld':
-      if (f.halvekists < 18) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Halvekist support ${f.halvekists}, rural revolt` }
-      if (f.church < 30 || n.publicOrder < 44) return { level: 'Tense', color: '#c47a3a', detail: `Church influence ${f.church}, traditionalists agitated` }
-      return { level: 'Stable', color: 'var(--accent-green)', detail: `Church influence ${f.church}, harvest proceeding` }
-    case 'aldenmoor':
-      if (f.businessClass < 18 || n.economyHealth < -62) return { level: 'Crisis', color: 'var(--accent-red)', detail: `Business support ${f.businessClass}, economy ${n.economyHealth}` }
-      if (f.businessClass < 32 || n.economyHealth < -28) return { level: 'Tense', color: '#c47a3a', detail: `Business support ${f.businessClass}, trade slowing` }
-      return { level: 'Stable', color: 'var(--accent-green)', detail: `Business support ${f.businessClass}, ports active` }
-    default: return { level: 'Stable', color: 'var(--accent-green)', detail: 'Nominal conditions' }
-  }
-}
-
 export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDetailProps) {
   const [idx, setIdx] = useState(() => {
     const i = PROVINCE_ORDER.indexOf(initialProvince ?? 'ashenmere')
@@ -178,7 +148,7 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
 
   const factionKey = PROVINCE_FACTION_KEY[province.id] ?? '' as keyof typeof factions
   const liveFactionScore = factionKey ? factions[factionKey as keyof typeof factions] ?? 40 : 40
-  const unrest = useMemo(() => computeProvinceUnrest(province.id, gameState), [province.id, gameState])
+  const unrest = useMemo(() => computeProvinceStatus(province.id, gameState), [province.id, gameState])
 
   // Active projects relevant to this province
   const provinceProjects = useMemo(() => {

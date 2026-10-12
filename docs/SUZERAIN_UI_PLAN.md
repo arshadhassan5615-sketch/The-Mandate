@@ -111,6 +111,18 @@ Not in scope: new story content, renaming characters, engine semantics, save-for
 - Not done: decree prerequisites (hidden stats). Reject/Table buttons stay removed (taken out in `414e5e5`); the 2 stale `DecreeInbox.test` failures still expect them.
 - Tests: 35 new (StateDocument 3, decreeFiscal 24 incl. one per authored debt effect, DecreeDocument 5, LetterView 3). Suite 322 pass / same 6 pre-existing failures. Lint on touched files: 3 errors left, all pre-existing (was 6). Playwright at 1440 and 390: decree with fiscal note, decree with conflict, bill page, letter signing.
 
+**P5 committed** as `02064d5` (pushed).
+
+**P6 done (2026-10-12, uncommitted).** Map polish + mobile fit. (`VeltriaMap.tsx` is dead code, imported nowhere; the live map is `MapView`.)
+- **Phone bug fixed:** during the week map (`map` phase) the map is the fixed background, at cover zoom centred on Ashenmere. On a 390px phone Kravenstal, Thornfeld and Sevagrad were off-screen and unreachable. Phones now fit all six provinces in both map modes, centred, with the sea colour filling the gaps. Desktop framing is unchanged.
+- `map/mapFit.ts`: pure zoom/pan geometry (country bounds from the six province pins, desktop cover zoom, phone fit zoom, clamp that centres an axis when the map is smaller than the screen).
+- Full map (M) drags with pointer events, so touch works (it was mouse-only); `touch-action: none` stops the page scrolling instead.
+- `map/ProvinceChip.tsx`: a condition chip (Stable / Tense / Crisis, coloured) under each province on the week map and the full map. It counter-scales so it reads the same at any zoom. Desktop shows the status only (the map already prints names); phones add the name, since the printed labels are unreadable there. Never numbers.
+- `map/provinceStatus.ts`: the status rules moved out of `ProvinceDetail` so the panel and chips cannot disagree.
+- Province buildings are keyboard buttons (Tab, Enter/Space opens the province panel) with labels like "Kravenstal: Crisis".
+- **Found, not fixed:** `ProvinceDetail`'s status line prints raw hidden-stat numbers ("Corruption 62", "Dravenni support 31", "Military readiness 40"), against the hidden-stats rule. The chips show only the level. Needs your call: drop the numbers or keep them.
+- Tests: 14 new (mapFit 7, provinceStatus 2, MapViewChips 5). Suite 336 pass / same 6 pre-existing failures. Playwright at 1440 and 390: week map and full map, all six chips on screen, drag pans, no sideways scroll.
+
 ## 4. Verification per phase
 
 `tsc -b` clean · `vitest run` with no new failures (baseline 6) · Playwright screenshots at 1440×900 and 390×844 compared to the baseline · spine/week-flow sims stay green.
