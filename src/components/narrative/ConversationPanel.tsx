@@ -10,7 +10,8 @@ import ChoiceCard from './ChoiceCard'
 import type { ChoiceCardState } from './ChoiceCard'
 import SceneHeader from './SceneHeader'
 import { renderWithEntities } from '../news/EntityLinker'
-import { getPortrait } from '../../assets/potraits'
+import SceneBackdrop from './SceneBackdrop'
+import SpeakerStage from './SpeakerStage'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { Z } from '../../constants/zIndex'
 
@@ -216,53 +217,16 @@ const REACTION_TEXT_STYLE: React.CSSProperties = {
 
 // Portrait stack — every participant except Katerin, current speaker last.
 // Desktop: hangs outside the panel's left edge. Mobile: a row in the top padding.
-const DESKTOP_STACK_STYLE: React.CSSProperties = {
-  position: 'absolute',
-  right: 'calc(100% + 10px)',
-  top: '14vh', // fallback only — overridden by the measured speaker-label position
-  width: '96px',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-end',
-  gap: '10px',
-  zIndex: Z.sceneRaised,
-  pointerEvents: 'none',
-  background: 'transparent',
-}
+// Suzerain-style layout: location art behind, the speaker standing on the
+// left, the conversation log in a column on the right beside the nav rail.
+// Phones: the speaker in the band under the HUD, the log below it.
+const DESKTOP_RAIL_PX = 76
+const DESKTOP_COLUMN_WIDTH = 'clamp(420px, 36vw, 600px)'
+const PHONE_COLUMN_TOP = '38vh'
+const PHONE_BOTTOM_BAR_PX = 60
 
-const MOBILE_STACK_STYLE: React.CSSProperties = {
-  position: 'absolute',
-  top: '10px',
-  left: '16px',
-  right: '64px',
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'flex-end',
-  gap: '8px',
-  zIndex: Z.sceneRaised,
-  pointerEvents: 'none',
-  background: 'transparent',
-  overflow: 'hidden',
-}
-
-const MEDALLION_SIZE = { desktop: { current: 84, other: 44 }, mobile: { current: 52, other: 32 } }
-const RING_PADDING_PX = 2.5
-
-// The player never gets a medallion, whatever role she plays in a segment.
+// The player never appears on stage, whatever role she plays in a segment.
 const PLAYER_ID = 'katerin_ashavel'
-
-// When the anchored speaker label scrolls out of the history viewport, the
-// stack is pinned this far inside the viewport's edge instead of vanishing.
-const STACK_CLAMP_PAD_PX = 24
-
-// Vertical nudge so the current medallion sits on the speaker's name line
-// rather than the paragraph above it.
-const PORTRAIT_NUDGE_PX = 32
-
-// Medallion size swaps must be instant. The name label changes in the same
-// render as the size targets, so any width/height transition or enter-scale
-// animation leaves the previous speaker visually larger for its duration
-// (measured: ~120ms with the old 0.35s transition + 0.82 enter scale).
 
 interface ConversationHistoryEntry {
   id: string
@@ -303,7 +267,7 @@ export default function ConversationPanel({
   history, activeSegment, activeText, showCursor,
   choices, showChoices, sceneDone, allDone, segmentDone,
   onAdvance: _onAdvance, onChoice, onAdvanceQueue, continueLabel,
-  speakingCharacter, monologueText,
+  monologueText,
   sceneTitle, sceneLocation, currentWeek,
 }: ConversationPanelProps) {
   const historyRef = useRef<HTMLDivElement>(null)
@@ -332,9 +296,6 @@ export default function ConversationPanel({
 
   const panelInnerRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
-  // Label of whoever is speaking now; the portrait stack is anchored to it.
-  const activeLabelRef = useRef<HTMLDivElement>(null)
-  const [speakerLabelTop, setSpeakerLabelTop] = useState<number | null>(null)
 
   // Deterministic stack built from actual history (prevents skipping bugs)
   const speakerStack = useMemo(() => {
@@ -577,143 +538,66 @@ export default function ConversationPanel({
     // ResizeObserver disabled to allow full-height CSS layout
   }, [])
 
-  const displayStack = speakerStack
-  // Column order: whoever is speaking now first, then the others by recency,
-  // so the top medallion sits beside the anchored speaker label.
-  const stackOrder = [...displayStack].reverse()
+  // On stage: whoever spoke most recently (the stack's last entry).
+  const stageSpeakerId = speakerStack.length > 0 ? speakerStack[speakerStack.length - 1] : null
 
   // Speaker runs. A run is broken only by dialogue from a different speaker;
   // descriptions and internal thoughts inside a turn do not restart it, so a
   // speaker's name renders once at the top of the run and never per line.
   const labelledEntryIds = new Set<string>()
-  let runStartEntryId: string | null = null
   let lastSpokenSpeaker: string | null = null
   for (const entry of history) {
     if (entry.type !== 'dialogue' && entry.type !== 'player_spoken') continue
     const speaker = entry.characterId ?? ''
     if (speaker !== lastSpokenSpeaker) {
       labelledEntryIds.add(entry.id)
-      runStartEntryId = entry.id
       lastSpokenSpeaker = speaker
     }
   }
 
-  // Whoever is actually speaking now. Katerin never has a medallion, so when
-  // she speaks nobody is marked current and the others stay small.
   const activeType = activeSegment ? effectiveSegmentType(activeSegment.type) : null
   const isActiveContinuation = activeType === 'dialogue' && lastSpokenSpeaker === (activeSegment?.character ?? '')
-  const speakingNow = activeType === 'dialogue'
-    ? (activeSegment?.character ?? '')
-    : (lastSpokenSpeaker ?? speakingCharacter ?? '')
-  const currentSpeakerId = speakingNow === PLAYER_ID ? '' : speakingNow
-
-  // Which label the stack anchors to: the active speaker's label when it
-  // opens a new run, otherwise the label at the start of the current run.
+  // The active line opens a new speaker run, so it carries the name label.
   const anchorIsActive = activeType === 'dialogue' && !isActiveContinuation
-  const anchorEntryId = anchorIsActive ? null : runStartEntryId
-
-  const medallionSizes = isMobile ? MEDALLION_SIZE.mobile : MEDALLION_SIZE.desktop
-  const firstMedallionSize = stackOrder.length > 0 && stackOrder[0] === currentSpeakerId
-    ? medallionSizes.current
-    : medallionSizes.other
-  const stackTop = speakerLabelTop !== null ? Math.round(speakerLabelTop - firstMedallionSize / 2 + PORTRAIT_NUDGE_PX) : null
-
-  // Measure the anchored label so the stack tracks it through typing,
-  // scrolling and resizing. Clamped to the history viewport's edges.
-  const measureSpeakerLabel = useCallback(() => {
-    if (isMobile) { setSpeakerLabelTop(null); return }
-    const label = activeLabelRef.current
-    const panel = panelRef.current
-    const scroller = historyRef.current
-    if (!label || !panel || !scroller) { setSpeakerLabelTop(null); return }
-    const labelRect = label.getBoundingClientRect()
-    const panelRect = panel.getBoundingClientRect()
-    const viewRect = scroller.getBoundingClientRect()
-    const labelCenter = labelRect.top + labelRect.height / 2
-    const clamped = Math.min(
-      Math.max(labelCenter, viewRect.top + STACK_CLAMP_PAD_PX),
-      viewRect.bottom - STACK_CLAMP_PAD_PX,
-    )
-    setSpeakerLabelTop(Math.round(clamped - panelRect.top))
-  }, [isMobile])
-
-  // Re-measure only when the speaker changes (a new run begins) or the scene
-  // resets — never per line, per keystroke or per scroll. A plain effect
-  // declared after the auto-scroll effects, so the run's opening label is
-  // measured after the history has scrolled to reveal it.
-  useEffect(() => {
-    measureSpeakerLabel()
-  }, [measureSpeakerLabel, speakingNow, currentScene])
-
-  useEffect(() => {
-    window.addEventListener('resize', measureSpeakerLabel)
-    return () => window.removeEventListener('resize', measureSpeakerLabel)
-  }, [measureSpeakerLabel])
 
   // Plain "…" line in place of the old uppercase button. The routing text
   // ("Proceed to Evening Review", "Continue to Next Meeting (2/3)") is kept;
   // only the trailing arrow is swapped for an ellipsis.
   const continueText = `${continueLabel.replace(/\s*→\s*$/, '')}…`
 
-  // Full-height opaque column. Desktop: centred 36vw strip with the portrait
-  // stack hanging off its left edge (overflow visible). Mobile: edge-to-edge,
-  // stopping above the 60px bottom nav.
-  const panelStyle: React.CSSProperties = isMobile
-    ? {
-        position: 'fixed',
-        top: 0,
-        bottom: '60px',
-        left: 0,
-        right: 0,
-        width: '100%',
-        zIndex: Z.scene,
-        pointerEvents: 'all',
-        display: 'flex',
-        flexDirection: 'column',
-        background: '#070605',
-        borderLeft: '1px solid rgba(181,154,94,0.25)',
-        borderRight: '1px solid rgba(181,154,94,0.25)',
-        boxShadow: '0 0 40px rgba(0,0,0,0.6)',
-        overflow: 'visible',
-        animation: 'panel-fade-in 0.6s ease-out forwards',
-      }
-    : {
-        position: 'fixed',
-        top: 0,
-        bottom: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: 'clamp(480px, 46vw, 760px)',
-        height: '100vh',
-        zIndex: Z.scene,
-        pointerEvents: 'all',
-        display: 'flex',
-        flexDirection: 'column',
-        background: '#070605',
-        borderLeft: '1px solid rgba(181,154,94,0.25)',
-        borderRight: '1px solid rgba(181,154,94,0.25)',
-        boxShadow: '0 0 40px rgba(0,0,0,0.6)',
-        overflow: 'visible',
-        animation: 'panel-fade-in 0.6s ease-out forwards',
-      }
+  // The conversation column: right of the stage on desktop, below it on phones.
+  // Translucent so the scene reads through it.
+  const panelStyle: React.CSSProperties = {
+    position: 'fixed',
+    zIndex: Z.scene,
+    pointerEvents: 'all',
+    display: 'flex',
+    flexDirection: 'column',
+    background: 'linear-gradient(180deg, rgba(7,6,5,0.9) 0%, rgba(7,6,5,0.84) 100%)',
+    backdropFilter: 'blur(2px)',
+    boxShadow: '0 0 40px rgba(0,0,0,0.6)',
+    animation: 'panel-fade-in 0.6s ease-out forwards',
+    ...(isMobile
+      ? { top: PHONE_COLUMN_TOP, bottom: `${PHONE_BOTTOM_BAR_PX}px`, left: 0, right: 0, borderTop: '1px solid rgba(181,154,94,0.35)' }
+      : { top: 0, bottom: 0, right: `${DESKTOP_RAIL_PX}px`, width: DESKTOP_COLUMN_WIDTH, borderLeft: '1px solid rgba(181,154,94,0.3)' }),
+  }
   if (phase !== 'scene') return null
 
   return (
     <>
-      {isEmergency && (
-        <div style={{
-          position: 'fixed', inset: 0,
-          background: 'radial-gradient(ellipse at center, transparent 50%, rgba(180,30,20,0.06) 100%)',
-          pointerEvents: 'none', zIndex: Z.sceneBackdrop,
-        }} />
-      )}
-
       {currentScene && (
       <>
+      <SceneBackdrop location={sceneLocation} isEmergency={isEmergency} />
+      <SpeakerStage
+        speakerId={stageSpeakerId}
+        isPhone={isMobile}
+        rightInset={`calc(${DESKTOP_RAIL_PX}px + ${DESKTOP_COLUMN_WIDTH})`}
+        phoneBottom={`calc(100vh - ${PHONE_COLUMN_TOP})`}
+      />
       <div ref={panelRef} style={panelStyle}>
 
-        {/* Scroll-to-top chevron */}
-        <button
+        {/* Scroll-to-top chevron (desktop; phones scroll by touch and it covered text) */}
+        {!isMobile && <button
           type="button"
           aria-label="Scroll to top of conversation"
           onClick={() => historyRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -752,95 +636,7 @@ export default function ConversationPanel({
           >
             <polyline points="6 15 12 9 18 15" />
           </svg>
-        </button>
-
-        <div style={isMobile
-          ? MOBILE_STACK_STYLE
-          : {
-              ...DESKTOP_STACK_STYLE,
-              ...(stackTop !== null ? { top: `${stackTop}px` } : {}),
-              transition: 'top 0.18s ease-out',
-            }}
-        >
-          {stackOrder.map((charId) => {
-            const isCurrent = charId === currentSpeakerId
-            const img = getPortrait(charId)
-            const name = charName(charId)
-            const initials = name.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()
-            const size = isCurrent ? medallionSizes.current : medallionSizes.other
-            return (
-              /* Outer ring: metallic gradient only for the current speaker.
-                 Same DOM shape in both states so width/height can transition. */
-              <div
-                key={charId}
-                style={{
-                  width: `${size}px`,
-                  height: `${size}px`,
-                  flexShrink: 0,
-                  boxSizing: 'border-box',
-                  borderRadius: '50%',
-                  padding: isCurrent ? `${RING_PADDING_PX}px` : 0,
-                  background: isCurrent
-                    ? 'linear-gradient(135deg,#d9c48a 0%,#8a7440 50%,#d9c48a 100%)'
-                    : 'transparent',
-                  boxShadow: isCurrent
-                    ? '0 0 0 1px #2a2419, 0 0 18px rgba(201,168,76,0.35)'
-                    : 'none',
-                }}
-              >
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  boxSizing: 'border-box',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: isCurrent ? 'none' : '2px solid #b59a5e',
-                  background: '#0a0806',
-                }}>
-                  {img ? (
-                    <img
-                      src={img}
-                      alt={name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center top',
-                        display: 'block',
-                      }}
-                    />
-                  ) : (
-                    <div style={{
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: 'rgba(201,168,76,0.2)',
-                    }}>
-                      <span style={{
-                        fontFamily: "'Crimson Text', Georgia, serif",
-                        fontWeight: 600,
-                        fontSize: isCurrent ? '28px' : '16px',
-                        color: '#c9a84c',
-                      }}>{initials}</span>
-                    </div>
-                  )}
-                  {/* Dark inner ring drawn above the image (an inset shadow on
-                      the container would be hidden behind it). */}
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    borderRadius: '50%',
-                    boxShadow: isCurrent ? 'inset 0 0 0 2px #14110d' : 'inset 0 0 0 1px #14110d',
-                    pointerEvents: 'none',
-                  }} />
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        </button>}
 
         {/* Inner text column. The dialogue history below is the scroller;
             this column only scrolls if the pinned bottom sections overflow. */}
@@ -853,7 +649,7 @@ export default function ConversationPanel({
             minHeight: 0,
             display: 'flex',
             flexDirection: 'column',
-            padding: isMobile ? '84px 16px 16px 16px' : '56px 32px 24px 32px',
+            padding: isMobile ? '12px 16px 12px 16px' : '56px 32px 24px 32px',
             boxSizing: 'border-box',
             background: 'transparent',
             borderTop: 'none',
@@ -862,7 +658,8 @@ export default function ConversationPanel({
             scrollbarWidth: 'thin',
           }}
         >
-        <SceneHeader title={sceneTitle} location={sceneLocation} week={currentWeek} sceneType={sceneType} />
+        {/* Phones scroll the header away with the log; desktop pins it */}
+        {!isMobile && <SceneHeader title={sceneTitle} location={sceneLocation} week={currentWeek} sceneType={sceneType} />}
 
         {/* Monologue — at the very top */}
         {shouldShowMonologue && (
@@ -935,6 +732,7 @@ export default function ConversationPanel({
             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 60px), transparent 100%)',
           }}
         >
+          {isMobile && <SceneHeader title={sceneTitle} location={sceneLocation} week={currentWeek} sceneType={sceneType} />}
           {history.map((entry) => {
             const showLabel = labelledEntryIds.has(entry.id)
             const isPlayer = entry.type === 'player_spoken'
@@ -950,7 +748,6 @@ export default function ConversationPanel({
                   {/* Speaker name — full colour, rendered as "NAME :" */}
                   {showLabel && (
                     <div
-                      ref={entry.id === anchorEntryId ? activeLabelRef : undefined}
                       style={{
                         ...SPEAKER_LABEL_STYLE,
                         color: isPlayer ? PLAYER_LABEL_COLOR : speakerColor(entry.characterId ?? ''),
@@ -998,7 +795,6 @@ export default function ConversationPanel({
                     <>
                       {anchorIsActive && (
                         <div
-                          ref={activeLabelRef}
                           style={{
                             ...SPEAKER_LABEL_STYLE,
                             color: speakerColor(activeSegment.character ?? ''),
@@ -1077,7 +873,8 @@ export default function ConversationPanel({
               flexDirection: 'column',
               gap: '12px',
               padding: '18px 0 8px',
-              maxHeight: '40vh',
+              // phones keep room above the choices for the line being answered
+              maxHeight: isMobile ? '24vh' : '40vh',
               overflowY: 'auto',
               overflowX: 'hidden',
             }}
