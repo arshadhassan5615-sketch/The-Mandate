@@ -5,11 +5,14 @@ import { useIsMobile } from '../../hooks/useIsMobile'
 import { Z } from '../../constants/zIndex'
 import veltriaSeal from '../../assets/images/veltria_seal.png'
 import { buildDecreeRecords, buildLawRecords, type DecreeRecord, type LawRecord } from './stateRecords'
+import { useGameStore } from '../../stores/gameStore'
+import { buildSituations, type Situation, type Severity, type Trend } from './situations'
 
-// State of the Republic: one state paper listing every law decided and every
-// decree signed. Read-only; it never shows stat effects.
+// State of the Republic: one state paper with the ongoing situations (severity
+// and trend, in words), every law decided and every decree signed. Read-only;
+// it never shows stat values or effects.
 
-type Tab = 'laws' | 'decrees'
+type Tab = 'situations' | 'laws' | 'decrees'
 
 const SERIF_BODY = "'Crimson Text', Georgia, serif"
 const LAW_GREEN = '#3d6a34'
@@ -32,10 +35,21 @@ export default function StatePanel({ onClose }: StatePanelProps) {
   const signedDecrees = useDecreeStore(s => s.signedDecrees)
   const pendingCount = useDecreeStore(s => s.pendingLongTermEffects.length)
   const isMobile = useIsMobile()
-  const [tab, setTab] = useState<Tab>('laws')
+  const [tab, setTab] = useState<Tab>('situations')
+  const nation = useGameStore(s => s.nation)
+  const currentWeek = useGameStore(s => s.currentWeek)
+  const economyHistory = useGameStore(s => s.economyHistory)
+  const debtHistory = useGameStore(s => s.debtHistory)
+  const inflationHistory = useGameStore(s => s.inflationHistory)
+  const publicOrderHistory = useGameStore(s => s.publicOrderHistory)
 
   const laws = useMemo(() => buildLawRecords(history, bills), [history, bills])
   const decrees = useMemo(() => buildDecreeRecords(signedDecrees), [signedDecrees])
+  const situations = useMemo(
+    () => buildSituations({ nation, currentWeek, economyHistory, debtHistory, inflationHistory, publicOrderHistory }),
+    [nation, currentWeek, economyHistory, debtHistory, inflationHistory, publicOrderHistory],
+  )
+  const pressing = situations.filter(x => x.severity !== 'Calm').length
 
   // Capture phase so Escape closes this panel only, not the next overlay
   // in App's Escape chain as well.
@@ -106,6 +120,7 @@ export default function StatePanel({ onClose }: StatePanelProps) {
         </div>
 
         <div role="tablist" aria-label="Records" style={{ display: 'flex', gap: '20px', marginTop: '16px', borderBottom: '1px solid var(--doc-rule)' }}>
+          <TabButton id="situations" label="Situations" count={pressing} active={tab === 'situations'} onSelect={setTab} />
           <TabButton id="laws" label="Laws" count={laws.length} active={tab === 'laws'} onSelect={setTab} />
           <TabButton id="decrees" label="Decrees" count={decrees.length} active={tab === 'decrees'} onSelect={setTab} />
         </div>
@@ -117,7 +132,9 @@ export default function StatePanel({ onClose }: StatePanelProps) {
         aria-labelledby={`state-tab-${tab}`}
         style={{ overflowY: 'auto', padding: '6px 22px 20px', flex: 1, minHeight: 0 }}
       >
-        {tab === 'laws' ? <LawList laws={laws} /> : <DecreeList decrees={decrees} pendingCount={pendingCount} />}
+        {tab === 'situations' && <SituationList situations={situations} />}
+        {tab === 'laws' && <LawList laws={laws} />}
+        {tab === 'decrees' && <DecreeList decrees={decrees} pendingCount={pendingCount} />}
       </div>
     </div>
   )
@@ -219,5 +236,55 @@ function DecreeList({ decrees, pendingCount }: { decrees: DecreeRecord[]; pendin
         </ol>
       )}
     </>
+  )
+}
+
+const SEVERITY_COLORS: Record<Severity, string> = {
+  Calm: '#3d6a34',
+  Strained: '#8a621c',
+  Serious: '#a0522d',
+  Critical: 'var(--oxblood)',
+}
+
+const TREND_MARKS: Record<Trend, { mark: string; color: string }> = {
+  Worsening: { mark: '▼', color: 'var(--oxblood)' },
+  Easing: { mark: '▲', color: '#3d6a34' },
+  Holding: { mark: '■', color: 'var(--doc-ink-muted)' },
+}
+
+function SituationList({ situations }: { situations: Situation[] }) {
+  return (
+    <ol style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+      {situations.map(sit => {
+        const trend = TREND_MARKS[sit.trend]
+        return (
+          <li key={sit.id} data-testid={`situation-${sit.id}`} style={{ padding: '12px 0', borderBottom: '1px solid var(--doc-rule)' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: SERIF_BODY, fontSize: '17px', fontWeight: 600, lineHeight: 1.3 }}>{sit.title}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span
+                  data-testid="situation-severity"
+                  style={{
+                    ...OVERLINE,
+                    color: SEVERITY_COLORS[sit.severity],
+                    border: `1px solid ${SEVERITY_COLORS[sit.severity]}`,
+                    padding: '1px 6px',
+                    borderRadius: '2px',
+                  }}
+                >
+                  {sit.severity}
+                </span>
+                <span data-testid="situation-trend" style={{ ...OVERLINE, color: trend.color }}>
+                  <span aria-hidden>{trend.mark} </span>{sit.trend}
+                </span>
+              </span>
+            </div>
+            <p style={{ fontFamily: SERIF_BODY, fontSize: '15px', lineHeight: 1.45, margin: '4px 0 0', color: 'var(--doc-ink-muted)' }}>
+              {sit.summary}
+            </p>
+          </li>
+        )
+      })}
+    </ol>
   )
 }

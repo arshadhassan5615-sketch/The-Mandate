@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import StatePanel from '../StatePanel'
 import { useBillStore } from '../../../stores/billStore'
 import { useDecreeStore } from '../../../stores/decreeStore'
+import { useGameStore } from '../../../stores/gameStore'
 import type { Decree } from '../../../types/decree'
 
 const signed: Decree = {
@@ -35,8 +36,20 @@ describe('StatePanel', () => {
     expect(screen.getByRole('dialog', { name: 'State of the Republic' })).toBeInTheDocument()
   })
 
+  it('opens on the Situations tab, worst first, in words only', () => {
+    const g = useGameStore.getState()
+    useGameStore.setState({ nation: { ...g.nation, publicOrder: 20, economyHealth: 30, nationalDebt: 200, inflation: 2 } })
+    render(<StatePanel onClose={() => {}} />)
+    expect(screen.getByRole('tab', { name: /Situations/ })).toHaveAttribute('aria-selected', 'true')
+    const items = screen.getAllByTestId(/^situation-(economy|debt|inflation|order)$/)
+    expect(items[0]).toHaveAttribute('data-testid', 'situation-order')
+    expect(items[0]).toHaveTextContent('Critical')
+    for (const item of items) expect(item.textContent).not.toMatch(/\d/)
+  })
+
   it('shows decided laws with their outcome and week on the Laws tab', () => {
     render(<StatePanel onClose={() => {}} />)
+    fireEvent.click(screen.getByRole('tab', { name: /Laws/ }))
     expect(screen.getByText('Land Reform Bill')).toBeInTheDocument()
     expect(screen.getByText('Press Licensing Bill')).toBeInTheDocument()
     expect(screen.getByText(/Vetoed/)).toBeInTheDocument()
@@ -67,6 +80,7 @@ describe('StatePanel', () => {
   it('shows an empty state when nothing has been decided', () => {
     useBillStore.setState({ history: [] })
     render(<StatePanel onClose={() => {}} />)
+    fireEvent.click(screen.getByRole('tab', { name: /Laws/ }))
     expect(screen.getByText(/No legislation has reached your desk yet/)).toBeInTheDocument()
   })
 
