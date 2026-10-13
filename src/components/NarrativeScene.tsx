@@ -43,6 +43,7 @@ export default function NarrativeScene() {
   const gameState = useGameStore()
   const currentWeek = useGameStore(s => s.currentWeek)
   const { sceneQueue, currentQueueIndex, advanceQueue, returnToMap } = useWeekStore()
+  const radioOpen = useWeekStore(s => s.radioOpen)
 
   const baseSegments = currentScene?.narrative ?? []
   const isEmergency = currentScene?.type === 'emergency'
@@ -154,7 +155,8 @@ export default function NarrativeScene() {
     if (!currentScene) {
       emergencyTimeoutRef.current = setTimeout(() => {
         const store = useWeekStore.getState()
-        if (store.phase === 'scene' && !useNarrativeStore.getState().currentScene) {
+        // The radio address is its own screen, not a story: it has no scene to load
+        if (store.phase === 'scene' && !store.radioOpen && !useNarrativeStore.getState().currentScene) {
           console.error('[NarrativeScene] EMERGENCY: 10s timeout — forcing review phase')
           useWeekStore.setState({ phase: store.returnToMap || store.agendaPool?.length > 0 ? 'map' : 'review', transitionLabel: '' })
         }
@@ -163,7 +165,9 @@ export default function NarrativeScene() {
     return () => {
       if (emergencyTimeoutRef.current) clearTimeout(emergencyTimeoutRef.current)
     }
-  }, [currentScene])
+  // Re-arm when the radio closes: the radio was skipped above, so the timer
+  // must start again once it is gone, or an empty scene screen never recovers.
+  }, [currentScene, radioOpen])
 
   // Timeout fallback — if scene doesn't load within 5s, try to recover.
   // Uses Promise.race to add an async guard around the synchronous load cycle.
@@ -190,7 +194,7 @@ export default function NarrativeScene() {
         const narrativeState = useNarrativeStore.getState()
 
         if (store.phase !== 'scene') return
-        if (store.showCabinetMeeting) return
+        if (store.showCabinetMeeting || store.radioOpen) return
         if (narrativeState.currentScene) return
 
         console.error(
