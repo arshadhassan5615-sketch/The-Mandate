@@ -117,15 +117,12 @@ export default function App() {
     }
   }, [phase, setSettingsOpen, setSaveMenuOpen, setMapOpen, setDebugOpen, setCharacterMapOpen, setJournalOpen, setNotepadOpen])
 
-  // Auto-open the interactive map overlay when the week's map phase
-  // begins. Deliberately depends on phase only (not mapOpen) — the
-  // player must still be able to close it via CLOSE MAP / Escape
-  // without this effect immediately reopening it.
+  // The week's map phase opens on the desk (DeskScreen); the map is a
+  // command-bar tool, so it is no longer opened automatically. Close it
+  // when a new phase starts so a meeting never opens under the map.
   useEffect(() => {
-    if (phase === 'map') {
-      setMapOpen(true)
-    }
-  }, [phase])
+    if (phase !== 'map') setMapOpen(false)
+  }, [phase, setMapOpen])
 
   // DEV ONLY: Ctrl+Shift+9 instantly jumps to Week 9 for testing.
   // Use e.code (not e.key) because Shift+9 produces "(" on US layouts.

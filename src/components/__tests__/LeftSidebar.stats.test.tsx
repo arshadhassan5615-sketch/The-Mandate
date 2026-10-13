@@ -1,7 +1,6 @@
-// LeftSidebar single Stats button + tabbed StatsPanel + embedded panel bodies
+// Tabbed StatsPanel + embedded panel bodies (opened from the command bar's More menu)
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import LeftSidebar from '../LeftSidebar'
 import EconomyPanel from '../panels/EconomyPanel'
 import StatsPanel from '../panels/StatsPanel'
 import { useGameStore } from '../../stores/gameStore'
@@ -51,24 +50,5 @@ describe('StatsPanel tabs', () => {
     fireEvent.click(screen.getByTestId('stats-tab-publicOrder'))
     expect(screen.getByTestId('public-order-panel-body')).toBeInTheDocument()
     expect(screen.getByTestId('public-order-value')).toBeInTheDocument()
-  })
-})
-
-describe('LeftSidebar single Stats control', () => {
-  beforeEach(resetStore)
-
-  it('opens StatsPanel from one button; no expand sub-rail', () => {
-    render(<LeftSidebar />)
-    expect(screen.queryByTestId('stats-panel')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('stats-sub-buttons')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('stats-parent-button')).not.toBeInTheDocument()
-
-    fireEvent.click(screen.getByTestId('stats-button'))
-    expect(screen.getByTestId('stats-panel')).toBeInTheDocument()
-    expect(screen.getByTestId('economy-panel-body')).toBeInTheDocument()
-
-    // Tab switching still works from sidebar-opened panel
-    fireEvent.click(screen.getByTestId('stats-tab-inflation'))
-    expect(screen.getByTestId('inflation-panel-body')).toBeInTheDocument()
   })
 })

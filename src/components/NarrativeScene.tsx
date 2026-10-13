@@ -4,8 +4,6 @@ import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { getAvailableChoices, ensureTerminalChoice, recurringOpeningNodes } from '../engine/NarrativeEngine'
 import { useDialogueFlow } from '../hooks/useDialogueFlow'
-import { useSettingsStore } from '../stores/settingsStore'
-import { useCodexStore } from '../stores/codexStore'
 import { playTypewriterKeyThrottled, startAmbient } from '../engine/audioEngine'
 import { getCharacterColor } from './portraits/CharacterPortraits'
 import ConversationPanel from './narrative/ConversationPanel'
@@ -45,10 +43,6 @@ export default function NarrativeScene() {
   const gameState = useGameStore()
   const currentWeek = useGameStore(s => s.currentWeek)
   const { sceneQueue, currentQueueIndex, advanceQueue, returnToMap } = useWeekStore()
-  const setSaveMenuOpen = useSettingsStore(s => s.setSaveMenuOpen)
-  const setCharacterMapOpen = useSettingsStore(s => s.setCharacterMapOpen)
-  const setNotepadOpen = useSettingsStore(s => s.setNotepadOpen)
-  const openCodex = useCodexStore(s => s.openCodex)
 
   const baseSegments = currentScene?.narrative ?? []
   const isEmergency = currentScene?.type === 'emergency'
@@ -150,14 +144,6 @@ export default function NarrativeScene() {
     : `Continue to Next Meeting (${currentQueueIndex + 2}/${sceneQueue.length}) →`
 
   const sceneCharacters = currentScene?.characters ?? []
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
-
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const prevRevealed = useRef(0)
   const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -320,41 +306,7 @@ export default function NarrativeScene() {
         monologueText={currentScene?.monologue}
       />
 
-      {!isMobile && (
-      <div style={{
-        position: 'fixed', bottom: 0, left: '200px', right: 0, zIndex: 101,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '0.35rem 1rem', paddingRight: '70px',
-        borderTop: '1px solid rgba(196,148,58,0.15)',
-        background: 'rgba(10,9,8,0.85)', pointerEvents: 'none',
-      }}>
-        <span style={{
-          fontFamily: "'Special Elite', monospace",
-          fontSize: '0.45rem', letterSpacing: '0.1em',
-          color: 'var(--muted)', textTransform: 'uppercase',
-        }}>
-          Week {currentWeek} · S save · C codex · M map
-        </span>
-        <div style={{ display: 'flex', gap: '0.8rem' }}>
-          {[
-            { label: 'Save', action: () => setSaveMenuOpen(true) },
-            { label: 'Codex', action: () => openCodex() },
-            { label: 'Dossier', action: () => setCharacterMapOpen(true) },
-            { label: '📝 Notes', action: () => setNotepadOpen(true) },
-          ].map(({ label, action }) => (
-            <button key={label} onClick={action} style={{
-              background: 'transparent', border: '1px solid var(--border)',
-              color: 'var(--muted)', cursor: 'pointer',
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '0.45rem', letterSpacing: '0.08em',
-              padding: '2px 8px', textTransform: 'uppercase',
-            }}>
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-      )}
+      {/* Save, Briefs, Notes and the rest live in the command bar */}
     </>
   )
 }

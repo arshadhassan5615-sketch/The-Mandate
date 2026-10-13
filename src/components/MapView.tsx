@@ -16,7 +16,7 @@ import ProvinceChip from './map/ProvinceChip'
 /** Below this width the full map fits the whole country instead of covering the screen. */
 const PHONE_BREAKPOINT = 768
 /** Phone top bar + bottom nav, kept clear when fitting the country. */
-const PHONE_CHROME_HEIGHT = 140
+const PHONE_CHROME_HEIGHT = 112
 /** Province chips shrink on phones so neighbouring provinces' chips do not overlap. */
 const PHONE_CHIP_SIZE = 0.82
 import veltriaMapImg from '../assets/maps/veltria_map_full.jpeg'

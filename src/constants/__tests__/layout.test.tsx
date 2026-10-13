@@ -1,36 +1,12 @@
-import { describe, it, expect, afterEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { pageInsets, PHONE_GOV_ROW_TOP, PHONE_RAIL_BUTTON, PHONE_BOTTOM_BAR } from '../layout'
-import LeftSidebar from '../../components/LeftSidebar'
+import { describe, it, expect } from 'vitest'
+import { pageInsets, COMMAND_BAR_HEIGHT, PHONE_TOP_BAR, PHONE_BOTTOM_BAR } from '../layout'
 
 describe('pageInsets', () => {
-  it('reserves the desktop top strip and right rail', () => {
-    expect(pageInsets(false)).toEqual({ top: 48, right: 60, bottom: 0 })
+  it('reserves the desktop command bar and no side rail', () => {
+    expect(pageInsets(false)).toEqual({ top: COMMAND_BAR_HEIGHT, right: 0, bottom: 0 })
   })
 
-  it('reserves the phone Government row and bottom bar, not a right rail', () => {
-    const phone = pageInsets(true)
-    expect(phone.top).toBeGreaterThan(PHONE_GOV_ROW_TOP + PHONE_RAIL_BUTTON)
-    expect(phone.right).toBe(0)
-    expect(phone.bottom).toBe(PHONE_BOTTOM_BAR)
-  })
-})
-
-describe('LeftSidebar on a phone', () => {
-  const desktopWidth = window.innerWidth
-  afterEach(() => { window.innerWidth = desktopWidth })
-
-  it('lays the Government buttons out as a row under the TopBar', () => {
-    window.innerWidth = 390
-    render(<LeftSidebar />)
-    const nav = screen.getByRole('navigation', { name: 'Government' })
-    expect(nav.style.flexDirection).toBe('row')
-    expect(nav.style.top).toBe(`${PHONE_GOV_ROW_TOP}px`)
-  })
-
-  it('keeps the desktop column', () => {
-    window.innerWidth = 1440
-    render(<LeftSidebar />)
-    expect(screen.getByRole('navigation', { name: 'Government' }).style.flexDirection).toBe('column')
+  it('reserves the phone top bar and bottom tool bar', () => {
+    expect(pageInsets(true)).toEqual({ top: PHONE_TOP_BAR, right: 0, bottom: PHONE_BOTTOM_BAR })
   })
 })

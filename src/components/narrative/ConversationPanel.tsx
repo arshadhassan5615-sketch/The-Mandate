@@ -14,6 +14,7 @@ import SceneBackdrop from './SceneBackdrop'
 import SpeakerStage from './SpeakerStage'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { Z } from '../../constants/zIndex'
+import { COMMAND_BAR_HEIGHT, PHONE_BOTTOM_BAR } from '../../constants/layout'
 
 // Speaker label: "NAME · Role :". The role comes from the character roster.
 function SpeakerLabelText({ name, role }: { name: string; role?: string }) {
@@ -218,15 +219,16 @@ const REACTION_TEXT_STYLE: React.CSSProperties = {
 // Portrait stack — every participant except Katerin, current speaker last.
 // Desktop: hangs outside the panel's left edge. Mobile: a row in the top padding.
 // Suzerain-style layout: location art behind, the speaker standing on the
-// left, the conversation log in a column on the right beside the nav rail.
+// left, the conversation log in a column on the right, under the command bar.
 // Phones: the speaker in the band under the HUD, the log below it.
-const DESKTOP_RAIL_PX = 76
 const DESKTOP_COLUMN_WIDTH = 'clamp(420px, 36vw, 600px)'
 const PHONE_COLUMN_TOP = '38vh'
-const PHONE_BOTTOM_BAR_PX = 60
 
 // The player never appears on stage, whatever role she plays in a segment.
 const PLAYER_ID = 'katerin_ashavel'
+
+// Two speakers inside this many recent lines are an exchange: both stand on stage.
+const EXCHANGE_WINDOW_LINES = 6
 
 interface ConversationHistoryEntry {
   id: string
@@ -297,33 +299,6 @@ export default function ConversationPanel({
   const panelInnerRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
 
-  // Deterministic stack built from actual history (prevents skipping bugs)
-  const speakerStack = useMemo(() => {
-    const stack: string[] = []
-    const processId = (id: string | undefined) => {
-      if (!id || id === PLAYER_ID) return
-      const idx = stack.indexOf(id)
-      if (idx > -1) stack.splice(idx, 1)
-      stack.push(id)
-    }
-
-    // A portrait appears only once its speaker's name label has rendered:
-    // everyone who has spoken in history, plus the dialogue segment that is
-    // typing now (its label renders the moment it becomes active). Scene
-    // metadata such as a description's primaryCharacter never seeds the
-    // stack, so no portrait shows before its speaker's first line.
-    history.forEach(entry => {
-      if (entry.type !== 'narrative' && entry.type !== 'description' && entry.type !== 'internal_thought' && entry.characterId) {
-        processId(entry.characterId)
-      }
-    })
-
-    if (activeSegment?.type === 'dialogue' && activeSegment.character) {
-      processId(activeSegment.character)
-    }
-
-    return stack
-  }, [history, activeSegment])
 
   // Delay advance button appearance after scene ends (smoother transition)
   useEffect(() => {
@@ -538,8 +513,18 @@ export default function ConversationPanel({
     // ResizeObserver disabled to allow full-height CSS layout
   }, [])
 
-  // On stage: whoever spoke most recently (the stack's last entry).
-  const stageSpeakerId = speakerStack.length > 0 ? speakerStack[speakerStack.length - 1] : null
+  // On stage: whoever is speaking now, plus whoever they are trading lines
+  // with (another speaker within the last few lines) as a two-person exchange.
+  const stageSpeakers = useMemo(() => {
+    const lines = history
+      .filter(e => e.type === 'dialogue' && e.characterId && e.characterId !== PLAYER_ID)
+      .map(e => e.characterId as string)
+    if (activeSegment?.type === 'dialogue' && activeSegment.character && activeSegment.character !== PLAYER_ID) {
+      lines.push(activeSegment.character)
+    }
+    const recent = lines.slice(-EXCHANGE_WINDOW_LINES).reverse()
+    return [...new Set(recent)].slice(0, 2)
+  }, [history, activeSegment])
 
   // Speaker runs. A run is broken only by dialogue from a different speaker;
   // descriptions and internal thoughts inside a turn do not restart it, so a
@@ -578,8 +563,8 @@ export default function ConversationPanel({
     boxShadow: '0 0 40px rgba(0,0,0,0.6)',
     animation: 'panel-fade-in 0.6s ease-out forwards',
     ...(isMobile
-      ? { top: PHONE_COLUMN_TOP, bottom: `${PHONE_BOTTOM_BAR_PX}px`, left: 0, right: 0, borderTop: '1px solid rgba(181,154,94,0.35)' }
-      : { top: 0, bottom: 0, right: `${DESKTOP_RAIL_PX}px`, width: DESKTOP_COLUMN_WIDTH, borderLeft: '1px solid rgba(181,154,94,0.3)' }),
+      ? { top: PHONE_COLUMN_TOP, bottom: `${PHONE_BOTTOM_BAR}px`, left: 0, right: 0, borderTop: '1px solid rgba(181,154,94,0.35)' }
+      : { top: `${COMMAND_BAR_HEIGHT}px`, bottom: 0, right: 0, width: DESKTOP_COLUMN_WIDTH, borderLeft: '1px solid rgba(181,154,94,0.3)' }),
   }
   if (phase !== 'scene') return null
 
@@ -589,9 +574,9 @@ export default function ConversationPanel({
       <>
       <SceneBackdrop location={sceneLocation} isEmergency={isEmergency} />
       <SpeakerStage
-        speakerId={stageSpeakerId}
+        speakerIds={stageSpeakers}
         isPhone={isMobile}
-        rightInset={`calc(${DESKTOP_RAIL_PX}px + ${DESKTOP_COLUMN_WIDTH})`}
+        rightInset={DESKTOP_COLUMN_WIDTH}
         phoneBottom={`calc(100vh - ${PHONE_COLUMN_TOP})`}
       />
       <div ref={panelRef} style={panelStyle}>

@@ -8,13 +8,23 @@ const props = { isPhone: false, rightInset: '600px', phoneBottom: '60vh' }
 
 describe('SpeakerStage', () => {
   it('stands the current speaker on stage with a name plate', () => {
-    render(<SpeakerStage speakerId="vyktor_reznik" {...props} />)
+    render(<SpeakerStage speakerIds={["vyktor_reznik"]} {...props} />)
     expect(screen.getByTestId('speaker-plate')).toHaveTextContent(charName('vyktor_reznik'))
   })
 
   it('is empty before anyone has spoken', () => {
-    render(<SpeakerStage speakerId={null} {...props} />)
+    render(<SpeakerStage speakerIds={[]} {...props} />)
     expect(screen.queryByTestId('speaker-plate')).toBeNull()
+  })
+})
+
+describe('SpeakerStage exchange', () => {
+  it('stands both speakers on stage, lighting only the one speaking', () => {
+    render(<SpeakerStage speakerIds={['gregor_maric', 'elara_vostane']} {...props} />)
+    const figures = screen.getAllByTestId('speaker-figure')
+    expect(figures).toHaveLength(2)
+    expect(figures.filter(f => f.dataset.speaking === 'true')).toHaveLength(1)
+    expect(screen.getByTestId('speaker-stage')).toHaveAttribute('data-duel', 'true')
   })
 })
 

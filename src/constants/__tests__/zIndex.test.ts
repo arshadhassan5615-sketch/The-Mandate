@@ -34,8 +34,6 @@ const LAYERED_FILES = [
   'components/panels/StatsPanel.tsx',
   'components/panels/StatePanel.tsx',
   'components/TopBar.tsx',
-  'components/LeftSidebar.tsx',
-  'components/RightSidebar.tsx',
 ]
 
 // Small values are local stacking inside a positioned parent (e.g. a close

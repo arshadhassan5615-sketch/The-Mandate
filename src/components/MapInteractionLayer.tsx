@@ -4,10 +4,10 @@ import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useNewsStore } from '../stores/newsStore'
-import { groupByProvince, type ProvinceId } from '../engine/LocationResolver'
+import { nextMeetings } from './desk/nextMeetings'
 import MapScenePin from './MapScenePin'
 import type { AgendaItem } from '../types/week'
-import { isAgendaItemDone, isWeekComplete } from '../engine/weekCompletion'
+import { isWeekComplete } from '../engine/weekCompletion'
 
 // ─── MapPins: renders scene pins as absolute children of the pannable map div ──
 
@@ -23,24 +23,18 @@ export function MapPins({ onFocusProvince, onUnfocusProvince }: MapPinsProps = {
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const currentWeek = useGameStore(s => s.currentWeek)
 
-  const groups = useMemo(() => {
-    const allGroups = groupByProvince(agendaPool)
-    const nextPerProvince: Partial<Record<ProvinceId, AgendaItem>> = {}
-    for (const provinceId of Object.keys(allGroups) as ProvinceId[]) {
-      const items = allGroups[provinceId]!
-      const sorted = [...items].sort((a, b) => a.executionOrder - b.executionOrder)
-      const next = sorted.find(item => !isAgendaItemDone(item, visitedSceneIds, completedItemIds))
-      if (next) nextPerProvince[provinceId] = next
-    }
-    return nextPerProvince
-  }, [agendaPool, visitedSceneIds, completedItemIds])
+  // Same list the desk offers: each province's next unfinished meeting
+  const slots = useMemo(
+    () => nextMeetings(agendaPool, visitedSceneIds, completedItemIds),
+    [agendaPool, visitedSceneIds, completedItemIds],
+  )
 
   return (
     <>
-      {Object.entries(groups).map(([provinceId, item]) => (
+      {slots.map(({ province, item }) => (
         <MapScenePin
-          key={provinceId}
-          provinceId={provinceId as ProvinceId}
+          key={province}
+          provinceId={province}
           items={[item]}
           currentWeek={currentWeek}
           onSelectScene={(selected: AgendaItem) => launchSingleScene(selected)}

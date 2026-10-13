@@ -18,8 +18,7 @@ import ChildhoodPrologue from './ChildhoodPrologue'
 import CinematicOpening from './CinematicOpening'
 import KaterinHUD from './KaterinHUD'
 import TopBar from './TopBar'
-import RightSidebar from './RightSidebar'
-import LeftSidebar from './LeftSidebar'
+import DeskScreen from './desk/DeskScreen'
 import ProjectsPanel from './ProjectsPanel'
 import ProjectMidpointModal from './ProjectMidpointModal'
 import NewsOverlay from './NewsOverlay'
@@ -48,7 +47,6 @@ import DiaryScreen from './DiaryScreen'
 import CliffhangerScreen from './CliffhangerScreen'
 import DecreeInbox from './DecreeInbox'
 import MapInteractionLayer from './MapInteractionLayer'
-import MapChromeFrame from './MapChromeFrame'
 import ActTransition from './ActTransition'
 import { ErrorBoundary } from './ErrorBoundary'
 import SaveSlotScreen from './SaveSlotScreen'
@@ -114,6 +112,9 @@ export default function GameLayout() {
   // Start ambient audio on first user interaction anywhere in the game
   const startAmbientOnce = useCallback(() => {
     if (ambientStarted.current) return
+    // Do not start ambient audio during the prologue — it has its own music
+    const currentPhase = useWeekStore.getState().phase
+    if (currentPhase === 'prologue') return
     resumeAudioContext()
     audioManager.resume()
     audioManager.setUserInteracted()
@@ -301,8 +302,9 @@ export default function GameLayout() {
       )}
 
       {phase === 'agenda'   && <AgendaSelector />}
+      {/* Between meetings the Chancellor is at her desk; the map is a command-bar tool */}
+      {phase === 'map'      && <DeskScreen />}
       {phase === 'map'      && <MapInteractionLayer />}
-      {phase === 'map'      && <MapChromeFrame />}
       {phase === 'scene'    && <ErrorBoundary><SceneRouter /></ErrorBoundary>}
       {phase === 'budget'       && <BudgetInterface />}
       {phase === 'constitution' && <ConstitutionalReform />}
@@ -328,62 +330,6 @@ export default function GameLayout() {
         </div>
       )}
       {showLegacy && <LegacyScreen onContinue={() => { useWeekStore.setState({ showLegacy: false, phase: 'title' }) }} />}
-
-      {/* Left GOV + right REGISTRY icon sidebars — visible during gameplay */}
-      {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
-        <>
-          <LeftSidebar />
-          <RightSidebar />
-        </>
-      )}
-
-      {/* In-game save & menu buttons — bottom left during gameplay */}
-      {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
-        <div style={{ position: 'fixed', bottom: '1rem', left: '1rem', zIndex: 100, display: 'flex', gap: '0.5rem' }}>
-          <button
-            onClick={() => setSlotScreenMode('save')}
-            style={{
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '0.5rem',
-              letterSpacing: '0.1em',
-              background: 'rgba(201,168,76,0.1)',
-              border: '1px solid',
-              borderColor: hoveredButton === 'save' ? '#c9a84c' : 'rgba(201,168,76,0.3)',
-              color: hoveredButton === 'save' ? '#c9a84c' : 'rgba(201,168,76,0.7)',
-              padding: '0.35rem 0.8rem',
-              cursor: 'pointer',
-              borderRadius: '2px',
-              textTransform: 'uppercase' as const,
-              transition: 'all 0.15s ease',
-            }}
-            onMouseEnter={() => setHoveredButton('save')}
-            onMouseLeave={() => setHoveredButton(null)}
-          >
-            SAVE
-          </button>
-          <button
-            onClick={() => setMenuConfirmOpen(true)}
-            style={{
-              fontFamily: "'Special Elite', monospace",
-              fontSize: '0.5rem',
-              letterSpacing: '0.1em',
-              background: 'rgba(201,168,76,0.1)',
-              border: '1px solid',
-              borderColor: hoveredButton === 'menu' ? '#c9a84c' : 'rgba(201,168,76,0.3)',
-              color: hoveredButton === 'menu' ? '#c9a84c' : 'rgba(201,168,76,0.7)',
-              padding: '0.35rem 0.8rem',
-              cursor: 'pointer',
-              borderRadius: '2px',
-              textTransform: 'uppercase' as const,
-              transition: 'all 0.15s ease',
-            }}
-            onMouseEnter={() => setHoveredButton('menu')}
-            onMouseLeave={() => setHoveredButton(null)}
-          >
-            MENU
-          </button>
-        </div>
-      )}
 
       {/* Return-to-menu confirmation modal */}
       {menuConfirmOpen && (
@@ -480,7 +426,7 @@ export default function GameLayout() {
 
       {/* Top bar — visible during gameplay */}
       {phase !== 'title' && phase !== 'customization' && phase !== 'prologue' && phase !== 'epilogue' && (
-        <TopBar />
+        <TopBar onSave={() => setSlotScreenMode('save')} onMainMenu={() => setMenuConfirmOpen(true)} />
       )}
 
       {/* Katerin portrait HUD — visible during gameplay */}
