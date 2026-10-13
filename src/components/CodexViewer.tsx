@@ -7,6 +7,7 @@ import type { CodexCategory, CodexEntry } from '../types/codex'
 import { CATEGORY_LABELS } from '../types/codex'
 import CharacterPortrait from './portraits/CharacterPortrait'
 import { useIsMobile } from '../hooks/useIsMobile'
+import { isBriefUnlocked } from './briefs/briefAccess'
 
 // ─── Parchment palette (distinct from the game's dark theme) ─────────────────
 
@@ -284,10 +285,7 @@ export default function CodexViewer() {
   const currentWeek = useGameStore(s => s.currentWeek)
 
   // Determine which entries are accessible
-  const isUnlocked = (entry: CodexEntry): boolean => {
-    if (entry.unlockCondition === 'start') return true
-    return activeFlags.includes(entry.unlockCondition) || unlockedCodexIds.includes(entry.id)
-  }
+  const isUnlocked = (entry: CodexEntry): boolean => isBriefUnlocked(entry, activeFlags, unlockedCodexIds)
 
   const isNew = (entry: CodexEntry): boolean => {
     if (entry.unlockCondition === 'start') return false
@@ -361,7 +359,7 @@ export default function CodexViewer() {
               color: P.inkMuted,
               marginBottom: '0.1rem',
             }}>
-              Republic of Veltria — Chancellor's Reference
+              Republic of Veltria — Chancellery Briefs
             </p>
             <p style={{
               fontFamily: "'IM Fell English', Georgia, serif",
@@ -369,7 +367,7 @@ export default function CodexViewer() {
               color: P.ink,
               letterSpacing: '0.04em',
             }}>
-              The Veltrian Codex
+              Briefs Library
             </p>
           </div>
           <button

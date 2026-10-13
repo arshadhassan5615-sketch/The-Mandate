@@ -7,7 +7,8 @@ import { useMemo, useState, useEffect, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useSettingsStore } from '../stores/settingsStore'
-import { useCodexStore } from '../stores/codexStore'
+import { useCodexStore, ALL_CODEX_ENTRIES } from '../stores/codexStore'
+import { unreadBriefCount } from './briefs/briefAccess'
 import { useDecreeStore } from '../stores/decreeStore'
 import { useLetterStore } from '../stores/letterStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
@@ -231,6 +232,13 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
     notepadOpen, setNotepadOpen, setInvestmentOpen, setSettingsOpen,
   } = useSettingsStore()
   const openCodex = useCodexStore(s => s.openCodex)
+  const seenBriefs = useCodexStore(s => s.seenEntryIds)
+  const narrativeFlags = useNarrativeStore(s => s.activeFlags)
+  const unlockedBriefs = useNarrativeStore(s => s.unlockedCodexIds)
+  const briefsUnread = useMemo(
+    () => unreadBriefCount(ALL_CODEX_ENTRIES, narrativeFlags, unlockedBriefs, seenBriefs),
+    [narrativeFlags, unlockedBriefs, seenBriefs],
+  )
   const pendingDecrees = useDecreeStore(s => s.pendingDecrees.length)
   const letterUnread = useLetterStore(s => s.unreadCount)
   const openLetters = useLetterStore(s => s.setOpen)
@@ -251,7 +259,7 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
   const tools: ToolProps[] = [
     { icon: <MapIcon />, label: 'Map', shortcut: HUD_SHORTCUTS.map, active: mapOpen, onClick: () => setMapOpen(!mapOpen) },
     { icon: <NewsIcon />, label: 'News', shortcut: HUD_SHORTCUTS.news, badge: newsUnread, onClick: () => setNewsOpen(true) },
-    { icon: <BriefsIcon />, label: 'Briefs', shortcut: HUD_SHORTCUTS.codex, onClick: () => openCodex() },
+    { icon: <BriefsIcon />, label: 'Briefs', shortcut: HUD_SHORTCUTS.codex, badge: briefsUnread, onClick: () => openCodex() },
     { icon: <DecreeIcon />, label: 'Decrees', shortcut: HUD_SHORTCUTS.decrees, badge: pendingDecrees, active: decreeInboxOpen, onClick: () => setDecreeInboxOpen(!decreeInboxOpen) },
     { icon: <StateIcon />, label: 'State', active: panel === 'state', onClick: () => toggle('state') },
     { icon: <JournalIcon />, label: 'Journal', shortcut: HUD_SHORTCUTS.journal, onClick: () => setJournalOpen(true) },

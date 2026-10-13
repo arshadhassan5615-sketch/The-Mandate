@@ -12,6 +12,7 @@ import SceneHeader from './SceneHeader'
 import { renderWithEntities } from '../news/EntityLinker'
 import SceneBackdrop from './SceneBackdrop'
 import SpeakerStage from './SpeakerStage'
+import { isBriefUnlocked } from '../briefs/briefAccess'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { Z } from '../../constants/zIndex'
 import { COMMAND_BAR_HEIGHT, PHONE_BOTTOM_BAR } from '../../constants/layout'
@@ -93,15 +94,28 @@ const CODEX_KEY_REGEX: RegExp | null = CODEX_KEY_TO_ID.size > 0
     )
   : null
 
+// A keyword in dialogue that opens its brief over the conversation; closing the
+// brief returns to the same line. Locked briefs stay plain text (no spoilers);
+// unread ones carry a dot.
 function CodexTermLink({ text, entryId }: { text: string; entryId: string }) {
   const openInlineCodex = useCodexStore(s => s.openInlineCodex)
+  const isUnread = useCodexStore(s => !s.seenEntryIds.includes(entryId))
+  const activeFlags = useNarrativeStore(s => s.activeFlags)
+  const unlockedCodexIds = useNarrativeStore(s => s.unlockedCodexIds)
+  const entry = CODEX_ENTRIES.find(e => e.id === entryId)
+  if (!entry || !isBriefUnlocked(entry, activeFlags, unlockedCodexIds)) return <>{text}</>
   return (
     <span
+      role="button"
+      tabIndex={0}
       onClick={(e) => { e.stopPropagation(); openInlineCodex(entryId) }}
-      style={{ color: '#4ba3b8', cursor: 'pointer' }}
-      title={`Open Codex: ${text}`}
+      onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); openInlineCodex(entryId) } }}
+      style={{ color: '#4ba3b8', cursor: 'pointer', borderBottom: isUnread ? '1px dotted #4ba3b8' : undefined }}
+      title={`Open brief: ${text}`}
+      data-unread={isUnread || undefined}
     >
       {text}
+      {isUnread && <sup aria-label="unread" style={{ color: '#e8b04a', fontSize: '0.6em', marginLeft: '1px' }}>●</sup>}
     </span>
   )
 }

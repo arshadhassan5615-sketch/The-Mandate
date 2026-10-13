@@ -86,7 +86,7 @@ function renderMarkdown(content: string): React.ReactNode {
 }
 
 export default function InlineCodexPanel() {
-  const { inlineCodexOpen, activeEntryId, closeInlineCodex } = useCodexStore()
+  const { inlineCodexOpen, activeEntryId, closeInlineCodex, openCodex } = useCodexStore()
   const entry = useMemo(() => {
     if (!activeEntryId) return null
     return ALL_CODEX_ENTRIES.find(e => e.id === activeEntryId) ?? null
@@ -127,7 +127,7 @@ export default function InlineCodexPanel() {
             letterSpacing: '0.2em', textTransform: 'uppercase', color: P.inkMuted,
             display: 'block',
           }}>
-            Codex — {CATEGORY_LABELS[entry.category]}
+            Brief — {CATEGORY_LABELS[entry.category]}
           </span>
           <span style={{
             fontFamily: "'IM Fell English', Georgia, serif", fontSize: '0.95rem',
@@ -175,8 +175,9 @@ export default function InlineCodexPanel() {
           fontFamily: "'Special Elite', monospace", fontSize: '0.42rem',
           letterSpacing: '0.12em', textTransform: 'uppercase', color: P.inkMuted,
         }}>
-          Press Escape to close
+          Escape to return to the conversation
         </span>
+        <button type="button" onClick={() => { closeInlineCodex(); openCodex(entry.category, entry.id) }} style={{ background: 'none', border: 'none', color: P.amber, cursor: 'pointer', fontFamily: "'Special Elite', monospace", fontSize: '0.45rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'underline' }}>Open in Briefs library</button>
         <button
           onClick={closeInlineCodex}
           style={{
