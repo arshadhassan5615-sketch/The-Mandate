@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import type { NarrativeNode, NarrativeSegment, ChainTrigger } from '../types/narrative'
-import type { NewsArticle, Publication } from '../types/news'
+import type { NewsArticle } from '../types/news'
 import type { GameState, StateModifier } from '../types/gameState'
 import { getScene, getAvailableChoices, ENGINE_CONTINUE_ID } from '../engine/NarrativeEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
@@ -11,6 +11,7 @@ import { useWeekStore } from './weekStore'
 import { useNewsStore } from './newsStore'
 import { useDecreeStore } from './decreeStore'
 import { NEWS_TEMPLATES } from '../data/news/newsTemplates'
+import { buildCoverage } from '../engine/pressCoverage'
 import { ALL_DECREES } from '../data/decrees'
 import { playCodexUnlock } from '../engine/audioEngine'
 import { useJournalStore } from '../stores/journalStore'
@@ -100,94 +101,18 @@ function generateNews(
   const matches = NEWS_TEMPLATES.filter(t => t.trigger === trigger)
   if (matches.length === 0) return
 
-  const articles: NewsArticle[] = []
-  const mediaControl = gameState.nation.mediaControl
-  const pressFreedom = gameState.nation.pressFreedom
-
-  for (const template of matches) {
-    if (template.conditions?.length) {
-      if (!evaluateAll(template.conditions, gameState, activeFlags)) continue
-    }
-
-    const pubIndex = articles.length % 2
-    let publication: Publication
-    let content: { headline: string; body: string }
-
-    if (pubIndex === 0) {
-      publication = 'ashenmere_herald'
-      if (mediaControl < 20) {
-        content = template.standard
-      } else {
-        content = template.herald
-      }
-    } else {
-      publication = 'peoples_standard'
-      content = template.standard
-    }
-
-    articles.push({
-      id: `news_${trigger}_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
-      headline: content.headline,
-      body: content.body,
-      publication,
-      weekNumber: gameState.currentWeek,
-      date: weekToDate(gameState.currentWeek),
-      templateId: template.trigger,
-      category: template.category,
-    })
-
-    if (template.worker) {
-      articles.push({
-        id: `news_${trigger}_worker_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
-        headline: template.worker.headline,
-        body: template.worker.body,
-        publication: 'kravenstal_worker' as Publication,
-        weekNumber: gameState.currentWeek,
-        date: weekToDate(gameState.currentWeek),
-        templateId: template.trigger,
-        category: template.category,
-      })
-    }
-
-    if (template.times) {
-      articles.push({
-        id: `news_${trigger}_times_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
-        headline: template.times.headline,
-        body: template.times.body,
-        publication: 'veltrian_voice' as Publication,
-        weekNumber: gameState.currentWeek,
-        date: weekToDate(gameState.currentWeek),
-        templateId: template.trigger,
-        category: template.category,
-      })
-    }
-
-    if (template.gazette) {
-      articles.push({
-        id: `news_${trigger}_gazette_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
-        headline: template.gazette.headline,
-        body: template.gazette.body,
-        publication: 'thornfeld_gazette' as Publication,
-        weekNumber: gameState.currentWeek,
-        date: weekToDate(gameState.currentWeek),
-        templateId: template.trigger,
-        category: template.category,
-      })
-    }
-
-    if (pressFreedom > 60 && mediaControl > 60 && pubIndex === 0) {
-      articles.push({
-        id: `news_${trigger}_voice_${articles.length}_${Date.now()}_${Math.random().toString(36).slice(2)}`,
-        headline: template.standard.headline,
-        body: `[The Veltrian Voice — Independent Press] ${template.standard.body}`,
-        publication: 'veltrian_voice' as Publication,
-        weekNumber: gameState.currentWeek,
-        date: weekToDate(gameState.currentWeek),
-        templateId: template.trigger,
-        category: template.category,
-      })
-    }
+  // Each template is a story; the press decides who prints it and how
+  // (engine/pressCoverage: major stories run everywhere, minor ones only
+  // where the paper cares, each with its own slant).
+  const ctx = {
+    week: gameState.currentWeek,
+    date: weekToDate(gameState.currentWeek),
+    pressFreedom: gameState.nation.pressFreedom,
+    mediaControl: gameState.nation.mediaControl,
   }
+  const articles: NewsArticle[] = matches
+    .filter(t => !t.conditions?.length || evaluateAll(t.conditions, gameState, activeFlags))
+    .flatMap(t => buildCoverage(t, ctx))
 
   if (articles.length > 0) {
     useNewsStore.getState().addArticles(articles)

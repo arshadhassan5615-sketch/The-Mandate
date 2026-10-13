@@ -14,6 +14,9 @@ import {
   GazetteMasthead,
 } from './news/NewsMastheads'
 import { Z } from '../constants/zIndex'
+import { OUTLETS, type OutletId } from '../data/news/outlets'
+import { PRESS_CLOSURE_THRESHOLD } from '../engine/pressCoverage'
+import { useGameStore } from '../stores/gameStore'
 
 function groupByWeek(articles: NewsArticle[]): Map<number, NewsArticle[]> {
   const map = new Map<number, NewsArticle[]>()
@@ -367,6 +370,7 @@ function ArticleBlock({
         margin: 0,
         textAlign: isLead ? 'justify' : 'left',
         opacity: 0.92,
+        whiteSpace: 'pre-line', // a paper's verdict is its own paragraph
         ...(isLead ? {
           columnCount: 2,
           columnGap: '24px',
@@ -382,6 +386,7 @@ function ArticleBlock({
 export default function NewsOverlay() {
   const { articles, isOpen, setOpen, lastReadIndex, markArticleRead } = useNewsStore()
   const { activeFlags } = useNarrativeStore()
+  const pressFreedom = useGameStore(s => s.nation.pressFreedom)
 
   const [activeTab, setActiveTab] = useState<NewspaperDef['id']>('ashenmere_herald')
   const [pageIndex, setPageIndex] = useState(0)
@@ -505,6 +510,18 @@ export default function NewsOverlay() {
             {/* Masthead */}
             {renderMasthead(activePaper, currentWeek, activeFlags)}
 
+            {/* Who owns this paper and what it stands for: read every story with it in mind */}
+            {OUTLETS[activeTab as OutletId] && (
+              <div data-testid="outlet-ownership" style={{
+                flexShrink: 0, textAlign: 'center', padding: '4px 16px 6px',
+                fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', letterSpacing: '0.08em',
+                color: activePaper.textColor, opacity: 0.65, borderBottom: '1px solid rgba(0,0,0,0.08)',
+              }}>
+                Owned by {OUTLETS[activeTab as OutletId].owner} · {OUTLETS[activeTab as OutletId].line}
+                {OUTLETS[activeTab as OutletId].isOpposition && pressFreedom < PRESS_CLOSURE_THRESHOLD && ' · CLOSED BY ORDER OF THE STATE'}
+              </div>
+            )}
+
             {/* Body */}
             {totalPages === 0 || tabArticles.length === 0 ? (
               <div style={{
@@ -626,6 +643,7 @@ export default function NewsOverlay() {
                           color: activePaper.textColor,
                           margin: 0,
                           textAlign: 'justify',
+                          whiteSpace: 'pre-line',
                         }}>
                           {renderWithEntities(lead.body)}
                         </p>

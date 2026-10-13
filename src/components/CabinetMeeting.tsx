@@ -6,6 +6,7 @@ import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useWeekStore } from '../stores/weekStore'
 import type { NewsArticle } from '../types/news'
+import { buildCoverage } from '../engine/pressCoverage'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
 import { usePageInsets } from '../hooks/usePageInsets'
@@ -141,29 +142,25 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
     const date = `Week ${currentWeek}, 1963`
     const generatedNews: NewsArticle[] = []
 
-    // 1. State Media (Official Government Record)
-    generatedNews.push({
-      id: `news_${current.id}_state_${Date.now()}`,
-      headline: `EXECUTIVE DIRECTIVE: ${current.title.toUpperCase()}`,
-      body: `The Chancellor's Office has issued a formal directive regarding a recent ${minister?.title || 'Ministry'} proposal. Official sources confirm the decision will result in the following: ${option.consequence.toLowerCase()}.`,
-      publication: 'The Veltrian State Times' as any,
-      weekNumber: currentWeek,
+    // The decision as a governance story; the press decides who prints it and
+    // how (engine/pressCoverage). Was filed under two papers that do not exist.
+    generatedNews.push(...buildCoverage({
+      trigger: `cabinet_${current.id}`,
+      category: 'governance',
+      herald: {
+        headline: `EXECUTIVE DIRECTIVE: ${current.title.toUpperCase()}`,
+        body: `The Chancellor's Office has issued a formal directive regarding a recent ${minister?.title || 'Ministry'} proposal. Official sources confirm the decision will result in the following: ${option.consequence.toLowerCase()}.`,
+      },
+      standard: {
+        headline: `CONTROVERSY OVER NEW ${minister?.ministry.toUpperCase() || 'CABINET'} POLICY`,
+        body: `Debate erupted in the capital today following the Chancellor's decision to "${option.text}". While government loyalists praise the swift executive action, critics point out that it ${option.consequence.toLowerCase()}.`,
+      },
+    }, {
+      week: currentWeek,
       date,
-      templateId: 'event_standard',
-      category: 'POLITICS' as any
-    })
-
-    // 2. Tribune Reaction (Centrist Analysis)
-    generatedNews.push({
-      id: `news_${current.id}_reaction_${Date.now()}`,
-      headline: `CONTROVERSY OVER NEW ${minister?.ministry.toUpperCase() || 'CABINET'} POLICY`,
-      body: `Debate erupted in the capital today following the Chancellor's decision to "${option.text}". While government loyalists praise the swift executive action, critics point out that it ${option.consequence.toLowerCase()}.`,
-      publication: 'The Republic Tribune' as any,
-      weekNumber: currentWeek,
-      date,
-      templateId: 'event_standard',
-      category: 'POLITICS' as any
-    })
+      pressFreedom: useGameStore.getState().nation.pressFreedom,
+      mediaControl: useGameStore.getState().nation.mediaControl,
+    }))
 
     // 3. Custom Author Overrides
     if (option.newsImpact) {

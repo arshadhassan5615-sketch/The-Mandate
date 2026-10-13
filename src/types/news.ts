@@ -31,6 +31,8 @@ export interface NewsTemplate {
   trigger: string
   category: NewsCategory
   conditions?: Condition[]
+  /** major = every paper prints it; minor = only papers that care. Default by category. */
+  importance?: 'major' | 'minor'
   herald: { headline: string; body: string }
   standard: { headline: string; body: string }
   worker?: { headline: string; body: string }
