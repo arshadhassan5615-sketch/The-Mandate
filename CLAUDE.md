@@ -130,7 +130,10 @@ src/
 |   +-- budgetEffects.ts              Budget line -> stat modifier map
 |   +-- conditionEvaluator.ts         Dot-notation condition resolver
 |   +-- endingCalculator.ts           Governance / personal scoring
-|   +-- newsTemplates.ts              [DUPLICATE - see data/news/]
+|   +-- newsTemplates.ts              Separate module - sim-condition news bank;
+|                                     not a duplicate of data/news/newsTemplates.ts
+|                                     (engine: NewsItem sim conditions; data: per-paper
+|                                      narrative coverage - different schemas, zero shared headlines)
 |
 +-- stores/                           (11 Zustand stores)
 |   +-- billStore.ts

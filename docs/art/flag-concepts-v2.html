@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Neighbour Flags — Real-World Inspired</title>
+<style>
+  body {
+    background: #0d0b08;
+    color: #e6dcc3;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    margin: 0;
+    padding: 40px 32px 64px;
+  }
+  h1 {
+    font-weight: normal;
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+    font-size: 2.2rem;
+    margin: 0 0 8px;
+  }
+  .subtitle {
+    margin: 0 0 48px;
+    color: #b9ab86;
+  }
+  section {
+    margin-bottom: 64px;
+  }
+  h2 {
+    font-weight: normal;
+    font-size: 1.6rem;
+    border-bottom: 1px solid #3a3226;
+    padding-bottom: 8px;
+    margin: 0 0 24px;
+  }
+  h2 .identity {
+    display: block;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #b9ab86;
+    margin-top: 4px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .card {
+    min-width: 0;
+  }
+  .flag {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #3a3226;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+  }
+  .label {
+    color: #C9A84C;
+    font-variant: small-caps;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+    margin: 14px 0 6px;
+  }
+  .line {
+    font-style: italic;
+    line-height: 1.4;
+    margin: 0 0 6px;
+  }
+  .key {
+    font-style: normal;
+    color: #C9A84C;
+  }
+  .preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: #b9ab86;
+  }
+  .preview svg {
+    width: 60px;
+    height: 34px;
+    border: 1px solid #3a3226;
+    flex: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- Shared definitions, referenced by <use> from the flag groups and the 60px previews. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- Lytheira: heater shield with navy three-masted ship, centred on (280,200). Used by flags 1 and 2. -->
+    <g id="lyt-shield">
+      <path d="M235,145 H325 V200 Q325,236 280,255 Q235,236 235,200 Z" fill="#EFE6D2" stroke="#C9A84C" stroke-width="5"/>
+      <polygon points="250,206 310,206 302,220 258,220" fill="#1E3A6E"/>
+      <rect x="260.5" y="160" width="3" height="48" fill="#1E3A6E"/>
+      <rect x="278.5" y="150" width="3" height="58" fill="#1E3A6E"/>
+      <rect x="296.5" y="160" width="3" height="48" fill="#1E3A6E"/>
+      <polygon points="260,164 252,190 260,190" fill="#1E3A6E"/>
+      <polygon points="264,164 272,190 264,190" fill="#1E3A6E"/>
+      <polygon points="278,154 270,188 278,188" fill="#1E3A6E"/>
+      <polygon points="282,154 290,188 282,188" fill="#1E3A6E"/>
+      <polygon points="296,164 288,190 296,190" fill="#1E3A6E"/>
+      <polygon points="300,164 308,190 300,190" fill="#1E3A6E"/>
+    </g>
+
+    <!-- Tyvaren: black griffin rampant facing the hoist, gripping an upright silver sword. Flag coordinates. Used by flags 3 and 4. -->
+    <g id="tyv-griffin">
+      <polygon points="246,288 246,134 250,118 254,134 254,288" fill="#C7CCD2" stroke="#8E949B" stroke-width="2"/>
+      <rect x="236" y="284" width="28" height="7" fill="#C7CCD2" stroke="#8E949B" stroke-width="2"/>
+      <rect x="247" y="291" width="6" height="20" fill="#8E949B"/>
+      <circle cx="250" cy="316" r="5" fill="#C7CCD2" stroke="#8E949B" stroke-width="2"/>
+      <g fill="#111111" stroke="none">
+        <path d="M332,146 C360,118 404,104 462,98 L448,114 L458,124 L438,128 L446,138 L426,144 Q410,162 372,172 Z"/>
+        <path d="M326,150 C344,106 388,82 444,74 L426,92 L440,100 L420,110 L434,120 L412,126 L422,136 L402,142 Q388,160 356,172 Z"/>
+        <circle cx="300" cy="110" r="18"/>
+        <polygon points="284,96 262,102 260,112 266,114 268,108 284,116"/>
+        <polygon points="310,98 332,80 326,106"/>
+        <circle cx="356" cy="240" r="30"/>
+        <ellipse cx="320" cy="320" rx="14" ry="7"/>
+        <ellipse cx="386" cy="320" rx="14" ry="7"/>
+        <polygon points="252,186 240,190 252,198"/>
+        <polygon points="256,208 244,214 256,222"/>
+      </g>
+      <g fill="none" stroke="#111111" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="302" y1="118" x2="320" y2="160" stroke-width="26"/>
+        <line x1="320" y1="160" x2="352" y2="236" stroke-width="52"/>
+        <path d="M376,246 Q412,240 414,274 Q416,296 432,290" stroke-width="10"/>
+        <line x1="344" y1="256" x2="326" y2="316" stroke-width="18"/>
+        <line x1="368" y1="256" x2="384" y2="316" stroke-width="18"/>
+        <line x1="318" y1="172" x2="252" y2="190" stroke-width="13"/>
+        <line x1="324" y1="184" x2="254" y2="214" stroke-width="13"/>
+      </g>
+    </g>
+
+    <!-- Sovarka: left olive branch, starting at upper left and meeting the centre-bottom at (350,324). Mirrored for the right branch. -->
+    <g id="sov-olive" fill="#4F6B34" stroke="none">
+      <path d="M350,324 Q312,306 262,266" fill="none" stroke="#4F6B34" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="338.4" cy="318.1" rx="13" ry="5" transform="rotate(168.1 338.4 318.1)"/>
+      <ellipse cx="326.1" cy="311.2" rx="13" ry="5" transform="rotate(250.6 326.1 311.2)"/>
+      <ellipse cx="313.4" cy="303.3" rx="13" ry="5" transform="rotate(172.8 313.4 303.3)"/>
+      <ellipse cx="300.1" cy="294.5" rx="13" ry="5" transform="rotate(254.6 300.1 294.5)"/>
+      <ellipse cx="286.3" cy="284.6" rx="13" ry="5" transform="rotate(176.3 286.3 284.6)"/>
+      <ellipse cx="271.9" cy="273.8" rx="13" ry="5" transform="rotate(257.8 271.9 273.8)"/>
+    </g>
+
+    <!-- Morivask: phoenix wing (left) and flame tongue (left); the right side is the mirror (matrix(-1 0 0 1 700 0)). -->
+    <path id="mor-wing" d="M344,176 C330,156 312,140 292,134 C296,140 296,146 292,150 C286,154 280,156 278,160 C284,160 290,164 296,166 C306,172 316,180 326,194 Z" fill="#8C6B3A"/>
+    <polygon id="mor-tongue" points="344,220 322,246 326,256 346,236" fill="#A11F1F"/>
+  </defs>
+</svg>
+
+<h1>Neighbour Flags — Real-World Inspired</h1>
+<p class="subtitle">Each design adapts a real flag tradition to Veltria's world. Nothing is copied.</p>
+
+<!-- ============================ LYTHEIRA ============================ -->
+<section>
+  <h2>Lytheira <span class="identity">fading colonial empire (west)</span></h2>
+  <div class="grid">
+
+    <article class="card">
+      <svg class="flag" viewBox="0 0 700 400" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Lytheira flag concept 1: Iberian arms on the division">
+        <g id="lyt-1">
+          <rect x="0" y="0" width="280" height="400" fill="#1E3A6E"/>
+          <rect x="280" y="0" width="420" height="400" fill="#EFE6D2"/>
+          <g fill="none" stroke="#C9A84C">
+            <circle cx="280" cy="200" r="78" stroke-width="8"/>
+            <circle cx="280" cy="200" r="60" stroke-width="3"/>
+            <line x1="220" y1="200" x2="340" y2="200" stroke-width="3"/>
+            <line x1="280" y1="140" x2="280" y2="260" stroke-width="3"/>
+            <line x1="237.57" y1="157.57" x2="322.43" y2="242.43" stroke-width="3"/>
+            <line x1="322.43" y1="157.57" x2="237.57" y2="242.43" stroke-width="3"/>
+          </g>
+          <use href="#lyt-shield"/>
+          <polygon points="250,120 250,92 264,104 280,84 296,104 310,92 310,120" fill="#C9A84C" stroke="#8A6A24" stroke-width="2"/>
+          <rect x="250" y="110" width="60" height="10" fill="#C9A84C" stroke="#8A6A24" stroke-width="2"/>
+        </g>
+      </svg>
+      <p class="label">1 · Iberian arms on the division</p>
+      <p class="line"><span class="key">Inspired by:</span> Portugal (unequal bicolour, arms on the division line).</p>
+      <p class="line"><span class="key">Why:</span> An old maritime empire that still wears its arms.</p>
+      <div class="preview"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#lyt-1"/></svg><span>map-card size</span></div>
+    </article>
+
+    <article class="card">
+      <svg class="flag" viewBox="0 0 700 400" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Lytheira flag concept 2: Royal triband">
+        <g id="lyt-2">
+          <rect x="0" y="0" width="700" height="100" fill="#1E3A6E"/>
+          <rect x="0" y="100" width="700" height="200" fill="#B8923C"/>
+          <rect x="0" y="300" width="700" height="100" fill="#1E3A6E"/>
+          <rect x="160" y="140" width="14" height="120" fill="#EFE6D2" stroke="#8A6A24" stroke-width="1.5"/>
+          <rect x="154" y="134" width="26" height="6" fill="#EFE6D2" stroke="#8A6A24" stroke-width="1.5"/>
+          <rect x="154" y="260" width="26" height="6" fill="#EFE6D2" stroke="#8A6A24" stroke-width="1.5"/>
+          <rect x="300" y="140" width="14" height="120" fill="#EFE6D2" stroke="#8A6A24" stroke-width="1.5"/>
+          <rect x="294" y="134" width="26" height="6" fill="#EFE6D2" stroke="#8A6A24" stroke-width="1.5"/>
+          <rect x="294" y="260" width="26" height="6" fill="#EFE6D2" stroke="#8A6A24" stroke-width="1.5"/>
+          <use href="#lyt-shield" transform="translate(-50 0)"/>
+          <polygon points="200,142 200,116 214,126 230,108 246,126 260,116 260,142" fill="#EFE6D2" stroke="#8A6A24" stroke-width="2"/>
+        </g>
+      </svg>
+      <p class="label">2 · Royal triband</p>
+      <p class="line"><span class="key">Inspired by:</span> Spain (horizontal triband with a doubled central stripe and arms toward the hoist).</p>
+      <p class="line"><span class="key">Why:</span> Pomp, gold and debt — the empire's ledger colours.</p>
+      <div class="preview"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#lyt-2"/></svg><span>map-card size</span></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ TYVAREN ============================ -->
+<section>
+  <h2>Tyvaren <span class="identity">militarist single-party state (north)</span></h2>
+  <div class="grid">
+
+    <article class="card">
+      <svg class="flag" viewBox="0 0 700 400" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Tyvaren flag concept 3: Black griffin on red">
+        <g id="tyv-3">
+          <rect x="0" y="0" width="700" height="400" fill="#8E1B1B"/>
+          <use href="#tyv-griffin"/>
+        </g>
+      </svg>
+      <p class="label">3 · Black griffin on red</p>
+      <p class="line"><span class="key">Inspired by:</span> Albania (single dark heraldic beast on a red field).</p>
+      <p class="line"><span class="key">Why:</span> Severe, martial, instantly legible.</p>
+      <div class="preview"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#tyv-3"/></svg><span>map-card size</span></div>
+    </article>
+
+    <article class="card">
+      <svg class="flag" viewBox="0 0 700 400" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Tyvaren flag concept 4: Bordered war banner">
+        <g id="tyv-4">
+          <rect x="0" y="0" width="700" height="400" fill="#C9A84C"/>
+          <rect x="28" y="28" width="644" height="344" fill="#8E1B1B"/>
+          <rect x="29.5" y="29.5" width="641" height="341" fill="none" stroke="#8A6A24" stroke-width="3"/>
+          <use href="#tyv-griffin" transform="translate(350 200) scale(0.78) translate(-350 -200)"/>
+          <polygon points="290,344 315,318 332,336 350,318 367,336 385,318 410,344" fill="#C7CCD2" stroke="#8E949B" stroke-width="2"/>
+        </g>
+      </svg>
+      <p class="label">4 · Bordered war banner</p>
+      <p class="line"><span class="key">Inspired by:</span> Montenegro and Balkan royal banners (red field within a broad gold border).</p>
+      <p class="line"><span class="key">Why:</span> A regime dressed as an old martial kingdom.</p>
+      <div class="preview"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#tyv-4"/></svg><span>map-card size</span></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ MORIVASK ============================ -->
+<section>
+  <h2>Morivask <span class="identity">republic seized by a junta in 1959 (east)</span></h2>
+  <div class="grid">
+
+    <article class="card">
+      <svg class="flag" viewBox="0 0 700 400" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Morivask flag concept 5: The Junta Flag">
+        <g id="mor-5">
+          <rect x="0" y="0" width="700" height="133.34" fill="#E3DAC0"/>
+          <rect x="0" y="133.33" width="700" height="133.34" fill="#3F5A3A"/>
+          <rect x="0" y="266.67" width="700" height="133.33" fill="#A2742A"/>
+          <circle cx="350" cy="200" r="95" fill="#E3DAC0" stroke="#8C6B3A" stroke-width="6"/>
+          <use href="#mor-wing"/>
+          <use href="#mor-wing" transform="matrix(-1 0 0 1 700 0)"/>
+          <use href="#mor-tongue"/>
+          <use href="#mor-tongue" transform="matrix(-1 0 0 1 700 0)"/>
+          <polygon points="344,220 340,266 350,274 360,266 356,220" fill="#A11F1F"/>
+          <ellipse cx="350" cy="196" rx="11" ry="26" fill="#8C6B3A"/>
+          <rect x="346" y="150" width="8" height="20" fill="#8C6B3A"/>
+          <circle cx="350" cy="146" r="9" fill="#8C6B3A"/>
+          <polygon points="346,138 344,128 350,134 354,126 356,138" fill="#8C6B3A"/>
+          <polygon points="358,143 368,146 358,149" fill="#8C6B3A"/>
+        </g>
+      </svg>
+      <p class="label">5 · The Junta Flag</p>
+      <p class="line"><span class="key">Inspired by:</span> Bulgaria and Hungary horizontal tricolours, plus the 1967 Greek junta's phoenix emblem.</p>
+      <p class="line"><span class="key">Why:</span> The state's colours with the regime's bird imposed on them.</p>
+      <div class="preview"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#mor-5"/></svg><span>map-card size</span></div>
+    </article>
+
+    <article class="card">
+      <svg class="flag" viewBox="0 0 700 400" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Morivask flag concept 6: The Exile Flag with the emblem cut out">
+        <g id="mor-6">
+          <rect x="0" y="0" width="700" height="133.34" fill="#E3DAC0"/>
+          <rect x="0" y="133.33" width="700" height="133.34" fill="#3F5A3A"/>
+          <rect x="0" y="266.67" width="700" height="133.33" fill="#A2742A"/>
+          <polygon points="272,132 300,124 322,137 346,122 372,130 398,126 426,140 432,166 421,180 430,206 424,232 432,252 412,272 386,265 362,278 336,268 310,279 288,266 276,270 268,248 280,232 270,210 278,188 266,166" fill="#0d0b08" stroke="#5a4a30" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M300,124 L296,112 M346,122 L350,110 M398,126 L404,114 M432,206 L444,204 M412,272 L418,284 M310,279 L306,290 M270,210 L256,206 M268,248 L254,252" fill="none" stroke="#5a4a30" stroke-width="2" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <p class="label">6 · The Exile Flag (hole in the centre)</p>
+      <p class="line"><span class="key">Inspired by:</span> Hungary in 1956, when revolutionaries cut the communist emblem out of their flag.</p>
+      <p class="line"><span class="key">Why:</span> Morivask refugees in Sevagrad fly it with the junta's emblem cut out.</p>
+      <div class="preview"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#mor-6"/></svg><span>map-card size</span></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ SOVARKA ============================ -->
+<section>
+  <h2>Sovarka <span class="identity">small neutral island with mineral highlands (south-east)</span></h2>
+  <div class="grid">
+
+    <article class="card">
+      <svg class="flag" viewBox="0 0 700 400" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Sovarka flag concept 7: Copper island">
+        <g id="sov-7">
+          <rect x="0" y="0" width="700" height="400" fill="#F1EBDB"/>
+          <polygon points="200,186 226,150 262,132 296,124 318,130 334,144 348,140 370,124 404,118 444,126 474,146 498,176 486,204 452,226 404,240 352,246 300,242 252,228 218,212" fill="#B8693A"/>
+          <use href="#sov-olive"/>
+          <use href="#sov-olive" transform="matrix(-1 0 0 1 700 0)"/>
+        </g>
+      </svg>
+      <p class="label">7 · Copper island</p>
+      <p class="line"><span class="key">Inspired by:</span> Cyprus (island silhouette and olive branches on a plain field; Cyprus's name is linked to copper).</p>
+      <p class="line"><span class="key">Why:</span> Neutral, and sitting on the minerals everyone wants.</p>
+      <div class="preview"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#sov-7"/></svg><span>map-card size</span></div>
+    </article>
+
+    <article class="card">
+      <svg class="flag" viewBox="0 0 700 400" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Sovarka flag concept 8: Sea-and-shore bicolour">
+        <g id="mal-8">
+          <rect x="0" y="0" width="350" height="400" fill="#1C5656"/>
+          <rect x="350" y="0" width="350" height="400" fill="#F1EBDB"/>
+          <circle cx="110" cy="95" r="58" fill="none" stroke="#C9A84C" stroke-width="4"/>
+          <polygon points="65,123 80,84 95,108 110,68 125,108 140,84 155,123" fill="#C9A84C"/>
+        </g>
+      </svg>
+      <p class="label">8 · Sea-and-shore bicolour</p>
+      <p class="line"><span class="key">Inspired by:</span> Malta (vertical bicolour with a small emblem in the upper hoist).</p>
+      <p class="line"><span class="key">Why:</span> Plain, dignified, unaligned.</p>
+      <div class="preview"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#mal-8"/></svg><span>map-card size</span></div>
+    </article>
+
+  </div>
+</section>
+
+</body>
+</html>
