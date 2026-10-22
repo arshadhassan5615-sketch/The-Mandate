@@ -3,7 +3,8 @@ import { persist } from 'zustand/middleware'
 import { setAudioSettings } from '../engine/audioEngine'
 
 const LS_IRONMAN = 'mandate_ironman'
-const LS_VOLUME = 'mandate_volume'
+const LS_STORY_MODE = 'mandate-story-mode'
+const LS_VOLUME ='mandate_volume'
 const LS_TEXT_SPEED = 'mandate_textspeed'
 const LS_CONTRAST = 'mandate_contrast'
 const LS_FONT_SIZE = 'mandate_fontsize'
@@ -40,6 +41,7 @@ interface AccessibilitySettings {
 
 interface SettingsStore extends AudioSettings, AccessibilitySettings {
   ironmanMode: boolean
+  storyMode: boolean
   sessionStartTime: number
   accumulatedPlayMinutes: number
   saveMenuOpen: boolean
@@ -71,6 +73,7 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
 
   // Panel actions
   toggleIronmanMode: () => void
+  toggleStoryMode: () => void
   setSaveMenuOpen: (open: boolean) => void
   setSettingsOpen: (open: boolean) => void
   setMapOpen: (open: boolean) => void
@@ -133,6 +136,7 @@ applyAudioToEngine(initialAudio)
 
 export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
   ironmanMode: localStorage.getItem(LS_IRONMAN) === 'true',
+  storyMode: localStorage.getItem(LS_STORY_MODE) === 'true',
   sessionStartTime: Date.now(),
   accumulatedPlayMinutes: 0,
   saveMenuOpen: false,
@@ -222,6 +226,13 @@ export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
       return { ironmanMode: next }
     }),
 
+  toggleStoryMode: () =>
+    set(s => {
+      const next = !s.storyMode
+      localStorage.setItem(LS_STORY_MODE, String(next))
+      return { storyMode: next }
+    }),
+
   setSaveMenuOpen: (open) => set({ saveMenuOpen: open }),
   setSettingsOpen: (open) => set({ settingsOpen: open }),
   setMapOpen: (open) => set({ mapOpen: open }),
@@ -253,6 +264,7 @@ export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
     highContrast: state.highContrast,
     fontSize: state.fontSize,
     ironmanMode: state.ironmanMode,
+    storyMode: state.storyMode,
   }),
 }))
 

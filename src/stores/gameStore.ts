@@ -9,6 +9,7 @@ import { STAT_RANGES } from '../types/gameState'
 import type { RadioTheme } from '../engine/RadioEngine'
 import type { ActiveProject } from '../types/projects'
 import { computeBudgetModifiers } from '../engine/budgetEffects'
+import { softenForStoryMode } from '../engine/storyMode'
 import { useNarrativeStore } from './narrativeStore'
 import { useDecreeStore } from './decreeStore'
 import { useCabinetStore } from './cabinetStore'
@@ -264,6 +265,9 @@ function applyModifier(state: GameState, mod: StateModifier): GameState {
   }
   const resolvedStat = PATH_ALIASES[mod.stat] ?? mod.stat
   mod = { ...mod, stat: resolvedStat }
+  if (useSettingsStore.getState().storyMode) {
+    mod = { ...mod, value: softenForStoryMode(resolvedStat, mod.operation, mod.value, mod.sourceType) }
+  }
 
   const dot = mod.stat.indexOf('.')
 
