@@ -1,6 +1,5 @@
-// This week's meetings, as the desk and the map both offer them: each province
-// offers only its next unfinished meeting (meetings in one province run in
-// executionOrder), so the desk list and the map pins can never disagree.
+// This week's meetings as the map pins offer them: each province offers only its
+// next unfinished meeting (meetings in one province run in executionOrder).
 import { groupByProvince, type ProvinceId } from '../../engine/LocationResolver'
 import { isAgendaItemDone } from '../../engine/weekCompletion'
 import type { AgendaItem } from '../../types/week'

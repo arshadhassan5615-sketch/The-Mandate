@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { recordEnding } from '../engine/collections'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
@@ -7,6 +8,7 @@ import { calculateEnding } from '../engine/endingCalculator'
 import { GOVERNANCE_LABELS, PERSONAL_LABELS } from '../types/ending'
 import type { EpilogueVariant } from '../types/ending'
 import epilogueData from '../data/epilogues.json'
+import { getEpilogueArt } from '../assets/epilogueArt'
 
 const variants: EpilogueVariant[] = epilogueData as EpilogueVariant[]
 
@@ -43,6 +45,10 @@ export default function EpilogueScreen() {
     return variants[0]
   }, [ending])
 
+  useEffect(() => {
+    if (epilogue) recordEnding(epilogue.id)
+  }, [epilogue])
+
   const showNextVignette = () => {
     if (vignetteIndex < epilogue.vignettes.length) {
       setVignetteIndex(prev => prev + 1)
@@ -55,6 +61,8 @@ export default function EpilogueScreen() {
   }
 
   const allVignettesShown = vignetteIndex >= epilogue.vignettes.length
+
+  const artUrl = getEpilogueArt(ending.governanceOutcome)
 
   return (
     <div
@@ -79,6 +87,25 @@ export default function EpilogueScreen() {
         className="flex-1 overflow-y-auto"
         style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}
       >
+        {/* Ending painting — full-width hero above the text column */}
+        {artUrl && (
+          <motion.figure
+            data-testid="epilogue-art"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.6 }}
+            style={{ position: 'relative', margin: 0, width: '100%', height: 'clamp(180px, 46vh, 520px)', overflow: 'hidden' }}
+          >
+            <img
+              src={artUrl}
+              alt=""
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%', display: 'block' }}
+            />
+            <div
+              style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0) 45%, var(--paper) 100%)' }}
+            />
+          </motion.figure>
+        )}
         <div className="max-w-3xl mx-auto px-6 py-10">
           {/* Title */}
           <motion.div

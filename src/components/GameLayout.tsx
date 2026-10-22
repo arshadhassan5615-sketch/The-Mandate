@@ -18,7 +18,6 @@ import ChildhoodPrologue from './ChildhoodPrologue'
 import CinematicOpening from './CinematicOpening'
 import KaterinHUD from './KaterinHUD'
 import TopBar from './TopBar'
-import DeskScreen from './desk/DeskScreen'
 import ProjectsPanel from './ProjectsPanel'
 import ProjectMidpointModal from './ProjectMidpointModal'
 import NewsOverlay from './NewsOverlay'
@@ -56,6 +55,7 @@ import { CabinetMeeting } from './CabinetMeeting'
 import { useCabinetStore } from '../stores/cabinetStore'
 import DebugPanel from './DebugPanel'
 import ComicCutscene from './ComicCutscene'
+import SceneIntro from './scene/SceneIntro'
 
 function SceneRouter() {
   const currentScene = useNarrativeStore(s => s.currentScene)
@@ -302,10 +302,9 @@ export default function GameLayout() {
       )}
 
       {phase === 'agenda'   && <AgendaSelector />}
-      {/* Between meetings the Chancellor is at her desk; the map is a command-bar tool */}
-      {phase === 'map'      && <DeskScreen />}
       {phase === 'map'      && <MapInteractionLayer />}
       {phase === 'scene'    && <ErrorBoundary><SceneRouter /></ErrorBoundary>}
+      {phase === 'scene' && <SceneIntro />}
       {phase === 'budget'       && <BudgetInterface />}
       {phase === 'constitution' && <ConstitutionalReform />}
       {phase === 'lobbying'     && <LobbyingInterface />}

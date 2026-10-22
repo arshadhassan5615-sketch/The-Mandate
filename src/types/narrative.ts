@@ -1,5 +1,6 @@
 // GDD Section 14.2 — Narrative Engine types
 import type { StateModifier } from './gameState'
+import type { MinistryType } from './minister'
 
 export type NarrativeSegmentType =
   | 'description'
@@ -89,6 +90,17 @@ export interface SocialInteraction {
   choices: SceneChoice[]
 }
 
+/** One painted still shown before a scene starts. */
+export interface CutscenePanel {
+  image: string        // key in the cutscene art registry (src/assets/cutscenes)
+  caption?: string
+  durationMs?: number  // default decided by the player
+  /** Pick the `<image>__<ministerId>` variant for whoever holds this ministry. */
+  variantBy?: MinistryType
+}
+
+export interface SceneCutscene { panels: CutscenePanel[] }
+
 export interface NarrativeNode {
   id: string
   title: string
@@ -113,4 +125,5 @@ export interface NarrativeNode {
   segments?: Record<string, NarrativeSegmentSet>
   monologue?: string
   socialInteractions?: SocialInteraction[]
+  cutscene?: SceneCutscene  // optional painted stills played before the scene starts
 }
