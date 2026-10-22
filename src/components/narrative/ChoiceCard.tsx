@@ -19,6 +19,11 @@ const ANIMATION: Record<ChoiceCardState, string> = {
   dimmed: 'choice-dim-others 0.3s ease forwards',
 }
 
+const CHOICE_TEXT = '#6e9ea2'                       // muted teal, Suzerain-style
+const CHOICE_TEXT_LIT = '#a8e0e3'                   // hovered / selected
+const CHOICE_BORDER = '#5a5746'                     // olive-grey rule at rest
+const CHOICE_BORDER_LIT = '#8fd0d4'                 // brighter teal rule when lit
+
 export default function ChoiceCard({ index, text, hint, state, onSelect, onHoverChange }: ChoiceCardProps) {
   const isSelected = state === 'selected'
   const isLit = isSelected || state === 'hovered'
@@ -42,66 +47,41 @@ export default function ChoiceCard({ index, text, hint, state, onSelect, onHover
       onFocus={() => onHoverChange(true)}
       onBlur={() => onHoverChange(false)}
       style={{
-        display: 'flex',
-        gap: '10px',
+        display: 'block',
         width: '100%',
         textAlign: 'left',
-        padding: '14px 18px',
-        border: isLit ? '1px solid #c9a84c' : '1px solid rgba(181,154,94,0.55)',
+        padding: '3px 10px 3px 17px',
+        border: `1px solid ${isLit ? CHOICE_BORDER_LIT : CHOICE_BORDER}`,
         borderRadius: '4px',
         background: isSelected
-          ? 'rgba(201,168,76,0.18)'
+          ? 'rgba(95,149,151,0.14)'
           : state === 'hovered'
-          ? 'rgba(201,168,76,0.08)'
-          : 'rgba(15,12,8,0.6)',
-        color: '#e6dcc3',
+          ? 'rgba(255,255,255,0.035)'
+          : 'transparent',
+        color: isLit ? CHOICE_TEXT_LIT : CHOICE_TEXT,
         fontFamily: "'Crimson Text', Georgia, serif",
-        fontSize: '16px',
-        lineHeight: 1.45,
+        fontSize: 'var(--choice-font, clamp(12px, 0.98vw, 15px))',
+        lineHeight: 1.25,
         cursor: isResolving ? 'default' : 'pointer',
-        transition: 'all var(--dur-fast) var(--ease-standard)',
+        transition: 'color var(--dur-fast) var(--ease-standard), background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard)',
         userSelect: 'none',
         flexShrink: 0,
-        transform: isSelected ? 'scale(0.97)' : 'scale(1)',
         opacity: state === 'fading' ? 0 : state === 'dimmed' ? 0.4 : 1,
-        boxShadow: isSelected
-          ? '0 0 20px rgba(201,168,76,0.3)'
-          : state === 'hovered'
-          ? '0 0 12px rgba(201,168,76,0.18)'
-          : 'none',
+        boxShadow: isSelected ? '0 0 10px rgba(95,149,151,0.35)' : 'none',
         animation: ANIMATION[state],
         position: 'relative',
-        overflow: 'hidden',
       }}
     >
-      <span style={{ position: 'relative', zIndex: 1, flexShrink: 0, color: 'var(--brass)' }}>{index + 1}.</span>
-      <span style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <span>{text}</span>
-        {hint && (
-          <span
-            className="choice-card__hint"
-            style={{ fontSize: '13px', fontStyle: 'italic', color: 'rgba(200,185,155,0.7)', lineHeight: 1.35 }}
-          >
-            {hint}
-          </span>
-        )}
-      </span>
-      {isSelected && (
+      {/* Number and text run as one line, so wrapped text returns under the number */}
+      <span style={{ fontWeight: 400 }}>{index + 1}.</span>{' '}
+      <span>{text}</span>
+      {hint && (
         <span
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '200%',
-            height: '200%',
-            background: 'radial-gradient(circle, rgba(201,168,76,0.25) 0%, transparent 70%)',
-            transform: 'translate(-50%, -50%) scale(0)',
-            animation: 'choice-ripple 0.4s ease-out',
-            pointerEvents: 'none',
-            zIndex: 0,
-          }}
-        />
+          className="choice-card__hint"
+          style={{ display: 'block', marginTop: '4px', fontSize: 'var(--choice-hint-font, clamp(11px, 0.85vw, 13px))', fontStyle: 'italic', color: 'rgba(110,158,162,0.7)', lineHeight: 1.35 }}
+        >
+          {hint}
+        </span>
       )}
     </button>
   )

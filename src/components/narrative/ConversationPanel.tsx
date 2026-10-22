@@ -1,39 +1,24 @@
-import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
+import { useRef, useEffect, useLayoutEffect, useState, useCallback, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
 import type { CodexEntry } from '../../types/codex'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import { useWeekStore } from '../../stores/weekStore'
 import { ALL_CODEX_ENTRIES, useCodexStore } from '../../stores/codexStore'
-import { charName, speakerColor, speakerRole, PLAYER_LABEL_COLOR } from './speakers'
+import { charName } from './speakers'
 import ChoiceCard from './ChoiceCard'
 import type { ChoiceCardState } from './ChoiceCard'
 import SceneHeader from './SceneHeader'
 import { renderWithEntities } from '../news/EntityLinker'
-import SceneBackdrop from './SceneBackdrop'
-import SpeakerStage from './SpeakerStage'
+import PortraitRail from './PortraitRail'
+import { sceneParticipants } from './participants'
 import { isBriefUnlocked } from '../briefs/briefAccess'
-import { useIsMobile } from '../../hooks/useIsMobile'
+import { useViewportMode } from '../../hooks/useViewportMode'
 import { Z } from '../../constants/zIndex'
-import { COMMAND_BAR_HEIGHT, PHONE_BOTTOM_BAR } from '../../constants/layout'
 
-// Speaker label: "NAME · Role :". The role comes from the character roster.
-function SpeakerLabelText({ name, role }: { name: string; role?: string }) {
-  return (
-    <>
-      {name}
-      {role && <span style={SPEAKER_ROLE_STYLE}>{` · ${role}`}</span>}
-      {" :"}
-    </>
-  )
-}
-
-const SPEAKER_ROLE_STYLE: React.CSSProperties = {
-  fontSize: "0.78em",
-  letterSpacing: "0.06em",
-  textTransform: "none",
-  fontStyle: "italic",
-  opacity: 0.7,
+// Speaker label: "NAME :" (uppercased by CSS). No role.
+function SpeakerLabelText({ name }: { name: string }) {
+  return <>{name} :</>
 }
 
 // ── Codex term links ───────────────────────────────────────────────────────
@@ -110,7 +95,7 @@ function CodexTermLink({ text, entryId }: { text: string; entryId: string }) {
       tabIndex={0}
       onClick={(e) => { e.stopPropagation(); openInlineCodex(entryId) }}
       onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); openInlineCodex(entryId) } }}
-      style={{ color: '#4ba3b8', cursor: 'pointer', borderBottom: isUnread ? '1px dotted #4ba3b8' : undefined }}
+      style={{ color: KEYWORD_COLOR, cursor: 'pointer', borderBottom: isUnread ? `1px dotted ${KEYWORD_COLOR}` : undefined }}
       title={`Open brief: ${text}`}
       data-unread={isUnread || undefined}
     >
@@ -152,17 +137,69 @@ function effectiveSegmentType(type: NarrativeSegment['type']): 'description' | '
 
 // Shared text styles — rendered identically in the history log and in the
 // active typing segment; centralised so the two sites can never drift.
-const ENTRY_ROW_STYLE: React.CSSProperties = {
-  marginBottom: '14px',
+// Suzerain-style palette for the column: pure black ground, orange speaker
+// labels (red for the player), teal keyword links, cream dialogue.
+const COLUMN_BG = '#000000'
+const NPC_LABEL_COLOR = '#7f3d19'
+// The newest line is white; everything above it settles to grey.
+const NEWEST_TEXT_COLOR = '#ffffff'
+const PLAYER_NAME_COLOR = '#d0503d'
+const KEYWORD_COLOR = '#4a9ca2'
+
+interface ColumnTextStyles {
+  entryRow: React.CSSProperties
+  speakerLabel: React.CSSProperties
+  thoughtText: React.CSSProperties
+  descriptionText: React.CSSProperties
+  dialogueText: React.CSSProperties
 }
 
-const SPEAKER_LABEL_STYLE: React.CSSProperties = {
-  fontFamily: "'Crimson Text', Georgia, serif",
-  fontSize: '13px',
-  fontWeight: 700,
-  letterSpacing: '0.06em',
-  textTransform: 'uppercase',
-  marginBottom: '4px',
+// One text scale for every viewport, matching the Suzerain reference: 1.05vw
+// reading text, 0.95vw speaker labels.
+const SERIF = "'Crimson Text', Georgia, serif"
+const READING_SIZE = 'clamp(7px, 1.05vw, 32px)'
+const READING_LINE_HEIGHT = 1.4
+
+const COLUMN_TEXT_STYLES: ColumnTextStyles = {
+  entryRow: {
+    marginBottom: '10px',
+  },
+  speakerLabel: {
+    fontFamily: SERIF,
+    fontSize: 'clamp(6.5px, 0.95vw, 29px)',
+    fontWeight: 600,
+    letterSpacing: '0.05em',
+    textTransform: 'uppercase',
+    marginBottom: '3px',
+  },
+  thoughtText: {
+    fontFamily: SERIF,
+    fontStyle: 'italic',
+    fontSize: READING_SIZE,
+    color: '#8e8e8e',
+    lineHeight: READING_LINE_HEIGHT,
+    margin: 0,
+    textAlign: 'left',
+  },
+  descriptionText: {
+    fontFamily: SERIF,
+    fontStyle: 'italic',
+    fontSize: READING_SIZE,
+    color: '#8e8e8e',
+    lineHeight: READING_LINE_HEIGHT,
+    margin: 0,
+    paddingLeft: 0,
+    textAlign: 'left',
+  },
+  dialogueText: {
+    fontFamily: SERIF,
+    fontStyle: 'normal',
+    fontSize: READING_SIZE,
+    lineHeight: READING_LINE_HEIGHT,
+    color: '#b9b9b9',
+    paddingLeft: '6px',
+    margin: 0,
+  },
 }
 
 const THOUGHT_WRAPPER_STYLE: React.CSSProperties = {
@@ -170,46 +207,11 @@ const THOUGHT_WRAPPER_STYLE: React.CSSProperties = {
   margin: '2px 0',
 }
 
-const THOUGHT_TEXT_STYLE: React.CSSProperties = {
-  fontFamily: "'Crimson Text', Georgia, serif",
-  fontStyle: 'italic',
-  fontSize: '16px',
-  color: '#cbbfa4',
-  lineHeight: 1.6,
-  margin: 0,
-  textAlign: 'left',
-}
-
-const THOUGHT_GLYPH_STYLE: React.CSSProperties = {
-  color: '#c9a84c',
-  marginRight: '8px',
-  fontSize: '12px',
-}
+const CHOICES_OVERFLOW_MASK = 'linear-gradient(to bottom, black 0%, black calc(100% - 36px), transparent 100%)'
 
 const DESCRIPTION_WRAPPER_STYLE: React.CSSProperties = {
   padding: '4px 0px',
   margin: '4px 0',
-}
-
-const DESCRIPTION_TEXT_STYLE: React.CSSProperties = {
-  fontFamily: "'Crimson Text', Georgia, serif",
-  fontStyle: 'italic',
-  fontSize: '16px',
-  color: '#b8ad95',
-  lineHeight: 1.6,
-  margin: 0,
-  paddingLeft: 0,
-  textAlign: 'left',
-}
-
-const DIALOGUE_TEXT_STYLE: React.CSSProperties = {
-  fontFamily: "'Crimson Text', Georgia, serif",
-  fontStyle: 'normal',
-  fontSize: '17px',
-  lineHeight: 1.55,
-  color: '#e6dcc3',
-  paddingLeft: '24px',
-  margin: 0,
 }
 
 // Micro-reaction strip shown briefly after a choice.
@@ -230,19 +232,24 @@ const REACTION_TEXT_STYLE: React.CSSProperties = {
   color: '#b8ad95',
 }
 
-// Portrait stack — every participant except Katerin, current speaker last.
-// Desktop: hangs outside the panel's left edge. Mobile: a row in the top padding.
-// Suzerain-style layout: location art behind, the speaker standing on the
-// left, the conversation log in a column on the right, under the command bar.
-// Phones: the speaker in the band under the HUD, the log below it.
-const DESKTOP_COLUMN_WIDTH = 'clamp(420px, 36vw, 600px)'
-const PHONE_COLUMN_TOP = '38vh'
-
-// The player never appears on stage, whatever role she plays in a segment.
-const PLAYER_ID = 'katerin_ashavel'
-
-// Two speakers inside this many recent lines are an exchange: both stand on stage.
-const EXCHANGE_WINDOW_LINES = 6
+// Suzerain-style layout, identical on every viewport: the week map stays in view
+// on both sides and the conversation runs in a solid column in the centre, with
+// the people in the meeting as round portraits down its left edge.
+const DESKTOP_COLUMN_WIDTH = 'clamp(218px, 36.3vw, 1094px)'
+/** Smallest gap in px kept between the portrait stack and the top or bottom of the column. */
+const RAIL_MIN_TOP = 8
+/** How close (px) to the bottom the history must be for a resize to keep it pinned there. */
+const HISTORY_BOTTOM_TOLERANCE_PX = 24
+/** Medallion sizes, read by PortraitRail's column layout from the panel root. */
+const RAIL_SIZE_VARS: React.CSSProperties = {
+  ['--rail-small' as string]: 'clamp(24px, 4.2vw, 126px)',
+  ['--rail-big' as string]: 'clamp(48px, 8.4vw, 252px)',
+}
+/** Choice card text sizes, read by ChoiceCard via var(--choice-font) / var(--choice-hint-font). */
+const DESKTOP_CHOICE_VARS: React.CSSProperties = {
+  ['--choice-font' as string]: 'clamp(6.5px, 0.95vw, 29px)',
+  ['--choice-hint-font' as string]: 'clamp(6px, 0.85vw, 26px)',
+}
 
 interface ConversationHistoryEntry {
   id: string
@@ -282,7 +289,7 @@ export default function ConversationPanel({
   sceneType,
   history, activeSegment, activeText, showCursor,
   choices, showChoices, sceneDone, allDone, segmentDone,
-  onAdvance: _onAdvance, onChoice, onAdvanceQueue, continueLabel,
+  onChoice, onAdvanceQueue, continueLabel,
   monologueText,
   sceneTitle, sceneLocation, currentWeek,
 }: ConversationPanelProps) {
@@ -305,24 +312,52 @@ export default function ConversationPanel({
   const [isChevronHovered, setIsChevronHovered] = useState(false)
   const { currentScene } = useNarrativeStore()
   const phase = useWeekStore(s => s.phase)
-  const isMobile = useIsMobile()
+  const viewportMode = useViewportMode()
 
   // Per-portrait image error tracking — half-implemented; portrait fallback uses img/initials instead
   // const [portraitErrors, setPortraitErrors] = useState<Record<string, boolean>>({})
 
   const panelInnerRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  const railAnchorRef = useRef<HTMLDivElement>(null)
+  // Top of the portrait stack in px, measured so its bottom sits on the newest line.
+  // null until the first measurement; the anchor then falls back to 19vh.
+  const [railTop, setRailTop] = useState<number | null>(null)
 
+  // Keeps the portrait stack's bottom level with the newest line of text. The
+  // stack is clamped to the visible part of the history and to the panel height.
+  const measureRail = useCallback(() => {
+    const panel = panelRef.current
+    const scroller = historyRef.current
+    const rail = railAnchorRef.current
+    if (!panel || !scroller || !rail) return
+    const entries = panel.querySelectorAll<HTMLElement>('[data-entry]')
+    const last = entries[entries.length - 1]
+    if (!last) return
 
-  // Delay advance button appearance after scene ends (smoother transition)
+    const panelTop = panel.getBoundingClientRect().top
+    const visibleBottom = scroller.getBoundingClientRect().bottom - panelTop
+    const lastBottom = Math.min(last.getBoundingClientRect().bottom - panelTop, visibleBottom)
+    const railHeight = rail.getBoundingClientRect().height
+    const top = Math.max(
+      RAIL_MIN_TOP,
+      Math.min(lastBottom - railHeight, panel.clientHeight - railHeight - RAIL_MIN_TOP),
+    )
+    const rounded = Math.round(top)
+    setRailTop(prev => (prev !== null && Math.abs(prev - rounded) < 1 ? prev : rounded))
+  }, [])
+
+  // Delay advance button appearance after scene ends (smoother transition).
+  // Any change of sceneDone hides the button again; it reappears 800ms after the scene ends.
+  const [prevSceneDone, setPrevSceneDone] = useState(sceneDone)
+  if (prevSceneDone !== sceneDone) {
+    setPrevSceneDone(sceneDone)
+    setAdvanceReady(false)
+  }
   useEffect(() => {
-    if (sceneDone) {
-      setAdvanceReady(false)
-      const t = setTimeout(() => setAdvanceReady(true), 800)
-      return () => clearTimeout(t)
-    } else {
-      setAdvanceReady(false)
-    }
+    if (!sceneDone) return
+    const t = setTimeout(() => setAdvanceReady(true), 800)
+    return () => clearTimeout(t)
   }, [sceneDone])
 
   // When choices area is about to show, check for monologue
@@ -330,23 +365,78 @@ export default function ConversationPanel({
   const shouldShowMonologue = shouldShowChoices && !!monologueText && !monologueDone
   const actualShowChoices = shouldShowChoices && (!monologueText || monologueDone)
 
-  // Fade in monologue after a brief pause
+  // Re-measure the portrait stack whenever the newest line changes: a new history
+  // entry, typing growth, choices appearing, or the history scrolling / window resizing.
+  useLayoutEffect(() => {
+    measureRail()
+    const scroller = historyRef.current
+    scroller?.addEventListener('scroll', measureRail)
+    window.addEventListener('resize', measureRail)
+    return () => {
+      scroller?.removeEventListener('scroll', measureRail)
+      window.removeEventListener('resize', measureRail)
+    }
+  }, [measureRail, history.length, activeSegment, activeText.length, actualShowChoices])
+
+  // Pins the history to its newest line and re-measures the portrait stack.
+  const pinHistoryToBottom = useCallback(() => {
+    const scroller = historyRef.current
+    if (!scroller) return
+    scroller.scrollTop = scroller.scrollHeight
+    measureRail()
+  }, [measureRail])
+
+  // Choices appearing shrink the history without adding a line, so pin it again
+  // to keep the newest line above them.
+  useLayoutEffect(() => {
+    pinHistoryToBottom()
+  }, [pinHistoryToBottom, actualShowChoices, history.length, activeText.length])
+
+  // The history's own size changes (choices, reactions, window resizes) should
+  // keep the newest line visible, but only for a reader already at the bottom.
+  const isSceneVisible = phase === 'scene' && !!currentScene
+  const wasAtBottomRef = useRef(true)
   useEffect(() => {
-    if (shouldShowMonologue && !monologueVisible) {
-      const t = setTimeout(() => setMonologueVisible(true), 500)
-      return () => clearTimeout(t)
+    const scroller = historyRef.current
+    if (!scroller) return
+    const onScroll = () => {
+      wasAtBottomRef.current =
+        scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight <= HISTORY_BOTTOM_TOLERANCE_PX
     }
-    if (!shouldShowMonologue && monologueVisible) {
-      setMonologueVisible(false)
+    scroller.addEventListener('scroll', onScroll)
+    let observer: ResizeObserver | null = null
+    if (typeof ResizeObserver !== 'undefined') {
+      observer = new ResizeObserver(() => {
+        if (wasAtBottomRef.current) pinHistoryToBottom()
+      })
+      observer.observe(scroller)
     }
-  }, [shouldShowMonologue, monologueVisible])
+    return () => {
+      scroller.removeEventListener('scroll', onScroll)
+      observer?.disconnect()
+    }
+  }, [pinHistoryToBottom, isSceneVisible])
 
   // Reset monologue state when new scene comes
-  useEffect(() => {
+  const [prevMonologueText, setPrevMonologueText] = useState(monologueText)
+  if (prevMonologueText !== monologueText) {
+    setPrevMonologueText(monologueText)
     setMonologueDone(false)
     setMonologueFading(false)
     setMonologueVisible(false)
-  }, [monologueText])
+  }
+
+  // Hide the monologue as soon as it should no longer show
+  if (!shouldShowMonologue && monologueVisible) {
+    setMonologueVisible(false)
+  }
+
+  // Fade in monologue after a brief pause
+  useEffect(() => {
+    if (!shouldShowMonologue || monologueVisible) return
+    const t = setTimeout(() => setMonologueVisible(true), 500)
+    return () => clearTimeout(t)
+  }, [shouldShowMonologue, monologueVisible])
 
   const dismissMonologue = useCallback(() => {
     if (monologueFading) return
@@ -402,20 +492,17 @@ export default function ConversationPanel({
         timer = setTimeout(() => {
           setSelectedId(null)
           setFadingId(selectedId)
-          setChoicePhase('fading')
+          // With reactions to show, the fade runs alongside them
+          setChoicePhase(activeReactions ? 'showing_reactions' : 'fading')
         }, 200)
         break
 
       case 'fading':
-        if (activeReactions) {
-          setChoicePhase('showing_reactions')
-        } else {
-          timer = setTimeout(() => {
-            setFadingId(null)
-            setSelectedId(null)
-            setChoicePhase('done')
-          }, 800)
-        }
+        timer = setTimeout(() => {
+          setFadingId(null)
+          setSelectedId(null)
+          setChoicePhase('done')
+        }, 800)
         break
 
       case 'showing_reactions':
@@ -446,29 +533,34 @@ export default function ConversationPanel({
   }, [choicePhase, selectedId, activeReactions])
 
   // Reset selection state when new choices appear
-  useEffect(() => {
+  const [prevChoices, setPrevChoices] = useState(choices)
+  if (prevChoices !== choices) {
+    setPrevChoices(choices)
     setSelectedId(null)
     setFadingId(null)
     setActiveReactions(null)
     setReactionsFading(false)
     setChoicePhase('idle')
     setHoveredChoiceId(null)
+  }
+  useEffect(() => {
     choiceProcessedRef.current.clear()
   }, [choices])
 
   // Safety: force-reset choice phase when scene transitions to done.
   // Guards against any edge case where the animation sequencer remains non-idle
   // after processChoice sets sceneDone but the choices prop hasn't changed yet.
+  const forceIdle = sceneDone && choicePhase !== 'idle'
+  if (forceIdle) {
+    setSelectedId(null)
+    setFadingId(null)
+    setActiveReactions(null)
+    setReactionsFading(false)
+    setChoicePhase('idle')
+  }
   useEffect(() => {
-    if (sceneDone && choicePhase !== 'idle') {
-      setSelectedId(null)
-      setFadingId(null)
-      setActiveReactions(null)
-      setReactionsFading(false)
-      setChoicePhase('idle')
-      choiceProcessedRef.current.clear()
-    }
-  }, [sceneDone, choicePhase])
+    if (sceneDone) choiceProcessedRef.current.clear()
+  }, [sceneDone])
 
   // Fail-safe: if the choice animation sequencer is stuck (e.g. processChoice
   // returned early and the `choices` prop never changed), force a reset after 6s
@@ -509,8 +601,6 @@ export default function ConversationPanel({
     return () => observer.disconnect()
   }, [choices, actualShowChoices])
 
-  const isEmergency = sceneType === 'emergency'
-
   // Panel height now wraps content naturally (max-height + overflow).
   // All fixed-height state calculations removed.
   const monologueFontSize = 12
@@ -527,18 +617,8 @@ export default function ConversationPanel({
     // ResizeObserver disabled to allow full-height CSS layout
   }, [])
 
-  // On stage: whoever is speaking now, plus whoever they are trading lines
-  // with (another speaker within the last few lines) as a two-person exchange.
-  const stageSpeakers = useMemo(() => {
-    const lines = history
-      .filter(e => e.type === 'dialogue' && e.characterId && e.characterId !== PLAYER_ID)
-      .map(e => e.characterId as string)
-    if (activeSegment?.type === 'dialogue' && activeSegment.character && activeSegment.character !== PLAYER_ID) {
-      lines.push(activeSegment.character)
-    }
-    const recent = lines.slice(-EXCHANGE_WINDOW_LINES).reverse()
-    return [...new Set(recent)].slice(0, 2)
-  }, [history, activeSegment])
+  // Everyone who has spoken so far (never the player), speaking now first
+  const participants = useMemo(() => sceneParticipants(history, activeSegment), [history, activeSegment])
 
   // Speaker runs. A run is broken only by dialogue from a different speaker;
   // descriptions and internal thoughts inside a turn do not restart it, so a
@@ -564,21 +644,24 @@ export default function ConversationPanel({
   // only the trailing arrow is swapped for an ellipsis.
   const continueText = `${continueLabel.replace(/\s*→\s*$/, '')}…`
 
-  // The conversation column: right of the stage on desktop, below it on phones.
-  // Translucent so the scene reads through it.
+  // The conversation column: solid, over the map, a fixed width with auto margins
+  // between left:0 and right:0.6vw, so it sits 0.3vw left of centre as in the
+  // Suzerain reference. The same column on every viewport;
+  // data-layout alone reports which mode is active.
   const panelStyle: React.CSSProperties = {
     position: 'fixed',
     zIndex: Z.scene,
     pointerEvents: 'all',
     display: 'flex',
     flexDirection: 'column',
-    background: 'linear-gradient(180deg, rgba(7,6,5,0.9) 0%, rgba(7,6,5,0.84) 100%)',
-    backdropFilter: 'blur(2px)',
-    boxShadow: '0 0 40px rgba(0,0,0,0.6)',
+    background: COLUMN_BG,
+    boxShadow: '0 0 60px rgba(0,0,0,0.85)',
     animation: 'panel-fade-in 0.6s ease-out forwards',
-    ...(isMobile
-      ? { top: PHONE_COLUMN_TOP, bottom: `${PHONE_BOTTOM_BAR}px`, left: 0, right: 0, borderTop: '1px solid rgba(181,154,94,0.35)' }
-      : { top: `${COMMAND_BAR_HEIGHT}px`, bottom: 0, right: 0, width: DESKTOP_COLUMN_WIDTH, borderLeft: '1px solid rgba(181,154,94,0.3)' }),
+    ...RAIL_SIZE_VARS,
+    ...DESKTOP_CHOICE_VARS,
+    top: 0, bottom: 0, left: 0, right: '0.6vw',
+    width: DESKTOP_COLUMN_WIDTH, margin: '0 auto',
+    overflow: 'visible',
   }
   if (phase !== 'scene') return null
 
@@ -586,17 +669,29 @@ export default function ConversationPanel({
     <>
       {currentScene && (
       <>
-      <SceneBackdrop location={sceneLocation} isEmergency={isEmergency} />
-      <SpeakerStage
-        speakerIds={stageSpeakers}
-        isPhone={isMobile}
-        rightInset={DESKTOP_COLUMN_WIDTH}
-        phoneBottom={`calc(100vh - ${PHONE_COLUMN_TOP})`}
-      />
-      <div ref={panelRef} style={panelStyle}>
+      {/* Dim the map a little so the column reads; the map stays in view */}
+      <div aria-hidden="true" data-testid="scene-map-scrim" style={{ position: 'fixed', inset: 0, zIndex: Z.sceneBackdrop, background: 'rgba(6,5,4,0.4)', pointerEvents: 'none' }} />
+      <div ref={panelRef} data-layout={viewportMode} style={panelStyle}>
+        {/* Medallion centres sit on the column's left border (translateX(-100%)). */}
+        <div
+          ref={railAnchorRef}
+          data-testid="portrait-rail-anchor"
+          data-rail-top={railTop ?? ''}
+          style={{
+            position: 'absolute',
+            top: railTop === null ? '19vh' : `${railTop}px`,
+            transition: 'top 0.35s cubic-bezier(0.16,1,0.3,1)',
+            left: 'calc(var(--rail-small) / 2)',
+            transform: 'translateX(-100%)',
+            transformOrigin: 'top right',
+            zIndex: Z.sceneTop,
+          }}
+        >
+          <PortraitRail ids={participants.ids} currentId={participants.currentId} layout="column" />
+        </div>
 
-        {/* Scroll-to-top chevron (desktop; phones scroll by touch and it covered text) */}
-        {!isMobile && <button
+        {/* Scroll-to-top chevron */}
+        <button
           type="button"
           aria-label="Scroll to top of conversation"
           onClick={() => historyRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -604,16 +699,16 @@ export default function ConversationPanel({
           onMouseLeave={() => setIsChevronHovered(false)}
           style={{
             position: 'absolute',
-            top: '14px',
-            right: '14px',
-            width: '40px',
-            height: '40px',
+            top: '8px',
+            right: '8px',
+            width: '22px',
+            height: '22px',
             padding: 0,
             borderRadius: '50%',
-            background: '#14110d',
-            border: isChevronHovered ? '1.5px solid #c9a84c' : '1.5px solid #6b5a34',
+            background: '#000',
+            border: isChevronHovered ? '1.5px solid #ffeac1' : '1.5px solid #c9a84c',
             boxShadow: isChevronHovered ? '0 0 12px rgba(201,168,76,0.35)' : 'none',
-            color: '#d9c48a',
+            color: '#ffeac1',
             zIndex: Z.sceneTop,
             display: 'flex',
             alignItems: 'center',
@@ -623,8 +718,8 @@ export default function ConversationPanel({
           }}
         >
           <svg
-            width="18"
-            height="18"
+            width="12"
+            height="12"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -635,7 +730,7 @@ export default function ConversationPanel({
           >
             <polyline points="6 15 12 9 18 15" />
           </svg>
-        </button>}
+        </button>
 
         {/* Inner text column. The dialogue history below is the scroller;
             this column only scrolls if the pinned bottom sections overflow. */}
@@ -648,7 +743,7 @@ export default function ConversationPanel({
             minHeight: 0,
             display: 'flex',
             flexDirection: 'column',
-            padding: isMobile ? '12px 16px 12px 16px' : '56px 32px 24px 32px',
+            padding: '22px 30px 18px 38px',
             boxSizing: 'border-box',
             background: 'transparent',
             borderTop: 'none',
@@ -657,9 +752,6 @@ export default function ConversationPanel({
             scrollbarWidth: 'thin',
           }}
         >
-        {/* Phones scroll the header away with the log; desktop pins it */}
-        {!isMobile && <SceneHeader title={sceneTitle} location={sceneLocation} week={currentWeek} sceneType={sceneType} />}
-
         {/* Monologue — at the very top */}
         {shouldShowMonologue && (
           <div style={{
@@ -727,12 +819,13 @@ export default function ConversationPanel({
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
-            maskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 60px), transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 60px), transparent 100%)',
           }}
         >
-          {isMobile && <SceneHeader title={sceneTitle} location={sceneLocation} week={currentWeek} sceneType={sceneType} />}
-          {history.map((entry) => {
+          {/* The header is part of the log, so it scrolls away with the conversation */}
+          <SceneHeader title={sceneTitle} location={sceneLocation} week={currentWeek} sceneType={sceneType} />
+          {history.map((entry, index) => {
+            const isNewest = !activeSegment && index === history.length - 1
+            const newestColor = isNewest ? { color: NEWEST_TEXT_COLOR } : undefined
             const showLabel = labelledEntryIds.has(entry.id)
             const isPlayer = entry.type === 'player_spoken'
             const labelText = isPlayer ? 'YOU' : (entry.characterName ?? charName(entry.characterId ?? ''))
@@ -740,26 +833,26 @@ export default function ConversationPanel({
             return (
               <div
                 key={entry.id}
-                style={ENTRY_ROW_STYLE}
+                data-entry
+                style={COLUMN_TEXT_STYLES.entryRow}
               >
                 {/* Text content */}
                 <div style={{ flex: 1 }}>
-                  {/* Speaker name — full colour, rendered as "NAME :" */}
+                  {/* Speaker name — uppercase orange "NAME :" (red for the player) */}
                   {showLabel && (
                     <div
                       style={{
-                        ...SPEAKER_LABEL_STYLE,
-                        color: isPlayer ? PLAYER_LABEL_COLOR : speakerColor(entry.characterId ?? ''),
+                        ...COLUMN_TEXT_STYLES.speakerLabel,
+                        color: isPlayer ? PLAYER_NAME_COLOR : NPC_LABEL_COLOR,
                       }}
                     >
-                      <SpeakerLabelText name={labelText} role={isPlayer ? undefined : speakerRole(entry.characterId ?? '')} />
+                      <SpeakerLabelText name={labelText} />
                     </div>
                   )}
-                  {/* internal_thought / monologue — no label, ✦ symbol */}
+                  {/* internal_thought / monologue — no label */}
                   {entry.type === 'internal_thought' && (
                     <div style={THOUGHT_WRAPPER_STYLE}>
-                      <p style={THOUGHT_TEXT_STYLE}>
-                        <span style={THOUGHT_GLYPH_STYLE}>✦</span>
+                      <p style={{ ...COLUMN_TEXT_STYLES.thoughtText, ...newestColor }}>
                         {renderWithEntities(entry.text, true)}
                       </p>
                     </div>
@@ -768,7 +861,7 @@ export default function ConversationPanel({
                   {/* description / narrative — left-aligned, faded, no label */}
                   {(entry.type === 'description' || entry.type === 'narrative') && (
                     <div style={DESCRIPTION_WRAPPER_STYLE}>
-                      <p style={DESCRIPTION_TEXT_STYLE}>
+                      <p style={{ ...COLUMN_TEXT_STYLES.descriptionText, ...newestColor }}>
                         {renderWithCodexLinks(entry.text)}
                       </p>
                     </div>
@@ -776,7 +869,7 @@ export default function ConversationPanel({
 
                   {/* dialogue / player_spoken — character label + quoted text */}
                   {(entry.type === 'dialogue' || entry.type === 'player_spoken') && (
-                    <div style={DIALOGUE_TEXT_STYLE}>
+                    <div style={{ ...COLUMN_TEXT_STYLES.dialogueText, ...newestColor }}>
                       {'"'}{renderWithCodexLinks(entry.text)}{'"'}
                     </div>
                   )}
@@ -787,7 +880,7 @@ export default function ConversationPanel({
 
           {/* Active segment typing */}
           {activeSegment && (
-            <div style={ENTRY_ROW_STYLE}>
+            <div data-entry style={COLUMN_TEXT_STYLES.entryRow}>
               <div style={{ flex: 1 }}>
                 {(() => {
                   return (
@@ -795,21 +888,17 @@ export default function ConversationPanel({
                       {anchorIsActive && (
                         <div
                           style={{
-                            ...SPEAKER_LABEL_STYLE,
-                            color: speakerColor(activeSegment.character ?? ''),
+                            ...COLUMN_TEXT_STYLES.speakerLabel,
+                            color: NPC_LABEL_COLOR,
                           }}
                         >
-                          <SpeakerLabelText
-                            name={charName(activeSegment.character ?? '')}
-                            role={speakerRole(activeSegment.character ?? '')}
-                          />
+                          <SpeakerLabelText name={charName(activeSegment.character ?? '')} />
                         </div>
                       )}
-                      {/* internal_thought / monologue — no label, ✦ symbol */}
+                      {/* internal_thought / monologue — no label */}
                       {activeType === 'internal_thought' && (
                         <div style={THOUGHT_WRAPPER_STYLE}>
-                          <p style={THOUGHT_TEXT_STYLE}>
-                            <span style={THOUGHT_GLYPH_STYLE}>✦</span>
+                          <p style={{ ...COLUMN_TEXT_STYLES.thoughtText, color: NEWEST_TEXT_COLOR }}>
                             {renderWithEntities(activeText, true)}
                             {showCursor && <span className="typewriter-cursor" />}
                           </p>
@@ -819,7 +908,7 @@ export default function ConversationPanel({
                       {/* description — left-aligned, faded, no label */}
                       {activeType === 'description' && (
                         <div style={DESCRIPTION_WRAPPER_STYLE}>
-                          <p style={DESCRIPTION_TEXT_STYLE}>
+                          <p style={{ ...COLUMN_TEXT_STYLES.descriptionText, color: NEWEST_TEXT_COLOR }}>
                             {renderWithCodexLinks(activeText)}
                             {showCursor && <span className="typewriter-cursor" />}
                           </p>
@@ -828,7 +917,7 @@ export default function ConversationPanel({
 
                       {/* dialogue — character label + quoted text */}
                       {activeType === 'dialogue' && (
-                        <div style={DIALOGUE_TEXT_STYLE}>
+                        <div style={{ ...COLUMN_TEXT_STYLES.dialogueText, color: NEWEST_TEXT_COLOR }}>
                           {'"'}{renderWithCodexLinks(activeText)}
                           {showCursor && <span className="typewriter-cursor" />}
                           {'"'}
@@ -870,12 +959,15 @@ export default function ConversationPanel({
               flexShrink: 0,
               display: 'flex',
               flexDirection: 'column',
-              gap: '12px',
-              padding: '18px 0 8px',
-              // phones keep room above the choices for the line being answered
-              maxHeight: isMobile ? '24vh' : '40vh',
+              gap: '7px',
+              padding: '10px 0 8px',
+              // the reference boxes start a little left of the speaker labels
+              margin: '0 2px 0 -5px',
+              maxHeight: '40vh',
               overflowY: 'auto',
               overflowX: 'hidden',
+              // soft fade at the bottom edge when choices overflow (no text cue)
+              ...(choicesOverflow ? { maskImage: CHOICES_OVERFLOW_MASK, WebkitMaskImage: CHOICES_OVERFLOW_MASK } : {}),
             }}
           >
             {choices.map((choice, i) => {
@@ -902,19 +994,6 @@ export default function ConversationPanel({
               )
             })}
           </div>
-          {choicesOverflow && (
-            <div style={{
-              textAlign: 'center',
-              color: '#b8ad95',
-              fontSize: '11px',
-              letterSpacing: '0.12em',
-              padding: '4px 0 8px',
-              fontFamily: "'Crimson Text', Georgia, serif",
-              flexShrink: 0,
-            }}>
-              ▼ SCROLL FOR MORE OPTIONS
-            </div>
-          )}
           </>
         )}
 
