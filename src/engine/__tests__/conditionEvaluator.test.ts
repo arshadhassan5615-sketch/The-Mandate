@@ -114,3 +114,40 @@ describe('conditionEvaluator.evaluateAll', () => {
     expect(evaluateAll([], buildGameState(), [])).toBe(true)
   })
 })
+
+describe('conditionEvaluator.evaluateCondition — modifier-parity stat aliases', () => {
+  it('resolves the education_index alias to nation.educationStandard', () => {
+    const base = buildGameState()
+    const state = buildGameState({ nation: { ...base.nation, educationStandard: 42 } })
+    const cond: Condition = { stat: 'education_index', operator: '==', value: 42 }
+    expect(evaluateCondition(cond, state, [])).toBe(true)
+  })
+
+  it('resolves the military_readiness alias to nation.militaryReadiness', () => {
+    const base = buildGameState()
+    const state = buildGameState({ nation: { ...base.nation, militaryReadiness: 42 } })
+    const cond: Condition = { stat: 'military_readiness', operator: '==', value: 42 }
+    expect(evaluateCondition(cond, state, [])).toBe(true)
+  })
+
+  it('resolves the oligarch_relations alias to factions.businessClass', () => {
+    const base = buildGameState()
+    const state = buildGameState({ factions: { ...base.factions, businessClass: 42 } })
+    const cond: Condition = { stat: 'oligarch_relations', operator: '==', value: 42 }
+    expect(evaluateCondition(cond, state, [])).toBe(true)
+  })
+
+  it('resolves the public_order alias to nation.publicOrder', () => {
+    const base = buildGameState()
+    const state = buildGameState({ nation: { ...base.nation, publicOrder: 42 } })
+    const cond: Condition = { stat: 'public_order', operator: '==', value: 42 }
+    expect(evaluateCondition(cond, state, [])).toBe(true)
+  })
+
+  it('resolves the reformist_support alias to factions.reformists', () => {
+    const base = buildGameState()
+    const state = buildGameState({ factions: { ...base.factions, reformists: 42 } })
+    const cond: Condition = { stat: 'reformist_support', operator: '==', value: 42 }
+    expect(evaluateCondition(cond, state, [])).toBe(true)
+  })
+})

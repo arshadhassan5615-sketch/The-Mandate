@@ -42,6 +42,11 @@ function resolveStatValue(
     'convention_stability': 'nation.conventionStability',
     'education_standard': 'nation.educationStandard',
     'regional_support': 'nation.regionalSupport',
+    'education_index': 'nation.educationStandard',
+    'military_readiness': 'nation.militaryReadiness',
+    'oligarch_relations': 'factions.businessClass',
+    'public_order': 'nation.publicOrder',
+    'reformist_support': 'factions.reformists',
   }
   const stat = PATH_ALIASES[path] ?? path
 
@@ -94,9 +99,7 @@ function compare(
     case '<':  return (actual as number) <  (expected as number)
     case '>=': return (actual as number) >= (expected as number)
     case '<=': return (actual as number) <= (expected as number)
-    // eslint-disable-next-line eqeqeq
     case '==': return actual == expected   // intentional loose — handles bool/string/number
-    // eslint-disable-next-line eqeqeq
     case '!=': return actual != expected
   }
   return false
