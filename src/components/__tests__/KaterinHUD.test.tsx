@@ -1,6 +1,6 @@
 // KaterinHUD: framed portrait with no text overlay (identity lives in a popover);
 // hidden during full-screen phases and while NewsOverlay is open.
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, screen, act, fireEvent } from '@testing-library/react'
 import KaterinHUD from '../KaterinHUD'
 import { useGameStore } from '../../stores/gameStore'
@@ -61,5 +61,57 @@ describe('KaterinHUD', () => {
 
     act(() => { useNewsStore.getState().setOpen(false) })
     expect(screen.getByAltText('Chancellor Katerin Ashavel')).toBeInTheDocument()
+  })
+})
+
+describe('KaterinHUD compact (landscape phone)', () => {
+  const originalWidth = window.innerWidth
+  const originalHeight = window.innerHeight
+
+  function setViewport(width: number, height: number) {
+    Object.defineProperty(window, 'innerWidth', { value: width, configurable: true, writable: true })
+    Object.defineProperty(window, 'innerHeight', { value: height, configurable: true, writable: true })
+  }
+
+  beforeEach(resetStores)
+  afterEach(() => setViewport(originalWidth, originalHeight))
+
+  it('renders a 56px-wide portrait frame with data-layout="compact" at 844x390', () => {
+    setViewport(844, 390)
+    const { container } = render(<KaterinHUD />)
+    const root = container.firstChild as HTMLElement
+    expect(root).toHaveAttribute('data-layout', 'compact')
+    const frame = screen.getByAltText('Chancellor Katerin Ashavel').parentElement as HTMLElement
+    expect(frame).toHaveStyle({ width: '56px', height: '70px' })
+    expect(screen.getByRole('button', { name: 'Chancellor details' })).toHaveStyle({ width: '28px', height: '28px' })
+  })
+
+  it('renders over the map phase in compact mode', () => {
+    setViewport(844, 390)
+    useWeekStore.setState({ phase: 'map' })
+    const { container } = render(<KaterinHUD />)
+    expect(container.querySelector('[data-layout="compact"]')).not.toBeNull()
+  })
+
+  it('renders nothing in compact mode outside the map phase', () => {
+    setViewport(844, 390)
+    useWeekStore.setState({ phase: 'briefing' })
+    const { container } = render(<KaterinHUD />)
+    expect(container.firstChild).toBeNull()
+  })
+
+  it('still renders during the briefing phase at desktop size', () => {
+    setViewport(1440, 900)
+    useWeekStore.setState({ phase: 'briefing' })
+    render(<KaterinHUD />)
+    expect(screen.getByAltText('Chancellor Katerin Ashavel')).toBeInTheDocument()
+  })
+
+  it('keeps the full-size frame on desktop', () => {
+    setViewport(1440, 900)
+    const { container } = render(<KaterinHUD />)
+    expect((container.firstChild as HTMLElement)).toHaveAttribute('data-layout', 'desktop')
+    const frame = screen.getByAltText('Chancellor Katerin Ashavel').parentElement as HTMLElement
+    expect(frame).toHaveStyle({ width: '96px' })
   })
 })

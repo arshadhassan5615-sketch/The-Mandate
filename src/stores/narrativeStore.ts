@@ -126,6 +126,8 @@ interface NarrativeStore {
   activeFlags:       string[]
   unlockedCodexIds:  string[]    // codex entry IDs unlocked by choices
   metCharacters:     string[]    // character roster IDs the player has encountered
+  // Characters met for the first time in the current scene, in order of first line (ids without the character_ prefix). Transient: not saved.
+  newlyMetIds:       string[]
   sceneDone:         boolean     // true once the scene's choices have all resolved
 
   // Called by weekStore to start / reset a scene slot
@@ -157,6 +159,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   activeFlags:       [],
   unlockedCodexIds:  [],
   metCharacters:     [],
+  newlyMetIds:       [],
   sceneDone:         false,
 
   loadScene: (id) => {
@@ -237,15 +240,18 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     // Track characters encountered in dialogue segments (runs on the
     // filtered narrative so hidden nodes don't unlock portraits)
     let newMet = metCharacters
+    let newlyMetIds: string[] = []
     if (target) {
       const charsInScene = (target.narrative ?? [])
         .filter(seg => seg.type === 'dialogue' && seg.character)
         .map(seg => `character_${seg.character}`)
-      const toAdd = charsInScene.filter(c => !newMet.includes(c))
+      const toAdd = [...new Set(charsInScene)].filter(c => !newMet.includes(c))
       if (toAdd.length) newMet = [...newMet, ...toAdd]
+      const CHARACTER_PREFIX = 'character_'
+      newlyMetIds = [...new Set(toAdd.map(c => c.slice(CHARACTER_PREFIX.length)))]
     }
 
-    set({ currentScene: target ?? null, sceneDone: !target, metCharacters: newMet })
+    set({ currentScene: target ?? null, sceneDone: !target, metCharacters: newMet, newlyMetIds })
     if (import.meta.env.DEV) console.log('[TRACE 5] currentScene set to:', target?.id ?? 'null', '| sceneDone:', !target)
   },
 
@@ -266,6 +272,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     activeFlags:       [],
     unlockedCodexIds:  [],
     metCharacters:     [],
+    newlyMetIds:       [],
     sceneDone:         false,
   }),
 

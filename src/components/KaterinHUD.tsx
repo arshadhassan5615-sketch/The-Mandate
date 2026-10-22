@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNewsStore } from '../stores/newsStore'
-import { useIsMobile } from '../hooks/useIsMobile'
+import { useViewportMode } from '../hooks/useViewportMode'
 import { Z } from '../constants/zIndex'
 import type { PlayerAppearance } from '../types/gameState'
 import katerinImg from '../assets/potraits/katerin_ashavel.jpeg'
@@ -28,6 +28,10 @@ const ACT_LABELS: Record<number, string> = {
 
 const FRAME_WIDTH = 96
 const FRAME_HEIGHT = 104
+const COMPACT_FRAME_WIDTH = 56
+const COMPACT_FRAME_HEIGHT = 70
+const COMPACT_BUTTON_SIZE = 28
+const BUTTON_SIZE = 40
 const RING_BG = '#14110d'
 const GOLD_LINE = '#b59a5e'
 const GOLD_LIT = '#c9a84c'
@@ -50,9 +54,9 @@ function stressGlow(level: number): string {
   return 'rgba(127,166,90,0.3)'
 }
 
-function PersonIcon() {
+function PersonIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="12" cy="8" r="3.5" />
       <path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" />
     </svg>
@@ -66,7 +70,9 @@ export default function KaterinHUD() {
   const phase = useWeekStore(s => s.phase)
   const newsOpen = useNewsStore(s => s.isOpen)
 
-  const isMobile = useIsMobile()
+  const mode = useViewportMode()
+  const isMobile = mode === 'phone'
+  const isCompact = mode === 'compact'
 
   const [isIdentityOpen, setIsIdentityOpen] = useState(false)
 
@@ -89,6 +95,9 @@ export default function KaterinHUD() {
   // so the scene and the paper read without HUD chrome.
   if (phase === 'agenda' || phase === 'scene' || newsOpen) return null
   if (isMobile) return null
+  // On a landscape phone the portrait would cover the footers of full-page
+  // phases (briefing, budget, ...), so it only shows over the map.
+  if (isCompact && phase !== 'map') return null
 
   const flashGlow = stressFlash === 'negative'
     ? '0 0 10px 2px rgba(224,92,74,0.9)'
@@ -96,10 +105,10 @@ export default function KaterinHUD() {
   const actLabel = ACT_LABELS[currentAct] ?? 'Act I'
 
   return (
-    <div style={{
+    <div data-layout={mode} style={{
       position: 'fixed',
-      bottom: '20px',
-      left: '20px',
+      bottom: isCompact ? 'calc(10px + env(safe-area-inset-bottom, 0px))' : '20px',
+      left: isCompact ? 'calc(10px + env(safe-area-inset-left, 0px))' : '20px',
       zIndex: Z.katerinHud,
     }}>
       {/* Identity popover — opened by the person button */}
@@ -135,8 +144,8 @@ export default function KaterinHUD() {
       {/* Square framed portrait */}
       <div style={{
         position: 'relative',
-        width: FRAME_WIDTH,
-        height: FRAME_HEIGHT,
+        width: isCompact ? COMPACT_FRAME_WIDTH : FRAME_WIDTH,
+        height: isCompact ? COMPACT_FRAME_HEIGHT : FRAME_HEIGHT,
         boxSizing: 'border-box',
         background: RING_BG,
         border: `3px solid ${RING_BG}`,
@@ -170,7 +179,7 @@ export default function KaterinHUD() {
             bottom: 0,
             left: 0,
             right: 0,
-            height: '4px',
+            height: isCompact ? '3px' : '4px',
             background: 'rgba(0,0,0,0.4)',
           }}
         >
@@ -195,8 +204,8 @@ export default function KaterinHUD() {
             position: 'absolute',
             top: '-8px',
             right: '-8px',
-            width: '40px',
-            height: '40px',
+            width: `${isCompact ? COMPACT_BUTTON_SIZE : BUTTON_SIZE}px`,
+            height: `${isCompact ? COMPACT_BUTTON_SIZE : BUTTON_SIZE}px`,
             padding: 0,
             borderRadius: '50%',
             background: RING_BG,
@@ -210,7 +219,7 @@ export default function KaterinHUD() {
             transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
           }}
         >
-          <PersonIcon />
+          <PersonIcon size={isCompact ? 14 : 20} />
         </button>
       </div>
     </div>
