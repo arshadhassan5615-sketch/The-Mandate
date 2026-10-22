@@ -8,6 +8,7 @@ import CharacterMap from './components/CharacterMap'
 import ProvinceDetail from './components/panels/ProvinceDetail'
 import InlineCodexPanel from './components/panels/InlineCodexPanel'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import RotateDevicePrompt from './components/RotateDevicePrompt'
 import { useGameStore } from './stores/gameStore'
 import { useSettingsStore } from './stores/settingsStore'
 import { useCodexStore } from './stores/codexStore'
@@ -117,11 +118,11 @@ export default function App() {
     }
   }, [phase, setSettingsOpen, setSaveMenuOpen, setMapOpen, setDebugOpen, setCharacterMapOpen, setJournalOpen, setNotepadOpen])
 
-  // The week's map phase opens on the desk (DeskScreen); the map is a
-  // command-bar tool, so it is no longer opened automatically. Close it
-  // when a new phase starts so a meeting never opens under the map.
+  // The week map is the home screen: it opens when the map phase begins and
+  // closes when any other phase starts, so a meeting never opens under it.
+  // Depends on phase only, so the player can still close it with M.
   useEffect(() => {
-    if (phase !== 'map') setMapOpen(false)
+    setMapOpen(phase === 'map')
   }, [phase, setMapOpen])
 
   // DEV ONLY: Ctrl+Shift+9 instantly jumps to Week 9 for testing.
@@ -208,6 +209,7 @@ export default function App() {
         {provinceDetailId && <ProvinceDetail initialProvince={provinceDetailId} onClose={() => setProvinceDetailId(null)} />}
         {/* DiplomaticLetterPanel is mounted once, inside GameLayout */}
         <InlineCodexPanel />
+        <RotateDevicePrompt />
       </MotionConfig>
     </ErrorBoundary>
   )

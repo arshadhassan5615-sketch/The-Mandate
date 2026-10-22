@@ -8,7 +8,7 @@ import { DURATION_FAST, EASE_STANDARD_CSS } from '../styles/motion'
 import { playStamp } from '../engine/audioEngine'
 import signBtnImg from '../assets/images/buttons/Sign_Button.png'
 import { Z } from '../constants/zIndex'
-import { useIsMobile } from '../hooks/useIsMobile'
+import { useViewportMode } from '../hooks/useViewportMode'
 import FiscalNote from './ui/FiscalNote'
 import { decreeBudgetCost } from './ui/decreeFiscal'
 import { DocumentSeal, SignatureLine } from './ui/StateDocument'
@@ -119,7 +119,9 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
   } = useDecreeStore()
 
   const currentWeek = useGameStore(s => s.currentWeek)
-  const isMobile = useIsMobile()
+  const mode = useViewportMode()
+  const isMobile = mode === 'phone'
+  const isCompact = mode === 'compact'
   const [activeTab, setActiveTab] = useState<DecreeCategory | 'all'>('all')
 
   const filteredPending = activeTab === 'all'
@@ -151,6 +153,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
   return (
     <div
       data-testid="decree-inbox-overlay"
+      data-layout={isCompact ? 'compact' : undefined}
       style={{
         position: 'fixed',
         inset: 0,
@@ -196,7 +199,17 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
       </button>
 
       {/* Phones stack the list above the document and scroll the whole column. */}
-      <div style={isMobile ? {
+      <div style={isCompact ? {
+        position: 'absolute',
+        top: '8px',
+        bottom: '8px',
+        left: 'calc(8px + env(safe-area-inset-left, 0px))',
+        right: 'calc(68px + env(safe-area-inset-right, 0px))',
+        display: 'flex',
+        gap: '8px',
+        alignItems: 'stretch',
+        boxSizing: 'border-box',
+      } : isMobile ? {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
@@ -215,7 +228,10 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
       }}>
         {/* ─── LEFT-PANEL — dark standalone list ──────────────────────────── */}
         <div data-testid="decree-inbox-shell" style={{
-          width: isMobile ? '100%' : '280px',
+          width: isCompact ? '34%' : isMobile ? '100%' : '280px',
+          minWidth: isCompact ? '220px' : undefined,
+          maxWidth: isCompact ? '300px' : undefined,
+          minHeight: isCompact ? 0 : undefined,
           maxHeight: isMobile ? '40vh' : undefined,
           flexShrink: 0,
           display: 'flex',
@@ -265,7 +281,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
 
           {/* Category filter tabs */}
           <div style={{
-            padding: '10px 12px',
+            padding: isCompact ? '6px 8px' : '10px 12px',
             display: 'flex',
             flexWrap: 'wrap',
             gap: '6px',
@@ -275,6 +291,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
               <CategoryChip
                 key={tab}
                 active={activeTab === tab}
+                isCompact={isCompact}
                 onClick={() => setActiveTab(tab)}
                 label={tab === 'all' ? 'All' : CATEGORY_LABELS[tab]}
               />
@@ -284,6 +301,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
           {/* Decree list */}
           <div style={{
             flex: 1,
+            minHeight: 0,
             overflowY: 'auto',
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgba(201,168,76,0.2) transparent',
@@ -342,8 +360,10 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
         {/* ─── PARCHMENT DOCUMENT — centered LegislationOverlay style ─────── */}
         {!detailDecree ? (
           <div style={{
-            width: isMobile ? '100%' : '680px',
-            height: '320px',
+            width: isCompact ? undefined : isMobile ? '100%' : '680px',
+            height: isCompact ? undefined : '320px',
+            flex: isCompact ? 1 : undefined,
+            minWidth: isCompact ? 0 : undefined,
             flexShrink: 0,
             background: PARCHMENT,
             border: '1px solid rgba(201,168,76,0.15)',
@@ -366,6 +386,7 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
             isConflict={isConflict}
             conflictTitle={conflictTitle ?? null}
             isMobile={isMobile}
+            isCompact={isCompact}
             wasPostponed={wasPostponed}
             isRejected={isRejected}
             onSign={() => { signDecree(detailDecree.id) }}
@@ -383,10 +404,12 @@ export default function DecreeInbox({ onClose }: DecreeInboxProps) {
 
 function CategoryChip({
   active,
+  isCompact = false,
   onClick,
   label,
 }: {
   active: boolean
+  isCompact?: boolean
   onClick: () => void
   label: string
 }) {
@@ -401,7 +424,7 @@ function CategoryChip({
         fontSize: '10px',
         letterSpacing: '0.06em',
         textTransform: 'uppercase',
-        padding: '3px 10px',
+        padding: isCompact ? '4px 8px' : '3px 10px',
         borderRadius: '2px',
         border: `1px solid ${active ? '#c9a84c' : 'rgba(201,168,76,0.3)'}`,
         background: active ? 'rgba(201,168,76,0.15)' : press.hovered ? 'rgba(201,168,76,0.08)' : 'transparent',
@@ -529,6 +552,8 @@ interface DecreeDetailProps {
   isConflict: boolean
   conflictTitle: string | null
   isMobile: boolean
+  /** Landscape phone: body scrolls, action buttons stay pinned below it. */
+  isCompact: boolean
   /** Already postponed once; it cannot be postponed again. */
   wasPostponed: boolean
   isRejected: boolean
@@ -537,7 +562,7 @@ interface DecreeDetailProps {
   onTable: () => void
 }
 
-function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, wasPostponed, isRejected, onSign, onReject, onTable }: DecreeDetailProps) {
+function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, isCompact, wasPostponed, isRejected, onSign, onReject, onTable }: DecreeDetailProps) {
   const isSigned = decree.signed
   // Reject and postpone are open only while the decree is undecided
   const isUndecided = !isSigned && !isRejected
@@ -558,143 +583,195 @@ function DecreeDetail({ decree, isConflict, conflictTitle, isMobile, wasPostpone
     }, 1500) // 1.5s animation delay
   }
 
+  const header = (
+    <div style={{ padding: isCompact ? `8px ${padX} 8px` : `20px ${padX} 12px`, borderBottom: '1px solid #f0f0f0', flexShrink: 0 }}>
+      <DocumentSeal size={isCompact ? 32 : 44} />
+      <h2
+        data-testid="decree-detail-title"
+        style={{ fontFamily: "'EnchantedLand', serif", fontSize: isCompact ? '20px' : isMobile ? '24px' : '28px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px', textAlign: 'center' }}
+      >
+        {decree.title}
+      </h2>
+      <div style={{ fontSize: '9px', letterSpacing: '2px', color: '#6b4f2a', fontWeight: 600, textAlign: 'center', textTransform: 'uppercase', marginBottom: '12px' }}>
+        {CATEGORY_LABELS[decree.category]} decree · Proposed by {decree.proposedBy}
+      </div>
+      <FiscalNote budgetCost={decreeBudgetCost(decree)} />
+      {isConflict && (
+        <p
+          role="note"
+          data-testid="decree-conflict"
+          style={{
+            margin: 0,
+            padding: '6px 10px',
+            border: '1px solid var(--oxblood)',
+            color: 'var(--oxblood)',
+            fontFamily: "'Crimson Text', serif",
+            fontSize: '14px',
+            textAlign: 'center',
+          }}
+        >
+          Cannot be signed: it conflicts with the {conflictTitle ?? 'decree'} already in force.
+        </p>
+      )}
+    </div>
+  )
+
+  const body = (
+    <div style={isCompact
+      ? { padding: `12px ${padX}` }
+      : { flex: 1, overflowY: 'auto', padding: `20px ${padX}`, scrollbarWidth: 'thin' }}>
+      {/* Summary */}
+      <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '15px', lineHeight: 1.7, color: '#333', textAlign: isMobile ? 'left' : 'justify', margin: 0, marginBottom: '16px', fontStyle: 'italic' }}>
+        {decree.summary}
+      </p>
+      {/* Description */}
+      <div style={{ fontFamily: 'Georgia, serif', fontSize: '13.5px', lineHeight: 1.7, color: '#444', textAlign: isMobile ? 'left' : 'justify', whiteSpace: 'pre-line' }}>
+        {decree.description}
+      </div>
+
+      {/* Minister Avatars - only renders if cabinet is formed */}
+      {formationComplete && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', padding: '16px 0', borderTop: '1px solid #eee', marginTop: '24px', justifyContent: 'center' }}>
+          {decree.ministerPositions.map(pos => (
+            <div key={pos.ministerId} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+              <div style={{ position: 'relative' }}>
+                <MinisterThumbnail ministerId={pos.ministerId} size={40} />
+                <div style={{
+                  position: 'absolute', bottom: '-2px', right: '-2px', width: '16px', height: '16px', borderRadius: '50%',
+                  background: pos.stance === 'favor' ? '#4CAF50' : pos.stance === 'against' ? '#e53935' : '#999',
+                  border: '2px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#fff', fontSize: '9px', fontWeight: 'bold',
+                }}>
+                  {pos.stance === 'favor' ? '✓' : pos.stance === 'against' ? '✗' : '—'}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+
+  const signatureLine = (
+    <SignatureLine
+      isSigned={showSignature}
+      caption="Chancellor of Veltria"
+      width={isCompact ? 160 : isMobile ? 200 : 240}
+      height={isCompact ? 56 : isMobile ? 100 : 120}
+      signatureMaxWidth={260}
+    />
+  )
+
+  const signSize = isCompact ? '56px' : '90px'
+  const signControl = isRejected ? (
+    <RejectedStamp />
+  ) : showSignature || isSigned ? (
+    <div style={{ width: signSize, height: signSize, flexShrink: 0 }} /> // Empty placeholder after signing
+  ) : (
+    <button
+      type="button"
+      onClick={handleSignClick}
+      disabled={isConflict}
+      aria-label={isConflict ? 'Sign decree (blocked by a conflicting decree)' : 'Sign decree'}
+      style={{
+        width: signSize,
+        height: signSize,
+        minHeight: isCompact ? 40 : undefined,
+        flexShrink: 0,
+        background: 'transparent',
+        border: 'none',
+        cursor: isConflict ? 'not-allowed' : 'pointer',
+        padding: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: isConflict ? 0.4 : 1,
+        filter: isConflict ? 'grayscale(100%)' : 'none',
+        transition: 'transform 0.15s ease'
+      }}
+      onMouseEnter={e => { if (!isConflict) e.currentTarget.style.transform = 'scale(1.08) translateY(-2px)' }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+    >
+      <img src={signBtnImg} alt="" style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain'
+      }} />
+    </button>
+  )
+
+  const decisionButtons = (
+    <>
+      <DecisionButton tone="reject" onClick={onReject}>Reject</DecisionButton>
+      <DecisionButton tone="neutral" onClick={onTable} disabled={wasPostponed}>
+        {wasPostponed ? 'Already postponed once' : 'Postpone a week'}
+      </DecisionButton>
+    </>
+  )
+
+  const frameStyle = {
+    background: '#fdfbf3',
+    boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+    borderRadius: '4px',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    border: '1px solid rgba(0,0,0,0.1)',
+    boxSizing: 'border-box',
+  } as const
+
+  // Landscape phone: document scrolls; every action stays pinned beneath it.
+  if (isCompact) {
+    return (
+      <div
+        data-testid="decree-detail"
+        style={{ ...frameStyle, flex: 1, minWidth: 0, minHeight: 0 }}
+      >
+        <div data-testid="decree-doc-scroll" style={{ flex: 1, minHeight: 0, overflowY: 'auto', scrollbarWidth: 'thin' }}>
+          {header}
+          {body}
+          <div style={{ display: 'flex', justifyContent: 'center', padding: `8px ${padX} 12px` }}>
+            {signatureLine}
+          </div>
+        </div>
+        <div
+          data-testid="decree-actions"
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px', borderTop: '1px solid #f0f0f0', flexShrink: 0 }}
+        >
+          {isUndecided && !showSignature && decisionButtons}
+          {signControl}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       data-testid="decree-detail"
       style={{
+        ...frameStyle,
         width: isMobile ? '100%' : '520px',
         maxHeight: isMobile ? undefined : 'calc(100vh - 60px)',
         flexShrink: 0,
-        background: '#fdfbf3',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
-        borderRadius: '4px',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-        border: '1px solid rgba(0,0,0,0.1)',
-        boxSizing: 'border-box',
       }}
     >
       {/* HEADER — seal, title, and what signing commits the treasury to */}
-      <div style={{ padding: `20px ${padX} 12px`, borderBottom: '1px solid #f0f0f0', flexShrink: 0 }}>
-        <DocumentSeal size={44} />
-        <h2
-          data-testid="decree-detail-title"
-          style={{ fontFamily: "'EnchantedLand', serif", fontSize: isMobile ? '24px' : '28px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px', textAlign: 'center' }}
-        >
-          {decree.title}
-        </h2>
-        <div style={{ fontSize: '9px', letterSpacing: '2px', color: '#6b4f2a', fontWeight: 600, textAlign: 'center', textTransform: 'uppercase', marginBottom: '12px' }}>
-          {CATEGORY_LABELS[decree.category]} decree · Proposed by {decree.proposedBy}
-        </div>
-        <FiscalNote budgetCost={decreeBudgetCost(decree)} />
-        {isConflict && (
-          <p
-            role="note"
-            data-testid="decree-conflict"
-            style={{
-              margin: 0,
-              padding: '6px 10px',
-              border: '1px solid var(--oxblood)',
-              color: 'var(--oxblood)',
-              fontFamily: "'Crimson Text', serif",
-              fontSize: '14px',
-              textAlign: 'center',
-            }}
-          >
-            Cannot be signed: it conflicts with the {conflictTitle ?? 'decree'} already in force.
-          </p>
-        )}
-      </div>
+      {header}
 
       {/* BODY */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: `20px ${padX}`, scrollbarWidth: 'thin' }}>
-        {/* Summary */}
-        <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '15px', lineHeight: 1.7, color: '#333', textAlign: isMobile ? 'left' : 'justify', margin: 0, marginBottom: '16px', fontStyle: 'italic' }}>
-          {decree.summary}
-        </p>
-        {/* Description */}
-        <div style={{ fontFamily: 'Georgia, serif', fontSize: '13.5px', lineHeight: 1.7, color: '#444', textAlign: isMobile ? 'left' : 'justify', whiteSpace: 'pre-line' }}>
-          {decree.description}
-        </div>
-
-        {/* Minister Avatars - only renders if cabinet is formed */}
-        {formationComplete && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', padding: '16px 0', borderTop: '1px solid #eee', marginTop: '24px', justifyContent: 'center' }}>
-            {decree.ministerPositions.map(pos => (
-              <div key={pos.ministerId} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                <div style={{ position: 'relative' }}>
-                  <MinisterThumbnail ministerId={pos.ministerId} size={40} />
-                  <div style={{
-                    position: 'absolute', bottom: '-2px', right: '-2px', width: '16px', height: '16px', borderRadius: '50%',
-                    background: pos.stance === 'favor' ? '#4CAF50' : pos.stance === 'against' ? '#e53935' : '#999',
-                    border: '2px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#fff', fontSize: '9px', fontWeight: 'bold',
-                  }}>
-                    {pos.stance === 'favor' ? '✓' : pos.stance === 'against' ? '✗' : '—'}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      {body}
 
       {/* DECISION — reject for good, or postpone a week (once) */}
       {isUndecided && !showSignature && (
         <div data-testid="decree-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', padding: `12px ${padX} 0`, flexShrink: 0 }}>
-          <DecisionButton tone="reject" onClick={onReject}>Reject</DecisionButton>
-          <DecisionButton tone="neutral" onClick={onTable} disabled={wasPostponed}>
-            {wasPostponed ? 'Already postponed once' : 'Postpone a week'}
-          </DecisionButton>
+          {decisionButtons}
         </div>
       )}
 
       {/* FOOTER (Signature & Sign Button) */}
       <div style={{ padding: `16px ${padX} 24px`, borderTop: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
-        <SignatureLine
-          isSigned={showSignature}
-          caption="Chancellor of Veltria"
-          width={isMobile ? 200 : 240}
-          height={isMobile ? 100 : 120}
-          signatureMaxWidth={260}
-        />
-
-        {isRejected ? (
-          <RejectedStamp />
-        ) : showSignature || isSigned ? (
-          <div style={{ width: '90px', height: '90px', flexShrink: 0 }} /> // Empty placeholder after signing
-        ) : (
-          <button
-            type="button"
-            onClick={handleSignClick}
-            disabled={isConflict}
-            aria-label={isConflict ? 'Sign decree (blocked by a conflicting decree)' : 'Sign decree'}
-            style={{
-              width: '90px',
-              height: '90px',
-              flexShrink: 0,
-              background: 'transparent',
-              border: 'none',
-              cursor: isConflict ? 'not-allowed' : 'pointer',
-              padding: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              opacity: isConflict ? 0.4 : 1,
-              filter: isConflict ? 'grayscale(100%)' : 'none',
-              transition: 'transform 0.15s ease'
-            }}
-            onMouseEnter={e => { if (!isConflict) e.currentTarget.style.transform = 'scale(1.08) translateY(-2px)' }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
-          >
-            <img src={signBtnImg} alt="" style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain'
-            }} />
-          </button>
-        )}
+        {signatureLine}
+        {signControl}
       </div>
     </div>
   )

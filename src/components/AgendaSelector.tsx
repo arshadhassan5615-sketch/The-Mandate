@@ -10,7 +10,7 @@ import { checkIntelligenceIntegrity } from '../engine/WhisperNetworkEngine'
 import { checkForBudgetCrisis } from '../engine/BudgetCrisisEngine'
 import { playPaperShuffle } from '../engine/audioEngine'
 import { useIsMobile } from '../hooks/useIsMobile'
-import { pageInsets } from '../constants/layout'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 // ─── Agenda card ──────────────────────────────────────────────────────────────
 
@@ -19,9 +19,10 @@ interface CardProps {
   selected: boolean
   disabled: boolean
   onToggle: () => void
+  isCompact?: boolean
 }
 
-function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
+function AgendaCard({ item, selected, disabled, onToggle, isCompact }: CardProps) {
   // const scene = item.sceneId.startsWith('__') ? undefined : getScene(item.sceneId) // unused — card renders from item
   const effectiveDisabled = disabled && !selected
   const color = CATEGORY_COLORS[item.category as AgendaCategory] ?? 'var(--amber)'
@@ -46,6 +47,7 @@ function AgendaCard({ item, selected, disabled, onToggle }: CardProps) {
         transition: 'border-color 0.15s, background 0.15s, opacity 0.15s',
         position: 'relative',
         width: '100%',
+        ...(isCompact ? { minHeight: 120 } : {}),
       }}
     >
       {/* Urgent indicator */}
@@ -309,7 +311,8 @@ function SlotPips({ used, max }: { used: number; max: number }) {
 export default function AgendaSelector() {
   // Keep clear of the fixed HUD; phones also clear the Government row and bottom bar
   const isMobile = useIsMobile()
-  const insets = pageInsets(isMobile)
+  const insets = usePageInsets()
+  const isCompact = insets.isCompact
   const padX = isMobile ? 'px-4' : 'px-8'
   const { agendaPool, selectedIds, slotsUsed, forcedChainIds, toggleAgendaItem, confirmAgenda } = useWeekStore()
   const gameState = useGameStore()
@@ -377,16 +380,19 @@ export default function AgendaSelector() {
   return (
     <div
       data-testid="agenda-page"
+      data-layout={isCompact ? 'compact' : undefined}
       className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[800]"
       style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}
     >
       {/* ── Header ──────────────────────────────────────────────── */}
-      <div
-        className={`shrink-0 flex items-center ${padX} py-3 border-b`}
-        style={{ borderColor: 'var(--border)' }}
-      >
-        <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
-      </div>
+      {!isCompact && (
+        <div
+          className={`shrink-0 flex items-center ${padX} py-3 border-b`}
+          style={{ borderColor: 'var(--border)' }}
+        >
+          <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
+        </div>
+      )}
 
       {/* ── Body ────────────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
@@ -396,7 +402,7 @@ export default function AgendaSelector() {
 
           {/* Agenda header */}
           <div
-            className={`shrink-0 flex items-center justify-between gap-3 ${padX} py-4 border-b`}
+            className={`shrink-0 flex items-center justify-between gap-3 ${padX} ${isCompact ? 'py-1.5' : 'py-4'} border-b`}
             style={{ borderColor: 'var(--border)' }}
           >
             <div>
@@ -407,7 +413,7 @@ export default function AgendaSelector() {
                   letterSpacing: '0.2em',
                   color: 'var(--amber-dim)',
                   textTransform: 'uppercase',
-                  marginBottom: '0.4rem',
+                  marginBottom: isCompact ? '0.15rem' : '0.4rem',
                 }}
               >
                 Agenda Selection
@@ -428,7 +434,7 @@ export default function AgendaSelector() {
 
           {/* Cards grid */}
           <div
-            className="flex-1 overflow-y-auto"
+            className="flex-1 min-h-0 overflow-y-auto"
             style={{
               padding: isMobile ? '1rem' : '1.5rem 2rem',
               scrollbarWidth: 'thin',
@@ -494,6 +500,7 @@ export default function AgendaSelector() {
                     selected={selectedIds.includes(item.id)}
                     disabled={slotsUsed >= SLOT_MAX}
                     onToggle={() => toggleAgendaItem(item.id)}
+                    isCompact={isCompact}
                   />
                 ))}
               </div>
@@ -529,7 +536,7 @@ export default function AgendaSelector() {
 
           {/* Confirm bar */}
           <div
-            className={`shrink-0 flex flex-wrap items-center justify-between gap-3 ${padX} py-4 border-t`}
+            className={`shrink-0 flex flex-wrap items-center justify-between gap-3 ${padX} ${isCompact ? 'py-1.5' : 'py-4'} border-t`}
             style={{ borderColor: 'var(--border)' }}
           >
             <p
@@ -551,6 +558,7 @@ export default function AgendaSelector() {
                 opacity: canConfirm ? 1 : 0.35,
                 minWidth: isMobile ? 0 : '220px',
                 flex: isMobile ? '1 1 auto' : undefined,
+                ...(isCompact ? { minHeight: 40, paddingTop: 8, paddingBottom: 8 } : {}),
               }}
             >
               Confirm Agenda →

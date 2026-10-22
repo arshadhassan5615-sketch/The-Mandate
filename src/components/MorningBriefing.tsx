@@ -11,7 +11,7 @@ import { playStamp } from '../engine/audioEngine'
 import { useEffect } from 'react'
 import WeekRecap from './briefing/WeekRecap'
 import { useIsMobile } from '../hooks/useIsMobile'
-import { pageInsets } from '../constants/layout'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 // ─── News card ────────────────────────────────────────────────────────────────
 
@@ -72,16 +72,16 @@ function NewsCard({ item }: { item: NewsItem }) {
 
 // ─── Section header ───────────────────────────────────────────────────────────
 
-function SectionHeader({ label, color = 'var(--amber-dim)' }: { label: string; color?: string }) {
+function SectionHeader({ label, color = 'var(--amber-dim)', isCompact = false }: { label: string; color?: string; isCompact?: boolean }) {
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: isCompact ? '0.5rem' : '1rem' }}>
       <p style={{
         fontFamily: "'Special Elite', monospace",
         fontSize: '0.6rem',
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
         color,
-        marginBottom: '0.6rem',
+        marginBottom: isCompact ? '0.15rem' : '0.6rem',
       }}>
         ▸ {label}
       </p>
@@ -95,7 +95,8 @@ function SectionHeader({ label, color = 'var(--amber-dim)' }: { label: string; c
 export default function MorningBriefing() {
   // Keep clear of the fixed HUD; phones also clear the Government row and bottom bar
   const isMobile = useIsMobile()
-  const insets = pageInsets(isMobile)
+  const insets = usePageInsets()
+  const isCompact = insets.isCompact
   const padX = isMobile ? 'px-4' : 'px-8'
   const gameState = useGameStore()
   const { currentWeek } = useGameStore()
@@ -156,26 +157,28 @@ export default function MorningBriefing() {
   )
 
   return (
-    <div className="flex flex-col h-screen w-screen fixed inset-0" style={{ zIndex: 1, background: 'rgba(15,13,10,1)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}>
+    <div data-testid="briefing-page" data-layout={isCompact ? 'compact' : undefined} className="flex flex-col h-screen w-screen fixed inset-0" style={{ zIndex: 1, background: 'rgba(15,13,10,1)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}>
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
-      <div className={`shrink-0 flex items-center ${padX} py-3 border-b`} style={{ borderColor: 'var(--border)', maxWidth: isMobile ? undefined : 'calc(100% - 200px)' }}>
-        <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
-      </div>
+      {!isCompact && (
+        <div className={`shrink-0 flex items-center ${padX} py-3 border-b`} style={{ borderColor: 'var(--border)', maxWidth: isMobile ? undefined : 'calc(100% - 200px)' }}>
+          <span className="stamp">The Mandate — Republic of Veltria, 1963</span>
+        </div>
+      )}
 
       {/* ── Scrollable body ───────────────────────────────────────────────── */}
       <div
-        className="flex-1 overflow-hidden overflow-y-auto"
+        className="flex-1 min-h-0 overflow-hidden overflow-y-auto"
         style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}
       >
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: isMobile ? '1.25rem 1rem' : '2.5rem 2rem 2rem' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', padding: isCompact ? '0.75rem 1rem' : isMobile ? '1.25rem 1rem' : '2.5rem 2rem 2rem' }}>
 
           {/* What last week's decisions led to */}
           <WeekRecap currentWeek={currentWeek} />
 
           {/* Vyktor dialogue */}
           <div style={{ marginBottom: '2.5rem' }}>
-            <SectionHeader label="Morning Briefing — Vyktor Reznik, Chief of Staff" />
+            <SectionHeader label="Morning Briefing — Vyktor Reznik, Chief of Staff" isCompact={isCompact} />
             <div style={{ paddingLeft: '0.25rem' }}>
               {vyktorLines.map((line, i) => (
                 <p key={i} style={{
@@ -194,7 +197,7 @@ export default function MorningBriefing() {
           {/* Headlines */}
           {displayHeadlines.length > 0 && (
             <div style={{ marginBottom: '2.5rem' }}>
-              <SectionHeader label={`Overnight Headlines — ${displayHeadlines.length} item${displayHeadlines.length !== 1 ? 's' : ''}`} />
+              <SectionHeader label={`Overnight Headlines — ${displayHeadlines.length} item${displayHeadlines.length !== 1 ? 's' : ''}`} isCompact={isCompact} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
                 {displayHeadlines.map((h, i) => (
                   <div key={h.id}>
@@ -215,7 +218,7 @@ export default function MorningBriefing() {
           {/* Diplomatic correspondence notification */}
           {newLettersThisWeek.length > 0 && (
             <div style={{ marginBottom: '2.5rem' }}>
-              <SectionHeader label="Diplomatic Correspondence" color="var(--amber)" />
+              <SectionHeader label="Diplomatic Correspondence" color="var(--amber)" isCompact={isCompact} />
               <div style={{ padding: '1rem 1.2rem', background: 'rgba(200,144,42,0.06)', border: '1px solid rgba(200,144,42,0.25)', borderRadius: '2px' }}>
                 <p style={{
                   fontFamily: "'Special Elite', monospace",
@@ -267,7 +270,7 @@ export default function MorningBriefing() {
 
       {/* ── Footer ───────────────────────────────────────────────────────── */}
       <div
-        className={`shrink-0 flex items-center justify-between gap-3 ${padX} py-4 border-t`}
+        className={`shrink-0 flex items-center justify-between gap-3 ${padX} ${isCompact ? 'py-1.5' : 'py-4'} border-t`}
         style={{ borderColor: 'var(--border)', paddingRight: isMobile ? undefined : '70px' }}
       >
         {/* The button already says what comes next; phones drop the hint */}
@@ -279,7 +282,7 @@ export default function MorningBriefing() {
         <button
           className="choice-btn"
           onClick={() => { playStamp(); endBriefing() }}
-          style={{ width: isMobile ? '100%' : 'auto', minWidth: isMobile ? 0 : '220px', whiteSpace: 'nowrap', overflow: 'visible', padding: '0.65rem 1.5rem' }}
+          style={{ width: isMobile ? '100%' : 'auto', minWidth: isMobile ? 0 : '220px', whiteSpace: 'nowrap', overflow: 'visible', padding: isCompact ? '0.5rem 1.5rem' : '0.65rem 1.5rem', ...(isCompact ? { minHeight: 40 } : {}) }}
         >
           Continue to Press Summary →
         </button>

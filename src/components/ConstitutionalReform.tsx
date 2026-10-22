@@ -178,7 +178,19 @@ function FactionReactionRow({ display, netValue }: {
   )
 }
 
-function ReferendumBar({ pct, outlook }: { pct: number; outlook: ReturnType<typeof getReferendumOutlook> }) {
+function ReferendumBar({ pct, outlook, isCompact = false }: { pct: number; outlook: ReturnType<typeof getReferendumOutlook>; isCompact?: boolean }) {
+  if (isCompact) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0 }}>
+        <span style={{ ...mono, fontSize: '0.52rem', letterSpacing: '0.1em', color: 'var(--amber)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Referendum Forecast</span>
+        <span style={{ ...mono, fontSize: '0.65rem', color: outlook.color, fontWeight: 'bold' }}>{outlook.pct}%</span>
+        <div style={{ height: '6px', flex: 1, background: 'rgba(200,144,42,0.08)', position: 'relative' }}>
+          <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: `${pct}%`, background: outlook.color, transition: 'width 0.3s' }} />
+          <div style={{ position: 'absolute', left: '50%', top: '-1px', bottom: '-1px', width: '2px', background: 'rgba(255,255,255,0.4)' }} />
+        </div>
+      </div>
+    )
+  }
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.25rem' }}>
@@ -265,9 +277,16 @@ export default function ConstitutionalReform() {
   const isLastScene = currentQueueIndex >= sceneQueue.length - 1
   const continueLabel = isLastScene ? (returnToMap ? 'Continue →' : 'Proceed to Evening Review →') : `Continue →`
 
+  const compactButtonStyle: React.CSSProperties = insets.isCompact
+    ? { minHeight: 40, padding: '8px 16px', fontSize: '13px' }
+    : {}
+
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}>
-      <div className={`shrink-0 flex items-center justify-between ${insets.isPhone ? 'px-4' : 'px-6'} py-3 border-b`} style={{ borderColor: 'var(--border)' }}>
+    <div data-layout={insets.isCompact ? 'compact' : undefined} className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}>
+      <div
+        className={`shrink-0 flex items-center justify-between ${insets.isCompact ? '' : `${insets.isPhone ? 'px-4' : 'px-6'} py-3`} border-b`}
+        style={{ borderColor: 'var(--border)', ...(insets.isCompact ? { padding: '6px 16px' } : {}) }}
+      >
         <span className="stamp">The Mandate — Week {currentWeek} · Constitutional Convention</span>
         <span className="stamp">12 Provisions to Address</span>
       </div>
@@ -299,7 +318,8 @@ export default function ConstitutionalReform() {
 
         {/* Center — Provisions with Radio Buttons */}
         <div className="flex flex-col flex-1 overflow-hidden">
-          <div className="flex-1 overflow-y-auto" style={{ padding: '1rem 1.5rem', scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}>
+          <div className={insets.isCompact ? 'flex-1 min-h-0 overflow-y-auto' : 'flex-1 overflow-y-auto'} style={{ padding: insets.isCompact ? '0.5rem 16px' : '1rem 1.5rem', scrollbarWidth: 'thin', scrollbarColor: 'var(--amber-dim) transparent' }}>
+            {(!insets.isCompact || finalized) && (
             <div style={{ marginBottom: '0.8rem' }}>
               {finalized ? (
                 <p style={{ ...mono, fontSize: '0.6rem', color: 'var(--amber)', letterSpacing: '0.06em', marginBottom: '1rem' }}>
@@ -311,24 +331,28 @@ export default function ConstitutionalReform() {
                 </p>
               )}
             </div>
+            )}
 
             {PROVISIONS.map(prov => (
               <ProvisionCard key={prov.id} provision={prov} selectedVariantId={selectedVariants[prov.id] ?? null} onSelect={(vid) => selectVariant(prov.id, vid)} />
             ))}
           </div>
 
-          <div className={`shrink-0 flex flex-wrap items-center justify-between ${insets.isPhone ? 'px-4' : 'px-6'} py-3 border-t`} style={{ borderColor: 'var(--border)', gap: '1rem' }}>
-            <div style={{ flex: 1, maxWidth: '360px' }}>
-              <ReferendumBar pct={forecast} outlook={outlook} />
+          <div
+            className={`shrink-0 flex ${insets.isCompact ? 'flex-nowrap' : 'flex-wrap'} items-center justify-between ${insets.isCompact ? '' : `${insets.isPhone ? 'px-4' : 'px-6'} py-3`} border-t`}
+            style={{ borderColor: 'var(--border)', gap: '1rem', ...(insets.isCompact ? { padding: '6px 16px' } : {}) }}
+          >
+            <div style={{ flex: 1, maxWidth: insets.isCompact ? '45%' : '360px' }}>
+              <ReferendumBar pct={forecast} outlook={outlook} isCompact={insets.isCompact} />
             </div>
             <div>
               {!finalized ? (
                 <button className="choice-btn" onClick={handleFinalize} disabled={selectionCount === 0}
-                  style={{ width: 'auto', minWidth: insets.isPhone ? 0 : '220px', opacity: selectionCount === 0 ? 0.35 : 1 }}>
+                  style={{ width: 'auto', minWidth: insets.isPhone ? 0 : '220px', opacity: selectionCount === 0 ? 0.35 : 1, ...compactButtonStyle }}>
                   {selectionCount === 0 ? 'Select Provisions First' : `Finalize Package (${selectionCount}/12)`}
                 </button>
               ) : (
-                <button className="choice-btn" onClick={advanceQueue} style={{ width: 'auto', minWidth: insets.isPhone ? 0 : '220px' }}>
+                <button className="choice-btn" onClick={advanceQueue} style={{ width: 'auto', minWidth: insets.isPhone ? 0 : '220px', ...compactButtonStyle }}>
                   {continueLabel}
                 </button>
               )}
@@ -362,10 +386,12 @@ export default function ConstitutionalReform() {
         </div>
       </div>
 
+      {!insets.isCompact && (
       <div className={`shrink-0 flex items-center justify-between ${insets.isPhone ? 'px-4' : 'px-6'} py-2 border-t`} style={{ borderColor: 'var(--border)' }}>
         <span className="stamp">Constitutional Convention · Week {currentWeek}</span>
         <span className="stamp">Referendum: Week 26</span>
       </div>
+      )}
     </div>
   )
 }

@@ -231,6 +231,8 @@ export default function BudgetInterface() {
     ? (returnToMap ? 'Commit & Continue →' : 'Commit & Proceed to Evening Review →')
     : `Commit & Continue (${currentQueueIndex + 2}/${sceneQueue.length}) →`
 
+  const compactLabel = continueLabel.replace('Commit & Proceed to Evening Review', 'Commit Budget')
+
   // ── Commit ─────────────────────────────────────────────────────────────────
   function handleCommit() {
     applyBudget(draft)
@@ -242,10 +244,64 @@ export default function BudgetInterface() {
     setDraft({ ...storedBudget })
   }
 
+  const revenueSummary = (
+    <>
+      <SectionLabel>Revenue</SectionLabel>
+      <Rule />
+      <RevenueRow label="Tax Revenue"      value={draft.taxRevenue}     />
+      <RevenueRow label="State Industries" value={draft.stateIndustry}  />
+      <RevenueRow label="Customs & Tariffs"value={draft.customsTariffs} />
+      <RevenueRow label="Foreign Aid"      value={draft.foreignAid}     />
+      <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', marginTop: '8px', borderTop: '1px solid rgba(201,168,76,0.3)' }}>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: '800', color: '#e8d5a3', letterSpacing: '0.08em' }}>TOTAL</span>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: '800', color: '#c9a84c', letterSpacing: '0.08em' }}>{totalRevenue}M ₭</span>
+      </div>
+
+      <div style={{ margin: '1.2rem 0 0.8rem', height: '1px', background: 'var(--border)' }} />
+
+      <SectionLabel>Fiscal Summary</SectionLabel>
+
+      {/* Expenditure total */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.04em' }}>Expenditure</span>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.06em' }}>{totalExpenditure}M</span>
+      </div>
+
+      {/* Deficit */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.35rem 0', marginTop: '0.25rem', borderTop: '1px solid var(--border)' }}>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.06em' }}>
+          {deficit <= 0 ? 'SURPLUS' : 'DEFICIT'}
+        </span>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: deficitColor, letterSpacing: '0.08em', fontWeight: '700' }}>
+          {deficit > 0 ? '-' : '+'}{Math.abs(deficit)}M ₭
+        </span>
+      </div>
+
+      {/* Debt */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.04em' }}>National Debt</span>
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.06em' }}>{nationalDebt}M ₭</span>
+      </div>
+
+      {deficit > 65 && (
+        <p style={{ fontFamily: "'Georgia', serif", fontSize: '10px', letterSpacing: '0.1em', color: 'var(--accent-red)', textTransform: 'uppercase', marginTop: '0.8rem', lineHeight: 1.6 }}>
+          ⚠ Deficit exceeds baseline. Debt growth accelerating.
+        </p>
+      )}
+
+      {deficit <= 0 && (
+        <p style={{ fontFamily: "'Georgia', serif", fontSize: '10px', letterSpacing: '0.1em', color: 'var(--accent-green)', textTransform: 'uppercase', marginTop: '0.8rem', lineHeight: 1.6 }}>
+          ✓ Budget balanced. Debt service sustainable.
+        </p>
+      )}
+    </>
+  )
+
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(8,6,4,0.92)', paddingTop: insets.top, paddingBottom: insets.bottom }}>
+    <div data-layout={insets.isCompact ? 'compact' : undefined} className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(8,6,4,0.92)', paddingTop: insets.top, paddingBottom: insets.bottom }}>
 
       {/* ── Header ──────────────────────────────────────────────── */}
+      {!insets.isCompact && (
       <div className={`shrink-0 flex items-center justify-between ${insets.isPhone ? 'px-4' : 'px-8'} py-3`} style={{ borderBottom: '1px solid rgba(201,168,76,0.25)' }}>
         <span style={{ fontFamily: "'Georgia', serif", fontSize: '11px', letterSpacing: '2px', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase' }}>
           The Mandate — Republic of Veltria, 1963
@@ -254,11 +310,13 @@ export default function BudgetInterface() {
           Week {currentWeek} · Budget Review
         </span>
       </div>
+      )}
 
       {/* ── Body ────────────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden" style={{ paddingRight: insets.right }}>
 
         {/* ── Left: Revenue + Summary ─────────────────────────── */}
+        {!insets.isCompact && (
         <div
           className="hidden md:flex flex-col shrink-0 overflow-y-auto"
           style={{ borderColor: 'rgba(201,168,76,0.25)', borderRight: '1px solid rgba(201,168,76,0.25)', width: '230px', padding: '1.8rem 1.4rem' }}
@@ -286,55 +344,9 @@ export default function BudgetInterface() {
             </p>
           </div>
 
-          <SectionLabel>Revenue</SectionLabel>
-          <Rule />
-          <RevenueRow label="Tax Revenue"      value={draft.taxRevenue}     />
-          <RevenueRow label="State Industries" value={draft.stateIndustry}  />
-          <RevenueRow label="Customs & Tariffs"value={draft.customsTariffs} />
-          <RevenueRow label="Foreign Aid"      value={draft.foreignAid}     />
-          <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', marginTop: '8px', borderTop: '1px solid rgba(201,168,76,0.3)' }}>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: '800', color: '#e8d5a3', letterSpacing: '0.08em' }}>TOTAL</span>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: '800', color: '#c9a84c', letterSpacing: '0.08em' }}>{totalRevenue}M ₭</span>
-          </div>
-
-          <div style={{ margin: '1.2rem 0 0.8rem', height: '1px', background: 'var(--border)' }} />
-
-          <SectionLabel>Fiscal Summary</SectionLabel>
-
-          {/* Expenditure total */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.04em' }}>Expenditure</span>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.06em' }}>{totalExpenditure}M</span>
-          </div>
-
-          {/* Deficit */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.35rem 0', marginTop: '0.25rem', borderTop: '1px solid var(--border)' }}>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.06em' }}>
-              {deficit <= 0 ? 'SURPLUS' : 'DEFICIT'}
-            </span>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: deficitColor, letterSpacing: '0.08em', fontWeight: '700' }}>
-              {deficit > 0 ? '-' : '+'}{Math.abs(deficit)}M ₭
-            </span>
-          </div>
-
-          {/* Debt */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0' }}>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', color: '#e8d5a3', letterSpacing: '0.04em' }}>National Debt</span>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '12px', fontWeight: '700', color: '#c9a84c', letterSpacing: '0.06em' }}>{nationalDebt}M ₭</span>
-          </div>
-
-          {deficit > 65 && (
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: '10px', letterSpacing: '0.1em', color: 'var(--accent-red)', textTransform: 'uppercase', marginTop: '0.8rem', lineHeight: 1.6 }}>
-              ⚠ Deficit exceeds baseline. Debt growth accelerating.
-            </p>
-          )}
-
-          {deficit <= 0 && (
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: '10px', letterSpacing: '0.1em', color: 'var(--accent-green)', textTransform: 'uppercase', marginTop: '0.8rem', lineHeight: 1.6 }}>
-              ✓ Budget balanced. Debt service sustainable.
-            </p>
-          )}
+          {revenueSummary}
         </div>
+        )}
 
         {/* ── Centre: Expenditure sliders ──────────────────────── */}
         <div className="flex flex-col flex-1 overflow-hidden">
@@ -342,7 +354,13 @@ export default function BudgetInterface() {
           {insets.isPhone && (
             <FiscalStrip revenue={totalRevenue} spending={totalExpenditure} deficit={deficit} deficitColor={deficitColor} debt={nationalDebt} />
           )}
-          <div className="flex-1 overflow-y-auto budget-sliders" style={{ padding: insets.isPhone ? '1rem' : '1.8rem 2rem' }}>
+          <div
+            className={`${insets.isCompact ? 'flex-1 min-h-0' : 'flex-1'} overflow-y-auto budget-sliders`}
+            style={{ padding: insets.isCompact ? '0.6rem 16px' : insets.isPhone ? '1rem' : '1.8rem 2rem' }}
+          >
+            {insets.isCompact && (
+              <div style={{ marginBottom: '1rem' }}>{revenueSummary}</div>
+            )}
 
             <div style={{ marginBottom: '1.5rem' }}>
               <SectionLabel>Expenditure Allocation</SectionLabel>
@@ -382,7 +400,10 @@ export default function BudgetInterface() {
           </div>
 
           {/* Commit bar */}
-          <div className={`shrink-0 flex items-center justify-between gap-3 ${insets.isPhone ? 'px-4' : 'px-8'} py-4`} style={{ borderTop: '1px solid rgba(201,168,76,0.25)' }}>
+          <div
+            className={`shrink-0 flex items-center justify-between gap-3 ${insets.isCompact ? '' : `${insets.isPhone ? 'px-4' : 'px-8'} py-4`}`}
+            style={{ borderTop: '1px solid rgba(201,168,76,0.25)', ...(insets.isCompact ? { padding: '6px 16px' } : {}) }}
+          >
             <button
               onClick={handleReset}
               style={{
@@ -393,8 +414,9 @@ export default function BudgetInterface() {
                 textTransform: 'uppercase',
                 background: 'transparent',
                 border: '1px solid rgba(201,168,76,0.4)',
-                padding: insets.isPhone ? '12px' : '12px 24px',
+                padding: insets.isCompact ? '8px 16px' : insets.isPhone ? '12px' : '12px 24px',
                 cursor: 'pointer',
+                ...(insets.isCompact ? { minHeight: 40, fontSize: '11px' } : {}),
               }}
             >
               Reset to Current
@@ -413,11 +435,12 @@ export default function BudgetInterface() {
                 fontWeight: '700',
                 letterSpacing: '1px',
                 padding: '12px 32px',
+                ...(insets.isCompact ? { padding: '8px 20px', minHeight: 40, fontSize: '13px' } : {}),
               }}
               onMouseEnter={e => (e.currentTarget.style.background = '#dbb960')}
               onMouseLeave={e => (e.currentTarget.style.background = '#c9a84c')}
             >
-              {continueLabel}
+              {insets.isCompact ? compactLabel : continueLabel}
             </button>
           </div>
         </div>
@@ -451,6 +474,7 @@ export default function BudgetInterface() {
       </div>
 
       {/* ── Footer ──────────────────────────────────────────────── */}
+      {!insets.isCompact && (
       <div className={`shrink-0 flex items-center justify-between ${insets.isPhone ? 'px-4' : 'px-8'} py-3`} style={{ borderTop: '1px solid rgba(201,168,76,0.25)' }}>
         <span style={{ fontFamily: "'Georgia', serif", fontSize: '9px', letterSpacing: '2px', color: 'rgba(201,168,76,0.4)', textTransform: 'uppercase' }}>
           STATUS: ACTIVE · WEEK {currentWeek}
@@ -459,6 +483,7 @@ export default function BudgetInterface() {
           {import.meta.env.DEV ? 'THE MANDATE — V0.0.1 · CTRL+D — DEBUG' : 'THE MANDATE — V0.0.1'}
         </span>
       </div>
+      )}
     </div>
   )
 }
