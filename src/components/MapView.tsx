@@ -11,14 +11,13 @@ import { useGameStore } from '../stores/gameStore'
 import { PROVINCES } from '../data/provinces'
 import { countryBounds, desktopZoom, phoneZoom, panToCenter, clampPan } from './map/mapFit'
 import { computeProvinceStatus } from './map/provinceStatus'
-import ProvinceChip from './map/ProvinceChip'
+import NationDossier from './map/NationDossier'
+import foreignNations from '../data/nations/foreignNations.json'
 
 /** Below this width the full map fits the whole country instead of covering the screen. */
 const PHONE_BREAKPOINT = 768
 /** Phone top bar + bottom nav, kept clear when fitting the country. */
 const PHONE_CHROME_HEIGHT = 112
-/** Province chips shrink on phones so neighbouring provinces' chips do not overlap. */
-const PHONE_CHIP_SIZE = 0.82
 import veltriaMapImg from '../assets/maps/veltria_map_full.jpeg'
 import pinAshenmere    from '../assets/images/pins/pin_ashenmere.png'
 import pinKravenstal   from '../assets/images/pins/pin_kravenstal.png'
@@ -45,6 +44,16 @@ interface ProvinceZone {
   left: number; top: number; width: number; height: number
   primaryFaction: keyof GameState['factions']
 }
+
+// Foreign-nation dossier zones, derived from fractional data in foreignNations.json
+const FOREIGN_ZONES = foreignNations.map(n => ({
+  id: n.id,
+  name: n.name,
+  left: Math.round(MAP_RENDER_WIDTH * n.zone.left),
+  top: Math.round(MAP_RENDER_HEIGHT * n.zone.top),
+  width: Math.round(MAP_RENDER_WIDTH * n.zone.width),
+  height: Math.round(MAP_RENDER_HEIGHT * n.zone.height),
+}))
 
 const PROVINCE_ZONES: ProvinceZone[] = [
   { id: 'ashenmere',    name: 'Ashenmere',    label: 'Capital Region',
@@ -149,7 +158,7 @@ export default function MapView({ onProvinceDetail }: {
   onProvinceDetail?: (id: string) => void
 }) {
   const mapOpen    = useSettingsStore(s => s.mapOpen)
-  const phase      = useWeekStore(s => s.phase)
+  const phase     = useWeekStore(s => s.phase)
   // gameState / factions / activeFlags fed only the commented-out statuses (HIDDEN medallion) block
   // const gameState  = useGameStore()
   // const factions   = useGameStore(s => s.factions)
@@ -158,6 +167,8 @@ export default function MapView({ onProvinceDetail }: {
   const completedItemIds = useWeekStore(s => s.completedItemIds)
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const [hoveredBuilding, setHoveredBuilding] = useState<string | null>(null)
+  const [dossierId, setDossierId] = useState<string | null>(null)
+  const [hoveredNationId, setHoveredNationId] = useState<string | null>(null)
 
   const provincesWithScenes = useMemo(() => {
     const active = new Set<string>()
@@ -298,8 +309,6 @@ export default function MapView({ onProvinceDetail }: {
   // ── Background mode: map behind game UI, centered, not pannable ─────────────
   if (!mapOpen) {
     const bgPan = homePan(dynamicZoom)
-    // The background is the week map during the map phase; behind scenes it stays bare.
-    const showChips = phase === 'map'
     return (
       <div style={{
         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -456,16 +465,6 @@ export default function MapView({ onProvinceDetail }: {
                     )}
                   </div>
                 )}
-                {showChips && provinceStatuses.has(id) && (
-                  <ProvinceChip
-                    name={PROVINCES[id]?.name ?? id}
-                    level={provinceStatuses.get(id)!.level}
-                    color={provinceStatuses.get(id)!.color}
-                    mapZoom={dynamicZoom}
-                    showName={isPhone}
-                    size={isPhone ? PHONE_CHIP_SIZE : 1}
-                  />
-                )}
               </div>
             )
           })}
@@ -476,6 +475,7 @@ export default function MapView({ onProvinceDetail }: {
 
   // ── Interactive overlay mode: full-screen pannable map ──────────────────────
   return (
+    <>
     <div style={{
       position: 'fixed', inset: 0, zIndex: 200,
       background: '#7a9aaa',
@@ -540,6 +540,37 @@ export default function MapView({ onProvinceDetail }: {
                 transition: 'background 0.3s ease, border-color 0.3s ease',
                 zIndex: hoveredId === zone.id ? 3 : 1,
                 borderRadius: '2px',
+              }}
+            />
+          ))}
+
+          {/* Foreign nation dossier zones — same pixel space as province zones */}
+          {FOREIGN_ZONES.map(zone => (
+            <div
+              key={zone.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`${zone.name}: open dossier`}
+              title={zone.name}
+              data-testid={`nation-zone-${zone.id}`}
+              onMouseEnter={() => setHoveredNationId(zone.id)}
+              onMouseLeave={() => setHoveredNationId(null)}
+              onClick={(e) => { e.stopPropagation(); setDossierId(zone.id) }}
+              onKeyDown={(e) => {
+                if (e.key !== 'Enter' && e.key !== ' ') return
+                e.preventDefault()
+                e.stopPropagation()
+                setDossierId(zone.id)
+              }}
+              style={{
+                position: 'absolute',
+                left: zone.left, top: zone.top,
+                width: zone.width, height: zone.height,
+                background: 'transparent',
+                boxShadow: hoveredNationId === zone.id ? 'inset 0 0 0 1px rgba(181,154,94,0.5)' : 'none',
+                cursor: 'pointer',
+                transition: 'box-shadow 0.2s ease',
+                zIndex: 2,
               }}
             />
           ))}
@@ -722,16 +753,6 @@ export default function MapView({ onProvinceDetail }: {
                     )}
                   </div>
                 )}
-                {provinceStatuses.has(id) && (
-                  <ProvinceChip
-                    name={PROVINCES[id]?.name ?? id}
-                    level={provinceStatuses.get(id)!.level}
-                    color={provinceStatuses.get(id)!.color}
-                    mapZoom={effectiveZoom}
-                    showName={isPhone}
-                    size={isPhone ? PHONE_CHIP_SIZE : 1}
-                  />
-                )}
               </div>
             )
           })}
@@ -743,20 +764,8 @@ export default function MapView({ onProvinceDetail }: {
         </div>
       </div>
 
-      {/* Footer */}
-      <div style={{
-        position: 'fixed', bottom: 0, left: 0, right: '68px',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '0.4rem 2rem', borderTop: '1px solid rgba(200,144,42,0.2)',
-        background: 'rgba(10,8,6,0.95)', zIndex: 10005,
-      }}>
-        <span style={{ fontSize: '0.48rem', letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>
-          Province status reflects current national conditions
-        </span>
-        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.52rem', letterSpacing: '0.06em', color: 'var(--amber-dim)', fontStyle: 'italic' }}>
-          Classified — Chancellor Eyes Only
-        </span>
-      </div>
     </div>
+    {dossierId && <NationDossier nationId={dossierId} onClose={() => setDossierId(null)} />}
+    </>
   )
 }
