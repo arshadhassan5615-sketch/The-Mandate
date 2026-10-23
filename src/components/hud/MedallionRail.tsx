@@ -13,8 +13,6 @@ interface MedallionRailProps {
   settings: { onClick: () => void }
 }
 
-const CAPSULE_BG = 'linear-gradient(90deg,#0d0d0d 0%,#030303 100%)'
-const CREAM = '#e6dcc3'
 const BADGE_RED = '#b5452f'
 
 interface MedallionButtonProps {
@@ -30,24 +28,28 @@ function MedallionButton({ item, scale }: MedallionButtonProps) {
   return (
     <button
       type="button"
-      className="hud-medallion"
+      className={big ? 'hud-medallion hud-medallion--news' : 'hud-medallion'}
       onClick={onClick}
       aria-label={badge > 0 ? `${label}, ${badge} new` : label}
       aria-pressed={active}
       aria-keyshortcuts={shortcut}
-      style={{ width: size, height: size, flexShrink: 0 }}
+      style={{ width: size, height: size, flexShrink: 0, marginBottom: big ? 6 : undefined }}
     >
       {big ? (
         <>
           <span style={{
-            fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: compact ? '15px' : '20px',
-            lineHeight: 1, color: CREAM,
+            fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: compact ? '17px' : '23px',
+            lineHeight: 1, color: '#f3e3b8',
           }}>
             {count}
           </span>
-          <span style={{
-            fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', letterSpacing: '0.12em',
-            textTransform: 'uppercase', color: 'rgba(230,220,195,0.8)',
+          <span data-testid="news-plaque" style={{
+            position: 'absolute', left: '50%', bottom: compact ? -8 : -10, transform: 'translateX(-50%)',
+            padding: compact ? '0 5px' : '0 7px', borderRadius: 6,
+            background: '#2a2a2a', border: '1px solid #5c5c5c',
+            fontFamily: "'Playfair Display', serif", fontWeight: 700,
+            fontSize: compact ? '9px' : '11px', lineHeight: compact ? '13px' : '16px',
+            color: '#efe1bb', whiteSpace: 'nowrap', boxShadow: '0 2px 4px rgba(0,0,0,0.6)',
           }}>
             {label}
           </span>
@@ -79,8 +81,8 @@ export default function MedallionRail({ scale, items, more, settings }: Medallio
         transform: 'translateY(-50%)',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: `${sizes.railGap}px`,
         padding: `${sizes.railPadX}px ${sizes.railPadX - 2}px ${sizes.railPadX}px ${sizes.railPadX}px`,
-        background: CAPSULE_BG,
-        border: '1px solid rgba(181,154,94,0.35)', borderRight: 'none',
+        background: '#111111',
+        border: '1px solid rgba(120,120,120,0.35)', borderRight: 'none',
         borderRadius: '40px 0 0 40px',
         boxShadow: '-6px 0 20px rgba(0,0,0,0.5)',
         overflow: 'visible',
