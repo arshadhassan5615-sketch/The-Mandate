@@ -8,7 +8,6 @@ import { ALL_CODEX_ENTRIES, useCodexStore } from '../../stores/codexStore'
 import { charName } from './speakers'
 import ChoiceCard from './ChoiceCard'
 import type { ChoiceCardState } from './ChoiceCard'
-import SceneHeader from './SceneHeader'
 import { renderWithEntities } from '../news/EntityLinker'
 import PortraitRail from './PortraitRail'
 import { sceneParticipants } from './participants'
@@ -286,12 +285,10 @@ interface ConversationPanelProps {
 type ChoicePhase = 'idle' | 'pulsing' | 'fading' | 'showing_reactions' | 'reactions_fading' | 'done'
 
 export default function ConversationPanel({
-  sceneType,
   history, activeSegment, activeText, showCursor,
   choices, showChoices, sceneDone, allDone, segmentDone,
   onChoice, onAdvanceQueue, continueLabel,
   monologueText,
-  sceneTitle, sceneLocation, currentWeek,
 }: ConversationPanelProps) {
   const historyRef = useRef<HTMLDivElement>(null)
   const dialogueEndRef = useRef<HTMLDivElement>(null)
@@ -821,8 +818,6 @@ export default function ConversationPanel({
             justifyContent: 'flex-start',
           }}
         >
-          {/* The header is part of the log, so it scrolls away with the conversation */}
-          <SceneHeader title={sceneTitle} location={sceneLocation} week={currentWeek} sceneType={sceneType} />
           {history.map((entry, index) => {
             const isNewest = !activeSegment && index === history.length - 1
             const newestColor = isNewest ? { color: NEWEST_TEXT_COLOR } : undefined

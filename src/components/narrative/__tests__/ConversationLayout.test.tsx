@@ -172,20 +172,13 @@ describe('ConversationPanel viewport layouts', () => {
     expect(screen.getByTestId('portrait-rail-anchor')).toBeInTheDocument()
     expect(container.querySelector('[data-layout="row"]')).toBeNull()
     expect(screen.getByLabelText('Scroll to top of conversation')).toBeInTheDocument()
-    expect(screen.getAllByText('Layout Probe')).toHaveLength(1)
+    expect(screen.queryByText('Layout Probe')).toBeNull()
   })
 })
 
 describe('ConversationPanel desktop column', () => {
   const originalWidth = window.innerWidth
   const originalHeight = window.innerHeight
-
-  // Nearest ancestor that scrolls vertically (the history log or the inner column).
-  function nearestScroller(el: HTMLElement): HTMLElement | null {
-    let node: HTMLElement | null = el.parentElement
-    while (node && node.style.overflowY !== 'auto') node = node.parentElement
-    return node
-  }
 
   beforeEach(() => {
     Object.defineProperty(window, 'innerWidth', { value: 1440, configurable: true, writable: true })
@@ -298,12 +291,11 @@ describe('ConversationPanel desktop column', () => {
     expect(screen.getByText('Gregor Marić :')).toBeInTheDocument()
   })
 
-  it('renders the scene title once, inside the scrolling history', () => {
+  it('shows only the conversation: no scene title, location or week header', () => {
     renderPanel(undefined, 'Column Probe')
-    const titles = screen.getAllByText('Column Probe')
-    expect(titles).toHaveLength(1)
-    const firstLine = screen.getByText('"A"')
-    expect(nearestScroller(titles[0])).toBe(nearestScroller(firstLine))
+    expect(screen.queryByText('Column Probe')).toBeNull()
+    expect(screen.queryByText(/week\s*2/i)).toBeNull()
+    expect(screen.getByText('"A"')).toBeInTheDocument()
   })
 })
 
