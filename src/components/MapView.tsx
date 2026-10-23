@@ -19,21 +19,12 @@ const PHONE_BREAKPOINT = 768
 /** Phone top bar + bottom nav, kept clear when fitting the country. */
 const PHONE_CHROME_HEIGHT = 112
 import veltriaMapImg from '../assets/maps/veltria_map_full.jpeg'
-import pinAshenmere    from '../assets/images/pins/pin_ashenmere.png'
-import pinKravenstal   from '../assets/images/pins/pin_kravenstal.png'
-import pinDravenhollow from '../assets/images/pins/pin_dravenhollow.png'
-import pinThornfeld    from '../assets/images/pins/pin_thornfeld.png'
-import pinAldenmoor    from '../assets/images/pins/pin_aldenmoor.png'
-import pinSevagrad     from '../assets/images/pins/pin_sevagrad.png'
+import ProvinceSeal from './map/seals/ProvinceSeal'
+import { PROVINCE_SEALS, sealLift, sealSizeFor, type SealProvinceId } from './map/seals/provinceSeals'
+import { getSealArt } from '../assets/sealArt'
 
-const PROVINCE_BUILDINGS = [
-  { id: 'ashenmere',    img: pinAshenmere    },
-  { id: 'kravenstal',   img: pinKravenstal   },
-  { id: 'dravenhollow', img: pinDravenhollow },
-  { id: 'thornfeld',    img: pinThornfeld    },
-  { id: 'aldenmoor',    img: pinAldenmoor    },
-  { id: 'sevagrad',     img: pinSevagrad     },
-] as const
+/** Home provinces that carry a seal on the map. */
+const SEAL_PROVINCE_IDS: readonly SealProvinceId[] = ['ashenmere', 'kravenstal', 'dravenhollow', 'thornfeld', 'aldenmoor', 'sevagrad']
 
 // ─── Province click zones (pixel-based, relative to map image dimensions) ─────
 
@@ -229,7 +220,7 @@ export default function MapView({ onProvinceDetail }: {
   const nation = useGameStore(s => s.nation)
   const factions = useGameStore(s => s.factions)
   const provinceStatuses = useMemo(() => new Map(
-    PROVINCE_BUILDINGS.map(({ id }) => [id, computeProvinceStatus(id, { nation, factions })]),
+    SEAL_PROVINCE_IDS.map(id => [id, computeProvinceStatus(id, { nation, factions })]),
   ), [nation, factions])
 
   const handleFocusProvince = (id: string) => {
@@ -384,9 +375,9 @@ export default function MapView({ onProvinceDetail }: {
               stroke="#3d3a35" strokeWidth={1.8} strokeDasharray="2,5"
               fill="none" strokeLinecap="round" opacity={0.7} />
           </svg>
-          {/* Always-visible province buildings */}
-          {PROVINCE_BUILDINGS.map(({ id, img }) => {
-            const pos = PROVINCE_PIN_POSITIONS[id as keyof typeof PROVINCE_PIN_POSITIONS]
+          {/* Province seals */}
+          {SEAL_PROVINCE_IDS.map(id => {
+            const pos = PROVINCE_PIN_POSITIONS[id]
             if (!pos) return null
             const hasScenes  = provincesWithScenes.has(id)
             const isHovered  = hoveredBuilding === id
@@ -396,8 +387,8 @@ export default function MapView({ onProvinceDetail }: {
                 style={{
                   position: 'absolute',
                   left: pos.x,
-                  top: pos.y,
-                  transform: `translate(-50%, -105%) scale(${isHovered ? 1.12 : 1.0})`,
+                  top: pos.y - sealLift(id),
+                  transform: 'translate(-50%, -50%)',
                   transition: 'transform 0.18s ease, filter 0.18s ease',
                   cursor: 'pointer',
                   userSelect: 'none',
@@ -419,21 +410,15 @@ export default function MapView({ onProvinceDetail }: {
                   onProvinceDetail?.(id)
                 }}
               >
-                <img
-                  src={img}
-                  alt={id}
-                  style={{
-                    width: 180,
-                    height: 'auto',
-                    display: 'block',
-                    pointerEvents: 'none',
-                    userSelect: 'none',
-                    opacity: 0.92,
-                    filter: hasScenes
-                      ? `drop-shadow(0 0 12px rgba(201,168,76,0.8)) drop-shadow(0 4px 8px rgba(0,0,0,0.45))`
-                      : `drop-shadow(0 4px 8px rgba(0,0,0,0.45))`,
-                  }}
-                  draggable={false}
+                <ProvinceSeal
+                  name={PROVINCE_SEALS[id].name}
+                  emblem={PROVINCE_SEALS[id].emblem}
+                  field={PROVINCE_SEALS[id].field}
+                  isCapital={PROVINCE_SEALS[id].isCapital}
+                  size={sealSizeFor(id)}
+                  isLit={hasScenes}
+                  isHovered={isHovered}
+                  art={getSealArt(id)}
                 />
                 {/* Events hint on hover — only when there is something to say */}
                 {isHovered && hasScenes && (
@@ -672,9 +657,9 @@ export default function MapView({ onProvinceDetail }: {
               fill="none" strokeLinecap="round" opacity={0.7} />
           </svg>
 
-          {/* Always-visible province buildings */}
-          {PROVINCE_BUILDINGS.map(({ id, img }) => {
-            const pos = PROVINCE_PIN_POSITIONS[id as keyof typeof PROVINCE_PIN_POSITIONS]
+          {/* Province seals */}
+          {SEAL_PROVINCE_IDS.map(id => {
+            const pos = PROVINCE_PIN_POSITIONS[id]
             if (!pos) return null
             const hasScenes  = provincesWithScenes.has(id)
             const isHovered  = hoveredBuilding === id
@@ -684,8 +669,8 @@ export default function MapView({ onProvinceDetail }: {
                 style={{
                   position: 'absolute',
                   left: pos.x,
-                  top: pos.y,
-                  transform: `translate(-50%, -105%) scale(${isHovered ? 1.12 : 1.0})`,
+                  top: pos.y - sealLift(id),
+                  transform: 'translate(-50%, -50%)',
                   transition: 'transform 0.18s ease, filter 0.18s ease',
                   cursor: 'pointer',
                   userSelect: 'none',
@@ -707,21 +692,15 @@ export default function MapView({ onProvinceDetail }: {
                   onProvinceDetail?.(id)
                 }}
               >
-                <img
-                  src={img}
-                  alt={id}
-                  style={{
-                    width: 180,
-                    height: 'auto',
-                    display: 'block',
-                    pointerEvents: 'none',
-                    userSelect: 'none',
-                    opacity: 0.92,
-                    filter: hasScenes
-                      ? `drop-shadow(0 0 12px rgba(201,168,76,0.8)) drop-shadow(0 4px 8px rgba(0,0,0,0.45))`
-                      : `drop-shadow(0 4px 8px rgba(0,0,0,0.45))`,
-                  }}
-                  draggable={false}
+                <ProvinceSeal
+                  name={PROVINCE_SEALS[id].name}
+                  emblem={PROVINCE_SEALS[id].emblem}
+                  field={PROVINCE_SEALS[id].field}
+                  isCapital={PROVINCE_SEALS[id].isCapital}
+                  size={sealSizeFor(id)}
+                  isLit={hasScenes}
+                  isHovered={isHovered}
+                  art={getSealArt(id)}
                 />
                 {/* Events hint on hover — only when there is something to say */}
                 {isHovered && hasScenes && (
