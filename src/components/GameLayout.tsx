@@ -23,7 +23,6 @@ import ProjectMidpointModal from './ProjectMidpointModal'
 import NewsOverlay from './NewsOverlay'
 import LegislationOverlay from './LegislationOverlay'
 import ParliamentOverlay from './ParliamentOverlay'
-import MorningBriefing from './MorningBriefing'
 import AgendaSelector from './AgendaSelector'
 import NarrativeScene from './NarrativeScene'
 import BudgetInterface from './BudgetInterface'
@@ -165,6 +164,11 @@ export default function GameLayout() {
     return () => clearTimeout(t)
   }, [phase, actShown])
 
+  // The week opens straight on the map: the briefing and press pages are skipped.
+  useEffect(() => {
+    if (phase === 'briefing') useWeekStore.getState().skipWeekOpening()
+  }, [phase])
+
   // Auto-open news overlay when entering press phase
   useEffect(() => {
     if (phase === 'press') {
@@ -218,7 +222,6 @@ export default function GameLayout() {
       {phase === 'customization' && <CharacterCustomization />}
       {phase === 'cinematic'     && <CinematicOpening />}
       {phase === 'prologue'      && <ChildhoodPrologue />}
-      {phase === 'briefing' && <MorningBriefing />}
 
       {/* Press phase — newspaper overlays with footer */}
       {phase === 'press' && (

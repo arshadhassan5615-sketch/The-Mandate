@@ -32,6 +32,7 @@ import { DIVERGENT_ARTICLES } from '../data/newspapers/divergent_coverage'
 import { useCabinetStore } from './cabinetStore'
 import { generateWeeklyRequests } from '../data/ministerRequests'
 import { calculateElectionResult } from '../engine/ElectionEngine'
+import { scheduleWeekStartChains } from '../engine/weekStartChains'
 
 // ─── Pending transition timeouts ──────────────────────────────────────────────
 // Track setTimeout IDs so resetToInitial / startCustomization can cancel them
@@ -383,7 +384,7 @@ interface WeekStore {
   startPrologue:      () => void    // customization → childhood prologue
   startCinematic:     () => void    // cinematic sequence
   initWeek:          () => void
-  endBriefing:       () => void     // briefing → press (then agenda)
+  skipWeekOpening:   () => void     // week start: schedules chains, skips the briefing and press pages
   endPress:          () => void     // press → agenda (or legislation if bills)
   endLegislation:    () => void     // legislation → agenda
   toggleAgendaItem:  (id: string) => void
@@ -900,7 +901,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     for (const letter of dueLetters) {
       if (!letterStore.readIds.has(letter.id)) {
         letterStore.triggerLetter(letter.id)
-        // Close immediately so the notification shows in briefing
+        // Close immediately; the unread letter waits in the sidebar
         // The player opens it via sidebar or notification
         letterStore.setOpen(false)
       }
@@ -1074,12 +1075,13 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     })
   },
 
-  endBriefing: () => {
-    const gameState = useGameStore.getState()
-    if (gameState.currentWeek === 1) {
+  skipWeekOpening: () => {
+    const week = useGameStore.getState().currentWeek
+    scheduleWeekStartChains(week)
+    if (week === 1) {
       set({ phase: 'map' })
     } else {
-      set({ phase: 'press' })
+      get().endPress()
     }
   },
 
