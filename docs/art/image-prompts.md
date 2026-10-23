@@ -479,3 +479,30 @@ colours, perfect stripes and braid) and place the emblem on it.
 
 Save each file under the exact name and folder above, then tell me. I'll
 register them and wire them into their scenes.
+
+## Province medals for the map
+
+Painted medals replace the code-drawn seals on the map. Save each one as
+`src/assets/images/seals/<provinceId>.png` (PNG, transparent background) and the
+map picks it up automatically. `ashenmere.png` (the capital, gold with a laurel
+wreath) is already in place; the five cities below are plainer bronze medals so
+the capital stands out.
+
+Shared style (already included in every prompt): same 3/4 tilted view and studio
+lighting as the Ashenmere medal, 1960s Central European civic heraldry, no text,
+transparent background, square 1024×1024.
+
+### kravenstal.png — industrial city
+A single sculpted civic medal, three-quarter view lying slightly tilted, isolated on a pure transparent background. Aged dark bronze with soft highlights and a plain bevelled rim decorated with a ring of small raised beads (no laurel wreath). On its face: a crossed hammer and miner's pick in raised bronze, set on deep rust-red enamel inside a thin cream enamel ring. Heavy, industrial, slightly worn finish. Clean 1960s Central European civic-heraldry style, soft studio lighting from the top-left, subtle shadow under the medal. No text, no ribbon, no background. Square, 1024×1024, PNG with transparency.
+
+### thornfeld.png — agricultural heartland
+A single sculpted civic medal, three-quarter view lying slightly tilted, isolated on a pure transparent background. Warm aged bronze with soft highlights and a plain bevelled rim decorated with a ring of small raised beads (no laurel wreath). On its face: a raised bronze sheaf of wheat bound with a cord, with a small church-steeple cross above it, set on golden-ochre enamel inside a thin cream enamel ring. Calm, pastoral, traditional. Clean 1960s Central European civic-heraldry style, soft studio lighting from the top-left, subtle shadow under the medal. No text, no ribbon, no background. Square, 1024×1024, PNG with transparency.
+
+### sevagrad.png — eastern frontier fortress
+A single sculpted civic medal, three-quarter view lying slightly tilted, isolated on a pure transparent background. Weathered dark bronze with a slightly battle-worn patina and a plain bevelled rim decorated with a ring of small raised beads (no laurel wreath). On its face: a raised bronze fortress gatehouse with crenellated towers and a closed gate, set on slate grey-green enamel inside a thin cream enamel ring. Stern, defensive, austere. Clean 1960s Central European civic-heraldry style, soft studio lighting from the top-left, subtle shadow under the medal. No text, no ribbon, no background. Square, 1024×1024, PNG with transparency.
+
+### aldenmoor.png — the Amber Coast port
+A single sculpted civic medal, three-quarter view lying slightly tilted, isolated on a pure transparent background. Polished bronze with soft highlights and a plain bevelled rim decorated with a ring of small raised beads (no laurel wreath). On its face: a raised bronze ship's anchor with a coiled rope, over two small stylised waves, set on sea-teal enamel inside a thin cream enamel ring. Prosperous, maritime, mercantile. Clean 1960s Central European civic-heraldry style, soft studio lighting from the top-left, subtle shadow under the medal. No text, no ribbon, no background. Square, 1024×1024, PNG with transparency.
+
+### dravenhollow.png — the Dravenni mountains
+A single sculpted civic medal, three-quarter view lying slightly tilted, isolated on a pure transparent background. Aged bronze with soft highlights and a plain bevelled rim decorated with a ring of small raised beads (no laurel wreath). On its face: raised bronze mountain peaks with snow-capped summits in white enamel and a small pine tree in front, set on deep pine-green enamel inside a thin cream enamel ring. Proud, ancient, highland. Clean 1960s Central European civic-heraldry style, soft studio lighting from the top-left, subtle shadow under the medal. No text, no ribbon, no background. Square, 1024×1024, PNG with transparency.
