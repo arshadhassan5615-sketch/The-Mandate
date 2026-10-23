@@ -3,13 +3,10 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import { useViewportMode, type ViewportMode } from '../../hooks/useViewportMode'
 import { cutsceneVariants, getCutsceneArt } from '../../assets/cutscenes'
-import { getPortrait } from '../../assets/potraits'
 import { getLocationArt } from '../../assets/locationArt'
 import establishingShots from '../../data/locations/establishingShots.json'
 import { useCabinetStore } from '../../stores/cabinetStore'
 import { useGameStore } from '../../stores/gameStore'
-import { charName, speakerRole } from '../narrative/speakers'
-import { PLAYER_ID } from '../narrative/participants'
 import { Z } from '../../constants/zIndex'
 import {
   buildIntroQueue,
@@ -18,6 +15,16 @@ import {
   type IntroDeps,
 } from './introQueue'
 import { establishingShownWeek } from './establishingMemory'
+import {
+  CINEMA_FADE_IN_S,
+  CINEMA_FADE_OUT_S,
+  CINEMA_SKIP_FADE_S,
+  CINEMA_ZOOM_SCALE,
+  CINEMA_EASE,
+  cardDwellMs,
+  zoomDurationS,
+  secondsToMs,
+} from './cinematic'
 
 const REAL_DEPS: IntroDeps = {
   art: getCutsceneArt,
@@ -28,15 +35,11 @@ const REAL_DEPS: IntroDeps = {
   },
   minister: ministry => useCabinetStore.getState().getMinister(ministry)?.id ?? null,
   variants: cutsceneVariants,
-  portrait: getPortrait,
-  name: charName,
-  role: speakerRole,
-  playerId: PLAYER_ID,
 }
 
-const CARD_FADE_S = 0.6
-const CAPTION_DELAY_S = 0.5
-const ESTABLISHING_LABEL_DELAY_S = 0.3
+const TEXT_DELAY_S = CINEMA_FADE_IN_S * 0.6
+const TEXT_FADE_S = 1.2
+const CARD_GAP_DELAY_S = CINEMA_FADE_OUT_S * 0.5
 const LETTERBOX = '7vh'
 const CREAM = '#e8dcc0'
 const GOLD = '#c9a84c'
@@ -46,7 +49,6 @@ const FELL = "'IM Fell English', serif"
 
 interface CardProps {
   card: IntroCard
-  mode: ViewportMode
   reduceMotion: boolean
 }
 
@@ -66,7 +68,7 @@ function CinemaOverlay() {
   )
 }
 
-function StillCard({ card, reduceMotion }: Omit<CardProps, 'mode'>) {
+function StillCard({ card, reduceMotion }: CardProps) {
   if (card.kind !== 'still') return null
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
@@ -74,8 +76,8 @@ function StillCard({ card, reduceMotion }: Omit<CardProps, 'mode'>) {
         src={card.image}
         alt=""
         initial={{ scale: 1 }}
-        animate={reduceMotion ? { scale: 1 } : { scale: 1.08 }}
-        transition={{ duration: card.durationMs / 1000, ease: 'linear' }}
+        animate={reduceMotion ? { scale: 1 } : { scale: CINEMA_ZOOM_SCALE }}
+        transition={{ duration: reduceMotion ? 0 : zoomDurationS(card.durationMs), ease: 'linear' }}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       />
       <CinemaOverlay />
@@ -83,7 +85,11 @@ function StillCard({ card, reduceMotion }: Omit<CardProps, 'mode'>) {
         <motion.p
           initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: reduceMotion ? 0 : CAPTION_DELAY_S, duration: reduceMotion ? 0 : CARD_FADE_S }}
+          transition={{
+            delay: reduceMotion ? 0 : TEXT_DELAY_S,
+            duration: reduceMotion ? 0 : TEXT_FADE_S,
+            ease: CINEMA_EASE,
+          }}
           style={{
             position: 'absolute', left: 0, right: 0, margin: '0 auto',
             bottom: `calc(${LETTERBOX} + 16px)`,
@@ -103,7 +109,7 @@ function StillCard({ card, reduceMotion }: Omit<CardProps, 'mode'>) {
   )
 }
 
-function EstablishingCard({ card, reduceMotion }: Omit<CardProps, 'mode'>) {
+function EstablishingCard({ card, reduceMotion }: CardProps) {
   if (card.kind !== 'establishing') return null
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
@@ -111,15 +117,19 @@ function EstablishingCard({ card, reduceMotion }: Omit<CardProps, 'mode'>) {
         src={card.image}
         alt=""
         initial={{ scale: 1 }}
-        animate={reduceMotion ? { scale: 1 } : { scale: 1.05 }}
-        transition={{ duration: card.durationMs / 1000, ease: 'linear' }}
+        animate={reduceMotion ? { scale: 1 } : { scale: CINEMA_ZOOM_SCALE }}
+        transition={{ duration: reduceMotion ? 0 : zoomDurationS(card.durationMs), ease: 'linear' }}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       />
       <CinemaOverlay />
       <motion.div
         initial={reduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: reduceMotion ? 0 : ESTABLISHING_LABEL_DELAY_S, duration: reduceMotion ? 0 : CARD_FADE_S }}
+        transition={{
+          delay: reduceMotion ? 0 : TEXT_DELAY_S,
+          duration: reduceMotion ? 0 : TEXT_FADE_S,
+          ease: CINEMA_EASE,
+        }}
         style={{
           position: 'absolute', left: '6vw', bottom: `calc(${LETTERBOX} + 3vh)`,
           maxWidth: 'min(640px, 88vw)',
@@ -140,103 +150,6 @@ function EstablishingCard({ card, reduceMotion }: Omit<CardProps, 'mode'>) {
           {card.label}
         </div>
       </motion.div>
-    </div>
-  )
-}
-
-function initialsOf(name: string): string {
-  return name
-    .split(/\s+/)
-    .filter(word => word.length > 0)
-    .slice(0, 2)
-    .map(word => word.charAt(0).toUpperCase())
-    .join('')
-}
-
-function PortraitFrame({ name, portrait }: { name: string; portrait: string | null }) {
-  const frameStyle = {
-    width: 'clamp(110px, 32vh, 220px)',
-    aspectRatio: '4 / 5',
-    border: `1px solid ${GOLD}`,
-    overflow: 'hidden',
-    flexShrink: 0,
-    position: 'relative' as const,
-  }
-  if (portrait === null) {
-    return (
-      <div style={{ ...frameStyle, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <span style={{ fontFamily: DISPLAY, fontSize: 'clamp(2rem, 8vh, 4rem)', color: GOLD }}>
-          {initialsOf(name)}
-        </span>
-      </div>
-    )
-  }
-  return (
-    <div style={frameStyle}>
-      <img
-        src={portrait}
-        alt={name}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
-      />
-    </div>
-  )
-}
-
-function IntroductionCard({ card, mode, reduceMotion }: CardProps) {
-  if (card.kind !== 'introduction') return null
-  const isPhone = mode === 'phone'
-  return (
-    <div
-      style={{
-        position: 'absolute', inset: 0,
-        display: 'flex',
-        flexDirection: isPhone ? 'column' : 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: isPhone ? '20px' : '40px',
-        padding: '0 6vw',
-      }}
-    >
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute', top: '50%', left: '50%', pointerEvents: 'none',
-          width: '90vh', height: '90vh', transform: 'translate(-50%, -50%)',
-          background: `radial-gradient(circle, rgba(201,168,76,0.22) 0%, rgba(201,168,76,0) 60%)`,
-        }}
-      />
-      <motion.div
-        initial={reduceMotion ? false : { x: -40, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: reduceMotion ? 0 : 0.6, ease: 'easeOut' }}
-        style={{ position: 'relative' }}
-      >
-        <PortraitFrame name={card.name} portrait={card.portrait} />
-      </motion.div>
-      <div style={{ position: 'relative', maxWidth: 420, textAlign: isPhone ? 'center' : 'left' }}>
-        <div style={{ fontFamily: MONO, fontSize: '10px', letterSpacing: '0.3em', color: GOLD }}>
-          FIRST MEETING
-        </div>
-        <h2
-          style={{
-            fontFamily: DISPLAY, fontWeight: 700, fontSize: 'clamp(1.6rem, 6vh, 3rem)',
-            color: CREAM, margin: '8px 0 0', lineHeight: 1.1,
-          }}
-        >
-          {card.name}
-        </h2>
-        <div style={{ width: '60px', height: '1px', background: GOLD, margin: isPhone ? '14px auto' : '14px 0' }} />
-        {card.role !== undefined && (
-          <p
-            style={{
-              fontFamily: FELL, fontStyle: 'italic', fontSize: 'clamp(0.9rem, 2.6vh, 1.25rem)',
-              color: 'rgba(232,220,192,0.75)', margin: 0,
-            }}
-          >
-            {card.role}
-          </p>
-        )}
-      </div>
     </div>
   )
 }
@@ -265,9 +178,11 @@ function SkipHint({ mode }: { mode: ViewportMode }) {
 
 /**
  * Skippable cinematic shown when a scene starts: painted stills from the
- * scene JSON, then first-meeting cards for one or two newly met characters.
- * Consumes Space/Enter/Escape in the capture phase so the dialogue underneath
- * never sees those keys while the intro is on screen.
+ * scene JSON, or a location establishing shot when the scene has no stills.
+ * Stills and establishing shots fade in and zoom slowly, and the overlay fades
+ * out at the end instead of vanishing. Consumes Space/Enter/Escape in the
+ * capture phase so the dialogue underneath never sees those keys while the
+ * intro is on screen.
  */
 export default function SceneIntro() {
   const currentScene = useNarrativeStore(s => s.currentScene)
@@ -277,52 +192,72 @@ export default function SceneIntro() {
 
   const [queue, setQueue] = useState<IntroCard[]>([])
   const [index, setIndex] = useState(0)
+  const [closing, setClosing] = useState<'natural' | 'skip' | null>(null)
   const lastSceneIdRef = useRef<string | null>(null)
 
   useEffect(() => {
     if (sceneId === lastSceneIdRef.current) return
     lastSceneIdRef.current = sceneId
-    const { currentScene: scene, newlyMetIds } = useNarrativeStore.getState()
+    const { currentScene: scene } = useNarrativeStore.getState()
     const week = useGameStore.getState().currentWeek
     const shot = scene === null ? null : matchEstablishingShot(scene.location, establishingShots)
     const allowEstablishing = shot !== null && establishingShownWeek.get(shot.image) !== week
-    const nextQueue = buildIntroQueue(scene, newlyMetIds, REAL_DEPS, { allowEstablishing })
+    const nextQueue = buildIntroQueue(scene, REAL_DEPS, { allowEstablishing })
     if (shot !== null && nextQueue.some(c => c.kind === 'establishing')) {
       establishingShownWeek.set(shot.image, week)
     }
     setQueue(nextQueue)
     setIndex(0)
+    setClosing(null)
   }, [sceneId])
 
   const card = queue[index] ?? null
   const total = queue.length
 
-  const finish = useCallback(() => {
+  const clearIntro = useCallback(() => {
     setQueue([])
     setIndex(0)
+    setClosing(null)
   }, [])
+
+  const finish = useCallback((how: 'natural' | 'skip') => {
+    if (reduceMotion) {
+      clearIntro()
+      return
+    }
+    setClosing(how)
+  }, [reduceMotion, clearIntro])
 
   const advance = useCallback(() => {
     if (index + 1 >= total) {
-      finish()
+      finish('natural')
       return
     }
     setIndex(index + 1)
   }, [index, total, finish])
 
   useEffect(() => {
-    if (!card) return
-    const timer = window.setTimeout(advance, card.durationMs)
+    if (closing === null) return
+    const timer = window.setTimeout(
+      clearIntro,
+      secondsToMs(closing === 'skip' ? CINEMA_SKIP_FADE_S : CINEMA_FADE_OUT_S),
+    )
     return () => window.clearTimeout(timer)
-  }, [card, advance])
+  }, [closing, clearIntro])
 
   useEffect(() => {
-    if (!card) return
+    if (!card || closing !== null) return
+    const timer = window.setTimeout(advance, cardDwellMs(card.durationMs, reduceMotion))
+    return () => window.clearTimeout(timer)
+  }, [card, advance, closing, reduceMotion])
+
+  useEffect(() => {
+    if (!card || closing !== null) return
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault()
         e.stopImmediatePropagation()
-        finish()
+        finish('skip')
         return
       }
       if (e.key === ' ' || e.key === 'Enter') {
@@ -333,18 +268,30 @@ export default function SceneIntro() {
     }
     window.addEventListener('keydown', handleKeyDown, { capture: true })
     return () => window.removeEventListener('keydown', handleKeyDown, { capture: true })
-  }, [card, advance, finish])
+  }, [card, advance, finish, closing])
 
   if (!card) return null
 
+  const rootFadeS = reduceMotion
+    ? 0
+    : closing === 'skip'
+      ? CINEMA_SKIP_FADE_S
+      : closing === 'natural'
+        ? CINEMA_FADE_OUT_S
+        : CINEMA_FADE_IN_S * 0.5
+
   return (
-    <div
+    <motion.div
       role="dialog"
       aria-modal="true"
       aria-label="Scene introduction"
       data-testid="scene-intro"
       data-kind={card.kind}
-      onClick={advance}
+      data-closing={closing === null ? 'false' : 'true'}
+      onClick={closing === null ? advance : undefined}
+      initial={reduceMotion ? false : { opacity: 0 }}
+      animate={{ opacity: closing === null ? 1 : 0 }}
+      transition={{ duration: rootFadeS, ease: CINEMA_EASE }}
       style={{
         position: 'fixed',
         inset: 0,
@@ -352,6 +299,7 @@ export default function SceneIntro() {
         background: '#050505',
         cursor: 'pointer',
         overflow: 'hidden',
+        pointerEvents: closing === null ? 'auto' : 'none',
       }}
     >
       <SkipHint mode={mode} />
@@ -359,16 +307,24 @@ export default function SceneIntro() {
         <motion.div
           key={index}
           initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: reduceMotion ? 0 : CARD_FADE_S }}
+          animate={{
+            opacity: 1,
+            transition: {
+              duration: reduceMotion ? 0 : CINEMA_FADE_IN_S,
+              delay: reduceMotion || index === 0 ? 0 : CARD_GAP_DELAY_S,
+              ease: CINEMA_EASE,
+            },
+          }}
+          exit={{
+            opacity: 0,
+            transition: { duration: reduceMotion ? 0 : CINEMA_FADE_OUT_S, ease: CINEMA_EASE },
+          }}
           style={{ position: 'absolute', inset: 0 }}
         >
           {card.kind === 'still' && <StillCard card={card} reduceMotion={reduceMotion} />}
           {card.kind === 'establishing' && <EstablishingCard card={card} reduceMotion={reduceMotion} />}
-          {card.kind === 'introduction' && <IntroductionCard card={card} mode={mode} reduceMotion={reduceMotion} />}
         </motion.div>
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { recordEnding } from '../engine/collections'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useWeekStore } from '../stores/weekStore'
@@ -9,8 +9,13 @@ import { GOVERNANCE_LABELS, PERSONAL_LABELS } from '../types/ending'
 import type { EpilogueVariant } from '../types/ending'
 import epilogueData from '../data/epilogues.json'
 import { getEpilogueArt } from '../assets/epilogueArt'
+import CinematicPlate from './scene/CinematicPlate'
+import { CINEMA_FADE_IN_S, CINEMA_EASE } from './scene/cinematic'
 
 const variants: EpilogueVariant[] = epilogueData as EpilogueVariant[]
+
+const EPILOGUE_PLATE_HOLD_MS = 6000
+const HERO_DRIFT_S = 30
 
 function StatBar({ label, value, color = 'var(--amber)' }: { label: string; value: number; color?: string }) {
   return (
@@ -31,6 +36,8 @@ export default function EpilogueScreen() {
   const { activeFlags } = useNarrativeStore()
   const [showStats, setShowStats] = useState(false)
   const [vignetteIndex, setVignetteIndex] = useState(0)
+  const [plateDone, setPlateDone] = useState(false)
+  const reduceMotion = useReducedMotion() ?? false
 
   const ending = useMemo(() => calculateEnding(gameState, activeFlags), [gameState, activeFlags])
 
@@ -93,12 +100,15 @@ export default function EpilogueScreen() {
             data-testid="epilogue-art"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.6 }}
+            transition={{ duration: CINEMA_FADE_IN_S, ease: CINEMA_EASE }}
             style={{ position: 'relative', margin: 0, width: '100%', height: 'clamp(180px, 46vh, 520px)', overflow: 'hidden' }}
           >
-            <img
+            <motion.img
               src={artUrl}
               alt=""
+              initial={{ scale: 1 }}
+              animate={reduceMotion ? { scale: 1 } : { scale: 1.06 }}
+              transition={{ duration: reduceMotion ? 0 : HERO_DRIFT_S, ease: 'linear' }}
               style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%', display: 'block' }}
             />
             <div
@@ -462,6 +472,13 @@ export default function EpilogueScreen() {
           )}
         </div>
       </div>
+      {artUrl && !plateDone && (
+        <CinematicPlate
+          image={artUrl}
+          holdMs={EPILOGUE_PLATE_HOLD_MS}
+          onDone={() => setPlateDone(true)}
+        />
+      )}
     </div>
   )
 }

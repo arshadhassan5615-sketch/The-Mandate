@@ -1,11 +1,10 @@
 import type { CutscenePanel, NarrativeNode } from '../../types/narrative'
 import type { MinistryType } from '../../types/minister'
 
-/** One card in the scene intro: a painted still, a location establishing shot, or a first-meeting introduction. */
+/** One card in the scene intro: a painted still or a location establishing shot. */
 export type IntroCard =
   | { kind: 'still'; image: string; caption?: string; durationMs: number }
   | { kind: 'establishing'; image: string; label: string; detail?: string; durationMs: number }
-  | { kind: 'introduction'; characterId: string; name: string; role?: string; portrait: string | null; durationMs: number }
 
 /** A location-to-painting entry from establishingShots.json. First matching prefix wins. */
 export interface EstablishingShot {
@@ -15,10 +14,7 @@ export interface EstablishingShot {
 }
 
 export const STILL_DEFAULT_MS = 6000
-export const ESTABLISHING_MS = 2200
-export const INTRODUCTION_MS = 2800
-/** Scenes that introduce more people than this leave the introductions to the scene itself. */
-export const MAX_INTRODUCTIONS = 2
+export const ESTABLISHING_MS = 3500
 
 const LOCATION_DETAIL_SEPARATOR = ' — '
 
@@ -31,10 +27,6 @@ export interface IntroDeps {
   minister: (ministry: MinistryType) => string | null
   /** Registered `<key>__<ministerId>` variant keys for a still, sorted. */
   variants: (key: string) => string[]
-  portrait: (id: string) => string | null
-  name: (id: string) => string
-  role: (id: string) => string | undefined
-  playerId: string
 }
 
 export interface IntroQueueOptions {
@@ -114,41 +106,20 @@ function buildEstablishing(
   }]
 }
 
-function buildIntroductions(
-  newlyMetIds: readonly string[],
-  deps: IntroDeps,
-): IntroCard[] {
-  const ids = newlyMetIds.filter(id => id !== deps.playerId)
-  if (ids.length === 0 || ids.length > MAX_INTRODUCTIONS) return []
-  return ids.map(id => ({
-    kind: 'introduction' as const,
-    characterId: id,
-    name: deps.name(id),
-    role: deps.role(id),
-    portrait: deps.portrait(id),
-    durationMs: INTRODUCTION_MS,
-  }))
-}
-
 /**
- * Builds the cards shown before a scene's dialogue: painted stills first; when
- * there are none, an optional location establishing shot; then an introduction
- * per newly met character (only for one or two people).
- * Pure: neither the scene nor the id list is mutated.
+ * Builds the cards shown before a scene's dialogue: the painted stills; when
+ * there are none and the caller allows it, a location establishing shot.
+ * Pure: the scene is not mutated.
  */
 export function buildIntroQueue(
   scene: (Pick<NarrativeNode, 'cutscene'> & { location?: string }) | null,
-  newlyMetIds: readonly string[],
   deps: IntroDeps,
   opts: IntroQueueOptions = { allowEstablishing: false },
 ): IntroCard[] {
   if (scene === null) return []
   const stills = buildStills(scene, deps)
-  const leading = stills.length === 0 && opts.allowEstablishing
-    ? buildEstablishing(scene.location, deps)
-    : stills
-  return [
-    ...leading,
-    ...buildIntroductions(newlyMetIds, deps),
-  ]
+  if (stills.length === 0 && opts.allowEstablishing) {
+    return buildEstablishing(scene.location, deps)
+  }
+  return stills
 }

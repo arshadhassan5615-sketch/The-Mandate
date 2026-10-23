@@ -2,9 +2,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import SceneIntro from '../SceneIntro'
 import { useNarrativeStore } from '../../../stores/narrativeStore'
-import { charName } from '../../narrative/speakers'
 import type { NarrativeNode } from '../../../types/narrative'
 import { establishingShownWeek } from '../establishingMemory'
+import { secondsToMs, CINEMA_FADE_IN_S, CINEMA_FADE_OUT_S, CINEMA_SKIP_FADE_S } from '../cinematic'
 
 const INTRO_SCENE: NarrativeNode = {
   id: 'test_intro_scene',
@@ -16,13 +16,24 @@ const INTRO_SCENE: NarrativeNode = {
   location: 'chancery',
   characters: ['vyktor_reznik'],
   prerequisites: [],
-  cutscene: { panels: [{ image: 'inauguration', caption: 'Cap' }] },
+  cutscene: {
+    panels: [
+      { image: 'inauguration', caption: 'Cap' },
+      { image: 'inauguration', caption: 'Cap 2' },
+    ],
+  },
 }
 
 const NO_CUTSCENE_SCENE: NarrativeNode = {
   ...INTRO_SCENE,
   id: 'test_no_cutscene_scene',
   cutscene: undefined,
+}
+
+const ONE_STILL_SCENE: NarrativeNode = {
+  ...INTRO_SCENE,
+  id: 'test_one_still',
+  cutscene: { panels: [{ image: 'inauguration', caption: 'Cap' }] },
 }
 
 const CABINET_SCENE: NarrativeNode = {
@@ -61,14 +72,14 @@ describe('SceneIntro', () => {
     expect(screen.getByText('Cap')).toBeInTheDocument()
   })
 
-  it('moves to the introduction card on Space', () => {
+  it('moves to the next still on Space', () => {
     useNarrativeStore.setState({ currentScene: INTRO_SCENE, newlyMetIds: ['vyktor_reznik'] })
     render(<SceneIntro />)
 
     fireEvent.keyDown(window, { key: ' ' })
 
-    expect(currentKind()).toBe('introduction')
-    expect(screen.getByText(charName('vyktor_reznik'))).toBeInTheDocument()
+    expect(screen.getByText('Cap 2')).toBeInTheDocument()
+    expect(currentKind()).toBe('still')
   })
 
   it('consumes Space so a bubbling window listener never receives it', () => {
@@ -78,7 +89,7 @@ describe('SceneIntro', () => {
 
     fireEvent.keyDown(window, { key: ' ' })
 
-    expect(currentKind()).toBe('introduction')
+    expect(screen.getByText('Cap 2')).toBeInTheDocument()
     expect(bubbleSpy).not.toHaveBeenCalled()
   })
 
@@ -88,20 +99,29 @@ describe('SceneIntro', () => {
 
     fireEvent.keyDown(window, { key: 'Escape' })
 
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByTestId('scene-intro')).toHaveAttribute('data-closing', 'true')
+
+    act(() => { vi.advanceTimersByTime(secondsToMs(CINEMA_SKIP_FADE_S)) })
+
     expect(screen.queryByRole('dialog')).toBeNull()
   })
 
-  it('auto-advances from the still to the introduction after its duration', () => {
+  it('auto-advances to the next still after its duration', () => {
     useNarrativeStore.setState({ currentScene: INTRO_SCENE, newlyMetIds: ['vyktor_reznik'] })
     render(<SceneIntro />)
     expect(currentKind()).toBe('still')
 
     act(() => { vi.advanceTimersByTime(6000) })
+    expect(screen.getByText('Cap')).toBeInTheDocument()
+    expect(screen.queryByText('Cap 2')).toBeNull()
 
-    expect(currentKind()).toBe('introduction')
+    act(() => { vi.advanceTimersByTime(secondsToMs(CINEMA_FADE_IN_S)) })
+
+    expect(screen.getByText('Cap 2')).toBeInTheDocument()
   })
 
-  it('renders nothing when there is no cutscene and three people are newly met', () => {
+  it('renders nothing for a scene without a cutscene or establishing shot, even when people are newly met', () => {
     useNarrativeStore.setState({
       currentScene: NO_CUTSCENE_SCENE,
       newlyMetIds: ['vyktor_reznik', 'lucan_vael', 'nadia_voss'],
@@ -131,5 +151,45 @@ describe('SceneIntro', () => {
     render(<SceneIntro />)
 
     expect(screen.queryByTestId('scene-intro')).toBeNull()
+  })
+
+  it('fades out after the last card instead of vanishing', () => {
+    useNarrativeStore.setState({ currentScene: ONE_STILL_SCENE, newlyMetIds: [] })
+    render(<SceneIntro />)
+
+    act(() => { vi.advanceTimersByTime(secondsToMs(CINEMA_FADE_IN_S) + 6000) })
+
+    expect(screen.getByTestId('scene-intro')).toHaveAttribute('data-closing', 'true')
+
+    act(() => { vi.advanceTimersByTime(secondsToMs(CINEMA_FADE_OUT_S)) })
+
+    expect(screen.queryByRole('dialog')).toBeNull()
+  })
+
+  it('ignores Space while fading out', () => {
+    useNarrativeStore.setState({ currentScene: ONE_STILL_SCENE, newlyMetIds: [] })
+    render(<SceneIntro />)
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(screen.getByTestId('scene-intro')).toHaveAttribute('data-closing', 'true')
+
+    window.addEventListener('keydown', bubbleSpy)
+    fireEvent.keyDown(window, { key: ' ' })
+
+    expect(bubbleSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('never shows a first-meeting card', () => {
+    useNarrativeStore.setState({ currentScene: INTRO_SCENE, newlyMetIds: ['vyktor_reznik'] })
+    render(<SceneIntro />)
+    expect(screen.queryByText(/first meeting/i)).toBeNull()
+
+    fireEvent.keyDown(window, { key: ' ' })
+    expect(screen.queryByText(/first meeting/i)).toBeNull()
+
+    fireEvent.keyDown(window, { key: ' ' })
+    expect(screen.queryByText(/first meeting/i)).toBeNull()
+
+    act(() => { vi.advanceTimersByTime(20000) })
+    expect(screen.queryByText(/first meeting/i)).toBeNull()
   })
 })

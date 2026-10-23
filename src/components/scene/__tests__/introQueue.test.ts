@@ -2,15 +2,12 @@ import { describe, it, expect } from 'vitest'
 import {
   buildIntroQueue,
   ESTABLISHING_MS,
-  INTRODUCTION_MS,
   matchEstablishingShot,
   resolvePanelImage,
   STILL_DEFAULT_MS,
   type EstablishingShot,
   type IntroDeps,
 } from '../introQueue'
-
-const PLAYER = 'katerin_ashavel'
 
 const SHOTS: EstablishingShot[] = [
   { prefix: "Chancellor's Private Study", image: 'private_study', label: 'The Private Study' },
@@ -23,15 +20,11 @@ const deps: IntroDeps = {
   establishing: location => (location.startsWith('Cabinet Room') ? { image: 'url:cabinet', label: 'The Cabinet Room' } : null),
   minister: () => null,
   variants: () => [],
-  portrait: id => (id === 'vyktor_reznik' ? 'portrait:vyktor' : null),
-  name: id => `Name ${id}`,
-  role: id => (id === 'vyktor_reznik' ? 'Editor' : undefined),
-  playerId: PLAYER,
 }
 
 describe('buildIntroQueue', () => {
   it('returns no cards for a null scene', () => {
-    expect(buildIntroQueue(null, ['vyktor_reznik'], deps)).toEqual([])
+    expect(buildIntroQueue(null, deps)).toEqual([])
   })
 
   it('resolves known still keys and skips unknown ones silently', () => {
@@ -45,7 +38,7 @@ describe('buildIntroQueue', () => {
       },
     }
 
-    const queue = buildIntroQueue(scene, [], deps)
+    const queue = buildIntroQueue(scene, deps)
 
     expect(queue).toEqual([
       { kind: 'still', image: 'url:inauguration', caption: 'First', durationMs: STILL_DEFAULT_MS },
@@ -54,59 +47,29 @@ describe('buildIntroQueue', () => {
   })
 
   it('applies the default still duration when a panel declares none', () => {
-    const queue = buildIntroQueue({ cutscene: { panels: [{ image: 'inauguration' }] } }, [], deps)
+    const queue = buildIntroQueue({ cutscene: { panels: [{ image: 'inauguration' }] } }, deps)
 
     expect(queue).toEqual([
       { kind: 'still', image: 'url:inauguration', caption: undefined, durationMs: STILL_DEFAULT_MS },
     ])
   })
 
-  it('adds one introduction card per newly met character for one person', () => {
-    const queue = buildIntroQueue({}, ['vyktor_reznik'], deps)
+  it('returns only still and establishing cards', () => {
+    const scene = { location: 'Cabinet Room', cutscene: { panels: [{ image: 'inauguration', caption: 'Cap' }] } }
 
-    expect(queue).toEqual([
-      {
-        kind: 'introduction',
-        characterId: 'vyktor_reznik',
-        name: 'Name vyktor_reznik',
-        role: 'Editor',
-        portrait: 'portrait:vyktor',
-        durationMs: INTRODUCTION_MS,
-      },
-    ])
-  })
-
-  it('adds introduction cards in order for two people, stills first', () => {
-    const scene = { cutscene: { panels: [{ image: 'inauguration' }] } }
-
-    const queue = buildIntroQueue(scene, ['vyktor_reznik', 'lucan_vael'], deps)
-
-    expect(queue.map(c => c.kind)).toEqual(['still', 'introduction', 'introduction'])
-    expect(queue[1]).toMatchObject({ kind: 'introduction', characterId: 'vyktor_reznik', name: 'Name vyktor_reznik', role: 'Editor' })
-    expect(queue[2]).toMatchObject({ kind: 'introduction', characterId: 'lucan_vael', name: 'Name lucan_vael', role: undefined, portrait: null })
-  })
-
-  it('adds no introductions for three newly met characters', () => {
-    expect(buildIntroQueue({}, ['vyktor_reznik', 'lucan_vael', 'nadia_voss'], deps)).toEqual([])
-  })
-
-  it('filters the player out before counting introductions', () => {
-    const queue = buildIntroQueue({}, [PLAYER, 'vyktor_reznik'], deps)
+    const queue = buildIntroQueue(scene, deps, { allowEstablishing: true })
 
     expect(queue).toHaveLength(1)
-    expect(queue[0]).toMatchObject({ kind: 'introduction', characterId: 'vyktor_reznik' })
+    expect(queue.every(card => card.kind === 'still')).toBe(true)
   })
 
-  it('does not mutate the scene or the id list', () => {
+  it('does not mutate the scene', () => {
     const scene = { cutscene: { panels: [{ image: 'inauguration', caption: 'Cap' }] } }
-    const ids = ['vyktor_reznik']
     const sceneBefore = structuredClone(scene)
-    const idsBefore = [...ids]
 
-    buildIntroQueue(scene, ids, deps)
+    buildIntroQueue(scene, deps)
 
     expect(scene).toEqual(sceneBefore)
-    expect(ids).toEqual(idsBefore)
   })
 })
 
@@ -180,46 +143,40 @@ describe('buildIntroQueue establishing shots', () => {
   const establishingDeps: IntroDeps = { ...deps, establishing: () => ({ image: 'url:cabinet', label: 'The Cabinet Room' }) }
 
   it('leads with an establishing card when allowed and the scene has no stills', () => {
-    const queue = buildIntroQueue({ location: 'Cabinet Room' }, [], establishingDeps, { allowEstablishing: true })
+    const queue = buildIntroQueue({ location: 'Cabinet Room' }, establishingDeps, { allowEstablishing: true })
 
     expect(queue).toEqual([
       { kind: 'establishing', image: 'url:cabinet', label: 'The Cabinet Room', detail: undefined, durationMs: ESTABLISHING_MS },
     ])
   })
 
-  it('places the establishing card before introductions', () => {
-    const queue = buildIntroQueue({ location: 'Cabinet Room' }, ['vyktor_reznik'], establishingDeps, { allowEstablishing: true })
-
-    expect(queue.map(c => c.kind)).toEqual(['establishing', 'introduction'])
-  })
-
   it('omits the establishing card when the scene already has a still', () => {
     const scene = { location: 'Cabinet Room', cutscene: { panels: [{ image: 'inauguration' }] } }
 
-    const queue = buildIntroQueue(scene, [], establishingDeps, { allowEstablishing: true })
+    const queue = buildIntroQueue(scene, establishingDeps, { allowEstablishing: true })
 
     expect(queue.map(c => c.kind)).toEqual(['still'])
   })
 
   it('omits the establishing card when allowEstablishing is false', () => {
-    expect(buildIntroQueue({ location: 'Cabinet Room' }, [], establishingDeps)).toEqual([])
-    expect(buildIntroQueue({ location: 'Cabinet Room' }, [], establishingDeps, { allowEstablishing: false })).toEqual([])
+    expect(buildIntroQueue({ location: 'Cabinet Room' }, establishingDeps)).toEqual([])
+    expect(buildIntroQueue({ location: 'Cabinet Room' }, establishingDeps, { allowEstablishing: false })).toEqual([])
   })
 
   it('omits the establishing card when deps has no shot for the location', () => {
     const noShot: IntroDeps = { ...deps, establishing: () => null }
 
-    expect(buildIntroQueue({ location: 'Cabinet Room' }, [], noShot, { allowEstablishing: true })).toEqual([])
+    expect(buildIntroQueue({ location: 'Cabinet Room' }, noShot, { allowEstablishing: true })).toEqual([])
   })
 
   it('parses the detail from the part after an em-dash', () => {
-    const queue = buildIntroQueue({ location: 'Cabinet Room — Emergency Session' }, [], establishingDeps, { allowEstablishing: true })
+    const queue = buildIntroQueue({ location: 'Cabinet Room — Emergency Session' }, establishingDeps, { allowEstablishing: true })
 
     expect(queue[0]).toMatchObject({ kind: 'establishing', detail: 'Emergency Session' })
   })
 
   it('leaves the detail undefined when the location has no em-dash', () => {
-    const queue = buildIntroQueue({ location: 'Cabinet Room' }, [], establishingDeps, { allowEstablishing: true })
+    const queue = buildIntroQueue({ location: 'Cabinet Room' }, establishingDeps, { allowEstablishing: true })
 
     expect(queue).toEqual([
       { kind: 'establishing', image: 'url:cabinet', label: 'The Cabinet Room', durationMs: ESTABLISHING_MS },
