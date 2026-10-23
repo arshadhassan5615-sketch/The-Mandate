@@ -6,6 +6,7 @@ import { useSettingsStore } from '../stores/settingsStore'
 import { useNewsStore } from '../stores/newsStore'
 import { nextMeetings } from './desk/nextMeetings'
 import MapScenePin from './MapScenePin'
+import ProvinceNewsPins from './map/ProvinceNewsPins'
 import type { AgendaItem } from '../types/week'
 import { isWeekComplete } from '../engine/weekCompletion'
 
@@ -42,6 +43,7 @@ export function MapPins({ onFocusProvince, onUnfocusProvince }: MapPinsProps = {
           onUnfocusProvince={onUnfocusProvince}
         />
       ))}
+      <ProvinceNewsPins meetingProvinces={new Set(slots.map(slot => slot.province))} />
     </>
   )
 }
