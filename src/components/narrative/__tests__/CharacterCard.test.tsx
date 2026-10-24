@@ -109,6 +109,11 @@ describe('CharacterCard', () => {
     expect(screen.getByTestId('character-card').style.top).toBe('590px')
   })
 
+  it('takes its DOM id from the id prop when one is given', () => {
+    render(<CharacterCard data={VYKTOR_CARD} anchor={anchorAt(100, 300)} id="character-card-vyktor_reznik" />)
+    expect(screen.getByTestId('character-card')).toHaveAttribute('id', 'character-card-vyktor_reznik')
+  })
+
   it('ignores the pointer so the card never steals hover from the speaker', () => {
     render(<CharacterCard data={VYKTOR_CARD} anchor={anchorAt(100, 300)} />)
     expect(screen.getByTestId('character-card').style.pointerEvents).toBe('none')
@@ -180,6 +185,13 @@ describe('ConversationPanel speaker cards', () => {
     renderPanel()
     fireEvent.focus(screen.getAllByTestId('speaker-name')[0])
     expect(screen.getByTestId('character-card')).toHaveTextContent('Vyktor Reznik')
+  })
+
+  it('keeps speaker names out of the tab order, leaving the portrait medallions as the keyboard route', () => {
+    renderPanel()
+    screen.getAllByTestId('speaker-name').forEach(name => {
+      expect(name).not.toHaveAttribute('tabindex')
+    })
   })
 
   it('never gives the player label a hover target or a card', () => {

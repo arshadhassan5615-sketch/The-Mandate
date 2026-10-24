@@ -2,7 +2,7 @@ import type { Condition, FlagCondition, SceneChoice, StatCondition } from '../ty
 import type { FactionState, GameState } from '../types/gameState'
 import { evaluateAll, evaluateCondition } from './conditionEvaluator'
 import { ENGINE_CONTINUE_ID } from './NarrativeEngine'
-import { FACTION_NAMES, isFactionKey } from '../data/factions/factionNames'
+import { FACTION_NAMES } from '../data/factions/factionNames'
 
 export type ChoiceAvailability =
   | { kind: 'available' }
@@ -67,13 +67,7 @@ function isStoryGate(c: Condition): boolean {
 }
 
 function resolveLabel(stat: string): StatLabel | null {
-  const fixed = STAT_LABELS[stat]
-  if (fixed !== undefined) return fixed
-  if (!stat.startsWith('factions.')) return null
-  const key = stat.slice('factions.'.length)
-  if (!isFactionKey(key)) return null
-  const { name } = FACTION_NAMES[key]
-  return { more: `support from the ${name}`, less: `less support from the ${name}` }
+  return Object.hasOwn(STAT_LABELS, stat) ? STAT_LABELS[stat] : null
 }
 
 /**

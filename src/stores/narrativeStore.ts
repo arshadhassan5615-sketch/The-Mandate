@@ -374,7 +374,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     }
     // Promises are recorded once, at the moment they are made.
     if (isCommitmentChoice(choice)) {
-      useCommitmentStore.getState().record(commitmentFromChoice(currentScene, choice, choiceRecord.week))
+      useCommitmentStore.getState().record(commitmentFromChoice(currentScene, choice, choiceRecord.week, choiceRecord.segmentId))
     }
 
     // Log journal entry for major decisions

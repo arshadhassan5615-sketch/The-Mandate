@@ -110,18 +110,6 @@ export default function GameLayout() {
   }, [])
 
   // Start ambient audio on first user interaction anywhere in the game
-  const startAmbientOnce = useCallback(() => {
-    if (ambientStarted.current) return
-    // Do not start ambient audio during the prologue — it has its own music
-    const currentPhase = useWeekStore.getState().phase
-    if (currentPhase === 'prologue') return
-    resumeAudioContext()
-    audioManager.resume()
-    audioManager.setUserInteracted()
-    startAmbient()
-    ambientStarted.current = true
-  }, [])
-
   useEffect(() => {
     // Don't start ambient audio if we are in the prologue
     if (phase === 'prologue') return
@@ -143,7 +131,7 @@ export default function GameLayout() {
       document.removeEventListener('click', handler)
       document.removeEventListener('keydown', handler)
     }
-  }, [startAmbientOnce, phase])
+  }, [phase])
 
   // Stop ambient when entering epilogue
   useEffect(() => {

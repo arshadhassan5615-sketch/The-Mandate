@@ -1,5 +1,5 @@
 import { useRef, useEffect, useLayoutEffect, useState, useCallback, useMemo, useId } from 'react'
-import type { ReactNode } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
 import type { CodexEntry } from '../../types/codex'
 import { useNarrativeStore } from '../../stores/narrativeStore'
@@ -53,7 +53,6 @@ function SpeakerName({ name, characterId, onShowCard, onHideCard }: SpeakerNameP
 
   return (
     <span
-      tabIndex={0}
       data-testid="speaker-name"
       style={{ cursor: 'help', borderBottom: '1px dotted rgba(127,61,25,0.6)' }}
       onMouseEnter={e => showCard(e.currentTarget)}
@@ -328,6 +327,8 @@ interface ConversationPanelProps {
   continueLabel: string
   speakingCharacter: string | undefined
   monologueText?: string
+  /** Receives the conversation column's root element, so the parent can tell whether it is covered. */
+  columnRef?: RefObject<HTMLDivElement | null>
 }
 
 type ChoicePhase = 'idle' | 'pulsing' | 'fading' | 'showing_reactions' | 'reactions_fading' | 'done'
@@ -338,7 +339,7 @@ export default function ConversationPanel({
   history, activeSegment, activeText, showCursor,
   choices, lockedReasons = NO_LOCKED_REASONS, showChoices, sceneDone, allDone, segmentDone,
   onChoice, onAdvanceQueue, continueLabel,
-  monologueText,
+  monologueText, columnRef,
 }: ConversationPanelProps) {
   const historyRef = useRef<HTMLDivElement>(null)
   const dialogueEndRef = useRef<HTMLDivElement>(null)
@@ -374,6 +375,11 @@ export default function ConversationPanel({
 
   const panelInnerRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  // The column root is kept in panelRef for measuring, and mirrored into columnRef for the parent.
+  const setPanelNode = useCallback((node: HTMLDivElement | null) => {
+    panelRef.current = node
+    if (columnRef) columnRef.current = node
+  }, [columnRef])
   const railAnchorRef = useRef<HTMLDivElement>(null)
   // Top of the portrait stack in px, measured so its bottom sits on the newest line.
   // null until the first measurement; the anchor then falls back to 19vh.
@@ -727,7 +733,7 @@ export default function ConversationPanel({
       <>
       {/* Dim the map a little so the column reads; the map stays in view */}
       <div aria-hidden="true" data-testid="scene-map-scrim" style={{ position: 'fixed', inset: 0, zIndex: Z.sceneBackdrop, background: 'rgba(6,5,4,0.4)', pointerEvents: 'none' }} />
-      <div ref={panelRef} data-layout={viewportMode} style={panelStyle}>
+      <div ref={setPanelNode} data-layout={viewportMode} style={panelStyle}>
         {/* Medallion centres sit on the column's left border (translateX(-100%)). */}
         <div
           ref={railAnchorRef}

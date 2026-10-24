@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { renderToStaticMarkup } from 'react-dom/server'
 import ChoiceCard from '../ChoiceCard'
 
@@ -114,10 +115,10 @@ describe('ChoiceCard', () => {
 describe('ChoiceCard when stat-locked', () => {
   const REASON = 'Requires stronger military readiness'
 
-  it('is disabled, marked locked and shows the reason with a padlock', () => {
+  it('stays focusable, marked aria-disabled, and shows the reason with a padlock', () => {
     renderCard({ lockedReason: REASON })
     const button = screen.getByRole('button')
-    expect(button).toBeDisabled()
+    expect(button).not.toBeDisabled()
     expect(button).toHaveAttribute('aria-disabled', 'true')
     expect(button).toHaveAttribute('data-locked', 'true')
     expect(screen.getByTestId('choice-lock-reason')).toHaveTextContent(REASON)
@@ -128,6 +129,31 @@ describe('ChoiceCard when stat-locked', () => {
     const props = renderCard({ lockedReason: REASON })
     fireEvent.click(screen.getByRole('button'))
     expect(props.onSelect).not.toHaveBeenCalled()
+  })
+
+  it('can be reached with the Tab key, so a keyboard user hears the reason', async () => {
+    const user = userEvent.setup()
+    renderCard({ lockedReason: REASON })
+    await user.tab()
+    expect(screen.getByRole('button')).toHaveFocus()
+    expect(screen.getByRole('button')).toHaveAccessibleDescription(REASON)
+  })
+
+  it('does not call onSelect when Enter or Space is pressed on it', async () => {
+    const user = userEvent.setup()
+    const props = renderCard({ lockedReason: REASON })
+    await user.tab()
+    await user.keyboard('{Enter}')
+    await user.keyboard(' ')
+    expect(props.onSelect).not.toHaveBeenCalled()
+  })
+
+  it('still calls onSelect when an available card is activated with Enter', async () => {
+    const user = userEvent.setup()
+    const props = renderCard()
+    await user.tab()
+    await user.keyboard('{Enter}')
+    expect(props.onSelect).toHaveBeenCalledTimes(1)
   })
 
   it('keeps the choice text as its accessible name, without the reason', () => {

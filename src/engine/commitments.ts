@@ -3,7 +3,7 @@ import resolutions from '../data/commitments/resolutions.json'
 import { stripOuterQuotes } from './quotes'
 
 export interface Commitment {
-  id: string            // `${sceneId}:${choiceId}`
+  id: string            // `${sceneId}:${segmentId}:${choiceId}`, or `${sceneId}:${choiceId}` when the choice has no segment
   sceneId: string
   sceneTitle: string
   choiceId: string
@@ -49,14 +49,22 @@ function witnessesOf(characters: readonly string[]): string[] {
   return [...witnesses]
 }
 
-/** Builds a ledger entry from a promising choice made in a scene during a week. */
+/**
+ * Builds a ledger entry from a promising choice made in a scene during a week.
+ * The segment is part of the id when given, so the same choice id in two branches
+ * of one scene stays two promises. Without a segment the id is `scene:choice`.
+ */
 export function commitmentFromChoice(
   scene: Pick<NarrativeNode, 'id' | 'title' | 'characters'>,
   choice: Pick<SceneChoice, 'id' | 'text' | 'flags'>,
   week: number,
+  segmentId?: string | null,
 ): Commitment {
+  const id = segmentId
+    ? `${scene.id}:${segmentId}:${choice.id}`
+    : `${scene.id}:${choice.id}`
   return {
-    id: `${scene.id}:${choice.id}`,
+    id,
     sceneId: scene.id,
     sceneTitle: scene.title,
     choiceId: choice.id,

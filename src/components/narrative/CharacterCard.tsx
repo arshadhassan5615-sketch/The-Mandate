@@ -119,6 +119,8 @@ const DESCRIPTION_STYLE: CSSProperties = {
 interface CharacterCardProps {
   data: CharacterCardData
   anchor: DOMRect
+  /** Optional DOM id, so a focused control can point aria-describedby at the open card. */
+  id?: string
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -151,11 +153,12 @@ function CardPortrait({ id, name }: { id: string; name: string }) {
   )
 }
 
-export default function CharacterCard({ data, anchor }: CharacterCardProps) {
+export default function CharacterCard({ data, anchor, id }: CharacterCardProps) {
   const reduceMotion = useReducedMotion()
 
   return createPortal(
     <motion.div
+      id={id}
       role="tooltip"
       data-testid="character-card"
       initial={{ opacity: 0 }}

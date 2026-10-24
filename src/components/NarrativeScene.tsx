@@ -66,6 +66,20 @@ function buildHistory(segments: readonly NarrativeSegment[], revealedCount: numb
   })
 }
 
+// Reading pauses when either of two things is true: a dialog is open outside the conversation
+// column (a paper panel beside it, a map menu, the scene intro), or the column is covered at its
+// centre by an open panel (a brief, a modal) so the reader cannot see the line being advanced.
+// With no column mounted, or no elementFromPoint (jsdom), the centre check counts as uncovered.
+function isReadingUninterrupted(column: HTMLElement | null): boolean {
+  const dialogOutside = Array.from(document.querySelectorAll('[role="dialog"]'))
+    .some(d => !column?.contains(d))
+  if (dialogOutside) return false
+  if (!column || typeof document.elementFromPoint !== 'function') return true
+  const rect = column.getBoundingClientRect()
+  const top = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2)
+  return top === null || column.contains(top)
+}
+
 export default function NarrativeScene() {
   const { currentScene, sceneDone, activeFlags, processChoice, activeSegmentId } = useNarrativeStore()
   const gameState = useGameStore()
@@ -75,8 +89,11 @@ export default function NarrativeScene() {
   const memoryHints = useSettingsStore(s => s.memoryHints)
   const autoAdvance = useSettingsStore(s => s.autoAdvance)
   const toggleAutoAdvance = useSettingsStore(s => s.toggleAutoAdvance)
-  // Tied to the scene and week it came from, so a recurring weekly scene never replays an old line.
-  const [memory, setMemory] = useState<{ key: number; text: string; sceneId: string; week: number } | null>(null)
+  // Tied to the week it was made in, so a recurring weekly scene never replays an old line.
+  // It is not tied to a scene: the line follows the choice into a chained scene.
+  const [memory, setMemory] = useState<{ key: number; text: string; week: number } | null>(null)
+  // The conversation column, so the auto-advance and skip timers can tell whether reading is interrupted.
+  const columnRef = useRef<HTMLDivElement>(null)
 
   const isEmergency = currentScene?.type === 'emergency'
   // Round B2 STEP 1 — inject the recurring opening topics only while no
@@ -126,18 +143,21 @@ export default function NarrativeScene() {
   )
 
   // Shows the "will remember that" line for a choice that moves someone's standing.
-  // Called before processChoice on both the click and number-key paths.
+  // Called before processChoice on both the click and number-key paths. The line
+  // follows the choice into a chained scene: MemoryLine clears itself after its timer.
   const announceMemory = useCallback((id: string) => {
     const choice = currentScene?.choices?.find(c => c.id === id)
     const text = memoryTextFor(choice, currentScene?.characters ?? [], memoryHints)
-    if (text && currentScene) setMemory({ key: Date.now(), text, sceneId: currentScene.id, week: currentWeek })
+    if (text) setMemory({ key: Date.now(), text, week: currentWeek })
   }, [currentScene, memoryHints, currentWeek])
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    const tag = (e.target as HTMLElement)?.tagName
+    const target = e.target as HTMLElement | null
+    const tag = target?.tagName
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
 
-    if ((e.key === 'a' || e.key === 'A') && !e.ctrlKey && !e.metaKey && !e.altKey && !e.repeat) {
+    const isEditable = target?.isContentEditable === true
+    if ((e.key === 'a' || e.key === 'A') && !e.ctrlKey && !e.metaKey && !e.altKey && !e.repeat && !isEditable) {
       toggleAutoAdvance()
       return
     }
@@ -210,22 +230,34 @@ export default function NarrativeScene() {
 
   // Skip only fast-forwards scenes read before, and stops at choices (allDone) or the scene end.
   const currentSceneId = currentScene?.id
-  const skipping = ctrlHeld && !allDone && !sceneDone && currentSceneId != null && hasReadScene(currentSceneId)
+  const sceneWasRead = useMemo(
+    () => currentSceneId != null && hasReadScene(currentSceneId),
+    [currentSceneId],
+  )
+  const skipping = ctrlHeld && !allDone && !sceneDone && sceneWasRead
 
+  // Skip ticks do nothing while reading is interrupted (an open dialog or a panel covering the column).
   useEffect(() => {
     if (!skipping) return
     const id = setInterval(() => {
-      if (ctrlHeldRef.current) advanceRef.current()
+      if (ctrlHeldRef.current && isReadingUninterrupted(columnRef.current)) advanceRef.current()
     }, SKIP_INTERVAL_MS)
     return () => clearInterval(id)
   }, [skipping])
 
   // Reading pause: once a line has finished typing, move on by itself. Choices are never auto-picked.
+  // While reading is interrupted the timer re-arms for the same delay instead of advancing.
   const finishedLineText = activeSegment?.text
   useEffect(() => {
     if (!autoAdvance || !segmentDone || allDone || sceneDone || finishedLineText == null) return
-    const id = setTimeout(() => advanceRef.current(), autoAdvanceDelayMs(finishedLineText))
-    return () => clearTimeout(id)
+    const delayMs = autoAdvanceDelayMs(finishedLineText)
+    let timerId: ReturnType<typeof setTimeout>
+    const tick = () => {
+      if (isReadingUninterrupted(columnRef.current)) advanceRef.current()
+      else timerId = setTimeout(tick, delayMs)
+    }
+    timerId = setTimeout(tick, delayMs)
+    return () => clearTimeout(timerId)
   }, [autoAdvance, segmentDone, allDone, sceneDone, finishedLineText])
 
   useEffect(() => {
@@ -371,6 +403,7 @@ export default function NarrativeScene() {
       )}
 
       <ConversationPanel
+        columnRef={columnRef}
         sceneTitle={currentScene.title}
         sceneLocation={currentScene.location}
         sceneType={currentScene.type}
@@ -396,7 +429,7 @@ export default function NarrativeScene() {
 
       <ReadingModeBadge mode={skipping ? 'skip' : autoAdvance ? 'auto' : null} />
 
-      {memory && memory.sceneId === currentScene?.id && memory.week === currentWeek && (
+      {memory && memory.week === currentWeek && (
         <MemoryLine
           key={memory.key}
           text={memory.text}

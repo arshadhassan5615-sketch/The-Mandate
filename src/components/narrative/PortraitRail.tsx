@@ -131,6 +131,11 @@ function labelFor(id: string): string {
   return role ? `${charName(id)}, ${role}` : charName(id)
 }
 
+// Stable DOM id of a medallion's character card, referenced by the medallion's aria-describedby.
+function cardIdFor(id: string): string {
+  return `character-card-${id}`
+}
+
 interface HoveredMedallion {
   id: string
   data: CharacterCardData
@@ -175,6 +180,7 @@ export default function PortraitRail({ ids, currentId, layout }: PortraitRailPro
               data-state={state}
               aria-current={isSpeaking ? 'true' : undefined}
               aria-label={label}
+              aria-describedby={visibleCard?.id === id ? cardIdFor(id) : undefined}
               tabIndex={0}
               onMouseEnter={e => showCardFor(id, e.currentTarget)}
               onMouseLeave={hideCard}
@@ -188,7 +194,7 @@ export default function PortraitRail({ ids, currentId, layout }: PortraitRailPro
         })}
       </ul>
       {visibleCard && (
-        <CharacterCard data={visibleCard.data} anchor={visibleCard.anchor} />
+        <CharacterCard id={cardIdFor(visibleCard.id)} data={visibleCard.data} anchor={visibleCard.anchor} />
       )}
     </div>
   )

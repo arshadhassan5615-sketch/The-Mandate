@@ -33,8 +33,15 @@ const LOCK_REASON_TEXT = '#b0866a'                  // warm amber-brown, same fa
 const PADLOCK_PATH = 'M6 10V7a6 6 0 0 1 12 0v3h1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1zm2 0h8V7a4 4 0 0 0-8 0z'
 
 export default function ChoiceCard({ index, text, hint, lockedReason, state, onSelect, onHoverChange }: ChoiceCardProps) {
-  const reasonId = useId()
+  const baseId = useId()
+  const reasonId = `${baseId}-reason`
+  const numberId = `${baseId}-number`
+  const textId = `${baseId}-text`
+  const hintId = `${baseId}-hint`
   const isLocked = lockedReason !== undefined
+  // The reason is the description, so it is kept out of the name: a locked card's name is its
+  // number, text and hint, read from those parts rather than from the whole button content.
+  const lockedNameIds = [numberId, textId, ...(hint ? [hintId] : [])].join(' ')
   const isSelected = state === 'selected' && !isLocked
   const isLit = !isLocked && (isSelected || state === 'hovered')
   const isResolving = state === 'selected' || state === 'fading' || state === 'dimmed'
@@ -45,15 +52,21 @@ export default function ChoiceCard({ index, text, hint, lockedReason, state, onS
     if (e.key === 'Enter' || e.key === ' ') e.stopPropagation()
   }
 
+  // A locked card stays focusable so its reason can be heard, but it never selects.
+  const handleClick = () => {
+    if (!isLocked) onSelect()
+  }
+
   return (
     <button
       type="button"
       className="choice-card"
-      disabled={isResolving || isLocked}
+      disabled={isResolving}
       aria-disabled={isLocked ? 'true' : undefined}
+      aria-labelledby={isLocked ? lockedNameIds : undefined}
       aria-describedby={isLocked ? reasonId : undefined}
       data-locked={isLocked ? 'true' : undefined}
-      onClick={onSelect}
+      onClick={handleClick}
       onKeyDown={stopAdvanceKeys}
       onMouseEnter={() => onHoverChange(true)}
       onMouseLeave={() => onHoverChange(false)}
@@ -90,10 +103,11 @@ export default function ChoiceCard({ index, text, hint, lockedReason, state, onS
       }}
     >
       {/* Number and text run as one line, so wrapped text returns under the number */}
-      <span style={{ fontWeight: 400 }}>{index + 1}.</span>{' '}
-      <span>{text}</span>
+      <span id={numberId} style={{ fontWeight: 400 }}>{index + 1}.</span>{' '}
+      <span id={textId}>{text}</span>
       {hint && (
         <span
+          id={hintId}
           className="choice-card__hint"
           style={{ display: 'block', marginTop: '4px', fontSize: 'var(--choice-hint-font, clamp(11px, 0.85vw, 13px))', fontStyle: 'italic', color: 'rgba(110,158,162,0.7)', lineHeight: 1.35 }}
         >
@@ -103,7 +117,6 @@ export default function ChoiceCard({ index, text, hint, lockedReason, state, onS
       {isLocked && (
         <span
           id={reasonId}
-          aria-hidden="true"
           className="choice-card__lock"
           data-testid="choice-lock-reason"
           style={{

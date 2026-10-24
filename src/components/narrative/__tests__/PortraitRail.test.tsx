@@ -39,6 +39,20 @@ describe('PortraitRail character cards', () => {
     expect(medallion).toHaveAttribute('aria-label', 'Vyktor Reznik, Chief of Staff')
   })
 
+  it('describes a medallion by its character card while the card is open', () => {
+    render(<PortraitRail ids={['vyktor_reznik']} currentId={null} layout="column" />)
+    const [medallion] = medallions()
+    expect(medallion).not.toHaveAttribute('aria-describedby')
+
+    fireEvent.focus(medallion)
+    expect(screen.getByTestId('character-card')).toHaveAttribute('id', 'character-card-vyktor_reznik')
+    expect(medallion).toHaveAttribute('aria-describedby', 'character-card-vyktor_reznik')
+    expect(medallion).toHaveAccessibleDescription(/Chief of Staff/)
+
+    fireEvent.blur(medallion)
+    expect(medallion).not.toHaveAttribute('aria-describedby')
+  })
+
   it('shows no card for a medallion whose character is not in the roster', () => {
     render(<PortraitRail ids={['zz_unknown_person']} currentId={null} layout="column" />)
     fireEvent.mouseEnter(medallions()[0])

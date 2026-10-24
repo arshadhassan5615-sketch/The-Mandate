@@ -39,11 +39,13 @@ export default function SaveSlotScreen({ mode, onClose, onSlotSelected }: SaveSl
 
   useEffect(() => {
     let cancelled = false
-    listSaves().then(all => {
-      if (cancelled) return
-      setSaves(all)
-      setLoading(false)
-    })
+    listSaves()
+      .then(all => {
+        if (cancelled) return
+        setSaves(all)
+        setLoading(false)
+      })
+      .catch(err => { console.warn('[SaveSlotScreen] could not list saves', err); if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
   }, [])
 

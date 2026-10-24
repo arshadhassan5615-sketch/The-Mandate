@@ -87,6 +87,25 @@ describe('commitmentFromChoice', () => {
     })
   })
 
+  it('keeps the same choice id in two segments of one scene as two different promises', () => {
+    const inFirstBranch = commitmentFromChoice(SCENE, { id: 'opt_1', text: 'I promise.' }, 14, 'branch_a')
+    const inSecondBranch = commitmentFromChoice(SCENE, { id: 'opt_1', text: 'I promise.' }, 14, 'branch_b')
+
+    expect(inFirstBranch.id).toBe('act3_press_briefing:branch_a:opt_1')
+    expect(inSecondBranch.id).toBe('act3_press_briefing:branch_b:opt_1')
+    expect(inFirstBranch.id).not.toBe(inSecondBranch.id)
+  })
+
+  it('keeps the scene:choice id when no segment is given, null or empty', () => {
+    const withoutSegment = commitmentFromChoice(SCENE, { id: 'opt_1', text: 'I promise.' }, 14)
+    const nullSegment = commitmentFromChoice(SCENE, { id: 'opt_1', text: 'I promise.' }, 14, null)
+    const emptySegment = commitmentFromChoice(SCENE, { id: 'opt_1', text: 'I promise.' }, 14, '')
+
+    expect(withoutSegment.id).toBe('act3_press_briefing:opt_1')
+    expect(nullSegment.id).toBe('act3_press_briefing:opt_1')
+    expect(emptySegment.id).toBe('act3_press_briefing:opt_1')
+  })
+
   it('strips straight outer quotation marks', () => {
     const result = commitmentFromChoice(SCENE, { id: 'c', text: '"I promise the bridge."' }, 1)
 

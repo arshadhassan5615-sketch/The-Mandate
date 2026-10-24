@@ -7,6 +7,33 @@ const NARRATIVE_SCENES = import.meta.glob('../../narrative/**/*.json', {
   import: 'default',
 })
 
+const BILLS = import.meta.glob('../../bills/*.json', {
+  eager: true,
+  import: 'default',
+})
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+}
+
+function addStrings(value: unknown, found: Set<string>): void {
+  if (!Array.isArray(value)) return
+  for (const item of value) {
+    if (typeof item === 'string') {
+      found.add(item)
+    }
+  }
+}
+
+/** Adds the id and flags of one choice object. */
+function addChoiceIdAndFlags(choice: Record<string, unknown>, found: Set<string>): void {
+  if (typeof choice.id === 'string') {
+    found.add(choice.id)
+  }
+  addStrings(choice.flags, found)
+}
+
+/** Walks any JSON value and collects ids and flags only from choice objects: elements of a `choices` array at any depth. */
 function collectChoiceIdsAndFlags(node: unknown, found: Set<string>): void {
   if (Array.isArray(node)) {
     for (const item of node) {
@@ -15,26 +42,28 @@ function collectChoiceIdsAndFlags(node: unknown, found: Set<string>): void {
     return
   }
 
-  if (node === null || typeof node !== 'object') {
+  if (!isRecord(node)) {
     return
   }
 
-  const record = node as Record<string, unknown>
-
-  if (typeof record.id === 'string' && 'text' in record) {
-    found.add(record.id)
-  }
-
-  if (Array.isArray(record.flags)) {
-    for (const flag of record.flags) {
-      if (typeof flag === 'string') {
-        found.add(flag)
+  for (const [key, value] of Object.entries(node)) {
+    if (key === 'choices' && Array.isArray(value)) {
+      for (const choice of value) {
+        if (isRecord(choice)) {
+          addChoiceIdAndFlags(choice, found)
+        }
       }
     }
-  }
-
-  for (const value of Object.values(record)) {
     collectChoiceIdsAndFlags(value, found)
+  }
+}
+
+/** Bill sign and veto flags are a legitimate trigger source alongside choices. */
+function collectBillFlags(found: Set<string>): void {
+  for (const bill of Object.values(BILLS)) {
+    if (!isRecord(bill)) continue
+    addStrings(bill.signFlags, found)
+    addStrings(bill.vetoFlags, found)
   }
 }
 
@@ -57,6 +86,7 @@ function collectNarrativeTriggerSources(): Set<string> {
   for (const scene of Object.values(NARRATIVE_SCENES)) {
     collectChoiceIdsAndFlags(scene, found)
   }
+  collectBillFlags(found)
   return found
 }
 

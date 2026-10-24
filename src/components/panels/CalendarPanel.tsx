@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useBillStore } from '../../stores/billStore'
 import { useGameStore } from '../../stores/gameStore'
-import { weekToDate } from '../hud/hudSizes'
+import { weekToDate } from '../../engine/dates'
 import { ACTS, PUBLIC_EVENTS, calendarWeeks, type CalendarWeek } from '../../engine/calendar'
 import type { Bill } from '../../types/bills'
 import PaperPanel from './PaperPanel'
