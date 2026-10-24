@@ -13,19 +13,10 @@ import { useProvinceNewsStore } from '../stores/provinceNewsStore'
 import NotificationPin from './map/NotificationPin'
 import ProvinceChoiceMenu, { type ProvinceChoice } from './map/ProvinceChoiceMenu'
 import ProvinceNewsPopover from './map/ProvinceNewsPopover'
-import { PROVINCE_SEALS, SEAL_TILT_RATIO, sealLift, sealSizeFor, type SealProvinceId } from './map/seals/provinceSeals'
+import { PIN_TIP_OFFSET_X, pinTipOffsetY } from './map/pinPlacement'
 
-const BADGE_OFFSET_X = 0
 const EVENT_PIN_SIZE = 66
-const FALLBACK_BADGE_OFFSET_Y = -40
 const UPDATES_CHOICE_ID = '__updates'
-
-/** Pin bottom sits on the upper face of the province seal. */
-function badgeOffsetY(provinceId: ProvinceId): number {
-  if (!(provinceId in PROVINCE_SEALS)) return FALLBACK_BADGE_OFFSET_Y
-  const sealHeight = sealSizeFor(provinceId as SealProvinceId) * SEAL_TILT_RATIO
-  return -Math.round(sealHeight * 0.46) - sealLift(provinceId as SealProvinceId)
-}
 
 function sceneExists(item: AgendaItem): boolean {
   return item.sceneId.startsWith('__') || !!getScene(item.sceneId)
@@ -132,8 +123,8 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
   return (
     <div style={{
       position: 'absolute',
-      left: pos.x + BADGE_OFFSET_X,
-      top: pos.y + badgeOffsetY(provinceId),
+      left: pos.x + PIN_TIP_OFFSET_X,
+      top: pos.y + pinTipOffsetY(provinceId),
       transform: `translate(-50%, -100%) scale(${hovered ? 1.15 : 1.0})`,
       transition: 'transform 0.15s ease, filter 0.15s ease',
       zIndex: open ? 600 : 300,

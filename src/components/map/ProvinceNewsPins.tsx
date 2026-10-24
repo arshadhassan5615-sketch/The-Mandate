@@ -10,15 +10,14 @@ import {
   unseenItems,
   type HomeProvinceId,
 } from '../../engine/provinceNews'
-import { PROVINCE_SEALS, SEAL_TILT_RATIO, sealLift, sealSizeFor } from './seals/provinceSeals'
+import { PROVINCE_SEALS } from './seals/provinceSeals'
+import { PIN_TIP_OFFSET_X, pinTipOffsetY } from './pinPlacement'
 import { useGameStore } from '../../stores/gameStore'
 import { useNewsStore } from '../../stores/newsStore'
 import { useProvinceNewsStore } from '../../stores/provinceNewsStore'
 
 const NEWS_PIN_SIZE = 58
 const PIN_BASE_Z_INDEX = 320
-/** Where the notification pin sits, as shares of the seal's width and height. */
-const PIN_SPOT = { x: 0.42, y: 0.42 }
 
 interface ProvinceNewsPinsProps {
   /** Provinces that show a meeting pin; their news is offered from the meeting pin's menu instead. */
@@ -43,8 +42,6 @@ export default function ProvinceNewsPins({ meetingProvinces = new Set() }: Provi
         const unseen = unseenItems(provinceFeed(articles, id, currentWeek), seenIds)
         if (unseen.length === 0 || meetingProvinces.has(id)) return null
         const seal = PROVINCE_SEALS[id]
-        const size = sealSizeFor(id)
-        const height = size * SEAL_TILT_RATIO
         const anchor = PROVINCE_PIN_POSITIONS[id]
         const updateWord = unseen.length === 1 ? 'update' : 'updates'
         return (
@@ -52,9 +49,9 @@ export default function ProvinceNewsPins({ meetingProvinces = new Set() }: Provi
             <div
               style={{
                 position: 'absolute',
-                left: anchor.x + size * PIN_SPOT.x,
-                top: anchor.y - sealLift(id) - height * PIN_SPOT.y,
-                transform: 'translate(-50%, -50%)',
+                left: anchor.x + PIN_TIP_OFFSET_X,
+                top: anchor.y + pinTipOffsetY(id),
+                transform: 'translate(-50%, -100%)',
                 zIndex: PIN_BASE_Z_INDEX,
               }}
             >
