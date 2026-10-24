@@ -90,9 +90,11 @@ describe('desktop HUD (1440x900)', () => {
     expect(screen.getByTestId('stat-approval')).toHaveTextContent('62%')
   })
 
-  it('shows the national medal inside the crest button', () => {
+  it('shows the Veltrian flag in the crest button', () => {
     render(<TopBar />)
-    expect(within(screen.getByTestId('hud-crest')).getByTestId('national-medal')).toBeInTheDocument()
+    const crest = screen.getByTestId('hud-crest')
+    expect(within(crest).getByTestId('national-flag')).toBeInTheDocument()
+    expect(crest.style.background).toContain('Veltria')
   })
 
   it('has no Map button on the HUD itself', () => {

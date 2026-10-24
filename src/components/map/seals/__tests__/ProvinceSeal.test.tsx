@@ -114,12 +114,14 @@ describe('ProvinceSeal', () => {
     expect(screen.queryByTestId('province-mood')).toBeNull()
   })
 
-  it('shows an amber aura when the province is tense', () => {
+  it('shows no aura when the province is only tense', () => {
     render(<ProvinceSeal {...PROVINCE_SEALS.kravenstal} size={CITY_SIZE} mood="tense" />)
-    const aura = screen.getByTestId('province-mood')
-    expect(aura).toHaveAttribute('data-mood', 'tense')
-    expect(aura).toHaveClass('province-mood--tense')
-    expect(aura).not.toHaveClass('province-mood--crisis')
+    expect(screen.queryByTestId('province-mood')).toBeNull()
+  })
+
+  it('casts only a plain shadow, never a gold glow', () => {
+    render(<ProvinceSeal {...PROVINCE_SEALS.kravenstal} size={CITY_SIZE} />)
+    expect(screen.getByTestId('province-seal').style.filter).not.toMatch(/232, ?190, ?90/)
   })
 
   it('shows a red breathing aura when the province is in crisis', () => {

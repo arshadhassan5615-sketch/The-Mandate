@@ -1,11 +1,9 @@
 import { useState, useMemo, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
 // import { useGameStore } from '../stores/gameStore' // only fed the commented-out statuses/medallion code
-import { useNarrativeStore } from '../stores/narrativeStore'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useWeekStore } from '../stores/weekStore'
 import type { GameState } from '../types/gameState'
-import { MAP_RENDER_WIDTH, MAP_RENDER_HEIGHT, PROVINCE_PIN_POSITIONS, groupByProvince } from '../engine/LocationResolver'
-import { isAgendaItemDone } from '../engine/weekCompletion'
+import { MAP_RENDER_WIDTH, MAP_RENDER_HEIGHT, PROVINCE_PIN_POSITIONS } from '../engine/LocationResolver'
 import { MapPins } from './MapInteractionLayer'
 import { useGameStore } from '../stores/gameStore'
 import { PROVINCES } from '../data/provinces'
@@ -161,23 +159,9 @@ export default function MapView({ onProvinceDetail }: {
   // const gameState  = useGameStore()
   // const factions   = useGameStore(s => s.factions)
   // const { activeFlags } = useNarrativeStore()
-  const agendaPool      = useWeekStore(s => s.agendaPool)
-  const completedItemIds = useWeekStore(s => s.completedItemIds)
-  const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const [hoveredBuilding, setHoveredBuilding] = useState<string | null>(null)
   const [dossierId, setDossierId] = useState<string | null>(null)
   const [hoveredNationId, setHoveredNationId] = useState<string | null>(null)
-
-  const provincesWithScenes = useMemo(() => {
-    const active = new Set<string>()
-    agendaPool.forEach(item => {
-      if (!isAgendaItemDone(item, visitedSceneIds, completedItemIds)) {
-        const groups = groupByProvince([item])
-        Object.keys(groups).forEach(p => active.add(p))
-      }
-    })
-    return active
-  }, [agendaPool, visitedSceneIds, completedItemIds])
 
   // Zone highlight only (no mouse-following tooltip)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
@@ -393,7 +377,6 @@ export default function MapView({ onProvinceDetail }: {
           {SEAL_PROVINCE_IDS.map(id => {
             const pos = PROVINCE_PIN_POSITIONS[id]
             if (!pos) return null
-            const hasScenes  = provincesWithScenes.has(id)
             const isHovered  = hoveredBuilding === id
             return (
               <div
@@ -430,7 +413,6 @@ export default function MapView({ onProvinceDetail }: {
                   field={PROVINCE_SEALS[id].field}
                   isCapital={PROVINCE_SEALS[id].isCapital}
                   size={sealSizeFor(id)}
-                  isLit={hasScenes}
                   isHovered={isHovered}
                   art={getSealArt(id)}
                   mood={moodFor(provinceStatuses.get(id)?.level)}
@@ -646,7 +628,6 @@ export default function MapView({ onProvinceDetail }: {
           {SEAL_PROVINCE_IDS.map(id => {
             const pos = PROVINCE_PIN_POSITIONS[id]
             if (!pos) return null
-            const hasScenes  = provincesWithScenes.has(id)
             const isHovered  = hoveredBuilding === id
             return (
               <div
@@ -683,7 +664,6 @@ export default function MapView({ onProvinceDetail }: {
                   field={PROVINCE_SEALS[id].field}
                   isCapital={PROVINCE_SEALS[id].isCapital}
                   size={sealSizeFor(id)}
-                  isLit={hasScenes}
                   isHovered={isHovered}
                   art={getSealArt(id)}
                   mood={moodFor(provinceStatuses.get(id)?.level)}

@@ -1,5 +1,6 @@
 // Embossed metal seal for one province, drawn as a coin lying tilted on the map.
 // When a painted medal is supplied via `art`, that image replaces the drawn seal.
+// Only a crisis shows an aura.
 import { useId, type ComponentType } from 'react'
 import { SEAL_TILT_RATIO, type SealEmblem } from './provinceSeals'
 
@@ -11,7 +12,6 @@ interface ProvinceSealProps {
   field: string
   size: number
   isCapital?: boolean
-  isLit?: boolean
   isHovered?: boolean
   art?: string | null
   mood?: ProvinceMood
@@ -59,12 +59,8 @@ const GOLD_EDGE = '#6b4f1c'
 const BRONZE_EDGE = '#4d3a24'
 const EDGE_OFFSET_RATIO = 0.045
 const SHADOW_FILTER = 'drop-shadow(0 6px 8px rgba(0,0,0,0.5))'
-const LIT_FILTER = `drop-shadow(0 0 10px rgba(232,190,90,0.85)) ${SHADOW_FILTER}`
 const MOOD_AURA_INSET = { left: '-22%', right: '-22%', top: '-10%', bottom: '-30%' }
-const MOOD_GRADIENTS: Record<Exclude<ProvinceMood, 'calm'>, string> = {
-  tense: 'radial-gradient(ellipse at 50% 58%, rgba(232,150,60,0.42) 0%, rgba(232,150,60,0.18) 42%, rgba(232,150,60,0) 70%)',
-  crisis: 'radial-gradient(ellipse at 50% 58%, rgba(205,52,40,0.55) 0%, rgba(205,52,40,0.22) 42%, rgba(205,52,40,0) 70%)',
-}
+const CRISIS_GRADIENT = 'radial-gradient(ellipse at 50% 58%, rgba(205,52,40,0.55) 0%, rgba(205,52,40,0.22) 42%, rgba(205,52,40,0) 70%)'
 
 const GOLD_RIM: RimStop[] = [
   { offset: '0%', color: '#f6e3a1' },
@@ -329,7 +325,6 @@ export default function ProvinceSeal({
   field,
   size,
   isCapital = false,
-  isLit = false,
   isHovered = false,
   art = null,
   mood = 'calm',
@@ -346,21 +341,21 @@ export default function ProvinceSeal({
         height: Math.round(size * SEAL_TILT_RATIO),
         transform: isHovered ? 'scale(1.06)' : 'scale(1)',
         transition: 'transform 0.18s ease, filter 0.18s ease',
-        filter: isLit ? LIT_FILTER : SHADOW_FILTER,
+        filter: SHADOW_FILTER,
         pointerEvents: 'none',
       }}
     >
-      {mood !== 'calm' && (
+      {mood === 'crisis' && (
         <span
           aria-hidden="true"
           data-testid="province-mood"
           data-mood={mood}
-          className={`province-mood province-mood--${mood}`}
+          className="province-mood province-mood--crisis"
           style={{
             position: 'absolute',
             ...MOOD_AURA_INSET,
             borderRadius: '50%',
-            background: MOOD_GRADIENTS[mood],
+            background: CRISIS_GRADIENT,
             pointerEvents: 'none',
             zIndex: 0,
           }}
