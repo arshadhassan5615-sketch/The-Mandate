@@ -42,15 +42,14 @@ function MedallionButton({ item, scale, minor = false, style }: MedallionButtonP
     ? 'hud-medallion hud-medallion--news'
     : minor ? 'hud-medallion hud-medallion--left' : 'hud-medallion'
   const art = big ? null : getRailArt(item.key)
-  const glyph = art === null ? icon : (
-    <img
-      src={art}
-      alt=""
-      aria-hidden="true"
-      style={{ width: sizes.icon * 1.25, height: sizes.icon * 1.25, objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
-    />
-  )
   const iconScale = minor ? sizes.minorMedallion / sizes.medallion : 1
+  // The logo is sized directly, not inside the scaled wrapper: a transform isolates it, and the
+  // screen blend would then keep the logo's black background instead of letting it fall away.
+  const artSize = sizes.icon * 1.25 * iconScale
+  const glyph = art === null
+    ? <span style={{ display: 'flex', transform: `scale(${iconScale})` }}>{icon}</span>
+    : <img src={art} alt="" aria-hidden="true" style={{ width: artSize, height: artSize, objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }} />
+
   return (
     <button
       type="button"
@@ -81,7 +80,7 @@ function MedallionButton({ item, scale, minor = false, style }: MedallionButtonP
           </span>
         </>
       ) : (
-        <span style={{ display: 'flex', transform: `scale(${iconScale})` }}>{glyph}</span>
+        glyph
       )}
       {!big && badge > 0 && (
         <span aria-hidden style={{
