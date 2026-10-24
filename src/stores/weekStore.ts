@@ -33,6 +33,7 @@ import { useCabinetStore } from './cabinetStore'
 import { generateWeeklyRequests } from '../data/ministerRequests'
 import { calculateElectionResult } from '../engine/ElectionEngine'
 import { scheduleWeekStartChains } from '../engine/weekStartChains'
+import { weekToDate } from '../engine/dates'
 
 // ─── Pending transition timeouts ──────────────────────────────────────────────
 // Track setTimeout IDs so resetToInitial / startCustomization can cancel them
@@ -1279,10 +1280,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
 
             // Inject inauguration news after oath completes
             if (completedSceneIds.has('act1_week1_inauguration')) {
-              const d = new Date(1963, 2, 15) // March 15 1963
-              const dateStr = d.toLocaleDateString('en-US', {
-                day: 'numeric', month: 'long', year: 'numeric'
-              })
+              const dateStr = weekToDate(1)
               useNewsStore.getState().addArticles([
                 {
                   id: `news_inauguration_herald_${Date.now()}`,
@@ -1338,10 +1336,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
             }
 
             if (completedSceneIds.has('act1_week1_address_nation')) {
-              const d = new Date(1963, 2, 15)
-              const dateStr = d.toLocaleDateString('en-US', {
-                day: 'numeric', month: 'long', year: 'numeric'
-              })
+              const dateStr = weekToDate(1)
               const flags = useNarrativeStore.getState().activeFlags
 
               // Determine which speech was given
@@ -1454,8 +1449,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
             }
 
             if (completedSceneIds.has('act1_week7_commissioner')) {
-              const d = new Date(1963, 2, 29)
-              const dateStr = d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+              const dateStr = weekToDate(useGameStore.getState().currentWeek)
               const flags = useNarrativeStore.getState().activeFlags
               const commType = flags.includes('commissioner_vasic_appointed') ? 'vasic'
                 : flags.includes('commissioner_solc_appointed') ? 'solc'
@@ -1997,9 +1991,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // Generate week-summary news article
     const summaryTemplate = NEWS_TEMPLATES.find(t => t.trigger === '__week_summary__')
     if (summaryTemplate) {
-      const d = new Date(1963, 0, 1)
-      d.setDate(d.getDate() + (newWeek - 1) * 7)
-      const dateStr = d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+      const dateStr = weekToDate(newWeek)
       const pub = newWeek % 2 === 0 ? 'ashenmere_herald' as const : 'peoples_standard' as const
       const content = pub === 'ashenmere_herald' ? summaryTemplate.herald : summaryTemplate.standard
       useNewsStore.getState().addArticles([{

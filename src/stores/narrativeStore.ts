@@ -4,11 +4,15 @@ import type { NewsArticle } from '../types/news'
 import type { GameState, StateModifier } from '../types/gameState'
 import { getScene, getAvailableChoices, ENGINE_CONTINUE_ID } from '../engine/NarrativeEngine'
 import { evaluateAll } from '../engine/conditionEvaluator'
+import { weekToDate } from '../engine/dates'
 import { useGameStore } from './gameStore'
 import { useCabinetStore } from './cabinetStore'
 import { useChainStore } from './chainStore'
 import { useWeekStore } from './weekStore'
 import { useNewsStore } from './newsStore'
+import { useCommitmentStore } from './commitmentStore'
+import { useProvinceNewsStore } from './provinceNewsStore'
+import { isCommitmentChoice, commitmentFromChoice } from '../engine/commitments'
 import { useDecreeStore } from './decreeStore'
 import { NEWS_TEMPLATES } from '../data/news/newsTemplates'
 import { buildCoverage } from '../engine/pressCoverage'
@@ -87,12 +91,6 @@ function getMidCrisisSceneId(projectId: string): string | null {
   }
 }
 
-function weekToDate(week: number): string {
-  const d = new Date(1963, 0, 1)
-  d.setDate(d.getDate() + (week - 1) * 7)
-  return d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
-}
-
 function generateNews(
   trigger: string,
   gameState: ReturnType<typeof useGameStore.getState>,
@@ -119,6 +117,14 @@ function generateNews(
   }
 }
 
+/** One choice the player made: where, which, and in which week. */
+export interface ChoiceRecord {
+  sceneId: string
+  segmentId: string | null   // the branch being played when the choice was made, null for the scene's opening
+  choiceId: string
+  week: number
+}
+
 interface NarrativeStore {
   currentScene:      NarrativeNode | null
   activeSegmentId:   string | null   // non-null when playing a branch within a scene
@@ -126,6 +132,7 @@ interface NarrativeStore {
   activeFlags:       string[]
   unlockedCodexIds:  string[]    // codex entry IDs unlocked by choices
   metCharacters:     string[]    // character roster IDs the player has encountered
+  choiceLog:         ChoiceRecord[]  // every real choice made this playthrough, in order (saved)
   // Characters met for the first time in the current scene, in order of first line (ids without the character_ prefix). Transient: not saved.
   newlyMetIds:       string[]
   sceneDone:         boolean     // true once the scene's choices have all resolved
@@ -159,6 +166,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   activeFlags:       [],
   unlockedCodexIds:  [],
   metCharacters:     [],
+  choiceLog:         [],
   newlyMetIds:       [],
   sceneDone:         false,
 
@@ -265,16 +273,21 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       : [...state.visitedSceneIds, id],
   })),
 
-  resetAll: () => set({
-    currentScene:      null,
-    activeSegmentId:   null,
-    visitedSceneIds:   [],
-    activeFlags:       [],
-    unlockedCodexIds:  [],
-    metCharacters:     [],
-    newlyMetIds:       [],
-    sceneDone:         false,
-  }),
+  resetAll: () => {
+    useCommitmentStore.getState().reset()
+    useProvinceNewsStore.getState().reset()
+    set({
+      currentScene:      null,
+      activeSegmentId:   null,
+      visitedSceneIds:   [],
+      activeFlags:       [],
+      unlockedCodexIds:  [],
+      metCharacters:     [],
+      choiceLog:         [],
+      newlyMetIds:       [],
+      sceneDone:         false,
+    })
+  },
 
   addFlags: (flags) => set((state) => ({
     activeFlags: [...new Set([...state.activeFlags, ...flags])],
@@ -293,7 +306,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   },
 
   processChoice: (choiceId) => {
-    const { currentScene, visitedSceneIds, activeFlags } = get()
+    const { currentScene, visitedSceneIds, activeFlags, activeSegmentId, choiceLog } = get()
     const sceneChoices = currentScene?.choices ?? []
     const segmentsKeys = currentScene?.segments ? Object.keys(currentScene.segments) : []
     if (import.meta.env.DEV) console.log(
@@ -349,6 +362,19 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
         '| sceneId:', currentScene.id,
       )
       return
+    }
+
+    // Recorded before any state change in this call, so segmentId is the branch
+    // the choice was made in (activeSegmentId is still the pre-choice value).
+    const choiceRecord: ChoiceRecord = {
+      sceneId: currentScene.id,
+      segmentId: activeSegmentId,
+      choiceId,
+      week: useGameStore.getState().currentWeek,
+    }
+    // Promises are recorded once, at the moment they are made.
+    if (isCommitmentChoice(choice)) {
+      useCommitmentStore.getState().record(commitmentFromChoice(currentScene, choice, choiceRecord.week))
     }
 
     // Log journal entry for major decisions
@@ -550,10 +576,13 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       ? visitedSceneIds
       : [...visitedSceneIds, currentScene.id]
 
-    // Generate news articles for this choice + any flags just set
-    generateNews(choice.id, useGameStore.getState(), newFlags)
-    for (const flag of choice.flags ?? []) {
-      generateNews(flag, useGameStore.getState(), newFlags)
+    // Generate news for this choice and the flags it newly sets. A flag that was
+    // already active has had its story, and a flag repeating the choice id (or
+    // another flag) fires once, so no story prints twice.
+    const freshFlags = (choice.flags ?? []).filter(flag => !activeFlags.includes(flag))
+    const newsTriggers = new Set([choice.id, ...freshFlags])
+    for (const trigger of newsTriggers) {
+      generateNews(trigger, useGameStore.getState(), newFlags)
     }
 
     // Chime when new codex entries are unlocked
@@ -581,7 +610,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     // Meeting" button inside ConversationPanel can render. Setting
     // currentScene=null would short-circuit NarrativeScene.tsx's null-check
     // (line 218) and hide that button — that was the freeze bug.
-    let updatedScene: NarrativeNode | null = null
+    let updatedScene: NarrativeNode | null
     let nextSegmentId: string | null = null
     if (nextScene) {
       // Round B1 STEP 1 — run the swapped scene through the same
@@ -635,6 +664,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       activeFlags:      newFlags,
       unlockedCodexIds: newCodexIds,
       visitedSceneIds:  newVisited,
+      choiceLog:        [...choiceLog, choiceRecord],
       currentScene:     updatedScene,
       activeSegmentId:  nextSegmentId,
       sceneDone,

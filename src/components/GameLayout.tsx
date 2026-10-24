@@ -21,6 +21,7 @@ import TopBar from './TopBar'
 import ProjectsPanel from './ProjectsPanel'
 import ProjectMidpointModal from './ProjectMidpointModal'
 import NewsOverlay from './NewsOverlay'
+import WeekHeadline from './news/WeekHeadline'
 import LegislationOverlay from './LegislationOverlay'
 import ParliamentOverlay from './ParliamentOverlay'
 import AgendaSelector from './AgendaSelector'
@@ -119,8 +120,6 @@ export default function GameLayout() {
     audioManager.setUserInteracted()
     startAmbient()
     ambientStarted.current = true
-    document.removeEventListener('click', startAmbientOnce)
-    document.removeEventListener('keydown', startAmbientOnce)
   }, [])
 
   useEffect(() => {
@@ -451,6 +450,9 @@ export default function GameLayout() {
 
       {/* News overlay */}
       <NewsOverlay />
+
+      {/* Week headline clipping — decides itself when to show */}
+      <WeekHeadline />
 
       {/* Legislation overlay */}
       <LegislationOverlay />

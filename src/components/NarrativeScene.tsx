@@ -2,11 +2,18 @@ import { useRef, useEffect, useCallback, useState, useMemo } from 'react'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
-import { getAvailableChoices, ensureTerminalChoice, recurringOpeningNodes } from '../engine/NarrativeEngine'
+import { useSettingsStore } from '../stores/settingsStore'
+import { recurringOpeningNodes } from '../engine/NarrativeEngine'
+import { displayChoices } from '../engine/choiceLocks'
+import type { NarrativeSegment } from '../types/narrative'
 import { useDialogueFlow } from '../hooks/useDialogueFlow'
 import { playTypewriterKeyThrottled, startAmbient } from '../engine/audioEngine'
 import { getCharacterColor } from './portraits/CharacterPortraits'
 import ConversationPanel from './narrative/ConversationPanel'
+import MemoryLine from './narrative/MemoryLine'
+import { memoryTextFor } from './narrative/memoryLineText'
+import ReadingModeBadge from './narrative/ReadingModeBadge'
+import { autoAdvanceDelayMs, hasReadScene, markSceneRead } from '../engine/readRegistry'
 
 interface HistoryEntry {
   id: string
@@ -16,6 +23,9 @@ interface HistoryEntry {
   characterColor?: string
   text: string
 }
+
+// Skip mode advances one step per tick while Ctrl is held on a scene already read.
+const SKIP_INTERVAL_MS = 60
 
 const CHAR_NAMES: Record<string, string> = {
   vyktor_reznik: 'Vyktor Reznik', danika_oberlin: 'Danika Oberlin',
@@ -38,14 +48,36 @@ function charName(id: string): string {
   return CHAR_NAMES[id] ?? id.replace(/_/g, ' ')
 }
 
+// The conversation history: the revealed prefix of the scene's segments, shaped as ConversationPanel entries.
+function buildHistory(segments: readonly NarrativeSegment[], revealedCount: number, sceneId: string): HistoryEntry[] {
+  return segments.slice(0, revealedCount).map((seg, i): HistoryEntry => {
+    const effectiveType =
+      seg.type === 'monologue' ? 'internal_thought' :
+      seg.type === 'narrative' ? 'description' :
+      seg.type
+    return {
+      id: `${sceneId}-rev-${i}`,
+      type: effectiveType,
+      characterId: seg.character,
+      characterName: seg.character ? charName(seg.character) : undefined,
+      characterColor: seg.character ? getCharacterColor(seg.character) : undefined,
+      text: seg.text,
+    }
+  })
+}
+
 export default function NarrativeScene() {
   const { currentScene, sceneDone, activeFlags, processChoice, activeSegmentId } = useNarrativeStore()
   const gameState = useGameStore()
   const currentWeek = useGameStore(s => s.currentWeek)
   const { sceneQueue, currentQueueIndex, advanceQueue, returnToMap } = useWeekStore()
   const radioOpen = useWeekStore(s => s.radioOpen)
+  const memoryHints = useSettingsStore(s => s.memoryHints)
+  const autoAdvance = useSettingsStore(s => s.autoAdvance)
+  const toggleAutoAdvance = useSettingsStore(s => s.toggleAutoAdvance)
+  // Tied to the scene and week it came from, so a recurring weekly scene never replays an old line.
+  const [memory, setMemory] = useState<{ key: number; text: string; sceneId: string; week: number } | null>(null)
 
-  const baseSegments = currentScene?.narrative ?? []
   const isEmergency = currentScene?.type === 'emergency'
   // Round B2 STEP 1 — inject the recurring opening topics only while no
   // segment is active. After a choice moves into a segment, the hub narrative
@@ -54,9 +86,10 @@ export default function NarrativeScene() {
   // recurringOpeningNodes; this call site only applies it.
   const atSceneRoot = activeSegmentId == null
   const segments = useMemo(() => {
+    const baseSegments = currentScene?.narrative ?? []
     const injected = recurringOpeningNodes(currentScene, gameState, activeFlags, atSceneRoot)
     return [...baseSegments, ...injected]
-  }, [atSceneRoot, currentScene?.id, currentScene?.segments, baseSegments, gameState, activeFlags])
+  }, [atSceneRoot, currentScene, gameState, activeFlags])
 
   const {
     revealedSegments,
@@ -66,7 +99,13 @@ export default function NarrativeScene() {
     allDone,
     speakingCharacter,
     advance,
-  } = useDialogueFlow(segments, isEmergency ? 2.5 : 1)
+  } = useDialogueFlow(segments, isEmergency ? 2.5 : 1, currentScene?.id ?? '')
+
+  // Timers read advance through this ref, so they are not restarted every time its identity changes.
+  const advanceRef = useRef(advance)
+  useEffect(() => {
+    advanceRef.current = advance
+  })
 
   const prevLen = useRef(0)
   const totalLen = revealedSegments.reduce((a, s) => a + s.text.length, 0) + activeText.length
@@ -79,13 +118,29 @@ export default function NarrativeScene() {
     startAmbient(currentScene?.type === 'personal' ? 'personal' : undefined)
   }, [currentScene?.id, currentScene?.type])
 
-  const choices = currentScene
-    ? ensureTerminalChoice(getAvailableChoices(currentScene, gameState, activeFlags))
-    : []
+  const shownChoices = currentScene ? displayChoices(currentScene.choices ?? [], gameState, activeFlags) : []
+  const choices = shownChoices.map(d => d.choice)
+  // Stat-locked choices stay visible but cannot be picked by click or number key.
+  const lockedReasons: Record<string, string> = Object.fromEntries(
+    shownChoices.filter(d => d.lockedReason).map(d => [d.choice.id, d.lockedReason as string]),
+  )
+
+  // Shows the "will remember that" line for a choice that moves someone's standing.
+  // Called before processChoice on both the click and number-key paths.
+  const announceMemory = useCallback((id: string) => {
+    const choice = currentScene?.choices?.find(c => c.id === id)
+    const text = memoryTextFor(choice, currentScene?.characters ?? [], memoryHints)
+    if (text && currentScene) setMemory({ key: Date.now(), text, sceneId: currentScene.id, week: currentWeek })
+  }, [currentScene, memoryHints, currentWeek])
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const tag = (e.target as HTMLElement)?.tagName
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
+
+    if ((e.key === 'a' || e.key === 'A') && !e.ctrlKey && !e.metaKey && !e.altKey && !e.repeat) {
+      toggleAutoAdvance()
+      return
+    }
 
     if ((e.key === ' ' || e.key === 'Enter') && !sceneDone && !allDone) {
       e.preventDefault()
@@ -96,11 +151,14 @@ export default function NarrativeScene() {
     if (allDone && !sceneDone) {
       const num = parseInt(e.key)
       if (num >= 1 && num <= 5 && num <= choices.length) {
+        const pressedId = choices[num - 1].id
+        if (Object.hasOwn(lockedReasons, pressedId)) return
         e.preventDefault()
-        processChoice(choices[num - 1].id)
+        announceMemory(pressedId)
+        processChoice(pressedId)
       }
     }
-  }, [advance, sceneDone, allDone, choices, processChoice])
+  }, [advance, sceneDone, allDone, choices, lockedReasons, processChoice, announceMemory, toggleAutoAdvance])
 
   const handleProcessChoice = useCallback((id: string) => {
     if (import.meta.env.DEV) console.log(
@@ -109,6 +167,7 @@ export default function NarrativeScene() {
       '| nextNode:', (currentScene?.choices ?? []).find(c => c.id === id)?.nextNodeId,
       '| nextSegment:', (currentScene?.choices ?? []).find(c => c.id === id)?.nextSegment,
     )
+    announceMemory(id)
     try {
       processChoice(id)
     } catch (e) {
@@ -121,12 +180,57 @@ export default function NarrativeScene() {
       // so the player can advance to the next event instead of being frozen.
       useNarrativeStore.setState({ sceneDone: true })
     }
-  }, [currentScene, processChoice])
+  }, [currentScene, processChoice, announceMemory])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
+
+  // Ctrl held = skip. Listened to on the window so a keyup is never missed, even after typing elsewhere.
+  const ctrlHeldRef = useRef(false)
+  const [ctrlHeld, setCtrlHeld] = useState(false)
+  useEffect(() => {
+    const setHeld = (held: boolean) => {
+      ctrlHeldRef.current = held
+      setCtrlHeld(held)
+    }
+    const handleCtrlDown = (e: KeyboardEvent) => { if (e.key === 'Control') setHeld(true) }
+    const handleCtrlUp = (e: KeyboardEvent) => { if (e.key === 'Control') setHeld(false) }
+    const handleBlur = () => setHeld(false)
+    window.addEventListener('keydown', handleCtrlDown)
+    window.addEventListener('keyup', handleCtrlUp)
+    window.addEventListener('blur', handleBlur)
+    return () => {
+      window.removeEventListener('keydown', handleCtrlDown)
+      window.removeEventListener('keyup', handleCtrlUp)
+      window.removeEventListener('blur', handleBlur)
+    }
+  }, [])
+
+  // Skip only fast-forwards scenes read before, and stops at choices (allDone) or the scene end.
+  const currentSceneId = currentScene?.id
+  const skipping = ctrlHeld && !allDone && !sceneDone && currentSceneId != null && hasReadScene(currentSceneId)
+
+  useEffect(() => {
+    if (!skipping) return
+    const id = setInterval(() => {
+      if (ctrlHeldRef.current) advanceRef.current()
+    }, SKIP_INTERVAL_MS)
+    return () => clearInterval(id)
+  }, [skipping])
+
+  // Reading pause: once a line has finished typing, move on by itself. Choices are never auto-picked.
+  const finishedLineText = activeSegment?.text
+  useEffect(() => {
+    if (!autoAdvance || !segmentDone || allDone || sceneDone || finishedLineText == null) return
+    const id = setTimeout(() => advanceRef.current(), autoAdvanceDelayMs(finishedLineText))
+    return () => clearTimeout(id)
+  }, [autoAdvance, segmentDone, allDone, sceneDone, finishedLineText])
+
+  useEffect(() => {
+    if (sceneDone && currentSceneId) markSceneRead(currentSceneId)
+  }, [sceneDone, currentSceneId])
 
   // Auto-advance queue when scene is done and returnToMap is true (no button click needed)
   useEffect(() => {
@@ -145,8 +249,22 @@ export default function NarrativeScene() {
     : `Continue to Next Meeting (${currentQueueIndex + 2}/${sceneQueue.length}) →`
 
   const sceneCharacters = currentScene?.characters ?? []
-  const [history, setHistory] = useState<HistoryEntry[]>([])
-  const prevRevealed = useRef(0)
+  // History is the revealed prefix of the segments, so it resets with them and needs no effect.
+  // ConversationPanel scrolls whenever its identity changes, so the array is held in state under a
+  // content key: a store update that leaves the revealed lines unchanged keeps the same array.
+  const revealedCount = revealedSegments.length
+  const historySceneId = currentScene?.id ?? 'scene'
+  const historyKey = `${historySceneId}|${revealedCount}|` + segments.slice(0, revealedCount)
+    .map(s => `${s.type}\u0001${s.character ?? ''}\u0001${s.text}`)
+    .join('\u0002')
+  const [historyState, setHistoryState] = useState<{ key: string; entries: HistoryEntry[] }>(() => ({
+    key: historyKey,
+    entries: buildHistory(segments, revealedCount, historySceneId),
+  }))
+  const isHistoryCurrent = historyState.key === historyKey
+  const history = isHistoryCurrent ? historyState.entries : buildHistory(segments, revealedCount, historySceneId)
+  // Adjusting state during render: React re-runs this render straight away and reads back the same array.
+  if (!isHistoryCurrent) setHistoryState({ key: historyKey, entries: history })
   const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const emergencyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -224,41 +342,6 @@ export default function NarrativeScene() {
     }
   }, [currentScene])
 
-  // Reset conversation history when a new scene or segment loads
-  useEffect(() => {
-    setHistory([])
-    prevRevealed.current = 0
-  }, [currentScene?.id, activeSegmentId])
-
-  useEffect(() => {
-    // Reset tracking when segments shrink (scene transition or branch)
-    if (revealedSegments.length < prevRevealed.current) {
-      prevRevealed.current = 0
-    }
-    if (revealedSegments.length > prevRevealed.current) {
-      const newEntries: HistoryEntry[] = []
-      for (let i = prevRevealed.current; i < revealedSegments.length; i++) {
-        const seg = revealedSegments[i]
-        const effectiveType =
-          seg.type === 'monologue' ? 'internal_thought' :
-          seg.type === 'narrative' ? 'description' :
-          seg.type
-        newEntries.push({
-          id: `${currentScene?.id ?? 'scene'}-rev-${i}`,
-          type: effectiveType,
-          characterId: seg.character,
-          characterName: seg.character ? charName(seg.character) : undefined,
-          characterColor: seg.character ? getCharacterColor(seg.character) : undefined,
-          text: seg.text,
-        })
-      }
-      if (newEntries.length > 0) {
-        setHistory(h => [...h, ...newEntries])
-      }
-      prevRevealed.current = revealedSegments.length
-    }
-  }, [revealedSegments, revealedSegments.length, activeSegment, segmentDone, currentScene?.id])
-
   if (!currentScene) {
     if (import.meta.env.DEV) console.log('NarrativeScene: NO SCENE LOADED',
       'sceneQueue:', sceneQueue.map(s => s.sceneId),
@@ -298,6 +381,7 @@ export default function NarrativeScene() {
         activeText={activeText}
         showCursor={!segmentDone}
         choices={choices}
+        lockedReasons={lockedReasons}
         showChoices={allDone && !sceneDone}
         sceneDone={sceneDone}
         allDone={allDone}
@@ -309,6 +393,16 @@ export default function NarrativeScene() {
         speakingCharacter={speakingCharacter}
         monologueText={currentScene?.monologue}
       />
+
+      <ReadingModeBadge mode={skipping ? 'skip' : autoAdvance ? 'auto' : null} />
+
+      {memory && memory.sceneId === currentScene?.id && memory.week === currentWeek && (
+        <MemoryLine
+          key={memory.key}
+          text={memory.text}
+          onDone={() => setMemory(null)}
+        />
+      )}
 
       {/* Save, Briefs, Notes and the rest live in the command bar */}
     </>

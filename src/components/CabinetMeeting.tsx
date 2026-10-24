@@ -1,15 +1,22 @@
-import { useState } from 'react'
+import { createElement, useState } from 'react'
 import type { MinisterRequest, MinisterRequestOption } from '../types/minister'
 import { useCabinetStore } from '../stores/cabinetStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useWeekStore } from '../stores/weekStore'
-import type { NewsArticle } from '../types/news'
+import type { NewsArticle, NewsCategory, Publication } from '../types/news'
 import { buildCoverage } from '../engine/pressCoverage'
+import { weekToDate } from '../engine/dates'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
 import { usePageInsets } from '../hooks/usePageInsets'
+
+/* Author overrides are typed loosely in minister.ts; validate before printing. */
+const PUBLICATIONS: readonly Publication[] = ['ashenmere_herald', 'peoples_standard', 'veltrian_voice', 'veltrian_times', 'kravenstal_worker', 'thornfeld_gazette']
+const isPublication = (value: string): value is Publication => (PUBLICATIONS as readonly string[]).includes(value)
+const NEWS_CATEGORIES: readonly NewsCategory[] = ['bni', 'economy', 'security', 'constitutional', 'diplomacy', 'personal', 'faction', 'budget', 'crisis', 'war', 'governance', 'media']
+const isNewsCategory = (value: string): value is NewsCategory => (NEWS_CATEGORIES as readonly string[]).includes(value)
 
 function MinisterPortrait({ ministerId }: { ministerId: string }) {
   const [imgError, setImgError] = useState(false)
@@ -37,7 +44,7 @@ function MinisterPortrait({ ministerId }: { ministerId: string }) {
           onError={() => setImgError(true)}
         />
       ) : SvgComp ? (
-        <SvgComp />
+        createElement(SvgComp)
       ) : (
         <span style={{
           fontSize: '28px',
@@ -139,7 +146,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
 
     // --- PROCEDURAL MEDIA ENGINE ---
     const currentWeek = useGameStore.getState().currentWeek
-    const date = `Week ${currentWeek}, 1963`
+    const date = weekToDate(currentWeek)
     const generatedNews: NewsArticle[] = []
 
     // The decision as a governance story; the press decides who prints it and
@@ -165,15 +172,16 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
     // 3. Custom Author Overrides
     if (option.newsImpact) {
       option.newsImpact.forEach((n, i) => {
+        if (!isPublication(n.publication)) return
         generatedNews.push({
           id: `news_custom_${current.id}_${i}_${Date.now()}`,
           headline: n.headline,
           body: n.body,
-          publication: n.publication as any,
+          publication: n.publication,
           weekNumber: currentWeek,
           date,
           templateId: 'event_standard',
-          category: (n.category || 'POLITICS') as any
+          category: n.category && isNewsCategory(n.category) ? n.category : 'governance'
         })
       })
     }

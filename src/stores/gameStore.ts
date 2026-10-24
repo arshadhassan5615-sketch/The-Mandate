@@ -10,6 +10,7 @@ import type { RadioTheme } from '../engine/RadioEngine'
 import type { ActiveProject } from '../types/projects'
 import { computeBudgetModifiers } from '../engine/budgetEffects'
 import { softenForStoryMode } from '../engine/storyMode'
+import { weekToDate } from '../engine/dates'
 import { useNarrativeStore } from './narrativeStore'
 import { useDecreeStore } from './decreeStore'
 import { useCabinetStore } from './cabinetStore'
@@ -502,7 +503,7 @@ export const useGameStore = create<GameStore>()(
     ),
   })),
   // Radio broadcasts
-  useRadioBroadcast: (_theme: RadioTheme) => set((state) => ({
+  useRadioBroadcast: () => set((state) => ({
     radioBroadcastsUsed: state.radioBroadcastsUsed + 1,
   })),
 
@@ -611,9 +612,7 @@ export const useGameStore = create<GameStore>()(
   addJournalReflection: (week, text) => {
     const trimmed = text.trim()
     if (!trimmed) return
-    const d = new Date(1963, 0, 1)
-    d.setDate(d.getDate() + (week - 1) * 7)
-    const date = d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+    const date = weekToDate(week)
     const entry = { week, text: trimmed.slice(0, 2000), date }
     set((state) => {
       const existing = state.journalReflections.findIndex(e => e.week === week)

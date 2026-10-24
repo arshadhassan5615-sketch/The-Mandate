@@ -13,6 +13,8 @@ import { useSettingsStore } from '../stores/settingsStore'
 import { saveGame } from '../engine/SaveManager'
 import { playPageTurn } from '../engine/audioEngine'
 import { useBillStore } from '../stores/billStore'
+import { weekToDate } from '../engine/dates'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 // ─── Summary computation ────────────────────────────────────────────────────
 
@@ -251,6 +253,7 @@ export default function EveningReview() {
   const { sceneQueue, weekStartSnapshot, completeWeek, gateBlocked, gateMessage, dismissGate, agendaPool } = useWeekStore()
   const gameState = useGameStore()
   const { currentWeek } = gameState
+  const insets = usePageInsets()
   const { setSaveMenuOpen, ironmanMode } = useSettingsStore()
   const bills = useBillStore((s) => s.bills)
   const addJournalReflection = useGameStore(s => s.addJournalReflection)
@@ -271,14 +274,10 @@ export default function EveningReview() {
   // Generate contextual prompt from the most significant change this week
   const prompt = generateReflectionPrompt(statChanges, decisions)
 
-  const dateStr = (() => {
-    const d = new Date(1963, 0, 1)
-    d.setDate(d.getDate() + (currentWeek - 1) * 7)
-    return d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
-  })()
+  const dateStr = weekToDate(currentWeek)
 
   return (
-    <div className="evening-review" style={{ paddingRight: '80px', boxSizing: 'border-box' }}>
+    <div className="evening-review" style={{ paddingLeft: insets.left, paddingRight: insets.right, boxSizing: 'border-box' }}>
       <motion.div
         className="evening-review-inner"
         variants={containerVariants}

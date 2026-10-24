@@ -1,0 +1,24 @@
+{
+  "id": "letter_arcturian_quarterly_report",
+  "title": "The First Quarterly Report",
+  "act": 0,
+  "weekAvailable": 1,
+  "type": "diplomacy",
+  "agendaCost": 0,
+  "isMandatory": true,
+  "location": "Ministry of Finance — Vostane's Office",
+  "characters": ["elara_vostane"],
+  "prerequisites": [],
+  "narrative": [
+    { "type": "description", "text": "Four weeks after the Arcturian money cleared the bank, the first quarterly report lies on Elara Vostane's desk. It is thinner than it ought to be, and she has already read it twice." },
+    { "type": "description", "text": "Most of the 150 million ₭ went where the letter said it would: wages in the textile towns, the reserves that steady the Krone, the provinces the crisis struck hardest." },
+    { "type": "dialogue", "character": "elara_vostane", "text": "Around thirty million did not. The ministries pulled it sideways for other urgent costs, one request at a time, and each request was defensible on its own. The ledger records it as a run of transfers, not as a sum anyone signed for." },
+    { "type": "dialogue", "character": "elara_vostane", "text": "The report is due to the Arcturian Development Bank at the end of the quarter, and the bank reads summaries, not ledgers. A summary can say 'public services and emergency wages' and be true on every line. Or it can say what happened. Prime Minister Cray is abroad, and the report will reach the bank before it reaches him." },
+    { "type": "description", "text": "She turns the report so that the last page faces you. It is still blank." }
+  ],
+  "choices": [
+    { "id": "arcturian_report_full", "text": "\"Publish every line. The thirty million goes in the report with the rest, and then we claw it back. Cray trusted me with his name, and the Assembly will see exactly what that trust bought.\"", "internalTag": "reformist", "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 6 }, { "stat": "personal.moralCompass", "operation": "add", "value": 6 }, { "stat": "nation.economyHealth", "operation": "add", "value": -4 }], "chainTriggers": [], "flags": ["arcturian_aid_accounted"], "codexUnlocks": [] },
+    { "id": "arcturian_report_disclose", "text": "\"Write to Cray privately, Elara. Tell him where the thirty million went and why, and ask for his leave to account for it that way. He should hear it from me before he reads it in a summary.\"", "internalTag": "pragmatist", "stateChanges": [{ "stat": "nation.internationalStanding", "operation": "add", "value": 4 }, { "stat": "personal.moralCompass", "operation": "add", "value": 3 }], "chainTriggers": [], "flags": ["arcturian_aid_disclosed"], "codexUnlocks": [] },
+    { "id": "arcturian_report_fold_in", "text": "\"File the summary as it stands. Put the thirty million under the broad heading and let the bank read what it expects to read. The ministries needed that money, and Cray will never open the ledger.\"", "internalTag": "deflect", "stateChanges": [{ "stat": "nation.economyHealth", "operation": "add", "value": 5 }, { "stat": "personal.moralCompass", "operation": "add", "value": -6 }, { "stat": "nation.corruption", "operation": "add", "value": 4 }], "chainTriggers": [], "flags": ["arcturian_aid_diverted"], "codexUnlocks": [] }
+  ]
+}

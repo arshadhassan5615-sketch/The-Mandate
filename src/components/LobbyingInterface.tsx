@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, createElement } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
@@ -26,7 +26,7 @@ function VyktorPortrait() {
       flexShrink: 0,
       backgroundColor: 'rgba(0,0,0,0.3)',
     }}>
-      {VyktorSvg ? <VyktorSvg /> : (
+      {VyktorSvg ? createElement(VyktorSvg) : (
         <svg viewBox="0 0 100 100" width="56" height="56">
           <circle cx="50" cy="40" r="24" fill="rgba(255,255,255,0.15)" />
           <ellipse cx="50" cy="80" rx="34" ry="22" fill="rgba(255,255,255,0.1)" />
@@ -39,6 +39,11 @@ function VyktorPortrait() {
 export default function LobbyingInterface() {
   // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
   const insets = usePageInsets()
+  const cols = insets.isPhone
+    ? { ...columnsStyle, gridTemplateColumns: '1fr' }
+    : insets.isCompact
+    ? { ...columnsStyle, gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1fr)' }
+    : columnsStyle
   const factions = useGameStore(s => s.factions)
   const personalWealth = useGameStore(s => s.personal.personalWealth)
   const voteConfig = useWeekStore(s => s.voteConfig)
@@ -125,7 +130,7 @@ export default function LobbyingInterface() {
   }
 
   return (
-    <div style={insets.isPhone ? { ...overlayStyle, padding: '12px', paddingRight: '12px', paddingTop: insets.top, paddingBottom: insets.bottom + 12 } : overlayStyle}>
+    <div style={insets.isPhone ? { ...overlayStyle, padding: '12px', paddingRight: '12px', paddingTop: insets.top, paddingBottom: insets.bottom + 12 } : { ...overlayStyle, paddingLeft: insets.left, paddingRight: insets.right, paddingTop: insets.top }}>
       <div style={insets.isPhone ? { ...panelStyle, padding: '1rem', maxHeight: '100%' } : panelStyle}>
         {/* Header */}
         <div style={headerStyle}>
@@ -137,7 +142,7 @@ export default function LobbyingInterface() {
           </span>
         </div>
 
-        <div style={insets.isPhone ? { ...columnsStyle, gridTemplateColumns: '1fr' } : columnsStyle}>
+        <div style={cols}>
           {/* LEFT — Vyktor's assessment + VoteTracker */}
           <div style={leftColStyle}>
             {/* Vyktor portrait + quote */}
@@ -359,6 +364,7 @@ const overlayStyle: React.CSSProperties = {
 
 const panelStyle: React.CSSProperties = {
   width: '100%',
+  boxSizing: 'border-box',
   maxWidth: 1100,
   maxHeight: '90vh',
   overflowY: 'auto',
@@ -369,6 +375,9 @@ const panelStyle: React.CSSProperties = {
 }
 
 const headerStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
   textAlign: 'center',
   marginBottom: '1.5rem',
   paddingBottom: '1rem',

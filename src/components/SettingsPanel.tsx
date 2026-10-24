@@ -180,9 +180,9 @@ function SegmentedPicker<T extends string>({ label, options, value, onChange, co
 export default function SettingsPanel() {
   const {
     masterVolume, ambientVolume, uiVolume, musicVolume, masterMuted,
-    textSpeed, highContrast, fontSize, ironmanMode, storyMode,
+    textSpeed, highContrast, fontSize, ironmanMode, storyMode, memoryHints, autoAdvance,
     setMasterVolume, setAmbientVolume, setUiVolume, setMusicVolume, toggleMute,
-    setTextSpeed, toggleHighContrast, setFontSize, toggleIronmanMode, toggleStoryMode,
+    setTextSpeed, toggleHighContrast, setFontSize, toggleIronmanMode, toggleStoryMode, toggleMemoryHints, toggleAutoAdvance,
     settingsOpen, setSettingsOpen,
   } = useSettingsStore()
   const phase = useWeekStore(s => s.phase)
@@ -352,6 +352,22 @@ export default function SettingsPanel() {
           </p>
         )}
       </div>
+
+      <Toggle
+        label="Memory Hints"
+        description={isCompact ? undefined : 'After a choice, note who will remember it. Never shows numbers.'}
+        checked={memoryHints}
+        onChange={toggleMemoryHints}
+        compact={isCompact}
+      />
+
+      <Toggle
+        label="Auto-Advance"
+        description={isCompact ? undefined : 'Lines move on by themselves after a reading pause. Press A in a scene to toggle.'}
+        checked={autoAdvance}
+        onChange={toggleAutoAdvance}
+        compact={isCompact}
+      />
 
       <Toggle
         label="Ironman Mode"

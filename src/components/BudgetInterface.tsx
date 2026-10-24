@@ -227,11 +227,12 @@ export default function BudgetInterface() {
 
   // ── Queue label ────────────────────────────────────────────────────────────
   const isLastScene = currentQueueIndex >= sceneQueue.length - 1
+  const isEveningReviewCommit = isLastScene && !returnToMap
   const continueLabel = isLastScene
-    ? (returnToMap ? 'Commit & Continue →' : 'Commit & Proceed to Evening Review →')
+    ? (returnToMap ? 'Commit & Continue →' : 'Commit & Proceed to Review →')
     : `Commit & Continue (${currentQueueIndex + 2}/${sceneQueue.length}) →`
 
-  const compactLabel = continueLabel.replace('Commit & Proceed to Evening Review', 'Commit Budget')
+  const compactLabel = isEveningReviewCommit ? 'Commit Budget →' : continueLabel
 
   // ── Commit ─────────────────────────────────────────────────────────────────
   function handleCommit() {
@@ -298,7 +299,7 @@ export default function BudgetInterface() {
   )
 
   return (
-    <div data-layout={insets.isCompact ? 'compact' : undefined} className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(8,6,4,0.92)', paddingTop: insets.top, paddingBottom: insets.bottom }}>
+    <div data-layout={insets.isCompact ? 'compact' : undefined} className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(8,6,4,0.92)', paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right, paddingBottom: insets.bottom }}>
 
       {/* ── Header ──────────────────────────────────────────────── */}
       {!insets.isCompact && (
@@ -313,7 +314,7 @@ export default function BudgetInterface() {
       )}
 
       {/* ── Body ────────────────────────────────────────────────── */}
-      <div className="flex flex-1 overflow-hidden" style={{ paddingRight: insets.right }}>
+      <div className="flex flex-1 overflow-hidden">
 
         {/* ── Left: Revenue + Summary ─────────────────────────── */}
         {!insets.isCompact && (
@@ -416,6 +417,7 @@ export default function BudgetInterface() {
                 border: '1px solid rgba(201,168,76,0.4)',
                 padding: insets.isCompact ? '8px 16px' : insets.isPhone ? '12px' : '12px 24px',
                 cursor: 'pointer',
+                whiteSpace: 'nowrap',
                 ...(insets.isCompact ? { minHeight: 40, fontSize: '11px' } : {}),
               }}
             >
@@ -426,7 +428,7 @@ export default function BudgetInterface() {
               onClick={handleCommit}
               style={{
                 width: 'auto',
-                minWidth: insets.isPhone ? 0 : '300px',
+                minWidth: 0,
                 flex: insets.isPhone ? '1 1 0' : undefined,
                 border: '2px solid #c9a84c',
                 color: '#1a1410',
@@ -435,6 +437,7 @@ export default function BudgetInterface() {
                 fontWeight: '700',
                 letterSpacing: '1px',
                 padding: '12px 32px',
+                whiteSpace: 'nowrap',
                 ...(insets.isCompact ? { padding: '8px 20px', minHeight: 40, fontSize: '13px' } : {}),
               }}
               onMouseEnter={e => (e.currentTarget.style.background = '#dbb960')}

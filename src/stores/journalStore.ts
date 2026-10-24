@@ -1,11 +1,6 @@
 import { create } from 'zustand'
 import type { JournalEntry, JournalCategory, ChoiceAlignment, JournalStats } from '../types/journal'
-
-function weekToDate(week: number): string {
-  const d = new Date(1963, 0, 1)
-  d.setDate(d.getDate() + (week - 1) * 7)
-  return d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
-}
+import { weekToDate } from '../engine/dates'
 
 interface JournalStore {
   entries: JournalEntry[]

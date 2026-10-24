@@ -65,6 +65,8 @@ export interface SceneChoice {
   nextNodeId?: string                       // explicit transition; bypasses auto-advance
   nextSegment?: string                      // transition to a branch within the same scene
   flags?: string[]                           // boolean flags set on pick
+  /** Author override: true marks this choice as a promise, false stops automatic detection. */
+  commitment?: boolean
   codexUnlocks?: string[]
   reactions?: ChoiceReaction[]              // micro-reactions from present characters
 }

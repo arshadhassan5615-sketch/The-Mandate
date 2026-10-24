@@ -19,11 +19,14 @@ import type { BudgetAllocations } from '../types/gameState'
 import OverviewPanel from './panels/OverviewPanel'
 import StatsPanel from './panels/StatsPanel'
 import StatePanel from './panels/StatePanel'
+import CommitmentsPanel from './panels/CommitmentsPanel'
+import CalendarPanel from './panels/CalendarPanel'
+import ScenePathsPanel from './panels/ScenePathsPanel'
 import ConnectionsPanel from './panels/ConnectionsPanel'
 import NotepadPanel from './panels/NotepadPanel'
 import veltriaSeal from '../assets/images/veltria_seal.png'
 import {
-  MapIcon, NewsIcon, BriefsIcon, DecreeIcon, StateIcon, JournalIcon, LetterIcon, NotesIcon, MoreIcon,
+  MapIcon, NewsIcon, BriefsIcon, DecreeIcon, StateIcon, JournalIcon, LetterIcon, NotesIcon, CommitmentIcon, MoreIcon,
 } from './hud/icons'
 import { HUD_SIZES, weekToDate, type HudScale, type RailItem } from './hud/hudSizes'
 import HudCrest from './hud/HudCrest'
@@ -190,7 +193,8 @@ function MoreMenu({ items, placement, medallionSize }: MoreMenuProps) {
   }, [open])
   const toggleOpen = () => setOpen(o => !o)
   const menuPosition = placement === 'left'
-    ? { right: 'calc(100% + 6px)', top: 0, maxHeight: '80vh', overflowY: 'auto' as const }
+    // Grows upward from the medallion: More sits low on the rail, so a downward menu ran off-screen.
+    ? { right: 'calc(100% + 6px)', bottom: 0, maxHeight: '80vh', overflowY: 'auto' as const }
     : { right: 0, bottom: '100%' }
   return (
     <div ref={ref} style={{
@@ -290,7 +294,7 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
   // dialogue column's speaker medallions, so it is dropped (the rail stays).
   const showStatTab = !(isCompact && phase === 'scene')
 
-  const [panel, setPanel] = useState<'state' | 'stats' | 'overview' | 'assembly' | null>(null)
+  const [panel, setPanel] = useState<'state' | 'commitments' | 'stats' | 'overview' | 'assembly' | 'calendar' | 'paths' | null>(null)
   const toggle = (p: NonNullable<typeof panel>) => setPanel(cur => (cur === p ? null : p))
 
   const balance = useMemo(() => computeBudgetBalance(budget), [budget])
@@ -310,6 +314,7 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
   const journalTool: ToolProps = { icon: <JournalIcon />, label: 'Journal', shortcut: HUD_SHORTCUTS.journal, onClick: () => setJournalOpen(true) }
   const lettersTool: ToolProps = { icon: <LetterIcon />, label: 'Letters', shortcut: HUD_SHORTCUTS.letters, badge: letterUnread, onClick: () => openLetters(true) }
   const notesTool: ToolProps = { icon: <NotesIcon />, label: 'Notes', shortcut: HUD_SHORTCUTS.notepad, active: notepadOpen, onClick: () => setNotepadOpen(!notepadOpen) }
+  const commitmentsTool: ToolProps = { icon: <CommitmentIcon />, label: 'Commitments', active: panel === 'commitments', onClick: () => toggle('commitments') }
 
   const phoneTools: ToolProps[] = [mapTool, newsTool, briefsTool, decreesTool, stateTool, journalTool, lettersTool]
 
@@ -321,6 +326,7 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
     toRailItem(decreesTool),
     toRailItem(stateTool),
     toRailItem(lettersTool),
+    toRailItem(commitmentsTool),
     ...(isCompact ? [] : [toRailItem(journalTool), toRailItem(notesTool)]),
   ]
 
@@ -331,8 +337,11 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
       { label: 'Notes', onClick: () => setNotepadOpen(!notepadOpen) },
     ] : []),
     ...(isMobile ? [{ label: 'Notes', onClick: () => setNotepadOpen(!notepadOpen) }] : []),
+    ...(isMobile ? [{ label: 'Commitments', onClick: () => toggle('commitments') }] : []),
     { label: 'Assembly', onClick: () => toggle('assembly') },
     { label: 'National Statistics', onClick: () => toggle('stats') },
+    { label: 'Calendar', onClick: () => toggle('calendar') },
+    { label: 'Scene Paths', onClick: () => toggle('paths') },
     { label: 'Nation Overview', onClick: () => toggle('overview') },
     { label: 'Discretionary Fund', onClick: () => setInvestmentOpen(true) },
     ...(isMobile ? [{ label: 'Settings', onClick: () => setSettingsOpen(true) }] : []),
@@ -343,7 +352,10 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
   return (
     <>
       {panel === 'state' && <StatePanel onClose={() => setPanel(null)} />}
+      {panel === 'commitments' && <CommitmentsPanel onClose={() => setPanel(null)} />}
       {panel === 'stats' && <StatsPanel onClose={() => setPanel(null)} />}
+      {panel === 'calendar' && <CalendarPanel onClose={() => setPanel(null)} />}
+      {panel === 'paths' && <ScenePathsPanel onClose={() => setPanel(null)} />}
       {panel === 'overview' && <OverviewPanel onClose={() => setPanel(null)} />}
       {panel === 'assembly' && <ConnectionsPanel onClose={() => setPanel(null)} />}
       {notepadOpen && <NotepadPanel onClose={() => setNotepadOpen(false)} />}

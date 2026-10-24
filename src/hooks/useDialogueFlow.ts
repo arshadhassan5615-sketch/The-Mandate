@@ -19,7 +19,7 @@ export interface DialogueFlowState {
   advance: () => void
 }
 
-export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 1): DialogueFlowState {
+export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 1, resetKey = ''): DialogueFlowState {
   const textSpeed = useSettingsStore(s => s.textSpeed)
   const speedMs   = speedMultiplier > 1
     ? Math.max(1, Math.round(TEXT_SPEED_MS[textSpeed] / speedMultiplier))
@@ -30,8 +30,9 @@ export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 
   const [segDone,   setSegDone]   = useState(false)
   const [allDone,   setAllDone]   = useState(false)
 
-  // Generate a stable string hash of the current segments
-  const currentHash = segments.map(s => `${(s as { id?: string }).id || 'n'}-${s.text.substring(0, 10)}`).join('|')
+  // Identifies the loaded dialogue. Full text (not a prefix) plus the caller's
+  // reset key, so two scenes that open with similar lines never share progress.
+  const currentHash = resetKey + '§' + segments.map(s => `${(s as { id?: string }).id || 'n'}-${s.text}`).join('|')
   const [prevHash, setPrevHash] = useState(currentHash)
 
   // Refs mirror state for use inside intervals/callbacks without stale closures

@@ -4,6 +4,8 @@
 // Notes physical details. Refers to father. Addresses diary directly.
 // Ends with something unresolved.
 
+import { weekToDate } from '../../engine/dates'
+
 export interface DiaryContext {
   week: number
   flags: string[]
@@ -33,11 +35,7 @@ export interface DiaryContext {
 type DiaryEntryFn = (ctx: DiaryContext) => string
 
 export function diaryDate(week: number): string {
-  const months = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE',
-    'JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER']
-  const d = new Date(1963, 0, 1)
-  d.setDate(d.getDate() + (week - 1) * 7)
-  return `${months[d.getMonth()]} ${d.getDate()}, 1963 — WEEK ${week}`
+  return `${weekToDate(week).toUpperCase()} — WEEK ${week}`
 }
 
 

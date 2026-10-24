@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { createElement, useState } from 'react'
 import type { MinistryType } from '../types/minister'
 import { MINISTER_CANDIDATES, getCandidatesForMinistry } from '../data/ministers'
 import { useCabinetStore } from '../stores/cabinetStore'
@@ -61,7 +61,7 @@ function CandidatePortrait({ candidateId, isChosen }: { candidateId: string; isC
           onError={() => setImgError(true)}
         />
       ) : SvgComp ? (
-        <SvgComp />
+        createElement(SvgComp)
       ) : (
         <span style={{
           fontSize: '16px',
@@ -87,13 +87,15 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
   const insets = usePageInsets()
   const [selections, setSelections] = useState<Partial<Record<MinistryType, string>>>({})
   const [activeMinistry, setActiveMinistry] = useState<MinistryType>(reshuffleMinistry ?? 'finance')
+  // Follow a new reshuffle target (adjusted during render, not in an effect)
+  const [prevReshuffleMinistry, setPrevReshuffleMinistry] = useState(reshuffleMinistry)
+  if (prevReshuffleMinistry !== reshuffleMinistry) {
+    setPrevReshuffleMinistry(reshuffleMinistry)
+    if (reshuffleMinistry) setActiveMinistry(reshuffleMinistry)
+  }
   const [hoveredCandidate, setHoveredCandidate] = useState<string | null>(null)
 
   const isReshuffle = !!(reshuffleMinistry || reshuffleMode)
-
-  useEffect(() => {
-    if (reshuffleMinistry) setActiveMinistry(reshuffleMinistry)
-  }, [reshuffleMinistry])
 
   const { appointMinister, reshuffleMinister, completeFormation } = useCabinetStore()
   const currentWeek = useGameStore.getState().currentWeek
@@ -163,6 +165,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
       display: 'flex',
       flexDirection: 'column',
       fontFamily: 'Georgia, serif',
+      paddingLeft: insets.left,
       paddingRight: insets.right,
       // the panel starts 40px down; phones also clear the Government row
       paddingTop: insets.isPhone ? insets.top - 40 : undefined,

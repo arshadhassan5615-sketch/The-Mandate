@@ -48,6 +48,15 @@ describe('TopBar (command bar)', () => {
   beforeEach(resetStores)
   afterEach(() => { window.innerWidth = desktopWidth })
 
+  it('lists Commitments under More on phones and opens it', () => {
+    window.innerWidth = 390
+    render(<TopBar />)
+    const tools = screen.getByRole('navigation', { name: 'Government tools' })
+    fireEvent.click(within(tools).getByRole('button', { name: /^More/ }))
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Commitments' }))
+    expect(screen.getByTestId('commitments-panel')).toBeInTheDocument()
+  })
+
   it('moves the tools to a bottom bar on phones and drops the privy purse', () => {
     window.innerWidth = 390
     render(<TopBar />)
@@ -102,7 +111,7 @@ describe('desktop HUD (1440x900)', () => {
   it('lists the government tools on the medallion capsule in order', () => {
     render(<TopBar />)
     const rail = screen.getByTestId('tool-rail')
-    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'Journal', 'Notes', 'More', 'Settings'])
+    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'Commitments', 'Journal', 'Notes', 'More', 'Settings'])
   })
 
   it('shows the unread count on the News medallion', () => {
@@ -121,6 +130,14 @@ describe('desktop HUD (1440x900)', () => {
     render(<TopBar />)
     fireEvent.click(screen.getByRole('button', { name: /^Decrees/ }))
     expect(useSettingsStore.getState().decreeInboxOpen).toBe(true)
+  })
+
+  it('opens and closes Commitments from the rail', () => {
+    render(<TopBar />)
+    fireEvent.click(screen.getByRole('button', { name: 'Commitments' }))
+    expect(screen.getByTestId('commitments-panel')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Commitments' }))
+    expect(screen.queryByTestId('commitments-panel')).toBeNull()
   })
 
   it('opens the nation overview from the crest', () => {
@@ -142,6 +159,20 @@ describe('desktop HUD (1440x900)', () => {
     fireEvent.click(screen.getByRole('button', { name: /^More/ }))
     fireEvent.click(screen.getByRole('menuitem', { name: 'Save game' }))
     expect(onSave).toHaveBeenCalled()
+  })
+
+  it('opens the calendar from More', () => {
+    render(<TopBar />)
+    fireEvent.click(screen.getByRole('button', { name: /^More/ }))
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Calendar' }))
+    expect(screen.getByTestId('calendar-panel')).toBeInTheDocument()
+  })
+
+  it('opens Scene Paths from More', () => {
+    render(<TopBar />)
+    fireEvent.click(screen.getByRole('button', { name: /^More/ }))
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Scene Paths' }))
+    expect(screen.getByTestId('scene-paths-panel')).toBeInTheDocument()
   })
 
   it('keeps the stat tab during a scene at desktop size', () => {
@@ -181,7 +212,7 @@ describe('compact landscape layout (844x390)', () => {
   it('keeps Journal and Notes off the rail and puts them in More', () => {
     render(<TopBar />)
     const rail = screen.getByTestId('tool-rail')
-    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'More', 'Settings'])
+    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'Commitments', 'More', 'Settings'])
 
     fireEvent.click(within(rail).getByRole('button', { name: /^More/ }))
     expect(screen.getByRole('menuitem', { name: 'Journal' })).toBeInTheDocument()

@@ -37,7 +37,15 @@ export default function SaveSlotScreen({ mode, onClose, onSlotSelected }: SaveSl
     setLoading(false)
   }, [])
 
-  useEffect(() => { refreshSaves() }, [refreshSaves])
+  useEffect(() => {
+    let cancelled = false
+    listSaves().then(all => {
+      if (cancelled) return
+      setSaves(all)
+      setLoading(false)
+    })
+    return () => { cancelled = true }
+  }, [])
 
   // ESC to close
   useEffect(() => {
@@ -65,13 +73,8 @@ export default function SaveSlotScreen({ mode, onClose, onSlotSelected }: SaveSl
 
   const formatDate = (ts: number) => {
     const d = new Date(ts)
-    return d.toLocaleDateString('en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+      + ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
   }
 
   const autoSave = saves[0]

@@ -32,7 +32,7 @@ const LAYERED_FILES = [
   'components/panels/ProvinceDetail.tsx',
   'components/panels/PublicOrderPanel.tsx',
   'components/panels/StatsPanel.tsx',
-  'components/panels/StatePanel.tsx',
+  'components/panels/PaperPanel.tsx',
   'components/TopBar.tsx',
 ]
 

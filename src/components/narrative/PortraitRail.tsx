@@ -1,8 +1,14 @@
+import { useState } from 'react'
 import type { CSSProperties } from 'react'
 import { getPortrait } from '../../assets/potraits'
+import { useGameStore } from '../../stores/gameStore'
 import { charName, speakerRole } from './speakers'
 import { medallionStates } from './medallionStates'
 import type { MedallionState } from './medallionStates'
+import CharacterCard from './CharacterCard'
+import { characterCardData } from './characterCardData'
+import type { CharacterCardData } from './characterCardData'
+import { initialsFor } from './initials'
 
 type RailLayout = 'column' | 'row'
 
@@ -40,15 +46,6 @@ const MEDALLION_TRANSITION = [
   'box-shadow 0.3s ease',
 ].join(', ')
 const SPEAKER_POP_KEYFRAMES = '@keyframes speaker-pop { from { transform: scale(0.82) } to { transform: scale(1) } }'
-
-function initialsFor(name: string): string {
-  return name
-    .split(/\s+/)
-    .filter(word => word.length > 0)
-    .slice(0, 2)
-    .map(word => word.charAt(0).toUpperCase())
-    .join('')
-}
 
 function initialsFontSize(layout: RailLayout, isSpeaking: boolean, size: string | number): string | number {
   if (layout === 'column') {
@@ -134,11 +131,27 @@ function labelFor(id: string): string {
   return role ? `${charName(id)}, ${role}` : charName(id)
 }
 
+interface HoveredMedallion {
+  id: string
+  data: CharacterCardData
+  anchor: DOMRect
+}
+
 export default function PortraitRail({ ids, currentId, layout }: PortraitRailProps) {
+  const [hovered, setHovered] = useState<HoveredMedallion | null>(null)
   if (ids.length === 0) return null
 
   const sizes = SIZES[layout]
   const states = medallionStates(ids, currentId)
+
+  // Shows the character card for a medallion, or nothing when the id is not in the roster.
+  const showCardFor = (id: string, element: HTMLElement) => {
+    const data = characterCardData(id, useGameStore.getState())
+    if (data) setHovered({ id, data, anchor: element.getBoundingClientRect() })
+  }
+  const hideCard = () => setHovered(null)
+  // The card only stays up while its medallion is still in the rail.
+  const visibleCard = hovered && ids.includes(hovered.id) ? hovered : null
 
   return (
     <div data-testid="portrait-rail" data-layout={layout}>
@@ -161,8 +174,12 @@ export default function PortraitRail({ ids, currentId, layout }: PortraitRailPro
               data-speaking={isSpeaking ? 'true' : 'false'}
               data-state={state}
               aria-current={isSpeaking ? 'true' : undefined}
-              title={label}
               aria-label={label}
+              tabIndex={0}
+              onMouseEnter={e => showCardFor(id, e.currentTarget)}
+              onMouseLeave={hideCard}
+              onFocus={e => showCardFor(id, e.currentTarget)}
+              onBlur={hideCard}
               style={{ ...medallionStyle(state, size), ...overlap }}
             >
               <MedallionFace id={id} initialsFont={initialsFontSize(layout, isSpeaking, size)} />
@@ -170,6 +187,9 @@ export default function PortraitRail({ ids, currentId, layout }: PortraitRailPro
           )
         })}
       </ul>
+      {visibleCard && (
+        <CharacterCard data={visibleCard.data} anchor={visibleCard.anchor} />
+      )}
     </div>
   )
 }

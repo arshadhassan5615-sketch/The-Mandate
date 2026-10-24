@@ -12,6 +12,8 @@ import { useParliamentStore } from '../stores/parliamentStore'
 import { useJournalStore } from '../stores/journalStore'
 import { useNewsStore } from '../stores/newsStore'
 import { useLetterStore } from '../stores/letterStore'
+import { useProvinceNewsStore } from '../stores/provinceNewsStore'
+import { useCommitmentStore } from '../stores/commitmentStore'
 
 export const AUTOSAVE_SLOT = 0
 export const MANUAL_SLOT_COUNT = 10
@@ -63,7 +65,8 @@ function deleteLocalStorageSave(slot: number): void {
 
 export async function saveGame(slot: number, name: string): Promise<void> {
   const gameState          = useGameStore.getState()
-  const { visitedSceneIds, activeFlags, unlockedCodexIds, metCharacters } = useNarrativeStore.getState()
+  const { visitedSceneIds, activeFlags, unlockedCodexIds, metCharacters, choiceLog } = useNarrativeStore.getState()
+  const provinceNewsSeenIds = useProvinceNewsStore.getState().seenIds
   const { scheduled: scheduledChains }   = useChainStore.getState()
   const { forcedChainIds, completedItemIds } = useWeekStore.getState()
   const decreeState = useDecreeStore.getState()
@@ -157,6 +160,9 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     activeFlags,
     unlockedCodexIds,
     metCharacters: metCharacters ?? [],
+    choiceLog,
+    provinceNewsSeenIds,
+    commitments: useCommitmentStore.getState().commitments,
     scheduledChains,
     forcedChainIds,
     completedItemIds,
@@ -281,10 +287,15 @@ export async function loadGame(slot: number): Promise<boolean> {
     activeFlags:      record.activeFlags ?? [],
     unlockedCodexIds: record.unlockedCodexIds ?? [],
     metCharacters:    record.metCharacters ?? [],
+    choiceLog:        record.choiceLog ?? [],
     currentScene:     null,
     sceneDone:        false,
     activeSegmentId:  null,
   })
+
+  useProvinceNewsStore.setState({ seenIds: record.provinceNewsSeenIds ?? [] })
+
+  useCommitmentStore.setState({ commitments: record.commitments ?? [] })
 
   useChainStore.setState({ scheduled: record.scheduledChains ?? [] })
 

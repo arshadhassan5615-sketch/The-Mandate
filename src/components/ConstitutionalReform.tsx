@@ -282,7 +282,7 @@ export default function ConstitutionalReform() {
     : {}
 
   return (
-    <div data-layout={insets.isCompact ? 'compact' : undefined} className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}>
+    <div data-layout={insets.isCompact ? 'compact' : undefined} className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[1]" style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right, paddingBottom: insets.bottom }}>
       <div
         className={`shrink-0 flex items-center justify-between ${insets.isCompact ? '' : `${insets.isPhone ? 'px-4' : 'px-6'} py-3`} border-b`}
         style={{ borderColor: 'var(--border)', ...(insets.isCompact ? { padding: '6px 16px' } : {}) }}

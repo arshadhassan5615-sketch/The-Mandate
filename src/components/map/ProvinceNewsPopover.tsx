@@ -1,6 +1,6 @@
 // Dialog listing a province's recent newspaper reports, opened from a news pin on the map.
 import { useEffect, type CSSProperties, type MouseEvent as ReactMouseEvent } from 'react'
-import { NEWSPAPERS } from '../../data/newspapers'
+import { paperName } from '../../data/paperName'
 import type { ProvinceNewsItem } from '../../engine/provinceNews'
 import { Z } from '../../constants/zIndex'
 
@@ -131,7 +131,7 @@ export default function ProvinceNewsPopover({ provinceName, items, onClose, onOp
             <p style={{ ...BODY_STYLE, padding: 14 }}>No reports from this province in the last two weeks.</p>
           )}
           {items.map(({ article, isAlert }, index) => {
-            const paper = NEWSPAPERS[article.publication]?.name ?? article.publication
+            const paper = paperName(article.publication)
             const isLast = index === items.length - 1
             return (
               <article key={article.id} style={{ padding: '10px 0', borderBottom: isLast ? 'none' : HAIRLINE }}>

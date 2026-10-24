@@ -382,7 +382,7 @@ export default function AgendaSelector() {
       data-testid="agenda-page"
       data-layout={isCompact ? 'compact' : undefined}
       className="flex flex-col h-screen w-screen overflow-hidden fixed inset-0 z-[800]"
-      style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingRight: insets.right, paddingBottom: insets.bottom }}
+      style={{ background: 'rgba(15,13,10,0.94)', paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right, paddingBottom: insets.bottom }}
     >
       {/* ── Header ──────────────────────────────────────────────── */}
       {!isCompact && (

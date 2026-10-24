@@ -105,7 +105,7 @@ export default function KaterinHUD() {
   const actLabel = ACT_LABELS[currentAct] ?? 'Act I'
 
   return (
-    <div data-layout={mode} style={{
+    <div data-testid="katerin-hud" data-layout={mode} style={{
       position: 'fixed',
       bottom: isCompact ? 'calc(10px + env(safe-area-inset-bottom, 0px))' : '20px',
       left: isCompact ? 'calc(10px + env(safe-area-inset-left, 0px))' : '20px',

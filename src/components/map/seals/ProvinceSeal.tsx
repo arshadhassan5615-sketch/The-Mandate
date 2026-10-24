@@ -3,6 +3,8 @@
 import { useId, type ComponentType } from 'react'
 import { SEAL_TILT_RATIO, type SealEmblem } from './provinceSeals'
 
+export type ProvinceMood = 'calm' | 'tense' | 'crisis'
+
 interface ProvinceSealProps {
   name: string
   emblem: SealEmblem
@@ -12,6 +14,7 @@ interface ProvinceSealProps {
   isLit?: boolean
   isHovered?: boolean
   art?: string | null
+  mood?: ProvinceMood
 }
 
 interface SealFaceProps {
@@ -57,6 +60,16 @@ const BRONZE_EDGE = '#4d3a24'
 const EDGE_OFFSET_RATIO = 0.045
 const SHADOW_FILTER = 'drop-shadow(0 6px 8px rgba(0,0,0,0.5))'
 const LIT_FILTER = `drop-shadow(0 0 10px rgba(232,190,90,0.85)) ${SHADOW_FILTER}`
+const MOOD_AURA_INSET = { left: '-22%', right: '-22%', top: '-10%', bottom: '-30%' }
+const MOOD_GRADIENTS: Record<Exclude<ProvinceMood, 'calm'>, string> = {
+  tense: 'radial-gradient(ellipse at 50% 58%, rgba(232,150,60,0.42) 0%, rgba(232,150,60,0.18) 42%, rgba(232,150,60,0) 70%)',
+  crisis: 'radial-gradient(ellipse at 50% 58%, rgba(205,52,40,0.55) 0%, rgba(205,52,40,0.22) 42%, rgba(205,52,40,0) 70%)',
+}
+const MOOD_CSS = `
+@keyframes province-mood-breathe { 0%, 100% { opacity: 0.65; transform: scale(0.96) } 50% { opacity: 1; transform: scale(1.04) } }
+.province-mood--crisis { animation: province-mood-breathe 3.2s ease-in-out infinite }
+@media (prefers-reduced-motion: reduce) { .province-mood--crisis { animation: none } }
+`
 
 const GOLD_RIM: RimStop[] = [
   { offset: '0%', color: '#f6e3a1' },
@@ -324,6 +337,7 @@ export default function ProvinceSeal({
   isLit = false,
   isHovered = false,
   art = null,
+  mood = 'calm',
 }: ProvinceSealProps) {
   // useId output can contain characters that are awkward in url(#...) references
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '')
@@ -341,13 +355,30 @@ export default function ProvinceSeal({
         pointerEvents: 'none',
       }}
     >
+      {mood !== 'calm' && (
+        <span
+          aria-hidden="true"
+          data-testid="province-mood"
+          data-mood={mood}
+          className={`province-mood province-mood--${mood}`}
+          style={{
+            position: 'absolute',
+            ...MOOD_AURA_INSET,
+            borderRadius: '50%',
+            background: MOOD_GRADIENTS[mood],
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+      )}
+      {mood !== 'calm' && <style>{MOOD_CSS}</style>}
       {art !== null ? (
         <img
           src={art}
           alt=""
           data-testid="province-seal-art"
           draggable={false}
-          style={{ position: 'absolute', left: 0, bottom: 0, width: '100%', height: 'auto', display: 'block' }}
+          style={{ position: 'absolute', left: 0, bottom: 0, width: '100%', height: 'auto', display: 'block', zIndex: 1 }}
         />
       ) : (
       <div
@@ -359,6 +390,7 @@ export default function ProvinceSeal({
           height: size,
           transform: 'perspective(700px) rotateX(42deg)',
           transformOrigin: '50% 50%',
+          zIndex: 1,
         }}
       >
         <svg

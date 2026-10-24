@@ -103,4 +103,43 @@ describe('ProvinceSeal', () => {
     expect(screen.queryByTestId('province-seal-art')).toBeNull()
     expect(container.querySelector('[data-emblem]')).not.toBeNull()
   })
+
+  it('shows no mood aura when the province is calm', () => {
+    render(<ProvinceSeal {...PROVINCE_SEALS.kravenstal} size={CITY_SIZE} mood="calm" />)
+    expect(screen.queryByTestId('province-mood')).toBeNull()
+  })
+
+  it('shows no mood aura by default', () => {
+    render(<ProvinceSeal {...PROVINCE_SEALS.kravenstal} size={CITY_SIZE} />)
+    expect(screen.queryByTestId('province-mood')).toBeNull()
+  })
+
+  it('shows an amber aura when the province is tense', () => {
+    render(<ProvinceSeal {...PROVINCE_SEALS.kravenstal} size={CITY_SIZE} mood="tense" />)
+    const aura = screen.getByTestId('province-mood')
+    expect(aura).toHaveAttribute('data-mood', 'tense')
+    expect(aura).toHaveClass('province-mood--tense')
+    expect(aura).not.toHaveClass('province-mood--crisis')
+  })
+
+  it('shows a red breathing aura when the province is in crisis', () => {
+    render(<ProvinceSeal {...PROVINCE_SEALS.kravenstal} size={CITY_SIZE} mood="crisis" />)
+    const aura = screen.getByTestId('province-mood')
+    expect(aura).toHaveAttribute('data-mood', 'crisis')
+    expect(aura).toHaveClass('province-mood--crisis')
+  })
+
+  it('keeps the painted medal and the drawn emblem visible alongside the aura', () => {
+    const { container } = render(
+      <ProvinceSeal {...PROVINCE_SEALS.ashenmere} size={sealSizeFor('ashenmere')} mood="crisis" art="painted.png" />,
+    )
+    expect(screen.getByTestId('province-seal-art')).toHaveAttribute('src', 'painted.png')
+    expect(screen.getByTestId('province-mood')).toBeInTheDocument()
+
+    const drawn = render(
+      <ProvinceSeal {...PROVINCE_SEALS.kravenstal} size={CITY_SIZE} mood="tense" />,
+    )
+    expect(drawn.container.querySelector('[data-emblem]')).not.toBeNull()
+    expect(container.querySelector('[data-emblem]')).toBeNull()
+  })
 })

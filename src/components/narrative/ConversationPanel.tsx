@@ -1,15 +1,19 @@
-import { useRef, useEffect, useLayoutEffect, useState, useCallback, useMemo } from 'react'
+import { useRef, useEffect, useLayoutEffect, useState, useCallback, useMemo, useId } from 'react'
 import type { ReactNode } from 'react'
 import type { NarrativeSegment, SceneChoice, ChoiceReaction } from '../../types/narrative'
 import type { CodexEntry } from '../../types/codex'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import { useWeekStore } from '../../stores/weekStore'
+import { useGameStore } from '../../stores/gameStore'
 import { ALL_CODEX_ENTRIES, useCodexStore } from '../../stores/codexStore'
 import { charName } from './speakers'
 import ChoiceCard from './ChoiceCard'
 import type { ChoiceCardState } from './ChoiceCard'
 import { renderWithEntities } from '../news/EntityLinker'
 import PortraitRail from './PortraitRail'
+import CharacterCard from './CharacterCard'
+import { characterCardData } from './characterCardData'
+import type { CharacterCardData } from './characterCardData'
 import { sceneParticipants } from './participants'
 import { isBriefUnlocked } from '../briefs/briefAccess'
 import { useViewportMode } from '../../hooks/useViewportMode'
@@ -18,6 +22,48 @@ import { Z } from '../../constants/zIndex'
 // Speaker label: "NAME :" (uppercased by CSS). No role.
 function SpeakerLabelText({ name }: { name: string }) {
   return <>{name} :</>
+}
+
+// The card on screen, and the speaker label (owner) that opened it.
+interface HoverCard {
+  owner: string
+  data: CharacterCardData
+  anchor: DOMRect
+}
+
+interface SpeakerNameProps {
+  name: string
+  characterId: string
+  onShowCard: (owner: string, data: CharacterCardData, anchor: DOMRect) => void
+  onHideCard: (owner: string) => void
+}
+
+// An NPC speaker's name. Hover or focus shows their character card; a label that
+// unmounts while its card is up (the typing line becoming history) clears it.
+function SpeakerName({ name, characterId, onShowCard, onHideCard }: SpeakerNameProps) {
+  const owner = useId()
+
+  useEffect(() => () => onHideCard(owner), [onHideCard, owner])
+
+  const showCard = (element: HTMLElement) => {
+    const data = characterCardData(characterId, useGameStore.getState())
+    if (data) onShowCard(owner, data, element.getBoundingClientRect())
+  }
+  const hideCard = () => onHideCard(owner)
+
+  return (
+    <span
+      tabIndex={0}
+      data-testid="speaker-name"
+      style={{ cursor: 'help', borderBottom: '1px dotted rgba(127,61,25,0.6)' }}
+      onMouseEnter={e => showCard(e.currentTarget)}
+      onMouseLeave={hideCard}
+      onFocus={e => showCard(e.currentTarget)}
+      onBlur={hideCard}
+    >
+      <SpeakerLabelText name={name} />
+    </span>
+  )
 }
 
 // ── Codex term links ───────────────────────────────────────────────────────
@@ -270,6 +316,8 @@ interface ConversationPanelProps {
   activeText: string
   showCursor: boolean
   choices: SceneChoice[]
+  /** Choice id to the reason it is locked; locked choices are shown greyed and cannot be picked. */
+  lockedReasons?: Readonly<Record<string, string>>
   showChoices: boolean
   sceneDone: boolean
   allDone: boolean
@@ -284,9 +332,11 @@ interface ConversationPanelProps {
 
 type ChoicePhase = 'idle' | 'pulsing' | 'fading' | 'showing_reactions' | 'reactions_fading' | 'done'
 
+const NO_LOCKED_REASONS: Readonly<Record<string, string>> = {}
+
 export default function ConversationPanel({
   history, activeSegment, activeText, showCursor,
-  choices, showChoices, sceneDone, allDone, segmentDone,
+  choices, lockedReasons = NO_LOCKED_REASONS, showChoices, sceneDone, allDone, segmentDone,
   onChoice, onAdvanceQueue, continueLabel,
   monologueText,
 }: ConversationPanelProps) {
@@ -307,6 +357,14 @@ export default function ConversationPanel({
   const [hoveredChoiceId, setHoveredChoiceId] = useState<string | null>(null)
   const [isContinueHovered, setIsContinueHovered] = useState(false)
   const [isChevronHovered, setIsChevronHovered] = useState(false)
+  const [hoverCard, setHoverCard] = useState<HoverCard | null>(null)
+  const showSpeakerCard = useCallback((owner: string, data: CharacterCardData, anchor: DOMRect) => {
+    setHoverCard({ owner, data, anchor })
+  }, [])
+  // Only the owner that opened the card may close it, so a late unmount never hides another speaker's card.
+  const hideSpeakerCard = useCallback((owner: string) => {
+    setHoverCard(prev => (prev?.owner === owner ? null : prev))
+  }, [])
   const { currentScene } = useNarrativeStore()
   const phase = useWeekStore(s => s.phase)
   const viewportMode = useViewportMode()
@@ -461,6 +519,7 @@ export default function ConversationPanel({
 
   const handleChoice = useCallback((id: string) => {
     if (choicePhase !== 'idle') return
+    if (Object.hasOwn(lockedReasons, id)) return
     if (choiceProcessedRef.current.has(id)) return
     if (import.meta.env.DEV) console.log('[GameLogic] Processing choice:', id)
     choiceProcessedRef.current.add(id)
@@ -478,7 +537,7 @@ export default function ConversationPanel({
 
     setSelectedId(id)
     setChoicePhase('pulsing')
-  }, [onChoice, choicePhase, choices])
+  }, [onChoice, choicePhase, choices, lockedReasons])
 
   // Reactive animation sequencer — driven by choicePhase, not blocking game logic
   useEffect(() => {
@@ -841,7 +900,16 @@ export default function ConversationPanel({
                         color: isPlayer ? PLAYER_NAME_COLOR : NPC_LABEL_COLOR,
                       }}
                     >
-                      <SpeakerLabelText name={labelText} />
+                      {isPlayer
+                        ? <SpeakerLabelText name={labelText} />
+                        : (
+                          <SpeakerName
+                            name={labelText}
+                            characterId={entry.characterId ?? ''}
+                            onShowCard={showSpeakerCard}
+                            onHideCard={hideSpeakerCard}
+                          />
+                        )}
                     </div>
                   )}
                   {/* internal_thought / monologue — no label */}
@@ -887,7 +955,12 @@ export default function ConversationPanel({
                             color: NPC_LABEL_COLOR,
                           }}
                         >
-                          <SpeakerLabelText name={charName(activeSegment.character ?? '')} />
+                          <SpeakerName
+                            name={charName(activeSegment.character ?? '')}
+                            characterId={activeSegment.character ?? ''}
+                            onShowCard={showSpeakerCard}
+                            onHideCard={hideSpeakerCard}
+                          />
                         </div>
                       )}
                       {/* internal_thought / monologue — no label */}
@@ -967,6 +1040,7 @@ export default function ConversationPanel({
           >
             {choices.map((choice, i) => {
               // Same precedence as before: selected > fading > dimmed > hovered.
+              const lockedReason = Object.hasOwn(lockedReasons, choice.id) ? lockedReasons[choice.id] : undefined
               const state: ChoiceCardState =
                 selectedId === choice.id ? 'selected'
                 : fadingId === choice.id ? 'fading'
@@ -979,11 +1053,12 @@ export default function ConversationPanel({
                   index={i}
                   text={choice.text}
                   hint={choice.tooltip}
+                  lockedReason={lockedReason}
                   state={state}
                   onSelect={() => handleChoice(choice.id)}
                   onHoverChange={(hovered) => {
                     if (!hovered) setHoveredChoiceId(null)
-                    else if (selectedId === null && fadingId === null) setHoveredChoiceId(choice.id)
+                    else if (lockedReason === undefined && selectedId === null && fadingId === null) setHoveredChoiceId(choice.id)
                   }}
                 />
               )
@@ -1077,6 +1152,7 @@ export default function ConversationPanel({
         )}
         </div>
       </div>
+      {hoverCard && <CharacterCard data={hoverCard.data} anchor={hoverCard.anchor} />}
       </>
       )}
     </>

@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
+import { useState, useMemo, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
 // import { useGameStore } from '../stores/gameStore' // only fed the commented-out statuses/medallion code
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useSettingsStore } from '../stores/settingsStore'
@@ -10,7 +10,7 @@ import { MapPins } from './MapInteractionLayer'
 import { useGameStore } from '../stores/gameStore'
 import { PROVINCES } from '../data/provinces'
 import { countryBounds, desktopZoom, phoneZoom, panToCenter, clampPan } from './map/mapFit'
-import { computeProvinceStatus } from './map/provinceStatus'
+import { computeProvinceStatus, type ProvinceStatusLevel } from './map/provinceStatus'
 import NationDossier from './map/NationDossier'
 import foreignNations from '../data/nations/foreignNations.json'
 
@@ -25,6 +25,13 @@ import { getSealArt } from '../assets/sealArt'
 
 /** Home provinces that carry a seal on the map. */
 const SEAL_PROVINCE_IDS: readonly SealProvinceId[] = ['ashenmere', 'kravenstal', 'dravenhollow', 'thornfeld', 'aldenmoor', 'sevagrad']
+
+/** Soft aura under a seal: only Tense and Crisis provinces show one. */
+function moodFor(level: ProvinceStatusLevel | undefined): 'calm' | 'tense' | 'crisis' {
+  if (level === 'Crisis') return 'crisis'
+  if (level === 'Tense') return 'tense'
+  return 'calm'
+}
 
 // ─── Province click zones (pixel-based, relative to map image dimensions) ─────
 
@@ -201,7 +208,11 @@ export default function MapView({ onProvinceDetail }: {
 
   const effectiveZoom = focusedProvinceId ? dynamicZoom * FOCUS_ZOOM_MULTIPLIER : dynamicZoom
   const effectiveZoomRef = useRef(effectiveZoom)
-  effectiveZoomRef.current = effectiveZoom
+  // Written after each commit (not during render) so the ref rule is satisfied;
+  // onPointerMove reads it from event handlers only.
+  useLayoutEffect(() => {
+    effectiveZoomRef.current = effectiveZoom
+  })
 
   function centerOnProvince(id: string, zoom: number): { x: number; y: number } {
     const pos = PROVINCE_PIN_POSITIONS[id as keyof typeof PROVINCE_PIN_POSITIONS]
@@ -238,12 +249,15 @@ export default function MapView({ onProvinceDetail }: {
   }
 
   // Return to the home view on mount, whenever the full map opens, and on resize.
-  useEffect(() => {
+  // Adjusted during render (as in ConversationPanel) rather than in an effect; the
+  // null start value makes the first render take the same branch the mount effect did.
+  const viewKey = `${mapOpen}|${vw}|${vh}`
+  const [prevViewKey, setPrevViewKey] = useState<string | null>(null)
+  if (prevViewKey !== viewKey) {
+    setPrevViewKey(viewKey)
     setFocusedProvinceId(null)
     setPan(homePan(dynamicZoom))
-    // homePan/dynamicZoom derive from vw/vh, which are listed
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapOpen, vw, vh])
+  }
 
   // Stubbed-out status map — consumed only by the HIDDEN medallion block below
   // const statuses = useMemo(() => {
@@ -419,6 +433,7 @@ export default function MapView({ onProvinceDetail }: {
                   isLit={hasScenes}
                   isHovered={isHovered}
                   art={getSealArt(id)}
+                  mood={moodFor(provinceStatuses.get(id)?.level)}
                 />
                 {/* Events hint on hover — only when there is something to say */}
                 {isHovered && hasScenes && (
@@ -701,6 +716,7 @@ export default function MapView({ onProvinceDetail }: {
                   isLit={hasScenes}
                   isHovered={isHovered}
                   art={getSealArt(id)}
+                  mood={moodFor(provinceStatuses.get(id)?.level)}
                 />
                 {/* Events hint on hover — only when there is something to say */}
                 {isHovered && hasScenes && (

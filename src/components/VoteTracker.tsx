@@ -155,6 +155,9 @@ export default function VoteTracker({
 const labelRowStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'space-between',
+  flexWrap: 'wrap',
+  columnGap: 12,
+  rowGap: 2,
   marginBottom: 4,
   fontSize: 13,
   fontFamily: 'var(--font-mono)',

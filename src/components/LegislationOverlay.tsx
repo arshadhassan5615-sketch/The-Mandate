@@ -14,8 +14,10 @@ import {
 import { playStamp } from '../engine/audioEngine'
 import { audioManager } from '../engine/AudioManager'
 import { Z } from '../constants/zIndex'
+import { weekToDate } from '../engine/dates'
 import { useIsMobile } from '../hooks/useIsMobile'
 import FiscalNote from './ui/FiscalNote'
+import FactionStances from './ui/FactionStances'
 import { DocumentSeal, SignatureLine } from './ui/StateDocument'
 
 const FACTION_NAMES: Record<string, string> = {
@@ -181,8 +183,9 @@ export default function LegislationOverlay() {
   const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
+    const timeouts = timeoutRefs.current
     return () => {
-      timeoutRefs.current.forEach(clearTimeout)
+      timeouts.forEach(clearTimeout)
     }
   }, [])
 
@@ -200,12 +203,25 @@ export default function LegislationOverlay() {
       }
       return true
     })
-  }, [phase, bills, gameState.currentWeek, history, gameState, activeFlags])
+  }, [phase, bills, history, gameState, activeFlags])
 
   const currentBill = pendingBills[billIndex] ?? null
 
-  // Reset state when entering legislation phase
-  useEffect(() => {
+  // Bills already decided this week drop out of pendingBills, so count them
+  // back in for the "Bill X of Y" label.
+  const decidedThisWeek = history.filter(h => h.weekDecided === gameState.currentWeek).length
+  const billPosition = decidedThisWeek + 1
+  const billTotal = decidedThisWeek + pendingBills.length
+
+  // Auto-sign request: set during render (not in an effect) so the auto-passed
+  // screen is committed with the same render that starts it. The stamp and the
+  // delayed application run in the effect below, once per request object.
+  const [autoSign, setAutoSign] = useState<{ bill: Bill } | null>(null)
+
+  // Reset state when entering legislation phase (adjusted during render, as in ConversationPanel)
+  const [prevPhase, setPrevPhase] = useState(phase)
+  if (prevPhase !== phase) {
+    setPrevPhase(phase)
     if (phase === 'legislation') {
       setBillIndex(0)
       setDecisionState('pending')
@@ -213,16 +229,17 @@ export default function LegislationOverlay() {
       setOverrideResult(null)
       setShowStamp(false)
       setShowSignature(false)
+      setAutoSign(null)
     }
-  }, [phase])
-
-  // Under the reformed constitution the Chancellor's signature is automatic.
-  // This was called during render, which played the stamp, started timers and
-  // applied the bill from render (twice under StrictMode); it is an effect now.
-  useEffect(() => {
-    if (phase !== 'legislation' || !currentBill || !vetoRemoved || decisionState !== 'pending') return
-    const bill = currentBill
+  } else if (phase === 'legislation' && currentBill && vetoRemoved && decisionState === 'pending') {
+    // Under the reformed constitution the Chancellor's signature is automatic.
     setDecisionState('auto_passed')
+    setAutoSign({ bill: currentBill })
+  }
+
+  useEffect(() => {
+    if (!autoSign) return
+    const { bill } = autoSign
     playStamp()
     timeoutRefs.current.push(setTimeout(() => {
       applyBillEffects(bill, bill.signEffects, bill.signFlags)
@@ -230,7 +247,7 @@ export default function LegislationOverlay() {
         { speaker: 'Vyktor Reznik', text: 'Under the reformed constitution, the Chancellor\'s signature is automatic. The Assembly has spoken.' },
       ])
     }, 400))
-  }, [phase, currentBill, vetoRemoved, decisionState])
+  }, [autoSign])
 
   if (phase !== 'legislation' || !currentBill) return null
 
@@ -313,7 +330,9 @@ export default function LegislationOverlay() {
     recordDecision(entry)
 
     if (billIndex + 1 < pendingBills.length) {
-      setBillIndex(billIndex + 1)
+      // The bill just recorded drops out of pendingBills (history filter), so
+      // the next bill is at index 0 of the refreshed list, not billIndex + 1.
+      setBillIndex(0)
       setDecisionState('pending')
       setReactions([])
       setOverrideResult(null)
@@ -337,7 +356,7 @@ export default function LegislationOverlay() {
       justifyContent: 'center',
       zIndex: Z.overlay,
     }}>
-      {decisionState !== 'decided' && decisionState !== 'overridden' ? (
+      {decisionState === 'pending' || decisionState === 'deciding' ? (
         <>
           {/* THE DOCUMENT */}
           <div style={{
@@ -377,11 +396,12 @@ export default function LegislationOverlay() {
               textAlign: 'center',
               marginBottom: '12px',
             }}>
-              {bill.shortName} · Week {bill.weekPresented}, 1963
+              {bill.shortName} · {weekToDate(bill.weekPresented)}
             </div>
 
             {/* FISCAL NOTE — the budget cost, stated before signing */}
             <FiscalNote budgetCost={bill.budgetCost} />
+            <FactionStances bill={bill} inset={isMobile ? '4px' : '44px'} />
 
             {/* BILL TEXT - scrollable internally */}
             <div
@@ -524,7 +544,7 @@ export default function LegislationOverlay() {
             </div>
           </div>
         </>
-      ) : (decisionState as DecisionState) === 'auto_passed' ? (
+      ) : decisionState === 'auto_passed' && reactions.length === 0 ? (
         <motion.div
           key="bill-auto"
           initial={{ opacity: 0, scale: 1.2 }}
@@ -542,7 +562,21 @@ export default function LegislationOverlay() {
             borderRadius: '4px',
             background: 'rgba(200,144,42,0.06)',
           }}>
-            Bill {billIndex + 1} of {pendingBills.length} Enacted
+            Bill {billPosition} of {billTotal} Enacted
+            <span data-testid="enacted-bill-title" style={{
+              display: 'block',
+              fontFamily: 'Georgia, serif',
+              fontStyle: 'italic',
+              fontWeight: 700,
+              fontSize: '1rem',
+              letterSpacing: 'normal',
+              textTransform: 'none',
+              color: 'var(--cream)',
+              marginTop: '0.6rem',
+              lineHeight: 1.3,
+            }}>
+              {bill.title}
+            </span>
             <span style={{
               display: 'block',
               fontSize: '0.6rem',
@@ -567,6 +601,47 @@ export default function LegislationOverlay() {
             padding: '2.5rem 3rem',
           }}
         >
+          {/* Automatic Enactment Banner */}
+          {decisionState === 'auto_passed' && (
+            <div data-testid="auto-passed-banner" style={{
+              textAlign: 'center',
+              marginBottom: '2rem',
+              padding: '1rem',
+              background: 'rgba(200,144,42,0.1)',
+              border: '1px solid rgba(200,144,42,0.3)',
+              borderRadius: '2px',
+            }}>
+              <p style={{
+                fontFamily: "'Special Elite', monospace",
+                fontSize: '0.65rem',
+                letterSpacing: '0.15em',
+                color: 'var(--amber-dim)',
+                textTransform: 'uppercase',
+                marginBottom: '0.3rem',
+              }}>
+                Enacted Automatically
+              </p>
+              <p data-testid="auto-passed-bill-title" style={{
+                fontFamily: 'Georgia, serif',
+                fontStyle: 'italic',
+                fontWeight: 700,
+                fontSize: '1.05rem',
+                color: 'var(--cream)',
+                margin: '0.2rem 0 0.25rem',
+              }}>
+                {bill.title}
+              </p>
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                color: 'var(--muted)',
+                fontStyle: 'italic',
+              }}>
+                Now law under the reformed constitution.
+              </p>
+            </div>
+          )}
+
           {/* Veto Override Banner */}
           {overrideResult?.overridden && (
             <div style={{

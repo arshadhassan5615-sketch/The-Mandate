@@ -1,11 +1,50 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import PortraitRail from '../PortraitRail'
 import { medallionStates } from '../medallionStates'
 
 function medallions(): HTMLElement[] {
   return screen.getAllByTestId('portrait-medallion')
 }
+
+describe('PortraitRail character cards', () => {
+  it('shows the character card when a medallion is hovered', () => {
+    render(<PortraitRail ids={['vyktor_reznik']} currentId={null} layout="column" />)
+    fireEvent.mouseEnter(medallions()[0])
+    const card = screen.getByTestId('character-card')
+    expect(card).toHaveTextContent('Vyktor Reznik')
+    expect(card).toHaveTextContent('Chief of Staff')
+  })
+
+  it('hides the character card when the pointer leaves the medallion', () => {
+    render(<PortraitRail ids={['vyktor_reznik']} currentId={null} layout="column" />)
+    fireEvent.mouseEnter(medallions()[0])
+    fireEvent.mouseLeave(medallions()[0])
+    expect(screen.queryByTestId('character-card')).toBeNull()
+  })
+
+  it('shows the character card when a medallion is focused and hides it on blur', () => {
+    render(<PortraitRail ids={['vyktor_reznik']} currentId={null} layout="column" />)
+    fireEvent.focus(medallions()[0])
+    expect(screen.getByTestId('character-card')).toHaveTextContent('Vyktor Reznik')
+    fireEvent.blur(medallions()[0])
+    expect(screen.queryByTestId('character-card')).toBeNull()
+  })
+
+  it('makes each medallion focusable and drops the native title tooltip', () => {
+    render(<PortraitRail ids={['vyktor_reznik']} currentId={null} layout="column" />)
+    const [medallion] = medallions()
+    expect(medallion).toHaveAttribute('tabindex', '0')
+    expect(medallion).not.toHaveAttribute('title')
+    expect(medallion).toHaveAttribute('aria-label', 'Vyktor Reznik, Chief of Staff')
+  })
+
+  it('shows no card for a medallion whose character is not in the roster', () => {
+    render(<PortraitRail ids={['zz_unknown_person']} currentId={null} layout="column" />)
+    fireEvent.mouseEnter(medallions()[0])
+    expect(screen.queryByTestId('character-card')).toBeNull()
+  })
+})
 
 describe('medallionStates', () => {
   it('marks the current speaker as speaking and everyone else as present', () => {
@@ -33,8 +72,8 @@ describe('PortraitRail', () => {
 
   it('renders medallions in the order given', () => {
     render(<PortraitRail ids={['c', 'b', 'a']} currentId={null} layout="column" />)
-    const titles = medallions().map(el => el.getAttribute('title'))
-    expect(titles).toEqual(['c', 'b', 'a'])
+    const labels = medallions().map(el => el.getAttribute('aria-label'))
+    expect(labels).toEqual(['c', 'b', 'a'])
   })
 
   it('does not reorder the ids it is given', () => {
@@ -47,8 +86,8 @@ describe('PortraitRail', () => {
     render(
       <PortraitRail ids={['danika_oberlin', 'vyktor_reznik']} currentId="vyktor_reznik" layout="column" />,
     )
-    expect(screen.getByTitle('Vyktor Reznik, Chief of Staff')).toHaveAttribute('data-speaking', 'true')
-    expect(screen.getByTitle('Danika Oberlin, Minister of the Interior')).toHaveAttribute(
+    expect(screen.getByLabelText('Vyktor Reznik, Chief of Staff')).toHaveAttribute('data-speaking', 'true')
+    expect(screen.getByLabelText('Danika Oberlin, Minister of the Interior')).toHaveAttribute(
       'data-speaking',
       'false',
     )

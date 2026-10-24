@@ -4,28 +4,7 @@ import { useWeekStore } from '../stores/weekStore'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useJournalStore } from '../stores/journalStore'
 import { buildWeekRecap } from './briefing/recapItems'
-
-const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-]
-
-function weekToDate(week: number): string {
-  // Calendar math — same anchor as TopBar's weekToDate (1 Jan 1963, +7 days
-  // per week) so the overlay and the TopBar agree on the date for a week.
-  const d = new Date(1963, 0, 1)
-  d.setDate(d.getDate() + (week - 1) * 7)
-  const ordinal = (day: number): string => {
-    if (day >= 11 && day <= 13) return day + 'th'
-    switch (day % 10) {
-      case 1: return day + 'st'
-      case 2: return day + 'nd'
-      case 3: return day + 'rd'
-      default: return day + 'th'
-    }
-  }
-  return `${MONTHS[d.getMonth()]} ${ordinal(d.getDate())}, ${d.getFullYear()}`
-}
+import { weekToDate } from '../engine/dates'
 
 // Election outcomes set transitionLabel from completeWeek but previously had
 // no render branch — the player stared at a blank screen for 1.5-2s.
@@ -115,9 +94,12 @@ export default function TransitionOverlay() {
   const { transitionLabel, transitionWeek } = useWeekStore()
   // The turn card outlives the engine's short week transition
   const [cardWeek, setCardWeek] = useState<number | null>(null)
-  useEffect(() => {
+  // Adjusted during render when the transition changes (starts empty so a mount mid-transition still shows the card)
+  const [prevTransition, setPrevTransition] = useState<{ label: string; week: number | null }>({ label: '', week: null })
+  if (prevTransition.label !== transitionLabel || prevTransition.week !== transitionWeek) {
+    setPrevTransition({ label: transitionLabel, week: transitionWeek })
     if (transitionLabel === 'week' && transitionWeek) setCardWeek(transitionWeek)
-  }, [transitionLabel, transitionWeek])
+  }
   const dismissCard = useCallback(() => setCardWeek(null), [])
 
   // Force-close all UI overlays the instant a transition begins

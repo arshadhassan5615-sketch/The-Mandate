@@ -8,6 +8,8 @@ import type { SittingHistoryEntry } from '../types/parliament'
 import type { JournalEntry } from '../types/journal'
 import type { NewsArticle } from '../types/news'
 import type { DiplomaticLetter } from '../types/letters'
+import type { ChoiceRecord } from '../stores/narrativeStore'
+import type { Commitment } from '../engine/commitments'
 
 export interface SaveRecord {
   version: number
@@ -26,6 +28,12 @@ export interface SaveRecord {
   forcedChainIds: string[]
   /** Week-scoped completion ledger (Fix A). Optional: older saves default to []. */
   completedItemIds?: string[]
+  /** Choices made this playthrough. Optional: older saves default to []. */
+  choiceLog?: ChoiceRecord[]
+  /** Province news items already read. Optional: older saves default to []. */
+  provinceNewsSeenIds?: string[]
+  /** Promises given this playthrough. Optional: older saves default to []. */
+  commitments?: Commitment[]
   decreeState?: {
     pendingDecrees: Decree[]
     signedDecrees: Decree[]

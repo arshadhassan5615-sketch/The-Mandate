@@ -14,6 +14,7 @@ These items are deliberately **not** done. Each changes engine semantics that af
 saves or ending flow, so per the rails they need your decision.
 
 ### H-1 · Bug A + Bug C — map-week pool rebuild and week completion (`weekStore.ts`, `MapInteractionLayer.tsx`)
+> **RESOLVED** — Fix A `9ba5522`, Fix C `16c9cc0` (see the fixes entry below). Kept for history.
 - **A:** `advanceQueue` rebuilds the pool from `buildPool()` alone (`weekStore.ts:1490`), so every
   `initWeek`-injected item disappears after the first scene of the week (runtime-verified at wk22).
 - **C:** `allVisited` checks `visitedSceneIds.includes(item.sceneId)`, but `__budget__`, `__constitution__`, `__radio__`, `__vote__` and
@@ -32,6 +33,7 @@ saves or ending flow, so per the rails they need your decision.
   JSON, so they survive A. C is untouched.
 
 ### H-2 · Bug B — delayed chain scenes never reach the map (`weekStore.ts`)
+> **RESOLVED** — Fix B `b0a00e1`, timing follow-ups `abd313b` and `fa3c120`. Runtime-verified 2026-10-24: a project's contractor and mid-crisis scenes reach the map on schedule. Kept for history.
 - `completeWeek` → `chainStore.process()` → `forcedChainIds`, which only the unused `agenda` phase consumes.
   Runtime-verified. **163 scenes** depend solely on delayed chainTriggers. Code-scheduled payoffs
   (mole accusation, contractors, project mid-crises, impeachment, no-confidence wrapper, Tyvaren

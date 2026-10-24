@@ -1,12 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useBillStore } from '../../stores/billStore'
 import { useDecreeStore } from '../../stores/decreeStore'
-import { useIsMobile } from '../../hooks/useIsMobile'
-import { Z } from '../../constants/zIndex'
-import veltriaSeal from '../../assets/images/veltria_seal.png'
 import { buildDecreeRecords, buildLawRecords, type DecreeRecord, type LawRecord } from './stateRecords'
 import { useGameStore } from '../../stores/gameStore'
 import { buildSituations, type Situation, type Severity, type Trend } from './situations'
+import PaperPanel, { PaperTabButton } from './PaperPanel'
+import { OVERLINE, SERIF_BODY } from './paperStyles'
 
 // State of the Republic: one state paper with the ongoing situations (severity
 // and trend, in words), every law decided and every decree signed. Read-only;
@@ -14,16 +13,7 @@ import { buildSituations, type Situation, type Severity, type Trend } from './si
 
 type Tab = 'situations' | 'laws' | 'decrees'
 
-const SERIF_BODY = "'Crimson Text', Georgia, serif"
 const LAW_GREEN = '#3d6a34'
-
-const OVERLINE: React.CSSProperties = {
-  fontFamily: 'var(--font-ui)',
-  fontSize: '10px',
-  letterSpacing: '0.16em',
-  textTransform: 'uppercase',
-  color: 'var(--doc-ink-muted)',
-}
 
 interface StatePanelProps {
   onClose: () => void
@@ -34,7 +24,6 @@ export default function StatePanel({ onClose }: StatePanelProps) {
   const bills = useBillStore(s => s.bills)
   const signedDecrees = useDecreeStore(s => s.signedDecrees)
   const pendingCount = useDecreeStore(s => s.pendingLongTermEffects.length)
-  const isMobile = useIsMobile()
   const [tab, setTab] = useState<Tab>('situations')
   const nation = useGameStore(s => s.nation)
   const currentWeek = useGameStore(s => s.currentWeek)
@@ -51,81 +40,47 @@ export default function StatePanel({ onClose }: StatePanelProps) {
   )
   const pressing = situations.filter(x => x.severity !== 'Calm').length
 
-  // Capture phase so Escape closes this panel only, not the next overlay
-  // in App's Escape chain as well.
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return
-      e.stopImmediatePropagation()
-      onClose()
-    }
-    window.addEventListener('keydown', handler, true)
-    return () => window.removeEventListener('keydown', handler, true)
-  }, [onClose])
-
-  const placement: React.CSSProperties = isMobile
-    ? { left: 8, right: 8, top: 84, bottom: 68 }
-    : { left: 80, top: 96, width: 'min(440px, calc(100vw - 112px))', maxHeight: 'calc(100vh - 120px)' }
-
   return (
-    <div
-      role="dialog"
-      aria-labelledby="state-panel-title"
-      data-testid="state-panel"
-      style={{
-        position: 'fixed',
-        ...placement,
-        zIndex: Z.panel,
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'var(--doc-paper)',
-        color: 'var(--doc-ink)',
-        border: '1px solid var(--doc-paper-edge)',
-        boxShadow: '0 12px 40px rgba(0,0,0,0.55), inset 0 0 60px rgba(120,90,40,0.12)',
-        borderRadius: '2px',
-        overflow: 'hidden',
-      }}
+    <PaperPanel
+      testId="state-panel"
+      titleId="state-panel-title"
+      overline="Republic of Veltria"
+      title="State of the Republic"
+      closeLabel="Close State of the Republic"
+      onClose={onClose}
+      tabsLabel="Records"
+      tabs={
+        <>
+          <PaperTabButton
+            id="state-tab-situations"
+            controls="state-panel-situations"
+            label="Situations"
+            count={pressing}
+            active={tab === 'situations'}
+            onSelect={() => setTab('situations')}
+            className="state-panel__tab"
+          />
+          <PaperTabButton
+            id="state-tab-laws"
+            controls="state-panel-laws"
+            label="Laws"
+            count={laws.length}
+            active={tab === 'laws'}
+            onSelect={() => setTab('laws')}
+            className="state-panel__tab"
+          />
+          <PaperTabButton
+            id="state-tab-decrees"
+            controls="state-panel-decrees"
+            label="Decrees"
+            count={decrees.length}
+            active={tab === 'decrees'}
+            onSelect={() => setTab('decrees')}
+            className="state-panel__tab"
+          />
+        </>
+      }
     >
-      <header style={{ padding: '18px 22px 0', flexShrink: 0, position: 'relative' }}>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close State of the Republic"
-          className="state-panel__close"
-          style={{
-            position: 'absolute', top: 10, right: 10, zIndex: 1,
-            width: 32, height: 32, border: 'none', background: 'transparent',
-            color: 'var(--doc-ink-muted)', fontSize: '22px', lineHeight: 1, cursor: 'pointer',
-          }}
-        >
-          ×
-        </button>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img src={veltriaSeal} alt="" style={{ width: 40, height: 40, opacity: 0.75 }} />
-          <div>
-            <div style={OVERLINE}>Republic of Veltria</div>
-            <h2
-              id="state-panel-title"
-              style={{
-                margin: '2px 0 0',
-                fontFamily: 'var(--font-headline)',
-                fontSize: '22px',
-                lineHeight: 1.15,
-                color: 'var(--doc-ink)',
-              }}
-            >
-              State of the Republic
-            </h2>
-          </div>
-        </div>
-
-        <div role="tablist" aria-label="Records" style={{ display: 'flex', gap: '20px', marginTop: '16px', borderBottom: '1px solid var(--doc-rule)' }}>
-          <TabButton id="situations" label="Situations" count={pressing} active={tab === 'situations'} onSelect={setTab} />
-          <TabButton id="laws" label="Laws" count={laws.length} active={tab === 'laws'} onSelect={setTab} />
-          <TabButton id="decrees" label="Decrees" count={decrees.length} active={tab === 'decrees'} onSelect={setTab} />
-        </div>
-      </header>
-
       <div
         role="tabpanel"
         id={`state-panel-${tab}`}
@@ -136,42 +91,7 @@ export default function StatePanel({ onClose }: StatePanelProps) {
         {tab === 'laws' && <LawList laws={laws} />}
         {tab === 'decrees' && <DecreeList decrees={decrees} pendingCount={pendingCount} />}
       </div>
-    </div>
-  )
-}
-
-interface TabButtonProps {
-  id: Tab
-  label: string
-  count: number
-  active: boolean
-  onSelect: (tab: Tab) => void
-}
-
-function TabButton({ id, label, count, active, onSelect }: TabButtonProps) {
-  return (
-    <button
-      type="button"
-      role="tab"
-      id={`state-tab-${id}`}
-      aria-selected={active}
-      aria-controls={`state-panel-${id}`}
-      onClick={() => onSelect(id)}
-      className="state-panel__tab"
-      style={{
-        ...OVERLINE,
-        fontSize: '11px',
-        color: active ? 'var(--doc-ink)' : 'var(--doc-ink-muted)',
-        background: 'transparent',
-        border: 'none',
-        borderBottom: `2px solid ${active ? 'var(--oxblood)' : 'transparent'}`,
-        padding: '6px 0 8px',
-        marginBottom: '-1px',
-        cursor: 'pointer',
-      }}
-    >
-      {label} <span style={{ fontFamily: SERIF_BODY, letterSpacing: 0 }}>({count})</span>
-    </button>
+    </PaperPanel>
   )
 }
 

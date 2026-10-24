@@ -38,10 +38,5 @@ export const HUD_CSS = `
 .hud-crest { transition: transform 0.18s ease; } .hud-crest:hover { transform: scale(1.04); }
 `
 
-// date helpers
-
-export function weekToDate(week: number): string {
-  const d = new Date(1963, 0, 1)
-  d.setDate(d.getDate() + (week - 1) * 7)
-  return `${d.getDate()} ${d.toLocaleString('en-US', { month: 'long' })} ${d.getFullYear()}`
-}
+// date helpers live in the engine; re-exported so existing UI imports keep working
+export { weekToDate } from '../../engine/dates'

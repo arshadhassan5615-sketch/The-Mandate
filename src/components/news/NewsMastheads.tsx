@@ -1,10 +1,5 @@
 import type { NewspaperDef } from '../../data/newspapers'
-
-function weekToDate(week: number): string {
-  const d = new Date(1963, 0, 1)
-  d.setDate(d.getDate() + (week - 1) * 7)
-  return d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
-}
+import { weekToDate } from '../../engine/dates'
 
 export function HeraldMasthead({
   paper, week, mediaDeal

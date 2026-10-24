@@ -4,6 +4,8 @@ import { setAudioSettings } from '../engine/audioEngine'
 
 const LS_IRONMAN = 'mandate_ironman'
 const LS_STORY_MODE = 'mandate-story-mode'
+const LS_MEMORY_HINTS = 'mandate-memory-hints'
+const LS_AUTO_ADVANCE = 'mandate-auto-advance'
 const LS_VOLUME ='mandate_volume'
 const LS_TEXT_SPEED = 'mandate_textspeed'
 const LS_CONTRAST = 'mandate_contrast'
@@ -42,6 +44,8 @@ interface AccessibilitySettings {
 interface SettingsStore extends AudioSettings, AccessibilitySettings {
   ironmanMode: boolean
   storyMode: boolean
+  memoryHints: boolean
+  autoAdvance: boolean
   sessionStartTime: number
   accumulatedPlayMinutes: number
   saveMenuOpen: boolean
@@ -74,6 +78,8 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   // Panel actions
   toggleIronmanMode: () => void
   toggleStoryMode: () => void
+  toggleMemoryHints: () => void
+  toggleAutoAdvance: () => void
   setSaveMenuOpen: (open: boolean) => void
   setSettingsOpen: (open: boolean) => void
   setMapOpen: (open: boolean) => void
@@ -137,6 +143,8 @@ applyAudioToEngine(initialAudio)
 export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
   ironmanMode: localStorage.getItem(LS_IRONMAN) === 'true',
   storyMode: localStorage.getItem(LS_STORY_MODE) === 'true',
+  memoryHints: localStorage.getItem(LS_MEMORY_HINTS) !== 'false',
+  autoAdvance: localStorage.getItem(LS_AUTO_ADVANCE) === 'true',
   sessionStartTime: Date.now(),
   accumulatedPlayMinutes: 0,
   saveMenuOpen: false,
@@ -233,6 +241,20 @@ export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
       return { storyMode: next }
     }),
 
+  toggleMemoryHints: () =>
+    set(s => {
+      const next = !s.memoryHints
+      localStorage.setItem(LS_MEMORY_HINTS, String(next))
+      return { memoryHints: next }
+    }),
+
+  toggleAutoAdvance: () =>
+    set(s => {
+      const next = !s.autoAdvance
+      localStorage.setItem(LS_AUTO_ADVANCE, String(next))
+      return { autoAdvance: next }
+    }),
+
   setSaveMenuOpen: (open) => set({ saveMenuOpen: open }),
   setSettingsOpen: (open) => set({ settingsOpen: open }),
   setMapOpen: (open) => set({ mapOpen: open }),
@@ -265,6 +287,8 @@ export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
     fontSize: state.fontSize,
     ironmanMode: state.ironmanMode,
     storyMode: state.storyMode,
+    memoryHints: state.memoryHints,
+    autoAdvance: state.autoAdvance,
   }),
 }))
 
