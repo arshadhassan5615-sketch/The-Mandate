@@ -32,10 +32,6 @@ export const LetterIcon = () => (
 export const NotesIcon = () => (
   <svg {...ICON_PROPS}><path fillRule="evenodd" d="M7 4h2a3 3 0 0 1 6 0h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm1.5 6v1.6h7V10zm0 3.5v1.6h7v-1.6zm0 3.5v1.6H13V17z" /></svg>
 )
-// A seal with ribbons: the Chancellor's word, put on record.
-export const CommitmentIcon = () => (
-  <svg {...ICON_PROPS}><path d="M12 2.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13z" /><path d="M8.6 14.6 7 21.5l5-2.6 5 2.6-1.6-6.9A8 8 0 0 1 12 16a8 8 0 0 1-3.4-1.4z" /></svg>
-)
 export const MoreIcon = () => (
   <svg {...ICON_PROPS}><circle cx="5.5" cy="12" r="1.9" /><circle cx="12" cy="12" r="1.9" /><circle cx="18.5" cy="12" r="1.9" /></svg>
 )

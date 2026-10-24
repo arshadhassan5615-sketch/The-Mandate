@@ -48,7 +48,7 @@ describe('TopBar (command bar)', () => {
   beforeEach(resetStores)
   afterEach(() => { window.innerWidth = desktopWidth })
 
-  it('lists Commitments under More on phones and opens it', () => {
+  it('lists Commitments under More and opens it', () => {
     window.innerWidth = 390
     render(<TopBar />)
     const tools = screen.getByRole('navigation', { name: 'Government tools' })
@@ -111,7 +111,7 @@ describe('desktop HUD (1440x900)', () => {
   it('lists the government tools on the medallion capsule in order', () => {
     render(<TopBar />)
     const rail = screen.getByTestId('tool-rail')
-    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'Commitments', 'Journal', 'Notes', 'More', 'Settings'])
+    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'Journal', 'Notes', 'More', 'Settings'])
   })
 
   it('shows the unread count on the News medallion', () => {
@@ -132,12 +132,11 @@ describe('desktop HUD (1440x900)', () => {
     expect(useSettingsStore.getState().decreeInboxOpen).toBe(true)
   })
 
-  it('opens and closes Commitments from the rail', () => {
+  it('opens Commitments from More on desktop', () => {
     render(<TopBar />)
-    fireEvent.click(screen.getByRole('button', { name: 'Commitments' }))
+    fireEvent.click(screen.getByRole('button', { name: /^More/ }))
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Commitments' }))
     expect(screen.getByTestId('commitments-panel')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Commitments' }))
-    expect(screen.queryByTestId('commitments-panel')).toBeNull()
   })
 
   it('opens the nation overview from the crest', () => {
@@ -212,7 +211,7 @@ describe('compact landscape layout (844x390)', () => {
   it('keeps Journal and Notes off the rail and puts them in More', () => {
     render(<TopBar />)
     const rail = screen.getByTestId('tool-rail')
-    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'Commitments', 'More', 'Settings'])
+    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'More', 'Settings'])
 
     fireEvent.click(within(rail).getByRole('button', { name: /^More/ }))
     expect(screen.getByRole('menuitem', { name: 'Journal' })).toBeInTheDocument()

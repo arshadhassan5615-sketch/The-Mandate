@@ -26,7 +26,7 @@ import ConnectionsPanel from './panels/ConnectionsPanel'
 import NotepadPanel from './panels/NotepadPanel'
 import veltriaSeal from '../assets/images/veltria_seal.png'
 import {
-  MapIcon, NewsIcon, BriefsIcon, DecreeIcon, StateIcon, JournalIcon, LetterIcon, NotesIcon, CommitmentIcon, MoreIcon,
+  MapIcon, NewsIcon, BriefsIcon, DecreeIcon, StateIcon, JournalIcon, LetterIcon, NotesIcon, MoreIcon,
 } from './hud/icons'
 import { HUD_SIZES, weekToDate, type HudScale, type RailItem } from './hud/hudSizes'
 import HudCrest from './hud/HudCrest'
@@ -193,8 +193,7 @@ function MoreMenu({ items, placement, medallionSize }: MoreMenuProps) {
   }, [open])
   const toggleOpen = () => setOpen(o => !o)
   const menuPosition = placement === 'left'
-    // Grows upward from the medallion: More sits low on the rail, so a downward menu ran off-screen.
-    ? { right: 'calc(100% + 6px)', bottom: 0, maxHeight: '80vh', overflowY: 'auto' as const }
+    ? { right: 'calc(100% + 6px)', top: 0, maxHeight: '80vh', overflowY: 'auto' as const }
     : { right: 0, bottom: '100%' }
   return (
     <div ref={ref} style={{
@@ -314,7 +313,6 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
   const journalTool: ToolProps = { icon: <JournalIcon />, label: 'Journal', shortcut: HUD_SHORTCUTS.journal, onClick: () => setJournalOpen(true) }
   const lettersTool: ToolProps = { icon: <LetterIcon />, label: 'Letters', shortcut: HUD_SHORTCUTS.letters, badge: letterUnread, onClick: () => openLetters(true) }
   const notesTool: ToolProps = { icon: <NotesIcon />, label: 'Notes', shortcut: HUD_SHORTCUTS.notepad, active: notepadOpen, onClick: () => setNotepadOpen(!notepadOpen) }
-  const commitmentsTool: ToolProps = { icon: <CommitmentIcon />, label: 'Commitments', active: panel === 'commitments', onClick: () => toggle('commitments') }
 
   const phoneTools: ToolProps[] = [mapTool, newsTool, briefsTool, decreesTool, stateTool, journalTool, lettersTool]
 
@@ -326,7 +324,6 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
     toRailItem(decreesTool),
     toRailItem(stateTool),
     toRailItem(lettersTool),
-    toRailItem(commitmentsTool),
     ...(isCompact ? [] : [toRailItem(journalTool), toRailItem(notesTool)]),
   ]
 
@@ -337,9 +334,9 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
       { label: 'Notes', onClick: () => setNotepadOpen(!notepadOpen) },
     ] : []),
     ...(isMobile ? [{ label: 'Notes', onClick: () => setNotepadOpen(!notepadOpen) }] : []),
-    ...(isMobile ? [{ label: 'Commitments', onClick: () => toggle('commitments') }] : []),
     { label: 'Assembly', onClick: () => toggle('assembly') },
     { label: 'National Statistics', onClick: () => toggle('stats') },
+    { label: 'Commitments', onClick: () => toggle('commitments') },
     { label: 'Calendar', onClick: () => toggle('calendar') },
     { label: 'Scene Paths', onClick: () => toggle('paths') },
     { label: 'Nation Overview', onClick: () => toggle('overview') },
