@@ -232,7 +232,7 @@ export default function SettingsPanel() {
     textSpeed, highContrast, fontSize, ironmanMode, storyMode, memoryHints, autoAdvance,
     setMasterVolume, setAmbientVolume, setUiVolume, setMusicVolume, toggleMute,
     setTextSpeed, toggleHighContrast, setFontSize, toggleIronmanMode, toggleStoryMode, toggleMemoryHints, toggleAutoAdvance,
-    settingsOpen, setSettingsOpen,
+    restoreDefaults, settingsOpen, setSettingsOpen,
   } = useSettingsStore()
   const phase = useWeekStore(s => s.phase)
   const transitionLabel = useWeekStore(s => s.transitionLabel)
@@ -403,6 +403,11 @@ export default function SettingsPanel() {
       onClose={closePanel}
       tabs={tabButtons}
       tabsLabel="Settings sections"
+      footerStart={(
+        <CabinetButton variant="secondary" size={isCompact ? 'small' : 'regular'} onClick={restoreDefaults}>
+          Restore defaults
+        </CabinetButton>
+      )}
       footerEnd={(
         <>
           <CabinetButton onClick={handleReturnToMenu}>

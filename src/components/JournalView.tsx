@@ -81,6 +81,9 @@ const SLIP_META: CSSProperties = {
   gap: 12,
 }
 const SLIP_SUBHEAD: CSSProperties = { ...CAB_LABEL, fontSize: rem(10), color: PAPER_HEADING }
+const SLIP_TOP_ROW: CSSProperties = { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }
+const SIGNED_INK = 'rgba(61,106,52,0.85)'
+const VETOED_INK = 'rgba(122,42,42,0.85)'
 const SEARCH_INPUT: CSSProperties = {
   background: 'rgba(0,0,0,0.35)',
   border: '1px solid rgba(201,168,76,0.35)',
@@ -203,6 +206,31 @@ interface PaperSlipProps {
   children: ReactNode
 }
 
+/** Ink stamp for a bill outcome; returns null for entries with no outcome. */
+function OutcomeStamp({ flag }: { flag: string | null }) {
+  if (flag !== 'bill_signed' && flag !== 'bill_vetoed') return null
+  const text = flag === 'bill_signed' ? 'SIGNED' : 'VETOED'
+  const ink = flag === 'bill_signed' ? SIGNED_INK : VETOED_INK
+  return (
+    <span
+      data-testid="journal-stamp"
+      style={{
+        fontFamily: CAB_FONT.label,
+        fontWeight: 700,
+        fontSize: rem(9),
+        letterSpacing: '.16em',
+        color: ink,
+        border: `1.5px solid ${ink}`,
+        padding: '1px 7px',
+        transform: 'rotate(-4deg)',
+        mixBlendMode: 'multiply',
+      }}
+    >
+      {text}
+    </span>
+  )
+}
+
 /** A cream paper slip, tilted slightly so consecutive entries look hand-placed. */
 function PaperSlip({ index, onToggle, children }: PaperSlipProps) {
   const tilt = index % 2 === 0 ? -0.3 : 0.25
@@ -223,9 +251,12 @@ interface JournalEntrySlipProps {
 function JournalEntrySlip({ entry, index, isExpanded, onToggle }: JournalEntrySlipProps) {
   return (
     <PaperSlip index={index} onToggle={onToggle}>
-      <div style={SLIP_LABEL}>
-        <SeverityDot color={CATEGORY_COLORS[entry.category]} />
-        {CATEGORY_LABELS[entry.category]} · Week {entry.weekNumber}
+      <div style={SLIP_TOP_ROW}>
+        <div style={SLIP_LABEL}>
+          <SeverityDot color={CATEGORY_COLORS[entry.category]} />
+          {CATEGORY_LABELS[entry.category]} · Week {entry.weekNumber}
+        </div>
+        <OutcomeStamp flag={entry.flag} />
       </div>
       <h3 style={SLIP_TITLE}>{entry.title}</h3>
       <div style={{ ...SLIP_TEXT, ...clampStyle(isExpanded) }}>

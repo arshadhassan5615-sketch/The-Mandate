@@ -75,6 +75,9 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   toggleHighContrast: () => void
   setFontSize: (s: FontSize) => void
 
+  // Resets audio, accessibility, memory hints and auto-advance (not story/ironman mode or panels)
+  restoreDefaults: () => void
+
   // Panel actions
   toggleIronmanMode: () => void
   toggleStoryMode: () => void
@@ -95,12 +98,17 @@ interface SettingsStore extends AudioSettings, AccessibilitySettings {
   resetPlaytime: () => void
 }
 
+const DEFAULT_AUDIO: AudioSettings = { masterVolume: 50, ambientVolume: 35, uiVolume: 60, musicVolume: 35, masterMuted: false }
+const DEFAULT_ACCESS: AccessibilitySettings = { textSpeed: 'medium', highContrast: false, fontSize: 'normal' }
+const DEFAULT_MEMORY_HINTS = true
+const DEFAULT_AUTO_ADVANCE = false
+
 function loadAudio(): AudioSettings {
   try {
     const raw = localStorage.getItem(LS_VOLUME)
     if (raw) return JSON.parse(raw)
   } catch { /* ignore */ }
-  return { masterVolume: 50, ambientVolume: 35, uiVolume: 60, musicVolume: 35, masterMuted: false }
+  return { ...DEFAULT_AUDIO }
 }
 
 function persistAudio(s: AudioSettings) {
@@ -223,6 +231,23 @@ export const useSettingsStore = create<SettingsStore>()(persist((set, get) => ({
     localStorage.setItem(LS_FONT_SIZE, s)
     applyAccessibilityToDom({ ...get(), fontSize: s })
     set({ fontSize: s })
+  },
+
+  restoreDefaults: () => {
+    // The setters already persist and apply each value, so reuse them.
+    // Toggles only run when the current value differs from the default.
+    get().setMasterVolume(DEFAULT_AUDIO.masterVolume)
+    get().setAmbientVolume(DEFAULT_AUDIO.ambientVolume)
+    get().setUiVolume(DEFAULT_AUDIO.uiVolume)
+    get().setMusicVolume(DEFAULT_AUDIO.musicVolume)
+    if (get().masterMuted !== DEFAULT_AUDIO.masterMuted) get().toggleMute()
+
+    get().setTextSpeed(DEFAULT_ACCESS.textSpeed)
+    get().setFontSize(DEFAULT_ACCESS.fontSize)
+    if (get().highContrast !== DEFAULT_ACCESS.highContrast) get().toggleHighContrast()
+
+    if (get().memoryHints !== DEFAULT_MEMORY_HINTS) get().toggleMemoryHints()
+    if (get().autoAdvance !== DEFAULT_AUTO_ADVANCE) get().toggleAutoAdvance()
   },
 
   // ── Existing actions ───────────────────────────────────────────────────────

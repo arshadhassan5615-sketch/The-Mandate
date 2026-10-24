@@ -7,9 +7,9 @@ import SettingsPanel from '../SettingsPanel'
 import { useSettingsStore } from '../../stores/settingsStore'
 
 const original = { w: window.innerWidth, h: window.innerHeight }
-// Chrome buttons in the window: three tabs, the header ✕ and return-to-menu. Desktop adds the footer Close.
-const CHROME_COMPACT_BUTTONS = 5
-const CHROME_DESKTOP_BUTTONS = 6
+// Chrome buttons in the window: three tabs, the header ✕, Restore defaults and return-to-menu. Desktop adds the footer Close.
+const CHROME_COMPACT_BUTTONS = 6
+const CHROME_DESKTOP_BUTTONS = 7
 const AUDIO_SLIDERS = 4 // Master, Music, Ambient, UI Sound
 const DISPLAY_SEGMENTS = 7 // 4 text speeds, 3 font sizes
 const GAME_CHECKBOXES = 1 // Story Mode
@@ -157,6 +157,25 @@ describe('SettingsPanel layout', () => {
     setViewport(1440, 900)
     renderOpenPanel()
     expect(screen.getByText(/Web Audio API/)).toBeInTheDocument()
+  })
+})
+
+describe('SettingsPanel restore defaults', () => {
+  afterEach(() => {
+    useSettingsStore.setState({ settingsOpen: false })
+    setViewport(original.w, original.h)
+  })
+
+  it('resets a changed master volume back to 50% from the footer button', () => {
+    setViewport(1440, 900)
+    useSettingsStore.getState().setMasterVolume(20)
+    renderOpenPanel()
+    expect(screen.getByRole('slider', { name: 'Master Volume' })).toHaveValue('20')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Restore defaults' }))
+
+    expect(useSettingsStore.getState().masterVolume).toBe(50)
+    expect(screen.getByRole('slider', { name: 'Master Volume' })).toHaveValue('50')
   })
 })
 
