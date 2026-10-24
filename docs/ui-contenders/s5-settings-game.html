@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>S5 - Settings window, Game tab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:ital,wght@0,400;1,400&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(rgba(8,8,6,0.55), rgba(8,8,6,0.55)), url('../../src/assets/maps/map_veltria_full.jpg') center / cover;
+    font-family: 'Crimson Text', Georgia, serif;
+    color: #D8D0BD;
+  }
+
+  button { margin: 0; font: inherit; }
+
+  /* ---- Window ---- */
+  .window {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 760px;
+    height: 560px;
+    display: flex;
+    flex-direction: column;
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.06), transparent 160px),
+      radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px) 0 0 / 4px 4px,
+      #141414;
+    border: 1px solid #2A2A2A;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+  }
+
+  .frame {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    border: 1px solid rgba(201,168,76,0.35);
+    pointer-events: none;
+  }
+
+  .corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 0 solid #C9A84C;
+    pointer-events: none;
+  }
+
+  .corner.tl { top: 4px; left: 4px; border-top-width: 2px; border-left-width: 2px; }
+  .corner.tr { top: 4px; right: 4px; border-top-width: 2px; border-right-width: 2px; }
+  .corner.bl { bottom: 4px; left: 4px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner.br { bottom: 4px; right: 4px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  .close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #2c2c2c 0%, #101010 68%);
+    border: 2px solid #B58A32;
+    color: #F3DFA8;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    z-index: 2;
+  }
+
+  /* ---- Header ---- */
+  .head {
+    flex-shrink: 0;
+    padding: 18px 28px 0;
+    text-align: center;
+  }
+
+  .seal {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 6px;
+    filter: invert(1) sepia(1) saturate(3) brightness(0.95);
+    mix-blend-mode: screen;
+    opacity: 0.85;
+  }
+
+  .overline {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: .3em;
+    color: #C9A84C;
+  }
+
+  .head h1 {
+    margin: 6px 0 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: .02em;
+    color: #EDE3C8;
+  }
+
+  .orn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .orn .ln {
+    width: 70px;
+    height: 1px;
+    background: rgba(201,168,76,0.6);
+  }
+
+  .orn .sq {
+    width: 7px;
+    height: 7px;
+    margin: 0 8px;
+    background: #C9A84C;
+    transform: rotate(45deg);
+  }
+
+  /* ---- Tabs (gold pill toggle) ---- */
+  .tabs {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+  }
+
+  .pill-toggle {
+    display: inline-flex;
+    border: 1px solid rgba(201,168,76,0.45);
+    border-radius: 16px;
+    padding: 2px;
+  }
+
+  .pill-toggle span {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: .16em;
+    color: #CFC6B0;
+    padding: 6px 18px;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+
+  .pill-toggle span.active {
+    background: linear-gradient(#3A2E16, #241C0E);
+    border: 1px solid #C9A84C;
+    color: #F3DFA8;
+  }
+
+  /* ---- Body rows ---- */
+  .body {
+    flex: 1;
+    min-height: 0;
+    padding: 14px 40px 0;
+    overflow: hidden;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    align-items: center;
+    gap: 24px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.14);
+  }
+
+  .name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.3;
+    color: #EDE3C8;
+  }
+
+  .desc {
+    margin-top: 3px;
+    font-style: italic;
+    font-size: 13.5px;
+    line-height: 1.35;
+    color: #8F8775;
+  }
+
+  .ctl {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    width: 300px;
+  }
+
+  /* Switch */
+  .switch {
+    position: relative;
+    width: 46px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    border: 1px solid rgba(201,168,76,0.4);
+    background: #2A2318;
+  }
+
+  .knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6B5A3A;
+  }
+
+  .switch.on {
+    border: 1px solid #C9A84C;
+    background: linear-gradient(#3A2E16, #241C0E);
+  }
+
+  .switch.on .knob {
+    left: 24px;
+    background: radial-gradient(circle at 40% 35%, #F3DFA8, #B58A32 70%);
+  }
+
+  .sw-label {
+    width: 30px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .14em;
+    color: #8F8775;
+  }
+
+  .sw-label.on {
+    color: #F3DFA8;
+  }
+
+  /* ---- Bottom action bar ---- */
+  .actions {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 28px 22px;
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .actions-right {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: .16em;
+    line-height: 14px;
+    padding: 10px 24px;
+    border-radius: 4px;
+    border: 1px solid;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: linear-gradient(#5A2028, #3E151B);
+    border-color: #C9A84C;
+    color: #F1E2BE;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border-color: rgba(201,168,76,0.5);
+    color: #CFC6B0;
+  }
+</style>
+</head>
+<body>
+
+<div class="window">
+  <div class="frame" aria-hidden="true"></div>
+  <span class="corner tl" aria-hidden="true"></span>
+  <span class="corner tr" aria-hidden="true"></span>
+  <span class="corner bl" aria-hidden="true"></span>
+  <span class="corner br" aria-hidden="true"></span>
+
+  <button class="close" type="button" aria-label="Close">&#10005;</button>
+
+  <header class="head">
+    <img class="seal" src="../../src/assets/images/veltria_seal.png" alt="">
+    <div class="overline">CHANCELLERY</div>
+    <h1>Settings</h1>
+    <div class="orn" aria-hidden="true"><span class="ln"></span><span class="sq"></span><span class="ln"></span></div>
+  </header>
+
+  <nav class="tabs" aria-label="Settings sections">
+    <div class="pill-toggle">
+      <span>AUDIO</span><span>DISPLAY &amp; ACCESSIBILITY</span><span class="active">GAME</span>
+    </div>
+  </nav>
+
+  <main class="body">
+    <div class="row">
+      <div>
+        <div class="name">Story Mode</div>
+        <div class="desc">For players here for the story. Setbacks from your decisions hit half as hard. Good outcomes are unchanged.</div>
+      </div>
+      <div class="ctl">
+        <div class="switch"><span class="knob"></span></div>
+        <span class="sw-label">OFF</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="name">Memory Hints</div>
+        <div class="desc">After a choice, note who will remember it. Never shows numbers.</div>
+      </div>
+      <div class="ctl">
+        <div class="switch on"><span class="knob"></span></div>
+        <span class="sw-label on">ON</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="name">Auto-Advance</div>
+        <div class="desc">Lines move on by themselves after a reading pause. Press A in a scene to toggle.</div>
+      </div>
+      <div class="ctl">
+        <div class="switch"><span class="knob"></span></div>
+        <span class="sw-label">OFF</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="name">Ironman Mode</div>
+        <div class="desc">One save slot, saved automatically. Choices cannot be undone.</div>
+      </div>
+      <div class="ctl">
+        <div class="switch"><span class="knob"></span></div>
+        <span class="sw-label">OFF</span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="actions">
+    <button class="btn btn-secondary" type="button">RESTORE DEFAULTS</button>
+    <div class="actions-right">
+      <button class="btn btn-secondary" type="button">RETURN TO MAIN MENU</button>
+      <button class="btn btn-primary" type="button">CLOSE</button>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

@@ -86,6 +86,7 @@ describe('Auto-Advance setting', () => {
 
   it('clicking the Auto-Advance toggle flips the setting and saves it', () => {
     render(<SettingsPanel />)
+    fireEvent.click(screen.getByRole('tab', { name: 'Game' }))
 
     fireEvent.click(screen.getByText('Auto-Advance'))
 

@@ -1,7 +1,14 @@
-import type { JSX } from 'react'
+import { useEffect } from 'react'
+import type { CSSProperties, JSX } from 'react'
 import { useLetterStore } from '../../stores/letterStore'
+import { useGameStore } from '../../stores/gameStore'
 import { renderWithEntities } from '../news/EntityLinker'
-import { Z } from '../../constants/zIndex'
+import { rem } from '../../constants/typography'
+import { weekToDate } from '../../engine/dates'
+import CabinetDocument from '../ui/cabinet/CabinetDocument'
+import { DocumentPager } from '../ui/cabinet/DocumentPager'
+import { PaperHeading, PaperSheet } from '../ui/cabinet/PaperParts'
+import { CAB_FONT } from '../ui/cabinet/cabinetStyles'
 
 const SEAL_SVGS: Record<string, JSX.Element> = {
   arcturian: (
@@ -51,154 +58,122 @@ const SEAL_SVGS: Record<string, JSX.Element> = {
   ),
 }
 
+const INK = '#2a241c'
+const MINISTRY_LINE: CSSProperties = {
+  fontFamily: CAB_FONT.label,
+  fontWeight: 700,
+  fontSize: rem(10.5),
+  letterSpacing: '0.2em',
+  textTransform: 'uppercase',
+  color: '#5a4a3a',
+  margin: 0,
+  lineHeight: 1.4,
+}
+const SENDER_TITLE_LINE: CSSProperties = {
+  fontFamily: CAB_FONT.label,
+  fontWeight: 700,
+  fontSize: rem(10),
+  letterSpacing: '0.2em',
+  textTransform: 'uppercase',
+  color: '#6a5040',
+  margin: '6px 0 12px',
+}
+const BODY_PARAGRAPH: CSSProperties = {
+  fontFamily: CAB_FONT.body,
+  fontSize: rem(15.5),
+  lineHeight: 1.65,
+  color: '#2a2218',
+  textAlign: 'justify',
+  margin: '0 0 12px',
+}
+const SIGN_OFF: CSSProperties = {
+  marginTop: 18,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+}
+
+/** A short date for the pouch line: "15 JAN 1963". */
+function pouchDate(week: number): string {
+  const [day, month, year] = weekToDate(week).split(' ')
+  return `${day} ${month.slice(0, 3)} ${year}`.toUpperCase()
+}
+
 export default function DiplomaticLetterPanel() {
   const { letters, currentIndex, isOpen, setOpen, setIndex, markRead } = useLetterStore()
+  const currentWeek = useGameStore(s => s.currentWeek)
 
   const letter = letters[currentIndex]
   const total = letters.length
+  const letterId = letter?.id
+
+  // Reading a letter marks it read as soon as it is on screen.
+  useEffect(() => {
+    if (isOpen && letterId) markRead(letterId)
+  }, [isOpen, letterId, markRead])
 
   const seal = letter ? SEAL_SVGS[letter.seal] ?? SEAL_SVGS.arcturian : null
 
   if (!isOpen || !letter) return null
 
+  // A letter arrives in the week it was triggered; fall back to the current week if it has none.
+  const receivedWeek = letter.weekTriggered > 0 ? letter.weekTriggered : currentWeek
+
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: Z.overlay,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(3px)',
-    }} onClick={() => setOpen(false)}>
-      <div style={{
-        width: '560px', maxHeight: '90vh',
-        background: '#f5f0e8', color: '#1a1814',
-        borderRadius: '3px',
-        display: 'flex', flexDirection: 'column',
-        boxShadow: '0 6px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.1)',
-        fontFamily: "'Crimson Text', serif",
-        position: 'relative',
-        overflow: 'hidden',
-      }} onClick={e => { e.stopPropagation(); markRead(letter.id) }}>
-        {/* Close */}
-        <button onClick={() => setOpen(false)} style={{
-          position: 'absolute', top: '12px', right: '16px',
-          background: 'none', border: 'none', color: '#8a7060',
-          cursor: 'pointer', fontSize: '1.2rem', padding: 0, lineHeight: 1, zIndex: 10,
-        }}>✕</button>
-
-        {/* Nav buttons — inside panel, circular */}
-        {currentIndex > 0 && (
-          <button onClick={() => setIndex(currentIndex - 1)} style={{
-            position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)',
-            background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(201,168,76,0.4)',
-            color: '#c9a84c', cursor: 'pointer',
-            width: '36px', height: '36px', borderRadius: '50%',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            zIndex: 10, fontSize: '0.8rem', fontWeight: 'bold',
-          }}>◀</button>
-        )}
-        {currentIndex < total - 1 && (
-          <button onClick={() => setIndex(currentIndex + 1)} style={{
-            position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
-            background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(201,168,76,0.4)',
-            color: '#c9a84c', cursor: 'pointer',
-            width: '36px', height: '36px', borderRadius: '50%',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            zIndex: 10, fontSize: '0.8rem', fontWeight: 'bold',
-          }}>▶</button>
-        )}
-
-        {/* Scrollable content */}
-        <div style={{
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          padding: '40px 48px',
-          flex: 1,
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(192,176,144,0.3) transparent',
-        }}>
-
-        {/* Ministry header */}
-        <div style={{ textAlign: 'center', marginBottom: '14px' }}>
-          <div style={{ marginBottom: '6px' }}>{seal}</div>
-          <p style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: '0.65rem', fontWeight: 600,
-            letterSpacing: '0.14em', color: '#5a4a3a',
-            textTransform: 'uppercase', margin: 0, lineHeight: 1.4,
-          }}>
-            {letter.ministry}
-          </p>
-          <p style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: '0.55rem', fontWeight: 700,
-            letterSpacing: '0.12em', color: '#4a3a2a',
-            margin: '2px 0 0', lineHeight: 1.3,
-          }}>
-            REPUBLIC OF VELTRIA
-          </p>
+    <CabinetDocument
+      testId="diplomatic-letter"
+      titleId="diplomatic-letter-title"
+      overline="Foreign correspondence"
+      title="Diplomatic Letters"
+      closeLabel="Close letters"
+      onClose={() => setOpen(false)}
+      nav={total > 1 ? (
+        <DocumentPager
+          index={currentIndex}
+          total={total}
+          noun="Letter"
+          onPrevious={() => setIndex(currentIndex - 1)}
+          onNext={() => setIndex(currentIndex + 1)}
+        />
+      ) : undefined}
+    >
+      <PaperSheet
+        letterhead={false}
+        watermark={false}
+        registry={{ left: `DIPLOMATIC POUCH · RECEIVED ${pouchDate(receivedWeek)}` }}
+        footnote="Translated by the Foreign Ministry"
+      >
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ marginBottom: 6 }}>{seal}</div>
+          <p style={MINISTRY_LINE}>{letter.ministry}</p>
+          <p style={{ ...MINISTRY_LINE, marginTop: 2 }}>REPUBLIC OF VELTRIA</p>
+          <p style={SENDER_TITLE_LINE}>{letter.senderTitle}</p>
         </div>
 
-        {/* Source country — small caps styled */}
-        <p style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: '0.58rem', fontWeight: 600,
-          letterSpacing: '0.2em', color: '#6a5040',
-          textAlign: 'center', margin: '0 0 12px',
-          textTransform: 'uppercase', fontVariantCaps: 'all-small-caps',
-        }}>
-          {letter.senderTitle}
-        </p>
+        <PaperHeading>{letter.headline}</PaperHeading>
 
-        {/* Headline */}
-        <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: '1.3rem', fontWeight: 700,
-          color: '#1a1814', textAlign: 'center',
-          margin: '0 0 8px', letterSpacing: '0.02em',
-        }}>
-          {letter.headline}
-        </h2>
+        <div style={{ marginTop: 14 }}>
+          {letter.body.split('\n\n').map((para, i) => (
+            <p key={i} style={BODY_PARAGRAPH}>
+              {renderWithEntities(para)}
+            </p>
+          ))}
+        </div>
 
-        {/* Divider */}
-        <div style={{ height: '1px', background: '#c0b090', margin: '8px 0 16px' }} />
-
-        {/* Body */}
-        {letter.body.split('\n\n').map((para, i) => (
-          <p key={i} style={{
-            fontSize: '0.9rem', lineHeight: 1.7,
-            color: '#2a2218', marginBottom: '12px',
-            textAlign: 'justify',
-          }}>
-            {renderWithEntities(para)}
-          </p>
-        ))}
-
-        {/* Sender signature */}
-        <div style={{ marginTop: '16px', textAlign: 'right' }}>
-          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.95rem', color: '#1a1814', fontStyle: 'italic', margin: 0 }}>
+        <div style={SIGN_OFF}>
+          <p style={{ fontFamily: CAB_FONT.signature, fontSize: rem(28), lineHeight: 1.2, color: INK, margin: 0 }}>
             {letter.sender}
           </p>
-          <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.48rem', color: '#8a7060', margin: '2px 0 0', letterSpacing: '0.06em' }}>
+          <div style={{ width: 180, height: 1, background: INK, margin: '2px 0 4px' }} />
+          <p style={{ fontFamily: CAB_FONT.body, fontStyle: 'italic', fontSize: rem(12), color: '#5a4d3a', margin: 0 }}>
             {letter.senderTitle}
           </p>
         </div>
 
-        {/* Bottom seal */}
-        <div style={{ textAlign: 'center', marginTop: '24px', opacity: 0.25 }}>
+        <div style={{ textAlign: 'center', marginTop: 24, opacity: 0.25 }}>
           {seal}
         </div>
-
-        {/* Page counter — bottom right */}
-        <div style={{ textAlign: 'right', marginTop: '16px', paddingTop: '10px', borderTop: '1px solid rgba(192,176,144,0.25)' }}>
-          <span style={{
-            fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.5rem', color: '#8a7060',
-            letterSpacing: '0.08em',
-          }}>
-            {currentIndex + 1} / {total}
-          </span>
-        </div>
-
-        </div>{/* end scrollable content */}
-      </div>
-    </div>
+      </PaperSheet>
+    </CabinetDocument>
   )
 }

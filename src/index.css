@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Playfair+Display+SC:wght@400;700&family=Cinzel+Decorative:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Playfair+Display+SC:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Special+Elite&display=swap');
 @import "tailwindcss";
 @import "./styles/tokens.css";
@@ -1486,3 +1486,19 @@ html, body { overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
 @keyframes province-mood-breathe { 0%, 100% { opacity: 0.65; transform: scale(0.96) } 50% { opacity: 1; transform: scale(1.04) } }
 .province-mood--crisis { animation: province-mood-breathe 3.2s ease-in-out infinite }
 @media (prefers-reduced-motion: reduce) { .province-mood--crisis { animation: none } }
+
+/* ─── Cabinet panels (src/components/ui/cabinet) ─── */
+.cabinet-close { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.cabinet-close:hover { transform: scale(1.06); box-shadow: 0 0 12px rgba(201,168,76,0.45); }
+.cabinet-close:focus-visible, .cabinet-btn:focus-visible, .cabinet-pill-seg:focus-visible { outline: 2px solid var(--cab-gold); outline-offset: 2px; }
+.cabinet-btn { transition: filter 0.15s ease, background-color 0.15s ease, transform 0.1s ease; }
+.cabinet-btn:active { transform: scale(0.98); }
+.cabinet-btn--primary:hover { filter: brightness(1.18); }
+.cabinet-btn--secondary:hover { background-color: rgba(201,168,76,0.1); color: var(--cab-gold-bright); }
+.cabinet-btn:disabled { opacity: 0.45; cursor: not-allowed; filter: none; }
+.cabinet-pill-seg:hover { color: var(--cab-gold-bright); }
+.cabinet-link { color: var(--cab-link); text-decoration: none; }
+.cabinet-link:hover { text-decoration: underline; }
+
+/* Cabinet drawer: keyboard focus ring on its controls */
+.cabinet-drawer [tabindex]:focus-visible { outline: 2px solid var(--cab-gold); outline-offset: 2px; }

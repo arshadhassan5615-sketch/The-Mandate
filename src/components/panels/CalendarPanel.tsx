@@ -1,24 +1,40 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import { useBillStore } from '../../stores/billStore'
 import { useGameStore } from '../../stores/gameStore'
 import { weekToDate } from '../../engine/dates'
 import { ACTS, PUBLIC_EVENTS, calendarWeeks, type CalendarWeek } from '../../engine/calendar'
 import type { Bill } from '../../types/bills'
 import PaperPanel from './PaperPanel'
-import { OVERLINE, SERIF_BODY } from './paperStyles'
+import { CAB_BODY, CAB_FONT, CAB_LABEL } from '../ui/cabinet/cabinetStyles'
+import { CabinetCard } from '../ui/cabinet/CabinetParts'
 import { rem } from '../../constants/typography'
 
 // The year of the mandate on one state paper: fifty-two weeks in four acts. Lived
 // weeks show what was decided in words, the current week is ringed, and publicly
 // scheduled events are marked. Future bills are never named. Read-only.
 
-const PAST_FILL = 'rgba(60,40,20,0.10)'
+const PAST_FILL = 'var(--cab-wine)'
 
 const STATE_LABELS: Record<CalendarWeek['state'], string> = {
   current: 'this week',
   past: 'past',
   future: 'upcoming',
 }
+
+const SCROLL_AREA: CSSProperties = {
+  overflowY: 'auto',
+  scrollbarWidth: 'thin',
+  scrollbarColor: 'rgba(201,168,76,0.3) transparent',
+  padding: '4px 20px 20px',
+  flex: 1,
+  minHeight: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 12,
+}
+
+const CARD_BODY: CSSProperties = { padding: '12px 14px' }
+const DETAIL_LABEL: CSSProperties = { ...CAB_LABEL, fontSize: rem(10) }
 
 interface CalendarPanelProps {
   onClose: () => void
@@ -53,15 +69,14 @@ export default function CalendarPanel({ onClose }: CalendarPanelProps) {
       desktopWidth="min(520px, calc(100vw - 112px))"
       headerPadding="18px 22px 12px"
     >
-      <div style={{ overflowY: 'auto', padding: '0 22px 12px', flex: 1, minHeight: 0 }}>
+      <div style={SCROLL_AREA}>
         {ACTS.map(act => (
-          <section key={act.number} style={{ paddingTop: 12 }}>
-            <h3 style={{ ...OVERLINE, fontSize: rem(11), fontWeight: 400, margin: '0 0 8px' }}>{act.title}</h3>
+          <CabinetCard key={act.number} title={act.title} bodyStyle={CARD_BODY}>
             <WeekGrid
               weeks={weeks.filter(w => w.week >= act.firstWeek && w.week <= act.lastWeek)}
               onPreview={setPreviewWeek}
             />
-          </section>
+          </CabinetCard>
         ))}
       </div>
 
@@ -114,10 +129,10 @@ function WeekCell({ week, onPreview }: WeekCellProps) {
         justifyContent: 'center',
         padding: 0,
         minHeight: 32,
-        border: isCurrent ? '2px solid var(--oxblood)' : '1px solid var(--doc-ink-muted)',
+        border: isCurrent ? '2px solid var(--cab-gold-bright)' : '1px solid var(--cab-gold-line)',
         background: week.state === 'past' ? PAST_FILL : 'transparent',
-        color: week.state === 'future' ? 'var(--doc-ink-muted)' : 'var(--doc-ink)',
-        fontFamily: SERIF_BODY,
+        color: week.state === 'future' ? 'var(--cab-muted)' : 'var(--cab-title)',
+        fontFamily: CAB_FONT.body,
         fontSize: rem(13),
         fontWeight: isCurrent ? 700 : 400,
         lineHeight: 1,
@@ -131,7 +146,7 @@ function WeekCell({ week, onPreview }: WeekCellProps) {
           height: 8,
           lineHeight: '8px',
           fontSize: hasPublicEvent ? rem(7) : rem(9),
-          color: hasPublicEvent ? 'var(--oxblood)' : 'var(--doc-ink-muted)',
+          color: hasPublicEvent ? 'var(--cab-gold)' : 'var(--cab-muted)',
         }}
       >
         {hasPublicEvent ? '◆' : hasNotes ? '•' : ''}
@@ -147,22 +162,22 @@ function WeekDetail({ week }: { week: CalendarWeek | undefined }) {
       style={{
         flexShrink: 0,
         minHeight: 44,
-        padding: '10px 22px 14px',
-        borderTop: '1px solid var(--doc-rule)',
+        padding: '10px 20px 14px',
+        borderTop: '1px solid var(--cab-card-edge)',
       }}
     >
       {week === undefined || week.notes.length === 0 ? (
         <>
-          {week !== undefined && <div style={OVERLINE}>{`Week ${week.week} · ${week.date}`}</div>}
-          <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(14), margin: '2px 0 0', color: 'var(--doc-ink-muted)' }}>
+          {week !== undefined && <div style={DETAIL_LABEL}>{`Week ${week.week} · ${week.date}`}</div>}
+          <p style={{ ...CAB_BODY, fontStyle: 'italic', fontSize: rem(14), margin: '2px 0 0', color: 'var(--cab-muted)' }}>
             Nothing recorded.
           </p>
         </>
       ) : (
         <>
-          <div style={OVERLINE}>{`Week ${week.week} · ${week.date}`}</div>
+          <div style={DETAIL_LABEL}>{`Week ${week.week} · ${week.date}`}</div>
           {week.notes.map((note, index) => (
-            <p key={`${index}-${note}`} style={{ fontFamily: SERIF_BODY, fontSize: rem(14), lineHeight: 1.4, margin: '2px 0 0', color: 'var(--doc-ink)' }}>
+            <p key={`${index}-${note}`} style={{ ...CAB_BODY, fontSize: rem(14), lineHeight: 1.4, margin: '2px 0 0' }}>
               {note}
             </p>
           ))}

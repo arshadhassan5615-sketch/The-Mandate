@@ -1,9 +1,15 @@
 import { useState, useMemo } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useJournalStore } from '../stores/journalStore'
 import { useGameStore } from '../stores/gameStore'
-import type { JournalCategory, ChoiceAlignment, JournalStats } from '../types/journal'
-import { CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_ICONS, ALIGNMENT_LABELS, ALIGNMENT_COLORS } from '../types/journal'
-import { Z } from '../constants/zIndex'
+import type { DiaryEntry } from '../types/gameState'
+import type { JournalCategory, ChoiceAlignment, JournalStats, JournalEntry } from '../types/journal'
+import { CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_ICONS, ALIGNMENT_LABELS } from '../types/journal'
+import { rem } from '../constants/typography'
+import CabinetDrawer from './ui/cabinet/CabinetDrawer'
+import { SeverityDot } from './ui/cabinet/CabinetParts'
+import { CAB_BODY, CAB_FONT, CAB_LABEL, cabPillSegment } from './ui/cabinet/cabinetStyles'
+import { PaperTabButton } from './panels/PaperPanel'
 
 const ALL_CATEGORIES: JournalCategory[] = ['policy', 'diplomacy', 'personal', 'legislation', 'crisis', 'reform']
 const ACTS = [1, 2, 3, 4]
@@ -13,13 +19,90 @@ const DIARY_CATEGORY_LABELS: Record<string, string> = {
 const DIARY_CATEGORY_COLORS: Record<string, string> = {
   political: '#3a5a7c', personal: '#c8902a', crisis: '#8b2e2e', diplomatic: '#2a7a7a', military: '#5a6b3a',
 }
+// Alignment tones follow meaning, drawn from the severity palette.
+const ALIGNMENT_TONES: Record<ChoiceAlignment, string> = {
+  reformist: 'var(--sev-calm)',
+  pragmatist: 'var(--sev-strained)',
+  authoritarian: 'var(--sev-critical)',
+  populist: 'var(--sev-serious)',
+  personal: 'var(--cab-gold)',
+  deflect: 'var(--cab-muted)',
+}
+const TAB_JOURNAL_ID = 'journal-tab-journal'
+const TAB_DIARY_ID = 'journal-tab-diary'
+const TABPANEL_ID = 'journal-tabpanel'
+const DRAWER_WIDTH = 'min(760px, calc(100vw - 220px))'
+
+// Slips are cream paper, so their text uses fixed inks rather than the dark panel tokens.
+const PAPER_INK = '#2a241c'
+const PAPER_INK_SOFT = '#5a4d3a'
+const PAPER_MUTED = '#6b5f4b'
+const PAPER_HEADING = '#7a2a2a'
+const PAPER_RULE = 'rgba(42,36,28,0.3)'
+
+const FILTER_ROW: CSSProperties = { display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 6 }
+const SLIP_STYLE: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 6,
+  background: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 3px), #ece6d3',
+  border: `1px solid ${PAPER_RULE}`,
+  borderRadius: 2,
+  boxShadow: '0 4px 10px rgba(0,0,0,0.4)',
+  padding: '14px 18px',
+  color: PAPER_INK,
+  cursor: 'pointer',
+}
+const SLIP_LABEL: CSSProperties = {
+  ...CAB_LABEL,
+  fontSize: rem(9.5),
+  letterSpacing: '0.18em',
+  color: PAPER_INK_SOFT,
+  display: 'flex',
+  alignItems: 'center',
+}
+const SLIP_TITLE: CSSProperties = {
+  fontFamily: CAB_FONT.title,
+  fontWeight: 700,
+  fontSize: rem(17),
+  lineHeight: 1.3,
+  color: PAPER_INK,
+  margin: '8px 0 6px',
+}
+const SLIP_TEXT: CSSProperties = { fontFamily: CAB_FONT.body, fontSize: rem(15), lineHeight: 1.5, color: PAPER_INK }
+const SLIP_META: CSSProperties = {
+  ...CAB_LABEL,
+  fontSize: rem(10),
+  letterSpacing: '0.14em',
+  color: PAPER_MUTED,
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  gap: 12,
+}
+const SLIP_SUBHEAD: CSSProperties = { ...CAB_LABEL, fontSize: rem(10), color: PAPER_HEADING }
+const SEARCH_INPUT: CSSProperties = {
+  background: 'rgba(0,0,0,0.35)',
+  border: '1px solid rgba(201,168,76,0.35)',
+  borderRadius: 4,
+  color: 'var(--cab-text)',
+  fontFamily: "'Crimson Text', Georgia, serif",
+  fontSize: rem(14),
+  padding: '7px 10px',
+  width: '100%',
+  boxSizing: 'border-box',
+}
+
+function actOf(week: number): number {
+  return week <= 13 ? 1 : week <= 26 ? 2 : week <= 39 ? 3 : 4
+}
 
 function getActLabel(act: number): string {
   switch (act) {
-    case 1: return 'Act I — The Foundation'
-    case 2: return 'Act II — The Consolidation'
-    case 3: return 'Act III — The Furnace'
-    case 4: return 'Act IV — The Reckoning'
+    case 1: return 'Act I · The Foundation'
+    case 2: return 'Act II · The Consolidation'
+    case 3: return 'Act III · The Furnace'
+    case 4: return 'Act IV · The Reckoning'
     default: return `Act ${act}`
   }
 }
@@ -34,12 +117,31 @@ function getActDateRange(act: number): string {
   }
 }
 
+function filterPill(active: boolean): CSSProperties {
+  return {
+    ...cabPillSegment(active),
+    fontSize: rem(10),
+    padding: '3px 10px',
+    border: active ? '1px solid var(--cab-gold)' : '1px solid rgba(201,168,76,0.3)',
+  }
+}
+
+/** Collapsed entries clamp their text to two lines; expanded entries show it all. */
+function clampStyle(isExpanded: boolean): CSSProperties {
+  return {
+    display: '-webkit-box',
+    WebkitLineClamp: isExpanded ? 99 : 2,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+  }
+}
+
 function AlignmentBar({ stats }: { stats: JournalStats }) {
   const total = stats.totalEntries || 1
   const alignments = ['reformist', 'pragmatist', 'authoritarian', 'populist', 'personal', 'deflect'] as ChoiceAlignment[]
   const widths = alignments.map(a => ({
     label: ALIGNMENT_LABELS[a],
-    color: ALIGNMENT_COLORS[a],
+    tone: ALIGNMENT_TONES[a],
     count: stats.alignmentBreakdown[a] || 0,
     pct: Math.round(((stats.alignmentBreakdown[a] || 0) / total) * 100),
   })).filter(w => w.count > 0)
@@ -47,43 +149,148 @@ function AlignmentBar({ stats }: { stats: JournalStats }) {
   if (widths.length === 0) return null
 
   return (
-    <div style={{ marginTop: '0.5rem' }}>
-      <div style={{
-        fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: '0.42rem',
-        letterSpacing: '0.15em',
-        color: 'var(--muted)',
-        textTransform: 'uppercase',
-        marginBottom: '0.3rem',
-      }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div style={{ ...CAB_LABEL, fontSize: rem(10), textAlign: 'center' }}>
         Political Alignment
       </div>
-      <div style={{ display: 'flex', height: '6px', borderRadius: '1px', overflow: 'hidden', marginBottom: '0.3rem' }}>
+      <div style={{ display: 'flex', height: 4, background: 'rgba(201,168,76,0.18)', overflow: 'hidden' }}>
         {widths.map((w, i) => (
           <div
             key={w.label ?? i}
             style={{
               flex: w.count,
-              background: w.color,
-              minWidth: w.count > 0 ? '4px' : '0px',
+              background: w.tone,
+              minWidth: '4px',
             }}
             title={`${w.label}: ${w.pct}%`}
           />
         ))}
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
         {widths.map((w, i) => (
-          <span key={w.label ?? i} style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.38rem',
-            letterSpacing: '0.06em',
-            color: w.color,
-          }}>
+          <span key={w.label ?? i} style={{ ...CAB_LABEL, fontSize: rem(10), letterSpacing: '0.08em', color: w.tone }}>
             {w.label} {w.pct}%
           </span>
         ))}
       </div>
     </div>
+  )
+}
+
+function EmptyNote({ text }: { text: string }) {
+  return (
+    <div style={{ ...CAB_BODY, fontStyle: 'italic', color: 'var(--cab-muted)', textAlign: 'center', padding: '24px 8px' }}>
+      {text}
+    </div>
+  )
+}
+
+function ActSection({ act, children }: { act: number; children: ReactNode }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ ...CAB_LABEL, color: 'var(--cab-gold)', letterSpacing: '0.3em' }}>{`— ${getActLabel(act)} —`}</div>
+        <div style={{ ...CAB_LABEL, fontSize: rem(10), letterSpacing: '0.16em', marginTop: 2 }}>{getActDateRange(act)}</div>
+      </div>
+      {children}
+    </div>
+  )
+}
+
+interface PaperSlipProps {
+  index: number
+  onToggle: () => void
+  children: ReactNode
+}
+
+/** A cream paper slip, tilted slightly so consecutive entries look hand-placed. */
+function PaperSlip({ index, onToggle, children }: PaperSlipProps) {
+  const tilt = index % 2 === 0 ? -0.3 : 0.25
+  return (
+    <article data-testid="journal-slip" onClick={onToggle} style={{ ...SLIP_STYLE, transform: `rotate(${tilt}deg)` }}>
+      {children}
+    </article>
+  )
+}
+
+interface JournalEntrySlipProps {
+  entry: JournalEntry
+  index: number
+  isExpanded: boolean
+  onToggle: () => void
+}
+
+function JournalEntrySlip({ entry, index, isExpanded, onToggle }: JournalEntrySlipProps) {
+  return (
+    <PaperSlip index={index} onToggle={onToggle}>
+      <div style={SLIP_LABEL}>
+        <SeverityDot color={CATEGORY_COLORS[entry.category]} />
+        {CATEGORY_LABELS[entry.category]} · Week {entry.weekNumber}
+      </div>
+      <h3 style={SLIP_TITLE}>{entry.title}</h3>
+      <div style={{ ...SLIP_TEXT, ...clampStyle(isExpanded) }}>
+        {entry.description}
+      </div>
+
+      {isExpanded && entry.consequences && (
+        <div style={{ borderLeft: `2px solid ${PAPER_RULE}`, paddingLeft: 10 }}>
+          <div style={SLIP_SUBHEAD}>Consequences</div>
+          <div style={{ ...SLIP_TEXT, fontStyle: 'italic' }}>
+            "{entry.consequences}"
+          </div>
+        </div>
+      )}
+
+      {isExpanded && !entry.consequences && (
+        <div style={{ ...CAB_BODY, fontSize: rem(13), fontStyle: 'italic', color: PAPER_MUTED }}>
+          Consequences have not yet manifested.
+        </div>
+      )}
+
+      {isExpanded && (
+        <div style={SLIP_META}>
+          <span>{entry.date}</span>
+          {entry.alignment && (
+            <span style={{ color: ALIGNMENT_TONES[entry.alignment] }}>
+              {ALIGNMENT_LABELS[entry.alignment]}
+            </span>
+          )}
+        </div>
+      )}
+    </PaperSlip>
+  )
+}
+
+interface DiaryEntrySlipProps {
+  entry: DiaryEntry
+  index: number
+  isExpanded: boolean
+  onToggle: () => void
+}
+
+function DiaryEntrySlip({ entry, index, isExpanded, onToggle }: DiaryEntrySlipProps) {
+  return (
+    <PaperSlip index={index} onToggle={onToggle}>
+      <div style={SLIP_LABEL}>
+        <SeverityDot color={DIARY_CATEGORY_COLORS[entry.category] ?? PAPER_MUTED} />
+        Diary · Week {entry.week}
+      </div>
+      <div style={{ ...SLIP_TEXT, fontStyle: 'italic', ...clampStyle(isExpanded) }}>
+        {entry.text.split('\n')[0]}
+      </div>
+
+      {isExpanded && (
+        <>
+          <div style={SLIP_META}>
+            <span>{DIARY_CATEGORY_LABELS[entry.category] ?? entry.category}</span>
+            <span>{entry.date}</span>
+          </div>
+          <div style={{ ...SLIP_TEXT, fontStyle: 'italic', whiteSpace: 'pre-wrap' }}>
+            {entry.text}
+          </div>
+        </>
+      )}
+    </PaperSlip>
   )
 }
 
@@ -101,8 +308,7 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
   const filteredEntries = useMemo(() => {
     return entries.filter(e => {
       if (selectedAct !== null) {
-        const eAct = e.weekNumber <= 13 ? 1 : e.weekNumber <= 26 ? 2 : e.weekNumber <= 39 ? 3 : 4
-        if (eAct !== selectedAct) return false
+        if (actOf(e.weekNumber) !== selectedAct) return false
       }
       if (selectedCategory !== null && e.category !== selectedCategory) return false
       if (searchText) {
@@ -116,592 +322,171 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
   const groupedByAct = useMemo(() => {
     const groups: Record<number, typeof filteredEntries> = { 1: [], 2: [], 3: [], 4: [] }
     for (const e of filteredEntries) {
-      const act = e.weekNumber <= 13 ? 1 : e.weekNumber <= 26 ? 2 : e.weekNumber <= 39 ? 3 : 4
-      groups[act].push(e)
+      groups[actOf(e.weekNumber)].push(e)
     }
     return groups
   }, [filteredEntries])
 
+  const isDiary = viewMode === 'diary'
   const dominantLabel = stats.dominantAlignment ? ALIGNMENT_LABELS[stats.dominantAlignment] : null
-  const dominantColor = stats.dominantAlignment ? ALIGNMENT_COLORS[stats.dominantAlignment] : null
+  const journalFooter = `${entries.length} entries · ${stats.billsSigned} signed / ${stats.billsVetoed} vetoed`
+    + (dominantLabel ? ` · Aligned: ${dominantLabel}` : '')
+  const diaryWeekRange = diaryEntries.length > 0 ? `${diaryEntries[0].week}–${diaryEntries[diaryEntries.length - 1].week}` : '—'
+  const diaryFooter = `${diaryEntries.length} diary entries · Weeks ${diaryWeekRange}`
+
+  const tabs = (
+    <>
+      <PaperTabButton
+        id={TAB_JOURNAL_ID}
+        controls={TABPANEL_ID}
+        label="Journal"
+        active={!isDiary}
+        onSelect={() => setViewMode('journal')}
+      />
+      <PaperTabButton
+        id={TAB_DIARY_ID}
+        controls={TABPANEL_ID}
+        label="Diary"
+        count={diaryEntries.length}
+        active={isDiary}
+        onSelect={() => setViewMode('diary')}
+      />
+    </>
+  )
+
+  const diaryContent = diaryEntries.length === 0
+    ? <EmptyNote text="No diary entries yet. Your personal reflections will appear here each week." />
+    : [...diaryEntries].reverse().map((entry, index) => {
+      if (selectedAct !== null && actOf(entry.week) !== selectedAct) return null
+      const key = `diary_${entry.week}`
+      const isExpanded = expandedId === key
+      return (
+        <DiaryEntrySlip
+          key={key}
+          entry={entry}
+          index={index}
+          isExpanded={isExpanded}
+          onToggle={() => setExpandedId(isExpanded ? null : key)}
+        />
+      )
+    })
+
+  const journalContent = filteredEntries.length === 0
+    ? (
+      <EmptyNote
+        text={entries.length === 0
+          ? 'No entries yet. Your decisions will be recorded here as you govern.'
+          : 'No entries match your filters.'}
+      />
+    )
+    : ACTS.map(act => {
+      const actEntries = groupedByAct[act]
+      if (actEntries.length === 0) return null
+      return (
+        <ActSection key={act} act={act}>
+          {actEntries.map((entry, index) => {
+            const isExpanded = expandedId === entry.id
+            return (
+              <JournalEntrySlip
+                key={entry.id}
+                entry={entry}
+                index={index}
+                isExpanded={isExpanded}
+                onToggle={() => setExpandedId(isExpanded ? null : entry.id)}
+              />
+            )
+          })}
+        </ActSection>
+      )
+    })
 
   return (
-    <div
-      onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: Z.overlay,
-        background: 'rgba(0,0,0,0.75)',
-        backdropFilter: 'blur(6px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem',
-      }}
+    <CabinetDrawer
+      testId="journal-view"
+      titleId="journal-title"
+      title="The Chancellor's Journal"
+      overline="Private papers"
+      closeLabel="Close journal"
+      onClose={onClose}
+      width={DRAWER_WIDTH}
+      tabs={tabs}
+      tabsLabel="Journal sections"
+      footer={isDiary ? diaryFooter : journalFooter}
     >
-      <div style={{
-        width: '100%',
-        maxWidth: '720px',
-        maxHeight: '90vh',
-        background: '#1a1815',
-        border: '1px solid rgba(200,144,42,0.3)',
-        boxShadow: '0 8px 48px rgba(0,0,0,0.7)',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-        position: 'relative',
-      }}>
-        {/* Header */}
-        <div style={{
-          padding: '0.9rem 1.2rem',
-          borderBottom: '2px solid rgba(200,144,42,0.25)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexShrink: 0,
-          background: '#12100e',
-        }}>
-          <div>
-            <div style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: '1.1rem',
-              color: 'var(--amber)',
-              letterSpacing: '0.04em',
-              lineHeight: 1.2,
-            }}>
-              The Chancellor's Journal
-            </div>
-            <div style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '0.42rem',
-              letterSpacing: '0.2em',
-              color: 'var(--muted)',
-              textTransform: 'uppercase',
-              marginTop: '2px',
-            }}>
-              {entries.length} entries · {stats.billsSigned} signed / {stats.billsVetoed} vetoed
-              {dominantLabel && (
-                <span style={{ marginLeft: '0.5rem', color: dominantColor ?? 'var(--muted)' }}>
-                  · Aligned: {dominantLabel}
-                </span>
-              )}
-            </div>
-          </div>
+      <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 8, padding: '0 22px 10px' }}>
+        {/* Act filter pills */}
+        <div style={FILTER_ROW}>
           <button
-            onClick={onClose}
-            style={{
-              background: 'none',
-              border: '1px solid rgba(200,144,42,0.2)',
-              color: 'var(--muted)',
-              cursor: 'pointer',
-              fontSize: '0.8rem',
-              padding: '0.2rem 0.5rem',
-              fontFamily: "'IBM Plex Mono', monospace",
-              borderRadius: '1px',
-            }}
+            type="button"
+            className="cabinet-pill-seg"
+            aria-pressed={selectedAct === null}
+            onClick={() => setSelectedAct(null)}
+            style={filterPill(selectedAct === null)}
           >
-            ✕
+            All
           </button>
+          {ACTS.map(act => (
+            <button
+              key={act}
+              type="button"
+              className="cabinet-pill-seg"
+              aria-pressed={selectedAct === act}
+              onClick={() => setSelectedAct(selectedAct === act ? null : act)}
+              style={filterPill(selectedAct === act)}
+            >
+              Act {act}
+            </button>
+          ))}
         </div>
 
-        {/* Filters */}
-        <div style={{
-          padding: '0.5rem 1.2rem',
-          borderBottom: '1px solid rgba(200,144,42,0.12)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          flexWrap: 'wrap',
-          flexShrink: 0,
-          background: '#151310',
-        }}>
-          {/* View mode toggle */}
-          <div style={{ display: 'flex', gap: '3px' }}>
-            <button
-              onClick={() => setViewMode('journal')}
-              style={filterPillStyle(viewMode === 'journal')}
-            >
-              Journal
-            </button>
-            <button
-              onClick={() => setViewMode('diary')}
-              style={filterPillStyle(viewMode === 'diary')}
-            >
-              Diary ({diaryEntries.length})
-            </button>
-          </div>
-
-          <div style={{ width: '1px', height: '16px', background: 'rgba(200,144,42,0.15)' }} />
-          {/* Act filter pills */}
-          <div style={{ display: 'flex', gap: '3px' }}>
-            <button
-              onClick={() => setSelectedAct(null)}
-              style={filterPillStyle(selectedAct === null)}
-            >
-              All
-            </button>
-            {ACTS.map(act => (
-              <button
-                key={act}
-                onClick={() => setSelectedAct(selectedAct === act ? null : act)}
-                style={filterPillStyle(selectedAct === act)}
-              >
-                Act {act}
-              </button>
-            ))}
-          </div>
-
-          <div style={{ width: '1px', height: '16px', background: 'rgba(200,144,42,0.15)' }} />
-
-          {/* Category filter pills */}
-          <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap' }}>
-            {ALL_CATEGORIES.map(cat => (
+        {/* Category filter pills */}
+        <div style={FILTER_ROW}>
+          {ALL_CATEGORIES.map(cat => {
+            const isActive = selectedCategory === cat
+            return (
               <button
                 key={cat}
-                onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                style={filterPillStyle(selectedCategory === cat, CATEGORY_COLORS[cat])}
+                type="button"
+                className="cabinet-pill-seg"
+                aria-pressed={isActive}
+                onClick={() => setSelectedCategory(isActive ? null : cat)}
+                style={filterPill(isActive)}
               >
-                {CATEGORY_ICONS[cat]} {CATEGORY_LABELS[cat]}
+                <SeverityDot color={CATEGORY_COLORS[cat]} />
+                {CATEGORY_ICONS[cat]} {CATEGORY_LABELS[cat]} {stats.categoryBreakdown[cat] || 0}
               </button>
-            ))}
-          </div>
-
-          <div style={{ flex: 1 }} />
-
-          {/* Search */}
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchText}
-            onChange={e => setSearchText(e.target.value)}
-            style={{
-              background: '#0d0b09',
-              border: '1px solid rgba(200,144,42,0.15)',
-              color: 'var(--cream)',
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '0.48rem',
-              padding: '0.25rem 0.5rem',
-              width: '140px',
-              outline: 'none',
-              letterSpacing: '0.04em',
-            }}
-          />
-        </div>
-
-        {/* Alignment bar — journal mode only */}
-        {viewMode === 'journal' && (
-          <div style={{
-            padding: '0.4rem 1.2rem',
-            borderBottom: '1px solid rgba(200,144,42,0.1)',
-            flexShrink: 0,
-            background: '#151310',
-          }}>
-            <AlignmentBar stats={stats} />
-          </div>
-        )}
-
-        {/* Entries list */}
-        <div style={{
-          flex: 1,
-          overflowY: 'auto',
-          padding: '0.8rem 1.2rem',
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'var(--amber-dim) transparent',
-        }}>
-          {viewMode === 'diary' ? (
-            /* ── Diary entries (newest first) ── */
-            diaryEntries.length === 0 ? (
-              <div style={{
-                textAlign: 'center',
-                padding: '3rem 1rem',
-                color: 'var(--muted)',
-                fontFamily: "'Crimson Text', Georgia, serif",
-                fontSize: '0.85rem',
-                fontStyle: 'italic',
-              }}>
-                No diary entries yet. Your personal reflections will appear here each week.
-              </div>
-            ) : (
-              [...diaryEntries].reverse().map((entry) => {
-                const eAct = entry.week <= 13 ? 1 : entry.week <= 26 ? 2 : entry.week <= 39 ? 3 : 4
-                if (selectedAct !== null && eAct !== selectedAct) return null
-                const catColor = DIARY_CATEGORY_COLORS[entry.category] ?? 'var(--muted)'
-                const isExpanded = expandedId === `diary_${entry.week}`
-                return (
-                  <div
-                    key={`diary_${entry.week}`}
-                    onClick={() => setExpandedId(isExpanded ? null : `diary_${entry.week}`)}
-                    style={{
-                      padding: '0.5rem 0.6rem',
-                      marginBottom: '0.3rem',
-                      borderLeft: `3px solid ${catColor}`,
-                      background: isExpanded ? 'rgba(200,144,42,0.05)' : 'transparent',
-                      cursor: 'pointer',
-                      transition: 'background 0.15s',
-                      borderRadius: '1px',
-                    }}
-                    onMouseEnter={e => { if (!isExpanded) e.currentTarget.style.background = 'rgba(200,144,42,0.03)' }}
-                    onMouseLeave={e => { if (!isExpanded) e.currentTarget.style.background = 'transparent' }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                      <span style={{
-                        fontFamily: "'Special Elite', monospace",
-                        fontSize: '0.52rem',
-                        color: 'var(--amber-dim)',
-                        minWidth: '42px',
-                        letterSpacing: '0.04em',
-                        lineHeight: '1.3',
-                        flexShrink: 0,
-                      }}>
-                        Wk {entry.week}
-                      </span>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{
-                          fontFamily: "'Crimson Text', Georgia, serif",
-                          fontSize: '0.78rem',
-                          color: 'var(--cream)',
-                          lineHeight: 1.4,
-                          fontStyle: 'italic',
-                          display: '-webkit-box',
-                          WebkitLineClamp: isExpanded ? 99 : 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}>
-                          {entry.text.split('\n')[0]}
-                        </div>
-                      </div>
-                      <span style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: '0.36rem',
-                        letterSpacing: '0.08em',
-                        color: catColor,
-                        textTransform: 'uppercase',
-                        whiteSpace: 'nowrap',
-                        marginTop: '2px',
-                        flexShrink: 0,
-                      }}>
-                        {DIARY_CATEGORY_LABELS[entry.category] ?? entry.category}
-                      </span>
-                    </div>
-                    {isExpanded && (
-                      <div style={{
-                        marginTop: '0.5rem',
-                        marginLeft: '3rem',
-                        padding: '0.4rem 0.6rem',
-                        background: 'rgba(200,144,42,0.06)',
-                        borderLeft: '2px solid var(--amber-dim)',
-                        borderRadius: '1px',
-                      }}>
-                        <div style={{
-                          fontFamily: "'IBM Plex Mono', monospace",
-                          fontSize: '0.36rem',
-                          color: 'var(--muted)',
-                          letterSpacing: '0.06em',
-                          marginBottom: '4px',
-                        }}>
-                          {entry.date}
-                        </div>
-                        <div style={{
-                          fontFamily: "'Crimson Text', Georgia, serif",
-                          fontSize: '0.72rem',
-                          color: 'var(--cream)',
-                          fontStyle: 'italic',
-                          lineHeight: 1.5,
-                          whiteSpace: 'pre-wrap',
-                        }}>
-                          {entry.text}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )
-              }).filter(Boolean)
             )
-          ) : (
-            /* ── Journal entries (decision log) ── */
-            filteredEntries.length === 0 ? (
-              <div style={{
-                textAlign: 'center',
-                padding: '3rem 1rem',
-                color: 'var(--muted)',
-                fontFamily: "'Crimson Text', Georgia, serif",
-                fontSize: '0.85rem',
-                fontStyle: 'italic',
-              }}>
-                {entries.length === 0
-                  ? 'No entries yet. Your decisions will be recorded here as you govern.'
-                  : 'No entries match your filters.'}
-              </div>
-            ) : (
-              ACTS.map(act => {
-                const actEntries = groupedByAct[act]
-                if (actEntries.length === 0) return null
-
-                return (
-                  <div key={act} style={{ marginBottom: '1.5rem' }}>
-                    {/* Act header */}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      gap: '0.6rem',
-                      marginBottom: '0.6rem',
-                      paddingBottom: '0.4rem',
-                      borderBottom: '1px solid rgba(200,144,42,0.12)',
-                    }}>
-                      <span style={{
-                        fontFamily: "'Playfair Display', Georgia, serif",
-                        fontSize: '0.9rem',
-                        color: 'var(--amber)',
-                        letterSpacing: '0.03em',
-                      }}>
-                        {getActLabel(act)}
-                      </span>
-                      <span style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: '0.38rem',
-                        color: 'var(--muted)',
-                        letterSpacing: '0.1em',
-                      }}>
-                        {getActDateRange(act)}
-                      </span>
-                    </div>
-
-                    {/* Entries */}
-                    {actEntries.map((entry) => {
-                      const isExpanded = expandedId === entry.id
-                      return (
-                        <div
-                          key={entry.id}
-                          onClick={() => setExpandedId(isExpanded ? null : entry.id)}
-                          style={{
-                            padding: '0.5rem 0.6rem',
-                            marginBottom: '0.3rem',
-                            borderLeft: `3px solid ${CATEGORY_COLORS[entry.category]}`,
-                            background: isExpanded ? 'rgba(200,144,42,0.05)' : 'transparent',
-                            cursor: 'pointer',
-                            transition: 'background 0.15s',
-                            borderRadius: '1px',
-                          }}
-                          onMouseEnter={e => { if (!isExpanded) e.currentTarget.style.background = 'rgba(200,144,42,0.03)' }}
-                          onMouseLeave={e => { if (!isExpanded) e.currentTarget.style.background = 'transparent' }}
-                        >
-                          {/* Entry header row */}
-                          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                            <span style={{
-                              fontFamily: "'Special Elite', monospace",
-                              fontSize: '0.52rem',
-                              color: 'var(--amber-dim)',
-                              minWidth: '42px',
-                              letterSpacing: '0.04em',
-                              lineHeight: '1.3',
-                              flexShrink: 0,
-                            }}>
-                              Wk {entry.weekNumber}
-                            </span>
-                            <span style={{
-                              fontSize: '0.8rem',
-                              flexShrink: 0,
-                              marginTop: '-1px',
-                            }}>
-                              {entry.icon}
-                            </span>
-                            <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{
-                                fontFamily: "'Crimson Text', Georgia, serif",
-                                fontSize: '0.85rem',
-                                color: 'var(--cream)',
-                                lineHeight: 1.3,
-                                fontWeight: 600,
-                              }}>
-                                {entry.title}
-                              </div>
-                              <div style={{
-                                fontFamily: "'Crimson Text', Georgia, serif",
-                                fontSize: '0.72rem',
-                                color: 'var(--muted)',
-                                fontStyle: 'italic',
-                                lineHeight: 1.35,
-                                display: '-webkit-box',
-                                WebkitLineClamp: isExpanded ? 99 : 2,
-                                WebkitBoxOrient: 'vertical',
-                                overflow: 'hidden',
-                              }}>
-                                {entry.description}
-                              </div>
-                            </div>
-                            <span style={{
-                              fontFamily: "'IBM Plex Mono', monospace",
-                              fontSize: '0.36rem',
-                              letterSpacing: '0.08em',
-                              color: CATEGORY_COLORS[entry.category],
-                              textTransform: 'uppercase',
-                              whiteSpace: 'nowrap',
-                              marginTop: '2px',
-                              flexShrink: 0,
-                            }}>
-                              {CATEGORY_LABELS[entry.category]}
-                            </span>
-                          </div>
-
-                          {/* Consequences — shown when expanded */}
-                          {isExpanded && entry.consequences && (
-                            <div style={{
-                              marginTop: '0.5rem',
-                              marginLeft: '5rem',
-                              padding: '0.4rem 0.6rem',
-                              background: 'rgba(200,144,42,0.06)',
-                              borderLeft: '2px solid var(--amber-dim)',
-                              borderRadius: '1px',
-                            }}>
-                              <span style={{
-                                fontFamily: "'IBM Plex Mono', monospace",
-                                fontSize: '0.38rem',
-                                letterSpacing: '0.12em',
-                                color: 'var(--amber-dim)',
-                                textTransform: 'uppercase',
-                              }}>
-                                Consequences
-                              </span>
-                              <div style={{
-                                fontFamily: "'Crimson Text', Georgia, serif",
-                                fontSize: '0.68rem',
-                                color: 'var(--cream)',
-                                fontStyle: 'italic',
-                                lineHeight: 1.35,
-                                marginTop: '2px',
-                              }}>
-                                "{entry.consequences}"
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Empty state when expanded but no consequences */}
-                          {isExpanded && !entry.consequences && (
-                            <div style={{
-                              marginTop: '0.5rem',
-                              marginLeft: '5rem',
-                              padding: '0.4rem 0.6rem',
-                              background: 'rgba(107,96,80,0.05)',
-                              borderRadius: '1px',
-                            }}>
-                              <span style={{
-                                fontFamily: "'Crimson Text', Georgia, serif",
-                                fontSize: '0.6rem',
-                                color: 'var(--muted)',
-                                fontStyle: 'italic',
-                              }}>
-                                Consequences have not yet manifested.
-                              </span>
-                            </div>
-                          )}
-
-                          {/* Expanded metadata */}
-                          {isExpanded && (
-                            <div style={{
-                              marginTop: '0.3rem',
-                              marginLeft: '5rem',
-                              display: 'flex',
-                              gap: '0.8rem',
-                              flexWrap: 'wrap',
-                            }}>
-                              <span style={{
-                                fontFamily: "'IBM Plex Mono', monospace",
-                                fontSize: '0.36rem',
-                                color: 'var(--muted)',
-                                letterSpacing: '0.06em',
-                              }}>
-                                {entry.date}
-                              </span>
-                              {entry.alignment && (
-                                <span style={{
-                                  fontFamily: "'IBM Plex Mono', monospace",
-                                  fontSize: '0.36rem',
-                                  color: ALIGNMENT_COLORS[entry.alignment],
-                                  letterSpacing: '0.06em',
-                                }}>
-                                  {ALIGNMENT_LABELS[entry.alignment]}
-                                </span>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )
-                    })}
-                  </div>
-                )
-              })
-            )
-          )}
+          })}
         </div>
 
-        {/* Footer stats */}
-        <div style={{
-          padding: '0.5rem 1.2rem',
-          borderTop: '2px solid rgba(200,144,42,0.15)',
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap', // six counters overflow a 320px phone in one row
-          gap: '0.3rem 1.5rem',
-          background: '#12100e',
-        }}>
-          {viewMode === 'diary' ? (
-            <>
-              <span style={footerStatStyle}>
-                {diaryEntries.length} diary entries
-              </span>
-              <span style={{ ...footerStatStyle, color: '#c8902a' }}>
-                Weeks {diaryEntries.length > 0 ? `${diaryEntries[0].week}–${diaryEntries[diaryEntries.length - 1].week}` : '—'}
-              </span>
-            </>
-          ) : (
-            <>
-              <span style={footerStatStyle}>
-                {stats.categoryBreakdown.policy || 0} Policy
-              </span>
-              <span style={{ ...footerStatStyle, color: '#2a7a7a' }}>
-                {stats.categoryBreakdown.diplomacy || 0} Diplomacy
-              </span>
-              <span style={{ ...footerStatStyle, color: '#c8902a' }}>
-                {stats.categoryBreakdown.personal || 0} Personal
-              </span>
-              <span style={{ ...footerStatStyle, color: 'var(--accent-green)' }}>
-                {stats.categoryBreakdown.legislation || 0} Legislation
-              </span>
-              <span style={{ ...footerStatStyle, color: 'var(--accent-red)' }}>
-                {stats.categoryBreakdown.crisis || 0} Crisis
-              </span>
-              <span style={{ ...footerStatStyle, color: '#7a3a9a' }}>
-                {stats.categoryBreakdown.reform || 0} Reform
-              </span>
-            </>
-          )}
-        </div>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchText}
+          onChange={e => setSearchText(e.target.value)}
+          style={SEARCH_INPUT}
+        />
       </div>
-    </div>
+
+      <div
+        id={TABPANEL_ID}
+        role="tabpanel"
+        aria-labelledby={isDiary ? TAB_DIARY_ID : TAB_JOURNAL_ID}
+        style={{
+          flex: 1,
+          minHeight: 0,
+          overflowY: 'auto',
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(201,168,76,0.3) transparent',
+          padding: '4px 20px 16px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+        }}
+      >
+        {!isDiary && <AlignmentBar stats={stats} />}
+        {isDiary ? diaryContent : journalContent}
+      </div>
+    </CabinetDrawer>
   )
-}
-
-function filterPillStyle(active: boolean, color?: string): React.CSSProperties {
-  return {
-    background: active ? (color ?? 'rgba(200,144,42,0.15)') : 'transparent',
-    border: `1px solid ${active ? (color ?? 'rgba(200,144,42,0.35)') : 'rgba(200,144,42,0.12)'}`,
-    color: active ? (color ?? 'var(--amber)') : 'var(--muted)',
-    fontFamily: "'IBM Plex Mono', monospace",
-    fontSize: '0.4rem',
-    letterSpacing: '0.08em',
-    padding: '0.18rem 0.45rem',
-    cursor: 'pointer',
-    borderRadius: '1px',
-    whiteSpace: 'nowrap',
-  }
-}
-
-const footerStatStyle: React.CSSProperties = {
-  fontFamily: "'IBM Plex Mono', monospace",
-  fontSize: '0.4rem',
-  letterSpacing: '0.08em',
-  color: 'var(--muted)',
 }

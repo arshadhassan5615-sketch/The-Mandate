@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>S3 - State of the Republic drawer (decorated)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(rgba(8,8,6,0.35), rgba(8,8,6,0.35)), url('../../src/assets/maps/map_veltria_full.jpg') center / cover;
+    font-family: 'Crimson Text', Georgia, serif;
+    color: #D8D0BD;
+  }
+
+  .drawer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 96px;
+    width: 410px;
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.06), transparent 160px),
+      radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px) 0 0 / 4px 4px,
+      #141414;
+    border-left: 1px solid #2A2A2A;
+    box-shadow: -12px 0 30px rgba(0,0,0,0.5);
+    padding: 18px 22px;
+  }
+
+  .frame {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    border: 1px solid rgba(201,168,76,0.35);
+    pointer-events: none;
+  }
+
+  .corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 0 solid #C9A84C;
+    pointer-events: none;
+  }
+
+  .corner.tl { top: 4px; left: 4px; border-top-width: 2px; border-left-width: 2px; }
+  .corner.tr { top: 4px; right: 4px; border-top-width: 2px; border-right-width: 2px; }
+  .corner.bl { bottom: 4px; left: 4px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner.br { bottom: 4px; right: 4px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  .close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #2c2c2c 0%, #101010 68%);
+    border: 2px solid #B58A32;
+    color: #F3DFA8;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding: 0;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .seal {
+    display: block;
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 6px;
+    filter: invert(1) sepia(1) saturate(3) brightness(0.95);
+    mix-blend-mode: screen;
+    opacity: 0.85;
+  }
+
+  .header h1 {
+    margin: 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: .02em;
+    color: #EDE3C8;
+  }
+
+  .orn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .orn .ln {
+    width: 70px;
+    height: 1px;
+    background: rgba(201,168,76,0.6);
+  }
+
+  .orn .sq {
+    width: 7px;
+    height: 7px;
+    margin: 0 8px;
+    background: #C9A84C;
+    transform: rotate(45deg);
+  }
+
+  .pill {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+  }
+
+  .pill-toggle {
+    display: inline-flex;
+    border: 1px solid rgba(201,168,76,0.45);
+    border-radius: 16px;
+    padding: 2px;
+  }
+
+  .pill-toggle span {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: #CFC6B0;
+    padding: 5px 14px;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    line-height: 14px;
+  }
+
+  .pill-toggle span.active {
+    background: linear-gradient(#3A2E16, #241C0E);
+    border: 1px solid #C9A84C;
+    color: #F3DFA8;
+  }
+
+  .card {
+    background: #1D2627;
+    border: 1px solid #2E3A3B;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .card + .card {
+    margin-top: 12px;
+  }
+
+  .card-one {
+    margin-top: 12px;
+  }
+
+  .strip {
+    background: #3B1D21;
+    border-top: 1px solid rgba(201,168,76,0.45);
+    border-bottom: 1px solid rgba(201,168,76,0.45);
+    padding: 7px;
+    text-align: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #E9DFC5;
+    line-height: 1.3;
+  }
+
+  .dia {
+    color: #C9A84C;
+    font-size: 8px;
+    vertical-align: 2px;
+    margin: 0 8px;
+  }
+
+  .row {
+    text-align: center;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.3;
+    padding: 6px 10px;
+    border-top: 1px solid #2E3A3B;
+  }
+
+  .row::before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    vertical-align: 1px;
+  }
+
+  .row:first-child {
+    border-top: none;
+  }
+
+  .row.selected {
+    margin: 4px 6px;
+    border: 1px solid #C9A84C;
+    border-radius: 3px;
+    background: rgba(201,168,76,0.06);
+  }
+
+  .row.selected + .row {
+    border-top: 1px solid #2E3A3B;
+  }
+
+  .sev-critical { color: #E0533D; }
+  .sev-serious { color: #E88A3A; }
+  .sev-strained { color: #E3C14A; }
+
+  .body {
+    padding: 12px 16px;
+  }
+
+  .body p {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: #D8D0BD;
+  }
+
+  .body p a {
+    color: #5FAFC0;
+    text-decoration: none;
+  }
+
+  .tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .tag {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: .14em;
+    color: #E0533D;
+    border: 1px solid rgba(224,83,61,0.6);
+    border-radius: 10px;
+    padding: 2px 9px;
+    line-height: 1.4;
+  }
+
+  .source {
+    margin: 10px 0 0;
+    font-style: italic;
+    font-size: 14px;
+    color: #8F8775;
+  }
+
+  .law {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 15px;
+    color: #D8D0BD;
+  }
+
+  .law + .law {
+    margin-top: 10px;
+  }
+
+  .law i {
+    font-size: 13px;
+    color: #8F8775;
+    white-space: nowrap;
+    margin-left: 12px;
+  }
+
+  .foot {
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #8F8775;
+    white-space: nowrap;
+  }
+
+  .foot .ln {
+    width: 30px;
+    height: 1px;
+    background: rgba(201,168,76,0.35);
+  }
+
+  .foot .ln:first-child {
+    margin-right: 12px;
+  }
+
+  .foot .ln:last-child {
+    margin-left: 12px;
+  }
+</style>
+</head>
+<body>
+
+<aside class="drawer">
+  <div class="frame" aria-hidden="true"></div>
+  <span class="corner tl" aria-hidden="true"></span>
+  <span class="corner tr" aria-hidden="true"></span>
+  <span class="corner bl" aria-hidden="true"></span>
+  <span class="corner br" aria-hidden="true"></span>
+
+  <button class="close" type="button" aria-label="Close">&#10005;</button>
+
+  <header class="header">
+    <img class="seal" src="../../src/assets/images/veltria_seal.png" alt="">
+    <h1>State of the Republic</h1>
+    <div class="orn" aria-hidden="true"><span class="ln"></span><span class="sq"></span><span class="ln"></span></div>
+  </header>
+
+  <nav class="pill" aria-label="Drawer sections">
+    <div class="pill-toggle">
+      <span class="active">Situations</span><span>Laws</span><span>Decrees</span>
+    </div>
+  </nav>
+
+  <section class="card card-one">
+    <div class="strip"><span class="dia">&#9670;</span> Currently Active <span class="dia">&#9670;</span></div>
+    <div class="row selected sev-critical">Public Order</div>
+    <div class="row sev-serious">National Debt</div>
+    <div class="row sev-strained">The Economy</div>
+    <div class="row sev-strained">Prices</div>
+  </section>
+
+  <section class="card">
+    <div class="strip"><span class="dia">&#9670;</span> Public Order <span class="dia">&#9670;</span></div>
+    <div class="body">
+      <p>Protests flare up in the cities. Dockworkers in <a href="#">Aldenmoor</a> have walked out for a third day, and students are marching on the <a href="#">Assembly</a> in <a href="#">Ashenmere</a>.</p>
+      <div class="tags">
+        <span class="tag">CRITICAL</span>
+        <span class="tag">&#9660; WORSENING</span>
+      </div>
+      <p class="source">Reported by Danika Oberlin, Party Security Director.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="strip"><span class="dia">&#9670;</span> Laws in Force <span class="dia">&#9670;</span></div>
+    <div class="body">
+      <div class="law"><span>Free Press Protection Act</span><i>Week 2</i></div>
+      <div class="law"><span>Anti-Corruption Commission</span><i>Week 3</i></div>
+    </div>
+  </section>
+
+  <div class="foot"><span class="ln"></span><span>Chancellery of the Republic &middot; Week 3, March 1963</span><span class="ln"></span></div>
+</aside>
+
+</body>
+</html>

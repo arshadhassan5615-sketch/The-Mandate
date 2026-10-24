@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useBillStore } from '../../stores/billStore'
 import { useDecreeStore } from '../../stores/decreeStore'
 import { buildDecreeRecords, buildLawRecords, type DecreeRecord, type LawRecord } from './stateRecords'
 import { useGameStore } from '../../stores/gameStore'
 import { buildSituations, type Situation, type Severity, type Trend } from './situations'
 import PaperPanel, { PaperTabButton } from './PaperPanel'
-import { OVERLINE, SERIF_BODY } from './paperStyles'
+import { CAB_BODY, CAB_FONT, CAB_LABEL } from '../ui/cabinet/cabinetStyles'
+import { CabinetCard, SeverityDot, StatusPill } from '../ui/cabinet/CabinetParts'
 import { rem } from '../../constants/typography'
 
 // State of the Republic: one state paper with the ongoing situations (severity
@@ -14,7 +15,43 @@ import { rem } from '../../constants/typography'
 
 type Tab = 'situations' | 'laws' | 'decrees'
 
-const LAW_GREEN = '#3d6a34'
+const SEVERITY_COLORS: Record<Severity, string> = {
+  Calm: 'var(--sev-calm)',
+  Strained: 'var(--sev-strained)',
+  Serious: 'var(--sev-serious)',
+  Critical: 'var(--sev-critical)',
+}
+
+const TREND_MARKS: Record<Trend, { mark: string; color: string }> = {
+  Worsening: { mark: '▼', color: 'var(--sev-critical)' },
+  Easing: { mark: '▲', color: 'var(--sev-calm)' },
+  Holding: { mark: '■', color: 'var(--cab-muted)' },
+}
+
+const SCROLL_AREA: CSSProperties = {
+  overflowY: 'auto',
+  scrollbarWidth: 'thin',
+  scrollbarColor: 'rgba(201,168,76,0.3) transparent',
+  padding: '4px 20px 20px',
+  flex: 1,
+  minHeight: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 12,
+}
+
+const CARD_BODY: CSSProperties = { padding: '4px 0' }
+const LIST_RESET: CSSProperties = { listStyle: 'none', margin: 0, padding: 0 }
+const ROW: CSSProperties = { padding: '9px 14px' }
+const ROW_RULE: CSSProperties = { borderTop: '1px solid var(--cab-card-edge)' }
+const ITEM_TITLE: CSSProperties = {
+  fontFamily: CAB_FONT.title,
+  fontWeight: 700,
+  fontSize: rem(15.5),
+  lineHeight: 1.3,
+  color: 'var(--cab-title)',
+}
+const LABEL_SMALL: CSSProperties = { ...CAB_LABEL, fontSize: rem(10) }
 
 interface StatePanelProps {
   onClose: () => void
@@ -86,7 +123,7 @@ export default function StatePanel({ onClose }: StatePanelProps) {
         role="tabpanel"
         id={`state-panel-${tab}`}
         aria-labelledby={`state-tab-${tab}`}
-        style={{ overflowY: 'auto', padding: '6px 22px 20px', flex: 1, minHeight: 0 }}
+        style={SCROLL_AREA}
       >
         {tab === 'situations' && <SituationList situations={situations} />}
         {tab === 'laws' && <LawList laws={laws} />}
@@ -96,9 +133,9 @@ export default function StatePanel({ onClose }: StatePanelProps) {
   )
 }
 
-function EmptyNote({ children }: { children: React.ReactNode }) {
+function EmptyNote({ children }: { children: ReactNode }) {
   return (
-    <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(16), color: 'var(--doc-ink-muted)', margin: '18px 0' }}>
+    <p style={{ ...CAB_BODY, fontStyle: 'italic', color: 'var(--cab-muted)', textAlign: 'center', margin: '18px 0' }}>
       {children}
     </p>
   )
@@ -107,27 +144,19 @@ function EmptyNote({ children }: { children: React.ReactNode }) {
 function LawList({ laws }: { laws: LawRecord[] }) {
   if (laws.length === 0) return <EmptyNote>No legislation has reached your desk yet.</EmptyNote>
   return (
-    <ol style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-      {laws.map(law => (
-        <li key={law.key} style={{ padding: '12px 0', borderBottom: '1px solid var(--doc-rule)' }}>
-          <div style={{ fontFamily: SERIF_BODY, fontSize: rem(17), fontWeight: 600, lineHeight: 1.3 }}>{law.title}</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px' }}>
-            <span
-              style={{
-                ...OVERLINE,
-                color: law.isLaw ? LAW_GREEN : 'var(--oxblood)',
-                border: `1px solid ${law.isLaw ? LAW_GREEN : 'var(--oxblood)'}`,
-                padding: '1px 6px',
-                borderRadius: '2px',
-              }}
-            >
-              {law.outcome}
-            </span>
-            <span style={OVERLINE}>Week {law.week}</span>
-          </div>
-        </li>
-      ))}
-    </ol>
+    <CabinetCard title="Laws Decided" bodyStyle={CARD_BODY}>
+      <ol style={LIST_RESET}>
+        {laws.map((law, index) => (
+          <li key={law.key} style={{ ...ROW, ...(index > 0 ? ROW_RULE : undefined) }}>
+            <div style={ITEM_TITLE}>{law.title}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+              <StatusPill color={law.isLaw ? 'var(--sev-calm)' : 'var(--sev-critical)'}>{law.outcome}</StatusPill>
+              <span style={LABEL_SMALL}>Week {law.week}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </CabinetCard>
   )
 }
 
@@ -135,7 +164,7 @@ function DecreeList({ decrees, pendingCount }: { decrees: DecreeRecord[]; pendin
   return (
     <>
       {pendingCount > 0 && (
-        <p style={{ ...OVERLINE, letterSpacing: '0.08em', margin: '14px 0 4px', color: 'var(--oxblood)' }}>
+        <p style={{ ...CAB_LABEL, fontSize: rem(10), color: 'var(--sev-strained)', margin: '0 0 10px' }}>
           {pendingCount === 1
             ? '1 consequence of your decrees is still to come'
             : `${pendingCount} consequences of your decrees are still to come`}
@@ -144,68 +173,54 @@ function DecreeList({ decrees, pendingCount }: { decrees: DecreeRecord[]; pendin
       {decrees.length === 0 ? (
         <EmptyNote>You have not signed any decrees.</EmptyNote>
       ) : (
-        <ol style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-          {decrees.map(d => (
-            <li key={d.id} style={{ padding: '12px 0', borderBottom: '1px solid var(--doc-rule)' }}>
-              <div style={OVERLINE}>{d.category} · {d.proposedBy}</div>
-              <div style={{ fontFamily: SERIF_BODY, fontSize: rem(17), fontWeight: 600, lineHeight: 1.3, marginTop: '2px' }}>{d.title}</div>
-              <p style={{ fontFamily: SERIF_BODY, fontSize: rem(15), lineHeight: 1.45, margin: '4px 0 0', color: 'var(--doc-ink-muted)' }}>
-                {d.summary}
-              </p>
-            </li>
-          ))}
-        </ol>
+        <CabinetCard title="Decrees Signed" bodyStyle={CARD_BODY}>
+          <ol style={LIST_RESET}>
+            {decrees.map((d, index) => (
+              <li key={d.id} style={{ ...ROW, ...(index > 0 ? ROW_RULE : undefined) }}>
+                <div style={LABEL_SMALL}>{d.category} · {d.proposedBy}</div>
+                <div style={ITEM_TITLE}>{d.title}</div>
+                <p style={{ ...CAB_BODY, fontSize: rem(14), color: 'var(--cab-muted)', margin: '4px 0 0' }}>
+                  {d.summary}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </CabinetCard>
       )}
     </>
   )
 }
 
-const SEVERITY_COLORS: Record<Severity, string> = {
-  Calm: '#3d6a34',
-  Strained: '#8a621c',
-  Serious: '#a0522d',
-  Critical: 'var(--oxblood)',
-}
-
-const TREND_MARKS: Record<Trend, { mark: string; color: string }> = {
-  Worsening: { mark: '▼', color: 'var(--oxblood)' },
-  Easing: { mark: '▲', color: '#3d6a34' },
-  Holding: { mark: '■', color: 'var(--doc-ink-muted)' },
-}
-
 function SituationList({ situations }: { situations: Situation[] }) {
   return (
-    <ol style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-      {situations.map(sit => {
-        const trend = TREND_MARKS[sit.trend]
-        return (
-          <li key={sit.id} data-testid={`situation-${sit.id}`} style={{ padding: '12px 0', borderBottom: '1px solid var(--doc-rule)' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: SERIF_BODY, fontSize: rem(17), fontWeight: 600, lineHeight: 1.3 }}>{sit.title}</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span
-                  data-testid="situation-severity"
-                  style={{
-                    ...OVERLINE,
-                    color: SEVERITY_COLORS[sit.severity],
-                    border: `1px solid ${SEVERITY_COLORS[sit.severity]}`,
-                    padding: '1px 6px',
-                    borderRadius: '2px',
-                  }}
-                >
-                  {sit.severity}
+    <CabinetCard title="Currently Active" bodyStyle={CARD_BODY}>
+      <ol style={LIST_RESET}>
+        {situations.map((sit, index) => {
+          const severityColor = SEVERITY_COLORS[sit.severity]
+          const trend = TREND_MARKS[sit.trend]
+          return (
+            <li key={sit.id} data-testid={`situation-${sit.id}`} style={{ ...ROW, ...(index > 0 ? ROW_RULE : undefined) }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+                <span style={{ fontFamily: CAB_FONT.title, fontWeight: 700, fontSize: rem(16), color: severityColor }}>
+                  <SeverityDot color={severityColor} />
+                  {sit.title}
                 </span>
-                <span data-testid="situation-trend" style={{ ...OVERLINE, color: trend.color }}>
-                  <span aria-hidden>{trend.mark} </span>{sit.trend}
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span data-testid="situation-severity">
+                    <StatusPill color={severityColor}>{sit.severity}</StatusPill>
+                  </span>
+                  <span data-testid="situation-trend">
+                    <StatusPill color={trend.color}>
+                      <span aria-hidden>{trend.mark} </span>{sit.trend}
+                    </StatusPill>
+                  </span>
                 </span>
-              </span>
-            </div>
-            <p style={{ fontFamily: SERIF_BODY, fontSize: rem(15), lineHeight: 1.45, margin: '4px 0 0', color: 'var(--doc-ink-muted)' }}>
-              {sit.summary}
-            </p>
-          </li>
-        )
-      })}
-    </ol>
+              </div>
+              <p style={{ ...CAB_BODY, fontSize: rem(14.5), margin: '4px 0 0' }}>{sit.summary}</p>
+            </li>
+          )
+        })}
+      </ol>
+    </CabinetCard>
   )
 }

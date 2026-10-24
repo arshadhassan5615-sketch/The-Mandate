@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contender B — State Bulletin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;500;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F1EFE8;
+  --ink: #111214;
+  --red: #C8201A;
+  --rule: #9EA3A8;
+  --panel: #E3E4E2;
+  --calm: #3D6A34;
+  --strained: #D9A520;
+  --serious: #D8641E;
+  --critical: #C8201A;
+  --muted: #3A3B3D;
+  --sans: 'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
+  --serif: 'Source Serif 4', Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  width: 1280px;
+  height: 800px;
+  overflow: hidden;
+  position: relative;
+  color: var(--ink);
+  font-family: var(--sans);
+  background: linear-gradient(rgba(8, 8, 6, 0.62), rgba(8, 8, 6, 0.62)), url('../../src/assets/maps/map_veltria_full.jpg') center / cover;
+}
+
+/* ---------- Panel frame ---------- */
+
+.panel {
+  position: absolute;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  padding: 24px 28px 24px 38px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 10px;
+  background: var(--red);
+}
+
+.panel-state { left: 40px; top: 56px; width: 500px; }
+.panel-decree { left: 580px; top: 56px; width: 660px; height: 548px; display: flex; flex-direction: column; }
+.panel-controls { left: 40px; top: 620px; width: 1200px; height: 140px; }
+
+/* ---------- Shared type ---------- */
+
+.overline {
+  margin: 0 0 10px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.overline .num { color: var(--red); }
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.rule {
+  height: 3px;
+  background: var(--ink);
+  margin-top: 14px;
+}
+
+.close {
+  position: relative;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.close::before,
+.close::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  margin: -1px 0 0 -8px;
+  background: var(--ink);
+}
+
+.close::before { transform: rotate(45deg); }
+.close::after { transform: rotate(-45deg); }
+
+/* ---------- Chips and buttons ---------- */
+
+.chip {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 0;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.chip-calm { background: var(--calm); color: #FFFFFF; }
+.chip-strained { background: var(--strained); color: var(--ink); }
+.chip-serious { background: var(--serious); color: #FFFFFF; }
+.chip-critical { background: var(--critical); color: #FFFFFF; }
+
+.btn {
+  padding: 12px 22px;
+  border-radius: 0;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: default;
+}
+
+.btn-primary { background: var(--red); color: #FFFFFF; border: 0; }
+.btn-secondary { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+
+/* ---------- State panel ---------- */
+
+.tabs {
+  display: flex;
+  margin-top: 14px;
+}
+
+.tab {
+  padding: 8px 14px;
+  border: 1px solid var(--ink);
+  margin-left: -1px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.tab:first-child { margin-left: 0; }
+.tab .idx { color: var(--red); }
+.tab .count { font-weight: 300; }
+
+.tab.active { background: var(--ink); color: #FFFFFF; }
+.tab.active .idx { color: #FFFFFF; }
+
+.rows { margin-top: 0; }
+
+.row {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  column-gap: 12px;
+  align-items: start;
+  padding: 14px 0;
+  border-top: 1px solid var(--ink);
+}
+
+.rows .row:last-child { border-bottom: 1px solid var(--ink); }
+
+.row-index {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--rule);
+}
+
+.row-title {
+  margin: 0 0 4px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.row-summary {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #3A3B3D;
+}
+
+.row-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.trend {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.trend-worse { color: var(--red); }
+.trend-ease { color: var(--calm); }
+.trend-hold { color: var(--rule); }
+
+/* ---------- Decree panel ---------- */
+
+.meta {
+  margin: 6px 0 0;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.filter {
+  padding: 4px 10px;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.filter.active { background: var(--ink); color: #FFFFFF; }
+
+.decree-body {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  column-gap: 24px;
+  flex: 1;
+  min-height: 0;
+  margin-top: 12px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  column-gap: 6px;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.filters + .item { border-top: 1px solid var(--ink); }
+
+.item-idx {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--red);
+}
+
+.item-title {
+  margin: 0 0 4px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.item-meta {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--rule);
+}
+
+.item.selected { background: var(--ink); color: #FFFFFF; }
+.item.selected .item-idx { color: var(--red); }
+.item.selected .item-meta { color: #FFFFFF; opacity: 0.7; }
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--red);
+}
+
+.detail-title {
+  margin: 0 0 6px;
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0 0 10px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.sep {
+  width: 1px;
+  height: 12px;
+  background: var(--ink);
+}
+
+.body-text {
+  margin: 0 0 6px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.consequences {
+  margin-top: 0;
+  padding: 6px 14px;
+  background: var(--panel);
+  border-left: 4px solid var(--red);
+}
+
+.cons-label {
+  margin: 0 0 6px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+}
+
+.cons-line {
+  margin: 0 0 4px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.cons-line:last-child { margin-bottom: 0; }
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+/* ---------- Controls strip ---------- */
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.6fr;
+  height: calc(100% - 21px);
+}
+
+.ctl {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 20px;
+  border-left: 1px solid var(--ink);
+}
+
+.ctl:first-child { padding-left: 0; border-left: 0; }
+
+.ctl-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.ctl-label {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+}
+
+.readout {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.slider {
+  position: relative;
+  height: 14px;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--ink);
+}
+
+.slider-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--red);
+}
+
+.thumb {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  background: var(--red);
+  transform: translate(-50%, -50%);
+}
+
+.toggle {
+  position: relative;
+  width: 46px;
+  height: 22px;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+}
+
+.knob {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  background: var(--ink);
+}
+
+.ctl-actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+</style>
+</head>
+<body>
+
+<!-- State panel -->
+<section class="panel panel-state" aria-label="State of the Republic">
+  <p class="overline"><span class="num">01</span> — REPUBLIC OF VELTRIA</p>
+  <div class="head">
+    <h1 class="title">State of the Republic</h1>
+    <button class="close" type="button" aria-label="Close"></button>
+  </div>
+  <div class="rule"></div>
+
+  <div class="tabs">
+    <div class="tab active"><span class="idx">01</span> Situations <span class="count">(4)</span></div>
+    <div class="tab"><span class="idx">02</span> Laws <span class="count">(2)</span></div>
+    <div class="tab"><span class="idx">03</span> Decrees <span class="count">(1)</span></div>
+  </div>
+
+  <div class="rows">
+    <div class="row">
+      <span class="row-index">01</span>
+      <div>
+        <p class="row-title">The Economy</p>
+        <p class="row-summary">Output is stagnating.</p>
+      </div>
+      <div class="row-status">
+        <span class="chip chip-strained">STRAINED</span>
+        <span class="trend trend-hold">— HOLDING</span>
+      </div>
+    </div>
+    <div class="row">
+      <span class="row-index">02</span>
+      <div>
+        <p class="row-title">National Debt</p>
+        <p class="row-summary">Debt service is weighing on the budget.</p>
+      </div>
+      <div class="row-status">
+        <span class="chip chip-serious">SERIOUS</span>
+        <span class="trend trend-worse">↓ WORSENING</span>
+      </div>
+    </div>
+    <div class="row">
+      <span class="row-index">03</span>
+      <div>
+        <p class="row-title">Prices</p>
+        <p class="row-summary">Prices are climbing faster than wages.</p>
+      </div>
+      <div class="row-status">
+        <span class="chip chip-strained">STRAINED</span>
+        <span class="trend trend-ease">↑ EASING</span>
+      </div>
+    </div>
+    <div class="row">
+      <span class="row-index">04</span>
+      <div>
+        <p class="row-title">Public Order</p>
+        <p class="row-summary">Protests flare up in the cities.</p>
+      </div>
+      <div class="row-status">
+        <span class="chip chip-critical">CRITICAL</span>
+        <span class="trend trend-worse">↓ WORSENING</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Decree panel -->
+<section class="panel panel-decree" aria-label="Decree Inbox">
+  <p class="overline"><span class="num">02</span> — CHANCELLERY</p>
+  <div class="head">
+    <h2 class="title">Decree Inbox</h2>
+    <button class="close" type="button" aria-label="Close"></button>
+  </div>
+  <p class="meta">3 pending · 1 signed · 0 rejected</p>
+  <div class="rule"></div>
+
+  <div class="decree-body">
+    <div class="list">
+      <div class="filters">
+        <span class="filter active">All</span>
+        <span class="filter">Economic</span>
+        <span class="filter">Judicial</span>
+        <span class="filter">Welfare</span>
+      </div>
+      <div class="item selected">
+        <span class="item-idx">01</span>
+        <div>
+          <p class="item-title">Emergency Grain Price Ceiling</p>
+          <p class="item-meta">Economic · Drazen Kolvar</p>
+        </div>
+      </div>
+      <div class="item">
+        <span class="item-idx">02</span>
+        <div>
+          <p class="item-title">Amnesty for Political Prisoners</p>
+          <p class="item-meta">Judicial · Roman Kešić</p>
+        </div>
+      </div>
+      <div class="item">
+        <span class="item-idx">03</span>
+        <div>
+          <p class="item-title">Expansion of Rural Clinics</p>
+          <p class="item-meta">Welfare · Petra Solec</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail">
+      <p class="kicker">ECONOMIC</p>
+      <h3 class="detail-title">Emergency Grain Price Ceiling</h3>
+      <div class="detail-meta">
+        <span>Proposed by Drazen Kolvar, Central Bank of Veltria</span>
+        <span class="sep"></span>
+        <span>Week 3 · March 1963</span>
+      </div>
+      <p class="body-text">Bread prices in Ashenmere have risen for six weeks running. This decree fixes the price of milled grain at last autumn's level until the harvest is in.</p>
+      <p class="body-text">Mills that sell above the ceiling lose their state licence.</p>
+      <div class="consequences">
+        <p class="cons-label">EXPECTED CONSEQUENCES</p>
+        <p class="cons-line">Bread will stay affordable through winter.</p>
+        <p class="cons-line">The Thornfeld farmers' union will be angered.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="button">Reject</button>
+        <button class="btn btn-primary" type="button">Sign decree</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Controls strip -->
+<section class="panel panel-controls" aria-label="Settings — Audio">
+  <p class="overline"><span class="num">03</span> — SETTINGS — AUDIO</p>
+  <div class="controls-grid">
+    <div class="ctl">
+      <div class="ctl-head">
+        <span class="ctl-label">Master volume</span>
+        <span class="readout">50%</span>
+      </div>
+      <div class="slider">
+        <div class="slider-fill" style="width: 50%;"></div>
+        <div class="thumb" style="left: 50%;"></div>
+      </div>
+    </div>
+
+    <div class="ctl">
+      <span class="ctl-label">Mute all audio</span>
+      <div class="toggle" role="switch" aria-checked="false">
+        <span class="knob"></span>
+      </div>
+    </div>
+
+    <div class="ctl">
+      <div class="ctl-head">
+        <span class="ctl-label">Music volume</span>
+        <span class="readout">35%</span>
+      </div>
+      <div class="slider">
+        <div class="slider-fill" style="width: 35%;"></div>
+        <div class="thumb" style="left: 35%;"></div>
+      </div>
+    </div>
+
+    <div class="ctl ctl-actions">
+      <button class="btn btn-secondary" type="button">Restore defaults</button>
+      <button class="btn btn-primary" type="button">Close</button>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

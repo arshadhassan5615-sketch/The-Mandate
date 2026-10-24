@@ -87,7 +87,7 @@ describe('DecreeInbox decisions', () => {
     seed([])
     render(<DecreeInbox onClose={() => {}} />)
     expect(screen.getByText(/No decrees available this week/i)).toBeInTheDocument()
-    expect(screen.getByText(/Select a decree to review/i)).toBeInTheDocument()
+    expect(screen.queryByText(/Select a decree to review/i)).toBeNull()
   })
 })
 

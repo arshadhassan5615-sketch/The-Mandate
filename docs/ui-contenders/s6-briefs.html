@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>S6 - Briefs Library drawer (wide, entry on paper)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    position: relative;
+    background: url('../../src/assets/maps/map_veltria_full.jpg') center / cover;
+    font-family: 'Crimson Text', Georgia, serif;
+    color: #D8D0BD;
+  }
+
+  /* Drawer docks at the right edge, leaving the 96px button rail free. */
+  .drawer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 96px;
+    width: 980px;
+    display: flex;
+    flex-direction: column;
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.06), transparent 160px),
+      radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px) 0 0 / 4px 4px,
+      #141414;
+    border-left: 1px solid #2A2A2A;
+    box-shadow: -12px 0 30px rgba(0,0,0,0.5);
+  }
+
+  .frame {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    border: 1px solid rgba(201,168,76,0.35);
+    pointer-events: none;
+  }
+
+  .corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 0 solid #C9A84C;
+    pointer-events: none;
+  }
+
+  .corner.tl { top: 4px; left: 4px; border-top-width: 2px; border-left-width: 2px; }
+  .corner.tr { top: 4px; right: 4px; border-top-width: 2px; border-right-width: 2px; }
+  .corner.bl { bottom: 4px; left: 4px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner.br { bottom: 4px; right: 4px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  .close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #2c2c2c 0%, #101010 68%);
+    border: 2px solid #B58A32;
+    color: #F3DFA8;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    z-index: 2;
+  }
+
+  .header {
+    padding: 18px 22px 0;
+    text-align: center;
+  }
+
+  .seal {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 6px;
+    filter: invert(1) sepia(1) saturate(3) brightness(0.95);
+    mix-blend-mode: screen;
+    opacity: 0.85;
+  }
+
+  .overline {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: .32em;
+    color: #C9A84C;
+  }
+
+  .header h1 {
+    margin: 6px 0 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: .02em;
+    color: #EDE3C8;
+  }
+
+  .orn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .orn .ln {
+    width: 70px;
+    height: 1px;
+    background: rgba(201,168,76,0.6);
+  }
+
+  .orn .sq {
+    width: 7px;
+    height: 7px;
+    margin: 0 8px;
+    background: #C9A84C;
+    transform: rotate(45deg);
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 40px 0;
+  }
+
+  .pill {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    line-height: 14px;
+    color: #CFC6B0;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 12px;
+    padding: 4px 12px;
+    white-space: nowrap;
+  }
+
+  .pill.active {
+    background: linear-gradient(#3A2E16, #241C0E);
+    border-color: #C9A84C;
+    color: #F3DFA8;
+  }
+
+  .pill.map {
+    border-color: #C9A84C;
+    color: #E8D9AE;
+  }
+
+  .body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    gap: 18px;
+    padding: 12px 22px 18px;
+  }
+
+  /* Left: maroon-strip index card */
+  .index {
+    width: 250px;
+    flex-shrink: 0;
+    background: #1D2627;
+    border: 1px solid #2E3A3B;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .strip {
+    background: #3B1D21;
+    border-top: 1px solid rgba(201,168,76,0.45);
+    border-bottom: 1px solid rgba(201,168,76,0.45);
+    padding: 7px;
+    text-align: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #E9DFC5;
+    line-height: 1.3;
+  }
+
+  .dia {
+    color: #C9A84C;
+    font-size: 8px;
+    vertical-align: 2px;
+    margin: 0 8px;
+  }
+
+  .row {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.3;
+    color: #D8D0BD;
+    padding: 8px 12px;
+    border-top: 1px solid #2E3A3B;
+  }
+
+  .strip + .row {
+    border-top: none;
+  }
+
+  .row.selected {
+    color: #F3DFA8;
+    border-left: 3px solid #C9A84C;
+    padding-left: 9px;
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* Right: the entry on cream paper */
+  .paper {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    padding: 26px 34px;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 3px),
+      #ECE6D3;
+    border-radius: 2px;
+    color: #2A241C;
+    box-shadow:
+      inset 0 0 0 8px #ECE6D3,
+      inset 0 0 0 9px rgba(42,36,28,0.45),
+      inset 0 0 0 12px #ECE6D3,
+      inset 0 0 0 13px rgba(42,36,28,0.25),
+      0 8px 24px rgba(0,0,0,0.5);
+  }
+
+  /* Paper content sits above the watermark. */
+  .paper > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .paper .watermark {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px;
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cls {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 9.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #6b5f4b;
+  }
+
+  .paper h2 {
+    margin: 8px 0 10px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+    color: #2A241C;
+  }
+
+  .ink-rule {
+    height: 1px;
+    background: #2A241C;
+    margin-bottom: 10px;
+  }
+
+  .paper h3 {
+    margin: 0 0 12px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: .2em;
+    line-height: 1.3;
+    color: #7A2A2A;
+  }
+
+  .entry p {
+    margin: 0 0 12px;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: justify;
+    color: #2A241C;
+  }
+
+  .entry strong {
+    font-weight: 600;
+    color: #1A140C;
+  }
+
+  .entry a {
+    color: #2F7F90;
+    text-decoration: none;
+  }
+
+  /* Footer under the body */
+  .foot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 22px 20px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #8F8775;
+    white-space: nowrap;
+  }
+
+  .foot .ln {
+    width: 30px;
+    height: 1px;
+    flex-shrink: 0;
+    background: rgba(201,168,76,0.35);
+  }
+
+  .foot .ln:first-child {
+    margin-right: 12px;
+  }
+
+  .foot .ln:last-child {
+    margin-left: 12px;
+  }
+</style>
+</head>
+<body>
+
+<aside class="drawer">
+  <div class="frame" aria-hidden="true"></div>
+  <span class="corner tl" aria-hidden="true"></span>
+  <span class="corner tr" aria-hidden="true"></span>
+  <span class="corner bl" aria-hidden="true"></span>
+  <span class="corner br" aria-hidden="true"></span>
+
+  <button class="close" type="button" aria-label="Close">&#10005;</button>
+
+  <header class="header">
+    <img class="seal" src="../../src/assets/images/veltria_seal.png" alt="">
+    <div class="overline">REPUBLIC OF VELTRIA &mdash; CHANCELLERY BRIEFS</div>
+    <h1>Briefs Library</h1>
+    <div class="orn" aria-hidden="true"><span class="ln"></span><span class="sq"></span><span class="ln"></span></div>
+  </header>
+
+  <nav class="pills" aria-label="Brief categories">
+    <span class="pill active">Nations &amp; Geography</span>
+    <span class="pill">History</span>
+    <span class="pill">Characters</span>
+    <span class="pill">Ideologies</span>
+    <span class="pill">Economy</span>
+    <span class="pill">Laws &amp; Constitution</span>
+    <span class="pill">Personal Journal</span>
+    <span class="pill map">&#9656; Character Map</span>
+  </nav>
+
+  <div class="body">
+    <section class="index">
+      <div class="strip"><span class="dia">&#9670;</span> Nations &amp; Geography <span class="dia">&#9670;</span></div>
+      <div class="row selected">Republic of Veltria</div>
+      <div class="row">Province of Ashenmere</div>
+      <div class="row">Province of Kravenstal</div>
+      <div class="row">Province of Thornfeld</div>
+      <div class="row">Province of Sevagrad</div>
+      <div class="row">Province of Aldenmoor</div>
+      <div class="row">Province of Dravenhollow</div>
+      <div class="row">The Arcturian Commonwealth</div>
+      <div class="row">The Orythian Dominion</div>
+    </section>
+
+    <article class="paper">
+      <img class="watermark" src="../../src/assets/images/veltria_seal.png" alt="">
+
+      <div class="cls">Brief &middot; Nations &amp; Geography</div>
+      <h2>Republic of Veltria</h2>
+      <div class="ink-rule"></div>
+      <h3>The Republic of Veltria</h3>
+
+      <div class="entry">
+        <p>A parliamentary republic on the continent of <a href="#">Asturien</a>, bordered by the <a href="#">Gravenmark Mountains</a> to the north, the <a href="#">Ondra River</a> delta to the east, the <a href="#">Amber Coast</a> and <a href="#">Thalassic Sea</a> to the south, and the agricultural plains of <a href="#">Lytheira</a> to the west.</p>
+        <p><strong>Population:</strong> Approximately 4.7 million. <strong>Capital:</strong> <a href="#">Ashenmere City</a>. <strong>Currency:</strong> The Veltrian Krone (&#8381;).</p>
+        <p><strong>Official language:</strong> Veltrian. Minority language: <a href="#">Dravenni</a> (suppressed under Halvek, now constitutionally uncertain). <strong>Religion:</strong> Church of the Eternal Flame (nominally secular state).</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="foot"><span class="ln"></span><span>New entries are marked with a gold dot &middot; Ctrl+K to close</span><span class="ln"></span></div>
+</aside>
+
+</body>
+</html>

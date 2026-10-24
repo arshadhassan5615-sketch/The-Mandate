@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { useState } from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import PaperPanel, { PaperTabButton } from '../PaperPanel'
-import { HUD_LEFT_GUTTER } from '../../../constants/layout'
+import { HUD_RAIL_WIDTH } from '../../../constants/layout'
 
 const PAPER_TITLE = 'Test paper'
 const CLOSE_LABEL = 'Close test paper'
@@ -114,9 +114,9 @@ describe('PaperPanel focus', () => {
     expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-modal')
   })
 
-  it('clears the HUD crest on desktop', () => {
+  it('docks beside the button rail on desktop', () => {
     render(<TabbedHarness />)
-    expect(screen.getByRole('dialog')).toHaveStyle({ left: `${HUD_LEFT_GUTTER}px` })
+    expect(screen.getByRole('dialog')).toHaveStyle({ right: `${HUD_RAIL_WIDTH}px`, top: '0px', bottom: '0px' })
   })
 })
 

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useCommitmentStore } from '../../stores/commitmentStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import { getPortrait } from '../../assets/potraits'
@@ -9,7 +9,8 @@ import {
   type Commitment, type CommitmentStatus, type ResolutionRule,
 } from '../../engine/commitments'
 import PaperPanel, { PaperTabButton } from './PaperPanel'
-import { OVERLINE, SERIF_BODY } from './paperStyles'
+import { CAB_BODY, CAB_FONT, CAB_LABEL } from '../ui/cabinet/cabinetStyles'
+import { CabinetCard, StatusPill } from '../ui/cabinet/CabinetParts'
 import { rem } from '../../constants/typography'
 
 // Your word, on record: one state paper listing every promise the Chancellor has
@@ -30,16 +31,24 @@ interface Entry {
 
 const PORTRAIT_SIZE = 22
 
-const STAMP: React.CSSProperties = {
-  fontFamily: 'var(--font-ui)',
-  fontSize: rem(10),
-  fontWeight: 700,
-  letterSpacing: '0.18em',
-  textTransform: 'uppercase',
-  padding: '2px 7px',
-  border: '1.5px solid currentColor',
-  borderRadius: 2,
-  transform: 'rotate(-4deg)',
+const SCROLL_AREA: CSSProperties = {
+  overflowY: 'auto',
+  scrollbarWidth: 'thin',
+  scrollbarColor: 'rgba(201,168,76,0.3) transparent',
+  padding: '4px 20px 20px',
+  flex: 1,
+  minHeight: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 12,
+}
+
+const CARD_BODY: CSSProperties = { padding: '4px 0' }
+const LABEL_SMALL: CSSProperties = { ...CAB_LABEL, fontSize: rem(10) }
+
+const CARD_TITLE: Record<Tab, string> = {
+  record: 'Promises on Record',
+  resolved: 'Promises Resolved',
 }
 
 const EMPTY_ON_RECORD = 'You have given no commitments yet. When you give your word, it is recorded here.'
@@ -108,20 +117,24 @@ export default function CommitmentsPanel({ onClose, rules = RESOLUTION_RULES }: 
           role="region"
           aria-label="Commitments list"
           tabIndex={0}
-          style={{ overflowY: 'auto', padding: '6px 22px 20px', flex: 1, minHeight: 0 }}
+          style={SCROLL_AREA}
         >
           {listed.length === 0
             ? <EmptyNote>{tab === 'record' ? EMPTY_ON_RECORD : EMPTY_RESOLVED}</EmptyNote>
-            : <CommitmentList entries={listed} />}
+            : (
+              <CabinetCard title={CARD_TITLE[tab]} bodyStyle={CARD_BODY}>
+                <CommitmentList entries={listed} />
+              </CabinetCard>
+            )}
         </div>
       </div>
     </PaperPanel>
   )
 }
 
-function EmptyNote({ children }: { children: React.ReactNode }) {
+function EmptyNote({ children }: { children: ReactNode }) {
   return (
-    <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(14), color: 'var(--doc-ink-muted)', margin: 0, padding: '18px 0' }}>
+    <p style={{ ...CAB_BODY, fontStyle: 'italic', color: 'var(--cab-muted)', textAlign: 'center', margin: '18px 0' }}>
       {children}
     </p>
   )
@@ -131,31 +144,29 @@ function CommitmentList({ entries }: { entries: Entry[] }) {
   return (
     <div>
       {entries.map((entry, index) => (
-        <CommitmentEntry key={entry.commitment.id} entry={entry} isLast={index === entries.length - 1} />
+        <CommitmentEntry key={entry.commitment.id} entry={entry} isFirst={index === 0} />
       ))}
     </div>
   )
 }
 
-function CommitmentEntry({ entry, isLast }: { entry: Entry; isLast: boolean }) {
+function CommitmentEntry({ entry, isFirst }: { entry: Entry; isFirst: boolean }) {
   const { commitment, status } = entry
   return (
     <article
       data-testid="commitment-entry"
-      style={{ padding: '14px 0', borderBottom: isLast ? 'none' : '1px solid var(--doc-rule)' }}
+      style={{ padding: '9px 14px', borderTop: isFirst ? undefined : '1px solid var(--cab-card-edge)' }}
     >
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
-        <span style={OVERLINE}>{`Week ${commitment.week} · ${commitment.sceneTitle}`}</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+        <span style={LABEL_SMALL}>{`Week ${commitment.week} · ${commitment.sceneTitle}`}</span>
         <StatusMark status={status} />
       </div>
-      <blockquote
-        style={{ margin: '8px 0 10px', fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(16), lineHeight: 1.45, color: 'var(--doc-ink)' }}
-      >
+      <blockquote style={{ ...CAB_BODY, fontStyle: 'italic', margin: '8px 0 10px' }}>
         {`“${commitment.quote}”`}
       </blockquote>
       {commitment.witnesses.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ ...OVERLINE, marginRight: '10px' }}>Heard by</span>
+          <span style={{ ...LABEL_SMALL, marginRight: 10 }}>Heard by</span>
           {commitment.witnesses.map(id => <WitnessChip key={id} id={id} />)}
         </div>
       )}
@@ -165,16 +176,16 @@ function CommitmentEntry({ entry, isLast }: { entry: Entry; isLast: boolean }) {
 
 function StatusMark({ status }: { status: CommitmentStatus }) {
   if (status === 'outstanding') {
-    return <span data-testid="commitment-status" data-status={status} style={OVERLINE}>On record</span>
+    return (
+      <span data-testid="commitment-status" data-status={status}>
+        <StatusPill color="var(--cab-muted)">On record</StatusPill>
+      </span>
+    )
   }
   const isKept = status === 'kept'
   return (
-    <span
-      data-testid="commitment-status"
-      data-status={status}
-      style={{ ...STAMP, color: isKept ? 'var(--law-green)' : 'var(--oxblood)' }}
-    >
-      {isKept ? 'Kept' : 'Broken'}
+    <span data-testid="commitment-status" data-status={status}>
+      <StatusPill color={isKept ? 'var(--sev-calm)' : 'var(--sev-critical)'}>{isKept ? 'Kept' : 'Broken'}</StatusPill>
     </span>
   )
 }
@@ -196,14 +207,14 @@ function WitnessChip({ id }: { id: string }) {
           style={{
             width: PORTRAIT_SIZE, height: PORTRAIT_SIZE, borderRadius: '50%',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-ui)', fontSize: rem(8), color: 'var(--doc-ink-muted)',
-            border: '1px solid var(--doc-rule)',
+            fontFamily: CAB_FONT.label, fontSize: rem(8), color: 'var(--cab-muted)',
+            border: '1px solid var(--cab-card-edge)',
           }}
         >
           {initialsFor(name)}
         </span>
       )}
-      <span style={{ fontFamily: SERIF_BODY, fontSize: rem(13) }}>{name}</span>
+      <span style={{ fontFamily: CAB_FONT.body, fontSize: rem(14), color: 'var(--cab-text)' }}>{name}</span>
     </span>
   )
 }

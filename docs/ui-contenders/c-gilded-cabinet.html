@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contender C — Gilded Cabinet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --leather: #16130F;
+    --leather-raised: #201B15;
+    --gold: #C9A84C;
+    --gold-bright: #F3DFA8;
+    --gold-dim: rgba(201, 168, 76, 0.55);
+    --ivory: #F1E4C2;
+    --muted: #B7A882;
+    --doc: #EFE6CF;
+    --ink: #2A2117;
+    --wax: #8E2B22;
+    --calm: #6B9B5F;
+    --strained: #D4A93C;
+    --serious: #D2793A;
+    --critical: #C84B3C;
+    --tab-muted: #9C8A62;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    width: 1280px;
+    height: 800px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(rgba(8, 8, 6, 0.62), rgba(8, 8, 6, 0.62)), url('../../src/assets/maps/map_veltria_full.jpg') center / cover;
+    font-family: 'Crimson Text', Georgia, serif;
+    color: var(--ivory);
+  }
+
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; }
+
+  /* ---------- Panel frame ---------- */
+  .panel {
+    position: absolute;
+    background: radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 4px 4px, var(--leather);
+    border: 1px solid #6E5626;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 6px #16130F, inset 0 0 0 7px rgba(201, 168, 76, 0.55), 0 30px 70px rgba(0, 0, 0, 0.7);
+    padding: 26px 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 0 solid var(--gold);
+  }
+  .corner.tl { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; }
+  .corner.tr { top: 10px; right: 10px; border-top-width: 2px; border-right-width: 2px; }
+  .corner.bl { bottom: 10px; left: 10px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner.br { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  /* Round HUD medallion close control */
+  .close-btn {
+    position: absolute;
+    top: 26px;
+    right: 30px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #2c2c2c 0%, #101010 68%);
+    border: 2px solid #B58A32;
+    color: var(--gold-bright);
+    font-size: 15px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  /* ---------- Header ---------- */
+  .overline {
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.2;
+    color: var(--ivory);
+    margin: 4px 0 0;
+  }
+
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .ornament::before,
+  .ornament::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--gold-dim);
+  }
+  .ornament i {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  /* ---------- Tabs ---------- */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .tab {
+    position: relative;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tab-muted);
+    padding: 8px 14px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .tab.active {
+    background: linear-gradient(#3A2E16, #241C0E);
+    border-color: var(--gold);
+    color: var(--gold-bright);
+  }
+  .tab.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    margin-left: 7px;
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0;
+    color: var(--gold);
+  }
+  .tab.active .badge { color: var(--gold-bright); }
+
+  /* ---------- State panel ---------- */
+  .state-panel { left: 40px; top: 56px; width: 500px; }
+
+  .state-list {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+  }
+  .state-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+  }
+  .state-row:last-child { border-bottom: 0; }
+  .row-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.25;
+    color: var(--ivory);
+    margin: 0 0 3px;
+  }
+  .row-summary {
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--muted);
+    margin: 0;
+  }
+  .row-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex: none;
+  }
+
+  /* Enamel pin severity */
+  .pin {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px 3px 8px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .pin i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .pin.strained { color: var(--strained); border-color: rgba(212, 169, 60, 0.55); }
+  .pin.serious { color: var(--serious); border-color: rgba(210, 121, 58, 0.55); }
+  .pin.critical { color: var(--critical); border-color: rgba(200, 75, 60, 0.55); }
+
+  .trend {
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .trend.worsening { color: var(--critical); }
+  .trend.easing { color: var(--calm); }
+  .trend.holding { color: var(--tab-muted); }
+
+  /* ---------- Decree panel ---------- */
+  .decree-panel { left: 580px; top: 56px; width: 660px; height: 520px; }
+
+  .decree-body {
+    display: flex;
+    gap: 22px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .decree-left {
+    width: 250px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .decree-head { margin-bottom: 14px; }
+  .decree-head .title { margin-top: 0; }
+  .decree-meta {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+    margin: 4px 0 0;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .chip {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 5px 10px;
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    border-radius: 3px;
+    line-height: 1.2;
+  }
+  .chip.active {
+    border-color: var(--gold);
+    color: var(--gold-bright);
+    background: rgba(201, 168, 76, 0.12);
+  }
+
+  .decree-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .decree-item {
+    padding: 12px 12px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+    border-left: 3px solid transparent;
+  }
+  .decree-item.selected {
+    background: rgba(201, 168, 76, 0.10);
+    border-left-color: var(--gold);
+  }
+  .item-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--ivory);
+    margin: 0 0 2px;
+  }
+  .decree-item.selected .item-title { color: var(--gold-bright); }
+  .item-meta {
+    font-style: italic;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .decree-right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 42px; /* clears the close medallion */
+  }
+
+  /* Ivory document laid on the leather */
+  .doc {
+    background: var(--doc);
+    border-radius: 3px;
+    padding: 14px 24px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(42, 33, 23, 0.12);
+    color: var(--ink);
+  }
+  .doc-kicker {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--wax);
+  }
+  .doc-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 4px 0 2px;
+  }
+  .doc-meta {
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.35;
+    color: #5A4D3A;
+    margin: 0;
+  }
+  .nowrap { white-space: nowrap; }
+  .doc-rule {
+    height: 1px;
+    background: rgba(42, 33, 23, 0.25);
+    margin: 8px 0;
+  }
+  .doc-body {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .doc-cons-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--wax);
+    margin-top: 10px;
+    margin-bottom: 3px;
+  }
+  .doc-cons {
+    font-style: italic;
+    font-size: 14.5px;
+    line-height: 1.35;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+  .doc-cons span {
+    color: #A8873A;
+    font-style: normal;
+  }
+
+  /* ---------- Buttons ---------- */
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .btn {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border-radius: 4px;
+    padding: 11px 22px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .btn.primary {
+    background: linear-gradient(#8E2B22, #6A1E18);
+    border-color: var(--gold);
+    color: #F6E7C4;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  }
+  .btn.secondary {
+    background: transparent;
+    border-color: rgba(201, 168, 76, 0.6);
+    color: #E8D5A3;
+  }
+
+  /* ---------- Controls strip ---------- */
+  .controls-panel {
+    left: 40px;
+    top: 620px;
+    width: 1200px;
+    height: 140px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+  }
+  .ctl-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .ctl {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 196px;
+    flex: none;
+  }
+  .ctl-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .ctl-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .ctl-readout {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ivory);
+    line-height: 1;
+  }
+
+  .slider {
+    position: relative;
+    height: 18px;
+  }
+  .slider-track,
+  .slider-fill {
+    position: absolute;
+    top: 50%;
+    height: 3px;
+    transform: translateY(-50%);
+    border-radius: 2px;
+  }
+  .slider-track {
+    left: 0;
+    right: 0;
+    background: #3A3020;
+  }
+  .slider-fill {
+    left: 0;
+    background: var(--gold);
+  }
+  .slider-thumb {
+    position: absolute;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #F3DFA8, #B58A32 70%);
+    border: 1px solid #6E5626;
+    transform: translateX(-50%);
+  }
+
+  .toggle-ctl {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 200px;
+    flex: none;
+  }
+  .toggle-ctl .ctl-name { white-space: nowrap; }
+  .toggle {
+    position: relative;
+    width: 46px;
+    height: 24px;
+    border-radius: 999px;
+    background: #2A2318;
+    border: 1px solid var(--gold-dim);
+    flex: none;
+  }
+  .toggle i {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6B5A3A;
+  }
+
+  .ctl-buttons {
+    display: flex;
+    gap: 12px;
+    flex: none;
+  }
+</style>
+</head>
+<body>
+
+  <!-- State panel -->
+  <section class="panel state-panel" aria-label="State of the Republic">
+    <span class="corner tl" aria-hidden="true"></span>
+    <span class="corner tr" aria-hidden="true"></span>
+    <span class="corner bl" aria-hidden="true"></span>
+    <span class="corner br" aria-hidden="true"></span>
+
+    <button class="close-btn" type="button" aria-label="Close">✕</button>
+
+    <header>
+      <div class="overline">REPUBLIC OF VELTRIA</div>
+      <h1 class="title">State of the Republic</h1>
+      <div class="ornament" aria-hidden="true"><i></i></div>
+    </header>
+
+    <nav class="tabs" aria-label="State sections">
+      <button class="tab active" type="button">Situations<span class="badge">4</span></button>
+      <button class="tab" type="button">Laws<span class="badge">2</span></button>
+      <button class="tab" type="button">Decrees<span class="badge">1</span></button>
+    </nav>
+
+    <ul class="state-list">
+      <li class="state-row">
+        <div>
+          <h2 class="row-title">The Economy</h2>
+          <p class="row-summary">Output is stagnating.</p>
+        </div>
+        <div class="row-side">
+          <span class="pin strained"><i></i>STRAINED</span>
+          <span class="trend holding">◆ HOLDING</span>
+        </div>
+      </li>
+      <li class="state-row">
+        <div>
+          <h2 class="row-title">National Debt</h2>
+          <p class="row-summary">Debt service is weighing on the budget.</p>
+        </div>
+        <div class="row-side">
+          <span class="pin serious"><i></i>SERIOUS</span>
+          <span class="trend worsening">▼ WORSENING</span>
+        </div>
+      </li>
+      <li class="state-row">
+        <div>
+          <h2 class="row-title">Prices</h2>
+          <p class="row-summary">Prices are climbing faster than wages.</p>
+        </div>
+        <div class="row-side">
+          <span class="pin strained"><i></i>STRAINED</span>
+          <span class="trend easing">▲ EASING</span>
+        </div>
+      </li>
+      <li class="state-row">
+        <div>
+          <h2 class="row-title">Public Order</h2>
+          <p class="row-summary">Protests flare up in the cities.</p>
+        </div>
+        <div class="row-side">
+          <span class="pin critical"><i></i>CRITICAL</span>
+          <span class="trend worsening">▼ WORSENING</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Decree panel -->
+  <section class="panel decree-panel" aria-label="Decree Inbox">
+    <span class="corner tl" aria-hidden="true"></span>
+    <span class="corner tr" aria-hidden="true"></span>
+    <span class="corner bl" aria-hidden="true"></span>
+    <span class="corner br" aria-hidden="true"></span>
+
+    <button class="close-btn" type="button" aria-label="Close">✕</button>
+
+    <div class="decree-body">
+      <div class="decree-left">
+        <header class="decree-head">
+          <h1 class="title">Decree Inbox</h1>
+          <p class="decree-meta">3 pending · 1 signed · 0 rejected</p>
+          <div class="ornament" aria-hidden="true"><i></i></div>
+        </header>
+        <div class="chips">
+          <button class="chip active" type="button">All</button>
+          <button class="chip" type="button">Economic</button>
+          <button class="chip" type="button">Judicial</button>
+          <button class="chip" type="button">Welfare</button>
+        </div>
+        <ul class="decree-list">
+          <li class="decree-item selected">
+            <h2 class="item-title">Emergency Grain Price Ceiling</h2>
+            <p class="item-meta">Economic · Drazen Kolvar</p>
+          </li>
+          <li class="decree-item">
+            <h2 class="item-title">Amnesty for Political Prisoners</h2>
+            <p class="item-meta">Judicial · Roman Kešić</p>
+          </li>
+          <li class="decree-item">
+            <h2 class="item-title">Expansion of Rural Clinics</h2>
+            <p class="item-meta">Welfare · Petra Solec</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="decree-right">
+        <article class="doc">
+          <div class="doc-kicker">ECONOMIC</div>
+          <h2 class="doc-title">Emergency Grain Price Ceiling</h2>
+          <p class="doc-meta">Proposed by Drazen Kolvar, Central Bank of Veltria · <span class="nowrap">Week 3 · March 1963</span></p>
+          <div class="doc-rule"></div>
+          <p class="doc-body">Bread prices in Ashenmere have risen for six weeks running. This decree fixes the price of milled grain at last autumn's level until the harvest is in.</p>
+          <p class="doc-body">Mills that sell above the ceiling lose their state licence.</p>
+          <div class="doc-cons-label">LIKELY CONSEQUENCES</div>
+          <p class="doc-cons"><span>◆</span> Bread will stay affordable through winter.</p>
+          <p class="doc-cons"><span>◆</span> The Thornfeld farmers' union will be angered.</p>
+        </article>
+
+        <div class="actions">
+          <button class="btn primary" type="button">Sign decree</button>
+          <button class="btn secondary" type="button">Reject</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls strip -->
+  <section class="panel controls-panel" aria-label="Settings audio">
+    <span class="corner tl" aria-hidden="true"></span>
+    <span class="corner tr" aria-hidden="true"></span>
+    <span class="corner bl" aria-hidden="true"></span>
+    <span class="corner br" aria-hidden="true"></span>
+
+    <div class="ctl-label">SETTINGS — AUDIO</div>
+
+    <div class="ctl">
+      <div class="ctl-head">
+        <span class="ctl-name">Master volume</span>
+        <span class="ctl-readout">50%</span>
+      </div>
+      <div class="slider" role="presentation">
+        <div class="slider-track"></div>
+        <div class="slider-fill" style="width: 50%"></div>
+        <div class="slider-thumb" style="left: 50%"></div>
+      </div>
+    </div>
+
+    <div class="toggle-ctl">
+      <span class="ctl-name">Mute all audio</span>
+      <span class="toggle" role="switch" aria-checked="false"><i></i></span>
+    </div>
+
+    <div class="ctl">
+      <div class="ctl-head">
+        <span class="ctl-name">Music volume</span>
+        <span class="ctl-readout">35%</span>
+      </div>
+      <div class="slider" role="presentation">
+        <div class="slider-track"></div>
+        <div class="slider-fill" style="width: 35%"></div>
+        <div class="slider-thumb" style="left: 35%"></div>
+      </div>
+    </div>
+
+    <div class="ctl-buttons">
+      <button class="btn secondary" type="button">Restore defaults</button>
+      <button class="btn primary" type="button">Close</button>
+    </div>
+  </section>
+
+</body>
+</html>

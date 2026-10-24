@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contender A — Desk Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --desk: #2F3530;
+    --paper: #EEE6D2;
+    --paper-loose: #E4DAC2;
+    --manila: #D8BE8A;
+    --folder: #C9A86A;
+    --ink: #1F1B17;
+    --oxblood: #8A2A22;
+    --faded: #5E554A;
+    --rule: #B9A984;
+    --pencil: #2B4A6F;
+    --calm: #3D6A34;
+    --strained: #8A621C;
+    --serious: #A0522D;
+    --critical: #8A2A22;
+    --brass: #B08D45;
+    --brass-edge: #6B5323;
+    --card: #F6F0E0;
+    --card-margin: #C0605A;
+    --clip: #8C8F94;
+  }
+
+  html { background: var(--desk); }
+
+  body {
+    margin: 0;
+    width: 1280px;
+    height: 800px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(rgba(8,8,6,0.62), rgba(8,8,6,0.62)), url('../../src/assets/maps/map_veltria_full.jpg') center / cover;
+    color: var(--ink);
+    font-family: 'Courier Prime', 'Courier New', monospace;
+  }
+
+  .block { position: absolute; }
+
+  /* Sheet on a folder: the stack keeps the folder offset inside the block. */
+  .stack { position: relative; margin-right: 10px; }
+
+  .loose {
+    position: absolute;
+    top: 6px; left: -6px; right: 6px; bottom: -4px;
+    background: var(--paper-loose);
+    border-radius: 2px;
+    transform: rotate(-1.2deg);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+  }
+
+  .folder {
+    position: absolute;
+    top: 10px; left: 10px; right: -10px; bottom: -10px;
+    background: var(--folder);
+    border-radius: 4px;
+  }
+
+  .sheet {
+    position: relative;
+    box-sizing: border-box;
+    background-color: var(--paper);
+    background-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.018) 0 1px, transparent 1px 3px);
+    border-radius: 2px;
+    padding: 26px 28px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+  }
+
+  /* Shared type roles */
+  .overline {
+    margin: 0;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--faded);
+  }
+
+  .title {
+    margin: 4px 0 0;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .head {
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .close {
+    position: absolute;
+    top: 18px; right: 18px;
+    width: 32px; height: 32px;
+    box-sizing: border-box;
+    padding: 0;
+    border: 2px solid var(--oxblood);
+    background: transparent;
+    color: var(--oxblood);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: center;
+    transform: rotate(-4deg);
+  }
+
+  .stamp {
+    display: inline-block;
+    border: 2px solid var(--sev);
+    color: var(--sev);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    padding: 2px 8px;
+    transform: rotate(-3deg);
+    opacity: .88;
+    white-space: nowrap;
+  }
+
+  .btn {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    padding: 10px 20px;
+    border-radius: 2px;
+    border: 2px solid transparent;
+    cursor: default;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--oxblood);
+    color: #F3E9D6;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.15);
+  }
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  /* ---------- State panel ---------- */
+  .state-sheet .tabs {
+    position: absolute;
+    left: 22px;
+    bottom: 100%;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .tab {
+    display: block;
+    height: 30px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    line-height: 30px;
+    clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+    background: var(--manila);
+    color: var(--faded);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    white-space: nowrap;
+  }
+  .tab.active {
+    height: 34px;
+    line-height: 34px;
+    margin-bottom: -2px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .row:last-child { border-bottom: none; }
+  .row h3 {
+    margin: 0;
+    font-family: 'Courier Prime', 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .row p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--faded);
+  }
+  .row-side {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: none;
+  }
+  .trend {
+    font-size: 12px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .trend.worse { color: var(--oxblood); }
+  .trend.ease { color: var(--calm); }
+  .trend.hold { color: var(--faded); }
+
+  /* ---------- Decree panel ---------- */
+  .decree-sheet {
+    height: 530px;
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+  .decree-head {
+    margin-bottom: 14px;
+  }
+  .meta {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--faded);
+  }
+  .cols {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    gap: 24px;
+  }
+  .list-col {
+    width: 250px;
+    flex: none;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+  }
+  .chip {
+    position: relative;
+    padding: 4px 10px 4px 16px;
+    border-radius: 2px;
+    background: var(--manila);
+    color: var(--ink);
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    line-height: 1.2;
+  }
+  .chip::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
+    border-radius: 50%;
+    background: var(--paper);
+  }
+  .chip.active {
+    background: var(--oxblood);
+    color: #F3E9D6;
+  }
+
+  .cards { list-style: none; margin: 0; padding: 0; }
+  .card {
+    position: relative;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-top: 2px solid var(--card-margin);
+    background-color: var(--card);
+    background-image: repeating-linear-gradient(transparent 0 21px, rgba(43,74,111,0.16) 21px 22px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+  }
+  .card h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .card .card-meta {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--faded);
+  }
+  .card.selected {
+    transform: translateX(8px) rotate(-0.6deg);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  }
+  .clip {
+    position: absolute;
+    top: -12px; left: 14px;
+    width: 14px; height: 30px;
+    box-sizing: border-box;
+    border: 2px solid var(--clip);
+    border-radius: 7px;
+  }
+  .clip::before {
+    content: "";
+    position: absolute;
+    left: 2px; top: 3px;
+    width: 8px; height: 20px;
+    box-sizing: border-box;
+    border: 2px solid var(--clip);
+    border-radius: 4px;
+  }
+
+  .detail { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .memo {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .memo-head {
+    margin: 0 0 4px;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: .3em;
+  }
+  .memo-rule {
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  .memo p { margin: 0; }
+  .cat {
+    margin-top: 2px;
+    display: inline-block;
+    color: var(--oxblood);
+    border-color: var(--oxblood);
+    font-size: 11px;
+  }
+  .decree-title {
+    margin: 8px 0 4px;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.15;
+  }
+  .byline {
+    margin: 0;
+    font-size: 12px;
+    color: var(--faded);
+  }
+  .body {
+    margin: 10px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .body + .body { margin-top: 8px; }
+  .notes {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    font-family: 'Caveat', 'Comic Sans MS', cursive;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--pencil);
+  }
+  .notes li {
+    transform: rotate(-1deg);
+    transform-origin: left center;
+    margin-bottom: 2px;
+  }
+  .actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  /* ---------- Controls strip ---------- */
+  .controls-sheet {
+    height: 130px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 26px 28px;
+  }
+  .ctl-label {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 16px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+    padding-right: 26px;
+    border-right: 1px solid var(--rule);
+  }
+  .ctl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .ctl-cap {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--faded);
+  }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .track {
+    position: relative;
+    width: 140px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--rule);
+  }
+  .fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    border-radius: 2px;
+    background: var(--ink);
+  }
+  .thumb {
+    position: absolute;
+    top: 50%;
+    width: 16px; height: 16px;
+    margin: -8px 0 0 -8px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: var(--brass);
+    border: 2px solid var(--brass-edge);
+  }
+  .readout {
+    font-family: 'Courier Prime', 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    min-width: 42px;
+  }
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .toggle {
+    position: relative;
+    width: 44px; height: 22px;
+    box-sizing: border-box;
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+  }
+  .knob {
+    position: absolute;
+    left: 2px; top: 2px;
+    width: 14px; height: 14px;
+    background: var(--ink);
+  }
+  .ctl-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 12px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- State panel -->
+  <section class="block" style="left:40px; top:56px; width:500px;" aria-label="State of the Republic">
+    <div class="stack">
+      <div class="loose"></div>
+      <div class="folder"></div>
+      <div class="sheet state-sheet">
+        <div class="tabs" role="tablist">
+          <span class="tab active">Situations (4)</span>
+          <span class="tab">Laws (2)</span>
+          <span class="tab">Decrees (1)</span>
+        </div>
+        <button class="close" type="button" aria-label="Close">✕</button>
+        <header class="head">
+          <p class="overline">REPUBLIC OF VELTRIA</p>
+          <h1 class="title">State of the Republic</h1>
+        </header>
+        <ul class="rows">
+          <li class="row">
+            <div>
+              <h3>The Economy</h3>
+              <p>Output is stagnating.</p>
+            </div>
+            <div class="row-side">
+              <span class="stamp" style="--sev:var(--strained)">STRAINED</span>
+              <span class="trend hold">■ HOLDING</span>
+            </div>
+          </li>
+          <li class="row">
+            <div>
+              <h3>National Debt</h3>
+              <p>Debt service is weighing on the budget.</p>
+            </div>
+            <div class="row-side">
+              <span class="stamp" style="--sev:var(--serious)">SERIOUS</span>
+              <span class="trend worse">▼ WORSENING</span>
+            </div>
+          </li>
+          <li class="row">
+            <div>
+              <h3>Prices</h3>
+              <p>Prices are climbing faster than wages.</p>
+            </div>
+            <div class="row-side">
+              <span class="stamp" style="--sev:var(--strained)">STRAINED</span>
+              <span class="trend ease">▲ EASING</span>
+            </div>
+          </li>
+          <li class="row">
+            <div>
+              <h3>Public Order</h3>
+              <p>Protests flare up in the cities.</p>
+            </div>
+            <div class="row-side">
+              <span class="stamp" style="--sev:var(--critical)">CRITICAL</span>
+              <span class="trend worse">▼ WORSENING</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Decree panel -->
+  <section class="block" style="left:580px; top:56px; width:660px; height:540px;" aria-label="Decree Inbox">
+    <div class="stack" style="height:530px;">
+      <div class="loose"></div>
+      <div class="folder"></div>
+      <div class="sheet decree-sheet">
+        <button class="close" type="button" aria-label="Close">✕</button>
+        <div class="cols">
+          <div class="list-col">
+            <header class="head decree-head">
+              <h1 class="title">Decree Inbox</h1>
+              <p class="meta">3 pending · 1 signed · 0 rejected</p>
+            </header>
+            <ul class="chips">
+              <li class="chip active">All</li>
+              <li class="chip">Economic</li>
+              <li class="chip">Judicial</li>
+              <li class="chip">Welfare</li>
+            </ul>
+            <ul class="cards">
+              <li class="card selected">
+                <span class="clip"></span>
+                <h4>Emergency Grain Price Ceiling</h4>
+                <p class="card-meta">Economic · Drazen Kolvar</p>
+              </li>
+              <li class="card">
+                <h4>Amnesty for Political Prisoners</h4>
+                <p class="card-meta">Judicial · Roman Kešić</p>
+              </li>
+              <li class="card">
+                <h4>Expansion of Rural Clinics</h4>
+                <p class="card-meta">Welfare · Petra Solec</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="detail">
+            <div class="memo">
+              <p class="memo-head">MEMORANDUM</p>
+              <p>TO: The Chancellor</p>
+              <p>FROM: Drazen Kolvar, Central Bank of Veltria</p>
+              <p>RE: Emergency Grain Price Ceiling</p>
+              <p class="memo-rule">DATE: Week 3 · March 1963</p>
+            </div>
+            <span class="stamp cat">ECONOMIC</span>
+            <h2 class="decree-title">Emergency Grain Price Ceiling</h2>
+            <p class="byline">Proposed by Drazen Kolvar, Central Bank of Veltria</p>
+            <p class="byline">Week 3 · March 1963</p>
+            <p class="body">Bread prices in Ashenmere have risen for six weeks running. This decree fixes the price of milled grain at last autumn's level until the harvest is in.</p>
+            <p class="body">Mills that sell above the ceiling lose their state licence.</p>
+            <ul class="notes">
+              <li>→ Bread will stay affordable through winter.</li>
+              <li>→ The Thornfeld farmers' union will be angered.</li>
+            </ul>
+            <div class="actions">
+              <button class="btn btn-primary" type="button">Sign decree</button>
+              <button class="btn btn-secondary" type="button">Reject</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls strip -->
+  <section class="block" style="left:40px; top:620px; width:1200px; height:140px;" aria-label="Settings audio">
+    <div class="stack" style="height:140px;">
+      <div class="loose"></div>
+      <div class="folder"></div>
+      <div class="sheet controls-sheet" style="height:140px;">
+        <div class="ctl-label">SETTINGS — AUDIO</div>
+
+        <div class="ctl-group">
+          <span class="ctl-cap">Master volume</span>
+          <div class="slider-row">
+            <div class="track" style="width:140px;">
+              <div class="fill" style="width:50%;"></div>
+              <div class="thumb" style="left:50%;"></div>
+            </div>
+            <span class="readout">50%</span>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <span class="ctl-cap">Mute all audio</span>
+          <div class="toggle-row">
+            <div class="toggle"><div class="knob"></div></div>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <span class="ctl-cap">Music volume</span>
+          <div class="slider-row">
+            <div class="track" style="width:140px;">
+              <div class="fill" style="width:35%;"></div>
+              <div class="thumb" style="left:35%;"></div>
+            </div>
+            <span class="readout">35%</span>
+          </div>
+        </div>
+
+        <div class="ctl-actions">
+          <button class="btn btn-secondary" type="button">Restore defaults</button>
+          <button class="btn btn-primary" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

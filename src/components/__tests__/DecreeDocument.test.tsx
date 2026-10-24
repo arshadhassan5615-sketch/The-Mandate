@@ -34,7 +34,7 @@ describe('decree document', () => {
     const price = decree('decree_price_controls')
     seed(price)
     render(<DecreeInbox onClose={() => {}} />)
-    expect(screen.getByAltText('Seal of the Republic of Veltria')).toBeInTheDocument()
+    expect(screen.getByTestId('national-seal')).toBeInTheDocument()
     expect(screen.getByTestId('decree-detail-title')).toHaveTextContent(price.title)
   })
 

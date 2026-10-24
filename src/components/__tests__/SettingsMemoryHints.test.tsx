@@ -34,6 +34,7 @@ describe('SettingsPanel Memory Hints', () => {
 
   it('clicking the Memory Hints toggle turns the setting off and saves it', () => {
     render(<SettingsPanel />)
+    fireEvent.click(screen.getByRole('tab', { name: 'Game' }))
 
     fireEvent.click(screen.getByText('Memory Hints'))
 

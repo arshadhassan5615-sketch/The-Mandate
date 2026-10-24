@@ -8,7 +8,7 @@ function openJonasPreview(tone: 'Personal' | 'Formal') {
   render(<LetterView onClose={() => {}} />)
   fireEvent.click(screen.getAllByRole('button').find(b => /jonas/i.test(b.textContent ?? ''))!)
   fireEvent.click(screen.getByText(tone))
-  fireEvent.click(screen.getByText('PREVIEW LETTER'))
+  fireEvent.click(screen.getByRole('button', { name: 'Preview letter' }))
 }
 
 describe('LetterView preview', () => {
@@ -27,14 +27,14 @@ describe('LetterView preview', () => {
 
   it('puts a formal letter under the state seal', () => {
     openJonasPreview('Formal')
-    expect(screen.getByAltText('Seal of the Republic of Veltria')).toBeInTheDocument()
-    expect(screen.getByText('Office of the Chancellor')).toBeInTheDocument()
+    expect(screen.getByTestId('national-seal')).toBeInTheDocument()
+    expect(screen.getByTestId('letter-preview')).toHaveTextContent('Office of the Chancellor')
   })
 
   it('signs the letter before it is sent', () => {
     vi.useFakeTimers()
     openJonasPreview('Personal')
-    fireEvent.click(screen.getByText('SIGN & SEND'))
+    fireEvent.click(screen.getByRole('button', { name: 'Sign & send' }))
     expect(screen.getByAltText('Signature of Katerin Ashavel')).toBeInTheDocument()
     expect(useGameStore.getState().sentLetters).toHaveLength(0)
     act(() => { vi.advanceTimersByTime(1000) })

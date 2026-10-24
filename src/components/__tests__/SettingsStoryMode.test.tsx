@@ -11,6 +11,7 @@ describe('SettingsPanel Story Mode', () => {
   it('toggling the Story Mode checkbox flips the store value', () => {
     useSettingsStore.setState({ storyMode: false, settingsOpen: true })
     render(<SettingsPanel />)
+    fireEvent.click(screen.getByRole('tab', { name: 'Game' }))
 
     const checkbox = screen.getByLabelText('Story Mode') as HTMLInputElement
     expect(checkbox.checked).toBe(false)

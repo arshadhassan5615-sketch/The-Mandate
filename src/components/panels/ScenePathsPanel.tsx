@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import { useNarrativeStore, type ChoiceRecord } from '../../stores/narrativeStore'
 import { usePageInsets } from '../../hooks/usePageInsets'
 import { getScene } from '../../engine/NarrativeEngine'
 import { buildScenePath, type PathNode, type PathTarget, type ScenePathSummary } from '../../engine/scenePaths'
 import { stripOuterQuotes } from '../../engine/quotes'
 import PaperPanel from './PaperPanel'
-import { OVERLINE, SERIF_BODY } from './paperStyles'
+import { CAB_BODY, CAB_FONT, CAB_LABEL } from '../ui/cabinet/cabinetStyles'
+import { CabinetCard, StatusPill } from '../ui/cabinet/CabinetParts'
 import { rem } from '../../constants/typography'
 
 // The roads taken through a finished meeting, on one state paper: the choices the
@@ -32,6 +33,23 @@ const TAG_BY_KIND: Record<PathTarget['kind'], string> = {
   segment: 'Continued',
   scene: 'Led elsewhere',
   end: 'Ended the meeting',
+}
+
+// Kind tags: a meeting that ended is done (calm); the other two are neutral.
+const TAG_COLOR_BY_KIND: Record<PathTarget['kind'], string> = {
+  segment: 'var(--cab-muted)',
+  scene: 'var(--cab-muted)',
+  end: 'var(--sev-calm)',
+}
+
+const SCROLL_THIN: CSSProperties = {
+  scrollbarWidth: 'thin',
+  scrollbarColor: 'rgba(201,168,76,0.3) transparent',
+}
+
+const CARD_BODY: CSSProperties = { padding: '4px 0' }
+const EMPTY_STYLE: CSSProperties = {
+  ...CAB_BODY, fontStyle: 'italic', color: 'var(--cab-muted)', textAlign: 'center', margin: '18px 0',
 }
 
 /** Finished scenes, most recent first. Unknown ids and scenes with no choices are left out. */
@@ -70,13 +88,20 @@ export default function ScenePathsPanel({ onClose }: ScenePathsPanelProps) {
       headerPadding="18px 22px 14px"
     >
       {scenes.length === 0 ? (
-        <div style={{ overflowY: 'auto', padding: '6px 22px 20px', flex: 1, minHeight: 0 }}>
-          <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(14), color: 'var(--doc-ink-muted)', margin: 0, padding: '18px 0' }}>
-            {EMPTY_NOTE}
-          </p>
+        <div style={{ overflowY: 'auto', ...SCROLL_THIN, padding: '4px 20px 20px', flex: 1, minHeight: 0 }}>
+          <p style={EMPTY_STYLE}>{EMPTY_NOTE}</p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', flex: 1, minHeight: 0 }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            gap: 12,
+            flex: 1,
+            minHeight: 0,
+            padding: '4px 20px 20px',
+          }}
+        >
           <SceneList
             scenes={scenes}
             selectedId={selected?.id ?? null}
@@ -89,9 +114,11 @@ export default function ScenePathsPanel({ onClose }: ScenePathsPanelProps) {
               role="region"
               aria-label="Scene paths"
               tabIndex={0}
-              style={{ flex: 1, minWidth: 0, overflowY: 'auto', padding: '14px 22px 20px' }}
+              style={{ flex: 1, minWidth: 0, overflowY: 'auto', ...SCROLL_THIN }}
             >
-              <PathBranch node={selected.summary.root} nested={false} isPhone={isMobile} />
+              <CabinetCard title="The Roads Taken" bodyStyle={CARD_BODY}>
+                <PathBranch node={selected.summary.root} nested={false} isPhone={isMobile} />
+              </CabinetCard>
             </div>
           )}
         </div>
@@ -115,19 +142,20 @@ function SceneList({ scenes, selectedId, onSelect, isMobile }: SceneListProps) {
         width: isMobile ? undefined : LIST_WIDTH_PX,
         maxHeight: isMobile ? '35%' : undefined,
         overflowY: 'auto',
-        padding: '6px 0',
-        borderRight: isMobile ? 'none' : '1px solid var(--doc-rule)',
-        borderBottom: isMobile ? '1px solid var(--doc-rule)' : 'none',
+        ...SCROLL_THIN,
       }}
     >
-      {scenes.map(scene => (
-        <SceneButton
-          key={scene.id}
-          scene={scene}
-          isSelected={scene.id === selectedId}
-          onSelect={onSelect}
-        />
-      ))}
+      <CabinetCard title="Finished Meetings" bodyStyle={CARD_BODY}>
+        {scenes.map((scene, index) => (
+          <SceneButton
+            key={scene.id}
+            scene={scene}
+            isSelected={scene.id === selectedId}
+            isFirst={index === 0}
+            onSelect={onSelect}
+          />
+        ))}
+      </CabinetCard>
     </div>
   )
 }
@@ -135,10 +163,11 @@ function SceneList({ scenes, selectedId, onSelect, isMobile }: SceneListProps) {
 interface SceneButtonProps {
   scene: FinishedScene
   isSelected: boolean
+  isFirst: boolean
   onSelect: (id: string) => void
 }
 
-function SceneButton({ scene, isSelected, onSelect }: SceneButtonProps) {
+function SceneButton({ scene, isSelected, isFirst, onSelect }: SceneButtonProps) {
   const { explored, total } = scene.summary
   return (
     <button
@@ -151,17 +180,18 @@ function SceneButton({ scene, isSelected, onSelect }: SceneButtonProps) {
         width: '100%',
         textAlign: 'left',
         padding: '9px 14px',
-        background: isSelected ? 'rgba(60,40,20,0.08)' : 'transparent',
+        background: isSelected ? 'var(--cab-wine)' : 'transparent',
         border: 'none',
-        borderLeft: `2px solid ${isSelected ? 'var(--oxblood)' : 'transparent'}`,
-        color: 'var(--doc-ink)',
+        borderTop: isFirst ? 'none' : '1px solid var(--cab-card-edge)',
+        borderLeft: `2px solid ${isSelected ? 'var(--cab-gold)' : 'transparent'}`,
+        color: isSelected ? 'var(--cab-title)' : 'var(--cab-text)',
         cursor: 'pointer',
       }}
     >
-      <span style={{ display: 'block', fontFamily: SERIF_BODY, fontSize: rem(15), lineHeight: 1.3 }}>
+      <span style={{ display: 'block', fontFamily: CAB_FONT.title, fontWeight: 700, fontSize: rem(16), lineHeight: 1.3 }}>
         {scene.title}
       </span>
-      <span style={{ ...OVERLINE, display: 'block', marginTop: 3 }}>
+      <span style={{ ...CAB_LABEL, fontSize: rem(10), display: 'block', marginTop: 3 }}>
         {`${explored} of ${total} paths explored`}
       </span>
     </button>
@@ -183,15 +213,16 @@ function PathBranch({ node, nested, isPhone }: PathBranchProps) {
         margin: 0,
         padding: nested ? '2px 0 2px 12px' : 0,
         marginLeft: nested ? INDENT_PX : 0,
-        borderLeft: nested ? '1px solid var(--doc-rule)' : 'none',
+        borderLeft: nested ? '1px solid var(--cab-card-edge)' : 'none',
       }}
     >
-      {node.choices.map(choice => (
-        <li key={choice.id} style={{ margin: '0 0 8px' }}>
+      {node.choices.map((choice, index) => (
+        <li key={choice.id} style={{ borderTop: index > 0 ? '1px solid var(--cab-card-edge)' : undefined }}>
           {choice.taken ? (
             <TakenChoice
               text={choice.text}
               tag={TAG_BY_KIND[choice.target.kind]}
+              tagColor={TAG_COLOR_BY_KIND[choice.target.kind]}
               next={choice.next}
               isPhone={isPhone}
             />
@@ -207,25 +238,28 @@ function PathBranch({ node, nested, isPhone }: PathBranchProps) {
 interface TakenChoiceProps {
   text: string
   tag: string
+  tagColor: string
   next: PathNode | null
   isPhone: boolean
 }
 
-function TakenChoice({ text, tag, next, isPhone }: TakenChoiceProps) {
+function TakenChoice({ text, tag, tagColor, next, isPhone }: TakenChoiceProps) {
   return (
     <>
       <div
         data-testid="path-taken"
-        style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: isPhone ? 'wrap' : 'nowrap' }}
+        style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '9px 14px', flexWrap: isPhone ? 'wrap' : 'nowrap' }}
       >
         <span
           aria-hidden
-          style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--oxblood)', flexShrink: 0, transform: 'translateY(-1px)' }}
+          style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--cab-gold)', flexShrink: 0, transform: 'translateY(-1px)' }}
         />
-        <span style={{ flex: 1, minWidth: 0, fontFamily: SERIF_BODY, fontSize: rem(15), lineHeight: 1.4, color: 'var(--doc-ink)' }}>
+        <span style={{ ...CAB_BODY, flex: 1, minWidth: 0, fontSize: rem(15), lineHeight: 1.4 }}>
           {`“${stripOuterQuotes(text)}”`}
         </span>
-        <span style={{ ...OVERLINE, flexShrink: 0 }}>{tag}</span>
+        <span style={{ flexShrink: 0 }}>
+          <StatusPill color={tagColor}>{tag}</StatusPill>
+        </span>
       </div>
       {next && <PathBranch node={next} nested isPhone={isPhone} />}
     </>
@@ -240,15 +274,14 @@ function SealedChoice() {
         display: 'flex',
         alignItems: 'center',
         gap: 8,
-        padding: '6px 10px',
-        border: '1px dashed var(--doc-rule)',
-        color: 'var(--doc-ink-muted)',
+        padding: '9px 14px',
+        color: 'var(--cab-muted)',
       }}
     >
       <svg width={12} height={12} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" style={{ flexShrink: 0 }}>
         <path d={PADLOCK_PATH} />
       </svg>
-      <span style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(14) }}>{SEALED_LABEL}</span>
+      <span style={{ ...CAB_BODY, fontStyle: 'italic', fontSize: rem(14), color: 'var(--cab-muted)' }}>{SEALED_LABEL}</span>
     </div>
   )
 }
