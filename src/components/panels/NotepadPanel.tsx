@@ -1,50 +1,44 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, MouseEvent } from 'react'
 import { useGameStore } from '../../stores/gameStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
 import { CHARACTERS } from '../../data/characters/roster'
 import { rem } from '../../constants/typography'
-import CabinetDrawer from '../ui/cabinet/CabinetDrawer'
-import { CabinetButton } from '../ui/cabinet/CabinetParts'
-import { CAB_BODY, CAB_FONT, CAB_LABEL, cabPillSegment } from '../ui/cabinet/cabinetStyles'
-
-const PLACEHOLDER = `── Week 1 ──
-▸ Inauguration
-- Must decide on BNI early
-- Vyktor seems to know more than he says
-- Watch Kolvar — he's already counting votes
-
-▸ First Briefing
-- Deficit is 65M ₭ — worse than campaign intel
-- Tyvaren troop movements near Gravenmark
-- VYKTOR: 'Some of those BNI operations are producing actionable intelligence'
-
-── Week 2 ──
-▸ Cabinet Appointments
-- Vostane vs Marić — can't please both
-- Remember: Church controls 30% of rural schools`
+import { Z } from '../../constants/zIndex'
+import { usePageInsets } from '../../hooks/usePageInsets'
+import { MedallionClose } from '../ui/cabinet/CabinetParts'
+import { useFocusOnOpen, useEscapeToClose } from '../ui/cabinet/panelBehaviour'
+import veltriaSeal from '../../assets/images/veltria_seal.png'
+import {
+  INK, HAND_STYLE, LEATHER_BACKGROUND, paperBackground, sortedNoteWeeks, adjacentNoteWeek,
+} from './journalPaper'
+import {
+  InkHeading, InkTextButton, PagerButton, MeetingsContent, PageTab,
+} from './journalBook'
 
 const NOTES_CHAR_LIMIT = 50000
-const NOTES_WIDTH = 'min(560px, calc(100vw - 220px))'
-const NOTES_FONT = "'Caveat', cursive"
-// The one deliberate paper surface in the drawer: ivory notepad sheet.
-const NOTEPAD_SHEET_BACKGROUND = '#ece6d3'
-// Ruled lines live on the textarea so they scroll with the text.
-const NOTEPAD_RULED_BACKGROUND =
-  'repeating-linear-gradient(transparent 0 27px, rgba(43,74,111,0.18) 27px 28px)'
-const NOTEPAD_MARGIN_LINE_LEFT = 34
-const TOOLBAR_PILL_STYLE: CSSProperties = {
-  ...cabPillSegment(false),
-  fontSize: rem(10),
-  padding: '3px 10px',
-  border: '1px solid rgba(201,168,76,0.3)',
-}
+const BOOK_WIDTH = 'min(940px, calc(100vw - 24px))'
+const BOOK_HEIGHT = 'min(580px, calc(100vh - 70px))'
 const DROPDOWN_ITEM_STYLE: CSSProperties = {
   display: 'block', width: '100%', textAlign: 'left',
   background: 'none', border: 'none', cursor: 'pointer',
-  fontFamily: CAB_FONT.body, fontSize: rem(13),
-  color: '#e9dfc5', padding: '5px 12px',
-  borderBottom: '1px solid rgba(201,168,76,0.12)',
+  fontFamily: "'La Belle Aurore', cursive", fontSize: rem(15),
+  color: INK, padding: '4px 12px',
+  borderBottom: '1px solid rgba(58,42,26,0.15)',
+}
+const TEAR_TEXT_STYLE: CSSProperties = {
+  background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+  fontFamily: "'Cinzel', Georgia, serif", fontWeight: 500,
+  fontSize: rem(11), letterSpacing: '.14em', color: '#b7a882', whiteSpace: 'nowrap',
+}
+const VISUALLY_HIDDEN_STYLE: CSSProperties = {
+  position: 'absolute', width: 1, height: 1, margin: -1, padding: 0,
+  overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0,
+}
+const SEAL_STYLE: CSSProperties = {
+  position: 'absolute', right: 30, bottom: 30, width: 110, height: 'auto',
+  mixBlendMode: 'multiply', opacity: 0.3, filter: 'sepia(1) contrast(0.9)',
+  transform: 'rotate(-6deg)', pointerEvents: 'none',
 }
 
 interface NotepadPanelProps {
@@ -56,13 +50,26 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
   const notes = useGameStore(s => s.personalNotes)
   const setPersonalNotes = useGameStore(s => s.setPersonalNotes)
   const currentWeek = useGameStore(s => s.currentWeek)
+  const meetingNotes = useGameStore(s => s.meetingNotes)
   const currentScene = useNarrativeStore(s => s.currentScene)
+  const { mode } = usePageInsets()
+  const isPaged = mode !== 'desktop'
+
+  const titleRef = useRef<HTMLHeadingElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
+  const noteWeeks = sortedNoteWeeks(meetingNotes)
+  const [shownWeek, setShownWeek] = useState<number>(() =>
+    noteWeeks.length > 0 ? noteWeeks[noteWeeks.length - 1] : currentWeek,
+  )
+  const [pageTab, setPageTab] = useState<'meetings' | 'notes'>('meetings')
   const [localText, setLocalText] = useState(notes)
   const [showConfirmClear, setShowConfirmClear] = useState(false)
   const [showCharDropdown, setShowCharDropdown] = useState(false)
+
+  useFocusOnOpen([titleRef])
+  useEscapeToClose(onClose)
 
   useEffect(() => {
     setLocalText(notes)
@@ -136,137 +143,182 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
     setShowConfirmClear(false)
   }
 
+  const handleBackdropMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) onClose()
+  }
+
   const wordCount = localText.trim() ? localText.trim().split(/\s+/).filter(Boolean).length : 0
-  const isFirstOpen = notes === ''
   const sceneChars = CHARACTERS.filter(c =>
     currentScene?.narrative?.some(s =>
       s.type === 'dialogue' && s.character === c.id,
     ) ||
     currentScene?.characters?.includes(c.id),
   )
+  const previousWeek = adjacentNoteWeek(noteWeeks, shownWeek, -1)
+  const nextWeek = adjacentNoteWeek(noteWeeks, shownWeek, 1)
+
+  const showMeetingsPage = !isPaged || pageTab === 'meetings'
+  const showNotesPage = !isPaged || pageTab === 'notes'
+  const pageRadius = (side: 'left' | 'right'): string => {
+    if (isPaged) return '4px'
+    return side === 'left' ? '4px 0 0 4px' : '0 4px 4px 0'
+  }
 
   return (
-    <CabinetDrawer
-      testId="notepad-panel"
-      titleId="notepad-title"
-      title="Personal Notes"
-      overline="Private — not for the record"
-      closeLabel="Close notes"
-      onClose={onClose}
-      width={NOTES_WIDTH}
-      footer={`${localText.length} / ${NOTES_CHAR_LIMIT} chars`}
+    <div
+      className="anim-fade-in"
+      data-testid="journal-backdrop"
+      onMouseDown={handleBackdropMouseDown}
+      style={{
+        position: 'fixed', inset: 0, zIndex: Z.modal,
+        background: 'rgba(8,8,6,0.55)',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12,
+      }}
     >
-      {/* ── Smart hint ──────────────────────────────── */}
-      {currentScene?.title && (
-        <p style={{ ...CAB_BODY, fontSize: rem(13), color: 'var(--cab-muted)', margin: '0 20px 8px', textAlign: 'center' }}>
-          Currently in: <strong>{currentScene.title}</strong>
-          {sceneChars.length > 0 && (
-            <> · Present: {sceneChars.map(c => c.name).join(', ')}</>
-          )}
-        </p>
+      {isPaged && (
+        <div role="group" aria-label="Journal pages" style={{ display: 'flex', gap: 8 }}>
+          <PageTab label="Meetings" isActive={pageTab === 'meetings'} onClick={() => setPageTab('meetings')} />
+          <PageTab label="My notes" isActive={pageTab === 'notes'} onClick={() => setPageTab('notes')} />
+        </div>
       )}
 
-      {/* ── Toolbar ─────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, margin: '0 20px 10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, flex: 1 }}>
-          <ToolbarButton label="Wk" title="Insert week divider" onClick={handleWeekStamp} />
-          <ToolbarButton label="Sc" title="Insert scene title" onClick={handleSceneStamp} />
-          <div style={{ position: 'relative' }}>
-            <ToolbarButton label="Ch" title="Insert character name" onClick={() => setShowCharDropdown(p => !p)} />
-            {showCharDropdown && (
-              <div style={{
-                position: 'absolute', bottom: '100%', left: 0, marginBottom: 4,
-                background: 'var(--cab-panel)', border: '1px solid rgba(201,168,76,0.45)',
-                borderRadius: 4, maxHeight: 150, overflowY: 'auto',
-                minWidth: 140, zIndex: 10, boxShadow: '0 6px 18px rgba(0,0,0,0.6)',
-              }}>
-                {sceneChars.length > 0 ? sceneChars.map(c => (
-                  <button key={c.id} onClick={() => handleCharStamp(c.name)} style={DROPDOWN_ITEM_STYLE}>
-                    {c.name}
-                  </button>
-                )) : (
-                  <div style={{ padding: '6px 12px', fontFamily: CAB_FONT.body, fontSize: rem(13), color: 'var(--cab-muted)' }}>
-                    No characters in current scene
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-        <span style={{ ...CAB_LABEL, fontSize: rem(10), whiteSpace: 'nowrap' }}>
-          {wordCount} word{wordCount !== 1 ? 's' : ''}
-        </span>
-      </div>
-
-      {/* ── Notepad sheet ───────────────────────────── */}
-      <div style={{
-        position: 'relative', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column',
-        margin: '0 18px 12px', background: NOTEPAD_SHEET_BACKGROUND,
-        borderRadius: 2, boxShadow: '0 8px 20px rgba(0,0,0,0.45)',
-      }}>
-        {/* Red margin line */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="journal-title"
+        data-testid="notepad-panel"
+        className="anim-pop-in"
+        style={{
+          position: 'relative', width: BOOK_WIDTH, height: BOOK_HEIGHT,
+          borderRadius: 8, background: LEATHER_BACKGROUND, boxShadow: '0 30px 70px rgba(0,0,0,0.75)',
+        }}
+      >
+        <h2 id="journal-title" ref={titleRef} tabIndex={-1} style={VISUALLY_HIDDEN_STYLE}>
+          Katerin&apos;s Journal
+        </h2>
         <div aria-hidden="true" style={{
-          position: 'absolute', left: NOTEPAD_MARGIN_LINE_LEFT, top: 0, bottom: 0,
-          width: 1, background: 'rgba(160,60,60,0.45)', pointerEvents: 'none',
+          position: 'absolute', inset: 6, border: '1px dashed rgba(210,170,110,0.35)',
+          borderRadius: 4, pointerEvents: 'none',
         }} />
-
-        <textarea
-          ref={textareaRef}
-          value={localText}
-          onChange={handleChange}
-          placeholder={isFirstOpen ? PLACEHOLDER : 'Start typing...'}
-          style={{
-            position: 'relative', flex: 1, minHeight: 0, width: '100%', boxSizing: 'border-box',
-            background: NOTEPAD_RULED_BACKGROUND,
-            backgroundAttachment: 'local',
-            border: 'none', outline: 'none', resize: 'none',
-            fontFamily: NOTES_FONT,
-            fontSize: rem(16), lineHeight: '28px',
-            color: '#2b2b3a',
-            padding: '0 14px 6px 44px',
-            cursor: 'crosshair',
-            scrollbarWidth: 'thin',
-            scrollbarColor: 'rgba(139,106,40,0.2) transparent',
-          }}
+        <MedallionClose
+          label="Close journal"
+          onClick={onClose}
+          size={34}
+          style={{ position: 'absolute', top: -14, right: -14, zIndex: 2 }}
         />
+
+        <div style={{ position: 'absolute', top: 14, right: 14, bottom: 14, left: 14, display: 'flex' }}>
+          {showMeetingsPage && (
+            <section aria-label="Meetings" style={{
+              position: 'relative', flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column',
+              padding: '34px 30px', overflow: 'hidden', color: INK,
+              borderRadius: pageRadius('left'),
+              background: paperBackground('right', [[18, 28, 62], [80, 72, 90], [64, 14, 40], [30, 88, 70]]),
+            }}>
+              <MeetingsContent week={shownWeek} notes={meetingNotes} />
+              <img src={veltriaSeal} alt="" aria-hidden="true" style={SEAL_STYLE} />
+            </section>
+          )}
+
+          {showNotesPage && (
+            <section aria-label="My notes page" style={{
+              position: 'relative', flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column',
+              padding: '34px 30px', overflow: 'hidden', color: INK,
+              borderRadius: pageRadius('right'),
+              background: paperBackground('left', [[22, 66, 66], [76, 20, 84], [46, 92, 52], [88, 56, 36]]),
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+                <InkHeading>My notes</InkHeading>
+                <div style={{ position: 'relative', display: 'flex', gap: 10 }}>
+                  <InkTextButton label="Wk" title="Insert week divider" onClick={handleWeekStamp} />
+                  <InkTextButton label="Sc" title="Insert scene title" onClick={handleSceneStamp} />
+                  <InkTextButton label="Ch" title="Insert character name" onClick={() => setShowCharDropdown(p => !p)} />
+                  {showCharDropdown && (
+                    <div style={{
+                      position: 'absolute', top: '100%', right: 0, marginTop: 6,
+                      background: '#e9dcbc', border: '1px solid rgba(58,42,26,0.35)',
+                      borderRadius: 2, maxHeight: 150, overflowY: 'auto',
+                      minWidth: 150, zIndex: 10, boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
+                    }}>
+                      {sceneChars.length > 0 ? sceneChars.map(c => (
+                        <button key={c.id} type="button" onClick={() => handleCharStamp(c.name)} style={DROPDOWN_ITEM_STYLE}>
+                          {c.name}
+                        </button>
+                      )) : (
+                        <div style={{ padding: '4px 12px', ...HAND_STYLE, fontSize: rem(15) }}>
+                          No characters in current scene
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {currentScene?.title && (
+                <p style={{ ...HAND_STYLE, fontSize: rem(15), opacity: 0.75, margin: '6px 0 0' }}>
+                  Currently in: {currentScene.title}
+                  {sceneChars.length > 0 && <> · Present: {sceneChars.map(c => c.name).join(', ')}</>}
+                </p>
+              )}
+
+              <textarea
+                ref={textareaRef}
+                aria-label="My notes"
+                value={localText}
+                onChange={handleChange}
+                placeholder="Start typing..."
+                style={{
+                  flex: 1, minHeight: 0, width: '100%', boxSizing: 'border-box', margin: '10px 0 0',
+                  background: 'transparent', border: 'none', outline: 'none', resize: 'none', padding: 0,
+                  ...HAND_STYLE,
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: 'rgba(58,42,26,0.25) transparent',
+                }}
+              />
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 10, marginTop: 8 }}>
+                <span style={{ fontFamily: "'La Belle Aurore', cursive", fontSize: rem(14), color: 'rgba(58,42,26,0.6)' }}>
+                  {wordCount} word{wordCount !== 1 ? 's' : ''} · {localText.length} / {NOTES_CHAR_LIMIT}
+                </span>
+              </div>
+            </section>
+          )}
+
+          <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse at 50% 30%, rgba(255,220,160,0.10), transparent 60%)' }} />
+        </div>
       </div>
 
-      {/* ── Clear row ───────────────────────────────── */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, margin: '0 18px 16px' }}>
-        {showConfirmClear ? (
-          <>
-            <span style={{ ...CAB_LABEL, fontSize: rem(10), color: '#d0584a' }}>
-              Are you sure?
-            </span>
-            <CabinetButton variant="primary" onClick={handleClear} style={CLEAR_BUTTON_STYLE}>
-              Yes
-            </CabinetButton>
-            <CabinetButton variant="secondary" onClick={() => setShowConfirmClear(false)} style={CLEAR_BUTTON_STYLE}>
-              No
-            </CabinetButton>
-          </>
-        ) : (
-          <CabinetButton variant="secondary" onClick={handleClear} style={CLEAR_BUTTON_STYLE}>
-            Clear All
-          </CabinetButton>
-        )}
+      <div style={{ position: 'relative', width: BOOK_WIDTH, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ flex: 1 }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <PagerButton
+            glyph="◀"
+            ariaLabel="Previous week"
+            disabled={previousWeek === undefined}
+            onClick={() => { if (previousWeek !== undefined) setShownWeek(previousWeek) }}
+          />
+          <span style={{ fontFamily: "'Cinzel', Georgia, serif", fontWeight: 500, fontSize: rem(11), color: '#cfc6b0', margin: '0 4px' }}>
+            Week {shownWeek}
+          </span>
+          <PagerButton
+            glyph="▶"
+            ariaLabel="Next week"
+            disabled={nextWeek === undefined}
+            onClick={() => { if (nextWeek !== undefined) setShownWeek(nextWeek) }}
+          />
+        </div>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 10 }}>
+          {showConfirmClear ? (
+            <>
+              <span style={{ ...TEAR_TEXT_STYLE, cursor: 'default' }}>Tear them out?</span>
+              <button type="button" onClick={handleClear} style={TEAR_TEXT_STYLE}>Yes</button>
+              <button type="button" onClick={() => setShowConfirmClear(false)} style={TEAR_TEXT_STYLE}>No</button>
+            </>
+          ) : (
+            <button type="button" onClick={handleClear} style={TEAR_TEXT_STYLE}>Tear out my notes</button>
+          )}
+        </div>
       </div>
-    </CabinetDrawer>
-  )
-}
-
-const CLEAR_BUTTON_STYLE: CSSProperties = { fontSize: rem(10), padding: '5px 14px' }
-
-function ToolbarButton({ label, title, onClick }: { label: string; title: string; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      className="cabinet-pill-seg"
-      onClick={onClick}
-      title={title}
-      style={TOOLBAR_PILL_STYLE}
-    >
-      {label}
-    </button>
+    </div>
   )
 }

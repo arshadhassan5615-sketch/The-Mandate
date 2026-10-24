@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>J2 - Katerin's Journal as an aged page (drawer mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cinzel:wght@500;700&family=Cedarville+Cursive&family=La+Belle+Aurore&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    width: 1280px;
+    height: 634px;
+    overflow: hidden;
+    position: relative;
+    background: url('../../src/assets/maps/map_veltria_full.jpg') center / cover;
+    font-family: 'Cinzel', Georgia, serif;
+    color: #D8D0BD;
+  }
+
+  /* ---------- Drawer frame (from s3-drawer) ---------- */
+
+  .drawer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 96px;
+    width: 560px;
+    display: flex;
+    flex-direction: column;
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.06), transparent 160px),
+      radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px) 0 0 / 4px 4px,
+      #141414;
+    border-left: 1px solid #2A2A2A;
+    box-shadow: -12px 0 30px rgba(0,0,0,0.5);
+    padding: 18px 22px 64px;
+  }
+
+  .frame {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    border: 1px solid rgba(201,168,76,0.35);
+    pointer-events: none;
+  }
+
+  .corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 0 solid #C9A84C;
+    pointer-events: none;
+  }
+
+  .corner.tl { top: 4px; left: 4px; border-top-width: 2px; border-left-width: 2px; }
+  .corner.tr { top: 4px; right: 4px; border-top-width: 2px; border-right-width: 2px; }
+  .corner.bl { bottom: 4px; left: 4px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner.br { bottom: 4px; right: 4px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  .close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #2c2c2c 0%, #101010 68%);
+    border: 2px solid #B58A32;
+    color: #F3DFA8;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding: 0;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .overline {
+    display: block;
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: #B58A32;
+    margin-bottom: 6px;
+  }
+
+  .seal {
+    display: block;
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 6px;
+    filter: invert(1) sepia(1) saturate(3) brightness(0.95);
+    mix-blend-mode: screen;
+    opacity: 0.85;
+  }
+
+  .header h1 {
+    margin: 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: .02em;
+    color: #EDE3C8;
+  }
+
+  .orn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .orn .ln {
+    width: 70px;
+    height: 1px;
+    background: rgba(201,168,76,0.6);
+  }
+
+  .orn .sq {
+    width: 7px;
+    height: 7px;
+    margin: 0 8px;
+    background: #C9A84C;
+    transform: rotate(45deg);
+  }
+
+  /* ---------- Week navigator ---------- */
+
+  .week {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+  }
+
+  .medal {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #2c2c2c 0%, #101010 68%);
+    border: 2px solid #B58A32;
+    color: #F3DFA8;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    line-height: 22px;
+    text-align: center;
+    padding: 0;
+  }
+
+  .week-label {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: .14em;
+    color: #CFC6B0;
+    white-space: nowrap;
+  }
+
+  /* ---------- The journal page ---------- */
+
+  .page-wrap {
+    flex: 1;
+    min-height: 0;
+    margin: 12px 22px 0;
+    filter: drop-shadow(0 10px 12px rgba(0,0,0,0.55));
+  }
+
+  .page {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background-color: #dccaa2;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.36  0 0 0 0 0.24  0 0 0 0 0.11  0 0 0 0.22 0'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"),
+      radial-gradient(ellipse 38px 30px at 18% 22%, rgba(120,80,30,0.10), transparent 100%),
+      radial-gradient(ellipse 60px 44px at 74% 58%, rgba(120,80,30,0.10), transparent 100%),
+      radial-gradient(ellipse 46px 36px at 40% 88%, rgba(120,80,30,0.10), transparent 100%),
+      radial-gradient(ellipse 30px 24px at 88% 14%, rgba(120,80,30,0.10), transparent 100%),
+      radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(110,70,25,0.30) 100%);
+    clip-path: polygon(
+      0% 3%, 3% 0.5%, 7% 2.5%, 12% 0%, 17% 2.2%, 23% 0.6%, 29% 2.8%,
+      35% 0.2%, 41% 2.4%, 47% 0.4%, 53% 2.6%, 59% 0%, 65% 2.2%, 71% 0.5%,
+      77% 2.7%, 83% 0.3%, 89% 2.3%, 94% 0.7%, 98% 2.1%, 100% 1%,
+      100% 100%, 0% 100%
+    );
+  }
+
+  .ring {
+    position: absolute;
+    top: 26px;
+    right: 34px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid rgba(110,70,30,0.12);
+    filter: blur(0.6px);
+    pointer-events: none;
+  }
+
+  .writing {
+    position: relative;
+    height: 100%;
+    padding: 30px 28px;
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 18px;
+    line-height: 29px;
+    color: #3a2a1a;
+  }
+
+  .writing h2 {
+    margin: 0;
+    font-family: 'La Belle Aurore', cursive;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 29px;
+  }
+
+  .writing h2 .title {
+    position: relative;
+    display: inline-block;
+  }
+
+  .writing h2 .title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 60%;
+    height: 1.5px;
+    background: #3a2a1a;
+    transform: rotate(-1deg);
+    transform-origin: left center;
+  }
+
+  .writing p {
+    margin: 0;
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 18px;
+    line-height: 29px;
+  }
+
+  .writing .section + .section {
+    margin-top: 6px;
+  }
+
+  .divider {
+    display: block;
+    width: 100%;
+    height: 14px;
+    margin: 10px 0 4px;
+  }
+
+  .caret {
+    display: inline-block;
+    width: 1px;
+    height: 18px;
+    background: #3a2a1a;
+    vertical-align: -3px;
+    margin-left: 2px;
+  }
+
+  .sketch {
+    position: absolute;
+    right: 22px;
+    bottom: 18px;
+    width: 90px;
+    height: 90px;
+    mix-blend-mode: multiply;
+    opacity: 0.32;
+    filter: sepia(1);
+    transform: rotate(8deg);
+    pointer-events: none;
+  }
+
+  /* ---------- Footer ---------- */
+
+  .foot {
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #8F8775;
+    white-space: nowrap;
+  }
+
+  .foot .ln {
+    width: 30px;
+    height: 1px;
+    background: rgba(201,168,76,0.35);
+  }
+
+  .foot .ln:first-child {
+    margin-right: 12px;
+  }
+
+  .foot .ln:last-child {
+    margin-left: 12px;
+  }
+</style>
+</head>
+<body>
+
+<aside class="drawer">
+  <div class="frame" aria-hidden="true"></div>
+  <span class="corner tl" aria-hidden="true"></span>
+  <span class="corner tr" aria-hidden="true"></span>
+  <span class="corner bl" aria-hidden="true"></span>
+  <span class="corner br" aria-hidden="true"></span>
+
+  <button class="close" type="button" aria-label="Close">&#10005;</button>
+
+  <header class="header">
+    <span class="overline">Private &mdash; Not for the record</span>
+    <img class="seal" src="../../src/assets/images/veltria_seal.png" alt="">
+    <h1>Katerin's Journal</h1>
+    <div class="orn" aria-hidden="true"><span class="ln"></span><span class="sq"></span><span class="ln"></span></div>
+  </header>
+
+  <nav class="week" aria-label="Week navigation">
+    <button class="medal" type="button" aria-label="Previous week">&#9664;</button>
+    <span class="week-label">Week 3 &middot; 15 January 1963</span>
+    <button class="medal" type="button" aria-label="Next week">&#9654;</button>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="page">
+      <div class="ring" aria-hidden="true"></div>
+
+      <div class="writing">
+        <section class="section">
+          <h2><span class="title">The Ledger</span></h2>
+          <p>Halvek left us a deficit of 340 million krone.</p>
+          <p>Not a rounding error &mdash; eleven years of it.</p>
+          <p>Vyktor wants the budget decided by Thursday.</p>
+        </section>
+
+        <section class="section" style="margin-top: 14px;">
+          <h2><span class="title">First Briefing</span></h2>
+          <p>Tyvaren troops moving near Gravenmark.</p>
+          <p>Kolvar is already counting votes. Watch him.</p>
+        </section>
+
+        <svg class="divider" viewBox="0 0 400 14" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 7 C 20 1, 40 13, 60 7 S 100 1, 120 7 S 160 13, 180 7 S 220 1, 240 7 S 280 13, 300 7 S 340 1, 360 7 S 390 11, 400 7" fill="none" stroke="#3a2a1a" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+
+        <section class="section">
+          <h2><span class="title">My notes</span></h2>
+          <p>Ask Oberlin about the BNI files<span class="caret"></span></p>
+        </section>
+      </div>
+
+      <img class="sketch" src="../../src/assets/images/veltria_seal.png" alt="">
+    </div>
+  </div>
+
+  <div class="foot"><span class="ln"></span><span>Auto-noted after each meeting &middot; Yours to add to</span><span class="ln"></span></div>
+</aside>
+
+</body>
+</html>

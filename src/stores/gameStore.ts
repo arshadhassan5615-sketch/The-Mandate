@@ -22,6 +22,7 @@ import { useChainStore } from './chainStore'
 import { useSettingsStore } from './settingsStore'
 import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
+import type { MeetingNote } from '../types/meetingNotes'
 
 // GDD Section 8.1 — Fiscal Year 1963-64 starting allocations
 const INITIAL_BUDGET: BudgetAllocations = {
@@ -154,6 +155,9 @@ export const INITIAL_STATE: GameState = {
 }
 
 interface GameStore extends GameState {
+  /** Katerin's automatic meeting notes, one per completed scene (saved). */
+  meetingNotes:    MeetingNote[]
+  addMeetingNote:  (note: MeetingNote) => void
   applyModifiers:  (modifiers: StateModifier[]) => void
   applyBudget:     (next: BudgetAllocations) => void
   advanceWeek:     () => void
@@ -344,6 +348,14 @@ export const useGameStore = create<GameStore>()(
   persist(
     (set) => ({
       ...INITIAL_STATE,
+      meetingNotes: [],
+
+      addMeetingNote: (note) => set((state) => {
+        if (state.meetingNotes.some(n => n.sceneId === note.sceneId)) return state
+        const lines = note.lines.filter(l => l.trim())
+        if (lines.length === 0) return state
+        return { meetingNotes: [...state.meetingNotes, { ...note, lines }] }
+      }),
 
       applyModifiers: (modifiers) =>
     set((state) => {
@@ -632,7 +644,7 @@ export const useGameStore = create<GameStore>()(
   resetToInitial: () => {
     // Unconditional reset — do NOT read from localStorage. A "New Game"
     // must always start from INITIAL_STATE, never restore an old save.
-    set(() => ({ ...INITIAL_STATE }))
+    set(() => ({ ...INITIAL_STATE, meetingNotes: [] }))
   },
 
   // Boot-time reset for the direct-to-prologue startup path. The prologue
@@ -735,6 +747,7 @@ export const useGameStore = create<GameStore>()(
         activeProjects: state.activeProjects,
         completedProjects: state.completedProjects,
         personalNotes: state.personalNotes,
+        meetingNotes: state.meetingNotes,
         diaryEntries: state.diaryEntries,
         economyHistory: state.economyHistory,
         debtHistory: state.debtHistory,

@@ -163,6 +163,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     choiceLog,
     provinceNewsSeenIds,
     commitments: useCommitmentStore.getState().commitments,
+    meetingNotes: gameState.meetingNotes,
     scheduledChains,
     forcedChainIds,
     completedItemIds,
@@ -296,6 +297,9 @@ export async function loadGame(slot: number): Promise<boolean> {
   useProvinceNewsStore.setState({ seenIds: record.provinceNewsSeenIds ?? [] })
 
   useCommitmentStore.setState({ commitments: record.commitments ?? [] })
+
+  // Older saves predate meeting notes and load with an empty notebook.
+  useGameStore.setState({ meetingNotes: record.meetingNotes ?? [] })
 
   useChainStore.setState({ scheduled: record.scheduledChains ?? [] })
 

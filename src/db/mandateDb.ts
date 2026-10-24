@@ -10,6 +10,7 @@ import type { NewsArticle } from '../types/news'
 import type { DiplomaticLetter } from '../types/letters'
 import type { ChoiceRecord } from '../stores/narrativeStore'
 import type { Commitment } from '../engine/commitments'
+import type { MeetingNote } from '../types/meetingNotes'
 
 export interface SaveRecord {
   version: number
@@ -34,6 +35,8 @@ export interface SaveRecord {
   provinceNewsSeenIds?: string[]
   /** Promises given this playthrough. Optional: older saves default to []. */
   commitments?: Commitment[]
+  /** Katerin's automatic meeting notes. Optional: older saves default to []. */
+  meetingNotes?: MeetingNote[]
   decreeState?: {
     pendingDecrees: Decree[]
     signedDecrees: Decree[]

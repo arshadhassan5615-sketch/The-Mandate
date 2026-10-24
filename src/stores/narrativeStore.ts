@@ -117,6 +117,14 @@ function generateNews(
   }
 }
 
+/** Writes the closed scene's notebook lines into Katerin's meeting notes (dedupe by scene id lives in the game store). */
+function recordMeetingNotes(scene: NarrativeNode): void {
+  const lines = (scene.notebook ?? []).filter(l => l.trim())
+  if (lines.length === 0) return
+  const { currentWeek, addMeetingNote } = useGameStore.getState()
+  addMeetingNote({ sceneId: scene.id, title: scene.title, week: currentWeek, lines })
+}
+
 /** One choice the player made: where, which, and in which week. */
 export interface ChoiceRecord {
   sceneId: string
@@ -347,6 +355,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
         activeSegmentId: null,
         sceneDone: true,
       })
+      recordMeetingNotes(currentScene)
       return
     }
 
@@ -679,6 +688,8 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       activeSegmentId:  nextSegmentId,
       sceneDone,
     })
+    // The scene closes (and is marked visited above) unless a nextSegment keeps it open.
+    if (!nextSegmentId) recordMeetingNotes(currentScene)
 
     // Inject Parliamentary Bills into Decree Inbox
     if (newFlags.includes('cadre_bill_passed')) {

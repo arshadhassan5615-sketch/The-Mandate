@@ -128,4 +128,6 @@ export interface NarrativeNode {
   monologue?: string
   socialInteractions?: SocialInteraction[]
   cutscene?: SceneCutscene  // optional painted stills played before the scene starts
+  /** Lines Katerin writes in her journal when this meeting ends: facts stated in the scene, never hidden stats. */
+  notebook?: string[]
 }
