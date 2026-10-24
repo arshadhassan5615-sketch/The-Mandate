@@ -5,7 +5,6 @@ import { useNarrativeStore } from '../../../stores/narrativeStore'
 import { useSettingsStore } from '../../../stores/settingsStore'
 import { useWeekStore } from '../../../stores/weekStore'
 import { resetWorld } from '../../../test/simHarness'
-import { autoAdvanceDelayMs } from '../../../engine/readRegistry'
 import type { NarrativeNode } from '../../../types/narrative'
 
 const SCENE_ID = 'scene_keys_test'
@@ -58,6 +57,14 @@ function openOutsideDialog(): HTMLElement {
   document.body.appendChild(outsideDialog)
   return outsideDialog
 }
+
+// Advance fake time in small steps so React re-renders (and re-arms effects) between them.
+function step(totalMs: number, stepMs = 100) {
+  for (let t = 0; t < totalMs; t += stepMs) act(() => { vi.advanceTimersByTime(stepMs) })
+}
+
+// Enough for the first line to type, its reading delay (about 1.75s) and the second line to type.
+const AUTO_ADVANCE_BUDGET_MS = 4000
 
 describe('NarrativeScene keyboard and cover handling', () => {
   beforeEach(() => {
@@ -113,34 +120,49 @@ describe('NarrativeScene keyboard and cover handling', () => {
     it('holds the line while another panel covers the column, then advances once it is uncovered', () => {
       vi.useFakeTimers()
       useSettingsStore.setState({ autoAdvance: true })
-      coverColumnWith(document.body)
-      render(<NarrativeScene />)
 
-      // Long enough for the first line to type out and its reading delay to pass.
-      act(() => { vi.advanceTimersByTime(autoAdvanceDelayMs(FIRST_LINE) * 3) })
+      // Control: uncovered, the timer reaches the second line within the budget.
+      const control = render(<NarrativeScene />)
+      coverColumnWith(uncoverWithRail())
+      step(AUTO_ADVANCE_BUDGET_MS)
+      expect(screen.getByText(SECOND_LINE)).toBeInTheDocument()
+      control.unmount()
+
+      // Paused: under a cover the same budget leaves the first line on screen.
+      render(<NarrativeScene />)
+      coverColumnWith(document.body)
+      step(AUTO_ADVANCE_BUDGET_MS)
+      expect(screen.getByText(FIRST_LINE)).toBeInTheDocument()
       expect(screen.queryByText(SECOND_LINE)).toBeNull()
 
-      // The advance and the next line's typing are separate steps: the typing timer only starts
-      // after React flushes the advance, so the clock is moved in two acts.
+      // Resumed: once the column is uncovered the held line advances.
       coverColumnWith(uncoverWithRail())
-      act(() => { vi.advanceTimersByTime(autoAdvanceDelayMs(FIRST_LINE) * 2) })
-      act(() => { vi.advanceTimersByTime(1000) })
+      step(AUTO_ADVANCE_BUDGET_MS)
       expect(screen.getByText(SECOND_LINE)).toBeInTheDocument()
     })
 
     it('holds the line while a dialog is open outside the column, then advances once it closes', () => {
       vi.useFakeTimers()
       useSettingsStore.setState({ autoAdvance: true })
+
+      // Control: no dialog, the timer reaches the second line within the budget.
+      const control = render(<NarrativeScene />)
+      coverColumnWith(uncoverWithRail())
+      step(AUTO_ADVANCE_BUDGET_MS)
+      expect(screen.getByText(SECOND_LINE)).toBeInTheDocument()
+      control.unmount()
+
+      // Paused: a dialog outside the column holds the first line.
       render(<NarrativeScene />)
       coverColumnWith(uncoverWithRail())
       const dialog = openOutsideDialog()
-
-      act(() => { vi.advanceTimersByTime(autoAdvanceDelayMs(FIRST_LINE) * 3) })
+      step(AUTO_ADVANCE_BUDGET_MS)
+      expect(screen.getByText(FIRST_LINE)).toBeInTheDocument()
       expect(screen.queryByText(SECOND_LINE)).toBeNull()
 
+      // Resumed: closing the dialog lets the held line advance.
       dialog.remove()
-      act(() => { vi.advanceTimersByTime(autoAdvanceDelayMs(FIRST_LINE) * 2) })
-      act(() => { vi.advanceTimersByTime(1000) })
+      step(AUTO_ADVANCE_BUDGET_MS)
       expect(screen.getByText(SECOND_LINE)).toBeInTheDocument()
     })
   })

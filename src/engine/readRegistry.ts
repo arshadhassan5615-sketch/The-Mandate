@@ -7,10 +7,14 @@ const AUTO_ADVANCE_BASE_MS = 1400
 const AUTO_ADVANCE_MS_PER_CHAR = 32
 const AUTO_ADVANCE_CAP_MS = 6000
 
-function loadReadScenes(): string[] {
+// Parsed once, then kept in step with every write. The raw string is compared on
+// each read, so a change made outside this module (another tab, a test) is picked up.
+let cachedRaw: string | null | undefined
+let cachedSet: Set<string> = new Set()
+
+function parseReadScenes(raw: string | null): string[] {
+  if (!raw) return []
   try {
-    const raw = localStorage.getItem(LS_READ_SCENES)
-    if (!raw) return []
     const parsed: unknown = JSON.parse(raw)
     if (!Array.isArray(parsed)) return []
     return parsed.filter((id): id is string => typeof id === 'string')
@@ -19,17 +23,37 @@ function loadReadScenes(): string[] {
   }
 }
 
+function readSet(): Set<string> {
+  let raw: string | null
+  try {
+    raw = localStorage.getItem(LS_READ_SCENES)
+  } catch {
+    // Storage is unavailable: answer from what this session already knows.
+    return cachedSet
+  }
+  if (raw !== cachedRaw) {
+    cachedRaw = raw
+    cachedSet = new Set(parseReadScenes(raw))
+  }
+  return cachedSet
+}
+
 export function hasReadScene(sceneId: string): boolean {
-  return loadReadScenes().includes(sceneId)
+  return readSet().has(sceneId)
 }
 
 export function markSceneRead(sceneId: string): void {
-  const readScenes = loadReadScenes()
-  if (readScenes.includes(sceneId)) return
+  const readScenes = readSet()
+  if (readScenes.has(sceneId)) return
+  const nextIds = [...readScenes, sceneId]
+  // Updated even if the write fails, so this session still treats the scene as read.
+  cachedSet = new Set(nextIds)
   try {
-    localStorage.setItem(LS_READ_SCENES, JSON.stringify([...readScenes, sceneId]))
+    const nextRaw = JSON.stringify(nextIds)
+    localStorage.setItem(LS_READ_SCENES, nextRaw)
+    cachedRaw = nextRaw
   } catch {
-    // Storage is unavailable: the scene simply is not remembered as read.
+    // Storage is unavailable: the scene is not remembered across reloads.
   }
 }
 

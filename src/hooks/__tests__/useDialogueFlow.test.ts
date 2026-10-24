@@ -80,6 +80,15 @@ describe('useDialogueFlow reset', () => {
     expect(result.current.segmentDone).toBe(false)
   })
 
+  it('is done immediately when the first segments array is empty', () => {
+    const { result } = renderFlow({ segments: [], resetKey: 'a' })
+
+    expect(result.current.allDone).toBe(true)
+    expect(result.current.segmentDone).toBe(true)
+    expect(result.current.activeSegment).toBeUndefined()
+    expect(result.current.revealedSegments).toHaveLength(0)
+  })
+
   it('does not reset progress on a plain rerender with the same content and key', () => {
     const { result, rerender } = renderFlow({ segments: alphaScene(), resetKey: 'a' })
 

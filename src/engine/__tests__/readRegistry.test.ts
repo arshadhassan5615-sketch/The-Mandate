@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { autoAdvanceDelayMs, hasReadScene, markSceneRead } from '../readRegistry'
 
 const LS_READ_SCENES = 'mandate-read-scenes'
@@ -63,6 +63,62 @@ describe('readRegistry', () => {
     // Assert
     expect(hasReadScene('act1_briefing')).toBe(true)
     expect(hasReadScene('42')).toBe(false)
+  })
+})
+
+describe('readRegistry cache', () => {
+  beforeEach(() => {
+    localStorage.removeItem(LS_READ_SCENES)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    localStorage.removeItem(LS_READ_SCENES)
+  })
+
+  it('reports a scene as read immediately after it is marked', () => {
+    // Arrange
+    hasReadScene('act1_briefing')
+    const parseSpy = vi.spyOn(JSON, 'parse')
+
+    // Act
+    markSceneRead('act1_briefing')
+    const read = hasReadScene('act1_briefing')
+
+    // Assert
+    expect(read).toBe(true)
+    expect(parseSpy).not.toHaveBeenCalled()
+    expect(JSON.parse(localStorage.getItem(LS_READ_SCENES) ?? '[]')).toEqual(['act1_briefing'])
+  })
+
+  it('parses storage at most once for repeated reads of unchanged storage', () => {
+    // Arrange
+    localStorage.setItem(LS_READ_SCENES, JSON.stringify(['act1_briefing']))
+    expect(hasReadScene('act1_briefing')).toBe(true)
+    const parseSpy = vi.spyOn(JSON, 'parse')
+
+    // Act
+    const results = [
+      hasReadScene('act1_briefing'),
+      hasReadScene('act2_family'),
+      hasReadScene('act1_briefing'),
+    ]
+
+    // Assert
+    expect(results).toEqual([true, false, true])
+    expect(parseSpy).not.toHaveBeenCalled()
+  })
+
+  it('picks up a registry written directly to storage', () => {
+    // Arrange
+    expect(hasReadScene('act1_briefing')).toBe(false)
+
+    // Act
+    localStorage.setItem(LS_READ_SCENES, JSON.stringify(['act2_family']))
+
+    // Assert
+    expect(hasReadScene('act2_family')).toBe(true)
+    expect(hasReadScene('act1_briefing')).toBe(false)
   })
 })
 

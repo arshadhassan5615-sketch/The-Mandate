@@ -81,7 +81,7 @@ function isReadingUninterrupted(column: HTMLElement | null): boolean {
 }
 
 export default function NarrativeScene() {
-  const { currentScene, sceneDone, activeFlags, processChoice, activeSegmentId } = useNarrativeStore()
+  const { currentScene, sceneDone, activeFlags, processChoice, activeSegmentId, sceneLoadCount } = useNarrativeStore()
   const gameState = useGameStore()
   const currentWeek = useGameStore(s => s.currentWeek)
   const { sceneQueue, currentQueueIndex, advanceQueue, returnToMap } = useWeekStore()
@@ -116,7 +116,7 @@ export default function NarrativeScene() {
     allDone,
     speakingCharacter,
     advance,
-  } = useDialogueFlow(segments, isEmergency ? 2.5 : 1, currentScene?.id ?? '')
+  } = useDialogueFlow(segments, isEmergency ? 2.5 : 1, `${currentScene?.id ?? ''}#${sceneLoadCount}`)
 
   // Timers read advance through this ref, so they are not restarted every time its identity changes.
   const advanceRef = useRef(advance)
@@ -230,10 +230,7 @@ export default function NarrativeScene() {
 
   // Skip only fast-forwards scenes read before, and stops at choices (allDone) or the scene end.
   const currentSceneId = currentScene?.id
-  const sceneWasRead = useMemo(
-    () => currentSceneId != null && hasReadScene(currentSceneId),
-    [currentSceneId],
-  )
+  const sceneWasRead = currentSceneId != null && hasReadScene(currentSceneId)
   const skipping = ctrlHeld && !allDone && !sceneDone && sceneWasRead
 
   // Skip ticks do nothing while reading is interrupted (an open dialog or a panel covering the column).

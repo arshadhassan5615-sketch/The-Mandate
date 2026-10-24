@@ -27,8 +27,8 @@ export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 
 
   const [activeIdx, setActiveIdx] = useState(0)
   const [charIdx,   setCharIdx]   = useState(0)
-  const [segDone,   setSegDone]   = useState(false)
-  const [allDone,   setAllDone]   = useState(false)
+  const [segDone,   setSegDone]   = useState(segments.length === 0)
+  const [allDone,   setAllDone]   = useState(segments.length === 0)
 
   // Identifies the loaded dialogue. Full text (not a prefix) plus the caller's
   // reset key, so two scenes that open with similar lines never share progress.
@@ -38,8 +38,8 @@ export function useDialogueFlow(segments: NarrativeSegment[], speedMultiplier = 
   // Refs mirror state for use inside intervals/callbacks without stale closures
   const activeIdxRef = useRef(0)
   const charIdxRef   = useRef(0)
-  const segDoneRef   = useRef(false)
-  const allDoneRef   = useRef(false)
+  const segDoneRef   = useRef(segments.length === 0)
+  const allDoneRef   = useRef(segments.length === 0)
 
   // Synchronous state reset (Derived State pattern).
   // This prevents the 1-frame state leak where the old activeIdx

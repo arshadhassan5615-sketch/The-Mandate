@@ -136,6 +136,8 @@ interface NarrativeStore {
   // Characters met for the first time in the current scene, in order of first line (ids without the character_ prefix). Transient: not saved.
   newlyMetIds:       string[]
   sceneDone:         boolean     // true once the scene's choices have all resolved
+  // Increments on every loadScene, so a repeated scene starts fresh.
+  sceneLoadCount:    number
 
   // Called by weekStore to start / reset a scene slot
   loadScene:    (id: string) => void
@@ -169,6 +171,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
   choiceLog:         [],
   newlyMetIds:       [],
   sceneDone:         false,
+  sceneLoadCount:    0,
 
   loadScene: (id) => {
     if (import.meta.env.DEV) console.log('[TRACE 3] loadScene called for:', id)
@@ -259,7 +262,14 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       newlyMetIds = [...new Set(toAdd.map(c => c.slice(CHARACTER_PREFIX.length)))]
     }
 
-    set({ currentScene: target ?? null, sceneDone: !target, metCharacters: newMet, newlyMetIds })
+    set({
+      currentScene: target ?? null,
+      activeSegmentId: null,   // a freshly loaded scene always starts at its root
+      sceneDone: !target,
+      metCharacters: newMet,
+      newlyMetIds,
+      sceneLoadCount: get().sceneLoadCount + 1,
+    })
     if (import.meta.env.DEV) console.log('[TRACE 5] currentScene set to:', target?.id ?? 'null', '| sceneDone:', !target)
   },
 
