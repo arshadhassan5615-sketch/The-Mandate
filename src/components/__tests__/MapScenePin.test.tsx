@@ -1,11 +1,12 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { render, screen, fireEvent, within, act } from '@testing-library/react'
 import MapScenePin from '../MapScenePin'
 import type { AgendaItem } from '../../types/week'
 import type { NewsArticle } from '../../types/news'
 import { useNewsStore } from '../../stores/newsStore'
 import { useGameStore } from '../../stores/gameStore'
 import { useProvinceNewsStore } from '../../stores/provinceNewsStore'
+import { useWeekStore } from '../../stores/weekStore'
 
 const CURRENT_WEEK = 3
 const CRISIS_ID = 'crisis-kravenstal'
@@ -107,5 +108,52 @@ describe('MapScenePin', () => {
     fireEvent.keyDown(window, { key: 'Escape' })
 
     expect(screen.queryByRole('dialog', { name: 'Kravenstal: choose an action' })).toBeNull()
+  })
+})
+
+describe('MapScenePin when a scene starts', () => {
+  beforeEach(() => {
+    useNewsStore.setState({ articles: [], isOpen: false })
+    useProvinceNewsStore.getState().reset()
+    useGameStore.setState({ currentWeek: CURRENT_WEEK })
+    useWeekStore.setState({ phase: 'map' })
+  })
+
+  it('closes the menu and unfocuses once, and a new callback does not unfocus again', () => {
+    const onUnfocusProvince = vi.fn()
+    const { rerender } = render(
+      <MapScenePin
+        provinceId="kravenstal"
+        items={[MEETING]}
+        currentWeek={CURRENT_WEEK}
+        onSelectScene={vi.fn()}
+        onFocusProvince={vi.fn()}
+        onUnfocusProvince={onUnfocusProvince}
+      />,
+    )
+    fireEvent.click(screen.getByTestId('notification-pin'))
+    expect(screen.getByTestId('province-choice-tab')).toBeInTheDocument()
+
+    act(() => {
+      useWeekStore.setState({ phase: 'scene' })
+    })
+
+    expect(screen.queryByTestId('province-choice-tab')).toBeNull()
+    expect(onUnfocusProvince).toHaveBeenCalledTimes(1)
+
+    const nextOnUnfocusProvince = vi.fn()
+    rerender(
+      <MapScenePin
+        provinceId="kravenstal"
+        items={[MEETING]}
+        currentWeek={CURRENT_WEEK}
+        onSelectScene={vi.fn()}
+        onFocusProvince={vi.fn()}
+        onUnfocusProvince={nextOnUnfocusProvince}
+      />,
+    )
+
+    expect(onUnfocusProvince).toHaveBeenCalledTimes(1)
+    expect(nextOnUnfocusProvince).not.toHaveBeenCalled()
   })
 })

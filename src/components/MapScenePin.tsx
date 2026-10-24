@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import type { AgendaItem } from '../types/week'
 import type { ProvinceId } from '../engine/LocationResolver'
 import { PROVINCE_PIN_POSITIONS, PROVINCE_NAMES } from '../engine/LocationResolver'
 import { getScene } from '../engine/NarrativeEngine'
+import { getSealArt } from '../assets/sealArt'
 import { HOME_PROVINCES, provinceFeed, unseenItems, type HomeProvinceId } from '../engine/provinceNews'
 import { PROVINCES } from '../data/provinces'
 import { useWeekStore } from '../stores/weekStore'
@@ -50,11 +51,18 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
   const seenIds = useProvinceNewsStore(s => s.seenIds)
   const markSeen = useProvinceNewsStore(s => s.markSeen)
 
+  // A scene starting closes the menu (adjusted during render, not in an effect)...
+  const [prevPhase, setPrevPhase] = useState(phase)
+  if (prevPhase !== phase) {
+    setPrevPhase(phase)
+    if (phase === 'scene') setOpen(false)
+  }
+  // ...and tells the map to unfocus. The latest callback is kept in a ref so a new
+  // function from the parent does not re-run this.
+  const unfocusRef = useRef(onUnfocusProvince)
+  useEffect(() => { unfocusRef.current = onUnfocusProvince })
   useEffect(() => {
-    if (phase === 'scene') {
-      setOpen(false)
-      onUnfocusProvince?.()
-    }
+    if (phase === 'scene') unfocusRef.current?.()
   }, [phase])
 
   const hasMandatory = items.some(i => i.slotCost === 0)
@@ -162,6 +170,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
             <ProvinceChoiceMenu
               title={provinceName}
               subtitle={PROVINCES[provinceId]?.subtitle}
+              medalSrc={getSealArt(provinceId)}
               choices={choices}
               onSelect={handleSelect}
               onClose={closeMenu}

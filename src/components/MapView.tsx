@@ -435,36 +435,6 @@ export default function MapView({ onProvinceDetail }: {
                   art={getSealArt(id)}
                   mood={moodFor(provinceStatuses.get(id)?.level)}
                 />
-                {/* Events hint on hover — only when there is something to say */}
-                {isHovered && hasScenes && (
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 'calc(100% + 6px)',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    whiteSpace: 'nowrap',
-                    background: 'linear-gradient(180deg, rgba(26,21,16,0.95) 0%, rgba(14,11,7,0.95) 100%)',
-                    border: '1px solid rgba(201,168,76,0.5)',
-                    borderRadius: '3px',
-                    padding: '4px 10px',
-                    pointerEvents: 'none',
-                    zIndex: 100,
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.6)',
-                  }}>
-                    {hasScenes && (
-                      <div style={{
-                        fontFamily: "'Special Elite', monospace",
-                        fontSize: '7px',
-                        letterSpacing: '0.15em',
-                        color: 'rgba(201,168,76,0.6)',
-                        textTransform: 'uppercase',
-                        marginTop: '2px',
-                      }}>
-                        Events available
-                      </div>
-                    )}
-                  </div>
-                )}
               </div>
             )
           })}
@@ -718,36 +688,6 @@ export default function MapView({ onProvinceDetail }: {
                   art={getSealArt(id)}
                   mood={moodFor(provinceStatuses.get(id)?.level)}
                 />
-                {/* Events hint on hover — only when there is something to say */}
-                {isHovered && hasScenes && (
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 'calc(100% + 6px)',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    whiteSpace: 'nowrap',
-                    background: 'linear-gradient(180deg, rgba(26,21,16,0.95) 0%, rgba(14,11,7,0.95) 100%)',
-                    border: '1px solid rgba(201,168,76,0.5)',
-                    borderRadius: '3px',
-                    padding: '4px 10px',
-                    pointerEvents: 'none',
-                    zIndex: 100,
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.6)',
-                  }}>
-                    {hasScenes && (
-                      <div style={{
-                        fontFamily: "'Special Elite', monospace",
-                        fontSize: '7px',
-                        letterSpacing: '0.15em',
-                        color: 'rgba(201,168,76,0.6)',
-                        textTransform: 'uppercase',
-                        marginTop: '2px',
-                      }}>
-                        Events available
-                      </div>
-                    )}
-                  </div>
-                )}
               </div>
             )
           })}

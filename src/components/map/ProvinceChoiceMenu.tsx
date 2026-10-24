@@ -19,6 +19,8 @@ export interface ProvinceChoice {
 interface ProvinceChoiceMenuProps {
   title: string
   subtitle?: string
+  /** Painted province medal shown left of the title; omitted when null or empty. */
+  medalSrc?: string | null
   choices: readonly ProvinceChoice[]
   onSelect: (id: string) => void
   onClose: () => void
@@ -30,6 +32,7 @@ const BODY_FONT = "'Crimson Text', Georgia, serif"
 const ENTRANCE_SECONDS = 0.18
 const GLYPH_SIZE = 16
 const GLYPH_FILL = '#efd9a0'
+const PANEL_RADIUS = 10
 
 // Inline row styles set background and border, so the hover rule below uses !important to win over them.
 const CHOICE_CSS = `
@@ -61,7 +64,7 @@ const TAB_STYLE: CSSProperties = {
   background: '#0c0c0c',
   border: `1px solid ${GOLD_RULE}`,
   borderBottom: 'none',
-  borderRadius: '3px 3px 0 0',
+  borderRadius: `${PANEL_RADIUS}px ${PANEL_RADIUS}px 0 0`,
   padding: '5px 14px 4px',
 }
 
@@ -79,10 +82,26 @@ const SUBTITLE_STYLE: CSSProperties = {
   color: 'rgba(230,215,185,0.75)',
 }
 
+const TAB_ROW_STYLE: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 9,
+}
+
+const MEDAL_STYLE: CSSProperties = {
+  width: 38,
+  height: 38,
+  objectFit: 'contain',
+  flexShrink: 0,
+  display: 'block',
+  marginLeft: -4,
+  filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.6))',
+}
+
 const BODY_STYLE: CSSProperties = {
   background: 'rgba(12,12,12,0.95)',
   border: `1px solid ${GOLD_RULE}`,
-  borderRadius: '0 3px 3px 3px',
+  borderRadius: `0 ${PANEL_RADIUS}px ${PANEL_RADIUS}px ${PANEL_RADIUS}px`,
   padding: 10,
   display: 'flex',
   flexDirection: 'column',
@@ -97,7 +116,7 @@ const ROW_BASE_STYLE: CSSProperties = {
   width: '100%',
   minHeight: 46,
   padding: '7px 12px',
-  borderRadius: 3,
+  borderRadius: 8,
   textAlign: 'left',
   color: 'inherit',
 }
@@ -210,7 +229,15 @@ function renderIconGlyph(icon: ChoiceIcon): ReactNode {
   )
 }
 
-export default function ProvinceChoiceMenu({ title, subtitle, choices, onSelect, onClose }: ProvinceChoiceMenuProps) {
+export default function ProvinceChoiceMenu({ title, subtitle, medalSrc, choices, onSelect, onClose }: ProvinceChoiceMenuProps) {
+  const hasMedal = typeof medalSrc === 'string' && medalSrc.length > 0
+  const titleBlock = (
+    <div>
+      <div style={TITLE_STYLE}>{title}</div>
+      {subtitle && <div style={SUBTITLE_STYLE}>{subtitle}</div>}
+    </div>
+  )
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -236,8 +263,22 @@ export default function ProvinceChoiceMenu({ title, subtitle, choices, onSelect,
         transition={{ duration: ENTRANCE_SECONDS }}
       >
         <div data-testid="province-choice-tab" style={TAB_STYLE}>
-          <div style={TITLE_STYLE}>{title}</div>
-          {subtitle && <div style={SUBTITLE_STYLE}>{subtitle}</div>}
+          {hasMedal ? (
+            <div style={TAB_ROW_STYLE}>
+              <img
+                data-testid="province-choice-medal"
+                src={medalSrc}
+                alt=""
+                aria-hidden="true"
+                width={38}
+                height={38}
+                style={MEDAL_STYLE}
+              />
+              {titleBlock}
+            </div>
+          ) : (
+            titleBlock
+          )}
         </div>
 
         <div style={BODY_STYLE}>

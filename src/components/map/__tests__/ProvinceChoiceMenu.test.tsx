@@ -106,4 +106,32 @@ describe('ProvinceChoiceMenu', () => {
     expect(panel.firstElementChild).toBe(tab)
     expect(tab.nextElementSibling?.contains(screen.getByTestId(`choice-${CHOICES[0].id}`))).toBe(true)
   })
+
+  it('rounds the top corners of the title tab and keeps its bottom corners square', () => {
+    renderMenu()
+    expect(screen.getByTestId('province-choice-tab')).toHaveStyle({ borderRadius: '10px 10px 0 0' })
+  })
+
+  it('shows the medal inside the title tab, beside the title and subtitle', () => {
+    renderMenu({ medalSrc: '/medal.png' })
+    const tab = screen.getByTestId('province-choice-tab')
+    const medal = screen.getByTestId('province-choice-medal')
+    expect(tab).toContainElement(medal)
+    expect(medal).toHaveAttribute('src', '/medal.png')
+    expect(medal).toHaveAttribute('alt', '')
+    expect(tab).toContainElement(screen.getByText('Kravenstal'))
+    expect(tab).toContainElement(screen.getByText('Industrial Heartland'))
+  })
+
+  it('renders no medal when medalSrc is omitted, null or empty', () => {
+    const { unmount } = render(<ProvinceChoiceMenu title="Kravenstal" choices={CHOICES} onSelect={vi.fn()} onClose={vi.fn()} />)
+    expect(screen.queryByTestId('province-choice-medal')).not.toBeInTheDocument()
+    unmount()
+    for (const medalSrc of [null, '']) {
+      const view = render(<ProvinceChoiceMenu title="Kravenstal" medalSrc={medalSrc} choices={CHOICES} onSelect={vi.fn()} onClose={vi.fn()} />)
+      expect(screen.queryByTestId('province-choice-medal')).not.toBeInTheDocument()
+      expect(screen.getByText('Kravenstal')).toBeInTheDocument()
+      view.unmount()
+    }
+  })
 })
