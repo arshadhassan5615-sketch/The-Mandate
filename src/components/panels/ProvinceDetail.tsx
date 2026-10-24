@@ -169,12 +169,12 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
   }, [activeProjects, province.id])
 
   return (
-    <div style={{
+    <div className="anim-fade-in" style={{
       position: 'fixed', inset: 0, zIndex: Z.panel,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(2px)',
     }} onClick={onClose}>
-      <div style={{
+      <div className="anim-pop-in" style={{
         width: '500px', maxHeight: '92vh', overflowY: 'auto',
         background: 'rgba(12,10,8,0.98)',
         border: '1px solid rgba(196,148,58,0.28)',

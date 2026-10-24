@@ -99,6 +99,7 @@ export default function CabinetWindow({
   return (
     <div
       data-testid={`${testId}-backdrop`}
+      className="anim-fade-in"
       style={{
         position: 'fixed',
         inset: 0,
@@ -118,6 +119,7 @@ export default function CabinetWindow({
         aria-modal="true"
         aria-labelledby={titleId}
         data-testid={testId}
+        className="anim-pop-in"
         style={{
           position: 'relative',
           width: `min(${width}px, 100%)`,

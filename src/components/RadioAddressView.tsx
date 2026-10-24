@@ -60,8 +60,8 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
 
   if (remaining <= 0 && step === 'select') {
     return (
-      <div onClick={dismissRadio} style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div onClick={e => e.stopPropagation()} style={{ background: '#1a1815', border: '1px solid var(--accent-red)', padding: '2rem', maxWidth: '400px', textAlign: 'center' }}>
+      <div onClick={dismissRadio} className="anim-fade-in" style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div onClick={e => e.stopPropagation()} className="anim-pop-in" style={{ background: '#1a1815', border: '1px solid var(--accent-red)', padding: '2rem', maxWidth: '400px', textAlign: 'center' }}>
           <p style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.7rem', color: 'var(--accent-red)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>No Broadcasts Remaining</p>
           <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.85rem', color: 'var(--muted)', fontStyle: 'italic', marginTop: '0.5rem' }}>
             You have used all {MAX_BROADCASTS} of your national radio addresses. The people have heard from you enough. More broadcasts would only dilute your message.
@@ -73,8 +73,8 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div onClick={step === 'done' ? dismissRadio : undefined} style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: '680px', maxHeight: '92vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    <div onClick={step === 'done' ? dismissRadio : undefined} className="anim-fade-in" style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+      <div onClick={e => e.stopPropagation()} className="anim-pop-in" style={{ width: '100%', maxWidth: '680px', maxHeight: '92vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
         {step === 'select' && (
           <div style={{ background: '#1a1815', border: '1px solid var(--border)', padding: '1.2rem' }}>

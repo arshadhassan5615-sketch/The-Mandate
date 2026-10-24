@@ -93,6 +93,11 @@ describe('PaperSheet aged-paper options', () => {
     expect(wrapper).toHaveClass('cabinet-paper-wrap')
     expect(wrapper?.style.filter).toContain('drop-shadow')
   })
+
+  it('rises into place when opened', () => {
+    render(<PaperSheet testId="sheet"><p>Body</p></PaperSheet>)
+    expect(screen.getByTestId('sheet').parentElement).toHaveClass('anim-rise-in')
+  })
 })
 
 describe('WaxSeal size', () => {

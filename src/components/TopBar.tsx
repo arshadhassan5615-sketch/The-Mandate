@@ -250,7 +250,7 @@ function MoreMenu({ items, placement, medallionSize }: MoreMenuProps) {
         </button>
       )}
       {open && (
-        <div role="menu" style={{
+        <div role="menu" className="anim-menu-in" style={{
           position: 'absolute', ...menuPosition,
           minWidth: 200, background: '#14110d', border: BAR_EDGE, boxShadow: '0 10px 30px rgba(0,0,0,0.6)', padding: '6px 0',
         }}>

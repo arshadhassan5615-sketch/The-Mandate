@@ -9,7 +9,7 @@ export default function SpyMasterPanel({ onClose }: { onClose: () => void }) {
   const activeOperations = useGameStore(s => s.activeOperations)
 
   return (
-    <div style={{
+    <div className="anim-fade-in" style={{
       position: 'fixed',
       inset: 0,
       zIndex: Z.overlay,
@@ -19,6 +19,7 @@ export default function SpyMasterPanel({ onClose }: { onClose: () => void }) {
       justifyContent: 'center',
     }} onClick={onClose}>
       <div
+        className="anim-pop-in"
         style={{
           background: '#0a0806',
           border: '1px solid rgba(201,168,76,0.4)',

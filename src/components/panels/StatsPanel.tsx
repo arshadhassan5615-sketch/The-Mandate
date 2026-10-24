@@ -75,6 +75,7 @@ export default function StatsPanel({ onClose }: StatsPanelProps) {
   return (
     <div
       data-testid="stats-panel"
+      className="anim-slide-in-left"
       style={{
         position: 'fixed', left: '52px', top: '50px', width: '320px',
         height: 'calc(100vh - 110px)', zIndex: Z.panel,

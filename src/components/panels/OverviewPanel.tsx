@@ -385,7 +385,7 @@ export default function OverviewPanel({ onClose }: OverviewPanelProps) {
   const { activeFlags } = useNarrativeStore()
 
   return (
-    <div style={{
+    <div className="anim-slide-in-right" style={{
       position: 'fixed', right: '52px', top: '50px', width: '320px',
       height: 'calc(100vh - 110px)', zIndex: Z.panel,
       background: 'rgba(12,10,8,0.96)',

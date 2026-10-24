@@ -60,6 +60,7 @@ export default function CharacterMap() {
 
   return (
     <div
+      className="anim-fade-in"
       style={{
         position: 'fixed',
         inset: 0,
@@ -72,6 +73,7 @@ export default function CharacterMap() {
       onClick={e => { if (e.target === e.currentTarget) setCharacterMapOpen(false) }}
     >
       <div
+        className="anim-pop-in"
         style={{
           width: '780px',
           maxWidth: '94vw',

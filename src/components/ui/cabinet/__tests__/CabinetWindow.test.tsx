@@ -80,6 +80,12 @@ describe('CabinetWindow shell', () => {
     renderWindow()
     expect(screen.getByRole('heading', { name: TITLE })).toHaveFocus()
   })
+
+  it('fades the backdrop in and pops the window in when opened', () => {
+    renderWindow()
+    expect(screen.getByTestId('cabinet-window-backdrop')).toHaveClass('anim-fade-in')
+    expect(screen.getByRole('dialog')).toHaveClass('anim-pop-in')
+  })
 })
 
 describe('CabinetWindow behaviour', () => {

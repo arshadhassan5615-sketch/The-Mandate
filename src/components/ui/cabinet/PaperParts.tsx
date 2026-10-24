@@ -228,7 +228,7 @@ export function PaperSheet({
   const paddingY = (dense ? DENSE_PADDING_Y : PADDING_Y) + (registry ? REGISTRY_EXTRA_TOP : 0)
   const paddingX = dense ? DENSE_PADDING_X : PADDING_X
   return (
-    <div className="cabinet-paper-wrap" style={{ ...PAPER_WRAP_STYLE, ...wrapStyle }}>
+    <div className="cabinet-paper-wrap anim-rise-in" style={{ ...PAPER_WRAP_STYLE, ...wrapStyle }}>
       <article
         data-testid={testId}
         className="cabinet-paper"

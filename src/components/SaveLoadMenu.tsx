@@ -391,7 +391,7 @@ export default function SaveLoadMenu() {
   }
 
   return (
-    <div style={{
+    <div className="anim-fade-in" style={{
       position: 'fixed',
       inset: 0,
       zIndex: 10050,
@@ -420,7 +420,7 @@ export default function SaveLoadMenu() {
       )}
 
       {/* ── Cabinet drawer ───────────────────────────────────────── */}
-      <div style={{
+      <div className="anim-pop-in" style={{
         background: 'var(--paper)',
         border: '1px solid var(--border)',
         width: '100%',

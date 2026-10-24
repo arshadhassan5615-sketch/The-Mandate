@@ -125,7 +125,7 @@ export default function CabinetDocument({
         aria-labelledby={titleId}
         data-testid={testId}
         data-layout={insets.mode}
-        className="cabinet-document"
+        className="cabinet-document anim-slide-in-top"
         style={{
           pointerEvents: 'auto',
           position: 'relative',

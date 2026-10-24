@@ -153,6 +153,7 @@ export default function InvestmentPanel({ onClose }: { onClose: () => void }) {
   return (
     <div 
       onClick={onClose}
+      className="anim-fade-in"
       style={{
         position: 'fixed', inset: 0, zIndex: Z.overlay,
         background: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(4px)',
@@ -161,6 +162,7 @@ export default function InvestmentPanel({ onClose }: { onClose: () => void }) {
     >
       <div 
         onClick={e => e.stopPropagation()}
+        className="anim-pop-in"
         style={{
           background: '#1a1815', border: '1px solid rgba(200,144,42,0.3)',
           width: '100%', maxWidth: '640px', maxHeight: '90vh', overflow: 'hidden',

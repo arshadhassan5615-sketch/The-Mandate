@@ -59,6 +59,11 @@ describe('CabinetDocument shell', () => {
     expect(screen.getByText('Document body')).toBeInTheDocument()
   })
 
+  it('drops in from the top when opened', () => {
+    renderDocument()
+    expect(screen.getByRole('dialog')).toHaveClass('anim-slide-in-top')
+  })
+
   it('shows the default overline Chancellery', () => {
     renderDocument()
     expect(screen.getByText('Chancellery')).toBeInTheDocument()

@@ -106,14 +106,13 @@ export default function InlineCodexPanel() {
   if (!inlineCodexOpen || !entry) return null
 
   return (
-    <div style={{
+    <div className="anim-slide-in-right" style={{
       position: 'fixed', right: 0, top: 0, bottom: 0, zIndex: Z.inlineCodex,
       width: '420px',
       background: P.bg,
       borderLeft: `1px solid ${P.borderStrong}`,
       boxShadow: '-6px 0 32px rgba(0,0,0,0.5)',
       display: 'flex', flexDirection: 'column',
-      animation: 'inline-codex-slide-in 0.25s ease-out forwards',
     }}>
       {/* Header */}
       <div style={{

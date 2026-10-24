@@ -125,7 +125,7 @@ export default function CabinetDrawer({
       role="dialog"
       aria-labelledby={titleId}
       data-testid={testId}
-      className={['cabinet-drawer', className].filter(Boolean).join(' ')}
+      className={['cabinet-drawer', 'anim-slide-in-right', className].filter(Boolean).join(' ')}
       data-layout={insets.mode}
       style={rootStyle}
     >
@@ -178,6 +178,7 @@ export default function CabinetDrawer({
       </header>
 
       <div
+        className="anim-rise-in"
         style={{ position: 'relative', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', marginTop: density.bodyMarginTop }}
       >
         {children}

@@ -40,6 +40,11 @@ describe('CabinetDrawer shell', () => {
     expect(screen.getByTestId('cabinet-test')).toHaveClass('cabinet-drawer', 'extra-class')
   })
 
+  it('slides in from the right when opened', () => {
+    renderDrawer()
+    expect(screen.getByRole('dialog')).toHaveClass('anim-slide-in-right')
+  })
+
   it('docks at the button rail on desktop', () => {
     renderDrawer()
     expect(screen.getByRole('dialog')).toHaveStyle({ right: `${HUD_RAIL_WIDTH}px`, top: '0px', bottom: '0px' })
