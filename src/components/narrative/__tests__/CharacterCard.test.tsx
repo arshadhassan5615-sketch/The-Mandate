@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import CharacterCard from '../CharacterCard'
 import ConversationPanel from '../ConversationPanel'
@@ -104,9 +104,10 @@ describe('CharacterCard', () => {
     expect(screen.getByTestId('character-card').style.left).toBe('608px')
   })
 
-  it('keeps the card top inside the viewport', () => {
+  it('keeps the card top inside the viewport, flipping it above the anchor when it would overflow the bottom', () => {
+    // Anchor top 700 + estimated 170 overflows 768, so the card opens above the anchor: 700 - 12 - 170.
     render(<CharacterCard data={VYKTOR_CARD} anchor={anchorAt(100, 700, 40, 40)} />)
-    expect(screen.getByTestId('character-card').style.top).toBe('590px')
+    expect(screen.getByTestId('character-card').style.top).toBe('518px')
   })
 
   it('takes its DOM id from the id prop when one is given', () => {
@@ -117,6 +118,44 @@ describe('CharacterCard', () => {
   it('ignores the pointer so the card never steals hover from the speaker', () => {
     render(<CharacterCard data={VYKTOR_CARD} anchor={anchorAt(100, 300)} />)
     expect(screen.getByTestId('character-card').style.pointerEvents).toBe('none')
+  })
+})
+
+describe('CharacterCard placement by its measured height', () => {
+  const originalWidth = window.innerWidth
+  const originalHeight = window.innerHeight
+
+  function setViewport(width: number, height: number) {
+    Object.defineProperty(window, 'innerWidth', { value: width, configurable: true, writable: true })
+    Object.defineProperty(window, 'innerHeight', { value: height, configurable: true, writable: true })
+  }
+
+  // jsdom lays nothing out, so the rendered card's height is supplied here.
+  function measureRenderedCardAs(height: number) {
+    vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(
+      () => ({ x: 0, y: 0, left: 0, top: 0, right: 0, bottom: height, width: 0, height, toJSON: () => ({}) }) as DOMRect,
+    )
+  }
+
+  beforeEach(() => setViewport(1024, 768))
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    setViewport(originalWidth, originalHeight)
+  })
+
+  it('uses the measured height, so a card that fits is not flipped on the estimate', () => {
+    // Estimate 170 would overflow from anchor top 650; the measured 100 fits.
+    measureRenderedCardAs(100)
+    render(<CharacterCard data={VYKTOR_CARD} anchor={anchorAt(100, 650, 40, 40)} />)
+    expect(screen.getByTestId('character-card').style.top).toBe('650px')
+  })
+
+  it('flips the card above the anchor when the measured card would overflow the bottom', () => {
+    // Anchor top 600 + measured 200 = 800 overflows 768, so the card sits above: 600 - 12 - 200.
+    measureRenderedCardAs(200)
+    render(<CharacterCard data={VYKTOR_CARD} anchor={anchorAt(100, 600, 40, 40)} />)
+    expect(screen.getByTestId('character-card').style.top).toBe('388px')
   })
 })
 
@@ -241,6 +280,28 @@ describe('ConversationPanel speaker cards', () => {
         speakingCharacter={undefined}
       />,
     )
+    expect(screen.queryByTestId('character-card')).toBeNull()
+  })
+
+  it('gives the open card a stable id and points the speaker name at it while it is open', () => {
+    renderPanel()
+    const name = screen.getAllByTestId('speaker-name')[0]
+    expect(name).not.toHaveAttribute('aria-describedby')
+
+    fireEvent.mouseEnter(name)
+    expect(screen.getByTestId('character-card')).toHaveAttribute('id', 'character-card-vyktor_reznik')
+    expect(name).toHaveAttribute('aria-describedby', 'character-card-vyktor_reznik')
+
+    fireEvent.mouseLeave(name)
+    expect(name).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('closes an open speaker card when Escape is pressed', () => {
+    renderPanel()
+    fireEvent.mouseEnter(screen.getAllByTestId('speaker-name')[0])
+    expect(screen.getByTestId('character-card')).toBeInTheDocument()
+
+    fireEvent.keyDown(window, { key: 'Escape' })
     expect(screen.queryByTestId('character-card')).toBeNull()
   })
 })

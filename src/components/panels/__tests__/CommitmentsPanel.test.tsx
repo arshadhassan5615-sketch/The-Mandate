@@ -117,6 +117,19 @@ describe('CommitmentsPanel', () => {
     expect(screen.getByText('No commitment has been tested yet.')).toBeInTheDocument()
   })
 
+  it('ties the selected tab to the tabpanel it shows', () => {
+    seed([promisePensions])
+    render(<CommitmentsPanel onClose={() => {}} rules={NO_RULES} />)
+    const record = screen.getByRole('tab', { name: /On record/ })
+    expect(screen.getByRole('tabpanel')).toHaveAttribute('id', record.getAttribute('aria-controls'))
+    expect(screen.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', record.id)
+
+    fireEvent.click(screen.getByRole('tab', { name: /Resolved/ }))
+    const resolved = screen.getByRole('tab', { name: /Resolved/ })
+    expect(screen.getByRole('tabpanel')).toHaveAttribute('id', resolved.getAttribute('aria-controls'))
+    expect(screen.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', resolved.id)
+  })
+
   it('closes from the close button and from Escape', () => {
     const onClose = vi.fn()
     render(<CommitmentsPanel onClose={onClose} rules={NO_RULES} />)

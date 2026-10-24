@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
-import type { MouseEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { FocusEvent, MouseEvent } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Z } from '../../constants/zIndex'
 import { paperName } from '../../data/paperName'
+import { useViewportMode } from '../../hooks/useViewportMode'
 import { useGameStore } from '../../stores/gameStore'
 import { useNewsStore } from '../../stores/newsStore'
 import { useWeekStore } from '../../stores/weekStore'
@@ -14,22 +15,34 @@ const ENTER_S = 0.45
 const EXIT_S = 0.5
 const ENTER_RISE_PX = 24
 const EXIT_FALL_PX = 16
+const DISMISS_HIT_PX = 32
 
-const PAPER_FONT = "'Playfair Display', serif"
-const MONO_FONT = "'IBM Plex Mono', monospace"
+/** Desktop keeps clear of the side rails; phone and compact screens use nearly the full width. */
+const DESKTOP_CARD_WIDTH = 'min(520px, calc(100vw - 260px))'
+const NARROW_CARD_WIDTH = 'min(520px, calc(100vw - 32px))'
+
+const PAPER_FONT = 'var(--font-headline)'
+const MONO_FONT = 'var(--font-mono)'
 
 /**
  * Small non-blocking clipping with the week's top story, shown when a new week
  * opens on the map. Shown at most once per week; auto-hides, dismisses, or opens
  * the papers on click. Never intercepts pointer events outside the card.
+ * Auto-hide pauses while the pointer is over the card or focus is inside it.
  */
 export default function WeekHeadline() {
   const reduceMotion = useReducedMotion() ?? false
+  const viewportMode = useViewportMode()
   const currentWeek = useGameStore(s => s.currentWeek)
   const phase = useWeekStore(s => s.phase)
   const articles = useNewsStore(s => s.articles)
   const [shownWeek, setShownWeek] = useState(0)
   const [card, setCard] = useState<NewsArticle | null>(null)
+  const [isPointerOver, setIsPointerOver] = useState(false)
+  const [isFocusWithin, setIsFocusWithin] = useState(false)
+  const hideTimerRef = useRef<number | null>(null)
+  const isHeld = isPointerOver || isFocusWithin
+  const cardWidth = viewportMode === 'desktop' ? DESKTOP_CARD_WIDTH : NARROW_CARD_WIDTH
 
   // Derived during render: a week's top story opens the clipping once, on the map.
   // Leaving the map clears it. Both changes are guarded, so they settle on the next pass.
@@ -39,23 +52,45 @@ export default function WeekHeadline() {
     setCard(story)
   } else if (phase !== 'map' && card) {
     setCard(null)
+    setIsPointerOver(false)
+    setIsFocusWithin(false)
   }
 
-  // Auto-hide timer. The only setState here runs inside the timer callback.
+  // Auto-hide timer, held in hideTimerRef. It is cleared while the card is held and
+  // restarted with the full window once it is released. Cleanup clears it on unmount.
+  // The only setState here runs inside the timer callback.
   useEffect(() => {
-    if (card === null) return
-    const timer = window.setTimeout(() => setCard(null), HEADLINE_SHOW_MS)
-    return () => window.clearTimeout(timer)
-  }, [card])
+    if (card === null || isHeld) return
+    hideTimerRef.current = window.setTimeout(() => {
+      hideTimerRef.current = null
+      setCard(null)
+    }, HEADLINE_SHOW_MS)
+    return () => {
+      if (hideTimerRef.current !== null) window.clearTimeout(hideTimerRef.current)
+      hideTimerRef.current = null
+    }
+  }, [card, isHeld])
+
+  const closeCard = () => {
+    setCard(null)
+    setIsPointerOver(false)
+    setIsFocusWithin(false)
+  }
 
   const handleOpenPapers = () => {
     useNewsStore.getState().setOpen(true)
-    setCard(null)
+    closeCard()
   }
 
   const handleDismiss = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation()
-    setCard(null)
+    closeCard()
+  }
+
+  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
+    const next = event.relatedTarget
+    if (next instanceof Node && event.currentTarget.contains(next)) return
+    setIsFocusWithin(false)
   }
 
   return (
@@ -81,6 +116,10 @@ export default function WeekHeadline() {
               ? { opacity: 0, transition: { duration: EXIT_S } }
               : { opacity: 0, y: EXIT_FALL_PX, transition: { duration: EXIT_S } }}
             transition={{ duration: ENTER_S }}
+            onMouseEnter={() => setIsPointerOver(true)}
+            onMouseLeave={() => setIsPointerOver(false)}
+            onFocus={() => setIsFocusWithin(true)}
+            onBlur={handleBlur}
             style={{ position: 'relative', pointerEvents: 'auto' }}
           >
             <button
@@ -89,9 +128,9 @@ export default function WeekHeadline() {
               onClick={handleOpenPapers}
               style={{
                 display: 'block',
-                width: 'min(520px, calc(100vw - 260px))',
-                background: 'linear-gradient(180deg, #efe6d2 0%, #e3d7bd 100%)',
-                color: '#1c160e',
+                width: cardWidth,
+                background: 'linear-gradient(180deg, var(--doc-paper) 0%, var(--doc-paper-edge) 100%)',
+                color: 'var(--doc-ink)',
                 border: '1px solid #b9a77f',
                 boxShadow: '0 10px 26px rgba(0,0,0,0.55)',
                 padding: '10px 16px 12px',
@@ -106,11 +145,11 @@ export default function WeekHeadline() {
                 fontSize: '12px',
                 textTransform: 'uppercase',
                 letterSpacing: '0.12em',
-                color: '#3a2a12',
-                paddingRight: '28px',
+                color: 'var(--doc-ink)',
+                paddingRight: '36px',
               }}>
                 {paperName(card.publication)}
-                <span style={{ fontFamily: MONO_FONT, fontSize: '10px', color: '#6b5a3e', letterSpacing: '0.04em' }}>
+                <span style={{ fontFamily: MONO_FONT, fontSize: '10px', color: 'var(--doc-ink-muted)', letterSpacing: '0.04em' }}>
                   {` · ${card.date}`}
                 </span>
               </div>
@@ -120,7 +159,7 @@ export default function WeekHeadline() {
                 fontWeight: 700,
                 fontSize: '18px',
                 lineHeight: 1.2,
-                color: '#1c160e',
+                color: 'var(--doc-ink)',
               }}>
                 {card.headline}
               </div>
@@ -131,7 +170,7 @@ export default function WeekHeadline() {
                 fontSize: '9px',
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
-                color: '#6b5a3e',
+                color: 'var(--doc-ink-muted)',
               }}>
                 Read the papers ›
               </div>
@@ -142,16 +181,16 @@ export default function WeekHeadline() {
               onClick={handleDismiss}
               style={{
                 position: 'absolute',
-                top: '4px',
-                right: '6px',
-                width: '22px',
-                height: '22px',
+                top: '2px',
+                right: '2px',
+                width: `${DISMISS_HIT_PX}px`,
+                height: `${DISMISS_HIT_PX}px`,
                 padding: 0,
                 background: 'transparent',
                 border: 'none',
-                color: '#6b5a3e',
+                color: 'var(--doc-ink-muted)',
                 fontSize: '16px',
-                lineHeight: '22px',
+                lineHeight: `${DISMISS_HIT_PX}px`,
                 cursor: 'pointer',
               }}
             >

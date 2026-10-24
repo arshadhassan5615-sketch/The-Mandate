@@ -51,13 +51,13 @@ describe('FactionStances', () => {
     expect(within(opposed).queryByText('(leaning)')).toBeNull()
   })
 
-  it('shows an em dash in a column with no factions', () => {
+  it('shows "None" in a column with no factions', () => {
     render(<FactionStances bill={SUPPORTERS_ONLY} />)
 
     const opposed = screen.getByRole('list', { name: 'Opposed' })
 
-    expect(within(opposed).getByText('—')).toBeInTheDocument()
-    expect(within(opposed).queryByRole('listitem')).toHaveTextContent('—')
+    expect(within(opposed).getByText('None')).toBeInTheDocument()
+    expect(within(opposed).queryByRole('listitem')).toHaveTextContent('None')
   })
 
   it('insets the box horizontally by the inset prop', () => {

@@ -13,6 +13,12 @@ import { OVERLINE, SERIF_BODY } from './paperStyles'
 
 const PAST_FILL = 'rgba(60,40,20,0.10)'
 
+const STATE_LABELS: Record<CalendarWeek['state'], string> = {
+  current: 'this week',
+  past: 'past',
+  future: 'upcoming',
+}
+
 interface CalendarPanelProps {
   onClose: () => void
 }
@@ -70,7 +76,7 @@ interface WeekGridProps {
 
 function WeekGrid({ weeks, onPreview }: WeekGridProps) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(13, 1fr)', gap: 4 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(32px, 1fr))', gap: 4 }}>
       {weeks.map(week => <WeekCell key={week.week} week={week} onPreview={onPreview} />)}
     </div>
   )
@@ -85,7 +91,8 @@ function WeekCell({ week, onPreview }: WeekCellProps) {
   const isCurrent = week.state === 'current'
   const hasPublicEvent = PUBLIC_EVENTS.some(event => event.week === week.week)
   const hasNotes = week.notes.length > 0
-  const label = `Week ${week.week}, ${week.date}${hasNotes ? `: ${week.notes.join('; ')}` : ''}`
+  const stateLabel = STATE_LABELS[week.state]
+  const label = `Week ${week.week}, ${week.date}, ${stateLabel}${hasNotes ? `: ${week.notes.join('; ')}` : ''}`
 
   return (
     <button
@@ -93,6 +100,7 @@ function WeekCell({ week, onPreview }: WeekCellProps) {
       data-testid={`week-${week.week}`}
       data-state={week.state}
       aria-label={label}
+      aria-current={isCurrent ? 'date' : undefined}
       onMouseEnter={() => onPreview(week.week)}
       onMouseLeave={() => onPreview(null)}
       onFocus={() => onPreview(week.week)}
@@ -104,7 +112,8 @@ function WeekCell({ week, onPreview }: WeekCellProps) {
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
-        border: isCurrent ? '2px solid var(--oxblood)' : '1px solid var(--doc-rule)',
+        minHeight: 32,
+        border: isCurrent ? '2px solid var(--oxblood)' : '1px solid var(--doc-ink-muted)',
         background: week.state === 'past' ? PAST_FILL : 'transparent',
         color: week.state === 'future' ? 'var(--doc-ink-muted)' : 'var(--doc-ink)',
         fontFamily: SERIF_BODY,
@@ -134,7 +143,6 @@ function WeekDetail({ week }: { week: CalendarWeek | undefined }) {
   return (
     <div
       data-testid="calendar-detail"
-      aria-live="polite"
       style={{
         flexShrink: 0,
         minHeight: 44,

@@ -58,6 +58,16 @@ describe('PortraitRail character cards', () => {
     fireEvent.mouseEnter(medallions()[0])
     expect(screen.queryByTestId('character-card')).toBeNull()
   })
+
+  it('closes an open character card when Escape is pressed', () => {
+    render(<PortraitRail ids={['vyktor_reznik']} currentId={null} layout="column" />)
+    fireEvent.mouseEnter(medallions()[0])
+    expect(screen.getByTestId('character-card')).toBeInTheDocument()
+
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(screen.queryByTestId('character-card')).toBeNull()
+    expect(medallions()[0]).not.toHaveAttribute('aria-describedby')
+  })
 })
 
 describe('medallionStates', () => {

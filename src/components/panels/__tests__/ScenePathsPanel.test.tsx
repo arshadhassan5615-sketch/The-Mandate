@@ -90,7 +90,7 @@ describe('ScenePathsPanel', () => {
 
   it('selects the first scene by default', () => {
     render(<ScenePathsPanel onClose={() => {}} />)
-    expect(screen.getByTestId(`path-scene-${PANEL_SCENE_ID}`)).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByTestId(`path-scene-${PANEL_SCENE_ID}`)).toHaveAttribute('aria-current', 'true')
   })
 
   it('shows the taken choice text with its tag', () => {
@@ -144,8 +144,9 @@ describe('ScenePathsPanel', () => {
     render(<ScenePathsPanel onClose={() => {}} />)
     expect(screen.getByTestId(`path-scene-${SECOND_SCENE_ID}`)).toHaveTextContent('0 of 1 paths explored')
     fireEvent.click(screen.getByTestId(`path-scene-${SECOND_SCENE_ID}`))
-    expect(screen.getByTestId(`path-scene-${SECOND_SCENE_ID}`)).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByTestId('path-sealed')).toHaveAttribute('aria-label', 'Unexplored path')
+    expect(screen.getByTestId(`path-scene-${SECOND_SCENE_ID}`)).toHaveAttribute('aria-current', 'true')
+    expect(screen.getByTestId(`path-scene-${PANEL_SCENE_ID}`)).not.toHaveAttribute('aria-current')
+    expect(screen.getByTestId('path-sealed')).toHaveTextContent('Unexplored path')
     expect(screen.queryByText('“Take the bill”')).toBeNull()
   })
 

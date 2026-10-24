@@ -5,7 +5,7 @@ export const SERIF_BODY = "'Crimson Text', Georgia, serif"
 
 export const OVERLINE: React.CSSProperties = {
   fontFamily: 'var(--font-ui)',
-  fontSize: '10px',
+  fontSize: '11px',
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: 'var(--doc-ink-muted)',

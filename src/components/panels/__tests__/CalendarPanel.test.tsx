@@ -45,6 +45,30 @@ describe('CalendarPanel', () => {
     expect(screen.getByTestId('week-20')).toHaveAttribute('data-state', 'future')
   })
 
+  it('marks the current week with aria-current and says "this week" in its label', () => {
+    render(<CalendarPanel onClose={() => {}} />)
+    const currentCell = screen.getByTestId('week-14')
+    expect(currentCell).toHaveAttribute('aria-current', 'date')
+    expect(currentCell).toHaveAttribute('aria-label', expect.stringContaining('this week'))
+  })
+
+  it('says "past" in the label of a past week and leaves it without aria-current', () => {
+    render(<CalendarPanel onClose={() => {}} />)
+    const pastCell = screen.getByTestId('week-5')
+    expect(pastCell).toHaveAttribute('aria-label', expect.stringContaining('past'))
+    expect(pastCell).not.toHaveAttribute('aria-current')
+  })
+
+  it('says "upcoming" in the label of a future week', () => {
+    render(<CalendarPanel onClose={() => {}} />)
+    expect(screen.getByTestId('week-20')).toHaveAttribute('aria-label', expect.stringContaining('upcoming'))
+  })
+
+  it('does not announce the detail line as a live region', () => {
+    render(<CalendarPanel onClose={() => {}} />)
+    expect(screen.getByTestId('calendar-detail')).not.toHaveAttribute('aria-live')
+  })
+
   it('shows the signed bill in the detail line when a past week is hovered', () => {
     render(<CalendarPanel onClose={() => {}} />)
     fireEvent.mouseEnter(screen.getByTestId('week-5'))

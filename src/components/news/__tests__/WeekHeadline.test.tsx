@@ -112,6 +112,35 @@ describe('WeekHeadline', () => {
     await expectHeadlineGone()
   })
 
+  it('stays visible while hovered past the show window and hides after mouse leave', async () => {
+    render(<WeekHeadline />)
+    const headline = screen.getByTestId('week-headline')
+
+    fireEvent.mouseEnter(headline)
+    advance(SHOW_MS * 2)
+    expect(screen.getByTestId('week-headline')).toBeInTheDocument()
+
+    fireEvent.mouseLeave(headline)
+    advance(SHOW_MS - 1)
+    expect(screen.getByTestId('week-headline')).toBeInTheDocument()
+
+    advance(1)
+    await expectHeadlineGone()
+  })
+
+  it('stays visible while focus is inside past the show window and hides after focus leaves', async () => {
+    render(<WeekHeadline />)
+    const headline = screen.getByTestId('week-headline')
+
+    act(() => { headline.focus() })
+    advance(SHOW_MS * 2)
+    expect(screen.getByTestId('week-headline')).toBeInTheDocument()
+
+    act(() => { headline.blur() })
+    advance(SHOW_MS)
+    await expectHeadlineGone()
+  })
+
   it('does not reappear for the same week after it has been hidden', async () => {
     render(<WeekHeadline />)
     fireEvent.click(screen.getByRole('button', { name: 'Dismiss headline' }))

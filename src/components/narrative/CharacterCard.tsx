@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, useReducedMotion } from 'framer-motion'
@@ -8,7 +9,7 @@ import { initialsFor } from './initials'
 
 const CARD_WIDTH = 280
 const CARD_GAP = 12
-// Rough rendered height, used only to keep the card inside the viewport.
+// Rough rendered height, used only until the card has been measured after mount.
 const CARD_ESTIMATED_HEIGHT = 170
 const VIEWPORT_MARGIN = 8
 const PORTRAIT_SIZE = 52
@@ -128,17 +129,20 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 // To the right of the anchor; flipped to its left when that would overflow the
-// viewport. Top is kept inside the viewport.
-function cardPosition(anchor: DOMRect): CSSProperties {
+// viewport. Opens downward from the anchor top; flipped to sit above the anchor
+// when its height would overflow the viewport bottom. Both axes are clamped.
+function cardPosition(anchor: DOMRect, height: number): CSSProperties {
   const rightOfAnchor = anchor.right + CARD_GAP
   const fitsOnRight = rightOfAnchor + CARD_WIDTH <= window.innerWidth - VIEWPORT_MARGIN
   const preferredLeft = fitsOnRight ? rightOfAnchor : anchor.left - CARD_GAP - CARD_WIDTH
   const maxLeft = window.innerWidth - CARD_WIDTH - VIEWPORT_MARGIN
-  const maxTop = window.innerHeight - CARD_ESTIMATED_HEIGHT - VIEWPORT_MARGIN
+  const fitsBelow = anchor.top + height <= window.innerHeight - VIEWPORT_MARGIN
+  const preferredTop = fitsBelow ? anchor.top : anchor.top - CARD_GAP - height
+  const maxTop = window.innerHeight - height - VIEWPORT_MARGIN
   return {
     position: 'fixed',
     left: clamp(preferredLeft, VIEWPORT_MARGIN, maxLeft),
-    top: clamp(anchor.top, VIEWPORT_MARGIN, maxTop),
+    top: clamp(preferredTop, VIEWPORT_MARGIN, maxTop),
   }
 }
 
@@ -155,16 +159,26 @@ function CardPortrait({ id, name }: { id: string; name: string }) {
 
 export default function CharacterCard({ data, anchor, id }: CharacterCardProps) {
   const reduceMotion = useReducedMotion()
+  const cardRef = useRef<HTMLDivElement>(null)
+  // The rendered height, measured once mounted so placement uses the real card rather than an estimate.
+  const [measuredHeight, setMeasuredHeight] = useState<number | null>(null)
+
+  // Runs before paint, so the first visible frame already uses the measured height.
+  useLayoutEffect(() => {
+    const height = cardRef.current?.getBoundingClientRect().height ?? 0
+    if (height > 0) setMeasuredHeight(height)
+  }, [anchor, data])
 
   return createPortal(
     <motion.div
+      ref={cardRef}
       id={id}
       role="tooltip"
       data-testid="character-card"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: reduceMotion ? 0 : ENTRANCE_SECONDS }}
-      style={{ ...CARD_STYLE, ...cardPosition(anchor) }}
+      style={{ ...CARD_STYLE, ...cardPosition(anchor, measuredHeight ?? CARD_ESTIMATED_HEIGHT) }}
     >
       <div style={ROW_STYLE}>
         <CardPortrait id={data.id} name={data.name} />

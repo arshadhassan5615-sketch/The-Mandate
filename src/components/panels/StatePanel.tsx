@@ -53,7 +53,7 @@ export default function StatePanel({ onClose }: StatePanelProps) {
         <>
           <PaperTabButton
             id="state-tab-situations"
-            controls="state-panel-situations"
+            controls={tab === 'situations' ? 'state-panel-situations' : undefined}
             label="Situations"
             count={pressing}
             active={tab === 'situations'}
@@ -62,7 +62,7 @@ export default function StatePanel({ onClose }: StatePanelProps) {
           />
           <PaperTabButton
             id="state-tab-laws"
-            controls="state-panel-laws"
+            controls={tab === 'laws' ? 'state-panel-laws' : undefined}
             label="Laws"
             count={laws.length}
             active={tab === 'laws'}
@@ -71,7 +71,7 @@ export default function StatePanel({ onClose }: StatePanelProps) {
           />
           <PaperTabButton
             id="state-tab-decrees"
-            controls="state-panel-decrees"
+            controls={tab === 'decrees' ? 'state-panel-decrees' : undefined}
             label="Decrees"
             count={decrees.length}
             active={tab === 'decrees'}

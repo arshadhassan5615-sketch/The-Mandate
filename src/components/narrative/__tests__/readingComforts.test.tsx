@@ -19,10 +19,32 @@ describe('ReadingModeBadge', () => {
     expect(screen.getByTestId('reading-mode')).toHaveTextContent('SKIP ▸▸')
   })
 
-  it('renders nothing when no mode is active', () => {
+  it('renders an empty status region when no mode is active', () => {
     render(<ReadingModeBadge mode={null} />)
 
-    expect(screen.queryByTestId('reading-mode')).toBeNull()
+    const region = screen.getByRole('status')
+    expect(region).toBe(screen.getByTestId('reading-mode'))
+    expect(region.textContent).toBe('')
+  })
+
+  it('announces "Auto-advance on" to screen readers in auto mode', () => {
+    render(<ReadingModeBadge mode="auto" />)
+
+    expect(screen.getByRole('status')).toHaveTextContent('Auto-advance on')
+  })
+
+  it('announces "Skipping read lines" to screen readers in skip mode', () => {
+    render(<ReadingModeBadge mode="skip" />)
+
+    expect(screen.getByRole('status')).toHaveTextContent('Skipping read lines')
+  })
+
+  it('hides the visible label and its arrow glyphs from assistive technology', () => {
+    render(<ReadingModeBadge mode="skip" />)
+
+    const glyphs = screen.getByText('▸▸')
+    expect(glyphs).toHaveAttribute('aria-hidden', 'true')
+    expect(glyphs.parentElement).toHaveAttribute('aria-hidden', 'true')
   })
 
   it('does not intercept pointer input', () => {

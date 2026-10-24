@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { getPortrait } from '../../assets/potraits'
 import { useGameStore } from '../../stores/gameStore'
@@ -144,6 +144,16 @@ interface HoveredMedallion {
 
 export default function PortraitRail({ ids, currentId, layout }: PortraitRailProps) {
   const [hovered, setHovered] = useState<HoveredMedallion | null>(null)
+  const isCardShown = hovered !== null
+  // Escape closes an open card. The listener exists only while a card is open.
+  useEffect(() => {
+    if (!isCardShown) return
+    const closeOnEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setHovered(null)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [isCardShown])
   if (ids.length === 0) return null
 
   const sizes = SIZES[layout]

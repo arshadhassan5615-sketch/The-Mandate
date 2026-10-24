@@ -172,8 +172,16 @@ describe('ChoiceCard when stat-locked', () => {
     expect(button.style.color).toBe('rgb(125, 138, 139)')
     expect(button.style.borderStyle).toBe('dashed')
     expect(button.style.background).toBe('transparent')
-    expect(button.style.opacity).toBe('0.6')
+    expect(button.style.opacity).toBe('1')
     expect(button.style.cursor).toBe('not-allowed')
+  })
+
+  it('dims only the choice text by colour, not the whole button, so the reason stays readable', () => {
+    renderCard({ lockedReason: REASON })
+    const button = screen.getByRole('button')
+    expect(button.style.opacity).not.toBe('0.6')
+    expect(button.style.color).toBe('rgb(125, 138, 139)')
+    expect(screen.getByTestId('choice-lock-reason').style.color).toBe('rgb(176, 134, 106)')
   })
 })
 

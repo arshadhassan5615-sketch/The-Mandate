@@ -35,7 +35,7 @@ const HEADING_STYLE = {
   letterSpacing: '2px',
   textTransform: 'uppercase' as const,
   fontWeight: 600,
-  color: '#6b4f2a',
+  color: 'var(--doc-ink-muted)',
   marginBottom: 4,
 }
 
@@ -46,12 +46,12 @@ const LIST_STYLE = {
 }
 
 const LINE_STYLE = {
-  fontFamily: "'Georgia', serif",
+  fontFamily: 'var(--font-body)',
   fontSize: 12.5,
-  color: '#0d0a06',
+  color: 'var(--doc-ink)',
 }
 
-const EMPTY_MARK = '—'
+const EMPTY_LABEL = 'None'
 
 function StanceColumn({ label, stances, mark, markColor }: StanceColumnProps) {
   return (
@@ -59,14 +59,14 @@ function StanceColumn({ label, stances, mark, markColor }: StanceColumnProps) {
       <div style={HEADING_STYLE}>{label}</div>
       <ul aria-label={label} style={LIST_STYLE}>
         {stances.length === 0 ? (
-          <li style={{ ...LINE_STYLE, color: '#6b4f2a' }}>{EMPTY_MARK}</li>
+          <li style={{ ...LINE_STYLE, color: 'var(--doc-ink-muted)' }}>{EMPTY_LABEL}</li>
         ) : (
           stances.map(stance => (
             <li key={stance.key} style={LINE_STYLE}>
               <span aria-hidden="true" style={{ color: markColor, marginRight: 6 }}>{mark}</span>
               {stance.name}
               {stance.strength === 'leaning' && (
-                <span style={{ fontStyle: 'italic', color: '#6b4f2a' }}> (leaning)</span>
+                <span style={{ fontStyle: 'italic', color: 'var(--doc-ink-muted)' }}> (leaning)</span>
               )}
             </li>
           ))
@@ -83,8 +83,8 @@ export default function FactionStances({ bill, inset = '0' }: FactionStancesProp
   return (
     <div data-testid="faction-stances" style={{ ...BLOCK_STYLE, margin: `0 ${inset} 12px` }}>
       <div style={COLUMNS_STYLE}>
-        <StanceColumn label="In favour" stances={supporters} mark="✓" markColor="#3d6a34" />
-        <StanceColumn label="Opposed" stances={opponents} mark="✕" markColor="#8a2a22" />
+        <StanceColumn label="In favour" stances={supporters} mark="✓" markColor="var(--law-green, #3d6a34)" />
+        <StanceColumn label="Opposed" stances={opponents} mark="✕" markColor="var(--oxblood)" />
       </div>
     </div>
   )

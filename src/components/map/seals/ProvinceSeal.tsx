@@ -65,11 +65,6 @@ const MOOD_GRADIENTS: Record<Exclude<ProvinceMood, 'calm'>, string> = {
   tense: 'radial-gradient(ellipse at 50% 58%, rgba(232,150,60,0.42) 0%, rgba(232,150,60,0.18) 42%, rgba(232,150,60,0) 70%)',
   crisis: 'radial-gradient(ellipse at 50% 58%, rgba(205,52,40,0.55) 0%, rgba(205,52,40,0.22) 42%, rgba(205,52,40,0) 70%)',
 }
-const MOOD_CSS = `
-@keyframes province-mood-breathe { 0%, 100% { opacity: 0.65; transform: scale(0.96) } 50% { opacity: 1; transform: scale(1.04) } }
-.province-mood--crisis { animation: province-mood-breathe 3.2s ease-in-out infinite }
-@media (prefers-reduced-motion: reduce) { .province-mood--crisis { animation: none } }
-`
 
 const GOLD_RIM: RimStop[] = [
   { offset: '0%', color: '#f6e3a1' },
@@ -371,7 +366,6 @@ export default function ProvinceSeal({
           }}
         />
       )}
-      {mood !== 'calm' && <style>{MOOD_CSS}</style>}
       {art !== null ? (
         <img
           src={art}

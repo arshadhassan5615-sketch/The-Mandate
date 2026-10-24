@@ -72,4 +72,18 @@ describe('memory line across a scene-chaining choice', () => {
     expect(useNarrativeStore.getState().currentScene?.id).toBe(SECOND_ID)
     expect(screen.getByTestId('memory-line')).toHaveTextContent('Jonas Ashavel will remember that.')
   })
+
+  it('hands the memory text to the always-mounted status region for screen readers', () => {
+    render(<NarrativeScene />)
+    const status = screen.getByTestId('memory-status')
+    expect(status).toHaveAttribute('role', 'status')
+    expect(status).toHaveAttribute('aria-live', 'polite')
+    expect(status.textContent).toBe('')
+
+    fireEvent.keyDown(window, { key: ' ' })
+    fireEvent.keyDown(window, { key: ' ' })
+    fireEvent.click(screen.getByRole('button', { name: /Confront him about the affair/ }))
+
+    expect(screen.getByTestId('memory-status')).toHaveTextContent('Jonas Ashavel will remember that.')
+  })
 })

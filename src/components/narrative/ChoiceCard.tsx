@@ -96,7 +96,8 @@ export default function ChoiceCard({ index, text, hint, lockedReason, state, onS
         transition: 'color var(--dur-fast) var(--ease-standard), background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard)',
         userSelect: 'none',
         flexShrink: 0,
-        opacity: isLocked ? 0.6 : state === 'fading' ? 0 : state === 'dimmed' ? 0.4 : 1,
+        minHeight: 24,
+        opacity: state === 'fading' ? 0 : state === 'dimmed' ? 0.4 : 1,
         boxShadow: isSelected ? '0 0 10px rgba(95,149,151,0.35)' : 'none',
         animation: isLocked ? 'none' : ANIMATION[state],
         position: 'relative',
@@ -109,7 +110,7 @@ export default function ChoiceCard({ index, text, hint, lockedReason, state, onS
         <span
           id={hintId}
           className="choice-card__hint"
-          style={{ display: 'block', marginTop: '4px', fontSize: 'var(--choice-hint-font, clamp(11px, 0.85vw, 13px))', fontStyle: 'italic', color: 'rgba(110,158,162,0.7)', lineHeight: 1.35 }}
+          style={{ display: 'block', marginTop: '4px', fontSize: 'var(--choice-hint-font, clamp(11px, 0.85vw, 13px))', fontStyle: 'italic', color: 'rgba(110,158,162,0.85)', lineHeight: 1.35 }}
         >
           {hint}
         </span>

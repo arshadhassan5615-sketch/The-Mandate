@@ -27,7 +27,6 @@ interface Entry {
   status: CommitmentStatus
 }
 
-const LAW_GREEN = '#3d6a34'
 const PORTRAIT_SIZE = 22
 
 const STAMP: React.CSSProperties = {
@@ -62,6 +61,8 @@ export default function CommitmentsPanel({ onClose, rules = RESOLUTION_RULES }: 
   const resolved = useMemo(() => entries.filter(e => e.status !== 'outstanding').sort(byNewestWeek), [entries])
 
   const listed = tab === 'record' ? onRecord : resolved
+  // Only the selected tab's panel is rendered, so only the selected tab names it.
+  const panelId = `commitments-panel-${tab}`
 
   return (
     <PaperPanel
@@ -77,7 +78,7 @@ export default function CommitmentsPanel({ onClose, rules = RESOLUTION_RULES }: 
         <>
           <PaperTabButton
             id="commitments-tab-record"
-            controls="commitments-panel-record"
+            controls={tab === 'record' ? panelId : undefined}
             label="On record"
             count={onRecord.length}
             active={tab === 'record'}
@@ -86,7 +87,7 @@ export default function CommitmentsPanel({ onClose, rules = RESOLUTION_RULES }: 
           />
           <PaperTabButton
             id="commitments-tab-resolved"
-            controls="commitments-panel-resolved"
+            controls={tab === 'resolved' ? panelId : undefined}
             label="Resolved"
             count={resolved.length}
             active={tab === 'resolved'}
@@ -98,13 +99,20 @@ export default function CommitmentsPanel({ onClose, rules = RESOLUTION_RULES }: 
     >
       <div
         role="tabpanel"
-        id={`commitments-panel-${tab}`}
+        id={panelId}
         aria-labelledby={`commitments-tab-${tab}`}
-        style={{ overflowY: 'auto', padding: '6px 22px 20px', flex: 1, minHeight: 0 }}
+        style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}
       >
-        {listed.length === 0
-          ? <EmptyNote>{tab === 'record' ? EMPTY_ON_RECORD : EMPTY_RESOLVED}</EmptyNote>
-          : <CommitmentList entries={listed} />}
+        <div
+          role="region"
+          aria-label="Commitments list"
+          tabIndex={0}
+          style={{ overflowY: 'auto', padding: '6px 22px 20px', flex: 1, minHeight: 0 }}
+        >
+          {listed.length === 0
+            ? <EmptyNote>{tab === 'record' ? EMPTY_ON_RECORD : EMPTY_RESOLVED}</EmptyNote>
+            : <CommitmentList entries={listed} />}
+        </div>
       </div>
     </PaperPanel>
   )
@@ -163,7 +171,7 @@ function StatusMark({ status }: { status: CommitmentStatus }) {
     <span
       data-testid="commitment-status"
       data-status={status}
-      style={{ ...STAMP, color: isKept ? LAW_GREEN : 'var(--oxblood)' }}
+      style={{ ...STAMP, color: isKept ? 'var(--law-green)' : 'var(--oxblood)' }}
     >
       {isKept ? 'Kept' : 'Broken'}
     </span>

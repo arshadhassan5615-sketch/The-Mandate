@@ -1,4 +1,5 @@
 import { useRef, useEffect, useCallback, useState, useMemo } from 'react'
+import type { CSSProperties } from 'react'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
@@ -26,6 +27,19 @@ interface HistoryEntry {
 
 // Skip mode advances one step per tick while Ctrl is held on a scene already read.
 const SKIP_INTERVAL_MS = 60
+
+// Standard visually hidden pattern: read by screen readers, takes no space on screen.
+const VISUALLY_HIDDEN_STYLE: CSSProperties = {
+  position: 'absolute',
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+}
 
 const CHAR_NAMES: Record<string, string> = {
   vyktor_reznik: 'Vyktor Reznik', danika_oberlin: 'Danika Oberlin',
@@ -371,25 +385,37 @@ export default function NarrativeScene() {
     }
   }, [currentScene])
 
+  // Always mounted, so a memory line that appears is announced. Holds the visible memory text, cleared when it ends.
+  const memoryAnnouncement = memory && memory.week === currentWeek ? memory.text : ''
+  const memoryStatus = (
+    <div role="status" aria-live="polite" data-testid="memory-status" style={VISUALLY_HIDDEN_STYLE}>
+      {memoryAnnouncement}
+    </div>
+  )
+
   if (!currentScene) {
     if (import.meta.env.DEV) console.log('NarrativeScene: NO SCENE LOADED',
       'sceneQueue:', sceneQueue.map(s => s.sceneId),
       'queueIndex:', currentQueueIndex)
     return (
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 100,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(10,9,8,0.5)', pointerEvents: 'none',
-      }}>
-        <p style={{ color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.8rem' }}>
-          Loading scene...
-        </p>
-      </div>
+      <>
+        {memoryStatus}
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 100,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(10,9,8,0.5)', pointerEvents: 'none',
+        }}>
+          <p style={{ color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.8rem' }}>
+            Loading scene...
+          </p>
+        </div>
+      </>
     )
   }
 
   return (
     <>
+      {memoryStatus}
       {isEmergency && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 500,
@@ -431,6 +457,7 @@ export default function NarrativeScene() {
           key={memory.key}
           text={memory.text}
           onDone={() => setMemory(null)}
+          columnRef={columnRef}
         />
       )}
 

@@ -34,14 +34,22 @@ interface HoverCard {
 interface SpeakerNameProps {
   name: string
   characterId: string
+  /** Character id of the card on screen, or null; the label names its card while it shows that character. */
+  openCharacterId: string | null
   onShowCard: (owner: string, data: CharacterCardData, anchor: DOMRect) => void
   onHideCard: (owner: string) => void
 }
 
+// Same id scheme as PortraitRail's cards, so a card and its trigger point at each other.
+function speakerCardId(characterId: string): string {
+  return `character-card-${characterId}`
+}
+
 // An NPC speaker's name. Hover or focus shows their character card; a label that
 // unmounts while its card is up (the typing line becoming history) clears it.
-function SpeakerName({ name, characterId, onShowCard, onHideCard }: SpeakerNameProps) {
+function SpeakerName({ name, characterId, openCharacterId, onShowCard, onHideCard }: SpeakerNameProps) {
   const owner = useId()
+  const isCardOpen = openCharacterId === characterId
 
   useEffect(() => () => onHideCard(owner), [onHideCard, owner])
 
@@ -54,6 +62,7 @@ function SpeakerName({ name, characterId, onShowCard, onHideCard }: SpeakerNameP
   return (
     <span
       data-testid="speaker-name"
+      aria-describedby={isCardOpen ? speakerCardId(characterId) : undefined}
       style={{ cursor: 'help', borderBottom: '1px dotted rgba(127,61,25,0.6)' }}
       onMouseEnter={e => showCard(e.currentTarget)}
       onMouseLeave={hideCard}
@@ -366,6 +375,17 @@ export default function ConversationPanel({
   const hideSpeakerCard = useCallback((owner: string) => {
     setHoverCard(prev => (prev?.owner === owner ? null : prev))
   }, [])
+  const hasSpeakerCard = hoverCard !== null
+  const openCardCharacterId = hoverCard?.data.id ?? null
+  // Escape closes an open speaker card. The listener exists only while a card is open.
+  useEffect(() => {
+    if (!hasSpeakerCard) return
+    const closeOnEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setHoverCard(null)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [hasSpeakerCard])
   const { currentScene } = useNarrativeStore()
   const phase = useWeekStore(s => s.phase)
   const viewportMode = useViewportMode()
@@ -912,6 +932,7 @@ export default function ConversationPanel({
                           <SpeakerName
                             name={labelText}
                             characterId={entry.characterId ?? ''}
+                            openCharacterId={openCardCharacterId}
                             onShowCard={showSpeakerCard}
                             onHideCard={hideSpeakerCard}
                           />
@@ -964,6 +985,7 @@ export default function ConversationPanel({
                           <SpeakerName
                             name={charName(activeSegment.character ?? '')}
                             characterId={activeSegment.character ?? ''}
+                            openCharacterId={openCardCharacterId}
                             onShowCard={showSpeakerCard}
                             onHideCard={hideSpeakerCard}
                           />
@@ -1158,7 +1180,13 @@ export default function ConversationPanel({
         )}
         </div>
       </div>
-      {hoverCard && <CharacterCard data={hoverCard.data} anchor={hoverCard.anchor} />}
+      {hoverCard && (
+        <CharacterCard
+          id={`character-card-${hoverCard.data.id}`}
+          data={hoverCard.data}
+          anchor={hoverCard.anchor}
+        />
+      )}
       </>
       )}
     </>

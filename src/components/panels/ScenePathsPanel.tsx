@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNarrativeStore, type ChoiceRecord } from '../../stores/narrativeStore'
-import { useIsMobile } from '../../hooks/useIsMobile'
+import { usePageInsets } from '../../hooks/usePageInsets'
 import { getScene } from '../../engine/NarrativeEngine'
 import { buildScenePath, type PathNode, type PathTarget, type ScenePathSummary } from '../../engine/scenePaths'
 import { stripOuterQuotes } from '../../engine/quotes'
@@ -21,7 +21,6 @@ interface FinishedScene {
   summary: ScenePathSummary
 }
 
-const GOLD_DOT = '#b8892e'
 const INDENT_PX = 18
 const LIST_WIDTH_PX = 220
 const SEALED_LABEL = 'Unexplored path'
@@ -50,7 +49,7 @@ function finishedScenes(visitedSceneIds: readonly string[], choiceLog: readonly 
 export default function ScenePathsPanel({ onClose }: ScenePathsPanelProps) {
   const visitedSceneIds = useNarrativeStore(s => s.visitedSceneIds)
   const choiceLog = useNarrativeStore(s => s.choiceLog)
-  const isMobile = useIsMobile()
+  const isMobile = usePageInsets().isPhone
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   const scenes = useMemo(() => finishedScenes(visitedSceneIds, choiceLog), [visitedSceneIds, choiceLog])
@@ -86,9 +85,12 @@ export default function ScenePathsPanel({ onClose }: ScenePathsPanelProps) {
           {selected && (
             <div
               data-testid="scene-paths-tree"
+              role="region"
+              aria-label="Scene paths"
+              tabIndex={0}
               style={{ flex: 1, minWidth: 0, overflowY: 'auto', padding: '14px 22px 20px' }}
             >
-              <PathBranch node={selected.summary.root} nested={false} />
+              <PathBranch node={selected.summary.root} nested={false} isPhone={isMobile} />
             </div>
           )}
         </div>
@@ -141,7 +143,7 @@ function SceneButton({ scene, isSelected, onSelect }: SceneButtonProps) {
     <button
       type="button"
       data-testid={`path-scene-${scene.id}`}
-      aria-pressed={isSelected}
+      aria-current={isSelected ? 'true' : undefined}
       onClick={() => onSelect(scene.id)}
       style={{
         display: 'block',
@@ -168,10 +170,11 @@ function SceneButton({ scene, isSelected, onSelect }: SceneButtonProps) {
 interface PathBranchProps {
   node: PathNode
   nested: boolean
+  isPhone: boolean
 }
 
 /** One decision point: its choices as a vertical list, indented under the choice that led here. */
-function PathBranch({ node, nested }: PathBranchProps) {
+function PathBranch({ node, nested, isPhone }: PathBranchProps) {
   return (
     <ul
       style={{
@@ -185,7 +188,12 @@ function PathBranch({ node, nested }: PathBranchProps) {
       {node.choices.map(choice => (
         <li key={choice.id} style={{ margin: '0 0 8px' }}>
           {choice.taken ? (
-            <TakenChoice text={choice.text} tag={TAG_BY_KIND[choice.target.kind]} next={choice.next} />
+            <TakenChoice
+              text={choice.text}
+              tag={TAG_BY_KIND[choice.target.kind]}
+              next={choice.next}
+              isPhone={isPhone}
+            />
           ) : (
             <SealedChoice />
           )}
@@ -199,22 +207,26 @@ interface TakenChoiceProps {
   text: string
   tag: string
   next: PathNode | null
+  isPhone: boolean
 }
 
-function TakenChoice({ text, tag, next }: TakenChoiceProps) {
+function TakenChoice({ text, tag, next, isPhone }: TakenChoiceProps) {
   return (
     <>
-      <div data-testid="path-taken" style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+      <div
+        data-testid="path-taken"
+        style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: isPhone ? 'wrap' : 'nowrap' }}
+      >
         <span
           aria-hidden
-          style={{ width: 7, height: 7, borderRadius: '50%', background: GOLD_DOT, flexShrink: 0, transform: 'translateY(-1px)' }}
+          style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--oxblood)', flexShrink: 0, transform: 'translateY(-1px)' }}
         />
         <span style={{ flex: 1, minWidth: 0, fontFamily: SERIF_BODY, fontSize: '15px', lineHeight: 1.4, color: 'var(--doc-ink)' }}>
           {`“${stripOuterQuotes(text)}”`}
         </span>
         <span style={{ ...OVERLINE, flexShrink: 0 }}>{tag}</span>
       </div>
-      {next && <PathBranch node={next} nested />}
+      {next && <PathBranch node={next} nested isPhone={isPhone} />}
     </>
   )
 }
@@ -223,8 +235,6 @@ function SealedChoice() {
   return (
     <div
       data-testid="path-sealed"
-      role="group"
-      aria-label={SEALED_LABEL}
       style={{
         display: 'flex',
         alignItems: 'center',
