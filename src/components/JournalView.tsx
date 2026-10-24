@@ -45,7 +45,7 @@ const SLIP_STYLE: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   gap: 6,
-  background: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 3px), #ece6d3',
+  background: '#ece6d3',
   border: `1px solid ${PAPER_RULE}`,
   borderRadius: 2,
   boxShadow: '0 4px 10px rgba(0,0,0,0.4)',

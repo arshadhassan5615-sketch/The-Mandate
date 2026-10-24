@@ -61,13 +61,6 @@ export default function DiaryScreen({ entry, onContinue }: DiaryScreenProps) {
         cursor: 'pointer',
       }}
     >
-      {/* CRT scanlines overlay */}
-      <div style={{
-        position: 'fixed', inset: 0,
-        background: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 3px)',
-        pointerEvents: 'none', opacity: 0.5,
-      }} />
-
       {/* Film grain */}
       <div style={{
         position: 'fixed', inset: 0,
