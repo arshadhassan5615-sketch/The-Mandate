@@ -6,7 +6,7 @@ import { useNarrativeStore } from '../../stores/narrativeStore'
 import { useWeekStore } from '../../stores/weekStore'
 import { useGameStore } from '../../stores/gameStore'
 import { ALL_CODEX_ENTRIES, useCodexStore } from '../../stores/codexStore'
-import { charName } from './speakers'
+import { charName, speakerColor } from './speakers'
 import ChoiceCard from './ChoiceCard'
 import type { ChoiceCardState } from './ChoiceCard'
 import { renderWithEntities } from '../news/EntityLinker'
@@ -193,9 +193,12 @@ function effectiveSegmentType(type: NarrativeSegment['type']): 'description' | '
 // Suzerain-style palette for the column: pure black ground, orange speaker
 // labels (red for the player), teal keyword links, cream dialogue.
 const COLUMN_BG = '#000000'
-const NPC_LABEL_COLOR = '#7f3d19'
 // The newest line is white; everything above it settles to grey.
 const NEWEST_TEXT_COLOR = '#ffffff'
+/** Katerin's inner voice: a warm parchment tone, set apart from the grey narration. */
+const THOUGHT_TEXT_COLOR = '#b3a588'
+/** Her newest thought, highlighted in a brighter warm cream rather than pure white. */
+const THOUGHT_NEWEST_COLOR = '#ecdfc0'
 const PLAYER_NAME_COLOR = '#d0503d'
 const KEYWORD_COLOR = '#4a9ca2'
 
@@ -229,7 +232,7 @@ const COLUMN_TEXT_STYLES: ColumnTextStyles = {
     fontFamily: SERIF,
     fontStyle: 'italic',
     fontSize: READING_SIZE,
-    color: '#8e8e8e',
+    color: THOUGHT_TEXT_COLOR,
     lineHeight: READING_LINE_HEIGHT,
     margin: 0,
     textAlign: 'left',
@@ -265,6 +268,17 @@ const CHOICES_OVERFLOW_MASK = 'linear-gradient(to bottom, black 0%, black calc(1
 const DESCRIPTION_WRAPPER_STYLE: React.CSSProperties = {
   padding: '4px 0px',
   margin: '4px 0',
+}
+
+/** The quiet "Press Space to continue" hint under the opening monologue. */
+const MONOLOGUE_HINT_STYLE: React.CSSProperties = {
+  fontFamily: SERIF,
+  fontStyle: 'italic',
+  fontSize: 'clamp(9px, 0.75vw, 13px)',
+  letterSpacing: '0.02em',
+  color: '#6e6e6e',
+  textAlign: 'right',
+  margin: '8px 0 0',
 }
 
 // Micro-reaction strip shown briefly after a choice.
@@ -685,7 +699,6 @@ export default function ConversationPanel({
 
   // Panel height now wraps content naturally (max-height + overflow).
   // All fixed-height state calculations removed.
-  const monologueFontSize = 12
 
   // Auto-scroll history to bottom
   useEffect(() => {
@@ -836,54 +849,21 @@ export default function ConversationPanel({
         >
         {/* Monologue — at the very top */}
         {shouldShowMonologue && (
-          <div style={{
-            position: 'relative',
-            zIndex: 3,
-            flexShrink: 0,
-            padding: '14px 20px',
-            borderBottom: '1px solid rgba(201,168,76,0.15)',
-            background: '#0a0806',
-            opacity: monologueVisible && !monologueFading ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-          }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '12px',
-              width: '100%',
-            }}>
-              <span style={{
-                fontSize: `${monologueFontSize - 2}px`,
-                color: 'rgba(201,168,76,0.5)',
-                flexShrink: 0,
-                marginTop: '2px',
-                fontFamily: 'serif',
-              }}>
-                ✎
-              </span>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{
-                  fontSize: `${monologueFontSize}px`,
-                  fontStyle: 'italic',
-                  color: 'rgba(180,170,150,0.75)',
-                  lineHeight: '1.5',
-                  margin: 0,
-                  fontFamily: "'Crimson Text', serif",
-                }}>
-                  {monologueText}
-                </div>
-                <div style={{
-                  fontSize: '9px',
-                  letterSpacing: '1px',
-                  color: 'rgba(201,168,76,0.3)',
-                  margin: '10px 0 0',
-                  textAlign: 'right',
-                  fontFamily: 'Georgia, serif',
-                }}>
-                  Press Space to continue
-                </div>
-              </div>
-            </div>
+          <div
+            data-testid="monologue"
+            style={{
+              position: 'relative',
+              zIndex: 3,
+              flexShrink: 0,
+              padding: 0,
+              marginBottom: 16,
+              background: 'transparent',
+              opacity: monologueVisible && !monologueFading ? 1 : 0,
+              transition: 'opacity 0.5s ease',
+            }}
+          >
+            <p style={{ ...COLUMN_TEXT_STYLES.thoughtText }}>{monologueText}</p>
+            <p style={MONOLOGUE_HINT_STYLE}>Press Space to continue</p>
           </div>
         )}
 
@@ -923,7 +903,7 @@ export default function ConversationPanel({
                     <div
                       style={{
                         ...COLUMN_TEXT_STYLES.speakerLabel,
-                        color: isPlayer ? PLAYER_NAME_COLOR : NPC_LABEL_COLOR,
+                        color: isPlayer ? PLAYER_NAME_COLOR : speakerColor(entry.characterId ?? ''),
                       }}
                     >
                       {isPlayer
@@ -942,7 +922,7 @@ export default function ConversationPanel({
                   {/* internal_thought / monologue — no label */}
                   {entry.type === 'internal_thought' && (
                     <div style={THOUGHT_WRAPPER_STYLE}>
-                      <p style={{ ...COLUMN_TEXT_STYLES.thoughtText, ...newestColor }}>
+                      <p style={{ ...COLUMN_TEXT_STYLES.thoughtText, ...(isNewest ? { color: THOUGHT_NEWEST_COLOR } : undefined) }}>
                         {renderWithEntities(entry.text, true)}
                       </p>
                     </div>
@@ -979,7 +959,7 @@ export default function ConversationPanel({
                         <div
                           style={{
                             ...COLUMN_TEXT_STYLES.speakerLabel,
-                            color: NPC_LABEL_COLOR,
+                            color: speakerColor(activeSegment.character ?? ''),
                           }}
                         >
                           <SpeakerName
@@ -994,7 +974,7 @@ export default function ConversationPanel({
                       {/* internal_thought / monologue — no label */}
                       {activeType === 'internal_thought' && (
                         <div style={THOUGHT_WRAPPER_STYLE}>
-                          <p style={{ ...COLUMN_TEXT_STYLES.thoughtText, color: NEWEST_TEXT_COLOR }}>
+                          <p style={{ ...COLUMN_TEXT_STYLES.thoughtText, color: THOUGHT_NEWEST_COLOR }}>
                             {renderWithEntities(activeText, true)}
                             {showCursor && <span className="typewriter-cursor" />}
                           </p>

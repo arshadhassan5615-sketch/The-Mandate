@@ -64,14 +64,24 @@ export function charName(id: string): string {
   return CHAR_NAMES[id] ?? id.replace(/_/g, ' ')
 }
 
-// Saturated per-character label tints (Suzerain reference). Anyone not listed
-// falls back to the shared portrait palette.
+// Saturated per-character label tints for the recurring cast (Suzerain reference).
+// Anyone not listed falls back to the shared portrait palette.
 const SPEAKER_TINT: Record<string, string> = {
-  katerin_ashavel: '#d95a4a', vyktor_reznik: '#a3b6d3', drazen_kolvar: '#c96a3b',
-  stefan_morvec: '#b08a4a', lucan_vael: '#9b7bd6', matthias_krel: '#7b8f7a',
-  nadia_voss: '#4ba3b8', oskar_brenner: '#8c9a4c', irina_dusek: '#7fb069',
-  jonas_ashavel: '#d4a86a', elara_vostane: '#c9a84c', aldric_theron: '#b9a0d0',
-  danika_oberlin: '#d99a5b', gregor_maric: '#c25d4b',
+  // The Ashavels: warm reds and tans
+  katerin_ashavel: '#d95a4a', jonas_ashavel: '#d4a86a', liora_ashavel: '#e39ab0', tomas_ashavel: '#c9b48a',
+  // Inner circle
+  vyktor_reznik: '#8fb3e0', danika_oberlin: '#e0954f', elara_vostane: '#d4b04c', aldric_theron: '#9d8fe0',
+  gregor_maric: '#b4785a', drazen_kolvar: '#5f8fd6', delegate_kolvar: '#5f8fd6',
+  irina_dusek: '#7fb069', colonel_dusek: '#7fb069', matthias_krel: '#8fa58e',
+  // Power brokers and the church
+  lucan_vael: '#b97fd6', stanislov_renek: '#c77aa6', archbishop_renek: '#c77aa6',
+  stefan_morvec: '#b08a4a', aleksei_morvec: '#a8925e', oskar_brenner: '#9fae55', nikolai_perov: '#8d9e6b',
+  nadia_voss: '#4bb3b0', emilian_voss: '#6fb8d6', serida_valk: '#d27f8f', maren_tovik: '#c99fd1',
+  viktor_dorne: '#b7a46a', elena_braskov: '#dba67a', vera_sorin: '#84c4b4', roman_kesic: '#8aa0b8',
+  // Foreign and other recurring voices
+  benedikt_varro: '#a0a0c8', aleksander_igor: '#c2a07a', andrei_luca: '#8bc0a0', idris_kaelen: '#7ab5c2',
+  lena_kaspar: '#9ec97a', orin_valdek: '#b3a3d9', harrison_cole: '#6f9ad1', yevgeni_stahl: '#a86a6a',
+  soraya_khaled: '#d9b98a', dragan_vukov: '#9a8a6a',
 }
 
 export const PLAYER_LABEL_COLOR = '#d95a4a'
