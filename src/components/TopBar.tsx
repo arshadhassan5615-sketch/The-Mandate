@@ -14,7 +14,7 @@ import { useWeekStore } from '../stores/weekStore'
 import { useViewportMode } from '../hooks/useViewportMode'
 import { Z } from '../constants/zIndex'
 import { HUD_SHORTCUTS } from '../constants/hudShortcuts'
-import { PHONE_TOP_BAR, PHONE_BOTTOM_BAR } from '../constants/layout'
+import { PHONE_TOP_BAR, PHONE_BOTTOM_BAR, HUD_LEFT_GUTTER } from '../constants/layout'
 import type { BudgetAllocations } from '../types/gameState'
 import OverviewPanel from './panels/OverviewPanel'
 import StatsPanel from './panels/StatsPanel'
@@ -174,14 +174,32 @@ interface MoreItem { label: string; onClick: () => void }
 
 interface MoreMenuProps {
   items: MoreItem[]
-  /** Phone: the menu opens upward from the bottom bar. Desktop: it opens left of the medallion. */
-  placement: 'up' | 'left'
+  /** Phone: the menu opens upward from the bottom bar. Compact: it opens left of the medallion. Desktop left stack: it opens right. */
+  placement: 'up' | 'left' | 'right'
   /** Desktop and landscape: the trigger is a medallion of this size. */
   medallionSize?: number
 }
 
+// Top edge of a right-opening menu: just below the crest.
+const MENU_TOP_PX = HUD_LEFT_GUTTER
+// Room kept free at the bottom of the screen for the player portrait plus a small gap.
+const PORTRAIT_CLEARANCE = 132
+// Floor for a right-opening menu's height, so it stays usable on short screens.
+const MIN_RIGHT_MENU_HEIGHT = 200
+
+interface RightMenuBox { top: number; maxHeight: number }
+
+/** Position of a right-opening menu, relative to its trigger wrapper, for the current viewport. */
+function measureRightMenu(wrapper: HTMLElement): RightMenuBox {
+  return {
+    top: MENU_TOP_PX - wrapper.getBoundingClientRect().top,
+    maxHeight: Math.max(MIN_RIGHT_MENU_HEIGHT, window.innerHeight - MENU_TOP_PX - PORTRAIT_CLEARANCE),
+  }
+}
+
 function MoreMenu({ items, placement, medallionSize }: MoreMenuProps) {
   const [open, setOpen] = useState(false)
+  const [rightBox, setRightBox] = useState<RightMenuBox | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (!open) return
@@ -191,10 +209,26 @@ function MoreMenu({ items, placement, medallionSize }: MoreMenuProps) {
     window.addEventListener('keydown', esc)
     return () => { document.removeEventListener('mousedown', close); window.removeEventListener('keydown', esc) }
   }, [open])
-  const toggleOpen = () => setOpen(o => !o)
+  useEffect(() => {
+    if (!open || placement !== 'right') return
+    const remeasure = () => { if (ref.current) setRightBox(measureRightMenu(ref.current)) }
+    window.addEventListener('resize', remeasure)
+    return () => window.removeEventListener('resize', remeasure)
+  }, [open, placement])
+  const toggleOpen = () => {
+    if (!open && placement === 'right' && ref.current) setRightBox(measureRightMenu(ref.current))
+    setOpen(o => !o)
+  }
   const menuPosition = placement === 'left'
     ? { right: 'calc(100% + 6px)', top: 0, maxHeight: '80vh', overflowY: 'auto' as const }
-    : { right: 0, bottom: '100%' }
+    : placement === 'right'
+      ? {
+        left: 'calc(100% + 16px)',
+        top: rightBox?.top ?? 0,
+        maxHeight: rightBox?.maxHeight ?? MIN_RIGHT_MENU_HEIGHT,
+        overflowY: 'auto' as const,
+      }
+      : { right: 0, bottom: '100%' }
   return (
     <div ref={ref} style={{
       position: 'relative', display: 'flex',
@@ -205,7 +239,7 @@ function MoreMenu({ items, placement, medallionSize }: MoreMenuProps) {
       ) : (
         <button
           type="button"
-          className="hud-medallion"
+          className={placement === 'right' ? 'hud-medallion hud-medallion--left' : 'hud-medallion'}
           aria-label="More"
           aria-pressed={open}
           onClick={toggleOpen}
@@ -316,16 +350,19 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
 
   const phoneTools: ToolProps[] = [mapTool, newsTool, briefsTool, decreesTool, stateTool, journalTool, lettersTool]
 
-  // The medallion capsule. News is first and larger, showing its unread count.
-  // On desktop and landscape the map lives first in More, not in the capsule.
-  const railItems: RailItem[] = [
-    { key: 'news', label: 'News', icon: newsTool.icon, onClick: newsTool.onClick, shortcut: newsTool.shortcut, big: true, count: newsUnread },
+  // The rail. News floats on its own, larger, showing its unread count. The capsule
+  // holds the four main tools. On desktop the less-used tools sit in a left stack.
+  // On desktop and landscape the map lives first in More, not in the rail.
+  const newsItem: RailItem = { key: 'news', label: 'News', icon: newsTool.icon, onClick: newsTool.onClick, shortcut: newsTool.shortcut, big: true, count: newsUnread }
+  const mainRailItems: RailItem[] = [
     toRailItem(briefsTool),
     toRailItem(decreesTool),
     toRailItem(stateTool),
     toRailItem(lettersTool),
-    ...(isCompact ? [] : [toRailItem(journalTool), toRailItem(notesTool)]),
   ]
+  const leftRailItems: RailItem[] = hudScale === 'desktop' ? [toRailItem(journalTool), toRailItem(notesTool)] : []
+  // On desktop More sits in the left stack as a minor medallion and opens to the right.
+  const moreSize = isCompact ? HUD_SIZES[hudScale].medallion : HUD_SIZES[hudScale].minorMedallion
 
   const moreItems: MoreItem[] = [
     ...(isMobile ? [] : [{ label: 'Map', onClick: () => setMapOpen(!mapOpen) }]),
@@ -432,8 +469,10 @@ export default function TopBar({ onSave, onMainMenu }: TopBarProps = {}) {
           )}
           <MedallionRail
             scale={hudScale}
-            items={railItems}
-            more={<MoreMenu items={moreItems} placement="left" medallionSize={HUD_SIZES[hudScale].medallion} />}
+            news={newsItem}
+            items={mainRailItems}
+            leftItems={leftRailItems}
+            more={<MoreMenu items={moreItems} placement={hudScale === 'desktop' ? 'right' : 'left'} medallionSize={moreSize} />}
             settings={{ onClick: () => setSettingsOpen(true) }}
           />
         </>

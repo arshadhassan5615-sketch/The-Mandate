@@ -76,7 +76,7 @@ describe('TopBar (command bar)', () => {
 
 describe('desktop HUD (1440x900)', () => {
   beforeEach(() => { resetStores(); setViewport(1440, 900) })
-  afterEach(() => { setViewport(1024, 768) })
+  afterEach(() => { setViewport(1024, 768); vi.restoreAllMocks() })
 
   it('shows the flag and the visible stats in the stat tab', () => {
     const g = useGameStore.getState()
@@ -108,16 +108,23 @@ describe('desktop HUD (1440x900)', () => {
     expect(useSettingsStore.getState().mapOpen).toBe(true)
   })
 
-  it('lists the government tools on the medallion capsule in order', () => {
+  it('lists the four main tools in the capsule and Journal, Notes, More, Settings in the left stack', () => {
     render(<TopBar />)
-    const rail = screen.getByTestId('tool-rail')
-    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'Journal', 'Notes', 'More', 'Settings'])
+    expect(railLabels(screen.getByTestId('tool-rail'))).toEqual(['Briefs', 'Decrees', 'State', 'Letters'])
+    expect(railLabels(screen.getByTestId('tool-rail-left'))).toEqual(['Journal', 'Notes', 'More', 'Settings'])
+  })
+
+  it('floats the News medallion outside both rails', () => {
+    render(<TopBar />)
+    const news = screen.getByRole('button', { name: 'News' })
+    expect(screen.getByTestId('tool-rail')).not.toContainElement(news)
+    expect(screen.getByTestId('tool-rail-left')).not.toContainElement(news)
   })
 
   it('shows the unread count on the News medallion', () => {
     useNewsStore.setState({ articles: [newsArticle('a'), newsArticle('b'), newsArticle('c')], lastReadIndex: -1 })
     render(<TopBar />)
-    expect(within(screen.getByTestId('tool-rail')).getByRole('button', { name: 'News' })).toHaveTextContent('3')
+    expect(screen.getByRole('button', { name: 'News' })).toHaveTextContent('3')
   })
 
   it('counts decrees awaiting signature on the Decrees medallion', () => {
@@ -158,6 +165,20 @@ describe('desktop HUD (1440x900)', () => {
     fireEvent.click(screen.getByRole('button', { name: /^More/ }))
     fireEvent.click(screen.getByRole('menuitem', { name: 'Save game' }))
     expect(onSave).toHaveBeenCalled()
+  })
+
+  it('opens the left More menu below the crest and clear of the stack', () => {
+    setViewport(1440, 634)
+    render(<TopBar />)
+    const more = screen.getByRole('button', { name: /^More/ })
+    const wrapper = more.parentElement as HTMLElement
+    vi.spyOn(wrapper, 'getBoundingClientRect').mockReturnValue({ top: 258 } as DOMRect)
+    fireEvent.click(more)
+    const menu = screen.getByRole('menu')
+    expect(menu.style.top).toBe('-134px')
+    expect(menu.style.left).toBe('calc(100% + 16px)')
+    expect(menu.style.transform).toBe('')
+    expect(menu.style.maxHeight).toBe('378px')
   })
 
   it('opens the calendar from More', () => {
@@ -208,10 +229,17 @@ describe('compact landscape layout (844x390)', () => {
     expect(screen.getByTestId('tool-rail')).toHaveAttribute('data-layout', 'compact')
   })
 
+  it('keeps News outside the capsule and has no left stack', () => {
+    render(<TopBar />)
+    const rail = screen.getByTestId('tool-rail')
+    expect(railLabels(rail)).toEqual(['Briefs', 'Decrees', 'State', 'Letters', 'More', 'Settings'])
+    expect(rail).not.toContainElement(screen.getByRole('button', { name: 'News' }))
+    expect(screen.queryByTestId('tool-rail-left')).toBeNull()
+  })
+
   it('keeps Journal and Notes off the rail and puts them in More', () => {
     render(<TopBar />)
     const rail = screen.getByTestId('tool-rail')
-    expect(railLabels(rail)).toEqual(['News', 'Briefs', 'Decrees', 'State', 'Letters', 'More', 'Settings'])
 
     fireEvent.click(within(rail).getByRole('button', { name: /^More/ }))
     expect(screen.getByRole('menuitem', { name: 'Journal' })).toBeInTheDocument()

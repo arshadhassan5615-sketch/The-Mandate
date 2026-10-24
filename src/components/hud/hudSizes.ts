@@ -6,8 +6,8 @@ import type { ReactNode } from 'react'
 export type HudScale = 'desktop' | 'compact'
 
 export const HUD_SIZES = {
-  desktop: { flagW: 120, flagH: 67, strip: 52, gaugeWidth: 120, chipFont: 15, icon: 34, medallion: 56, newsMedallion: 70, railGap: 10, railPadX: 10 },
-  compact: { flagW: 76, flagH: 42, strip: 40, gaugeWidth: 84, chipFont: 13, icon: 24, medallion: 40, newsMedallion: 46, railGap: 5, railPadX: 6 },
+  desktop: { flagW: 120, flagH: 67, strip: 52, gaugeWidth: 120, chipFont: 15, icon: 34, medallion: 56, minorMedallion: 48, newsMedallion: 70, newsTop: 14, capsuleGap: 18, railGap: 10, railPadX: 10 },
+  compact: { flagW: 76, flagH: 42, strip: 40, gaugeWidth: 84, chipFont: 13, icon: 24, medallion: 40, minorMedallion: 36, newsMedallion: 46, newsTop: 8, capsuleGap: 12, railGap: 5, railPadX: 6 },
 } as const
 
 /** Keeps HUD pieces clear of a notch on the left edge. */
@@ -36,6 +36,7 @@ export const HUD_CSS = `
 .hud-tip { position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%); opacity: 0; pointer-events: none; white-space: nowrap; background: #0a0a0a; border: 1px solid rgba(181,154,94,0.5); color: #e8dcc0; font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; transition: opacity 0.15s ease; }
 .hud-medallion:hover .hud-tip, .hud-medallion:focus-visible .hud-tip { opacity: 1; }
 .hud-crest { transition: transform 0.18s ease; } .hud-crest:hover { transform: scale(1.04); }
+.hud-medallion--left .hud-tip { right: auto; left: calc(100% + 10px); }
 `
 
 // date helpers live in the engine; re-exported so existing UI imports keep working
