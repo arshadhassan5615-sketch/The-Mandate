@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Z } from '../../constants/zIndex'
 import { HUD_LEFT_GUTTER, type PageInsets } from '../../constants/layout'
+import { rem } from '../../constants/typography'
 import { usePageInsets } from '../../hooks/usePageInsets'
 import type { ViewportMode } from '../../hooks/useViewportMode'
 import veltriaSeal from '../../assets/images/veltria_seal.png'
@@ -45,7 +46,7 @@ export function PaperTabButton({ id, controls, label, count, active, onSelect, c
       className={className}
       style={{
         ...OVERLINE,
-        fontSize: '11px',
+        fontSize: rem(11),
         color: active ? 'var(--doc-ink)' : 'var(--doc-ink-muted)',
         background: 'transparent',
         border: 'none',
@@ -193,7 +194,7 @@ export default function PaperPanel({
           style={{
             position: 'absolute', top: 10, right: 10, zIndex: 1,
             width: 32, height: 32, border: 'none', background: 'transparent',
-            color: 'var(--doc-ink-muted)', fontSize: '22px', lineHeight: 1, cursor: 'pointer',
+            color: 'var(--doc-ink-muted)', fontSize: rem(22), lineHeight: 1, cursor: 'pointer',
           }}
         >
           ×
@@ -209,7 +210,7 @@ export default function PaperPanel({
               style={{
                 margin: '2px 0 0',
                 fontFamily: 'var(--font-headline)',
-                fontSize: '22px',
+                fontSize: rem(22),
                 lineHeight: 1.15,
                 color: 'var(--doc-ink)',
               }}

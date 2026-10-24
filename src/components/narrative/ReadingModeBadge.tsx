@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { Z } from '../../constants/zIndex'
+import { rem } from '../../constants/typography'
 
 export type ReadingMode = 'auto' | 'skip'
 
@@ -25,7 +26,7 @@ const BADGE_STYLE = {
   left: 'calc(50% - 0.3vw - clamp(218px, 36.3vw, 1094px) / 2 + 12px)',
   zIndex: Z.sceneTop,
   fontFamily: "'IBM Plex Mono', monospace",
-  fontSize: 9,
+  fontSize: rem(9),
   letterSpacing: '0.22em',
   color: '#c9a84c',
   border: '1px solid rgba(201,168,76,0.5)',

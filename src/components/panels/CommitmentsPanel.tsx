@@ -10,6 +10,7 @@ import {
 } from '../../engine/commitments'
 import PaperPanel, { PaperTabButton } from './PaperPanel'
 import { OVERLINE, SERIF_BODY } from './paperStyles'
+import { rem } from '../../constants/typography'
 
 // Your word, on record: one state paper listing every promise the Chancellor has
 // given, with the week, the scene, who heard it and, once the story has resolved
@@ -31,7 +32,7 @@ const PORTRAIT_SIZE = 22
 
 const STAMP: React.CSSProperties = {
   fontFamily: 'var(--font-ui)',
-  fontSize: 10,
+  fontSize: rem(10),
   fontWeight: 700,
   letterSpacing: '0.18em',
   textTransform: 'uppercase',
@@ -120,7 +121,7 @@ export default function CommitmentsPanel({ onClose, rules = RESOLUTION_RULES }: 
 
 function EmptyNote({ children }: { children: React.ReactNode }) {
   return (
-    <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: '14px', color: 'var(--doc-ink-muted)', margin: 0, padding: '18px 0' }}>
+    <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(14), color: 'var(--doc-ink-muted)', margin: 0, padding: '18px 0' }}>
       {children}
     </p>
   )
@@ -148,7 +149,7 @@ function CommitmentEntry({ entry, isLast }: { entry: Entry; isLast: boolean }) {
         <StatusMark status={status} />
       </div>
       <blockquote
-        style={{ margin: '8px 0 10px', fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: '16px', lineHeight: 1.45, color: 'var(--doc-ink)' }}
+        style={{ margin: '8px 0 10px', fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(16), lineHeight: 1.45, color: 'var(--doc-ink)' }}
       >
         {`“${commitment.quote}”`}
       </blockquote>
@@ -195,14 +196,14 @@ function WitnessChip({ id }: { id: string }) {
           style={{
             width: PORTRAIT_SIZE, height: PORTRAIT_SIZE, borderRadius: '50%',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-ui)', fontSize: '8px', color: 'var(--doc-ink-muted)',
+            fontFamily: 'var(--font-ui)', fontSize: rem(8), color: 'var(--doc-ink-muted)',
             border: '1px solid var(--doc-rule)',
           }}
         >
           {initialsFor(name)}
         </span>
       )}
-      <span style={{ fontFamily: SERIF_BODY, fontSize: '13px' }}>{name}</span>
+      <span style={{ fontFamily: SERIF_BODY, fontSize: rem(13) }}>{name}</span>
     </span>
   )
 }

@@ -6,6 +6,7 @@ import { getPortrait } from '../../assets/potraits'
 import { Z } from '../../constants/zIndex'
 import type { CharacterCardData } from './characterCardData'
 import { initialsFor } from './initials'
+import { rem } from '../../constants/typography'
 
 const CARD_WIDTH = 280
 const CARD_GAP = 12
@@ -60,14 +61,14 @@ const PORTRAIT_IMAGE_STYLE: CSSProperties = {
 const INITIALS_STYLE: CSSProperties = {
   fontFamily: "'Crimson Text', Georgia, serif",
   fontWeight: 600,
-  fontSize: 18,
+  fontSize: rem(18),
   color: '#c9a84c',
 }
 
 const NAME_STYLE: CSSProperties = {
   fontFamily: "'Playfair Display', serif",
   fontWeight: 700,
-  fontSize: 16,
+  fontSize: rem(16),
   color: '#f0d896',
   lineHeight: 1.2,
 }
@@ -75,7 +76,7 @@ const NAME_STYLE: CSSProperties = {
 const TITLE_STYLE: CSSProperties = {
   fontFamily: "'Crimson Text', Georgia, serif",
   fontStyle: 'italic',
-  fontSize: 13,
+  fontSize: rem(13),
   color: 'rgba(230,215,185,0.8)',
   lineHeight: 1.3,
   marginTop: 2,
@@ -83,7 +84,7 @@ const TITLE_STYLE: CSSProperties = {
 
 const FACTION_STYLE: CSSProperties = {
   fontFamily: "'IBM Plex Mono', monospace",
-  fontSize: 9,
+  fontSize: rem(9),
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: 'rgba(201,168,76,0.75)',
@@ -97,7 +98,7 @@ const PILL_WRAPPER_STYLE: CSSProperties = {
 const PILL_STYLE: CSSProperties = {
   display: 'inline-block',
   fontFamily: "'Crimson Text', Georgia, serif",
-  fontSize: 13,
+  fontSize: rem(13),
   padding: '3px 10px',
   borderRadius: 999,
   border: `1px solid ${GOLD}`,
@@ -106,7 +107,7 @@ const PILL_STYLE: CSSProperties = {
 
 const DESCRIPTION_STYLE: CSSProperties = {
   fontFamily: "'Crimson Text', Georgia, serif",
-  fontSize: 13,
+  fontSize: rem(13),
   lineHeight: 1.4,
   color: 'rgba(225,210,180,0.75)',
   marginTop: 8,

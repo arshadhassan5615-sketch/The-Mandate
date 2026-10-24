@@ -6,6 +6,7 @@ import { ACTS, PUBLIC_EVENTS, calendarWeeks, type CalendarWeek } from '../../eng
 import type { Bill } from '../../types/bills'
 import PaperPanel from './PaperPanel'
 import { OVERLINE, SERIF_BODY } from './paperStyles'
+import { rem } from '../../constants/typography'
 
 // The year of the mandate on one state paper: fifty-two weeks in four acts. Lived
 // weeks show what was decided in words, the current week is ringed, and publicly
@@ -55,7 +56,7 @@ export default function CalendarPanel({ onClose }: CalendarPanelProps) {
       <div style={{ overflowY: 'auto', padding: '0 22px 12px', flex: 1, minHeight: 0 }}>
         {ACTS.map(act => (
           <section key={act.number} style={{ paddingTop: 12 }}>
-            <h3 style={{ ...OVERLINE, fontSize: '11px', fontWeight: 400, margin: '0 0 8px' }}>{act.title}</h3>
+            <h3 style={{ ...OVERLINE, fontSize: rem(11), fontWeight: 400, margin: '0 0 8px' }}>{act.title}</h3>
             <WeekGrid
               weeks={weeks.filter(w => w.week >= act.firstWeek && w.week <= act.lastWeek)}
               onPreview={setPreviewWeek}
@@ -117,7 +118,7 @@ function WeekCell({ week, onPreview }: WeekCellProps) {
         background: week.state === 'past' ? PAST_FILL : 'transparent',
         color: week.state === 'future' ? 'var(--doc-ink-muted)' : 'var(--doc-ink)',
         fontFamily: SERIF_BODY,
-        fontSize: '13px',
+        fontSize: rem(13),
         fontWeight: isCurrent ? 700 : 400,
         lineHeight: 1,
         cursor: 'pointer',
@@ -129,7 +130,7 @@ function WeekCell({ week, onPreview }: WeekCellProps) {
         style={{
           height: 8,
           lineHeight: '8px',
-          fontSize: hasPublicEvent ? 7 : 9,
+          fontSize: hasPublicEvent ? rem(7) : rem(9),
           color: hasPublicEvent ? 'var(--oxblood)' : 'var(--doc-ink-muted)',
         }}
       >
@@ -153,7 +154,7 @@ function WeekDetail({ week }: { week: CalendarWeek | undefined }) {
       {week === undefined || week.notes.length === 0 ? (
         <>
           {week !== undefined && <div style={OVERLINE}>{`Week ${week.week} · ${week.date}`}</div>}
-          <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: '14px', margin: '2px 0 0', color: 'var(--doc-ink-muted)' }}>
+          <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(14), margin: '2px 0 0', color: 'var(--doc-ink-muted)' }}>
             Nothing recorded.
           </p>
         </>
@@ -161,7 +162,7 @@ function WeekDetail({ week }: { week: CalendarWeek | undefined }) {
         <>
           <div style={OVERLINE}>{`Week ${week.week} · ${week.date}`}</div>
           {week.notes.map((note, index) => (
-            <p key={`${index}-${note}`} style={{ fontFamily: SERIF_BODY, fontSize: '14px', lineHeight: 1.4, margin: '2px 0 0', color: 'var(--doc-ink)' }}>
+            <p key={`${index}-${note}`} style={{ fontFamily: SERIF_BODY, fontSize: rem(14), lineHeight: 1.4, margin: '2px 0 0', color: 'var(--doc-ink)' }}>
               {note}
             </p>
           ))}

@@ -9,6 +9,7 @@ import { useNewsStore } from '../../stores/newsStore'
 import { useWeekStore } from '../../stores/weekStore'
 import type { NewsArticle } from '../../types/news'
 import { topStoryOfWeek } from './weekTopStory'
+import { rem } from '../../constants/typography'
 
 const HEADLINE_SHOW_MS = 7000
 const ENTER_S = 0.45
@@ -142,14 +143,14 @@ export default function WeekHeadline() {
               <div style={{
                 fontFamily: PAPER_FONT,
                 fontWeight: 700,
-                fontSize: '12px',
+                fontSize: rem(12),
                 textTransform: 'uppercase',
                 letterSpacing: '0.12em',
                 color: 'var(--doc-ink)',
                 paddingRight: '36px',
               }}>
                 {paperName(card.publication)}
-                <span style={{ fontFamily: MONO_FONT, fontSize: '10px', color: 'var(--doc-ink-muted)', letterSpacing: '0.04em' }}>
+                <span style={{ fontFamily: MONO_FONT, fontSize: rem(10), color: 'var(--doc-ink-muted)', letterSpacing: '0.04em' }}>
                   {` · ${card.date}`}
                 </span>
               </div>
@@ -157,7 +158,7 @@ export default function WeekHeadline() {
               <div style={{
                 fontFamily: PAPER_FONT,
                 fontWeight: 700,
-                fontSize: '18px',
+                fontSize: rem(18),
                 lineHeight: 1.2,
                 color: 'var(--doc-ink)',
               }}>
@@ -167,7 +168,7 @@ export default function WeekHeadline() {
                 marginTop: '8px',
                 textAlign: 'right',
                 fontFamily: MONO_FONT,
-                fontSize: '9px',
+                fontSize: rem(9),
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
                 color: 'var(--doc-ink-muted)',
@@ -189,7 +190,7 @@ export default function WeekHeadline() {
                 background: 'transparent',
                 border: 'none',
                 color: 'var(--doc-ink-muted)',
-                fontSize: '16px',
+                fontSize: rem(16),
                 lineHeight: `${DISMISS_HIT_PX}px`,
                 cursor: 'pointer',
               }}

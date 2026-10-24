@@ -6,6 +6,7 @@ import { useGameStore } from '../../stores/gameStore'
 import { buildSituations, type Situation, type Severity, type Trend } from './situations'
 import PaperPanel, { PaperTabButton } from './PaperPanel'
 import { OVERLINE, SERIF_BODY } from './paperStyles'
+import { rem } from '../../constants/typography'
 
 // State of the Republic: one state paper with the ongoing situations (severity
 // and trend, in words), every law decided and every decree signed. Read-only;
@@ -97,7 +98,7 @@ export default function StatePanel({ onClose }: StatePanelProps) {
 
 function EmptyNote({ children }: { children: React.ReactNode }) {
   return (
-    <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: '16px', color: 'var(--doc-ink-muted)', margin: '18px 0' }}>
+    <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(16), color: 'var(--doc-ink-muted)', margin: '18px 0' }}>
       {children}
     </p>
   )
@@ -109,7 +110,7 @@ function LawList({ laws }: { laws: LawRecord[] }) {
     <ol style={{ listStyle: 'none', margin: 0, padding: 0 }}>
       {laws.map(law => (
         <li key={law.key} style={{ padding: '12px 0', borderBottom: '1px solid var(--doc-rule)' }}>
-          <div style={{ fontFamily: SERIF_BODY, fontSize: '17px', fontWeight: 600, lineHeight: 1.3 }}>{law.title}</div>
+          <div style={{ fontFamily: SERIF_BODY, fontSize: rem(17), fontWeight: 600, lineHeight: 1.3 }}>{law.title}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px' }}>
             <span
               style={{
@@ -147,8 +148,8 @@ function DecreeList({ decrees, pendingCount }: { decrees: DecreeRecord[]; pendin
           {decrees.map(d => (
             <li key={d.id} style={{ padding: '12px 0', borderBottom: '1px solid var(--doc-rule)' }}>
               <div style={OVERLINE}>{d.category} · {d.proposedBy}</div>
-              <div style={{ fontFamily: SERIF_BODY, fontSize: '17px', fontWeight: 600, lineHeight: 1.3, marginTop: '2px' }}>{d.title}</div>
-              <p style={{ fontFamily: SERIF_BODY, fontSize: '15px', lineHeight: 1.45, margin: '4px 0 0', color: 'var(--doc-ink-muted)' }}>
+              <div style={{ fontFamily: SERIF_BODY, fontSize: rem(17), fontWeight: 600, lineHeight: 1.3, marginTop: '2px' }}>{d.title}</div>
+              <p style={{ fontFamily: SERIF_BODY, fontSize: rem(15), lineHeight: 1.45, margin: '4px 0 0', color: 'var(--doc-ink-muted)' }}>
                 {d.summary}
               </p>
             </li>
@@ -180,7 +181,7 @@ function SituationList({ situations }: { situations: Situation[] }) {
         return (
           <li key={sit.id} data-testid={`situation-${sit.id}`} style={{ padding: '12px 0', borderBottom: '1px solid var(--doc-rule)' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: SERIF_BODY, fontSize: '17px', fontWeight: 600, lineHeight: 1.3 }}>{sit.title}</span>
+              <span style={{ fontFamily: SERIF_BODY, fontSize: rem(17), fontWeight: 600, lineHeight: 1.3 }}>{sit.title}</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span
                   data-testid="situation-severity"
@@ -199,7 +200,7 @@ function SituationList({ situations }: { situations: Situation[] }) {
                 </span>
               </span>
             </div>
-            <p style={{ fontFamily: SERIF_BODY, fontSize: '15px', lineHeight: 1.45, margin: '4px 0 0', color: 'var(--doc-ink-muted)' }}>
+            <p style={{ fontFamily: SERIF_BODY, fontSize: rem(15), lineHeight: 1.45, margin: '4px 0 0', color: 'var(--doc-ink-muted)' }}>
               {sit.summary}
             </p>
           </li>

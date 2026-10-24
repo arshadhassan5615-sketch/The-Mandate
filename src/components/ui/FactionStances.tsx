@@ -4,6 +4,7 @@
 import { billStances } from '../../engine/billStances'
 import type { FactionStance } from '../../engine/billStances'
 import type { Bill } from '../../types/bills'
+import { rem } from '../../constants/typography'
 
 interface StanceColumnProps {
   label: string
@@ -31,8 +32,8 @@ const COLUMNS_STYLE = {
 }
 
 const HEADING_STYLE = {
-  fontSize: 9,
-  letterSpacing: '2px',
+  fontSize: rem(9),
+  letterSpacing: '0.2222em',
   textTransform: 'uppercase' as const,
   fontWeight: 600,
   color: 'var(--doc-ink-muted)',
@@ -47,7 +48,7 @@ const LIST_STYLE = {
 
 const LINE_STYLE = {
   fontFamily: 'var(--font-body)',
-  fontSize: 12.5,
+  fontSize: rem(12.5),
   color: 'var(--doc-ink)',
 }
 

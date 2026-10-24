@@ -6,6 +6,7 @@ import type { PageInsets } from '../../constants/layout'
 import { secondsToMs } from '../scene/cinematic'
 import { usePageInsets } from '../../hooks/usePageInsets'
 import { MEMORY_FADE_IN_S, MEMORY_FADE_OUT_S, MEMORY_HOLD_MS } from './memoryLineText'
+import { rem } from '../../constants/typography'
 
 const MEMORY_EASE = [0.4, 0, 0.2, 1] as const
 
@@ -203,12 +204,12 @@ export default function MemoryLine({ text, onDone, columnRef }: MemoryLineProps)
           boxShadow: '0 6px 18px rgba(0,0,0,0.55)',
         }}
       >
-        <span aria-hidden="true" style={{ color: '#c9a84c', fontSize: 10, marginTop: 4 }}>◆</span>
+        <span aria-hidden="true" style={{ color: '#c9a84c', fontSize: rem(10), marginTop: 4 }}>◆</span>
         <span
           style={{
             fontFamily: "'Crimson Text', Georgia, serif",
             fontStyle: 'italic',
-            fontSize: 15,
+            fontSize: rem(15),
             color: '#e8dcc0',
             lineHeight: 1.3,
             textAlign: placement.textAlign,

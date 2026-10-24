@@ -6,6 +6,7 @@ import { buildScenePath, type PathNode, type PathTarget, type ScenePathSummary }
 import { stripOuterQuotes } from '../../engine/quotes'
 import PaperPanel from './PaperPanel'
 import { OVERLINE, SERIF_BODY } from './paperStyles'
+import { rem } from '../../constants/typography'
 
 // The roads taken through a finished meeting, on one state paper: the choices the
 // Chancellor made, and each decision point's other options sealed shut. The words
@@ -70,7 +71,7 @@ export default function ScenePathsPanel({ onClose }: ScenePathsPanelProps) {
     >
       {scenes.length === 0 ? (
         <div style={{ overflowY: 'auto', padding: '6px 22px 20px', flex: 1, minHeight: 0 }}>
-          <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: '14px', color: 'var(--doc-ink-muted)', margin: 0, padding: '18px 0' }}>
+          <p style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(14), color: 'var(--doc-ink-muted)', margin: 0, padding: '18px 0' }}>
             {EMPTY_NOTE}
           </p>
         </div>
@@ -157,7 +158,7 @@ function SceneButton({ scene, isSelected, onSelect }: SceneButtonProps) {
         cursor: 'pointer',
       }}
     >
-      <span style={{ display: 'block', fontFamily: SERIF_BODY, fontSize: '15px', lineHeight: 1.3 }}>
+      <span style={{ display: 'block', fontFamily: SERIF_BODY, fontSize: rem(15), lineHeight: 1.3 }}>
         {scene.title}
       </span>
       <span style={{ ...OVERLINE, display: 'block', marginTop: 3 }}>
@@ -221,7 +222,7 @@ function TakenChoice({ text, tag, next, isPhone }: TakenChoiceProps) {
           aria-hidden
           style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--oxblood)', flexShrink: 0, transform: 'translateY(-1px)' }}
         />
-        <span style={{ flex: 1, minWidth: 0, fontFamily: SERIF_BODY, fontSize: '15px', lineHeight: 1.4, color: 'var(--doc-ink)' }}>
+        <span style={{ flex: 1, minWidth: 0, fontFamily: SERIF_BODY, fontSize: rem(15), lineHeight: 1.4, color: 'var(--doc-ink)' }}>
           {`“${stripOuterQuotes(text)}”`}
         </span>
         <span style={{ ...OVERLINE, flexShrink: 0 }}>{tag}</span>
@@ -247,7 +248,7 @@ function SealedChoice() {
       <svg width={12} height={12} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" style={{ flexShrink: 0 }}>
         <path d={PADLOCK_PATH} />
       </svg>
-      <span style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: '14px' }}>{SEALED_LABEL}</span>
+      <span style={{ fontFamily: SERIF_BODY, fontStyle: 'italic', fontSize: rem(14) }}>{SEALED_LABEL}</span>
     </div>
   )
 }
