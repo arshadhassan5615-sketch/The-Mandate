@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D2 - Sealed charter (ribbon and wax seal)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 900px; background: #12100c; display: flex; justify-content: center; padding: 28px 0; font-family: 'EB Garamond', Georgia, serif; color: #2b1d10; }
+  .sheet {
+    position: relative; width: 760px; padding: 64px 78px 60px;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255,248,225,0.7), transparent 60%),
+      radial-gradient(ellipse at 0% 100%, rgba(120,80,30,0.25), transparent 55%),
+      radial-gradient(ellipse at 100% 100%, rgba(120,80,30,0.2), transparent 55%),
+      linear-gradient(#f1e2bd, #e2cc98);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.6);
+  }
+  .frame { position: absolute; inset: 18px; border: 3px double #8a6a2c; pointer-events: none; }
+  .frame::before { content: ''; position: absolute; inset: 6px; border: 1px solid #7a2a20; }
+  .corner { position: absolute; font-size: 22px; color: #8a6a2c; line-height: 1; background: #ecdcb0; padding: 2px; }
+  .tl { top: -12px; left: -12px; } .tr { top: -12px; right: -12px; } .bl { bottom: -12px; left: -12px; } .br { bottom: -12px; right: -12px; }
+  .top { text-align: center; }
+  .top img { width: 100px; mix-blend-mode: multiply; }
+  .rep { font-family: 'Cinzel', serif; letter-spacing: 0.35em; font-size: 14px; color: #7a2a20; margin-top: 4px; }
+  h1 { font-family: 'Cinzel Decorative', serif; font-size: 36px; text-align: center; margin: 18px 0 2px; color: #3a2410; }
+  .kind { text-align: center; font-family: 'IM Fell English', serif; font-style: italic; font-size: 16px; color: #6a4a24; }
+  .flourish { text-align: center; color: #8a6a2c; font-size: 20px; margin: 10px 0 6px; letter-spacing: 0.3em; }
+  .body { font-family: 'IM Fell English', serif; font-size: 17.5px; line-height: 1.6; text-align: justify; }
+  .body p { margin: 0 0 12px; }
+  .body .drop::first-letter { font-family: 'Cinzel Decorative', serif; float: left; font-size: 58px; line-height: 0.85; padding: 6px 8px 0 0; color: #7a2a20; }
+  .be-it { font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 0.2em; font-size: 13px; color: #7a2a20; }
+  .given { font-style: italic; text-align: center; margin: 18px 0 0; font-family: 'IM Fell English', serif; font-size: 16px; }
+  .sigblock { position: relative; display: flex; justify-content: flex-end; margin-top: 18px; height: 150px; }
+  .chancellor { width: 340px; text-align: center; padding-top: 22px; }
+  .sig { width: 330px; aspect-ratio: 1 / 0.3; object-fit: cover; object-position: center 50%; mix-blend-mode: multiply; filter: contrast(1.3) sepia(0.3); display: block; margin: 0 auto -8px; }
+  .line { border-top: 1px solid #3a2410; padding-top: 5px; font-family: 'Cinzel', serif; letter-spacing: 0.18em; font-size: 11px; }
+  .ribbon { position: absolute; left: 70px; top: 70px; width: 26px; height: 150px; background: linear-gradient(90deg, #5e1410, #a3281f 45%, #5e1410); transform-origin: top center; box-shadow: 0 2px 4px rgba(0,0,0,0.35); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 88%, 0 100%); }
+  .r1 { transform: rotate(14deg); } .r2 { transform: rotate(-6deg); left: 92px; }
+  .wax {
+    position: absolute; left: 22px; top: 0; width: 132px; height: 132px; border-radius: 47% 53% 50% 50% / 52% 48% 52% 48%;
+    background: radial-gradient(circle at 36% 32%, #c4473b, #8e1f17 58%, #5a110c);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.45), inset 0 0 0 10px rgba(0,0,0,0.12), inset 0 0 18px rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .wax img { width: 92px; filter: grayscale(1) brightness(0.5) sepia(1) hue-rotate(-30deg) saturate(3) contrast(1.4); mix-blend-mode: multiply; opacity: 0.9; }
+  .wax::after { content: ''; position: absolute; inset: 14px; border-radius: 50%; box-shadow: inset 2px 2px 3px rgba(255,190,170,0.35), inset -2px -2px 3px rgba(0,0,0,0.35); }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="frame"><span class="corner tl">❦</span><span class="corner tr">❦</span><span class="corner bl">❦</span><span class="corner br">❦</span></div>
+  <div class="top">
+    <img src="../../src/assets/images/veltria_seal.png" alt="">
+    <div class="rep">THE REPUBLIC OF VELTRIA</div>
+  </div>
+  <h1>Press Freedom Charter</h1>
+  <div class="kind">Decree of the Chancellor · Judicial Order</div>
+  <div class="flourish">— ❧ —</div>
+  <div class="body">
+    <p class="drop">Whereas the Reform Committee has laid before the Chancellery a charter to enshrine the freedom of the press as a constitutional right of the people;</p>
+    <p>And whereas the independence of the press is the guardian of every other liberty of the Republic;</p>
+    <p><span class="be-it">BE IT THEREFORE DECREED</span> that no government may censor, license, or shut down any publication, and that this charter shall stand among the strongest protections of the press in the region.</p>
+  </div>
+  <p class="given">Sealed at Ashenmere on the eighth day of January, 1963.</p>
+  <div class="sigblock">
+    <div class="ribbon r1"></div><div class="ribbon r2"></div>
+    <div class="wax"><img src="../../src/assets/images/veltria_seal.png" alt=""></div>
+    <div class="chancellor">
+      <img class="sig" src="../../src/assets/images/katerin_signature.jpeg" alt="">
+      <div class="line">KATERIN ASHAVEL · CHANCELLOR</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

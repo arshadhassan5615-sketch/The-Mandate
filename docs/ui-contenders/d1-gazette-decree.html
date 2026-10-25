@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D1 - Gazette decree (formal state decree)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 900px; background: #12100c; display: flex; justify-content: center; padding: 28px 0; font-family: 'EB Garamond', Georgia, serif; color: #2a2118; }
+  .sheet {
+    position: relative; width: 760px; padding: 54px 70px 44px;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(255,250,235,0.6), transparent 55%),
+      radial-gradient(ellipse at 85% 90%, rgba(150,110,60,0.18), transparent 60%),
+      linear-gradient(#f3ead6, #e9dcc0);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.6);
+  }
+  .sheet::before {
+    content: ''; position: absolute; inset: 16px; pointer-events: none;
+    border: 1.5px solid #6e5634; outline: 1px solid #6e5634; outline-offset: -7px;
+  }
+  .guilloche {
+    position: absolute; left: 30px; right: 30px; height: 14px; opacity: 0.55;
+    background:
+      repeating-radial-gradient(circle at 0 50%, transparent 0 5px, rgba(110,86,52,0.55) 5px 6px),
+      repeating-radial-gradient(circle at 100% 50%, transparent 0 5px, rgba(110,86,52,0.45) 5px 6px);
+    background-size: 22px 14px;
+  }
+  .g-top { top: 28px; } .g-bot { bottom: 28px; }
+  .watermark { position: absolute; left: 50%; top: 46%; width: 420px; transform: translate(-50%,-50%); opacity: 0.07; mix-blend-mode: multiply; pointer-events: none; }
+  .reg { display: flex; justify-content: space-between; font-family: 'Special Elite', monospace; font-size: 11px; letter-spacing: 0.12em; color: #5d4a30; }
+  .head { text-align: center; margin-top: 10px; }
+  .head img { width: 86px; mix-blend-mode: multiply; }
+  .rep { font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 0.32em; font-size: 17px; margin-top: 6px; }
+  .office { font-style: italic; font-size: 14px; color: #5d4a30; }
+  .no { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.25em; margin-top: 18px; }
+  .rule { height: 1px; background: #6e5634; margin: 12px auto; width: 70%; position: relative; }
+  .rule::after { content: '◆'; position: absolute; left: 50%; top: -8px; transform: translateX(-50%); background: #efe4cc; padding: 0 8px; font-size: 10px; color: #6e5634; }
+  h1 { font-family: 'Playfair Display', serif; font-weight: 600; text-align: center; font-size: 30px; margin: 14px 0 4px; }
+  .sub { text-align: center; font-style: italic; font-size: 14px; color: #5d4a30; }
+  .preamble { margin: 26px 0 14px; font-size: 16.5px; line-height: 1.55; text-align: justify; }
+  .decrees { text-align: center; font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 0.4em; font-size: 15px; margin: 16px 0; }
+  .art { display: grid; grid-template-columns: 92px 1fr; gap: 8px; margin: 10px 0; font-size: 16.5px; line-height: 1.55; }
+  .art b { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.12em; padding-top: 3px; }
+  .given { margin: 26px 0 0; font-style: italic; font-size: 16px; }
+  .sigrow { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 22px; }
+  .counter { width: 220px; text-align: center; color: #5d4a30; }
+  .counter .ink { font-style: italic; font-size: 24px; color: #1f2a4a; height: 40px; }
+  .line { border-top: 1px solid #2a2118; margin-top: 2px; padding-top: 5px; font-family: 'Cinzel', serif; letter-spacing: 0.18em; font-size: 10.5px; line-height: 1.6; }
+  .chancellor { position: relative; width: 330px; text-align: center; }
+  .chancellor .sig { width: 320px; aspect-ratio: 1 / 0.3; object-fit: cover; object-position: center 50%; mix-blend-mode: multiply; filter: contrast(1.25); display: block; margin: 0 auto -8px; }
+  .emboss { position: absolute; left: -74px; top: -40px; width: 120px; opacity: 0.5; mix-blend-mode: multiply; filter: grayscale(1) contrast(0.7) drop-shadow(1px 1px 0 rgba(255,255,255,0.8)) drop-shadow(-1px -1px 0 rgba(0,0,0,0.3)); transform: rotate(-8deg); }
+  .foot { display: flex; justify-content: space-between; margin-top: 30px; font-family: 'Special Elite', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6e5634; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="guilloche g-top"></div><div class="guilloche g-bot"></div>
+  <img class="watermark" src="../../src/assets/images/veltria_seal.png" alt="">
+  <div class="reg"><span>REG. No. 1963/014</span><span>OFFICIAL GAZETTE · SERIES A</span></div>
+  <div class="head">
+    <img src="../../src/assets/images/veltria_seal.png" alt="">
+    <div class="rep">REPUBLIC OF VELTRIA</div>
+    <div class="office">Office of the Chancellor</div>
+    <div class="no">DECREE No. 14 OF 1963</div>
+    <div class="rule"></div>
+  </div>
+  <h1>Press Freedom Charter</h1>
+  <div class="sub">A decree of the Judicial order, on the proposal of the Reform Committee</div>
+
+  <p class="preamble">The Chancellor of the Republic of Veltria, having regard to the Constitution of 1912, on the proposal of the Reform Committee, and having heard the Council of Ministers,</p>
+  <div class="decrees">HEREBY DECREES</div>
+
+  <div class="art"><b>ARTICLE 1</b><span>The independence of the press is protected under the Constitution, and censorship by any organ of government is prohibited.</span></div>
+  <div class="art"><b>ARTICLE 2</b><span>No government may censor, license, or shut down any publication. Press freedom is enshrined as a constitutional right of every citizen of the Republic.</span></div>
+  <div class="art"><b>ARTICLE 3</b><span>This decree enters into force on the day of its publication in the Official Gazette. It carries no cost to the national treasury.</span></div>
+
+  <p class="given">Given at Ashenmere, this eighth day of January, in the year nineteen hundred and sixty-three.</p>
+
+  <div class="sigrow">
+    <div class="counter"><div class="ink">V. Reznik</div><div class="line">COUNTERSIGNED<br>CHIEF OF STAFF</div></div>
+    <div class="chancellor">
+      <img class="emboss" src="../../src/assets/images/veltria_seal.png" alt="">
+      <img class="sig" src="../../src/assets/images/katerin_signature.jpeg" alt="">
+      <div class="line">KATERIN ASHAVEL<br>CHANCELLOR OF THE REPUBLIC</div>
+    </div>
+  </div>
+  <div class="foot"><span>PRINTED BY THE STATE PRESS · ASHENMERE</span><span>SHEET 1 OF 1</span></div>
+</div>
+</body>
+</html>

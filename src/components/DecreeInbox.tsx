@@ -7,16 +7,17 @@ import type { Decree, DecreeCategory } from '../types/decree'
 import { getPortrait } from '../assets/potraits'
 import { playStamp } from '../engine/audioEngine'
 import { rem } from '../constants/typography'
-import { weekToDate } from '../engine/dates'
+import { formalGivenDate, weekToDate } from '../engine/dates'
 import FiscalNote from './ui/FiscalNote'
 import { decreeBudgetCost } from './ui/decreeFiscal'
 import { SignatureLine } from './ui/StateDocument'
 import CabinetDocument, { PaperTab } from './ui/cabinet/CabinetDocument'
 import { DocumentPager } from './ui/cabinet/DocumentPager'
-import { PaperHeading, PaperMeta, PaperSection, PaperSheet, WaxSeal } from './ui/cabinet/PaperParts'
+import { PaperSection, PaperSheet } from './ui/cabinet/PaperParts'
 import type { PaperStampProps } from './ui/cabinet/PaperParts'
-import { CabinetButton } from './ui/cabinet/CabinetParts'
+import { CabinetButton, NationalSeal } from './ui/cabinet/CabinetParts'
 import { CAB_BODY, CAB_FONT } from './ui/cabinet/cabinetStyles'
+import { proposalPhrase } from './decree/decreeWording'
 
 const CATEGORY_ORDER: DecreeCategory[] = ['economic', 'judicial', 'religious', 'welfare', 'development']
 
@@ -44,9 +45,8 @@ const MINISTER_NAMES: Record<string, string> = {
 const SIGN_ANIMATION_MS = 1500
 const STAMP_RED = '#7a2a2a'
 const REJECTED_RED = '#a04040'
-const SIGNATURE_WIDTH = 220
-const SIGNATURE_HEIGHT = 100
-const SIGNATURE_MAX_WIDTH = 260
+const SIGNATURE_WIDTH = 320
+const SIGNATURE_MAX_WIDTH = 360
 
 /** The week's month and year for the registry line: "WEEK 3 · JANUARY 1963". */
 function registryWeekLabel(week: number): string {
@@ -331,6 +331,151 @@ interface DecreeDetailProps {
   currentWeek: number
 }
 
+const ORNAMENT_INK = '#6e5634'
+const DECREE_INK = '#2a2118'
+const DECREE_SUB_INK = '#5d4a30'
+const ENTRY_INTO_FORCE = 'This decree enters into force on the day of its publication in the Official Gazette.'
+
+/** The decree's articles in order: the summary, each paragraph of the provisions, then the entry-into-force clause. */
+function decreeArticles(decree: Decree): string[] {
+  const provisions = decree.description
+    .split(/\n\s*\n/)
+    .map(paragraph => paragraph.trim())
+    .filter(paragraph => paragraph.length > 0)
+  return [decree.summary, ...provisions, ENTRY_INTO_FORCE]
+}
+
+/** The year printed in the decree number: the last token of "8 January 1963". */
+function decreeYear(week: number): string {
+  const parts = weekToDate(week).split(' ')
+  return parts[parts.length - 1]
+}
+
+const DECREE_NUMBER_STYLE: CSSProperties = {
+  fontFamily: CAB_FONT.label,
+  fontSize: rem(12),
+  letterSpacing: '0.25em',
+  textAlign: 'center',
+  color: '#3b2c1c',
+  margin: '2px 0 6px',
+}
+
+const ORNAMENT_ROW_STYLE: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  width: '60%',
+  margin: '0 auto 8px',
+  gap: 8,
+}
+
+const ORNAMENT_LINE_STYLE: CSSProperties = { flex: 1, height: 1, background: ORNAMENT_INK }
+
+const DECREE_TITLE_STYLE: CSSProperties = {
+  margin: '6px 0 2px',
+  textAlign: 'center',
+  fontFamily: CAB_FONT.title,
+  fontWeight: 600,
+  fontSize: rem(24),
+  color: DECREE_INK,
+}
+
+const DECREE_SUB_STYLE: CSSProperties = {
+  margin: '0 0 10px',
+  textAlign: 'center',
+  fontStyle: 'italic',
+  fontSize: rem(13.5),
+  color: DECREE_SUB_INK,
+}
+
+const PREAMBLE_STYLE: CSSProperties = {
+  margin: '14px 0 10px',
+  fontFamily: CAB_FONT.body,
+  fontSize: rem(16),
+  lineHeight: 1.55,
+  textAlign: 'justify',
+}
+
+const HEREBY_STYLE: CSSProperties = {
+  margin: '12px 0',
+  textAlign: 'center',
+  fontFamily: CAB_FONT.label,
+  fontWeight: 700,
+  fontSize: rem(14),
+  letterSpacing: '0.4em',
+}
+
+const ARTICLE_LABEL_STYLE: CSSProperties = {
+  fontFamily: CAB_FONT.label,
+  fontSize: rem(11.5),
+  fontWeight: 700,
+  letterSpacing: '0.12em',
+  paddingTop: 3,
+}
+
+const ARTICLE_TEXT_STYLE: CSSProperties = {
+  fontFamily: CAB_FONT.body,
+  fontSize: rem(16),
+  lineHeight: 1.55,
+  whiteSpace: 'pre-line',
+}
+
+const GIVEN_STYLE: CSSProperties = {
+  margin: '18px 0 0',
+  fontStyle: 'italic',
+  fontFamily: CAB_FONT.body,
+  fontSize: rem(15.5),
+}
+
+const SEAL_SLOT_STYLE: CSSProperties = {
+  width: 140,
+  minHeight: 120,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}
+
+const LOCUS_SIGILLI_STYLE: CSSProperties = {
+  width: 104,
+  height: 104,
+  borderRadius: '50%',
+  border: '1.5px dashed rgba(110,86,52,0.55)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontFamily: CAB_FONT.label,
+  fontSize: rem(12),
+  letterSpacing: '0.2em',
+  color: 'rgba(110,86,52,0.7)',
+}
+
+const PRINTER_STYLE: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginTop: 20,
+  fontFamily: "'Special Elite', monospace",
+  fontSize: rem(9.5),
+  letterSpacing: '0.14em',
+  color: ORNAMENT_INK,
+}
+
+function DecreeSealSlot({ isRejected, isSealed }: { isRejected: boolean; isSealed: boolean }) {
+  let seal
+  if (isRejected) {
+    seal = <RejectedStamp />
+  } else if (isSealed) {
+    seal = (
+      <div data-testid="decree-emblem" style={{ flexShrink: 0, transform: 'rotate(-6deg)', opacity: 0.88 }}>
+        <NationalSeal surface="paper" size={112} />
+      </div>
+    )
+  } else {
+    seal = (
+      <div data-testid="decree-locus-sigilli" title="Place of the seal" style={LOCUS_SIGILLI_STYLE}>L.S.</div>
+    )
+  }
+  return <div data-testid="decree-seal-slot" style={SEAL_SLOT_STYLE}>{seal}</div>
+}
+
 function DecreeDetail({
   decree, isDueThisWeek, isConflict, conflictTitle, isRejected, isSigned, showSignature, regNo, currentWeek,
 }: DecreeDetailProps) {
@@ -339,25 +484,40 @@ function DecreeDetail({
     left: `REG. No. 1963/${String(regNo).padStart(3, '0')}`,
     right: registryWeekLabel(currentWeek),
   }
+  const clause = decree.proposedBy === 'Chancellor Ashavel'
+    ? 'acting on her own motion'
+    : proposalPhrase(decree.proposedBy)
 
   return (
     <div data-testid="decree-doc-scroll">
       <PaperSheet
         testId="decree-detail"
+        securityBorder
         letterhead={{ subtitle: 'Office of the Chancellor' }}
         registry={registry}
         stamp={decreeStamp(isSigned, isRejected, currentWeek)}
       >
+        <div data-testid="decree-number" style={DECREE_NUMBER_STYLE}>
+          {`DECREE No. ${regNo} OF ${decreeYear(currentWeek)}`}
+        </div>
+        <div aria-hidden="true" style={ORNAMENT_ROW_STYLE}>
+          <div style={ORNAMENT_LINE_STYLE} />
+          <span style={{ fontSize: rem(9), color: ORNAMENT_INK }}>◆</span>
+          <div style={ORNAMENT_LINE_STYLE} />
+        </div>
+
         {isDueThisWeek && (
           <div style={{ textAlign: 'center', margin: '0 0 8px' }}>
             <span style={DUE_STAMP_STYLE}>DUE THIS WEEK</span>
           </div>
         )}
 
-        <PaperHeading>
+        <h3 style={DECREE_TITLE_STYLE}>
           <span data-testid="decree-detail-title">{decree.title}</span>
-        </PaperHeading>
-        <PaperMeta>{CATEGORY_LABELS[decree.category]} decree · Proposed by {decree.proposedBy}</PaperMeta>
+        </h3>
+        <p data-testid="decree-sub" style={DECREE_SUB_STYLE}>
+          {`A decree of the ${CATEGORY_LABELS[decree.category]} order, ${proposalPhrase(decree.proposedBy)}`}
+        </p>
 
         <FiscalNote budgetCost={decreeBudgetCost(decree)} />
 
@@ -367,16 +527,22 @@ function DecreeDetail({
           </p>
         )}
 
-        <PaperSection heading="Summary">
-          <p style={{ margin: 0, fontStyle: 'italic' }}>{decree.summary}</p>
-        </PaperSection>
+        <p data-testid="decree-preamble" style={PREAMBLE_STYLE}>
+          {`The Chancellor of the Republic of Veltria, having regard to the Constitution of the Republic, ${clause}, and having heard the Council of Ministers,`}
+        </p>
+        <div data-testid="decree-hereby" style={HEREBY_STYLE}>HEREBY DECREES</div>
 
-        <PaperSection heading="Provisions">
-          <div style={{ whiteSpace: 'pre-line' }}>{decree.description}</div>
-        </PaperSection>
+        <ol data-testid="decree-articles" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+          {decreeArticles(decree).map((text, index) => (
+            <li key={index} style={{ display: 'grid', gridTemplateColumns: '84px 1fr', gap: 8, margin: '0 0 8px' }}>
+              <span style={ARTICLE_LABEL_STYLE}>{`ARTICLE ${index + 1}`}</span>
+              <span style={ARTICLE_TEXT_STYLE}>{text}</span>
+            </li>
+          ))}
+        </ol>
 
         {formationComplete && (
-          <PaperSection heading="Cabinet Positions">
+          <PaperSection heading="Opinions of the Council of Ministers">
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 16 }}>
               {decree.ministerPositions.map(pos => (
                 <div key={pos.ministerId} style={{ position: 'relative' }}>
@@ -395,16 +561,29 @@ function DecreeDetail({
           </PaperSection>
         )}
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 18, marginTop: 14 }}>
-          {isRejected && <RejectedStamp />}
-          {(isSigned || showSignature) && <WaxSeal />}
+        <p data-testid="decree-given" style={GIVEN_STYLE}>
+          {`Given at Ashenmere, ${formalGivenDate(currentWeek)}.`}
+        </p>
+
+        <div
+          data-testid="decree-signature-row"
+          style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 18, marginTop: 16,
+          }}
+        >
+          <DecreeSealSlot isRejected={isRejected} isSealed={isSigned || showSignature} />
           <SignatureLine
             isSigned={showSignature}
             caption="Chancellor of Veltria"
             width={SIGNATURE_WIDTH}
-            height={SIGNATURE_HEIGHT}
             signatureMaxWidth={SIGNATURE_MAX_WIDTH}
+            cropToInk
           />
+        </div>
+
+        <div data-testid="decree-printer" aria-hidden="true" style={PRINTER_STYLE}>
+          <span>PRINTED BY THE STATE PRESS · ASHENMERE</span>
+          <span>SHEET 1 OF 1</span>
         </div>
       </PaperSheet>
     </div>

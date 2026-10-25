@@ -20,4 +20,18 @@ describe('SignatureLine', () => {
     render(<SignatureLine isSigned caption="Chancellor of the Republic" />)
     expect(screen.getByAltText('Signature of Katerin Ashavel')).toBeInTheDocument()
   })
+
+  it('crops the signature to its ink band when cropToInk is set', () => {
+    render(<SignatureLine isSigned cropToInk caption="Chancellor of the Republic" />)
+    const img = screen.getByAltText('Signature of Katerin Ashavel')
+    expect(img.style.objectFit).toBe('cover')
+    expect(img.getAttribute('style')).toMatch(/aspect-ratio:\s*1\s*\/\s*0\.3/)
+  })
+
+  it('keeps the signature contained by default', () => {
+    render(<SignatureLine isSigned caption="Chancellor of the Republic" />)
+    const img = screen.getByAltText('Signature of Katerin Ashavel')
+    expect(img.style.objectFit).toBe('contain')
+    expect(img.getAttribute('style')).not.toMatch(/aspect-ratio/)
+  })
 })

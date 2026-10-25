@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D3 - Typed cabinet order (government file copy)</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 900px; background: #12100c; display: flex; justify-content: center; padding: 28px 0; font-family: 'Courier Prime', 'Courier New', monospace; color: #23201c; }
+  .sheet {
+    position: relative; width: 760px; padding: 46px 64px 44px;
+    background:
+      radial-gradient(ellipse at 80% 15%, rgba(255,255,250,0.6), transparent 50%),
+      linear-gradient(#f2efe4, #e6e0cf);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.6);
+  }
+  .punch { position: absolute; left: 22px; width: 16px; height: 16px; border-radius: 50%; background: #12100c; box-shadow: inset 1px 1px 2px rgba(255,255,255,0.15); }
+  .lh { display: grid; grid-template-columns: 76px 1fr 210px; gap: 16px; align-items: center; border-bottom: 2px solid #23201c; padding-bottom: 12px; margin-top: 14px; }
+  .lh img { width: 76px; mix-blend-mode: multiply; }
+  .lh .t { font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 0.18em; font-size: 15px; line-height: 1.5; }
+  .lh .t small { display: block; font-family: 'Courier Prime'; font-weight: 400; letter-spacing: 0.05em; font-size: 12px; }
+  .ref { font-size: 12px; line-height: 1.7; border: 1px solid #23201c; padding: 6px 8px; white-space: pre; }
+  .classif { position: absolute; top: 16px; left: 50%; transform: translateX(-50%) rotate(-1.5deg); font-family: 'Special Elite'; letter-spacing: 0.3em; font-size: 12px; color: #9b2a22; border: 2px solid #9b2a22; padding: 2px 10px; opacity: 0.85; }
+  h1 { font-size: 20px; letter-spacing: 0.12em; text-align: center; margin: 22px 0 4px; text-decoration: underline; }
+  .sub { text-align: center; font-size: 13px; margin-bottom: 18px; }
+  .p { font-size: 15px; line-height: 1.75; margin: 0 0 10px; }
+  .p b { letter-spacing: 0.08em; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 8px; font-size: 13px; }
+  th, td { border: 1px solid #23201c; padding: 4px 8px; text-align: left; }
+  th { font-weight: 700; letter-spacing: 0.08em; background: rgba(0,0,0,0.04); }
+  .ini { font-family: 'Special Elite'; color: #1f3a7a; font-size: 16px; }
+  .sigrow { position: relative; display: flex; justify-content: flex-end; margin-top: 24px; height: 140px; }
+  .chancellor { width: 340px; text-align: center; padding-top: 18px; }
+  .sig { width: 320px; aspect-ratio: 1 / 0.3; object-fit: cover; object-position: center 50%; mix-blend-mode: multiply; filter: contrast(1.25); display: block; margin: 0 auto -8px; }
+  .line { border-top: 1px dashed #23201c; padding-top: 4px; font-size: 12px; letter-spacing: 0.1em; }
+  .inkseal { position: absolute; left: 30px; top: 4px; width: 118px; opacity: 0.7; mix-blend-mode: multiply; filter: grayscale(1) brightness(0.6) sepia(1) hue-rotate(210deg) saturate(4); transform: rotate(-11deg); }
+  .approved { position: absolute; left: 170px; top: 40px; font-family: 'Special Elite'; font-size: 26px; letter-spacing: 0.25em; color: #a3261d; border: 3px double #a3261d; padding: 4px 14px; transform: rotate(-7deg); opacity: 0.82; mix-blend-mode: multiply; }
+  .approved small { display: block; font-size: 11px; letter-spacing: 0.2em; text-align: center; }
+  .cc { margin-top: 18px; font-size: 11.5px; line-height: 1.6; border-top: 1px solid #23201c; padding-top: 8px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="punch" style="top: 180px"></div><div class="punch" style="top: 620px"></div>
+  <div class="classif">FOR SIGNATURE</div>
+  <div class="lh">
+    <img src="../../src/assets/images/veltria_seal.png" alt="">
+    <div class="t">REPUBLIC OF VELTRIA<small>Chancellery of State · Ashenmere</small></div>
+    <div class="ref">FILE  : CH/JUD/63-014
+DATE  : 8 JAN 1963
+ORIGIN: Reform Committee</div>
+  </div>
+  <h1>DECREE 14/1963 — PRESS FREEDOM CHARTER</h1>
+  <div class="sub">Judicial order · Fiscal note: no cost to the treasury</div>
+  <p class="p"><b>1. PURPOSE.</b> To protect the independence of the press under the Constitution and to prohibit censorship by government.</p>
+  <p class="p"><b>2. PROVISIONS.</b> No government may censor, license, or shut down any publication. The charter enshrines press freedom as a constitutional right and would be among the strongest press protections in the region.</p>
+  <p class="p"><b>3. ENTRY INTO FORCE.</b> On publication in the Official Gazette.</p>
+  <table>
+    <tr><th>MINISTRY</th><th>POSITION</th><th>INITIALS</th></tr>
+    <tr><td>Justice</td><td>In favour</td><td class="ini">A.T.</td></tr>
+    <tr><td>Interior</td><td>In favour</td><td class="ini">D.O.</td></tr>
+    <tr><td>Defense</td><td>Opposed</td><td class="ini">I.D.</td></tr>
+  </table>
+  <div class="sigrow">
+    <img class="inkseal" src="../../src/assets/images/veltria_seal.png" alt="">
+    <div class="approved">APPROVED<small>8 · I · 1963</small></div>
+    <div class="chancellor">
+      <img class="sig" src="../../src/assets/images/katerin_signature.jpeg" alt="">
+      <div class="line">K. ASHAVEL, CHANCELLOR</div>
+    </div>
+  </div>
+  <div class="cc">cc: Official Gazette · Ministry of Justice · Assembly Registry · File</div>
+</div>
+</body>
+</html>

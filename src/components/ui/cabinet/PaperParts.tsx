@@ -30,6 +30,12 @@ const REGISTRY_EXTRA_TOP = 14
 const SIGNATURE_LINE_WIDTH = 180
 const REGISTRY_TOP = 18
 const REGISTRY_SIDE = 26
+const REGISTRY_INSET_TOP = 10
+const REGISTRY_INSET_SIDE = 8
+const SECURITY_RULE = 'rgba(110,86,52,0.75)'
+const SECURITY_OUTER = 6
+const SECURITY_INNER = 18
+const SECURITY_EXTRA_PADDING = 12
 const STAMP_TOP = 42
 const STAMP_RIGHT = 30
 const FOOTNOTE_GAP = 14
@@ -77,6 +83,40 @@ const WATERMARK_STYLE: CSSProperties = {
   opacity: WATERMARK_OPACITY,
   mixBlendMode: 'multiply',
   pointerEvents: 'none',
+}
+
+// Guilloche bands: two rows of radial rosettes that fill the gap between the rules.
+const GUILLOCHE_BACKGROUND = [
+  'repeating-radial-gradient(circle at 0 50%, transparent 0 4px, rgba(110,86,52,0.55) 4px 5px)',
+  'repeating-radial-gradient(circle at 100% 50%, transparent 0 4px, rgba(110,86,52,0.45) 4px 5px)',
+].join(', ')
+
+const SECURITY_WRAP_STYLE: CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  pointerEvents: 'none',
+}
+
+const SECURITY_OUTER_RULE_STYLE: CSSProperties = {
+  position: 'absolute',
+  inset: SECURITY_OUTER,
+  border: `1.5px solid ${SECURITY_RULE}`,
+}
+
+const SECURITY_INNER_RULE_STYLE: CSSProperties = {
+  position: 'absolute',
+  inset: SECURITY_INNER,
+  border: `1px solid ${SECURITY_RULE}`,
+}
+
+const SECURITY_BAND_STYLE: CSSProperties = {
+  position: 'absolute',
+  left: SECURITY_OUTER + 2,
+  right: SECURITY_OUTER + 2,
+  height: SECURITY_INNER - SECURITY_OUTER - 4,
+  opacity: 0.55,
+  background: GUILLOCHE_BACKGROUND,
+  backgroundSize: '18px 8px',
 }
 
 const REGISTRY_LINE_STYLE: CSSProperties = {
@@ -132,6 +172,8 @@ interface PaperSheetProps {
   stamp?: PaperStampProps
   /** Translator or sender note, set bottom-left inside the sheet. */
   footnote?: string
+  /** Engraved double rule with guilloche bands, for formal state documents. */
+  securityBorder?: boolean
 }
 
 interface LetterheadProps {
@@ -166,20 +208,40 @@ function Letterhead({ subtitle, dense }: LetterheadProps) {
   )
 }
 
-function RegistryLines({ registry }: { registry: PaperRegistry }) {
+interface RegistryLinesProps {
+  registry: PaperRegistry
+  /** Moves the lines inside the security border's inner rule. */
+  inset?: boolean
+}
+
+function RegistryLines({ registry, inset = false }: RegistryLinesProps) {
+  const top = inset ? REGISTRY_TOP + REGISTRY_INSET_TOP : REGISTRY_TOP
+  const side = inset ? REGISTRY_SIDE + REGISTRY_INSET_SIDE : REGISTRY_SIDE
   return (
     <>
       {registry.left && (
-        <span data-testid="paper-registry-left" style={{ ...REGISTRY_LINE_STYLE, left: REGISTRY_SIDE }}>
+        <span data-testid="paper-registry-left" style={{ ...REGISTRY_LINE_STYLE, top, left: side }}>
           {registry.left}
         </span>
       )}
       {registry.right && (
-        <span data-testid="paper-registry-right" style={{ ...REGISTRY_LINE_STYLE, right: REGISTRY_SIDE }}>
+        <span data-testid="paper-registry-right" style={{ ...REGISTRY_LINE_STYLE, top, right: side }}>
           {registry.right}
         </span>
       )}
     </>
+  )
+}
+
+/** Engraved double rule with guilloche bands in the top and bottom gaps. Decorative only. */
+function SecurityBorder() {
+  return (
+    <div aria-hidden="true" data-testid="paper-security-border" style={SECURITY_WRAP_STYLE}>
+      <div style={SECURITY_OUTER_RULE_STYLE} />
+      <div style={SECURITY_INNER_RULE_STYLE} />
+      <div data-testid="security-band-top" style={{ ...SECURITY_BAND_STYLE, top: SECURITY_OUTER + 2 }} />
+      <div data-testid="security-band-bottom" style={{ ...SECURITY_BAND_STYLE, bottom: SECURITY_OUTER + 2 }} />
+    </div>
   )
 }
 
@@ -223,10 +285,12 @@ export function PaperSheet({
   registry,
   stamp,
   footnote,
+  securityBorder = false,
 }: PaperSheetProps) {
   const dense = usePageInsets().mode !== 'desktop'
-  const paddingY = (dense ? DENSE_PADDING_Y : PADDING_Y) + (registry ? REGISTRY_EXTRA_TOP : 0)
-  const paddingX = dense ? DENSE_PADDING_X : PADDING_X
+  const securityPadding = securityBorder ? SECURITY_EXTRA_PADDING : 0
+  const paddingY = (dense ? DENSE_PADDING_Y : PADDING_Y) + (registry ? REGISTRY_EXTRA_TOP : 0) + securityPadding
+  const paddingX = (dense ? DENSE_PADDING_X : PADDING_X) + securityPadding
   return (
     <div className="cabinet-paper-wrap anim-rise-in" style={{ ...PAPER_WRAP_STYLE, ...wrapStyle }}>
       <article
@@ -248,7 +312,8 @@ export function PaperSheet({
         {watermark && (
           <img src={veltriaSeal} alt="" aria-hidden="true" data-testid="paper-watermark" style={WATERMARK_STYLE} />
         )}
-        {registry && <RegistryLines registry={registry} />}
+        {securityBorder && <SecurityBorder />}
+        {registry && <RegistryLines registry={registry} inset={securityBorder} />}
         {stamp && <InkStamp {...stamp} />}
         {letterhead !== false && <Letterhead subtitle={letterhead.subtitle} dense={dense} />}
         {/* No z-index here: a stacking context would stop the watermark's multiply blend. */}

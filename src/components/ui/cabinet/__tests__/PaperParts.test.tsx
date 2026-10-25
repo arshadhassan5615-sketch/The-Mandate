@@ -100,6 +100,33 @@ describe('PaperSheet aged-paper options', () => {
   })
 })
 
+describe('PaperSheet security border', () => {
+  it('renders the engraved rules and both guilloche bands when securityBorder is set', () => {
+    render(<PaperSheet securityBorder><p>Body</p></PaperSheet>)
+    expect(screen.getByTestId('paper-security-border')).toBeInTheDocument()
+    expect(screen.getByTestId('security-band-top')).toBeInTheDocument()
+    expect(screen.getByTestId('security-band-bottom')).toBeInTheDocument()
+  })
+
+  it('adds 12px of padding on every side when securityBorder is set', () => {
+    render(
+      <>
+        <PaperSheet testId="plain"><p>Body</p></PaperSheet>
+        <PaperSheet testId="bordered" securityBorder><p>Body</p></PaperSheet>
+      </>,
+    )
+    const plain = screen.getByTestId('plain').style
+    const bordered = screen.getByTestId('bordered').style
+    expect(parseFloat(bordered.paddingTop) - parseFloat(plain.paddingTop)).toBe(12)
+    expect(parseFloat(bordered.paddingLeft) - parseFloat(plain.paddingLeft)).toBe(12)
+  })
+
+  it('does not render the security border by default', () => {
+    render(<PaperSheet><p>Body</p></PaperSheet>)
+    expect(screen.queryByTestId('paper-security-border')).toBeNull()
+  })
+})
+
 describe('WaxSeal size', () => {
   it('defaults to 62px', () => {
     render(<WaxSeal />)
