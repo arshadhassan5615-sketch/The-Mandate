@@ -1456,6 +1456,8 @@ body::before {
 @keyframes rotate-hint { 0%, 20% { transform: rotate(0deg) } 60%, 100% { transform: rotate(-90deg) } }
 .rotate-hint-icon { animation: rotate-hint 2.4s ease-in-out infinite alternate; }
 html, body { overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
+/* Taps respond at once (no double-tap-zoom delay) and without the grey flash on Android */
+html { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 
 /* ─── Province seal mood ───────────────────────────────────────────────────── */
 @keyframes province-mood-breathe { 0%, 100% { opacity: 0.65; transform: scale(0.96) } 50% { opacity: 1; transform: scale(1.04) } }
@@ -1496,4 +1498,10 @@ html, body { overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .anim-slide-in-right, .anim-slide-in-left, .anim-slide-in-top, .anim-pop-in,
   .anim-fade-in, .anim-menu-in, .anim-rise-in { animation: none; }
+}
+
+/* Touch screens: invisible padding so small map pins and HUD buttons take a fingertip */
+.touch-hit { display: none; }
+@media (pointer: coarse) {
+  .touch-hit { display: block; position: absolute; inset: -14px; border-radius: 50%; }
 }

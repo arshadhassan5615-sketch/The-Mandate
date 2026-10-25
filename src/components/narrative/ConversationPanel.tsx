@@ -64,10 +64,17 @@ function SpeakerName({ name, characterId, openCharacterId, onShowCard, onHideCar
       data-testid="speaker-name"
       aria-describedby={isCardOpen ? speakerCardId(characterId) : undefined}
       style={{ cursor: 'help', borderBottom: '1px dotted rgba(127,61,25,0.6)' }}
+      data-no-advance
       onMouseEnter={e => showCard(e.currentTarget)}
       onMouseLeave={hideCard}
       onFocus={e => showCard(e.currentTarget)}
       onBlur={hideCard}
+      onClick={e => {
+        e.stopPropagation()
+        // Touch toggles the card; a mouse already opened it on hover, so a click keeps it open
+        if (isCardOpen && isCoarsePointer()) hideCard()
+        else showCard(e.currentTarget)
+      }}
     >
       <SpeakerLabelText name={name} />
     </span>
@@ -270,7 +277,18 @@ const DESCRIPTION_WRAPPER_STYLE: React.CSSProperties = {
   margin: '4px 0',
 }
 
-/** The quiet "Press Space to continue" hint under the opening monologue. */
+// Taps on these elements belong to the element itself, so they never advance the conversation.
+const NO_ADVANCE_SELECTOR = 'button, a, input, textarea, select, [role="button"], [data-no-advance]'
+
+// jsdom has no matchMedia, so this reads as a mouse-driven device there.
+function isCoarsePointer(): boolean {
+  if (typeof window.matchMedia !== 'function') return false
+  return window.matchMedia('(pointer: coarse)').matches
+}
+
+const MONOLOGUE_HINT_TEXT = isCoarsePointer() ? 'Tap to continue' : 'Press Space to continue'
+
+/** The quiet hint under the opening monologue: "Tap to continue" on touch screens, otherwise "Press Space to continue". Styled for the monologue, which dismisses on tap, Space or Enter. */
 const MONOLOGUE_HINT_STYLE: React.CSSProperties = {
   fontFamily: SERIF,
   fontStyle: 'italic',
@@ -360,7 +378,7 @@ const NO_LOCKED_REASONS: Readonly<Record<string, string>> = {}
 
 export default function ConversationPanel({
   history, activeSegment, activeText, showCursor,
-  choices, lockedReasons = NO_LOCKED_REASONS, showChoices, sceneDone, allDone, segmentDone,
+  choices, lockedReasons = NO_LOCKED_REASONS, showChoices, sceneDone, allDone, segmentDone, onAdvance,
   onChoice, onAdvanceQueue, continueLabel,
   monologueText, columnRef,
 }: ConversationPanelProps) {
@@ -556,6 +574,18 @@ export default function ConversationPanel({
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [shouldShowMonologue, dismissMonologue])
+
+  // A tap on the conversation text advances it, as Space or Enter does. Taps on
+  // controls and on text the player is selecting are left alone.
+  const handleColumnTap = (e: React.MouseEvent<HTMLDivElement>) => {
+    if ((e.target as Element).closest(NO_ADVANCE_SELECTOR)) return
+    if (window.getSelection()?.toString()) return
+    if (shouldShowMonologue) {
+      dismissMonologue()
+      return
+    }
+    if (!allDone && !sceneDone) onAdvance()
+  }
 
   const handleChoice = useCallback((id: string) => {
     if (choicePhase !== 'idle') return
@@ -831,6 +861,7 @@ export default function ConversationPanel({
             this column only scrolls if the pinned bottom sections overflow. */}
         <div
           ref={panelInnerRef}
+          onClick={handleColumnTap}
           style={{
             position: 'relative',
             width: '100%',
@@ -845,6 +876,7 @@ export default function ConversationPanel({
             overflowY: 'auto',
             overflowX: 'hidden',
             scrollbarWidth: 'thin',
+            cursor: !allDone && !sceneDone ? 'pointer' : undefined,
           }}
         >
         {/* Monologue — at the very top */}
@@ -863,7 +895,7 @@ export default function ConversationPanel({
             }}
           >
             <p style={{ ...COLUMN_TEXT_STYLES.thoughtText }}>{monologueText}</p>
-            <p style={MONOLOGUE_HINT_STYLE}>Press Space to continue</p>
+            <p style={MONOLOGUE_HINT_STYLE}>{MONOLOGUE_HINT_TEXT}</p>
           </div>
         )}
 
@@ -1008,18 +1040,30 @@ export default function ConversationPanel({
 
           {/* Continue / skip hint */}
           {!allDone && !sceneDone && !showChoices && (
-            <div style={{
-              textAlign: 'right',
-              padding: '4px 16px',
-              opacity: segmentDone ? 0.5 : 0.25,
-              fontFamily: 'Georgia, serif',
-              fontSize: '10px',
-              color: '#c9a84c',
-              letterSpacing: '1px',
-              animation: segmentDone ? 'pulse 1.5s ease-in-out infinite' : undefined,
-            }}>
+            <button
+              type="button"
+              data-testid="conversation-advance"
+              aria-label={segmentDone ? 'Next line' : 'Skip typing'}
+              onClick={e => { e.stopPropagation(); onAdvance() }}
+              style={{
+                alignSelf: 'flex-end',
+                minWidth: 44,
+                minHeight: 44,
+                padding: '4px 16px',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                textAlign: 'right',
+                opacity: segmentDone ? 0.5 : 0.25,
+                fontFamily: 'Georgia, serif',
+                fontSize: '12px',
+                color: '#c9a84c',
+                letterSpacing: '1px',
+                animation: segmentDone ? 'pulse 1.5s ease-in-out infinite' : undefined,
+              }}
+            >
               {segmentDone ? '▼' : '▸ skip'}
-            </div>
+            </button>
           )}
         </div>
 

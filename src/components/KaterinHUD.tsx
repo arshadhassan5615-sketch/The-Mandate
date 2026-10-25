@@ -219,6 +219,7 @@ export default function KaterinHUD() {
             transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
           }}
         >
+          <span className="touch-hit" aria-hidden="true" />
           <PersonIcon size={isCompact ? 14 : 20} />
         </button>
       </div>

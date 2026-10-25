@@ -144,6 +144,7 @@ export default function MapScenePin({ provinceId, items, currentWeek, onSelectSc
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     >
+      <span className="touch-hit" aria-hidden="true" data-testid="pin-touch-hit" />
       <div style={{ position: 'relative', display: 'inline-block', pointerEvents: 'none' }}>
         {!open && (
           <NotificationPin

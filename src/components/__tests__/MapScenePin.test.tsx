@@ -101,6 +101,14 @@ describe('MapScenePin', () => {
     expect(onSelectScene).not.toHaveBeenCalled()
   })
 
+  it('opens the same menu when the touch target around the pin is tapped', () => {
+    renderPin()
+
+    fireEvent.click(screen.getByTestId('pin-touch-hit'))
+
+    expect(screen.getByRole('dialog', { name: 'Kravenstal: choose an action' })).toBeInTheDocument()
+  })
+
   it('closes the menu when Escape is pressed', () => {
     renderPin()
     openMenu()
