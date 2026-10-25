@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import CabinetDrawer from '../CabinetDrawer'
 import { HUD_RAIL_WIDTH } from '../../../../constants/layout'
+import { Z } from '../../../../constants/zIndex'
 
 const TITLE = 'Cabinet test'
 const CLOSE_LABEL = 'Close cabinet test'
@@ -48,6 +49,16 @@ describe('CabinetDrawer shell', () => {
   it('docks at the button rail on desktop', () => {
     renderDrawer()
     expect(screen.getByRole('dialog')).toHaveStyle({ right: `${HUD_RAIL_WIDTH}px`, top: '0px', bottom: '0px' })
+  })
+
+  it('stacks at Z.panel by default and at a caller zIndex when given', () => {
+    renderDrawer()
+    expect(screen.getByRole('dialog')).toHaveStyle({ zIndex: String(Z.panel) })
+  })
+
+  it('uses the caller zIndex when one is given', () => {
+    renderDrawer({ zIndex: Z.inlineCodex })
+    expect(screen.getByRole('dialog')).toHaveStyle({ zIndex: String(Z.inlineCodex) })
   })
 
   it('renders the footer text when footer is given', () => {

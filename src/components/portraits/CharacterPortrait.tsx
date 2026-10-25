@@ -7,6 +7,7 @@ interface CharacterPortraitProps {
   isActive: boolean
   size?: number       // default 88
   showName?: boolean  // default true
+  idleOpacity?: number // opacity when not active; default 0.5
 }
 
 const CHAR_NAMES: Record<string, string> = {
@@ -50,6 +51,7 @@ export default function CharacterPortrait({
   isActive,
   size = 88,
   showName = true,
+  idleOpacity = 0.5,
 }: CharacterPortraitProps) {
   const normalizedId = characterId.replace(/^character_/, '')
   const [hasError, setHasError] = useState(false)
@@ -113,7 +115,7 @@ export default function CharacterPortrait({
         border: `3px solid ${isActive ? '#c4943a' : color}`,
         background: 'var(--bg-tertiary, #1a1410)',
         transform: isActive ? 'scale(1.15)' : 'scale(1.0)',
-        opacity: isActive ? 1 : 0.5,
+        opacity: isActive ? 1 : idleOpacity,
         boxShadow: isActive
           ? '0 0 16px rgba(196,148,58,0.75), 0 0 32px rgba(196,148,58,0.3)'
           : 'none',

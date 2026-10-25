@@ -1,194 +1,205 @@
-import { useEffect, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useCodexStore, ALL_CODEX_ENTRIES } from '../../stores/codexStore'
-import { CATEGORY_LABELS } from '../../types/codex'
-import CharacterPortrait from '../portraits/CharacterPortrait'
+import CabinetDrawer from '../ui/cabinet/CabinetDrawer'
+import { CabinetButton, CabinetCard } from '../ui/cabinet/CabinetParts'
+import CodexImages from '../ui/cabinet/CodexImages'
+import { CAB_BODY, CAB_LABEL } from '../ui/cabinet/cabinetStyles'
+import { renderWithEntities } from '../news/EntityLinker'
+import { useCodexEntryView } from '../../hooks/useCodexEntryView'
+import { rem } from '../../constants/typography'
 import { Z } from '../../constants/zIndex'
 
-const P = {
-  bg:          '#f0e8d0',
-  bgRaised:    '#f8f2e0',
-  sidebar:     '#e4d4a8',
-  ink:         '#2a1a0a',
-  inkDim:      '#5a4020',
-  inkMuted:    '#8a6a40',
-  border:      'rgba(120, 80, 30, 0.25)',
-  borderStrong:'rgba(120, 80, 30, 0.5)',
-  amber:       '#8b5a1a',
+const NAV_BUTTON_SIZE = 42
+
+const NAV_BUTTON_STYLE: CSSProperties = {
+  width: NAV_BUTTON_SIZE,
+  height: NAV_BUTTON_SIZE,
+  borderRadius: 4,
+  background: 'linear-gradient(#2a2a2a, #141414)',
+  border: '1px solid rgba(201,168,76,0.45)',
+  color: 'var(--cab-gold-bright)',
+  fontSize: rem(16),
+  lineHeight: 1,
+  padding: 0,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }
 
-function parseInline(text: string): React.ReactNode {
-  const parts: React.ReactNode[] = []
+const PARAGRAPH_STYLE: CSSProperties = {
+  ...CAB_BODY,
+  fontSize: rem(15),
+  lineHeight: 1.6,
+  color: 'var(--cab-text)',
+  margin: '0 0 0.6em',
+}
+
+const HEADING_STYLE: CSSProperties = {
+  ...CAB_LABEL,
+  fontSize: rem(11),
+  letterSpacing: '.2em',
+  color: 'var(--cab-gold)',
+  margin: '16px 0 6px',
+}
+
+const LIST_STYLE: CSSProperties = { listStyle: 'none', padding: 0, margin: '0.3em 0' }
+
+const LIST_ITEM_STYLE: CSSProperties = { ...PARAGRAPH_STYLE, margin: '0 0 0.25em', paddingLeft: '1.1em', position: 'relative' }
+
+const BULLET_STYLE: CSSProperties = {
+  position: 'absolute', left: 0, top: 0, color: 'var(--cab-gold)', fontSize: rem(9),
+}
+
+const SCROLL_STYLE: CSSProperties = {
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
+  scrollbarWidth: 'thin',
+  scrollbarColor: 'rgba(201,168,76,0.3) transparent',
+  padding: '0 20px 16px',
+}
+
+/** Splits a paragraph into bold / italic runs; plain runs get entity links. */
+function parseInline(text: string): ReactNode {
+  const parts: ReactNode[] = []
   const regex = /(\*\*[^*]+\*\*|\*[^*]+\*)/g
   let last = 0
   let m: RegExpExecArray | null
   let key = 0
   while ((m = regex.exec(text)) !== null) {
-    if (m.index > last) parts.push(text.slice(last, m.index))
+    if (m.index > last) parts.push(<Fragment key={key++}>{renderWithEntities(text.slice(last, m.index), true)}</Fragment>)
     const raw = m[0]
     if (raw.startsWith('**')) {
-      parts.push(<strong key={key++} style={{ color: P.ink, fontWeight: 700 }}>{raw.slice(2, -2)}</strong>)
+      parts.push(
+        <strong key={key++} style={{ color: 'var(--cab-title)', fontWeight: 600 }}>
+          {renderWithEntities(raw.slice(2, -2), true)}
+        </strong>,
+      )
     } else {
-      parts.push(<em key={key++}>{raw.slice(1, -1)}</em>)
+      parts.push(<em key={key++}>{renderWithEntities(raw.slice(1, -1), true)}</em>)
     }
     last = m.index + raw.length
   }
-  if (last < text.length) parts.push(text.slice(last))
-  return parts.length === 1 ? parts[0] : <>{parts}</>
+  if (last < text.length) parts.push(<Fragment key={key}>{renderWithEntities(text.slice(last), true)}</Fragment>)
+  return parts
 }
 
-function renderMarkdown(content: string): React.ReactNode {
-  const blocks = content.split('\n\n')
+function renderBlock(block: string, index: number): ReactNode {
+  if (block.startsWith('## ')) {
+    return <h4 key={index} style={HEADING_STYLE}>{block.slice(3)}</h4>
+  }
+  if (block.startsWith('### ')) {
+    return <h4 key={index} style={HEADING_STYLE}>{block.slice(4)}</h4>
+  }
+  const lines = block.split('\n')
+  if (lines.every(l => l.startsWith('- ') || l === '')) {
+    const items = lines.filter(l => l.startsWith('- '))
+    return (
+      <ul key={index} style={LIST_STYLE}>
+        {items.map((item, j) => (
+          <li key={j} style={LIST_ITEM_STYLE}>
+            <span aria-hidden="true" style={BULLET_STYLE}>◆ </span>
+            {parseInline(item.slice(2))}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  return <p key={index} style={PARAGRAPH_STYLE}>{parseInline(block)}</p>
+}
+
+function renderMarkdown(content: string): ReactNode {
+  return content.split('\n\n').map(renderBlock)
+}
+
+function NavButton({ label, glyph, disabled, onClick }: { label: string; glyph: string; disabled?: boolean; onClick: () => void }) {
   return (
-    <>
-      {blocks.map((block, i) => {
-        if (block.startsWith('## ')) {
-          return (
-            <h2 key={i} style={{
-              fontFamily: "'Special Elite', monospace", fontSize: '0.72rem',
-              letterSpacing: '0.16em', textTransform: 'uppercase',
-              color: P.amber, margin: '1em 0 0.4em',
-              paddingBottom: '0.3em', borderBottom: `1px solid ${P.border}`,
-            }}>{block.slice(3)}</h2>
-          )
-        }
-        if (block.startsWith('### ')) {
-          return (
-            <h3 key={i} style={{
-              fontFamily: "'Special Elite', monospace", fontSize: '0.65rem',
-              letterSpacing: '0.12em', textTransform: 'uppercase',
-              color: P.inkDim, margin: '0.8em 0 0.3em',
-            }}>{block.slice(4)}</h3>
-          )
-        }
-        const lines = block.split('\n')
-        if (lines.every(l => l.startsWith('- ') || l === '')) {
-          const items = lines.filter(l => l.startsWith('- '))
-          return (
-            <ul key={i} style={{ paddingLeft: '1em', margin: '0.3em 0' }}>
-              {items.map((item, j) => (
-                <li key={j} style={{
-                  fontFamily: "'IM Fell English', Georgia, serif", fontSize: '0.78rem',
-                  lineHeight: 1.6, color: P.ink, marginBottom: '0.15em', listStyleType: 'disc',
-                }}>{parseInline(item.slice(2))}</li>
-              ))}
-            </ul>
-          )
-        }
-        return (
-          <p key={i} style={{
-            fontFamily: "'IM Fell English', Georgia, serif", fontSize: '0.78rem',
-            lineHeight: 1.7, color: P.ink, margin: '0 0 0.6em', textAlign: 'justify',
-          }}>{parseInline(block)}</p>
-        )
-      })}
-    </>
+    <button
+      type="button"
+      aria-label={label}
+      disabled={disabled}
+      onClick={onClick}
+      onMouseEnter={e => { if (!disabled) e.currentTarget.style.borderColor = 'var(--cab-gold)' }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.45)' }}
+      style={{ ...NAV_BUTTON_STYLE, opacity: disabled ? 0.4 : 1, cursor: disabled ? 'default' : 'pointer' }}
+    >
+      <span aria-hidden="true">{glyph}</span>
+    </button>
   )
 }
 
 export default function InlineCodexPanel() {
-  const { inlineCodexOpen, activeEntryId, closeInlineCodex, openCodex } = useCodexStore()
+  const { inlineCodexOpen, activeEntryId, closeInlineCodex, openCodex, openInlineCodex } = useCodexStore()
   const entry = useMemo(() => {
     if (!activeEntryId) return null
     return ALL_CODEX_ENTRIES.find(e => e.id === activeEntryId) ?? null
   }, [activeEntryId])
+  const view = useCodexEntryView(entry)
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && inlineCodexOpen) {
-        e.stopPropagation()
-        closeInlineCodex()
-      }
+  const [history, setHistory] = useState<string[]>([])
+  const [pos, setPos] = useState(0)
+
+  // History follows the store's activeEntryId. State is adjusted during render (not in an effect),
+  // so the drawer never paints a frame with a stale step. Each new entry becomes a step, and
+  // opening an entry after going back drops the forward steps. Closing clears the history.
+  if (!inlineCodexOpen) {
+    if (history.length > 0 || pos !== 0) {
+      setHistory([])
+      setPos(0)
     }
-    window.addEventListener('keydown', handler, true)
-    return () => window.removeEventListener('keydown', handler, true)
-  }, [inlineCodexOpen, closeInlineCodex])
+  } else if (activeEntryId && activeEntryId !== history[pos]) {
+    const next = [...history.slice(0, pos + 1), activeEntryId]
+    setHistory(next)
+    setPos(next.length - 1)
+  }
 
   if (!inlineCodexOpen || !entry) return null
+  const shown = view ?? { title: entry.title, content: entry.content }
+
+  const goBack = () => {
+    setPos(pos - 1)
+    openInlineCodex(history[pos - 1])
+  }
+  const goForward = () => {
+    setPos(pos + 1)
+    openInlineCodex(history[pos + 1])
+  }
+  const openInBriefs = () => {
+    openCodex(undefined, entry.id)
+    closeInlineCodex()
+  }
 
   return (
-    <div className="anim-slide-in-right" style={{
-      position: 'fixed', right: 0, top: 0, bottom: 0, zIndex: Z.inlineCodex,
-      width: '420px',
-      background: P.bg,
-      borderLeft: `1px solid ${P.borderStrong}`,
-      boxShadow: '-6px 0 32px rgba(0,0,0,0.5)',
-      display: 'flex', flexDirection: 'column',
-    }}>
-      {/* Header */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0.7rem 1.2rem', flexShrink: 0,
-        background: P.sidebar, borderBottom: `1px solid ${P.borderStrong}`,
-      }}>
-        <div>
-          <span style={{
-            fontFamily: "'Special Elite', monospace", fontSize: '0.45rem',
-            letterSpacing: '0.2em', textTransform: 'uppercase', color: P.inkMuted,
-            display: 'block',
-          }}>
-            Brief — {CATEGORY_LABELS[entry.category]}
-          </span>
-          <span style={{
-            fontFamily: "'IM Fell English', Georgia, serif", fontSize: '0.95rem',
-            color: P.ink, letterSpacing: '0.02em',
-          }}>
-            {entry.title}
-          </span>
+    <CabinetDrawer
+      testId="inline-codex"
+      titleId="inline-codex-title"
+      title="Codex"
+      closeLabel="Close codex"
+      onClose={closeInlineCodex}
+      width="min(440px, calc(100vw - 220px))"
+      zIndex={Z.inlineCodex}
+      footer="Esc · back to the conversation"
+    >
+      <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        <nav aria-label="Codex history" style={{ display: 'flex', justifyContent: 'center', gap: 14, margin: '0 0 14px', flexShrink: 0 }}>
+          <NavButton label="Open the Briefs Library" glyph="⌂" onClick={openInBriefs} />
+          <NavButton label="Back" glyph="◀" disabled={pos === 0} onClick={goBack} />
+          <NavButton label="Forward" glyph="▶" disabled={pos === history.length - 1} onClick={goForward} />
+        </nav>
+        <div style={SCROLL_STYLE}>
+          <CabinetCard title={shown.title} testId="inline-codex-card" bodyStyle={{ padding: '14px 18px 16px' }}>
+            <CodexImages entryId={entry.id} surface="dark" />
+            <div style={{ textAlign: 'center', margin: '2px 0 14px' }}>
+              <CabinetButton variant="primary" size="small" onClick={openInBriefs}>
+                Open in Briefs Library
+              </CabinetButton>
+            </div>
+            {renderMarkdown(shown.content)}
+          </CabinetCard>
         </div>
-        <button
-          onClick={closeInlineCodex}
-          style={{
-            background: 'none', border: `1px solid ${P.border}`,
-            color: P.inkMuted, cursor: 'pointer',
-            fontFamily: "'Special Elite', monospace", fontSize: '0.55rem',
-            padding: '0.2rem 0.5rem', letterSpacing: '0.1em',
-          }}
-        >✕</button>
       </div>
-
-      {/* Content */}
-      <div style={{
-        flex: 1, overflowY: 'auto', padding: '1.2rem 1.4rem',
-        scrollbarWidth: 'thin', scrollbarColor: '#c8a060 transparent',
-      }}>
-        {entry.category === 'characters' && (
-          <div style={{ float: 'right', marginLeft: '16px', marginBottom: '12px' }}>
-            <CharacterPortrait
-              characterId={entry.id.replace(/^character_/, '')}
-              isActive={false}
-              size={90}
-              showName={false}
-            />
-          </div>
-        )}
-        {renderMarkdown(entry.content)}
-      </div>
-
-      {/* Footer */}
-      <div style={{
-        padding: '0.5rem 1.2rem', flexShrink: 0,
-        background: P.sidebar, borderTop: `1px solid ${P.border}`,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      }}>
-        <span style={{
-          fontFamily: "'Special Elite', monospace", fontSize: '0.42rem',
-          letterSpacing: '0.12em', textTransform: 'uppercase', color: P.inkMuted,
-        }}>
-          Escape to return to the conversation
-        </span>
-        <button type="button" onClick={() => { closeInlineCodex(); openCodex(entry.category, entry.id) }} style={{ background: 'none', border: 'none', color: P.amber, cursor: 'pointer', fontFamily: "'Special Elite', monospace", fontSize: '0.45rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'underline' }}>Open in Briefs library</button>
-        <button
-          onClick={closeInlineCodex}
-          style={{
-            background: P.amber, border: 'none', color: '#f0e8d0',
-            fontFamily: "'Special Elite', monospace", fontSize: '0.5rem',
-            letterSpacing: '0.1em', padding: '0.3rem 0.8rem',
-            cursor: 'pointer', textTransform: 'uppercase',
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </div>
+    </CabinetDrawer>
   )
 }

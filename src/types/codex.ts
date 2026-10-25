@@ -13,6 +13,8 @@ export interface CodexEntry {
   title: string
   content: string          // lightweight markdown: **bold**, *italic*, ## heading, - list
   unlockCondition: 'start' | string  // 'start' = always visible; string = flag name
+  // Minister candidates only: ties the entry to a cabinet appointment so the title and lead line can reflect it.
+  appointment?: { candidateId: string; role: string }
 }
 
 export const CATEGORY_LABELS: Record<CodexCategory, string> = {

@@ -27,6 +27,8 @@ export interface CabinetDrawerProps {
   tabsLabel?: string
   footer?: string
   className?: string
+  /** Stacking layer; defaults to Z.panel. */
+  zIndex?: number
   children: ReactNode
 }
 
@@ -95,6 +97,7 @@ export default function CabinetDrawer({
   tabsLabel,
   footer,
   className,
+  zIndex = Z.panel,
   children,
 }: CabinetDrawerProps) {
   const insets = usePageInsets()
@@ -109,7 +112,7 @@ export default function CabinetDrawer({
   const rootStyle = {
     position: 'fixed',
     ...drawerPlacement(insets.mode, insets.right, width),
-    zIndex: Z.panel,
+    zIndex,
     display: 'flex',
     flexDirection: 'column',
     background: CAB_PANEL_BACKGROUND,

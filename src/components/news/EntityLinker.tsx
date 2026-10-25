@@ -1,55 +1,7 @@
 import { useState } from 'react'
 import { useCodexStore } from '../../stores/codexStore'
 import { CHARACTERS } from '../../data/characters/roster'
-
-const PROVINCE_ENTRIES: Record<string, string> = {
-  'Ashenmere': 'province_ashenmere',
-  'Kravenstal': 'province_kravenstal',
-  'Thornfeld': 'province_thornfeld',
-  'Sevagrad': 'province_sevagrad',
-  'Aldenmoor': 'province_aldenmoor',
-  'Dravenhollow': 'province_dravenhollow',
-}
-
-const FACTION_NAMES: Record<string, string> = {
-  'Halvekist': 'halvekists',
-  'Halvekists': 'halvekists',
-  "Workers' Coalition": 'workersCoalition',
-  "Workers' Unity Coalition": 'workersCoalition',
-  'Workers Coalition': 'workersCoalition',
-  'Reformist Bloc': 'reformists',
-  'Civic Renewal Movement': 'reformists',
-  'Iron Covenant': 'ironCovenant',
-  'Church of the Eternal Flame': 'church',
-  'Church': 'church',
-  'Business Consortium': 'businessClass',
-  "Business Class": 'businessClass',
-  'Dravenni Council': 'dravenni',
-  'Dravenni': 'dravenni',
-  'Dravenni Liberation Front': 'dravenni',
-}
-
-const NATION_ENTRIES: Record<string, string> = {
-  'Veltria': 'nation_veltria',
-  'Veltrian': 'nation_veltria',
-  'Tyvaren': 'nation_tyvaren',
-  'Morivask': 'nation_morivask',
-  'Lytheira': 'nation_lytheira',
-  'Arcturian Commonwealth': 'nation_arcturia',
-  'Orythian Dominion': 'nation_orythia',
-  'Tyvaren Confederation': 'nation_tyvaren',
-  'Asturien Forum': 'nation_asturien',
-}
-
-const TERM_ENTRIES: Record<string, string> = {
-  'BNI': 'term_bni',
-  'Bureau of National Integrity': 'term_bni',
-  'Halvek Constitution': 'term_constitution',
-  'Constitution': 'term_constitution',
-  'Krone': 'term_krone',
-  'Halvek': 'history_halvek',
-  'Thalassic Sea': 'term_thalassic_sea',
-}
+import { PROVINCE_ENTRIES, FACTION_NAMES, NATION_ENTRIES, TERM_ENTRIES } from './entityMaps'
 
 interface EntityToken {
   text: string

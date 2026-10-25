@@ -4,9 +4,12 @@ import { useCodexStore, ALL_CODEX_ENTRIES } from '../stores/codexStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useGameStore } from '../stores/gameStore'
 import { useSettingsStore } from '../stores/settingsStore'
+import { viewCodexEntry } from '../engine/codexEntryView'
+import { useCabinetSnapshot } from '../hooks/useCodexEntryView'
 import type { CodexCategory, CodexEntry } from '../types/codex'
 import { CATEGORY_LABELS } from '../types/codex'
-import CharacterPortrait from './portraits/CharacterPortrait'
+import CodexImages from './ui/cabinet/CodexImages'
+import { getCodexImages } from '../assets/codexArt'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { isBriefUnlocked } from './briefs/briefAccess'
 import { rem } from '../constants/typography'
@@ -54,6 +57,16 @@ const PAPER_TITLE: CSSProperties = {
   margin: '4px 0 8px',
 }
 const PAPER_RULE_LINE: CSSProperties = { height: 1, background: PAPER_INK, marginBottom: 12 }
+const PAPER_IMAGE_FLOAT: CSSProperties = {
+  float: 'right',
+  width: 'min(220px, 40%)',
+  margin: '2px 0 10px 18px',
+}
+const PHONE_IMAGE_BLOCK: CSSProperties = {
+  width: '100%',
+  textAlign: 'center',
+  margin: '4px 0 12px',
+}
 const ENTRY_PAPER_STYLE: CSSProperties = {
   flex: 1,
   minWidth: 0,
@@ -166,8 +179,8 @@ function CategoryPill({
 // ─── Entry list item ──────────────────────────────────────────────────────────
 
 function EntryItem({
-  entry, active, isFirst, isNew, onClick,
-}: { entry: CodexEntry; active: boolean; isFirst: boolean; isNew: boolean; onClick: () => void }) {
+  title, active, isFirst, isNew, onClick,
+}: { title: string; active: boolean; isFirst: boolean; isNew: boolean; onClick: () => void }) {
   return (
     <button
       type="button"
@@ -198,7 +211,7 @@ function EntryItem({
         lineHeight: 1.3,
       }}
     >
-      {entry.title}
+      {title}
       {isNew && <SeverityDot color="var(--cab-gold)" />}
       {isNew && <span style={VISUALLY_HIDDEN}>New</span>}
     </button>
@@ -250,6 +263,7 @@ export default function CodexViewer() {
   const setCharacterMapOpen = useSettingsStore(s => s.setCharacterMapOpen)
   const { activeFlags, unlockedCodexIds } = useNarrativeStore()
   const currentWeek = useGameStore(s => s.currentWeek)
+  const cabinetSnapshot = useCabinetSnapshot()
 
   // Determine which entries are accessible
   const isUnlocked = (entry: CodexEntry): boolean => isBriefUnlocked(entry, activeFlags, unlockedCodexIds)
@@ -274,6 +288,7 @@ export default function CodexViewer() {
   }, [activeCategory, isOpen]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const activeEntry = categoryEntries.find(e => e.id === activeEntryId) ?? categoryEntries[0] ?? null
+  const activeView = activeEntry ? viewCodexEntry(activeEntry, cabinetSnapshot) : null
 
   // Phones can't fit two columns: show the list (sections + entries), then
   // the chosen entry full width with a way back.
@@ -283,6 +298,8 @@ export default function CodexViewer() {
   const showEntry = !isPhone || phonePane === 'entry'
 
   if (!isOpen) return null
+
+  const hasEntryImages = activeEntry ? getCodexImages(activeEntry.id).length > 0 : false
 
   // Check if any category has new entries (for section pills)
   const categoryHasNew = (cat: CodexCategory): boolean =>
@@ -358,7 +375,7 @@ export default function CodexViewer() {
               categoryEntries.map((entry, index) => (
                 <EntryItem
                   key={entry.id}
-                  entry={entry}
+                  title={viewCodexEntry(entry, cabinetSnapshot).title}
                   active={entry.id === activeEntry?.id}
                   isFirst={index === 0}
                   isNew={isNew(entry)}
@@ -397,7 +414,7 @@ export default function CodexViewer() {
               ← Back to {CATEGORY_LABELS[activeCategory]}
             </button>
           )}
-          {activeEntry ? (
+          {activeEntry && activeView ? (
             <PaperSheet
               letterhead={false}
               watermark
@@ -411,23 +428,18 @@ export default function CodexViewer() {
               </div>
               {/* Entry title */}
               <h1 style={PAPER_TITLE}>
-                {activeEntry.title}
+                {activeView.title}
               </h1>
               <div style={PAPER_RULE_LINE} />
-              {/* Portrait float for character entries */}
-              {activeEntry.category === 'characters' && (
-                <div style={{ float: 'right', marginLeft: '20px', marginBottom: '16px' }}>
-                  <CharacterPortrait
-                    characterId={activeEntry.id.replace(/^character_/, '')}
-                    isActive={false}
-                    size={120}
-                    showName={false}
-                  />
+              {/* Entry image: floated right on desktop, centred block on phone */}
+              {hasEntryImages && (
+                <div style={isPhone ? PHONE_IMAGE_BLOCK : PAPER_IMAGE_FLOAT}>
+                  <CodexImages entryId={activeEntry.id} surface="paper" />
                 </div>
               )}
               {/* Markdown content */}
               <div>
-                {renderMarkdown(activeEntry.content)}
+                {renderMarkdown(activeView.content)}
               </div>
               {/* Footer note */}
               <div style={{
