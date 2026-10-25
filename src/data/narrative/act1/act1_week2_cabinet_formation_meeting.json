@@ -1168,6 +1168,87 @@
         }
       ]
     },
+    "defense_followup_hub": {
+      "narrative": [
+        {
+          "type": "description",
+          "text": "Dusek squares her thin folder. Vass waits by the window, hands clasped behind his back. Neither of them is in a hurry to leave."
+        }
+      ],
+      "choices": [
+        {
+          "id": "followup_dusek_timeline",
+          "text": "How long before Tyvaren tests us seriously? Give me a timeline.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_dusek"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_timeline",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.form_meeting_probed_dusek",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "followup_dusek_budget",
+          "text": "What specific funding do the northern garrisons need?",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_dusek_budget"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "dusek_budget_detail",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.form_meeting_dusek_budget",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "followup_vass_iron_covenant",
+          "text": "You have Iron Covenant support. How does that not compromise your independence as Defense Minister?",
+          "internalTag": "reformist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "form_meeting_probed_vass"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "vass_probe",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.form_meeting_probed_vass",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "followup_defense_to_education",
+          "text": "I've heard enough on Defense. Let's move to Education.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "education_presents",
+          "reactions": []
+        }
+      ]
+    },
     "dusek_timeline": {
       "narrative": [
         {
@@ -1184,7 +1265,7 @@
       "choices": [
         {
           "id": "dusek_timeline_hear_vass",
-          "text": "Before Justice — I want to hear General Vass.",
+          "text": "I have more questions on Defense.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
@@ -1192,7 +1273,7 @@
             "form_meeting_probed_dusek"
           ],
           "codexUnlocks": [],
-          "nextSegment": "defense_ministry_hub",
+          "nextSegment": "defense_followup_hub",
           "reactions": []
         }
       ]
@@ -1213,7 +1294,7 @@
       "choices": [
         {
           "id": "dusek_budget_hear_vass",
-          "text": "Before Justice — I want to hear General Vass.",
+          "text": "I have more questions on Defense.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
@@ -1221,7 +1302,7 @@
             "form_meeting_dusek_budget"
           ],
           "codexUnlocks": [],
-          "nextSegment": "defense_ministry_hub",
+          "nextSegment": "defense_followup_hub",
           "reactions": []
         }
       ]
@@ -1245,8 +1326,19 @@
       ],
       "choices": [
         {
+          "id": "vass_probe_more",
+          "text": "I have more questions on Defense.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [],
+          "codexUnlocks": [],
+          "nextSegment": "defense_followup_hub",
+          "reactions": []
+        },
+        {
           "id": "vass_probe_to_justice",
-          "text": "I will hold you to that. Let's continue to Justice.",
+          "text": "I will hold you to that. Let's move to Education.",
           "internalTag": "pragmatist",
           "stateChanges": [],
           "chainTriggers": [],
@@ -1405,6 +1497,26 @@
       ],
       "choices": [
         {
+          "id": "theron_judges_answer_hear_other",
+          "text": "Bring Prosecutor Kešić back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_justice_kesic"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "justice_deep_kesic",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_justice_kesic",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "theron_judges_to_kesic",
           "text": "And what is your view on this, Kešić?",
           "internalTag": "pragmatist",
@@ -1437,6 +1549,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "kesic_rebuttal_judges_hear_other",
+          "text": "Bring Prosecutor Kešić back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_justice_kesic"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "justice_deep_kesic",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_justice_kesic",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "kesic_rebuttal_to_labor",
           "text": "Point taken. We will debate this later. Let's move to Labor.",
@@ -2850,6 +2982,26 @@
       ],
       "choices": [
         {
+          "id": "justice_theron_priority_answer_hear_other",
+          "text": "Bring Prosecutor Kešić back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_justice_kesic"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "justice_deep_kesic",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_justice_kesic",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "justice_theron_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -2871,6 +3023,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "justice_kesic_priority_answer_hear_other",
+          "text": "Bring Professor Theron back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_justice_theron"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "justice_deep_theron",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_justice_theron",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "justice_kesic_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -2894,6 +3066,26 @@
       ],
       "choices": [
         {
+          "id": "justice_kesic_challenge_answer_hear_other",
+          "text": "Bring Professor Theron back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_justice_theron"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "justice_deep_theron",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_justice_theron",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "justice_kesic_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -2915,6 +3107,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "labor_maric_priority_answer_hear_other",
+          "text": "Bring Director Solec back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_labor_solec"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "labor_deep_solec",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_labor_solec",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "labor_maric_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -2938,6 +3150,26 @@
       ],
       "choices": [
         {
+          "id": "labor_maric_challenge_answer_hear_other",
+          "text": "Bring Director Solec back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_labor_solec"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "labor_deep_solec",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_labor_solec",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "labor_maric_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -2959,6 +3191,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "labor_solec_priority_answer_hear_other",
+          "text": "Bring Chairman Marić back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_labor_maric"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "labor_deep_maric",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_labor_maric",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "labor_solec_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -2982,6 +3234,26 @@
       ],
       "choices": [
         {
+          "id": "labor_solec_challenge_answer_hear_other",
+          "text": "Bring Chairman Marić back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_labor_maric"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "labor_deep_maric",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_labor_maric",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "labor_solec_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3003,6 +3275,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "foreign_sorin_priority_answer_hear_other",
+          "text": "Bring Deputy Minister Borač back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_foreign_borac"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_deep_borac",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_foreign_borac",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "foreign_sorin_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -3026,6 +3318,26 @@
       ],
       "choices": [
         {
+          "id": "foreign_sorin_challenge_answer_hear_other",
+          "text": "Bring Deputy Minister Borač back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_foreign_borac"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_deep_borac",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_foreign_borac",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "foreign_sorin_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3047,6 +3359,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "foreign_borac_priority_answer_hear_other",
+          "text": "Bring Ambassador Sorin back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_foreign_sorin"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_deep_sorin",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_foreign_sorin",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "foreign_borac_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -3070,6 +3402,26 @@
       ],
       "choices": [
         {
+          "id": "foreign_borac_challenge_answer_hear_other",
+          "text": "Bring Ambassador Sorin back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_foreign_sorin"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "foreign_affairs_deep_sorin",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_foreign_sorin",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "foreign_borac_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3091,6 +3443,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "edu_solen_priority_answer_hear_other",
+          "text": "Bring Deputy Minister Horák back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_education_horak"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "education_deep_horak",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_education_horak",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "edu_solen_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -3114,6 +3486,26 @@
       ],
       "choices": [
         {
+          "id": "edu_solen_challenge_answer_hear_other",
+          "text": "Bring Deputy Minister Horák back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_education_horak"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "education_deep_horak",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_education_horak",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "edu_solen_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3135,6 +3527,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "edu_horak_priority_answer_hear_other",
+          "text": "Bring Dr. Solén back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_education_solen"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "education_deep_solen",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_education_solen",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "edu_horak_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -3158,6 +3570,26 @@
       ],
       "choices": [
         {
+          "id": "edu_horak_challenge_answer_hear_other",
+          "text": "Bring Dr. Solén back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_education_solen"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "education_deep_solen",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_education_solen",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "edu_horak_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3179,6 +3611,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "health_kaspar_priority_answer_hear_other",
+          "text": "Bring Dr. Meln back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_health_meln"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "health_deep_meln",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_health_meln",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "health_kaspar_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -3202,6 +3654,26 @@
       ],
       "choices": [
         {
+          "id": "health_kaspar_challenge_answer_hear_other",
+          "text": "Bring Dr. Meln back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_health_meln"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "health_deep_meln",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_health_meln",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "health_kaspar_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3223,6 +3695,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "health_meln_priority_answer_hear_other",
+          "text": "Bring Dr. Kaspar back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_health_kaspar"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "health_deep_kaspar",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_health_kaspar",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "health_meln_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -3246,6 +3738,26 @@
       ],
       "choices": [
         {
+          "id": "health_meln_challenge_answer_hear_other",
+          "text": "Bring Dr. Kaspar back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_health_kaspar"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "health_deep_kaspar",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_health_kaspar",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "health_meln_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3267,6 +3779,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "dev_varro_priority_answer_hear_other",
+          "text": "Bring Director Drenek back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_development_drenek"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "development_deep_drenek",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_development_drenek",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "dev_varro_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -3290,6 +3822,26 @@
       ],
       "choices": [
         {
+          "id": "dev_varro_challenge_answer_hear_other",
+          "text": "Bring Director Drenek back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_development_drenek"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "development_deep_drenek",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_development_drenek",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "dev_varro_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3311,6 +3863,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "dev_drenek_priority_answer_hear_other",
+          "text": "Bring Engineer Varro back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_development_varro"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "development_deep_varro",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_development_varro",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "dev_drenek_priority_to_next",
           "text": "I've heard what I need. Let's move on.",
@@ -3334,6 +3906,26 @@
       ],
       "choices": [
         {
+          "id": "dev_drenek_challenge_answer_hear_other",
+          "text": "Bring Engineer Varro back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_development_varro"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "development_deep_varro",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_development_varro",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "dev_drenek_challenge_to_next",
           "text": "I've heard what I need. Let's move on.",
           "internalTag": "pragmatist",
@@ -3355,6 +3947,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "valdek_priority_answer_hear_other",
+          "text": "Bring Director Voss back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_resources_voss"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "resources_deep_voss",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_resources_voss",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "valdek_to_closing",
           "text": "I've heard everything I need. Vyktor, we are done here.",
@@ -3378,6 +3990,26 @@
       ],
       "choices": [
         {
+          "id": "valdek_challenge_answer_hear_other",
+          "text": "Bring Director Voss back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_resources_voss"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "resources_deep_voss",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_resources_voss",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "valdek_to_closing_2",
           "text": "I've heard everything I need. Vyktor, we are done here.",
           "internalTag": "pragmatist",
@@ -3400,6 +4032,26 @@
       ],
       "choices": [
         {
+          "id": "voss_priority_answer_hear_other",
+          "text": "Bring Director Valdek back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_resources_valdek"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "resources_deep_valdek",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_resources_valdek",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "voss_to_closing",
           "text": "I've heard everything I need. Vyktor, we are done here.",
           "internalTag": "pragmatist",
@@ -3421,6 +4073,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "voss_challenge_answer_hear_other",
+          "text": "Bring Director Valdek back in. I have questions for the other candidate too.",
+          "internalTag": "pragmatist",
+          "stateChanges": [],
+          "chainTriggers": [],
+          "flags": [
+            "met_resources_valdek"
+          ],
+          "codexUnlocks": [],
+          "nextSegment": "resources_deep_valdek",
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.met_resources_valdek",
+              "operator": "!=",
+              "value": true
+            }
+          ]
+        },
         {
           "id": "voss_to_closing_2",
           "text": "I've heard everything I need. Vyktor, we are done here.",
