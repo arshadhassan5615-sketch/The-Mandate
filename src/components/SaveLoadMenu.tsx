@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import type { CSSProperties } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
 import {
   saveGame, loadGame, deleteSave, listSaves,
@@ -7,8 +8,30 @@ import {
   AUTOSAVE_SLOT, MANUAL_SLOT_COUNT,
 } from '../engine/SaveManager'
 import type { SaveRecord } from '../db/mandateDb'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+
+/** Minimum height of a tappable control on touch (non-desktop) layouts. */
+const TOUCH_MIN_HEIGHT = 40
+const TOUCH_STYLE: CSSProperties = { minHeight: TOUCH_MIN_HEIGHT }
+
+function useIsDense(): boolean {
+  const { mode } = usePageInsets()
+  return mode !== 'desktop'
+}
+
+/** Loads the save list; resolves to null (after logging) when loading fails. */
+async function fetchSaves(): Promise<(SaveRecord | undefined)[] | null> {
+  try {
+    const result = await listSaves()
+    if (import.meta.env.DEV) console.log('[SaveLoadMenu] Refreshed saves list:', result.map((s, i) => s ? `slot ${i}: "${s.name}" (WK ${s.weekNumber})` : `slot ${i}: EMPTY`).join(', '))
+    return result
+  } catch (e) {
+    console.error('[SaveLoadMenu] Failed to refresh saves:', e)
+    return null
+  }
+}
 
 function formatTimestamp(ts: number): string {
   const d = new Date(ts)
@@ -31,6 +54,7 @@ interface ConfirmProps {
 }
 
 function ConfirmDialog({ message, onConfirm, onCancel }: ConfirmProps) {
+  const dense = useIsDense()
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 10100,
@@ -54,10 +78,10 @@ function ConfirmDialog({ message, onConfirm, onCancel }: ConfirmProps) {
           {message}
         </p>
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <button className="choice-btn" onClick={onConfirm} style={{ flex: 1 }}>
+          <button className="choice-btn" onClick={onConfirm} style={{ flex: 1, ...(dense ? TOUCH_STYLE : null) }}>
             Confirm
           </button>
-          <button className="choice-btn" onClick={onCancel} style={{ flex: 1, opacity: 0.6 }}>
+          <button className="choice-btn" onClick={onCancel} style={{ flex: 1, opacity: 0.6, ...(dense ? TOUCH_STYLE : null) }}>
             Cancel
           </button>
         </div>
@@ -78,12 +102,19 @@ interface SlotRowProps {
 function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
   const isAutosave = slot === AUTOSAVE_SLOT
   const [editingName, setEditingName] = useState(false)
-  const [draftName, setDraftName] = useState(record?.name ?? '')
+  const recordName = record?.name
+  const [draftName, setDraftName] = useState(recordName ?? '')
+  const [syncedRecordName, setSyncedRecordName] = useState(recordName)
   const [confirm, setConfirm] = useState<{ msg: string; fn: () => void } | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const dense = useIsDense()
 
-  useEffect(() => { setDraftName(record?.name ?? '') }, [record?.name])
+  // Reset the draft when the saved record's name changes (adjusted during render, not in an effect).
+  if (recordName !== syncedRecordName) {
+    setSyncedRecordName(recordName)
+    setDraftName(recordName ?? '')
+  }
   useEffect(() => { if (editingName) inputRef.current?.focus() }, [editingName])
 
   const ask = (msg: string, fn: () => void) => setConfirm({ msg, fn })
@@ -279,19 +310,19 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
         <div style={{ display: 'flex', gap: '0.4rem', flexShrink: 0 }}>
           {/* Save — hidden in ironman + autosave slot */}
           {!isAutosave && !ironman && (
-            <ActionBtn label="Save" onClick={handleSave} />
+            <ActionBtn label="Save" onClick={handleSave} dense={dense} />
           )}
           {/* Load */}
           {record && (
-            <ActionBtn label="Load" onClick={handleLoad} accent />
+            <ActionBtn label="Load" onClick={handleLoad} accent dense={dense} />
           )}
           {/* Delete */}
           {record && !isAutosave && !ironman && (
-            <ActionBtn label="Del" onClick={handleDelete} danger />
+            <ActionBtn label="Del" onClick={handleDelete} danger dense={dense} />
           )}
           {/* Export */}
           {record && (
-            <ActionBtn label="Export" onClick={handleExport} />
+            <ActionBtn label="Export" onClick={handleExport} dense={dense} />
           )}
         </div>
       </div>
@@ -300,13 +331,14 @@ function SlotRow({ slot, record, ironman, onAction }: SlotRowProps) {
 }
 
 function ActionBtn({
-  label, onClick, accent, danger,
+  label, onClick, accent, danger, dense,
 }: {
-  label: string; onClick: () => void; accent?: boolean; danger?: boolean
+  label: string; onClick: () => void; accent?: boolean; danger?: boolean; dense: boolean
 }) {
   return (
     <button
       onClick={onClick}
+      className={dense ? 'touch-target' : undefined}
       style={{
         fontFamily: "'Special Elite', monospace",
         fontSize: '0.55rem',
@@ -319,6 +351,7 @@ function ActionBtn({
         cursor: 'pointer',
         transition: 'all 0.15s ease',
         whiteSpace: 'nowrap',
+        ...(dense ? { ...TOUCH_STYLE, minWidth: TOUCH_MIN_HEIGHT } : null),
       }}
       onMouseEnter={e => {
         const el = e.currentTarget as HTMLButtonElement
@@ -352,20 +385,19 @@ export default function SaveLoadMenu() {
   const [importing, setImporting] = useState<{ record: SaveRecord } | null>(null)
   const [importTargetSlot, setImportTargetSlot] = useState(1)
   const [ironmanConfirm, setIronmanConfirm] = useState(false)
+  const dense = useIsDense()
 
   const refresh = useCallback(async () => {
-    try {
-      const result = await listSaves()
-      if (import.meta.env.DEV) console.log('[SaveLoadMenu] Refreshed saves list:', result.map((s, i) => s ? `slot ${i}: "${s.name}" (WK ${s.weekNumber})` : `slot ${i}: EMPTY`).join(', '))
-      setSaves(result)
-    } catch (e) {
-      console.error('[SaveLoadMenu] Failed to refresh saves:', e)
-    }
+    const result = await fetchSaves()
+    if (result) setSaves(result)
   }, [])
 
   useEffect(() => {
-    if (saveMenuOpen) refresh()
-  }, [saveMenuOpen, refresh])
+    if (!saveMenuOpen) return
+    void fetchSaves().then(result => {
+      if (result) setSaves(result)
+    })
+  }, [saveMenuOpen])
 
   if (!saveMenuOpen) return null
 
@@ -462,8 +494,8 @@ export default function SaveLoadMenu() {
               Republic of Veltria — Chancellor's Personnel Files
             </p>
           </div>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <button onClick={handleImportPick} style={{
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', ...(dense ? { flexWrap: 'wrap', justifyContent: 'flex-end' } : null) }}>
+            <button onClick={handleImportPick} className={dense ? 'touch-target' : undefined} style={{
               fontFamily: "'Special Elite', monospace",
               fontSize: '0.55rem',
               letterSpacing: '0.12em',
@@ -473,6 +505,7 @@ export default function SaveLoadMenu() {
               color: 'var(--muted)',
               padding: '0.35rem 0.7rem',
               cursor: 'pointer',
+              ...(dense ? TOUCH_STYLE : null),
             }}>
               Import JSON
             </button>
@@ -487,6 +520,7 @@ export default function SaveLoadMenu() {
                   fontFamily: "'Special Elite', monospace",
                   fontSize: '0.55rem',
                   padding: '0.3rem',
+                  ...(dense ? TOUCH_STYLE : null),
                 }}
               >
                 {Array.from({ length: MANUAL_SLOT_COUNT }, (_, i) => i + 1).map(n => (
@@ -496,6 +530,7 @@ export default function SaveLoadMenu() {
             )}
             <button
               onClick={() => setSaveMenuOpen(false)}
+              className={dense ? 'touch-target' : undefined}
               style={{
                 fontFamily: "'Special Elite', monospace",
                 fontSize: '0.65rem',
@@ -505,6 +540,7 @@ export default function SaveLoadMenu() {
                 color: 'var(--muted)',
                 padding: '0.35rem 0.7rem',
                 cursor: 'pointer',
+                ...(dense ? TOUCH_STYLE : null),
               }}
             >
               ✕ Close
@@ -585,6 +621,7 @@ export default function SaveLoadMenu() {
           </div>
           <button
             onClick={handleIronmanToggle}
+            className={dense ? 'touch-target' : undefined}
             style={{
               fontFamily: "'Special Elite', monospace",
               fontSize: '0.55rem',
@@ -595,6 +632,7 @@ export default function SaveLoadMenu() {
               color: ironmanMode ? '#c87070' : 'var(--muted)',
               padding: '0.35rem 0.9rem',
               cursor: 'pointer',
+              ...(dense ? TOUCH_STYLE : null),
             }}
           >
             {ironmanMode ? 'Disable Ironman' : 'Enable Ironman'}

@@ -1505,3 +1505,16 @@ html { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 @media (pointer: coarse) {
   .touch-hit { display: block; position: absolute; inset: -14px; border-radius: 50%; }
 }
+
+/* Coarse pointers (touch): tabs, pills and text buttons in the Briefs, Journal and Notes panels get a 40px hit area. Mouse layouts are unchanged. */
+@media (pointer: coarse) {
+  .touch-target { min-height: 40px; min-width: 40px; }
+  /* Pill rows become one sideways-scrolling row on touch so they don't stack into the list. */
+  .touch-scroll-row {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .touch-scroll-row > * { flex-shrink: 0; }
+}

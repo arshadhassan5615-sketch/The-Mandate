@@ -1,0 +1,438 @@
+=== PART 1 — DEAD scene triage (92 candidates) ===
+
+Method: for each DEAD scene (never reachable via loadScene(), so its
+prerequisites never evaluate), check whether the SCENE ITSELF is referenced
+anywhere via nextNodeId or chainTrigger.targetNodeId, and cross-check against
+the existing orphan list in audit-full-game-report.txt.
+
+CHAIN-REACHABLE (43) — prerequisite is vestigial, scene itself is fine, no action needed:
+  act1_chain_church_opposition (src/data/narrative/act1/act1_chain_church_opposition.json)
+      <- chainTrigger from act1_week8_church_and_state [root] choice "church_secular_reform" (src/data/narrative/act1/act1_week8_church_and_state.json)
+  act1_chain_executive_governance (src/data/narrative/act1/act1_chain_executive_governance.json)
+      <- chainTrigger from act1_week13_no_confidence [root] choice "no_confidence_executive_power" (src/data/narrative/act1/act1_week13_no_confidence.json)
+  act1_chain_ima_confrontation (src/data/narrative/act1/act1_chain_ima_confrontation.json)
+      <- chainTrigger from act1_week9_first_quarter [root] choice "quarterly_slow_reform" (src/data/narrative/act1/act1_week9_first_quarter.json)
+  act1_chain_nadia_investigation (src/data/narrative/act1/act1_chain_nadia_investigation.json)
+      <- chainTrigger from act1_week12_nadia_voss [root] choice "nadia_deflect_threat" (src/data/narrative/act1/act1_week12_nadia_voss.json)
+  act2_econ_marić_confrontation (src/data/narrative/act2/act2_econ_marić_confrontation.json)
+      <- chainTrigger from act1_week3_economic_direction [root] choice "econ_free_market" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  act2_econ_mixed_challenges (src/data/narrative/act2/act2_econ_mixed_challenges.json)
+      <- chainTrigger from act1_week3_economic_direction [root] choice "econ_mixed" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  act2_econ_orythian_loan_offer (src/data/narrative/act2/act2_econ_orythian_loan_offer.json)
+      <- chainTrigger from act1_week3_economic_direction [root] choice "econ_planned" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  act2_econ_pragmatic_strain (src/data/narrative/act2/act2_econ_pragmatic_strain.json)
+      <- chainTrigger from act1_week3_economic_direction [root] choice "econ_pragmatic" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  act2_econ_vael_approach (src/data/narrative/act2/act2_econ_vael_approach.json)
+      <- chainTrigger from act1_week3_economic_direction [root] choice "econ_free_market" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  act2_econ_vostane_confrontation (src/data/narrative/act2/act2_econ_vostane_confrontation.json)
+      <- chainTrigger from act1_week3_economic_direction [root] choice "econ_planned" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  act2_ima_conditionality_review (src/data/narrative/act2/act2_ima_conditionality_review.json)
+      <- chainTrigger from act1_chain_capital_strike [root] choice "capital_strike_ima_alternative" (src/data/narrative/act1/act1_chain_capital_strike.json)
+  act2_tyvaren_blind_spot (src/data/narrative/act2/act2_tyvaren_blind_spot.json)
+      <- chainTrigger from act1_week1_bni_discovery [root] choice "bni_full_shutdown" (src/data/narrative/act1/act1_week1_bni_discovery.json)
+  act2_week17_soren_debate (src/data/narrative/act2/act2_week17_soren_debate.json)
+      <- chainTrigger from act1_week9_soren_immunity [root] choice "soren_immunity_revoke" (src/data/narrative/act1/act1_week9_soren_immunity.json)
+  act2_week25_brenner_warning (src/data/narrative/act2/act2_week25_brenner_warning.json)
+      <- chainTrigger from act2_week17_soren_debate [root] choice "soren_debate_push_through" (src/data/narrative/act2/act2_week17_soren_debate.json)
+      <- chainTrigger from act2_week17_soren_debate [root] choice "soren_debate_compromise" (src/data/narrative/act2/act2_week17_soren_debate.json)
+  act3_brenner_response (src/data/narrative/act3/act3_brenner_response.json)
+      <- chainTrigger from act2_week26_referendum_decisive [root] choice "referendum_decisive_mandate_claim" (src/data/narrative/act2/act2_week26_referendum_decisive.json)
+      <- chainTrigger from act3_coalition_government [root] choice "coalition_marginalize_military" (src/data/narrative/act3/act3_coalition_government.json)
+      <- chainTrigger from act3_public_moment [root] choice "public_democratic_warning" (src/data/narrative/act3/act3_public_moment.json)
+      <- chainTrigger from act3_week27_aftermath_decisive [root] choice "aftermath_decisive_message_brenner" (src/data/narrative/act3/act3_week27_aftermath_decisive.json)
+  act3_coalition_stabilization (src/data/narrative/act3/act3_coalition_stabilization.json)
+      <- chainTrigger from act3_week27_aftermath_rejected [root] choice "aftermath_rejected_address_cabinet" (src/data/narrative/act3/act3_week27_aftermath_rejected.json)
+  act3_dravenni_insurgency (src/data/narrative/act3/act3_dravenni_insurgency.json)
+      <- chainTrigger from act3_dravenhollow_crackdown [root] choice "dravenhollow_crackdown_continue" (src/data/narrative/act3/act3_dravenhollow_crackdown.json)
+      <- chainTrigger from act3_dravenni_divided_response [root] choice "dravenni_divided_security" (src/data/narrative/act3/act3_dravenni_divided_response.json)
+      <- chainTrigger from act3_dravenni_radicalization [root] choice "dravenni_radicalization_security" (src/data/narrative/act3/act3_dravenni_radicalization.json)
+      <- chainTrigger from act3_superpower_pressure [root] choice "superpower_align_arcturia" (src/data/narrative/act3/act3_superpower_pressure.json)
+      <- chainTrigger from act3_week34_dravenhollow [root] choice "dravenhollow_suppress_separatists" (src/data/narrative/act3/act3_week34_dravenhollow.json)
+  act3_halvekist_legal_war (src/data/narrative/act3/act3_halvekist_legal_war.json)
+      <- chainTrigger from act2_week26_referendum_narrow [root] choice "referendum_narrow_challenge_opponent" (src/data/narrative/act2/act2_week26_referendum_narrow.json)
+      <- chainTrigger from act3_autonomy_commission [root] choice "autonomy_commission_observe" (src/data/narrative/act3/act3_autonomy_commission.json)
+      <- chainTrigger from act3_coalition_government [root] choice "coalition_push_reforms" (src/data/narrative/act3/act3_coalition_government.json)
+      <- chainTrigger from act3_kolvar_negotiation [root] choice "kolvar_negotiation_bypass_threat" (src/data/narrative/act3/act3_kolvar_negotiation.json)
+      <- chainTrigger from act3_legal_standoff [root] choice "legal_standoff_proceed_anyway" (src/data/narrative/act3/act3_legal_standoff.json)
+      <- chainTrigger from act3_leverage_operation [root] choice "leverage_aggressive" (src/data/narrative/act3/act3_leverage_operation.json)
+      <- chainTrigger from act3_treaty_drafting [root] choice "treaty_push_back_hard" (src/data/narrative/act3/act3_treaty_drafting.json)
+  act3_judicial_independence (src/data/narrative/act3/act3_judicial_independence.json)
+      <- chainTrigger from act3_week27_aftermath_decisive [root] choice "aftermath_decisive_first_appointments" (src/data/narrative/act3/act3_week27_aftermath_decisive.json)
+  act3_kolvar_legal_challenge (src/data/narrative/act3/act3_kolvar_legal_challenge.json)
+      <- chainTrigger from act2_week26_referendum_narrow [root] choice "referendum_narrow_defend_result" (src/data/narrative/act2/act2_week26_referendum_narrow.json)
+      <- chainTrigger from act3_autonomy_commission [root] choice "autonomy_commission_power" (src/data/narrative/act3/act3_autonomy_commission.json)
+      <- chainTrigger from act3_dravenni_autonomy_talks [root] choice "dravenni_autonomy_federal" (src/data/narrative/act3/act3_dravenni_autonomy_talks.json)
+      <- chainTrigger from act3_dravenni_divided_response [root] choice "dravenni_divided_fast_track" (src/data/narrative/act3/act3_dravenni_divided_response.json)
+      <- chainTrigger from act3_week27_aftermath_narrow [root] choice "aftermath_narrow_hold_result" (src/data/narrative/act3/act3_week27_aftermath_narrow.json)
+      <- chainTrigger from act3_week27_aftermath_narrow [root] choice "aftermath_narrow_wait" (src/data/narrative/act3/act3_week27_aftermath_narrow.json)
+  act3_liora_journalist_arc (src/data/narrative/act3/act3_liora_journalist_arc.json)
+      <- chainTrigger from act2_week23_family_crisis_liora [root] choice "liora_let_process_run" (src/data/narrative/act2/act2_week23_family_crisis_liora.json)
+  act3_opposition_management (src/data/narrative/act3/act3_opposition_management.json)
+      <- chainTrigger from act2_week26_referendum_decisive [root] choice "referendum_decisive_reach_out" (src/data/narrative/act2/act2_week26_referendum_decisive.json)
+  act3_reform_by_decree (src/data/narrative/act3/act3_reform_by_decree.json)
+      <- chainTrigger from act2_week26_referendum_rejected [root] choice "referendum_rejected_fight_on" (src/data/narrative/act2/act2_week26_referendum_rejected.json)
+      <- chainTrigger from act3_week27_aftermath_rejected [root] choice "aftermath_rejected_fight_on" (src/data/narrative/act3/act3_week27_aftermath_rejected.json)
+  act3_tomas_jonas_bond (src/data/narrative/act3/act3_tomas_jonas_bond.json)
+      <- chainTrigger from act2_week23_family_crisis_tomas [root] choice "tomas_jonas_handles" (src/data/narrative/act2/act2_week23_family_crisis_tomas.json)
+  act3_tomas_nationalist_arc (src/data/narrative/act3/act3_tomas_nationalist_arc.json)
+      <- chainTrigger from act2_week23_family_crisis_tomas [root] choice "tomas_investigate_ironborn" (src/data/narrative/act2/act2_week23_family_crisis_tomas.json)
+      <- chainTrigger from act2_week23_family_crisis_tomas [root] choice "tomas_schedule_next_week" (src/data/narrative/act2/act2_week23_family_crisis_tomas.json)
+  act3_tomas_student_arc (src/data/narrative/act3/act3_tomas_student_arc.json)
+      <- chainTrigger from act2_week23_family_crisis_tomas [root] choice "tomas_go_to_school" (src/data/narrative/act2/act2_week23_family_crisis_tomas.json)
+  act3_vael_minister_demand (src/data/narrative/act3/act3_vael_minister_demand.json)
+      <- chainTrigger from act3_vael_block_wealth_tax [root] choice "vael_wealth_tax_block" (src/data/narrative/act3/act3_vael_block_wealth_tax.json)
+      <- chainTrigger from act3_vael_block_wealth_tax [root] choice "vael_wealth_tax_compromise" (src/data/narrative/act3/act3_vael_block_wealth_tax.json)
+      <- chainTrigger from act3_vael_block_wealth_tax [root] choice "vael_wealth_tax_push" (src/data/narrative/act3/act3_vael_block_wealth_tax.json)
+  act3_vyktor_departure (src/data/narrative/act3/act3_vyktor_departure.json)
+      <- chainTrigger from act3_volkov_patience_expires [root] choice "volkov_accept_terms" (src/data/narrative/act3/act3_volkov_patience_expires.json)
+      <- chainTrigger from act3_vyktor_full_disclosure [root] choice "push_complete_picture" (src/data/narrative/act3/act3_vyktor_full_disclosure.json)
+      <- chainTrigger from act3_vyktor_full_disclosure [root] choice "accept_partial_disclosure" (src/data/narrative/act3/act3_vyktor_full_disclosure.json)
+      <- chainTrigger from act3_vyktor_full_disclosure [root] choice "narrow_scope" (src/data/narrative/act3/act3_vyktor_full_disclosure.json)
+      <- chainTrigger from act3_week29_vyktor_exposed [root] choice "exposed_accept_resignation" (src/data/narrative/act3/act3_week29_vyktor_exposed.json)
+      <- chainTrigger from act3_week30_betrayal_vyktor [root] choice "betrayal_vyktor_dismiss" (src/data/narrative/act3/act3_week30_betrayal_vyktor.json)
+  act3_week33_soren_files (src/data/narrative/act3/act3_week33_soren_files.json)
+      <- chainTrigger from act2_week25_brenner_warning [root] choice "brenner_reassure_constitution" (src/data/narrative/act2/act2_week25_brenner_warning.json)
+      <- chainTrigger from act2_week25_brenner_warning [root] choice "brenner_stand_firm" (src/data/narrative/act2/act2_week25_brenner_warning.json)
+  act3_week38_soren_trial (src/data/narrative/act3/act3_week38_soren_trial.json)
+      <- chainTrigger from act3_week33_soren_files [root] choice "soren_files_acknowledge_personal" (src/data/narrative/act3/act3_week33_soren_files.json)
+      <- chainTrigger from act3_week33_soren_files [root] choice "soren_files_seal_personal" (src/data/narrative/act3/act3_week33_soren_files.json)
+  act4_alliance_crisis (src/data/narrative/act4/act4_alliance_crisis.json)
+      <- chainTrigger from act4_week40_war_begins [root] choice "war_hold_reserve_call_allies" (src/data/narrative/act4/act4_week40_war_begins.json)
+  act4_arcturian_intervention (src/data/narrative/act4/act4_arcturian_intervention.json)
+      <- chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_stellamere_intervention" (src/data/narrative/act4/act4_week42_war_strategy.json)
+      <- chainTrigger from act4_week46_final_battle [root] choice "final_battle_diplomatic_parallel" (src/data/narrative/act4/act4_week46_final_battle.json)
+  act4_soren_files_aftermath (src/data/narrative/act4/act4_soren_files_aftermath.json)
+      <- chainTrigger from act3_week38_soren_trial [root] choice "soren_trial_release_files" (src/data/narrative/act3/act3_week38_soren_trial.json)
+  act4_soren_leverage_aftermath (src/data/narrative/act4/act4_soren_leverage_aftermath.json)
+      <- chainTrigger from act3_week38_soren_trial [root] choice "soren_trial_leverage" (src/data/narrative/act3/act3_week38_soren_trial.json)
+  act4_soren_plea_aftermath (src/data/narrative/act4/act4_soren_plea_aftermath.json)
+      <- chainTrigger from act3_week38_soren_trial [root] choice "soren_trial_plea_deal" (src/data/narrative/act3/act3_week38_soren_trial.json)
+  act4_soren_trial_aftermath (src/data/narrative/act4/act4_soren_trial_aftermath.json)
+      <- chainTrigger from act3_week38_soren_trial [root] choice "soren_trial_public" (src/data/narrative/act3/act3_week38_soren_trial.json)
+  act4_vael_final_offer (src/data/narrative/act4/act4_vael_final_offer.json)
+      <- chainTrigger from act3_vael_minister_demand [root] choice "vael_minister_appoint" (src/data/narrative/act3/act3_vael_minister_demand.json)
+      <- chainTrigger from act3_vael_minister_demand [root] choice "vael_minister_refuse" (src/data/narrative/act3/act3_vael_minister_demand.json)
+      <- chainTrigger from act3_vael_minister_demand [root] choice "vael_minister_counter" (src/data/narrative/act3/act3_vael_minister_demand.json)
+  mole_week7_false_resolve (src/data/narrative/act1/investigation/mole_week7_false_resolve.json)
+      <- chainTrigger from mole_week5_complication [root] choice "mole_complication_formal" (src/data/narrative/act1/investigation/mole_week5_complication.json)
+      <- chainTrigger from mole_week5_complication [root] choice "mole_complication_passive" (src/data/narrative/act1/investigation/mole_week5_complication.json)
+      <- chainTrigger from mole_week5_complication [root] choice "mole_complication_oberlin" (src/data/narrative/act1/investigation/mole_week5_complication.json)
+  mole_week9_reveal (src/data/narrative/act1/investigation/mole_week9_reveal.json)
+      <- chainTrigger from mole_week7_false_resolve [root] choice "mole_reject_confession" (src/data/narrative/act1/investigation/mole_week7_false_resolve.json)
+  project_vael_kickback_fort (src/data/narrative/act2/project_vael_kickback_fort.json)
+      <- chainTrigger from project_contractor_fortification [root] choice "contractor_fort_vael" (src/data/narrative/projects/project_contractor_fortification.json)
+  project_vael_kickback_highway (src/data/narrative/act2/project_vael_kickback_highway.json)
+      <- chainTrigger from project_contractor_highway [root] choice "contractor_highway_vael" (src/data/narrative/projects/project_contractor_highway.json)
+  project_vael_kickback_steel (src/data/narrative/act2/project_vael_kickback_steel.json)
+      <- chainTrigger from project_contractor_steel [root] choice "contractor_steel_vael" (src/data/narrative/projects/project_contractor_steel.json)
+  project_vael_kickback_uni (src/data/narrative/act2/project_vael_kickback_uni.json)
+      <- chainTrigger from project_contractor_university [root] choice "contractor_uni_vael" (src/data/narrative/projects/project_contractor_university.json)
+
+TRULY-ORPHANED (49) — not referenced anywhere at all, same bug class as the 17 already fixed:
+  act1_chain_deficit_crisis (src/data/narrative/act1/act1_chain_deficit_crisis.json) — in existing orphan report: YES
+  act1_chain_tyvaren_blind_spot (src/data/narrative/act1/act1_chain_tyvaren_blind_spot.json) — in existing orphan report: YES
+  act1_chain_tyvaren_border_standoff (src/data/narrative/act1/act1_chain_tyvaren_border_standoff.json) — in existing orphan report: YES
+  act1_chain_watchtower_leak (src/data/narrative/act1/act1_chain_watchtower_leak.json) — in existing orphan report: YES
+  act1_serida_school_funding (src/data/narrative/act1/act1_serida_school_funding.json) — in existing orphan report: YES
+  act2_deficit_crisis (src/data/narrative/act2/act2_deficit_crisis.json) — in existing orphan report: YES
+  act2_jonas_workers_housing (src/data/narrative/act2/act2_jonas_workers_housing.json) — in existing orphan report: YES
+  act2_serida_overhears (src/data/narrative/act2/act2_serida_overhears.json) — in existing orphan report: YES
+  act2_serida_tomas_factory (src/data/narrative/act2/act2_serida_tomas_factory.json) — in existing orphan report: YES
+  act2_week14_elena_favor (src/data/narrative/act2/act2_week14_elena_favor.json) — in existing orphan report: YES
+  act2_week26_referendum (src/data/narrative/act2/act2_week26_referendum.json) — in existing orphan report: YES
+  act3_armadine_steel_return (src/data/narrative/act3/act3_armadine_steel_return.json) — in existing orphan report: YES
+  act3_armadine_steel_return_jonas (src/data/narrative/act3/act3_armadine_steel_return_jonas.json) — in existing orphan report: YES
+  act3_bca_report_wk33 (src/data/narrative/act3/act3_bca_report_wk33.json) — in existing orphan report: YES
+  act3_bca_report_wk44 (src/data/narrative/act3/act3_bca_report_wk44.json) — in existing orphan report: YES
+  act3_both_agencies_conflict (src/data/narrative/act3/act3_both_agencies_conflict.json) — in existing orphan report: YES
+  act3_currency_speculation_resolution (src/data/narrative/act3/act3_currency_speculation_resolution.json) — in existing orphan report: YES
+  act3_currency_speculation_small (src/data/narrative/act3/act3_currency_speculation_small.json) — in existing orphan report: YES
+  act3_jonas_civic_commission (src/data/narrative/act3/act3_jonas_civic_commission.json) — in existing orphan report: YES
+  act3_jonas_conservative_attack (src/data/narrative/act3/act3_jonas_conservative_attack.json) — in existing orphan report: YES
+  act3_jonas_kolvar_warning (src/data/narrative/act3/act3_jonas_kolvar_warning.json) — in existing orphan report: YES
+  act3_jonas_refugee_stance (src/data/narrative/act3/act3_jonas_refugee_stance.json) — in existing orphan report: YES
+  act3_jonas_renek_concerns (src/data/narrative/act3/act3_jonas_renek_concerns.json) — in existing orphan report: YES
+  act3_jonas_soraya_approval (src/data/narrative/act3/act3_jonas_soraya_approval.json) — in existing orphan report: YES
+  act3_port_bonds_return (src/data/narrative/act3/act3_port_bonds_return.json) — in existing orphan report: YES
+  act3_port_bonds_return_blind (src/data/narrative/act3/act3_port_bonds_return_blind.json) — in existing orphan report: YES
+  act3_serida_misses_play (src/data/narrative/act3/act3_serida_misses_play.json) — in existing orphan report: YES
+  act3_serida_refugee_neighborhood (src/data/narrative/act3/act3_serida_refugee_neighborhood.json) — in existing orphan report: YES
+  act3_ssd_report_wk33 (src/data/narrative/act3/act3_ssd_report_wk33.json) — in existing orphan report: YES
+  act3_ssd_report_wk44 (src/data/narrative/act3/act3_ssd_report_wk44.json) — in existing orphan report: YES
+  act3_vael_fund_return (src/data/narrative/act3/act3_vael_fund_return.json) — in existing orphan report: YES
+  act3_vael_fund_return_hidden (src/data/narrative/act3/act3_vael_fund_return_hidden.json) — in existing orphan report: YES
+  act3_week28_elena_crisis_spin (src/data/narrative/act3/act3_week28_elena_crisis_spin.json) — in existing orphan report: YES
+  act3_week34_elena_rival (src/data/narrative/act3/act3_week34_elena_rival.json) — in existing orphan report: YES
+  act4_jonas_foreign_offer (src/data/narrative/act4/act4_jonas_foreign_offer.json) — in existing orphan report: YES
+  act4_mole_confrontation (src/data/narrative/act4/act4_mole_confrontation.json) — in existing orphan report: YES
+  act4_mole_correct_accusation (src/data/narrative/act4/act4_mole_correct_accusation.json) — in existing orphan report: YES
+  act4_mole_wrong_accusation (src/data/narrative/act4/act4_mole_wrong_accusation.json) — in existing orphan report: YES
+  act4_serida_epilogue (src/data/narrative/act4/act4_serida_epilogue.json) — in existing orphan report: YES
+  act4_week45_elena_reckoning (src/data/narrative/act4/act4_week45_elena_reckoning.json) — in existing orphan report: YES
+  family_bni_night (src/data/narrative/act1/family/family_bni_night.json) — in existing orphan report: YES
+  project_contractor_fortification (src/data/narrative/projects/project_contractor_fortification.json) — in existing orphan report: YES
+  project_contractor_highway (src/data/narrative/projects/project_contractor_highway.json) — in existing orphan report: YES
+  project_contractor_steel (src/data/narrative/projects/project_contractor_steel.json) — in existing orphan report: YES
+  project_contractor_university (src/data/narrative/projects/project_contractor_university.json) — in existing orphan report: YES
+  project_mid_crisis_fortification (src/data/narrative/projects/project_mid_crisis_fortification.json) — in existing orphan report: YES
+  project_mid_crisis_highway (src/data/narrative/projects/project_mid_crisis_highway.json) — in existing orphan report: YES
+  project_mid_crisis_steel (src/data/narrative/projects/project_mid_crisis_steel.json) — in existing orphan report: YES
+  project_mid_crisis_university (src/data/narrative/projects/project_mid_crisis_university.json) — in existing orphan report: YES
+
+=== PART 2 — DECORATIVE scene risk ranking (48 candidates) ===
+
+Method: for each flag a scene requires, find every choice anywhere in the game
+that sets it. A setter is "guaranteed" only if ALL of these hold:
+  (a) its containing scene is itself reachable (not dead/orphaned),
+  (b) its containing scene is isMandatory: true,
+  (c) the flag is set on EVERY choice in that same choice array (root or
+      segment) — i.e. not just one of several exclusive player decisions, and
+  (d) that scene's weekAvailable is strictly earlier than this scene's window.
+If at least one such guaranteed setter exists, risk is LOW. Otherwise HIGH —
+the flag could plausibly still be unset (scene skipped, or a different
+mutually-exclusive branch fired instead) when this scene's window opens.
+Caveat: this checks direct flag-setting choices only, not multi-hop chains
+across segments; treat LOW-RISK verdicts as "no risk found by this pass",
+not an absolute guarantee.
+
+HIGH RISK (35) — contradiction genuinely possible:
+--- act2_bca_report_wk22 (src/data/narrative/act2/act2_bca_report_wk22.json) ---
+  window: weekAvailable=22 weekDeadline=25
+  prerequisites: [{"type":"flag","flag":"bca_funded","value":true},{"type":"flag","flag":"law_enforcement_choice_made","value":true}]
+  flag "bca_funded": set only by act1_week10_law_enforcement_choice — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+  flag "law_enforcement_choice_made": set only by act1_week10_law_enforcement_choice — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act2_ssd_report_wk22 (src/data/narrative/act2/act2_ssd_report_wk22.json) ---
+  window: weekAvailable=22 weekDeadline=25
+  prerequisites: [{"type":"flag","flag":"ssd_funded","value":true},{"type":"flag","flag":"law_enforcement_choice_made","value":true}]
+  flag "ssd_funded": set only by act1_week10_law_enforcement_choice — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+  flag "law_enforcement_choice_made": set only by act1_week10_law_enforcement_choice — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act2_week21_visit_petravar (src/data/narrative/act2/act2_week21_visit_petravar.json) ---
+  window: weekAvailable=21 weekDeadline=26
+  prerequisites: [{"stat":"flags.superpower_choice_orythian","operator":"==","value":true}]
+  flag "superpower_choice_orythian": set only by act2_week21_superpower_choice — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act2_week21_visit_stellamere (src/data/narrative/act2/act2_week21_visit_stellamere.json) ---
+  window: weekAvailable=21 weekDeadline=26
+  prerequisites: [{"stat":"flags.superpower_choice_arcturian","operator":"==","value":true}]
+  flag "superpower_choice_arcturian": set only by act2_week21_superpower_choice — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act3_cabinet_loyalty_audit (src/data/narrative/act3/act3_cabinet_loyalty_audit.json) ---
+  window: weekAvailable=31 weekDeadline=36
+  prerequisites: [{"stat":"flags.vostane_defected","operator":"==","value":true}]
+  flag "vostane_defected": set only by act3_week30_betrayal_vostane — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act3_confidence_vote (src/data/narrative/act3/act3_confidence_vote.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.referendum_failed","operator":"==","value":true}]
+  flag "referendum_failed": set only by act2_week26_referendum_rejected, act3_week27_aftermath_rejected — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act3_jonas_separation (src/data/narrative/act3/act3_jonas_separation.json) ---
+  window: weekAvailable=31 weekDeadline=null
+  prerequisites: [{"stat":"personal.marriageHealth","operator":"<","value":28}]
+
+--- act3_liora_reconciliation (src/data/narrative/act3/act3_liora_reconciliation.json) ---
+  window: weekAvailable=27 weekDeadline=32
+  prerequisites: [{"stat":"flags.liora_chancellor_attended","operator":"==","value":true}]
+  flag "liora_chancellor_attended": set only by act2_week23_family_crisis_liora — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act3_nightmare_sequence (src/data/narrative/act3/act3_nightmare_sequence.json) ---
+  window: weekAvailable=30 weekDeadline=52
+  prerequisites: [{"stat":"personal.stressLevel","operator":">=","value":80}]
+
+--- act3_no_confidence_fallen (src/data/narrative/act3/act3_no_confidence_fallen.json) ---
+  window: weekAvailable=1 weekDeadline=52
+  prerequisites: [{"stat":"flags.no_confidence_passed","operator":"==","value":true}]
+  flag "no_confidence_passed": NEVER SET BY ANY CHOICE IN THE GAME — this gate can never pass
+
+--- act3_no_confidence_survived (src/data/narrative/act3/act3_no_confidence_survived.json) ---
+  window: weekAvailable=1 weekDeadline=52
+  prerequisites: [{"stat":"flags.no_confidence_failed","operator":"==","value":true}]
+  flag "no_confidence_failed": NEVER SET BY ANY CHOICE IN THE GAME — this gate can never pass
+
+--- act3_rival_poaching (src/data/narrative/act3/act3_rival_poaching.json) ---
+  window: weekAvailable=36 weekDeadline=40
+  prerequisites: [{"stat":"advisorTrust.dusek","operator":"<","value":25}]
+
+--- act3_stellamere_broadcast (src/data/narrative/act3/act3_stellamere_broadcast.json) ---
+  window: weekAvailable=37 weekDeadline=40
+  prerequisites: [{"stat":"flags.government_in_exile_established","operator":"==","value":true}]
+  flag "government_in_exile_established": set only by act3_government_in_exile — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act3_week29_vyktor_exposed (src/data/narrative/act3/act3_week29_vyktor_exposed.json) ---
+  window: weekAvailable=29 weekDeadline=31
+  prerequisites: [{"stat":"flags.nadia_cooperated","operator":"==","value":true},{"stat":"nation.pressFreedom","operator":">","value":40}]
+  flag "nadia_cooperated": NEVER SET BY ANY CHOICE IN THE GAME — this gate can never pass
+
+--- act4_ceasefire_negotiation (src/data/narrative/act4/act4_ceasefire_negotiation.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.ceasefire_explored","operator":"==","value":true}]
+  flag "ceasefire_explored": set only by act4_week46_final_battle — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_ceasefire_talks (src/data/narrative/act4/act4_ceasefire_talks.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.ceasefire_negotiation","operator":"==","value":true}]
+  flag "ceasefire_negotiation": set only by act4_ceasefire_negotiation — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_constitutional_crisis (src/data/narrative/act4/act4_constitutional_crisis.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.constitution_in_force","operator":"==","value":true}]
+  flag "constitution_in_force": set only by act2_week26_referendum_decisive, act2_week26_referendum_narrow, pipeline_constitution_floor_vote, act3_constitution_implementation, act3_week27_aftermath_decisive — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_coordinated_response (src/data/narrative/act4/act4_coordinated_response.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.all_fronts_managed","operator":"==","value":true}]
+  flag "all_fronts_managed": set only by act4_all_fronts — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_diplomatic_endgame (src/data/narrative/act4/act4_diplomatic_endgame.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.tyvaren_diplomacy_initiated","operator":"==","value":true}]
+  flag "tyvaren_diplomacy_initiated": set only by act3_week32_tyvaren_ultimatum — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_dravenni_war_alliance (src/data/narrative/act4/act4_dravenni_war_alliance.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.dlf_alliance_signed","operator":"==","value":true}]
+  flag "dlf_alliance_signed": set only by act3_week34_dravenhollow — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_emergency_powers_invoked (src/data/narrative/act4/act4_emergency_powers_invoked.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.constitution_retained_emergency_powers","operator":"==","value":true}]
+  flag "constitution_retained_emergency_powers": set only by act2_week15_theron_compromise, act2_week16_kolvar_deal, act2_week25_referendum_eve — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_forum_showdown (src/data/narrative/act4/act4_forum_showdown.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.tyvaren_diplomacy_initiated","operator":"==","value":true}]
+  flag "tyvaren_diplomacy_initiated": set only by act3_week32_tyvaren_ultimatum — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_ima_confrontation (src/data/narrative/act4/act4_ima_confrontation.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.ima_deal_accepted","operator":"==","value":true}]
+  flag "ima_deal_accepted": set only by act1_chain_ima_confrontation, act2_deficit_crisis, act2_ima_conditionality_review, act3_ima_conditionality, act3_week28_economic_crisis — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_ima_renegotiation (src/data/narrative/act4/act4_ima_renegotiation.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.ima_confronted","operator":"==","value":true}]
+  flag "ima_confronted": set only by act4_ima_confrontation — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_impeachment_vote_vindicated (src/data/narrative/act4/act4_impeachment_vote_vindicated.json) ---
+  window: weekAvailable=1 weekDeadline=52
+  prerequisites: [{"stat":"flags.impeachment_vote_failed","operator":"==","value":true}]
+  flag "impeachment_vote_failed": NEVER SET BY ANY CHOICE IN THE GAME — this gate can never pass
+
+--- act4_occupation_begins (src/data/narrative/act4/act4_occupation_begins.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.war_defeat","operator":"==","value":true}]
+  flag "war_defeat": set only by act4_occupation_begins, act4_week48_war_outcome — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_public_mandate (src/data/narrative/act4/act4_public_mandate.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.national_address_delivered","operator":"==","value":true}]
+  flag "national_address_delivered": set only by act4_national_address — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_second_referendum (src/data/narrative/act4/act4_second_referendum.json) ---
+  window: weekAvailable=1 weekDeadline=null
+  prerequisites: [{"stat":"flags.constitutional_crisis_act4","operator":"==","value":true}]
+  flag "constitutional_crisis_act4": set only by act4_constitutional_crisis — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_week40_exile (src/data/narrative/act4/act4_week40_exile.json) ---
+  window: weekAvailable=40 weekDeadline=null
+  prerequisites: [{"stat":"flags.government_in_exile","operator":"==","value":true}]
+  flag "government_in_exile": set only by act3_week37_coup_attempt, act4_occupation_begins — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_week40_war_begins (src/data/narrative/act4/act4_week40_war_begins.json) ---
+  window: weekAvailable=40 weekDeadline=42
+  prerequisites: [{"stat":"flags.war_path_chosen","operator":"==","value":true}]
+  flag "war_path_chosen": set only by act3_week39_act3_climax — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_week43_family_resolution (src/data/narrative/act4/act4_week43_family_resolution.json) ---
+  window: weekAvailable=43 weekDeadline=47
+  prerequisites: [{"stat":"flags.family_reckoning_resolved","operator":"==","value":true}]
+  flag "family_reckoning_resolved": set only by act3_week38_family_reckoning — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- act4_week44_reform_backlash (src/data/narrative/act4/act4_week44_reform_backlash.json) ---
+  window: weekAvailable=44 weekDeadline=46
+  prerequisites: [{"stat":"flags.reform_implementation_begun","operator":"==","value":true}]
+  flag "reform_implementation_begun": set only by act4_week41_reform_implementation — optional and/or one of several exclusive outcomes, not guaranteed by this scene's window
+
+--- mole_week2_plant (src/data/narrative/act1/investigation/mole_week2_plant.json) ---
+  window: weekAvailable=2 weekDeadline=2
+  prerequisites: [{"stat":"currentWeek","operator":">=","value":2}]
+
+--- mole_week3_choice (src/data/narrative/act1/investigation/mole_week3_choice.json) ---
+  window: weekAvailable=3 weekDeadline=4
+  prerequisites: [{"stat":"currentWeek","operator":">=","value":3}]
+
+--- vyktor_press_briefing (src/data/narrative/act1/briefings/vyktor_press_briefing.json) ---
+  window: weekAvailable=4 weekDeadline=6
+  prerequisites: [{"stat":"currentWeek","operator":">=","value":4}]
+
+LOW RISK (13) — flag(s) always set in time in practice:
+--- act4_week41_reform_implementation (src/data/narrative/act4/act4_week41_reform_implementation.json) ---
+  window: weekAvailable=41 weekDeadline=43
+  prerequisites: [{"stat":"flags.constitution_in_force","operator":"==","value":true}]
+  flag "constitution_in_force": guaranteed by act2_week26_referendum_decisive (mandatory, week 26, all choices set it)
+
+--- act4_week42_austerity_bites (src/data/narrative/act4/act4_week42_austerity_bites.json) ---
+  window: weekAvailable=42 weekDeadline=44
+  prerequisites: [{"stat":"flags.ima_deal_accepted","operator":"==","value":true}]
+  flag "ima_deal_accepted": guaranteed by act3_ima_conditionality (mandatory, week 1, all choices set it)
+
+--- act4_week42_war_strategy (src/data/narrative/act4/act4_week42_war_strategy.json) ---
+  window: weekAvailable=42 weekDeadline=44
+  prerequisites: [{"stat":"flags.war_phase_one_complete","operator":"==","value":true}]
+  flag "war_phase_one_complete": guaranteed by act4_week40_war_begins (mandatory, week 40, all choices set it)
+
+--- act4_week44_civilian_front (src/data/narrative/act4/act4_week44_civilian_front.json) ---
+  window: weekAvailable=44 weekDeadline=46
+  prerequisites: [{"stat":"flags.war_strategy_set","operator":"==","value":true}]
+  flag "war_strategy_set": guaranteed by act4_week42_war_strategy (mandatory, week 42, all choices set it)
+
+--- act4_week44_counter_coup (src/data/narrative/act4/act4_week44_counter_coup.json) ---
+  window: weekAvailable=44 weekDeadline=46
+  prerequisites: [{"stat":"flags.exile_strategy_set","operator":"==","value":true}]
+  flag "exile_strategy_set": guaranteed by act4_week40_exile (mandatory, week 40, all choices set it)
+
+--- act4_week45_uprising (src/data/narrative/act4/act4_week45_uprising.json) ---
+  window: weekAvailable=45 weekDeadline=47
+  prerequisites: [{"stat":"flags.austerity_begun","operator":"==","value":true}]
+  flag "austerity_begun": guaranteed by act4_week42_austerity_bites (mandatory, week 42, all choices set it)
+
+--- act4_week46_final_battle (src/data/narrative/act4/act4_week46_final_battle.json) ---
+  window: weekAvailable=46 weekDeadline=48
+  prerequisites: [{"stat":"flags.civilian_front_managed","operator":"==","value":true}]
+  flag "civilian_front_managed": guaranteed by act4_week44_civilian_front (mandatory, week 44, all choices set it)
+
+--- act4_week47_new_order (src/data/narrative/act4/act4_week47_new_order.json) ---
+  window: weekAvailable=47 weekDeadline=49
+  prerequisites: [{"stat":"flags.reform_backlash_resolved","operator":"==","value":true}]
+  flag "reform_backlash_resolved": guaranteed by act4_week44_reform_backlash (mandatory, week 44, all choices set it)
+
+--- act4_week48_collapse_endgame (src/data/narrative/act4/act4_week48_collapse_endgame.json) ---
+  window: weekAvailable=48 weekDeadline=50
+  prerequisites: [{"stat":"flags.uprising_resolved","operator":"==","value":true}]
+  flag "uprising_resolved": guaranteed by act4_week45_uprising (mandatory, week 45, all choices set it)
+
+--- act4_week48_war_outcome (src/data/narrative/act4/act4_week48_war_outcome.json) ---
+  window: weekAvailable=48 weekDeadline=50
+  prerequisites: [{"stat":"flags.decisive_battle_fought","operator":"==","value":true}]
+  flag "decisive_battle_fought": guaranteed by act4_week46_final_battle (mandatory, week 46, all choices set it)
+
+--- act5_week56_constitutional_court (src/data/narrative/act5/act5_week56_constitutional_court.json) ---
+  window: weekAvailable=56 weekDeadline=58
+  prerequisites: [{"flag":"constitution_in_force","value":true}]
+  flag "constitution_in_force": guaranteed by act2_week26_referendum_decisive (mandatory, week 26, all choices set it)
+
+--- act5_week57_fainting_spell (src/data/narrative/act5/act5_week57_fainting_spell.json) ---
+  window: weekAvailable=57 weekDeadline=59
+  prerequisites: [{"flag":"permanent_injury_sustained","value":true}]
+  flag "permanent_injury_sustained": guaranteed by act3_week29_assassination_attempt (mandatory, week 30, all choices set it)
+
+--- mole_week5_complication (src/data/narrative/act1/investigation/mole_week5_complication.json) ---
+  window: weekAvailable=5 weekDeadline=6
+  prerequisites: [{"stat":"flags.mole_investigation_active","operator":"==","value":true}]
+  flag "mole_investigation_active": guaranteed by mole_week2_plant (mandatory, week 2, all choices set it)
+
+=== TOTALS ===
+Part 1 — CHAIN-REACHABLE: 43, TRULY-ORPHANED: 49 (of 92 DEAD)
+Part 2 — HIGH RISK: 35, LOW RISK: 13 (of 48 DECORATIVE)

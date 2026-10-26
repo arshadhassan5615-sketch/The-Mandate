@@ -64,6 +64,7 @@ export function InkTextButton({ label, title, onClick }: { label: string; title?
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      className="touch-target"
       style={{ ...INK_TEXT_BUTTON_BASE, textDecoration: isHovered ? 'underline' : 'none' }}
     >
       {label}
@@ -100,6 +101,7 @@ export function PagerButton({ glyph, ariaLabel, disabled, onClick }: {
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={onClick}
+      className="touch-target"
       style={{ ...PAGER_BUTTON_BASE, opacity: disabled ? 0.4 : 1, cursor: disabled ? 'default' : 'pointer' }}
     >
       <span aria-hidden="true">{glyph}</span>
@@ -149,6 +151,7 @@ export function PageTab({ label, isActive, onClick }: { label: string; isActive:
       type="button"
       aria-pressed={isActive}
       onClick={onClick}
+      className="touch-target"
       style={{
         fontFamily: CINZEL_FONT,
         fontWeight: 500,

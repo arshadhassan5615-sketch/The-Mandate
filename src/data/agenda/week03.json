@@ -86,5 +86,34 @@
         "value": 3
       }
     ]
+  },
+  {
+    "id": "agenda_w3_armadine_investment",
+    "title": "An Investment Opportunity",
+    "description": "A letter arrives at your personal residence, not your office.",
+    "category": "meeting",
+    "sceneId": "act1_week3_armadine_investment",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 3,
+    "weekDeadline": 6
+  },
+  {
+    "id": "agenda_w3_kolvar_opposition_rally",
+    "title": "The Halvekist Response",
+    "description": "Vyktor sets a newspaper on the desk without comment.",
+    "category": "parliament",
+    "sceneId": "act1_kolvar_opposition_rally",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 3,
+    "weekDeadline": 5,
+    "prerequisites": [
+      {
+        "stat": "flags.inaugural_reformist",
+        "operator": "==",
+        "value": true
+      }
+    ]
   }
 ]

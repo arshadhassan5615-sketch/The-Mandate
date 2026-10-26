@@ -1,0 +1,516 @@
+METHODOLOGY NOTES (read this before the report):
+- Flag SETs are collected from every choice `flags: [...]` array.
+- Flag READs are collected from `prerequisites`/`conditions` wherever they appear (scene-level,
+  choice-level, chainTrigger-level) AND from scene-level `prerequisiteFlags`. Two condition shapes
+  exist in this codebase and both are handled: {stat:"flags.x",...} and {flag:"x",...}.
+- "stateChanges" in the spec covers both field names actually used in the data: `stateChanges` and
+  `statEffects` — both are treated as equivalent for dead-end detection.
+- Agenda sceneIds "__budget__", "__vote__", "__constitution__", "__cabinet_reshuffle__" are synthetic
+  sentinels handled directly in weekStore.ts (open a UI phase, not a narrative scene). They are NOT
+  counted as broken links; listed separately below for transparency.
+- `__project__*` sceneIds ARE real scenes (src/data/narrative/projects/) and resolve normally.
+- Bonus checks beyond the original spec: scene-level `prerequisiteSceneIds` and `exclusive` arrays
+  are also scene-id references in this codebase, and are validated under BROKEN LINKS.
+- New reference category: hardcoded scene-id string literals in store files (weekStore.ts builds
+  dynamic scene pools not listed in any static agenda JSON). These count toward orphan reachability
+  the same as agenda/nextNodeId/chainTrigger. See STORE FILE SCENE REFERENCES below.
+- New flag-SET source: `voteConfig.successFlags`/`failureFlags` in src/data/agenda/*.json items and
+  in the make*VoteItem() factories inside src/stores/weekStore.ts. These flags are set dynamically
+  when a synthetic __vote__ node resolves, not via a choice.flags array. See VOTE CONFIG FLAG SETS below.
+- New flag-SET source: runtime mechanisms — addFlags([...]) literals in store files,
+  narrativeStore mole consequence flags (merged into activeFlags), and bill signFlags in
+  src/data/bills/*.json (applied by BillEngine on sign). See CODE-SET FLAG SOURCES below.
+
+=== REGISTRY ===
+Total scenes: 539
+Total agenda files: 110
+Total agenda items: 420
+Parse errors: 0
+Duplicate scene IDs: 0
+
+=== BROKEN LINKS ===
+(none)
+
+-- agenda sceneId broken links --
+(none)
+
+-- agenda sceneId synthetic/special refs (not scenes, not broken) --
+  src/data/agenda/week02.json item "agenda_w2_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week03.json item "agenda_w3_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week04.json item "agenda_w4_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week05.json item "agenda_w5_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week06.json item "agenda_w6_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week07.json item "agenda_w7_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week08.json item "agenda_w8_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week09.json item "agenda_w9_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week10.json item "agenda_w10_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week11.json item "agenda_w11_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week12.json item "agenda_w12_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week13.json item "agenda_w13_lobbying" -> "__vote__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week13.json item "agenda_w13_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week13.json item "agenda_cabinet_reshuffle_option" -> "__cabinet_reshuffle__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week14.json item "agenda_w14_constitution_editor" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week14.json item "agenda_w14_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week15.json item "agenda_w15_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week15.json item "agenda_w15_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week16.json item "agenda_w16_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week16.json item "agenda_w16_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week17.json item "agenda_w17_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week17.json item "agenda_w17_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week18.json item "agenda_w18_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week18.json item "agenda_w18_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week19.json item "agenda_w19_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week19.json item "agenda_w19_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week20.json item "agenda_w20_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week20.json item "agenda_w20_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week21.json item "agenda_w21_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week21.json item "agenda_w21_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week22.json item "agenda_w22_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week22.json item "agenda_w22_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week23.json item "agenda_w23_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week23.json item "agenda_w23_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week24.json item "agenda_w24_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week24.json item "agenda_w24_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week25.json item "agenda_w25_referendum_lobbying" -> "__vote__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week25.json item "agenda_w25_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week25.json item "agenda_w25_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week26.json item "agenda_w26_referendum_vote_result" -> "__vote__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week26.json item "agenda_w26_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week26.json item "agenda_w26_constitution" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week27.json item "agenda_w27_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week28.json item "agenda_w28_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week29.json item "agenda_w29_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week30.json item "agenda_w30_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week31.json item "agenda_w31_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week32.json item "agenda_w32_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week33.json item "agenda_w33_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week34.json item "agenda_w34_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week35.json item "agenda_w35_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week36.json item "agenda_w36_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week37.json item "agenda_w37_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week38.json item "agenda_w38_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week39.json item "agenda_w39_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week40.json item "agenda_w40_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week41.json item "agenda_w41_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week42.json item "agenda_w42_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week43.json item "agenda_w43_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week44.json item "agenda_w44_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week45.json item "agenda_w45_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week46.json item "agenda_w46_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week47.json item "agenda_w47_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week48.json item "agenda_w48_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week49.json item "agenda_w49_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week50.json item "agenda_w50_constitution_review" -> "__constitution__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week50.json item "agenda_w50_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week51.json item "agenda_w51_budget_allocation" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+  src/data/agenda/week52.json item "agenda_w52_budget" -> "__budget__" (synthetic UI phase handled directly in weekStore.ts — not a narrative scene, not a broken link)
+
+=== STORE FILE SCENE REFERENCES (new reference category) ===
+Files scanned:
+  src/stores/weekStore.ts
+  src/stores/gameStore.ts
+  src/stores/letterStore.ts
+  src/stores/newsStore.ts
+  src/stores/narrativeStore.ts
+Not present (skipped):
+  src/stores/engines/ (directory does not exist)
+Distinct scene IDs found referenced via hardcoded string literals: 54
+  "act_campaign_rally" — referenced in: src/stores/weekStore.ts
+  "act_citizen_petitions" — referenced in: src/stores/weekStore.ts
+  "act_monthly_press_conference" — referenced in: src/stores/weekStore.ts
+  "act1_chain_deficit_crisis" — referenced in: src/stores/weekStore.ts
+  "act1_chain_tyvaren_border_standoff" — referenced in: src/stores/weekStore.ts
+  "act1_shadow_hawk_first_operation" — referenced in: src/stores/weekStore.ts
+  "act1_shadow_hawk_induction" — referenced in: src/stores/weekStore.ts
+  "act1_week1_address_nation" — referenced in: src/stores/weekStore.ts
+  "act1_week1_inauguration" — referenced in: src/stores/weekStore.ts
+  "act1_week19_informant_network" — referenced in: src/stores/weekStore.ts
+  "act1_week6_police_incident" — referenced in: src/stores/weekStore.ts
+  "act1_week7_commissioner" — referenced in: src/stores/weekStore.ts
+  "act2_shadow_hawk_morvec_option" — referenced in: src/stores/weekStore.ts
+  "act2_shadow_hawk_voss_connection" — referenced in: src/stores/weekStore.ts
+  "act2_week18_morivask_oil_discovery" — referenced in: src/stores/weekStore.ts
+  "act2_week20_megaproject_choice" — referenced in: src/stores/weekStore.ts
+  "act2_week20_oil_negotiation" — referenced in: src/stores/weekStore.ts
+  "act2_week22_oil_outcome" — referenced in: src/stores/weekStore.ts
+  "act2_week22_protest_or_riot" — referenced in: src/stores/weekStore.ts
+  "act2_week24_voss_introduction" — referenced in: src/stores/weekStore.ts
+  "act2_week28_voss_crisis" — referenced in: src/stores/weekStore.ts
+  "act2_week32_voss_outcome" — referenced in: src/stores/weekStore.ts
+  "act3_confidence_vote" — referenced in: src/stores/weekStore.ts
+  "act3_nightmare_sequence" — referenced in: src/stores/weekStore.ts
+  "act3_no_confidence_fallen" — referenced in: src/stores/weekStore.ts
+  "act3_no_confidence_survived" — referenced in: src/stores/weekStore.ts
+  "act3_rival_poaching" — referenced in: src/stores/weekStore.ts
+  "act3_shadow_hawk_exposure_crisis" — referenced in: src/stores/weekStore.ts
+  "act3_week32_morvec_confrontation" — referenced in: src/stores/weekStore.ts
+  "act3_week40_border_ultimatum" — referenced in: src/stores/weekStore.ts
+  "act3_week44_loyal_force" — referenced in: src/stores/weekStore.ts
+  "act4_impeachment_proceedings" — referenced in: src/stores/weekStore.ts
+  "act4_impeachment_vote_vindicated" — referenced in: src/stores/weekStore.ts
+  "act4_mole_correct_accusation" — referenced in: src/stores/narrativeStore.ts
+  "act4_mole_wrong_accusation" — referenced in: src/stores/narrativeStore.ts
+  "act4_week50_two_letters" — referenced in: src/stores/weekStore.ts
+  "mole_week2_plant" — referenced in: src/stores/weekStore.ts
+  "mole_week3_choice" — referenced in: src/stores/weekStore.ts
+  "mole_week5_complication" — referenced in: src/stores/weekStore.ts
+  "pipeline_constitution_committee" — referenced in: src/stores/weekStore.ts
+  "pipeline_constitution_drafting" — referenced in: src/stores/weekStore.ts
+  "pipeline_constitution_floor_vote" — referenced in: src/stores/weekStore.ts
+  "project_contractor_fortification" — referenced in: src/stores/narrativeStore.ts
+  "project_contractor_highway" — referenced in: src/stores/narrativeStore.ts
+  "project_contractor_steel" — referenced in: src/stores/narrativeStore.ts
+  "project_contractor_university" — referenced in: src/stores/narrativeStore.ts
+  "project_mid_crisis_fortification" — referenced in: src/stores/narrativeStore.ts
+  "project_mid_crisis_highway" — referenced in: src/stores/narrativeStore.ts
+  "project_mid_crisis_steel" — referenced in: src/stores/narrativeStore.ts
+  "project_mid_crisis_university" — referenced in: src/stores/narrativeStore.ts
+  "security_posture_choice" — referenced in: src/stores/narrativeStore.ts
+  "security_posture_choice_perov" — referenced in: src/stores/narrativeStore.ts
+  "social_inaugural_ball_wk1" — referenced in: src/stores/weekStore.ts
+  "vyktor_press_briefing" — referenced in: src/stores/weekStore.ts
+
+=== VOTE CONFIG FLAG SETS (new flag-set source) ===
+Distinct flags found set via voteConfig.successFlags/failureFlags: 13
+  "act1_climax_resolved" — set in: src/data/agenda/week13.json item "agenda_w13_lobbying" voteConfig.successFlags
+  "constitution_ratified" — set in: src/data/agenda/week25.json item "agenda_w25_referendum_lobbying" voteConfig.successFlags, src/data/agenda/week26.json item "agenda_w26_referendum_vote_result" voteConfig.successFlags
+  "constitution_rejected" — set in: src/data/agenda/week25.json item "agenda_w25_referendum_lobbying" voteConfig.failureFlags, src/data/agenda/week26.json item "agenda_w26_referendum_vote_result" voteConfig.failureFlags
+  "government_fallen" — set in: src/data/agenda/week13.json item "agenda_w13_lobbying" voteConfig.failureFlags, src/stores/weekStore.ts voteConfig.successFlags
+  "government_survived" — set in: src/stores/weekStore.ts voteConfig.failureFlags
+  "impeachment_vote_failed" — set in: src/stores/weekStore.ts voteConfig.failureFlags
+  "impeachment_vote_passed" — set in: src/stores/weekStore.ts voteConfig.successFlags
+  "no_confidence_defeated" — set in: src/data/agenda/week13.json item "agenda_w13_lobbying" voteConfig.successFlags
+  "no_confidence_failed" — set in: src/stores/weekStore.ts voteConfig.failureFlags
+  "no_confidence_passed" — set in: src/data/agenda/week13.json item "agenda_w13_lobbying" voteConfig.failureFlags, src/stores/weekStore.ts voteConfig.successFlags
+  "referendum_failed" — set in: src/data/agenda/week25.json item "agenda_w25_referendum_lobbying" voteConfig.failureFlags, src/data/agenda/week26.json item "agenda_w26_referendum_vote_result" voteConfig.failureFlags
+  "referendum_passed" — set in: src/data/agenda/week25.json item "agenda_w25_referendum_lobbying" voteConfig.successFlags, src/data/agenda/week26.json item "agenda_w26_referendum_vote_result" voteConfig.successFlags
+  "transition_to_act2" — set in: src/data/agenda/week13.json item "agenda_w13_lobbying" voteConfig.successFlags
+
+=== CODE-SET FLAG SOURCES (Round 4 STEP 1 — mechanisms, not choices) ===
+Distinct flags recorded by runtime mechanisms: 22
+  "amber_coast_ftz_signed" — set in: src/data/bills/bill_amber_coast_free_trade.json bill.signFlags
+  "anti_corruption_commission_signed" — set in: src/data/bills/bill_anti_corruption_commission.json bill.signFlags
+  "deficit_critical" — set in: src/stores/weekStore.ts addFlags
+  "dravenni_celebration_triggered" — set in: src/data/bills/bill_equal_citizenship_participation.json bill.signFlags
+  "election_won_term_" — set in: src/stores/weekStore.ts addFlags
+  "electoral_reform_signed" — set in: src/data/bills/bill_electoral_allocation_reform.json bill.signFlags
+  "emergency_powers" — set in: src/data/bills/bill_national_security_emergency_powers.json bill.signFlags
+  "equal_citizenship_signed" — set in: src/data/bills/bill_equal_citizenship_participation.json bill.signFlags
+  "free_press_signed" — set in: src/data/bills/bill_free_press_protection.json bill.signFlags
+  "halvek_accountability" — set in: src/data/bills/bill_halvek_legacy_accountability.json bill.signFlags
+  "military_modernization_signed" — set in: src/data/bills/bill_military_modernization_preparedness.json bill.signFlags
+  "mole_correct" — set in: src/stores/narrativeStore.ts mole consequenceFlags (merged into activeFlags)
+  "mole_wrongly_accused" — set in: src/stores/narrativeStore.ts mole consequenceFlags (merged into activeFlags)
+  "morality_act_signed" — set in: src/data/bills/bill_protect_families_public_morality.json bill.signFlags
+  "nationalist_protest_triggered" — set in: src/data/bills/bill_equal_citizenship_participation.json bill.signFlags
+  "refugee_resettlement_signed" — set in: src/data/bills/bill_refugee_resettlement_integration.json bill.signFlags
+  "state_enterprise_restructuring_signed" — set in: src/data/bills/bill_state_enterprise_restructuring.json bill.signFlags
+  "thornfeld_subsidy_signed" — set in: src/data/bills/bill_thornfeld_agricultural_subsidy.json bill.signFlags
+  "tyvaren_mobilization" — set in: src/stores/weekStore.ts addFlags
+  "vael_influence_increased" — set in: src/data/bills/bill_state_enterprise_restructuring.json bill.signFlags
+  "womens_liberation_signed" — set in: src/data/bills/bill_womens_economic_liberation.json bill.signFlags
+  "worker_protections_passed" — set in: src/data/bills/bill_kravenstal_worker_safety.json bill.signFlags
+
+=== ORPHANED SCENES ===
+  act1_brenner_defense_briefing (src/data/narrative/act1/act1_brenner_defense_briefing.json)
+  act1_chain_kolvar_opposition (src/data/narrative/act1/act1_chain_kolvar_opposition.json)
+  act1_chain_kravenstal_unrest (src/data/narrative/act1/act1_chain_kravenstal_unrest.json)
+  act1_chain_tyvaren_propaganda_war (src/data/narrative/act1/act1_chain_tyvaren_propaganda_war.json)
+  act1_chain_vael_pressure (src/data/narrative/act1/act1_chain_vael_pressure.json)
+  act1_kolvar_counterattack (src/data/narrative/act1/act1_kolvar_counterattack.json)
+  act1_kolvar_opposition_rally (src/data/narrative/act1/act1_kolvar_opposition_rally.json)
+  act1_minority_festival_request (src/data/narrative/act1/act1_minority_festival_request.json)
+  act1_nadia_exclusive_interview (src/data/narrative/act1/act1_nadia_exclusive_interview.json)
+  act1_religious_parish_priest (src/data/narrative/act1/act1_religious_parish_priest.json)
+  act1_renek_sermon (src/data/narrative/act1/act1_renek_sermon.json)
+  act1_vael_party_funding (src/data/narrative/act1/act1_vael_party_funding.json)
+  act1_vael_private_meeting (src/data/narrative/act1/act1_vael_private_meeting.json)
+  act1_week10_church_education (src/data/narrative/act1/act1_week10_church_education.json)
+  act1_week10_law_enforcement_choice (src/data/narrative/act1/act1_week10_law_enforcement_choice.json)
+  act1_week20_stellamere_summit (src/data/narrative/act1/act1_week20_stellamere_summit.json)
+  act1_week2_cabinet_appointments (src/data/narrative/act1/act1_week2_cabinet_appointments.json)
+  act1_week3_armadine_investment (src/data/narrative/act1/act1_week3_armadine_investment.json)
+  act1_week4_elena_introduction (src/data/narrative/act1/act1_week4_elena_introduction.json)
+  act1_week8_vael_offer (src/data/narrative/act1/act1_week8_vael_offer.json)
+  act1_week9_soren_immunity (src/data/narrative/act1/act1_week9_soren_immunity.json)
+  act2_deficit_crisis (src/data/narrative/act2/act2_deficit_crisis.json)
+  act2_diplomacy_arcturian_trade (src/data/narrative/diplomacy/act2_diplomacy_arcturian_trade.json)
+  act2_minority_language_school (src/data/narrative/act2/act2_minority_language_school.json)
+  act2_minority_mixed_marriage (src/data/narrative/act2/act2_minority_mixed_marriage.json)
+  act2_minority_refugee_health (src/data/narrative/act2/act2_minority_refugee_health.json)
+  act2_religious_holiday_speech (src/data/narrative/act2/act2_religious_holiday_speech.json)
+  act2_religious_hospital_threat (src/data/narrative/act2/act2_religious_hospital_threat.json)
+  act2_superpower_coldness (src/data/narrative/act2/act2_superpower_coldness.json)
+  act2_week18_vael_fund (src/data/narrative/act2/act2_week18_vael_fund.json)
+  act2_week20_oligarch_meeting (src/data/narrative/act2/act2_week20_oligarch_meeting.json)
+  act2_week29_sovarka_approach (src/data/narrative/act2/act2_week29_sovarka_approach.json)
+  act3_assassination_bombing (src/data/narrative/act3/act3_assassination_bombing.json)
+  act3_assassination_default (src/data/narrative/act3/act3_assassination_default.json)
+  act3_assassination_poisoning (src/data/narrative/act3/act3_assassination_poisoning.json)
+  act3_assassination_sniper (src/data/narrative/act3/act3_assassination_sniper.json)
+  act3_chain_assassination_attempt (src/data/narrative/act3/act3_chain_assassination_attempt.json)
+  act3_chain_voss_military_use (src/data/narrative/act3/act3_chain_voss_military_use.json)
+  act3_church_active_opposition_scene (src/data/narrative/act3/act3_church_active_opposition_scene.json)
+  act3_diplomacy_tyvaren_peace (src/data/narrative/diplomacy/act3_diplomacy_tyvaren_peace.json)
+  act3_minority_refugee_integration (src/data/narrative/act3/act3_minority_refugee_integration.json)
+  act3_minority_veteran_recognition (src/data/narrative/act3/act3_minority_veteran_recognition.json)
+  act3_religious_church_halvek_files (src/data/narrative/act3/act3_religious_church_halvek_files.json)
+  act3_tyvaren_pressure (src/data/narrative/act3/act3_tyvaren_pressure.json)
+  act4_marriage_crisis (src/data/narrative/act4/act4_marriage_crisis.json)
+  crisis_deficit_emergency (src/data/narrative/crisis/crisis_deficit_emergency.json)
+  emergency_decree_tyvaren_border (src/data/narrative/crisis/emergency_decree_tyvaren_border.json)
+  family_dinner_recurring (src/data/narrative/personal/family_dinner_recurring.json)
+  family_referendum_night (src/data/narrative/act2/family/family_referendum_night.json)
+  intelligence_briefing_recurring (src/data/narrative/security/intelligence_briefing_recurring.json)
+  letter_response_arcturian (src/data/narrative/act3/letter_response_arcturian.json)
+  letter_response_father (src/data/narrative/act3/letter_response_father.json)
+  letter_response_jonas (src/data/narrative/act2/letter_response_jonas.json)
+  letter_response_kolvar (src/data/narrative/act2/letter_response_kolvar.json)
+  letter_response_liora (src/data/narrative/act2/letter_response_liora.json)
+  letter_response_nadia (src/data/narrative/act3/letter_response_nadia.json)
+  letter_response_nation (src/data/narrative/act2/letter_response_nation.json)
+  letter_response_soraya (src/data/narrative/act3/letter_response_soraya.json)
+  letter_response_soren (src/data/narrative/act4/letter_response_soren.json)
+  letter_response_vukov (src/data/narrative/act3/letter_response_vukov.json)
+  morning_briefing_compromised (src/data/narrative/crisis/morning_briefing_compromised.json)
+  news_inauguration_gazette (src/data/narrative/act1/news_inauguration_gazette.json)
+  news_inauguration_herald (src/data/narrative/act1/news_inauguration_herald.json)
+  news_inauguration_worker (src/data/narrative/act1/news_inauguration_worker.json)
+  social_autumn_festival_wk18 (src/data/narrative/act2/social_autumn_festival_wk18.json)
+  social_independence_parade_wk36 (src/data/narrative/act3/social_independence_parade_wk36.json)
+  social_state_dinner_wk24 (src/data/narrative/act2/social_state_dinner_wk24.json)
+
+=== FLAG COVERAGE GAPS ===
+(none)
+
+=== DEAD-END CHOICES ===
+  act1_shadow_hawk_first_operation [segment:hawk_op1_close_expose] choice "hawk_op1_end_expose" (src/data/narrative/act1/act1_shadow_hawk_first_operation.json) — text: "[Return to the residence]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_shadow_hawk_first_operation [segment:hawk_op1_close_leverage] choice "hawk_op1_end_leverage" (src/data/narrative/act1/act1_shadow_hawk_first_operation.json) — text: "[Return to the residence]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_shadow_hawk_first_operation [segment:hawk_op1_close_direct] choice "hawk_op1_end_direct" (src/data/narrative/act1/act1_shadow_hawk_first_operation.json) — text: "[Return to the residence]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_shadow_hawk_induction [segment:hawk_accepted_full] choice "hawk_induction_end_full" (src/data/narrative/act1/act1_shadow_hawk_induction.json) — text: "[Leave the greenhouse]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_shadow_hawk_induction [segment:hawk_accepted_deniable] choice "hawk_induction_end_deniable" (src/data/narrative/act1/act1_shadow_hawk_induction.json) — text: "[Leave the greenhouse]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_shadow_hawk_induction [segment:hawk_refused_budget] choice "hawk_induction_end_refused" (src/data/narrative/act1/act1_shadow_hawk_induction.json) — text: "[Leave the greenhouse]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week12_brenner_parade [segment:seg_approve] choice "approve_end" (src/data/narrative/act1/act1_week12_brenner_parade.json) — text: "It's done. Let's hope the tanks stay on the avenue." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week12_brenner_parade [segment:seg_modify] choice "modify_end" (src/data/narrative/act1/act1_week12_brenner_parade.json) — text: "A compromise is a victory neither side can claim. Good." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week12_brenner_parade [segment:seg_refuse] choice "refuse_end" (src/data/narrative/act1/act1_week12_brenner_parade.json) — text: "Principles are all I have right now, Vyktor. Let him be angry." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week15_dravenni_petition [segment:seg_enforce] choice "enforce_end" (src/data/narrative/act1/act1_week15_dravenni_petition.json) — text: "Some things are worth the budget." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week15_dravenni_petition [segment:seg_reject] choice "reject_end" (src/data/narrative/act1/act1_week15_dravenni_petition.json) — text: "It was the only realistic choice." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week15_dravenni_petition [segment:seg_compromise] choice "compromise_end" (src/data/narrative/act1/act1_week15_dravenni_petition.json) — text: "Politics is the art of the possible. We move on." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_w2_formation_meeting [segment:transition_to_appointments] choice "enter_appointment_screen" (src/data/narrative/act1/act1_week2_cabinet_formation_meeting.json) — text: "Let's go. The Republic has waited long enough." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week4_halvek_portraits [segment:seg_destroy] choice "destroy_end" (src/data/narrative/act1/act1_week4_halvek_portraits.json) — text: "Let them write what they want. The walls are bare." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week4_halvek_portraits [segment:seg_archive] choice "archive_end" (src/data/narrative/act1/act1_week4_halvek_portraits.json) — text: "Reasonable is better than war. For now." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act1_week4_halvek_portraits [segment:seg_leave] choice "leave_end" (src/data/narrative/act1/act1_week4_halvek_portraits.json) — text: "We have bigger battles to fight. Let the pictures hang." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  family_bni_night [root] choice "family_bni_explain" (src/data/narrative/act1/family/family_bni_night.json) — text: ""Come inside. I'll explain."" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  family_bni_night [root] choice "family_bni_where" (src/data/narrative/act1/family/family_bni_night.json) — text: ""Where did you get that?"" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  family_bni_night [root] choice "family_bni_silent" (src/data/narrative/act1/family/family_bni_night.json) — text: "Take the paper from him gently. Do not answer yet." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week18_morivask_oil_discovery [segment:igor_closing_positive] choice "week18_end_positive" (src/data/narrative/act2/act2_week18_morivask_oil_discovery.json) — text: "[End Meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week18_morivask_oil_discovery [segment:igor_closing_reformist] choice "week18_end_reformist" (src/data/narrative/act2/act2_week18_morivask_oil_discovery.json) — text: "[End Meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week18_morivask_oil_discovery [segment:igor_closing_cold] choice "week18_end_cold" (src/data/narrative/act2/act2_week18_morivask_oil_discovery.json) — text: "[End Meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week20_megaproject_choice [segment:dev_close_highway] choice "dev_highway_end" (src/data/narrative/act2/act2_week20_megaproject_choice.json) — text: "[End Cabinet Meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week20_megaproject_choice [segment:dev_close_dam_full] choice "dev_dam_full_end" (src/data/narrative/act2/act2_week20_megaproject_choice.json) — text: "[End Cabinet Meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week20_megaproject_choice [segment:dev_close_dam_partial] choice "dev_dam_partial_end" (src/data/narrative/act2/act2_week20_megaproject_choice.json) — text: "[End Cabinet Meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week20_megaproject_choice [segment:dev_close_port] choice "dev_port_end" (src/data/narrative/act2/act2_week20_megaproject_choice.json) — text: "[End Cabinet Meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week22_oil_outcome [segment:vyktor_reads_telegram] choice "week22_no_deal_path" (src/data/narrative/act2/act2_week22_oil_outcome.json) — text: "[Continue — no oil deal was ever negotiated]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week23_anonymous_ledger [segment:seg_prosecute] choice "prosecute_end" (src/data/narrative/act2/act2_week23_anonymous_ledger.json) — text: "Clean is clean. Let Morvec smile." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week23_anonymous_ledger [segment:seg_leverage] choice "leverage_end" (src/data/narrative/act2/act2_week23_anonymous_ledger.json) — text: "A controlled rival is better than a dead one. For now." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week23_anonymous_ledger [segment:seg_bury] choice "bury_end" (src/data/narrative/act2/act2_week23_anonymous_ledger.json) — text: "We do what we must to hold the center." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week24_voss_introduction [segment:voss_close_civilian] choice "voss_close_civilian_end" (src/data/narrative/act2/act2_week24_voss_introduction.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week24_voss_introduction [segment:voss_close_deflect] choice "voss_close_deflect_end" (src/data/narrative/act2/act2_week24_voss_introduction.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week24_voss_introduction [segment:voss_close_military] choice "voss_close_military_end" (src/data/narrative/act2/act2_week24_voss_introduction.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week25_church_schism [segment:seg_schism] choice "schism_end" (src/data/narrative/act2/act2_week25_church_schism.json) — text: "The state will find the teachers. The dark can be held back by the state, too." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week25_church_schism [segment:seg_renek] choice "renek_end" (src/data/narrative/act2/act2_week25_church_schism.json) — text: "Stability first. Principles second." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week25_church_schism [segment:seg_mediate] choice "mediate_end" (src/data/narrative/act2/act2_week25_church_schism.json) — text: "Time is the only thing the state has plenty of right now." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week26_megaproject_followup [segment:highway_close_no_intervene] choice "highway_no_intervene_end" (src/data/narrative/act2/act2_week26_megaproject_followup.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week26_megaproject_followup [segment:dam_close_staren_standard] choice "dam_staren_standard_end" (src/data/narrative/act2/act2_week26_megaproject_followup.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week26_megaproject_followup [segment:port_close_accelerate] choice "port_accelerate_end" (src/data/narrative/act2/act2_week26_megaproject_followup.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week28_voss_crisis [segment:voss_crisis_close_relocate] choice "voss_relocate_end" (src/data/narrative/act2/act2_week28_voss_crisis.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week28_voss_crisis [segment:voss_crisis_close_military] choice "voss_military_end" (src/data/narrative/act2/act2_week28_voss_crisis.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week28_voss_crisis [segment:voss_crisis_close_public] choice "voss_public_end" (src/data/narrative/act2/act2_week28_voss_crisis.json) — text: "[End meeting — prepare announcement]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week28_voss_crisis [segment:voss_crisis_close_foreign] choice "voss_foreign_end" (src/data/narrative/act2/act2_week28_voss_crisis.json) — text: "[End meeting — open Orythian back channel]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week29_sovarka_approach [segment:sovarka_close_full] choice "sovarka_full_end" (src/data/narrative/act2/act2_week29_sovarka_approach.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week29_sovarka_approach [segment:sovarka_close_quiet] choice "sovarka_quiet_end" (src/data/narrative/act2/act2_week29_sovarka_approach.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week29_sovarka_approach [segment:sovarka_close_defer] choice "sovarka_defer_end" (src/data/narrative/act2/act2_week29_sovarka_approach.json) — text: "[End meeting]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week30_strike_wave_part1 [segment:seg_morvec_deal] choice "morvec_deal_end" (src/data/narrative/act2/act2_week30_strike_wave_part1.json) — text: "The economy is stable. That is all that matters today." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week30_strike_wave_part1 [segment:seg_maric_negotiate] choice "maric_negotiate_end" (src/data/narrative/act2/act2_week30_strike_wave_part1.json) — text: "We will see who the workers listen to." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week30_strike_wave_part1 [segment:seg_threaten_nationalize] choice "threaten_nationalize_end" (src/data/narrative/act2/act2_week30_strike_wave_part1.json) — text: "Let him close them. The Republic will survive without Morvec." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week32_voss_outcome [segment:voss_outcome_close_allies] choice "voss_allies_end" (src/data/narrative/act2/act2_week32_voss_outcome.json) — text: "[End — Voss arc complete]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week32_voss_outcome [segment:voss_outcome_close_none] choice "voss_none_end" (src/data/narrative/act2/act2_week32_voss_outcome.json) — text: "[End — Voss arc complete]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week32_voss_outcome [segment:voss_outcome_close_open] choice "voss_open_end" (src/data/narrative/act2/act2_week32_voss_outcome.json) — text: "[End — Voss arc complete]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week33_sovarka_survey [segment:sovarka_survey_close_full] choice "sovarka_full_survey_end" (src/data/narrative/act2/act2_week33_sovarka_survey.json) — text: "[End call — begin term sheet preparation]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act2_week33_sovarka_survey [segment:sovarka_survey_close_limited] choice "sovarka_limited_survey_end" (src/data/narrative/act2/act2_week33_sovarka_survey.json) — text: "[End call — wait for Thursday]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  family_referendum_night [root] choice "family_referendum_stay" (src/data/narrative/act2/family/family_referendum_night.json) — text: "Stay with them. Turn off the radio. Whatever happens, you want to be here — not in the counting center, not in the briefing room, not on the phone with Vyktor. Here." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  family_referendum_night [root] choice "family_referendum_watch" (src/data/narrative/act2/family/family_referendum_night.json) — text: "Keep the radio on. Watch together. They deserve to see this — whatever happens, they should see their mother face it." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act3_nightmare_sequence [segment:seg_sedative] choice "sedative_end" (src/data/narrative/act3/act3_nightmare_sequence.json) — text: "Get up. Back to work." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act3_nightmare_sequence [segment:seg_bottle] choice "bottle_end" (src/data/narrative/act3/act3_nightmare_sequence.json) — text: "The work continues. In the dark." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act3_rival_poaching [segment:seg_confront] choice "confront_end" (src/data/narrative/act3/act3_rival_poaching.json) — text: "The damage is done. I have to watch her." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act3_rival_poaching [segment:seg_concession] choice "concession_end" (src/data/narrative/act3/act3_rival_poaching.json) — text: "Loyalty bought is better than loyalty lost." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act3_rival_poaching [segment:seg_fire] choice "fire_end" (src/data/narrative/act3/act3_rival_poaching.json) — text: "She made her choice. Now we fight." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act3_week37_sovarka_outcome [segment:sovarka_outcome_branch] choice "sovarka_outcome_no_data" (src/data/narrative/act3/act3_week37_sovarka_outcome.json) — text: "[Continue — the survey never concluded]" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act3_week40_border_ultimatum [segment:seg_mobilize] choice "mobilize_end" (src/data/narrative/act3/act3_week40_border_ultimatum.json) — text: "We hold the pass. No retreat." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act3_week40_border_ultimatum [segment:seg_sign] choice "sign_end" (src/data/narrative/act3/act3_week40_border_ultimatum.json) — text: "Time bought. At what cost, we will see." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act4_week50_two_letters [segment:seg_pay] choice "pay_end" (src/data/narrative/act4/act4_week50_two_letters.json) — text: "The price of power. I will pay it." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act4_week50_two_letters [segment:seg_refuse] choice "refuse_end" (src/data/narrative/act4/act4_week50_two_letters.json) — text: "Let them come. We fight." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act4_week50_two_letters [segment:seg_hawk] choice "hawk_end" (src/data/narrative/act4/act4_week50_two_letters.json) — text: "The Republic is free. For now." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week54_orphanage_visit [segment:seg_donate] choice "donate_end" (src/data/narrative/act5/act5_week54_orphanage_visit.json) — text: "₭1,500 from my own pocket. One boiler fixed, and a two-word note from Liora: good." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week54_orphanage_visit [segment:seg_promise] choice "promise_end" (src/data/narrative/act5/act5_week54_orphanage_visit.json) — text: "The state paid, eight weeks late. The matron paid first, out of her own wages." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week54_orphanage_visit [segment:seg_walkout] choice "walkout_end" (src/data/narrative/act5/act5_week54_orphanage_visit.json) — text: "No cheque, no promise. The children stay in the south wing, and Liora stays quiet." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week55_steel_trust [segment:seg_subsidies] choice "subsidies_end" (src/data/narrative/act5/act5_week55_steel_trust.json) — text: "The market diversifies. The workers get relief." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week55_steel_trust [segment:seg_antitrust] choice "antitrust_end" (src/data/narrative/act5/act5_week55_steel_trust.json) — text: "The trust is shattered. The era of cartels is over." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week55_steel_trust [segment:seg_nationalize] choice "nationalize_end" (src/data/narrative/act5/act5_week55_steel_trust.json) — text: "The mills belong to the Republic. We build our own future." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week56_constitutional_court [segment:seg_override] choice "override_end" (src/data/narrative/act5/act5_week56_constitutional_court.json) — text: "Article 12 stands. The cost is a precedent I will have to live with." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week56_constitutional_court [segment:seg_accept] choice "accept_end" (src/data/narrative/act5/act5_week56_constitutional_court.json) — text: "The law is the law. We will win this in the long run." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week56_constitutional_court [segment:seg_purge] choice "purge_end" (src/data/narrative/act5/act5_week56_constitutional_court.json) — text: "The Court is mine. The cost is the Republic's trust." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week57_fainting_spell [segment:seg_admit] choice "admit_end" (src/data/narrative/act5/act5_week57_fainting_spell.json) — text: "The injury is public now. Most of the hall applauded. My hand is still shaking." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week57_fainting_spell [segment:seg_lie] choice "lie_end" (src/data/narrative/act5/act5_week57_fainting_spell.json) — text: "'Fatigue.' Eleven front pages, and every one of them put the word in quotes." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week57_fainting_spell [segment:seg_attack] choice "attack_end" (src/data/narrative/act5/act5_week57_fainting_spell.json) — text: "I attacked the question instead of answering it. The complaint carries Nadia's signature." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week59_old_flame [segment:seg_reassign] choice "reassign_end" (src/data/narrative/act5/act5_week59_old_flame.json) — text: "Julian is reassigned. Jonas makes dinner, and neither of us says why." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week59_old_flame [segment:seg_reassign] choice "reassign_end_solo" (src/data/narrative/act5/act5_week59_old_flame.json) — text: "Julian is reassigned. The delegation moves on." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week59_old_flame [segment:seg_keep] choice "keep_end" (src/data/narrative/act5/act5_week59_old_flame.json) — text: "The deal closes at unprecedented terms. Jonas's reading lamp moves to the spare room." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week59_old_flame [segment:seg_krel] choice "krel_end" (src/data/narrative/act5/act5_week59_old_flame.json) — text: "Julian Bard is clean. Krel's file on him has a page about me in it." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week60_diplomatic_table [segment:seg_tyvaren] choice "tyvaren_end" (src/data/narrative/act5/act5_week60_diplomatic_table.json) — text: "The treaty is signed. We pray it holds." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week60_diplomatic_table [segment:seg_orythian] choice "orythian_end" (src/data/narrative/act5/act5_week60_diplomatic_table.json) — text: "The pact is signed. We prepare for what comes." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week60_diplomatic_table [segment:seg_refuse] choice "refuse_end" (src/data/narrative/act5/act5_week60_diplomatic_table.json) — text: "We walk alone. And we survive." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week61_the_birthday [segment:seg_dinner] choice "dinner_end" (src/data/narrative/act5/act5_week61_the_birthday.json) — text: "Two hours of not being Chancellor. Vyktor called it luck. It was Jonas." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week61_the_birthday [segment:seg_dinner] choice "dinner_end_solo" (src/data/narrative/act5/act5_week61_the_birthday.json) — text: "Two hours of not being Chancellor. The children made sure of that." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week61_the_birthday [segment:seg_office] choice "office_end" (src/data/narrative/act5/act5_week61_the_birthday.json) — text: "Eleven pages on the mills and a note returned unopened. The cards went up without me." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week61_the_birthday [segment:seg_festival] choice "festival_end" (src/data/narrative/act5/act5_week61_the_birthday.json) — text: "Four points in the polls for ₭2,000 and a birthday. Jonas stayed twenty minutes." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week61_the_birthday [segment:seg_festival] choice "festival_end_solo" (src/data/narrative/act5/act5_week61_the_birthday.json) — text: "Four points in the polls for ₭2,000 and a birthday." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week64_penicillin_cartel [segment:seg_generic_lab] choice "generic_lab_end" (src/data/narrative/act5/act5_week64_penicillin_cartel.json) — text: "The medicine flows. The foreign cartel is broken." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week64_penicillin_cartel [segment:seg_negotiate] choice "negotiate_end" (src/data/narrative/act5/act5_week64_penicillin_cartel.json) — text: "The medicine is bought. The price is submission." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act5_week64_penicillin_cartel [segment:seg_do_nothing] choice "do_nothing_end" (src/data/narrative/act5/act5_week64_penicillin_cartel.json) — text: "The crisis worsens. The cost is measured in graves." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week66_smugglers_offer [segment:seg_take] choice "take_end" (src/data/narrative/act6/act6_week66_smugglers_offer.json) — text: "Twenty percent of a cigarette operation, paid quarterly into an account with my name on it." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week66_smugglers_offer [segment:seg_refuse] choice "refuse_end" (src/data/narrative/act6/act6_week66_smugglers_offer.json) — text: "No to the partnership. The warehouse keeps moving, and the treasury keeps losing ₭400,000 a year." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week66_smugglers_offer [segment:seg_raid] choice "raid_end" (src/data/narrative/act6/act6_week66_smugglers_offer.json) — text: "An empty warehouse, three arrests, and a docker named Stur out of work. Stefan will remember." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week67_bribed_reporter [segment:seg_publish] choice "publish_end" (src/data/narrative/act6/act6_week67_bribed_reporter.json) — text: "Luka arrested, Vael exposed, and Nadia's name kept off the story." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week67_bribed_reporter [segment:seg_blackmail] choice "blackmail_end" (src/data/narrative/act6/act6_week67_bribed_reporter.json) — text: "A turned anchor with Vael's money in one pocket and Krel's card in the other." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week67_bribed_reporter [segment:seg_bury] choice "bury_end" (src/data/narrative/act6/act6_week67_bribed_reporter.json) — text: "The tape stays buried, Vael is exposed slowly, and Luka never finds out." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week68_morivask_brain_drain [segment:seg_skill_filter] choice "skill_filter_end" (src/data/narrative/act6/act6_week68_morivask_brain_drain.json) — text: "The Republic grows stronger. The cost is paid in the dark." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week68_morivask_brain_drain [segment:seg_open_borders] choice "open_borders_end" (src/data/narrative/act6/act6_week68_morivask_brain_drain.json) — text: "The borders are open. The Republic strains, but the people are saved." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week68_morivask_brain_drain [segment:seg_close_borders] choice "close_borders_end" (src/data/narrative/act6/act6_week68_morivask_brain_drain.json) — text: "The borders are sealed. The Republic is safe. The cost is our humanity." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week71_senators_secret [segment:seg_blackmail] choice "blackmail_end" (src/data/narrative/act6/act6_week71_senators_secret.json) — text: "(Continue)" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week71_senators_secret [segment:seg_expose] choice "expose_end" (src/data/narrative/act6/act6_week71_senators_secret.json) — text: "(Continue)" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week71_senators_secret [segment:seg_endorsement] choice "endorsement_end" (src/data/narrative/act6/act6_week71_senators_secret.json) — text: "Vane's speech in exchange for a burned report. The cleanest dirty deal I've signed." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week73_poisoned_pen [segment:seg_fire] choice "fire_end" (src/data/narrative/act6/act6_week73_poisoned_pen.json) — text: "Theron is gone. Twelve warrants recalled, and Varro starts on Monday." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week73_poisoned_pen [segment:seg_continue] choice "continue_end" (src/data/narrative/act6/act6_week73_poisoned_pen.json) — text: "Twelve notices served. Kolvar read the names into the record like a roll call." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week73_poisoned_pen [segment:seg_medical] choice "medical_end" (src/data/narrative/act6/act6_week73_poisoned_pen.json) — text: "Theron rests. Seven warrants dropped, five stand, and one line from Vel Kora." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week74_voss_cipher [segment:seg_defensive] choice "defensive_end" (src/data/narrative/act6/act6_week74_voss_cipher.json) — text: "The Cipher Engine hums. The Republic's secrets are its own." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week74_voss_cipher [segment:seg_offensive] choice "offensive_end" (src/data/narrative/act6/act6_week74_voss_cipher.json) — text: "The codes break. The Republic sees all. The risk is war." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week74_voss_cipher [segment:seg_shelve] choice "shelve_end" (src/data/narrative/act6/act6_week74_voss_cipher.json) — text: "The machine sleeps. The Republic stays cautious." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week75_geological_survey [segment:seg_full_survey] choice "full_survey_end" (src/data/narrative/act6/act6_week75_geological_survey.json) — text: "(Continue)" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week75_geological_survey [segment:seg_limited_survey] choice "limited_survey_end" (src/data/narrative/act6/act6_week75_geological_survey.json) — text: "(Continue)" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week75_geological_survey [segment:seg_reject] choice "reject_end" (src/data/narrative/act6/act6_week75_geological_survey.json) — text: "(Continue)" — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week76_midnight_confession [segment:seg_confess] choice "confess_end" (src/data/narrative/act6/act6_week76_midnight_confession.json) — text: "Renek confessed from the pulpit. The cathedral lost a third of its people and won most of them back." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week76_midnight_confession [segment:seg_bury] choice "bury_end" (src/data/narrative/act6/act6_week76_midnight_confession.json) — text: "The list stays misfiled. Fourteen names, three of them living, one still baptizing." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week76_midnight_confession [segment:seg_blackmail] choice "blackmail_end" (src/data/narrative/act6/act6_week76_midnight_confession.json) — text: "The Church votes with my coalition every time. Renek prays for something I can't give him." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week77_factory_explosion [segment:seg_army] choice "army_end" (src/data/narrative/act6/act6_week77_factory_explosion.json) — text: "Twenty-two alive, eight dead, and Halvanic's lawsuit on my desk by noon." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week77_factory_explosion [segment:seg_freeze] choice "freeze_end" (src/data/narrative/act6/act6_week77_factory_explosion.json) — text: "Eighteen saved, twelve dead, and Halvanic's frozen accounts paying for the funerals." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week77_factory_explosion [segment:seg_nothing] choice "nothing_end" (src/data/narrative/act6/act6_week77_factory_explosion.json) — text: "The 1947 Act protected the owner. Eleven funerals, and Marić went to every one." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week78_ashavel_legacy [segment:seg_already_ended] choice "already_end" (src/data/narrative/act6/act6_week78_ashavel_legacy.json) — text: "A quiet evening. The campaign resumes in the morning." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week80_black_gold [segment:seg_nationalize_oil] choice "nationalize_oil_end" (src/data/narrative/act6/act6_week80_black_gold.json) — text: "The VNOC is born. Veltria's destiny is its own." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week80_black_gold [segment:seg_aramco] choice "aramco_end" (src/data/narrative/act6/act6_week80_black_gold.json) — text: "The deal is signed. The debt is gone. The partnership begins." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week80_black_gold [segment:seg_morvec_oil] choice "morvec_oil_end" (src/data/narrative/act6/act6_week80_black_gold.json) — text: "The deal is done. Morvec owns the oil. I own the consequences." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week81_cadre_bill [segment:seg_full_bill] choice "full_bill_end" (src/data/narrative/act6/act6_week81_cadre_bill.json) — text: "The Cadre Bill passes. The technocrats take control." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week81_cadre_bill [segment:seg_compromise] choice "compromise_end" (src/data/narrative/act6/act6_week81_cadre_bill.json) — text: "The amended bill passes. The party adapts." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week81_cadre_bill [segment:seg_withdraw] choice "withdraw_end" (src/data/narrative/act6/act6_week81_cadre_bill.json) — text: "The bill is withdrawn. The old guard remains." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week82_housing_bill [segment:seg_full_bill] choice "full_bill_end" (src/data/narrative/act6/act6_week82_housing_bill.json) — text: "The bill passes. Integration begins." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week82_housing_bill [segment:seg_compromise] choice "compromise_end" (src/data/narrative/act6/act6_week82_housing_bill.json) — text: "The amended bill passes. The housing is built." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week82_housing_bill [segment:seg_withdraw] choice "withdraw_end" (src/data/narrative/act6/act6_week82_housing_bill.json) — text: "The bill is withdrawn. The ghettos remain." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week83_energy_transition [segment:seg_full_transition] choice "full_transition_end" (src/data/narrative/act6/act6_week83_energy_transition.json) — text: "Full conversion. Eleven quiet days at Kravenstal, then no more Lytheiran coal." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week83_energy_transition [segment:seg_phased_transition] choice "phased_transition_end" (src/data/narrative/act6/act6_week83_energy_transition.json) — text: "Kravenstal converted. Thornfeld still burns Lytheiran coal, at worse terms." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week83_energy_transition [segment:seg_reject_transition] choice "reject_transition_end" (src/data/narrative/act6/act6_week83_energy_transition.json) — text: "The oil stays capped. The Lytheiran contract renews, and Valdek stops proposing anything." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week84_corporate_deal [segment:seg_accept] choice "accept_end" (src/data/narrative/act6/act6_week84_corporate_deal.json) — text: "The deal passes. The foreign capital flows." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week84_corporate_deal [segment:seg_amend] choice "amend_end" (src/data/narrative/act6/act6_week84_corporate_deal.json) — text: "The amended deal passes. A balanced victory." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week84_corporate_deal [segment:seg_reject] choice "reject_end" (src/data/narrative/act6/act6_week84_corporate_deal.json) — text: "The deal is dead. The workers are protected." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week86_ghost_payroll [segment:seg_purge] choice "purge_end" (src/data/narrative/act6/act6_week86_ghost_payroll.json) — text: "₭2 million a month saved, three days of strike, and two administrators in court." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week86_ghost_payroll [segment:seg_phase] choice "phase_end" (src/data/narrative/act6/act6_week86_ghost_payroll.json) — text: "Fourteen months of quiet starvation. ₭28 million lost to patience, and nobody arrested." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week86_ghost_payroll [segment:seg_krel] choice "krel_end" (src/data/narrative/act6/act6_week86_ghost_payroll.json) — text: "Four men held by Krel, and an investigation that isn't ongoing. Oberlin keeps notes now." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week87_bni_blackmail [segment:seg_use] choice "use_end" (src/data/narrative/act6/act6_week87_bni_blackmail.json) — text: "Three votes from twelve files. The rest of the box is still open." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week87_bni_blackmail [segment:seg_burn] choice "burn_end" (src/data/narrative/act6/act6_week87_bni_blackmail.json) — text: "Forty minutes of fire in the courtyard. Kolvar's file burned unread." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week87_bni_blackmail [segment:seg_vault] choice "vault_end" (src/data/narrative/act6/act6_week87_bni_blackmail.json) — text: "The box sits in the Interior vault under a number nobody knows. Undecided is also a decision." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week89_diluted_medicine [segment:seg_arrest] choice "arrest_end" (src/data/narrative/act6/act6_week89_diluted_medicine.json) — text: "Renek's cousin arrested, the twelve named, and the Archbishop silent after one statement." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week89_diluted_medicine [segment:seg_exile] choice "exile_end" (src/data/narrative/act6/act6_week89_diluted_medicine.json) — text: "A ferry to Lytheira, and twelve deaths attributed to no one living." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act6_week89_diluted_medicine [segment:seg_assassinate] choice "assassinate_end" (src/data/narrative/act6/act6_week89_diluted_medicine.json) — text: "Cardiac arrest at fifty-eight, white lilies from the Archbishop, and no report from Krel." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week79_frontline_visit [segment:seg_speech] choice "speech_end" (src/data/narrative/act7/act7_week79_frontline_visit.json) — text: "Eight minutes without notes. The best footage of the campaign, and Private Halek at the back." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week79_frontline_visit [segment:seg_quiet] choice "quiet_end" (src/data/narrative/act7/act7_week79_frontline_visit.json) — text: "Forty minutes with Tomás from Thornfeld and his mother's photographs. The press got nothing." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week79_frontline_visit [segment:seg_cancel] choice "cancel_end" (src/data/narrative/act7/act7_week79_frontline_visit.json) — text: "I came to the fence and didn't go in. The soldiers will tell it that way for years." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week85_capital_strike [segment:seg_austerity] choice "austerity_end" (src/data/narrative/act7/act7_week85_capital_strike.json) — text: "The Kroner holds. The cost is written in the streets." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week85_capital_strike [segment:seg_print] choice "print_end" (src/data/narrative/act7/act7_week85_capital_strike.json) — text: "The reserves hold. For now." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week85_capital_strike [segment:seg_bailout] choice "bailout_end" (src/data/narrative/act7/act7_week85_capital_strike.json) — text: "The Republic stands. My accounts are empty." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week88_sovarka_europium [segment:seg_naval_base] choice "naval_base_end" (src/data/narrative/act7/act7_week88_sovarka_europium.json) — text: "The base stands. The Europium flows. The empire grows." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week88_sovarka_europium [segment:seg_defensive_pact] choice "defensive_pact_end" (src/data/narrative/act7/act7_week88_sovarka_europium.json) — text: "Sovarka is protected. The principles hold." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week88_sovarka_europium [segment:seg_let_tyvaren] choice "let_tyvaren_end" (src/data/narrative/act7/act7_week88_sovarka_europium.json) — text: "Sovarka falls. The Europium flows north." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week90_campaign_trail [segment:seg_kravenstal] choice "kravenstal_end" (src/data/narrative/act7/act7_week90_campaign_trail.json) — text: "The workers are listening. On to the next province." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week90_campaign_trail [segment:seg_thornfeld] choice "thornfeld_end" (src/data/narrative/act7/act7_week90_campaign_trail.json) — text: "The south is listening. On to the next province." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week90_campaign_trail [segment:seg_ashenmere] choice "ashenmere_end" (src/data/narrative/act7/act7_week90_campaign_trail.json) — text: "The capital is listening. On to the next province." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week91_rogue_shadow [segment:seg_cover] choice "cover_end" (src/data/narrative/act7/act7_week91_rogue_shadow.json) — text: "₭5 million kept, a Lytheiran complaint denied, and Krel in my debt." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week91_rogue_shadow [segment:seg_return] choice "return_end" (src/data/narrative/act7/act7_week91_rogue_shadow.json) — text: "₭5 million returned, a reprimand on file, and a quiet understanding with Krel." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week91_rogue_shadow [segment:seg_arrest] choice "arrest_end" (src/data/narrative/act7/act7_week91_rogue_shadow.json) — text: "Three of Krel's agents convicted, Krel untouched, and my letter saying I didn't know." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week92_aldenmoor_tech [segment:seg_state_funded] choice "state_funded_end" (src/data/narrative/act7/act7_week92_aldenmoor_tech.json) — text: "The Institute stands. The future is built." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week92_aldenmoor_tech [segment:seg_personal_funded] choice "personal_funded_end" (src/data/narrative/act7/act7_week92_aldenmoor_tech.json) — text: "The Institute stands. The Chancellor's legacy is cemented." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week92_aldenmoor_tech [segment:seg_corporate_tech] choice "corporate_tech_end" (src/data/narrative/act7/act7_week92_aldenmoor_tech.json) — text: "The Corridor is built. The IP is foreign." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week93_wiretapped_chancellor [segment:seg_arrest] choice "arrest_end" (src/data/narrative/act7/act7_week93_wiretapped_chancellor.json) — text: "The Speaker arrested six weeks before the vote, and Kolvar chairing the emergency session." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week93_wiretapped_chancellor [segment:seg_feed] choice "feed_end" (src/data/narrative/act7/act7_week93_wiretapped_chancellor.json) — text: "Six weeks of staged calls, and the Speaker's bloc voting down an amendment we never wanted." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week93_wiretapped_chancellor [segment:seg_confront] choice "confront_end" (src/data/narrative/act7/act7_week93_wiretapped_chancellor.json) — text: "The device on his desk, and his votes in my column for the rest of the term." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week95_saints_sin [segment:seg_tv_confession] choice "tv_confession_end" (src/data/narrative/act7/act7_week95_saints_sin.json) — text: "The confession is broadcast. The Church falls." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week96_promethean_charter [segment:seg_charter_full] choice "charter_full_end" (src/data/narrative/act7/act7_week96_promethean_charter.json) — text: "The Promethean Scholars arrive. The fire is lit." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week96_promethean_charter [segment:seg_charter_vetted] choice "charter_vetted_end" (src/data/narrative/act7/act7_week96_promethean_charter.json) — text: "The vetted scholars arrive. The fire is contained." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+  act7_week96_promethean_charter [segment:seg_reject_charter] choice "reject_charter_end" (src/data/narrative/act7/act7_week96_promethean_charter.json) — text: "The Charter is shelved. The Republic stays small." — no nextSegment/nextNodeId, no flags, no stateChanges/statEffects
+
+=== SCENES MISSING RESOLUTION BEATS ===
+(none)
+
+=== EMPTY CHOICE LISTS — FAIL (Round 6 STEP 2 freeze gate) ===
+Entering one of these with no synthetic Continue would freeze (no choice to
+process, sceneDone unset). Covered at runtime by the engine fallback; listed here
+as data debt. Triage: fix data only in session-touched scenes.
+(none)
+
+=== SEGMENTS WITHOUT UNCONDITIONAL CHOICE — WARN (Round 6 STEP 2) ===
+All-conditional lists freeze when a run gates everything off. Routers with
+exhaustive branches (e.g. divorce true/false pairs) are correct by design and
+need no data fix; the fallback backstops the rest.
+  act1_week10_tyvaren_intel (src/data/narrative/act1/act1_week10_tyvaren_intel.json) root — 5 choice(s), all conditional
+  mole_week5_complication (src/data/narrative/act1/investigation/mole_week5_complication.json) root — 3 choice(s), all conditional
+  act2_week22_oil_outcome (src/data/narrative/act2/act2_week22_oil_outcome.json) segment:vyktor_reads_telegram — 3 choice(s), all conditional
+  act2_week26_megaproject_followup (src/data/narrative/act2/act2_week26_megaproject_followup.json) segment:dev_followup_branch — 3 choice(s), all conditional
+  act2_week31_strike_resolution (src/data/narrative/act2/act2_week31_strike_resolution.json) root — 4 choice(s), all conditional
+  pipeline_constitution_floor_vote (src/data/narrative/act2/pipeline_constitution_floor_vote.json) root — 3 choice(s), all conditional
+  act3_armadine_steel_return (src/data/narrative/act3/act3_armadine_steel_return.json) root — 3 choice(s), all conditional
+  act3_armadine_steel_return_jonas (src/data/narrative/act3/act3_armadine_steel_return_jonas.json) root — 4 choice(s), all conditional
+  act3_currency_speculation_resolution (src/data/narrative/act3/act3_currency_speculation_resolution.json) root — 3 choice(s), all conditional
+  act3_currency_speculation_small (src/data/narrative/act3/act3_currency_speculation_small.json) root — 2 choice(s), all conditional
+  act3_week37_sovarka_outcome (src/data/narrative/act3/act3_week37_sovarka_outcome.json) segment:sovarka_outcome_branch — 4 choice(s), all conditional
+  act4_week52_ending (src/data/narrative/act4/act4_week52_ending.json) root — 10 choice(s), all conditional
+  act5_week53_second_address (src/data/narrative/act5/act5_week53_second_address.json) segment:check_outcome — 3 choice(s), all conditional
+  act5_week59_old_flame (src/data/narrative/act5/act5_week59_old_flame.json) segment:seg_reassign — 2 choice(s), all conditional
+  act5_week61_the_birthday (src/data/narrative/act5/act5_week61_the_birthday.json) segment:seg_dinner — 2 choice(s), all conditional
+  act5_week61_the_birthday (src/data/narrative/act5/act5_week61_the_birthday.json) segment:seg_festival — 2 choice(s), all conditional
+  act6_week65_border_incident (src/data/narrative/act6/act6_week65_border_incident.json) segment:check_stance — 4 choice(s), all conditional
+  act6_week65_border_incident (src/data/narrative/act6/act6_week65_border_incident.json) segment:check_tech_level — 2 choice(s), all conditional
+  act6_week72_deep_state (src/data/narrative/act6/act6_week72_deep_state.json) segment:check_plan — 4 choice(s), all conditional
+  act6_week78_ashavel_legacy (src/data/narrative/act6/act6_week78_ashavel_legacy.json) segment:check_marriage_state — 3 choice(s), all conditional
+  act6_week80_black_gold (src/data/narrative/act6/act6_week80_black_gold.json) segment:check_results — 4 choice(s), all conditional
+  act7_week100_final_debate (src/data/narrative/act7/act7_week100_final_debate.json) segment:seg_kolvar_specific — 5 choice(s), all conditional
+
+=== UNRESOLVABLE STAT PATHS (permanent gate — Round 3 STEP 4) ===
+Conditions checked against conditionEvaluator PATH_ALIASES (26 entries);
+modifiers checked against gameStore PATH_ALIASES (31 entries);
+both checked against STAT_RANGES (59 keys) + currentWeek/currentAct.
+Alias-table drift (accepted by modifiers, missing for conditions): 5
+  "education_index" -> "nation.educationStandard" (conditions using this path fail at runtime)
+  "military_readiness" -> "nation.militaryReadiness" (conditions using this path fail at runtime)
+  "oligarch_relations" -> "factions.businessClass" (conditions using this path fail at runtime)
+  "public_order" -> "nation.publicOrder" (conditions using this path fail at runtime)
+  "reformist_support" -> "factions.reformists" (conditions using this path fail at runtime)
+(none)
+
+=== TOTALS ===
+Broken links: 0
+Orphaned scenes: 67
+Flag gaps: 0
+Dead-end choices: 171
+Missing resolution beats: 0
+Empty choice lists (FAIL): 0
+No-unconditional-choice segments (WARN): 22
+Unresolvable stat paths: 0
+Drifted aliases: 5

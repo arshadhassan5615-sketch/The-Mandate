@@ -68,7 +68,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
   const { visitedSceneIds, activeFlags, unlockedCodexIds, metCharacters, choiceLog } = useNarrativeStore.getState()
   const provinceNewsSeenIds = useProvinceNewsStore.getState().seenIds
   const { scheduled: scheduledChains }   = useChainStore.getState()
-  const { forcedChainIds, completedItemIds } = useWeekStore.getState()
+  const { forcedChainIds, completedItemIds, lastVoteResults, resolvedItemIds } = useWeekStore.getState()
   const decreeState = useDecreeStore.getState()
   const cabinetState = useCabinetStore.getState()
   const billState = useBillStore.getState()
@@ -167,6 +167,8 @@ export async function saveGame(slot: number, name: string): Promise<void> {
     scheduledChains,
     forcedChainIds,
     completedItemIds,
+    lastVoteResults,
+    resolvedItemIds,
     decreeState: {
       pendingDecrees: decreeState.pendingDecrees,
       signedDecrees: decreeState.signedDecrees,
@@ -437,6 +439,13 @@ export async function loadGame(slot: number): Promise<boolean> {
 
   // Reset session timer with the loaded play time as baseline
   useSettingsStore.getState().setPlayTime(record.playTimeMinutes)
+
+  // Vote memory must be in place before initWeek builds the agenda pool, so
+  // held votes are not re-offered. Older saves default to empty.
+  useWeekStore.setState({
+    lastVoteResults: record.lastVoteResults ?? {},
+    resolvedItemIds: record.resolvedItemIds ?? [],
+  })
 
   // Re-enter agenda phase for the loaded week
   useWeekStore.getState().initWeek()

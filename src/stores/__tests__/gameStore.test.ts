@@ -9,7 +9,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { useGameStore } from '../gameStore'
-import { buildGameState } from '../../test/factories/gameStateFactory'
 import type { StateModifier } from '../../types/gameState'
 
 // Helper: reset the store to its built-in INITIAL_STATE before each test.

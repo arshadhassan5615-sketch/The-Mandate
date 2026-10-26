@@ -1,0 +1,855 @@
+=== DECORATIVE-PREREQUISITE HIGH-RISK DETAIL REPORT (35 scenes) ===
+Source list: triage-prerequisites-report.txt lines 198-368 (HIGH RISK section)
+Compiled by 2 parallel investigation agents + direct analysis of 4 already-fixed scenes
+
+############################################################
+# PART A — Groups 1-8 (14 scenes): week-gates, stat-gates,
+# law_enforcement_choice, superpower_choice, betrayal_vostane,
+# referendum_rejected, family_crisis_liora, government_in_exile
+############################################################
+
+DECORATIVE-PREREQUISITE HIGH-RISK DETAIL REPORT — PART A (14 of 35 scenes)
+Source list: triage-prerequisites-report.txt lines 198-368, "HIGH RISK (35)"
+Read-only investigation. No edits made.
+
+===============================================================================
+GROUP 1 — Pure week-gates (currentWeek >= N). Not flag-based, not part of a
+branch. No "exclusive" array needed — these are not mutually-exclusive
+alternatives to anything, they are linear early-game beats gated only on
+elapsed time. Flagging as HIGH RISK in the original triage was a category
+error (the tool's "flag setter" search doesn't apply to currentWeek gates).
+===============================================================================
+
+--- mole_week2_plant (src/data/narrative/act1/investigation/mole_week2_plant.json) ---
+  window: weekAvailable=2 weekDeadline=2
+  prerequisites: [{ "stat": "currentWeek", "operator": ">=", "value": 2 }]
+  exclusive: none needed (pure time gate)
+
+--- mole_week3_choice (src/data/narrative/act1/investigation/mole_week3_choice.json) ---
+  window: weekAvailable=3 weekDeadline=4
+  prerequisites: [{ "stat": "currentWeek", "operator": ">=", "value": 3 }]
+  exclusive: none needed (pure time gate)
+
+--- vyktor_press_briefing (src/data/narrative/act1/briefings/vyktor_press_briefing.json) ---
+  window: weekAvailable=4 weekDeadline=6
+  prerequisites: [{ "stat": "currentWeek", "operator": ">=", "value": 4 }]
+  exclusive: none needed (pure time gate)
+
+===============================================================================
+GROUP 2 — Pure continuous-stat gates. No discrete setter scene; the stat
+drifts via many scenes' stateChanges over the whole game. No "exclusive"
+array in the usual sense (nothing else fires FROM the same choice), but
+checked for thematically opposed same-window scenes.
+===============================================================================
+
+--- act3_jonas_separation (src/data/narrative/act3/act3_jonas_separation.json) ---
+  window: weekAvailable=31 weekDeadline=(none set)
+  prerequisites: [{ "stat": "personal.marriageHealth", "operator": "<", "value": 28 }]
+  No opposing "marriage is healthy" scene found in the weekAvailable~31 window
+  in act3/. This is a pure continuous-threshold personal-arc beat; genuinely
+  standalone. exclusive: none found.
+
+--- act3_nightmare_sequence (src/data/narrative/act3/act3_nightmare_sequence.json) ---
+  window: weekAvailable=30 weekDeadline=52 (very wide — spans nearly all of Act 3)
+  prerequisites: [{ "stat": "personal.stressLevel", "operator": ">=", "value": 80 }]
+  Wide window means low practical risk of "never fires" even though it's
+  stat-gated — 22 weeks of runway for stress to cross 80 at some point.
+  exclusive: none found; no competing scene claims this stat.
+
+--- act3_rival_poaching (src/data/narrative/act3/act3_rival_poaching.json) ---
+  window: weekAvailable=36 weekDeadline=40
+  prerequisites: [{ "stat": "advisorTrust.dusek", "operator": "<", "value": 25 }]
+  exclusive: none found; advisorTrust.dusek has no other scene consuming it
+  in this specific week band.
+
+===============================================================================
+GROUP 3 — gated by act1_week10_law_enforcement_choice (weekAvailable=10,
+mandatory, 4 mutually-exclusive choices: fund_bca / fund_ssd /
+fund_both_weakened / fund_neither)
+
+Full flag map from that scene's choices:
+  fund_bca            -> ["bca_funded", "law_enforcement_choice_made"]
+  fund_ssd             -> ["ssd_funded", "law_enforcement_choice_made"]
+  fund_both_weakened   -> ["bca_funded", "ssd_funded", "both_agencies_weakened", "law_enforcement_choice_made"]
+  fund_neither         -> ["neither_agency_funded", "law_enforcement_choice_made"]
+
+NOTE: "law_enforcement_choice_made" is set by ALL FOUR choices — it is
+guaranteed once this mandatory week-10 scene resolves. The real risk is
+"bca_funded" / "ssd_funded" specifically, which are each set by only 2 of
+the 4 choices (bca_funded: fund_bca + fund_both_weakened; ssd_funded:
+fund_ssd + fund_both_weakened).
+===============================================================================
+
+--- act2_bca_report_wk22 (src/data/narrative/act2/act2_bca_report_wk22.json) ---
+  window: weekAvailable=22 weekDeadline=25
+  prerequisites: [{"type":"flag","flag":"bca_funded","value":true},
+                  {"type":"flag","flag":"law_enforcement_choice_made","value":true}]
+  Genuinely conditional: only fires if fund_bca or fund_both_weakened was chosen.
+  exclusive candidate: act2_ssd_report_wk22 (same window, same decision point,
+  mutually exclusive UNLESS fund_both_weakened was chosen — in the "both"
+  branch BOTH reports are legitimately supposed to fire in the same window,
+  so a strict "exclusive" array would be WRONG here. Do not add exclusive;
+  instead this is correctly two independent, co-triggerable gates.)
+
+--- act2_ssd_report_wk22 (src/data/narrative/act2/act2_ssd_report_wk22.json) ---
+  window: weekAvailable=22 weekDeadline=25
+  prerequisites: [{"type":"flag","flag":"ssd_funded","value":true},
+                  {"type":"flag","flag":"law_enforcement_choice_made","value":true}]
+  Same analysis as above, mirrored. exclusive: none (see note above).
+
+===============================================================================
+GROUP 4 — gated by act2_week21_superpower_choice (weekAvailable=21,
+optional, 4 choices: visit_arcturian_stellamere / visit_orythian_petravar /
+visit_neither_nonalignment / superpower_investigate_skylark)
+
+Full flag map:
+  visit_arcturian_stellamere    -> ["superpower_choice_arcturian"]  (also nextNodeId -> act2_week21_visit_stellamere directly)
+  visit_orythian_petravar       -> ["superpower_choice_orythian"]   (also nextNodeId -> act2_week21_visit_petravar directly)
+  visit_neither_nonalignment    -> ["superpower_choice_deferred", "nonalignment_attempted"] (re-chains itself, delayWeeks 3, 80% prob)
+  superpower_investigate_skylark-> ["mole_clue_2_found"]
+===============================================================================
+
+--- act2_week21_visit_petravar (src/data/narrative/act2/act2_week21_visit_petravar.json) ---
+  window: weekAvailable=21 weekDeadline=26
+  prerequisites: [{"stat":"flags.superpower_choice_orythian","operator":"==","value":true}]
+  IMPORTANT: this scene is ALSO reached directly via nextNodeId from the
+  visit_orythian_petravar choice itself — the flag prerequisite is actually
+  redundant/decorative in the normal flow (nextNodeId bypasses the agenda
+  queue and prerequisite check entirely for that path). The prerequisite
+  only matters if something ELSE (an agenda entry or chain) tries to invoke
+  this scene independently of the nextNodeId hop. Real risk is low in
+  practice, but technically HIGH per the tool's static analysis since 3 of
+  4 sibling choices don't set the flag.
+  exclusive candidate: act2_week21_visit_stellamere (same window, same
+  decision point, genuinely mutually exclusive — visiting Stellamere and
+  Petravar are opposite outcomes of the same choice).
+
+--- act2_week21_visit_stellamere (src/data/narrative/act2/act2_week21_visit_stellamere.json) ---
+  window: weekAvailable=21 weekDeadline=26
+  prerequisites: [{"stat":"flags.superpower_choice_arcturian","operator":"==","value":true}]
+  Same nextNodeId-redundancy note as above (mirrored).
+  exclusive candidate: act2_week21_visit_petravar.
+
+===============================================================================
+GROUP 5 — gated by act3_week30_betrayal_vostane (weekAvailable=30,
+OPTIONAL — prerequisites: factions.businessClass<=28 AND
+personal.moralCompass>=21 — this scene itself is conditional, unlike
+Groups 3/4's setters which were mandatory)
+
+Full flag map — ALL FOUR choices set "vostane_defected":
+  betrayal_vostane_on_camera       -> ["vostane_defected", "vostane_publicly_challenged"]      -> chains act3_vostane_media_war
+  betrayal_vostane_cabinet_audit   -> ["vostane_defected", "cabinet_audited_vostane"]           -> chains act3_cabinet_loyalty_audit (delayWeeks 1)
+  betrayal_vostane_parliament_address -> ["vostane_defected", "vostane_parliament_named"]       -> chains act3_confidence_vote (delayWeeks 2)
+  betrayal_vostane_call_her        -> ["vostane_defected", "vostane_called_personally"]         -> no chain
+
+FINDING: this scene ALREADY has its own "exclusive": ["act3_week30_betrayal_dusek",
+"act3_week30_betrayal_vyktor"] field — confirming the codebase already treats
+this as one of three parallel mutually-exclusive betrayal branches (Vostane /
+Dusek / Vyktor), selected by upstream stats.
+===============================================================================
+
+--- act3_cabinet_loyalty_audit (src/data/narrative/act3/act3_cabinet_loyalty_audit.json) ---
+  window: weekAvailable=31 weekDeadline=36
+  prerequisites: [{"stat":"flags.vostane_defected","operator":"==","value":true}]
+  LIKELY MIS-TRIAGED AS HIGH RISK. vostane_defected is set by ALL FOUR
+  choices of its source scene — the flag is guaranteed once
+  act3_week30_betrayal_vostane resolves, same pattern as the LOW-RISK
+  group in the original report. Moreover, this scene is directly
+  chain-triggered by the betrayal_vostane_cabinet_audit choice specifically
+  (delayWeeks 1), so it's not even relying on a static agenda re-check.
+  The ACTUAL risk is one level up: whether act3_week30_betrayal_vostane
+  itself fires at all (it's optional, gated on business-class/moral-compass
+  stats, and mutually exclusive with the Dusek/Vyktor betrayal branches).
+  exclusive candidate: none needed for THIS scene specifically (it's only
+  reachable via one specific choice's direct chainTrigger); no sibling
+  scene competes for its exact window+premise.
+
+===============================================================================
+GROUP 6 — gated by the referendum-FAILED branch: act2_week26_referendum_rejected
+(weekAvailable=26, mandatory, exclusive:[decisive, narrow]) and its Act 3
+follow-up act3_week27_aftermath_rejected (weekAvailable=27, mandatory,
+exclusive:[act3_week27_aftermath_decisive, act3_week27_aftermath_narrow])
+
+Full flag map, act2_week26_referendum_rejected (ALL 4 choices set
+"referendum_failed"):
+  referendum_rejected_fight_on         -> ["referendum_failed","act2_complete","post_referendum_fight"] -> chains act3_confidence_vote(+2wk), act3_reform_by_decree(+4wk), act2_week27_press_conference(+1wk)
+  referendum_rejected_acknowledge_failure -> ["referendum_failed","act2_complete","post_referendum_concession"] -> chains act3_confidence_vote(+2wk), act2_week27_press_conference(+1wk)
+  referendum_rejected_cabinet_shake    -> ["referendum_failed","act2_complete","post_referendum_purge"] -> chains act2_week27_press_conference(+1wk)
+  referendum_rejected_resign_consider  -> ["referendum_failed","act2_complete","post_referendum_walk_away"] -> chains act2_week27_press_conference(+1wk)
+
+Full flag map, act3_week27_aftermath_rejected (ALL 4 choices ALSO set
+"referendum_failed" again, redundantly):
+  aftermath_rejected_address_cabinet   -> ["referendum_failed","defeat_owned_publicly"] -> chains act3_coalition_stabilization(+3wk)
+  aftermath_rejected_ask_positions     -> ["referendum_failed","cabinet_positions_demanded"] -> chains act3_cabinet_loyalty_audit(+1wk)
+  aftermath_rejected_preempt_confidence-> ["referendum_failed","confidence_vote_self_requested"] -> chains act3_confidence_vote(+1wk)
+  aftermath_rejected_fight_on          -> ["referendum_failed","executive_override_mode"] -> chains act3_reform_by_decree(+2wk)
+
+NOTE: act3_cabinet_loyalty_audit (see Group 5) is ALSO reachable from HERE
+(aftermath_rejected_ask_positions), independent of the Vostane-betrayal path.
+Two entirely different upstream chains both lead to the same scene — worth
+knowing if its content assumes one specific origin story.
+===============================================================================
+
+--- act3_confidence_vote (src/data/narrative/act3/act3_confidence_vote.json) ---
+  window: weekAvailable=1 weekDeadline=(none set — open-ended)
+  prerequisites: [{"stat":"flags.referendum_failed","operator":"==","value":true}]
+  LIKELY MIS-TRIAGED. referendum_failed is set by ALL 4 choices in BOTH of
+  its possible source scenes (referendum_rejected AND aftermath_rejected) —
+  guaranteed once the referendum fails, which is itself an intentional
+  mutually-exclusive branch against the decisive/narrow (referendum-passed)
+  outcomes. This scene is also directly chain-triggered by 3 different
+  choices across both source scenes (delayWeeks 1-2), not relying on a
+  static re-check. exclusive candidate: none needed — there is no
+  "confidence vote" equivalent in the referendum-passed branch to collide
+  with; the risk is entirely about whether the REJECTED branch fires at
+  all, which is correct, intentional branching, not a bug.
+
+===============================================================================
+GROUP 7 — gated by act2_week23_family_crisis_liora (weekAvailable=23,
+optional, prereq personal.lioraRelationship<35, exclusive:[..._jonas,
+..._tomas] already present — one of 3 parallel family-crisis branches)
+
+Full flag map — only 1 of 4 choices sets "liora_chancellor_attended":
+  liora_let_process_run     -> ["liora_arrested","liora_process_respected"]          -> chains act3_liora_journalist_arc (+5wk)
+  liora_go_personally       -> ["liora_arrested","liora_chancellor_attended"]        -> chains act3_liora_reconciliation (+4wk)   <- THE flag we need
+  liora_executive_release   -> ["liora_arrested","liora_executive_released","executive_power_abused"] -> chains act3_liora_disgusted (+3wk)
+  liora_send_vyktor         -> ["liora_arrested","liora_process_monitored"]          -> no chain
+
+THIS ONE IS GENUINELY HIGH RISK, confirmed. liora_chancellor_attended is set
+by exactly 1 of 4 choices.
+===============================================================================
+
+--- act3_liora_reconciliation (src/data/narrative/act3/act3_liora_reconciliation.json) ---
+  window: weekAvailable=27 weekDeadline=32
+  prerequisites: [{"stat":"flags.liora_chancellor_attended","operator":"==","value":true}]
+  Correctly gated — already directly chain-triggered by the one choice that
+  matters (delayWeeks 4), so practical risk of never firing when it SHOULD
+  is low, but the other 3 branches produce their OWN distinct follow-ups
+  that compete for similar personal-arc real estate around week 27-32.
+  exclusive candidate: ["act3_liora_journalist_arc", "act3_liora_disgusted"]
+  (the other two named follow-ups from the same source scene's other
+  choices — liora_send_vyktor has no distinct follow-up to list).
+
+===============================================================================
+GROUP 8 — gated by act3_government_in_exile (weekAvailable=37, mandatory,
+no "prerequisites" field at all — chain-triggered only, not statically
+gated; 3 choices: exile_international_sanctions / exile_loyalist_coordination
+/ exile_military_return_prep)
+
+Full flag map — ALL 3 choices set "government_in_exile_established":
+  exile_international_sanctions  -> ["exile_international_campaign","government_in_exile_established","sanctions_strategy"] -> chains act3_stellamere_broadcast(+0wk), act4_exile_arc(+3wk)
+  exile_loyalist_coordination    -> ["exile_loyalist_network","government_in_exile_established","resistance_coordination"] -> chains act4_underground_radio(+2wk), act4_exile_arc(+3wk)
+  exile_military_return_prep     -> ["exile_military_preparations","government_in_exile_established","return_by_force_prepared"] -> chains act4_exile_arc(+3wk)
+===============================================================================
+
+--- act3_stellamere_broadcast (src/data/narrative/act3/act3_stellamere_broadcast.json) ---
+  window: weekAvailable=37 weekDeadline=40
+  prerequisites: [{"stat":"flags.government_in_exile_established","operator":"==","value":true}]
+  MIXED FINDING. The flag itself is guaranteed (all 3 choices set it), so
+  the static-analysis HIGH RISK flag is a false positive in the same way as
+  Groups 5/6. BUT there's a real, different bug here: only
+  exile_international_sanctions directly chain-triggers this scene
+  (delayWeeks 0). The other two choices (exile_loyalist_coordination,
+  exile_military_return_prep) ALSO satisfy the prerequisite flag but never
+  schedule this scene at all — meaning act3_stellamere_broadcast is
+  currently reachable in exactly 1 of the 3 exile-response branches, even
+  though its own gate says it should be available in all 3. Worth a
+  chainTrigger addition to the other 2 choices in a future pass (out of
+  scope for this report — flagging only).
+  exclusive candidate: none found — no competing scene in the week 37-40
+  window shares this specific premise.
+
+===============================================================================
+END OF PART A (14 scenes). Remaining 21 scenes covered in Part B / Part C
+by other investigation passes.
+===============================================================================
+
+
+############################################################
+# PART B — Groups 1-13 (17 scenes): final_battle/ceasefire,
+# constitution/referendum supergroup, all_fronts, tyvaren
+# ultimatum, dravenhollow, emergency powers, IMA cluster,
+# war_defeat, national_address, exile, war_begins, family
+# reckoning, reform_implementation
+############################################################
+
+HIGH-RISK DECORATIVE PREREQUISITE — DETAIL REPORT, PART B
+17 of the 35 HIGH RISK scenes from triage-prerequisites-report.txt (lines 198-368).
+Read-only investigation. All prerequisites/flags verified against live files as of this pass.
+
+===============================================================================
+GROUP 1 — act4_week46_final_battle chain (ceasefire sub-arc)
+===============================================================================
+
+--- act4_ceasefire_negotiation (src/data/narrative/act4/act4_ceasefire_negotiation.json) ---
+window: weekAvailable=1, weekDeadline=null (chain-only scene, no real time window)
+prerequisites: [{ "stat": "flags.ceasefire_explored", "operator": "==", "value": true }]
+
+Setter: act4_week46_final_battle.json, choice "final_battle_negotiate_ceasefire" (1 of 4
+choices — conditions: factions.ironCovenant >= 15). This is the ONLY choice across all 17
+scenes' setters that sets ceasefire_explored. Genuinely single-path — real risk confirmed,
+not a false positive. Same choice ALSO chain-triggers act4_ceasefire_negotiation directly
+(delayWeeks 1) and act4_week48_war_outcome (delayWeeks 2) — both fire from the identical
+choice, so no ordering problem.
+Sibling choices in act4_week46_final_battle and their flags (all also set
+"decisive_battle_fought", which is what act4_week48_war_outcome itself gates on):
+  - final_battle_full_commitment (cond. militaryReadiness>=30): final_battle_committed_all,
+    gravenmark_gambit_launched, decisive_battle_fought
+  - final_battle_calculated_risk: final_battle_calculated, reserve_retained,
+    decisive_battle_fought
+  - final_battle_diplomatic_parallel (cond. internationalStanding>=20): final_battle_diplomatic,
+    last_ditch_diplomacy, decisive_battle_fought [also chains act4_arcturian_intervention]
+  - final_battle_negotiate_ceasefire (cond. ironCovenant>=15): ceasefire_explored,
+    battle_deferred, decisive_battle_fought [chains act4_ceasefire_negotiation +
+    act4_week48_war_outcome]
+Recommended "exclusive" array: none needed structurally — this is not a sibling-competition
+case, it's a single conditional branch off a 4-way choice. No fix needed beyond confirming
+the chain already exists (it does).
+
+--- act4_ceasefire_talks (src/data/narrative/act4/act4_ceasefire_talks.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.ceasefire_negotiation", "operator": "==", "value": true }]
+
+Setter: act4_ceasefire_negotiation.json — ALL 3 choices set "ceasefire_negotiation"
+(convergent, always-set — NOT actually at risk for the flag itself). But only 2 of 3
+choices chain-trigger act4_ceasefire_talks:
+  - ceasefire_accept_terms: flags ceasefire_negotiation, freeze_in_place_accepted,
+    humanitarian_priority — chains -> act4_ceasefire_talks (delayWeeks 2)
+  - ceasefire_demand_withdrawal: flags ceasefire_negotiation, withdrawal_demanded,
+    war_continues — chainTriggers: [] (NO chain to ceasefire_talks)
+  - ceasefire_international_monitors: flags ceasefire_negotiation,
+    international_monitors_demanded, forum_involvement — chains -> act4_ceasefire_talks
+    (delayWeeks 2)
+This looks INTENTIONAL, not a bug: "demand_withdrawal" sets "war_continues" — thematically
+the player rejected any softening and the talks track correctly never opens. Prerequisite
+itself is never falsely blocked (ceasefire_negotiation is always true); the design is that
+one of three branches deliberately opts out of the talks scene. No exclusive array needed.
+Recommend: leave as-is, or if the design intent should be made explicit, note in scene
+comments that demand_withdrawal is a deliberate dead-end for this sub-arc.
+
+===============================================================================
+GROUP 2 — Constitution/referendum supergroup chain
+===============================================================================
+
+--- act4_constitutional_crisis (src/data/narrative/act4/act4_constitutional_crisis.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.constitution_in_force", "operator": "==", "value": true }]
+
+Setters (5 named, all verified):
+  - act2_week26_referendum_decisive.json — ALL 3 choices set constitution_in_force
+    (referendum_decisive_reach_out, referendum_decisive_mandate_claim,
+    referendum_decisive_quiet_exit). Convergent — always set if this scene fires.
+    Scene already has "exclusive": ["act2_week26_referendum_narrow",
+    "act2_week26_referendum_rejected"] — GOOD PRECEDENT, already correctly wired.
+  - act2_week26_referendum_narrow.json — ALL 3 choices set constitution_in_force
+    (referendum_narrow_defend_result, referendum_narrow_reach_across,
+    referendum_narrow_challenge_opponent). Convergent. Already has "exclusive":
+    ["act2_week26_referendum_decisive", "act2_week26_referendum_rejected"].
+  - act2_week26_referendum_rejected.json — NOT read this pass (assumed to set
+    referendum_failed instead, per Part-A / prior session findings — does NOT set
+    constitution_in_force, which is correct, since the constitution failed in this branch).
+  - pipeline_constitution_floor_vote.json — 3 segment paths gated on whip_failed/rider_none
+    flags: "floor_vote_whip_failed" -> choice accept_defeat sets constitution_defeated (NOT
+    constitution_in_force); "floor_vote_rider_compromise" -> sign_compromised sets
+    constitution_in_force + constitution_compromised; "floor_vote_pure_reform" -> sign_pure
+    sets constitution_in_force + constitution_pure. 2 of 3 outcomes set the flag — genuinely
+    conditional on whether the whip count failed.
+  - act3_constitution_implementation.json — ALL 3 choices set constitution_in_force
+    (constitution_court_first, constitution_gradual_implementation,
+    constitution_maximum_mandate). Convergent. NOTE: this scene's own prerequisites array
+    is EMPTY — it appears to be a later-Act3 scene that ASSUMES constitution_in_force is
+    already true (implementing a constitution that already passed) rather than being a
+    fresh setter — reads as redundant re-setting, harmless.
+  - act3_week27_aftermath_decisive.json — ALL 4 choices set constitution_in_force
+    (aftermath_decisive_first_appointments, aftermath_decisive_reach_kolvar,
+    aftermath_decisive_call_theron, aftermath_decisive_message_brenner). Convergent.
+    Prerequisites: referendum_won_decisive==true. Already has "exclusive":
+    ["act3_week27_aftermath_narrow", "act3_week27_aftermath_rejected"] — GOOD PRECEDENT.
+Conclusion: constitution_in_force is set convergently by 5 of 6 known setter paths; the
+ONLY path that does NOT set it is the genuine "constitution failed" branch
+(floor_vote_whip_failed / referendum_rejected), which is intentional, not decorative risk.
+This flag is lower-risk than the original triage suggested, PROVIDED the player reaches
+any surviving path. Recommended exclusive array for act4_constitutional_crisis: none
+(it's a downstream consequence scene, not one of several week-window alternatives).
+
+--- act4_second_referendum (src/data/narrative/act4/act4_second_referendum.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.constitutional_crisis_act4", "operator": "==", "value": true }]
+
+Setter A: act4_constitutional_crisis.json — ALL 3 choices set constitutional_crisis_act4
+(crisis_defend_executive_order, crisis_negotiate_compromise, crisis_withdraw_seek_approval).
+Convergent — always set if that scene fires.
+Setter B (NEWLY FOUND, not in original triage): act4_week44_reform_backlash.json, choice
+"backlash_public_referendum_again" (1 of 4 choices) chain-triggers act4_second_referendum
+DIRECTLY (delayWeeks 6) but does NOT set constitutional_crisis_act4 — it sets
+second_referendum_called, reform_backlash_resolved instead. THIS IS A REAL BUG: if the
+player reaches act4_second_referendum via this second path without ever having passed
+through act4_constitutional_crisis, the prerequisite (constitutional_crisis_act4) will be
+false and the scene will be silently skipped despite being explicitly chain-scheduled.
+Recommended fix: either (a) add "constitutional_crisis_act4" to
+backlash_public_referendum_again's flags array, or (b) change act4_second_referendum's
+prerequisite to accept either flag (constitutional_crisis_act4 OR second_referendum_called).
+Option (a) is simpler and matches the pattern used elsewhere this session.
+
+===============================================================================
+GROUP 3 — act4_all_fronts chain
+===============================================================================
+
+--- act4_coordinated_response (src/data/narrative/act4/act4_coordinated_response.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.all_fronts_managed", "operator": "==", "value": true }]
+
+Setter: act4_all_fronts.json (prerequisites: EMPTY — chain-only scene) — ALL 3 choices set
+all_fronts_managed (all_fronts_military_priority, all_fronts_rotate_attention,
+all_fronts_lean_on_trusted). Convergent.
+act4_all_fronts is itself only reachable via act3_week39_act3_climax.json, choice
+"climax_hold_everything" (1 of 6 choices), which chains BOTH act4_all_fronts (delayWeeks 1)
+AND act4_coordinated_response (delayWeeks 2) from the SAME choice. Since all_fronts_managed
+gets set when act4_all_fronts resolves at delay+1, and act4_coordinated_response doesn't
+fire until delay+2, the ordering is safe — no risk. This flag chain is self-contained
+within a single act3_week39_act3_climax branch; the other 5 choices of that scene never
+reach either act4_all_fronts or act4_coordinated_response at all (by design — different
+climax paths lead to different endgame arcs). Recommended exclusive array: none needed.
+
+===============================================================================
+GROUP 4 — act3_week32_tyvaren_ultimatum chain (diplomacy branch)
+===============================================================================
+
+--- act4_diplomatic_endgame (src/data/narrative/act4/act4_diplomatic_endgame.json) ---
+--- act4_forum_showdown (src/data/narrative/act4/act4_forum_showdown.json) ---
+Both: window weekAvailable=1, weekDeadline=null
+Both: prerequisites: [{ "stat": "flags.tyvaren_diplomacy_initiated", "operator": "==",
+"value": true }] — IDENTICAL gate.
+
+Setter: act3_week32_tyvaren_ultimatum.json (6 choices total). Flag set by:
+  - tyvaren_diplomatic_negotiation: tyvaren_diplomacy_initiated, tyvaren_negotiation_track
+    [chains act3_week33_diplomatic_negotiation + act3_tyvaren_diplomatic_followup — NOT
+    directly to either act4 target]
+  - tyvaren_international_appeal (cond. no sovarka deal): tyvaren_internationalized,
+    international_forum_convened, tyvaren_diplomacy_initiated [chains
+    act3_international_forum_session + act3_superpower_pressure]
+  - tyvaren_international_appeal_sovarka (cond. sovarka_deal_signed): same 3 flags, same
+    chains, plus a Vyktor reaction line
+  - tyvaren_international_appeal_sovarka_limited (cond. sovarka_limited_deal): same 3
+    flags/chains
+  - tyvaren_defiant_rejection: tyvaren_defied_publicly, tyvaren_ultimatum_rejected,
+    vukov_enraged — does NOT set tyvaren_diplomacy_initiated
+  - tyvaren_secret_mobilization: tyvaren_ultimatum_rejected, secret_mobilization_begun,
+    tyvaren_deceived — does NOT set it
+  - tyvaren_ask_dusek_call: mole_clue_5_found only (side-track mole-investigation choice,
+    not a real ultimatum resolution)
+4 of 6 choices (really 3 distinct outcomes with a sovarka-state variant) set the flag; the
+"defiant rejection" and "secret mobilization" hardline paths do not — genuinely conditional,
+real risk confirmed. IMPORTANT: none of the flag-setting choices chain-trigger
+act4_diplomatic_endgame or act4_forum_showdown directly — those two scenes are apparently
+meant to be reached later via other Act 3/4 chain hops (e.g. act3_week39_act3_climax's
+climax_diplomatic_surge choice chains act4_forum_showdown delayWeeks 1 AND
+act4_diplomatic_endgame delayWeeks 2 — found in Group 11/13 reading below). That climax
+choice has its own condition (internationalStanding>=20) and does NOT itself re-set
+tyvaren_diplomacy_initiated, so it depends entirely on the player having taken one of the
+3 diplomacy-track choices back in week 32. Real risk confirmed end to end.
+act4_diplomatic_endgame and act4_forum_showdown are NOT mutually exclusive of each other —
+both are chained from the same act3_week39_act3_climax choice and appear to be sequential
+companion scenes (Forum vote, then diplomatic follow-through), not alternatives. No
+exclusive array needed between them.
+
+===============================================================================
+GROUP 5 — act3_week34_dravenhollow chain
+===============================================================================
+
+--- act4_dravenni_war_alliance (src/data/narrative/act4/act4_dravenni_war_alliance.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.dlf_alliance_signed", "operator": "==", "value": true }]
+
+Setter: act3_week34_dravenhollow.json (5 choices, several gated by factions.dravenni
+thresholds so not all are even simultaneously available):
+  - dravenhollow_dlf_alliance (cond. dravenni>=25): dlf_alliance_signed,
+    dravenni_language_recognized, autonomy_negotiations_begun,
+    dravenni_fighting_alongside [chains act3_dlf_military_integration,
+    act3_nationalist_backlash, act3_dravenni_autonomy_talks]
+  - dravenhollow_limited_partnership (cond. dravenni>=15): dlf_partnership_limited,
+    dravenni_amnesty_granted, dravenni_language_provincial, autonomy_commission_formed
+    — does NOT set dlf_alliance_signed
+  - dravenhollow_suppress_separatists (cond. dravenni<=50): dravenhollow_crackdown,
+    separatists_targeted, kaelen_warned, dravenni_alienated — does not set it
+  - dravenhollow_appeal_patriotism: kaelen_moral_appeal, dravenni_truth_told — does not
+    set it
+  - dravenhollow_separatist_emergency (cond. dravenni<=35): dravenhollow_curfew,
+    dravenni_warned, conditional_amnesty_offered — does not set it
+Only 1 of 5 choices sets dlf_alliance_signed. HIGHEST-confidence real risk in this batch:
+genuinely narrow, single-branch gate with 4 competing alternative outcomes. This is also a
+separate war-critical scene: act4_week40_war_begins.json's choice "war_dravenni_gamble"
+(cond. dravenni>=10) ALSO independently chains act4_dravenni_war_alliance (delayWeeks 1)
+and sets its own flags (dravenni_emergency_deal, kaelen_war_alliance) WITHOUT setting
+dlf_alliance_signed — a second path into the same scene that also wouldn't satisfy its
+prerequisite on its own. Two independent chain-sources, neither guarantees the flag alone.
+Recommended fix: add "dlf_alliance_signed" to war_dravenni_gamble's flags array (act4_week40
+_war_begins.json) in addition to fixing dlf_alliance_signed's narrowness at the source, OR
+change act4_dravenni_war_alliance's prerequisite to accept dlf_alliance_signed OR
+dravenni_emergency_deal.
+No natural "exclusive" siblings — the 4 non-alliance dravenhollow outcomes don't have their
+own dedicated act4 payoff scenes in this scan; they resolve through other means.
+
+===============================================================================
+GROUP 6 — Multi-setter cluster: constitution_retained_emergency_powers
+===============================================================================
+
+--- act4_emergency_powers_invoked (src/data/narrative/act4/act4_emergency_powers_invoked.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.constitution_retained_emergency_powers", "operator": "==",
+"value": true }]
+
+Setter 1: act2_week15_theron_compromise.json (4 choices) — only
+"theron_drop_security_apparatus" sets constitution_retained_emergency_powers (plus
+constitution_compromise_security, constitution_excluded_bni_dissolution). chainTriggers: []
+— this choice NEVER chains to act4_emergency_powers_invoked or anywhere else. Other 3
+choices (theron_drop_economic_rights, theron_no_compromise, theron_ask_for_time) do not
+set the flag.
+Setter 2: act2_week16_kolvar_deal.json (4 choices) —
+  - kolvar_accept_modified_powers: constitution_retained_emergency_powers (+
+    kolvar_deal_accepted, halvekist_votes_secured) — chains act4_emergency_powers_invoked
+    (delayWeeks 30, cond. moralCompass<-20) AND act2_chain_reformist_fracture (cond.
+    reformists<45)
+  - kolvar_full_capitulation: constitution_retained_emergency_powers_unmodified (note:
+    DIFFERENT flag name, NOT "constitution_retained_emergency_powers" — likely also a
+    decorative-risk / naming mismatch worth flagging separately) + kolvar_deal_accepted,
+    halvekist_votes_secured — chains act4_emergency_powers_invoked (delayWeeks 25,
+    probability 0.7) AND act2_chain_reformist_fracture
+  - kolvar_reject_deal / kolvar_public_transparency: neither sets the flag
+Setter 3: act2_week25_referendum_eve.json (4 choices) — only
+"referendum_eve_kolvar_deal" (cond. kolvar_deal_rejected==true) sets
+constitution_retained_emergency_powers (+ referendum_eve_kolvar_deal, kolvar_deal_accepted,
+referendum_last_move_deal). No chainTrigger to act4_emergency_powers_invoked.
+FINDINGS: (1) constitution_retained_emergency_powers has exactly 2 real setter paths that
+chain to the target scene (both in kolvar_deal, with probabilistic/conditional delays), and
+2 more setter paths (theron_compromise, referendum_eve) that set the SAME flag but never
+chain anywhere — dead ends for this specific scene even though the flag becomes true. (2)
+kolvar_full_capitulation sets a DIFFERENTLY-NAMED flag
+("constitution_retained_emergency_powers_unmodified") that this scene's prerequisite does
+NOT check — likely another one-word flag-name mismatch bug, same class as the earlier
+nadia_cooperated fix. Recommend checking whether
+constitution_retained_emergency_powers_unmodified should either also satisfy this
+prerequisite, or whether kolvar_full_capitulation should also emit the base flag name.
+No exclusive array applicable — these are cumulative narrative history flags, not
+week-window competing alternatives.
+
+===============================================================================
+GROUP 7 — Multi-setter cluster: ima_deal_accepted (5 named setters)
+===============================================================================
+
+--- act4_ima_confrontation (src/data/narrative/act4/act4_ima_confrontation.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.ima_deal_accepted", "operator": "==", "value": true }]
+
+Setter 1: act1_chain_ima_confrontation.json (prereq: economyHealth<-20; 3 choices) —
+  - ima_confrontation_accept_conditions: ima_deal_accepted, ima_conditions_negotiated
+    [chains act2_week20_budget_crisis delayWeeks 4]
+  - ima_confrontation_reject: ima_deal_rejected, economic_independence_asserted — does NOT
+    set it [chains act2_week20_budget_crisis delayWeeks 6]
+  - ima_confrontation_selective: ima_deal_accepted, ima_partial_acceptance, ima_approached
+    [chains act2_week20_budget_crisis delayWeeks 5]
+Setter 2: act2_deficit_crisis.json (prereq: nationalDebt>450; 3 choices) —
+  - deficit_crisis_default: debt_default_declared, ima_engagement_suspended,
+    fiscal_sovereignty_retained — does NOT set ima_deal_accepted
+  - deficit_crisis_ima_full: ima_deal_accepted, ima_full_conditions_accepted,
+    deficit_crisis_stabilized — SETS it
+  - deficit_crisis_vael_nationalize: vael_nationalized, emergency_asset_seizure,
+    deficit_crisis_stabilized — does NOT set it
+Setter 3: act2_ima_conditionality_review.json (prereq: ima_approached==true; 3 choices) —
+  - ima_review_accept: ima_deal_accepted, ima_auditors_installed, currency_board_accepted
+  - ima_review_reject_final: ima_deal_rejected, fiscal_independence_asserted — does NOT
+    set it
+  - ima_review_counter: ima_deal_accepted, ima_conditions_negotiated — SETS it
+Setter 4: act3_ima_conditionality.json (prerequisites: EMPTY — no gate at all; isMandatory:
+true; 3 choices) — ALL 3 choices set ima_deal_accepted:
+  ima_conditions_implement_fully, ima_conditions_negotiate_timeline,
+  ima_conditions_blame_publicly. This is the SAME pattern already recognized as LOW RISK
+  in the original triage report for a different consumer scene
+  (act4_week42_austerity_bites: "guaranteed by act3_ima_conditionality (mandatory, week 1,
+  all choices set it)"). Since act4_ima_confrontation checks the exact same flag, IT SHOULD
+  ALSO BE RECLASSIFIED AS LOW RISK by the same logic, provided act3_ima_conditionality is
+  confirmed reachable/mandatory in all playthroughs. This looks like a gap in the original
+  triage tool's cross-referencing (it may not have connected multiple consumers of the same
+  flag to the same guaranteed setter). RECOMMEND VERIFYING act3_ima_conditionality's actual
+  reachability (it has no prerequisites and no chainTrigger source was found in this pass —
+  worth confirming it's wired via an agenda entry or a chain source elsewhere) before
+  treating act4_ima_confrontation as still high-risk.
+Setter 5: act3_week28_economic_crisis.json (prereq: economyHealth<=-40; exclusive:
+["act3_week28_economic_healthy"]; 4 choices) —
+  - economic_crisis_accept_full: ima_deal_accepted, economic_crisis_stabilized — SETS it
+  - economic_crisis_partial_terms: ima_deal_partial, economic_crisis_contested — does NOT
+    set the exact flag (different flag name: ima_deal_partial)
+  - economic_crisis_emergency_controls: emergency_controls_declared, ima_rejected — does
+    NOT set it
+  - economic_crisis_alternative_financing: ima_delay_requested,
+    superpower_financial_approach — does NOT set it
+CONCLUSION: genuinely conditional across 4 of 5 named scenes (roughly half of branches per
+scene decline the IMA deal) — BUT if act3_ima_conditionality is confirmed as an
+unconditional mandatory beat, ima_deal_accepted becomes guaranteed regardless of earlier
+choices, which would flip this whole scene's risk classification. This needs a reachability
+check on act3_ima_conditionality before any fix is designed.
+
+--- act4_ima_renegotiation (src/data/narrative/act4/act4_ima_renegotiation.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.ima_confronted", "operator": "==", "value": true }]
+
+Setter: act4_ima_confrontation.json — ALL 3 choices set ima_confronted
+(ima_assert_sovereignty, ima_negotiate_revised_schedule, ima_moral_case). Convergent —
+zero risk once act4_ima_confrontation itself fires. This scene's only real risk is
+inherited transitively from its parent (see above).
+
+===============================================================================
+GROUP 8 — war_defeat (self-referential concern from original triage — investigated,
+appears to be a FALSE ALARM, not a real circular dependency)
+===============================================================================
+
+--- act4_occupation_begins (src/data/narrative/act4/act4_occupation_begins.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.war_defeat", "operator": "==", "value": true }]
+
+The ONLY genuine external (first-time) setter is act4_week48_war_outcome.json, choice
+"war_outcome_defeat_honest" — conditions: [militaryReadiness<=30]. This choice sets
+war_defeat, tyvaren_advancing, defeat_acknowledged, war_outcome_resolved, AND directly
+chain-triggers act4_occupation_begins (delayWeeks 2). This is a clean, complete,
+self-contained trigger — not circular, not broken.
+act4_occupation_begins's OWN 3 choices (occupation_underground_resistance,
+occupation_accept_terms, occupation_flee_exile) ALL also set "war_defeat" again — this is
+pure redundancy (the flag is already true by the time this scene can fire at all) and
+harmless, not a bug. The original triage report's phrasing ("set only by
+act4_occupation_begins, act4_week48_war_outcome") is technically accurate but reads as
+alarming; in practice there is exactly one real entry point (war_outcome_defeat_honest),
+gated behind a sensible narrative condition (military readiness must be low). This is
+INTENTIONAL branching, not decorative-prerequisite risk. Also note: this choice is only
+one of 4 in act4_week48_war_outcome, and is itself condition-gated (only appears/fires when
+militaryReadiness<=30) — if the player's military readiness never drops that low, this
+entire occupation/defeat branch is correctly unreachable by design (you only get the defeat
+ending if you actually lost). No fix needed. Recommend removing this pair from the HIGH
+RISK list in any future triage pass, or annotating it as "verified intentional."
+
+===============================================================================
+GROUP 9 — act4_national_address chain
+===============================================================================
+
+--- act4_public_mandate (src/data/narrative/act4/act4_public_mandate.json) ---
+window: weekAvailable=1, weekDeadline=null
+prerequisites: [{ "stat": "flags.national_address_delivered", "operator": "==", "value":
+true }]
+
+Setter: act4_national_address.json (prerequisites: EMPTY; 3 choices) — ALL 3 choices set
+national_address_delivered (address_honest_somber, address_defiant_inspiring,
+address_pragmatic_unifying) AND all 3 identically chain-trigger act4_public_mandate
+(delayWeeks 1). Fully convergent, zero risk. This flag/scene pair should be reclassified
+LOW RISK — false positive in the original triage, most likely because
+act4_national_address's own reachability was not verified (it has no prerequisites, so
+whatever schedules IT is the only open question, not this flag).
+NOTE: act4_national_address is ALSO independently chain-triggered from
+act3_week39_act3_climax's "climax_narrative_control" choice (delayWeeks 0) — a second,
+earlier entry point, which also does not set national_address_delivered itself (that only
+happens when act4_national_address's own choices resolve) — consistent, no conflict.
+
+===============================================================================
+GROUP 10 — act3_week37_coup_attempt / act4_occupation_begins chain
+===============================================================================
+
+--- act4_week40_exile (src/data/narrative/act4/act4_week40_exile.json) ---
+window: weekAvailable=40, weekDeadline=44 (real time window — this scene DOES use an
+agenda-style deadline, unusual for this batch)
+prerequisites: [{ "stat": "flags.government_in_exile", "operator": "==", "value": true }]
+
+Setter 1: act3_week37_coup_attempt.json (prereq: ironCovenant<25; exclusive:
+["act3_week37_military_rally"]; 4 choices) — only "coup_flee_stellamere" sets
+government_in_exile (+ coup_succeeded, chancellor_fled, brenner_controls_capital,
+asenmere_fallen). Chains act3_government_in_exile (delayWeeks 0), act3_stellamere_broadcast
+(delayWeeks 1), act4_exile_arc (delayWeeks 3) — but NOT act4_week40_exile directly. Other 3
+choices (coup_negotiate_brenner, coup_call_loyal_forces, coup_confront_directly) do not set
+the flag.
+Setter 2: act4_occupation_begins.json — only "occupation_flee_exile" sets
+government_in_exile (+ war_defeat, occupation_active, chancellor_exiled) and DOES directly
+chain act4_week40_exile (delayWeeks 1). Other 2 choices do not set it.
+Both setters are genuinely 1-of-N branches — real risk confirmed on both paths. Because
+act4_week40_exile has a real weekAvailable/weekDeadline window (40-44) rather than the
+weekAvailable=1 chain-only pattern seen elsewhere, if neither trigger source fires close
+enough to week 40-44, this scene could miss its window entirely even with the flag properly
+set — worth double-checking delay math: coup_attempt path chains act4_exile_arc at
+delayWeeks 3 from week 37 (lands ~week 40, in-window); occupation_begins path chains
+act4_week40_exile at delayWeeks 1 from whatever week war_outcome resolves (week 48+, per
+Group 8) — WOULD MISS THE 40-44 WINDOW ENTIRELY if reached via the occupation path, since
+occupation only happens after week 48. This is a genuine scheduling conflict worth flagging
+prominently: two different narrative timelines (early coup-exile vs. late war-defeat-exile)
+both feed the same scene with an ID that assumes "week 40" but one path can't arrive until
+week 48+.
+Recommended exclusive array: none (not simultaneous alternatives, but the weekDeadline=44
+field itself may need reconsideration given the two very different arrival times).
+
+===============================================================================
+GROUP 11 — act3_week39_act3_climax chain (war path)
+===============================================================================
+
+--- act4_week40_war_begins (src/data/narrative/act4/act4_week40_war_begins.json) ---
+window: weekAvailable=40, weekDeadline=42
+prerequisites: [{ "stat": "flags.war_path_chosen", "operator": "==", "value": true }]
+
+Setter: act3_week39_act3_climax.json (6 choices, several condition-gated) — only
+"climax_war_footing" (cond. tyvaren_ultimatum_rejected==true) sets war_path_chosen (+
+act3_climax_war_footing, forward_readiness_authorized, act3_climax_resolved). Chains
+act4_week40_war_begins directly (delayWeeks 1, i.e. week 40 — matches the target's own
+window exactly, good). Other 5 choices (climax_diplomatic_surge, climax_hold_everything,
+climax_personal_anchor, climax_coup_survival_focus, climax_narrative_control) all set
+"act3_climax_resolved" but none set war_path_chosen. Genuinely 1-of-6 — real risk
+confirmed, but note the delay math here is clean (fires exactly in-window).
+No exclusive array needed — the other 5 climax branches lead to entirely different act4
+arcs (diplomacy, all-fronts, family, internal-security, national-address) rather than
+competing for the same scene.
+
+===============================================================================
+GROUP 12 — act3_week38_family_reckoning chain
+===============================================================================
+
+--- act4_week43_family_resolution (src/data/narrative/act4/act4_week43_family_resolution.json) ---
+window: weekAvailable=43, weekDeadline=47
+prerequisites: [{ "stat": "flags.family_reckoning_resolved", "operator": "==", "value":
+true }]
+
+Setter: act3_week38_family_reckoning.json (6 choices) — flag set by:
+  - family_choose_them_now (cond. marriageHealth>=15): family_chosen,
+    family_reckoning_resolved, jonas_staying, liora_reconciled, tomas_supported — SETS it
+    [chains act4_family_healing delayWeeks 2 — a DIFFERENT act4 scene, not
+    act4_week43_family_resolution]
+  - family_honest_limited: family_honest_limited, family_reckoning_resolved,
+    jonas_conditional, liora_processing, tomas_redirected — SETS it [chains
+    act4_family_conditional delayWeeks 3]
+  - family_cannot_now: family_deferred_again, family_reckoning_unresolved (NOTE: explicitly
+    the INVERSE flag name), jonas_deferred, liora_deferred, tomas_deferred — does NOT set
+    family_reckoning_resolved [chains act4_family_breaking delayWeeks 3]
+  - family_blame_them: family_broken, family_reckoning_resolved, jonas_blamed,
+    liora_blamed, tomas_blamed, family_authoritarian_response — SETS it [chains
+    act4_family_estranged delayWeeks 1, act4_jonas_divorce delayWeeks 4]
+  - family_tomas_specific (cond. tomasWellbeing<=40): family_reckoning_resolved,
+    tomas_reached, mikhael_legacy_shared, tomas_opened_up — SETS it [chains
+    act4_tomas_redemption delayWeeks 2]
+  - family_review_defector_intel: mole_clue_7_found only — a side-track mole-investigation
+    choice, does not resolve the family scene at all (likely lets the player return to the
+    main choice afterward, similar to tyvaren_ask_dusek_call in Group 4)
+4 of 5 real resolution choices set family_reckoning_resolved (only "family_cannot_now" — the
+deferral option — does not, by clear design: "family_reckoning_unresolved" is its explicit
+opposite flag). HOWEVER: none of the 4 flag-setting choices chain-trigger
+act4_week43_family_resolution directly — they each chain to a DIFFERENT, more specific act4
+family scene (act4_family_healing, act4_family_conditional, act4_family_estranged +
+act4_jonas_divorce, act4_tomas_redemption). act4_week43_family_resolution appears to be an
+orphaned catch-all that nothing actually schedules, even though the flag it checks is
+reliably set by 4 of 6 branches. Real finding: this looks like EITHER a scene that should
+be chain-triggered from all 4 "resolved" branches in addition to their specific follow-ups,
+OR a leftover/superseded scene now replaced by the 4 more specific ones. Recommend checking
+whether act4_week43_family_resolution's content is redundant with
+act4_family_healing/_conditional/_estranged before adding chainTriggers — it may be a
+duplicate needing deletion rather than wiring, similar to the act1_chain_tyvaren_blind_spot
+pattern fixed earlier this session.
+
+===============================================================================
+GROUP 13 — act4_week41_reform_implementation chain
+===============================================================================
+
+--- act4_week44_reform_backlash (src/data/narrative/act4/act4_week44_reform_backlash.json) ---
+window: weekAvailable=44, weekDeadline=46
+prerequisites: [{ "stat": "flags.reform_implementation_begun", "operator": "==", "value":
+true }]
+
+Setter: act4_week41_reform_implementation.json (prereq: constitution_in_force==true; 4
+choices) — ALL 4 choices set reform_implementation_begun (reform_push_aggressively,
+reform_build_coalition, reform_public_mandate, reform_selective_priorities). Convergent —
+zero risk once the parent scene fires. ALL 4 choices ALSO identically chain-trigger
+act4_week44_reform_backlash (delayWeeks 3, landing exactly week 44 — matches target window
+precisely). This flag/scene pair should be reclassified LOW RISK — clean false positive,
+same pattern as Group 9. The only real dependency is transitively on
+constitution_in_force (see Group 2), which itself is convergent across most of its setters.
+
+===============================================================================
+SUMMARY TABLE — risk reassessment after this pass
+===============================================================================
+Confirmed genuinely HIGH RISK (narrow, real conditional gaps):
+  - act4_ceasefire_negotiation (ceasefire_explored — 1 of 4)
+  - act4_dravenni_war_alliance (dlf_alliance_signed — 1 of 5, two independent
+    non-guaranteeing chain sources)
+  - act4_emergency_powers_invoked (constitution_retained_emergency_powers — narrow across
+    3 scenes, plus a flag-name-mismatch sibling bug)
+  - act4_ima_confrontation (ima_deal_accepted — narrow across 4 of 5 scenes, PENDING
+    reachability check on act3_ima_conditionality which may flip this to LOW RISK)
+  - act4_ima_renegotiation (inherits risk transitively from act4_ima_confrontation only)
+  - act4_week40_war_begins (war_path_chosen — 1 of 6, but delay math is clean)
+  - act4_second_referendum (real bug: second setter path via reform_backlash doesn't set
+    the checked flag)
+  - act4_week40_exile (real bug: two feeder timelines produce incompatible arrival weeks
+    against its 40-44 window)
+  - act4_week43_family_resolution (likely an orphaned/superseded duplicate — needs a
+    delete-or-wire decision, not a simple flag fix)
+
+Likely FALSE POSITIVES from the original triage (recommend reclassifying LOW RISK):
+  - act4_constitutional_crisis / constitution_in_force (convergent across 5 of 6 setters;
+    only fails on the genuine "constitution defeated" ending)
+  - act4_coordinated_response / all_fronts_managed (self-contained single-climax-branch
+    cascade, delay math is safe)
+  - act4_public_mandate / national_address_delivered (fully convergent, 3 of 3 + clean
+    chain)
+  - act4_week44_reform_backlash / reform_implementation_begun (fully convergent, 4 of 4 +
+    clean chain)
+  - act4_occupation_begins / war_defeat ("circular" framing in original triage was
+    misleading — one clean, intentionally-conditioned entry point, no real risk)
+  - act4_ceasefire_talks / ceasefire_negotiation (flag itself convergent; the one
+    non-chaining branch is a deliberate narrative dead-end, not a bug)
+
+############################################################
+# PART C — Already resolved this session (4 scenes):
+# no_confidence vote, nadia_cooperated, impeachment vote
+############################################################
+
+GROUP: no_confidence vote outcome (ALREADY RESOLVED this session, commit 704738b's audit-tool fix confirmed the mechanism was already functional — no game-logic change was needed)
+--- act3_no_confidence_fallen (src/data/narrative/act3/act3_no_confidence_fallen.json) ---
+  prerequisites: [{"stat":"flags.no_confidence_passed","operator":"==","value":true}]
+  exclusive (recommended): ["act3_no_confidence_survived"]
+  setter: NOT a narrative-JSON choice. Set dynamically by the synthetic `__vote__` node's
+    voteConfig.successFlags = ['no_confidence_passed','government_fallen'] in
+    src/stores/weekStore.ts's makeNoConfidenceVoteItem(), applied by LobbyingInterface.tsx's
+    handleCommit() when the Assembly vote (triggered by act3_confidence_vote's chain) resolves
+    against the government. Sibling/opposite outcome sets no_confidence_failed +
+    government_survived instead (gates act3_no_confidence_survived).
+  status: functional. audit-full-game.mjs previously mis-flagged this as "never set" because it
+    only scanned choice.flags arrays in narrative JSON, not voteConfig blocks in weekStore.ts /
+    agenda JSON. Fixed by adding that scan source (commit 704738b). No scene-content change made
+    or needed.
+
+--- act3_no_confidence_survived (src/data/narrative/act3/act3_no_confidence_survived.json) ---
+  prerequisites: [{"stat":"flags.no_confidence_failed","operator":"==","value":true}]
+  exclusive (recommended): ["act3_no_confidence_fallen"]
+  setter: same __vote__ mechanism as above, failureFlags branch. Mirror of act3_no_confidence_fallen.
+  status: functional, same as above.
+
+GROUP: nadia_cooperated (ALREADY RESOLVED this session, commit 704738b — genuine flag-name-mismatch bug, fixed)
+--- act3_week29_vyktor_exposed (src/data/narrative/act3/act3_week29_vyktor_exposed.json) ---
+  prerequisites: [{"stat":"flags.nadia_cooperated","operator":"==","value":true},{"stat":"nation.pressFreedom","operator":">","value":40}]
+  exclusive (recommended): none found — standalone scene, not part of a competing-outcome set at
+    the same weekAvailable window (weekAvailable=29, weekDeadline=31; siblings are alternate
+    narrative branches within its own choices, not separate scenes).
+  setter: src/data/narrative/act2/act2_week22_nadia_investigation.json's "nadia_full_cooperation"
+    choice — now sets flags ["nadia_full_cooperation","nadia_cooperated","vyktor_past_disclosed",
+    "press_freedom_upheld"] (nadia_cooperated added this session; was previously only
+    nadia_full_cooperation, a one-word naming drift that made this scene permanently unreachable).
+    Sibling flags from the SAME decision point (act2_week22_nadia_investigation's other 3 choices):
+      - "nadia_limited_access" -> flags ["nadia_limited_cooperation","vyktor_past_deferred"]
+      - "nadia_stonewall" -> flags ["nadia_stonewalled","press_freedom_violated","vyktor_past_suppressed"]
+      - "nadia_personal_charm" -> flags ["nadia_personal_approach","vyktor_past_deferred","nadia_relationship_begun"]
+  status: fixed. Real bug, real fix (one flag string added to one choice).
+
+GROUP: impeachment vote outcome (ALREADY RESOLVED this session, commit 704738b's audit-tool fix confirmed the mechanism was already functional — no game-logic change was needed)
+--- act4_impeachment_vote_vindicated (src/data/narrative/act4/act4_impeachment_vote_vindicated.json) ---
+  prerequisites: [{"stat":"flags.impeachment_vote_failed","operator":"==","value":true}]
+  exclusive (recommended): none found as a symmetric sibling scene — the successful-impeachment
+    path (flags.impeachment_vote_passed, set by the same __vote__ mechanism) does not appear to
+    route to a dedicated "vindicated"-style counterpart scene; it more likely feeds directly into
+    resignation/removal endgame branches. Worth a follow-up pass specifically on
+    impeachment_vote_passed's consumers if a symmetric scene is expected to exist.
+  setter: NOT a narrative-JSON choice. Set dynamically by the synthetic `__vote__` node's
+    voteConfig.failureFlags = ['impeachment_vote_failed'] in weekStore.ts's
+    makeImpeachmentVoteItem(), triggered when act4_impeachment_proceedings chain-fires (itself
+    triggered by shouldTriggerImpeachment(corruptionDiscoveredCount) in weekStore.ts).
+  status: functional, same audit-tool false-positive as the no-confidence group. No scene-content
+    change made or needed.

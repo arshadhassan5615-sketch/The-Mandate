@@ -46,6 +46,8 @@ function buildSwingSequence(
 export default function VoteResult() {
   // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
   const insets = usePageInsets()
+  // Phones and short landscape screens get a fitted column: header, scrolling tally, fixed footer.
+  const isDense = insets.mode !== 'desktop'
   const voteResult  = useWeekStore(s => s.voteResult)
   const voteConfig  = useWeekStore(s => s.voteConfig)
   const advanceQueue = useWeekStore(s => s.advanceQueue)
@@ -183,293 +185,330 @@ export default function VoteResult() {
     && prevYes < threshold
     && nbCurrentYes >= threshold
 
+  const denseOverlay: React.CSSProperties = {
+    position: 'fixed',
+    inset: 0,
+    zIndex: 50,
+    backgroundColor: 'rgba(12,10,8,0.94)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxSizing: 'border-box',
+    paddingTop: insets.top + DENSE_EDGE,
+    paddingRight: insets.right + DENSE_EDGE,
+    paddingBottom: insets.bottom + DENSE_EDGE,
+    paddingLeft: insets.left + DENSE_EDGE,
+  }
+
+  const canContinue = stage === 'result' || stage === 'done'
+
+  const continueButton = (
+    <button
+      onClick={handleContinue}
+      disabled={!canContinue}
+      style={isDense
+        ? { ...continueBtnStyle, margin: 0, minWidth: 220, minHeight: 44, padding: '0 2rem', boxSizing: 'border-box', opacity: canContinue ? 1 : 0.4, cursor: canContinue ? 'pointer' : 'default' }
+        : continueBtnStyle}
+    >
+      CONTINUE
+    </button>
+  )
+
   return (
-    <div style={insets.isPhone ? { ...overlayStyle, padding: '12px', paddingRight: '12px', paddingTop: insets.top, paddingBottom: insets.bottom + 12 } : overlayStyle}>
+    <div style={isDense ? denseOverlay : overlayStyle}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        style={insets.isPhone ? { ...panelStyle, padding: '1rem', maxHeight: '100%' } : panelStyle}
+        style={isDense ? densePanelStyle : panelStyle}
       >
         {/* Header */}
-        <div style={headerStyle}>
+        <div style={isDense ? denseHeaderStyle : headerStyle}>
           <span style={{ ...mono, fontSize: '0.6rem', letterSpacing: '0.28em', color: 'var(--amber-dim)', textTransform: 'uppercase' }}>
             ▸ ASSEMBLY VOTE — {voteLabel}
           </span>
         </div>
 
-        <AnimatePresence mode="wait">
-          {stage === 'voting' && (
-            <motion.div
-              key="voting"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={stageContentStyle}
-            >
-              <motion.p
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                style={{ ...mono, fontSize: '0.85rem', color: 'var(--amber-dim)', textAlign: 'center', letterSpacing: '0.1em' }}
-              >
-                THE ASSEMBLY IS VOTING...
-              </motion.p>
-              <p style={{ fontSize: '0.7rem', color: 'var(--muted)', textAlign: 'center', marginTop: 12 }}>
-                Members are casting their ballots. The Speaker will announce the result shortly.
-              </p>
-              <div style={pulsingBarStyle}>
-                <motion.div
-                  animate={{ width: ['0%', '100%'] }}
-                  transition={{ duration: 2.8, ease: 'easeInOut' }}
-                  style={{ height: 2, backgroundColor: 'var(--amber-dim)' }}
-                />
-              </div>
-            </motion.div>
-          )}
-
-          {stage === 'counting' && (
-            <motion.div
-              key="counting"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={stageContentStyle}
-            >
-              <p style={{ ...mono, fontSize: '0.7rem', color: 'var(--amber-dim)', textAlign: 'center', letterSpacing: '0.1em', marginBottom: 20 }}>
-                BALLOTS BEING COUNTED...
-              </p>
-              <VoteTracker
-                projection={countingProjection}
-                animated={false}
-                showThreshold
-                tension={Math.abs(countedYes - threshold) <= 5 ? 0.9 : 0}
-              />
-              <div style={{ textAlign: 'center', marginTop: 16 }}>
-                <motion.span
-                  key={countedSeats}
-                  initial={{ scale: 1.1 }}
-                  animate={{ scale: 1 }}
-                  style={{ ...mono, fontSize: '1.2rem', color: 'var(--text)' }}
-                >
-                  {countedSeats} / {totalSeats}
-                </motion.span>
-                <p style={{ fontSize: '0.6rem', color: 'var(--muted)', marginTop: 4 }}>
-                  SEATS COUNTED
-                </p>
-              </div>
-              {Math.abs(countedYes - threshold) <= 8 && countedSeats > totalSeats * 0.6 && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0.6, 1, 0.6] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                  style={{ ...mono, fontSize: '0.6rem', color: 'var(--amber-dim)', textAlign: 'center', marginTop: 12, letterSpacing: '0.1em' }}
-                >
-                  TOO CLOSE TO CALL...
-                </motion.p>
-              )}
-            </motion.div>
-          )}
-
-          {stage === 'nail_biting' && (
-            <motion.div
-              key="nail_biting"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={stageContentStyle}
-            >
-              {/* Running tally header */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                <motion.span
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1.4, repeat: Infinity }}
-                  style={{ ...mono, fontSize: '0.6rem', color: 'var(--amber-dim)', letterSpacing: '0.2em' }}
-                >
-                  ▸ INDIVIDUAL VOTES BEING RECORDED
-                </motion.span>
-                <div style={{ display: 'flex', gap: 16, ...mono, fontSize: '0.75rem' }}>
-                  <span style={{ color: 'var(--accent-green)' }}>YES {nbCurrentYes}</span>
-                  <span style={{ color: 'var(--text-muted)', fontSize: '0.6rem' }}>NEED {threshold}</span>
-                  <span style={{ color: 'var(--accent-red)' }}>NO {nbCurrentNo}</span>
-                </div>
-              </div>
-
-              {/* Threshold flash on crossing */}
-              {thresholdJustCrossed && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: [0, 1, 1, 0], scale: [0.9, 1.05, 1, 1] }}
-                  transition={{ duration: 1.6, times: [0, 0.2, 0.7, 1] }}
-                  style={{ ...mono, textAlign: 'center', fontSize: '0.75rem', color: 'var(--accent-green)', letterSpacing: '0.2em', marginBottom: 8 }}
-                >
-                  ★ THRESHOLD REACHED ★
-                </motion.div>
-              )}
-
-              {/* Individual vote reveals */}
-              <div style={voteListStyle}>
-                {swingVotes.slice(0, revealIndex).map((v, i) => {
-                  const isDecisive = v.vote === 'YES'
-                    && nbStartYes + swingVotes.slice(0, i + 1).filter(x => x.vote === 'YES').length === threshold
-                  return (
-                    <motion.div
-                      key={v.name ?? i}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.25 }}
-                      style={{
-                        ...voteEntryStyle,
-                        borderColor: isDecisive ? 'var(--accent-green)' : 'var(--border)',
-                        backgroundColor: isDecisive ? 'rgba(64,160,64,0.08)' : 'transparent',
-                      }}
-                    >
-                      <span style={{ fontSize: '0.65rem', color: 'var(--muted)', ...mono, minWidth: 80 }}>
-                        {v.name}
-                      </span>
-                      <span style={{
-                        ...mono,
-                        fontSize: '0.62rem',
-                        fontWeight: 'bold',
-                        letterSpacing: '0.08em',
-                        color: v.vote === 'YES' ? 'var(--accent-green)' : 'var(--accent-red)',
-                      }}>
-                        {v.vote}
-                        {isDecisive && ' ←'}
-                      </span>
-                    </motion.div>
-                  )
-                })}
-                {/* Pending indicator */}
-                {revealIndex < swingVotes.length && (
-                  <motion.div
-                    animate={{ opacity: [0.3, 0.8, 0.3] }}
-                    transition={{ duration: 0.9, repeat: Infinity }}
-                    style={{ ...mono, fontSize: '0.55rem', color: 'var(--amber-dim)', paddingLeft: 4, marginTop: 4 }}
-                  >
-                    ...
-                  </motion.div>
-                )}
-              </div>
-
-              {/* Live mini bar */}
-              <div style={{ marginTop: 16 }}>
-                <VoteTracker
-                  projection={{
-                    yesSeats: nbCurrentYes,
-                    noSeats: nbCurrentNo,
-                    undecidedSeats: totalSeats - nbCurrentYes - nbCurrentNo,
-                    threshold,
-                    totalSeats,
-                    willPass: nbCurrentYes >= threshold,
-                    margin: nbCurrentYes - threshold,
-                    breakdown: [],
-                  }}
-                  compact
-                  showThreshold
-                  tension={0.9}
-                />
-              </div>
-            </motion.div>
-          )}
-
-          {stage === 'result' && (
-            <motion.div
-              key="result"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
-              style={stageContentStyle}
-            >
-              <VoteTracker
-                projection={finalProjection}
-                animated={false}
-                showThreshold
-              />
-
-              <div style={{ textAlign: 'center', marginTop: 24 }}>
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  style={{
-                    ...mono,
-                    fontSize: '0.95rem',
-                    letterSpacing: '0.1em',
-                    color: passed ? 'var(--accent-green)' : 'var(--accent-red)',
-                  }}
-                >
-                  {passed ? 'THE MOTION PASSES' : 'THE MOTION FAILS'}
-                </motion.p>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                  style={{ fontSize: '0.75rem', color: 'var(--text)', marginTop: 8 }}
-                >
-                  {finalYes} YES — {finalNo} NO — {voteResult?.finalUndecidedSeats ?? 0} ABSTAINED
-                </motion.p>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.9 }}
-                  style={{
-                    ...mono,
-                    fontSize: '0.65rem',
-                    color: 'var(--muted)',
-                    marginTop: 6,
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  MARGIN: {margin} SEAT{margin !== 1 ? 'S' : ''} • THRESHOLD: {threshold}
-                </motion.p>
-              </div>
-
+        <div data-testid="vote-result-body" style={isDense ? denseBodyStyle : undefined}>
+          <AnimatePresence mode="wait">
+            {stage === 'voting' && (
               <motion.div
+                key="voting"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-                style={resultDescStyle}
+                exit={{ opacity: 0 }}
+                style={isDense ? denseStageContentStyle : stageContentStyle}
               >
-                {passed && margin >= 20 && (
-                  <p style={{ fontSize: '0.7rem', color: 'var(--accent-green)', textAlign: 'center' }}>
-                    A decisive victory. Your government's agenda has a clear mandate from the Assembly.
+                <motion.p
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  style={{ ...mono, fontSize: '0.85rem', color: 'var(--amber-dim)', textAlign: 'center', letterSpacing: '0.1em' }}
+                >
+                  THE ASSEMBLY IS VOTING...
+                </motion.p>
+                <p style={{ fontSize: '0.7rem', color: 'var(--muted)', textAlign: 'center', marginTop: 12 }}>
+                  Members are casting their ballots. The Speaker will announce the result shortly.
+                </p>
+                <div style={pulsingBarStyle}>
+                  <motion.div
+                    animate={{ width: ['0%', '100%'] }}
+                    transition={{ duration: 2.8, ease: 'easeInOut' }}
+                    style={{ height: 2, backgroundColor: 'var(--amber-dim)' }}
+                  />
+                </div>
+              </motion.div>
+            )}
+  
+            {stage === 'counting' && (
+              <motion.div
+                key="counting"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={isDense ? denseStageContentStyle : stageContentStyle}
+              >
+                <p style={{ ...mono, fontSize: '0.7rem', color: 'var(--amber-dim)', textAlign: 'center', letterSpacing: '0.1em', marginBottom: 20 }}>
+                  BALLOTS BEING COUNTED...
+                </p>
+                <VoteTracker
+                  projection={countingProjection}
+                  animated={false}
+                  showThreshold
+                  tension={Math.abs(countedYes - threshold) <= 5 ? 0.9 : 0}
+                />
+                <div style={{ textAlign: 'center', marginTop: 16 }}>
+                  <motion.span
+                    key={countedSeats}
+                    initial={{ scale: 1.1 }}
+                    animate={{ scale: 1 }}
+                    style={{ ...mono, fontSize: '1.2rem', color: 'var(--text)' }}
+                  >
+                    {countedSeats} / {totalSeats}
+                  </motion.span>
+                  <p style={{ fontSize: '0.6rem', color: 'var(--muted)', marginTop: 4 }}>
+                    SEATS COUNTED
                   </p>
-                )}
-                {passed && margin < 20 && margin >= 5 && (
-                  <p style={{ fontSize: '0.7rem', color: 'var(--amber-dim)', textAlign: 'center' }}>
-                    It passed — but not comfortably. The narrow margin will embolden your opponents.
-                  </p>
-                )}
-                {passed && margin < 5 && (
-                  <p style={{ fontSize: '0.7rem', color: 'var(--amber-dim)', textAlign: 'center' }}>
-                    By a handful of votes. This was closer than anyone expected. The political cost will be measured in the weeks ahead.
-                  </p>
-                )}
-                {!passed && margin >= 20 && (
-                  <p style={{ fontSize: '0.7rem', color: 'var(--accent-red)', textAlign: 'center' }}>
-                    A heavy defeat. Your opponents are emboldened. Your allies are questioning their loyalty. The government is wounded.
-                  </p>
-                )}
-                {!passed && margin < 20 && (
-                  <p style={{ fontSize: '0.7rem', color: 'var(--accent-red)', textAlign: 'center' }}>
-                    A narrow defeat — somehow worse than a landslide. So close that every absent ally becomes a name you will not forget.
-                  </p>
+                </div>
+                {Math.abs(countedYes - threshold) <= 8 && countedSeats > totalSeats * 0.6 && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0.6, 1, 0.6] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                    style={{ ...mono, fontSize: '0.6rem', color: 'var(--amber-dim)', textAlign: 'center', marginTop: 12, letterSpacing: '0.1em' }}
+                  >
+                    TOO CLOSE TO CALL...
+                  </motion.p>
                 )}
               </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+  
+            {stage === 'nail_biting' && (
+              <motion.div
+                key="nail_biting"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={isDense ? denseStageContentStyle : stageContentStyle}
+              >
+                {/* Running tally header */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                  <motion.span
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.4, repeat: Infinity }}
+                    style={{ ...mono, fontSize: '0.6rem', color: 'var(--amber-dim)', letterSpacing: '0.2em' }}
+                  >
+                    ▸ INDIVIDUAL VOTES BEING RECORDED
+                  </motion.span>
+                  <div style={{ display: 'flex', gap: 16, ...mono, fontSize: '0.75rem' }}>
+                    <span style={{ color: 'var(--accent-green)' }}>YES {nbCurrentYes}</span>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.6rem' }}>NEED {threshold}</span>
+                    <span style={{ color: 'var(--accent-red)' }}>NO {nbCurrentNo}</span>
+                  </div>
+                </div>
+  
+                {/* Threshold flash on crossing */}
+                {thresholdJustCrossed && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: [0, 1, 1, 0], scale: [0.9, 1.05, 1, 1] }}
+                    transition={{ duration: 1.6, times: [0, 0.2, 0.7, 1] }}
+                    style={{ ...mono, textAlign: 'center', fontSize: '0.75rem', color: 'var(--accent-green)', letterSpacing: '0.2em', marginBottom: 8 }}
+                  >
+                    ★ THRESHOLD REACHED ★
+                  </motion.div>
+                )}
+  
+                {/* Individual vote reveals */}
+                <div style={voteListStyle}>
+                  {swingVotes.slice(0, revealIndex).map((v, i) => {
+                    const isDecisive = v.vote === 'YES'
+                      && nbStartYes + swingVotes.slice(0, i + 1).filter(x => x.vote === 'YES').length === threshold
+                    return (
+                      <motion.div
+                        key={v.name ?? i}
+                        initial={{ opacity: 0, x: -12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.25 }}
+                        style={{
+                          ...voteEntryStyle,
+                          borderColor: isDecisive ? 'var(--accent-green)' : 'var(--border)',
+                          backgroundColor: isDecisive ? 'rgba(64,160,64,0.08)' : 'transparent',
+                        }}
+                      >
+                        <span style={{ fontSize: '0.65rem', color: 'var(--muted)', ...mono, minWidth: 80 }}>
+                          {v.name}
+                        </span>
+                        <span style={{
+                          ...mono,
+                          fontSize: '0.62rem',
+                          fontWeight: 'bold',
+                          letterSpacing: '0.08em',
+                          color: v.vote === 'YES' ? 'var(--accent-green)' : 'var(--accent-red)',
+                        }}>
+                          {v.vote}
+                          {isDecisive && ' ←'}
+                        </span>
+                      </motion.div>
+                    )
+                  })}
+                  {/* Pending indicator */}
+                  {revealIndex < swingVotes.length && (
+                    <motion.div
+                      animate={{ opacity: [0.3, 0.8, 0.3] }}
+                      transition={{ duration: 0.9, repeat: Infinity }}
+                      style={{ ...mono, fontSize: '0.55rem', color: 'var(--amber-dim)', paddingLeft: 4, marginTop: 4 }}
+                    >
+                      ...
+                    </motion.div>
+                  )}
+                </div>
+  
+                {/* Live mini bar */}
+                <div style={{ marginTop: 16 }}>
+                  <VoteTracker
+                    projection={{
+                      yesSeats: nbCurrentYes,
+                      noSeats: nbCurrentNo,
+                      undecidedSeats: totalSeats - nbCurrentYes - nbCurrentNo,
+                      threshold,
+                      totalSeats,
+                      willPass: nbCurrentYes >= threshold,
+                      margin: nbCurrentYes - threshold,
+                      breakdown: [],
+                    }}
+                    compact
+                    showThreshold
+                    tension={0.9}
+                  />
+                </div>
+              </motion.div>
+            )}
+  
+            {stage === 'result' && (
+              <motion.div
+                key="result"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6 }}
+                style={isDense ? denseStageContentStyle : stageContentStyle}
+              >
+                <VoteTracker
+                  projection={finalProjection}
+                  animated={false}
+                  showThreshold
+                />
+  
+                <div style={{ textAlign: 'center', marginTop: 24 }}>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    style={{
+                      ...mono,
+                      fontSize: '0.95rem',
+                      letterSpacing: '0.1em',
+                      color: passed ? 'var(--accent-green)' : 'var(--accent-red)',
+                    }}
+                  >
+                    {passed ? 'THE MOTION PASSES' : 'THE MOTION FAILS'}
+                  </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                    style={{ fontSize: '0.75rem', color: 'var(--text)', marginTop: 8 }}
+                  >
+                    {finalYes} YES — {finalNo} NO — {voteResult?.finalUndecidedSeats ?? 0} ABSTAINED
+                  </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                    style={{
+                      ...mono,
+                      fontSize: '0.65rem',
+                      color: 'var(--muted)',
+                      marginTop: 6,
+                      letterSpacing: '0.05em',
+                    }}
+                  >
+                    MARGIN: {margin} SEAT{margin !== 1 ? 'S' : ''} • THRESHOLD: {threshold}
+                  </motion.p>
+                </div>
+  
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2 }}
+                  style={resultDescStyle}
+                >
+                  {passed && margin >= 20 && (
+                    <p style={{ fontSize: '0.7rem', color: 'var(--accent-green)', textAlign: 'center' }}>
+                      A decisive victory. Your government's agenda has a clear mandate from the Assembly.
+                    </p>
+                  )}
+                  {passed && margin < 20 && margin >= 5 && (
+                    <p style={{ fontSize: '0.7rem', color: 'var(--amber-dim)', textAlign: 'center' }}>
+                      It passed — but not comfortably. The narrow margin will embolden your opponents.
+                    </p>
+                  )}
+                  {passed && margin < 5 && (
+                    <p style={{ fontSize: '0.7rem', color: 'var(--amber-dim)', textAlign: 'center' }}>
+                      By a handful of votes. This was closer than anyone expected. The political cost will be measured in the weeks ahead.
+                    </p>
+                  )}
+                  {!passed && margin >= 20 && (
+                    <p style={{ fontSize: '0.7rem', color: 'var(--accent-red)', textAlign: 'center' }}>
+                      A heavy defeat. Your opponents are emboldened. Your allies are questioning their loyalty. The government is wounded.
+                    </p>
+                  )}
+                  {!passed && margin < 20 && (
+                    <p style={{ fontSize: '0.7rem', color: 'var(--accent-red)', textAlign: 'center' }}>
+                      A narrow defeat — somehow worse than a landslide. So close that every absent ally becomes a name you will not forget.
+                    </p>
+                  )}
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-        {(stage === 'result' || stage === 'done') && (
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: stage === 'done' ? 0 : 2 }}
-            onClick={handleContinue}
-            style={continueBtnStyle}
-          >
-            CONTINUE
-          </motion.button>
+        {isDense ? (
+          <div data-testid="vote-result-footer" style={denseFooterStyle}>
+            {continueButton}
+          </div>
+        ) : (
+          (stage === 'result' || stage === 'done') && (
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: stage === 'done' ? 0 : 2 }}
+              onClick={handleContinue}
+              style={continueBtnStyle}
+            >
+              CONTINUE
+            </motion.button>
+          )
         )}
       </motion.div>
     </div>
@@ -509,6 +548,10 @@ const headerStyle: React.CSSProperties = {
 
 const stageContentStyle: React.CSSProperties = {
   minHeight: 280,
+}
+
+const denseStageContentStyle: React.CSSProperties = {
+  minHeight: 0,
 }
 
 const pulsingBarStyle: React.CSSProperties = {
@@ -555,4 +598,42 @@ const voteEntryStyle: React.CSSProperties = {
   padding: '3px 8px',
   border: '1px solid var(--border)',
   borderRadius: 3,
+}
+
+/** Gap between the dense screen edge and the HUD insets. */
+const DENSE_EDGE = 8
+
+// Dense (phone / short landscape): the panel fills the insets and is a flex column.
+const densePanelStyle: React.CSSProperties = {
+  ...panelStyle,
+  boxSizing: 'border-box',
+  height: '100%',
+  maxHeight: '100%',
+  padding: '10px 14px 0',
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
+}
+
+const denseHeaderStyle: React.CSSProperties = {
+  ...headerStyle,
+  flexShrink: 0,
+  marginBottom: 8,
+  paddingBottom: 6,
+}
+
+const denseBodyStyle: React.CSSProperties = {
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
+  overflowX: 'hidden',
+  padding: '4px 2px',
+}
+
+const denseFooterStyle: React.CSSProperties = {
+  flexShrink: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '8px 0 10px',
+  borderTop: '1px solid var(--border)',
 }

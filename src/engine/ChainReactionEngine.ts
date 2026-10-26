@@ -71,9 +71,20 @@ export function resolveChains(
     // a long delay overshooting into content written for a later week). It
     // stays scheduled — never dropped. Targets outside the registry fire on
     // schedule, since there is no authored week to defer to.
-    const targetWeek = getScene(chain.targetNodeId)?.weekAvailable
+    const targetScene = getScene(chain.targetNodeId)
+    const targetWeek = targetScene?.weekAvailable
     if (targetWeek !== undefined && week < targetWeek) {
       remaining.push(chain)
+      continue
+    }
+
+    // Window expiry: once the target scene's weekDeadline has passed, the
+    // consequence is stale. It is dropped, never delivered late (due or overdue).
+    const targetDeadline = targetScene?.weekDeadline
+    if (typeof targetDeadline === 'number' && week > targetDeadline) {
+      if (import.meta.env.DEV) {
+        console.warn('[Chain] dropped (past scene window):', chain.targetNodeId, chain.id)
+      }
       continue
     }
 

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import type { CSSProperties } from 'react'
 import { PROVINCES, PROVINCE_ORDER, type ProvinceData } from '../../data/provinces'
 import { useCodexStore } from '../../stores/codexStore'
 import { useGameStore } from '../../stores/gameStore'
@@ -13,6 +14,15 @@ import sevagradBanner from '../../assets/images/provinces/sevagrad_banner.jpeg'
 import sovarkaBanner from '../../assets/images/provinces/sovarka_banner.jpeg'
 import { Z } from '../../constants/zIndex'
 import { computeProvinceStatus } from '../map/provinceStatus'
+import { usePageInsets } from '../../hooks/usePageInsets'
+
+/** Minimum height and width of a tappable control on touch (non-desktop) layouts. */
+const TOUCH_MIN_SIZE = 40
+const TOUCH_BUTTON_STYLE: CSSProperties = { minHeight: TOUCH_MIN_SIZE, minWidth: TOUCH_MIN_SIZE }
+/** Non-desktop: header and page navigation stay pinned; only the body between them scrolls. */
+const DENSE_BODY_STYLE: CSSProperties = { flex: '1 1 auto', minHeight: 0, overflowY: 'auto' }
+/** Desktop: no wrapper box, so the children lay out exactly as before. */
+const DESKTOP_BODY_STYLE: CSSProperties = { display: 'contents' }
 
 const PROVINCE_BANNERS: Record<string, string> = {
   ashenmere: ashenmereBanner,
@@ -137,6 +147,8 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
   })
   const province = PROVINCES[PROVINCE_ORDER[idx]]
   const status = qualitativeStatus(province)
+  const { mode } = usePageInsets()
+  const dense = mode !== 'desktop'
   const viewEntry = useCodexStore(s => s.viewEntry)
   const openCodex = useCodexStore(s => s.openCodex)
   const codexId = PROVINCE_CODEX[province.id] ?? ''
@@ -175,7 +187,8 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
       background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(2px)',
     }} onClick={onClose}>
       <div className="anim-pop-in" style={{
-        width: '500px', maxHeight: '92vh', overflowY: 'auto',
+        width: dense ? 'min(500px, calc(100vw - 16px))' : '500px',
+        maxHeight: '92vh', overflowY: dense ? 'hidden' : 'auto',
         background: 'rgba(12,10,8,0.98)',
         border: '1px solid rgba(196,148,58,0.28)',
         borderRadius: '3px',
@@ -197,12 +210,14 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
               {province.subtitle}
             </p>
           </div>
-          <button onClick={onClose} style={{
+          <button onClick={onClose} className={dense ? 'touch-target' : undefined} style={{
             background: 'none', border: '1px solid rgba(196,148,58,0.15)', color: 'var(--muted)',
             cursor: 'pointer', fontSize: '1.1rem', padding: '2px 8px', lineHeight: 1, borderRadius: '2px',
+            ...(dense ? TOUCH_BUTTON_STYLE : null),
           }}>✕</button>
         </div>
 
+        <div style={dense ? DENSE_BODY_STYLE : DESKTOP_BODY_STYLE}>
         <div style={{ padding: '10px 28px 0' }}>
           <img
             src={PROVINCE_BANNERS[province.id] ?? ashenmereBanner}
@@ -267,6 +282,7 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
         <div style={{ padding: '0 28px 12px' }}>
           <button
             onClick={() => { viewEntry(codexId); openCodex(undefined, codexId) }}
+            className={dense ? 'touch-target' : undefined}
             style={{
               width: '100%', background: 'rgba(196,148,58,0.08)',
               border: '1px solid rgba(196,148,58,0.25)',
@@ -275,6 +291,7 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
               letterSpacing: '0.1em', padding: '7px 0',
               textTransform: 'uppercase',
               transition: 'all 0.15s',
+              ...(dense ? TOUCH_BUTTON_STYLE : null),
             }}
             onMouseEnter={e => { e.currentTarget.style.color = 'var(--amber)'; e.currentTarget.style.borderColor = 'var(--amber)' }}
             onMouseLeave={e => { e.currentTarget.style.color = 'var(--amber-dim)'; e.currentTarget.style.borderColor = 'rgba(196,148,58,0.25)' }}
@@ -451,17 +468,22 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
           </div>
         </div>
 
+        </div>
+
         {/* ── Page navigation ──────────────────────────────── */}
         <div style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           padding: '12px 28px 16px', borderTop: '1px solid rgba(196,148,58,0.1)',
+          ...(dense ? { flexShrink: 0 } : null),
         }}>
           <button
             onClick={() => setIdx(i => (i - 1 + PROVINCE_ORDER.length) % PROVINCE_ORDER.length)}
+            className={dense ? 'touch-target' : undefined}
             style={{
               background: 'none', border: '1px solid rgba(196,148,58,0.2)', color: 'var(--muted)',
               cursor: 'pointer', padding: '5px 14px', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.55rem',
               borderRadius: '2px', transition: 'all 0.15s',
+              ...(dense ? TOUCH_BUTTON_STYLE : null),
             }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(196,148,58,0.5)'; e.currentTarget.style.color = 'var(--amber)' }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(196,148,58,0.2)'; e.currentTarget.style.color = 'var(--muted)' }}
@@ -475,10 +497,12 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
           </span>
           <button
             onClick={() => setIdx(i => (i + 1) % PROVINCE_ORDER.length)}
+            className={dense ? 'touch-target' : undefined}
             style={{
               background: 'none', border: '1px solid rgba(196,148,58,0.2)', color: 'var(--muted)',
               cursor: 'pointer', padding: '5px 14px', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.55rem',
               borderRadius: '2px', transition: 'all 0.15s',
+              ...(dense ? TOUCH_BUTTON_STYLE : null),
             }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(196,148,58,0.5)'; e.currentTarget.style.color = 'var(--amber)' }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(196,148,58,0.2)'; e.currentTarget.style.color = 'var(--muted)' }}

@@ -116,7 +116,7 @@ export default function CinematicPlate({ image, holdMs, onDone }: CinematicPlate
         initial={{ scale: 1 }}
         animate={reduceMotion ? { scale: 1 } : { scale: CINEMA_ZOOM_SCALE }}
         transition={{ duration: reduceMotion ? 0 : zoomDurationS(holdMs), ease: 'linear' }}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
       />
       <div
         aria-hidden="true"

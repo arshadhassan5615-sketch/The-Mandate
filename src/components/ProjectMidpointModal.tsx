@@ -1,11 +1,20 @@
 import { useState } from 'react'
+import type { CSSProperties } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../stores/gameStore'
 import projectDefinitions from '../data/projects.json'
 import type { DevelopmentProject } from '../types/projects'
 import { Z } from '../constants/zIndex'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 const defs = projectDefinitions as DevelopmentProject[]
+
+/** Minimum height of a tappable option on touch (non-desktop) layouts. */
+const TOUCH_MIN_HEIGHT = 44
+/** Non-desktop: the header stays pinned and the intro plus options scroll beneath it. */
+const DENSE_BODY_STYLE: CSSProperties = { flex: '1 1 auto', minHeight: 0, overflowY: 'auto' }
+/** Desktop: no wrapper box, so the children lay out exactly as before. */
+const DESKTOP_BODY_STYLE: CSSProperties = { display: 'contents' }
 
 interface Props {
   projectId: string
@@ -14,6 +23,8 @@ interface Props {
 
 export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
   const [resolved, setResolved] = useState(false)
+  const { mode } = usePageInsets()
+  const dense = mode !== 'desktop'
   const project = useGameStore(s => s.activeProjects.find(p => p.projectId === projectId))
   const def = defs.find(d => d.id === projectId)
   if (!def || !project || project.midpointResolved) return null
@@ -40,7 +51,7 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '2rem',
+            padding: dense ? '0.5rem' : '2rem',
           }}
         >
           <motion.div
@@ -52,9 +63,12 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
               border: '2px solid var(--amber)',
               maxWidth: '720px',
               width: '100%',
-              maxHeight: '85vh',
-              overflowY: 'auto',
-              padding: '2rem',
+              maxHeight: dense ? '96vh' : '85vh',
+              overflowY: dense ? 'hidden' : 'auto',
+              padding: dense ? '1rem' : '2rem',
+              display: dense ? 'flex' : undefined,
+              flexDirection: dense ? 'column' : undefined,
+              boxSizing: 'border-box',
             }}
           >
             {/* Header */}
@@ -91,8 +105,9 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
               Week {project.currentWeek} of {def.durationWeeks} · {project.totalCost}M ₭
             </div>
 
-            <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.5rem' }} />
+            <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.5rem', flexShrink: 0 }} />
 
+            <div style={dense ? DENSE_BODY_STYLE : DESKTOP_BODY_STYLE}>
             <p style={{
               fontFamily: "'IM Fell English', Georgia, serif",
               fontSize: '0.95rem',
@@ -107,7 +122,7 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
               {def.midpointChoices.map(choice => (
                 <button
                   key={choice.id}
-                  className="choice-btn"
+                  className={dense ? 'choice-btn touch-target' : 'choice-btn'}
                   onClick={() => handleChoice(choice.id)}
                   style={{
                     width: '100%',
@@ -118,6 +133,7 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
                     flexDirection: 'column',
                     gap: '0.3rem',
                     lineHeight: 1.5,
+                    ...(dense ? { minHeight: TOUCH_MIN_HEIGHT } : null),
                   }}
                 >
                   <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.5rem', color: 'var(--amber-dim)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
@@ -131,6 +147,7 @@ export default function ProjectMidpointModal({ projectId, onResolved }: Props) {
                   )}
                 </button>
               ))}
+            </div>
             </div>
           </motion.div>
         </motion.div>

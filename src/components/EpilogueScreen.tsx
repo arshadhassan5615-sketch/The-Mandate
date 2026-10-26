@@ -11,6 +11,7 @@ import epilogueData from '../data/epilogues.json'
 import { getEpilogueArt } from '../assets/epilogueArt'
 import CinematicPlate from './scene/CinematicPlate'
 import { CINEMA_FADE_IN_S, CINEMA_EASE } from './scene/cinematic'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 const variants: EpilogueVariant[] = epilogueData as EpilogueVariant[]
 
@@ -38,6 +39,10 @@ export default function EpilogueScreen() {
   const [vignetteIndex, setVignetteIndex] = useState(0)
   const [plateDone, setPlateDone] = useState(false)
   const reduceMotion = useReducedMotion() ?? false
+  const { mode } = usePageInsets()
+  // On phones and landscape phones the advance button is pinned in a footer so it
+  // is always reachable; desktop keeps it inline with the text.
+  const isPinnedAdvance = mode !== 'desktop'
 
   const ending = useMemo(() => calculateEnding(gameState, activeFlags), [gameState, activeFlags])
 
@@ -68,6 +73,7 @@ export default function EpilogueScreen() {
   }
 
   const allVignettesShown = vignetteIndex >= epilogue.vignettes.length
+  const advanceLabel = vignetteIndex === 0 ? 'Read the Epilogue' : 'Continue Reading'
 
   const artUrl = getEpilogueArt(ending.governanceOutcome)
 
@@ -250,7 +256,7 @@ export default function EpilogueScreen() {
           </AnimatePresence>
 
           {/* "Continue reading" prompt */}
-          {!allVignettesShown && (
+          {!allVignettesShown && !isPinnedAdvance && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -262,7 +268,7 @@ export default function EpilogueScreen() {
                 onClick={showNextVignette}
                 style={{ width: 'auto', minWidth: '280px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
               >
-                {vignetteIndex === 0 ? 'Read the Epilogue' : 'Continue Reading'}
+                {advanceLabel}
               </button>
             </motion.div>
           )}
@@ -472,6 +478,35 @@ export default function EpilogueScreen() {
           )}
         </div>
       </div>
+      {!allVignettesShown && isPinnedAdvance && (
+        <div
+          data-testid="epilogue-footer"
+          style={{
+            flexShrink: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom))',
+            borderTop: '1px solid var(--border)',
+            background: 'var(--paper)',
+          }}
+        >
+          <button
+            className="choice-btn"
+            onClick={showNextVignette}
+            style={{
+              width: '100%',
+              maxWidth: '360px',
+              minHeight: '44px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+            }}
+          >
+            {advanceLabel}
+          </button>
+        </div>
+      )}
       {artUrl && !plateDone && (
         <CinematicPlate
           image={artUrl}

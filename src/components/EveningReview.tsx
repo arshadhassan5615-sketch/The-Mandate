@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { useWeekStore } from '../stores/weekStore'
 import { useGameStore } from '../stores/gameStore'
 import type { GameState, NationState, FactionState, PersonalState } from '../types/gameState'
@@ -247,6 +247,44 @@ const headerVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' as const } },
 }
 
+// ─── Compact (phone / short landscape) layout ───────────────────────────────
+
+// The root is a non-scrolling column: the body above scrolls, the footer stays put.
+const compactRootStyle: CSSProperties = {
+  paddingTop: '12px',
+  paddingBottom: 0,
+  boxSizing: 'border-box',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  overflow: 'hidden',
+}
+
+const compactBodyStyle: CSSProperties = {
+  flex: '1 1 auto',
+  minHeight: 0,
+  overflowY: 'auto',
+  width: '100%',
+  boxSizing: 'border-box',
+  paddingBottom: '16px',
+}
+
+const compactFooterStyle: CSSProperties = {
+  flexShrink: 0,
+  maxWidth: 'none',
+  width: '100%',
+  boxSizing: 'border-box',
+  padding: '8px 12px 10px',
+  borderTop: '1px solid var(--evening-border)',
+  background: 'var(--evening-bg)',
+}
+
+const compactButtonRowStyle: CSSProperties = { gap: '8px' }
+
+const compactAdvanceStyle: CSSProperties = { minHeight: '44px', padding: '10px 24px', fontSize: '16px' }
+
+const compactSaveStyle: CSSProperties = { minHeight: '44px', padding: '0 12px' }
+
 // ─── Main component ─────────────────────────────────────────────────────────
 
 export default function EveningReview() {
@@ -275,9 +313,72 @@ export default function EveningReview() {
   const prompt = generateReflectionPrompt(statChanges, decisions)
 
   const dateStr = weekToDate(currentWeek)
+  // Phones and compact landscape: the report scrolls in its own body and the
+  // advance footer stays pinned under it, so advancing never needs a long scroll.
+  const isCompact = insets.mode !== 'desktop'
 
-  return (
-    <div className="evening-review" style={{ paddingLeft: insets.left, paddingRight: insets.right, boxSizing: 'border-box' }}>
+  const footer = (
+    <motion.div
+      className="evening-footer"
+      data-testid="evening-review-footer"
+      variants={panelVariants}
+      style={isCompact ? compactFooterStyle : undefined}
+    >
+      {gateBlocked && (
+        <div className="evening-gate-blocked">
+          <div>
+            <p className="evening-gate-label">REQUIRED BEFORE ADVANCING</p>
+            <p className="evening-gate-message">{gateMessage}</p>
+          </div>
+          <button className="evening-gate-dismiss" onClick={dismissGate}>
+            DISMISS
+          </button>
+        </div>
+      )}
+      <div className="evening-footer-buttons" style={isCompact ? compactButtonRowStyle : undefined}>
+        <button
+          className="advance-button"
+          style={isCompact ? compactAdvanceStyle : undefined}
+          onClick={() => {
+            if (!gateBlocked) {
+              // Save reflection before advancing (empty text = skip silently)
+              if (reflectionText.trim()) {
+                addJournalReflection(currentWeek, reflectionText)
+                setReflectionSaved(true)
+              }
+              playPageTurn()
+              completeWeek()
+            }
+          }}
+          disabled={gateBlocked}
+        >
+          {currentWeek >= 52
+            ? 'The Mandate is Complete →'
+            : `Advance to Week ${currentWeek + 1} →`}
+        </button>
+        {!ironmanMode && (
+          <>
+            <button
+              className="evening-save-button"
+              style={isCompact ? compactSaveStyle : undefined}
+              onClick={() => setSaveMenuOpen(true)}
+            >
+              Save / Load
+            </button>
+            <button
+              className="evening-save-button"
+              style={isCompact ? compactSaveStyle : undefined}
+              onClick={() => { saveGame(0, 'AUTOSAVE').catch(() => {}) }}
+            >
+              Quick Save
+            </button>
+          </>
+        )}
+      </div>
+    </motion.div>
+  )
+
+  const report = (
       <motion.div
         className="evening-review-inner"
         variants={containerVariants}
@@ -444,57 +545,19 @@ export default function EveningReview() {
           </div>
         </motion.div>
 
-        <motion.div className="evening-footer" variants={panelVariants}>
-          {gateBlocked && (
-            <div className="evening-gate-blocked">
-              <div>
-                <p className="evening-gate-label">REQUIRED BEFORE ADVANCING</p>
-                <p className="evening-gate-message">{gateMessage}</p>
-              </div>
-              <button className="evening-gate-dismiss" onClick={dismissGate}>
-                DISMISS
-              </button>
-            </div>
-          )}
-          <div className="evening-footer-buttons">
-            <button
-              className="advance-button"
-              onClick={() => {
-                if (!gateBlocked) {
-                  // Save reflection before advancing (empty text = skip silently)
-                  if (reflectionText.trim()) {
-                    addJournalReflection(currentWeek, reflectionText)
-                    setReflectionSaved(true)
-                  }
-                  playPageTurn()
-                  completeWeek()
-                }
-              }}
-              disabled={gateBlocked}
-            >
-              {currentWeek >= 52
-                ? 'The Mandate is Complete \u2192'
-                : `Advance to Week ${currentWeek + 1} \u2192`}
-            </button>
-            {!ironmanMode && (
-              <>
-                <button
-                  className="evening-save-button"
-                  onClick={() => setSaveMenuOpen(true)}
-                >
-                  Save / Load
-                </button>
-                <button
-                  className="evening-save-button"
-                  onClick={() => { saveGame(0, 'AUTOSAVE').catch(() => {}) }}
-                >
-                  Quick Save
-                </button>
-              </>
-            )}
-          </div>
-        </motion.div>
+        {!isCompact && footer}
       </motion.div>
+  )
+  return isCompact ? (
+    <div className="evening-review" style={{ ...compactRootStyle, paddingLeft: insets.left, paddingRight: insets.right }}>
+      <div data-testid="evening-review-body" style={compactBodyStyle}>
+        {report}
+      </div>
+      {footer}
+    </div>
+  ) : (
+    <div className="evening-review" style={{ paddingLeft: insets.left, paddingRight: insets.right, boxSizing: 'border-box' }}>
+      {report}
     </div>
   )
 }

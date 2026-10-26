@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
+import type { CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import type { Bill } from '../types/bills'
 import { useBillStore } from '../stores/billStore'
@@ -16,6 +17,7 @@ import { audioManager } from '../engine/AudioManager'
 import { Z } from '../constants/zIndex'
 import { weekToDate } from '../engine/dates'
 import { useIsMobile } from '../hooks/useIsMobile'
+import { usePageInsets } from '../hooks/usePageInsets'
 import FiscalNote from './ui/FiscalNote'
 import FactionStances from './ui/FactionStances'
 import { DocumentSeal, SignatureLine } from './ui/StateDocument'
@@ -180,6 +182,9 @@ export default function LegislationOverlay() {
   const [showSignature, setShowSignature] = useState(false)
   const documentRef = useRef<HTMLDivElement>(null)
   const isMobile = useIsMobile()
+  // Phone and compact landscape screens get a fitted, scroll-body layout.
+  const insets = usePageInsets()
+  const isCompact = insets.mode !== 'desktop'
   const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
@@ -342,208 +347,494 @@ export default function LegislationOverlay() {
     }
   }
 
-  return (
-    <div style={{
-      position: 'fixed',
-      top: '0',
-      left: '0',
-      right: '0',
-      bottom: '0',
-      background: 'rgba(0,0,0,0.85)',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: Z.overlay,
-    }}>
-      {decisionState === 'pending' || decisionState === 'deciding' ? (
-        <>
-          {/* THE DOCUMENT */}
-          <div style={{
-            background: '#f5f0e0',
-            width: 'min(680px, 100vw)',
-            height: '100vh',
-            boxShadow: '0 0 80px rgba(0,0,0,0.6)',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            position: 'relative',
-            padding: isMobile ? '16px 16px 0' : '16px 44px 0',
-          }}>
-            {/* SEAL */}
-            <DocumentSeal />
+  // Decision buttons are built once and placed in the desktop or compact footer.
+  const decisionSize = isCompact ? '52px' : '72px'
+  const decisionFontSize = isCompact ? '10px' : '12px'
 
-            {/* BILL TITLE */}
-            <div style={{
-              fontFamily: 'Georgia, serif',
-              fontSize: '19px',
-              fontWeight: '800',
-              fontStyle: 'italic',
-              color: '#0d0a06',
-              textAlign: 'center',
-              lineHeight: '1.25',
-              marginBottom: '4px',
-            }}>
-              {bill.title}
-            </div>
+  const vetoButton = bill.isVetoable ? (
+    <button
+      onClick={handleVeto}
+      disabled={decisionState !== 'pending'}
+      style={{
+        width: decisionSize,
+        height: decisionSize,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle at 38% 32%, #e06868, #8b1515)',
+        border: '3px solid rgba(255,255,255,0.12)',
+        color: 'white',
+        fontFamily: 'Georgia, serif',
+        fontSize: decisionFontSize,
+        fontWeight: '700',
+        letterSpacing: '2px',
+        textTransform: 'uppercase',
+        cursor: decisionState !== 'pending' ? 'default' : 'pointer',
+        boxShadow: '0 6px 28px rgba(139,21,21,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)',
+        textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+        transition: 'all 0.15s ease',
+        opacity: decisionState !== 'pending' ? 0.4 : 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      onMouseEnter={e => {
+        if (decisionState !== 'pending') return
+        e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)'
+        e.currentTarget.style.boxShadow = '0 10px 36px rgba(139,21,21,0.85), 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = 'scale(1)'
+        e.currentTarget.style.boxShadow = '0 6px 28px rgba(139,21,21,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
+      }}
+      onMouseDown={e => {
+        if (decisionState !== 'pending') return
+        e.currentTarget.style.transform = 'scale(0.97)'
+      }}
+    >
+      Veto
+    </button>
+  ) : null
 
-            {/* BILL CODE */}
-            <div style={{
-              fontSize: '9px',
-              letterSpacing: '2px',
-              color: '#6b4f2a',
-              fontWeight: 600,
-              textAlign: 'center',
-              marginBottom: '12px',
-            }}>
-              {bill.shortName} · {weekToDate(bill.weekPresented)}
-            </div>
+  const signButton = (
+    <button
+      onClick={handleSign}
+      disabled={decisionState !== 'pending'}
+      style={{
+        width: decisionSize,
+        height: decisionSize,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle at 38% 32%, #5dc470, #1a6b2a)',
+        border: '3px solid rgba(255,255,255,0.12)',
+        color: 'white',
+        fontFamily: 'Georgia, serif',
+        fontSize: decisionFontSize,
+        fontWeight: '700',
+        letterSpacing: '2px',
+        textTransform: 'uppercase',
+        cursor: decisionState !== 'pending' ? 'default' : 'pointer',
+        boxShadow: '0 6px 28px rgba(26,107,42,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)',
+        textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+        transition: 'all 0.15s ease',
+        opacity: decisionState !== 'pending' ? 0.4 : 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      onMouseEnter={e => {
+        if (decisionState !== 'pending') return
+        e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)'
+        e.currentTarget.style.boxShadow = '0 10px 36px rgba(26,107,42,0.85), 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = 'scale(1)'
+        e.currentTarget.style.boxShadow = '0 6px 28px rgba(26,107,42,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
+      }}
+      onMouseDown={e => {
+        if (decisionState !== 'pending') return
+        e.currentTarget.style.transform = 'scale(0.97)'
+      }}
+    >
+      {bill.isVetoable ? 'Sign' : 'Enact'}
+    </button>
+  )
 
-            {/* FISCAL NOTE — the budget cost, stated before signing */}
+  const signatureLine = (
+    <SignatureLine
+      isSigned={showSignature && chosenAction === 'signed'}
+      caption="Chancellor of the Republic"
+      width={isCompact ? 200 : 280}
+      height={isCompact ? 40 : 126}
+      signatureMaxWidth={585}
+    />
+  )
+
+  const rootStyle: CSSProperties = {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0',
+    background: 'rgba(0,0,0,0.85)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: Z.overlay,
+    // Compact: keep the panel clear of the HUD insets so it fits the usable area.
+    ...(isCompact
+      ? { boxSizing: 'border-box', padding: `${insets.top}px ${insets.right}px ${insets.bottom}px ${insets.left}px` }
+      : {}),
+  }
+
+  const documentStyle: CSSProperties = isCompact
+    ? {
+        background: '#f5f0e0',
+        width: 'min(680px, 100%)',
+        height: '100%',
+        boxSizing: 'border-box',
+        boxShadow: '0 0 80px rgba(0,0,0,0.6)',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        position: 'relative',
+        padding: '10px 14px 0',
+      }
+    : {
+        background: '#f5f0e0',
+        width: 'min(680px, 100vw)',
+        height: '100vh',
+        boxShadow: '0 0 80px rgba(0,0,0,0.6)',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        position: 'relative',
+        padding: isMobile ? '16px 16px 0' : '16px 44px 0',
+      }
+
+  const titleStyle: CSSProperties = {
+    fontFamily: 'Georgia, serif',
+    fontSize: isCompact ? '15px' : '19px',
+    fontWeight: '800',
+    fontStyle: 'italic',
+    color: '#0d0a06',
+    textAlign: 'center',
+    lineHeight: '1.25',
+    marginBottom: isCompact ? '2px' : '4px',
+  }
+
+  const codeStyle: CSSProperties = {
+    fontSize: '9px',
+    letterSpacing: '2px',
+    color: '#6b4f2a',
+    fontWeight: 600,
+    textAlign: 'center',
+    marginBottom: isCompact ? '6px' : '12px',
+  }
+
+  const pendingView = (
+    <>
+      {isCompact ? (
+        <div style={documentStyle}>
+          {/* BILL TITLE + CODE (header, does not scroll) */}
+          <div style={titleStyle}>{bill.title}</div>
+          <div style={codeStyle}>
+            {bill.shortName} · {weekToDate(bill.weekPresented)}
+          </div>
+
+          {/* BODY: the only scrolling region (fiscal note, stances, bill text) */}
+          <div
+            data-testid="bill-body"
+            ref={documentRef}
+            style={{
+              flex: 1,
+              minHeight: 0,
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              padding: '0 2px',
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(139,115,85,0.2) transparent',
+            }}
+          >
             <FiscalNote budgetCost={bill.budgetCost} />
-            <FactionStances bill={bill} inset={isMobile ? '4px' : '44px'} />
-
-            {/* BILL TEXT - scrollable internally */}
+            <FactionStances bill={bill} inset="0" />
             <div
-              ref={documentRef}
               className="bill-text-area"
               style={{
                 fontFamily: "'Georgia', serif",
-                fontSize: '13.5px',
-                lineHeight: '1.55',
+                fontSize: '13px',
+                lineHeight: '1.5',
                 color: '#0d0a06',
                 fontWeight: 400,
-                textAlign: isMobile ? 'left' : 'justify',
-                flex: 1,
-                minHeight: 0,
-                overflowY: 'auto',
-                overflowX: 'hidden',
+                textAlign: 'left',
                 whiteSpace: 'pre-line',
                 overflowWrap: 'break-word',
-                paddingRight: '8px',
-                padding: isMobile ? '0 4px' : '0 44px',
-                scrollbarWidth: 'thin',
-                scrollbarColor: 'rgba(139,115,85,0.2) transparent',
               }}
             >
               {bill.fullText}
             </div>
+          </div>
 
-            {/* SIGNATURE BLOCK */}
-            <div style={{
+          {/* FOOTER: Veto, signature line, Sign. Never scrolls, always visible. */}
+          <div
+            data-testid="bill-footer"
+            style={{
               flexShrink: 0,
-              marginTop: '10px',
-              paddingTop: '10px',
-              borderTop: '1px solid #ccc',
               display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
               alignItems: 'center',
-            }}>
-              <SignatureLine
-                isSigned={showSignature && chosenAction === 'signed'}
-                caption="Chancellor of the Republic"
-                signatureMaxWidth={585}
-              />
-            </div>
-
-            {/* BUTTONS - inside document at bottom */}
-            <div style={{
-              flexShrink: 0,
-              display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '10px 32px 12px',
+              gap: '8px',
+              padding: '8px 0 10px',
               borderTop: '1px solid #e0d5c0',
-              marginTop: '16px',
-              width: '100%',
-              boxSizing: 'border-box',
-            }}>
-              {bill.isVetoable && (
-                <button
-                  onClick={handleVeto}
-                  disabled={decisionState !== 'pending'}
-                style={{
-                  width: '72px',
-                  height: '72px',
-                  borderRadius: '50%',
-                  background: 'radial-gradient(circle at 38% 32%, #e06868, #8b1515)',
-                  border: '3px solid rgba(255,255,255,0.12)',
-                  color: 'white',
-                  fontFamily: 'Georgia, serif',
-                  fontSize: '12px',
-                    fontWeight: '700',
-                    letterSpacing: '2px',
-                    textTransform: 'uppercase',
-                    cursor: decisionState !== 'pending' ? 'default' : 'pointer',
-                    boxShadow: '0 6px 28px rgba(139,21,21,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-                    transition: 'all 0.15s ease',
-                    opacity: decisionState !== 'pending' ? 0.4 : 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  onMouseEnter={e => {
-                    if (decisionState !== 'pending') return
-                    e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)'
-                    e.currentTarget.style.boxShadow = '0 10px 36px rgba(139,21,21,0.85), 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'scale(1)'
-                    e.currentTarget.style.boxShadow = '0 6px 28px rgba(139,21,21,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
-                  }}
-                  onMouseDown={e => {
-                    if (decisionState !== 'pending') return
-                    e.currentTarget.style.transform = 'scale(0.97)'
-                  }}
-                >
-                  Veto
-                </button>
-              )}
-              <button
-                onClick={handleSign}
-                disabled={decisionState !== 'pending'}
-                style={{
-                  width: '72px',
-                  height: '72px',
-                  borderRadius: '50%',
-                  background: 'radial-gradient(circle at 38% 32%, #5dc470, #1a6b2a)',
-                  border: '3px solid rgba(255,255,255,0.12)',
-                  color: 'white',
-                  fontFamily: 'Georgia, serif',
-                  fontSize: '12px',
-                  fontWeight: '700',
-                  letterSpacing: '2px',
-                  textTransform: 'uppercase',
-                  cursor: decisionState !== 'pending' ? 'default' : 'pointer',
-                  boxShadow: '0 6px 28px rgba(26,107,42,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-                  transition: 'all 0.15s ease',
-                  opacity: decisionState !== 'pending' ? 0.4 : 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                onMouseEnter={e => {
-                  if (decisionState !== 'pending') return
-                  e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)'
-                  e.currentTarget.style.boxShadow = '0 10px 36px rgba(26,107,42,0.85), 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'scale(1)'
-                  e.currentTarget.style.boxShadow = '0 6px 28px rgba(26,107,42,0.65), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.25)'
-                }}
-                onMouseDown={e => {
-                  if (decisionState !== 'pending') return
-                  e.currentTarget.style.transform = 'scale(0.97)'
-                }}
-              >
-                {bill.isVetoable ? 'Sign' : 'Enact'}
-              </button>
+              marginTop: '6px',
+            }}
+          >
+            {vetoButton}
+            <div style={{ flex: 1, minWidth: 0, display: 'flex', justifyContent: 'center' }}>
+              {signatureLine}
             </div>
+            {signButton}
+          </div>
+        </div>
+      ) : (
+        <div style={documentStyle}>
+          {/* SEAL */}
+          <DocumentSeal />
+
+          {/* BILL TITLE */}
+          <div style={titleStyle}>{bill.title}</div>
+
+          {/* BILL CODE */}
+          <div style={codeStyle}>
+            {bill.shortName} · {weekToDate(bill.weekPresented)}
+          </div>
+
+          {/* FISCAL NOTE — the budget cost, stated before signing */}
+          <FiscalNote budgetCost={bill.budgetCost} />
+          <FactionStances bill={bill} inset={isMobile ? '4px' : '44px'} />
+
+          {/* BILL TEXT - scrollable internally */}
+          <div
+            ref={documentRef}
+            className="bill-text-area"
+            style={{
+              fontFamily: "'Georgia', serif",
+              fontSize: '13.5px',
+              lineHeight: '1.55',
+              color: '#0d0a06',
+              fontWeight: 400,
+              textAlign: isMobile ? 'left' : 'justify',
+              flex: 1,
+              minHeight: 0,
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              whiteSpace: 'pre-line',
+              overflowWrap: 'break-word',
+              paddingRight: '8px',
+              padding: isMobile ? '0 4px' : '0 44px',
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(139,115,85,0.2) transparent',
+            }}
+          >
+            {bill.fullText}
+          </div>
+
+          {/* SIGNATURE BLOCK */}
+          <div style={{
+            flexShrink: 0,
+            marginTop: '10px',
+            paddingTop: '10px',
+            borderTop: '1px solid #ccc',
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+            {signatureLine}
+          </div>
+
+          {/* BUTTONS - inside document at bottom */}
+          <div style={{
+            flexShrink: 0,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '10px 32px 12px',
+            borderTop: '1px solid #e0d5c0',
+            marginTop: '16px',
+            width: '100%',
+            boxSizing: 'border-box',
+          }}>
+            {vetoButton}
+            {signButton}
+          </div>
+        </div>
+      )}
+    </>
+  )
+
+  const reactionsCardStyle: CSSProperties = isCompact
+    ? {
+        background: 'var(--paper-raised)',
+        border: '1px solid var(--border)',
+        borderRadius: '2px',
+        padding: '12px 14px',
+        maxHeight: '100%',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+      }
+    : {
+        background: 'var(--paper-raised)',
+        border: '1px solid var(--border)',
+        borderRadius: '2px',
+        padding: '2.5rem 3rem',
+      }
+
+  const continueButton = (
+    <button
+      className="choice-btn"
+      onClick={advanceToNextBill}
+      style={{
+        width: 'auto',
+        minWidth: '220px',
+        ...(isCompact ? { minHeight: '44px' } : {}),
+      }}
+    >
+      {billIndex + 1 < pendingBills.length ? 'Next Bill →' : 'Proceed to Agenda'}
+    </button>
+  )
+
+  const reactionsContent = (
+    <>
+      {/* Automatic Enactment Banner */}
+      {decisionState === 'auto_passed' && (
+        <div data-testid="auto-passed-banner" style={{
+          textAlign: 'center',
+          marginBottom: isCompact ? '1rem' : '2rem',
+          padding: '1rem',
+          background: 'rgba(200,144,42,0.1)',
+          border: '1px solid rgba(200,144,42,0.3)',
+          borderRadius: '2px',
+        }}>
+          <p style={{
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '0.65rem',
+            letterSpacing: '0.15em',
+            color: 'var(--amber-dim)',
+            textTransform: 'uppercase',
+            marginBottom: '0.3rem',
+          }}>
+            Enacted Automatically
+          </p>
+          <p data-testid="auto-passed-bill-title" style={{
+            fontFamily: 'Georgia, serif',
+            fontStyle: 'italic',
+            fontWeight: 700,
+            fontSize: '1.05rem',
+            color: 'var(--cream)',
+            margin: '0.2rem 0 0.25rem',
+          }}>
+            {bill.title}
+          </p>
+          <p style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.82rem',
+            color: 'var(--muted)',
+            fontStyle: 'italic',
+          }}>
+            Now law under the reformed constitution.
+          </p>
+        </div>
+      )}
+
+      {/* Veto Override Banner */}
+      {overrideResult?.overridden && (
+        <div style={{
+          textAlign: 'center',
+          marginBottom: isCompact ? '1rem' : '2rem',
+          padding: '1rem',
+          background: 'rgba(139,46,46,0.12)',
+          border: '1px solid rgba(139,46,46,0.3)',
+          borderRadius: '2px',
+        }}>
+          <p style={{
+            fontFamily: "'Special Elite', monospace",
+            fontSize: '0.65rem',
+            letterSpacing: '0.15em',
+            color: 'var(--accent-red)',
+            textTransform: 'uppercase',
+            marginBottom: '0.3rem',
+          }}>
+            Veto Overridden
+          </p>
+          <p style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.82rem',
+            color: 'var(--muted)',
+            fontStyle: 'italic',
+          }}>
+            The National Assembly has exercised its constitutional authority to override your veto.
+          </p>
+        </div>
+      )}
+
+      <h3 style={{
+        fontFamily: "'Special Elite', monospace",
+        fontSize: '0.6rem',
+        letterSpacing: '0.15em',
+        textTransform: 'uppercase',
+        color: 'var(--amber-dim)',
+        marginBottom: '1.2rem',
+      }}>
+        Reactions
+      </h3>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: isCompact ? '1rem' : '2rem' }}>
+        {reactions.map((r, i) => (
+          <div key={i} style={{
+            padding: '0.8rem 1rem',
+            background: 'rgba(200,144,42,0.04)',
+            borderLeft: '2px solid var(--border)',
+          }}>
+            <p style={{
+              fontFamily: "'Special Elite', monospace",
+              fontSize: '0.58rem',
+              letterSpacing: '0.1em',
+              color: 'var(--amber)',
+              marginBottom: '0.15rem',
+              textTransform: 'uppercase',
+            }}>
+              {r.speaker}
+            </p>
+            <p style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.82rem',
+              color: 'var(--cream)',
+              lineHeight: 1.6,
+              fontStyle: 'italic',
+            }}>
+              "{r.text}"
+            </p>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+
+  const reactionsView = (
+    <motion.div
+      key="bill-reactions"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="relative w-full max-w-2xl mx-4"
+      style={reactionsCardStyle}
+    >
+      {isCompact ? (
+        <>
+          <div data-testid="bill-reactions-body" style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
+            {reactionsContent}
+          </div>
+          <div
+            data-testid="bill-reactions-footer"
+            style={{ flexShrink: 0, display: 'flex', justifyContent: 'center', paddingTop: '8px' }}
+          >
+            {continueButton}
           </div>
         </>
+      ) : (
+        <>
+          {reactionsContent}
+          <div className="flex justify-center">
+            {continueButton}
+          </div>
+        </>
+      )}
+    </motion.div>
+  )
+
+  return (
+    <div style={rootStyle}>
+      {decisionState === 'pending' || decisionState === 'deciding' ? (
+        pendingView
       ) : decisionState === 'auto_passed' && reactions.length === 0 ? (
         <motion.div
           key="bill-auto"
@@ -589,141 +880,7 @@ export default function LegislationOverlay() {
         </motion.div>
       ) : (
         /* Reactions screen */
-        <motion.div
-          key="bill-reactions"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative w-full max-w-2xl mx-4"
-          style={{
-            background: 'var(--paper-raised)',
-            border: '1px solid var(--border)',
-            borderRadius: '2px',
-            padding: '2.5rem 3rem',
-          }}
-        >
-          {/* Automatic Enactment Banner */}
-          {decisionState === 'auto_passed' && (
-            <div data-testid="auto-passed-banner" style={{
-              textAlign: 'center',
-              marginBottom: '2rem',
-              padding: '1rem',
-              background: 'rgba(200,144,42,0.1)',
-              border: '1px solid rgba(200,144,42,0.3)',
-              borderRadius: '2px',
-            }}>
-              <p style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.65rem',
-                letterSpacing: '0.15em',
-                color: 'var(--amber-dim)',
-                textTransform: 'uppercase',
-                marginBottom: '0.3rem',
-              }}>
-                Enacted Automatically
-              </p>
-              <p data-testid="auto-passed-bill-title" style={{
-                fontFamily: 'Georgia, serif',
-                fontStyle: 'italic',
-                fontWeight: 700,
-                fontSize: '1.05rem',
-                color: 'var(--cream)',
-                margin: '0.2rem 0 0.25rem',
-              }}>
-                {bill.title}
-              </p>
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.82rem',
-                color: 'var(--muted)',
-                fontStyle: 'italic',
-              }}>
-                Now law under the reformed constitution.
-              </p>
-            </div>
-          )}
-
-          {/* Veto Override Banner */}
-          {overrideResult?.overridden && (
-            <div style={{
-              textAlign: 'center',
-              marginBottom: '2rem',
-              padding: '1rem',
-              background: 'rgba(139,46,46,0.12)',
-              border: '1px solid rgba(139,46,46,0.3)',
-              borderRadius: '2px',
-            }}>
-              <p style={{
-                fontFamily: "'Special Elite', monospace",
-                fontSize: '0.65rem',
-                letterSpacing: '0.15em',
-                color: 'var(--accent-red)',
-                textTransform: 'uppercase',
-                marginBottom: '0.3rem',
-              }}>
-                Veto Overridden
-              </p>
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.82rem',
-                color: 'var(--muted)',
-                fontStyle: 'italic',
-              }}>
-                The National Assembly has exercised its constitutional authority to override your veto.
-              </p>
-            </div>
-          )}
-
-          <h3 style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.6rem',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            color: 'var(--amber-dim)',
-            marginBottom: '1.2rem',
-          }}>
-            Reactions
-          </h3>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
-            {reactions.map((r, i) => (
-              <div key={i} style={{
-                padding: '0.8rem 1rem',
-                background: 'rgba(200,144,42,0.04)',
-                borderLeft: '2px solid var(--border)',
-              }}>
-                <p style={{
-                  fontFamily: "'Special Elite', monospace",
-                  fontSize: '0.58rem',
-                  letterSpacing: '0.1em',
-                  color: 'var(--amber)',
-                  marginBottom: '0.15rem',
-                  textTransform: 'uppercase',
-                }}>
-                  {r.speaker}
-                </p>
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.82rem',
-                  color: 'var(--cream)',
-                  lineHeight: 1.6,
-                  fontStyle: 'italic',
-                }}>
-                  "{r.text}"
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              className="choice-btn"
-              onClick={advanceToNextBill}
-              style={{ width: 'auto', minWidth: '220px' }}
-            >
-              {billIndex + 1 < pendingBills.length ? 'Next Bill →' : 'Proceed to Agenda'}
-            </button>
-          </div>
-        </motion.div>
+        reactionsView
       )}
     </div>
   )

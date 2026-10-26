@@ -14,7 +14,26 @@ interface ChainStore {
 
   // Called inside weekStore.completeWeek after the week counter advances.
   // Returns scene IDs that fired this tick; removes them from the queue.
-  process: (week: number, state: GameState, flags: string[]) => string[]
+  // maxOverdue caps backlog fires only; on-time chains (fireWeek === week) always fire.
+  process: (week: number, state: GameState, flags: string[], maxOverdue?: number) => string[]
+
+  // Mid-week delivery. Only chains due exactly this week (fireWeek === week) are
+  // evaluated; overdue chains are left untouched so their single roll is kept
+  // for completeWeek's capped tick. Returns fired target ids.
+  processOnTime: (week: number, state: GameState, flags: string[]) => string[]
+}
+
+function recordFiredConsequences(week: number, firedChains: ScheduledChain[]): void {
+  // Update journal entries with consequences when chains fire
+  for (const chain of firedChains) {
+    if (chain.sceneId && chain.sourceId) {
+      const scene = getScene(chain.targetNodeId)
+      const consequenceText = scene
+        ? `Week ${week}: "${scene.title}" — a consequence of your earlier decision.`
+        : `Week ${week}: A consequence of your earlier decision has manifested.`
+      useJournalStore.getState().updateConsequences(chain.sceneId, chain.sourceId, consequenceText)
+    }
+  }
 }
 
 export const useChainStore = create<ChainStore>((set, get) => ({
@@ -31,7 +50,7 @@ export const useChainStore = create<ChainStore>((set, get) => ({
     set(s => ({ scheduled: [...s.scheduled, ...fresh] }))
   },
 
-  process: (week, state, flags) => {
+  process: (week, state, flags, maxOverdue = MAX_OVERDUE_CHAINS_PER_WEEK) => {
     // Capped fire rate: a backlog of overdue chains (e.g. an old autosave)
     // drains a few per week instead of all at once. Overflow stays scheduled.
     const { fired, remaining, firedChains } = resolveChains(
@@ -39,21 +58,22 @@ export const useChainStore = create<ChainStore>((set, get) => ({
       week,
       state,
       flags,
-      MAX_OVERDUE_CHAINS_PER_WEEK,
+      maxOverdue,
     )
     set({ scheduled: remaining })
+    recordFiredConsequences(week, firedChains)
+    return fired
+  },
 
-    // Update journal entries with consequences when chains fire
-    for (const chain of firedChains ?? []) {
-      if (chain.sceneId && chain.sourceId) {
-        const scene = getScene(chain.targetNodeId)
-        const consequenceText = scene
-          ? `Week ${week}: "${scene.title}" — a consequence of your earlier decision.`
-          : `Week ${week}: A consequence of your earlier decision has manifested.`
-        useJournalStore.getState().updateConsequences(chain.sceneId, chain.sourceId, consequenceText)
-      }
-    }
-
+  processOnTime: (week, state, flags) => {
+    // Only chains due this week are evaluated. Overdue chains are untouched, so
+    // their probability roll is not spent on every mid-week rebuild.
+    const { scheduled } = get()
+    const due = scheduled.filter(c => c.fireWeek === week)
+    const rest = scheduled.filter(c => c.fireWeek !== week)
+    const { fired, remaining, firedChains } = resolveChains(due, week, state, flags, 0)
+    set({ scheduled: [...rest, ...remaining] })
+    recordFiredConsequences(week, firedChains)
     return fired
   },
 }))

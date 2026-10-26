@@ -21,7 +21,7 @@ export function MedallionClose({ label, onClick, buttonRef, size = 32, style }: 
   return (
     <button
       type="button"
-      className="cabinet-close"
+      className="cabinet-close touch-target"
       aria-label={label}
       ref={buttonRef}
       onClick={onClick}

@@ -1,0 +1,3075 @@
+{
+  "workOrder": "K2",
+  "generatedOn": "2026-10-27",
+  "reportOnly": true,
+  "sourceReport": "unreachable-gates-report.json",
+  "summary": {
+    "orphans": 33,
+    "misTargeted": 7,
+    "proposalCounts": {
+      "SCHEDULE_CHAIN": 4,
+      "UNSURE": 14,
+      "SUPERSEDED": 4,
+      "SCHEDULE_AGENDA": 8,
+      "NOT_A_MEETING": 3
+    }
+  },
+  "orphans": [
+    {
+      "id": "act1_brenner_defense_briefing",
+      "file": "src/data/narrative/act1/act1_brenner_defense_briefing.json",
+      "title": "The General's Assessment",
+      "type": "meeting",
+      "weekAvailable": 2,
+      "weekDeadline": null,
+      "location": "Defense Briefing Room — Ashenmere Palace",
+      "characters": [
+        "oskar_brenner"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "brenner_briefing_oversight_stated",
+        "brenner_briefing_names_requested"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 3,
+        "introducedOrLastMentionedIn": [
+          "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+          "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+        "removalsOrRewrites": [
+          {
+            "commit": "9a27631",
+            "removedLines": [
+              "b/src/data/narrative/act1/social_inaugural_ball_wk1.json: -            { \"targetNodeId\": \"act1_brenner_defense_briefing\", \"delayWeeks\": 1 }"
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act2_week25_brenner_warning",
+          "wa": 25,
+          "wd": 27,
+          "title": "The General's Warning",
+          "why": "title~0.50"
+        },
+        {
+          "id": "act3_brenner_negotiation",
+          "wa": 37,
+          "wd": null,
+          "title": "The General's Terms",
+          "why": "title~0.50"
+        },
+        {
+          "id": "act3_brenner_response",
+          "wa": 1,
+          "wd": null,
+          "title": "The General's Visit",
+          "why": "title~0.50,wk±1+chars(1)"
+        },
+        {
+          "id": "act6_week69_generals_toast",
+          "wa": 69,
+          "wd": 71,
+          "title": "The General's Toast",
+          "why": "title~0.50"
+        }
+      ],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "SCHEDULE_CHAIN",
+      "evidence": "Pre-9a27631 ball choice brenner_talk (flag ball_brenner_talked) chainTriggered this scene at d1 (week 2). 9a27631 rewrote the ball and dropped it. Current ball_speak_brenner (\"Find General Brenner...\") is the equivalent choice and has chainTriggers [].",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": {
+        "source": "social_inaugural_ball_wk1",
+        "choice": "ball_speak_brenner",
+        "delayWeeks": 1,
+        "conditions": null,
+        "lands": "week 2 = scene weekAvailable 2"
+      },
+      "agendaProposal": null,
+      "notes": "Legacy-format scene (dialogue/segments). Playable via narrativeStore legacy support."
+    },
+    {
+      "id": "act1_chain_kolvar_opposition",
+      "file": "src/data/narrative/act1/act1_chain_kolvar_opposition.json",
+      "title": "The First Obstruction",
+      "type": "crisis",
+      "weekAvailable": 1,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "vyktor_reznik",
+        "drazen_kolvar"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 4,
+      "nestedChoiceLikeObjects": 4,
+      "flagsSet": [
+        "kolvar_overridden",
+        "executive_authority_asserted",
+        "kolvar_coopted",
+        "parliamentary_transparency",
+        "kolvar_resolved",
+        "kolvar_deal_made",
+        "backchannel_negotiated",
+        "kolvar_publicly_confronted",
+        "populist_appeal"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:kolvar_override_executive",
+          "to": "act1_chain_kolvar_escalation",
+          "delayWeeks": 5
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+        "removalsOrRewrites": [
+          {
+            "commit": "3f298e6",
+            "removedLines": [
+              "b/src/data/narrative/act1/act1_week1_inauguration.json: -        { \"targetNodeId\": \"act1_chain_kolvar_opposition\", \"delayWeeks\": 3 },",
+              "b/src/data/narrative/act1/act1_week1_inauguration.json: -        { \"targetNodeId\": \"act1_chain_kolvar_opposition\", \"delayWeeks\": 2 },"
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_chain_kolvar_escalation",
+          "wa": 1,
+          "wd": null,
+          "title": "The Halvekist Offensive",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_w2_formation_meeting",
+          "wa": 2,
+          "wd": 2,
+          "title": "The Cabinet Formation",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act3_confidence_vote",
+          "wa": 1,
+          "wd": null,
+          "title": "The Arithmetic of Survival",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act3_kolvar_negotiation",
+          "wa": 1,
+          "wd": null,
+          "title": "Dealing with Kolvar",
+          "why": "wk±1+chars(2)"
+        }
+      ],
+      "downstreamClosure": [
+        "act1_chain_kolvar_escalation",
+        "act2_week16_kolvar_deal",
+        "act2_chain_reformist_fracture",
+        "act4_emergency_powers_invoked",
+        "act2_week26_referendum_decisive",
+        "act3_opposition_management",
+        "act2_week27_press_conference",
+        "act3_brenner_response",
+        "act3_week32_tyvaren_ultimatum",
+        "act3_week31_inner_circle",
+        "act3_week30_betrayal_dusek",
+        "act3_dusek_intelligence",
+        "act3_dusek_loyalty_arc",
+        "act3_week37_military_rally",
+        "act3_week37_coup_attempt",
+        "act3_government_in_exile",
+        "act3_stellamere_broadcast",
+        "act4_exile_arc",
+        "act3_brenner_negotiation",
+        "act3_coalition_government",
+        "act3_loyalist_counter_deploy",
+        "act3_ashenmere_standoff",
+        "act4_civil_conflict_arc",
+        "act3_face_to_face_brenner",
+        "act3_public_moment",
+        "act3_week38_family_reckoning",
+        "act3_military_democracy_bond",
+        "act4_week41_reform_implementation",
+        "act3_military_deployment",
+        "act3_week39_act3_climax",
+        "act4_week40_war_begins",
+        "act4_forum_showdown",
+        "act4_diplomatic_endgame",
+        "act4_all_fronts",
+        "act4_coordinated_response",
+        "act4_family_anchored",
+        "act4_post_coup_consolidation",
+        "act4_internal_security_state",
+        "act4_national_address",
+        "act4_public_mandate",
+        "act4_week44_reform_backlash",
+        "act4_mole_confrontation",
+        "act4_week47_new_order",
+        "act4_second_referendum",
+        "act4_reelection_campaign",
+        "act4_week43_family_resolution",
+        "act4_week42_war_strategy",
+        "act4_alliance_crisis",
+        "act4_dravenni_war_alliance",
+        "act4_week44_civilian_front",
+        "act4_week46_final_battle",
+        "act4_arcturian_intervention",
+        "act4_week48_war_outcome",
+        "act4_ceasefire_negotiation",
+        "act4_ceasefire_talks",
+        "act4_occupation_begins",
+        "act4_week48_collapse_endgame",
+        "act4_week40_exile",
+        "act4_week44_counter_coup",
+        "act4_underground_radio",
+        "act4_family_healing",
+        "act4_family_conditional",
+        "act4_family_breaking",
+        "act4_family_estranged",
+        "act4_jonas_divorce",
+        "act4_tomas_redemption",
+        "act3_dusek_command_debrief",
+        "act3_halvekist_legal_war",
+        "act4_week42_austerity_bites",
+        "act4_week45_uprising",
+        "act4_ima_confrontation",
+        "act4_ima_renegotiation",
+        "act4_constitutional_crisis",
+        "act3_week28_economic_crisis",
+        "act3_ima_compliance_year",
+        "act3_ima_negotiation",
+        "act3_alternative_financing",
+        "act3_military_resolve_hardened",
+        "act3_new_cabinet_figures",
+        "act3_khaled_coalition",
+        "act3_confidence_vote",
+        "act3_week33_war_preparations",
+        "act3_tyvaren_border_skirmish",
+        "act3_week33_diplomatic_negotiation",
+        "act3_tyvaren_diplomatic_followup",
+        "act3_international_forum_session",
+        "act3_superpower_pressure",
+        "act3_secret_mobilization_consequences",
+        "act3_week36_nadia_publishes",
+        "act3_public_reckoning",
+        "act3_arcturian_cooldown",
+        "act3_dravenni_insurgency",
+        "act3_week34_dravenhollow",
+        "act3_dlf_military_integration",
+        "act3_nationalist_backlash",
+        "act3_dravenni_autonomy_talks",
+        "act3_dlf_coordination",
+        "act3_autonomy_commission",
+        "act3_dravenhollow_crackdown",
+        "act3_kaelen_response",
+        "act3_dravenni_divided_response",
+        "act3_kolvar_legal_challenge",
+        "act3_volkov_patience_expires",
+        "act3_treaty_drafting",
+        "act3_vyktor_departure",
+        "act3_battle_gravenmark",
+        "act3_battle_kravenstal_approach",
+        "act3_war_economy",
+        "act3_national_address_war",
+        "act3_total_war_society",
+        "act3_week28_economic_healthy",
+        "act3_constitution_implementation",
+        "act2_week27_press_economy",
+        "act2_week27_press_followup",
+        "act2_week27_press_outcome",
+        "act3_kolvar_negotiation",
+        "act2_week25_referendum_eve"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act1_chain_kolvar_escalation"
+      ],
+      "proposal": "SCHEDULE_CHAIN",
+      "evidence": "Pre-3f298e6 the inauguration choices inaugural_radical (chains kolvar_opposition d2 and vael_pressure d5) and inaugural_reformist (kolvar_opposition d3) carried these chains. 3f298e6 replaced the speech choices; current speech_personal sets flag inaugural_radical and speech_reform sets inaugural_reformist, the same flags, so the mapping is exact.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": [
+        {
+          "source": "act1_week1_inauguration",
+          "choice": "speech_personal",
+          "delayWeeks": 2,
+          "conditions": null,
+          "lands": "week 3"
+        },
+        {
+          "source": "act1_week1_inauguration",
+          "choice": "speech_reform",
+          "delayWeeks": 3,
+          "conditions": null,
+          "lands": "week 4"
+        }
+      ],
+      "agendaProposal": null,
+      "notes": "Downstream act1_chain_kolvar_escalation (d5 from kolvar_override_executive) becomes reachable too."
+    },
+    {
+      "id": "act1_chain_kravenstal_unrest",
+      "file": "src/data/narrative/act1/act1_chain_kravenstal_unrest.json",
+      "title": "The Kravenstal Response",
+      "type": "crisis",
+      "weekAvailable": 1,
+      "weekDeadline": null,
+      "location": "Kravenstal — Industrial District",
+      "characters": [
+        "gregor_maric",
+        "elara_vostane"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "kravenstal_concessions",
+        "welfare_frozen",
+        "kravenstal_resolved",
+        "kravenstal_dialogue",
+        "shop_stewards_met",
+        "kravenstal_refused",
+        "budget_held_firm"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:kravenstal_negotiate_maric",
+          "to": "act1_chain_budget_revision",
+          "delayWeeks": 3
+        },
+        {
+          "where": "choice:kravenstal_hold_firm",
+          "to": "act1_chain_kravenstal_escalation",
+          "delayWeeks": 4
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 3,
+        "introducedOrLastMentionedIn": [
+          "b2ec4ba test(harness): week-flow simulation harness + Fix A/B/C contract",
+          "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "b2ec4ba test(harness): week-flow simulation harness + Fix A/B/C contract",
+        "removalsOrRewrites": [
+          {
+            "commit": "3f298e6",
+            "removedLines": [
+              "b/src/data/narrative/act1/act1_week3_first_budget.json: -          \"targetNodeId\": \"act1_chain_kravenstal_unrest\","
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_chain_budget_revision",
+          "wa": 1,
+          "wd": null,
+          "title": "The Revised Ledger",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_chain_ima_confrontation",
+          "wa": 1,
+          "wd": null,
+          "title": "The Structural Adjustment",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_w2_formation_meeting",
+          "wa": 2,
+          "wd": 2,
+          "title": "The Cabinet Formation",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act2_econ_mixed_challenges",
+          "wa": 1,
+          "wd": null,
+          "title": "The Middle Path",
+          "why": "wk±1+chars(2)"
+        }
+      ],
+      "downstreamClosure": [
+        "act1_chain_budget_revision",
+        "act1_chain_kravenstal_escalation",
+        "act2_week20_budget_crisis",
+        "act2_chain_kravenstal_unrest",
+        "act2_chain_vael_capital_flight",
+        "act2_chain_vostane_resignation",
+        "act3_ima_conditionality",
+        "act3_ima_compliance_year",
+        "act4_week42_austerity_bites",
+        "act3_week28_economic_crisis",
+        "act3_ima_negotiation",
+        "act3_alternative_financing",
+        "act3_week31_inner_circle",
+        "act3_new_cabinet_figures",
+        "act3_khaled_coalition",
+        "act3_week39_act3_climax",
+        "act3_confidence_vote",
+        "act4_week40_war_begins",
+        "act4_forum_showdown",
+        "act4_diplomatic_endgame",
+        "act4_all_fronts",
+        "act4_coordinated_response",
+        "act4_family_anchored",
+        "act4_post_coup_consolidation",
+        "act4_internal_security_state",
+        "act4_national_address",
+        "act4_public_mandate",
+        "act4_week41_reform_implementation",
+        "act4_emergency_powers_invoked",
+        "act4_week44_reform_backlash",
+        "act4_mole_confrontation",
+        "act4_week47_new_order",
+        "act4_second_referendum",
+        "act4_reelection_campaign",
+        "act4_week48_collapse_endgame",
+        "act4_week43_family_resolution",
+        "act4_week42_war_strategy",
+        "act4_alliance_crisis",
+        "act4_dravenni_war_alliance",
+        "act4_week44_civilian_front",
+        "act4_week46_final_battle",
+        "act4_arcturian_intervention",
+        "act4_week48_war_outcome",
+        "act4_ceasefire_negotiation",
+        "act4_ceasefire_talks",
+        "act4_occupation_begins",
+        "act4_week40_exile",
+        "act4_week44_counter_coup",
+        "act4_underground_radio",
+        "act4_week45_uprising",
+        "act4_ima_confrontation",
+        "act4_ima_renegotiation",
+        "act4_constitutional_crisis",
+        "act2_week21_superpower_choice",
+        "act2_week21_visit_stellamere",
+        "act2_week21_visit_petravar",
+        "act3_orythian_advisor_friction",
+        "act3_arcturian_sanctions",
+        "act3_arcturian_cooldown",
+        "act3_arcturian_privatization_pressure",
+        "act3_week28_economic_healthy",
+        "act3_constitution_implementation",
+        "act3_week37_coup_attempt",
+        "act3_government_in_exile",
+        "act3_stellamere_broadcast",
+        "act4_exile_arc",
+        "act3_brenner_negotiation",
+        "act3_coalition_government",
+        "act3_loyalist_counter_deploy",
+        "act3_ashenmere_standoff",
+        "act4_civil_conflict_arc",
+        "act3_face_to_face_brenner",
+        "act3_public_moment",
+        "act3_week38_family_reckoning",
+        "act3_military_democracy_bond",
+        "act3_brenner_response",
+        "act3_week32_tyvaren_ultimatum",
+        "act3_week30_betrayal_dusek",
+        "act3_dusek_intelligence",
+        "act3_dusek_loyalty_arc",
+        "act3_week37_military_rally",
+        "act3_military_resolve_hardened",
+        "act3_military_deployment",
+        "act3_week33_war_preparations",
+        "act3_tyvaren_border_skirmish",
+        "act3_week33_diplomatic_negotiation",
+        "act3_tyvaren_diplomatic_followup",
+        "act3_international_forum_session",
+        "act3_superpower_pressure",
+        "act3_secret_mobilization_consequences",
+        "act3_week36_nadia_publishes",
+        "act3_public_reckoning",
+        "act3_dravenni_insurgency",
+        "act3_week34_dravenhollow",
+        "act3_dlf_military_integration",
+        "act3_nationalist_backlash",
+        "act3_dravenni_autonomy_talks",
+        "act3_dlf_coordination",
+        "act3_autonomy_commission",
+        "act3_dravenhollow_crackdown",
+        "act3_kaelen_response",
+        "act3_dravenni_divided_response",
+        "act3_kolvar_legal_challenge",
+        "act3_halvekist_legal_war",
+        "act3_volkov_patience_expires",
+        "act3_treaty_drafting",
+        "act3_vyktor_departure",
+        "act3_battle_gravenmark",
+        "act3_battle_kravenstal_approach",
+        "act3_war_economy",
+        "act3_national_address_war",
+        "act3_total_war_society",
+        "act4_family_healing",
+        "act4_family_conditional",
+        "act4_family_breaking",
+        "act4_family_estranged",
+        "act4_jonas_divorce",
+        "act4_tomas_redemption",
+        "act3_dusek_command_debrief",
+        "act3_tyvaren_deterred"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act1_chain_budget_revision"
+      ],
+      "proposal": "UNSURE",
+      "evidence": "Old source: act1_week3_first_budget / fiscal_austerity (flags fiscal_austerity, chain d4). 3f298e6 rewrote week 3 (choices now ask_how_bad, ask_cooked_books, ask_maric_position, no flags). Nothing sets fiscal_austerity any more.",
+      "decision": "Which current choice should own the austerity consequence. act1_week3_economic_direction is the modern fiscal fork (econ_planned / econ_mixed / econ_pragmatic / econ_free_market) but its chains go elsewhere.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act1_chain_tyvaren_propaganda_war",
+      "file": "src/data/narrative/act1/act1_chain_tyvaren_propaganda_war.json",
+      "title": "The Marshal's Language",
+      "type": "crisis",
+      "weekAvailable": 1,
+      "weekDeadline": null,
+      "location": "Chancellor's Private Study — Ashenmere Palace",
+      "characters": [
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "vukov_directly_confronted",
+        "tyvaren_propaganda_answered",
+        "orythian_solidarity_accepted",
+        "tyvaren_multilateral_response",
+        "tyvaren_propaganda_deescalated",
+        "arcturian_guidance_followed"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:propaganda_war_orythian_support",
+          "to": "act2_week21_superpower_choice",
+          "delayWeeks": 7
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+        "removalsOrRewrites": [
+          {
+            "commit": "3f298e6",
+            "removedLines": [
+              "b/src/data/narrative/act1/act1_week7_tyvaren_airspace.json: -          \"targetNodeId\": \"act1_chain_tyvaren_propaganda_war\","
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act3_diplomacy_tyvaren_peace",
+          "wa": 32,
+          "wd": null,
+          "title": "The Marshal's Ultimatum",
+          "why": "title~0.50"
+        }
+      ],
+      "downstreamClosure": [
+        "act2_week21_superpower_choice",
+        "act2_week21_visit_stellamere",
+        "act2_week21_visit_petravar",
+        "act3_orythian_advisor_friction",
+        "act3_arcturian_sanctions",
+        "act3_week28_economic_crisis",
+        "act3_arcturian_cooldown",
+        "act3_arcturian_privatization_pressure",
+        "act3_week28_economic_healthy",
+        "act3_constitution_implementation",
+        "act3_week31_inner_circle",
+        "act3_week37_coup_attempt",
+        "act3_government_in_exile",
+        "act3_stellamere_broadcast",
+        "act4_exile_arc",
+        "act3_brenner_negotiation",
+        "act3_coalition_government",
+        "act3_loyalist_counter_deploy",
+        "act3_ashenmere_standoff",
+        "act4_civil_conflict_arc",
+        "act3_face_to_face_brenner",
+        "act3_public_moment",
+        "act3_week38_family_reckoning",
+        "act3_military_democracy_bond",
+        "act3_brenner_response",
+        "act3_week32_tyvaren_ultimatum",
+        "act3_week30_betrayal_dusek",
+        "act3_dusek_intelligence",
+        "act3_dusek_loyalty_arc",
+        "act3_week37_military_rally",
+        "act3_military_resolve_hardened",
+        "act3_military_deployment",
+        "act3_week39_act3_climax",
+        "act4_week40_war_begins",
+        "act4_forum_showdown",
+        "act4_diplomatic_endgame",
+        "act4_all_fronts",
+        "act4_coordinated_response",
+        "act4_family_anchored",
+        "act4_post_coup_consolidation",
+        "act4_internal_security_state",
+        "act4_national_address",
+        "act4_public_mandate",
+        "act4_week41_reform_implementation",
+        "act4_emergency_powers_invoked",
+        "act4_week44_reform_backlash",
+        "act4_mole_confrontation",
+        "act4_week47_new_order",
+        "act4_second_referendum",
+        "act4_reelection_campaign",
+        "act4_week48_collapse_endgame",
+        "act4_week43_family_resolution",
+        "act4_week42_war_strategy",
+        "act4_alliance_crisis",
+        "act4_dravenni_war_alliance",
+        "act4_week44_civilian_front",
+        "act4_week46_final_battle",
+        "act4_arcturian_intervention",
+        "act4_week48_war_outcome",
+        "act4_ceasefire_negotiation",
+        "act4_ceasefire_talks",
+        "act4_occupation_begins",
+        "act4_week40_exile",
+        "act4_week44_counter_coup",
+        "act4_underground_radio",
+        "act3_week33_war_preparations",
+        "act3_tyvaren_border_skirmish",
+        "act3_week33_diplomatic_negotiation",
+        "act3_tyvaren_diplomatic_followup",
+        "act3_international_forum_session",
+        "act3_superpower_pressure",
+        "act3_secret_mobilization_consequences",
+        "act3_week36_nadia_publishes",
+        "act3_confidence_vote",
+        "act3_public_reckoning",
+        "act3_dravenni_insurgency",
+        "act3_week34_dravenhollow",
+        "act3_dlf_military_integration",
+        "act3_nationalist_backlash",
+        "act3_dravenni_autonomy_talks",
+        "act3_dlf_coordination",
+        "act3_autonomy_commission",
+        "act3_dravenhollow_crackdown",
+        "act3_kaelen_response",
+        "act3_dravenni_divided_response",
+        "act3_kolvar_legal_challenge",
+        "act3_halvekist_legal_war",
+        "act3_volkov_patience_expires",
+        "act3_treaty_drafting",
+        "act3_vyktor_departure",
+        "act3_battle_gravenmark",
+        "act3_battle_kravenstal_approach",
+        "act3_war_economy",
+        "act3_national_address_war",
+        "act3_total_war_society",
+        "act4_family_healing",
+        "act4_family_conditional",
+        "act4_family_breaking",
+        "act4_family_estranged",
+        "act4_jonas_divorce",
+        "act4_tomas_redemption",
+        "act3_dusek_command_debrief",
+        "act4_week42_austerity_bites",
+        "act4_week45_uprising",
+        "act4_ima_confrontation",
+        "act4_ima_renegotiation",
+        "act4_constitutional_crisis",
+        "act3_new_cabinet_figures",
+        "act3_khaled_coalition",
+        "act3_ima_compliance_year",
+        "act3_ima_negotiation",
+        "act3_alternative_financing",
+        "act3_tyvaren_deterred"
+      ],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Old source: act1_week7_tyvaren_airspace / tyvaren_airspace_public_condemnation (flags tyvaren_publicly_condemned, airspace_incident_public; chain d3). 3f298e6 rewrote week 7; no current choice sets those flags. Its own tail (propaganda_war_orythian_support -> act2_week21_superpower_choice d7) is agenda-launched, so only the entry point is missing.",
+      "decision": "Which Tyvaren choice in the current week-7 flow (or act3_tyvaren_retaliation) should trigger it.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act1_chain_vael_pressure",
+      "file": "src/data/narrative/act1/act1_chain_vael_pressure.json",
+      "title": "The Margrave's Invitation",
+      "type": "event",
+      "weekAvailable": 1,
+      "weekDeadline": null,
+      "location": "Vael Estate — Thornfeld Valley",
+      "characters": [
+        "lucan_vael"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 4,
+      "nestedChoiceLikeObjects": 4,
+      "flagsSet": [
+        "vael_rebuffed",
+        "consortium_hostile",
+        "vael_resolved",
+        "vael_negotiated",
+        "consortium_moderate",
+        "vael_coopted",
+        "vael_advisor",
+        "vael_threatened",
+        "bni_files_weaponized"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:vael_refuse_politely",
+          "to": "act1_chain_capital_strike",
+          "delayWeeks": 4
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+        "removalsOrRewrites": [
+          {
+            "commit": "3f298e6",
+            "removedLines": [
+              "b/src/data/narrative/act1/act1_week1_inauguration.json: -        { \"targetNodeId\": \"act1_chain_vael_pressure\",     \"delayWeeks\": 5 },",
+              "b/src/data/narrative/act1/act1_week2_cabinet_appointments.json: -          \"targetNodeId\": \"act1_chain_vael_pressure\",",
+              "b/src/data/narrative/act1/act1_week3_first_budget.json: -          \"targetNodeId\": \"act1_chain_vael_pressure\","
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_vael_party_funding",
+          "wa": 4,
+          "wd": null,
+          "title": "The Margrave's Generosity",
+          "why": "title~0.50"
+        },
+        {
+          "id": "act1_vael_private_meeting",
+          "wa": 3,
+          "wd": null,
+          "title": "The Margrave's Proposal",
+          "why": "title~0.50"
+        }
+      ],
+      "downstreamClosure": [
+        "act1_chain_capital_strike",
+        "act2_ima_conditionality_review",
+        "act3_week28_economic_crisis",
+        "act3_ima_compliance_year",
+        "act3_ima_negotiation",
+        "act3_alternative_financing",
+        "act3_week31_inner_circle",
+        "act3_new_cabinet_figures",
+        "act3_khaled_coalition",
+        "act3_week39_act3_climax",
+        "act3_confidence_vote",
+        "act4_week40_war_begins",
+        "act4_forum_showdown",
+        "act4_diplomatic_endgame",
+        "act4_all_fronts",
+        "act4_coordinated_response",
+        "act4_family_anchored",
+        "act4_post_coup_consolidation",
+        "act4_internal_security_state",
+        "act4_national_address",
+        "act4_public_mandate",
+        "act4_week41_reform_implementation",
+        "act4_emergency_powers_invoked",
+        "act4_week44_reform_backlash",
+        "act4_mole_confrontation",
+        "act4_week47_new_order",
+        "act4_second_referendum",
+        "act4_reelection_campaign",
+        "act4_week48_collapse_endgame",
+        "act4_week43_family_resolution",
+        "act4_week42_war_strategy",
+        "act4_alliance_crisis",
+        "act4_dravenni_war_alliance",
+        "act4_week44_civilian_front",
+        "act4_week46_final_battle",
+        "act4_arcturian_intervention",
+        "act4_week48_war_outcome",
+        "act4_ceasefire_negotiation",
+        "act4_ceasefire_talks",
+        "act4_occupation_begins",
+        "act4_week40_exile",
+        "act4_week44_counter_coup",
+        "act4_underground_radio",
+        "act4_week42_austerity_bites",
+        "act4_week45_uprising",
+        "act4_ima_confrontation",
+        "act4_ima_renegotiation",
+        "act4_constitutional_crisis"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act1_chain_capital_strike",
+        "act2_ima_conditionality_review"
+      ],
+      "proposal": "SCHEDULE_CHAIN",
+      "evidence": "Pre-3f298e6 inaugural_radical chained this scene at d5. Its other old sources (week2 cabinet_loyalist d4, week3 fiscal_tax_wealth d3, week8 vael_accept_partnership d0) were rewritten and no longer exist. Only the inauguration source can be re-wired with the same flag.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": [
+        {
+          "source": "act1_week1_inauguration",
+          "choice": "speech_personal",
+          "delayWeeks": 5,
+          "conditions": null,
+          "lands": "week 6"
+        }
+      ],
+      "agendaProposal": null,
+      "notes": "Downstream act1_chain_capital_strike (d4) and act2_ima_conditionality_review (d8) become reachable."
+    },
+    {
+      "id": "act1_kolvar_counterattack",
+      "file": "src/data/narrative/act1/act1_kolvar_counterattack.json",
+      "title": "The Counterattack",
+      "type": "meeting",
+      "weekAvailable": 4,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "kolvar_counterattack_legal",
+        "kolvar_counterattack_ignored"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 3,
+        "introducedOrLastMentionedIn": [
+          "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+          "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+        "removalsOrRewrites": [
+          {
+            "commit": "9a27631",
+            "removedLines": [
+              "b/src/data/narrative/act1/social_inaugural_ball_wk1.json: -            { \"targetNodeId\": \"act1_kolvar_counterattack\", \"delayWeeks\": 3 }"
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Pre-9a27631 ball choice toast_reform (flag inaugural_toast_bold) chained this scene at d3 (week 4, matches weekAvailable 4). 9a27631 removed the toast branch; no current ball choice maps to it.",
+      "decision": "Restore a Kolvar branch to the inaugural ball, or retire the scene. Stub: one choice, no narrative segments.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act1_kolvar_opposition_rally",
+      "file": "src/data/narrative/act1/act1_kolvar_opposition_rally.json",
+      "title": "The Halvekist Response",
+      "type": "meeting",
+      "weekAvailable": 3,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "kolvar_rally_ignored",
+        "kolvar_rally_challenged"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 3,
+        "introducedOrLastMentionedIn": [
+          "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+          "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+        "removalsOrRewrites": [
+          {
+            "commit": "9a27631",
+            "removedLines": [
+              "b/src/data/narrative/act1/social_inaugural_ball_wk1.json: -            { \"targetNodeId\": \"act1_kolvar_opposition_rally\", \"delayWeeks\": 2 }"
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Pre-9a27631 ball choice kolvar_cold (flag ball_kolvar_cold) chained this scene at d2 (week 3, matches weekAvailable 3). Branch removed in 9a27631, no equivalent.",
+      "decision": "Restore a Kolvar branch to the ball, or retire. Stub: one choice, no narrative segments.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act1_nadia_exclusive_interview",
+      "file": "src/data/narrative/act1/act1_nadia_exclusive_interview.json",
+      "title": "On The Record",
+      "type": "meeting",
+      "weekAvailable": 2,
+      "weekDeadline": null,
+      "location": "Chancellor's Private Study — Ashenmere Palace",
+      "characters": [
+        "nadia_voss"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "nadia_interview_transparent",
+        "nadia_interview_partial"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 3,
+        "introducedOrLastMentionedIn": [
+          "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+          "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+        "removalsOrRewrites": [
+          {
+            "commit": "9a27631",
+            "removedLines": [
+              "b/src/data/narrative/act1/social_inaugural_ball_wk1.json: -            { \"targetNodeId\": \"act1_nadia_exclusive_interview\", \"delayWeeks\": 1 }"
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act2_week22_nadia_investigation",
+          "wa": 22,
+          "wd": 26,
+          "title": "On the Record",
+          "why": "title~1.00"
+        }
+      ],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "SUPERSEDED",
+      "evidence": "Same title (\"On The Record\") and same character (nadia_voss). act2_week22_nadia_investigation is the full version and is agenda-launched 4 times (agenda_w20_nadia_request, agenda_w21_press_strategy, agenda_w22_nadia_investigation, agenda_w23_nadia_update). This act1 scene is a 1-choice stub (nadia_interview_begin, no flags). Its ball source nadia_exclusive (d1) was removed in 9a27631.",
+      "decision": null,
+      "confidence": "medium",
+      "supersededBy": "act2_week22_nadia_investigation",
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act1_renek_sermon",
+      "file": "src/data/narrative/act1/act1_renek_sermon.json",
+      "title": "The Shepherd Speaks",
+      "type": "meeting",
+      "weekAvailable": 5,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "renek_sermon_ignored",
+        "renek_sermon_engaged"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 3,
+        "introducedOrLastMentionedIn": [
+          "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+          "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+        "removalsOrRewrites": [
+          {
+            "commit": "9a27631",
+            "removedLines": [
+              "b/src/data/narrative/act1/social_inaugural_ball_wk1.json: -            { \"targetNodeId\": \"act1_renek_sermon\", \"delayWeeks\": 4 }"
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Pre-9a27631 ball choice renek_decline (flag ball_renek_declined) chained this scene at d4 (week 5, matches weekAvailable 5). The current nearest choice ball_speak_renek (\"Speak with Archbishop Renek\", flag ball_chose_renek) is the opposite decision, not a decline.",
+      "decision": "Confirm whether ball_speak_renek should carry the d4 chain, or whether the sermon should be retired. Stub: one choice.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act1_vael_party_funding",
+      "file": "src/data/narrative/act1/act1_vael_party_funding.json",
+      "title": "The Margrave's Generosity",
+      "type": "event",
+      "weekAvailable": 4,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "lucan_vael",
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "vael_party_funded",
+        "vael_relationship_warm",
+        "vael_funding_refused",
+        "vael_relationship_cool",
+        "vael_funding_compromised",
+        "vael_relationship_neutral",
+        "blind_trust_established"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:vael_funding_accept",
+          "to": "act1_vael_hospital_kravenstal",
+          "delayWeeks": 4
+        },
+        {
+          "where": "choice:vael_funding_refuse",
+          "to": "act1_vael_hospital_kravenstal",
+          "delayWeeks": 4
+        },
+        {
+          "where": "choice:vael_funding_counter",
+          "to": "act1_vael_hospital_kravenstal",
+          "delayWeeks": 4
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_chain_vael_pressure",
+          "wa": 1,
+          "wd": null,
+          "title": "The Margrave's Invitation",
+          "why": "title~0.50"
+        },
+        {
+          "id": "act1_vael_private_meeting",
+          "wa": 3,
+          "wd": null,
+          "title": "The Margrave's Proposal",
+          "why": "title~0.50,wk±1+chars(2)"
+        }
+      ],
+      "downstreamClosure": [
+        "act1_vael_hospital_kravenstal",
+        "act1_vael_estate_dinner",
+        "act2_vael_steel_mills",
+        "act2_vael_referendum_funding",
+        "act3_vael_block_wealth_tax",
+        "act3_vael_minister_demand",
+        "act4_vael_final_offer"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act1_vael_hospital_kravenstal",
+        "act1_vael_estate_dinner",
+        "act2_vael_steel_mills",
+        "act2_vael_referendum_funding",
+        "act3_vael_block_wealth_tax",
+        "act3_vael_minister_demand",
+        "act4_vael_final_offer"
+      ],
+      "proposal": "SCHEDULE_AGENDA",
+      "evidence": "Created in da7bb9a and never referenced since. No agenda, no inbound chain. Its 3 choices all chain to act1_vael_hospital_kravenstal (d4), which opens the Vael arc (estate dinner, steel mills, referendum funding, wealth tax, minister demand, final offer), all unreachable. Scene window is 4-null, so no deadline is given, and the rule gives 4-6.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": {
+        "file": "src/data/agenda/week04.json",
+        "json": {
+          "id": "agenda_w04_vael_party_funding",
+          "title": "The Margrave's Generosity",
+          "description": "Lucan Vael does not schedule appointments.",
+          "category": "meeting",
+          "sceneId": "act1_vael_party_funding",
+          "slotCost": 1,
+          "executionOrder": 5,
+          "weekAvailable": 4,
+          "weekDeadline": 6
+        }
+      },
+      "notes": "Type is \"event\" with no category map; \"meeting\" chosen by analogy. Alternative: chain it from act1_vael_private_meeting, which is a stub with no consequences."
+    },
+    {
+      "id": "act1_vael_private_meeting",
+      "file": "src/data/narrative/act1/act1_vael_private_meeting.json",
+      "title": "The Margrave's Proposal",
+      "type": "meeting",
+      "weekAvailable": 3,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "lucan_vael",
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "vael_regulatory_review_opened",
+        "vael_regulatory_declined"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 3,
+        "introducedOrLastMentionedIn": [
+          "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+          "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+        "removalsOrRewrites": [
+          {
+            "commit": "9a27631",
+            "removedLines": [
+              "b/src/data/narrative/act1/social_inaugural_ball_wk1.json: -            { \"targetNodeId\": \"act1_vael_private_meeting\", \"delayWeeks\": 2 }"
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_chain_vael_pressure",
+          "wa": 1,
+          "wd": null,
+          "title": "The Margrave's Invitation",
+          "why": "title~0.50"
+        },
+        {
+          "id": "act1_vael_party_funding",
+          "wa": 4,
+          "wd": null,
+          "title": "The Margrave's Generosity",
+          "why": "title~0.50,wk±1+chars(2)"
+        },
+        {
+          "id": "act2_econ_vael_approach",
+          "wa": 1,
+          "wd": null,
+          "title": "Vael's Proposal",
+          "why": "title~0.50"
+        }
+      ],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "SCHEDULE_CHAIN",
+      "evidence": "Pre-9a27631 ball choice vael_accept (flag ball_vael_meeting_scheduled) chained this scene at d2. 9a27631 removed it. The current ball_speak_vael (\"Find Lucan Vael. He came to this ball for a reason.\", flags ball_chose_vael, vael_ball_contact) is the equivalent choice and has chainTriggers [].",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": [
+        {
+          "source": "social_inaugural_ball_wk1",
+          "choice": "ball_speak_vael",
+          "delayWeeks": 2,
+          "conditions": null,
+          "lands": "week 3 = scene weekAvailable 3"
+        }
+      ],
+      "agendaProposal": null,
+      "notes": "Stub: one choice, no flags. Only the week matches (1+2=3)."
+    },
+    {
+      "id": "act1_week10_law_enforcement_choice",
+      "file": "src/data/narrative/act1/act1_week10_law_enforcement_choice.json",
+      "title": "The Law Enforcement Question",
+      "type": "meeting",
+      "weekAvailable": 10,
+      "weekDeadline": 12,
+      "location": "Chancellor's Office — The Ashenmere Palace",
+      "characters": [
+        "danika_oberlin",
+        "aldric_theron",
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 4,
+      "nestedChoiceLikeObjects": 4,
+      "flagsSet": [
+        "bca_funded",
+        "law_enforcement_choice_made",
+        "ssd_funded",
+        "both_agencies_weakened",
+        "neither_agency_funded"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:fund_bca",
+          "to": "act1_chain_bca_investigation",
+          "delayWeeks": 1
+        },
+        {
+          "where": "choice:fund_ssd",
+          "to": "act1_chain_ssd_operations",
+          "delayWeeks": 1
+        },
+        {
+          "where": "choice:fund_both_weakened",
+          "to": "act1_chain_both_agencies_conflict",
+          "delayWeeks": 1
+        },
+        {
+          "where": "choice:fund_neither",
+          "to": "act1_chain_no_agency_vacuum",
+          "delayWeeks": 4
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_chain_bca_investigation",
+          "wa": 11,
+          "wd": null,
+          "title": "The BCA Opens Its First Case",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_chain_both_agencies_conflict",
+          "wa": 11,
+          "wd": null,
+          "title": "The First Collision",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_week10_church_education",
+          "wa": 10,
+          "wd": null,
+          "title": "The Schools Question",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_week10_reform_committee",
+          "wa": 10,
+          "wd": 12,
+          "title": "The Reform Committee",
+          "why": "wk±1+chars(2)"
+        }
+      ],
+      "downstreamClosure": [
+        "act1_chain_bca_investigation",
+        "act1_chain_ssd_operations",
+        "act1_chain_both_agencies_conflict",
+        "act1_chain_no_agency_vacuum"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act1_chain_bca_investigation",
+        "act1_chain_ssd_operations",
+        "act1_chain_both_agencies_conflict",
+        "act1_chain_no_agency_vacuum"
+      ],
+      "proposal": "SCHEDULE_AGENDA",
+      "evidence": "Scene is a complete 4-choice meeting (8 narrative segments). Its choices set law_enforcement_choice_made plus bca_funded / ssd_funded / both_agencies_weakened / neither_agency_funded. Its four chain children (act1_chain_bca_investigation d1, act1_chain_ssd_operations d1, act1_chain_both_agencies_conflict d1, act1_chain_no_agency_vacuum d4) are unreachable. e15334f already depends on law_enforcement_choice_made for agenda_w36_both_agencies_conflict.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": {
+        "file": "src/data/agenda/week10.json",
+        "json": {
+          "id": "agenda_w10_law_enforcement_choice",
+          "title": "The Law Enforcement Question",
+          "description": "The morning briefing has barely ended when Danika Oberlin sets a thick folder on your desk.",
+          "category": "meeting",
+          "sceneId": "act1_week10_law_enforcement_choice",
+          "slotCost": 1,
+          "executionOrder": 5,
+          "weekAvailable": 10,
+          "weekDeadline": 12
+        }
+      },
+      "notes": null
+    },
+    {
+      "id": "act1_week20_stellamere_summit",
+      "file": "src/data/narrative/act1/act1_week20_stellamere_summit.json",
+      "title": "The Stellamere Summit",
+      "type": "diplomacy",
+      "weekAvailable": 20,
+      "weekDeadline": 22,
+      "location": "Grand Hall — Stellamere, Neutral Territory",
+      "characters": [
+        "vyktor_reznik",
+        "dragan_vukov",
+        "harrison_cole"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 10,
+      "flagsSet": [
+        "stellamere_orythian_lean",
+        "stellamere_tyvaren_acknowledged",
+        "stellamere_non_aligned"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "b5f0f95 feat(narrative): add Stellamere and Morivask summit scenes"
+        ],
+        "oldestCommit": "b5f0f95 feat(narrative): add Stellamere and Morivask summit scenes",
+        "newestCommit": "b5f0f95 feat(narrative): add Stellamere and Morivask summit scenes",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act2_week21_superpower_choice",
+          "wa": 21,
+          "wd": 24,
+          "title": "Two Invitations",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act2_week21_visit_stellamere",
+          "wa": 21,
+          "wd": 26,
+          "title": "The Federal Hall",
+          "why": "wk±1+chars(2)"
+        }
+      ],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "SUPERSEDED",
+      "evidence": "Same Stellamere setting and same Ambassador Cole beat. act2_week21_visit_stellamere (21-26, flags arcturian_alignment / arcturian_trade_only / arcturian_declined) is agenda-launched by agenda_w21_visit_stellamere. The decision is also covered by act2_week21_superpower_choice (\"Two Invitations\"). Act1 scene sets no flags, has no chains, and no agenda entry.",
+      "decision": null,
+      "confidence": "medium",
+      "supersededBy": "act2_week21_visit_stellamere",
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": "Tyvaren (Vukov) is in this scene only, so a manager may prefer UNSURE."
+    },
+    {
+      "id": "act1_week3_armadine_investment",
+      "file": "src/data/narrative/act1/act1_week3_armadine_investment.json",
+      "title": "An Investment Opportunity",
+      "type": "meeting",
+      "weekAvailable": 3,
+      "weekDeadline": 6,
+      "location": "A Private Club — Ashenmere Financial District",
+      "characters": [],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "armadine_invested",
+        "conflict_of_interest_steel",
+        "armadine_declined",
+        "ethical_governance",
+        "armadine_jonas_invested",
+        "plausible_deniability"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:armadine_invest",
+          "to": "act3_armadine_steel_return",
+          "delayWeeks": 27
+        },
+        {
+          "where": "choice:armadine_invest_pass_along",
+          "to": "act3_armadine_steel_return_jonas",
+          "delayWeeks": 27
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [
+        "act3_armadine_steel_return",
+        "act3_armadine_steel_return_jonas"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act3_armadine_steel_return",
+        "act3_armadine_steel_return_jonas"
+      ],
+      "proposal": "SCHEDULE_AGENDA",
+      "evidence": "No agenda entry references any armadine id. Its 2 choices set armadine_invested / armadine_jonas_invested and chain to act3_armadine_steel_return (d27) and act3_armadine_steel_return_jonas (d27), both unreachable. Scene has no characters listed.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": {
+        "file": "src/data/agenda/week03.json",
+        "json": {
+          "id": "agenda_w03_armadine_investment",
+          "title": "An Investment Opportunity",
+          "description": "A letter arrives at your personal residence, not your office.",
+          "category": "meeting",
+          "sceneId": "act1_week3_armadine_investment",
+          "slotCost": 1,
+          "executionOrder": 5,
+          "weekAvailable": 3,
+          "weekDeadline": 6
+        }
+      },
+      "notes": null
+    },
+    {
+      "id": "act1_week4_elena_introduction",
+      "file": "src/data/narrative/act1/act1_week4_elena_introduction.json",
+      "title": "The Media Magnate",
+      "type": "meeting",
+      "weekAvailable": 4,
+      "weekDeadline": 6,
+      "location": "VNN Broadcasting House — Ashenmere",
+      "characters": [
+        "elena_braskov"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "media_deal",
+        "elena_ally",
+        "broadcast_licensing_killed",
+        "elena_introduced",
+        "elena_declined",
+        "press_freedom_priority",
+        "elena_neutral",
+        "elena_delayed_decision"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "SCHEDULE_AGENDA",
+      "evidence": "This scene is the only setter of flag elena_introduced. That flag is a hard prerequisite of act2_week14_elena_favor (agenda-launched by agenda_w14_elena_favor), act3_week28_elena_crisis_spin, act3_week34_elena_rival and act4_week45_elena_reckoning. The whole Elena arc is currently blocked behind this orphan.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": {
+        "file": "src/data/agenda/week04.json",
+        "json": {
+          "id": "agenda_w04_elena_introduction",
+          "title": "The Media Magnate",
+          "description": "Elena Braskov's office occupies the top floor of VNN Broadcasting House — a building her father built in 1948, at the height of Halvek's power.",
+          "category": "meeting",
+          "sceneId": "act1_week4_elena_introduction",
+          "slotCost": 1,
+          "executionOrder": 5,
+          "weekAvailable": 4,
+          "weekDeadline": 6
+        }
+      },
+      "notes": "Verify the flag name the notebook refers to (\"the Broadcast Licensing Act\") matches the current agenda timing before scheduling."
+    },
+    {
+      "id": "act2_deficit_crisis",
+      "file": "src/data/narrative/act2/act2_deficit_crisis.json",
+      "title": "The Krone Falls",
+      "type": "emergency",
+      "weekAvailable": 16,
+      "weekDeadline": null,
+      "location": "Finance Ministry — Budget Office",
+      "characters": [
+        "elara_vostane",
+        "gregor_maric",
+        "vyktor_reznik"
+      ],
+      "prerequisites": [
+        {
+          "stat": "nation.nationalDebt",
+          "operator": ">",
+          "value": 450
+        }
+      ],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "debt_default_declared",
+        "ima_engagement_suspended",
+        "fiscal_sovereignty_retained",
+        "ima_deal_accepted",
+        "ima_full_conditions_accepted",
+        "deficit_crisis_stabilized",
+        "vael_nationalized",
+        "emergency_asset_seizure"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:deficit_crisis_default",
+          "to": "act3_week28_economic_crisis",
+          "delayWeeks": 8
+        },
+        {
+          "where": "choice:deficit_crisis_vael_nationalize",
+          "to": "act2_week18_vael_oligarch",
+          "delayWeeks": 1
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "3f298e6 feat: cabinet system + Stefan Morvec oligarch arc",
+        "removalsOrRewrites": [
+          {
+            "commit": "3f298e6",
+            "removedLines": [
+              "b/src/data/narrative/act1/act1_week3_first_budget.json: -          \"targetNodeId\": \"act2_deficit_crisis\","
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act2_minority_refugee_health",
+          "wa": 17,
+          "wd": null,
+          "title": "Fever in the Camps",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "__project__kravenstal_steel",
+          "wa": 15,
+          "wd": null,
+          "title": "The Kravenstal Steel Modernization",
+          "why": "wk±1+chars(2)"
+        }
+      ],
+      "downstreamClosure": [
+        "act3_week28_economic_crisis",
+        "act2_week18_vael_oligarch",
+        "act2_chain_soraya_rupture",
+        "act2_chain_vael_opposition_campaign",
+        "act2_week25_referendum_eve",
+        "act2_week22_nadia_investigation",
+        "act2_chain_vyktor_exposed",
+        "act3_nadia_investigation_continues",
+        "act3_week36_nadia_publishes",
+        "act3_week37_military_rally",
+        "act3_military_democracy_bond",
+        "act3_military_resolve_hardened",
+        "act3_military_deployment",
+        "act3_week39_act3_climax",
+        "act4_week40_war_begins",
+        "act4_forum_showdown",
+        "act4_diplomatic_endgame",
+        "act4_all_fronts",
+        "act4_coordinated_response",
+        "act4_family_anchored",
+        "act4_post_coup_consolidation",
+        "act4_internal_security_state",
+        "act4_national_address",
+        "act4_public_mandate",
+        "act4_week41_reform_implementation",
+        "act4_emergency_powers_invoked",
+        "act4_week44_reform_backlash",
+        "act4_mole_confrontation",
+        "act4_week47_new_order",
+        "act4_second_referendum",
+        "act4_reelection_campaign",
+        "act4_week48_collapse_endgame",
+        "act4_week43_family_resolution",
+        "act4_week42_war_strategy",
+        "act4_alliance_crisis",
+        "act4_dravenni_war_alliance",
+        "act4_week44_civilian_front",
+        "act4_week46_final_battle",
+        "act4_arcturian_intervention",
+        "act4_week48_war_outcome",
+        "act4_ceasefire_negotiation",
+        "act4_ceasefire_talks",
+        "act4_occupation_begins",
+        "act4_week40_exile",
+        "act4_week44_counter_coup",
+        "act4_underground_radio",
+        "act3_public_reckoning",
+        "act3_week31_inner_circle",
+        "act3_new_cabinet_figures",
+        "act3_khaled_coalition",
+        "act3_confidence_vote",
+        "act3_week29_vyktor_exposed",
+        "act3_vyktor_departure",
+        "act3_vyktor_full_disclosure",
+        "act3_press_freedom_crackdown",
+        "act3_week32_tyvaren_ultimatum",
+        "act3_week33_war_preparations",
+        "act3_tyvaren_border_skirmish",
+        "act3_week33_diplomatic_negotiation",
+        "act3_tyvaren_diplomatic_followup",
+        "act3_international_forum_session",
+        "act3_superpower_pressure",
+        "act3_secret_mobilization_consequences",
+        "act3_arcturian_cooldown",
+        "act3_dravenni_insurgency",
+        "act3_week37_coup_attempt",
+        "act3_week34_dravenhollow",
+        "act3_dlf_military_integration",
+        "act3_nationalist_backlash",
+        "act3_dravenni_autonomy_talks",
+        "act3_dlf_coordination",
+        "act3_autonomy_commission",
+        "act3_dravenhollow_crackdown",
+        "act3_kaelen_response",
+        "act3_dravenni_divided_response",
+        "act3_kolvar_legal_challenge",
+        "act3_halvekist_legal_war",
+        "act3_week38_family_reckoning",
+        "act4_family_healing",
+        "act4_family_conditional",
+        "act4_family_breaking",
+        "act4_family_estranged",
+        "act4_jonas_divorce",
+        "act4_tomas_redemption",
+        "act3_government_in_exile",
+        "act3_stellamere_broadcast",
+        "act4_exile_arc",
+        "act3_brenner_negotiation",
+        "act3_coalition_government",
+        "act3_loyalist_counter_deploy",
+        "act3_ashenmere_standoff",
+        "act4_civil_conflict_arc",
+        "act3_face_to_face_brenner",
+        "act3_public_moment",
+        "act3_brenner_response",
+        "act3_week30_betrayal_dusek",
+        "act3_dusek_intelligence",
+        "act3_dusek_loyalty_arc",
+        "act3_dusek_command_debrief",
+        "act4_week42_austerity_bites",
+        "act4_week45_uprising",
+        "act4_ima_confrontation",
+        "act4_ima_renegotiation",
+        "act4_constitutional_crisis",
+        "act3_volkov_patience_expires",
+        "act3_treaty_drafting",
+        "act3_battle_gravenmark",
+        "act3_battle_kravenstal_approach",
+        "act3_war_economy",
+        "act3_national_address_war",
+        "act3_total_war_society",
+        "act3_week28_economic_healthy",
+        "act3_constitution_implementation",
+        "act3_ima_compliance_year",
+        "act3_ima_negotiation",
+        "act3_alternative_financing"
+      ],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Old source: act1_week3_first_budget / fiscal_growth_investment (flags fiscal_growth_deficit, chain d14). 3f298e6 removed it and nothing sets fiscal_growth_deficit now. Scene is an emergency gated on prerequisite nationalDebt > 450, so it cannot run from its window alone. Downstream hub: act3_week28_economic_crisis (d8), act2_week18_vael_oligarch (d1).",
+      "decision": "Whether the debt-gated emergency should be agenda-scheduled (emergency slotCost 0) or chained from a current economic choice.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act2_diplomacy_arcturian_trade",
+      "file": "src/data/narrative/diplomacy/act2_diplomacy_arcturian_trade.json",
+      "title": "The Arcturian Equation",
+      "type": "diplomacy",
+      "weekAvailable": 15,
+      "weekDeadline": null,
+      "location": "Arcturian Embassy — Ashenmere, Diplomatic Quarter",
+      "characters": [
+        "harrison_cole",
+        "elara_vostane"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "arcturian_trade_deal",
+        "arcturian_alignment",
+        "orythia_excluded",
+        "arcturian_trade_partial",
+        "strategic_exclusivity",
+        "trade_independence",
+        "arcturian_trade_refused",
+        "non_aligned_policy",
+        "sovereignty_first"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:arcturian_trade_accept",
+          "to": "act2_diplomacy_orythian_military",
+          "delayWeeks": 5
+        },
+        {
+          "where": "choice:arcturian_trade_counter",
+          "to": "act2_diplomacy_orythian_military",
+          "delayWeeks": 5
+        },
+        {
+          "where": "choice:arcturian_trade_refuse",
+          "to": "act2_diplomacy_orythian_military",
+          "delayWeeks": 5
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [
+        "act2_diplomacy_orythian_military",
+        "act2_diplomacy_lytheira_debt",
+        "act3_diplomacy_arcturian_alliance",
+        "act3_diplomacy_morivask_border"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act2_diplomacy_orythian_military",
+        "act2_diplomacy_lytheira_debt",
+        "act3_diplomacy_arcturian_alliance",
+        "act3_diplomacy_morivask_border"
+      ],
+      "proposal": "UNSURE",
+      "evidence": "Created in da7bb9a, never referenced. No inbound edges. Root of an unreachable diplomacy line: act2_diplomacy_orythian_military (d5), act2_diplomacy_lytheira_debt, act3_diplomacy_arcturian_alliance, act3_diplomacy_morivask_border. Overlaps the Arcturian decision in act2_week21_superpower_choice.",
+      "decision": "Schedule the diplomacy line (and at which week) or retire it.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act2_superpower_coldness",
+      "file": "src/data/narrative/act2/act2_superpower_coldness.json",
+      "title": "Neither Friend",
+      "type": "meeting",
+      "weekAvailable": 21,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 4,
+      "flagsSet": [
+        "superpower_cold_chose_west",
+        "superpower_cold_chose_east",
+        "superpower_cold_chose_neither"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 3,
+        "introducedOrLastMentionedIn": [
+          "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+          "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "9a27631 feat: route social events through NarrativeScene + rewrite inaugural ball",
+        "removalsOrRewrites": [
+          {
+            "commit": "9a27631",
+            "removedLines": [
+              "b/src/data/narrative/act1/social_inaugural_ball_wk1.json: -            { \"targetNodeId\": \"act2_superpower_coldness\", \"delayWeeks\": 20 }"
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Pre-9a27631 ball choice foreign_neither (flag ball_visited_neither) chained this scene at d20, which lands exactly at week 21. 9a27631 removed the foreign branch. The natural current home is act2_week21_superpower_choice / visit_neither_nonalignment (flags superpower_choice_deferred), which already self-chains at d3.",
+      "decision": "Choose the new trigger (suggest visit_neither_nonalignment) and the delay. Stub: one choice.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act2_week18_vael_fund",
+      "file": "src/data/narrative/act2/act2_week18_vael_fund.json",
+      "title": "Vael's Private Fund",
+      "type": "meeting",
+      "weekAvailable": 18,
+      "weekDeadline": 21,
+      "location": "Vael Estate — Thornfeld Valley",
+      "characters": [
+        "lucan_vael"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "vael_fund_invested",
+        "vael_investment",
+        "financially_entangled_vael",
+        "inside_the_circle",
+        "vael_fund_declined",
+        "stood_up_to_vael",
+        "vael_fund_invested_hidden",
+        "hidden_investment",
+        "offshore_holdings"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:vael_fund_invest",
+          "to": "act3_vael_fund_return",
+          "delayWeeks": 17
+        },
+        {
+          "where": "choice:vael_fund_invest_deniable",
+          "to": "act3_vael_fund_return_hidden",
+          "delayWeeks": 17
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act2_econ_vael_approach",
+          "wa": 1,
+          "wd": null,
+          "title": "Vael's Proposal",
+          "why": "title~0.40"
+        }
+      ],
+      "downstreamClosure": [
+        "act3_vael_fund_return",
+        "act3_vael_fund_return_hidden"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act3_vael_fund_return",
+        "act3_vael_fund_return_hidden"
+      ],
+      "proposal": "UNSURE",
+      "evidence": "Created in da7bb9a, never referenced. Chains to act3_vael_fund_return and act3_vael_fund_return_hidden (d17), both unreachable. Flag vael_fund_invested is set here and never read. Same week as agenda-launched act2_week18_vael_oligarch (\"A Reasonable Investment\", agenda_w18_vael_oligarch), a second Vael approach.",
+      "decision": "Schedule as a second Vael beat in week 18, or retire.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act2_week20_oligarch_meeting",
+      "file": "src/data/narrative/act2/act2_week20_oligarch_meeting.json",
+      "title": "The Room",
+      "type": null,
+      "weekAvailable": 20,
+      "weekDeadline": null,
+      "location": "Vael-Kross Tower — Boardroom, Ashenmere",
+      "characters": [
+        "katerin_ashavel",
+        "vyktor_reznik",
+        "lucan_vael",
+        "other_oligarchs"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 34,
+      "flagsSet": [
+        "oligarch_deal_made",
+        "infrastructure_partnership",
+        "oligarch_limited_deal",
+        "oligarch_no_deal",
+        "vael_confronted_directly",
+        "mole_exposed"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_week1_family_dinner",
+          "wa": 1,
+          "wd": null,
+          "title": "The Quiet Room",
+          "why": "title~0.50"
+        }
+      ],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Created in da7bb9a, never referenced. No flags, no chains out. Monologue sets up \"a separate offer to someone in my government\" with an oligarch room meeting, but nothing in the game establishes the offer. Type field is missing (undefined).",
+      "decision": "Which trigger should bring this meeting, and whether the missing type should be set.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act2_week29_sovarka_approach",
+      "file": "src/data/narrative/act2/act2_week29_sovarka_approach.json",
+      "title": "The Schoolteacher's Republic",
+      "type": "meeting",
+      "weekAvailable": 29,
+      "weekDeadline": null,
+      "location": "Chancellor's Private Study — Ashenmere Palace",
+      "characters": [
+        "matthias_krel",
+        "vyktor_reznik",
+        "andrei_luca"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 25,
+      "flagsSet": [
+        "sovarka_engaged",
+        "sovarka_relation_high",
+        "andrei_luca_met",
+        "sovarka_quiet",
+        "sovarka_deferred"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:sovarka_full_end",
+          "to": "act2_week33_sovarka_survey",
+          "delayWeeks": 4
+        },
+        {
+          "where": "choice:sovarka_quiet_end",
+          "to": "act2_week33_sovarka_survey",
+          "delayWeeks": 4
+        },
+        {
+          "where": "choice:sovarka_defer_end",
+          "to": "act2_week33_sovarka_survey",
+          "delayWeeks": 4
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "3a9e578 feat: complete Sovarka arc + church stub + Tyvaren response stub"
+        ],
+        "oldestCommit": "3a9e578 feat: complete Sovarka arc + church stub + Tyvaren response stub",
+        "newestCommit": "3a9e578 feat: complete Sovarka arc + church stub + Tyvaren response stub",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [
+        "act2_week33_sovarka_survey",
+        "act3_week37_sovarka_outcome",
+        "act3_chain_sovarka_tyvaren_response"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act2_week33_sovarka_survey",
+        "act3_week37_sovarka_outcome",
+        "act3_chain_sovarka_tyvaren_response"
+      ],
+      "proposal": "SCHEDULE_AGENDA",
+      "evidence": "Commit 3a9e578 says \"Wire Sovarka arc into week schedule (weeks 29/33/37)\", but no agenda entry exists for weeks 29/33/37 (only agenda_w88_sovarka_europium references the arc). The approach chains to act2_week33_sovarka_survey at d4 (sovarka_full_end / quiet_end / defer_end), which matches the week-33 window. Week 37 outcome also depends on the survey.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": {
+        "file": "src/data/agenda/week29.json",
+        "json": {
+          "id": "agenda_w29_sovarka_approach",
+          "title": "The Schoolteacher's Republic",
+          "description": "He is already there. He is always already there. He is standing at the window looking at the palace gardens in the early light.",
+          "category": "meeting",
+          "sceneId": "act2_week29_sovarka_approach",
+          "slotCost": 1,
+          "executionOrder": 5,
+          "weekAvailable": 29,
+          "weekDeadline": 31
+        }
+      },
+      "notes": "Legacy-format scene (segments). Description taken from segment krel_discovery_brief."
+    },
+    {
+      "id": "act3_chain_assassination_attempt",
+      "file": "src/data/narrative/act3/act3_chain_assassination_attempt.json",
+      "title": "Blood on the Palace Steps",
+      "type": "emergency",
+      "weekAvailable": 1,
+      "weekDeadline": null,
+      "location": "Emergency Command Center — Ashenmere Palace, Sub-Level Three",
+      "characters": [
+        "irina_dusek",
+        "danika_oberlin",
+        "vyktor_reznik",
+        "oskar_brenner"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "assassination_survived",
+        "assassination_public_defiance",
+        "assassination_resolved",
+        "assassination_crackdown",
+        "assassination_international"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:assassination_diplomatic_response",
+          "to": "act3_diplomacy_arcturian_alliance",
+          "delayWeeks": 2
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_chain_church_opposition",
+          "wa": 1,
+          "wd": null,
+          "title": "The Pastoral Letter",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_chain_tyvaren_border_standoff",
+          "wa": 1,
+          "wd": null,
+          "title": "The Second Week",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_week1_bni_discovery",
+          "wa": 1,
+          "wd": null,
+          "title": "The Bureau's Shadow",
+          "why": "wk±1+chars(2)"
+        },
+        {
+          "id": "act1_week1_first_briefing",
+          "wa": 1,
+          "wd": 3,
+          "title": "The Full Picture",
+          "why": "wk±1+chars(3)"
+        }
+      ],
+      "downstreamClosure": [
+        "act3_diplomacy_arcturian_alliance",
+        "act3_diplomacy_morivask_border"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act3_diplomacy_arcturian_alliance",
+        "act3_diplomacy_morivask_border"
+      ],
+      "proposal": "SUPERSEDED",
+      "evidence": "AssassinationEngine.ts (lines ~112-118) picks the four act3_assassination_* variants. Each sets assassination_survived, as this orphan does. The engine-launched act3_week29_assassination_attempt (\"The Shot\") is agenda-scheduled. This orphan has no agenda entry and no inbound edges.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": "act3_assassination_default / act3_assassination_sniper / act3_assassination_bombing / act3_assassination_poisoning (AssassinationEngine) and act3_week29_assassination_attempt (agenda_w30_assassination_attempt)",
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": "Its one chain (assassination_diplomatic_response -> act3_diplomacy_arcturian_alliance, d2) is not reproduced by the engine variants; decide whether to keep it."
+    },
+    {
+      "id": "act3_chain_voss_military_use",
+      "file": "src/data/narrative/act3/act3_chain_voss_military_use.json",
+      "title": "What the Engine Did",
+      "type": "meeting",
+      "weekAvailable": 40,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "irina_dusek",
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "voss_military_use_disclosed",
+        "voss_military_use_hidden"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "dfa0972 feat: complete Voss Cipher arc + Hawk arc full wiring"
+        ],
+        "oldestCommit": "dfa0972 feat: complete Voss Cipher arc + Hawk arc full wiring",
+        "newestCommit": "dfa0972 feat: complete Voss Cipher arc + Hawk arc full wiring",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_family_liora_mikhael",
+          "wa": 3,
+          "wd": 10,
+          "title": "What They Did to Grandfather",
+          "why": "title~0.40"
+        },
+        {
+          "id": "act3_week40_border_ultimatum",
+          "wa": 40,
+          "wd": 40,
+          "title": "The Border Ultimatum",
+          "why": "wk±1+chars(2)"
+        }
+      ],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Added as a stub in dfa0972 with act3_chain_voss_betrayal_discovered and act3_chain_voss_international_pressure. No inbound edges. The betrayal sibling is wired from act2_week28_voss_crisis (line 586); this one has no source. No flag named voss_military_use exists in the data.",
+      "decision": "Which Voss choice (weeks 24/28/32 in the engine) should route to the military-use consequence.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act3_church_active_opposition_scene",
+      "file": "src/data/narrative/act3/act3_church_active_opposition_scene.json",
+      "title": "The Shepherd Acts",
+      "type": "crisis",
+      "weekAvailable": 38,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "vyktor_reznik",
+        "stanislov_renek"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "church_opposition_engaged",
+        "church_opposition_held"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "74cbfe4 fix: resolve BOM encoding on 46 JSON files + duplicate scene ID"
+        ],
+        "oldestCommit": "74cbfe4 fix: resolve BOM encoding on 46 JSON files + duplicate scene ID",
+        "newestCommit": "74cbfe4 fix: resolve BOM encoding on 46 JSON files + duplicate scene ID",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Started as stub act3_church_active_opposition (3a9e578), renamed to _scene in 74cbfe4 to fix an id clash. Never referenced. Window 38-null, one choice (\"What did he do?\"). Nearby church content (act3_jonas_renek_concerns 28-34, act3_religious_church_halvek_files 30-null) is separate.",
+      "decision": "Which trigger should bring the active-opposition beat, or retire the stub.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "act3_diplomacy_tyvaren_peace",
+      "file": "src/data/narrative/diplomacy/act3_diplomacy_tyvaren_peace.json",
+      "title": "The Marshal's Ultimatum",
+      "type": "diplomacy",
+      "weekAvailable": 32,
+      "weekDeadline": null,
+      "location": "Tyvaren Embassy — Ashenmere, Fortified Compound",
+      "characters": [
+        "dragan_vukov",
+        "oskar_brenner",
+        "vyktor_reznik"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 3,
+      "nestedChoiceLikeObjects": 3,
+      "flagsSet": [
+        "tyvaren_negotiation_attempted",
+        "counter_proposal",
+        "diplomatic_initiative",
+        "tyvaren_ultimatum_rejected",
+        "defiance_stance",
+        "war_path",
+        "tyvaren_stalled",
+        "diplomatic_delay",
+        "buying_time"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:tyvaren_peace_counter",
+          "to": "act4_week40_war_begins",
+          "delayWeeks": 8
+        },
+        {
+          "where": "choice:tyvaren_peace_refuse",
+          "to": "act4_week40_war_begins",
+          "delayWeeks": 8
+        },
+        {
+          "where": "choice:tyvaren_peace_stall",
+          "to": "act4_week40_war_begins",
+          "delayWeeks": 8
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act1_chain_tyvaren_propaganda_war",
+          "wa": 1,
+          "wd": null,
+          "title": "The Marshal's Language",
+          "why": "title~0.50"
+        },
+        {
+          "id": "act3_week32_tyvaren_ultimatum",
+          "wa": 32,
+          "wd": 34,
+          "title": "The Gravenmark Ultimatum",
+          "why": "wk±1+chars(2)"
+        }
+      ],
+      "downstreamClosure": [
+        "act4_week40_war_begins",
+        "act4_week42_war_strategy",
+        "act4_alliance_crisis",
+        "act4_dravenni_war_alliance",
+        "act4_week44_civilian_front",
+        "act4_week46_final_battle",
+        "act4_arcturian_intervention",
+        "act4_week48_war_outcome",
+        "act4_ceasefire_negotiation",
+        "act4_ceasefire_talks",
+        "act4_occupation_begins",
+        "act4_week48_collapse_endgame",
+        "act4_week40_exile",
+        "act4_week44_counter_coup",
+        "act4_underground_radio",
+        "act4_emergency_powers_invoked",
+        "act4_week47_new_order",
+        "act4_week41_reform_implementation",
+        "act4_week44_reform_backlash",
+        "act4_second_referendum",
+        "act4_reelection_campaign"
+      ],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "SUPERSEDED",
+      "evidence": "Same week-32 Vukov ultimatum beat. act3_week32_tyvaren_ultimatum (\"The Gravenmark Ultimatum\", window 32-34) is agenda-launched (agenda_w28/w29/w31/w32_tyvaren_*) and sets the same flag family (tyvaren_ultimatum_rejected, tyvaren_negotiation_track). This orphan has no inbound edges, no agenda entry.",
+      "decision": null,
+      "confidence": "medium",
+      "supersededBy": "act3_week32_tyvaren_ultimatum",
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": "Its three choices lead to act4_week40_war_begins, which six other scenes already reach, so no unique consequence is lost. The in-person embassy framing is unique."
+    },
+    {
+      "id": "act3_tyvaren_pressure",
+      "file": "src/data/narrative/act3/act3_tyvaren_pressure.json",
+      "title": "The Eastern Wind",
+      "type": "crisis",
+      "weekAvailable": 24,
+      "weekDeadline": null,
+      "location": "Chancellor's Office — Ashenmere Palace",
+      "characters": [
+        "vyktor_reznik",
+        "elara_vostane"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 9,
+      "flagsSet": [
+        "tyvaren_pressure_absorbed",
+        "tyvaren_pressure_diplomatic",
+        "tyvaren_pressure_public",
+        "act3_tyvaren_pressure_complete"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "5776a22 fix: manual save slot load no longer overridden by autosave",
+          "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree"
+        ],
+        "oldestCommit": "6a7f313 fix: resolve all 38 broken chainTrigger links across narrative tree",
+        "newestCommit": "5776a22 fix: manual save slot load no longer overridden by autosave",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "No agenda, no inbound edges. Content is complete (legacy segments): Tyvaren declines northern supply contracts (Valdenmoor Steel, Kravenstal Timber) and says \"the Morivask deal closed six weeks ago\". Flag act3_tyvaren_pressure_complete is set here and read nowhere.",
+      "decision": "Suggested window 24-26 (crisis, slotCost 0) if the Morivask deal lands about week 18. Confirm that before scheduling.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "family_referendum_night",
+      "file": "src/data/narrative/act2/family/family_referendum_night.json",
+      "title": "The Night the Numbers Came In",
+      "type": "personal",
+      "weekAvailable": 26,
+      "weekDeadline": 26,
+      "location": "The Private Quarters — Chancellor's Residence, Late",
+      "characters": [
+        "jonas_ashavel",
+        "liora_ashavel",
+        "tomas_ashavel"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 2,
+      "nestedChoiceLikeObjects": 5,
+      "flagsSet": [],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "e15334f fix(narrative): delete dead duplicates, wire mole confrontation + agencies conflict",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "e15334f fix(narrative): delete dead duplicates, wire mole confrontation + agencies conflict",
+        "removalsOrRewrites": [
+          {
+            "commit": "e15334f",
+            "removedLines": [
+              "/dev/null: -          \"targetNodeId\": \"family_referendum_night\",",
+              "/dev/null: -          \"targetNodeId\": \"family_referendum_night\",",
+              "/dev/null: -          \"targetNodeId\": \"family_referendum_night\","
+            ]
+          }
+        ]
+      },
+      "duplicateCandidates": [
+        {
+          "id": "act3_week37_coup_attempt",
+          "wa": 37,
+          "wd": 38,
+          "title": "The Night the Tanks Came",
+          "why": "title~0.50"
+        }
+      ],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "UNSURE",
+      "evidence": "Parent act2_week26_referendum (4 choices, each chainTrigger d0 to this scene) was deleted in e15334f as a dead duplicate. The surviving trio act2_week26_referendum_decisive / _narrow / _rejected has no link to this scene (checked all 10 choices). Flags referendum_patient / rally / prepared / prayer are now read by nothing. Window 26-26 is the same week as the trio.",
+      "decision": "Which trio choices should fire it (delay 0 injects mid-week), or retire it.",
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "news_inauguration_gazette",
+      "file": "src/data/narrative/act1/news_inauguration_gazette.json",
+      "title": "The Sevagrad Gazette",
+      "type": "news",
+      "weekAvailable": 1,
+      "weekDeadline": null,
+      "location": "Sevagrad Gazette — Editorial Office",
+      "characters": [],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 1,
+      "flagsSet": [
+        "read_gazette_inauguration"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style"
+        ],
+        "oldestCommit": "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style",
+        "newestCommit": "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "NOT_A_MEETING",
+      "evidence": "Full \"Sevagrad Gazette\" special-edition page (type news, one close choice, sets read_gazette_inauguration, which nothing reads). Nothing launches it. The in-game inauguration headlines come from weekStore.ts (addArticles around lines 1290-1340, ids news_inauguration_gazette_${Date.now()}), with separate body text, injected when act1_week1_inauguration completes.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "news_inauguration_herald",
+      "file": "src/data/narrative/act1/news_inauguration_herald.json",
+      "title": "The Ashenmere Herald",
+      "type": "news",
+      "weekAvailable": 1,
+      "weekDeadline": null,
+      "location": "Ashenmere Herald — Press Room",
+      "characters": [],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 1,
+      "flagsSet": [
+        "read_herald_inauguration"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style"
+        ],
+        "oldestCommit": "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style",
+        "newestCommit": "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "NOT_A_MEETING",
+      "evidence": "Same pattern: \"Ashenmere Herald\" special edition (read_herald_inauguration, unread). weekStore.ts injects a different headline/body for the herald on the same trigger.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "news_inauguration_worker",
+      "file": "src/data/narrative/act1/news_inauguration_worker.json",
+      "title": "The Kravenstal Worker",
+      "type": "news",
+      "weekAvailable": 1,
+      "weekDeadline": null,
+      "location": "Kravenstal Worker — Editorial Office",
+      "characters": [],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 1,
+      "nestedChoiceLikeObjects": 1,
+      "flagsSet": [
+        "read_worker_inauguration"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 1,
+        "introducedOrLastMentionedIn": [
+          "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style"
+        ],
+        "oldestCommit": "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style",
+        "newestCommit": "38bae2b feat: newspaper redesign - Philadelphia Inquirer 1963 style",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "NOT_A_MEETING",
+      "evidence": "Same pattern: \"Kravenstal Worker\" special edition (read_worker_inauguration, unread). weekStore.ts injects a separate worker article on the same trigger.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": null,
+      "notes": null
+    },
+    {
+      "id": "social_autumn_festival_wk18",
+      "file": "src/data/narrative/act2/social_autumn_festival_wk18.json",
+      "title": "The Ashenmere Autumn Festival",
+      "type": "social_event",
+      "weekAvailable": 18,
+      "weekDeadline": null,
+      "location": "Ashenmere Old Town Square",
+      "characters": [
+        "jonas_ashavel",
+        "stanislov_renek",
+        "soraya_khaled",
+        "lucan_vael",
+        "nadia_voss"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 0,
+      "nestedChoiceLikeObjects": 6,
+      "flagsSet": [
+        "festival_chancellor_spoke",
+        "festival_jonas_spoke",
+        "festival_served_with_renek",
+        "festival_skipped_church",
+        "festival_joined_march",
+        "festival_saluted_march"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "ad7aebe test(audit): Round 7 STEP 2 false-positive exclusion, recurring/social spine proofs",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "ad7aebe test(audit): Round 7 STEP 2 false-positive exclusion, recurring/social spine proofs",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "SCHEDULE_AGENDA",
+      "evidence": "Type social_event, window 18-null, no agenda or inbound edge. The only social agenda in the game is week01 (ball). Listed in SocialEvent.tsx EVENT_ATMOSPHERES. 9a27631 removed SocialEvent routing from GameLayout, so the renderer must be verified first. freeze.test.ts (ad7aebe) expects it to complete through socialInteractions.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": {
+        "file": "src/data/agenda/week18.json",
+        "json": {
+          "id": "agenda_w18_social_autumn_festival",
+          "title": "The Ashenmere Autumn Festival",
+          "description": "The Ashenmere Autumn Festival transforms the Old Town Square.",
+          "category": "social",
+          "sceneId": "social_autumn_festival_wk18",
+          "slotCost": 1,
+          "executionOrder": 5,
+          "weekAvailable": 18,
+          "weekDeadline": 20
+        }
+      },
+      "notes": "Confirm socialInteractions renders through ConversationPanel before scheduling."
+    },
+    {
+      "id": "social_independence_parade_wk36",
+      "file": "src/data/narrative/act3/social_independence_parade_wk36.json",
+      "title": "Independence Day Military Parade",
+      "type": "social_event",
+      "weekAvailable": 36,
+      "weekDeadline": null,
+      "location": "Avenue of the Republic, Ashenmere",
+      "characters": [
+        "oskar_brenner",
+        "irina_dusek",
+        "jonas_ashavel",
+        "liora_ashavel",
+        "tomas_ashavel"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 0,
+      "nestedChoiceLikeObjects": 13,
+      "flagsSet": [
+        "parade_military_theme",
+        "parade_democracy_theme",
+        "parade_unity_theme",
+        "parade_waved_to_crowd",
+        "parade_walked_among_citizens",
+        "parade_praised_officers",
+        "parade_asserted_authority",
+        "parade_stayed_on_stand",
+        "parade_evacuated",
+        "parade_family_talk",
+        "parade_family_deferred",
+        "parade_showed_strength",
+        "parade_showed_restraint"
+      ],
+      "chainsOut": [
+        {
+          "where": "choice:family_later",
+          "to": "act4_marriage_crisis",
+          "delayWeeks": 6
+        }
+      ],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "ad7aebe test(audit): Round 7 STEP 2 false-positive exclusion, recurring/social spine proofs",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "ad7aebe test(audit): Round 7 STEP 2 false-positive exclusion, recurring/social spine proofs",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [
+        "act4_marriage_crisis"
+      ],
+      "downstreamLikelyBugScenes": [
+        "act4_marriage_crisis"
+      ],
+      "proposal": "SCHEDULE_AGENDA",
+      "evidence": "Same as above: type social_event, window 36-null, no launch path, in freeze.test.ts. SocialEvent.tsx has an EVENT_ATMOSPHERES entry for it. Its family_later choice chains to act4_marriage_crisis (d6, unreachable). This is the only orphan that does chain out to another scene (the rest of the social chain is not reachable).",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": {
+        "file": "src/data/agenda/week36.json",
+        "json": {
+          "id": "agenda_w36_social_independence_parade",
+          "title": "Independence Day Military Parade",
+          "description": "The Avenue of the Republic stretches before you, lined with Veltrian flags snapping in a cold autumn wind.",
+          "category": "social",
+          "sceneId": "social_independence_parade_wk36",
+          "slotCost": 1,
+          "executionOrder": 5,
+          "weekAvailable": 36,
+          "weekDeadline": 38
+        }
+      },
+      "notes": "Same renderer check as above."
+    },
+    {
+      "id": "social_state_dinner_wk24",
+      "file": "src/data/narrative/act2/social_state_dinner_wk24.json",
+      "title": "The State Dinner",
+      "type": "social_event",
+      "weekAvailable": 24,
+      "weekDeadline": null,
+      "location": "Chancellery State Dining Room, Ashenmere",
+      "characters": [
+        "jonas_ashavel",
+        "elara_vostane",
+        "irina_dusek",
+        "harrison_cole",
+        "yevgeni_stahl"
+      ],
+      "prerequisites": [],
+      "prerequisiteFlags": null,
+      "prerequisiteSceneIds": null,
+      "topLevelChoices": 0,
+      "nestedChoiceLikeObjects": 5,
+      "flagsSet": [
+        "dinner_seated_cole_right",
+        "dinner_seated_stahl_right",
+        "dinner_seated_equal",
+        "dinner_toast_partnership",
+        "dinner_toast_sovereignty"
+      ],
+      "chainsOut": [],
+      "chainsIn": [],
+      "agendaReferences": [],
+      "history": {
+        "mentionCommits": 2,
+        "introducedOrLastMentionedIn": [
+          "ad7aebe test(audit): Round 7 STEP 2 false-positive exclusion, recurring/social spine proofs",
+          "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+        ],
+        "oldestCommit": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture",
+        "newestCommit": "ad7aebe test(audit): Round 7 STEP 2 false-positive exclusion, recurring/social spine proofs",
+        "removalsOrRewrites": []
+      },
+      "duplicateCandidates": [],
+      "downstreamClosure": [],
+      "downstreamLikelyBugScenes": [],
+      "proposal": "SCHEDULE_AGENDA",
+      "evidence": "Same as social_autumn_festival_wk18: type social_event, window 24-null, no launch path, in freeze.test.ts. Downstream: none.",
+      "decision": null,
+      "confidence": null,
+      "supersededBy": null,
+      "chainProposal": null,
+      "agendaProposal": {
+        "file": "src/data/agenda/week24.json",
+        "json": {
+          "id": "agenda_w24_social_state_dinner",
+          "title": "The State Dinner",
+          "description": "The State Dining Room has been transformed.",
+          "category": "social",
+          "sceneId": "social_state_dinner_wk24",
+          "slotCost": 1,
+          "executionOrder": 5,
+          "weekAvailable": 24,
+          "weekDeadline": 26
+        }
+      },
+      "notes": "Same renderer check as above."
+    }
+  ],
+  "misTargeted": [
+    {
+      "entry": "agenda_w7_cabinet_session",
+      "file": "src/data/agenda/week07.json",
+      "entryWindow": [
+        7,
+        10
+      ],
+      "entryTitle": "Cabinet Session — Border Response",
+      "entryDescription": "Full cabinet convenes to coordinate the government's unified response to the Tyvaren provocation. Brenner will present the military assessment.",
+      "currentSceneId": "act1_week1_first_briefing",
+      "currentSceneWindow": [
+        1,
+        3
+      ],
+      "currentSceneTitle": "The Full Picture",
+      "verdict": "NO_MATCH",
+      "evidence": "Entry describes a full-cabinet session with Brenner presenting the military assessment (window 7-10). No scene with cabinet content exists in window 7-10. Current target act1_week1_first_briefing (\"The Full Picture\", 1-3) is the week-1 briefing, moved to week 2 by 9a27631, with no Brenner content. Nearest: act1_brenner_defense_briefing (orphan, one-on-one honest military picture), which is not a cabinet session.",
+      "caveat": null,
+      "history": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+    },
+    {
+      "entry": "agenda_w13_cabinet_confidence",
+      "file": "src/data/agenda/week13.json",
+      "entryWindow": [
+        13,
+        15
+      ],
+      "entryTitle": "Cabinet Session — Government Continuity",
+      "entryDescription": "The cabinet needs to hear from you before the vote. Some of them are already getting calls from Kolvar's people about retaining their posts 'in the next government.'",
+      "currentSceneId": "act1_week4_first_month",
+      "currentSceneWindow": [
+        4,
+        6
+      ],
+      "currentSceneTitle": "The First Month",
+      "verdict": "NO_MATCH",
+      "evidence": "Entry describes ministers being courted before the vote. No scene covers that. Nearest act1_week13_no_confidence (\"The Vote\", 13-14) matches the vote, but it is already launched by agenda_w13_no_confidence (13-14), so retargeting would double-schedule it. Current target act1_week4_first_month (4-6) is out of window.",
+      "caveat": null,
+      "history": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+    },
+    {
+      "entry": "agenda_w23_refugee_update",
+      "file": "src/data/agenda/week23.json",
+      "entryWindow": [
+        23,
+        26
+      ],
+      "entryTitle": "Refugee Crisis — Winter Preparations",
+      "entryDescription": "Winter is three weeks away. The camps at Ondra need winterization. Interior says the budget covers tents, not heating. The first frost is forecast for next week.",
+      "currentSceneId": "act2_week19_refugee_flood",
+      "currentSceneWindow": [
+        19,
+        20
+      ],
+      "currentSceneTitle": "The Weight of Ten Thousand",
+      "verdict": "NO_MATCH",
+      "evidence": "Entry is about winterizing the Ondra camps before the first frost. No narrative contains a winter/frost camp scene. Current target act2_week19_refugee_flood (19-20) is the flood intake, already launched by agenda_w15_refugee_briefing, agenda_w18_refugee_update and agenda_w19_refugee_flood. act2_minority_refugee_health (17-null) is about cholera, not winter.",
+      "caveat": null,
+      "history": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+    },
+    {
+      "entry": "agenda_w27_arcturian_review",
+      "file": "src/data/agenda/week27.json",
+      "entryWindow": [
+        27,
+        32
+      ],
+      "entryTitle": "Foreign Policy — Arcturian Reassessment",
+      "entryDescription": "Ambassador Cole's office has been unusually quiet. Three meeting requests unanswered. The quarterly trade talks have been postponed without explanation. Someone in Stellamere is recalculating.",
+      "currentSceneId": "act2_week21_superpower_choice",
+      "currentSceneWindow": [
+        21,
+        24
+      ],
+      "currentSceneTitle": "Two Invitations",
+      "verdict": "RETARGET -> act3_arcturian_cooldown",
+      "evidence": "Title \"The Ambassador's Silence\" (window 27-null) matches the entry text: three meeting requests unanswered, quarterly trade talks postponed. Current target act2_week21_superpower_choice is the week-21 decision and is already scheduled by 5 entries.",
+      "caveat": "act3_arcturian_cooldown is already chain-reachable (act2_week21_visit_stellamere / stellamere_decline_politely, act3_arcturian_privatization_pressure / privatization_reject). Confirm the double route is acceptable.",
+      "history": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+    },
+    {
+      "entry": "agenda_w33_superpower_pressure",
+      "file": "src/data/agenda/week33.json",
+      "entryWindow": [
+        33,
+        38
+      ],
+      "entryTitle": "Superpower Response — Alliance Expectations",
+      "entryDescription": "Whichever power you aligned with is now calling in the investment. Arcturians want trade concessions. Orythians want basing rights. Both want an answer before the crisis resolves without them.",
+      "currentSceneId": "act2_week21_superpower_choice",
+      "currentSceneWindow": [
+        21,
+        24
+      ],
+      "currentSceneTitle": "Two Invitations",
+      "verdict": "RETARGET -> act3_superpower_pressure",
+      "evidence": "act3_superpower_pressure (\"The Superpowers Weigh In\", window 1-null) is the matching content: both superpowers' cables demanding a decision, with \"basing\" and \"trade concession\" options. The entry text is about trade concessions and basing rights. Current target act2_week21_superpower_choice cannot be offered in 33-38.",
+      "caveat": "Already chain-reachable from act3_week32_tyvaren_ultimatum (tyvaren_international_appeal d3). Confirm the double route is acceptable.",
+      "history": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+    },
+    {
+      "entry": "agenda_w38_liora_recovery",
+      "file": "src/data/agenda/week38.json",
+      "entryWindow": [
+        38,
+        42
+      ],
+      "entryTitle": "Liora — After Everything",
+      "entryDescription": "Liora came home after the coup attempt. She didn't say anything about the protest, the arrest, the photograph. She just sat at the kitchen table and waited for you to notice she was there.",
+      "currentSceneId": "act3_liora_reconciliation",
+      "currentSceneWindow": [
+        27,
+        32
+      ],
+      "currentSceneTitle": "The Walk Home",
+      "verdict": "NO_MATCH",
+      "evidence": "Entry is the homecoming after the coup attempt (coup is act3_week37_coup_attempt, 37-38). Nearest act3_liora_reconciliation \"The Walk Home\" (27-32) is the precinct pickup after a protest arrest. It is pre-coup, has no coup content, and is chain-reachable from act2_week23_family_crisis_liora (liora_go_personally). Its window does not cover 38-42.",
+      "caveat": null,
+      "history": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+    },
+    {
+      "entry": "agenda_w51_new_order",
+      "file": "src/data/agenda/week51.json",
+      "entryWindow": [
+        51,
+        52
+      ],
+      "entryTitle": "New Order — Final Assessment",
+      "entryDescription": "The reform framework is largely in place. The remaining provisions will be implemented by whoever holds this office next. The question is whether that's you — and whether what you've built will survive the transition regardless.",
+      "currentSceneId": "act4_week47_new_order",
+      "currentSceneWindow": [
+        47,
+        49
+      ],
+      "currentSceneTitle": "The New Veltria",
+      "verdict": "NO_MATCH (duplicate)",
+      "evidence": "Content of act4_week47_new_order (\"The New Veltria\": final reform bill passes; choice \"make sure they survive the next government\") is already scheduled by agenda_w47_new_order (47-49). The scene window 47-49 cannot cover 51-52. No other scene covers a post-passage transition in 51-52. The entry duplicates agenda_w47_new_order.",
+      "caveat": null,
+      "history": "da7bb9a feat: map system, reaction system, cliffhangers, diary engine, investigation thread, pannable map, screen architecture"
+    }
+  ]
+}

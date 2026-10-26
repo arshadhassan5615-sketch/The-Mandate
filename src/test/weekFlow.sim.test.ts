@@ -272,9 +272,9 @@ describe('Fix 2b — chains defer to the target week; late chains still play', (
   it('(2b2) an overdue chain still plays at the next tick and is logged', () => {
     resetWorld()
     bootWeek(10)
-    // act1_week1_inauguration opened at week 1; due since week 5.
+    // act1_chain_capital_strike opens at week 1 and has no weekDeadline; due since week 5.
     useChainStore.getState().schedule(
-      [{ targetNodeId: 'act1_week1_inauguration', delayWeeks: 0 }],
+      [{ targetNodeId: 'act1_chain_capital_strike', delayWeeks: 0 }],
       5,
       'sim_late',
     )
@@ -282,9 +282,9 @@ describe('Fix 2b — chains defer to the target week; late chains still play', (
     try {
       const s = chainState(10)
       const fired = useChainStore.getState().process(s.week, s.game, s.flags)
-      expect(fired).toContain('act1_week1_inauguration')
+      expect(fired).toContain('act1_chain_capital_strike')
       expect(
-        spy.mock.calls.some(args => String(args[0]).includes('act1_week1_inauguration')),
+        spy.mock.calls.some(args => String(args[0]).includes('act1_chain_capital_strike')),
       ).toBe(true)
     } finally {
       spy.mockRestore()

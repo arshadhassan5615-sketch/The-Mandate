@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, type CSSProperties, type ReactNode } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { useWeekStore } from '../stores/weekStore'
 import { getRadioResult, MAX_BROADCASTS, type RadioTheme } from '../engine/RadioEngine'
 import { Z } from '../constants/zIndex'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 const THEME_OPTIONS: { value: RadioTheme; label: string; desc: string }[] = [
   { value: 'unity_calm', label: 'Unity & Calm', desc: '+10 public order, +5 public image. Best during crises.' },
@@ -12,11 +13,40 @@ const THEME_OPTIONS: { value: RadioTheme; label: string; desc: string }[] = [
   { value: 'personal_appeal', label: 'Personal Appeal', desc: '+10 public image, +5 marriage. Best when image is low.' },
 ]
 
+interface RadioCardProps {
+  isCompact: boolean
+  style: CSSProperties
+  children: ReactNode
+  footer: ReactNode
+}
+
+// Desktop keeps the card as it was. Compact (phone / short landscape) pins the
+// actions in a footer that never scrolls, and only the body above it scrolls.
+function RadioCard({ isCompact, style, children, footer }: RadioCardProps) {
+  if (!isCompact) {
+    return <div style={style}>{children}{footer}</div>
+  }
+  return (
+    <div style={{ ...style, height: '100%', minHeight: 0, boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
+      <div data-testid="radio-body" style={{ flex: '1 1 auto', minHeight: 0, overflowY: 'auto' }}>
+        {children}
+      </div>
+      {footer && (
+        <div data-testid="radio-footer" style={{ flexShrink: 0, paddingTop: '0.6rem' }}>
+          {footer}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function RadioAddressView({ onClose }: { onClose: () => void }) {
   const { factions, radioBroadcastsUsed } = useGameStore()
   const { applyModifiers } = useGameStore()
   const phase = useWeekStore(s => s.phase)
   const advanceQueue = useWeekStore(s => s.advanceQueue)
+  const insets = usePageInsets()
+  const isCompact = insets.mode !== 'desktop'
 
   const remaining = MAX_BROADCASTS - radioBroadcastsUsed
   const [step, setStep] = useState<'select' | 'preview' | 'broadcasting' | 'done'>('select')
@@ -30,7 +60,6 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     if (step === 'broadcasting') {
-      setTypingIndex(0)
       let i = 0
       intervalRef.current = window.setInterval(() => {
         i++
@@ -44,6 +73,7 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
   }, [step, fullSpeech.length])
 
   const handleTransmit = () => {
+    setTypingIndex(0)
     setStep('broadcasting')
     useGameStore.getState().useRadioBroadcast(theme)
     if (result.modifiers.length > 0) {
@@ -57,6 +87,10 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
       setTimeout(() => advanceQueue(), 100)
     }
   }
+
+  // Compact footer buttons get finger-sized targets; desktop buttons are unchanged.
+  const actionStyle = (base: CSSProperties): CSSProperties =>
+    isCompact ? { ...base, minHeight: '44px', padding: '0.5rem 1rem' } : base
 
   if (remaining <= 0 && step === 'select') {
     return (
@@ -73,11 +107,20 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div onClick={step === 'done' ? dismissRadio : undefined} className="anim-fade-in" style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <div onClick={e => e.stopPropagation()} className="anim-pop-in" style={{ width: '100%', maxWidth: '680px', maxHeight: '92vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    <div onClick={step === 'done' ? dismissRadio : undefined} className="anim-fade-in" style={{ position: 'fixed', inset: 0, zIndex: Z.overlay, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: isCompact ? '8px' : '2rem' }}>
+      <div onClick={e => e.stopPropagation()} className="anim-pop-in" style={{ width: '100%', maxWidth: '680px', maxHeight: isCompact ? '100%' : '92vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', ...(isCompact ? { height: '100%' } : {}) }}>
 
         {step === 'select' && (
-          <div style={{ background: '#1a1815', border: '1px solid var(--border)', padding: '1.2rem' }}>
+          <RadioCard
+            isCompact={isCompact}
+            style={{ background: '#1a1815', border: '1px solid var(--border)', padding: '1.2rem' }}
+            footer={(
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button onClick={dismissRadio} style={actionStyle({ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1rem', cursor: 'pointer' })}>Cancel</button>
+                <button onClick={() => setStep('preview')} style={actionStyle({ background: 'var(--amber)', border: 'none', color: 'var(--ink)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1.2rem', cursor: 'pointer', fontWeight: 'bold', letterSpacing: '0.08em' })}>PREVIEW SPEECH</button>
+              </div>
+            )}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem' }}>
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--accent-red)', boxShadow: '0 0 8px var(--accent-red)' }} />
               <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', color: 'var(--accent-red)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>LIVE BROADCAST — VNN Radio</span>
@@ -109,16 +152,20 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
                 </label>
               ))}
             </div>
-
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button onClick={dismissRadio} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1rem', cursor: 'pointer' }}>Cancel</button>
-              <button onClick={() => setStep('preview')} style={{ background: 'var(--amber)', border: 'none', color: 'var(--ink)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1.2rem', cursor: 'pointer', fontWeight: 'bold', letterSpacing: '0.08em' }}>PREVIEW SPEECH</button>
-            </div>
-          </div>
+          </RadioCard>
         )}
 
         {step === 'preview' && (
-          <div style={{ background: '#1a1815', border: '1px solid var(--border)', padding: '1.2rem', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <RadioCard
+            isCompact={isCompact}
+            style={{ background: '#1a1815', border: '1px solid var(--border)', padding: '1.2rem', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+            footer={(
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: isCompact ? 0 : '0.8rem' }}>
+                <button onClick={() => setStep('select')} style={actionStyle({ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1rem', cursor: 'pointer' })}>← Change Theme</button>
+                <button onClick={handleTransmit} style={actionStyle({ background: 'var(--accent-red)', border: 'none', color: 'var(--cream)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1.2rem', cursor: 'pointer', fontWeight: 'bold', letterSpacing: '0.12em' })}>TRANSMIT LIVE</button>
+              </div>
+            )}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.6rem' }}>
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--accent-red)' }} />
               <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.5rem', color: 'var(--accent-red)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>SPEECH MANUSCRIPT — VNN Radio</span>
@@ -129,15 +176,22 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
             <div style={{ overflowY: 'auto', flex: 1, background: '#f5f0e8', padding: '1.5rem 2rem', fontFamily: "'Crimson Text', Georgia, serif", fontSize: '0.95rem', color: '#3a2510', lineHeight: 1.7, whiteSpace: 'pre-wrap', fontStyle: 'italic', borderRadius: '1px', scrollbarWidth: 'thin', maxHeight: '50vh' }}>
               {fullSpeech}
             </div>
-            <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.8rem' }}>
-              <button onClick={() => setStep('select')} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1rem', cursor: 'pointer' }}>← Change Theme</button>
-              <button onClick={handleTransmit} style={{ background: 'var(--accent-red)', border: 'none', color: 'var(--cream)', fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.3rem 1.2rem', cursor: 'pointer', fontWeight: 'bold', letterSpacing: '0.12em' }}>TRANSMIT LIVE</button>
-            </div>
-          </div>
+          </RadioCard>
         )}
 
         {step === 'broadcasting' && (
-          <div style={{ background: '#1a1815', border: '1px solid var(--accent-red)', padding: '1.2rem', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <RadioCard
+            isCompact={isCompact}
+            style={{ background: '#1a1815', border: '1px solid var(--accent-red)', padding: '1.2rem', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+            footer={typingIndex >= fullSpeech.length ? (
+              <button onClick={() => setStep('done')} style={actionStyle({
+                marginTop: '1rem', alignSelf: 'center', background: 'var(--accent-red)', border: 'none', color: 'var(--cream)',
+                fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.4rem 1.5rem', cursor: 'pointer', letterSpacing: '0.12em',
+              })}>
+                END TRANSMISSION
+              </button>
+            ) : null}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'var(--accent-red)', animation: 'stat-pulse 1s infinite' }} />
               <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', color: 'var(--accent-red)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>LIVE — TRANSMITTING — VNN NATIONAL NETWORK</span>
@@ -164,20 +218,22 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
               ))}
               <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.4rem', color: 'var(--muted)', letterSpacing: '0.1em', marginLeft: '0.5rem' }}>AUDIO LEVELS</span>
             </div>
-
-            {typingIndex >= fullSpeech.length && (
-              <button onClick={() => setStep('done')} style={{
-                marginTop: '1rem', alignSelf: 'center', background: 'var(--accent-red)', border: 'none', color: 'var(--cream)',
-                fontFamily: "'Special Elite', monospace", fontSize: '0.55rem', padding: '0.4rem 1.5rem', cursor: 'pointer', letterSpacing: '0.12em',
-              }}>
-                END TRANSMISSION
-              </button>
-            )}
-          </div>
+          </RadioCard>
         )}
 
         {step === 'done' && (
-          <div style={{ background: '#1a1815', border: '1px solid var(--border)', padding: '1.2rem' }}>
+          <RadioCard
+            isCompact={isCompact}
+            style={{ background: '#1a1815', border: '1px solid var(--border)', padding: '1.2rem' }}
+            footer={(
+              <button onClick={dismissRadio} style={actionStyle({
+                width: '100%', background: 'var(--amber)', border: 'none', color: 'var(--ink)',
+                fontFamily: "'Special Elite', monospace", fontSize: '0.6rem', padding: '0.5rem', cursor: 'pointer', letterSpacing: '0.1em', fontWeight: 'bold',
+              })}>
+                {phase === 'scene' ? 'CONTINUE TO AGENDA →' : 'CLOSE'}
+              </button>
+            )}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem' }}>
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--muted)' }} />
               <span style={{ fontFamily: "'Special Elite', monospace", fontSize: '0.5rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>TRANSMISSION ENDED — VNN Radio</span>
@@ -201,14 +257,7 @@ export default function RadioAddressView({ onClose }: { onClose: () => void }) {
                 ))}
               </div>
             )}
-
-            <button onClick={dismissRadio} style={{
-              width: '100%', background: 'var(--amber)', border: 'none', color: 'var(--ink)',
-              fontFamily: "'Special Elite', monospace", fontSize: '0.6rem', padding: '0.5rem', cursor: 'pointer', letterSpacing: '0.1em', fontWeight: 'bold',
-            }}>
-              {phase === 'scene' ? 'CONTINUE TO AGENDA →' : 'CLOSE'}
-            </button>
-          </div>
+          </RadioCard>
         )}
       </div>
     </div>

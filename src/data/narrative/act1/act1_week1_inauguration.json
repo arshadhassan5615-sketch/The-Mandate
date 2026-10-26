@@ -63,7 +63,7 @@
       "text": "The reform mandate. Name the problems. Let them know what's coming.",
       "internalTag": "reformist",
       "stateChanges": [],
-      "chainTriggers": [],
+      "chainTriggers": [{ "targetNodeId": "act1_chain_kolvar_opposition", "delayWeeks": 3 }],
       "flags": [
         "inaugural_reformist"
       ],
@@ -76,7 +76,10 @@
       "text": "My speech. The one I wrote at 2am.",
       "internalTag": "personal",
       "stateChanges": [],
-      "chainTriggers": [],
+      "chainTriggers": [
+        { "targetNodeId": "act1_chain_kolvar_opposition", "delayWeeks": 2 },
+        { "targetNodeId": "act1_chain_vael_pressure", "delayWeeks": 5 }
+      ],
       "flags": [
         "inaugural_radical"
       ],

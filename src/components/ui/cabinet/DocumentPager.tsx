@@ -54,7 +54,7 @@ export function DocumentPager({ index, total, noun, onPrevious, onNext }: Docume
     <div data-testid="document-pager" style={PAGER_STYLE}>
       <button
         type="button"
-        className="cabinet-close"
+        className="cabinet-close touch-target"
         aria-label={`Previous ${singular}`}
         disabled={isAtStart}
         onClick={onPrevious}
@@ -65,7 +65,7 @@ export function DocumentPager({ index, total, noun, onPrevious, onNext }: Docume
       <span aria-live="polite" style={LABEL_STYLE}>{label}</span>
       <button
         type="button"
-        className="cabinet-close"
+        className="cabinet-close touch-target"
         aria-label={`Next ${singular}`}
         disabled={isAtEnd}
         onClick={onNext}

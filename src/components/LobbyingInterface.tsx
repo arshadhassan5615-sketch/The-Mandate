@@ -1,8 +1,8 @@
 import { useState, useMemo, createElement } from 'react'
 import { useGameStore } from '../stores/gameStore'
-import { useWeekStore } from '../stores/weekStore'
-import { useNarrativeStore } from '../stores/narrativeStore'
+import { useWeekStore, recordVoteResult } from '../stores/weekStore'
 import { calculateProjection, applySpending } from '../engine/VoteEngine'
+import { resolveVote, applyVoteOutcome } from '../engine/voteOutcome'
 import { SPEND_OPTIONS } from '../types/vote'
 import type { SpendLevel } from '../types/vote'
 import VoteTracker from './VoteTracker'
@@ -39,6 +39,8 @@ function VyktorPortrait() {
 export default function LobbyingInterface() {
   // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
   const insets = usePageInsets()
+  // Phones and short landscape screens get a fitted column: header, scrolling body, fixed commit footer.
+  const isDense = insets.mode !== 'desktop'
   const cols = insets.isPhone
     ? { ...columnsStyle, gridTemplateColumns: '1fr' }
     : insets.isCompact
@@ -47,7 +49,6 @@ export default function LobbyingInterface() {
   const factions = useGameStore(s => s.factions)
   const personalWealth = useGameStore(s => s.personal.personalWealth)
   const voteConfig = useWeekStore(s => s.voteConfig)
-  const { addFlags } = useNarrativeStore.getState()
   const set = useWeekStore.setState
 
   const threshold = voteConfig?.threshold ?? 126
@@ -79,61 +80,52 @@ export default function LobbyingInterface() {
     if (committed) return
     setCommitted(true)
 
-    const state = useGameStore.getState()
-    const flags: string[] = []
+    // Commit the spend the player just saw (spendResult), not a fresh roll.
+    const outcome = resolveVote(voteConfig, selectedSpend, useGameStore.getState(), spendResult)
+    applyVoteOutcome(outcome)
+    recordVoteResult(voteConfig, outcome.voteResult)
 
-    // Deduct wealth
-    if (selectedSpend > 0) {
-      state.applyModifiers([
-        { stat: 'personal.personalWealth', operation: 'add', value: -selectedSpend },
-        { stat: 'voteSpendingTotal', operation: 'add', value: selectedSpend },
-      ])
-    }
+    set({ phase: 'vote_result', voteResult: outcome.voteResult })
+  }
 
-    // Set corruption flags
-    if (spendResult.corruptionFlags.length > 0) {
-      flags.push(...spendResult.corruptionFlags)
-      addFlags(spendResult.corruptionFlags)
-    }
-
-    // Apply outcome flags from voteConfig
-    if (voteConfig) {
-      if (finalProjection.willPass) {
-        flags.push(...voteConfig.successFlags)
-        addFlags(voteConfig.successFlags)
-      } else {
-        flags.push(...voteConfig.failureFlags)
-        addFlags(voteConfig.failureFlags)
+  const commitButton = (
+    <button
+      onClick={handleCommit}
+      disabled={committed}
+      style={{
+        ...commitBtnStyle,
+        ...(isDense ? denseCommitBtnStyle : {}),
+        opacity: committed ? 0.5 : 1,
+        cursor: committed ? 'default' : 'pointer',
+      }}
+    >
+      {committed ? 'LOBBYING COMMITTED...' : selectedSpend === 0
+        ? 'PROCEED WITHOUT SPENDING'
+        : `COMMIT ${selectedSpend.toLocaleString()} ₭ TO LOBBYING`
       }
-    }
+    </button>
+  )
 
-    // Store assembly vote margin
-    state.applyModifiers([
-      { stat: 'nation.assemblyVoteMargin', operation: 'set', value: Math.abs(finalProjection.margin) },
-    ])
-
-    // Store result and advance to vote_result phase
-    set({
-      phase: 'vote_result',
-      voteResult: {
-        projection: baseProjection,
-        spendLevel: selectedSpend,
-        finalYesSeats: finalProjection.yesSeats,
-        finalNoSeats: finalProjection.noSeats,
-        finalUndecidedSeats: finalProjection.undecidedSeats,
-        passed: finalProjection.willPass,
-        margin: finalProjection.margin,
-        corruptionFlagSet: spendResult.corruptionFlags.length > 0,
-        personalWealthSpent: selectedSpend,
-      },
-    })
+  const denseOverlay: React.CSSProperties = {
+    position: 'fixed',
+    inset: 0,
+    zIndex: 50,
+    backgroundColor: 'rgba(12,10,8,0.94)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxSizing: 'border-box',
+    paddingTop: insets.top + DENSE_EDGE,
+    paddingRight: insets.right + DENSE_EDGE,
+    paddingBottom: insets.bottom + DENSE_EDGE,
+    paddingLeft: insets.left + DENSE_EDGE,
   }
 
   return (
-    <div style={insets.isPhone ? { ...overlayStyle, padding: '12px', paddingRight: '12px', paddingTop: insets.top, paddingBottom: insets.bottom + 12 } : { ...overlayStyle, paddingLeft: insets.left, paddingRight: insets.right, paddingTop: insets.top }}>
-      <div style={insets.isPhone ? { ...panelStyle, padding: '1rem', maxHeight: '100%' } : panelStyle}>
+    <div style={isDense ? denseOverlay : { ...overlayStyle, paddingLeft: insets.left, paddingRight: insets.right, paddingTop: insets.top }}>
+      <div style={isDense ? densePanelStyle : panelStyle}>
         {/* Header */}
-        <div style={headerStyle}>
+        <div style={isDense ? denseHeaderStyle : headerStyle}>
           <span style={{ ...mono, fontSize: '0.6rem', letterSpacing: '0.28em', color: 'var(--amber-dim)', textTransform: 'uppercase' }}>
             ▸ ASSEMBLY WHIP COUNT
           </span>
@@ -142,7 +134,7 @@ export default function LobbyingInterface() {
           </span>
         </div>
 
-        <div style={cols}>
+        <div data-testid="lobbying-body" style={isDense ? { ...cols, ...denseBodyStyle } : cols}>
           {/* LEFT — Vyktor's assessment + VoteTracker */}
           <div style={leftColStyle}>
             {/* Vyktor portrait + quote */}
@@ -226,6 +218,7 @@ export default function LobbyingInterface() {
                     disabled={!canAfford || committed}
                     style={{
                       ...spendCardStyle,
+                      ...(isDense ? denseSpendChipStyle : {}),
                       borderColor: isSelected ? 'var(--amber-dim)' : 'var(--border)',
                       backgroundColor: isSelected ? 'rgba(200,144,42,0.08)' : 'rgba(255,255,255,0.02)',
                       opacity: canAfford ? 1 : 0.35,
@@ -263,21 +256,8 @@ export default function LobbyingInterface() {
               })}
             </div>
 
-            {/* Commit button */}
-            <button
-              onClick={handleCommit}
-              disabled={committed}
-              style={{
-                ...commitBtnStyle,
-                opacity: committed ? 0.5 : 1,
-                cursor: committed ? 'default' : 'pointer',
-              }}
-            >
-              {committed ? 'LOBBYING COMMITTED...' : selectedSpend === 0
-                ? 'PROCEED WITHOUT SPENDING'
-                : `COMMIT ${selectedSpend.toLocaleString()} ₭ TO LOBBYING`
-              }
-            </button>
+            {/* Commit button (dense layouts render it in the footer instead) */}
+            {!isDense && commitButton}
           </div>
 
           {/* RIGHT — Faction breakdown */}
@@ -341,6 +321,11 @@ export default function LobbyingInterface() {
             </div>
           </div>
         </div>
+        {isDense && (
+          <div data-testid="lobbying-footer" style={denseFooterStyle}>
+            {commitButton}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -434,4 +419,54 @@ const commitBtnStyle: React.CSSProperties = {
 
 const factionRowStyle: React.CSSProperties = {}
 
+/** Gap between the dense screen edge and the HUD insets. */
+const DENSE_EDGE = 8
 
+// Dense (phone / short landscape): the panel fills the insets and is a flex column.
+const densePanelStyle: React.CSSProperties = {
+  ...panelStyle,
+  boxSizing: 'border-box',
+  height: '100%',
+  maxHeight: '100%',
+  padding: '10px 14px 0',
+  display: 'flex',
+  flexDirection: 'column',
+  overflowY: 'hidden',
+}
+
+const denseHeaderStyle: React.CSSProperties = {
+  ...headerStyle,
+  flexShrink: 0,
+  marginBottom: 8,
+  paddingBottom: 6,
+}
+
+const denseBodyStyle: React.CSSProperties = {
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
+  overflowX: 'hidden',
+  paddingBottom: 4,
+}
+
+const denseFooterStyle: React.CSSProperties = {
+  flexShrink: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '8px 0 10px',
+  borderTop: '1px solid var(--border)',
+}
+
+const denseCommitBtnStyle: React.CSSProperties = {
+  width: 'min(360px, 100%)',
+  minHeight: 44,
+  marginTop: 0,
+  padding: '0 1.5rem',
+  boxSizing: 'border-box',
+}
+
+const denseSpendChipStyle: React.CSSProperties = {
+  minHeight: 40,
+  padding: '0.5rem 0.75rem',
+  boxSizing: 'border-box',
+}

@@ -1,0 +1,3550 @@
+{
+  "rules": "Declared windows (static, from src/data/agenda/*.json and scene JSON):\n- Agenda entry start = weekAvailable. The engine (weekStore buildPool) reads only weekAvailable.\n  The audit falls back to the file week (weekNN in the file name) only when weekAvailable is absent; all current entries have it.\n- Agenda entry end = weekDeadline. When there is no deadline, the engine applies none: the item is offered every week from its start until its scene is visited (or the game ends). The audit uses week 103 as the horizon and never reports LATE for open-ended entries.\n- Scene window = scene JSON weekAvailable (default 1) and weekDeadline. Effective window = latest start, earliest deadline of agenda and scene windows.\n- Code-injected items (ids outside the JSON bank, e.g. week-specific story scenes, petitions, press conferences, campaign rallies, radio, __budget__) use their own code-set weekAvailable/weekDeadline.\n\ninitWeek / buildPool rules (src/stores/weekStore.ts) used to decide what is offered:\n1. Candidate pool = every entry in every agenda JSON file, plus the code-injected items listed in initWeek.\n2. Week gate: dropped when weekAvailable > currentWeek, or when weekDeadline is set and currentWeek > weekDeadline.\n3. Prerequisites: each entry prerequisites[] must all pass evaluateAll(conditions, gameState, activeFlags).\n4. Scene gate (non-__ scenes only): scene.prerequisiteSceneIds must all be visited, and scene.prerequisiteFlags must all be active. Scene weekAvailable/weekDeadline are NOT checked here.\n5. Chain injection: forcedChainIds (set by completeWeek on the tick) become __chain__<sceneId> items with weekAvailable = current week. Deduped by sceneId, skipped if already visited or the scene is missing. Skipped when the pool already holds an item with the same sceneId. Confidence-vote and impeachment companions are queued by confirmAgenda, not the pool.\n6. Mid-week rebuild (advanceQueue) re-runs step 2-4 on the JSON bank and carries forward code-injected items that are not yet done. Chain items are not re-injected mid-week.\n7. Pool is sorted by executionOrder. No cap or exclusivity applies in the pool: the slot budget (SLOT_MAX) only limits what the player selects in confirmAgenda, and the harness plays every offered item.\n8. Done = completedItemIds includes the item id, or (non-recurring) visitedSceneIds includes the sceneId. Recurring entries are done per week only. Entries that share a sceneId are done together.\n\nChain scheduling and delivery:\n- Scheduled by chainStore.schedule: choice commits (narrativeStore.processChoice), the assassination trigger in completeWeek (delay 0), and week-start dinner/briefing chains (scheduleWeekStartChains, which skipWeekOpening calls; the audit calls it at each week start, the harness does not).\n- Fired by chainStore.process(newWeek) inside completeWeek: fires when fireWeek <= week; deferred while the target scene weekAvailable is later; dropped when conditions fail or the probability roll fails; overdue fires capped at MAX_OVERDUE_CHAINS_PER_WEEK (2) per tick.\n- Expected delivery week = the fire week (the next initWeek shows the fired chain).\n\n- CHAIN_DEFERRED: delivered after the fire week only because the target scene opens later (chainStore keeps it queued). DROPPED_CHAIN (informational): a scheduled chain left the queue unfired; reason is conditions (re-evaluated after the tick) or a failed probability roll.\n\nHarness limits: no-choice profiles play every offered item in pool order and pick no choices, so choice-driven chains and choice flags never occur for them. Choice profiles (*-chooser, seeded-random) play each narrative scene through processChoice with a deterministic picker (src/test/choicePlayer.ts), so choice flags and choice-driven chains do occur. Their picks are a policy, not a real player. Choice profiles also seed Math.random (chain probability rolls). CHAIN_* results describe only the chains each walk produces.\n\nVirtual phase items (src/test/simHarness.ts resolveVirtual) call the same code the phase screen calls:\n- __vote__: LobbyingInterface.handleCommit logic (calculateProjection + applySpending from live faction support, spend 0 by default, outcome flags from voteConfig, assemblyVoteMargin). Items with lobbyingEnabled false are tallied the same way, although the real screen does not tally them (see the Votes section).\n- __constitution__: ConstitutionalReform.handleFinalize with the first variant of each provision (default provisions).\n- __budget__ and __radio__: their commit actions. __cabinet_reshuffle__ is not reshuffled (its commit needs a candidate).\n- __project__*: real scene JSON, played and marked visited like narrative scenes.\n- Parliament sittings are not agenda items. They are raised from the press phase (weekStore.endPress), which the harness does not enter, so they are not audited.",
+  "profiles": [
+    {
+      "name": "untouched (no flags)",
+      "usesChoices": false,
+      "weeksWalked": 103,
+      "reachedEpilogue": true,
+      "itemsPlayed": 775,
+      "choicesMade": 0,
+      "chainsScheduled": 20,
+      "chainsFired": 20,
+      "chainsDropped": 0,
+      "notes": [
+        "chain targets scheduled: 2; delivered: 2; dropped unfired: 0",
+        "agenda declarations eligible in their window at some week: 307",
+        "votes resolved: 3 (passed 1, failed 2)",
+        "other virtual items resolved: 498",
+        "referendum and aftermath items offered: agenda_w25_referendum_eve (weeks 25); agenda_w25_referendum_lobbying (weeks 25); agenda_w24_referendum_prep (weeks 25); agenda_w26_referendum_vote_result (weeks 26); agenda_w26_referendum_rejected (weeks 26); agenda_w26_family_referendum_night (weeks 26); agenda_w27_aftermath_rejected (weeks 27)"
+      ]
+    },
+    {
+      "name": "reformist",
+      "usesChoices": false,
+      "weeksWalked": 103,
+      "reachedEpilogue": true,
+      "itemsPlayed": 777,
+      "choicesMade": 0,
+      "chainsScheduled": 20,
+      "chainsFired": 20,
+      "chainsDropped": 0,
+      "notes": [
+        "chain targets scheduled: 2; delivered: 2; dropped unfired: 0",
+        "agenda declarations eligible in their window at some week: 311",
+        "votes resolved: 3 (passed 1, failed 2)",
+        "other virtual items resolved: 498",
+        "referendum and aftermath items offered: agenda_w25_referendum_eve (weeks 25); agenda_w25_referendum_lobbying (weeks 25); agenda_w24_referendum_prep (weeks 25); agenda_w26_referendum_vote_result (weeks 26); agenda_w26_referendum_rejected (weeks 26); agenda_w26_family_referendum_night (weeks 26); agenda_w27_aftermath_decisive (weeks 27)"
+      ]
+    },
+    {
+      "name": "hardliner",
+      "usesChoices": false,
+      "weeksWalked": 103,
+      "reachedEpilogue": true,
+      "itemsPlayed": 776,
+      "choicesMade": 0,
+      "chainsScheduled": 20,
+      "chainsFired": 20,
+      "chainsDropped": 0,
+      "notes": [
+        "chain targets scheduled: 2; delivered: 2; dropped unfired: 0",
+        "agenda declarations eligible in their window at some week: 308",
+        "votes resolved: 3 (passed 1, failed 2)",
+        "other virtual items resolved: 498",
+        "referendum and aftermath items offered: agenda_w25_referendum_eve (weeks 25); agenda_w25_referendum_lobbying (weeks 25); agenda_w24_referendum_prep (weeks 25); agenda_w26_referendum_vote_result (weeks 26); agenda_w26_referendum_rejected (weeks 26); agenda_w26_family_referendum_night (weeks 26); agenda_w27_aftermath_rejected (weeks 27)"
+      ]
+    },
+    {
+      "name": "exile branch",
+      "usesChoices": false,
+      "weeksWalked": 103,
+      "reachedEpilogue": true,
+      "itemsPlayed": 774,
+      "choicesMade": 0,
+      "chainsScheduled": 20,
+      "chainsFired": 20,
+      "chainsDropped": 0,
+      "notes": [
+        "chain targets scheduled: 2; delivered: 2; dropped unfired: 0",
+        "agenda declarations eligible in their window at some week: 307",
+        "votes resolved: 3 (passed 1, failed 2)",
+        "other virtual items resolved: 498",
+        "referendum and aftermath items offered: agenda_w25_referendum_eve (weeks 25); agenda_w25_referendum_lobbying (weeks 25); agenda_w24_referendum_prep (weeks 25); agenda_w26_referendum_vote_result (weeks 26); agenda_w26_referendum_rejected (weeks 26); agenda_w26_family_referendum_night (weeks 26); agenda_w27_aftermath_rejected (weeks 27)"
+      ]
+    },
+    {
+      "name": "reformist-chooser",
+      "usesChoices": true,
+      "weeksWalked": 103,
+      "reachedEpilogue": true,
+      "itemsPlayed": 871,
+      "choicesMade": 679,
+      "chainsScheduled": 132,
+      "chainsFired": 117,
+      "chainsDropped": 15,
+      "notes": [
+        "chain targets scheduled: 94; delivered: 64; dropped unfired: 11",
+        "agenda declarations eligible in their window at some week: 345",
+        "votes resolved: 3 (passed 0, failed 3)",
+        "other virtual items resolved: 498",
+        "referendum and aftermath items offered: __chain__act2_vael_referendum_funding (weeks 24); agenda_w25_referendum_eve (weeks 25); agenda_w25_referendum_lobbying (weeks 25); agenda_w24_referendum_prep (weeks 25); agenda_w26_referendum_vote_result (weeks 26); agenda_w26_referendum_rejected (weeks 26); __chain__act2_week26_referendum_narrow (weeks 26); agenda_w26_family_referendum_night (weeks 26); agenda_w27_aftermath_rejected (weeks 27); agenda_w47_second_referendum (weeks 47)"
+      ]
+    },
+    {
+      "name": "authoritarian-chooser",
+      "usesChoices": true,
+      "weeksWalked": 103,
+      "reachedEpilogue": true,
+      "itemsPlayed": 875,
+      "choicesMade": 678,
+      "chainsScheduled": 143,
+      "chainsFired": 126,
+      "chainsDropped": 17,
+      "notes": [
+        "chain targets scheduled: 100; delivered: 61; dropped unfired: 15",
+        "agenda declarations eligible in their window at some week: 352",
+        "votes resolved: 3 (passed 1, failed 2)",
+        "other virtual items resolved: 498",
+        "referendum and aftermath items offered: __chain__act2_vael_referendum_funding (weeks 24); agenda_w25_referendum_eve (weeks 25); agenda_w25_referendum_lobbying (weeks 25); agenda_w24_referendum_prep (weeks 25); agenda_w26_referendum_vote_result (weeks 26); agenda_w26_referendum_rejected (weeks 26); agenda_w26_family_referendum_night (weeks 26); agenda_w27_aftermath_rejected (weeks 27); __chain__act3_chain_selective_justice_aftermath (weeks 45); agenda_w47_second_referendum (weeks 47)"
+      ]
+    },
+    {
+      "name": "populist-chooser",
+      "usesChoices": true,
+      "weeksWalked": 103,
+      "reachedEpilogue": true,
+      "itemsPlayed": 864,
+      "choicesMade": 665,
+      "chainsScheduled": 120,
+      "chainsFired": 110,
+      "chainsDropped": 11,
+      "notes": [
+        "chain targets scheduled: 80; delivered: 60; dropped unfired: 6",
+        "agenda declarations eligible in their window at some week: 341",
+        "votes resolved: 3 (passed 1, failed 2)",
+        "other virtual items resolved: 498",
+        "referendum and aftermath items offered: __chain__act2_vael_referendum_funding (weeks 24); agenda_w25_referendum_eve (weeks 25); agenda_w25_referendum_lobbying (weeks 25); agenda_w24_referendum_prep (weeks 25); agenda_w26_referendum_vote_result (weeks 26); agenda_w26_referendum_rejected (weeks 26); agenda_w26_family_referendum_night (weeks 26); agenda_w27_aftermath_rejected (weeks 27); agenda_w47_second_referendum (weeks 47)"
+      ]
+    },
+    {
+      "name": "seeded-random",
+      "usesChoices": true,
+      "weeksWalked": 103,
+      "reachedEpilogue": true,
+      "itemsPlayed": 868,
+      "choicesMade": 661,
+      "chainsScheduled": 130,
+      "chainsFired": 115,
+      "chainsDropped": 16,
+      "notes": [
+        "chain targets scheduled: 91; delivered: 60; dropped unfired: 11",
+        "agenda declarations eligible in their window at some week: 346",
+        "votes resolved: 3 (passed 1, failed 2)",
+        "other virtual items resolved: 498",
+        "referendum and aftermath items offered: __chain__act2_vael_referendum_funding (weeks 24); agenda_w25_referendum_eve (weeks 25); agenda_w25_referendum_lobbying (weeks 25); agenda_w24_referendum_prep (weeks 25); agenda_w26_referendum_vote_result (weeks 26); agenda_w26_referendum_rejected (weeks 26); agenda_w26_family_referendum_night (weeks 26); agenda_w27_aftermath_rejected (weeks 27); __chain__act3_chain_night_of_justice_aftermath (weeks 45); agenda_w47_second_referendum (weeks 47)"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w26_referendum_narrow",
+      "sceneId": "act2_week26_referendum_narrow",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w27_aftermath_decisive",
+      "sceneId": "act3_week27_aftermath_decisive",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w27_aftermath_narrow",
+      "sceneId": "act3_week27_aftermath_narrow",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "28-30",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w29_vyktor_exposed",
+      "sceneId": "act3_week29_vyktor_exposed",
+      "window": "29-31",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w30_betrayal_vostane",
+      "sceneId": "act3_week30_betrayal_vostane",
+      "window": "30-32",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w33_war_preparations",
+      "sceneId": "act3_week33_war_preparations",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w33_diplomatic_negotiation",
+      "sceneId": "act3_week33_diplomatic_negotiation",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "37-37",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w40_war_begins",
+      "sceneId": "act4_week40_war_begins",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w40_exile_government",
+      "sceneId": "act4_week40_exile",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w40_reform_consolidation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "41-43",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w41_reform_implementation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "41-43",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w42_war_strategy",
+      "sceneId": "act4_week42_war_strategy",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w42_austerity_bites",
+      "sceneId": "act4_week42_austerity_bites",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "43-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w44_civilian_front",
+      "sceneId": "act4_week44_civilian_front",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w44_counter_coup",
+      "sceneId": "act4_week44_counter_coup",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w44_reform_backlash",
+      "sceneId": "act4_week44_reform_backlash",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w45_uprising",
+      "sceneId": "act4_week45_uprising",
+      "window": "45-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w46_final_battle",
+      "sceneId": "act4_week46_final_battle",
+      "window": "46-48",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w47_new_order",
+      "sceneId": "act4_week47_new_order",
+      "window": "47-49",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w48_war_outcome",
+      "sceneId": "act4_week48_war_outcome",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w48_collapse_endgame",
+      "sceneId": "act4_week48_collapse_endgame",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w56_constitutional_court",
+      "sceneId": "act5_week56_constitutional_court",
+      "window": "56-58",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w57_fainting_spell",
+      "sceneId": "act5_week57_fainting_spell",
+      "window": "57-59",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w83_energy_transition_nationalized",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "untouched (no flags)",
+      "id": "agenda_w83_energy_transition_aramco",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w26_referendum_narrow",
+      "sceneId": "act2_week26_referendum_narrow",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w27_aftermath_narrow",
+      "sceneId": "act3_week27_aftermath_narrow",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w27_aftermath_rejected",
+      "sceneId": "act3_week27_aftermath_rejected",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "28-30",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w29_vyktor_exposed",
+      "sceneId": "act3_week29_vyktor_exposed",
+      "window": "29-31",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w30_betrayal_vostane",
+      "sceneId": "act3_week30_betrayal_vostane",
+      "window": "30-32",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w33_war_preparations",
+      "sceneId": "act3_week33_war_preparations",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w33_diplomatic_negotiation",
+      "sceneId": "act3_week33_diplomatic_negotiation",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "37-37",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w40_war_begins",
+      "sceneId": "act4_week40_war_begins",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w40_exile_government",
+      "sceneId": "act4_week40_exile",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w42_war_strategy",
+      "sceneId": "act4_week42_war_strategy",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w42_austerity_bites",
+      "sceneId": "act4_week42_austerity_bites",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "43-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w44_civilian_front",
+      "sceneId": "act4_week44_civilian_front",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w44_counter_coup",
+      "sceneId": "act4_week44_counter_coup",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w44_reform_backlash",
+      "sceneId": "act4_week44_reform_backlash",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w45_uprising",
+      "sceneId": "act4_week45_uprising",
+      "window": "45-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w46_final_battle",
+      "sceneId": "act4_week46_final_battle",
+      "window": "46-48",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w47_new_order",
+      "sceneId": "act4_week47_new_order",
+      "window": "47-49",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w48_war_outcome",
+      "sceneId": "act4_week48_war_outcome",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w48_collapse_endgame",
+      "sceneId": "act4_week48_collapse_endgame",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w56_halvek_bench",
+      "sceneId": "act5_week56_halvek_bench",
+      "window": "56-58",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w57_fainting_spell",
+      "sceneId": "act5_week57_fainting_spell",
+      "window": "57-59",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w83_energy_transition_nationalized",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist",
+      "id": "agenda_w83_energy_transition_aramco",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w26_referendum_narrow",
+      "sceneId": "act2_week26_referendum_narrow",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w27_aftermath_decisive",
+      "sceneId": "act3_week27_aftermath_decisive",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w27_aftermath_narrow",
+      "sceneId": "act3_week27_aftermath_narrow",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "28-30",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w29_vyktor_exposed",
+      "sceneId": "act3_week29_vyktor_exposed",
+      "window": "29-31",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w30_betrayal_vostane",
+      "sceneId": "act3_week30_betrayal_vostane",
+      "window": "30-32",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w33_war_preparations",
+      "sceneId": "act3_week33_war_preparations",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w33_diplomatic_negotiation",
+      "sceneId": "act3_week33_diplomatic_negotiation",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "37-37",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w40_war_begins",
+      "sceneId": "act4_week40_war_begins",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w40_exile_government",
+      "sceneId": "act4_week40_exile",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w40_reform_consolidation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "41-43",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w41_reform_implementation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "41-43",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w42_war_strategy",
+      "sceneId": "act4_week42_war_strategy",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w42_austerity_bites",
+      "sceneId": "act4_week42_austerity_bites",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "43-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w44_civilian_front",
+      "sceneId": "act4_week44_civilian_front",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w44_counter_coup",
+      "sceneId": "act4_week44_counter_coup",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w44_reform_backlash",
+      "sceneId": "act4_week44_reform_backlash",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w45_uprising",
+      "sceneId": "act4_week45_uprising",
+      "window": "45-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w46_final_battle",
+      "sceneId": "act4_week46_final_battle",
+      "window": "46-48",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w47_new_order",
+      "sceneId": "act4_week47_new_order",
+      "window": "47-49",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w48_war_outcome",
+      "sceneId": "act4_week48_war_outcome",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w48_collapse_endgame",
+      "sceneId": "act4_week48_collapse_endgame",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w56_constitutional_court",
+      "sceneId": "act5_week56_constitutional_court",
+      "window": "56-58",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w83_energy_transition_nationalized",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "hardliner",
+      "id": "agenda_w83_energy_transition_aramco",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w26_referendum_narrow",
+      "sceneId": "act2_week26_referendum_narrow",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w27_aftermath_decisive",
+      "sceneId": "act3_week27_aftermath_decisive",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w27_aftermath_narrow",
+      "sceneId": "act3_week27_aftermath_narrow",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "28-30",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w29_vyktor_exposed",
+      "sceneId": "act3_week29_vyktor_exposed",
+      "window": "29-31",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w30_betrayal_vostane",
+      "sceneId": "act3_week30_betrayal_vostane",
+      "window": "30-32",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w33_war_preparations",
+      "sceneId": "act3_week33_war_preparations",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w33_diplomatic_negotiation",
+      "sceneId": "act3_week33_diplomatic_negotiation",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "37-37",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w40_war_begins",
+      "sceneId": "act4_week40_war_begins",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w40_reform_consolidation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "41-43",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w41_reform_implementation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "41-43",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w42_war_strategy",
+      "sceneId": "act4_week42_war_strategy",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w42_austerity_bites",
+      "sceneId": "act4_week42_austerity_bites",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "43-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w44_civilian_front",
+      "sceneId": "act4_week44_civilian_front",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w44_counter_coup",
+      "sceneId": "act4_week44_counter_coup",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w44_reform_backlash",
+      "sceneId": "act4_week44_reform_backlash",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w45_uprising",
+      "sceneId": "act4_week45_uprising",
+      "window": "45-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w46_final_battle",
+      "sceneId": "act4_week46_final_battle",
+      "window": "46-48",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w47_new_order",
+      "sceneId": "act4_week47_new_order",
+      "window": "47-49",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w48_war_outcome",
+      "sceneId": "act4_week48_war_outcome",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w48_collapse_endgame",
+      "sceneId": "act4_week48_collapse_endgame",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w56_constitutional_court",
+      "sceneId": "act5_week56_constitutional_court",
+      "window": "56-58",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w57_fainting_spell",
+      "sceneId": "act5_week57_fainting_spell",
+      "window": "57-59",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w83_energy_transition_nationalized",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "exile branch",
+      "id": "agenda_w83_energy_transition_aramco",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w26_referendum_narrow",
+      "sceneId": "act2_week26_referendum_narrow",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w27_aftermath_decisive",
+      "sceneId": "act3_week27_aftermath_decisive",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w27_aftermath_narrow",
+      "sceneId": "act3_week27_aftermath_narrow",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "28-30",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w30_betrayal_vostane",
+      "sceneId": "act3_week30_betrayal_vostane",
+      "window": "30-32",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w33_war_preparations",
+      "sceneId": "act3_week33_war_preparations",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "37-37",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w40_war_begins",
+      "sceneId": "act4_week40_war_begins",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w40_exile_government",
+      "sceneId": "act4_week40_exile",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w42_war_strategy",
+      "sceneId": "act4_week42_war_strategy",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w42_austerity_bites",
+      "sceneId": "act4_week42_austerity_bites",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w44_civilian_front",
+      "sceneId": "act4_week44_civilian_front",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w44_counter_coup",
+      "sceneId": "act4_week44_counter_coup",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w46_final_battle",
+      "sceneId": "act4_week46_final_battle",
+      "window": "46-48",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w48_war_outcome",
+      "sceneId": "act4_week48_war_outcome",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w56_halvek_bench",
+      "sceneId": "act5_week56_halvek_bench",
+      "window": "56-58",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w83_energy_transition_aramco",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "agenda_w83_coal_ledger",
+      "sceneId": "act6_week83_coal_ledger",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "__chain__act2_tyvaren_blind_spot",
+      "sceneId": "act2_tyvaren_blind_spot",
+      "window": "fire 16",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 2 for fire week 16 by bni_full_shutdown; never delivered; vanished unfired in week 17 (conditions/probability); deferred: scene opens week 18."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "__chain__act3_week37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "fire 36",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 14 for fire week 36 by neg_brenner_refuse; never delivered; vanished unfired in week 36 (conditions/probability); deferred: scene opens week 37."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "__chain__act2_week26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "fire 26",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 16 for fire week 26 by kolvar_reject_deal; never delivered; vanished unfired in week 25 (conditions/probability)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "__chain__act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 24",
+      "type": "CHAIN_DEFERRED",
+      "week": 28,
+      "weeks": [
+        28
+      ],
+      "details": "scheduled in week 16 for fire week 24 by deficit_crisis_default; scheduled in week 20 for fire week 30 by vael_ignore_campaign_harder; scheduled in week 41 for fire week 43 by halvekist_legal_war_withdraw; delivered week 28; vanished unfired in week 29 (conditions/probability); deferred: scene opens week 28."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "__chain__act2_chain_vael_capital_flight",
+      "sceneId": "act2_chain_vael_capital_flight",
+      "window": "fire 24",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 20 for fire week 24 by budget_revenue_reform; never delivered; vanished unfired in week 23 (conditions/probability)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "__chain__act3_chain_sovarka_tyvaren_response",
+      "sceneId": "act3_chain_sovarka_tyvaren_response",
+      "window": "fire 39",
+      "type": "CHAIN_DEFERRED",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "scheduled in week 33 for fire week 39 by sovarka_full_survey_end; delivered week 43; deferred: scene opens week 43."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_24_act2_tyvaren_blind_spot",
+      "sceneId": "act2_tyvaren_blind_spot",
+      "window": "fire 16",
+      "type": "DROPPED_CHAIN",
+      "week": 17,
+      "weeks": [
+        17
+      ],
+      "details": "chain_24_act2_tyvaren_blind_spot dropped in week 17: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_63_act2_chain_vael_capital_flight",
+      "sceneId": "act2_chain_vael_capital_flight",
+      "window": "fire 24",
+      "type": "DROPPED_CHAIN",
+      "week": 23,
+      "weeks": [
+        23
+      ],
+      "details": "chain_63_act2_chain_vael_capital_flight dropped in week 23: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_70_act2_week20_budget_crisis",
+      "sceneId": "act2_week20_budget_crisis",
+      "window": "fire 25",
+      "type": "DROPPED_CHAIN",
+      "week": 24,
+      "weeks": [
+        24
+      ],
+      "details": "chain_70_act2_week20_budget_crisis dropped in week 24: past window (evaluated at week 25; target window ends 22)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_54_act2_week26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "fire 26",
+      "type": "DROPPED_CHAIN",
+      "week": 25,
+      "weeks": [
+        25
+      ],
+      "details": "chain_54_act2_week26_referendum_decisive dropped in week 25: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_61_act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 30",
+      "type": "DROPPED_CHAIN",
+      "week": 29,
+      "weeks": [
+        29
+      ],
+      "details": "chain_61_act3_week28_economic_crisis dropped in week 29: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_105_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 34",
+      "type": "DROPPED_CHAIN",
+      "week": 33,
+      "weeks": [
+        33
+      ],
+      "details": "chain_105_act3_week31_inner_circle dropped in week 33: past window (evaluated at week 34; target window ends 33)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_104_act3_week32_tyvaren_ultimatum",
+      "sceneId": "act3_week32_tyvaren_ultimatum",
+      "window": "fire 35",
+      "type": "DROPPED_CHAIN",
+      "week": 34,
+      "weeks": [
+        34
+      ],
+      "details": "chain_104_act3_week32_tyvaren_ultimatum dropped in week 34: past window (evaluated at week 35; target window ends 34)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_101_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 36",
+      "type": "DROPPED_CHAIN",
+      "week": 35,
+      "weeks": [
+        35
+      ],
+      "details": "chain_101_act3_week31_inner_circle dropped in week 35: past window (evaluated at week 36; target window ends 33)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_49_act3_week37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "fire 36",
+      "type": "DROPPED_CHAIN",
+      "week": 36,
+      "weeks": [
+        36
+      ],
+      "details": "chain_49_act3_week37_coup_attempt dropped in week 36: probability roll failed (inferred)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_124_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 40",
+      "type": "DROPPED_CHAIN",
+      "week": 39,
+      "weeks": [
+        39
+      ],
+      "details": "chain_124_act3_week31_inner_circle dropped in week 39: past window (evaluated at week 40; target window ends 33)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_126_act3_week34_dravenhollow",
+      "sceneId": "act3_week34_dravenhollow",
+      "window": "fire 41",
+      "type": "DROPPED_CHAIN",
+      "week": 40,
+      "weeks": [
+        40
+      ],
+      "details": "chain_126_act3_week34_dravenhollow dropped in week 40: past window (evaluated at week 41; target window ends 36)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_135_act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 43",
+      "type": "DROPPED_CHAIN",
+      "week": 42,
+      "weeks": [
+        42
+      ],
+      "details": "chain_135_act3_week28_economic_crisis dropped in week 42: past window (evaluated at week 43; target window ends 30)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_143_act4_week41_reform_implementation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "fire 44",
+      "type": "DROPPED_CHAIN",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "chain_143_act4_week41_reform_implementation dropped in week 43: past window (evaluated at week 44; target window ends 43)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_149_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 50",
+      "type": "DROPPED_CHAIN",
+      "week": 49,
+      "weeks": [
+        49
+      ],
+      "details": "chain_149_act4_week43_family_resolution dropped in week 49: past window (evaluated at week 50; target window ends 47)."
+    },
+    {
+      "profile": "reformist-chooser",
+      "id": "chain_150_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 52",
+      "type": "DROPPED_CHAIN",
+      "week": 51,
+      "weeks": [
+        51
+      ],
+      "details": "chain_150_act4_week43_family_resolution dropped in week 51: past window (evaluated at week 52; target window ends 47)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w26_referendum_narrow",
+      "sceneId": "act2_week26_referendum_narrow",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w27_aftermath_decisive",
+      "sceneId": "act3_week27_aftermath_decisive",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w27_aftermath_narrow",
+      "sceneId": "act3_week27_aftermath_narrow",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "28-30",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w29_vyktor_exposed",
+      "sceneId": "act3_week29_vyktor_exposed",
+      "window": "29-31",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w30_betrayal_vostane",
+      "sceneId": "act3_week30_betrayal_vostane",
+      "window": "30-32",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w33_diplomatic_negotiation",
+      "sceneId": "act3_week33_diplomatic_negotiation",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "37-37",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w40_exile_government",
+      "sceneId": "act4_week40_exile",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w42_austerity_bites",
+      "sceneId": "act4_week42_austerity_bites",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w44_counter_coup",
+      "sceneId": "act4_week44_counter_coup",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w45_uprising",
+      "sceneId": "act4_week45_uprising",
+      "window": "45-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w48_collapse_endgame",
+      "sceneId": "act4_week48_collapse_endgame",
+      "window": "48-50",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w56_halvek_bench",
+      "sceneId": "act5_week56_halvek_bench",
+      "window": "56-58",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w83_energy_transition_aramco",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "agenda_w83_coal_ledger",
+      "sceneId": "act6_week83_coal_ledger",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act1_chain_tomas_nationalist",
+      "sceneId": "act1_chain_tomas_nationalist",
+      "window": "fire 10",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 2 for fire week 10 by tomas_toughen_up; never delivered; vanished unfired in week 9 (conditions/probability)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act1_chain_bni_press",
+      "sceneId": "act1_chain_bni_press",
+      "window": "fire 4",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 2 for fire week 4 by bni_redirect; never delivered; vanished unfired in week 3 (conditions/probability)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act1_chain_jonas_press_rebellion",
+      "sceneId": "act1_chain_jonas_press_rebellion",
+      "window": "fire 8",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 3 for fire week 8 by jonas_shut_down; never delivered; vanished unfired in week 7 (conditions/probability)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act1_chain_liora_radicalized",
+      "sceneId": "act1_chain_liora_radicalized",
+      "window": "fire 9",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 3 for fire week 9 by liora_mikhael_silence; never delivered; vanished unfired in week 8 (conditions/probability)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act3_econ_general_strike",
+      "sceneId": "act3_econ_general_strike",
+      "window": "fire 30",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 15 for fire week 30 by maric_hold_line; never delivered; vanished unfired in week 34 (conditions/probability); deferred: scene opens week 35."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act3_chain_port_tyvaren_escalation",
+      "sceneId": "act3_chain_port_tyvaren_escalation",
+      "window": "fire 32",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 26 for fire week 32 by port_accelerate_end; never delivered; vanished unfired in week 37 (conditions/probability); deferred: scene opens week 38."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act3_cabinet_loyalty_audit",
+      "sceneId": "act3_cabinet_loyalty_audit",
+      "window": "fire 28",
+      "type": "CHAIN_DEFERRED",
+      "week": 31,
+      "weeks": [
+        31
+      ],
+      "details": "scheduled in week 27 for fire week 28 by aftermath_rejected_ask_positions; delivered week 31; deferred: scene opens week 31."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act3_week37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "fire 32",
+      "type": "CHAIN_DEFERRED",
+      "week": 37,
+      "weeks": [
+        37
+      ],
+      "details": "scheduled in week 28 for fire week 32 by constitution_maximum_mandate; scheduled in week 33 for fire week 35 by dravenni_insurgency_military; delivered week 37; deferred: scene opens week 37."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act3_tyvaren_standoff",
+      "sceneId": "act3_tyvaren_standoff",
+      "window": "fire 37",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 31 for fire week 37 by fort_continue_as_planned; never delivered; vanished unfired in week 38 (conditions/probability); deferred: scene opens week 38."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act3_chain_sovarka_tyvaren_response",
+      "sceneId": "act3_chain_sovarka_tyvaren_response",
+      "window": "fire 39",
+      "type": "CHAIN_DEFERRED",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "scheduled in week 33 for fire week 39 by sovarka_limited_survey_end; delivered week 43; deferred: scene opens week 43."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act3_battle_gravenmark",
+      "sceneId": "act3_battle_gravenmark",
+      "window": "fire 38",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 33 for fire week 38 by war_prep_forward_defense; never delivered; vanished unfired in week 37 (conditions/probability)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 37",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 34 for fire week 37 by warecon_state_control; never delivered; vanished unfired in week 36 (conditions/probability)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "__chain__act4_week48_collapse_endgame",
+      "sceneId": "act4_week48_collapse_endgame",
+      "window": "fire 46",
+      "type": "CHAIN_DEFERRED",
+      "week": 48,
+      "weeks": [
+        48
+      ],
+      "details": "scheduled in week 42 for fire week 46 by emergency_powers_invoke_broad; delivered week 48; deferred: scene opens week 48."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_172_act1_chain_bni_press",
+      "sceneId": "act1_chain_bni_press",
+      "window": "fire 4",
+      "type": "DROPPED_CHAIN",
+      "week": 3,
+      "weeks": [
+        3
+      ],
+      "details": "chain_172_act1_chain_bni_press dropped in week 3: probability roll failed (inferred)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_175_act1_chain_jonas_press_rebellion",
+      "sceneId": "act1_chain_jonas_press_rebellion",
+      "window": "fire 8",
+      "type": "DROPPED_CHAIN",
+      "week": 7,
+      "weeks": [
+        7
+      ],
+      "details": "chain_175_act1_chain_jonas_press_rebellion dropped in week 7: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_176_act1_chain_liora_radicalized",
+      "sceneId": "act1_chain_liora_radicalized",
+      "window": "fire 9",
+      "type": "DROPPED_CHAIN",
+      "week": 8,
+      "weeks": [
+        8
+      ],
+      "details": "chain_176_act1_chain_liora_radicalized dropped in week 8: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_171_act1_chain_tomas_nationalist",
+      "sceneId": "act1_chain_tomas_nationalist",
+      "window": "fire 10",
+      "type": "DROPPED_CHAIN",
+      "week": 9,
+      "weeks": [
+        9
+      ],
+      "details": "chain_171_act1_chain_tomas_nationalist dropped in week 9: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_219_act2_week25_referendum_eve",
+      "sceneId": "act2_week25_referendum_eve",
+      "window": "fire 29",
+      "type": "DROPPED_CHAIN",
+      "week": 28,
+      "weeks": [
+        28
+      ],
+      "details": "chain_219_act2_week25_referendum_eve dropped in week 28: past window (evaluated at week 29; target window ends 26)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_195_act3_econ_general_strike",
+      "sceneId": "act3_econ_general_strike",
+      "window": "fire 30",
+      "type": "DROPPED_CHAIN",
+      "week": 34,
+      "weeks": [
+        34
+      ],
+      "details": "chain_195_act3_econ_general_strike dropped in week 34: probability roll failed (inferred)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_249_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 37",
+      "type": "DROPPED_CHAIN",
+      "week": 36,
+      "weeks": [
+        36
+      ],
+      "details": "chain_249_act3_week31_inner_circle dropped in week 36: past window (evaluated at week 37; target window ends 33)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_262_act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 37",
+      "type": "DROPPED_CHAIN",
+      "week": 36,
+      "weeks": [
+        36
+      ],
+      "details": "chain_262_act3_week28_economic_crisis dropped in week 36: past window (evaluated at week 37; target window ends 30)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_221_act3_chain_port_tyvaren_escalation",
+      "sceneId": "act3_chain_port_tyvaren_escalation",
+      "window": "fire 32",
+      "type": "DROPPED_CHAIN",
+      "week": 37,
+      "weeks": [
+        37
+      ],
+      "details": "chain_221_act3_chain_port_tyvaren_escalation dropped in week 37: probability roll failed (inferred)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_252_act3_battle_gravenmark",
+      "sceneId": "act3_battle_gravenmark",
+      "window": "fire 38",
+      "type": "DROPPED_CHAIN",
+      "week": 37,
+      "weeks": [
+        37
+      ],
+      "details": "chain_252_act3_battle_gravenmark dropped in week 37: probability roll failed (inferred)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_242_act3_tyvaren_standoff",
+      "sceneId": "act3_tyvaren_standoff",
+      "window": "fire 37",
+      "type": "DROPPED_CHAIN",
+      "week": 38,
+      "weeks": [
+        38
+      ],
+      "details": "chain_242_act3_tyvaren_standoff dropped in week 38: probability roll failed (inferred)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_279_act3_week33_war_preparations",
+      "sceneId": "act3_week33_war_preparations",
+      "window": "fire 39",
+      "type": "DROPPED_CHAIN",
+      "week": 38,
+      "weeks": [
+        38
+      ],
+      "details": "chain_279_act3_week33_war_preparations dropped in week 38: past window (evaluated at week 39; target window ends 35)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_272_act4_civil_conflict_arc",
+      "sceneId": "act4_civil_conflict_arc",
+      "window": "fire 40",
+      "type": "DROPPED_CHAIN",
+      "week": 39,
+      "weeks": [
+        39
+      ],
+      "details": "chain_272_act4_civil_conflict_arc dropped in week 39: probability roll failed (inferred)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_198_act4_emergency_powers_invoked",
+      "sceneId": "act4_emergency_powers_invoked",
+      "window": "fire 41",
+      "type": "DROPPED_CHAIN",
+      "week": 40,
+      "weeks": [
+        40
+      ],
+      "details": "chain_198_act4_emergency_powers_invoked dropped in week 40: probability roll failed (inferred)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_283_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 42",
+      "type": "DROPPED_CHAIN",
+      "week": 41,
+      "weeks": [
+        41
+      ],
+      "details": "chain_283_act3_week31_inner_circle dropped in week 41: past window (evaluated at week 42; target window ends 33)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_301_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 50",
+      "type": "DROPPED_CHAIN",
+      "week": 49,
+      "weeks": [
+        49
+      ],
+      "details": "chain_301_act4_week43_family_resolution dropped in week 49: past window (evaluated at week 50; target window ends 47)."
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "id": "chain_303_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 53",
+      "type": "DROPPED_CHAIN",
+      "week": 52,
+      "weeks": [
+        52
+      ],
+      "details": "chain_303_act4_week43_family_resolution dropped in week 52: past window (evaluated at week 53; target window ends 47)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w26_referendum_narrow",
+      "sceneId": "act2_week26_referendum_narrow",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w27_aftermath_decisive",
+      "sceneId": "act3_week27_aftermath_decisive",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w27_aftermath_narrow",
+      "sceneId": "act3_week27_aftermath_narrow",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "28-30",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w29_vyktor_exposed",
+      "sceneId": "act3_week29_vyktor_exposed",
+      "window": "29-31",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w30_betrayal_vostane",
+      "sceneId": "act3_week30_betrayal_vostane",
+      "window": "30-32",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w33_war_preparations",
+      "sceneId": "act3_week33_war_preparations",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w33_diplomatic_negotiation",
+      "sceneId": "act3_week33_diplomatic_negotiation",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "37-37",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w40_war_begins",
+      "sceneId": "act4_week40_war_begins",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w40_exile_government",
+      "sceneId": "act4_week40_exile",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w42_war_strategy",
+      "sceneId": "act4_week42_war_strategy",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w42_austerity_bites",
+      "sceneId": "act4_week42_austerity_bites",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w44_civilian_front",
+      "sceneId": "act4_week44_civilian_front",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w44_counter_coup",
+      "sceneId": "act4_week44_counter_coup",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w46_final_battle",
+      "sceneId": "act4_week46_final_battle",
+      "window": "46-48",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w56_halvek_bench",
+      "sceneId": "act5_week56_halvek_bench",
+      "window": "56-58",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w83_energy_transition_aramco",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "agenda_w83_coal_ledger",
+      "sceneId": "act6_week83_coal_ledger",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "__chain__act2_tyvaren_blind_spot",
+      "sceneId": "act2_tyvaren_blind_spot",
+      "window": "fire 16",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 2 for fire week 16 by bni_full_shutdown; never delivered; vanished unfired in week 17 (conditions/probability); deferred: scene opens week 18."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "__chain__act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 24",
+      "type": "CHAIN_DEFERRED",
+      "week": 28,
+      "weeks": [
+        28
+      ],
+      "details": "scheduled in week 16 for fire week 24 by deficit_crisis_default; scheduled in week 21 for fire week 29 by vostane_accept_with_grace; scheduled in week 31 for fire week 35 by privatization_accept; scheduled in week 34 for fire week 37 by warecon_state_control; delivered week 28; vanished unfired in week 28 (conditions/probability); deferred: scene opens week 28."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "__chain__act3_chain_sovarka_tyvaren_response",
+      "sceneId": "act3_chain_sovarka_tyvaren_response",
+      "window": "fire 39",
+      "type": "CHAIN_DEFERRED",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "scheduled in week 33 for fire week 39 by sovarka_full_survey_end; delivered week 43; deferred: scene opens week 43."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_327_act2_tyvaren_blind_spot",
+      "sceneId": "act2_tyvaren_blind_spot",
+      "window": "fire 16",
+      "type": "DROPPED_CHAIN",
+      "week": 17,
+      "weeks": [
+        17
+      ],
+      "details": "chain_327_act2_tyvaren_blind_spot dropped in week 17: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_362_act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 29",
+      "type": "DROPPED_CHAIN",
+      "week": 28,
+      "weeks": [
+        28
+      ],
+      "details": "chain_362_act3_week28_economic_crisis dropped in week 28: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_388_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 34",
+      "type": "DROPPED_CHAIN",
+      "week": 33,
+      "weeks": [
+        33
+      ],
+      "details": "chain_388_act3_week31_inner_circle dropped in week 33: past window (evaluated at week 34; target window ends 33)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_387_act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 35",
+      "type": "DROPPED_CHAIN",
+      "week": 34,
+      "weeks": [
+        34
+      ],
+      "details": "chain_387_act3_week28_economic_crisis dropped in week 34: past window (evaluated at week 35; target window ends 30)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_398_act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 37",
+      "type": "DROPPED_CHAIN",
+      "week": 36,
+      "weeks": [
+        36
+      ],
+      "details": "chain_398_act3_week28_economic_crisis dropped in week 36: past window (evaluated at week 37; target window ends 30)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_405_act3_week39_act3_climax",
+      "sceneId": "act3_week39_act3_climax",
+      "window": "fire 41",
+      "type": "DROPPED_CHAIN",
+      "week": 40,
+      "weeks": [
+        40
+      ],
+      "details": "chain_405_act3_week39_act3_climax dropped in week 40: past window (evaluated at week 41; target window ends 40)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_411_act3_week39_act3_climax",
+      "sceneId": "act3_week39_act3_climax",
+      "window": "fire 42",
+      "type": "DROPPED_CHAIN",
+      "week": 41,
+      "weeks": [
+        41
+      ],
+      "details": "chain_411_act3_week39_act3_climax dropped in week 41: past window (evaluated at week 42; target window ends 40)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_415_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 44",
+      "type": "DROPPED_CHAIN",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "chain_415_act3_week31_inner_circle dropped in week 43: past window (evaluated at week 44; target window ends 33)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_420_act4_week41_reform_implementation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "fire 44",
+      "type": "DROPPED_CHAIN",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "chain_420_act4_week41_reform_implementation dropped in week 43: past window (evaluated at week 44; target window ends 43)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_429_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 50",
+      "type": "DROPPED_CHAIN",
+      "week": 49,
+      "weeks": [
+        49
+      ],
+      "details": "chain_429_act4_week43_family_resolution dropped in week 49: past window (evaluated at week 50; target window ends 47)."
+    },
+    {
+      "profile": "populist-chooser",
+      "id": "chain_431_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 53",
+      "type": "DROPPED_CHAIN",
+      "week": 52,
+      "weeks": [
+        52
+      ],
+      "details": "chain_431_act4_week43_family_resolution dropped in week 52: past window (evaluated at week 53; target window ends 47)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w26_referendum_decisive",
+      "sceneId": "act2_week26_referendum_decisive",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w26_referendum_narrow",
+      "sceneId": "act2_week26_referendum_narrow",
+      "window": "26-26",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w27_aftermath_decisive",
+      "sceneId": "act3_week27_aftermath_decisive",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w27_aftermath_narrow",
+      "sceneId": "act3_week27_aftermath_narrow",
+      "window": "27-28",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "28-30",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w29_vyktor_exposed",
+      "sceneId": "act3_week29_vyktor_exposed",
+      "window": "29-31",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w30_betrayal_vostane",
+      "sceneId": "act3_week30_betrayal_vostane",
+      "window": "30-32",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w33_diplomatic_negotiation",
+      "sceneId": "act3_week33_diplomatic_negotiation",
+      "window": "33-35",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "37-37",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w40_war_begins",
+      "sceneId": "act4_week40_war_begins",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w40_exile_government",
+      "sceneId": "act4_week40_exile",
+      "window": "40-42",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w42_war_strategy",
+      "sceneId": "act4_week42_war_strategy",
+      "window": "42-44",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "43-47",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w44_civilian_front",
+      "sceneId": "act4_week44_civilian_front",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w44_counter_coup",
+      "sceneId": "act4_week44_counter_coup",
+      "window": "44-46",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w46_final_battle",
+      "sceneId": "act4_week46_final_battle",
+      "window": "46-48",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w56_halvek_bench",
+      "sceneId": "act5_week56_halvek_bench",
+      "window": "56-58",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w83_energy_transition_aramco",
+      "sceneId": "act6_week83_energy_transition",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed). Scene visited via another entry."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "agenda_w83_coal_ledger",
+      "sceneId": "act6_week83_coal_ledger",
+      "window": "83-85",
+      "type": "NEVER_OFFERED_MANDATORY",
+      "week": null,
+      "weeks": [],
+      "details": "marked urgent, never offered; never eligible (prerequisites or scene gates never passed)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act2_tyvaren_blind_spot",
+      "sceneId": "act2_tyvaren_blind_spot",
+      "window": "fire 16",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 2 for fire week 16 by bni_full_shutdown; never delivered; vanished unfired in week 17 (conditions/probability); deferred: scene opens week 18."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act1_chain_jonas_press_rebellion",
+      "sceneId": "act1_chain_jonas_press_rebellion",
+      "window": "fire 8",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 3 for fire week 8 by jonas_shut_down; never delivered; vanished unfired in week 7 (conditions/probability)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act3_week37_coup_attempt",
+      "sceneId": "act3_week37_coup_attempt",
+      "window": "fire 36",
+      "type": "CHAIN_DEFERRED",
+      "week": 37,
+      "weeks": [
+        37
+      ],
+      "details": "scheduled in week 14 for fire week 36 by neg_brenner_refuse; scheduled in week 35 for fire week 37 by dravenni_insurgency_military; delivered week 37; deferred: scene opens week 37."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act3_chain_highway_vael_corruption",
+      "sceneId": "act3_chain_highway_vael_corruption",
+      "window": "fire 36",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 26 for fire week 36 by highway_no_intervene_end; never delivered; vanished unfired in week 35 (conditions/probability)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act3_jonas_separation",
+      "sceneId": "act3_jonas_separation",
+      "window": "fire 31",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 26 for fire week 31 by jonas_cannot_stop_now; never delivered; vanished unfired in week 30 (conditions/probability)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 42",
+      "type": "CHAIN_DEFERRED",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "scheduled in week 30 for fire week 42 by liora_disgusted_defend; scheduled in week 41 for fire week 44 by family_anchored_draw_strength; scheduled in week 43 for fire week 47 by family_breaking_external_help; scheduled in week 45 for fire week 49 by jonas_divorce_private_dignity; scheduled in week 46 for fire week 50 by tomas_redemption_bring_close; scheduled in week 49 for fire week 53 by family_conditional_firmer_boundaries; delivered week 43; vanished unfired in week 48 (conditions/probability); deferred: scene opens week 43."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 35",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 31 for fire week 35 by privatization_accept; never delivered; vanished unfired in week 34 (conditions/probability)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act3_chain_sovarka_tyvaren_response",
+      "sceneId": "act3_chain_sovarka_tyvaren_response",
+      "window": "fire 39",
+      "type": "CHAIN_NEVER",
+      "week": null,
+      "weeks": [],
+      "details": "scheduled in week 33 for fire week 39 by sovarka_full_survey_end; never delivered; vanished unfired in week 42 (conditions/probability); deferred: scene opens week 43."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "__chain__act3_chain_elena_full_war",
+      "sceneId": "act3_chain_elena_full_war",
+      "window": "fire 35",
+      "type": "CHAIN_DEFERRED",
+      "week": 37,
+      "weeks": [
+        37
+      ],
+      "details": "scheduled in week 34 for fire week 35 by elena_rival_support_voice; delivered week 37; deferred: scene opens week 37."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_460_act1_chain_jonas_press_rebellion",
+      "sceneId": "act1_chain_jonas_press_rebellion",
+      "window": "fire 8",
+      "type": "DROPPED_CHAIN",
+      "week": 7,
+      "weeks": [
+        7
+      ],
+      "details": "chain_460_act1_chain_jonas_press_rebellion dropped in week 7: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_456_act2_tyvaren_blind_spot",
+      "sceneId": "act2_tyvaren_blind_spot",
+      "window": "fire 16",
+      "type": "DROPPED_CHAIN",
+      "week": 17,
+      "weeks": [
+        17
+      ],
+      "details": "chain_456_act2_tyvaren_blind_spot dropped in week 17: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_496_act3_jonas_separation",
+      "sceneId": "act3_jonas_separation",
+      "window": "fire 31",
+      "type": "DROPPED_CHAIN",
+      "week": 30,
+      "weeks": [
+        30
+      ],
+      "details": "chain_496_act3_jonas_separation dropped in week 30: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_522_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 34",
+      "type": "DROPPED_CHAIN",
+      "week": 33,
+      "weeks": [
+        33
+      ],
+      "details": "chain_522_act3_week31_inner_circle dropped in week 33: past window (evaluated at week 34; target window ends 33)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_512_act3_week28_economic_crisis",
+      "sceneId": "act3_week28_economic_crisis",
+      "window": "fire 35",
+      "type": "DROPPED_CHAIN",
+      "week": 34,
+      "weeks": [
+        34
+      ],
+      "details": "chain_512_act3_week28_economic_crisis dropped in week 34: past window (evaluated at week 35; target window ends 30)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_495_act3_chain_highway_vael_corruption",
+      "sceneId": "act3_chain_highway_vael_corruption",
+      "window": "fire 36",
+      "type": "DROPPED_CHAIN",
+      "week": 35,
+      "weeks": [
+        35
+      ],
+      "details": "chain_495_act3_chain_highway_vael_corruption dropped in week 35: probability roll failed (inferred)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_540_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 40",
+      "type": "DROPPED_CHAIN",
+      "week": 39,
+      "weeks": [
+        39
+      ],
+      "details": "chain_540_act3_week31_inner_circle dropped in week 39: past window (evaluated at week 40; target window ends 33)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_538_act3_week39_act3_climax",
+      "sceneId": "act3_week39_act3_climax",
+      "window": "fire 41",
+      "type": "DROPPED_CHAIN",
+      "week": 40,
+      "weeks": [
+        40
+      ],
+      "details": "chain_538_act3_week39_act3_climax dropped in week 40: past window (evaluated at week 41; target window ends 40)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_546_act3_week39_act3_climax",
+      "sceneId": "act3_week39_act3_climax",
+      "window": "fire 42",
+      "type": "DROPPED_CHAIN",
+      "week": 41,
+      "weeks": [
+        41
+      ],
+      "details": "chain_546_act3_week39_act3_climax dropped in week 41: past window (evaluated at week 42; target window ends 40)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_518_act3_chain_sovarka_tyvaren_response",
+      "sceneId": "act3_chain_sovarka_tyvaren_response",
+      "window": "fire 39",
+      "type": "DROPPED_CHAIN",
+      "week": 42,
+      "weeks": [
+        42
+      ],
+      "details": "chain_518_act3_chain_sovarka_tyvaren_response dropped in week 42: probability roll failed (inferred)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_552_act3_week31_inner_circle",
+      "sceneId": "act3_week31_inner_circle",
+      "window": "fire 44",
+      "type": "DROPPED_CHAIN",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "chain_552_act3_week31_inner_circle dropped in week 43: past window (evaluated at week 44; target window ends 33)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_557_act4_week41_reform_implementation",
+      "sceneId": "act4_week41_reform_implementation",
+      "window": "fire 44",
+      "type": "DROPPED_CHAIN",
+      "week": 43,
+      "weeks": [
+        43
+      ],
+      "details": "chain_557_act4_week41_reform_implementation dropped in week 43: past window (evaluated at week 44; target window ends 43)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_477_act4_emergency_powers_invoked",
+      "sceneId": "act4_emergency_powers_invoked",
+      "window": "fire 46",
+      "type": "DROPPED_CHAIN",
+      "week": 45,
+      "weeks": [
+        45
+      ],
+      "details": "chain_477_act4_emergency_powers_invoked dropped in week 45: conditions failed (evaluated after the tick)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_562_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 49",
+      "type": "DROPPED_CHAIN",
+      "week": 48,
+      "weeks": [
+        48
+      ],
+      "details": "chain_562_act4_week43_family_resolution dropped in week 48: past window (evaluated at week 49; target window ends 47)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_566_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 50",
+      "type": "DROPPED_CHAIN",
+      "week": 49,
+      "weeks": [
+        49
+      ],
+      "details": "chain_566_act4_week43_family_resolution dropped in week 49: past window (evaluated at week 50; target window ends 47)."
+    },
+    {
+      "profile": "seeded-random",
+      "id": "chain_567_act4_week43_family_resolution",
+      "sceneId": "act4_week43_family_resolution",
+      "window": "fire 53",
+      "type": "DROPPED_CHAIN",
+      "week": 52,
+      "weeks": [
+        52
+      ],
+      "details": "chain_567_act4_week43_family_resolution dropped in week 52: past window (evaluated at week 53; target window ends 47)."
+    }
+  ],
+  "votes": [
+    {
+      "profile": "untouched (no flags)",
+      "week": 13,
+      "itemId": "agenda_w13_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 187,
+      "no": 49,
+      "undecided": 14,
+      "margin": 61,
+      "passed": true,
+      "flagsApplied": [
+        "no_confidence_defeated",
+        "act1_climax_resolved",
+        "transition_to_act2"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "untouched (no flags)",
+      "week": 25,
+      "itemId": "agenda_w25_referendum_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "untouched (no flags)",
+      "week": 26,
+      "itemId": "agenda_w26_referendum_vote_result",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": false
+    },
+    {
+      "profile": "reformist",
+      "week": 13,
+      "itemId": "agenda_w13_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 187,
+      "no": 49,
+      "undecided": 14,
+      "margin": 61,
+      "passed": true,
+      "flagsApplied": [
+        "no_confidence_defeated",
+        "act1_climax_resolved",
+        "transition_to_act2"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "reformist",
+      "week": 25,
+      "itemId": "agenda_w25_referendum_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "reformist",
+      "week": 26,
+      "itemId": "agenda_w26_referendum_vote_result",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": false
+    },
+    {
+      "profile": "hardliner",
+      "week": 13,
+      "itemId": "agenda_w13_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 187,
+      "no": 49,
+      "undecided": 14,
+      "margin": 61,
+      "passed": true,
+      "flagsApplied": [
+        "no_confidence_defeated",
+        "act1_climax_resolved",
+        "transition_to_act2"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "hardliner",
+      "week": 25,
+      "itemId": "agenda_w25_referendum_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "hardliner",
+      "week": 26,
+      "itemId": "agenda_w26_referendum_vote_result",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": false
+    },
+    {
+      "profile": "exile branch",
+      "week": 13,
+      "itemId": "agenda_w13_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 187,
+      "no": 49,
+      "undecided": 14,
+      "margin": 61,
+      "passed": true,
+      "flagsApplied": [
+        "no_confidence_defeated",
+        "act1_climax_resolved",
+        "transition_to_act2"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "exile branch",
+      "week": 25,
+      "itemId": "agenda_w25_referendum_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "exile branch",
+      "week": 26,
+      "itemId": "agenda_w26_referendum_vote_result",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": false
+    },
+    {
+      "profile": "reformist-chooser",
+      "week": 13,
+      "itemId": "agenda_w13_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 119,
+      "no": 130,
+      "undecided": 1,
+      "margin": -7,
+      "passed": false,
+      "flagsApplied": [
+        "no_confidence_passed",
+        "government_fallen"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "reformist-chooser",
+      "week": 25,
+      "itemId": "agenda_w25_referendum_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "reformist-chooser",
+      "week": 26,
+      "itemId": "agenda_w26_referendum_vote_result",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": false
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "week": 13,
+      "itemId": "agenda_w13_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 242,
+      "no": 6,
+      "undecided": 2,
+      "margin": 116,
+      "passed": true,
+      "flagsApplied": [
+        "no_confidence_defeated",
+        "act1_climax_resolved",
+        "transition_to_act2"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "week": 25,
+      "itemId": "agenda_w25_referendum_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "authoritarian-chooser",
+      "week": 26,
+      "itemId": "agenda_w26_referendum_vote_result",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": false
+    },
+    {
+      "profile": "populist-chooser",
+      "week": 13,
+      "itemId": "agenda_w13_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 147,
+      "no": 95,
+      "undecided": 8,
+      "margin": 21,
+      "passed": true,
+      "flagsApplied": [
+        "no_confidence_defeated",
+        "act1_climax_resolved",
+        "transition_to_act2"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "populist-chooser",
+      "week": 25,
+      "itemId": "agenda_w25_referendum_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "populist-chooser",
+      "week": 26,
+      "itemId": "agenda_w26_referendum_vote_result",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": false
+    },
+    {
+      "profile": "seeded-random",
+      "week": 13,
+      "itemId": "agenda_w13_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "no_confidence",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 172,
+      "no": 69,
+      "undecided": 9,
+      "margin": 46,
+      "passed": true,
+      "flagsApplied": [
+        "no_confidence_defeated",
+        "act1_climax_resolved",
+        "transition_to_act2"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "seeded-random",
+      "week": 25,
+      "itemId": "agenda_w25_referendum_lobbying",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": true
+    },
+    {
+      "profile": "seeded-random",
+      "week": 26,
+      "itemId": "agenda_w26_referendum_vote_result",
+      "sceneId": "__vote__",
+      "voteType": "referendum",
+      "threshold": 126,
+      "totalSeats": 250,
+      "spendLevel": 0,
+      "yes": 125,
+      "no": 125,
+      "undecided": 0,
+      "margin": -1,
+      "passed": false,
+      "flagsApplied": [
+        "referendum_failed",
+        "constitution_rejected"
+      ],
+      "lobbyingEnabled": false
+    }
+  ]
+}

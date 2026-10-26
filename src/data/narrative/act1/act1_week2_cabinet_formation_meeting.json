@@ -644,7 +644,14 @@
           "flags": ["form_meeting_probed_oberlin_police"],
           "codexUnlocks": [],
           "nextSegment": "oberlin_police_answer",
-          "reactions": []
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.form_meeting_probed_oberlin_police",
+              "operator": "!=",
+              "value": true
+            }
+          ]
         },
         {
           "id": "followup_oberlin_experience",
@@ -655,7 +662,14 @@
           "flags": ["form_meeting_challenged_oberlin"],
           "codexUnlocks": [],
           "nextSegment": "oberlin_experience_answer",
-          "reactions": []
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.form_meeting_challenged_oberlin",
+              "operator": "!=",
+              "value": true
+            }
+          ]
         },
         {
           "id": "followup_oberlin_dissolution",
@@ -663,10 +677,17 @@
           "internalTag": "reformist",
           "stateChanges": [],
           "chainTriggers": [],
-          "flags": [],
+          "flags": ["form_meeting_asked_oberlin_dissolution"],
           "codexUnlocks": [],
           "nextSegment": "oberlin_dissolution_detail",
-          "reactions": []
+          "reactions": [],
+          "conditions": [
+            {
+              "stat": "flags.form_meeting_asked_oberlin_dissolution",
+              "operator": "!=",
+              "value": true
+            }
+          ]
         },
         {
           "id": "followup_bring_in_perov",

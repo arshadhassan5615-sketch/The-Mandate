@@ -160,7 +160,7 @@ function CategoryPill({
   return (
     <button
       type="button"
-      className="cabinet-pill-seg"
+      className="cabinet-pill-seg touch-target"
       onClick={onClick}
       style={{
         ...cabPillSegment(active),
@@ -184,6 +184,7 @@ function EntryItem({
   return (
     <button
       type="button"
+      className="touch-target"
       onClick={onClick}
       onMouseEnter={e => {
         if (!active) e.currentTarget.style.background = HOVER_TINT
@@ -317,7 +318,7 @@ export default function CodexViewer() {
       footer={DRAWER_FOOTER}
     >
       {/* ── Section pills ─────────────────────────────────────── */}
-      <div style={{
+      <div className="touch-scroll-row" style={{
         display: showList ? 'flex' : 'none',
         flexWrap: 'wrap',
         justifyContent: 'center',
@@ -337,7 +338,7 @@ export default function CodexViewer() {
         {/* Character Map link — available from any category, prominent in characters */}
         <button
           type="button"
-          className="cabinet-pill-seg"
+          className="cabinet-pill-seg touch-target"
           onClick={() => setCharacterMapOpen(true)}
           style={CHARACTER_MAP_PILL}
         >
@@ -399,6 +400,7 @@ export default function CodexViewer() {
           {isPhone && (
             <button
               type="button"
+              className="touch-target"
               onClick={() => setPhonePane('list')}
               style={{
                 ...CAB_LABEL,

@@ -86,5 +86,23 @@
     "executionOrder": 1,
     "weekAvailable": 16,
     "weekDeadline": 16
+  },
+  {
+    "id": "agenda_w16_deficit_crisis",
+    "title": "The Krone Falls",
+    "description": "Bread prices doubled.",
+    "category": "crisis",
+    "sceneId": "act2_deficit_crisis",
+    "slotCost": 0,
+    "executionOrder": 5,
+    "weekAvailable": 16,
+    "weekDeadline": 20,
+    "prerequisites": [
+      {
+        "stat": "nation.nationalDebt",
+        "operator": ">",
+        "value": 450
+      }
+    ]
   }
 ]

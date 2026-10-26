@@ -6,6 +6,7 @@ import type { VoteConfig, VoteResult } from '../types/vote'
 import { evaluateAll } from '../engine/conditionEvaluator'
 import { getScene, canAdvanceWeek } from '../engine/NarrativeEngine'
 import { isAgendaItemDone } from '../engine/weekCompletion'
+import { resolveVote, applyVoteOutcome } from '../engine/voteOutcome'
 import { useGameStore } from './gameStore'
 import { useNarrativeStore } from './narrativeStore'
 import { useChainStore } from './chainStore'
@@ -75,6 +76,23 @@ const ALL_AGENDA: AgendaItem[] = Object.values(agendaModules).flatMap((mod: unkn
 // by initWeek and must survive the mid-week pool rebuild (Fix A).
 const ALL_AGENDA_IDS = new Set(ALL_AGENDA.map(item => item.id))
 
+/**
+ * Scene-window gate shared by buildPool and every initWeek-injected path. The
+ * agenda window is intersected with the scene's own window: an entry must not
+ * open before the scene it launches, nor outlive it. Recurring entries reuse
+ * one scene every cycle, so the scene window (which describes only its first
+ * occurrence) does not apply to them. Virtual `__` scenes and scenes without
+ * numeric bounds are not gated.
+ */
+function isWithinSceneWindow(item: AgendaItem, week: number): boolean {
+  if (item.recurring || item.sceneId.startsWith('__')) return true
+  const scene = getScene(item.sceneId)
+  if (!scene) return true
+  if (typeof scene.weekAvailable === 'number' && week < scene.weekAvailable) return false
+  if (typeof scene.weekDeadline === 'number' && week > scene.weekDeadline) return false
+  return true
+}
+
 function buildPool(week: number, state: GameState, flags: string[], visited: string[]): AgendaItem[] {
   const result = ALL_AGENDA.filter(item => {
     // Broad guard: drop any agenda item missing required fields before further processing
@@ -84,6 +102,7 @@ function buildPool(week: number, state: GameState, flags: string[], visited: str
     if (item.prerequisites?.length) {
       if (!evaluateAll(item.prerequisites, state, flags)) return false
     }
+    if (!isWithinSceneWindow(item, week)) return false
 
     // Skip scene-level prerequisite checks for special virtual scenes (__ prefix)
     if (!item.sceneId.startsWith('__')) {
@@ -265,7 +284,7 @@ function buildChainPrimaryItems(
       console.warn(`[weekStore] Chain target "${sceneId}" not found — skipping`)
       continue
     }
-    items.push({
+    const chainItem: AgendaItem = {
       id: `__chain__${sceneId}`,
       title: scene.title,
       description: 'A consequence of a past decision.',
@@ -275,7 +294,10 @@ function buildChainPrimaryItems(
       executionOrder: -(items.length + 1),  // negative → before player items
       weekAvailable: week,
       isUrgent: true,
-    })
+    }
+    // Backstop: a chain whose scene window does not cover this week is not offered.
+    if (!isWithinSceneWindow(chainItem, week)) continue
+    items.push(chainItem)
   }
   return items
 }
@@ -314,6 +336,35 @@ function buildChainItems(
   return chainItems
 }
 
+/**
+ * Chains due this week are delivered mid-week, at the pool rebuild, so a
+ * same-week consequence reaches the map in the week it was caused. Overdue
+ * backlog is not drained here (cap 0): it stays for completeWeek's capped tick.
+ * Fired chains leave the schedule, so completeWeek cannot fire them again.
+ */
+function deliverDueChains(week: number, visitedSceneIds: readonly string[]): AgendaItem[] {
+  const { activeFlags } = useNarrativeStore.getState()
+  const fired = useChainStore.getState().processOnTime(week, useGameStore.getState(), activeFlags)
+  return buildChainPrimaryItems(fired, week, visitedSceneIds)
+}
+
+/**
+ * Agenda-queue path: same-week chains scheduled by a scene that just completed
+ * are appended to the end of the queue (before review), so they play this week.
+ * Items already queued by sceneId are skipped; the queue is returned unchanged
+ * when nothing is due.
+ */
+function appendSameWeekChains(
+  queue: AgendaItem[],
+  visitedSceneIds: readonly string[],
+): AgendaItem[] {
+  const week = useGameStore.getState().currentWeek
+  const queuedSceneIds = new Set(queue.map(item => item.sceneId))
+  const delivered = deliverDueChains(week, visitedSceneIds)
+    .filter(item => !queuedSceneIds.has(item.sceneId))
+  return delivered.length ? [...queue, ...delivered] : queue
+}
+
 // Threshold checks for chain-injected crisis scenes (mirrors shouldTriggerImpeachment).
 // Both targets are Act-1 scenes, so both triggers are week-bounded:
 //   - before week 3 the government is still forming (inauguration + cabinet),
@@ -329,6 +380,71 @@ function shouldTriggerDeficitCrisis(economyHealth: number, week: number): boolea
   return week >= 3 && week <= 20 && economyHealth < -40
 }
 
+/** Virtual vote items: once completed they stay held for the playthrough. */
+function isHeldVote(item: AgendaItem): boolean {
+  return !item.recurring && item.sceneId === '__vote__'
+}
+
+/**
+ * Drop held votes from a pool. A vote completed this week stays visible as
+ * done (it is in doneIds); a vote held in an earlier week is not offered again.
+ */
+function withoutHeldVotes(
+  pool: AgendaItem[],
+  resolvedIds: readonly string[],
+  doneIds: readonly string[],
+): AgendaItem[] {
+  return pool.filter(item => !(resolvedIds.includes(item.id) && !doneIds.includes(item.id)))
+}
+
+/**
+ * Remember a resolved vote so later weeks can show it instead of re-running it.
+ * Held votes are marked resolved at commit time (idempotent), so a reload
+ * before the queue completes does not re-offer them. `item` defaults to the
+ * current queue item; pass it explicitly when the queue is not set yet.
+ */
+export function recordVoteResult(
+  voteConfig: VoteConfig | null,
+  result: VoteResult,
+  item?: AgendaItem | null,
+): void {
+  if (!voteConfig) return
+  const current = useWeekStore.getState()
+  const voteItem = item === undefined ? (current.sceneQueue[current.currentQueueIndex] ?? null) : item
+  const isHeld = voteItem !== null && isHeldVote(voteItem)
+  useWeekStore.setState(s => ({
+    lastVoteResults: { ...s.lastVoteResults, [voteConfig.voteType]: result },
+    resolvedItemIds: isHeld && voteItem
+      ? [...new Set([...s.resolvedItemIds, voteItem.id])]
+      : s.resolvedItemIds,
+  }))
+}
+
+/**
+ * Store fields that open the vote screen for a `__vote__` item.
+ * Lobbying votes wait for the whip count. No-lobbying votes show the stored
+ * result from an earlier week when there is one; otherwise they resolve now
+ * with no spending, apply the outcome once, and store it.
+ */
+function beginVote(
+  voteConfig: VoteConfig | null,
+  item: AgendaItem | null,
+): Pick<WeekStore, 'phase' | 'voteConfig' | 'voteResult'> {
+  if (voteConfig?.lobbyingEnabled !== false) {
+    return { phase: 'lobbying', voteConfig, voteResult: null }
+  }
+  const held: VoteResult | undefined = voteConfig
+    ? useWeekStore.getState().lastVoteResults[voteConfig.voteType]
+    : undefined
+  if (held) {
+    return { phase: 'vote_result', voteConfig, voteResult: held }
+  }
+  const outcome = resolveVote(voteConfig, 0, useGameStore.getState())
+  applyVoteOutcome(outcome)
+  recordVoteResult(voteConfig, outcome.voteResult, item)
+  return { phase: 'vote_result', voteConfig, voteResult: outcome.voteResult }
+}
+
 interface WeekStore {
   phase: GamePhase
 
@@ -338,6 +454,7 @@ interface WeekStore {
   slotsUsed:       number
   forcedChainIds:  string[]   // scene IDs that chain reactions fired this week
   completedItemIds: string[]  // pool item IDs finished this week (virtual scenes never visit)
+  resolvedItemIds: string[]   // held __vote__ item IDs; persistent, never re-offered
 
   // Scene phase
   sceneQueue:         AgendaItem[]   // sorted selected items (chain scenes first)
@@ -361,6 +478,7 @@ interface WeekStore {
   // Vote / lobbying
   voteConfig: VoteConfig | null
   voteResult: VoteResult | null
+  lastVoteResults: Record<string, VoteResult>  // latest resolved result per voteType
 
   // Diary
   diaryEntry: { week: number; date: string; text: string; category: 'political' | 'personal' | 'crisis' | 'diplomatic' | 'military' } | null
@@ -423,6 +541,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   slotsUsed:       0,
   forcedChainIds:      [],
   completedItemIds:    [],
+  resolvedItemIds:     [],
   sceneQueue:          [],
   currentQueueIndex:   0,
   returnToMap:         false,
@@ -434,6 +553,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
   showLegacy: false,
   voteConfig: null,
   voteResult: null,
+  lastVoteResults: {},
   diaryEntry: null,
   cliffhangerText: null,
   cutscenePanels: null,
@@ -514,6 +634,8 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       slotsUsed: 0,
       forcedChainIds: [],
       completedItemIds: [],
+      resolvedItemIds: [],
+      lastVoteResults: {},
       sceneQueue: [],
       currentQueueIndex: 0,
       weekStartSnapshot: null,
@@ -1055,7 +1177,9 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // Sort pool by executionOrder so downstream readers (e.g. MapInteractionLayer)
     // always see items in canonical sequence. Items missing executionOrder
     // sink to the end (coerced to 99).
-    pool.sort((a, b) =>
+    // Scene-window gate for every injected item (hard-coded pushes and chains).
+    const windowedPool = pool.filter(item => isWithinSceneWindow(item, gameState.currentWeek))
+    windowedPool.sort((a, b) =>
       (a.executionOrder ?? 999) -
       (b.executionOrder ?? 999)
     )
@@ -1064,7 +1188,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // On first load (GameLayout mount), forcedChainIds stays [] from initial state.
     set({
       phase:        showMeeting ? 'scene' : 'briefing',
-      agendaPool:   pool,
+      agendaPool:   withoutHeldVotes(windowedPool, get().resolvedItemIds, get().completedItemIds),
       selectedIds:  [],
       slotsUsed:    0,
       sceneQueue:   [],
@@ -1205,8 +1329,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     } else if (first.sceneId === '__radio__') {
       set({ ...base, phase: 'scene', radioOpen: true })
     } else if (first.sceneId === '__vote__') {
-      const voteConfig = first.voteConfig ?? null
-      set({ ...base, phase: voteConfig?.lobbyingEnabled !== false ? 'lobbying' : 'vote_result', voteConfig })
+      set({ ...base, ...beginVote(first.voteConfig ?? null, first) })
     } else if (first.sceneId?.startsWith('__project__')) {
       useNarrativeStore.getState().loadScene(first.sceneId)
       set({ ...base, phase: 'scene' })
@@ -1232,7 +1355,14 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     set({ transitionLabel: 'scene' })
     trackedTimeout(async () => {
       try {
-        const { sceneQueue: q } = get()
+        const { sceneQueue: queueBefore, returnToMap: launchedFromMap } = get()
+        // Agenda-queue path: same-week chains join the end of the queue so they
+        // play this week instead of waiting for completeWeek. Map path delivers
+        // them at the pool rebuild below.
+        const q = launchedFromMap
+          ? queueBefore
+          : appendSameWeekChains(queueBefore, useNarrativeStore.getState().visitedSceneIds)
+        if (q !== queueBefore) set({ sceneQueue: q })
         if (next < q.length) {
           const item = q[next]
 
@@ -1256,8 +1386,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           } else if (item.sceneId === '__radio__') {
             set({ phase: 'scene', transitionLabel: '', radioOpen: true })
           } else if (item.sceneId === '__vote__') {
-            const voteConfig = item.voteConfig ?? null
-            set({ phase: voteConfig?.lobbyingEnabled !== false ? 'lobbying' : 'vote_result', voteConfig })
+            set(beginVote(item.voteConfig ?? null, item))
           } else if (item.sceneId.startsWith('act1_week2_cabinet')) {
             set({ phase: 'scene', showCabinetFormation: true, transitionLabel: '' })
           } else {
@@ -1272,6 +1401,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
           // done-check needs the item IDs (see engine/weekCompletion.ts).
           set(s => ({
             completedItemIds: [...new Set([...s.completedItemIds, ...q.map(item => item.id)])],
+            resolvedItemIds: [...new Set([...s.resolvedItemIds, ...q.filter(isHeldVote).map(item => item.id)])],
           }))
           const { returnToMap } = get()
           if (returnToMap) {
@@ -1551,17 +1681,23 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
             }
 
             const { activeFlags, visitedSceneIds: vs } = useNarrativeStore.getState()
-            const { completedItemIds: doneIds, agendaPool: prevPool } = get()
-            const freshPool = buildPool(useGameStore.getState().currentWeek, useGameStore.getState(), activeFlags, vs)
+            const { completedItemIds: doneIds, agendaPool: prevPool, resolvedItemIds: resolvedIds } = get()
+            const rebuildWeek = useGameStore.getState().currentWeek
+            const freshPool = buildPool(rebuildWeek, useGameStore.getState(), activeFlags, vs)
             // Fix A: initWeek-injected items (ids outside the JSON agenda bank)
-            // must survive the mid-week rebuild, minus the ones already done.
+            // must survive the mid-week rebuild, minus the ones already done and
+            // the ones whose scene window no longer covers this week.
             const carried = prevPool.filter(
-              item => !ALL_AGENDA_IDS.has(item.id) && !isAgendaItemDone(item, vs, doneIds),
+              item => !ALL_AGENDA_IDS.has(item.id) && !isAgendaItemDone(item, vs, doneIds) && isWithinSceneWindow(item, rebuildWeek),
             )
-            const mergedPool = [
+            const carriedPool = [
               ...freshPool,
               ...carried.filter(c => !freshPool.some(f => f.id === c.id)),
             ]
+            // Same-week chains reach the map now, not at the next week's start.
+            const delivered = deliverDueChains(useGameStore.getState().currentWeek, vs)
+              .filter(item => !carriedPool.some(p => p.sceneId === item.sceneId))
+            const mergedPool = [...carriedPool, ...delivered]
             mergedPool.sort((a, b) =>
               (a.executionOrder ?? 999) -
               (b.executionOrder ?? 999)
@@ -1570,7 +1706,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
               phase: 'map',
               transitionLabel: '',
               returnToMap: false,
-              agendaPool: mergedPool,
+              agendaPool: withoutHeldVotes(mergedPool, resolvedIds, doneIds),
             })
             // Autosave after every completed scene
             try {
@@ -1677,14 +1813,12 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     }
 
     if (item.sceneId === '__vote__') {
-      const voteConfig = item.voteConfig ?? null
       set({
-        phase: voteConfig?.lobbyingEnabled !== false ? 'lobbying' : 'vote_result',
+        ...beginVote(item.voteConfig ?? null, item),
         sceneQueue: [item],
         currentQueueIndex: 0,
         weekStartSnapshot: snapshot,
         returnToMap: true,
-        voteConfig,
       })
       return
     }

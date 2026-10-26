@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import type { DiaryEntry } from '../engine/DiaryEngine'
 import CharacterPortrait from './portraits/CharacterPortrait'
+import { isCoarsePointer } from './narrative/linkPress'
+import { usePageInsets } from '../hooks/usePageInsets'
 
 interface DiaryScreenProps {
   entry: DiaryEntry
@@ -12,6 +14,9 @@ export default function DiaryScreen({ entry, onContinue }: DiaryScreenProps) {
   const [textVisible, setTextVisible] = useState(false)
   const [fadingOut, setFadingOut] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+  // Phones and compact landscape pin the continue hint to the viewport bottom.
+  const insets = usePageInsets()
+  const isCompact = insets.mode !== 'desktop'
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 400)
@@ -48,6 +53,21 @@ export default function DiaryScreen({ entry, onContinue }: DiaryScreenProps) {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [handleContinue])
+
+  // Touch devices have no Space bar, so the hint names the tap instead.
+  const continueHint = isCoarsePointer() ? 'Tap to continue' : 'Press Space to continue'
+  const continuePrompt = (
+    <p style={{
+      fontFamily: "'Special Elite', monospace",
+      fontSize: isCompact ? '0.6rem' : '0.48rem', letterSpacing: '0.15em',
+      color: 'var(--muted)', opacity: 0.6,
+      textAlign: 'center',
+      animation: 'blink 2.5s step-end infinite',
+      ...(isCompact ? { position: 'fixed' as const, left: 0, right: 0, bottom: '14px', margin: 0, zIndex: 2, pointerEvents: 'none' as const } : {}),
+    }}>
+      {continueHint}
+    </p>
+  )
 
   return (
     <div
@@ -149,17 +169,9 @@ export default function DiaryScreen({ entry, onContinue }: DiaryScreenProps) {
             margin: '2.5rem auto 2rem',
           }} />
 
-          {/* Continue prompt */}
-          <p style={{
-            fontFamily: "'Special Elite', monospace",
-            fontSize: '0.48rem', letterSpacing: '0.15em',
-            color: 'var(--muted)', opacity: 0.6,
-            textAlign: 'center',
-            animation: 'blink 2.5s step-end infinite',
-          }}>
-            PRESS SPACE TO CONTINUE
-          </p>
+          {!isCompact && continuePrompt}
         </div>
+        {isCompact && continuePrompt}
       </div>
     </div>
   )

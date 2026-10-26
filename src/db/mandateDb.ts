@@ -11,6 +11,7 @@ import type { DiplomaticLetter } from '../types/letters'
 import type { ChoiceRecord } from '../stores/narrativeStore'
 import type { Commitment } from '../engine/commitments'
 import type { MeetingNote } from '../types/meetingNotes'
+import type { VoteResult } from '../types/vote'
 
 export interface SaveRecord {
   version: number
@@ -29,6 +30,10 @@ export interface SaveRecord {
   forcedChainIds: string[]
   /** Week-scoped completion ledger (Fix A). Optional: older saves default to []. */
   completedItemIds?: string[]
+  /** Last resolved result per vote type (no_confidence, referendum, ...). Optional: older saves default to {}. */
+  lastVoteResults?: Record<string, VoteResult>
+  /** Virtual vote items held this playthrough; never re-offered. Optional: older saves default to []. */
+  resolvedItemIds?: string[]
   /** Choices made this playthrough. Optional: older saves default to []. */
   choiceLog?: ChoiceRecord[]
   /** Province news items already read. Optional: older saves default to []. */

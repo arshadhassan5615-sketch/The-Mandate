@@ -34,12 +34,29 @@ vi.mock('../engine/audioEngine', () => ({
 // ─── AudioManager mock ────────────────────────────────────────────────────────
 // Same rationale as above; AudioManager manages an MP3 track registry.
 
+// Components use the lowercase `audioManager` singleton, so it is mocked too,
+// covering every method called on it in src/.
+
 vi.mock('../engine/AudioManager', () => ({
   AudioManager: {
     play: vi.fn(),
     stop: vi.fn(),
     fadeOut: vi.fn(),
     setVolume: vi.fn(),
+  },
+  audioManager: {
+    resume: vi.fn(),
+    setUserInteracted: vi.fn(),
+    setVolume: vi.fn(),
+    setMuted: vi.fn(),
+    setIntensity: vi.fn(),
+    getTrackForScene: vi.fn(),
+    getTrackForPhase: vi.fn(),
+    getTrackForMeetingType: vi.fn(),
+    playTrack: vi.fn(),
+    fadeToTrack: vi.fn(),
+    pause: vi.fn(),
+    dipVolume: vi.fn(),
   },
 }))
 

@@ -371,6 +371,7 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
         id={TAB_JOURNAL_ID}
         controls={TABPANEL_ID}
         label="Journal"
+        className="touch-target"
         active={!isDiary}
         onSelect={() => setViewMode('journal')}
       />
@@ -379,6 +380,7 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
         controls={TABPANEL_ID}
         label="Diary"
         count={diaryEntries.length}
+        className="touch-target"
         active={isDiary}
         onSelect={() => setViewMode('diary')}
       />
@@ -446,10 +448,10 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
     >
       <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 8, padding: '0 22px 10px' }}>
         {/* Act filter pills */}
-        <div style={FILTER_ROW}>
+        <div className="touch-scroll-row" style={FILTER_ROW}>
           <button
             type="button"
-            className="cabinet-pill-seg"
+            className="cabinet-pill-seg touch-target"
             aria-pressed={selectedAct === null}
             onClick={() => setSelectedAct(null)}
             style={filterPill(selectedAct === null)}
@@ -460,7 +462,7 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
             <button
               key={act}
               type="button"
-              className="cabinet-pill-seg"
+              className="cabinet-pill-seg touch-target"
               aria-pressed={selectedAct === act}
               onClick={() => setSelectedAct(selectedAct === act ? null : act)}
               style={filterPill(selectedAct === act)}
@@ -471,14 +473,14 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Category filter pills */}
-        <div style={FILTER_ROW}>
+        <div className="touch-scroll-row" style={FILTER_ROW}>
           {ALL_CATEGORIES.map(cat => {
             const isActive = selectedCategory === cat
             return (
               <button
                 key={cat}
                 type="button"
-                className="cabinet-pill-seg"
+                className="cabinet-pill-seg touch-target"
                 aria-pressed={isActive}
                 onClick={() => setSelectedCategory(isActive ? null : cat)}
                 style={filterPill(isActive)}
@@ -495,6 +497,7 @@ export default function JournalView({ onClose }: { onClose: () => void }) {
           placeholder="Search..."
           value={searchText}
           onChange={e => setSearchText(e.target.value)}
+          className="touch-target"
           style={SEARCH_INPUT}
         />
       </div>

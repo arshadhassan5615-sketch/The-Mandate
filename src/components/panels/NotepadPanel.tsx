@@ -65,23 +65,24 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
   )
   const [pageTab, setPageTab] = useState<'meetings' | 'notes'>('meetings')
   const [localText, setLocalText] = useState(notes)
+  const [syncedNotes, setSyncedNotes] = useState(notes)
   const [showConfirmClear, setShowConfirmClear] = useState(false)
   const [showCharDropdown, setShowCharDropdown] = useState(false)
+
+  // Adopt the stored notes during render whenever they change (no effect-driven setState).
+  if (notes !== syncedNotes) {
+    setSyncedNotes(notes)
+    setLocalText(notes)
+  }
 
   useFocusOnOpen([titleRef])
   useEscapeToClose(onClose)
 
-  useEffect(() => {
-    setLocalText(notes)
-  }, [notes])
-
-  // Quick-stamp scene title on open if requested
+  // Quick-stamp scene title on open if requested. Writing the store is enough: the sync above
+  // copies the stamped notes into the editor on the next render.
   useEffect(() => {
     if (quickStampScene && currentScene?.title && !notes) {
-      const stamp = `▸ ${currentScene.title}\n`
-      const updated = stamp
-      setLocalText(updated)
-      setPersonalNotes(updated)
+      setPersonalNotes(`▸ ${currentScene.title}\n`)
     }
   }, [quickStampScene, currentScene, notes, setPersonalNotes])
 
@@ -241,7 +242,7 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
                       minWidth: 150, zIndex: 10, boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
                     }}>
                       {sceneChars.length > 0 ? sceneChars.map(c => (
-                        <button key={c.id} type="button" onClick={() => handleCharStamp(c.name)} style={DROPDOWN_ITEM_STYLE}>
+                        <button key={c.id} type="button" className="touch-target" onClick={() => handleCharStamp(c.name)} style={DROPDOWN_ITEM_STYLE}>
                           {c.name}
                         </button>
                       )) : (
@@ -311,11 +312,11 @@ export default function NotepadPanel({ onClose, quickStampScene }: NotepadPanelP
           {showConfirmClear ? (
             <>
               <span style={{ ...TEAR_TEXT_STYLE, cursor: 'default' }}>Tear them out?</span>
-              <button type="button" onClick={handleClear} style={TEAR_TEXT_STYLE}>Yes</button>
-              <button type="button" onClick={() => setShowConfirmClear(false)} style={TEAR_TEXT_STYLE}>No</button>
+              <button type="button" className="touch-target" onClick={handleClear} style={TEAR_TEXT_STYLE}>Yes</button>
+              <button type="button" className="touch-target" onClick={() => setShowConfirmClear(false)} style={TEAR_TEXT_STYLE}>No</button>
             </>
           ) : (
-            <button type="button" onClick={handleClear} style={TEAR_TEXT_STYLE}>Tear out my notes</button>
+            <button type="button" className="touch-target" onClick={handleClear} style={TEAR_TEXT_STYLE}>Tear out my notes</button>
           )}
         </div>
       </div>

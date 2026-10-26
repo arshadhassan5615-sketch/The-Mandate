@@ -89,11 +89,18 @@
           "id": "rebel_to_lytheirian",
           "text": "Turn to the Lytheirian diplomat. Hear the counter-offer.",
           "nextSegment": "seg_question_lytheirian",
-          "flags": [],
+          "flags": ["morivask_asked_rebel_to_lytheirian"],
           "stateChanges": [],
           "reactions": [],
           "chainTriggers": [],
-          "codexUnlocks": []
+          "codexUnlocks": [],
+          "conditions": [
+            {
+              "stat": "flags.morivask_asked_rebel_to_lytheirian",
+              "operator": "!=",
+              "value": true
+            }
+          ]
         },
         {
           "id": "rebel_to_policy",
@@ -134,11 +141,18 @@
           "id": "lytheirian_to_rebel",
           "text": "Turn to the rebel commander. Hear his plea again.",
           "nextSegment": "seg_question_rebel",
-          "flags": [],
+          "flags": ["morivask_asked_lytheirian_to_rebel"],
           "stateChanges": [],
           "reactions": [],
           "chainTriggers": [],
-          "codexUnlocks": []
+          "codexUnlocks": [],
+          "conditions": [
+            {
+              "stat": "flags.morivask_asked_lytheirian_to_rebel",
+              "operator": "!=",
+              "value": true
+            }
+          ]
         },
         {
           "id": "lytheirian_to_policy",

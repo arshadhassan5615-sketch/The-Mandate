@@ -1,0 +1,331 @@
+{
+  "summary": {
+    "totals": {
+      "neverSetFlag": 0,
+      "neverSetFlagUnsatisfiable": 0,
+      "unknownStatPath": 0,
+      "chainTargetMissing": 0,
+      "impossibleRange": 0,
+      "likelyBugs": 4,
+      "orphanScenes": 11,
+      "externallyReferencedScenes": 59,
+      "agendaEntries": 431,
+      "scenes": 540,
+      "chainTriggers": 788,
+      "nextNodeIdEdges": 16,
+      "flagReferencesChecked": 792,
+      "setterFlags": 3188,
+      "dynamicSetterPatterns": 5
+    },
+    "duplicateSceneIds": []
+  },
+  "NEVER_SET_FLAG": [],
+  "UNKNOWN_STAT_PATH": [],
+  "CHAIN_TARGET_MISSING": [],
+  "IMPOSSIBLE_RANGE": [],
+  "likelyBugs": [
+    {
+      "kind": "chain",
+      "id": "act2_week18_vael_fund#vael_fund_invest_deniable->act3_vael_fund_return_hidden",
+      "file": "src/data/narrative/act2/act2_week18_vael_fund.json",
+      "reason": "chain to \"act3_vael_fund_return_hidden\" never fires (source scene unreachable) and target has no other path",
+      "suggestion": "source of this edge is unreachable; fix the upstream gate"
+    },
+    {
+      "kind": "chain",
+      "id": "act2_week18_vael_fund#vael_fund_invest->act3_vael_fund_return",
+      "file": "src/data/narrative/act2/act2_week18_vael_fund.json",
+      "reason": "chain to \"act3_vael_fund_return\" never fires (source scene unreachable) and target has no other path",
+      "suggestion": "source of this edge is unreachable; fix the upstream gate"
+    },
+    {
+      "kind": "scene",
+      "id": "act3_vael_fund_return",
+      "file": "src/data/narrative/act3/act3_vael_fund_return.json",
+      "reason": "scene can never be reached: chain act2_week18_vael_fund#vael_fund_invest->act3_vael_fund_return live but source unreachable",
+      "suggestion": "scene-level prerequisites can never pass; fix the flag/stat in scene prerequisites"
+    },
+    {
+      "kind": "scene",
+      "id": "act3_vael_fund_return_hidden",
+      "file": "src/data/narrative/act3/act3_vael_fund_return_hidden.json",
+      "reason": "scene can never be reached: chain act2_week18_vael_fund#vael_fund_invest_deniable->act3_vael_fund_return_hidden live but source unreachable; exclusive act3_vael_fund_return->act3_vael_fund_return_hidden live but source unreachable",
+      "suggestion": "scene-level prerequisites can never pass; fix the flag/stat in scene prerequisites"
+    }
+  ],
+  "orphanScenes": [
+    "act1_nadia_exclusive_interview",
+    "act1_week20_stellamere_summit",
+    "act2_week18_vael_fund",
+    "act2_week20_oligarch_meeting",
+    "act3_chain_assassination_attempt",
+    "act3_chain_voss_military_use",
+    "act3_church_active_opposition_scene",
+    "act3_diplomacy_tyvaren_peace",
+    "news_inauguration_gazette",
+    "news_inauguration_herald",
+    "news_inauguration_worker"
+  ],
+  "externallyReferencedScenes": [
+    {
+      "id": "act_campaign_rally",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act_citizen_petitions",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act_monthly_press_conference",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act1_chain_deficit_crisis",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act1_chain_tyvaren_border_standoff",
+      "file": "src/engine/AudioManager.ts"
+    },
+    {
+      "id": "act1_minority_festival_request",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act1_religious_parish_priest",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act1_week1_address_nation",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act1_week10_church_education",
+      "file": "src/components/panels/ConnectionsPanel.tsx"
+    },
+    {
+      "id": "act1_week2_cabinet_appointments",
+      "file": "src/components/CabinetFormation.tsx"
+    },
+    {
+      "id": "act1_week6_police_incident",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act1_week7_commissioner",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act1_week8_vael_offer",
+      "file": "src/components/panels/ConnectionsPanel.tsx"
+    },
+    {
+      "id": "act1_week9_soren_immunity",
+      "file": "src/data/journal/journalTemplates.ts"
+    },
+    {
+      "id": "act2_minority_language_school",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act2_minority_mixed_marriage",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act2_minority_refugee_health",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act2_religious_holiday_speech",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act2_religious_hospital_threat",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act3_assassination_bombing",
+      "file": "src/data/journal/journalTemplates.ts"
+    },
+    {
+      "id": "act3_assassination_default",
+      "file": "src/engine/AssassinationEngine.ts"
+    },
+    {
+      "id": "act3_assassination_poisoning",
+      "file": "src/data/journal/journalTemplates.ts"
+    },
+    {
+      "id": "act3_assassination_sniper",
+      "file": "src/data/journal/journalTemplates.ts"
+    },
+    {
+      "id": "act3_minority_refugee_integration",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act3_minority_veteran_recognition",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act3_nightmare_sequence",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act3_no_confidence_fallen",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act3_no_confidence_survived",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act3_religious_church_halvek_files",
+      "file": "src/components/TermReportScreen.tsx"
+    },
+    {
+      "id": "act3_rival_poaching",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act4_impeachment_proceedings",
+      "file": "src/data/journal/journalTemplates.ts"
+    },
+    {
+      "id": "act4_impeachment_vote_vindicated",
+      "file": "src/stores/weekStore.ts"
+    },
+    {
+      "id": "act4_mole_correct_accusation",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "act4_mole_wrong_accusation",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "crisis_deficit_emergency",
+      "file": "src/engine/BudgetCrisisEngine.ts"
+    },
+    {
+      "id": "emergency_decree_tyvaren_border",
+      "file": "src/engine/EmergencyDecreeEngine.ts"
+    },
+    {
+      "id": "family_dinner_recurring",
+      "file": "src/engine/FamilyDinnerEngine.ts"
+    },
+    {
+      "id": "intelligence_briefing_recurring",
+      "file": "src/engine/IntelligenceBriefingEngine.ts"
+    },
+    {
+      "id": "letter_response_arcturian",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_father",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_jonas",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_kolvar",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_liora",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_nadia",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_nation",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_soraya",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_soren",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "letter_response_vukov",
+      "file": "src/engine/LetterEngine.ts"
+    },
+    {
+      "id": "morning_briefing_compromised",
+      "file": "src/components/AgendaSelector.tsx"
+    },
+    {
+      "id": "project_contractor_fortification",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "project_contractor_highway",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "project_contractor_steel",
+      "file": "src/data/journal/journalTemplates.ts"
+    },
+    {
+      "id": "project_contractor_university",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "project_mid_crisis_fortification",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "project_mid_crisis_highway",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "project_mid_crisis_steel",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "project_mid_crisis_university",
+      "file": "src/data/journal/journalTemplates.ts"
+    },
+    {
+      "id": "security_posture_choice_perov",
+      "file": "src/stores/narrativeStore.ts"
+    },
+    {
+      "id": "vyktor_press_briefing",
+      "file": "src/stores/weekStore.ts"
+    }
+  ],
+  "dynamicSetterPatterns": [
+    {
+      "template": "'election_won_term_' + <dynamic>",
+      "source": "src/stores/weekStore.ts"
+    },
+    {
+      "template": "${minister.id}_corruption_exposed",
+      "source": "src/components/CabinetMeeting.tsx"
+    },
+    {
+      "template": "constitution_${provision.id}_${variantId}",
+      "source": "src/components/ConstitutionalReform.tsx"
+    },
+    {
+      "template": "constitution_excluded_${provision.id}",
+      "source": "src/components/ConstitutionalReform.tsx"
+    },
+    {
+      "template": "personality_${personality.toLowerCase()}",
+      "source": "src/components/CharacterCustomization.tsx"
+    }
+  ],
+  "setterFlagCount": 3188,
+  "choicesScanned": 2746
+}

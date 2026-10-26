@@ -26,7 +26,7 @@ export function PaperTabButton({ id, controls, label, count, active, onSelect, c
       aria-controls={controls}
       tabIndex={active ? 0 : -1}
       onClick={() => onSelect()}
-      className={['cabinet-pill-seg', className].filter(Boolean).join(' ')}
+      className={['cabinet-pill-seg', 'touch-target', className].filter(Boolean).join(' ')}
       style={cabPillSegment(active)}
     >
       {label}

@@ -9,7 +9,6 @@ import { rem } from '../constants/typography'
 import CabinetWindow from './ui/cabinet/CabinetWindow'
 import { CabinetButton } from './ui/cabinet/CabinetParts'
 import { CAB_BODY, CAB_FONT, CAB_PILL_GROUP, cabPillSegment } from './ui/cabinet/cabinetStyles'
-import { PaperTabButton } from './panels/PaperPanel'
 
 type SettingsTab = 'audio' | 'display' | 'game'
 
@@ -20,8 +19,13 @@ const SETTINGS_TABS: { id: SettingsTab; label: string }[] = [
 ]
 
 const SETTINGS_COLUMNS_ID = 'settings-columns'
+/** Minimum height of a tappable control on touch (non-desktop) layouts. */
+const TOUCH_MIN_HEIGHT = 40
+const TOUCH_STYLE: CSSProperties = { minHeight: TOUCH_MIN_HEIGHT }
 const SLIDER_TRACK_WIDTH = 230
 const SLIDER_CONTROL_WIDTH = 300
+const SLIDER_TRACK_HEIGHT = 3
+const TOUCH_SLIDER_HEIGHT = 40
 const ROW_BORDER = '1px solid rgba(201,168,76,0.14)'
 
 const ROW_DESKTOP: CSSProperties = {
@@ -106,8 +110,16 @@ function Slider({ label, value, onChange, dense, min = 0, max = 100 }: {
         style={{
           flex: dense ? '1 1 auto' : `0 0 ${SLIDER_TRACK_WIDTH}px`,
           accentColor: 'var(--cab-gold)',
-          background: `linear-gradient(90deg, var(--cab-gold) ${pct}%, #3a3020 ${pct}%)`,
-          height: 3,
+          backgroundImage: `linear-gradient(90deg, var(--cab-gold) ${pct}%, #3a3020 ${pct}%)`,
+          // Touch layouts: 40px hit area from vertical padding; the 3px track stays the content box.
+          ...(dense
+            ? {
+              boxSizing: 'content-box',
+              height: SLIDER_TRACK_HEIGHT,
+              padding: `${(TOUCH_SLIDER_HEIGHT - SLIDER_TRACK_HEIGHT) / 2}px 0`,
+              backgroundClip: 'content-box',
+            }
+            : { height: SLIDER_TRACK_HEIGHT }),
           borderRadius: 2,
           appearance: 'none',
           WebkitAppearance: 'none',
@@ -175,8 +187,8 @@ function Toggle({ label, checked, onChange, disabled }: {
   )
 }
 
-function SegmentedPicker<T extends string>({ options, value, onChange }: {
-  options: readonly T[]; value: T; onChange: (v: T) => void
+function SegmentedPicker<T extends string>({ options, value, onChange, dense }: {
+  options: readonly T[]; value: T; onChange: (v: T) => void; dense: boolean
 }) {
   return (
     <div style={CAB_PILL_GROUP}>
@@ -184,14 +196,46 @@ function SegmentedPicker<T extends string>({ options, value, onChange }: {
         <button
           key={opt}
           type="button"
-          className="cabinet-pill-seg"
+          className={dense ? 'cabinet-pill-seg touch-target' : 'cabinet-pill-seg'}
           onClick={() => onChange(opt)}
-          style={{ ...cabPillSegment(value === opt), fontSize: rem(10), padding: '4px 10px' }}
+          style={{
+            ...cabPillSegment(value === opt),
+            fontSize: rem(10),
+            padding: '4px 10px',
+            ...(dense ? TOUCH_STYLE : null),
+          }}
         >
           {opt}
         </button>
       ))}
     </div>
+  )
+}
+
+interface SettingsTabButtonProps {
+  id: SettingsTab
+  label: string
+  active: boolean
+  dense: boolean
+  onSelect: () => void
+}
+
+/** A section tab; same look as PaperTabButton, with a touch-height floor on non-desktop. */
+function SettingsTabButton({ id, label, active, dense, onSelect }: SettingsTabButtonProps) {
+  return (
+    <button
+      type="button"
+      role="tab"
+      id={`settings-tab-${id}`}
+      aria-selected={active}
+      aria-controls={SETTINGS_COLUMNS_ID}
+      tabIndex={active ? 0 : -1}
+      onClick={onSelect}
+      className={dense ? 'cabinet-pill-seg touch-target' : 'cabinet-pill-seg'}
+      style={{ ...cabPillSegment(active), ...(dense ? TOUCH_STYLE : null) }}
+    >
+      {label}
+    </button>
   )
 }
 
@@ -302,6 +346,7 @@ export default function SettingsPanel() {
           options={['slow', 'medium', 'fast', 'instant'] as const}
           value={textSpeed}
           onChange={setTextSpeed}
+          dense={dense}
         />
       </SettingRow>
 
@@ -310,6 +355,7 @@ export default function SettingsPanel() {
           options={['normal', 'large', 'xlarge'] as const}
           value={fontSize}
           onChange={setFontSize}
+          dense={dense}
         />
       </SettingRow>
 
@@ -331,7 +377,10 @@ export default function SettingsPanel() {
           <label
             htmlFor="story-mode-checkbox"
             title={isCompact ? storyModeDescription : undefined}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, cursor: 'pointer', userSelect: 'none' }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10, cursor: 'pointer', userSelect: 'none',
+              ...(dense ? TOUCH_STYLE : null),
+            }}
           >
             <input
               id="story-mode-checkbox"
@@ -383,12 +432,12 @@ export default function SettingsPanel() {
   const tabRows = tab === 'audio' ? audioRows : tab === 'display' ? displayRows : gameRows
 
   const tabButtons = SETTINGS_TABS.map(({ id, label }) => (
-    <PaperTabButton
+    <SettingsTabButton
       key={id}
-      id={`settings-tab-${id}`}
-      controls={SETTINGS_COLUMNS_ID}
+      id={id}
       label={label}
       active={tab === id}
+      dense={dense}
       onSelect={() => setTab(id)}
     />
   ))
@@ -404,18 +453,18 @@ export default function SettingsPanel() {
       tabs={tabButtons}
       tabsLabel="Settings sections"
       footerStart={(
-        <CabinetButton variant="secondary" size={isCompact ? 'small' : 'regular'} onClick={restoreDefaults}>
+        <CabinetButton variant="secondary" size={isCompact ? 'small' : 'regular'} onClick={restoreDefaults} style={dense ? TOUCH_STYLE : undefined}>
           Restore defaults
         </CabinetButton>
       )}
       footerEnd={(
         <>
-          <CabinetButton onClick={handleReturnToMenu}>
+          <CabinetButton onClick={handleReturnToMenu} style={dense ? TOUCH_STYLE : undefined}>
             {confirming ? 'CONFIRM — PROGRESS WILL BE AUTOSAVED' : 'RETURN TO MAIN MENU'}
           </CabinetButton>
           {/* Compact drops the bottom Close: the window's header ✕ closes the panel. */}
           {!isCompact && (
-            <CabinetButton variant="primary" onClick={closePanel}>
+            <CabinetButton variant="primary" onClick={closePanel} style={dense ? TOUCH_STYLE : undefined}>
               Close
             </CabinetButton>
           )}

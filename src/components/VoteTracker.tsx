@@ -24,6 +24,8 @@ export default function VoteTracker({
   const isClose = Math.abs(yesSeats - threshold) <= 5
 
   const barHeight = compact ? 24 : 40
+  // Non-compact bars with a threshold label need room below for the "PASS n" label.
+  const barMarginBottom = compact ? 4 : showThreshold ? 22 : 8
 
   return (
     <div style={{ width: '100%' }}>
@@ -37,7 +39,7 @@ export default function VoteTracker({
       )}
 
       {/* Bar */}
-      <div style={{ position: 'relative', height: barHeight, marginBottom: compact ? 4 : 8 }}>
+      <div style={{ position: 'relative', height: barHeight, marginBottom: barMarginBottom }}>
         <div style={{
           ...barTrackStyle,
           height: barHeight,
@@ -96,7 +98,7 @@ export default function VoteTracker({
           }}>
             <span style={{
               position: 'absolute',
-              top: -18,
+              top: 'calc(100% + 4px)',
               left: '50%',
               transform: 'translateX(-50%)',
               fontSize: 9,

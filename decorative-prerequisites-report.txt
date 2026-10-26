@@ -1,0 +1,1271 @@
+=== SCOPE CHECK: scene-level "prerequisites" arrays and whether they ever run ===
+
+Ground truth (read from the engine, not assumed):
+  - scene.prerequisites is evaluated ONLY inside narrativeStore.ts loadScene().
+  - loadScene() is called ONLY from weekStore.ts, ONLY with an agenda-sourced
+    sceneId (static agenda/*.json OR a weekStore.ts hardcoded pool literal).
+  - nextNodeId (processChoice) and chainTrigger.targetNodeId (chainStore) both
+    call getScene() directly — bypassing loadScene() and scene.prerequisites
+    ENTIRELY, unconditionally, regardless of an exclusive array. This is the
+    opposite of "chain/nextNodeId respects the exclusive fallback" — it never
+    even looks at prerequisites or exclusive.
+  - Even when loadScene() DOES evaluate prerequisites and they fail, the check
+    only has an effect if scene.exclusive has an alternative that passes; with
+    no exclusive (or none valid), the failure is silently ignored and the scene
+    renders anyway.
+
+Total scenes with non-empty top-level "prerequisites": 156
+
+--- act1_chain_church_opposition (src/data/narrative/act1/act1_chain_church_opposition.json) ---
+  prerequisites: [{"stat":"factions.church","operator":"<","value":40}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week8_church_and_state [root] choice "church_secular_reform" (src/data/narrative/act1/act1_week8_church_and_state.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act1_chain_deficit_crisis (src/data/narrative/act1/act1_chain_deficit_crisis.json) ---
+  prerequisites: [{"stat":"flags.deficit_critical","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act1_chain_executive_governance (src/data/narrative/act1/act1_chain_executive_governance.json) ---
+  prerequisites: [{"stat":"flags.executive_consolidation","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week13_no_confidence [root] choice "no_confidence_executive_power" (src/data/narrative/act1/act1_week13_no_confidence.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act1_chain_ima_confrontation (src/data/narrative/act1/act1_chain_ima_confrontation.json) ---
+  prerequisites: [{"stat":"nation.economyHealth","operator":"<","value":-20}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week9_first_quarter [root] choice "quarterly_slow_reform" (src/data/narrative/act1/act1_week9_first_quarter.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act1_chain_nadia_investigation (src/data/narrative/act1/act1_chain_nadia_investigation.json) ---
+  prerequisites: [{"stat":"flags.nadia_met","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week12_nadia_voss [root] choice "nadia_deflect_threat" (src/data/narrative/act1/act1_week12_nadia_voss.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act1_chain_tyvaren_blind_spot (src/data/narrative/act1/act1_chain_tyvaren_blind_spot.json) ---
+  prerequisites: [{"stat":"flags.bni_dissolved","operator":"==","value":true},{"stat":"nation.militaryReadiness","operator":"<","value":40}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act1_chain_tyvaren_border_standoff (src/data/narrative/act1/act1_chain_tyvaren_border_standoff.json) ---
+  prerequisites: [{"stat":"flags.tyvaren_mobilization","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act1_chain_watchtower_leak (src/data/narrative/act1/act1_chain_watchtower_leak.json) ---
+  prerequisites: [{"stat":"flags.bni_dissolved","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act1_serida_school_funding (src/data/narrative/act1/act1_serida_school_funding.json) ---
+  prerequisites: [{"stat":"flags.met_serida","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_bca_report_wk22 (src/data/narrative/act2/act2_bca_report_wk22.json) ---
+  prerequisites: [{"type":"flag","flag":"bca_funded","value":true},{"type":"flag","flag":"law_enforcement_choice_made","value":true}]
+  reachable via static agenda JSON: YES — agenda_w22_bca_report (src/data/agenda/week22.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act2_deficit_crisis (src/data/narrative/act2/act2_deficit_crisis.json) ---
+  prerequisites: [{"stat":"nation.nationalDebt","operator":">","value":450}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_econ_marić_confrontation (src/data/narrative/act2/act2_econ_marić_confrontation.json) ---
+  prerequisites: [{"stat":"flags.economy_free_market","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week3_economic_direction [root] choice "econ_free_market" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_econ_mixed_challenges (src/data/narrative/act2/act2_econ_mixed_challenges.json) ---
+  prerequisites: [{"stat":"flags.economy_mixed","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week3_economic_direction [root] choice "econ_mixed" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_econ_orythian_loan_offer (src/data/narrative/act2/act2_econ_orythian_loan_offer.json) ---
+  prerequisites: [{"stat":"flags.economy_planned","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week3_economic_direction [root] choice "econ_planned" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_econ_pragmatic_strain (src/data/narrative/act2/act2_econ_pragmatic_strain.json) ---
+  prerequisites: [{"stat":"flags.economy_pragmatic","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week3_economic_direction [root] choice "econ_pragmatic" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_econ_vael_approach (src/data/narrative/act2/act2_econ_vael_approach.json) ---
+  prerequisites: [{"stat":"flags.economy_free_market","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week3_economic_direction [root] choice "econ_free_market" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_econ_vostane_confrontation (src/data/narrative/act2/act2_econ_vostane_confrontation.json) ---
+  prerequisites: [{"stat":"flags.economy_planned","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week3_economic_direction [root] choice "econ_planned" (src/data/narrative/act1/act1_week3_economic_direction.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_ima_conditionality_review (src/data/narrative/act2/act2_ima_conditionality_review.json) ---
+  prerequisites: [{"stat":"flags.ima_approached","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_chain_capital_strike [root] choice "capital_strike_ima_alternative" (src/data/narrative/act1/act1_chain_capital_strike.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_jonas_workers_housing (src/data/narrative/act2/act2_jonas_workers_housing.json) ---
+  prerequisites: [{"stat":"flags.jonas_public_voice","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_serida_overhears (src/data/narrative/act2/act2_serida_overhears.json) ---
+  prerequisites: [{"stat":"flags.met_serida","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_serida_tomas_factory (src/data/narrative/act2/act2_serida_tomas_factory.json) ---
+  prerequisites: [{"stat":"flags.met_serida","operator":"==","value":true},{"stat":"flags.economic_direction_chosen","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_ssd_report_wk22 (src/data/narrative/act2/act2_ssd_report_wk22.json) ---
+  prerequisites: [{"type":"flag","flag":"ssd_funded","value":true},{"type":"flag","flag":"law_enforcement_choice_made","value":true}]
+  reachable via static agenda JSON: YES — agenda_w22_ssd_report (src/data/agenda/week22.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act2_tyvaren_blind_spot (src/data/narrative/act2/act2_tyvaren_blind_spot.json) ---
+  prerequisites: [{"stat":"flags.bni_dissolved","operator":"==","value":true},{"stat":"nation.militaryReadiness","operator":"<","value":35}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week1_bni_discovery [root] choice "bni_full_shutdown" (src/data/narrative/act1/act1_week1_bni_discovery.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_week14_elena_favor (src/data/narrative/act2/act2_week14_elena_favor.json) ---
+  prerequisites: [{"type":"flag","flag":"elena_introduced","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_week17_soren_debate (src/data/narrative/act2/act2_week17_soren_debate.json) ---
+  prerequisites: [{"stat":"flags.accountability_provision_included","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_week9_soren_immunity [root] choice "soren_immunity_revoke" (src/data/narrative/act1/act1_week9_soren_immunity.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_week21_visit_petravar (src/data/narrative/act2/act2_week21_visit_petravar.json) ---
+  prerequisites: [{"stat":"flags.superpower_choice_orythian","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w21_visit_petravar (src/data/agenda/week21.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — nextNodeId from act2_week21_superpower_choice [root] choice "visit_orythian_petravar" (src/data/narrative/act2/act2_week21_superpower_choice.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act2_week21_visit_stellamere (src/data/narrative/act2/act2_week21_visit_stellamere.json) ---
+  prerequisites: [{"stat":"flags.superpower_choice_arcturian","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w21_visit_stellamere (src/data/agenda/week21.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — nextNodeId from act2_week21_superpower_choice [root] choice "visit_arcturian_stellamere" (src/data/narrative/act2/act2_week21_superpower_choice.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act2_week23_family_crisis_jonas (src/data/narrative/act2/act2_week23_family_crisis_jonas.json) ---
+  prerequisites: [{"stat":"personal.marriageHealth","operator":"<","value":40}]
+  reachable via static agenda JSON: YES — agenda_w22_family_check (src/data/agenda/week22.json); agenda_w23_family_crisis_jonas (src/data/agenda/week23.json); agenda_w24_family_jonas (src/data/agenda/week24.json); agenda_w26_family_crisis (src/data/agenda/week26.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_chain_jonas_advisor [root] choice "jonas_advisor_separate" (src/data/narrative/act1/act1_chain_jonas_advisor.json); chainTrigger from act1_chain_jonas_press_rebellion [root] choice "jonas_rebellion_defend" (src/data/narrative/act1/act1_chain_jonas_press_rebellion.json); chainTrigger from act1_chain_jonas_press_rebellion [root] choice "jonas_rebellion_promise" (src/data/narrative/act1/act1_chain_jonas_press_rebellion.json)
+  scene.exclusive: ["act2_week23_family_crisis_liora","act2_week23_family_crisis_tomas"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act2_week23_family_crisis_liora, act2_week23_family_crisis_tomas)
+
+--- act2_week23_family_crisis_liora (src/data/narrative/act2/act2_week23_family_crisis_liora.json) ---
+  prerequisites: [{"stat":"personal.lioraRelationship","operator":"<","value":35}]
+  reachable via static agenda JSON: YES — agenda_w23_family_crisis_liora (src/data/agenda/week23.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act1_chain_liora_archive [root] choice "liora_archive_suppress" (src/data/narrative/act1/act1_chain_liora_archive.json); chainTrigger from act1_chain_liora_radicalized [root] choice "liora_radicalized_defend" (src/data/narrative/act1/act1_chain_liora_radicalized.json); chainTrigger from act1_chain_liora_radicalized [root] choice "liora_radicalized_khaled_meeting" (src/data/narrative/act1/act1_chain_liora_radicalized.json)
+  scene.exclusive: ["act2_week23_family_crisis_jonas","act2_week23_family_crisis_tomas"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act2_week23_family_crisis_jonas, act2_week23_family_crisis_tomas)
+
+--- act2_week23_family_crisis_tomas (src/data/narrative/act2/act2_week23_family_crisis_tomas.json) ---
+  prerequisites: [{"stat":"personal.tomasWellbeing","operator":"<","value":30}]
+  reachable via static agenda JSON: YES — agenda_w23_family_crisis_tomas (src/data/agenda/week23.json); agenda_w25_family_tomas (src/data/agenda/week25.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act2_week23_family_crisis_jonas","act2_week23_family_crisis_liora"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act2_week23_family_crisis_jonas, act2_week23_family_crisis_liora)
+
+--- act2_week25_brenner_warning (src/data/narrative/act2/act2_week25_brenner_warning.json) ---
+  prerequisites: [{"stat":"flags.soren_immunity_revoked","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week17_soren_debate [root] choice "soren_debate_push_through" (src/data/narrative/act2/act2_week17_soren_debate.json); chainTrigger from act2_week17_soren_debate [root] choice "soren_debate_compromise" (src/data/narrative/act2/act2_week17_soren_debate.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_week26_referendum (src/data/narrative/act2/act2_week26_referendum.json) ---
+  prerequisites: [{"stat":"factions.reformists","operator":">=","value":55},{"stat":"factions.halvekists","operator":"<=","value":45}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act2_week26_referendum_decisive","act2_week26_referendum_narrow","act2_week26_referendum_rejected"]
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act2_week26_referendum_decisive (src/data/narrative/act2/act2_week26_referendum_decisive.json) ---
+  prerequisites: [{"stat":"factions.reformists","operator":">=","value":62},{"stat":"factions.halvekists","operator":"<=","value":40}]
+  reachable via static agenda JSON: YES — agenda_w26_referendum_decisive (src/data/agenda/week26.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week16_kolvar_deal [root] choice "kolvar_reject_deal" (src/data/narrative/act2/act2_week16_kolvar_deal.json)
+  scene.exclusive: ["act2_week26_referendum_narrow","act2_week26_referendum_rejected"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act2_week26_referendum_narrow, act2_week26_referendum_rejected)
+
+--- act2_week26_referendum_narrow (src/data/narrative/act2/act2_week26_referendum_narrow.json) ---
+  prerequisites: [{"stat":"factions.halvekists","operator":"<=","value":55},{"stat":"factions.reformists","operator":">=","value":48}]
+  reachable via static agenda JSON: YES — agenda_w26_referendum_narrow (src/data/agenda/week26.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week15_theron_compromise [root] choice "theron_no_compromise" (src/data/narrative/act2/act2_week15_theron_compromise.json)
+  scene.exclusive: ["act2_week26_referendum_decisive","act2_week26_referendum_rejected"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act2_week26_referendum_decisive, act2_week26_referendum_rejected)
+
+--- act3_armadine_steel_return (src/data/narrative/act3/act3_armadine_steel_return.json) ---
+  prerequisites: [{"stat":"flags.armadine_invested","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act3_armadine_steel_return_jonas"]
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_armadine_steel_return_jonas (src/data/narrative/act3/act3_armadine_steel_return_jonas.json) ---
+  prerequisites: [{"stat":"flags.armadine_jonas_invested","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_bca_report_wk33 (src/data/narrative/act3/act3_bca_report_wk33.json) ---
+  prerequisites: [{"type":"flag","flag":"bca_funded","value":true},{"type":"flag","flag":"bca_first_report_complete","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_bca_report_wk44 (src/data/narrative/act3/act3_bca_report_wk44.json) ---
+  prerequisites: [{"type":"flag","flag":"bca_funded","value":true},{"type":"flag","flag":"bca_second_report_complete","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_both_agencies_conflict (src/data/narrative/act3/act3_both_agencies_conflict.json) ---
+  prerequisites: [{"type":"flag","flag":"both_agencies_weakened","value":true},{"type":"flag","flag":"law_enforcement_choice_made","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_brenner_response (src/data/narrative/act3/act3_brenner_response.json) ---
+  prerequisites: [{"stat":"flags.referendum_won_decisive","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week26_referendum_decisive [root] choice "referendum_decisive_mandate_claim" (src/data/narrative/act2/act2_week26_referendum_decisive.json); chainTrigger from act3_coalition_government [root] choice "coalition_marginalize_military" (src/data/narrative/act3/act3_coalition_government.json); chainTrigger from act3_public_moment [root] choice "public_democratic_warning" (src/data/narrative/act3/act3_public_moment.json); chainTrigger from act3_week27_aftermath_decisive [root] choice "aftermath_decisive_message_brenner" (src/data/narrative/act3/act3_week27_aftermath_decisive.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_cabinet_loyalty_audit (src/data/narrative/act3/act3_cabinet_loyalty_audit.json) ---
+  prerequisites: [{"stat":"flags.vostane_defected","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w31_cabinet_loyalty (src/data/agenda/week31.json); agenda_w35_inner_circle (src/data/agenda/week35.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week27_aftermath_rejected [root] choice "aftermath_rejected_ask_positions" (src/data/narrative/act3/act3_week27_aftermath_rejected.json); chainTrigger from act3_week30_betrayal_vostane [root] choice "betrayal_vostane_cabinet_audit" (src/data/narrative/act3/act3_week30_betrayal_vostane.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_coalition_stabilization (src/data/narrative/act3/act3_coalition_stabilization.json) ---
+  prerequisites: [{"stat":"flags.referendum_failed","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week27_aftermath_rejected [root] choice "aftermath_rejected_address_cabinet" (src/data/narrative/act3/act3_week27_aftermath_rejected.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_confidence_vote (src/data/narrative/act3/act3_confidence_vote.json) ---
+  prerequisites: [{"stat":"flags.referendum_failed","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week26_referendum_rejected [root] choice "referendum_rejected_fight_on" (src/data/narrative/act2/act2_week26_referendum_rejected.json); chainTrigger from act2_week26_referendum_rejected [root] choice "referendum_rejected_acknowledge_failure" (src/data/narrative/act2/act2_week26_referendum_rejected.json); chainTrigger from act3_coalition_stabilization [root] choice "coalition_stabilization_campaign" (src/data/narrative/act3/act3_coalition_stabilization.json); chainTrigger from act3_coalition_stabilization [root] choice "coalition_stabilization_deals" (src/data/narrative/act3/act3_coalition_stabilization.json); chainTrigger from act3_coalition_stabilization [root] choice "coalition_stabilization_public_appeal" (src/data/narrative/act3/act3_coalition_stabilization.json); chainTrigger from act3_judicial_independence [root] choice "judicial_independence_preempt_repeal" (src/data/narrative/act3/act3_judicial_independence.json); chainTrigger from act3_khaled_coalition [root] choice "khaled_negotiate_cooperation" (src/data/narrative/act3/act3_khaled_coalition.json); chainTrigger from act3_khaled_coalition [root] choice "khaled_arms_length" (src/data/narrative/act3/act3_khaled_coalition.json); chainTrigger from act3_new_cabinet_figures [root] choice "new_cabinet_balance" (src/data/narrative/act3/act3_new_cabinet_figures.json); chainTrigger from act3_opposition_management [root] choice "opposition_fast_track_majority" (src/data/narrative/act3/act3_opposition_management.json); chainTrigger from act3_secret_mobilization_consequences [root] choice "secretmob_deny_discredit" (src/data/narrative/act3/act3_secret_mobilization_consequences.json); chainTrigger from act3_treaty_drafting [root] choice "treaty_accept_cosmetic" (src/data/narrative/act3/act3_treaty_drafting.json); chainTrigger from act3_week27_aftermath_rejected [root] choice "aftermath_rejected_preempt_confidence" (src/data/narrative/act3/act3_week27_aftermath_rejected.json); chainTrigger from act3_week30_betrayal_vostane [root] choice "betrayal_vostane_parliament_address" (src/data/narrative/act3/act3_week30_betrayal_vostane.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_currency_speculation_resolution (src/data/narrative/act3/act3_currency_speculation_resolution.json) ---
+  prerequisites: [{"stat":"flags.currency_short_position","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act3_currency_speculation_small"]
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_currency_speculation_small (src/data/narrative/act3/act3_currency_speculation_small.json) ---
+  prerequisites: [{"stat":"flags.currency_small_position","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_dravenni_insurgency (src/data/narrative/act3/act3_dravenni_insurgency.json) ---
+  prerequisites: [{"stat":"flags.dravenhollow_crackdown","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_dravenhollow_crackdown [root] choice "dravenhollow_crackdown_continue" (src/data/narrative/act3/act3_dravenhollow_crackdown.json); chainTrigger from act3_dravenni_divided_response [root] choice "dravenni_divided_security" (src/data/narrative/act3/act3_dravenni_divided_response.json); chainTrigger from act3_dravenni_radicalization [root] choice "dravenni_radicalization_security" (src/data/narrative/act3/act3_dravenni_radicalization.json); chainTrigger from act3_superpower_pressure [root] choice "superpower_align_arcturia" (src/data/narrative/act3/act3_superpower_pressure.json); chainTrigger from act3_week34_dravenhollow [root] choice "dravenhollow_suppress_separatists" (src/data/narrative/act3/act3_week34_dravenhollow.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_halvekist_legal_war (src/data/narrative/act3/act3_halvekist_legal_war.json) ---
+  prerequisites: [{"stat":"flags.kolvar_counter_challenged","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week26_referendum_narrow [root] choice "referendum_narrow_challenge_opponent" (src/data/narrative/act2/act2_week26_referendum_narrow.json); chainTrigger from act3_autonomy_commission [root] choice "autonomy_commission_observe" (src/data/narrative/act3/act3_autonomy_commission.json); chainTrigger from act3_coalition_government [root] choice "coalition_push_reforms" (src/data/narrative/act3/act3_coalition_government.json); chainTrigger from act3_kolvar_negotiation [root] choice "kolvar_negotiation_bypass_threat" (src/data/narrative/act3/act3_kolvar_negotiation.json); chainTrigger from act3_legal_standoff [root] choice "legal_standoff_proceed_anyway" (src/data/narrative/act3/act3_legal_standoff.json); chainTrigger from act3_leverage_operation [root] choice "leverage_aggressive" (src/data/narrative/act3/act3_leverage_operation.json); chainTrigger from act3_treaty_drafting [root] choice "treaty_push_back_hard" (src/data/narrative/act3/act3_treaty_drafting.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_jonas_civic_commission (src/data/narrative/act3/act3_jonas_civic_commission.json) ---
+  prerequisites: [{"stat":"flags.jonas_public_voice","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_jonas_conservative_attack (src/data/narrative/act3/act3_jonas_conservative_attack.json) ---
+  prerequisites: [{"stat":"flags.jonas_public_voice","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_jonas_kolvar_warning (src/data/narrative/act3/act3_jonas_kolvar_warning.json) ---
+  prerequisites: [{"stat":"flags.jonas_public_voice","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_jonas_refugee_stance (src/data/narrative/act3/act3_jonas_refugee_stance.json) ---
+  prerequisites: [{"stat":"flags.jonas_public_voice","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_jonas_renek_concerns (src/data/narrative/act3/act3_jonas_renek_concerns.json) ---
+  prerequisites: [{"stat":"flags.jonas_public_voice","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_jonas_separation (src/data/narrative/act3/act3_jonas_separation.json) ---
+  prerequisites: [{"stat":"personal.marriageHealth","operator":"<","value":28}]
+  reachable via static agenda JSON: YES — agenda_w31_jonas_separation (src/data/agenda/week31.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week23_family_crisis_jonas [root] choice "jonas_cannot_stop_now" (src/data/narrative/act2/act2_week23_family_crisis_jonas.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_jonas_soraya_approval (src/data/narrative/act3/act3_jonas_soraya_approval.json) ---
+  prerequisites: [{"stat":"flags.jonas_public_voice","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_judicial_independence (src/data/narrative/act3/act3_judicial_independence.json) ---
+  prerequisites: [{"stat":"flags.constitution_in_force","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week27_aftermath_decisive [root] choice "aftermath_decisive_first_appointments" (src/data/narrative/act3/act3_week27_aftermath_decisive.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_kolvar_legal_challenge (src/data/narrative/act3/act3_kolvar_legal_challenge.json) ---
+  prerequisites: [{"stat":"flags.referendum_challenge_coming","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week26_referendum_narrow [root] choice "referendum_narrow_defend_result" (src/data/narrative/act2/act2_week26_referendum_narrow.json); chainTrigger from act3_autonomy_commission [root] choice "autonomy_commission_power" (src/data/narrative/act3/act3_autonomy_commission.json); chainTrigger from act3_dravenni_autonomy_talks [root] choice "dravenni_autonomy_federal" (src/data/narrative/act3/act3_dravenni_autonomy_talks.json); chainTrigger from act3_dravenni_divided_response [root] choice "dravenni_divided_fast_track" (src/data/narrative/act3/act3_dravenni_divided_response.json); chainTrigger from act3_week27_aftermath_narrow [root] choice "aftermath_narrow_hold_result" (src/data/narrative/act3/act3_week27_aftermath_narrow.json); chainTrigger from act3_week27_aftermath_narrow [root] choice "aftermath_narrow_wait" (src/data/narrative/act3/act3_week27_aftermath_narrow.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_liora_journalist_arc (src/data/narrative/act3/act3_liora_journalist_arc.json) ---
+  prerequisites: [{"stat":"flags.liora_process_respected","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week23_family_crisis_liora [root] choice "liora_let_process_run" (src/data/narrative/act2/act2_week23_family_crisis_liora.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_liora_reconciliation (src/data/narrative/act3/act3_liora_reconciliation.json) ---
+  prerequisites: [{"stat":"flags.liora_chancellor_attended","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w38_liora_recovery (src/data/agenda/week38.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week23_family_crisis_liora [root] choice "liora_go_personally" (src/data/narrative/act2/act2_week23_family_crisis_liora.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_nightmare_sequence (src/data/narrative/act3/act3_nightmare_sequence.json) ---
+  prerequisites: [{"stat":"personal.stressLevel","operator":">=","value":80}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_no_confidence_fallen (src/data/narrative/act3/act3_no_confidence_fallen.json) ---
+  prerequisites: [{"stat":"flags.no_confidence_passed","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_no_confidence_survived (src/data/narrative/act3/act3_no_confidence_survived.json) ---
+  prerequisites: [{"stat":"flags.no_confidence_failed","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_opposition_management (src/data/narrative/act3/act3_opposition_management.json) ---
+  prerequisites: [{"stat":"flags.constitution_in_force","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week26_referendum_decisive [root] choice "referendum_decisive_reach_out" (src/data/narrative/act2/act2_week26_referendum_decisive.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_port_bonds_return (src/data/narrative/act3/act3_port_bonds_return.json) ---
+  prerequisites: [{"stat":"flags.port_bonds_invested","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act3_port_bonds_return_blind"]
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_port_bonds_return_blind (src/data/narrative/act3/act3_port_bonds_return_blind.json) ---
+  prerequisites: [{"stat":"flags.port_bonds_blind_trust","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_reform_by_decree (src/data/narrative/act3/act3_reform_by_decree.json) ---
+  prerequisites: [{"stat":"flags.referendum_failed","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week26_referendum_rejected [root] choice "referendum_rejected_fight_on" (src/data/narrative/act2/act2_week26_referendum_rejected.json); chainTrigger from act3_week27_aftermath_rejected [root] choice "aftermath_rejected_fight_on" (src/data/narrative/act3/act3_week27_aftermath_rejected.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_rival_poaching (src/data/narrative/act3/act3_rival_poaching.json) ---
+  prerequisites: [{"stat":"advisorTrust.dusek","operator":"<","value":25}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_serida_misses_play (src/data/narrative/act3/act3_serida_misses_play.json) ---
+  prerequisites: [{"stat":"flags.met_serida","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_serida_refugee_neighborhood (src/data/narrative/act3/act3_serida_refugee_neighborhood.json) ---
+  prerequisites: [{"stat":"flags.met_serida","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_ssd_report_wk33 (src/data/narrative/act3/act3_ssd_report_wk33.json) ---
+  prerequisites: [{"type":"flag","flag":"ssd_funded","value":true},{"type":"flag","flag":"ssd_first_report_complete","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_ssd_report_wk44 (src/data/narrative/act3/act3_ssd_report_wk44.json) ---
+  prerequisites: [{"type":"flag","flag":"ssd_funded","value":true},{"type":"flag","flag":"ssd_second_report_complete","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_stellamere_broadcast (src/data/narrative/act3/act3_stellamere_broadcast.json) ---
+  prerequisites: [{"stat":"flags.government_in_exile_established","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w37_stellamere_broadcast (src/data/agenda/week37.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_government_in_exile [root] choice "exile_international_sanctions" (src/data/narrative/act3/act3_government_in_exile.json); chainTrigger from act3_week37_coup_attempt [root] choice "coup_flee_stellamere" (src/data/narrative/act3/act3_week37_coup_attempt.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_tomas_jonas_bond (src/data/narrative/act3/act3_tomas_jonas_bond.json) ---
+  prerequisites: [{"stat":"flags.jonas_handles_tomas","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week23_family_crisis_tomas [root] choice "tomas_jonas_handles" (src/data/narrative/act2/act2_week23_family_crisis_tomas.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_tomas_nationalist_arc (src/data/narrative/act3/act3_tomas_nationalist_arc.json) ---
+  prerequisites: [{"stat":"flags.tomas_crisis_unresolved","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week23_family_crisis_tomas [root] choice "tomas_investigate_ironborn" (src/data/narrative/act2/act2_week23_family_crisis_tomas.json); chainTrigger from act2_week23_family_crisis_tomas [root] choice "tomas_schedule_next_week" (src/data/narrative/act2/act2_week23_family_crisis_tomas.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_tomas_student_arc (src/data/narrative/act3/act3_tomas_student_arc.json) ---
+  prerequisites: [{"stat":"flags.tomas_school_attended","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week23_family_crisis_tomas [root] choice "tomas_go_to_school" (src/data/narrative/act2/act2_week23_family_crisis_tomas.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_vael_fund_return (src/data/narrative/act3/act3_vael_fund_return.json) ---
+  prerequisites: [{"stat":"flags.vael_fund_invested","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act3_vael_fund_return_hidden"]
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_vael_fund_return_hidden (src/data/narrative/act3/act3_vael_fund_return_hidden.json) ---
+  prerequisites: [{"stat":"flags.vael_fund_invested_hidden","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_vael_minister_demand (src/data/narrative/act3/act3_vael_minister_demand.json) ---
+  prerequisites: [{"stat":"vaelInfluence","operator":">","value":60}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_vael_block_wealth_tax [root] choice "vael_wealth_tax_block" (src/data/narrative/act3/act3_vael_block_wealth_tax.json); chainTrigger from act3_vael_block_wealth_tax [root] choice "vael_wealth_tax_compromise" (src/data/narrative/act3/act3_vael_block_wealth_tax.json); chainTrigger from act3_vael_block_wealth_tax [root] choice "vael_wealth_tax_push" (src/data/narrative/act3/act3_vael_block_wealth_tax.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_vyktor_departure (src/data/narrative/act3/act3_vyktor_departure.json) ---
+  prerequisites: [{"stat":"flags.vyktor_exposed","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_volkov_patience_expires [root] choice "volkov_accept_terms" (src/data/narrative/act3/act3_volkov_patience_expires.json); chainTrigger from act3_vyktor_full_disclosure [root] choice "push_complete_picture" (src/data/narrative/act3/act3_vyktor_full_disclosure.json); chainTrigger from act3_vyktor_full_disclosure [root] choice "accept_partial_disclosure" (src/data/narrative/act3/act3_vyktor_full_disclosure.json); chainTrigger from act3_vyktor_full_disclosure [root] choice "narrow_scope" (src/data/narrative/act3/act3_vyktor_full_disclosure.json); chainTrigger from act3_week29_vyktor_exposed [root] choice "exposed_accept_resignation" (src/data/narrative/act3/act3_week29_vyktor_exposed.json); chainTrigger from act3_week30_betrayal_vyktor [root] choice "betrayal_vyktor_dismiss" (src/data/narrative/act3/act3_week30_betrayal_vyktor.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_week27_aftermath_decisive (src/data/narrative/act3/act3_week27_aftermath_decisive.json) ---
+  prerequisites: [{"stat":"flags.referendum_won_decisive","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w27_aftermath_decisive (src/data/agenda/week27.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act3_week27_aftermath_narrow","act3_week27_aftermath_rejected"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week27_aftermath_narrow, act3_week27_aftermath_rejected)
+
+--- act3_week27_aftermath_narrow (src/data/narrative/act3/act3_week27_aftermath_narrow.json) ---
+  prerequisites: [{"stat":"flags.referendum_won_narrow","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w27_aftermath_narrow (src/data/agenda/week27.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act3_week27_aftermath_decisive","act3_week27_aftermath_rejected"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week27_aftermath_decisive, act3_week27_aftermath_rejected)
+
+--- act3_week28_economic_crisis (src/data/narrative/act3/act3_week28_economic_crisis.json) ---
+  prerequisites: [{"stat":"nation.economyHealth","operator":"<=","value":-40}]
+  reachable via static agenda JSON: YES — agenda_w28_economic_crisis (src/data/agenda/week28.json); agenda_w29_economic_fallback (src/data/agenda/week29.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_chain_kravenstal_unrest [root] choice "kravenstal_maric_negotiates" (src/data/narrative/act2/act2_chain_kravenstal_unrest.json); chainTrigger from act2_chain_kravenstal_unrest [root] choice "kravenstal_relief_package" (src/data/narrative/act2/act2_chain_kravenstal_unrest.json); chainTrigger from act2_chain_reformist_fracture [root] choice "reformist_personal_appeal" (src/data/narrative/act2/act2_chain_reformist_fracture.json); chainTrigger from act2_chain_vael_capital_flight [root] choice "vael_capital_controls" (src/data/narrative/act2/act2_chain_vael_capital_flight.json); chainTrigger from act2_chain_vael_capital_flight [root] choice "vael_business_concessions" (src/data/narrative/act2/act2_chain_vael_capital_flight.json); chainTrigger from act2_chain_vael_capital_flight [root] choice "vael_alternative_financing" (src/data/narrative/act2/act2_chain_vael_capital_flight.json); chainTrigger from act2_chain_vael_opposition_campaign [root] choice "vael_ignore_campaign_harder" (src/data/narrative/act2/act2_chain_vael_opposition_campaign.json); chainTrigger from act2_chain_vael_opposition_campaign [root] choice "vael_government_media" (src/data/narrative/act2/act2_chain_vael_opposition_campaign.json); chainTrigger from act2_chain_vostane_resignation [root] choice "vostane_accept_with_grace" (src/data/narrative/act2/act2_chain_vostane_resignation.json); chainTrigger from act2_chain_vostane_resignation [root] choice "vostane_ask_to_stay" (src/data/narrative/act2/act2_chain_vostane_resignation.json); chainTrigger from act2_deficit_crisis [root] choice "deficit_crisis_default" (src/data/narrative/act2/act2_deficit_crisis.json); chainTrigger from act2_ima_conditionality_review [root] choice "ima_review_reject_final" (src/data/narrative/act2/act2_ima_conditionality_review.json); chainTrigger from act3_alternative_financing [root] choice "alternative_financing_asset_sales" (src/data/narrative/act3/act3_alternative_financing.json); chainTrigger from act3_arcturian_privatization_pressure [root] choice "privatization_accept" (src/data/narrative/act3/act3_arcturian_privatization_pressure.json); chainTrigger from act3_arcturian_sanctions [root] choice "arcturian_sanctions_alternative_markets" (src/data/narrative/act3/act3_arcturian_sanctions.json); chainTrigger from act3_confidence_vote [root] choice "confidence_vote_fight" (src/data/narrative/act3/act3_confidence_vote.json); chainTrigger from act3_halvekist_legal_war [root] choice "halvekist_legal_war_withdraw" (src/data/narrative/act3/act3_halvekist_legal_war.json); chainTrigger from act3_ima_compliance_year [root] choice "ima_compliance_emergency_modify" (src/data/narrative/act3/act3_ima_compliance_year.json); chainTrigger from act3_kolvar_legal_challenge [root] choice "kolvar_challenge_engage_commission" (src/data/narrative/act3/act3_kolvar_legal_challenge.json); chainTrigger from act3_reform_by_decree [root] choice "reform_by_decree_elections" (src/data/narrative/act3/act3_reform_by_decree.json); chainTrigger from act3_war_economy [root] choice "warecon_state_control" (src/data/narrative/act3/act3_war_economy.json)
+  scene.exclusive: ["act3_week28_economic_healthy"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week28_economic_healthy)
+
+--- act3_week28_economic_healthy (src/data/narrative/act3/act3_week28_economic_healthy.json) ---
+  prerequisites: [{"stat":"nation.economyHealth","operator":">=","value":10}]
+  reachable via static agenda JSON: YES — agenda_w28_economic_healthy (src/data/agenda/week28.json); agenda_w32_economic_mobilization (src/data/agenda/week32.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_arcturian_privatization_pressure [root] choice "privatization_negotiate_timeline" (src/data/narrative/act3/act3_arcturian_privatization_pressure.json); chainTrigger from act3_war_economy [root] choice "warecon_incentivized_private" (src/data/narrative/act3/act3_war_economy.json)
+  scene.exclusive: ["act3_week28_economic_crisis"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week28_economic_crisis)
+
+--- act3_week28_elena_crisis_spin (src/data/narrative/act3/act3_week28_elena_crisis_spin.json) ---
+  prerequisites: [{"type":"flag","flag":"elena_introduced","value":true},{"type":"flag","flag":"elena_favor_resolved","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_week29_vyktor_exposed (src/data/narrative/act3/act3_week29_vyktor_exposed.json) ---
+  prerequisites: [{"stat":"flags.nadia_cooperated","operator":"==","value":true},{"stat":"nation.pressFreedom","operator":">","value":40}]
+  reachable via static agenda JSON: YES — agenda_w29_vyktor_exposed (src/data/agenda/week29.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_chain_vyktor_exposed [root] choice "vyktor_confront_directly" (src/data/narrative/act2/act2_chain_vyktor_exposed.json); chainTrigger from act2_chain_vyktor_exposed [root] choice "vyktor_discreet_investigation" (src/data/narrative/act2/act2_chain_vyktor_exposed.json); chainTrigger from act2_chain_vyktor_exposed [root] choice "vyktor_dismiss_tip" (src/data/narrative/act2/act2_chain_vyktor_exposed.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act3_week30_betrayal_dusek (src/data/narrative/act3/act3_week30_betrayal_dusek.json) ---
+  prerequisites: [{"stat":"factions.ironCovenant","operator":"<=","value":45},{"stat":"personal.moralCompass","operator":">=","value":21},{"stat":"factions.businessClass","operator":">=","value":29}]
+  reachable via static agenda JSON: YES — agenda_w30_betrayal_dusek (src/data/agenda/week30.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_brenner_response [root] choice "brenner_response_test_loyalty" (src/data/narrative/act3/act3_brenner_response.json)
+  scene.exclusive: ["act3_week30_betrayal_vostane","act3_week30_betrayal_vyktor"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week30_betrayal_vostane, act3_week30_betrayal_vyktor)
+
+--- act3_week30_betrayal_vostane (src/data/narrative/act3/act3_week30_betrayal_vostane.json) ---
+  prerequisites: [{"stat":"factions.businessClass","operator":"<=","value":28},{"stat":"personal.moralCompass","operator":">=","value":21}]
+  reachable via static agenda JSON: YES — agenda_w30_betrayal_vostane (src/data/agenda/week30.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act3_week30_betrayal_dusek","act3_week30_betrayal_vyktor"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week30_betrayal_dusek, act3_week30_betrayal_vyktor)
+
+--- act3_week30_betrayal_vyktor (src/data/narrative/act3/act3_week30_betrayal_vyktor.json) ---
+  prerequisites: [{"stat":"personal.moralCompass","operator":"<=","value":20}]
+  reachable via static agenda JSON: YES — agenda_w30_betrayal_vyktor (src/data/agenda/week30.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: ["act3_week30_betrayal_dusek","act3_week30_betrayal_vostane"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week30_betrayal_dusek, act3_week30_betrayal_vostane)
+
+--- act3_week33_diplomatic_negotiation (src/data/narrative/act3/act3_week33_diplomatic_negotiation.json) ---
+  prerequisites: [{"stat":"flags.tyvaren_diplomacy_initiated","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w32_diplomatic_channels (src/data/agenda/week32.json); agenda_w33_diplomatic_negotiation (src/data/agenda/week33.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_tyvaren_border_skirmish [root] choice "skirmish_diplomatic_deescalation" (src/data/narrative/act3/act3_tyvaren_border_skirmish.json); chainTrigger from act3_tyvaren_deterred [root] choice "tyvaren_deterred_diplomacy" (src/data/narrative/act3/act3_tyvaren_deterred.json); chainTrigger from act3_tyvaren_diplomatic_followup [root] choice "diplofollow_accept_preconditions" (src/data/narrative/act3/act3_tyvaren_diplomatic_followup.json); chainTrigger from act3_volkov_patience_expires [root] choice "volkov_final_counter_offer" (src/data/narrative/act3/act3_volkov_patience_expires.json); chainTrigger from act3_week32_tyvaren_ultimatum [root] choice "tyvaren_diplomatic_negotiation" (src/data/narrative/act3/act3_week32_tyvaren_ultimatum.json)
+  scene.exclusive: ["act3_week33_war_preparations"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week33_war_preparations)
+
+--- act3_week33_soren_files (src/data/narrative/act3/act3_week33_soren_files.json) ---
+  prerequisites: [{"stat":"flags.soren_investigation_proceeding","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week25_brenner_warning [root] choice "brenner_reassure_constitution" (src/data/narrative/act2/act2_week25_brenner_warning.json); chainTrigger from act2_week25_brenner_warning [root] choice "brenner_stand_firm" (src/data/narrative/act2/act2_week25_brenner_warning.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_week33_war_preparations (src/data/narrative/act3/act3_week33_war_preparations.json) ---
+  prerequisites: [{"stat":"flags.tyvaren_ultimatum_rejected","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w32_military_assessment (src/data/agenda/week32.json); agenda_w33_war_preparations (src/data/agenda/week33.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_international_forum_session [root] choice "forum_buy_time_military" (src/data/narrative/act3/act3_international_forum_session.json); chainTrigger from act3_secret_mobilization_consequences [root] choice "secretmob_pivot_open" (src/data/narrative/act3/act3_secret_mobilization_consequences.json); chainTrigger from act3_treaty_drafting [root] choice "treaty_walk_away" (src/data/narrative/act3/act3_treaty_drafting.json); chainTrigger from act3_tyvaren_border_skirmish [root] choice "skirmish_escalate_militarily" (src/data/narrative/act3/act3_tyvaren_border_skirmish.json); chainTrigger from act3_tyvaren_deterred [root] choice "tyvaren_deterred_defenses" (src/data/narrative/act3/act3_tyvaren_deterred.json); chainTrigger from act3_tyvaren_deterred [root] choice "tyvaren_deterred_forward" (src/data/narrative/act3/act3_tyvaren_deterred.json); chainTrigger from act3_tyvaren_diplomatic_followup [root] choice "diplofollow_reject_preconditions" (src/data/narrative/act3/act3_tyvaren_diplomatic_followup.json); chainTrigger from act3_volkov_patience_expires [root] choice "volkov_reject_prepare_war" (src/data/narrative/act3/act3_volkov_patience_expires.json); chainTrigger from act3_week32_tyvaren_ultimatum [root] choice "tyvaren_defiant_rejection" (src/data/narrative/act3/act3_week32_tyvaren_ultimatum.json); chainTrigger from act3_week32_tyvaren_ultimatum [root] choice "tyvaren_secret_mobilization" (src/data/narrative/act3/act3_week32_tyvaren_ultimatum.json); chainTrigger from act3_week33_diplomatic_negotiation [root] choice "diplomacy_hard_rejection" (src/data/narrative/act3/act3_week33_diplomatic_negotiation.json)
+  scene.exclusive: ["act3_week33_diplomatic_negotiation"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week33_diplomatic_negotiation)
+
+--- act3_week34_elena_rival (src/data/narrative/act3/act3_week34_elena_rival.json) ---
+  prerequisites: [{"type":"flag","flag":"elena_introduced","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act3_week37_coup_attempt (src/data/narrative/act3/act3_week37_coup_attempt.json) ---
+  prerequisites: [{"stat":"factions.ironCovenant","operator":"<","value":25}]
+  reachable via static agenda JSON: YES — agenda_w36_coup_preview (src/data/agenda/week36.json); agenda_w37_coup_attempt (src/data/agenda/week37.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_con_neg_brenner [root] choice "neg_brenner_refuse" (src/data/narrative/act2/act2_con_neg_brenner.json); chainTrigger from act3_constitution_implementation [root] choice "constitution_maximum_mandate" (src/data/narrative/act3/act3_constitution_implementation.json); chainTrigger from act3_dravenni_insurgency [root] choice "dravenni_insurgency_military" (src/data/narrative/act3/act3_dravenni_insurgency.json); chainTrigger from act3_dusek_intelligence [root] choice "dusek_intel_expand_surveillance" (src/data/narrative/act3/act3_dusek_intelligence.json); chainTrigger from act3_dusek_loyalty_arc [root] choice "dusek_loyalty_test" (src/data/narrative/act3/act3_dusek_loyalty_arc.json); chainTrigger from act3_leverage_operation [root] choice "leverage_selective" (src/data/narrative/act3/act3_leverage_operation.json); chainTrigger from act3_nationalist_backlash [root] choice "nationalist_backlash_crackdown" (src/data/narrative/act3/act3_nationalist_backlash.json)
+  scene.exclusive: ["act3_week37_military_rally"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week37_military_rally)
+
+--- act3_week37_military_rally (src/data/narrative/act3/act3_week37_military_rally.json) ---
+  prerequisites: [{"stat":"factions.ironCovenant","operator":">=","value":25}]
+  reachable via static agenda JSON: YES — agenda_w37_military_rally (src/data/agenda/week37.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_dusek_intelligence [root] choice "dusek_intel_share_trusted" (src/data/narrative/act3/act3_dusek_intelligence.json); chainTrigger from act3_dusek_loyalty_arc [root] choice "dusek_loyalty_deepen_trust" (src/data/narrative/act3/act3_dusek_loyalty_arc.json); chainTrigger from act3_nadia_investigation_continues [root] choice "nadia_investigation_restrict" (src/data/narrative/act3/act3_nadia_investigation_continues.json); chainTrigger from act3_nationalist_backlash [root] choice "nationalist_backlash_tolerate" (src/data/narrative/act3/act3_nationalist_backlash.json); chainTrigger from act3_national_address_war [root] choice "national_address_defiant_inspiring" (src/data/narrative/act3/act3_national_address_war.json); chainTrigger from act3_press_freedom_crackdown [root] choice "press_crackdown_enforce" (src/data/narrative/act3/act3_press_freedom_crackdown.json); chainTrigger from act3_secret_mobilization_consequences [root] choice "secretmob_pivot_open" (src/data/narrative/act3/act3_secret_mobilization_consequences.json); chainTrigger from act3_total_war_society [root] choice "totalwar_ease_civilian_restrictions" (src/data/narrative/act3/act3_total_war_society.json); chainTrigger from act3_war_economy [root] choice "warecon_worker_protections" (src/data/narrative/act3/act3_war_economy.json)
+  scene.exclusive: ["act3_week37_coup_attempt"]
+  VERDICT: FUNCTIONAL (evaluated via loadScene(); on failure redirects to one of: act3_week37_coup_attempt)
+
+--- act3_week38_soren_trial (src/data/narrative/act3/act3_week38_soren_trial.json) ---
+  prerequisites: [{"stat":"flags.soren_trial_imminent","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week33_soren_files [root] choice "soren_files_acknowledge_personal" (src/data/narrative/act3/act3_week33_soren_files.json); chainTrigger from act3_week33_soren_files [root] choice "soren_files_seal_personal" (src/data/narrative/act3/act3_week33_soren_files.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_alliance_crisis (src/data/narrative/act4/act4_alliance_crisis.json) ---
+  prerequisites: [{"stat":"flags.war_path_chosen","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week40_war_begins [root] choice "war_hold_reserve_call_allies" (src/data/narrative/act4/act4_week40_war_begins.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_arcturian_intervention (src/data/narrative/act4/act4_arcturian_intervention.json) ---
+  prerequisites: [{"stat":"flags.arcturian_alliance_full","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_stellamere_intervention" (src/data/narrative/act4/act4_week42_war_strategy.json); chainTrigger from act4_week46_final_battle [root] choice "final_battle_diplomatic_parallel" (src/data/narrative/act4/act4_week46_final_battle.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_ceasefire_negotiation (src/data/narrative/act4/act4_ceasefire_negotiation.json) ---
+  prerequisites: [{"stat":"flags.ceasefire_explored","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w45_ceasefire_negotiation (src/data/agenda/week45.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week46_final_battle [root] choice "final_battle_negotiate_ceasefire" (src/data/narrative/act4/act4_week46_final_battle.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_ceasefire_talks (src/data/narrative/act4/act4_ceasefire_talks.json) ---
+  prerequisites: [{"stat":"flags.ceasefire_negotiation","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w44_ceasefire (src/data/agenda/week44.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_ceasefire_negotiation [root] choice "ceasefire_accept_terms" (src/data/narrative/act4/act4_ceasefire_negotiation.json); chainTrigger from act4_ceasefire_negotiation [root] choice "ceasefire_international_monitors" (src/data/narrative/act4/act4_ceasefire_negotiation.json); chainTrigger from act4_week48_war_outcome [root] choice "war_outcome_stalemate_negotiation" (src/data/narrative/act4/act4_week48_war_outcome.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_constitutional_crisis (src/data/narrative/act4/act4_constitutional_crisis.json) ---
+  prerequisites: [{"stat":"flags.constitution_in_force","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w41_judicial_appointments (src/data/agenda/week41.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week42_austerity_bites [root] choice "austerity_executive_impose" (src/data/narrative/act4/act4_week42_austerity_bites.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_coordinated_response (src/data/narrative/act4/act4_coordinated_response.json) ---
+  prerequisites: [{"stat":"flags.all_fronts_managed","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w46_coordinated_response (src/data/agenda/week46.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week39_act3_climax [root] choice "climax_hold_everything" (src/data/narrative/act3/act3_week39_act3_climax.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_diplomatic_endgame (src/data/narrative/act4/act4_diplomatic_endgame.json) ---
+  prerequisites: [{"stat":"flags.tyvaren_diplomacy_initiated","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w43_diplomatic_endgame (src/data/agenda/week43.json); agenda_w48_diplomatic_endgame (src/data/agenda/week48.json); agenda_w50_diplomatic_endgame (src/data/agenda/week50.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week39_act3_climax [root] choice "climax_diplomatic_surge" (src/data/narrative/act3/act3_week39_act3_climax.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_dravenni_war_alliance (src/data/narrative/act4/act4_dravenni_war_alliance.json) ---
+  prerequisites: [{"stat":"flags.dlf_alliance_signed","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w44_dravenni_war (src/data/agenda/week44.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week40_war_begins [root] choice "war_dravenni_gamble" (src/data/narrative/act4/act4_week40_war_begins.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_emergency_powers_invoked (src/data/narrative/act4/act4_emergency_powers_invoked.json) ---
+  prerequisites: [{"stat":"flags.constitution_retained_emergency_powers","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w42_emergency_powers (src/data/agenda/week42.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act2_week16_kolvar_deal [root] choice "kolvar_accept_modified_powers" (src/data/narrative/act2/act2_week16_kolvar_deal.json); chainTrigger from act2_week16_kolvar_deal [root] choice "kolvar_full_capitulation" (src/data/narrative/act2/act2_week16_kolvar_deal.json); chainTrigger from act3_no_confidence_fallen [root] choice "no_confidence_fallen_emergency" (src/data/narrative/act3/act3_no_confidence_fallen.json); chainTrigger from act3_total_war_society [root] choice "totalwar_maintain_full_measures" (src/data/narrative/act3/act3_total_war_society.json); chainTrigger from act4_family_anchored [root] choice "family_anchored_protect_them" (src/data/narrative/act4/act4_family_anchored.json); chainTrigger from act4_internal_security_state [root] choice "security_expand" (src/data/narrative/act4/act4_internal_security_state.json); chainTrigger from act4_week44_civilian_front [root] choice "civilian_emergency_powers" (src/data/narrative/act4/act4_week44_civilian_front.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_forum_showdown (src/data/narrative/act4/act4_forum_showdown.json) ---
+  prerequisites: [{"stat":"flags.tyvaren_diplomacy_initiated","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w46_forum_showdown (src/data/agenda/week46.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_stellamere_broadcast [root] choice "stellamere_broadcast_diplomatic" (src/data/narrative/act3/act3_stellamere_broadcast.json); chainTrigger from act3_week39_act3_climax [root] choice "climax_diplomatic_surge" (src/data/narrative/act3/act3_week39_act3_climax.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_ima_confrontation (src/data/narrative/act4/act4_ima_confrontation.json) ---
+  prerequisites: [{"stat":"flags.ima_deal_accepted","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w45_ima_confrontation (src/data/agenda/week45.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week42_austerity_bites [root] choice "austerity_slow_walk" (src/data/narrative/act4/act4_week42_austerity_bites.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_ima_renegotiation (src/data/narrative/act4/act4_ima_renegotiation.json) ---
+  prerequisites: [{"stat":"flags.ima_confronted","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w42_ima_renegotiation (src/data/agenda/week42.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week42_austerity_bites [root] choice "austerity_renegotiate" (src/data/narrative/act4/act4_week42_austerity_bites.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_impeachment_vote_vindicated (src/data/narrative/act4/act4_impeachment_vote_vindicated.json) ---
+  prerequisites: [{"stat":"flags.impeachment_vote_failed","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_jonas_foreign_offer (src/data/narrative/act4/act4_jonas_foreign_offer.json) ---
+  prerequisites: [{"stat":"flags.jonas_public_voice","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_mole_confrontation (src/data/narrative/act4/act4_mole_confrontation.json) ---
+  prerequisites: [{"stat":"flags.ready_to_confront_mole","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_mole_correct_accusation (src/data/narrative/act4/act4_mole_correct_accusation.json) ---
+  prerequisites: [{"stat":"flags.mole_correct","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_mole_wrong_accusation (src/data/narrative/act4/act4_mole_wrong_accusation.json) ---
+  prerequisites: [{"stat":"flags.mole_wrongly_accused","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_occupation_begins (src/data/narrative/act4/act4_occupation_begins.json) ---
+  prerequisites: [{"stat":"flags.war_defeat","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w45_occupation (src/data/agenda/week45.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week48_war_outcome [root] choice "war_outcome_defeat_honest" (src/data/narrative/act4/act4_week48_war_outcome.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_public_mandate (src/data/narrative/act4/act4_public_mandate.json) ---
+  prerequisites: [{"stat":"flags.national_address_delivered","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w47_public_mandate (src/data/agenda/week47.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week39_act3_climax [root] choice "climax_narrative_control" (src/data/narrative/act3/act3_week39_act3_climax.json); chainTrigger from act4_national_address [root] choice "address_honest_somber" (src/data/narrative/act4/act4_national_address.json); chainTrigger from act4_national_address [root] choice "address_defiant_inspiring" (src/data/narrative/act4/act4_national_address.json); chainTrigger from act4_national_address [root] choice "address_pragmatic_unifying" (src/data/narrative/act4/act4_national_address.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_second_referendum (src/data/narrative/act4/act4_second_referendum.json) ---
+  prerequisites: [{"stat":"flags.constitutional_crisis_act4","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w47_second_referendum (src/data/agenda/week47.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week44_reform_backlash [root] choice "backlash_public_referendum_again" (src/data/narrative/act4/act4_week44_reform_backlash.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_serida_epilogue (src/data/narrative/act4/act4_serida_epilogue.json) ---
+  prerequisites: [{"stat":"flags.met_serida","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_soren_files_aftermath (src/data/narrative/act4/act4_soren_files_aftermath.json) ---
+  prerequisites: [{"stat":"flags.soren_files_public","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week38_soren_trial [root] choice "soren_trial_release_files" (src/data/narrative/act3/act3_week38_soren_trial.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_soren_leverage_aftermath (src/data/narrative/act4/act4_soren_leverage_aftermath.json) ---
+  prerequisites: [{"stat":"flags.soren_leveraged","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week38_soren_trial [root] choice "soren_trial_leverage" (src/data/narrative/act3/act3_week38_soren_trial.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_soren_plea_aftermath (src/data/narrative/act4/act4_soren_plea_aftermath.json) ---
+  prerequisites: [{"stat":"flags.soren_trial_plea","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week38_soren_trial [root] choice "soren_trial_plea_deal" (src/data/narrative/act3/act3_week38_soren_trial.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_soren_trial_aftermath (src/data/narrative/act4/act4_soren_trial_aftermath.json) ---
+  prerequisites: [{"stat":"flags.soren_trial_public","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_week38_soren_trial [root] choice "soren_trial_public" (src/data/narrative/act3/act3_week38_soren_trial.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_vael_final_offer (src/data/narrative/act4/act4_vael_final_offer.json) ---
+  prerequisites: [{"stat":"vaelInfluence","operator":">","value":80}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_vael_minister_demand [root] choice "vael_minister_appoint" (src/data/narrative/act3/act3_vael_minister_demand.json); chainTrigger from act3_vael_minister_demand [root] choice "vael_minister_refuse" (src/data/narrative/act3/act3_vael_minister_demand.json); chainTrigger from act3_vael_minister_demand [root] choice "vael_minister_counter" (src/data/narrative/act3/act3_vael_minister_demand.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_week40_exile (src/data/narrative/act4/act4_week40_exile.json) ---
+  prerequisites: [{"stat":"flags.government_in_exile","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w39_exile_path (src/data/agenda/week39.json); agenda_w40_exile_government (src/data/agenda/week40.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_volkov_patience_expires [root] choice "volkov_accept_terms" (src/data/narrative/act3/act3_volkov_patience_expires.json); chainTrigger from act4_occupation_begins [root] choice "occupation_flee_exile" (src/data/narrative/act4/act4_occupation_begins.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week40_war_begins (src/data/narrative/act4/act4_week40_war_begins.json) ---
+  prerequisites: [{"stat":"flags.war_path_chosen","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w39_war_path (src/data/agenda/week39.json); agenda_w40_war_begins (src/data/agenda/week40.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_battle_gravenmark [root] choice "gravenmark_all_reserves" (src/data/narrative/act3/act3_battle_gravenmark.json); chainTrigger from act3_battle_kravenstal_approach [root] choice "kravenstal_engage_defensive_line" (src/data/narrative/act3/act3_battle_kravenstal_approach.json); chainTrigger from act3_national_address_war [root] choice "national_address_defiant_inspiring" (src/data/narrative/act3/act3_national_address_war.json); chainTrigger from act3_treaty_drafting [root] choice "treaty_walk_away" (src/data/narrative/act3/act3_treaty_drafting.json); chainTrigger from act3_volkov_patience_expires [root] choice "volkov_reject_prepare_war" (src/data/narrative/act3/act3_volkov_patience_expires.json); chainTrigger from act3_week39_act3_climax [root] choice "climax_war_footing" (src/data/narrative/act3/act3_week39_act3_climax.json); chainTrigger from act3_diplomacy_tyvaren_peace [root] choice "tyvaren_peace_counter" (src/data/narrative/diplomacy/act3_diplomacy_tyvaren_peace.json); chainTrigger from act3_diplomacy_tyvaren_peace [root] choice "tyvaren_peace_refuse" (src/data/narrative/diplomacy/act3_diplomacy_tyvaren_peace.json); chainTrigger from act3_diplomacy_tyvaren_peace [root] choice "tyvaren_peace_stall" (src/data/narrative/diplomacy/act3_diplomacy_tyvaren_peace.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week41_reform_implementation (src/data/narrative/act4/act4_week41_reform_implementation.json) ---
+  prerequisites: [{"stat":"flags.constitution_in_force","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w39_reform_path (src/data/agenda/week39.json); agenda_w40_reform_consolidation (src/data/agenda/week40.json); agenda_w41_reform_implementation (src/data/agenda/week41.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_military_democracy_bond [root] choice "bond_institutionalize" (src/data/narrative/act3/act3_military_democracy_bond.json); chainTrigger from act3_military_resolve_hardened [root] choice "resolve_democratic_discipline" (src/data/narrative/act3/act3_military_resolve_hardened.json); chainTrigger from act4_emergency_powers_invoked [root] choice "emergency_powers_refuse" (src/data/narrative/act4/act4_emergency_powers_invoked.json); chainTrigger from act4_internal_security_state [root] choice "security_regulate" (src/data/narrative/act4/act4_internal_security_state.json); chainTrigger from act4_post_coup_consolidation [root] choice "consolidate_targeted_accountability" (src/data/narrative/act4/act4_post_coup_consolidation.json); chainTrigger from act4_post_coup_consolidation [root] choice "consolidate_institutional_reform" (src/data/narrative/act4/act4_post_coup_consolidation.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week42_austerity_bites (src/data/narrative/act4/act4_week42_austerity_bites.json) ---
+  prerequisites: [{"stat":"flags.ima_deal_accepted","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w42_austerity_bites (src/data/agenda/week42.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_coalition_government [root] choice "coalition_push_reforms" (src/data/narrative/act3/act3_coalition_government.json); chainTrigger from act3_ima_compliance_year [root] choice "ima_compliance_stay_course" (src/data/narrative/act3/act3_ima_compliance_year.json); chainTrigger from act3_ima_compliance_year [root] choice "ima_compliance_safety_net" (src/data/narrative/act3/act3_ima_compliance_year.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week42_war_strategy (src/data/narrative/act4/act4_week42_war_strategy.json) ---
+  prerequisites: [{"stat":"flags.war_phase_one_complete","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w42_war_strategy (src/data/agenda/week42.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week40_war_begins [root] choice "war_commit_reserve" (src/data/narrative/act4/act4_week40_war_begins.json); chainTrigger from act4_week40_war_begins [root] choice "war_hold_reserve_call_allies" (src/data/narrative/act4/act4_week40_war_begins.json); chainTrigger from act4_week40_war_begins [root] choice "war_dravenni_gamble" (src/data/narrative/act4/act4_week40_war_begins.json); chainTrigger from act4_week40_war_begins [root] choice "war_address_nation" (src/data/narrative/act4/act4_week40_war_begins.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week43_family_resolution (src/data/narrative/act4/act4_week43_family_resolution.json) ---
+  prerequisites: [{"stat":"flags.family_reckoning_resolved","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w43_family_resolution (src/data/agenda/week43.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_jonas_partner_arc [root] choice "jonas_yes_fully" (src/data/narrative/act3/act3_jonas_partner_arc.json); chainTrigger from act3_jonas_partner_arc [root] choice "jonas_yes_carefully" (src/data/narrative/act3/act3_jonas_partner_arc.json); chainTrigger from act3_jonas_partner_arc [root] choice "jonas_not_yet" (src/data/narrative/act3/act3_jonas_partner_arc.json); chainTrigger from act3_jonas_promise_kept_or_broken [root] choice "promise_acknowledge_recommit" (src/data/narrative/act3/act3_jonas_promise_kept_or_broken.json); chainTrigger from act3_jonas_promise_kept_or_broken [root] choice "promise_explain_extension" (src/data/narrative/act3/act3_jonas_promise_kept_or_broken.json); chainTrigger from act3_jonas_promise_kept_or_broken [root] choice "promise_country_cannot_wait" (src/data/narrative/act3/act3_jonas_promise_kept_or_broken.json); chainTrigger from act3_jonas_separation [root] choice "jonas_separation_let_him_go" (src/data/narrative/act3/act3_jonas_separation.json); chainTrigger from act3_jonas_separation [root] choice "jonas_separation_wait_two_weeks" (src/data/narrative/act3/act3_jonas_separation.json); chainTrigger from act3_jonas_separation [root] choice "jonas_separation_what_do_you_need" (src/data/narrative/act3/act3_jonas_separation.json); chainTrigger from act3_liora_disgusted [root] choice "liora_disgusted_defend" (src/data/narrative/act3/act3_liora_disgusted.json); chainTrigger from act3_liora_disgusted [root] choice "liora_disgusted_apologize" (src/data/narrative/act3/act3_liora_disgusted.json); chainTrigger from act3_liora_disgusted [root] choice "liora_disgusted_ask_her" (src/data/narrative/act3/act3_liora_disgusted.json); chainTrigger from act4_family_anchored [root] choice "family_anchored_draw_strength" (src/data/narrative/act4/act4_family_anchored.json); chainTrigger from act4_family_anchored [root] choice "family_anchored_include_decisions" (src/data/narrative/act4/act4_family_anchored.json); chainTrigger from act4_family_breaking [root] choice "family_breaking_desperate_intervention" (src/data/narrative/act4/act4_family_breaking.json); chainTrigger from act4_family_breaking [root] choice "family_breaking_external_help" (src/data/narrative/act4/act4_family_breaking.json); chainTrigger from act4_family_conditional [root] choice "family_conditional_renew_commitment" (src/data/narrative/act4/act4_family_conditional.json); chainTrigger from act4_family_conditional [root] choice "family_conditional_renegotiate_terms" (src/data/narrative/act4/act4_family_conditional.json); chainTrigger from act4_family_conditional [root] choice "family_conditional_firmer_boundaries" (src/data/narrative/act4/act4_family_conditional.json); chainTrigger from act4_family_estranged [root] choice "family_estranged_reconciliation_attempt" (src/data/narrative/act4/act4_family_estranged.json); chainTrigger from act4_family_estranged [root] choice "family_estranged_salvage_one" (src/data/narrative/act4/act4_family_estranged.json); chainTrigger from act4_family_healing [root] choice "family_healing_prioritize_time" (src/data/narrative/act4/act4_family_healing.json); chainTrigger from act4_family_healing [root] choice "family_healing_integrate_public" (src/data/narrative/act4/act4_family_healing.json); chainTrigger from act4_family_healing [root] choice "family_healing_individual_attention" (src/data/narrative/act4/act4_family_healing.json); chainTrigger from act4_family_healing [root] choice "family_healing_fortress_family" (src/data/narrative/act4/act4_family_healing.json); chainTrigger from act4_jonas_divorce [root] choice "jonas_divorce_private_dignity" (src/data/narrative/act4/act4_jonas_divorce.json); chainTrigger from act4_jonas_divorce [root] choice "jonas_divorce_public_narrative" (src/data/narrative/act4/act4_jonas_divorce.json); chainTrigger from act4_jonas_divorce [root] choice "jonas_divorce_legal_protection" (src/data/narrative/act4/act4_jonas_divorce.json); chainTrigger from act4_jonas_divorce [root] choice "jonas_divorce_full_transparency" (src/data/narrative/act4/act4_jonas_divorce.json); chainTrigger from act4_tomas_redemption [root] choice "tomas_redemption_constructive_institutions" (src/data/narrative/act4/act4_tomas_redemption.json); chainTrigger from act4_tomas_redemption [root] choice "tomas_redemption_bring_close" (src/data/narrative/act4/act4_tomas_redemption.json); chainTrigger from act4_tomas_redemption [root] choice "tomas_redemption_firm_boundaries" (src/data/narrative/act4/act4_tomas_redemption.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week44_civilian_front (src/data/narrative/act4/act4_week44_civilian_front.json) ---
+  prerequisites: [{"stat":"flags.war_strategy_set","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w44_civilian_front (src/data/agenda/week44.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_decisive_battle" (src/data/narrative/act4/act4_week42_war_strategy.json); chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_protracted_defense" (src/data/narrative/act4/act4_week42_war_strategy.json); chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_stellamere_intervention" (src/data/narrative/act4/act4_week42_war_strategy.json); chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_dravenni_counter_offensive" (src/data/narrative/act4/act4_week42_war_strategy.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week44_counter_coup (src/data/narrative/act4/act4_week44_counter_coup.json) ---
+  prerequisites: [{"stat":"flags.exile_strategy_set","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w44_counter_coup (src/data/agenda/week44.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_exile_arc [root] choice "exile_arc_international" (src/data/narrative/act4/act4_exile_arc.json); chainTrigger from act4_exile_arc [root] choice "exile_arc_resistance" (src/data/narrative/act4/act4_exile_arc.json); chainTrigger from act4_underground_radio [root] choice "radio_inspire_resistance" (src/data/narrative/act4/act4_underground_radio.json); chainTrigger from act4_underground_radio [root] choice "radio_document_junta" (src/data/narrative/act4/act4_underground_radio.json); chainTrigger from act4_underground_radio [root] choice "radio_promise_return" (src/data/narrative/act4/act4_underground_radio.json); chainTrigger from act4_week40_exile [root] choice "exile_international_campaign" (src/data/narrative/act4/act4_week40_exile.json); chainTrigger from act4_week40_exile [root] choice "exile_resistance_network" (src/data/narrative/act4/act4_week40_exile.json); chainTrigger from act4_week40_exile [root] choice "exile_personal_broadcast" (src/data/narrative/act4/act4_week40_exile.json); chainTrigger from act4_week40_exile [root] choice "exile_negotiate_return" (src/data/narrative/act4/act4_week40_exile.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week44_reform_backlash (src/data/narrative/act4/act4_week44_reform_backlash.json) ---
+  prerequisites: [{"stat":"flags.reform_implementation_begun","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w44_reform_backlash (src/data/agenda/week44.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_civil_conflict_arc [root] choice "civil_conflict_govern_territory" (src/data/narrative/act4/act4_civil_conflict_arc.json); chainTrigger from act4_internal_security_state [root] choice "security_rollback" (src/data/narrative/act4/act4_internal_security_state.json); chainTrigger from act4_week41_reform_implementation [root] choice "reform_push_aggressively" (src/data/narrative/act4/act4_week41_reform_implementation.json); chainTrigger from act4_week41_reform_implementation [root] choice "reform_build_coalition" (src/data/narrative/act4/act4_week41_reform_implementation.json); chainTrigger from act4_week41_reform_implementation [root] choice "reform_public_mandate" (src/data/narrative/act4/act4_week41_reform_implementation.json); chainTrigger from act4_week41_reform_implementation [root] choice "reform_selective_priorities" (src/data/narrative/act4/act4_week41_reform_implementation.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week45_elena_reckoning (src/data/narrative/act4/act4_week45_elena_reckoning.json) ---
+  prerequisites: [{"type":"flag","flag":"elena_introduced","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- act4_week45_uprising (src/data/narrative/act4/act4_week45_uprising.json) ---
+  prerequisites: [{"stat":"flags.austerity_begun","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w45_uprising (src/data/agenda/week45.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week42_austerity_bites [root] choice "austerity_implement_fully" (src/data/narrative/act4/act4_week42_austerity_bites.json); chainTrigger from act4_week42_austerity_bites [root] choice "austerity_slow_walk" (src/data/narrative/act4/act4_week42_austerity_bites.json); chainTrigger from act4_week42_austerity_bites [root] choice "austerity_renegotiate" (src/data/narrative/act4/act4_week42_austerity_bites.json); chainTrigger from act4_week42_austerity_bites [root] choice "austerity_executive_impose" (src/data/narrative/act4/act4_week42_austerity_bites.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week46_final_battle (src/data/narrative/act4/act4_week46_final_battle.json) ---
+  prerequisites: [{"stat":"flags.civilian_front_managed","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w46_final_battle (src/data/agenda/week46.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_civil_conflict_arc [root] choice "civil_conflict_reunify_force" (src/data/narrative/act4/act4_civil_conflict_arc.json); chainTrigger from act4_exile_arc [root] choice "exile_arc_negotiate_return" (src/data/narrative/act4/act4_exile_arc.json); chainTrigger from act4_underground_radio [root] choice "radio_promise_return" (src/data/narrative/act4/act4_underground_radio.json); chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_decisive_battle" (src/data/narrative/act4/act4_week42_war_strategy.json); chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_protracted_defense" (src/data/narrative/act4/act4_week42_war_strategy.json); chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_stellamere_intervention" (src/data/narrative/act4/act4_week42_war_strategy.json); chainTrigger from act4_week42_war_strategy [root] choice "war_strategy_dravenni_counter_offensive" (src/data/narrative/act4/act4_week42_war_strategy.json); chainTrigger from act4_week44_civilian_front [root] choice "civilian_war_economy_total" (src/data/narrative/act4/act4_week44_civilian_front.json); chainTrigger from act4_week44_civilian_front [root] choice "civilian_forced_evacuation" (src/data/narrative/act4/act4_week44_civilian_front.json); chainTrigger from act4_week44_civilian_front [root] choice "civilian_aid_public_morale" (src/data/narrative/act4/act4_week44_civilian_front.json); chainTrigger from act4_week44_civilian_front [root] choice "civilian_emergency_powers" (src/data/narrative/act4/act4_week44_civilian_front.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week47_new_order (src/data/narrative/act4/act4_week47_new_order.json) ---
+  prerequisites: [{"stat":"flags.reform_backlash_resolved","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w47_new_order (src/data/agenda/week47.json); agenda_w51_new_order (src/data/agenda/week51.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act3_reform_by_decree [root] choice "reform_by_decree_broad" (src/data/narrative/act3/act3_reform_by_decree.json); chainTrigger from act4_civil_conflict_arc [root] choice "civil_conflict_negotiated_settlement" (src/data/narrative/act4/act4_civil_conflict_arc.json); chainTrigger from act4_emergency_powers_invoked [root] choice "emergency_powers_invoke_narrow" (src/data/narrative/act4/act4_emergency_powers_invoked.json); chainTrigger from act4_week44_reform_backlash [root] choice "backlash_fight_institutions" (src/data/narrative/act4/act4_week44_reform_backlash.json); chainTrigger from act4_week44_reform_backlash [root] choice "backlash_compromise_selectively" (src/data/narrative/act4/act4_week44_reform_backlash.json); chainTrigger from act4_week44_reform_backlash [root] choice "backlash_authoritarian_response" (src/data/narrative/act4/act4_week44_reform_backlash.json); chainTrigger from act4_week44_reform_backlash [root] choice "backlash_public_referendum_again" (src/data/narrative/act4/act4_week44_reform_backlash.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week48_collapse_endgame (src/data/narrative/act4/act4_week48_collapse_endgame.json) ---
+  prerequisites: [{"stat":"flags.uprising_resolved","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w48_collapse_endgame (src/data/agenda/week48.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_civil_conflict_arc [root] choice "civil_conflict_govern_territory" (src/data/narrative/act4/act4_civil_conflict_arc.json); chainTrigger from act4_emergency_powers_invoked [root] choice "emergency_powers_invoke_broad" (src/data/narrative/act4/act4_emergency_powers_invoked.json); chainTrigger from act4_exile_arc [root] choice "exile_arc_negotiate_return" (src/data/narrative/act4/act4_exile_arc.json); chainTrigger from act4_occupation_begins [root] choice "occupation_underground_resistance" (src/data/narrative/act4/act4_occupation_begins.json); chainTrigger from act4_occupation_begins [root] choice "occupation_accept_terms" (src/data/narrative/act4/act4_occupation_begins.json); chainTrigger from act4_week45_uprising [root] choice "uprising_ally_khaled" (src/data/narrative/act4/act4_week45_uprising.json); chainTrigger from act4_week45_uprising [root] choice "uprising_negotiate_middle" (src/data/narrative/act4/act4_week45_uprising.json); chainTrigger from act4_week45_uprising [root] choice "uprising_break_strike" (src/data/narrative/act4/act4_week45_uprising.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act4_week48_war_outcome (src/data/narrative/act4/act4_week48_war_outcome.json) ---
+  prerequisites: [{"stat":"flags.decisive_battle_fought","operator":"==","value":true}]
+  reachable via static agenda JSON: YES — agenda_w48_war_outcome (src/data/agenda/week48.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from act4_week44_counter_coup [root] choice "counter_coup_military_operation" (src/data/narrative/act4/act4_week44_counter_coup.json); chainTrigger from act4_week44_counter_coup [root] choice "counter_coup_political_solution" (src/data/narrative/act4/act4_week44_counter_coup.json); chainTrigger from act4_week44_counter_coup [root] choice "counter_coup_brenner_deal" (src/data/narrative/act4/act4_week44_counter_coup.json); chainTrigger from act4_week44_counter_coup [root] choice "counter_coup_international_intervention" (src/data/narrative/act4/act4_week44_counter_coup.json); chainTrigger from act4_week46_final_battle [root] choice "final_battle_full_commitment" (src/data/narrative/act4/act4_week46_final_battle.json); chainTrigger from act4_week46_final_battle [root] choice "final_battle_calculated_risk" (src/data/narrative/act4/act4_week46_final_battle.json); chainTrigger from act4_week46_final_battle [root] choice "final_battle_diplomatic_parallel" (src/data/narrative/act4/act4_week46_final_battle.json); chainTrigger from act4_week46_final_battle [root] choice "final_battle_negotiate_ceasefire" (src/data/narrative/act4/act4_week46_final_battle.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act5_week56_constitutional_court (src/data/narrative/act5/act5_week56_constitutional_court.json) ---
+  prerequisites: [{"flag":"constitution_in_force","value":true}]
+  reachable via static agenda JSON: YES — agenda_w56_constitutional_court (src/data/agenda/week56.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- act5_week57_fainting_spell (src/data/narrative/act5/act5_week57_fainting_spell.json) ---
+  prerequisites: [{"flag":"permanent_injury_sustained","value":true}]
+  reachable via static agenda JSON: YES — agenda_w57_fainting_spell (src/data/agenda/week57.json)
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- family_bni_night (src/data/narrative/act1/family/family_bni_night.json) ---
+  prerequisites: [{"stat":"flags.bni_crisis_resolved","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- mole_week2_plant (src/data/narrative/act1/investigation/mole_week2_plant.json) ---
+  prerequisites: [{"stat":"currentWeek","operator":">=","value":2}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- mole_week3_choice (src/data/narrative/act1/investigation/mole_week3_choice.json) ---
+  prerequisites: [{"stat":"currentWeek","operator":">=","value":3}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- mole_week5_complication (src/data/narrative/act1/investigation/mole_week5_complication.json) ---
+  prerequisites: [{"stat":"flags.mole_investigation_active","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from mole_week3_choice [root] choice "mole_hunt_formal" (src/data/narrative/act1/investigation/mole_week3_choice.json); chainTrigger from mole_week3_choice [root] choice "mole_hunt_passive" (src/data/narrative/act1/investigation/mole_week3_choice.json); chainTrigger from mole_week3_choice [root] choice "mole_hunt_oberlin" (src/data/narrative/act1/investigation/mole_week3_choice.json)
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+--- mole_week7_false_resolve (src/data/narrative/act1/investigation/mole_week7_false_resolve.json) ---
+  prerequisites: [{"stat":"flags.mole_complication_week5","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from mole_week5_complication [root] choice "mole_complication_formal" (src/data/narrative/act1/investigation/mole_week5_complication.json); chainTrigger from mole_week5_complication [root] choice "mole_complication_passive" (src/data/narrative/act1/investigation/mole_week5_complication.json); chainTrigger from mole_week5_complication [root] choice "mole_complication_oberlin" (src/data/narrative/act1/investigation/mole_week5_complication.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- mole_week9_reveal (src/data/narrative/act1/investigation/mole_week9_reveal.json) ---
+  prerequisites: [{"stat":"flags.mole_thread_continues","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from mole_week7_false_resolve [root] choice "mole_reject_confession" (src/data/narrative/act1/investigation/mole_week7_false_resolve.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_contractor_fortification (src/data/narrative/projects/project_contractor_fortification.json) ---
+  prerequisites: [{"stat":"flags.project_sevagrad_started","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_contractor_highway (src/data/narrative/projects/project_contractor_highway.json) ---
+  prerequisites: [{"stat":"flags.project_highway_started","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_contractor_steel (src/data/narrative/projects/project_contractor_steel.json) ---
+  prerequisites: [{"stat":"flags.project_kravenstal_started","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_contractor_university (src/data/narrative/projects/project_contractor_university.json) ---
+  prerequisites: [{"stat":"flags.project_university_started","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_mid_crisis_fortification (src/data/narrative/projects/project_mid_crisis_fortification.json) ---
+  prerequisites: [{"stat":"flags.project_sevagrad_started","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_mid_crisis_highway (src/data/narrative/projects/project_mid_crisis_highway.json) ---
+  prerequisites: [{"stat":"flags.project_highway_started","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_mid_crisis_steel (src/data/narrative/projects/project_mid_crisis_steel.json) ---
+  prerequisites: [{"stat":"flags.project_kravenstal_started","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_mid_crisis_university (src/data/narrative/projects/project_mid_crisis_university.json) ---
+  prerequisites: [{"stat":"flags.project_university_started","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_vael_kickback_fort (src/data/narrative/act2/project_vael_kickback_fort.json) ---
+  prerequisites: [{"stat":"flags.contractor_fort_vael","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from project_contractor_fortification [root] choice "contractor_fort_vael" (src/data/narrative/projects/project_contractor_fortification.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_vael_kickback_highway (src/data/narrative/act2/project_vael_kickback_highway.json) ---
+  prerequisites: [{"stat":"flags.contractor_highway_vael","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from project_contractor_highway [root] choice "contractor_highway_vael" (src/data/narrative/projects/project_contractor_highway.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_vael_kickback_steel (src/data/narrative/act2/project_vael_kickback_steel.json) ---
+  prerequisites: [{"stat":"flags.contractor_steel_vael","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from project_contractor_steel [root] choice "contractor_steel_vael" (src/data/narrative/projects/project_contractor_steel.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- project_vael_kickback_uni (src/data/narrative/act2/project_vael_kickback_uni.json) ---
+  prerequisites: [{"stat":"flags.contractor_uni_vael","operator":"==","value":true}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: no
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): YES — chainTrigger from project_contractor_university [root] choice "contractor_uni_vael" (src/data/narrative/projects/project_contractor_university.json)
+  scene.exclusive: (none)
+  VERDICT: DEAD (never evaluated — scene.id is never an agenda sceneId or weekStore pool literal, so loadScene() is never called with it)
+
+--- vyktor_press_briefing (src/data/narrative/act1/briefings/vyktor_press_briefing.json) ---
+  prerequisites: [{"stat":"currentWeek","operator":">=","value":4}]
+  reachable via static agenda JSON: no
+  reachable via weekStore.ts pool literal: YES
+  reachable via nextNodeId/chainTrigger (informational — never gated on this path): no
+  scene.exclusive: (none)
+  VERDICT: DECORATIVE (evaluated via loadScene(), but no valid exclusive alternative — a failure is silently ignored and the scene renders anyway)
+
+=== TOTALS ===
+Dead (never evaluated):              92
+Decorative (evaluated, no effect):   48
+Functional (evaluated, redirects):   16
+Total scenes with prerequisites:     156

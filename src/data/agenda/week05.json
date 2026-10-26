@@ -83,5 +83,41 @@
         "value": true
       }
     ]
+  },
+  {
+    "id": "agenda_w5_kravenstal_unrest",
+    "title": "The Kravenstal Response",
+    "description": "The banners still smell like fresh paint.",
+    "category": "crisis",
+    "sceneId": "act1_chain_kravenstal_unrest",
+    "slotCost": 0,
+    "executionOrder": 5,
+    "weekAvailable": 5,
+    "weekDeadline": 8,
+    "prerequisites": [
+      {
+        "stat": "factions.workersCoalition",
+        "operator": "<=",
+        "value": 40
+      }
+    ]
+  },
+  {
+    "id": "agenda_w5_renek_sermon",
+    "title": "The Shepherd Speaks",
+    "description": "The Sunday sermon transcript arrives Monday morning, as it always does.",
+    "category": "cabinet",
+    "sceneId": "act1_renek_sermon",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 5,
+    "weekDeadline": 7,
+    "prerequisites": [
+      {
+        "stat": "flags.ball_chose_renek",
+        "operator": "!=",
+        "value": true
+      }
+    ]
   }
 ]
