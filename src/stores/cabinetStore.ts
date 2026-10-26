@@ -9,6 +9,8 @@ import type {
 } from '../types/minister'
 
 interface CabinetStore extends CabinetState {
+  /** Week whose weekly minister requests were generated; guards initWeek against regenerating. */
+  requests_generated_week: number | null
   appointMinister: (candidate: MinisterCandidate, week: number) => void
   removeMinister: (ministry: MinistryType) => void
   reshuffleMinister: (
@@ -21,6 +23,7 @@ interface CabinetStore extends CabinetState {
   updateLoyalty: (ministry: MinistryType, delta: number) => void
   updateSatisfaction: (ministry: MinistryType, delta: number) => void
   addRequest: (request: MinisterRequest) => void
+  markRequestsGenerated: (week: number) => void
   completeRequest: (requestId: string) => void
   completeFormation: (week: number) => void
   getMinister: (ministry: MinistryType) => AppointedMinister | null
@@ -48,6 +51,7 @@ export const useCabinetStore = create<CabinetStore>()((set, get) => ({
   formation_week: null,
   pending_requests: [],
   completed_requests: [],
+  requests_generated_week: null,
 
   appointMinister: (candidate, week) =>
     set(state => ({
@@ -142,6 +146,9 @@ export const useCabinetStore = create<CabinetStore>()((set, get) => ({
     set(state => ({
       pending_requests: [...state.pending_requests, request],
     })),
+
+  markRequestsGenerated: (week) =>
+    set({ requests_generated_week: week }),
 
   completeRequest: (requestId) =>
     set(state => ({

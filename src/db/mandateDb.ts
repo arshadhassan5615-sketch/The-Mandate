@@ -47,6 +47,8 @@ export interface SaveRecord {
   cabinetState?: CabinetState & {
     pending_requests: MinisterRequest[]
     completed_requests: string[]
+    /** Week whose weekly minister requests were already generated; absent in older saves. */
+    requests_generated_week?: number | null
   }
   billState?: {
     bills: Bill[]

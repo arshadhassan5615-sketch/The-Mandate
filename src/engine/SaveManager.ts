@@ -181,6 +181,7 @@ export async function saveGame(slot: number, name: string): Promise<void> {
       formation_week: cabinetState.formation_week,
       pending_requests: cabinetState.pending_requests,
       completed_requests: cabinetState.completed_requests,
+      requests_generated_week: cabinetState.requests_generated_week,
     },
     billState: {
       bills: billState.bills,
@@ -337,6 +338,7 @@ export async function loadGame(slot: number): Promise<boolean> {
       formation_week:     record.cabinetState.formation_week,
       pending_requests:   record.cabinetState.pending_requests,
       completed_requests: record.cabinetState.completed_requests,
+      requests_generated_week: record.cabinetState.requests_generated_week ?? null,
     })
   } else if (isLegacy) {
     useCabinetStore.setState({

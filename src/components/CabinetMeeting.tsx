@@ -75,15 +75,18 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [, setResolved] = useState<string[]>([])
+  // Snapshot once: completing a request removes it from the live store list,
+  // which would otherwise shift indices and skip reports.
+  const [meetingRequests] = useState(() => requests)
 
   const { completeRequest, updateLoyalty, updateSatisfaction, getAllMinisters } = useCabinetStore()
 
-  if (requests.length === 0) {
+  if (meetingRequests.length === 0) {
     onComplete()
     return null
   }
 
-  const current = requests[currentIndex]
+  const current = meetingRequests[currentIndex]
 
   if (!current) {
     return null
@@ -195,7 +198,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
   }
 
   const handleNext = () => {
-    if (currentIndex < requests.length - 1) {
+    if (currentIndex < meetingRequests.length - 1) {
       setCurrentIndex(prev => prev + 1)
       setSelectedOption(null)
     } else {
@@ -203,7 +206,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
     }
   }
 
-  const isLast = currentIndex === requests.length - 1
+  const isLast = currentIndex === meetingRequests.length - 1
   const selectedData = current.options.find(o => o.id === selectedOption)
 
   return (
@@ -251,7 +254,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
           fontSize: '11px',
           color: 'rgba(201,168,76,0.4)',
         }}>
-          {currentIndex + 1} of {requests.length}
+          {currentIndex + 1} of {meetingRequests.length}
         </div>
       </div>
 

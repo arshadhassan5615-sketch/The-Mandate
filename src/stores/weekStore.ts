@@ -492,6 +492,7 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
       formation_week: null,
       pending_requests: [],
       completed_requests: [],
+      requests_generated_week: null,
     })
     useBillStore.setState({
       bills: [],
@@ -911,16 +912,18 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     // Cabinet — generate minister requests for the week
     const cabinetStore = useCabinetStore.getState()
     let showMeeting = false
-    if (cabinetStore.formation_complete) {
+    if (
+      cabinetStore.formation_complete &&
+      cabinetStore.requests_generated_week !== gameState.currentWeek
+    ) {
       const newRequests = generateWeeklyRequests(
         gameState.currentWeek,
         cabinetStore.ministers,
         activeFlags
       )
-      if (newRequests.length > 0) {
-        newRequests.forEach(req => cabinetStore.addRequest(req))
-        showMeeting = true
-      }
+      newRequests.forEach(req => cabinetStore.addRequest(req))
+      cabinetStore.markRequestsGenerated(gameState.currentWeek)
+      showMeeting = newRequests.length > 0
     }
 
     // Decrees — filter eligible decrees for the current week

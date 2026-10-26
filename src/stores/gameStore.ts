@@ -676,6 +676,7 @@ export const useGameStore = create<GameStore>()(
       formation_week: null,
       pending_requests: [],
       completed_requests: [],
+      requests_generated_week: null,
     })
     useBillStore.setState({
       bills: [],

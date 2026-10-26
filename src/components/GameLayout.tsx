@@ -198,7 +198,7 @@ export default function GameLayout() {
       )}
 
       {/* Cabinet Meeting — weekly minister reports */}
-      {showCabinetMeeting && pendingRequests.length > 0 && (
+      {showCabinetMeeting && (
         <CabinetMeeting
           requests={pendingRequests}
           onComplete={dismissCabinetMeeting}
