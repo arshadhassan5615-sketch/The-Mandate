@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useCodexStore } from '../../stores/codexStore'
 import { CHARACTERS } from '../../data/characters/roster'
 import { PROVINCE_ENTRIES, FACTION_NAMES, NATION_ENTRIES, TERM_ENTRIES } from './entityMaps'
+import { codexLinkHandlers } from '../narrative/linkPress'
 
 interface EntityToken {
   text: string
@@ -62,14 +63,26 @@ function EntityLink({ text, codexId, inline }: { text: string; codexId: string; 
     }
   }
 
+  // Inline links sit in conversation text, so they follow the touch rules in linkPress.ts.
+  const openInline = () => {
+    setFlashing(true)
+    setTimeout(() => setFlashing(false), 300)
+    viewEntry(codexId)
+    openInlineCodex(codexId)
+  }
+  const pressHandlers = inline ? codexLinkHandlers(openInline) : null
+
   return (
     <span
-      onClick={handleClick}
+      {...pressHandlers}
+      onClick={pressHandlers ? pressHandlers.onClick : handleClick}
       style={{
         color: flashing ? '#8fe8f8' : '#5a9aaa',
         textDecoration: 'none',
         cursor: 'pointer',
         transition: 'all 0.15s',
+        WebkitTouchCallout: 'none',
+        userSelect: 'none',
       }}
       title={`Open Codex: ${text}`}
       onMouseEnter={e => { e.currentTarget.style.color = '#6fbfd0'; e.currentTarget.style.textDecoration = 'underline'; e.currentTarget.style.textDecorationColor = 'rgba(111,191,208,0.5)'; e.currentTarget.style.textUnderlineOffset = '3px' }}

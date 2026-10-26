@@ -691,6 +691,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     // The scene closes (and is marked visited above) unless a nextSegment keeps it open.
     if (!nextSegmentId) recordMeetingNotes(currentScene)
 
+    // Screens the choice opens run last, after the scene has fully closed.
     // Inject Parliamentary Bills into Decree Inbox
     if (newFlags.includes('cadre_bill_passed')) {
       const decree = ALL_DECREES.find(d => d.id === 'decree_cadre_qualifications')
@@ -710,6 +711,13 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
         useDecreeStore.getState().addDecree(decree)
       }
     }
+
+    // Screens the choice opens run last, after the scene has fully closed.
+    if (choice.opensScreen === 'cabinet_formation' && !useCabinetStore.getState().formation_complete) {
+      useWeekStore.getState().triggerCabinetFormation()
+      get().resetScene()
+    }
+
     if (import.meta.env.DEV) console.log(
       '[narrativeStore.processChoice] RESOLVED',
       '| nextScene:', nextScene?.id ?? 'null',

@@ -64,6 +64,8 @@ export interface SceneChoice {
   chainTriggers?: ChainTrigger[]
   nextNodeId?: string                       // explicit transition; bypasses auto-advance
   nextSegment?: string                      // transition to a branch within the same scene
+  /** Opens a game screen once the choice has been processed; the screen continues the week when closed. */
+  opensScreen?: 'cabinet_formation'
   flags?: string[]                           // boolean flags set on pick
   /** Author override: true marks this choice as a promise, false stops automatic detection. */
   commitment?: boolean

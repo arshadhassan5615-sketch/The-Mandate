@@ -8,6 +8,7 @@ import { useWeekStore } from '../stores/weekStore'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
 import { usePageInsets } from '../hooks/usePageInsets'
+import { Z } from '../constants/zIndex'
 
 const MINISTRY_LABELS: Record<MinistryType, string> = {
   finance: 'Finance',
@@ -85,6 +86,8 @@ interface CabinetFormationProps {
 export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, reshuffleMinistry, reshuffleMode }) => {
   // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
   const insets = usePageInsets()
+  // Dense layout for every non-desktop viewport (landscape phones are 'compact')
+  const isDense = insets.mode !== 'desktop'
   const [selections, setSelections] = useState<Partial<Record<MinistryType, string>>>({})
   const [activeMinistry, setActiveMinistry] = useState<MinistryType>(reshuffleMinistry ?? 'finance')
   // Follow a new reshuffle target (adjusted during render, not in an effect)
@@ -161,7 +164,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
       inset: 0,
       top: '40px',
       background: 'rgba(8,6,4,0.97)',
-      zIndex: 200,
+      zIndex: Z.overlay,
       display: 'flex',
       flexDirection: 'column',
       fontFamily: 'Georgia, serif',
@@ -172,47 +175,56 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
       paddingBottom: insets.bottom,
     }}>
       {/* Header */}
-      <div style={{
-        padding: insets.isPhone ? '12px 16px' : '20px 48px 16px',
+      <div data-testid="cabinet-header" style={{
+        padding: insets.isPhone ? '12px 16px' : isDense ? '6px 16px' : '20px 48px 16px',
         borderBottom: '1px solid rgba(201,168,76,0.3)',
         flexShrink: 0,
       }}>
-        <div style={{
-          fontSize: '10px',
-          letterSpacing: '3px',
-          color: 'rgba(201,168,76,0.6)',
-          marginBottom: '4px',
-        }}>
-          WEEK {currentWeek} · {isReshuffle ? 'CABINET RESHUFFLE' : 'CABINET FORMATION'}
-        </div>
-        <div style={{
-          fontSize: '22px',
-          color: '#e8d5a3',
-          fontWeight: 700,
-          fontStyle: 'italic',
-        }}>
-          {isReshuffle
-            ? `Reshuffle: Ministry of ${MINISTRY_LABELS[reshuffleMinistry!]}`
-            : 'Appoint Your Cabinet'
-          }
+        {/* Dense: overline, title and count share one row */}
+        <div style={isDense ? {
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: '12px',
+          flexWrap: 'wrap',
+        } : undefined}>
+          <div style={{
+            fontSize: isDense ? '9px' : '10px',
+            letterSpacing: '3px',
+            color: 'rgba(201,168,76,0.6)',
+            marginBottom: isDense ? 0 : '4px',
+          }}>
+            WEEK {currentWeek} · {isReshuffle ? 'CABINET RESHUFFLE' : 'CABINET FORMATION'}
+          </div>
+          <div style={{
+            fontSize: isDense ? '17px' : '22px',
+            color: '#e8d5a3',
+            fontWeight: 700,
+            fontStyle: 'italic',
+          }}>
+            {isReshuffle
+              ? `Reshuffle: Ministry of ${MINISTRY_LABELS[reshuffleMinistry!]}`
+              : 'Appoint Your Cabinet'
+            }
+          </div>
+          {!isReshuffle && (
+            <div style={{
+              fontSize: isDense ? '11px' : '12px',
+              color: 'rgba(201,168,76,0.5)',
+              marginTop: isDense ? 0 : '4px',
+              marginLeft: isDense ? 'auto' : undefined,
+            }}>
+              {selectedCount} of {ministries.length} ministries filled
+            </div>
+          )}
         </div>
         {isReshuffle && (
           <div style={{
-            fontSize: '11px',
+            fontSize: isDense ? '10px' : '11px',
             color: 'rgba(255,150,150,0.7)',
-            marginTop: '4px',
+            marginTop: isDense ? '2px' : '4px',
             fontStyle: 'italic',
           }}>
             Dismissing a minister carries a political cost — public trust will suffer.
-          </div>
-        )}
-        {!isReshuffle && (
-          <div style={{
-            fontSize: '12px',
-            color: 'rgba(201,168,76,0.5)',
-            marginTop: '4px',
-          }}>
-            {selectedCount} of {ministries.length} ministries filled
           </div>
         )}
       </div>
@@ -227,13 +239,13 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
         {/* Left — Ministry List (hidden in single-ministry reshuffle mode) */}
         {!(reshuffleMinistry) && (
           <div style={{
-            width: insets.isPhone ? '100%' : '200px',
+            width: insets.isPhone ? '100%' : isDense ? '150px' : '200px',
             maxHeight: insets.isPhone ? '30vh' : undefined,
             flexShrink: 0,
             borderRight: insets.isPhone ? 'none' : '1px solid rgba(201,168,76,0.2)',
             borderBottom: insets.isPhone ? '1px solid rgba(201,168,76,0.2)' : 'none',
             overflowY: 'auto',
-            padding: '12px 0',
+            padding: insets.isPhone ? '12px 0' : isDense ? '6px 0' : '12px 0',
           }}>
             {Object.keys(MINISTRY_LABELS).map(ministry => {
               const isSelected = !!selections[ministry as MinistryType]
@@ -242,9 +254,10 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
               return (
                 <div
                   key={ministry}
+                  data-testid={`ministry-row-${ministry}`}
                   onClick={() => setActiveMinistry(ministry as MinistryType)}
                   style={{
-                    padding: '12px 20px',
+                    padding: isDense && !insets.isPhone ? '7px 12px' : '12px 20px',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -262,7 +275,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
                     flexShrink: 0,
                   }} />
                   <span style={{
-                    fontSize: '12px',
+                    fontSize: isDense && !insets.isPhone ? '11px' : '12px',
                     color: isActive ? '#e8d5a3' : 'rgba(201,168,76,0.6)',
                     letterSpacing: '1px',
                     textTransform: 'uppercase',
@@ -279,13 +292,13 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
         <div style={{
           flex: 1,
           overflowY: 'auto',
-          padding: insets.isPhone ? '16px' : '24px 40px',
+          padding: insets.isPhone ? '16px' : isDense ? '10px 14px' : '24px 40px',
         }}>
           <div style={{
             fontSize: '11px',
             letterSpacing: '3px',
             color: MINISTRY_COLORS[activeMinistry],
-            marginBottom: '20px',
+            marginBottom: isDense ? '10px' : '20px',
             textTransform: 'uppercase',
           }}>
             Ministry of {MINISTRY_LABELS[activeMinistry]}
@@ -294,7 +307,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
           <div style={{
             display: 'grid',
             gridTemplateColumns: insets.isPhone ? '1fr' : '1fr 1fr',
-            gap: '20px',
+            gap: isDense ? '12px' : '20px',
           }}>
             {candidates.map(candidate => {
               const isChosen = selections[activeMinistry] === candidate.id
@@ -303,7 +316,17 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
               return (
                 <div
                   key={candidate.id}
+                  data-testid={`candidate-card-${candidate.id}`}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isChosen}
                   onClick={() => handleSelect(activeMinistry, candidate.id)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      handleSelect(activeMinistry, candidate.id)
+                    }
+                  }}
                   onMouseEnter={() => setHoveredCandidate(candidate.id)}
                   onMouseLeave={() => setHoveredCandidate(null)}
                   style={{
@@ -316,7 +339,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
                       ? '1px solid rgba(45,122,58,0.6)'
                       : '1px solid rgba(201,168,76,0.2)',
                     borderRadius: '4px',
-                    padding: '20px',
+                    padding: isDense ? '12px' : '20px',
                     cursor: 'pointer',
                     transition: 'all 0.15s ease',
                     position: 'relative',
@@ -488,7 +511,7 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
       {/* Bottom confirm bar */}
       <div style={{
         flexShrink: 0,
-        padding: '16px 48px',
+        padding: isDense ? '6px 16px' : '16px 48px',
         borderTop: '1px solid rgba(201,168,76,0.2)',
         display: 'flex',
         justifyContent: 'space-between',
@@ -518,9 +541,9 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
               : 'rgba(201,168,76,0.2)',
             color: allSelected ? '#fff' : 'rgba(201,168,76,0.4)',
             border: 'none',
-            padding: '12px 36px',
+            padding: isDense ? '8px 22px' : '12px 36px',
             fontFamily: 'Georgia, serif',
-            fontSize: '13px',
+            fontSize: isDense ? '12px' : '13px',
             fontWeight: 700,
             letterSpacing: '2px',
             textTransform: 'uppercase',

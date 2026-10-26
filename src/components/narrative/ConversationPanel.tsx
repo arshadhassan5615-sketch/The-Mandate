@@ -15,6 +15,7 @@ import CharacterCard from './CharacterCard'
 import { characterCardData } from './characterCardData'
 import type { CharacterCardData } from './characterCardData'
 import { sceneParticipants } from './participants'
+import { codexLinkHandlers, isCoarsePointer } from './linkPress'
 import { isBriefUnlocked } from '../briefs/briefAccess'
 import { useViewportMode } from '../../hooks/useViewportMode'
 import { Z } from '../../constants/zIndex'
@@ -149,13 +150,14 @@ function CodexTermLink({ text, entryId }: { text: string; entryId: string }) {
   const unlockedCodexIds = useNarrativeStore(s => s.unlockedCodexIds)
   const entry = CODEX_ENTRIES.find(e => e.id === entryId)
   if (!entry || !isBriefUnlocked(entry, activeFlags, unlockedCodexIds)) return <>{text}</>
+  const pressHandlers = codexLinkHandlers(() => openInlineCodex(entryId))
   return (
     <span
       role="button"
       tabIndex={0}
-      onClick={(e) => { e.stopPropagation(); openInlineCodex(entryId) }}
+      {...pressHandlers}
       onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); openInlineCodex(entryId) } }}
-      style={{ color: KEYWORD_COLOR, cursor: 'pointer', borderBottom: isUnread ? `1px dotted ${KEYWORD_COLOR}` : undefined }}
+      style={{ color: KEYWORD_COLOR, cursor: 'pointer', WebkitTouchCallout: 'none', userSelect: 'none', borderBottom: isUnread ? `1px dotted ${KEYWORD_COLOR}` : undefined }}
       title={`Open brief: ${text}`}
       data-unread={isUnread || undefined}
     >
@@ -279,12 +281,6 @@ const DESCRIPTION_WRAPPER_STYLE: React.CSSProperties = {
 
 // Taps on these elements belong to the element itself, so they never advance the conversation.
 const NO_ADVANCE_SELECTOR = 'button, a, input, textarea, select, [role="button"], [data-no-advance]'
-
-// jsdom has no matchMedia, so this reads as a mouse-driven device there.
-function isCoarsePointer(): boolean {
-  if (typeof window.matchMedia !== 'function') return false
-  return window.matchMedia('(pointer: coarse)').matches
-}
 
 const MONOLOGUE_HINT_TEXT = isCoarsePointer() ? 'Tap to continue' : 'Press Space to continue'
 
@@ -578,7 +574,9 @@ export default function ConversationPanel({
   // A tap on the conversation text advances it, as Space or Enter does. Taps on
   // controls and on text the player is selecting are left alone.
   const handleColumnTap = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as Element).closest(NO_ADVANCE_SELECTOR)) return
+    const control = (e.target as Element).closest(NO_ADVANCE_SELECTOR)
+    // Codex links are role="button" but still advance on a short tap (see linkPress.ts).
+    if (control && !control.hasAttribute('data-codex-link')) return
     if (window.getSelection()?.toString()) return
     if (shouldShowMonologue) {
       dismissMonologue()

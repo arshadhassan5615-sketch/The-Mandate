@@ -11,6 +11,7 @@ import { weekToDate } from '../engine/dates'
 import { getPortrait } from '../assets/potraits'
 import { getCharacterPortrait } from './portraits/CharacterPortraits'
 import { usePageInsets } from '../hooks/usePageInsets'
+import { Z } from '../constants/zIndex'
 
 /* Author overrides are typed loosely in minister.ts; validate before printing. */
 const PUBLICATIONS: readonly Publication[] = ['ashenmere_herald', 'peoples_standard', 'veltrian_voice', 'veltrian_times', 'kravenstal_worker', 'thornfeld_gazette']
@@ -18,15 +19,18 @@ const isPublication = (value: string): value is Publication => (PUBLICATIONS as 
 const NEWS_CATEGORIES: readonly NewsCategory[] = ['bni', 'economy', 'security', 'constitutional', 'diplomacy', 'personal', 'faction', 'budget', 'crisis', 'war', 'governance', 'media']
 const isNewsCategory = (value: string): value is NewsCategory => (NEWS_CATEGORIES as readonly string[]).includes(value)
 
-function MinisterPortrait({ ministerId }: { ministerId: string }) {
+const PORTRAIT_DEFAULT_SIZE = 100
+const PORTRAIT_INITIALS_FONT_SIZE = 28
+
+function MinisterPortrait({ ministerId, size = PORTRAIT_DEFAULT_SIZE }: { ministerId: string; size?: number }) {
   const [imgError, setImgError] = useState(false)
   const imgSrc = getPortrait(ministerId)
   const SvgComp = getCharacterPortrait(ministerId)
 
   return (
     <div style={{
-      width: '100px',
-      height: '100px',
+      width: `${size}px`,
+      height: `${size}px`,
       borderRadius: '50%',
       border: '2px solid rgba(201,168,76,0.4)',
       overflow: 'hidden',
@@ -47,7 +51,7 @@ function MinisterPortrait({ ministerId }: { ministerId: string }) {
         createElement(SvgComp)
       ) : (
         <span style={{
-          fontSize: '28px',
+          fontSize: `${PORTRAIT_INITIALS_FONT_SIZE * size / PORTRAIT_DEFAULT_SIZE}px`,
           fontWeight: 700,
           color: 'rgba(201,168,76,0.6)',
           fontFamily: 'Georgia, serif',
@@ -67,6 +71,7 @@ interface CabinetMeetingProps {
 export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComplete }) => {
   // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
   const insets = usePageInsets()
+  const isDense = insets.mode !== 'desktop'
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [, setResolved] = useState<string[]>([])
@@ -207,7 +212,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
       inset: 0,
       top: 0,
       background: 'rgba(8,6,4,0.95)',
-      zIndex: 200,
+      zIndex: Z.overlay,
       display: 'flex',
       flexDirection: 'column',
       fontFamily: 'Georgia, serif',
@@ -216,8 +221,8 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
       paddingBottom: insets.bottom,
     }}>
       {/* Header */}
-      <div style={{
-        padding: insets.isPhone ? '12px 16px' : '20px 48px 16px',
+      <div data-testid="cabinet-header" style={{
+        padding: isDense ? '6px 16px' : insets.isPhone ? '12px 16px' : '20px 48px 16px',
         borderBottom: '1px solid rgba(201,168,76,0.3)',
         flexShrink: 0,
         display: 'flex',
@@ -229,12 +234,12 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
             fontSize: '9px',
             letterSpacing: '3px',
             color: 'rgba(201,168,76,0.5)',
-            marginBottom: '4px',
+            marginBottom: isDense ? '2px' : '4px',
           }}>
             CABINET MEETING · WEEKLY REPORTS
           </div>
           <div style={{
-            fontSize: '18px',
+            fontSize: isDense ? '15px' : '18px',
             color: '#e8d5a3',
             fontWeight: 700,
             fontStyle: 'italic',
@@ -254,17 +259,17 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
       <div style={{
         flex: 1,
         overflow: 'auto',
-        padding: '32px 48px',
+        padding: isDense ? '10px 16px' : '32px 48px',
         display: 'flex',
-        gap: '40px',
+        gap: isDense ? '16px' : '40px',
       }}>
         {/* Minister portrait + info */}
         {minister && (
           <div style={{
-            width: '180px',
+            width: isDense ? '110px' : '180px',
             flexShrink: 0,
           }}>
-            <MinisterPortrait ministerId={minister.id} />
+            <MinisterPortrait ministerId={minister.id} size={isDense ? 72 : PORTRAIT_DEFAULT_SIZE} />
             <div style={{
               textAlign: 'center',
               fontSize: '13px',
@@ -493,9 +498,18 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
                 {current.options.map(option => (
                   <div
                     key={option.id}
+                    role="button"
+                    tabIndex={0}
+                    data-testid={`cabinet-option-${option.id}`}
                     onClick={() => handleDecision(option)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        handleDecision(option)
+                      }
+                    }}
                     style={{
-                      padding: '16px 20px',
+                      padding: isDense ? '10px 14px' : '16px 20px',
                       background: 'linear-gradient(90deg, rgba(201,168,76,0.05) 0%, rgba(10,8,6,0.5) 100%)',
                       border: '1px solid rgba(201,168,76,0.15)',
                       borderLeft: '3px solid rgba(201,168,76,0.3)',
@@ -553,7 +567,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
                 {selectedOption === '__skip__' ? '► RISK ACCEPTED' : '► DIRECTIVE CONFIRMED'}
               </div>
               <div style={{
-                padding: '16px 20px',
+                padding: isDense ? '12px 14px' : '16px 20px',
                 background: selectedOption === '__skip__'
                   ? 'linear-gradient(90deg, rgba(201,168,76,0.05) 0%, rgba(10,8,6,0.5) 100%)'
                   : 'linear-gradient(90deg, rgba(45,122,58,0.1) 0%, rgba(10,8,6,0.5) 100%)',
@@ -576,12 +590,13 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
                 }
               </div>
               <button
+                data-testid="cabinet-meeting-next"
                 onClick={handleNext}
                 style={{
                   background: '#c9a84c',
                   color: '#1a1410',
                   border: 'none',
-                  padding: '12px 32px',
+                  padding: isDense ? '10px 22px' : '12px 32px',
                   fontFamily: 'Georgia, serif',
                   fontSize: '12px',
                   fontWeight: 700,

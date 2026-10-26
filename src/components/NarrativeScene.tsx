@@ -280,6 +280,8 @@ export default function NarrativeScene() {
     if (sceneDone && returnToMap) {
       const t = setTimeout(() => {
         const store = useWeekStore.getState()
+        // A screen opened by the scene (e.g. cabinet formation) owns the week until it closes.
+        if (store.showCabinetFormation) return
         store.advanceQueue()
       }, 800)
       return () => clearTimeout(t)

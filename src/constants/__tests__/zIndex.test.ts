@@ -30,6 +30,8 @@ const LAYERED_FILES = [
   'components/ui/cabinet/CabinetDocument.tsx',
   'components/ui/cabinet/CabinetWindow.tsx',
   'components/TopBar.tsx',
+  'components/CabinetMeeting.tsx',
+  'components/CabinetFormation.tsx',
 ]
 
 // Small values are local stacking inside a positioned parent (e.g. a close
