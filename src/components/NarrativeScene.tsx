@@ -14,6 +14,7 @@ import ConversationPanel from './narrative/ConversationPanel'
 import MemoryLine from './narrative/MemoryLine'
 import { memoryTextFor } from './narrative/memoryLineText'
 import ReadingModeBadge from './narrative/ReadingModeBadge'
+import { NO_ADVANCE_SELECTOR, useTouchHold } from './narrative/touchHold'
 import { autoAdvanceDelayMs, hasReadScene, markSceneRead } from '../engine/readRegistry'
 
 interface HistoryEntry {
@@ -242,19 +243,22 @@ export default function NarrativeScene() {
     }
   }, [])
 
+  // A finger held on the conversation is the touch equivalent of holding Ctrl.
+  const { held: touchHeld, heldRef: touchHeldRef } = useTouchHold(columnRef, NO_ADVANCE_SELECTOR)
+
   // Skip only fast-forwards scenes read before, and stops at choices (allDone) or the scene end.
   const currentSceneId = currentScene?.id
   const sceneWasRead = currentSceneId != null && hasReadScene(currentSceneId)
-  const skipping = ctrlHeld && !allDone && !sceneDone && sceneWasRead
+  const skipping = (ctrlHeld || touchHeld) && !allDone && !sceneDone && sceneWasRead
 
   // Skip ticks do nothing while reading is interrupted (an open dialog or a panel covering the column).
   useEffect(() => {
     if (!skipping) return
     const id = setInterval(() => {
-      if (ctrlHeldRef.current && isReadingUninterrupted(columnRef.current)) advanceRef.current()
+      if ((ctrlHeldRef.current || touchHeldRef.current) && isReadingUninterrupted(columnRef.current)) advanceRef.current()
     }, SKIP_INTERVAL_MS)
     return () => clearInterval(id)
-  }, [skipping])
+  }, [skipping, touchHeldRef])
 
   // Reading pause: once a line has finished typing, move on by itself. Choices are never auto-picked.
   // While reading is interrupted the timer re-arms for the same delay instead of advancing.

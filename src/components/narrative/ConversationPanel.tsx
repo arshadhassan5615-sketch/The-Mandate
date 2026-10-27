@@ -16,6 +16,7 @@ import { characterCardData } from './characterCardData'
 import type { CharacterCardData } from './characterCardData'
 import { sceneParticipants } from './participants'
 import { codexLinkHandlers, isCoarsePointer } from './linkPress'
+import { NO_ADVANCE_SELECTOR } from './touchHold'
 import { isBriefUnlocked } from '../briefs/briefAccess'
 import { useViewportMode } from '../../hooks/useViewportMode'
 import { Z } from '../../constants/zIndex'
@@ -280,7 +281,6 @@ const DESCRIPTION_WRAPPER_STYLE: React.CSSProperties = {
 }
 
 // Taps on these elements belong to the element itself, so they never advance the conversation.
-const NO_ADVANCE_SELECTOR = 'button, a, input, textarea, select, [role="button"], [data-no-advance]'
 
 const MONOLOGUE_HINT_TEXT = isCoarsePointer() ? 'Tap to continue' : 'Press Space to continue'
 

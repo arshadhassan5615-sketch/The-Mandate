@@ -345,22 +345,6 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
                     position: 'relative',
                   }}
                 >
-                  {isChosen && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '12px',
-                      right: '12px',
-                      background: '#2d7a3a',
-                      color: 'white',
-                      fontSize: '9px',
-                      letterSpacing: '2px',
-                      padding: '3px 8px',
-                      borderRadius: '2px',
-                    }}>
-                      APPOINTED
-                    </div>
-                  )}
-
                   <div style={{
                     display: 'flex',
                     gap: '14px',
@@ -372,6 +356,21 @@ export const CabinetFormation: React.FC<CabinetFormationProps> = ({ onComplete, 
                       isChosen={isChosen}
                     />
                     <div>
+                      {/* In the text flow, not floated over the card, so it never covers the name on narrow cards. */}
+                      {isChosen && (
+                        <div style={{
+                          display: 'inline-block',
+                          marginBottom: '4px',
+                          background: '#2d7a3a',
+                          color: 'white',
+                          fontSize: '9px',
+                          letterSpacing: '2px',
+                          padding: '3px 8px',
+                          borderRadius: '2px',
+                        }}>
+                          APPOINTED
+                        </div>
+                      )}
                       <div style={{
                         fontSize: '15px',
                         fontWeight: 700,

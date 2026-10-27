@@ -68,6 +68,12 @@ interface CabinetMeetingProps {
   onComplete: () => void
 }
 
+// The button appears below a confirmation that can push it past the bottom of a phone
+// screen, where nothing hints that the meeting continues, so bring it into view.
+function scrollIntoViewOnMount(el: HTMLElement | null) {
+  el?.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' })
+}
+
 export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComplete }) => {
   // Keep clear of the fixed HUD; phones stack columns and drop the rail gap
   const insets = usePageInsets()
@@ -593,6 +599,7 @@ export const CabinetMeeting: React.FC<CabinetMeetingProps> = ({ requests, onComp
                 }
               </div>
               <button
+                ref={scrollIntoViewOnMount}
                 data-testid="cabinet-meeting-next"
                 onClick={handleNext}
                 style={{
