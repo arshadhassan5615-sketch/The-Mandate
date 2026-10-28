@@ -7,7 +7,7 @@ export const GOVERNANCE_CAST_NAMES: Readonly<Record<string, string>> = {
   ...Object.fromEntries(GOVERNORS.map(g => [g.characterId, g.name])),
   milena_sova: 'Milena Sova',
   vesna_darko: 'Vesna Darko',
-  teodor_wrenn: 'Teodor Wrenn',
+  gustav_wrenn: 'Gustav Wrenn',
   ana_kovar: 'Ana Kovar',
   ulrich_kessler: 'Dr. Ulrich Kessler',
   marta_ruzicka: 'Marta Ruzicka',
