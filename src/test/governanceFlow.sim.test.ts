@@ -83,9 +83,12 @@ describe('provincial governance through the week pipeline', () => {
 
   it('appointing a Kravenstal governor puts her in office', async () => {
     expect(governorInOffice('kravenstal', flags()).governor.id).toBe('kral')
+    expect(useNarrativeStore.getState().unlockedCodexIds).not.toContain('character_hana_novak')
     bootWeek(4)
     await playAgenda('agenda_gov_kravenstal_appointment', 'gov_kravenstal_appoint_novak')
     expect(governorInOffice('kravenstal', flags())).toMatchObject({ source: 'appointed', governor: { id: 'novak' } })
+    // Meeting her in the scene opens her codex brief ("met" unlock).
+    expect(useNarrativeStore.getState().unlockedCodexIds).toContain('character_hana_novak')
   }, SIM_TIMEOUT_MS)
 
   it('signing the Self-Government Act holds elections at the next week boundary and offers the results', async () => {
