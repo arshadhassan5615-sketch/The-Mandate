@@ -13,6 +13,8 @@ import { useNewsStore } from './newsStore'
 import { useCommitmentStore } from './commitmentStore'
 import { useProvinceNewsStore } from './provinceNewsStore'
 import { isCommitmentChoice, commitmentFromChoice } from '../engine/commitments'
+import { codexIdsUnlockedByMeeting } from '../engine/codexMeet'
+import { ALL_CODEX_ENTRIES } from './codexStore'
 import { useDecreeStore } from './decreeStore'
 import { NEWS_TEMPLATES } from '../data/news/newsTemplates'
 import { buildCoverage } from '../engine/pressCoverage'
@@ -260,6 +262,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
     // filtered narrative so hidden nodes don't unlock portraits)
     let newMet = metCharacters
     let newlyMetIds: string[] = []
+    let unlockedByMeeting: string[] = []
     if (target) {
       const charsInScene = (target.narrative ?? [])
         .filter(seg => seg.type === 'dialogue' && seg.character)
@@ -268,6 +271,9 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       if (toAdd.length) newMet = [...newMet, ...toAdd]
       const CHARACTER_PREFIX = 'character_'
       newlyMetIds = [...new Set(toAdd.map(c => c.slice(CHARACTER_PREFIX.length)))]
+      // Character briefs marked 'met' open the first time that character speaks.
+      unlockedByMeeting = codexIdsUnlockedByMeeting(toAdd, ALL_CODEX_ENTRIES)
+        .filter(id => !get().unlockedCodexIds.includes(id))
     }
 
     set({
@@ -276,6 +282,7 @@ export const useNarrativeStore = create<NarrativeStore>((set, get) => ({
       sceneDone: !target,
       metCharacters: newMet,
       newlyMetIds,
+      ...(unlockedByMeeting.length ? { unlockedCodexIds: [...get().unlockedCodexIds, ...unlockedByMeeting] } : {}),
       sceneLoadCount: get().sceneLoadCount + 1,
     })
     if (import.meta.env.DEV) console.log('[TRACE 5] currentScene set to:', target?.id ?? 'null', '| sceneDone:', !target)
