@@ -16,6 +16,7 @@ import { memoryTextFor } from './narrative/memoryLineText'
 import ReadingModeBadge from './narrative/ReadingModeBadge'
 import { NO_ADVANCE_SELECTOR, useTouchHold } from './narrative/touchHold'
 import { autoAdvanceDelayMs, hasReadScene, markSceneRead } from '../engine/readRegistry'
+import { GOVERNANCE_CAST_NAMES } from '../data/characters/governanceCast'
 
 interface HistoryEntry {
   id: string
@@ -60,7 +61,7 @@ const CHAR_NAMES: Record<string, string> = {
 }
 
 function charName(id: string): string {
-  return CHAR_NAMES[id] ?? id.replace(/_/g, ' ')
+  return CHAR_NAMES[id] ?? GOVERNANCE_CAST_NAMES[id] ?? id.replace(/_/g, ' ')
 }
 
 // The conversation history: the revealed prefix of the scene's segments, shaped as ConversationPanel entries.

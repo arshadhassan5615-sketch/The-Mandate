@@ -1,0 +1,177 @@
+{
+  "id": "biz_aldenmoor_port",
+  "title": "Two Bids for the Harbour",
+  "notebook": [
+    "Two bidders asked for the same afternoon: Teodor Wrenn and Ana Kovar. The Harbour Authority agreed to see both.",
+    "Aldenmoor's fish-processing canneries have been shut for most of a decade. The docks are rotting at the waterline.",
+    "Vyktor: there is a rumour about Wrenn Maritime and a Halvekist deputy. Elena Braskov has been asking questions in the corridors."
+  ],
+  "act": 1,
+  "weekAvailable": 7,
+  "weekDeadline": 10,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Aldenmoor — Harbour Authority Boardroom",
+  "characters": ["vyktor_reznik", "teodor_wrenn", "ana_kovar"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The request arrives on a Tuesday in a plain grey folder with no letterhead. Vyktor Reznik carries it into your office himself rather than sending it through the secretariat, which is the first sign that he has already read it and does not want anyone else to have the first impression. Inside is a page of two paragraphs and two names. Aldenmoor's fish-processing harbour has been dead for most of a decade, and two people now want the contract to bring it back."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Both bidders asked for the same afternoon, and the Harbour Authority has given it to them, because nobody in Aldenmoor wants to be seen turning away the first serious offer in ten years. I have read both proposals twice. They are not similar documents. One is written by people who expect to win. The other is written by people who expect to be allowed to work. You will want to hear both before you decide anything."
+    },
+    {
+      "type": "description",
+      "text": "The Harbour Authority boardroom sits on the upper floor of the old customs house, and its tall windows look straight down the length of the quay. Below, a line of trawlers rides at its moorings, low in the water and waiting for a tide that has not yet come. Teodor Wrenn is already seated when you enter. Ana Kovar is standing at the window with her coat still buttoned, as if she has not decided whether this room is worth sitting down in."
+    },
+    {
+      "type": "dialogue",
+      "character": "teodor_wrenn",
+      "text": "I will not waste your afternoon on sentiment about this harbour. I grew up on it. My father shipped salt cod from these berths when there were four hundred hulls in the basin and nobody thought of the place as a problem. I know what the canneries are worth and I know what they cost to bring back. Wrenn Maritime will rebuild the processing halls in eighteen months, and we will pay for the work from our own capital."
+    },
+    {
+      "type": "dialogue",
+      "character": "teodor_wrenn",
+      "text": "What we ask in return is a twenty-year operating concession for the processing halls, and the tax relief that goes with an investment of this size. That is not a favour. It is the ordinary structure of a deal that would otherwise sit on a shelf in Ashenmere for a decade while the boats go elsewhere. Give us the contract and you will have a working harbour inside the time your own ministries would take to agree on a specification."
+    },
+    {
+      "type": "dialogue",
+      "character": "ana_kovar",
+      "text": "I am Ana Kovar, and I chair the Fishermen's Cooperative. That means I answer for four hundred boats and the families who crew them. We do not have Wrenn's capital. We have the catch, which is the only thing this coast has ever had in abundance, and we have a small cannery that the members built with their own hands after the old one closed. It needs rebuilding. It needs a state loan to do it, and I am not ashamed to ask for one."
+    },
+    {
+      "type": "dialogue",
+      "character": "ana_kovar",
+      "text": "It will take three years, not eighteen months, and I will not pretend otherwise. But when it is finished, the processing money stays in Aldenmoor with the people who catch the fish. No concession expires in twenty years with the profits flowing out to a holding company. The boats would be working for the harbour, not renting space in it."
+    },
+    {
+      "type": "description",
+      "text": "Kovar sits down at last, across the table from Wrenn, and for a moment neither of them looks at you. The room holds the particular quiet of two people who have each been told the other one is the threat. Outside, a gull lands on a bollard and walks along the rail as if it owns the quay."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is a rumour about Wrenn Maritime, and you should hear it from me before you hear it from a newspaper. A payment is said to have been made in the weeks before this bid was filed, to a deputy from the Halvek era who now sits on the Assembly's maritime committee. The sum is said to be modest. I have not verified it. I have also not been able to disprove it, and Elena Braskov has been asking questions in the corridors of the Assembly."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The simplest answer to this room is the one that makes the rumours somebody else's problem. Wrenn can build quickly, and the coast needs work before winter. Kovar is the only one of them who has asked you for something in the voice of the people it would affect. Vyktor has handed you the hard part and then stopped talking, which is his way of saying the decision is yours and that he will not pretend it is easy."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is a third option, which neither of them has offered. The contract can go to Wrenn, and the Republic can take a thirty percent share of the operating company. That brings real revenue to the treasury every year the harbour runs, and it gives the state a seat at the table where the money is decided. It also makes the Republic Wrenn's partner in that same harbour, and that is the part you should weigh most carefully."
+    }
+  ],
+  "monologue": "Two bids, one harbour, and a room that has been waiting for someone to decide. Wrenn offers speed and an old name with a shadow over it. Kovar offers slower work that belongs to the people who will use it. Vyktor has laid out a third path that makes the state a partner, and he has not said which way he would go.",
+
+  "choices": [
+    {
+      "id": "biz_port_award_wrenn",
+      "text": "\"Award the contract to Wrenn Maritime on the terms they asked for. The harbour needs to work, and it needs to work soon. We will hold them to the eighteen months in writing.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass",   "operation": "add", "value": 8 },
+        { "stat": "nation.economyHealth",     "operation": "add", "value": 4 },
+        { "stat": "factions.halvekists",      "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "biz_chain_wrenn_kickback", "delayWeeks": 6 }
+      ],
+      "flags": ["biz_port_wrenn"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Wrenn will be grateful, and gratitude from a family like that lasts about as long as the next contract. He will also expect the Authority to look away from anything he asks for later. You should know that before the first signature goes on the page."
+        }
+      ]
+    },
+    {
+      "id": "biz_port_award_coop",
+      "text": "\"Award the contract to the Fishermen's Cooperative, with the state loan. It will take three years. The money stays on this coast, and the boats will own the harbour they work from.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "nation.economyHealth",      "operation": "add", "value": 1 },
+        { "stat": "nation.nationalDebt",       "operation": "add", "value": 5 },
+        { "stat": "factions.businessClass",    "operation": "add", "value": -4 }
+      ],
+      "chainTriggers": [],
+      "flags": ["biz_port_coop"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "ana_kovar",
+          "type": "action",
+          "text": "She does not smile. She nods once, picks up the folder with the Authority's seal on it, and holds it against her chest as if it might be taken back. Then she turns to the window and looks down at the trawlers, and for the first time since she came into the room she sits down without being asked."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The loan has to pass the Treasury committee first, and Wrenn will call the newspapers before the signatures are dry. Be ready for that. The Cooperative has waited for this for a long time, and it will not thank you for making it wait a day longer."
+        }
+      ]
+    },
+    {
+      "id": "biz_port_stake",
+      "text": "\"Award the contract to Wrenn Maritime, and the Republic takes the thirty percent share. The state earns from the harbour every year it runs, and we sit at the table where the money is decided.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.nationalDebt",    "operation": "add", "value": 10 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 4 },
+        { "stat": "nation.economyHealth",   "operation": "add", "value": 4 }
+      ],
+      "chainTriggers": [
+        { "targetNodeId": "biz_chain_wrenn_kickback", "delayWeeks": 6 },
+        { "targetNodeId": "biz_chain_port_dividend", "delayWeeks": 8, "conditions": [ { "type": "flag", "flag": "biz_wrenn_cancelled", "value": false } ] }
+      ],
+      "flags": ["biz_port_wrenn", "biz_port_stake"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "teodor_wrenn",
+          "type": "satisfied",
+          "text": "Wrenn does not hide his satisfaction. A partner in the state's name is worth more to him than a concession held by a holding company. He says the paperwork will be on your desk by Friday, and it is clear from the way he says it that he has already had it drafted."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "A stake makes you a partner in the thing you are supposed to regulate. That is not forbidden, but it will be read that way, and you will be the one who has to explain it in the Assembly."
+        }
+      ]
+    },
+    {
+      "id": "biz_port_reject",
+      "text": "\"Reject both bids. Ask the Harbour Authority to run a public tender with a longer timetable and clear rules on ownership. Neither proposal is good enough to sign while the rumours are unanswered.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.businessClass",    "operation": "add", "value": -4 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -1 }
+      ],
+      "chainTriggers": [],
+      "flags": ["biz_port_rejected"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "ana_kovar",
+          "type": "dialogue",
+          "text": "She picks up her coat, which she had not taken off, and then sets it down again. The Cooperative will wait, she says, because it has waited before. The boats will not wait as well."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "Vyktor writes the instruction without comment and closes his pad. He does not tell you that the harbour will sit dead for another year. He does not need to."
+        }
+      ]
+    }
+  ]
+}

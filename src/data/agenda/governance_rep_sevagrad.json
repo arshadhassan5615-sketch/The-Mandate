@@ -1,0 +1,37 @@
+[
+  {
+    "id": "agenda_rep_sevagrad_audience",
+    "title": "The Fields Below the Pass",
+    "description": "Vesna Darko asks to be heard in the Korengal Valley with the governor present. Hear the grievance, then promise, refuse or defer.",
+    "category": "cabinet",
+    "sceneId": "rep_sevagrad_audience",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 13,
+    "weekDeadline": 16
+  },
+  {
+    "id": "agenda_rep_sevagrad_compensation_order",
+    "title": "The Korengal Compensation Order",
+    "description": "Vyktor has a costed order to pay the Korengal families and return the unused land. Decide whether to sign it now or defer it.",
+    "category": "cabinet",
+    "sceneId": "rep_sevagrad_compensation_order",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 14,
+    "weekDeadline": 26,
+    "prerequisites": [
+      {
+        "type": "flag",
+        "flag": "rep_sevagrad_promise",
+        "value": true
+      },
+      {
+        "type": "flag",
+        "flag": "rep_sevagrad_kept",
+        "value": false
+      }
+    ],
+    "recurring": true
+  }
+]

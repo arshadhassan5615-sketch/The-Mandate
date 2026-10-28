@@ -1,11 +1,12 @@
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useCommitmentStore } from '../../stores/commitmentStore'
 import { useNarrativeStore } from '../../stores/narrativeStore'
+import { useGameStore } from '../../stores/gameStore'
 import { getPortrait } from '../../assets/potraits'
 import { charName } from '../narrative/speakers'
 import { initialsFor } from '../narrative/initials'
 import {
-  RESOLUTION_RULES, commitmentStatus,
+  RESOLUTION_RULES, commitmentStatus, deadlineWeekOf,
   type Commitment, type CommitmentStatus, type ResolutionRule,
 } from '../../engine/commitments'
 import PaperPanel, { PaperTabButton } from './PaperPanel'
@@ -27,6 +28,7 @@ interface CommitmentsPanelProps {
 interface Entry {
   commitment: Commitment
   status: CommitmentStatus
+  dueWeek: number | null
 }
 
 const PORTRAIT_SIZE = 22
@@ -61,11 +63,16 @@ function byNewestWeek(a: Entry, b: Entry): number {
 export default function CommitmentsPanel({ onClose, rules = RESOLUTION_RULES }: CommitmentsPanelProps) {
   const commitments = useCommitmentStore(s => s.commitments)
   const activeFlags = useNarrativeStore(s => s.activeFlags)
+  const currentWeek = useGameStore(s => s.currentWeek)
   const [tab, setTab] = useState<Tab>('record')
 
   const entries = useMemo<Entry[]>(
-    () => commitments.map(commitment => ({ commitment, status: commitmentStatus(commitment, activeFlags, rules) })),
-    [commitments, activeFlags, rules],
+    () => commitments.map(commitment => ({
+      commitment,
+      status: commitmentStatus(commitment, activeFlags, rules, currentWeek),
+      dueWeek: deadlineWeekOf(commitment, rules),
+    })),
+    [commitments, activeFlags, rules, currentWeek],
   )
   const onRecord = useMemo(() => entries.filter(e => e.status === 'outstanding').sort(byNewestWeek), [entries])
   const resolved = useMemo(() => entries.filter(e => e.status !== 'outstanding').sort(byNewestWeek), [entries])
@@ -151,14 +158,17 @@ function CommitmentList({ entries }: { entries: Entry[] }) {
 }
 
 function CommitmentEntry({ entry, isFirst }: { entry: Entry; isFirst: boolean }) {
-  const { commitment, status } = entry
+  const { commitment, status, dueWeek } = entry
+  const label = status === 'outstanding' && dueWeek !== null
+    ? `Week ${commitment.week} · ${commitment.sceneTitle} · Due by week ${dueWeek}`
+    : `Week ${commitment.week} · ${commitment.sceneTitle}`
   return (
     <article
       data-testid="commitment-entry"
       style={{ padding: '9px 14px', borderTop: isFirst ? undefined : '1px solid var(--cab-card-edge)' }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
-        <span style={LABEL_SMALL}>{`Week ${commitment.week} · ${commitment.sceneTitle}`}</span>
+        <span style={LABEL_SMALL}>{label}</span>
         <StatusMark status={status} />
       </div>
       <blockquote style={{ ...CAB_BODY, fontStyle: 'italic', margin: '8px 0 10px' }}>

@@ -1,0 +1,86 @@
+{
+  "id": "rep_kravenstal_clinic_order",
+  "title": "The Lower Kraven Order",
+  "notebook": [
+    "Vyktor has the costing for the Lower Kraven clinic. The building is still held by the company that bought it in 1961.",
+    "Milena Sova was told the clinic would reopen before winter. The Widows' Committee keeps the list of families."
+  ],
+  "act": 1,
+  "weekAvailable": 10,
+  "weekDeadline": 22,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Ashenmere — Chancellery, Cabinet Office",
+  "characters": ["vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Cabinet Office in Ashenmere faces north over the river, and in late autumn the window has a grey cast that makes the papers on the long table look older than they are. Vyktor Reznik has placed a single folder at your place, squared to the edge of the wood. It is thicker than the usual cabinet paper, and the tab has been lettered by hand."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "This is the costed order for the Lower Kraven clinic. It reopens the four rooms above the depot, with a clinical lead, nurses drawn from the union's own list, and the equipment the old clinic held before it was sold. The company has agreed to a lease on the terms the committee asked for. The order is complete. It needs your signature and a source for the money."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The money is the difficult part, as it always is. Healthcare has been squeezed for several years, and every line that could absorb an order of this kind is already claimed by someone with a stronger hold on the cabinet's attention. Vyktor has marked the options in the margin in fine pencil, and none of them is clean."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The first option is to fund it from the healthcare line, which means the other provincial clinics wait longer for their new equipment. The second is to borrow the remainder and add it to the national debt, which the Treasury will report as a rise in the year's figures. The third is to do nothing this quarter and tell the committee the order is still being costed. I would not recommend the third, but it is the one the ministry will prefer."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You should also remember who the order is for. Milena Sova was told in the union hall that the clinic would reopen before winter, and she was told it by you, in front of the governor. The committee has written that down, and so has the governor's office. I have written it on the first page of this folder, above the costing, where you cannot miss it."
+    },
+    {
+      "type": "description",
+      "text": "Below the window the trams run along the boulevard, and a woman with a shopping bag stops at the crossing and looks up at the government building for a moment before she goes on. The folder waits on the table. The decision is yours, and it now has a date written on the first page."
+    }
+  ],
+  "monologue": "The Lower Kraven order is costed, and it is honest about the price. Vyktor has set out three ways to pay for it, and each one takes something from someone else. The promise you made in the union hall is written on the first page, above the figures.",
+
+  "choices": [
+    {
+      "id": "clinic_order_fund",
+      "text": "\"Fund the Lower Kraven clinic from the healthcare line, and borrow the remainder against the national debt. Sign the order today, and I will tell Milena Sova myself.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "budget.healthcare", "operation": "add", "value": 3 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 4 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 }
+      ],
+      "flags": ["rep_kravenstal_kept"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He slides the signed order into the folder and closes it. The healthcare line will feel this next year, and the Treasury will say so in writing. He says that a first patient at the Lower Kraven door will be far easier to explain than the figures."
+        }
+      ]
+    },
+    {
+      "id": "clinic_order_defer",
+      "text": "\"Not this quarter. Tell the committee the order is still being costed, and that I will look at it again when the budget allows.\"",
+      "internalTag": "pragmatist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "personal.stressLevel", "operation": "add", "value": 2 }
+      ],
+      "flags": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not argue. He takes the folder back, and beside the promise on the first page he writes the word deferred in his small exact hand. He says the letter to the committee will be on your desk by evening."
+        }
+      ]
+    }
+  ]
+}

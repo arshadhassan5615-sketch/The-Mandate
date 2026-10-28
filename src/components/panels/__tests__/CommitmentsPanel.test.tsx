@@ -3,6 +3,7 @@ import { render, screen, fireEvent, within } from '@testing-library/react'
 import CommitmentsPanel from '../CommitmentsPanel'
 import { useCommitmentStore } from '../../../stores/commitmentStore'
 import { useNarrativeStore } from '../../../stores/narrativeStore'
+import { useGameStore } from '../../../stores/gameStore'
 import type { Commitment, ResolutionRule } from '../../../engine/commitments'
 import { charName } from '../../narrative/speakers'
 
@@ -136,5 +137,46 @@ describe('CommitmentsPanel', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Close Commitments' }))
     fireEvent.keyDown(window, { key: 'Escape' })
     expect(onClose).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('CommitmentsPanel deadlines', () => {
+  const deadlinePromise: Commitment = {
+    id: 'scene_deadline:choice_1',
+    sceneId: 'scene_deadline',
+    sceneTitle: 'The Deadline Pledge',
+    choiceId: 'choice_1',
+    week: 3,
+    quote: 'I promise the roads will be finished.',
+    witnesses: [],
+    flags: ['test_promise'],
+  }
+  const deadlineRules: ResolutionRule[] = [{ madeBy: 'test_promise', keptBy: ['test_kept'], deadlineWeeks: 4 }]
+
+  beforeEach(() => {
+    seed([deadlinePromise])
+  })
+
+  it('shows Due by week on an outstanding promise with a deadline', () => {
+    useGameStore.setState({ currentWeek: 5 })
+    render(<CommitmentsPanel onClose={() => {}} rules={deadlineRules} />)
+    const entry = screen.getByTestId('commitment-entry')
+    expect(entry).toHaveTextContent('Week 3 · The Deadline Pledge · Due by week 7')
+    expect(within(entry).getByTestId('commitment-status')).toHaveAttribute('data-status', 'outstanding')
+  })
+
+  it('moves a promise past its deadline to Resolved as broken', () => {
+    useGameStore.setState({ currentWeek: 8 })
+    render(<CommitmentsPanel onClose={() => {}} rules={deadlineRules} />)
+    expect(screen.queryAllByTestId('commitment-entry')).toHaveLength(0)
+    expect(screen.getByRole('tab', { name: /Resolved/ })).toHaveTextContent('(1)')
+
+    fireEvent.click(screen.getByRole('tab', { name: /Resolved/ }))
+    const entry = screen.getByTestId('commitment-entry')
+    expect(entry).toHaveTextContent('Week 3 · The Deadline Pledge')
+    expect(entry).not.toHaveTextContent('Due by week')
+    const status = within(entry).getByTestId('commitment-status')
+    expect(status).toHaveAttribute('data-status', 'broken')
+    expect(status).toHaveTextContent('Broken')
   })
 })

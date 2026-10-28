@@ -1,0 +1,136 @@
+{
+  "id": "gov_provincial_elections_results",
+  "title": "Election Night in the Provinces",
+  "notebook": [
+    "The provincial governors are now chosen by the voters of each province under the Self-Government Act.",
+    "Some winners owe the Chancellery nothing and share its aims. Others were elected on their own terms and cannot be removed by decree."
+  ],
+  "act": 2,
+  "weekAvailable": 26,
+  "weekDeadline": 32,
+  "type": "event",
+  "agendaCost": 0,
+  "location": "Ashenmere — Chancellery, Situation Room",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The first returns come in by telephone a little after nine in the evening. A clerk reads them from the teleprinter strip, and a second clerk copies each one onto the chalkboard beside the wall map. The lamps have been turned low and the typewriters pushed against the far wall. Nobody in the room has watched a provincial governor be chosen by the people he or she will govern, and the quiet has the careful edge of people waiting to learn whether something they worked for has actually happened."
+    },
+    {
+      "type": "description",
+      "text": "Vyktor stands at the map with a pencil in his hand. As each result arrives he makes a small mark over the province, and the marks are no longer all the same colour. This is the first free election for provincial governors in a generation. For twenty-three years the offices went to whoever Halvek trusted, and tonight they go to whoever the voters of each province chose, whether or not the Chancellery approved of the choice."
+    },
+    {
+      "type": "description",
+      "text": "Ashenmere returns first, and the city council chamber is loud on the telephone line before the clerk has finished reading the figures. Halvek's capital had been run from a single office for most of his rule, and the room hears the result as a verdict on that office."
+    },
+    {
+      "type": "description",
+      "text": "Dita Valen won Ashenmere, and she won it on the strength of the literacy circles she ran in back rooms for years while the Chancellery pretended they did not exist. The council she sat on for a decade knows her handwriting better than the ministry does. She owes you nothing for the seat. She shares your aims for the province, and the first thing she will ask for is the Chancellery's files on the water works, which is a request Halvek would never have allowed.",
+      "conditions": [{ "type": "flag", "flag": "governor_ashenmere_elected_valen", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Anton Severin won Ashenmere, and he won it on eleven years in the capital governor's chair. He knows every ministry clerk by name and every contract signed under Halvek. He does not owe you the seat and has never pretended to. You now have an elected opponent governing the largest city in the Republic, holding a mandate he will mention to the press at every opportunity. You cannot remove him by decree, and he knows that better than anyone in the room.",
+      "conditions": [{ "type": "flag", "flag": "governor_ashenmere_elected_severin", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Hana Novak won Kravenstal with the foundry gates behind her, the same gates she stood at in 1958. The men who voted for her did so because she told them the truth about the safety complaints, not because a party sent her. She has no record in the requisitions office and has said so in public. She owes the Chancellery nothing but a fair hearing, and she shares your aims for the province. The Halvekist press will call her your creature. The men at the gate will know better.",
+      "conditions": [{ "type": "flag", "flag": "governor_kravenstal_elected_novak", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Bohdan Kral won Kravenstal, which means the foundries will keep running under a man Halvek appointed and who has never hidden it. The votes came from shift managers and from the families who depend on the gates staying open, and from men who remember the recessions he got the plants through. He owes Halvek's networks more than he owes you. You cannot remove him now without a court order or a two-thirds vote of the provincial council, so you will deal with him as an elected governor who answers to his own province.",
+      "conditions": [{ "type": "flag", "flag": "governor_kravenstal_elected_kral", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Josef Brandl won Thornfeld by organising the cooperative farms one village at a time, which is slower than a rally and harder to forget. The grain co-operatives voted for him as a bloc, and their books are open to the province's auditors. He owes the Chancellery nothing and shares your aim of putting the subsidy money where the fields are. Expect a governor who asks the agriculture ministry for its figures before he asks for favours, and who publishes both sets of numbers.",
+      "conditions": [{ "type": "flag", "flag": "governor_thornfeld_elected_brandl", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Matej Hollan kept Thornfeld through the church councils and the parish meetings, and the votes that returned him came from the same pews he has sat in all his life. He is conservative, careful and entirely within the law. He does not owe the Chancellery his seat, and he does not share your reform agenda on land or on the cooperatives. You cannot dismiss him for disagreeing with you. What you can do is ask him to govern well enough that the disagreement stays a question of method.",
+      "conditions": [{ "type": "flag", "flag": "governor_thornfeld_elected_hollan", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Ivo Lenart won Sevagrad on the votes of the refugee camps and of families who have waited at the border office for a decision. He is a lawyer who has spent his career arguing cases against that office, and he knows its files better than the officials who keep them. He owes the Chancellery nothing and shares your aim of a humane resettlement process. Expect him to ask for the processing records within a week, and to publish what he finds in them.",
+      "conditions": [{ "type": "flag", "flag": "governor_sevagrad_elected_lenart", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Pavel Kasic won Sevagrad as the incumbent, and the border towns voted for the steady hand they have had for years. He is a careful administrator who has run the crossings without drama, and his supporters regard the refugee cases as a burden to be managed rather than a cause. He does not owe the Chancellery his seat, and his priorities on resettlement differ from yours. You cannot remove him easily now. He will govern by the rules, and he will expect you to do the same.",
+      "conditions": [{ "type": "flag", "flag": "governor_sevagrad_elected_kasic", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Nora Lind won Aldenmoor after the harbour engineer who exposed the dredging contracts became the candidate the dockworkers trusted most. She has no patronage network in the port and no wish to build one. She owes the Chancellery nothing and shares your aim of clean contracts. The shipping houses will resent her, and she will not care. She has already asked for the original tender documents, and she expects them on her desk before the first council sitting.",
+      "conditions": [{ "type": "flag", "flag": "governor_aldenmoor_elected_lind", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Kasimir Wendt kept the Aldenmoor seat with the shipping families behind him. He is the incumbent, and the firms that finance the port's ledgers voted for continuity. He knows the trade well and has little interest in the dredging scandal beyond what it costs his backers. He does not owe the Chancellery his seat. You cannot remove him for pursuing those interests, and the port will now be governed by a man you did not choose and cannot easily replace.",
+      "conditions": [{ "type": "flag", "flag": "governor_aldenmoor_elected_wendt", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Ilse Marr won Dravenhollow as a schoolteacher who teaches in both Dravenni and Veltrian, and the valley families voted for the first candidate who would speak their language in the council chamber. She owes the Chancellery nothing except a fair hearing for the Dravenni schools. She shares your aim of a province governed in both its languages. Expect her to ask for the teaching budget first, and expect the Halvekist press to call her a separatist before the month is out.",
+      "conditions": [{ "type": "flag", "flag": "governor_dravenhollow_elected_marr", "value": true }]
+    },
+    {
+      "type": "description",
+      "text": "Teren Vashko won Dravenhollow on a platform of Dravenni autonomy, and the valley voted for him in greater numbers than the Chancellery had expected. He is an autonomist, not a reformer in your sense, and he does not owe you his seat. His demands for control of the mines and the schools will test the Act from its first session. You cannot remove him for holding those views, and any dispute with him will have to be argued in the provincial council, where the Act now puts it.",
+      "conditions": [{ "type": "flag", "flag": "governor_dravenhollow_elected_vashko", "value": true }]
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "That is all six. You gave away the power to appoint. Nobody made you do it, and the Assembly would have let the appointments stand for another year if you had asked it to. Tonight the offices are filled by people who answer to their own provinces, and some of them will oppose you in ways you will find inconvenient."
+    },
+    {
+      "type": "internal_thought",
+      "text": "You did this on purpose. Every governor in the six provinces now owes the office to the people who voted for them, and no letter from the Chancellery can end it. It is the most useful thing you have done since taking the chair, and it is also the thing you will have the least control over for years to come. You find that you are not sorry."
+    }
+  ],
+  "monologue": "The count is finished, and the provincial offices are no longer Halvek's to hand out. Some of the people now holding them will be allies, and others will spend the coming year opposing you in the open with a mandate you cannot take away. That was the price of the Act, and you chose to pay it.",
+  "choices": [
+    {
+      "id": "elections_welcome_all",
+      "text": "\"Every winner gets my congratulations in public tomorrow, including the ones who ran against us. They were chosen by their provinces. That is the whole point of tonight.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 }
+      ],
+      "flags": ["provincial_results_acknowledged"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "satisfied",
+          "text": "Vyktor writes the congratulations out in his own hand and passes the sheet across the table. He says the list will be printed beside the Halvekist attacks, and that the contrast will do more for you than any speech."
+        }
+      ]
+    },
+    {
+      "id": "elections_call_allies",
+      "text": "\"Tonight I call only the governors who share our aims. The rest can read the congratulations in the morning papers.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 1 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -1 }
+      ],
+      "flags": ["provincial_results_acknowledged"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "concern",
+          "text": "Vyktor folds the list of names and puts it in his pocket. He says the governors left off the list will notice by morning, and that some of them will be right to."
+        }
+      ]
+    }
+  ]
+}

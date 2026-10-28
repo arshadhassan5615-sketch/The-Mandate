@@ -1,0 +1,182 @@
+{
+  "id": "rep_kravenstal_audience",
+  "title": "The Widows of Lower Kraven",
+  "notebook": [
+    "The Lower Kraven Clinic closed in 1961. The foundry men with lung disease now travel ninety kilometres to Ashenmere.",
+    "Milena Sova chairs the Foundry Widows' Committee. She has brought her late husband's union card with her.",
+    "The Kravenstal governor will attend in person. Vyktor: do not promise what the budget office has not costed."
+  ],
+  "act": 1,
+  "weekAvailable": 9,
+  "weekDeadline": 12,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Kravenstal — Union Hall, Lower Kraven",
+  "characters": ["vyktor_reznik", "milena_sova"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "This is the first of the people's audiences, and you should understand what it is before you sit down: a province's grievance heard by the Chancellor in person, with the provincial governor present and no ministry clerk standing between the two of you to soften the words."
+    },
+    {
+      "type": "description",
+      "text": "The union hall at Lower Kraven smells of floor wax and the coal smoke that the windows have never fully cleared. Folding chairs have been set out in rows for the widows of the foundry district, and most of them are full. Above the low stage hangs a banner painted by the tool-room apprentices in the year the foundry first passed its safety inspection, the paint faded now to the color of weak tea. Nobody applauds when you enter. A few people stand, and after a moment others do too."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "My husband Pavol worked the casting floor for twenty-two years. He carried his union card in his breast pocket every day and showed it to anyone who asked, even the men who were not checking. The dust got into his chest the way it gets into everyone's, slowly, until one winter he could not climb the stairs to our flat without stopping on every landing. He died in the spring after the pensions were frozen, and the card is the one thing from that year I have kept."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "The Lower Kraven Clinic was four rooms above the old tram depot. It treated the foundry lung disease, which every man in this district is either carrying or will carry, and it had a doctor who knew the names of the men in his waiting room. Then the clinic was closed and the building was sold to a company that never opened it. Nobody from the ministry came to explain. We were told the clinic had become an unnecessary expense, as though the coughing had stopped being necessary."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "Now when a man coughs blood in this district he gets on a bus to Ashenmere. It is ninety kilometres, and the bus leaves at five in the morning because the first connection is at seven. Half of them cannot sit upright for that long. Two men from the casting shop went last winter and came back in a box. I am not telling you this to make you cry. I am telling you because the people who decided this have never once sat on that bus."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "I do not want a speech. I want the Lower Kraven Clinic opened again, in the same building if the company will give it back, and staffed by the union's own medics, men and women who know what the foundry does to a chest. The committee has the list of families who will use it, and we have already written it down. All you have to do is say yes, and then it is done."
+    },
+    {
+      "type": "dialogue",
+      "character": "bohdan_kral",
+      "text": "Thank you, Mrs Sova. The province is grateful for the committee's careful work, and I am sure the Chancellor will want to consider these concerns through the proper channels, which are the provincial budget office and the ministry of health. I would ask the committee not to raise expectations that the accounts cannot meet. Order in the budget matters to the workers too, because every krone spent on one district is a krone the others do not receive.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": false },
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "hana_novak",
+      "text": "Milena, I knew Pavol on the casting floor. He was the steward who made the rest of us sign the safety petition when management said nobody would read it. I want the Chancellor to hear that from me, because I am the one who has to tell you the truth about this province. There is no money in the Kravenstal budget for a clinic. I have checked the figures twice, and I would rather tell you that today than let you learn it from a ministry letter in the spring. I will still stand beside this committee when it asks Ashenmere for the money.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "teodor_reiss",
+      "text": "Thank you, Chancellor, and thank you to the committee. I will be direct, because I think directness is what you came for. The plant has an interest in the health of its casting crews, and it holds a provision fund for exactly this kind of case that has been underused for years. I am prepared to propose that the company co-fund the clinic if the state matches the contribution. It will not be generous and it will not be quick, but it will be real money, and I will put my name to it.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "You are going to tell us about matching funds and budget offices, and I have heard those words all my life. Pavol heard them too, in a room very like this one. What I am asking is simpler than a budget. Men are coughing blood on a bus to Ashenmere while the paperwork moves from one desk to the next. I do not need a plan that works on paper in five years. I need a door in this district that opens when somebody knocks."
+    },
+    {
+      "type": "dialogue",
+      "character": "bohdan_kral",
+      "text": "The governor's office has noted the proposal and it will be costed in the proper way. I would only add that a clinic opened on promises made in a hall is a clinic that closes when the next budget arrives, and this province has seen that happen before. The committee should not confuse sympathy with a funding line. The Chancellor will weigh what is affordable against what is merely urgent.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": false },
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "hana_novak",
+      "text": "Milena has just said out loud what the whole district has been waiting to hear. I agree with her, and I will say it louder in Ashenmere than I can say it here. We will not get this clinic from the Kravenstal budget alone. We will get it if the Chancellor puts the state's name beside it, and if the committee keeps writing the list of families until someone in the ministry has to read every line of it.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "teodor_reiss",
+      "text": "I would add one point to the proposal. A clinic needs a clinical lead before it needs a building. The plant can supply the premises and the equipment, but staffing is where most of these projects fail after the opening ceremony. If the state commits to staffing, I will commit the plant's contribution to the building. That is a condition I would expect to be asked about, and I think it is a fair one.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": true }
+      ]
+    },
+    {
+      "type": "internal_thought",
+      "text": "A promise made in a union hall costs nothing to make and a great deal to keep. Vyktor will tell you that the budget cannot cover everything in the province this year, and he will be right. The question is not whether you can afford every widow's door. It is which of the doors you are willing to put your name on, knowing that the others will be asked about, and that the people in these rows will remember which one you chose."
+    }
+  ],
+  "monologue": "The widows of Lower Kraven have a list of families and a closed clinic, and they have come to you with both. The governor will speak twice, and each time the answer will be shaped by who sits in that chair. You can promise the clinic, refuse it honestly, or hand it to a ministry review and let the review carry the weight.",
+
+  "choices": [
+    {
+      "id": "rep_kravenstal_promise",
+      "text": "\"You have my word. The Lower Kraven Clinic will reopen before winter, staffed by the union's own medics, and I will have the order in front of my cabinet before this month is out.\"",
+      "internalTag": "populist",
+      "commitment": true,
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "flags": ["rep_kravenstal_promise"],
+      "reactions": [
+        {
+          "character": "milena_sova",
+          "type": "silence",
+          "text": "She does not thank you. She takes the card out of her coat pocket, looks at it for a long moment, and puts it back. Then she says that Pavol would have wanted the list read aloud, and she begins to read it."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Before winter is a date you have now said aloud in front of the governor. I will write it down exactly as you said it, and the order will reach the cabinet with that date in its first line."
+        }
+      ]
+    },
+    {
+      "id": "rep_kravenstal_refuse",
+      "text": "\"There is no money for this clinic this year, and I will not stand in your hall and pretend otherwise. When the budget is reviewed in the spring I will look at it again, and if the position has changed I will come back to Kravenstal and tell you so in person.\"",
+      "internalTag": "reformist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "flags": ["rep_kravenstal_refused"],
+      "reactions": [
+        {
+          "character": "milena_sova",
+          "type": "dialogue",
+          "text": "She nods once, the way a person nods at a bill they had expected to receive. Then say spring, she tells you, and I will write spring on the list. Her voice does not shake, but the rows behind her have gone quiet."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes the word spring on his pad and underlines it twice. A promise to revisit is a debt of a different kind, and the committee will hold you to it. You may want the review recorded in the minutes."
+        }
+      ]
+    },
+    {
+      "id": "rep_kravenstal_deflect",
+      "text": "\"The governor's office will take this to the ministry, and the ministry will conduct a full review of the Lower Kraven provision using the committee's evidence. I want that review to be thorough before anyone commits to anything.\"",
+      "internalTag": "deflect",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -1 }
+      ],
+      "flags": ["rep_kravenstal_deflected"],
+      "reactions": [
+        {
+          "character": "milena_sova",
+          "type": "silence",
+          "text": "She waits for the rest of the sentence, and when it does not come she closes the folder on her knee. A review, she says at last. We have had reviews since the pensions were frozen. Write down that I came."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The governor's face shows nothing, which is its own answer. Reviews are where things go to be quietly forgotten, and the widows of this district understand that better than the ministry does."
+        }
+      ]
+    }
+  ]
+}

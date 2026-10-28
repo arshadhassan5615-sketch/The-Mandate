@@ -1,0 +1,143 @@
+{
+  "id": "gov_kravenstal_appointment",
+  "title": "The Kravenstal Governorship",
+  "notebook": [
+    "Bohdan Kral has governed Kravenstal since Halvek appointed him, and the foundries have stayed quiet under him.",
+    "Hana Novak led the 1958 safety strike and is trusted on the shop floor. She has never run an office.",
+    "Teodor Reiss runs Kravenstal Steel and is the most capable of the three. Replacing Kral by decree would copy the method Halvek used."
+  ],
+  "act": 1,
+  "weekAvailable": 4,
+  "weekDeadline": 7,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Kravenstal — Provincial Governor's Office",
+  "characters": ["vyktor_reznik", "bohdan_kral", "hana_novak", "teodor_reiss"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Provincial Governor's Office sits above the foundry district, and the floor shivers faintly each time the number three furnace is tapped. Smoke has worked through the window seals and lies grey along the sills. Kral's secretary has shown you into the room with the long table. On the wall behind the governor's chair, the portrait of Halvek has been taken down, but the paper beneath it is a shade brighter, a pale rectangle the size of a man. Hana Novak sits by the window with her coat still buttoned. Teodor Reiss stands at the end of the table with a folder open in both hands."
+    },
+    {
+      "type": "dialogue",
+      "character": "bohdan_kral",
+      "text": "I have run this province since Halvek put me in it, Chancellor, and I will not pretend that was a clean appointment. But a foundry that runs is a foundry where men come to work in the morning. Output figures are not a political opinion. The men who struck in 1958 were given an inquiry, the inquiry was thorough, and the plants were running again within the month."
+    },
+    {
+      "type": "dialogue",
+      "character": "bohdan_kral",
+      "text": "I keep the unions quiet because quiet is what keeps the furnaces lit. You will hear from the Workers' Coalition that I am Halvek's man. I am the man who kept the Kravenstal gates open through two recessions and one cholera winter. I am the only person in this room who knows which shop stewards can be spoken to and which cannot, and you will need that knowledge before the spring."
+    },
+    {
+      "type": "description",
+      "text": "Kral collects his hat and his file and nods to you without quite looking at Novak. The door closes behind him with the careful weight of a man who expects to be called back. The room is quieter without him. Through the wall you can hear the press shop, a rhythm of hammers that has not paused since you arrived."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Kral's case is accurate as far as it goes. The province works when it is managed, and he has managed it. The difficulty is what keeps him in place. His networks are the ones Halvek built, and they still answer to people who were close to Halvek. Keeping him means keeping those networks at the table beside you, and you should know that before you decide he is only a foundry manager."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The other problem is the decree. If you replace a Halvek governor by decree, the Halvekist press will describe it as what Halvek did, in nearly the same words. They will be correct about the method, if not about the motive. You can make the appointment, but you will have to give the reasons in public and make them convincing. Novak has the trust of the shop floor and no administrative record. Reiss has the record and very little trust from the floor. You are choosing which of those can be taught."
+    },
+    {
+      "type": "dialogue",
+      "character": "hana_novak",
+      "text": "I was at the gate in 1958 when the foundry called the safety complaints lies. Men were carried out of number two that year, and the inquiry called it an accident with regrettable circumstances. I know what Kral's inquiries look like from the inside. I do not know how to sign a requisition. I know how to get a shift of men to agree on when to stop work, which is more than the last three governors ever managed."
+    },
+    {
+      "type": "dialogue",
+      "character": "hana_novak",
+      "text": "If you give me the office, I will learn the requisitions in a month and be wrong in ways the clerks will enjoy. The men at the gate will know the office has changed. They will not know what to make of a governor who sits behind a desk instead of in their canteen. That is your risk, Chancellor. It is not mine, and I am not going to pretend otherwise to get the job."
+    },
+    {
+      "type": "dialogue",
+      "character": "teodor_reiss",
+      "text": "The plant has run at a loss for three quarters. I have the figures, and they show that most of the loss comes from contracts signed before the war, not from the men on the floor. I can restructure the contracts. I can also restructure the workforce. I would prefer not to be asked which one you want me to do first, because I have never been a politician and I do not intend to begin in Kravenstal."
+    },
+    {
+      "type": "dialogue",
+      "character": "teodor_reiss",
+      "text": "An appointment of me will be read as a managerial decision, and it will be read correctly. The workers will hear that the Chancellor has put the steel company in charge of the province. I do not think that is what you want the Coalition to hear, and I am not certain I want to be the man who says it to them. If you choose me, I would ask for a written remit before the announcement."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Three people, one office, and a decree that will look like Halvek's the moment it is signed. Kral keeps the province running, and the old networks run with it. Novak would bring the gate into the building and carry every promise she makes into rooms that have never heard one. Reiss would make the plants efficient and leave the people who work in them to be efficient for him. There is no clean choice here. There is only a choice about which cost you are willing to say out loud."
+    }
+  ],
+  "monologue": "Three people, and each is right about the thing they know best. The Halvekist press will call any replacement a Halvek decree, and Kral's networks will call it a betrayal. Whoever you choose will have to be defended in public, so the question is what you are prepared to defend.",
+  "choices": [
+    {
+      "id": "gov_kravenstal_keep_kral",
+      "text": "\"Keep him. For now. Tell Kral the province is his to run, and that I will be reading the foundry figures myself.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3 }
+      ],
+      "flags": ["governor_kravenstal_kept"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He will take the decision as confirmation of what he already believed. He will also remember that you spent a month deciding, and he will read that as a warning."
+        },
+        {
+          "character": "hana_novak",
+          "type": "silence",
+          "text": "Novak gets up without a word and takes her coat from the back of the chair. She stands at the window for a long time, looking down at the gate, before she says anything at all about it."
+        }
+      ]
+    },
+    {
+      "id": "gov_kravenstal_appoint_novak",
+      "text": "\"Hana Novak. The gate needs to see someone it recognizes inside this building. I will make the reasons public, and I will answer for them in the Assembly.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_kravenstal_appointed_novak"],
+      "reactions": [
+        {
+          "character": "hana_novak",
+          "type": "dialogue",
+          "text": "Novak nods once, without relief. She does not thank you. She says she will need three months to learn the requisitions, and that she will tell the clerks so herself."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The Halvekist press will call it a decree under another name. He writes the date on his pad. Then the reasons will have to be better than the decree, and they will have to hold up for a year."
+        }
+      ]
+    },
+    {
+      "id": "gov_kravenstal_appoint_reiss",
+      "text": "\"Teodor Reiss. The plants need someone who can read the books, and I want the contracts rewritten in writing before the end of the month. You will have a written remit, and I will hold you to it.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -5 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_kravenstal_appointed_reiss"],
+      "reactions": [
+        {
+          "character": "teodor_reiss",
+          "type": "satisfied",
+          "text": "Reiss closes the folder. He does not smile. He says the remit will be on your desk by the morning, and that he expects the Chancellor to read every line of it."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Management will hear that the steel company has been given the province, and the Coalition will hear the same thing. He pauses. Both will be correct, and you will be the one who has to explain why."
+        }
+      ]
+    }
+  ]
+}

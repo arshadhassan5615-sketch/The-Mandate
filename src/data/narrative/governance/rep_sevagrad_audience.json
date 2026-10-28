@@ -1,0 +1,182 @@
+{
+  "id": "rep_sevagrad_audience",
+  "title": "The Fields Below the Pass",
+  "notebook": [
+    "The Korengal requisition of 1957 took the valley farms below the pass for the ridge fortification. The claims filed in 1958 and 1959 were never settled.",
+    "Vesna Darko speaks for the valley's land committee. She has brought the original requisition papers with her.",
+    "The Sevagrad governor will attend in person. Vyktor: the garrison will resist any return of land, so do not promise it without the Defence Ministry's agreement."
+  ],
+  "act": 1,
+  "weekAvailable": 13,
+  "weekDeadline": 16,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Sevagrad — Village Hall, Korengal Valley",
+  "characters": ["vyktor_reznik", "vesna_darko"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "This is another of the people's audiences, and it follows the same rules as the others: a province's grievance heard by the Chancellor in person, with the governor in the room and no ministry clerk to soften what is said."
+    },
+    {
+      "type": "description",
+      "text": "The village hall stands at the bottom of the road where the pass begins to climb, and its doors have been propped open to let in the mountain cold. Benches of unpainted pine have been carried over from the schoolroom and set in rows facing a table covered in green cloth. Men in work coats stand along the side walls with their caps in their hands, and nobody sits down until you do. Behind the table hangs a map of the eastern border, its garrison towns marked in red ink that has begun to fade. Someone has pinned a fresh sheet of paper beneath it with a list of names."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "My name is Vesna Darko, and I farm the lower terraces of the valley below the Korengal Pass. My father farmed them, and his father before him, on land given to us in writing by a family that had held it since before the first border treaty. I have the papers here. I brought the originals, because the copies we were given in 1957 have been handled so often that the ink has gone soft at the folds."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "In the autumn of 1957 the garrison came up the valley with a requisition order for the farms below the pass. Halvek's government had decided to build a fortification line along the ridge, and the valley was the cheapest place to lay the wire, the depots and the roads for the guns. Eleven families were given a week to leave. We took what we could carry in two carts and walked the rest of the way to the schoolhouse at Brenna. The officer who read us the order was polite. He said we would be paid within the year."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "We were never paid. Not in the year he promised, and not in any year since. The claims were filed in 1958 and filed again in 1959, and each time the papers came back with a stamp saying they had been received and were under review. In 1961 the review was closed without a letter to anyone. The land is still listed in the army's books. Half of it, as far as the survey sheets show, was never used for anything at all, and the other half has been fenced and left to go to scrub."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "Now the families who were moved off those farms rent their own fields back from the army. We pay the garrison a fee for the right to plough the terraces we ploughed before the requisition, and when the fee is late the lease is withdrawn. My neighbour's sons work the same slope they were born on, and they do it as tenants of the men who took it. I am not asking for sympathy. We ask for payment at the value the land held in 1957, and we ask that the ground the army never used be handed back to the families who held it."
+    },
+    {
+      "type": "dialogue",
+      "character": "pavel_kasic",
+      "text": "The Chancellor will forgive me for speaking plainly. The requisition was carried out under an order that was signed and sealed, and the papers Mrs Darko has brought show that the sums due were never transferred. That is a failure of the province and of the ministry, and I have said so in my reports for three years. I will also tell you what the garrison will say when this reaches the fort. They will say the line cannot be held with fields returned to the farmers, and they will be ready to say it at length.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_sevagrad_appointed_brana", "value": false },
+        { "type": "flag", "flag": "governor_sevagrad_appointed_lenart", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "mira_brana",
+      "text": "I commanded the garrison at the Korengal Pass for six years, and I will not stand in this hall and call that line a mistake. It stopped the crossings that the Morivask staff had planned in detail. But I have walked the valley since I retired, and I have seen the ground the army left lying empty. A fortification needs its wire, its roads and its depots. It does not need the terraces below the wire, and it never did. The unused land should go back. I would say so to the General Staff, and I will say so here.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_sevagrad_appointed_brana", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "ivo_lenart",
+      "text": "The requisition was never lawful, Chancellor, and I can show you why. The order cited a defence emergency that was never declared, and it was issued by a ministry with no authority over civilian holdings in a province under civil administration. The families were owed the sums named in the order itself, with interest under the 1952 statute, and no one has ever paid them. I have the case ready. What I need from you is not a ruling on the law. It is a decision that full compensation will be paid, because the law is already on their side.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_sevagrad_appointed_lenart", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "Thank you. I have heard sympathy from the governor's chair before, and I am not sure yet that I trust this. What I want is simple. Write the sums on a page, sign it, and let the families see the page. We have had promises from men in uniform and from men in good suits. A signature is different, because it can be taken to a court and read aloud in the schoolhouse."
+    },
+    {
+      "type": "dialogue",
+      "character": "pavel_kasic",
+      "text": "The governor's office will prepare the costing, and I will sign the transfer of the unpaid sums as soon as the treasury confirms the figures. That much the province can undertake. The unused ground is a different matter. It stands on the army's register, and the Defence Ministry will contest any change to that register, however small. I would ask the Chancellor to settle that contest herself, rather than leave the valley to lose it quietly in a committee.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_sevagrad_appointed_brana", "value": false },
+        { "type": "flag", "flag": "governor_sevagrad_appointed_lenart", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "mira_brana",
+      "text": "I am going to disagree with the General Staff before it has spoken, and I expect it will disagree with me. Compensate the families at the 1957 value. The debt is real, and an army that forgets what it owes a valley will not be trusted in the next one. Give back the ground nobody used. The fortification will stand without it. Do not hand the land back in a hurry, though. The garrison has men who will ask why the wire was strung if the fields were never needed, and they deserve a better answer than an order.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_sevagrad_appointed_brana", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "ivo_lenart",
+      "text": "Compensation is a matter of record, and the record is short. Every claim filed in 1958 and 1959 is still in the registry with its stamp on it. I would ask that each of those claims be reopened and paid at the 1957 value, with the statutory interest added. The unused land is the harder request, and I think it is also the right one. A requisition has to be necessary to be lawful. Where it was not necessary, the land must return. I will draft that finding myself, if the Chancellor wants it.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_sevagrad_appointed_lenart", "value": true }
+      ]
+    },
+    {
+      "type": "internal_thought",
+      "text": "Vesna Darko has not asked for anything grand. She has asked for the sums her family was promised and the fields they were taken from, and she has laid her papers on the table in front of you. The governor's answer was honest, and that makes the choice harder rather than easier. You can give her a word that the army will test, or an honest refusal that the valley will remember, or a commission that takes the matter out of your hands for a while."
+    }
+  ],
+  "monologue": "Vesna Darko has brought the 1957 requisition papers to the valley hall, and the families below the Korengal Pass are waiting to hear what the Chancellor will do about them. The governor has spoken twice, and the answer each time depended on who had been appointed to the chair. You can promise compensation and the return of the unused land, refuse it honestly, or send it to a joint commission and let the commission carry the weight.",
+
+  "choices": [
+    {
+      "id": "rep_sevagrad_promise",
+      "text": "\"You have my word. The families below the Korengal Pass will be paid at the 1957 value, and the ground the army never used will be returned to them. I will have the order in front of my cabinet before this month is out.\"",
+      "internalTag": "populist",
+      "commitment": true,
+      "stateChanges": [
+        { "stat": "nation.regionalSupport", "operation": "add", "value": 6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "flags": ["rep_sevagrad_promise"],
+      "reactions": [
+        {
+          "character": "vesna_darko",
+          "type": "silence",
+          "text": "She does not thank you. She lays the first sheet of the requisition order flat on the pine bench beside her, smooths the fold with two fingers, and says nothing for a long moment. Then she asks the clerk to read the names aloud, starting with her father's."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Before this month is out is a date you have now said aloud in front of the governor. I will write it down exactly as you said it, and the order will reach the cabinet with that date in its first line."
+        }
+      ]
+    },
+    {
+      "id": "rep_sevagrad_refuse",
+      "text": "\"The treasury cannot pay these sums this year, and the army will fight any return of the land. I will not stand in your valley and pretend otherwise. When the budget is reviewed in the spring I will look at the claims again, and I will tell you the answer myself.\"",
+      "internalTag": "reformist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "nation.regionalSupport", "operation": "add", "value": -2 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": 4 }
+      ],
+      "flags": ["rep_sevagrad_refused"],
+      "reactions": [
+        {
+          "character": "vesna_darko",
+          "type": "dialogue",
+          "text": "She nods once, the way a farmer nods at a price she expected and did not want. Then I will write spring on the committee's list, she says. Her voice does not shake, but the men along the side walls have stopped moving."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes the word spring on his pad and underlines it twice. A promise to revisit is a debt of a different kind, and the committee will hold you to it. You may want the review recorded in the minutes."
+        }
+      ]
+    },
+    {
+      "id": "rep_sevagrad_deflect",
+      "text": "\"This matter will go to a joint commission of the Defence and Interior ministries. It will examine the 1957 requisition and the unused ground, and it will report back once its review is complete.\"",
+      "internalTag": "deflect",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "nation.regionalSupport", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -1 }
+      ],
+      "flags": ["rep_sevagrad_deflected"],
+      "reactions": [
+        {
+          "character": "vesna_darko",
+          "type": "silence",
+          "text": "She waits for the rest of the sentence, and when it does not come she closes the folder on her knee. A commission, she says at last. The valley has had commissions since 1958. Write down that we came."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The governor's face shows nothing, which is its own answer. Commissions are where things go to be quietly forgotten, and the families in this valley understand that better than the ministry does."
+        }
+      ]
+    }
+  ]
+}

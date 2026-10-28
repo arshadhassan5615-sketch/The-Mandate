@@ -1,0 +1,102 @@
+{
+  "id": "rep_kravenstal_callback_kept",
+  "title": "The Clinic Above the Tram Depot",
+  "notebook": [
+    "The Lower Kraven Clinic has reopened in the four rooms above the depot. The first patients came through the door on a Monday.",
+    "Milena Sova asked for nothing today except to show you the rooms and to say thank you. She has not yet asked for anything else."
+  ],
+  "act": 2,
+  "weekAvailable": 23,
+  "weekDeadline": 32,
+  "type": "personal",
+  "agendaCost": 0,
+  "location": "Kravenstal — Lower Kraven Clinic",
+  "characters": ["milena_sova", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The stairs above the tram depot still smell of the cold, but the building has changed its air. Someone has scrubbed the treads, and a row of new coat hooks runs along the wall of the landing. The door at the top stands open. Behind it are four rooms painted a clean cream, and the old brass clinic plate has been screwed back beside the frame where the company's sign used to hang."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "Come in and look at it properly, Chancellor. Do not stand on the landing like a visitor. The first room is the examining room, and the second is where the records are kept. The third has the breathing machine the union bought secondhand from the hospital at Ashenmere, and it was paid for out of collection tins on the casting floor. The fourth room is for the men who cannot wait sitting down."
+    },
+    {
+      "type": "description",
+      "text": "One of the union's own medics is at the desk by the records room, a finishing-line worker who trained as a nurse at night and still has the cuffs of her work shirt turned back. She looks up, nods to you without standing, and goes back to the card she is filling in. In the second chair of the waiting room a man from the casting shop sits with his cap on his knee. He is wearing his Sunday jacket on a Tuesday."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "He has not taken the five o'clock bus since the first week it opened. He used to be on that bus every second Tuesday with a cough he was ashamed of. Now he comes up the stairs in the morning, sits down, and gets seen by someone who knows his chest from the inside. That is the whole of what I wanted. It is not a large thing, and it is the largest thing that has happened in this district in two years."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "In the union hall you told us the clinic would reopen before winter, and that you would have the order in front of your cabinet within the month. I wrote your words down that day, because Pavol taught me to keep what the powerful say. I am reading them back to you now, Chancellor, and this time I am not reading them to make you feel small. I am saying thank you, which I did not expect to be doing when I came up those stairs."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "The district still has the frozen injury pensions. Pavol's widow's allowance is among them, and so are forty others on my list. I am not asking you for a promise about them today. I have learned what a promise is worth in Kravenstal, and I would rather you took the list home and read it properly than gave me a word that I would have to carry back down the hill."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The order went through cabinet with the date in its first line, and the lease was signed on the terms the committee asked for. The committee's list is the reason the building came back to us at all. I wanted you to see the rooms, not to read about them in a folder."
+    },
+    {
+      "type": "internal_thought",
+      "text": "A kept promise does not feel like much while you are standing inside it. It is four cream-painted rooms, a row of coat hooks and a nurse who knows the names of the men in her waiting room. It is also the absence of a bus at five in the morning. This district has been paid in promises for a long time, and today you have paid one out in full, which is rarer than it should be."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "The committee will write this down, and then we will write down the next thing. There is always a next thing in Kravenstal, Chancellor. Go down the stairs carefully. The third step is still loose, and the company never fixed it while it had the building."
+    }
+  ],
+  "monologue": "The clinic above the tram depot is open, and Milena Sova has come up the hill to see it with her own eyes. She has no complaint to make today and she will say so plainly. Whatever you do next, the widows of Lower Kraven will remember that you kept your word once.",
+
+  "choices": [
+    {
+      "id": "kravenstal_kept_walk_wards",
+      "text": "\"I will walk the wards with you, and I want to hear the names of the men who are waiting.\"",
+      "internalTag": "personal",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 2 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -2 }
+      ],
+      "flags": ["rep_kravenstal_callback_done"],
+      "reactions": [
+        {
+          "character": "milena_sova",
+          "type": "satisfied",
+          "text": "She leads you from room to room and says the name of each man as he is seen, without hurrying. At the last door she stops and tells you that the list has not changed, and that she will be keeping it for as long as the district needs one."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_kept_short_visit",
+      "text": "\"I have seen what I came to see. I will go back to Ashenmere and make certain the clinic is funded through the winter.\"",
+      "internalTag": "pragmatist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 1 }
+      ],
+      "flags": ["rep_kravenstal_callback_done"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He notes the time on his pad without comment and holds the car door at the foot of the stairs. In the car he says only that the visit will be remembered in the district for longer than the ride back to Ashenmere will take."
+        }
+      ]
+    }
+  ]
+}

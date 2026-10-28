@@ -40,6 +40,8 @@ export interface SaveRecord {
   provinceNewsSeenIds?: string[]
   /** Promises given this playthrough. Optional: older saves default to []. */
   commitments?: Commitment[]
+  /** Promises whose break was already applied. Optional: older saves default to []. */
+  commitmentsSettled?: string[]
   /** Katerin's automatic meeting notes. Optional: older saves default to []. */
   meetingNotes?: MeetingNote[]
   decreeState?: {

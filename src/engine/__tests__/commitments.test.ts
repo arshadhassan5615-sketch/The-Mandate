@@ -4,7 +4,9 @@ import {
   RESOLUTION_RULES,
   commitmentFromChoice,
   commitmentStatus,
+  deadlineWeekOf,
   isCommitmentChoice,
+  settleBrokenCommitments,
   type Commitment,
   type ResolutionRule,
 } from '../commitments'
@@ -262,5 +264,107 @@ describe('RESOLUTION_RULES for the Arcturian aid promise', () => {
 
   it('stays outstanding while no quarterly report outcome flag is active', () => {
     expect(commitmentStatus(arcturianCommitment, [], RESOLUTION_RULES)).toBe('outstanding')
+  })
+})
+
+describe('deadlines and settlement', () => {
+  const pensionRule: ResolutionRule = {
+    madeBy: 'promised_pensions',
+    keptBy: ['pensions_paid'],
+    deadlineWeeks: 4,
+  }
+
+  describe('commitmentStatus with a deadline', () => {
+    const commitment = makeCommitment()
+
+    it('is outstanding at the deadline week', () => {
+      expect(commitmentStatus(commitment, [], [pensionRule], 16)).toBe('outstanding')
+    })
+
+    it('is broken the week after the deadline', () => {
+      expect(commitmentStatus(commitment, [], [pensionRule], 17)).toBe('broken')
+    })
+
+    it('is kept after the deadline when a keptBy flag is active', () => {
+      expect(commitmentStatus(commitment, ['pensions_paid'], [pensionRule], 17)).toBe('kept')
+    })
+
+    it('ignores the deadline when no currentWeek is passed', () => {
+      expect(commitmentStatus(commitment, [], [pensionRule])).toBe('outstanding')
+    })
+  })
+
+  describe('deadlineWeekOf', () => {
+    const commitment = makeCommitment()
+
+    it('returns the promise week plus deadlineWeeks', () => {
+      expect(deadlineWeekOf(commitment, [pensionRule])).toBe(16)
+    })
+
+    it('returns null when no applicable rule has a deadline', () => {
+      expect(deadlineWeekOf(commitment, [{ madeBy: 'promised_pensions', keptBy: ['pensions_paid'] }])).toBeNull()
+    })
+
+    it('returns the smallest deadline when two rules apply', () => {
+      const rules: ResolutionRule[] = [
+        pensionRule,
+        { madeBy: 'promised_pensions', brokenBy: ['pensions_cut'], deadlineWeeks: 2 },
+      ]
+
+      expect(deadlineWeekOf(commitment, rules)).toBe(14)
+    })
+  })
+
+  describe('settleBrokenCommitments', () => {
+    const commitment = makeCommitment()
+    const rules: ResolutionRule[] = [
+      {
+        ...pensionRule,
+        consequences: [{ stat: 'factions.workersCoalition', operation: 'add', value: -10 }],
+      },
+    ]
+
+    it('returns the consequences and flags of a commitment broken by its deadline', () => {
+      const effects = settleBrokenCommitments([commitment], [], rules, 17, [])
+
+      expect(effects).toEqual([
+        {
+          commitmentId: 'scene_a:choice_a',
+          modifiers: [
+            {
+              stat: 'factions.workersCoalition',
+              operation: 'add',
+              value: -10,
+              sourceId: 'scene_a:choice_a',
+              sourceType: 'system',
+            },
+          ],
+          flags: ['promise_broken_promised_pensions'],
+        },
+      ])
+    })
+
+    it('returns nothing for a commitment already in settledIds', () => {
+      expect(settleBrokenCommitments([commitment], [], rules, 17, ['scene_a:choice_a'])).toEqual([])
+    })
+
+    it('returns a commitment broken by a brokenBy flag before its deadline', () => {
+      const brokenRules: ResolutionRule[] = [
+        { madeBy: 'promised_pensions', brokenBy: ['pensions_cut'], deadlineWeeks: 4 },
+      ]
+
+      const effects = settleBrokenCommitments([commitment], ['pensions_cut'], brokenRules, 13, [])
+
+      expect(effects).toHaveLength(1)
+      expect(effects[0].commitmentId).toBe('scene_a:choice_a')
+      expect(effects[0].modifiers).toEqual([])
+      expect(effects[0].flags).toEqual(['promise_broken_promised_pensions'])
+    })
+
+    it('does not return a commitment whose flags match no rule', () => {
+      const unrelated = makeCommitment({ flags: ['unrelated_flag'] })
+
+      expect(settleBrokenCommitments([unrelated], [], rules, 17, [])).toEqual([])
+    })
   })
 })

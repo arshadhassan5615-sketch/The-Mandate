@@ -1,0 +1,107 @@
+{
+  "id": "rep_sevagrad_callback_broken",
+  "title": "The Papers Came Back Again",
+  "notebook": [
+    "The Korengal order is still in the cabinet folder, costed and unsigned. The promise made in the valley hall is written on its first page.",
+    "Vesna Darko has asked to see you again. She has brought the claims of 1958 and 1959, and a newspaper clipping of your words from the hall."
+  ],
+  "act": 2,
+  "weekAvailable": 27,
+  "weekDeadline": 36,
+  "type": "personal",
+  "agendaCost": 0,
+  "location": "Sevagrad — Village Hall, Korengal Valley",
+  "characters": ["vesna_darko", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Sit where she can see your face. She is not here to shout, and she will not thank you for raising your voice either. The order is still in the folder. Whatever you say first will be the sentence the committee carries back down the mountain road."
+    },
+    {
+      "type": "description",
+      "text": "The village hall at the bottom of the Korengal road is the same as it was in the spring. The pine benches have been returned to their rows, and the green cloth still covers the table. The map of the eastern border hangs behind it with its red garrison towns, and the sheet of names beneath it has been replaced by a longer one, written in several hands."
+    },
+    {
+      "type": "description",
+      "text": "Fewer men stand along the walls this time. Several of the families who came in the spring have not come at all, and the ones who are here sit near the front with their coats still buttoned. Vesna Darko is already seated at the end of the first bench with a folder on her knee. She does not stand when you enter, and nobody asks her to."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "Good afternoon, Chancellor. I have not brought anything new to this hall, and I have not come to ask for anything I did not ask for in the spring. I have brought the claims from 1958 and 1959, with the same stamps on them, and one more thing, which I will show you when you are ready to look at it."
+    },
+    {
+      "type": "description",
+      "text": "She opens the folder and takes out a newspaper clipping, folded in four and softened at the creases. She smooths it flat on the green cloth beside the stamped claim letters, so that the printed column of your words lies next to the two pages that were never paid. The clipping is the Sevagrad weekly's report of the valley hall, and the sentence about the families is underlined in blue pencil."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "You said: You have my word. The families below the Korengal Pass will be paid at the 1957 value, and the ground the army never used will be returned to them. I will have the order in front of my cabinet before this month is out. This month went, Chancellor. Then the next one went too, and the order did not come with either of them."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "The army did not return the ground. It raised the fee. Since the spring the garrison has charged the tenants on our terraces a rent that is higher each quarter, and in June a clerk came up the valley to say that three families who were late with the payment would lose their leases. One of those leases was my neighbour's, on the field his sons were ploughing when you came to this hall."
+    },
+    {
+      "type": "description",
+      "text": "Nobody on the benches moves. A child at the back asks a question in a whisper and is hushed. Vesna keeps her hands flat on the folder, and her voice stays level, the way it does when someone has rehearsed the figures on a long walk down the mountain and has no intention of raising them now."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "I am not asking you to explain the order to me. I know what the Treasury says, because a clerk told the committee in May. I want to know what the Chancellor does when her word is in the newspaper, the papers are on the table, and the families are still paying rent on land that the survey sheets say the line never needed."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The order is in the folder in Ashenmere with your promise on its first page, and everyone in this hall knows it is there. The question is whether you will say aloud that the date passed and that the reason was not good enough, or whether you will give these families a reason that sounds better than the one they have already lived through. Vesna has not raised her voice, and that is the part that will be remembered."
+    }
+  ],
+
+  "monologue": "Vesna Darko has brought your own promise back to the valley hall, cut from the Sevagrad weekly and laid beside the claims that were never paid. The army has raised the rent on the terraces since the spring, and the families who signed the committee list are waiting to hear what the Chancellor says now.",
+
+  "choices": [
+    {
+      "id": "sevagrad_broken_sign_now",
+      "text": "\"I gave you my word and the date passed without the order. I am signing the Korengal order now. It will be late, but the families will be paid and the ground will be returned.\"",
+      "internalTag": "populist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 8 },
+        { "stat": "nation.regionalSupport", "operation": "add", "value": 4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -2 }
+      ],
+      "flags": ["rep_sevagrad_kept_late", "rep_sevagrad_callback_done"],
+      "reactions": [
+        {
+          "character": "vesna_darko",
+          "type": "dialogue",
+          "text": "She reads the clipping once more, then folds it along its crease and puts it back in the folder. Late, she says. The committee will want the date of the signature in writing before anyone raises a rent again."
+        }
+      ]
+    },
+    {
+      "id": "sevagrad_broken_defend",
+      "text": "\"The treasury had to choose between the valley and the regional roads, and the roads won this year. I know that is not the answer you were promised, and I will not pretend it is one.\"",
+      "internalTag": "pragmatist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "nation.regionalSupport", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 }
+      ],
+      "flags": ["rep_sevagrad_callback_done"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not look up from the folder. He turns it face down on the table and sets his hand flat on top of it, saying nothing. Vesna waits for the rest of the answer, and when none comes she folds the clipping along its crease and sits back on the bench."
+        }
+      ]
+    }
+  ]
+}

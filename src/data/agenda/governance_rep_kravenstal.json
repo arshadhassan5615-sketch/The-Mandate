@@ -1,0 +1,37 @@
+[
+  {
+    "id": "agenda_rep_kravenstal_audience",
+    "title": "The Widows of Lower Kraven",
+    "description": "Milena Sova asks to be heard in Lower Kraven with the governor present. Hear the grievance, then promise, refuse or defer.",
+    "category": "cabinet",
+    "sceneId": "rep_kravenstal_audience",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 9,
+    "weekDeadline": 12
+  },
+  {
+    "id": "agenda_rep_kravenstal_clinic_order",
+    "title": "The Lower Kraven Order",
+    "description": "Vyktor has a costed order to reopen the Lower Kraven clinic. Decide whether to sign it now or defer it.",
+    "category": "cabinet",
+    "sceneId": "rep_kravenstal_clinic_order",
+    "slotCost": 1,
+    "executionOrder": 5,
+    "weekAvailable": 10,
+    "weekDeadline": 22,
+    "prerequisites": [
+      {
+        "type": "flag",
+        "flag": "rep_kravenstal_promise",
+        "value": true
+      },
+      {
+        "type": "flag",
+        "flag": "rep_kravenstal_kept",
+        "value": false
+      }
+    ],
+    "recurring": true
+  }
+]

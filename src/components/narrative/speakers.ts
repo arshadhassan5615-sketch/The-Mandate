@@ -1,5 +1,6 @@
 import { getCharacterColor } from '../portraits/CharacterPortraits'
 import { CHARACTERS } from '../../data/characters/roster'
+import { GOVERNANCE_CAST_NAMES } from '../../data/characters/governanceCast'
 
 const CHAR_NAMES: Record<string, string> = {
   katerin_ashavel: 'Chancellor Ashavel',
@@ -61,7 +62,7 @@ const CHAR_NAMES: Record<string, string> = {
 }
 
 export function charName(id: string): string {
-  return CHAR_NAMES[id] ?? id.replace(/_/g, ' ')
+  return CHAR_NAMES[id] ?? GOVERNANCE_CAST_NAMES[id] ?? id.replace(/_/g, ' ')
 }
 
 // Saturated per-character label tints for the recurring cast (Suzerain reference).

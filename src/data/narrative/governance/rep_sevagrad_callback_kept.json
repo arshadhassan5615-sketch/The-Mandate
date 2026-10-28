@@ -1,0 +1,102 @@
+{
+  "id": "rep_sevagrad_callback_kept",
+  "title": "The First Furrow",
+  "notebook": [
+    "The army has pulled the fence posts from the unused terraces below the Korengal Pass. Vesna Darko has asked to show you the ground.",
+    "The compensation order was signed in the spring and the families have been paid. The road down to the market towns has not been started."
+  ],
+  "act": 2,
+  "weekAvailable": 27,
+  "weekDeadline": 36,
+  "type": "personal",
+  "agendaCost": 0,
+  "location": "Sevagrad — Korengal Valley Terraces",
+  "characters": ["vesna_darko", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The land committee asked for this visit, and the survey office has confirmed the boundary on every terrace you will walk. Nobody will ask you for a speech. Go where she takes you, and let her decide how long you stay on the slope."
+    },
+    {
+      "type": "description",
+      "text": "The fence line that ran along the upper terraces has been taken down. Its posts lie in a long stack at the edge of the field, grey and split at the base, with the wire coiled on top of them. Below the stack a family is ploughing a strip of ground that was fenced off for six years. The blade of the plough turns up black soil with a sound that carries all the way to the road."
+    },
+    {
+      "type": "description",
+      "text": "Vesna Darko stands at the head of the furrow with her sleeves rolled above the elbow. Two of her neighbour's sons walk behind the horses, and a girl of about twelve follows with a basket, throwing each stone onto the wall without looking at it. Nobody on this slope has ploughed it on their own account since the autumn of 1957. The men on the bank have stopped to watch the first clean line of earth come up behind the team."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "You said it in the hall, and I kept the words. You have my word, you said. The families below the Korengal Pass will be paid at the 1957 value, and the ground the army never used will be returned to them. I did not believe the sentence when I heard it. I believe it now, because I am standing on the ground it was about."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "The sums came through the treasury in early summer, and each family signed for theirs at the schoolhouse at Brenna, with the statutory interest written in a separate column. Some of the old people cried at the table. I did not, because I had decided before I walked in that I would not do it in front of the clerk."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "The army has taken its wire off the upper terraces, and the depot sheds are being pulled down for timber. We were told the ground would be handed back on a schedule, and the schedule has been kept. Nobody in this valley expected a ministry to keep a schedule, and I am not sure the ministry expected it of itself. That is the only thing I wanted to say about it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vesna_darko",
+      "text": "The valley still has one need that the order does not cover, and I will say it once and then stop. The road down to the market towns is a cart track that floods at every thaw. Brenna sends its milk to Sevagrad by a route that takes two days. I am not asking you for a promise about the road. I am telling you what the valley needs, so that you have heard it from someone who has to walk it."
+    },
+    {
+      "type": "internal_thought",
+      "text": "She has not asked you for anything. She has told you what is still missing and let you decide whether you are the person who hears it. The order you signed in the spring is in a folder in Ashenmere, and the families are standing on what it bought them. The road is a new question, and it is not one that can be answered in a field."
+    },
+    {
+      "type": "description",
+      "text": "Vesna wipes her hands on her apron and walks to the edge of the terrace, where the wall drops to the river. Below her the plough team reaches the end of the furrow and turns for the return. The sun has come over the ridge, and the fence stack throws a long shadow across the stubble that nobody has yet bothered to clear."
+    }
+  ],
+
+  "monologue": "Vesna Darko has walked you up to the first terrace her family has ploughed again this summer. The fence posts are stacked by the wall, and the army's survey has been stamped and filed. She has not asked for another promise, and she is watching to see whether you understand the difference.",
+
+  "choices": [
+    {
+      "id": "sevagrad_kept_walk_terraces",
+      "text": "\"Walk the terraces with her. I want to see the strip she is ploughing, and I want her to show me where the wire came down.\"",
+      "internalTag": "personal",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "nation.regionalSupport", "operation": "add", "value": 3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 2 },
+        { "stat": "personal.stressLevel", "operation": "add", "value": -2 }
+      ],
+      "flags": ["rep_sevagrad_callback_done"],
+      "reactions": [
+        {
+          "character": "vesna_darko",
+          "type": "satisfied",
+          "text": "She nods at the furrow as if it were a receipt. Then she walks you along the wall and shows you where each post came out, naming the family whose field stood in front of it."
+        }
+      ]
+    },
+    {
+      "id": "sevagrad_kept_short_visit",
+      "text": "\"I have to be in Ashenmere by evening. Thank you for showing me the field. Tell the committee the order was kept, and that I heard what the valley still needs.\"",
+      "internalTag": "pragmatist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "personal.publicImage", "operation": "add", "value": 1 }
+      ],
+      "flags": ["rep_sevagrad_callback_done"],
+      "reactions": [
+        {
+          "character": "vesna_darko",
+          "type": "dialogue",
+          "text": "She does not object. At the gate she says the committee will minute the visit, and that the valley knows the difference between a Chancellor who walks the ground and one who only reads about it."
+        }
+      ]
+    }
+  ]
+}

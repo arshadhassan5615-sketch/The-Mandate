@@ -1,0 +1,111 @@
+{
+  "id": "rep_kravenstal_callback_broken",
+  "title": "You Gave Us Your Word",
+  "notebook": [
+    "The clinic order is still in the cabinet folder, costed and waiting. The promise made in this hall is written on its first page.",
+    "Milena Sova has brought the Kravenstal weekly with your words from the audience printed on it. She will read them aloud."
+  ],
+  "act": 2,
+  "weekAvailable": 23,
+  "weekDeadline": 32,
+  "type": "personal",
+  "agendaCost": 0,
+  "location": "Kravenstal — Union Hall, Lower Kraven",
+  "characters": ["milena_sova", "vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The union hall at Lower Kraven has the same floor wax and the same faded banner above the stage. The folding chairs are set out in the same rows, but a good number of them are empty this time. Nobody stands when you enter. The people who have come sit with their coats on and their hands in their laps, and they watch you the way a district watches an office it has stopped expecting anything from."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Before you go in, understand that the district has stopped expecting anything from Ashenmere. The empty chairs are not an accident. Some of the families decided it was not worth the bus fare to hear the same thing twice. Do not offer them a second promise. They will not take it, and they will be right not to."
+    },
+    {
+      "type": "description",
+      "text": "Milena Sova is already standing at the front of the room with a folded newspaper in her hand. She has the same coat she wore in the spring, and the same union card is pinned to its lapel. She does not come forward to greet you. She waits, with the patience of someone who has been waiting for months, until you have taken your seat in front of the stage."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "Thank you for coming, Chancellor. The Kravenstal weekly printed what you said in this hall, word for word, and I have kept the clipping because I did not trust my memory with a thing this important. I am going to read it to you the way it was printed, so you can hear it in the same voice you used when you said it."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "You said: You have my word. The Lower Kraven Clinic will reopen before winter, staffed by the union's own medics, and I will have the order in front of my cabinet before this month is out. The winter came, Chancellor. The order did not come with it. The building is still a sign on a door that a company does not use, and the medics who were promised to staff it are still on a list in my handbag."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "In May a man from the casting shop got on the five o'clock bus to Ashenmere with a cough he had been hiding from his foreman. His name was Josef Varga, and he was fifty-one years old. He died on the bus before it reached the hospital. The driver stopped at the first station and waited for somebody to tell him what to do, and nobody did, because there was nobody on the bus whose job it was to know."
+    },
+    {
+      "type": "internal_thought",
+      "text": "There is a kind of sentence that is true and still cannot be said easily in a room like this one. You made a promise, it had a date, and the date went past while the paperwork moved from one desk to the next. Milena is not shouting. She has never needed to shout. She is simply reading the record aloud, so that everyone in these rows can hear that it exists and that you were the one who made it."
+    },
+    {
+      "type": "description",
+      "text": "Milena folds the clipping along its crease and sets it on the edge of the stage. In the third row a woman whose husband worked the casting floor beside Pavol nods slowly, as if confirming a figure she has been adding up for months. Somewhere at the back a chair scrapes and then is still. The hall has gone so quiet that the trams on the boulevard can be heard through the high windows."
+    },
+    {
+      "type": "dialogue",
+      "character": "milena_sova",
+      "text": "So I am not asking you for a new promise. I am asking what the Chancellor does when she has broken one. I would like to know that before I go back down the hill and tell the committee what you said in this room, because they will ask me, and I want to be able to answer them without lying for you."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Mrs Sova has asked a fair question. The order is still in the cabinet folder, costed and waiting, with your promise written on its first page. Whatever you say in the next minute is the answer the committee will carry back to the widows, and it will not be changed by a letter later."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The clinic order is still on your desk, and nobody in this hall needs the folder to know it is there. The choice is no longer whether the clinic should exist. It is whether to say out loud that you were late and fund it now, or to explain why the other priorities came first and let the widows decide what that explanation is worth."
+    }
+  ],
+  "monologue": "The clinic was promised before winter and the winter has come without it. Milena Sova has brought the words you said in this hall, and she is asking you to answer them in front of the same people who heard you say them.",
+
+  "choices": [
+    {
+      "id": "kravenstal_broken_fund_now",
+      "text": "\"I broke my word to this district, and I will not hide behind the budget any longer. I am signing the Lower Kraven order now. It will be late, but it will open.\"",
+      "internalTag": "populist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 5 },
+        { "stat": "budget.healthcare", "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 }
+      ],
+      "flags": ["rep_kravenstal_kept_late", "rep_kravenstal_callback_done"],
+      "reactions": [
+        {
+          "character": "milena_sova",
+          "type": "dialogue",
+          "text": "She listens to the whole sentence, which few people in this province have ever done for her. Then she says that late is still better than the bus, and that the committee will want the opening date in writing. She writes it on her pad herself and does not say anything else."
+        }
+      ]
+    },
+    {
+      "id": "kravenstal_broken_defend",
+      "text": "\"Other priorities came first this year, and the clinic was one of them. I know that is not what you were promised, and I am not asking you to forgive the order of the list.\"",
+      "internalTag": "pragmatist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3 },
+        { "stat": "personal.moralCompass", "operation": "add", "value": -2 }
+      ],
+      "flags": ["rep_kravenstal_callback_done"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not look up from the folder. He turns it face down on the table and places his hand flat on top of it, the way a man closes a book he does not intend to finish. Milena waits for the rest of the answer, and when no more comes she folds her hands over the clipping and steps back from the stage."
+        }
+      ]
+    }
+  ]
+}

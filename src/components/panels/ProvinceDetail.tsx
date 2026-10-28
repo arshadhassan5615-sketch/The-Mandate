@@ -3,6 +3,9 @@ import type { CSSProperties } from 'react'
 import { PROVINCES, PROVINCE_ORDER, type ProvinceData } from '../../data/provinces'
 import { useCodexStore } from '../../stores/codexStore'
 import { useGameStore } from '../../stores/gameStore'
+import { useNarrativeStore } from '../../stores/narrativeStore'
+import { governorInOffice } from '../../engine/governors'
+import { HOME_PROVINCES, type HomeProvinceId } from '../../engine/provinceNews'
 import { renderWithEntities } from '../news/EntityLinker'
 
 import kravenstalBanner from '../../assets/images/provinces/kravenstal_banner.jpeg'
@@ -23,6 +26,8 @@ const TOUCH_BUTTON_STYLE: CSSProperties = { minHeight: TOUCH_MIN_SIZE, minWidth:
 const DENSE_BODY_STYLE: CSSProperties = { flex: '1 1 auto', minHeight: 0, overflowY: 'auto' }
 /** Desktop: no wrapper box, so the children lay out exactly as before. */
 const DESKTOP_BODY_STYLE: CSSProperties = { display: 'contents' }
+
+const GOVERNOR_SOURCE_LABEL = { incumbent: 'Halvek appointee', appointed: 'Your appointee', elected: 'Elected' } as const
 
 const PROVINCE_BANNERS: Record<string, string> = {
   ashenmere: ashenmereBanner,
@@ -156,7 +161,12 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
   // Live game state
   const factions = useGameStore(s => s.factions)
   const activeProjects = useGameStore(s => s.activeProjects)
+  const activeFlags = useNarrativeStore(s => s.activeFlags)
   const gameState = useGameStore()
+
+  const provinceId = PROVINCE_ORDER[idx]
+  const isHome = (HOME_PROVINCES as readonly string[]).includes(provinceId)
+  const office = isHome ? governorInOffice(provinceId as HomeProvinceId, activeFlags) : null
 
   const factionKey = PROVINCE_FACTION_KEY[province.id] ?? '' as keyof typeof factions
   const liveFactionScore = factionKey ? factions[factionKey as keyof typeof factions] ?? 40 : 40
@@ -406,14 +416,15 @@ export default function ProvinceDetail({ initialProvince, onClose }: ProvinceDet
         <div style={{ display: 'flex', padding: '0 28px 10px', gap: '24px' }}>
           {/* Stats table */}
           <div style={{ flex: 1, paddingTop: '4px' }}>
-            {[
+            {([
               ['Population', `${(province.population / 1000).toFixed(0)}k`],
               ['Population Rank', `${province.populationRanking} of 6`],
               ['GDP', `${province.gdp}M ₭`],
               ['GDP Rank', `${province.gdpRanking} of 6`],
               ['Dominant Faction', province.dominantFaction],
               ['Key Industry', province.keyIndustry],
-            ].map(([l, v]) => (
+              ...(office ? [['Governor', `${office.governor.name} · ${GOVERNOR_SOURCE_LABEL[office.source]}`]] : []),
+            ] as [string, string][]).map(([l, v]) => (
               <div key={l} style={{
                 display: 'flex', justifyContent: 'space-between', padding: '4px 0',
                 borderBottom: '1px solid rgba(196,148,58,0.04)',

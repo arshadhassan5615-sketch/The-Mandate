@@ -1,0 +1,212 @@
+import type { FactionState } from '../types/gameState'
+import type { HomeProvinceId } from '../engine/provinceNews'
+
+export interface Governor {
+  id: string
+  name: string
+  characterId: string     // id used as `character` in scene dialogue
+  provinceId: HomeProvinceId
+  faction: keyof FactionState
+  competence: number      // 0-100, hidden from the player
+  loyalty: number         // 0-100 loyalty to the Chancellor, hidden
+  integrity: number       // 0-100, hidden
+  incumbent: boolean      // true = Halvek's appointee in office when the game starts
+  bio: string             // one sentence the player may see
+}
+
+export const GOVERNORS: readonly Governor[] = [
+  {
+    id: 'severin',
+    name: 'Anton Severin',
+    characterId: 'anton_severin',
+    provinceId: 'ashenmere',
+    faction: 'halvekists',
+    competence: 62,
+    loyalty: 30,
+    integrity: 45,
+    incumbent: true,
+    bio: "Halvek's capital governor for eleven years; he runs the city like a ministry and still reports to men who no longer hold office.",
+  },
+  {
+    id: 'kral',
+    name: 'Bohdan Kral',
+    characterId: 'bohdan_kral',
+    provinceId: 'kravenstal',
+    faction: 'halvekists',
+    competence: 48,
+    loyalty: 25,
+    integrity: 35,
+    incumbent: true,
+    bio: 'A Halvek appointee who has managed the foundries by keeping their unions quiet.',
+  },
+  {
+    id: 'ostrava',
+    name: 'Lucjan Ostrava',
+    characterId: 'lucjan_ostrava',
+    provinceId: 'dravenhollow',
+    faction: 'ironCovenant',
+    competence: 55,
+    loyalty: 20,
+    integrity: 40,
+    incumbent: true,
+    bio: 'A retired gendarmerie general who governs the Dravenni valleys as occupied ground.',
+  },
+  {
+    id: 'hollan',
+    name: 'Matej Hollan',
+    characterId: 'matej_hollan',
+    provinceId: 'thornfeld',
+    faction: 'church',
+    competence: 58,
+    loyalty: 35,
+    integrity: 60,
+    incumbent: true,
+    bio: 'A farmer\'s son and churchwarden: conservative, honest, and wary of the capital.',
+  },
+  {
+    id: 'wendt',
+    name: 'Kasimir Wendt',
+    characterId: 'kasimir_wendt',
+    provinceId: 'aldenmoor',
+    faction: 'businessClass',
+    competence: 66,
+    loyalty: 30,
+    integrity: 38,
+    incumbent: true,
+    bio: 'A shipping-family heir who treats the ports as the family business.',
+  },
+  {
+    id: 'kasic',
+    name: 'Pavel Kasic',
+    characterId: 'pavel_kasic',
+    provinceId: 'sevagrad',
+    faction: 'partyLoyalists',
+    competence: 70,
+    loyalty: 40,
+    integrity: 65,
+    incumbent: true,
+    bio: "A careful border administrator: Halvek's man, but a professional before a partisan.",
+  },
+  {
+    id: 'novak',
+    name: 'Hana Novak',
+    characterId: 'hana_novak',
+    provinceId: 'kravenstal',
+    faction: 'workersCoalition',
+    competence: 60,
+    loyalty: 80,
+    integrity: 85,
+    incumbent: false,
+    bio: 'A foundry shop steward who led the 1958 safety strike.',
+  },
+  {
+    id: 'reiss',
+    name: 'Teodor Reiss',
+    characterId: 'teodor_reiss',
+    provinceId: 'kravenstal',
+    faction: 'businessClass',
+    competence: 82,
+    loyalty: 55,
+    integrity: 60,
+    incumbent: false,
+    bio: 'Plant director of Kravenstal Steel, a technocrat who reads balance sheets the way others read scripture.',
+  },
+  {
+    id: 'brana',
+    name: 'Mira Brana',
+    characterId: 'mira_brana',
+    provinceId: 'sevagrad',
+    faction: 'ironCovenant',
+    competence: 75,
+    loyalty: 65,
+    integrity: 70,
+    incumbent: false,
+    bio: 'A retired garrison colonel who knows every pass on the eastern border.',
+  },
+  {
+    id: 'lenart',
+    name: 'Ivo Lenart',
+    characterId: 'ivo_lenart',
+    provinceId: 'sevagrad',
+    faction: 'reformists',
+    competence: 58,
+    loyalty: 85,
+    integrity: 90,
+    incumbent: false,
+    bio: 'A Sevagrad lawyer who spent a decade defending refugee families in the border courts.',
+  },
+  {
+    id: 'valen',
+    name: 'Dita Valen',
+    characterId: 'dita_valen',
+    provinceId: 'ashenmere',
+    faction: 'reformists',
+    competence: 70,
+    loyalty: 75,
+    integrity: 80,
+    incumbent: false,
+    bio: "A city councillor who ran Ashenmere's underground literacy circles under Halvek.",
+  },
+  {
+    id: 'marr',
+    name: 'Ilse Marr',
+    characterId: 'ilse_marr',
+    provinceId: 'dravenhollow',
+    faction: 'reformists',
+    competence: 64,
+    loyalty: 70,
+    integrity: 82,
+    incumbent: false,
+    bio: 'A Dravenni-speaking schoolteacher who campaigned for bilingual schools.',
+  },
+  {
+    id: 'vashko',
+    name: 'Teren Vashko',
+    characterId: 'teren_vashko',
+    provinceId: 'dravenhollow',
+    faction: 'dravenni',
+    competence: 60,
+    loyalty: 35,
+    integrity: 70,
+    incumbent: false,
+    bio: 'A Dravenni autonomist who wants the valleys to govern themselves, with or without the capital.',
+  },
+  {
+    id: 'brandl',
+    name: 'Josef Brandl',
+    characterId: 'josef_brandl',
+    provinceId: 'thornfeld',
+    faction: 'reformists',
+    competence: 55,
+    loyalty: 70,
+    integrity: 75,
+    incumbent: false,
+    bio: 'A cooperative-farm organiser who wants land titles for tenant farmers.',
+  },
+  {
+    id: 'lind',
+    name: 'Nora Lind',
+    characterId: 'nora_lind',
+    provinceId: 'aldenmoor',
+    faction: 'reformists',
+    competence: 68,
+    loyalty: 72,
+    integrity: 78,
+    incumbent: false,
+    bio: 'A harbour engineer who exposed the port authority\'s dredging contracts.',
+  },
+]
+
+/** Who stands in each province's election once the Self-Government Act is signed. */
+export const ELECTION_CANDIDATES: Record<HomeProvinceId, { reform: string; opposition: string }> = {
+  ashenmere: { reform: 'valen', opposition: 'severin' },
+  kravenstal: { reform: 'novak', opposition: 'kral' },
+  thornfeld: { reform: 'brandl', opposition: 'hollan' },
+  sevagrad: { reform: 'lenart', opposition: 'kasic' },
+  aldenmoor: { reform: 'lind', opposition: 'wendt' },
+  dravenhollow: { reform: 'marr', opposition: 'vashko' },
+}
+
+export function getGovernor(id: string): Governor | undefined {
+  return GOVERNORS.find(g => g.id === id)
+}

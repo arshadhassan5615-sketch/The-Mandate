@@ -1,0 +1,93 @@
+{
+  "id": "biz_chain_port_dividend",
+  "title": "The First Dividend",
+  "notebook": [
+    "The Aldenmoor operating company has paid the state's first share of the harbour surplus.",
+    "A small Amber Coast paper asks whether a Chancellor should profit from a harbour her government regulates."
+  ],
+  "act": 1,
+  "weekAvailable": 15,
+  "type": "event",
+  "agendaCost": 0,
+  "location": "Ashenmere — Chancellery, Treasury Office",
+  "characters": ["vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The first dividend from the Aldenmoor operating company reaches the Treasury on a grey Monday, as a single transfer with a covering letter typed on heavy paper. It is small beside the national budget, but it is real money, and it is the first the Republic has ever earned from a harbour it has spent a decade watching decay. The clerk who carries the file up to your office has clearly read it twice and is unsure how to describe it in his own note."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "This is the state's share of the operating surplus from the harbour's first full quarter of trading. It is the first time in a long while that Aldenmoor has paid anything into the treasury rather than drawing from it. The Finance Ministry would like to know where it should go before the Assembly asks, and the Assembly will ask."
+    },
+    {
+      "type": "description",
+      "text": "The Treasury office looks out over the Chancellery garden, and the lawn is grey with the first frost. A copy of an Amber Coast paper lies beside the transfer slip, folded to a column that someone has already marked. It is a short piece from a paper with a small circulation and a long memory, and its question has been phrased with care."
+    },
+    {
+      "type": "narrative",
+      "text": "The column asks whether a Chancellor should profit from a harbour that her own government regulates, and whether the state's share in a company should ever be counted as a dividend at all. It does not accuse anyone of anything. It notes only that the harbour's fees are set by the Authority, that the Authority answers to the Chancellery, and that the Republic's money is now coming back from the same berths it inspects."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The paper is small, and most of the capital will never read it. That is not the same as being wrong. The money is clean and it is audited. The question is not about the money. It is about the place where you are standing when you decide what it is for."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The treasury needs the money. The coast needs the harbour to be seen as belonging to someone other than the men who grew rich on it under Halvek. You can put the transfer into the general budget and let it disappear into debt service, or you can ask the fishing families what they would do with it. Either answer will be read, and neither will be read as neutral."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Whatever you choose will be in the Assembly's minutes by the end of the month. I would rather it was a decision you made on purpose than one the column makes for you."
+    }
+  ],
+  "monologue": "The first dividend from the harbour has arrived, and it is real money. A small paper has asked whether a Chancellor should profit from a harbour her government regulates. Vyktor has left the transfer slip and the column side by side on the desk, and the decision is yours to make.",
+
+  "choices": [
+    {
+      "id": "dividend_to_treasury",
+      "text": "\"Transfer the dividend to the state industry budget, to be spent on the Republic's accounts. It is public money, and the treasury needs it more than any single harbour does. Let the question die in its own column.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "budget.stateIndustry", "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -1 }
+      ],
+      "chainTriggers": [],
+      "flags": ["biz_dividend_treasury"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He notes the figure against the quarter's projections without expression. The money will go to debt and to roads, which are the things the Treasury can account for. He does not say the column will be quoted in the Assembly. He does not need to."
+        }
+      ]
+    },
+    {
+      "id": "dividend_to_fishermen",
+      "text": "\"Hold the dividend in a fund for the Aldenmoor fishing families, to be paid out as loans for new boats and gear. It came from the harbour, and the people who work the harbour should see it come back to them.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "budget.stateIndustry",      "operation": "add", "value": 2 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 3 },
+        { "stat": "personal.moralCompass",     "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["biz_dividend_fishermen"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "concern",
+          "text": "Ana Kovar will hear about the fund before the Treasury has finished the paperwork. The Cooperative will remember that the state sent money to the boats when it could have kept it. That will matter the next time you need the coast to listen to you, and it will also matter to the Assembly when it asks why the money went there."
+        }
+      ]
+    }
+  ]
+}

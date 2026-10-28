@@ -35,6 +35,7 @@ import { generateWeeklyRequests } from '../data/ministerRequests'
 import { calculateElectionResult } from '../engine/ElectionEngine'
 import { scheduleWeekStartChains } from '../engine/weekStartChains'
 import { weekToDate } from '../engine/dates'
+import { applyGovernorsWeek, settleWeekCommitments } from './weekGovernance'
 
 // ─── Pending transition timeouts ──────────────────────────────────────────────
 // Track setTimeout IDs so resetToInitial / startCustomization can cancel them
@@ -1961,6 +1962,9 @@ export const useWeekStore = create<WeekStore>((set, get) => ({
     useGameStore.getState().advanceWeek()
     // Week boundary: the new week starts with an empty completion ledger.
     set({ completedItemIds: [] })
+    // Promises past their deadline break here, and governors act on the new week.
+    settleWeekCommitments(useGameStore.getState().currentWeek)
+    applyGovernorsWeek()
     const nextState = useGameStore.getState()
     const newWeek = nextState.currentWeek
 

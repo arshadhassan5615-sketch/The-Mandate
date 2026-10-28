@@ -1,0 +1,91 @@
+{
+  "id": "rep_sevagrad_compensation_order",
+  "title": "The Korengal Compensation Order",
+  "notebook": [
+    "Vyktor has the costing for the Korengal compensation. The Defence Ministry has objected in writing to every line that returns land to the valley.",
+    "Vesna Darko was told in the valley hall that the papers would be honoured. The land committee keeps the list of claims."
+  ],
+  "act": 1,
+  "weekAvailable": 14,
+  "weekDeadline": 26,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Ashenmere — Chancellery, Cabinet Office",
+  "characters": ["vyktor_reznik"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Cabinet Office in Ashenmere faces north over the river, and in late autumn the window has a grey cast that makes the papers on the long table look older than they are. Vyktor Reznik has placed a single folder at your place, squared to the edge of the wood. It is thicker than the usual cabinet paper, and the tab has been lettered by hand with the name of the valley."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "This is the costed order for the Korengal compensation. It pays the unpaid 1957 sums to every family on the claims register, at the value the land held in that year, with the statutory interest added. It also returns the requisitioned ground that the army has not used since 1958, on a schedule the survey office has drawn up. The order is complete. It needs your signature and a source for the money."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The money is the difficult part, as it usually is. Several years of tight budgets have left every line that could absorb an order of this size already claimed by someone with a stronger hold on the cabinet's attention. Vyktor has marked the options in the margin in fine pencil, and none of them is clean."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The Defence Ministry has written twice. Its first letter says the ground is still needed for the fortification line, which the survey sheets do not support. Its second letter says that returning the valley will weaken the eastern garrisons while Morivask is reinforcing its own side of the crossing. I have answered both letters in the folder, but they will reach the cabinet table before the order does, and the minister will be waiting there."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The compensation has to be borrowed. The sums are too large for the regional road budget, which has already been cut twice, and the Treasury will need to add the balance to the national debt and report it as a rise in the year's figures. The alternative is to tell the families the order is still in the Treasury, which is what the ministry would prefer, and which I would not recommend."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You should also remember who the order is for. Vesna Darko stood in the valley hall and was told that the papers would be honoured, and she was told it by you, in front of the governor. The committee has written that down, and so has the governor's office. I have put the promise on the first page of the folder, above the costing, where you cannot miss it."
+    },
+    {
+      "type": "description",
+      "text": "Below the window a delivery lorry backs slowly into the yard of the ministry annex, and a clerk with a clipboard waves it in. The folder waits on the table, its first page turned to face you. The decision is yours, and it now carries a name and a valley."
+    }
+  ],
+  "monologue": "The Korengal order is costed, and it is honest about the price. Vyktor has set out the ways to pay for it, and each one takes something from someone else. The promise you made in the valley hall is written on the first page, above the figures.",
+
+  "choices": [
+    {
+      "id": "compensation_order_sign",
+      "text": "\"Sign the order. Pay the families at the 1957 value, borrow the balance against the national debt, and return the unused ground to the valley. I will tell Vesna Darko myself.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 8 },
+        { "stat": "nation.regionalSupport", "operation": "add", "value": 4 },
+        { "stat": "factions.ironCovenant", "operation": "add", "value": -2 }
+      ],
+      "flags": ["rep_sevagrad_kept"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "action",
+          "text": "He slides the signed order into the folder and closes it. The Treasury will report the borrowing in writing, and the garrison will read the return of the land as an insult. He says that the first family paid at the schoolhouse will be far easier to explain than the figures."
+        }
+      ]
+    },
+    {
+      "id": "compensation_order_defer",
+      "text": "\"Not yet. Tell the committee the order is still before the Treasury, and that I will answer when the budget allows it.\"",
+      "internalTag": "pragmatist",
+      "commitment": false,
+      "stateChanges": [
+        { "stat": "personal.stressLevel", "operation": "add", "value": 2 }
+      ],
+      "flags": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "silence",
+          "text": "He does not argue. He takes the folder back, and beside the promise on the first page he writes the word deferred in his small exact hand. He says the letter to the valley committee will be on your desk by evening."
+        }
+      ]
+    }
+  ]
+}

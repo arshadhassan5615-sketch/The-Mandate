@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { getPortrait } from '../../assets/potraits'
 import { getCharacterPortrait, CHARACTER_COLORS } from './CharacterPortraits'
+import { GOVERNANCE_CAST_NAMES } from '../../data/characters/governanceCast'
 
 interface CharacterPortraitProps {
   characterId: string
@@ -42,7 +43,7 @@ const CHAR_NAMES: Record<string, string> = {
 }
 
 function getInitials(id: string): string {
-  const name = CHAR_NAMES[id] ?? id.replace(/_/g, ' ')
+  const name = CHAR_NAMES[id] ?? GOVERNANCE_CAST_NAMES[id] ?? id.replace(/_/g, ' ')
   return name.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase()
 }
 
@@ -64,7 +65,7 @@ export default function CharacterPortrait({
       return (
         <img
           src={imgSrc}
-          alt={CHAR_NAMES[normalizedId] ?? normalizedId}
+          alt={CHAR_NAMES[normalizedId] ?? GOVERNANCE_CAST_NAMES[normalizedId] ?? normalizedId}
           onError={() => {
             console.warn(`[Portrait] Failed to load image for: ${normalizedId}`)
             setHasError(true)
@@ -103,7 +104,7 @@ export default function CharacterPortrait({
     )
   }
 
-  const firstName = (CHAR_NAMES[normalizedId] ?? normalizedId.replace(/_/g, ' ')).split(' ')[0]
+  const firstName = (CHAR_NAMES[normalizedId] ?? GOVERNANCE_CAST_NAMES[normalizedId] ?? normalizedId.replace(/_/g, ' ')).split(' ')[0]
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

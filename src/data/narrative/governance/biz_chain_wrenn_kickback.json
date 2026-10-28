@@ -1,0 +1,115 @@
+{
+  "id": "biz_chain_wrenn_kickback",
+  "title": "The Maritime Committee",
+  "notebook": [
+    "Herald: Wrenn Maritime paid forty thousand Krone to a Halvekist deputy on the Assembly's maritime committee, the month before the bid.",
+    "Elena Braskov wants a comment on the record before the noon edition."
+  ],
+  "act": 1,
+  "weekAvailable": 13,
+  "type": "event",
+  "agendaCost": 0,
+  "location": "Ashenmere — Chancellery, Press Office",
+  "characters": ["vyktor_reznik", "elena_braskov"],
+
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Herald's late edition reaches the Chancellery at seven in the morning, folded open on the press office table where someone has already circled the second column in red pencil. The story runs above the fold under a headline set in the heaviest type the paper owns. It names a company, a deputy and a sum of money in the same sentence, which is the way Elena Braskov writes the stories she has finished checking."
+    },
+    {
+      "type": "dialogue",
+      "character": "elena_braskov",
+      "text": "Chancellor, I am calling for comment before the story runs at noon, which is a courtesy you may not feel you deserve. Wrenn Maritime paid forty thousand Krone to a Halvekist deputy who sits on the Assembly's maritime committee, in the month before the Aldenmoor bid was filed. I have the transfer records. I would like to know what your government intends to do about it."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "She has the transfer records, which means someone at the bank or inside Wrenn's office has been talking to her. We should assume the deputy's name is already on her desk as well. Do not say anything on the telephone that you would not want quoted back to you by the end of the week."
+    },
+    {
+      "type": "description",
+      "text": "The press office window faces the Chancellery garden, and the first frost has whitened the lawn overnight. Vyktor stands beside the desk with the Herald open at the second column, reading the same paragraph for the third time, as if it might say something different on this reading."
+    },
+    {
+      "type": "dialogue",
+      "character": "elena_braskov",
+      "text": "The question is simple. Did the government know about the payment, and did it still award the contract? I will print your answer as you give it. If you decline to answer, I will print that as well, and my readers will draw their own conclusions about why a Chancellor who was elected on clean hands would choose not to say anything at all."
+    },
+    {
+      "type": "description",
+      "text": "The paper has learned that the state holds a thirty percent share in the same operating company. The headline has changed from a bribery allegation to a question about partnership. Under it, in smaller type, the Herald asks whether a Chancellor should be sharing a balance sheet with the company at the centre of the story.",
+      "conditions": [ { "type": "flag", "flag": "biz_port_stake", "value": true } ]
+    },
+    {
+      "type": "description",
+      "text": "The paper has kept to its plain version. Wrenn Maritime paid a Halvekist deputy forty thousand Krone in the month before a government contract was put out to bid, and the government awarded the contract anyway. There is no partnership clause and no state share in the story. The headline is shorter, and it is more damaging for being so simple.",
+      "conditions": [ { "type": "flag", "flag": "biz_port_stake", "value": false } ]
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "There is no version of this which does not hurt, but some versions can be answered. The payment is a fact the Herald can prove. Whether the government knew is a question you can answer honestly, if you choose to. The deputy will say he was paid for consultancy work. Everyone in this building will know that is not true, and the newspapers will print it anyway."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The stories that damage a government longest are not the ones with the largest sums in them. They are the ones where a reader can see the handshake. You told yourself the new government would be the one that did not need to be forgiven for its contracts. Now a Halvekist deputy's pocket and Wrenn's cheque are on the same desk, and the paper wants to know which of them you knew about."
+    }
+  ],
+  "monologue": "The Herald has the transfer records and a deadline of noon. Wrenn Maritime paid a Halvekist deputy in the month before the bid, and Elena Braskov wants a comment she can print word for word. Vyktor advises silence on the telephone and an answer on paper. What the government does now is the only part of this that is still in its hands.",
+
+  "choices": [
+    {
+      "id": "wrenn_cancel_contract",
+      "text": "\"Cancel the Wrenn contract and open the bid again. Publish the full payment record, and refer the deputy to the Assembly's ethics committee. If the harbour has to wait for an honest process, it will wait.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": -6 },
+        { "stat": "nation.corruption",      "operation": "add", "value": -3 },
+        { "stat": "personal.publicImage",   "operation": "add", "value": 3 }
+      ],
+      "chainTriggers": [],
+      "flags": ["biz_wrenn_cancelled"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Wrenn will go to the courts, and the courts will take a year. The harbour will sit idle while the lawyers argue, and the coast will remember who was responsible for that. You have made the harder choice, and it is the right one, which is not always the same thing as the popular one."
+        },
+        {
+          "character": "elena_braskov",
+          "type": "satisfied",
+          "text": "She writes something quickly in her notebook. The story will run at noon, she says, and it will say the government cancelled the contract. It will also say why. She thinks that will be the more useful headline for you, and she is probably right."
+        }
+      ]
+    },
+    {
+      "id": "wrenn_stand_by",
+      "text": "\"Stand by the contract. The payment is a matter for the deputy and the Assembly, not for the harbour. Wrenn Maritime is a lawful company, and the Republic will not cancel a signed contract because a newspaper has found an unpleasant sum.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "nation.corruption",      "operation": "add", "value": 4 },
+        { "stat": "personal.publicImage",   "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": 2 }
+      ],
+      "chainTriggers": [],
+      "flags": ["biz_wrenn_defended"],
+      "codexUnlocks": [],
+      "reactions": [
+        {
+          "character": "elena_braskov",
+          "type": "satisfied",
+          "text": "Then the Herald will print that the government defends the payment and the company in the same breath. She is not angry. She sounds like a woman who has just been handed exactly the story she hoped for, and who is already thinking about the follow-up."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The contract stands, and so does the question. The deputy will be asked by someone else, sooner or later, and it will not be the Herald that asks him first."
+        }
+      ]
+    }
+  ]
+}

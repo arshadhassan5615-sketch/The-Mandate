@@ -1,0 +1,23 @@
+{
+  "id": "bill_provincial_self_government",
+  "title": "Provincial Self-Government Act",
+  "shortName": "P.S.G.A.",
+  "proposer": "Reformist deputies + provincial councils",
+  "faction": "reformists",
+  "weekPresented": 25,
+  "fullText": "Section 1. The governors of the six provinces of the Republic of Veltria shall be elected by the residents of each province. The appointment of provincial governors by the Chancellery is hereby ended.\n\nSection 2. The first elections under this Act shall be held within four weeks of its enactment, by secret ballot, under the Electoral Commission.\n\nSection 3. An elected provincial governor may be removed from office only by a two-thirds vote of the provincial council, or by order of a court.",
+  "budgetCost": -3,
+  "signEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": 8 },
+    { "stat": "nation.civilLiberties", "operation": "add", "value": 5 },
+    { "stat": "factions.halvekists", "operation": "add", "value": -8 },
+    { "stat": "factions.partyLoyalists", "operation": "add", "value": -6 }
+  ],
+  "vetoEffects": [
+    { "stat": "factions.reformists", "operation": "add", "value": -8 },
+    { "stat": "factions.partyLoyalists", "operation": "add", "value": 4 }
+  ],
+  "signFlags": ["self_government_act_signed"],
+  "vetoFlags": ["self_government_act_vetoed"],
+  "isVetoable": true
+}
