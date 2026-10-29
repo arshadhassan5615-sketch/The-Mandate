@@ -8,6 +8,7 @@ import { useGameStore } from '../stores/gameStore'
 import { useNarrativeStore } from '../stores/narrativeStore'
 import { useCommitmentStore } from '../stores/commitmentStore'
 import { governorInOffice } from '../engine/governors'
+import { getAvailableChoices, getScene } from '../engine/NarrativeEngine'
 import { bootWeek, finishWeek, offeredIds, playItem, pool, resetWorld } from './simHarness'
 import type { SceneChoice } from '../types/narrative'
 
@@ -89,6 +90,19 @@ describe('provincial governance through the week pipeline', () => {
     expect(governorInOffice('kravenstal', flags())).toMatchObject({ source: 'appointed', governor: { id: 'novak' } })
     // Meeting her in the scene opens her codex brief ("met" unlock).
     expect(useNarrativeStore.getState().unlockedCodexIds).toContain('character_hana_novak')
+  }, SIM_TIMEOUT_MS)
+
+  it('a provincial crisis offers back or sack for whoever governs, and sacking an appointee brings back the incumbent', async () => {
+    bootWeek(4)
+    await playAgenda('agenda_gov_kravenstal_appointment', 'gov_kravenstal_appoint_novak')
+
+    bootWeek(18)
+    const crisis = getScene('crisis_kravenstal_furnace')
+    const visible = getAvailableChoices(crisis, useGameStore.getState(), flags()).map(c => c.id).sort()
+    expect(visible).toEqual(['crisis_kravenstal_back_novak', 'crisis_kravenstal_commission', 'crisis_kravenstal_sack_novak'])
+
+    await playAgenda('agenda_crisis_kravenstal_furnace', 'crisis_kravenstal_sack_novak')
+    expect(governorInOffice('kravenstal', flags())).toMatchObject({ source: 'incumbent', governor: { id: 'kral' } })
   }, SIM_TIMEOUT_MS)
 
   it('signing the Self-Government Act holds elections at the next week boundary and offers the results', async () => {
