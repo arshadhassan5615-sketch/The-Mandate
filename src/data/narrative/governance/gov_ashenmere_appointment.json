@@ -1,0 +1,109 @@
+{
+  "id": "gov_ashenmere_appointment",
+  "title": "The Capital Governorship",
+  "notebook": [
+    "Anton Severin has run the capital's administration for eleven years, and the files have not stopped moving under him.",
+    "Dita Valen ran the literacy circles under Halvek and reads every paper before a vote. She has never run a city administration.",
+    "Ashenmere holds the Assembly, the Supreme Court and the Chancellery. A replacement signed here is the most visible decree you could make."
+  ],
+  "act": 1,
+  "weekAvailable": 5,
+  "weekDeadline": 9,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Ashenmere — City Governor's Office, Old Town Hall",
+  "characters": ["vyktor_reznik", "anton_severin", "dita_valen"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The City Governor's Office fills the upper floor of the Old Town Hall, a room built for men who expected to be obeyed without explanation. Ledgers stand in ranked rows along the far wall, each spine labelled in the same small, upright hand. Through the tall windows the dome of the Assembly shows above the rooftops, and beyond it the spire of the Supreme Court. Anton Severin rises from a desk that has been cleared for you, and Dita Valen stands by the bookcase with a newspaper folded under one arm. Vyktor takes the chair nearest the door."
+    },
+    {
+      "type": "dialogue",
+      "character": "anton_severin",
+      "text": "Ashenmere has not stopped for a single day since the Republic was founded, and I made sure it did not stop for the change of government either. The trams ran, the courts sat, and the registry issued its certificates the morning after the vote. That was not loyalty to Halvek. It was the work of a city that depends on its records being correct. I have held this office for eleven years, Chancellor, and I would ask you to examine the files before you examine my name."
+    },
+    {
+      "type": "dialogue",
+      "character": "anton_severin",
+      "text": "The capital needs a governor who knows where the seals are kept, which clerks can be trusted with the ballot rolls, and which ministries still send their papers to men who no longer hold office. I know all three. Replace me, and you will spend a year learning what I already know while the city waits for its services. I do not say this to protect my position. I say it because the seat of government cannot be run by someone who is still learning the building while it is in use."
+    },
+    {
+      "type": "description",
+      "text": "Severin closes his folder and bows, a small and exact movement that stops short of deference. At the door he pauses, as though he might add something, and then he goes. His footsteps descend the stone stairs at the same measured pace they climbed them. The room settles around the tick of the clock on the wall and the faint hum of a tram turning in the square below."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Severin's case is the strongest anyone will make to you this month, and he knows it. Ashenmere is the one place in the Republic where a governor's office runs as a working ministry, and he has kept it that way. The difficulty is what the machinery was built on. Files move in one direction, toward the people Halvek trusted, and Severin still sends his reports to those people. Keeping him keeps that route open."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The decree is the other difficulty. The capital is where the press looks first, and a replacement signed here will be on the front page of the Herald by morning. The Herald will call it Halvek's method. If you keep Severin, you will be asked why. If you replace him, the reasons will have to be stronger than the decree, and they will have to hold up through a year of being quoted back at you."
+    },
+    {
+      "type": "dialogue",
+      "character": "dita_valen",
+      "text": "I read every paper before every vote, Chancellor, because the men who wrote them were counting on nobody doing so. Under Halvek I ran the reading circles that met in back rooms and in the rooms above the bakeries. We taught people to read a budget before they were allowed to vote on one. I know how this city thinks, because I spent years listening to it through a locked door. I do not know how to run an administration. I have never signed a requisition for a tram depot."
+    },
+    {
+      "type": "dialogue",
+      "character": "dita_valen",
+      "text": "If you give me the office, I will learn the registry and the budget, and I will make mistakes the clerks will enjoy reporting. But the people of Ashenmere will know that their governor reads what they read and was not appointed by the man before her. That is the one thing Severin cannot give them, however well he keeps the files. It is also the thing that will be used against me, and I would rather you heard it from me first."
+    },
+    {
+      "type": "internal_thought",
+      "text": "One capital, one office, and a decree the Herald will read as Halvek's signature. Severin keeps the ledgers balanced, and the old routes keep running beneath them. Valen would bring a city of readers into a room that has only ever taken orders. Neither choice is clean. The only question is which one you are prepared to explain to a city that reads every word you sign."
+    }
+  ],
+  "monologue": "Two people, one office, and a decree the whole city will read at breakfast. Severin keeps the capital working, and the old routes keep working with it. Valen would be the first governor of Ashenmere that the Chancellery chose itself, which is exactly why her appointment would be read as Halvek's method.",
+  "choices": [
+    {
+      "id": "gov_ashenmere_keep_severin",
+      "text": "\"Keep Severin. The capital keeps its machinery, and I will read the registry returns myself each week until I am satisfied with them.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 3 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_ashenmere_kept"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He will read the decision as a sign the office is safe for now. He will also note that it took you the whole morning to make, and he is not certain whether that was caution or doubt."
+        },
+        {
+          "character": "dita_valen",
+          "type": "silence",
+          "text": "Valen says nothing. She sets the folded paper on the edge of the bookcase and walks to the window, where she stands looking down at the square until a tram has passed it twice."
+        }
+      ]
+    },
+    {
+      "id": "gov_ashenmere_appoint_valen",
+      "text": "\"Dita Valen. The capital should be governed by someone the city has already read. I will make the reasons public, and I will answer for them in the Assembly.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 5 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_ashenmere_appointed_valen"],
+      "reactions": [
+        {
+          "character": "dita_valen",
+          "type": "dialogue",
+          "text": "Valen nods once and does not smile. She says the first month will go to the registry and the budget, and that she will tell the clerks herself before they hear it from the Herald."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The Herald will call it a decree wearing a different coat. He makes a small mark on his pad. From now on the reasons you give will have to carry more weight than the signature itself."
+        }
+      ]
+    }
+  ]
+}
