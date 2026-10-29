@@ -3,6 +3,7 @@ import { GOVERNORS, ELECTION_CANDIDATES, getGovernor } from '../../data/governor
 import { HOME_PROVINCES } from '../provinceNews'
 import { useGameStore } from '../../stores/gameStore'
 import {
+  effectiveLoyalty,
   governorInOffice,
   processGovernorsWeek,
   provincialElectionWinner,
@@ -125,5 +126,69 @@ describe('processGovernorsWeek', () => {
     ]
     expect(processGovernorsWeek(state, flags).flags).toContain('governors_loyal_majority')
     expect(processGovernorsWeek(state, []).flags).not.toContain('governors_loyal_majority')
+  })
+})
+
+describe('dismissal and backing', () => {
+  it('a dismissed incumbent is replaced by the first eligible governor', () => {
+    const r = governorInOffice('kravenstal', ['governor_kravenstal_dismissed_kral', 'governor_kravenstal_appointed_novak'])
+    expect(r.governor.id).toBe('novak')
+    expect(r.source).toBe('appointed')
+  })
+
+  it('the old governor returns to office when the appointee is dismissed', () => {
+    const r = governorInOffice('kravenstal', ['governor_kravenstal_appointed_novak', 'governor_kravenstal_dismissed_novak'])
+    expect(r.governor.id).toBe('kral')
+    expect(r.source).toBe('incumbent')
+  })
+
+  it('an acting governor takes office when only the incumbent is dismissed', () => {
+    const r = governorInOffice('kravenstal', ['governor_kravenstal_dismissed_kral'])
+    expect(r.governor.id).toBe('novak')
+    expect(r.source).toBe('appointed')
+  })
+
+  it('falls back to the incumbent when every governor is dismissed', () => {
+    const r = governorInOffice('kravenstal', [
+      'governor_kravenstal_dismissed_kral',
+      'governor_kravenstal_dismissed_novak',
+      'governor_kravenstal_dismissed_reiss',
+    ])
+    expect(r.governor.id).toBe('kral')
+    expect(r.source).toBe('incumbent')
+  })
+
+  it('skips a dismissed elected governor', () => {
+    const r = governorInOffice('kravenstal', [
+      'governor_kravenstal_elected_kral',
+      'governor_kravenstal_dismissed_kral',
+      'governor_kravenstal_appointed_reiss',
+    ])
+    expect(r.governor.id).toBe('reiss')
+  })
+
+  it('adds the backing bonus to effective loyalty, capped at 100', () => {
+    const kasic = governorInOffice('sevagrad', []).governor
+    expect(effectiveLoyalty('sevagrad', kasic, [])).toBe(40)
+    expect(effectiveLoyalty('sevagrad', kasic, ['governor_sevagrad_backed_kasic'])).toBe(65)
+
+    const novak = governorInOffice('kravenstal', ['governor_kravenstal_appointed_novak']).governor
+    expect(effectiveLoyalty('kravenstal', novak, ['governor_kravenstal_backed_novak'])).toBe(100)
+  })
+
+  it('ignores a backed flag for a different governor', () => {
+    const kasic = governorInOffice('sevagrad', []).governor
+    expect(effectiveLoyalty('sevagrad', kasic, ['governor_sevagrad_backed_brana'])).toBe(40)
+  })
+
+  it('counts backed governors toward the loyal majority', () => {
+    const state = { ...base, currentWeek: 9 }
+    const flags = [
+      'governor_sevagrad_backed_kasic',
+      'governor_kravenstal_appointed_novak',
+      'governor_ashenmere_elected_valen',
+    ]
+    expect(processGovernorsWeek(state, flags).flags).toContain('governors_loyal_majority')
+    expect(processGovernorsWeek(state, flags.slice(1)).flags).not.toContain('governors_loyal_majority')
   })
 })

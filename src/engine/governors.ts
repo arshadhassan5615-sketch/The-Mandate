@@ -3,6 +3,8 @@
 // Flag conventions (read from activeFlags / emitted in flags):
 // - appointed: `governor_<provinceId>_appointed_<governorId>`  (e.g. `governor_kravenstal_appointed_novak`)
 // - elected:   `governor_<provinceId>_elected_<governorId>`    (e.g. `governor_kravenstal_elected_novak`)
+// - dismissed: `governor_<provinceId>_dismissed_<governorId>` — sacked; never holds office again
+// - backed:    `governor_<provinceId>_backed_<governorId>`    — publicly backed in a crisis; more loyal
 // - `self_government_act_signed`  set by a bill
 // - `provincial_elections_held`   set once the elections have run
 // - `governors_loyal_majority`    set once at least 3 governors have loyalty >= 60
@@ -14,6 +16,9 @@ import type { GameState, StateModifier } from '../types/gameState'
 
 /** A low-integrity governor adds a point of national corruption this often, in weeks. */
 const CORRUPTION_TICK_WEEKS = 8
+
+/** A governor the Chancellor stood by in a crisis is this much more loyal. */
+const BACKED_LOYALTY_BONUS = 25
 
 export type GovernorSource = 'incumbent' | 'appointed' | 'elected'
 
@@ -30,19 +35,36 @@ function electedFlag(provinceId: string, governorId: string): string {
   return `governor_${provinceId}_elected_${governorId}`
 }
 
+function dismissedFlag(provinceId: string, governorId: string): string {
+  return `governor_${provinceId}_dismissed_${governorId}`
+}
+
+function backedFlag(provinceId: string, governorId: string): string {
+  return `governor_${provinceId}_backed_${governorId}`
+}
+
 export function governorInOffice(provinceId: HomeProvinceId, activeFlags: readonly string[]): GovernorInOffice {
   const active = new Set(activeFlags)
   const roster = GOVERNORS.filter(g => g.provinceId === provinceId)
+  const eligible = roster.filter(g => !active.has(dismissedFlag(provinceId, g.id)))
 
-  const elected = roster.find(g => active.has(electedFlag(provinceId, g.id)))
+  const elected = eligible.find(g => active.has(electedFlag(provinceId, g.id)))
   if (elected) return { governor: elected, source: 'elected' }
 
-  const appointed = roster.find(g => active.has(appointedFlag(provinceId, g.id)))
+  const appointed = eligible.find(g => active.has(appointedFlag(provinceId, g.id)))
   if (appointed) return { governor: appointed, source: 'appointed' }
 
   const incumbent = roster.find(g => g.incumbent)
   if (!incumbent) throw new Error(`No incumbent governor defined for province "${provinceId}"`)
+  if (eligible.includes(incumbent)) return { governor: incumbent, source: 'incumbent' }
+
+  const [acting] = eligible
+  if (acting) return { governor: acting, source: 'appointed' }
   return { governor: incumbent, source: 'incumbent' }
+}
+
+export function effectiveLoyalty(provinceId: HomeProvinceId, governor: Governor, activeFlags: readonly string[]): number {
+  return Math.min(100, governor.loyalty + (activeFlags.includes(backedFlag(provinceId, governor.id)) ? BACKED_LOYALTY_BONUS : 0))
 }
 
 export const PROVINCE_KEY_STAT: Record<HomeProvinceId, string> = {
@@ -103,7 +125,7 @@ export function processGovernorsWeek(
   }
 
   // d. Loyal majority flag.
-  const loyal = HOME_PROVINCES.filter(p => governorInOffice(p, known).governor.loyalty >= 60).length
+  const loyal = HOME_PROVINCES.filter(p => effectiveLoyalty(p, governorInOffice(p, known).governor, known) >= 60).length
   if (loyal >= 3 && !known.includes('governors_loyal_majority')) {
     flags.push('governors_loyal_majority')
   }
