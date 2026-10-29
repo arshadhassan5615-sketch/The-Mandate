@@ -1,0 +1,204 @@
+{
+  "id": "crisis_thornfeld_eviction",
+  "title": "The Church at Lower Brenn",
+  "notebook": [
+    "Twelve tenant families were evicted at Lower Brenn after a failed harvest, on the estate of Marshal Gavril Soren.",
+    "The families have taken refuge in the parish church, gendarmes surround the churchyard, and the priest refuses to open the doors.",
+    "The eviction is lawful, and the families hold no title to the land they worked."
+  ],
+  "act": 2,
+  "weekAvailable": 19,
+  "weekDeadline": 22,
+  "type": "crisis",
+  "agendaCost": 0,
+  "location": "Thornfeld — Parish Church, Lower Brenn",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The parish church at Lower Brenn is full of people who have nowhere else to sleep. Bundles of bedding and kitchen pots are stacked against the pews, and children sit in a row on the altar steps with their coats buttoned to the neck. Outside the lych gate a line of gendarmes stands with their rifles grounded. The priest has barred the great doors from inside and sits on the step beside them with his hands folded in his lap."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The estate manager on Marshal Soren's land at Lower Brenn served notice on twelve families after the harvest failed. They were given a short time to leave the cottages they had worked, and when they did not go, the gendarmes came at dawn. The families carried what they could into the church. The eviction is lawful under the estate contracts, and the families hold no title to the land, so the law sits on the side of the estate."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Before you hear from the governor, understand what Matej Hollan's months have done. The parishes are calm, and the accounts that cross his desk are clean enough to read aloud in any council. But the tenant grievances have been received politely and filed politely, and in all those months nobody has answered them. Lower Brenn is what politeness looks like when it is left to run through a whole season.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_thornfeld_appointed_brandl", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Before you hear from the governor, understand what Josef Brandl's months have done. Four villages have registered cooperatives, and the tenants who signed them now hold something they can point to. The landowners have answered by boycotting the provincial grain board. Brandl has been working the tenant question in the open, and Lower Brenn is the first place where that open work has met a locked door.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_thornfeld_appointed_brandl", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "matej_hollan",
+      "text": "I sent no gendarmes to that churchyard, Chancellor, and I want that on the record before anyone else speaks. I asked the priest to act as go-between quietly, because quiet is how a parish settles a thing. The eviction is lawful, and I will not overturn a lawful eviction because the families are sad about it. But I have heard their grievances for months and passed them on politely, and I cannot tell you that any of them was answered.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_thornfeld_appointed_brandl", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "josef_brandl",
+      "text": "I sent the cooperative lorries to Lower Brenn this morning to carry the families' goods into the cooperative barns, so that their bedding and tools are not lying in the rain while the lawyers argue. I have also announced a survey of the land titles on the Soren estate. The landowners call that incitement. I call it a survey, and the families have a right to know what the land they worked actually belongs to. I will answer for both decisions to the villages.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_thornfeld_appointed_brandl", "value": true }
+      ]
+    },
+    {
+      "type": "description",
+      "text": "Morning comes grey over the churchyard, and the gendarmes have not moved their line in the night. Men from the estate stand by the lych gate with their hats pulled low, and a small crowd of villagers has gathered on the far side of the road to watch. Someone has lit a fire in an iron basket against the church wall, and the smoke drifts up past the bell tower. Inside the doors a child is singing softly to herself."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You have three options, and each will be read as a decision about the province. You can stand behind the governor in public, which tells the estates that the office will hold the line. You can remove the governor, and then the appointment is yours to defend. If Hollan goes, Josef Brandl takes the office. If Brandl goes, Matej Hollan returns as acting governor, because the law gives the office back to the last confirmed holder. Or you can send a ministry commission and decide later, which buys time and spends the patience of the families inside."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Twelve families inside a church and a line of gendarmes outside it. Whoever you back tonight will be the governor who stood at Lower Brenn, and the estates and the parishes will remember different answers. The question is not which governor is more honest. It is which side of that door you are willing to be seen standing on when it finally opens."
+    }
+  ],
+  "monologue": "Twelve families sit in the church at Lower Brenn while gendarmes wait outside, and the eviction behind them is lawful. The governor who must answer for it has spent the months since doing very different things. You must decide whether to stand behind them, remove them, or wait for a commission to tell you what the churchyard already shows.",
+
+  "choices": [
+    {
+      "id": "crisis_thornfeld_back_hollan",
+      "text": "\"Matej Hollan keeps the office. The parishes trust him, and I stand behind the governor in public tonight.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -3 }
+      ],
+      "flags": ["governor_thornfeld_backed_hollan"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_thornfeld_appointed_brandl", "value": false }
+      ],
+      "reactions": [
+        {
+          "character": "matej_hollan",
+          "type": "satisfied",
+          "text": "Hollan says nothing for a while, then gives you a short nod. He asks only that the priest be told the doors may stay shut until the families have been fed."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Vyktor writes one line on his pad. The estates will read the statement as the office keeping the lawful eviction, and the families will read it as the office choosing the churchyard."
+        }
+      ]
+    },
+    {
+      "id": "crisis_thornfeld_sack_hollan",
+      "text": "\"I am removing Matej Hollan from the governorship. Josef Brandl takes the office, and he will answer the families at Lower Brenn in person.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 },
+        { "stat": "factions.church", "operation": "add", "value": -5 }
+      ],
+      "flags": ["governor_thornfeld_dismissed_hollan", "governor_thornfeld_appointed_brandl"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_thornfeld_appointed_brandl", "value": false }
+      ],
+      "reactions": [
+        {
+          "character": "matej_hollan",
+          "type": "silence",
+          "text": "Hollan puts on his hat in the doorway and does not look back at the church tower. The bell does not ring for him this time."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He says the parishes will ask why, and that Brandl will have to answer that question on his first day. Vyktor adds the question to the file."
+        }
+      ]
+    },
+    {
+      "id": "crisis_thornfeld_back_brandl",
+      "text": "\"Josef Brandl keeps the office. The survey stands and the cooperatives keep their barns, and I stand behind the governor in public tonight.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": 2 },
+        { "stat": "factions.church", "operation": "add", "value": -3 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -3 }
+      ],
+      "flags": ["governor_thornfeld_backed_brandl"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_thornfeld_appointed_brandl", "value": true }
+      ],
+      "reactions": [
+        {
+          "character": "josef_brandl",
+          "type": "satisfied",
+          "text": "Brandl opens the ledger at the page of village names and says the survey will begin on Monday. He does not thank you, but he moves one village from the waiting column to the signed one."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The estates will call this the end of Lower Brenn, and the grain board will hear that the province has stood behind the survey. He writes both down, because both will be repeated."
+        }
+      ]
+    },
+    {
+      "id": "crisis_thornfeld_sack_brandl",
+      "text": "\"I am removing Josef Brandl from the governorship. Matej Hollan returns as acting governor, and the survey of the Soren estate will be suspended until the office is steady.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_thornfeld_dismissed_brandl"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_thornfeld_appointed_brandl", "value": true }
+      ],
+      "reactions": [
+        {
+          "character": "josef_brandl",
+          "type": "dialogue",
+          "text": "Brandl says the cooperative barns will hold the families' goods until someone tells him where they belong. He does not ask you to reconsider, and he leaves the ledger open on the table."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "concern",
+          "text": "He says the villages that registered cooperatives will read this as the province handing the estates back their land. The families inside the church will read it the same way."
+        }
+      ]
+    },
+    {
+      "id": "crisis_thornfeld_commission",
+      "text": "\"The ministry will send a commission to Lower Brenn. I will decide on the governor once its report is in, and I want the families given a seat at the hearing.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": -1 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -1 }
+      ],
+      "flags": ["crisis_thornfeld_commission"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes commission on the pad and underlines it once. Commissions are slow, and the families inside will count every hour of the delay."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "concern",
+          "text": "The governor stays in the chair for now, and the families stay in the church for now. He says nothing about which of those will last longer."
+        }
+      ]
+    }
+  ]
+}

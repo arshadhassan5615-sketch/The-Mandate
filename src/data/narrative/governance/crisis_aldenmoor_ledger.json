@@ -1,0 +1,203 @@
+{
+  "id": "crisis_aldenmoor_ledger",
+  "title": "The Berth Ledger",
+  "notebook": [
+    "A clerk at the Aldenmoor port authority gave the press a ledger showing berth licences sold for cash.",
+    "The dockworkers walked out, ships are lying idle in the basin, and perishable cargo is spoiling in the holds.",
+    "The ledger lists the berths and the buyers' names, and no audit of those licences has reported yet."
+  ],
+  "act": 2,
+  "weekAvailable": 20,
+  "weekDeadline": 23,
+  "type": "crisis",
+  "agendaCost": 0,
+  "location": "Aldenmoor — Customs House Quay",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Customs House quay is quiet in a way the port has not been in living memory. Cranes stand with their arms folded over empty berths, and a grain ship sits low in the basin with its hatches shut. On the stone steps a clerk in a grey port coat holds a bundle of loose pages against his chest while a reporter takes down his name. Two dockworkers at the gate are not shouting. They are watching the window of the Port Governor's Office, where a single light is still burning."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The clerk took a bundle of berth ledgers to the morning papers, and the pages were printed before noon. They show licences sold for cash, with the buyers' names set down in one column and the sums written in the margin in the same hand. The dockworkers walked out within the hour. Three ships are idle in the basin, and the perishable cargo in their holds is already going off. The governor's office has said nothing since the presses started."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Wendt's months are the ones the figures will show you first. Tonnage has risen every quarter since he took the chair, and the cranes have worked the night shifts without a stoppage. The shipping families' contracts were renewed in the spring without tender, which the port rules permit in exceptional cases. Nobody has yet asked how many cases were exceptional. The ledger names his cousin, and that is the line the Assembly will read first.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_aldenmoor_appointed_lind", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Lind's months have been harder on the harbour and easier on the books. The dredging contracts were reopened in the spring, and two firms lost their licences when the audit found their bids had been padded. The berths turn round more slowly than they did, but the silt that choked the channel last winter has been cleared. The ledger reached her office before it reached anyone else, and she is the one who chose to publish it.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_aldenmoor_appointed_lind", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "kasimir_wendt",
+      "text": "The ledger is a clerk's grudge, Chancellor, and I will not pretend the clerk is not a disappointed man. My cousin holds a small berth on the north quay, and nobody has shown that he paid for it with anything but his own money. I am asking my own office to conduct an internal review, and it will report within the month. If the quay is shut for weeks while a clerk's pages are read, the men who lose their wages will not be the families who wrote the cheques.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_aldenmoor_appointed_lind", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "nora_lind",
+      "text": "I published the ledger myself because it came to my office first and I was not going to sit on it. I closed the named berths pending an audit. I knew the dockworkers would walk out when the wage slips stopped, and I did not find a way to keep their pay running while the berths were shut. The shipping families are furious, and they are entitled to be. The audit is the only thing that will settle whether those licences were sold.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_aldenmoor_appointed_lind", "value": true }
+      ]
+    },
+    {
+      "type": "description",
+      "text": "By the middle of the morning the quay has gone silent. Gulls have found the spilled grain along the apron, and a line of crates stands unloaded on the stones with a tarpaulin half thrown over them. Women from the chandlers' row stand in the doorways with their arms folded, watching the water. Out in the basin the idle ships ride at anchor with their lamps still lit. Someone has chalked the names of the closed berths on a board by the gate, and the chalk is already running in the damp."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You have three options, and each will be read as a decision about the harbour. You can stand behind the governor in office, which tells the shipping families that the ledger is a clerk's grudge. You can remove the governor, and then the appointment is yours to defend. If Wendt goes, Nora Lind takes the office. If Lind goes, Wendt returns as acting governor, because the law gives the office back to the last confirmed holder. Or you can send a ministry commission to the Customs House and decide later, which buys time and spends the patience of the men on the quay."
+    },
+    {
+      "type": "internal_thought",
+      "text": "The ledger is either a grudge or a record, and the harbour cannot tell which while the ships stand idle. Wendt has kept the cranes moving and the families at the table. Lind has shut the berths she believes were sold, and the quay is paying for her audit in lost wages. Whoever you back or remove tonight will be the name the quay remembers when the first ship sails again."
+    }
+  ],
+  "monologue": "The Aldenmoor quay is idle because a ledger of cash-sold berth licences reached the press, and the governor in office must answer for what the harbour has done in recent months. You must decide whether to stand beside them, remove them, or send a commission to tell you what the ships already show.",
+
+  "choices": [
+    {
+      "id": "crisis_aldenmoor_back_wendt",
+      "text": "\"Kasimir Wendt keeps the office. The ports have to run, and I stand behind the governor in public tonight.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 4 },
+        { "stat": "nation.corruption", "operation": "add", "value": 3 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_aldenmoor_backed_wendt"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_aldenmoor_appointed_lind", "value": false }
+      ],
+      "reactions": [
+        {
+          "character": "kasimir_wendt",
+          "type": "satisfied",
+          "text": "Wendt nods once and says the internal review will report by the end of the month. He does not thank you. He asks that the shipping families be told tonight, and he reminds you that the harbour dinner on Thursday is still on."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes the decision on his pad with the time beside it. The dockworkers' committee will read the statement as the office choosing the cranes over the quay, and he expects their letter by the weekend."
+        }
+      ]
+    },
+    {
+      "id": "crisis_aldenmoor_sack_wendt",
+      "text": "\"I am removing Kasimir Wendt from the governorship today. Nora Lind takes the office, and she will answer for the ledger and the idle berths in front of the Assembly.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.corruption", "operation": "add", "value": -4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 3 }
+      ],
+      "flags": ["governor_aldenmoor_dismissed_wendt", "governor_aldenmoor_appointed_lind"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_aldenmoor_appointed_lind", "value": false }
+      ],
+      "reactions": [
+        {
+          "character": "kasimir_wendt",
+          "type": "dialogue",
+          "text": "Wendt says the families will ask who authorized his removal, and that he has no objection to the answer being given in public. He takes his coat from the stand without hurrying."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He notes that the reasons were given in the room and that the law was followed. The shipping families will say the office has turned on its own port, and he adds their complaint to the file."
+        }
+      ]
+    },
+    {
+      "id": "crisis_aldenmoor_back_lind",
+      "text": "\"Nora Lind stays. The dredging audit goes ahead, the dockworkers' wages are guaranteed this week, and I stand at the quay with her when the audit is read.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "nation.corruption", "operation": "add", "value": -3 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -4 },
+        { "stat": "nation.economyHealth", "operation": "add", "value": -1 }
+      ],
+      "flags": ["governor_aldenmoor_backed_lind"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_aldenmoor_appointed_lind", "value": true }
+      ],
+      "reactions": [
+        {
+          "character": "nora_lind",
+          "type": "satisfied",
+          "text": "Lind closes the audit file and says the wages will be paid from the port reserve by Friday. She asks that the dredging firms be told in writing, and she does not ask you to thank her."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes the reserve on his list with the wages beside it. The shipping families will ask where the money came from, and the answer will need to be in the first paragraph of the statement."
+        }
+      ]
+    },
+    {
+      "id": "crisis_aldenmoor_sack_lind",
+      "text": "\"I am removing Nora Lind from the governorship. Kasimir Wendt returns as acting governor, and the berth licences will be reviewed once the office is steady.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 4 },
+        { "stat": "nation.corruption", "operation": "add", "value": 2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_aldenmoor_dismissed_lind"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_aldenmoor_appointed_lind", "value": true }
+      ],
+      "reactions": [
+        {
+          "character": "nora_lind",
+          "type": "silence",
+          "text": "Lind puts the ledger into her bag and leaves without a word. Through the window the dockworkers at the gate stop talking to watch her cross the quay."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He notes that the review has no date attached to it. The dockworkers can count the days of a review, and this one has begun with an empty desk."
+        }
+      ]
+    },
+    {
+      "id": "crisis_aldenmoor_commission",
+      "text": "\"The Interior Ministry will send a commission to the Customs House. I will decide on the governor once its report is in, and I want the dockworkers given a seat at the hearing.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "nation.corruption", "operation": "add", "value": 1 }
+      ],
+      "flags": ["crisis_aldenmoor_commission"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes commission on the pad and underlines it once. The quay will stay idle while the commission travels, and the dockworkers will count every day of the delay."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "concern",
+          "text": "The governor stays in the chair for now, and the cranes stay still for now. He says nothing about which of those will last longer."
+        }
+      ]
+    }
+  ]
+}
