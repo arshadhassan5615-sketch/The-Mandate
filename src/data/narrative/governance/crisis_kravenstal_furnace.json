@@ -1,0 +1,270 @@
+{
+  "id": "crisis_kravenstal_furnace",
+  "title": "Furnace Number Three",
+  "notebook": [
+    "Four men died and eleven were burned when a ladle gave way at Furnace Number Three during the night shift.",
+    "The ladle crane had been reported as worn in a safety complaint filed two months before the accident.",
+    "The families of the dead are gathering at the plant gate."
+  ],
+  "act": 2,
+  "weekAvailable": 18,
+  "weekDeadline": 21,
+  "type": "crisis",
+  "agendaCost": 0,
+  "location": "Kravenstal — Kravenstal Steel, Furnace Hall Three",
+  "characters": ["vyktor_reznik"],
+  "prerequisites": [],
+
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The hall at Furnace Number Three is grey with cold and smells of wet ash. Tarpaulin has been hung over the bay where the ladle went over, and the floor beneath it has been scraped down to bare iron that still catches the lamplight. Men in soot-black coats stand in small knots and do not speak. A chalk outline marks where the ladle rested on its crane cradle, and beside it a row of tin plates, each with a folded cloth on top, has been set out in a line that nobody has been willing to move."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The ladle gave way at twenty past two while the night shift was pouring. Four men are dead, Chancellor, and eleven more were burned. The ladle crane had been reported as worn in a safety complaint filed two months ago by the foundry's own shop committee. That complaint is in the file in front of me, and the file shows it was not acted on before the ladle fell."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Before you hear from the governor, understand what his office did with that complaint. It went back to the plant marked for internal resolution, which is the phrase that lets a grievance stop belonging to anyone. In recent months the foundries have run and the figures are good, and the figures are what he will show you. The grievances have not been answered. They have been pressed down, and the quiet on the shop floor is what pressure sounds like when nobody is allowed to speak.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": false },
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Before you hear from the governor, understand how fast her office moved. Hana Novak was at the gate within the hour and ordered the hall shut before the night shift could go back in. But the province has no inspectors of its own and no money to hire them, and the complaint was filed before her office could act on it. In recent months the shop floor has stayed calm and trusts the governor's office. The paperwork and the budgets have fallen behind, and nobody in Kravenstal can yet say how far.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Before you hear from the governor, understand what Teodor Reiss did in the first six hours. He had the hall cleaned and the line restarted, because there is a rail contract that does not wait. His engineering report on the crane is already finished, and it places the fault with a supplier's casting. In recent months output and contracts have risen and the plant's finances are mending. Grievances are answered, but with figures rather than with people, and the shop committee's letters come back as tables.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "bohdan_kral",
+      "text": "I have been on the hall floor since three this morning, Chancellor, and I will say what the men on that floor need to hear. Four good men are dead and the province grieves them. I kept the gates open, because a shift that is sent home is a shift that will be told it has been abandoned. Agitators are already in the canteen telling the widows that this government let it happen. I want the gates open tomorrow, the inquiry kept inside the plant, and order on the floor before anyone speaks for the dead.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": false },
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": false }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "hana_novak",
+      "text": "I was at the gate before the ambulances had cleared the yard. I ordered Number Three shut and I stood with the families until the last of them had been told what we knew, which was not enough. I will not pretend the office was ready for this. We have no inspectors of our own and no money to hire them, and that complaint was filed before this office could act on it. I want the hall held closed until an independent engineer has seen that crane, and I want the families in the room when the report is read.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": true }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "character": "teodor_reiss",
+      "text": "I had the hall cleaned and the line restarted within six hours, and I will not apologize for it. There is a rail contract that fails if Furnace Three stays cold, and the men who depend on that contract are the same men who work this hall. The engineering report on the crane is already drafted. The fault, as the report will show, lies with a supplier whose metal did not meet specification. What I want now is a clean inquiry and the plant back at full output.",
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": true }
+      ]
+    },
+    {
+      "type": "description",
+      "text": "By the time the sun clears the stacks the families are at the gate. Most of them are women, many still in the shawls they wore to bed, and they stand in a line along the fence without pushing against it. One woman holds a photograph of a man in a foundry cap. Someone has started a list on the back of a shift roster, and it passes from hand to hand along the fence. Nobody shouts. Behind the fence the crane hangs silent over the bay."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "You have three options, and each will be read as a decision about the province. You can stand behind the governor in public, which tells the Coalition that the office has chosen the furnace over the gate. You can remove the governor, and then the appointment is yours to defend. If Kral goes, Hana Novak takes the office. If Novak or Reiss goes, Kral returns as acting governor, because the law gives the office back to the last confirmed holder. Or you can send the Interior Ministry's commission and decide later, which buys time and spends the patience of the families."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Four men are dead, and the governor who answers for this province has spent the morning explaining why the paperwork was slow. Whoever you back tonight will be the face the gate remembers. The question is not who is least at fault. It is who you are willing to be seen standing beside when the families ask why."
+    }
+  ],
+  "monologue": "Four men are dead at Furnace Number Three, and the complaint that might have prevented it sat in an office for two months. The governor must answer for what the province has done in that time, and you must decide whether to stand beside them, remove them, or wait for a commission to tell you what you already know.",
+
+  "choices": [
+    {
+      "id": "crisis_kravenstal_back_kral",
+      "text": "\"Bohdan Kral keeps the office. The foundries have to run, and I stand behind the governor in public tonight.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.halvekists", "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -5 }
+      ],
+      "flags": ["governor_kravenstal_backed_kral"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": false },
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": false }
+      ],
+      "reactions": [
+        {
+          "character": "bohdan_kral",
+          "type": "satisfied",
+          "text": "Kral nods once and says the gates will open at six. He does not thank you. In his office thanks are a debt, and he has already written this one down."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes the decision on his pad with the time beside it. The Coalition will read the statement as the office choosing the furnace over the families, and he expects the committee to say so by the weekend."
+        }
+      ]
+    },
+    {
+      "id": "crisis_kravenstal_sack_kral",
+      "text": "\"I am removing Bohdan Kral from the governorship today. Hana Novak takes the office, and she will answer for the complaint and for the families in front of the Assembly.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 6 },
+        { "stat": "factions.halvekists", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": 2 }
+      ],
+      "flags": ["governor_kravenstal_dismissed_kral", "governor_kravenstal_appointed_novak"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": false },
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": false }
+      ],
+      "reactions": [
+        {
+          "character": "hana_novak",
+          "type": "dialogue",
+          "text": "Novak does not move from the window. She says the crane must be inspected before she signs anything, and she asks that the families be given chairs in the room."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The Halvekist clerks will call it a purge in reverse. He notes that the law was followed and that the reasons were said in public, and he adds the clerks' complaint to the file."
+        }
+      ]
+    },
+    {
+      "id": "crisis_kravenstal_back_novak",
+      "text": "\"Hana Novak stays. Her office will have the money for independent inspectors this week, and I will stand at the gate with her when the report is read.\"",
+      "internalTag": "populist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 4 },
+        { "stat": "nation.nationalDebt", "operation": "add", "value": 3 }
+      ],
+      "flags": ["governor_kravenstal_backed_novak"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": true }
+      ],
+      "reactions": [
+        {
+          "character": "hana_novak",
+          "type": "satisfied",
+          "text": "Novak nods without relief. She says the inspectors will need the old drawings, and that she will find them herself in the records room tonight."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes the inspectors on his list and the money beside them. The Assembly will ask where the money came from, and the answer will have to be in the first paragraph."
+        }
+      ]
+    },
+    {
+      "id": "crisis_kravenstal_sack_novak",
+      "text": "\"I am removing Hana Novak from the governorship. Bohdan Kral returns as acting governor, and the foundry's safety record will be reviewed once the office is steady.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -6 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_kravenstal_dismissed_novak"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_novak", "value": true }
+      ],
+      "reactions": [
+        {
+          "character": "hana_novak",
+          "type": "silence",
+          "text": "Novak takes her coat from the back of the chair and leaves without a word. Through the window the women at the fence stop talking to watch her cross the yard."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He notes that the review has no date attached to it. Families at a fence can count the days of a review, and this one has begun with an absence."
+        }
+      ]
+    },
+    {
+      "id": "crisis_kravenstal_back_reiss",
+      "text": "\"Teodor Reiss keeps the office. The plant's engineering report will carry the inquiry, and I stand behind the governor in public tonight.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 4 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -4 }
+      ],
+      "flags": ["governor_kravenstal_backed_reiss"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": true }
+      ],
+      "reactions": [
+        {
+          "character": "teodor_reiss",
+          "type": "satisfied",
+          "text": "Reiss closes the folder and says the remit will cover the supplier by the morning. He does not smile, but he tells you the rail contract will be met on time."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The Coalition will hear that the steel company has been given the inquiry, and the board will hear that the province has stood behind it. He writes both down, because both will be repeated."
+        }
+      ]
+    },
+    {
+      "id": "crisis_kravenstal_sack_reiss",
+      "text": "\"I am removing Teodor Reiss from the governorship. Bohdan Kral returns as acting governor, and the engineering report will be examined by someone who does not own the plant.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 3 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -4 }
+      ],
+      "flags": ["governor_kravenstal_dismissed_reiss"],
+      "conditions": [
+        { "type": "flag", "flag": "governor_kravenstal_appointed_reiss", "value": true }
+      ],
+      "reactions": [
+        {
+          "character": "teodor_reiss",
+          "type": "dialogue",
+          "text": "Reiss says the rail contract will not wait for the Assembly, and that the board will want to know who authorized the delay. He does not ask you to reconsider."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He says the decision will be read as the province taking the furnace back from the company. Both the Coalition and the board will be correct about what they heard."
+        }
+      ]
+    },
+    {
+      "id": "crisis_kravenstal_commission",
+      "text": "\"The Interior Ministry will send a commission to Furnace Number Three. I will decide on the governor once its report is in, and I want the families given a seat at the hearing.\"",
+      "internalTag": "deflect",
+      "stateChanges": [
+        { "stat": "factions.workersCoalition", "operation": "add", "value": -2 }
+      ],
+      "flags": ["crisis_kravenstal_commission"],
+      "reactions": [
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "He writes commission on the pad and underlines it once. Commissions are slow, and the families at the gate will count every day of the delay."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "concern",
+          "text": "The governor stays in the chair for now, and the furnace stays cold for now. He says nothing about which of those will last longer."
+        }
+      ]
+    }
+  ]
+}
