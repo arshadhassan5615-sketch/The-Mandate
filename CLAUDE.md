@@ -5,10 +5,11 @@ A text-based political narrative RPG. Player is Katerin Ashavel, first woman
 Chancellor of the Republic of Veltria, 1963. All narrative content is JSON-driven;
 the engine layer is content-agnostic.
 
-> NOTE FOR AGENTS: This file is the source of truth. The stub `src/` directory at
-> the repository root (one level above this file) is dead and should be ignored.
-> The real codebase lives here, in `the-mandate/`. All paths below are relative
-> to this directory unless stated otherwise.
+> NOTE FOR AGENTS: This file is the source of truth. The codebase is this
+> repository: `src/` next to this file is the live app, and all paths below are
+> relative to the repository root. On the desktop workspace the repository is
+> checked out as `the-mandate/`; a stub `src/` one level above that folder is
+> dead and should be ignored.
 
 ## Tech Stack
 - React 19.2.6 + TypeScript 6.0.2 + Vite 8.0.12
@@ -18,8 +19,7 @@ the engine layer is content-agnostic.
 - Dexie.js (IndexedDB save system)
 
 ## Key Architecture Rules
-- ALL narrative content lives in JSON files under `src/data/narrative/`
-  (relative to `the-mandate/`).
+- ALL narrative content lives in JSON files under `src/data/narrative/`.
 - Engine code is content-agnostic - adding scenes never requires engine changes.
 - Game state transitions produce new state objects (immutable).
 - Hidden stats are NEVER shown to the player (except budget).
@@ -37,7 +37,7 @@ Scope at this phase:
   collapse the four manual state-object literals in `stores/gameStore.ts` into
   spread-based updates, declare missing setters on the `GameStore` interface).
 
-## File Structure (the-mandate/src/)
+## File Structure (src/)
 
 ```
 src/
