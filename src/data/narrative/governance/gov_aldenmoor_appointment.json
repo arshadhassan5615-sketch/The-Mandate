@@ -1,0 +1,110 @@
+{
+  "id": "gov_aldenmoor_appointment",
+  "title": "The Harbour Governorship",
+  "notebook": [
+    "Kasimir Wendt has kept the Aldenmoor ports busy and the shipping families content, and nobody has proved his family profits from his office.",
+    "Nora Lind compared the port authority's tonnage returns with its dredging contracts and found figures that do not agree. The Assembly committee passed the file on.",
+    "Appointing Lind puts the woman who exposed the dredging contracts in charge of the people she exposed. Keeping Wendt keeps the ledger closed."
+  ],
+  "act": 1,
+  "weekAvailable": 10,
+  "weekDeadline": 13,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Aldenmoor — Port Governor's Office, Customs House",
+  "characters": ["vyktor_reznik", "kasimir_wendt", "nora_lind"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Customs House stands on the quay, and the windows of the Port Governor's Office look straight down on the berths. Cranes move slowly over the water, lifting crates from a grain ship with the patience of machines that are paid by the ton. The room smells of salt and tar. Kasimir Wendt is already standing beside the map table with a cup of coffee he has not touched. At the far end of the table Nora Lind sits over a ledger, and she does not look up from it when you come in."
+    },
+    {
+      "type": "dialogue",
+      "character": "kasimir_wendt",
+      "text": "Chancellor, the ports of Aldenmoor are busy because we have kept them busy. More tonnage cleared this coast last year than in any year since the war, and the fishing fleets have their berths on schedule. Every shipping family in this province depends on a working harbour, and I am the man who keeps the cranes moving. Most of my problems are questions of logistics, and I have answered them one after another for as long as I have held this office."
+    },
+    {
+      "type": "dialogue",
+      "character": "kasimir_wendt",
+      "text": "The families who fund this coast are not your enemies, Chancellor. They will still be here when the Assembly has changed its mind three times. If you remove a governor who works with them, you will not get cleaner berths. You will get slower ones, and the men on the quay will pay for your principles in shifts they never work."
+    },
+    {
+      "type": "description",
+      "text": "Wendt sets his cup down and gathers his papers with the ease of a man who has never had to hurry a meeting. At the door he pauses to say that the harbour dinner is on Thursday and that you will be missed if you do not come. The door closes softly behind him. Below the window a crane swings a load of timber over the quay, and for a moment the room is quiet except for the hum of the lift shaft."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Wendt's case is a good one, and it is not a lie. The ports are busy and the shipping families are content, which is the kind of record a governor can point to in an Assembly debate. Nobody can prove that his family profits from his office. Lind's report came close, though, and the port authority has not forgiven her for coming that close."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "The question is who sits in this chair while the dredging contracts are reviewed. If you keep Wendt, the shipping families stay at the table and the ledger stays closed. If you appoint Lind, you put the woman who exposed the dredging contracts in charge of the people she exposed. Both choices can be defended. Only one of them will be read as a verdict."
+    },
+    {
+      "type": "dialogue",
+      "character": "nora_lind",
+      "text": "The tonnage returns and the dredging schedules were filed by the same office in the same quarter, and they disagree by a margin no weather explains. I put the figures side by side and sent them to the Assembly committee. The committee thanked me and then reassigned the file. I do not want the port for its own sake. I want the contracts reopened and the figures read by someone who has to answer for them."
+    },
+    {
+      "type": "dialogue",
+      "character": "nora_lind",
+      "text": "If you appoint me, I will not run the harbour as a family business, and I will not pretend I have no grudge against the people who signed those schedules. I can tell you which berths are overbooked and which dredging bids were padded. I cannot tell you how to make a shipping family grateful. You will have to decide whether that is the qualification you need."
+    },
+    {
+      "type": "internal_thought",
+      "text": "Wendt keeps the cranes running and the families happy, and nobody can prove what the families pay him in return. Lind has the kind of proof the Assembly respects, which comes from figures and not from rumour. Putting her in this office would be a kind of justice, and it would also be a kind of exposure. Whatever you decide, the port will remember which of them you believed."
+    }
+  ],
+  "monologue": "Wendt keeps the ships moving and the families content, and no one has proved what those families give him in return. Lind has the figures, and she is the one person in this building who has already shown she will use them. Keeping one of them is a choice about the harbour, and appointing the other is a choice about who gets to judge it.",
+  "choices": [
+    {
+      "id": "gov_aldenmoor_keep_wendt",
+      "text": "\"Keep him. Tell Wendt the ports are his to run, and that I will be reading the tonnage returns myself.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.businessClass", "operation": "add", "value": 4 },
+        { "stat": "nation.corruption", "operation": "add", "value": 1 }
+      ],
+      "flags": ["governor_aldenmoor_kept"],
+      "reactions": [
+        {
+          "character": "nora_lind",
+          "type": "silence",
+          "text": "Lind closes the ledger without a word and looks out at the berths for a long time before she speaks again, and when she does it is only to ask for the dredging schedules."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Wendt will take the decision as proof that the families are safe. He will also notice that you intend to read the returns yourself, and he will not forget that you said so in front of him."
+        }
+      ]
+    },
+    {
+      "id": "gov_aldenmoor_appoint_lind",
+      "text": "\"Nora Lind. The contracts you exposed will be reopened, and I will answer for the appointment in the Assembly.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 4 },
+        { "stat": "factions.businessClass", "operation": "add", "value": -5 },
+        { "stat": "nation.corruption", "operation": "add", "value": -2 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_aldenmoor_appointed_lind"],
+      "reactions": [
+        {
+          "character": "nora_lind",
+          "type": "dialogue",
+          "text": "Lind squares the edges of the ledger and sets it on the table. She says the contracts will be reopened by the end of the month, and that she needs the port authority's files delivered to her office before the next ship docks."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "The shipping families will hear of this before the evening tide. He writes the date on his pad and adds that the Assembly will want the reasons in writing, which means the reasons had better be the ones Lind can prove."
+        }
+      ]
+    }
+  ]
+}

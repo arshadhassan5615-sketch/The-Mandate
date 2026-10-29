@@ -1,0 +1,110 @@
+{
+  "id": "gov_thornfeld_appointment",
+  "title": "The Harvest Governorship",
+  "notebook": [
+    "Matej Hollan is the Halvek appointee with the cleanest accounts in the province, and the parish councils trust him.",
+    "Josef Brandl organises cooperative farms one village at a time and wants land titles for tenant farmers.",
+    "Keeping Hollan costs goodwill with the reformists. Appointing Brandl turns the tenant question into a fight with the landowners and the Church."
+  ],
+  "act": 1,
+  "weekAvailable": 12,
+  "weekDeadline": 15,
+  "type": "meeting",
+  "agendaCost": 0,
+  "location": "Thornfeld — Governor's Residence, Market Square",
+  "characters": ["vyktor_reznik", "matej_hollan", "josef_brandl"],
+  "prerequisites": [],
+  "narrative": [
+    {
+      "type": "description",
+      "text": "The Governor's Residence stands on the north side of the market square, a square brick house with a slate roof and a churchyard wall running behind it. It is spring sowing, and wheat carts are queued along the cobbles with the smell of turned earth coming in through the open door. Matej Hollan is already in the front room, his hat on his knee and his boots still dusted from the fields. Josef Brandl stands by the window with a ledger under his arm, watching the carts. Vyktor Reznik closes the door behind you and says nothing until you have taken the chair."
+    },
+    {
+      "type": "dialogue",
+      "character": "matej_hollan",
+      "text": "I was churchwarden here before I was anything else, Chancellor, and I will say plainly what I think. Halvek appointed me because I was the least troublesome man in the parish, and he was right about that. I have never taken money from a tenant or a landlord that I could not account for, and my accounts are in the parish office for anyone to read."
+    },
+    {
+      "type": "dialogue",
+      "character": "matej_hollan",
+      "text": "The councils trust me because I come to their meetings and sit through the bad harvests with them. The capital does not understand that a province is run by people who know each other's fences. If you move me, the parish councils will ask why, and I do not think there is an answer you can give them that is also true."
+    },
+    {
+      "type": "description",
+      "text": "Hollan puts on his hat in the doorway and nods to you without warmth or hostility. He does not look at Brandl as he passes. The bell of the parish church begins to ring for the noon office, slow and even, and the sound stays in the room for a long moment after the door has closed behind him. Brandl shifts the ledger to his other arm and waits."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Hollan is the rare Halvek appointee with an honest name, and that matters more here than it would elsewhere. The Church will read a removal as an attack on one of its own, and it will find nothing he has done wrong to point to. You would be spending the goodwill of the parishes to win a fight with the parishes."
+    },
+    {
+      "type": "dialogue",
+      "character": "vyktor_reznik",
+      "text": "Brandl is a different matter. He has organised more cooperative farms than anyone in the province, one village at a time, and his people will follow him. He would put the tenant question at the centre of Thornfeld before the autumn. The old Halvekist landowners, Marshal Soren among them, will treat that as war, and they will treat it as war against you."
+    },
+    {
+      "type": "dialogue",
+      "character": "josef_brandl",
+      "text": "The tenants on the big estates work the land for a share of what it gives, and they cannot borrow against a field they will never own. I have a list of villages that want to register their titles. Give me the governorship and I will have the first of them signed before the harvest, and the Church can preach against it from the pulpit if it likes."
+    },
+    {
+      "type": "dialogue",
+      "character": "josef_brandl",
+      "text": "I know what you are going to hear. That I want to take land from the landowners and call it justice. I want the tenants to hold title to what they already work, which is a different thing and a slower one. I will answer for every acre in this province, and I would rather answer to the villages than to the men who used to choose the governors."
+    },
+    {
+      "type": "internal_thought",
+      "text": "A governor the parishes trust, who has never been caught in a lie about money, against a man whose villages would follow him into a fight. Hollan keeps the churches quiet and the estates keep their rents. Brandl would give the tenants a stake in the land, and the landowners would call that the end of Thornfeld. Either choice has a price, and you can already see who will pay it."
+    }
+  ],
+  "monologue": "Hollan is honest, the parishes trust him, and removing him would cost you the Church for no fault anyone can prove. Brandl would put the tenants at the centre of the province, and the landowners would answer with everything they have. You are not choosing between a good man and a bad one.",
+  "choices": [
+    {
+      "id": "gov_thornfeld_keep_hollan",
+      "text": "\"Matej Hollan keeps the office. The parishes have earned a governor who answers to them, and I will want his accounts reviewed every quarter.\"",
+      "internalTag": "pragmatist",
+      "stateChanges": [
+        { "stat": "factions.church", "operation": "add", "value": 4 },
+        { "stat": "factions.reformists", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_thornfeld_kept"],
+      "reactions": [
+        {
+          "character": "matej_hollan",
+          "type": "dialogue",
+          "text": "Hollan inclines his head. He says the accounts are already in the parish office and that you are welcome to send a clerk to read every page of them."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "dialogue",
+          "text": "Vyktor writes one line on his pad. The reformists in the province will count this as a loss, he says, and Brandl will remember that he was the man you did not choose."
+        }
+      ]
+    },
+    {
+      "id": "gov_thornfeld_appoint_brandl",
+      "text": "\"Josef Brandl. The tenants have waited long enough for title to the land they work, and I want the first registrations signed before the harvest.\"",
+      "internalTag": "reformist",
+      "stateChanges": [
+        { "stat": "factions.reformists", "operation": "add", "value": 3 },
+        { "stat": "factions.workersCoalition", "operation": "add", "value": 3 },
+        { "stat": "factions.church", "operation": "add", "value": -4 },
+        { "stat": "personal.publicImage", "operation": "add", "value": -2 }
+      ],
+      "flags": ["governor_thornfeld_appointed_brandl"],
+      "reactions": [
+        {
+          "character": "josef_brandl",
+          "type": "dialogue",
+          "text": "Brandl opens the ledger on the table at a page of village names. He says he will need the parish registers within the week, and that the Church will have to be consulted first, which he intends to allow."
+        },
+        {
+          "character": "vyktor_reznik",
+          "type": "concern",
+          "text": "Vyktor is silent for a moment. The landowners will call this war before the week is out, and the Church will remember the man who was removed without any fault to point to."
+        }
+      ]
+    }
+  ]
+}
